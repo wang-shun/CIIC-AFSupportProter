@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+*.tgitconfig
+/dist
+/node_modules
+*.log*

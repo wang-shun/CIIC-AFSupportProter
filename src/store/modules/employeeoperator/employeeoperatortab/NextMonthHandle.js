@@ -1,31 +1,32 @@
-/**
- * Created by huangye on 2017/10/24.
- */
-import mock from '../../../../data/employeeoperator/employeeoperatortab/NextMonthHandleData'
-import EventTypes from '../../../EventTypes'
+import mock from "../../../../data/employeeoperator/employeeoperatortab/NextMonthHandleData";
+import EventTypes from "../../../EventTypes";
 
 const state = {
-  nextmonthhandle: []
-}
-
-const mutations = {
-  [EventTypes.NEXTMONTHHANDLETYPE](state, payload) {
-    console.log(payload)
-    state.nextmonthhandle = payload.list.data;
+  rows: [],
+  data: {
+    customerData: [],
+    sSocialSecurityTypeData: [],
+    employeeResultData: [],
   }
 }
 
+
 const actions = {
-  [EventTypes.NEXTMONTHHANDLETYPE]({commit}, payload) {
-    mock.nextMonthHandle.then(response => {
-      commit(EventTypes.NEXTMONTHHANDLETYPE, {list: response.data})
+  [EventTypes.NEXTMONTHHANDLETYPE]({commit}, params) {
+    mock.nextmonthhandle(params).then(response => {
+      commit(EventTypes.NEXTMONTHHANDLETYPE, response.data)
     })
+  }
+}
+const mutations = {
+  [EventTypes.NEXTMONTHHANDLETYPE](state, data) {
+    state.data = data.data;
   }
 }
 
 const getters = {
-  nextmonthhandle() {
-    return state.nextmonthhandle
+  getRows() {
+    return state.rows
   }
 }
 

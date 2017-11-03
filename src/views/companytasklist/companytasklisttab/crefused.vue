@@ -84,7 +84,7 @@
     <Form>
       <Row class="mt20">
         <Col :xs="{span: 24}" :lg="{span: 24}">
-          <Table border :columns="taskColumns" :data="crefused.taskData"></Table>
+          <Table border :columns="taskColumns" :data="data.taskData"></Table>
           <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
         </Col>
       </Row>
@@ -109,13 +109,13 @@
         title="选择客户"
         @on-ok="ok"
         @on-cancel="cancel">
-        <customer-modal :customerData="crefused.customerData"></customer-modal>
+        <customer-modal :customerData="data.customerData"></customer-modal>
       </Modal>
     </Form>
   </div>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../commoncontrol/customermodal.vue'
   import eventType from '../../../store/EventTypes'
 
@@ -262,17 +262,15 @@
       }
     },
     mounted() {
-      this.setRefused()
+      this[eventType.CREFUSEDTYPE]()
     },
     computed: {
-      ...mapGetters('cRefused',[
-        'crefused'
-      ])
+      ...mapState('cRefused',{
+          data:state =>state.data
+      })
     },
     methods: {
-      ...mapActions('cRefused',{
-        setRefused: eventType.CREFUSEDTYPE
-      }),
+      ...mapActions('cRefused',[eventType.CREFUSEDTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

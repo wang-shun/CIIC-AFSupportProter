@@ -1,31 +1,35 @@
 /**
  * Created by huangye on 2017/10/25.
  */
-import mock from '../../../../data/employeespecialoperator/employeespecialoperatortab/FinishedData'
-import EventTypes from '../../../EventTypes'
+import mock from "../../../../data/employeespecialoperator/employeespecialoperatortab/FinishedData";
+import EventTypes from "../../../EventTypes";
 
 const state = {
-  finished: []
-}
-
-const mutations = {
-  [EventTypes.FINISHEDTYPE](state, payload) {
-    console.log(payload)
-    state.finished = payload.list.data;
+  rows: [],
+  data: {
+    customerData: [],
+    sSocialSecurityTypeData: [],
+    employeeResultData: [],
   }
 }
 
+
 const actions = {
-  [EventTypes.FINISHEDTYPE]({commit}, payload) {
-    mock.finished.then(response => {
-      commit(EventTypes.FINISHEDTYPE, {list: response.data})
+  [EventTypes.FINISHEDTYPE]({commit}, params) {
+    mock.finished(params).then(response => {
+      commit(EventTypes.FINISHEDTYPE, response.data)
     })
+  }
+}
+const mutations = {
+  [EventTypes.FINISHEDTYPE](state, data) {
+    state.data = data.data;
   }
 }
 
 const getters = {
-  finished() {
-    return state.finished
+  getRows() {
+    return state.rows
   }
 }
 

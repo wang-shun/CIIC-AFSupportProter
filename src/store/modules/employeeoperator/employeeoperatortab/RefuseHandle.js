@@ -1,31 +1,32 @@
-/**
- * Created by huangye on 2017/10/24.
- */
-import mock from '../../../../data/employeeoperator/employeeoperatortab/RefuseHandleData'
-import EventTypes from '../../../EventTypes'
+import mock from "../../../../data/employeeoperator/employeeoperatortab/RefuseHandleData";
+import EventTypes from "../../../EventTypes";
 
 const state = {
-  refusehandle: []
-}
-
-const mutations = {
-  [EventTypes.REFUSEHANDLETYPE](state, payload) {
-    console.log(payload)
-    state.refusehandle = payload.list.data;
+  rows: [],
+  data: {
+    customerData: [],
+    sSocialSecurityTypeData: [],
+    employeeResultData: [],
   }
 }
 
+
 const actions = {
-  [EventTypes.REFUSEHANDLETYPE]({commit}, payload) {
-    mock.refuseHandle.then(response => {
-      commit(EventTypes.REFUSEHANDLETYPE, {list: response.data})
+  [EventTypes.REFUSEHANDLETYPE]({commit}, params) {
+    mock.refusehandle(params).then(response => {
+      commit(EventTypes.REFUSEHANDLETYPE, response.data)
     })
+  }
+}
+const mutations = {
+  [EventTypes.REFUSEHANDLETYPE](state, data) {
+    state.data = data.data;
   }
 }
 
 const getters = {
-  refusehandle() {
-    return state.refusehandle
+  getRows() {
+    return state.rows
   }
 }
 

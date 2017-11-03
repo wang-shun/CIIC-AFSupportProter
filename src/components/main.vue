@@ -55,9 +55,10 @@
     </div>
     <Row type="flex">
       <i-col :span="spanLeft" class="layout-menu-left">
-        <Menu theme="dark" width="auto" class="menuSet" :class="{'removeArror': spanLeft < 3}" accordion :open-names="openNames"
-          @on-open-change="onOpenChange" @on-select="onSelect">
-          <Submenu v-for="(item, index) in leftNavigationList" :name="item.id" :key="item.id">
+        <Menu theme="dark" width="auto" class="menuSet" :class="{'removeArror': spanLeft < 3}" accordion
+              :open-names="openNames"
+              @on-open-change="onOpenChange" @on-select="onSelect">
+          <Submenu v-for="(item, index) in data" :name="item.id" :key="item.id">
             <template slot="title">
               <Icon :type="item.icon" :size="size"></Icon>
               <span :class="{'layout-text':layoutOut}">{{item.key}}</span>
@@ -67,16 +68,16 @@
             </Menu-item>
           </Submenu>
 
-<!--
-          <Submenu name="1">
-            <template slot="title">
-              <Icon type="ios-paper" :size="size"></Icon>
-              <span :class="{'layout-text':layoutOut}">薪资账套维护</span>
-            </template>
-            <Menu-item name="1-1" :class="{'layout-text':layoutOut}">
-              <router-link :to="{name:'sl'}" v-menuInner="{set:set}">薪资项模板列表</router-link>
-            </Menu-item>
-          </Submenu> -->
+          <!--
+                    <Submenu name="1">
+                      <template slot="title">
+                        <Icon type="ios-paper" :size="size"></Icon>
+                        <span :class="{'layout-text':layoutOut}">薪资账套维护</span>
+                      </template>
+                      <Menu-item name="1-1" :class="{'layout-text':layoutOut}">
+                        <router-link :to="{name:'sl'}" v-menuInner="{set:set}">薪资项模板列表</router-link>
+                      </Menu-item>
+                    </Submenu> -->
         </Menu>
       </i-col>
       <i-col :span="spanRight">
@@ -107,11 +108,10 @@
 </template>
 <script>
 
-import {mapActions,mapGetters} from 'vuex'
-import EventTypes from '../store/EventTypes'
+  import {mapState, mapGetters, mapActions} from 'vuex'
+  import EventTypes from '../store/EventTypes'
 
   export default {
-    name:"leftnavigation",
     data() {
       return {
         items: [],
@@ -140,8 +140,7 @@ import EventTypes from '../store/EventTypes'
     },
     mounted() {
       this.getBreadCrumb();
-      this.setList();
-      // this.items = this.leftNavigationList();
+      this[EventTypes.LEFTNAVIGATION_SETLIST]();
     },
     computed: {
       key() {
@@ -150,15 +149,12 @@ import EventTypes from '../store/EventTypes'
       iconSize() {
         return this.spanLeft === 4 ? 24 : 24;
       },
-      ...mapGetters('leftNaviModule',[
-        'leftNavigationList'
-      ]),
+      ...mapState('leftNaviModule', {
+        data: state => state.rows
+      }),
     },
     methods: {
-      ...mapActions('leftNaviModule',{
-        setList:EventTypes.LEFTNAVIGATION_SETLIST
-      }),
-
+      ...mapActions('leftNaviModule', [EventTypes.LEFTNAVIGATION_SETLIST]),
       toggleClick() {
         if (this.spanLeft === 4) {
           this.spanLeft = 1;
@@ -172,7 +168,8 @@ import EventTypes from '../store/EventTypes'
           this.layoutOut = false;
         }
       },
-      onSelect(name) {},
+      onSelect(name) {
+      },
       onOpenChange(name) {
         this.openNames = name;
         if (this.size == 26) {

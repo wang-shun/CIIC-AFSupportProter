@@ -1,31 +1,35 @@
 /**
  * Created by huangye on 2017/10/24.
  */
-import mock from '../../../../data/employeespecialoperator/employeespecialoperatortab/ProgressingData'
-import EventTypes from '../../../EventTypes'
+import mock from "../../../../data/employeespecialoperator/employeespecialoperatortab/ProgressingData";
+import EventTypes from "../../../EventTypes";
 
 const state = {
-  progressing: []
-}
-
-const mutations = {
-  [EventTypes.PROGRESSINGTYPE](state, payload) {
-    console.log(payload)
-    state.progressing = payload.list.data;
+  rows: [],
+  data: {
+    customerData: [],
+    sSocialSecurityTypeData: [],
+    employeeResultData: [],
   }
 }
 
+
 const actions = {
-  [EventTypes.PROGRESSINGTYPE]({commit}, payload) {
-    mock.Progressing.then(response => {
-      commit(EventTypes.PROGRESSINGTYPE, {list: response.data})
+  [EventTypes.PROGRESSINGTYPE]({commit}, params) {
+    mock.Progressing(params).then(response => {
+      commit(EventTypes.PROGRESSINGTYPE, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.PROGRESSINGTYPE](state, data) {
+    state.data = data.data;
+  }
+}
 const getters = {
-  progressing() {
-    return state.progressing
+  getRows() {
+    return state.rows
   }
 }
 

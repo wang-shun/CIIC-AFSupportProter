@@ -11,13 +11,13 @@
         {{operatorType !== '1' ? '企业社保账户信息' : '公司信息'}}
         <div slot="content">
           <company-social-security-info v-if="operatorType !== '1'"></company-social-security-info>
-          <company-info :companyInfo="companysocialsecurityprogress2.companyInfo" v-else></company-info>
+          <company-info :companyInfo="data.companyInfo" v-else></company-info>
         </div>
       </Panel>
       <Panel name="2">
         办理所需材料清单
         <div slot="content">
-          <Table class="mt20" border :columns="operatorMaterials.operatorMaterialListColumns" :data="companysocialsecurityprogress2.operatorMaterialListData" ref="employeeSocialSecurityData"></Table>
+          <Table class="mt20" border :columns="operatorMaterials.operatorMaterialListColumns" :data="data.operatorMaterialListData" ref="employeeSocialSecurityData"></Table>
         </div>
       </Panel>
     </Collapse>
@@ -35,7 +35,7 @@
       </Col>
     </Row>
 
-    <chat :chatList="companysocialsecurityprogress2.chatList" class="mt20"></chat>
+    <chat :chatList="data.chatList" class="mt20"></chat>
 
     <!-- 批退理由 -->
     <Modal
@@ -51,7 +51,7 @@
   </Form>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import chat from '../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
   import companyInfo from '../commoncontrol/companyinfo.vue'
@@ -149,17 +149,15 @@
       }
     },
     mounted() {
-      this.setCompanySocialSecurityProgress2()
+      this[eventType.COMPANYSOCIALSECURITYPROGRESS2TYPE]()
     },
     computed: {
-      ...mapGetters('companySocialSecurityProgress2',[
-        'companysocialsecurityprogress2'
-      ])
+      ...mapState('companySocialSecurityProgress2',{
+          data:state => state.data
+      })
     },
     methods: {
-      ...mapActions('companySocialSecurityProgress2', {
-        setCompanySocialSecurityProgress2: eventType.COMPANYSOCIALSECURITYPROGRESS2TYPE
-      }),
+      ...mapActions('companySocialSecurityProgress2', [eventType.COMPANYSOCIALSECURITYPROGRESS2TYPE]),
       nextStep() {
         if(this.operatorType === '1') {
           this.$router.push({name: 'companysocialsecuritytypeinfo'})

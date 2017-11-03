@@ -128,7 +128,7 @@
 
     <Row class="mt20">
       <Col :xs="{span: 24}" :lg="{span: 24}">
-        <Table border :columns="employeeResultColumns" :data="thismonthhandle.employeeResultData"></Table>
+        <Table border :columns="employeeResultColumns" :data="data.employeeResultData"></Table>
         <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
       </Col>
     </Row>
@@ -153,7 +153,7 @@
       title="选择客户"
       @on-ok="ok"
       @on-cancel="cancel">
-      <customer-modal :customerData="thismonthhandle.customerData"></customer-modal>
+      <customer-modal :customerData="data.customerData"></customer-modal>
     </Modal>
 
     <!-- 企业社保账户分类 模态框 -->
@@ -162,12 +162,12 @@
       title="企业社保账户分类"
       @on-ok="ok"
       @on-cancel="cancel">
-      <company-account-search-modal :sSocialSecurityTypeData="thismonthhandle.sSocialSecurityTypeData"></company-account-search-modal>
+      <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
     </Modal>
   </div>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../commoncontrol/customermodal.vue'
   import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
   import eventType from '../../../store/EventTypes'
@@ -379,17 +379,15 @@
       }
     },
     mounted() {
-      this.setThisMonthHandle()
+      this[eventType.THISMONTHHANDLETYPE]()
     },
     computed: {
-      ...mapGetters('thisMonthHandle',[
-        'thismonthhandle'
-      ])
+      ...mapState('thisMonthHandle',{
+          data:state => state.data
+      })
     },
     methods: {
-      ...mapActions('thisMonthHandle',{
-        setThisMonthHandle: eventType.THISMONTHHANDLETYPE
-      }),
+      ...mapActions('thisMonthHandle',[eventType.THISMONTHHANDLETYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

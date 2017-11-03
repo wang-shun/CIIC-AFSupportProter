@@ -1,31 +1,31 @@
 /**
  * Created by huangye on 2017/10/25.
  */
-import mock from '../../../data/companytasklist/CompanyTaskProgressTypeInfoData'
-import EventTypes from '../../EventTypes'
+import mock from "../../../data/companytasklist/CompanyTaskProgressTypeInfoData";
+import EventTypes from "../../EventTypes";
 
 const state = {
-  companytaskprogresstypeinfo: []
+  rows: [],
+  data: {}
 }
 
-const mutations = {
-  [EventTypes.COMPANYTASKPROGRESSTYPEINFOTYPE](state, payload) {
-    console.log(payload)
-    state.companytaskprogresstypeinfo = payload.list.data;
-  }
-}
 
 const actions = {
-  [EventTypes.COMPANYTASKPROGRESSTYPEINFOTYPE]({commit}, payload) {
-    mock.companyTaskProgressTypeInfo.then(response => {
-      commit(EventTypes.COMPANYTASKPROGRESSTYPEINFOTYPE, {list: response.data})
+  [EventTypes.COMPANYTASKPROGRESSTYPEINFOTYPE]({commit}, params) {
+    mock.companyTaskProgressTypeInfo(params).then(response => {
+      commit(EventTypes.COMPANYTASKPROGRESSTYPEINFOTYPE, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.COMPANYTASKPROGRESSTYPEINFOTYPE](state, data) {
+    state.data = data.data;
+  }
+}
 const getters = {
-  companytaskprogresstypeinfo() {
-    return state.companytaskprogresstypeinfo
+  getRows() {
+    return state.rows
   }
 }
 

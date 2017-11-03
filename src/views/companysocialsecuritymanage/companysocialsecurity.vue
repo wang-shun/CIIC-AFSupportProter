@@ -144,21 +144,21 @@
       <Panel name="2">
         子公司信息
         <div slot="content">
-          <Table width="841" border :columns="childCompanyColumns" :data="companysocialsecurity.childCompanyData"></Table>
+          <Table width="841" border :columns="childCompanyColumns" :data="data.childCompanyData"></Table>
         </div>
       </Panel>
 
       <Panel name="3">
         历史任务单
         <div slot="content">
-          <Table width="841" border :columns="historyTaskColumns" :data="companysocialsecurity.historyTaskData"></Table>
+          <Table width="841" border :columns="historyTaskColumns" :data="data.historyTaskData"></Table>
         </div>
       </Panel>
 
       <Panel name="4">
         工伤比例变更历史
         <div slot="content">
-          <Table width="841" border :columns="workInjuryColumns" :data="companysocialsecurity.workInjuryData"></Table>
+          <Table width="841" border :columns="workInjuryColumns" :data="data.workInjuryData"></Table>
         </div>
       </Panel>
     </Collapse>
@@ -173,12 +173,12 @@
       v-model="isShowNotes"
       @on-ok="ok"
       @on-cancel="cancel">
-      <chat :chatList="companysocialsecurity.chatList"></chat>
+      <chat :chatList="data.chatList"></chat>
     </Modal>
   </div>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import chat from '../commoncontrol/chathistory/chat.vue'
   import eventType from '../../store/EventTypes'
 
@@ -343,17 +343,15 @@
       }
     },
     mounted() {
-      this.setCompanySocialSecurity()
+      this[eventType.COMPANYSOCIALSECURITYTYPE]()
     },
     computed: {
-      ...mapGetters('companySocialSecurity',[
-        'companysocialsecurity'
-      ])
+      ...mapState('companySocialSecurity',{
+          data:state => state.data
+      })
     },
     methods: {
-      ...mapActions('companySocialSecurity', {
-        setCompanySocialSecurity: eventType.COMPANYSOCIALSECURITYTYPE
-      }),
+      ...mapActions('companySocialSecurity', [eventType.COMPANYSOCIALSECURITYTYPE]),
       goBack() {
         this.$router.push({name: 'companysocialsecuritymanage'})
       },

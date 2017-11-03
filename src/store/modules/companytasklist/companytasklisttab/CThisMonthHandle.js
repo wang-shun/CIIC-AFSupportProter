@@ -1,31 +1,32 @@
-/**
- * Created by huangye on 2017/10/25.
- */
+
 import mock from '../../../../data/companytasklist/companytasklisttab/CThisMonthHandleData'
 import EventTypes from '../../../EventTypes'
 
 const state = {
-  cthismonthhandle: []
-}
-
-const mutations = {
-  [EventTypes.CTHISMONTHHANDLETYPE](state, payload) {
-    console.log(payload)
-    state.cthismonthhandle = payload.list.data;
+  rows: [],
+  data:{
+    customerData:[],
+    taskData:[]
   }
 }
 
+
 const actions = {
-  [EventTypes.CTHISMONTHHANDLETYPE]({commit}, payload) {
-    mock.cThisMonthHandle.then(response => {
-      commit(EventTypes.CTHISMONTHHANDLETYPE, {list: response.data})
+  [EventTypes.CTHISMONTHHANDLETYPE]({commit}, params) {
+    mock.cThisMonthHandle(params).then(response => {
+      commit(EventTypes.CTHISMONTHHANDLETYPE, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.CTHISMONTHHANDLETYPE](state, data) {
+    state.data = data.data;
+  }
+}
 const getters = {
-  cthismonthhandle() {
-    return state.cthismonthhandle
+  getRows() {
+    return state.rows
   }
 }
 

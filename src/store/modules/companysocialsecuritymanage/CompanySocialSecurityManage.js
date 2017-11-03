@@ -1,31 +1,33 @@
 /**
  * Created by huangye on 2017/10/25.
  */
-import mock from '../../../data/companysocialsecuritymanage/CompanySocialSecurityManageData'
-import EventTypes from '../../EventTypes'
+import mock from "../../../data/companysocialsecuritymanage/CompanySocialSecurityManageData";
+import EventTypes from "../../EventTypes";
 
 const state = {
-  companysocialsecuritymanage: []
-}
-
-const mutations = {
-  [EventTypes.COMPANYSOCIALSECURITYMANAGETYPE](state, payload) {
-    console.log(payload)
-    state.companysocialsecuritymanage = payload.list.data;
+  rows: [],
+  data: {
+    accountManageData: []
   }
 }
 
 const actions = {
-  [EventTypes.COMPANYSOCIALSECURITYMANAGETYPE]({commit}, payload) {
-    mock.companySocialSecurityManage.then(response => {
-      commit(EventTypes.COMPANYSOCIALSECURITYMANAGETYPE, {list: response.data})
+  [EventTypes.COMPANYSOCIALSECURITYMANAGETYPE]({commit}, params) {
+    mock.companySocialSecurityManage(params).then(response => {
+      commit(EventTypes.COMPANYSOCIALSECURITYMANAGETYPE, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.COMPANYSOCIALSECURITYMANAGETYPE](state, data) {
+    state.data = data.data;
+  }
+}
+
 const getters = {
-  companysocialsecuritymanage() {
-    return state.companysocialsecuritymanage
+  getRows() {
+    return state.rows
   }
 }
 

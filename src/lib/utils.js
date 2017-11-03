@@ -53,41 +53,81 @@ utils.parseDate = function (dateString, fmt) {
 };
 
 /**
+ * var response = {
+      data: {
+        code: 200,
+        data: [],
+      }
+    };
+ * @param response
+ * @returns {Promise}
+ */
+utils.promise = response => {
+  return new Promise(function (resolve, reject) { // 异步处理
+    if (response.data.code == 200) {
+      resolve(response);
+    } else {
+      reject(response);
+    }
+  });
+}
+
+const CONTENT_TYPE = 'application/x-www-form-urlencoded';
+/**
  * 创建 ajax 对象
  * @param config
  */
-utils.createAjax = (config) => {
+let createAjax = config => {
   let ajax = axios.create(config);
 
   // 添加一个请求拦截器
-  ajax.interceptors.request.use((config) => {
+  ajax.interceptors.request.use(
+    config => {
       // Do something before request is sent
       var contentType = config.headers['Content-Type'];
 
       if (!Boolean(contentType)) {
         // 不区分大小写查找
         for (var header in config.headers) {
-          if ('application/x-www-form-urlencoded' === header.toLowerCase()) {
-            contentType = header;
+          if ('content-type' === header.toLowerCase()) {
+            contentType = CONTENT_TYPE;
             break;
           }
         }
       }
 
-      if (contentType === 'application/x-www-form-urlencoded') {
+      if (contentType.indexOf(CONTENT_TYPE) >= 0) {
         config.data = qs.stringify(config.data);
       }
 
-
       // outer log
       if (utils.DEBUG) {
+        let formatDate = (format, date) => {
+          date = date || new Date();
+          var o = {
+            "M+": date.getMonth() + 1,                 //月份
+            "d+": date.getDate(),                    //日
+            "h+": date.getHours(),                   //小时
+            "m+": date.getMinutes(),                 //分
+            "s+": date.getSeconds(),                 //秒
+            "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+            "S": date.getMilliseconds()             //毫秒
+          };
+          if (/(y+)/.test(format))
+            format = format.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+          for (var k in o)
+            if (new RegExp("(" + k + ")").test(format))
+              format = format.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+          return format;
+        }
+
         let logInfo = {
           url: config.url,
           method: config.method,
-          time: utils.formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss'),
+          time: formatDate('yyyy-MM-dd hh:mm:ss:S'),
           data: null,
         };
-        if (contentType === 'application/x-www-form-urlencoded') {
+        if (contentType.indexOf(CONTENT_TYPE) >= 0) {
           logInfo.data = decodeURIComponent(config.data);
         } else {
           logInfo.data = JSON.stringify(config.data);
@@ -105,17 +145,17 @@ utils.createAjax = (config) => {
   return ajax;
 }
 
-function _createAjax(name) {
-  return utils.createAjax({
+let createAjaxForName = name => {
+  return createAjax({
     baseURL: config.basePaths[name],
     timeout: utils.DEBUG ? 0 : 5000,
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': CONTENT_TYPE
     }
   });
 }
 
-utils.ajaxAlertJob = _createAjax('AlertJob');
+utils.ajaxAlertJob = createAjaxForName('AlertJob');
 
 
 export default utils;

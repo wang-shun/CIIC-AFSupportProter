@@ -10,7 +10,7 @@
       <Panel name="1">
         企业社保账户信息
         <div slot="content">
-          <company-social-security-info :company="companytaskprogresstransferinfo.company"></company-social-security-info>
+          <company-social-security-info :company="data.company"></company-social-security-info>
         </div>
       </Panel>
       <Panel name="2">
@@ -18,8 +18,8 @@
         <div slot="content">
           <Row>
             <Col :xs="{span: 10, offset: 1}" :lg="{span: 10, offset: 1}">
-              <label>共{{companytaskprogresstransferinfo.chatList.length}}条历史备注</label>
-              <chat :chatList="companytaskprogresstransferinfo.chatList" class="mt20"></chat>
+              <label>共{{data.chatList.length}}条历史备注</label>
+              <chat :chatList="data.chatList" class="mt20"></chat>
             </Col>
           </Row>
         </div>
@@ -83,7 +83,7 @@
   </Form>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import chat from '../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
   import eventType from "../../store/EventTypes"
@@ -110,17 +110,15 @@
       }
     },
     mounted() {
-      this.setCompanyTaskProgressTransferInfo()
+      this[eventType.COMPANYTASKPROGRESSTRANSFERINFOTYPE]()
     },
     computed: {
-      ...mapGetters('companyTaskProgressTransferInfo',[
-        'companytaskprogresstransferinfo'
-      ])
+      ...mapState('companyTaskProgressTransferInfo',{
+          data:state => state.data
+      })
     },
     methods: {
-      ...mapActions('companyTaskProgressTransferInfo', {
-        setCompanyTaskProgressTransferInfo: eventType.COMPANYTASKPROGRESSTRANSFERINFOTYPE
-      }),
+      ...mapActions('companyTaskProgressTransferInfo', [eventType.COMPANYTASKPROGRESSTRANSFERINFOTYPE]),
       goBack() {
         this.$router.push({name: 'companytasklist'})
       },

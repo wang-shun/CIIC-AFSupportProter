@@ -1,31 +1,36 @@
 /**
  * Created by huangye on 2017/10/23.
  */
-import mock from '../../../data/employeeoperator/EmployeeCommcialOperatorData'
-import EventTypes from '../../EventTypes'
+import mock from "../../../data/employeeoperator/EmployeeCommcialOperatorData";
+import EventTypes from "../../EventTypes";
 
 const state = {
-  employeecommcialoperator: []
-}
-
-const mutations = {
-  [EventTypes.EMPLOYEECOMMCIALOPERATOR](state, payload) {
-    console.log(payload)
-    state.employeecommcialoperator = payload.list.data;
+  rows: [],
+  data: {
+    operatorTableNewData: [],
+    operatorTableRepairData: [],
+    operatorTableChangeData: [],
+    operatorTableOutData: [],
   }
 }
 
+
 const actions = {
-  [EventTypes.EMPLOYEECOMMCIALOPERATOR]({commit}, payload) {
-    mock.employeeCommcialOperator.then(response => {
-      commit(EventTypes.EMPLOYEECOMMCIALOPERATOR, {list: response.data})
+  [EventTypes.EMPLOYEECOMMCIALOPERATOR]({commit}, params) {
+    mock.employeeCommcialOperator(params).then(response => {
+      commit(EventTypes.EMPLOYEECOMMCIALOPERATOR, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.EMPLOYEECOMMCIALOPERATOR](state, data) {
+    state.data = data.data;
+  }
+}
 const getters = {
-  employeecommcialoperator() {
-    return state.employeecommcialoperator
+  gerRows() {
+    return state.rows
   }
 }
 

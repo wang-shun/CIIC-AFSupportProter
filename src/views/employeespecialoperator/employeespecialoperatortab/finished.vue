@@ -118,7 +118,7 @@
 
       <Row>
         <Col :xs="{span: 24}" :lg="{span: 24}">
-          <Table border :columns="employeeResultColumns" :data="finished.employeeResultData" ref="employeeSocialSecurityData"></Table>
+          <Table border :columns="employeeResultColumns" :data="data.employeeResultData" ref="employeeSocialSecurityData"></Table>
           <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
         </Col>
       </Row>
@@ -129,7 +129,7 @@
         title="选择客户"
         @on-ok="ok"
         @on-cancel="cancel">
-        <customer-modal :customerData="finished.customerData"></customer-modal>
+        <customer-modal :customerData="data.customerData"></customer-modal>
       </Modal>
 
       <!-- 企业社保账户分类 模态框 -->
@@ -138,7 +138,7 @@
         title="企业社保账户分类"
         @on-ok="ok"
         @on-cancel="cancel">
-        <company-account-search-modal :sSocialSecurityTypeData="finished.sSocialSecurityTypeData"></company-account-search-modal>
+        <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
       </Modal>
 
       <!-- 批退理由 -->
@@ -154,7 +154,7 @@
   </div>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../commoncontrol/customermodal.vue'
   import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
   import eventType from '../../../store/EventTypes'
@@ -391,17 +391,15 @@
       }
     },
     mounted() {
-      this.setFinished()
+      this[eventType.FINISHEDTYPE]()
     },
     computed: {
-      ...mapGetters('Finished', [
-        'finished'
-      ])
+      ...mapState('Finished', {
+          data:state => state.data
+      })
     },
     methods: {
-      ...mapActions('Finished', {
-        setFinished: eventType.FINISHEDTYPE
-      }),
+      ...mapActions('Finished', [eventType.FINISHEDTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

@@ -1,19 +1,11 @@
-/**
- * Created by huangye on 2017/10/23.
- */
-import Axios from 'axios'
-import MockAdapter from 'axios-mock-adapter'
+import Utils from "../../lib/utils";
 
-const mock = new MockAdapter(Axios)
-
-mock.onGet('/employeeOperatorView').reply(200, {
-  data: {
-
-
-
+const employeeOperatorView = params => Utils.promise({
+  data:{
+    code:200,
+    data:{}
   }
 })
-const employeeOperatorView = Axios.get('employeeOperatorView')
 
 export default {
   employeeOperatorView

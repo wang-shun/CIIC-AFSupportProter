@@ -1,31 +1,40 @@
 /**
  * Created by huangye on 2017/10/25.
  */
-import mock from '../../../data/socialsecuritypay/PaymentNoticeData'
-import EventTypes from '../../EventTypes'
+import mock from "../../../data/socialsecuritypay/PaymentNoticeData";
+import EventTypes from "../../EventTypes";
 
 const state = {
-  paymentnotice: []
-}
-
-const mutations = {
-  [EventTypes.PAYMENTNOTICETYPE](state, payload) {
-    console.log(payload)
-    state.paymentnotice = payload.list.data;
+  rows: [],
+  data: {
+    companyName: '',
+    companySocialSecurityAccount: '',
+    noticeData: [],
+    shouldPayAmount: '',
+    changeAmount: '',
+    applyAmountLower: '',
+    applyAmountUpper: '',
+    notes: ''
   }
 }
 
 const actions = {
-  [EventTypes.PAYMENTNOTICETYPE]({commit}, payload) {
-    mock.paymentNotice.then(response => {
-      commit(EventTypes.PAYMENTNOTICETYPE, {list: response.data})
+  [EventTypes.PAYMENTNOTICETYPE]({commit}, params) {
+    mock.paymentNotice(params).then(response => {
+      commit(EventTypes.PAYMENTNOTICETYPE, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.PAYMENTNOTICETYPE](state, data) {
+    state.data = data.data;
+  }
+}
+
 const getters = {
-  paymentnotice() {
-    return state.paymentnotice
+  getRows() {
+    return state.rows
   }
 }
 

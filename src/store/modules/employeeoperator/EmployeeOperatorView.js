@@ -1,31 +1,31 @@
 /**
  * Created by huangye on 2017/10/23.
  */
-import mock from '../../../data/employeeoperator/EmployeeOperatorViewData'
-import EventTypes from '../../EventTypes'
+import mock from "../../../data/employeeoperator/EmployeeOperatorViewData";
+import EventTypes from "../../EventTypes";
 
 const state = {
-  employeeoperatorview: []
-}
-
-const mutations = {
-  [EventTypes.EMPLOYEEOPERATORVIEW](state, payload) {
-    console.log(payload)
-    state.employeeoperatorview = payload.list.data;
-  }
+  rows: [],
+  data: {}
 }
 
 const actions = {
-  [EventTypes.EMPLOYEEOPERATORVIEW]({commit}, payload) {
-    mock.employeeOperatorView.then(response => {
-      commit(EventTypes.EMPLOYEEOPERATORVIEW, {list: response.data})
+  [EventTypes.EMPLOYEEOPERATORVIEW]({commit}, params) {
+    mock.employeeOperatorView(params).then(response => {
+      commit(EventTypes.EMPLOYEEOPERATORVIEW, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.EMPLOYEEOPERATORVIEW](state, data) {
+    state.data = data.data;
+  }
+}
+
 const getters = {
-  employeeoperatorview() {
-    return state.employeeoperatorview
+  getRows() {
+    return state.rows
   }
 }
 

@@ -1,32 +1,29 @@
-import mock from '../../data/LeftNavigationData'
-import EventTypes from '../EventTypes'
+import mock from "../../data/LeftNavigationData";
+import EventTypes from "../EventTypes";
 
 const state = {
-	leftnavigationlist: []
-}
-
-const mutations = {
-	[EventTypes.LEFTNAVIGATION_SETLIST](state,payload){
-    console.log(payload)
-		state.leftnavigationlist = payload.list.data;
-		// console.log(state.leftnavigationlist);
-	}
+  rows: []
 }
 
 const actions = {
-	[EventTypes.LEFTNAVIGATION_SETLIST]({commit},payload){
-		mock.leftNavigationList.then(response =>{
-		    commit(EventTypes.LEFTNAVIGATION_SETLIST, { list: response.data })
-	      }
-    	)
-	}
+  [EventTypes.LEFTNAVIGATION_SETLIST]({commit}, params){
+    mock.leftNavigationList(params).then(response => {
+        commit(EventTypes.LEFTNAVIGATION_SETLIST, response.data)
+      }
+    )
+  }
+}
+
+const mutations = {
+  [EventTypes.LEFTNAVIGATION_SETLIST](state, data){
+    state.rows = data.data;
+  }
 }
 
 const getters = {
-	leftNavigationList(){
-		console.log(state.leftnavigationlist)
-		return state.leftnavigationlist
-	}
+  getRows(){
+    return state.rows
+  }
 }
 
 const namespaced = true;

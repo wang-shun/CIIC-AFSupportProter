@@ -91,7 +91,7 @@
 
       <Row class="mt20">
         <Col :xs="{span: 24}" :lg="{span: 24}">
-          <Table border :columns="taskColumns" :data="cnextmonthhandle.taskData"></Table>
+          <Table border :columns="taskColumns" :data="data.taskData"></Table>
           <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
         </Col>
       </Row>
@@ -116,13 +116,13 @@
         title="选择客户"
         @on-ok="ok"
         @on-cancel="cancel">
-        <customer-modal :customerData="cnextmonthhandle.customerData"></customer-modal>
+        <customer-modal :customerData="data.customerData"></customer-modal>
       </Modal>
     </Form>
   </div>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../commoncontrol/customermodal.vue'
   import eventType from '../../../store/EventTypes'
 
@@ -269,17 +269,15 @@
       }
     },
     mounted() {
-      this.setCNextMonthHandle()
+      this[eventType.CNEXTMONTHHANDLETYPE]()
     },
     computed: {
-      ...mapGetters('cNextMonthHandle',[
-        'cnextmonthhandle'
-      ])
+      ...mapState('cNextMonthHandle',{
+          data:state => state.data
+      })
     },
     methods: {
-      ...mapActions('cNextMonthHandle',{
-        setCNextMonthHandle: eventType.CNEXTMONTHHANDLETYPE
-      }),
+      ...mapActions('cNextMonthHandle',[eventType.CNEXTMONTHHANDLETYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

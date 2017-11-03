@@ -1,31 +1,34 @@
 /**
  * Created by huangye on 2017/10/25.
  */
-import mock from '../../../../data/companytasklist/companytasklisttab/CRefusedData'
-import EventTypes from '../../../EventTypes'
+import mock from "../../../../data/companytasklist/companytasklisttab/CRefusedData";
+import EventTypes from "../../../EventTypes";
 
 const state = {
-  crefused: []
-}
-
-const mutations = {
-  [EventTypes.CREFUSEDTYPE](state, payload) {
-    console.log(payload)
-    state.crefused = payload.list.data;
+  rows: [],
+  data: {
+    customerData: [],
+    taskData: [],
   }
 }
 
+
 const actions = {
-  [EventTypes.CREFUSEDTYPE]({commit}, payload) {
-    mock.cRefused.then(response => {
-      commit(EventTypes.CREFUSEDTYPE, {list: response.data})
+  [EventTypes.CREFUSEDTYPE]({commit}, params) {
+    mock.cRefused(params).then(response => {
+      commit(EventTypes.CREFUSEDTYPE, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.CREFUSEDTYPE](state, data) {
+    state.data = data.data;
+  }
+}
 const getters = {
-  crefused() {
-    return state.crefused
+  getRows() {
+    return state.rows
   }
 }
 

@@ -1,35 +1,39 @@
 <template>
   <div class="smList">
-    <tabs :data="tabPans" @on-click="selectTabPan"></tabs>
+    <Tabs value="thismonthhandle">
+      <TabPane label="本月处理" name="thismonthhandle">
+        <thismonthhandle></thismonthhandle>
+      </TabPane>
+      <TabPane label="下月处理" name="nextmonthhandle">
+        <nextmonthhandle></nextmonthhandle>
+      </TabPane>
+      <TabPane label="已完成" name="finishhandle">
+        <finishhandle></finishhandle>
+      </TabPane>
+      <TabPane label="批退" name="refusehandle">
+        <refusehandle></refusehandle>
+      </TabPane>
+    </Tabs>
+
   </div>
 </template>
 <script>
-  import EventTypes from '../../store/EventTypes'
-  import tabs from '../../components/tabs.vue'
+  import thismonthhandle from './employeeoperatortab/thismonthhandle'//雇员日常操作 -- 本月处理
+  import nextmonthhandle from './employeeoperatortab/nextmonthhandle'//雇员日常操作 -- 下月处理
+  import finishhandle from './employeeoperatortab/finishhandle'//雇员日常操作 -- 已完成
+  import refusehandle from './employeeoperatortab/refusehandle'//雇员日常操作 --
 
   export default {
-    components: {tabs},
+    components: {thismonthhandle,nextmonthhandle,finishhandle,refusehandle},
     data() {
       return {
-        tabPans:
-          [
-            {name: 'thismonthhandle', label: '本月处理'},
-            {name: 'nextmonthhandle', label: '下月处理'},
-            {name: 'finishhandle', label: '已完成'},
-            {name: 'refusehandle', label: '批退'},
-          ]
       }
     },
     mounted() {
 
     },
-    computed: {
-
-    },
+    computed: {},
     methods: {
-      selectTabPan(name) {
-
-      }
     }
   }
 </script>

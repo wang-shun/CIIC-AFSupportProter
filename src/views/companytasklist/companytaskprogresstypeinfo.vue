@@ -2,29 +2,25 @@
   <approval-step-type-info :prevPage="'companytasklist'"></approval-step-type-info>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import approvalStepTypeInfo from '../commoncontrol/approvalsteptypeinfo.vue'
   import eventType from '../../store/EventTypes'
 
   export default {
     components: {approvalStepTypeInfo},
     data() {
-      return {
-
-      }
+      return {}
     },
     mounted() {
-      this.setCompanyTaskProgressTypeInfo()
+      this[eventType.COMPANYTASKPROGRESSTYPEINFOTYPE]()
     },
     computed: {
-      ...mapGetters('companyTaskProgressTypeInfo',[
-        'companytaskprogresstypeinfo'
-      ])
+      ...mapState('companyTaskProgressTypeInfo', {
+        data: state => state.data
+      })
     },
     methods: {
-      ...mapActions('companyTaskProgressTypeInfo', {
-        setCompanyTaskProgressTypeInfo: eventType.COMPANYTASKPROGRESSTYPEINFOTYPE
-      }),
+      ...mapActions('companyTaskProgressTypeInfo', [eventType.COMPANYTASKPROGRESSTYPEINFOTYPE]),
     }
   }
 </script>

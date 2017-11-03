@@ -93,7 +93,7 @@
 
     <div class="create">
       <Button type="info" @click="exportData" style="margin: 20px 0 10px 0;">导出</Button>
-      <Table border :columns="employeeSocialSecurityColumns" :data="employeesocialsecuritysearch.employeeSocialSecurityData" ref="employeeSocialSecurityData"></Table>
+      <Table border :columns="employeeSocialSecurityColumns" :data="data.employeeSocialSecurityData" ref="employeeSocialSecurityData"></Table>
     </div>
     <Page :total="100" show-sizer show-elevator></Page>
 
@@ -105,7 +105,7 @@
       width="720"
       @on-ok="ok"
       @on-cancel="cancel">
-      <customer-modal :customerData="employeesocialsecuritysearch.customerData"></customer-modal>
+      <customer-modal :customerData="data.customerData"></customer-modal>
     </Modal>
 
     <!-- 企业社保账户分类 模态框 -->
@@ -115,21 +115,20 @@
       width="720"
       @on-ok="ok"
       @on-cancel="cancel">
-      <company-account-search-modal :sSocialSecurityTypeData="employeesocialsecuritysearch.sSocialSecurityTypeData"></company-account-search-modal>
+      <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
     </Modal>
   </div>
 
 
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from "../commoncontrol/customermodal.vue"
   import companyAccountSearchModal from "../commoncontrol/companyaccountsearchmodal.vue"
   import ICol from "../../../node_modules/iview/src/components/grid/col";
   import EventTypes from '../../store/EventTypes'
 
   export default {
-    name:"employeesocialsecuritysearch",
     components: {ICol, customerModal, companyAccountSearchModal},
     data() {
       return {
@@ -275,19 +274,17 @@
       }
     },
     mounted() {
-      this.setEmployeeSocialSecuritySearch()
+      this[EventTypes.EMPLOYEESOCIALSECURITYSEARCH]()
     },
     computed: {
-      ...mapGetters('employeeSocialSecuritySearch', [
-        'employeesocialsecuritysearch'
-      ])
+      ...mapState('employeeSocialSecuritySearch',{
+          data: state => state.data
+      })
     },
     methods: {
-      ...mapActions('employeeSocialSecuritySearch', {
-        setEmployeeSocialSecuritySearch: EventTypes.EMPLOYEESOCIALSECURITYSEARCH
-      }),
+      ...mapActions('employeeSocialSecuritySearch', [EventTypes.EMPLOYEESOCIALSECURITYSEARCH]),
       exportData() {
-        this.$refs.employeeSocialSecurityData.exportCsv({
+        this.$refs['employeeSocialSecurityData'].exportCsv({
           filename: '原始数据'
         });
       },

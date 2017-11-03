@@ -5,27 +5,30 @@ import mock from '../../../data/companysocialsecuritymanage/CompanySocialSecurit
 import EventTypes from '../../EventTypes'
 
 const state = {
-  companysocialsecuritychangeinfo: []
-}
-
-const mutations = {
-  [EventTypes.COMPANYSOCIALSECURITYCHANGEINFOTYPE](state, payload) {
-    console.log(payload)
-    state.companysocialsecuritychangeinfo = payload.list.data;
+  rows: [],
+  data:{
+    company:{},
+    chatList:[],
   }
 }
 
+
 const actions = {
-  [EventTypes.COMPANYSOCIALSECURITYCHANGEINFOTYPE]({commit}, payload) {
-    mock.companySocialSecurityChangeInfo.then(response => {
-      commit(EventTypes.COMPANYSOCIALSECURITYCHANGEINFOTYPE, {list: response.data})
+  [EventTypes.COMPANYSOCIALSECURITYCHANGEINFOTYPE]({commit}, params) {
+    mock.companySocialSecurityChangeInfo(params).then(response => {
+      commit(EventTypes.COMPANYSOCIALSECURITYCHANGEINFOTYPE, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.COMPANYSOCIALSECURITYCHANGEINFOTYPE](state, data) {
+    state.data = data.data;
+  }
+}
 const getters = {
-  companysocialsecuritychangeinfo() {
-    return state.companysocialsecuritychangeinfo
+  getRows() {
+    return state.rows
   }
 }
 

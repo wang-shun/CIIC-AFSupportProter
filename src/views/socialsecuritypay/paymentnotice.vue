@@ -8,44 +8,44 @@
             <Row>
               <Col :xs="{span: 8}" :lg="{span: 8}">
                 <Form-item label="公司名称：">
-                  <label>{{paymentnotice.companyName}}</label>
+                  <label>{{data.companyName}}</label>
                 </Form-item>
               </Col>
               <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
                 <Form-item label="公司名称：">
-                  <label>{{paymentnotice.companySocialSecurityAccount}}</label>
+                  <label>{{data.companySocialSecurityAccount}}</label>
                 </Form-item>
               </Col>
             </Row>
-            <Table border :columns="noticeInfo.noticeColumns" :data="paymentnotice.noticeData"></Table>
+            <Table border :columns="noticeInfo.noticeColumns" :data="data.noticeData"></Table>
             <Row class="mt20">
               <Col :xs="{span: 8}" :lg="{span: 8}">
                 <Form-item label="应缴纳合计（小写）：">
-                  <label>{{paymentnotice.shouldPayAmount}}</label>
+                  <label>{{data.shouldPayAmount}}</label>
                 </Form-item>
               </Col>
               <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
                 <Form-item label="调整金额（小写）：">
-                  <label>{{paymentnotice.changeAmount}}</label>
+                  <label>{{data.changeAmount}}</label>
                 </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :xs="{span: 8}" :lg="{span: 8}">
                 <Form-item label="申请支付金额合计（小写）：">
-                  <label>{{paymentnotice.applyAmountLower}}</label>
+                  <label>{{data.applyAmountLower}}</label>
                 </Form-item>
               </Col>
               <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
                 <Form-item label="调整金额（小写）：">
-                  <label>{{paymentnotice.applyAmountUpper}}</label>
+                  <label>{{data.applyAmountUpper}}</label>
                 </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :xs="{span: 8}" :lg="{span: 8}">
                 <Form-item label="申请支付金额合计（小写）：">
-                  <label>{{paymentnotice.notes}}</label>
+                  <label>{{data.notes}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -62,7 +62,7 @@
   </div>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import eventType from '../../store/EventTypes'
 
   export default {
@@ -132,17 +132,15 @@
       }
     },
     mounted() {
-      this.setPaymentNotice()
+      this[eventType.PAYMENTNOTICETYPE]()
     },
     computed: {
-      ...mapGetters('paymentNotice', [
-        'paymentnotice'
-      ])
+      ...mapState('paymentNotice', {
+          data:state => state.data
+      })
     },
     methods: {
-      ...mapActions('paymentNotice', {
-        setPaymentNotice: eventType.PAYMENTNOTICETYPE
-      }),
+      ...mapActions('paymentNotice', [eventType.PAYMENTNOTICETYPE]),
       goBack() {
         this.$router.push({name: 'socialsecuritypay'})
       },

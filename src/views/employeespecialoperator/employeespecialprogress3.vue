@@ -10,13 +10,13 @@
       <Panel name="1">
         企业社保账户信息
         <div slot="content">
-          <company-social-security-info :company="employeespecialprogress3.company"></company-social-security-info>
+          <company-social-security-info :company="data.company"></company-social-security-info>
         </div>
       </Panel>
       <Panel name="2">
         雇员信息
         <div slot="content">
-          <employee-info :operatorType="'1'" :employee="employeespecialprogress3.employee"></employee-info>
+          <employee-info :operatorType="'1'" :employee="data.employee"></employee-info>
         </div>
       </Panel>
       <Panel name="3">
@@ -37,7 +37,7 @@
   </Form>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import chat from '../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
   import employeeInfo from '../commoncontrol/employeeinfo.vue'
@@ -119,17 +119,15 @@
       this.$refs['st1'].onclick = function() {
           alert(123)
       }
-      this.setEmployeeSpecialProgress3()
+      this[eventType.EMPLOYEESPECIALPROGRESS3]()
     },
     computed: {
-      ...mapGetters('employeeSpecialProgress3', [
-        'employeespecialprogress3'
-      ])
+      ...mapState('employeeSpecialProgress3', {
+          data:state =>state.data
+      })
     },
     methods: {
-      ...mapActions('employeeSpecialProgress3', {
-        setEmployeeSpecialProgress3: eventType.EMPLOYEESPECIALPROGRESS3
-      }),
+      ...mapActions('employeeSpecialProgress3', [eventType.EMPLOYEESPECIALPROGRESS3]),
       goBack() {
         this.$router.push({name:'employeespecialoperatorview'});
       }

@@ -10,19 +10,19 @@
       <Panel name="1">
         企业社保账户信息
         <div slot="content">
-          <company-social-security-info :company="employeespecialprogress2.company"></company-social-security-info>
+          <company-social-security-info :company="data.company"></company-social-security-info>
         </div>
       </Panel>
       <Panel name="2">
         雇员信息
         <div slot="content">
-          <employee-info :operatorType="'1'" :employee="employeespecialprogress2.employee"></employee-info>
+          <employee-info :operatorType="'1'" :employee="data.employee"></employee-info>
         </div>
       </Panel>
       <Panel name="3">
         办理所需材料清单
         <div slot="content">
-          <Table class="mt20" border :columns="operatorMaterialListColumns" :data="employeespecialprogress2.operatorMaterialListData" ref="employeeSocialSecurityData"></Table>
+          <Table class="mt20" border :columns="operatorMaterialListColumns" :data="data.operatorMaterialListData" ref="employeeSocialSecurityData"></Table>
         </div>
       </Panel>
     </Collapse>
@@ -56,7 +56,7 @@
   </Form>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import chat from '../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
   import employeeInfo from '../commoncontrol/employeeinfo.vue'
@@ -157,17 +157,15 @@
       }
     },
     mounted() {
-      this.setEmployeeSpecialProgress2()
+      this[eventType.EMPLOYEESPECIALPROGRESS2]()
     },
     computed: {
-      ...mapGetters('employeeSpecialProgress2', [
-        'employeespecialprogress2'
-      ])
+      ...mapState('employeeSpecialProgress2', {
+          data:state => state.data
+      })
     },
     methods: {
-      ...mapActions('employeeSpecialProgress2', {
-        setEmployeeSpecialProgress2: eventType.EMPLOYEESPECIALPROGRESS2
-      }),
+      ...mapActions('employeeSpecialProgress2', [eventType.EMPLOYEESPECIALPROGRESS2]),
       nextStep() {
         this.$router.push({name: 'employeespecialprogress3'});
       },

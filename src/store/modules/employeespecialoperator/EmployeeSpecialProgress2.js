@@ -1,31 +1,36 @@
 /**
  * Created by huangye on 2017/10/23.
  */
-import mock from '../../../data/employeespecialoperator/EmployeeSpecialProgress2Data'
-import EventTypes from '../../EventTypes'
+import mock from "../../../data/employeespecialoperator/EmployeeSpecialProgress2Data";
+import EventTypes from "../../EventTypes";
 
 const state = {
-  employeespecialprogress2: []
-}
-
-const mutations = {
-  [EventTypes.EMPLOYEESPECIALPROGRESS2](state, payload) {
-    console.log(payload)
-    state.employeespecialprogress2 = payload.list.data;
+  rows: [],
+  data: {
+    company: {},
+    employee: {},
+    companyInfo: {},
+    operatorMaterialListData: [],
   }
 }
 
+
 const actions = {
-  [EventTypes.EMPLOYEESPECIALPROGRESS2]({commit}, payload) {
-    mock.employeeSpecialProgress2.then(response => {
-      commit(EventTypes.EMPLOYEESPECIALPROGRESS2, {list: response.data})
+  [EventTypes.EMPLOYEESPECIALPROGRESS2]({commit}, params) {
+    mock.employeeSpecialProgress2(params).then(response => {
+      commit(EventTypes.EMPLOYEESPECIALPROGRESS2, response.data)
     })
+  }
+}
+const mutations = {
+  [EventTypes.EMPLOYEESPECIALPROGRESS2](state, data) {
+    state.data = data.data;
   }
 }
 
 const getters = {
-  employeespecialprogress2() {
-    return state.employeespecialprogress2
+  getRows() {
+    return state.rows
   }
 }
 

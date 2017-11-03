@@ -1,31 +1,34 @@
 /**
  * Created by huangye on 2017/10/25.
  */
-import mock from '../../../../data/companytasklist/companytasklisttab/CFinishedData'
-import EventTypes from '../../../EventTypes'
+import mock from "../../../../data/companytasklist/companytasklisttab/CFinishedData";
+import EventTypes from "../../../EventTypes";
 
 const state = {
-  cfinished: []
-}
-
-const mutations = {
-  [EventTypes.CFINISHEDTYPE](state, payload) {
-    console.log(payload)
-    state.cfinished = payload.list.data;
+  rows: [],
+  data: {
+    customerData: [],
+    taskData: [],
   }
 }
 
+
 const actions = {
-  [EventTypes.CFINISHEDTYPE]({commit}, payload) {
-    mock.cFinished.then(response => {
-      commit(EventTypes.CFINISHEDTYPE, {list: response.data})
+  [EventTypes.CFINISHEDTYPE]({commit}, params) {
+    mock.cFinished(params).then(response => {
+      commit(EventTypes.CFINISHEDTYPE, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.CFINISHEDTYPE](state, data) {
+    state.data = data.data;
+  }
+}
 const getters = {
-  cfinished() {
-    return state.cfinished
+  getRows() {
+    return state.rows
   }
 }
 

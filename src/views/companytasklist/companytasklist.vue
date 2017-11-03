@@ -1,22 +1,31 @@
 <template>
   <div class="smList">
-    <tabs :data="tabPans" @on-click="selectTabPan"></tabs>
+    <Tabs value="cthismonthhandle">
+      <TabPane label="本月处理" name="cthismonthhandle">
+        <cthismonthhandle></cthismonthhandle>
+      </TabPane>
+      <TabPane label="下月处理" name="cnextmonthhandle">
+        <cnextmonthhandle></cnextmonthhandle>
+      </TabPane>
+      <TabPane label="已完成" name="cfinished">
+        <cfinished></cfinished>
+      </TabPane>
+      <TabPane label="批退" name="crefused">
+        <crefused></crefused>
+      </TabPane>
+    </Tabs>
   </div>
 </template>
 <script>
-  import tabs from '../../components/tabs.vue'
+  import cthismonthhandle from './companytasklisttab/cthismonthhandle'//本月处理
+  import cnextmonthhandle from './companytasklisttab/cnextmonthhandle'//下月处理
+  import cfinished from './companytasklisttab/cfinished'//完成
+  import crefused from './companytasklisttab/crefused' //批退
 
   export default {
-    components: {tabs},
+    components: {cthismonthhandle,cnextmonthhandle,cfinished,crefused},
     data() {
       return {
-        tabPans:
-          [
-            {name: 'cthismonthhandle', label: '本月处理'},
-            {name: 'cnextmonthhandle', label: '下月处理'},
-            {name: 'cfinished', label: '已完成'},
-            {name: 'crefused', label: '批退'},
-          ]
       }
     },
     mounted() {
@@ -26,9 +35,6 @@
 
     },
     methods: {
-      selectTabPan(name) {
-
-      }
     }
   }
 </script>

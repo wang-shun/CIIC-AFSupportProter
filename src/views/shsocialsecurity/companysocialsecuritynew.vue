@@ -4,19 +4,19 @@
       <Panel name="1">
         企业社保账户信息
         <div slot="content">
-          <company-social-security-info :company="companysocialsecuritynew.company"></company-social-security-info>
+          <company-social-security-info :company="data.company"></company-social-security-info>
         </div>
       </Panel>
       <Panel name="2">
         雇员信息
         <div slot="content">
-          <employee-info :operatorType='operatorType' :employee="companysocialsecuritynew.employee"></employee-info>
+          <employee-info :operatorType='operatorType' :employee="data.employee"></employee-info>
         </div>
       </Panel>
       <Panel name="3">
         任务单参考信息
         <div slot="content">
-          <task-refrence-info :operatorType='operatorType' :taskNewInfo="companysocialsecuritynew.taskNewInfo" :taskNewInfoData="companysocialsecuritynew.taskNewInfoData" :taskChangeInfo="companysocialsecuritynew.taskChangeInfo" :taskOutInfo="companysocialsecuritynew.taskOutInfo"></task-refrence-info>
+          <task-refrence-info :operatorType='operatorType' :taskNewInfo="data.taskNewInfo" :taskNewInfoData="data.taskNewInfoData" :taskChangeInfo="data.taskChangeInfo" :taskOutInfo="data.taskOutInfo"></task-refrence-info>
         </div>
       </Panel>
       <Panel name="4">
@@ -46,7 +46,7 @@
   </div>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
   import employeeInfo from '../commoncontrol/employeeinfo.vue'
   import taskRefrenceInfo from './taskrefrenceinfo.vue'
@@ -54,7 +54,6 @@
   import EventTypes from '../../store/EventTypes'
 
   export default {
-    name:"companysocialsecuritynew",
     components: {companySocialSecurityInfo, employeeInfo, taskRefrenceInfo, socialSecurityOperator},
     data() {
       return {
@@ -64,17 +63,15 @@
       }
     },
     mounted() {
-      this.setCompanySocialSecurityNew()
+      this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]()
     },
     computed: {
-      ...mapGetters('companySocialSecurityNew', [
-        'companysocialsecuritynew'
-      ])
+      ...mapState('companySocialSecurityNew', {
+          data: state => state.data
+      })
     },
     methods: {
-      ...mapActions('companySocialSecurityNew', {
-        setCompanySocialSecurityNew: EventTypes.COMPANYSOCIALSECURITYNEWTYPE
-      }),
+      ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name:'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo'});
       },

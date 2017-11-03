@@ -67,7 +67,7 @@
 
       <Row class="mt20">
         <Col :xs="{span: 24}" :lg="{span: 24}">
-          <Table border :columns="payColumns" :data="socialsecuritypay.payData"></Table>
+          <Table border :columns="payColumns" :data="data.payData"></Table>
           <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
         </Col>
       </Row>
@@ -79,7 +79,7 @@
       title="选择客户"
       @on-ok="ok"
       @on-cancel="cancel">
-      <customer-modal :customerData="socialsecuritypay.customerData"></customer-modal>
+      <customer-modal :customerData="data.customerData"></customer-modal>
     </Modal>
 
     <!-- 进度 -->
@@ -97,7 +97,7 @@
       v-model="changeInfo.isShowChange"
       @on-ok="ok"
       @on-cancel="cancel">
-      <Table border :columns="changeInfo.changeColumns" :data="socialsecuritypay.changeData"></Table>
+      <Table border :columns="changeInfo.changeColumns" :data="data.changeData"></Table>
       <Form :label-width=180>
         <Row class="mt20">
           <Col :xs="{span: 2}" :lg="{span: 2}">
@@ -167,7 +167,7 @@
   </div>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../commoncontrol/customermodal.vue'
   import progressBar from '../commoncontrol/progress/progressbar.vue'
   import eventType from '../../store/EventTypes'
@@ -367,17 +367,15 @@
       }
     },
     mounted() {
-      this.setSocialSecurityPay()
+      this[eventType.SOCIALSECURITYPAYTYPE]()
     },
     computed: {
-      ...mapGetters('socialSecurityPay', [
-        'socialsecuritypay'
-      ])
+      ...mapState('socialSecurityPay', {
+          data:state=>state.data
+      })
     },
     methods: {
-      ...mapActions('socialSecurityPay', {
-        setSocialSecurityPay: eventType.SOCIALSECURITYPAYTYPE
-      }),
+      ...mapActions('socialSecurityPay', [eventType.SOCIALSECURITYPAYTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

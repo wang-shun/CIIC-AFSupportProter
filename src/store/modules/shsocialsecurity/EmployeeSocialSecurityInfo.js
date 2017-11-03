@@ -1,28 +1,35 @@
-import mock from '../../../data/shsocialsecurity/EmployeeSocialSecurityInfoData'
-import EventTypes from '../../EventTypes'
+import mock from "../../../data/shsocialsecurity/EmployeeSocialSecurityInfoData";
+import EventTypes from "../../EventTypes";
 
 const state = {
-  employeesocialsecurityinfo: []
-}
-
-const mutations = {
-  [EventTypes.EMPLOYEESOCIALSECURITYINFO](state, payload) {
-    console.log(payload)
-    state.employeesocialsecurityinfo = payload.list.data;
+  rows: [],
+  data: {
+    customer: {},
+    employee: {},
+    ssinfo: {},
+    socialSecurityInfoListData: [],
+    changeListData: [],
   }
 }
 
+
 const actions = {
-  [EventTypes.EMPLOYEESOCIALSECURITYINFO]({commit}, payload) {
-    mock.employeeSocialSecurityInfo.then(response => {
-      commit(EventTypes.EMPLOYEESOCIALSECURITYINFO, {list: response.data})
-  })
+  [EventTypes.EMPLOYEESOCIALSECURITYINFO]({commit}, params) {
+    mock.employeeSocialSecurityInfo(params).then(response => {
+      commit(EventTypes.EMPLOYEESOCIALSECURITYINFO, response.data)
+    })
+  }
+}
+
+const mutations = {
+  [EventTypes.EMPLOYEESOCIALSECURITYINFO](state, data) {
+    state.data = data.data;
   }
 }
 
 const getters = {
-  employeesocialsecurityinfo() {
-    return state.employeesocialsecurityinfo
+  getRows() {
+    return state.rows
   }
 }
 

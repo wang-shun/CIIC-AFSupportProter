@@ -1,31 +1,35 @@
 /**
  * Created by huangye on 2017/10/24.
  */
-import mock from '../../../../data/employeespecialoperator/employeespecialoperatortab/NoProgressData'
-import EventTypes from '../../../EventTypes'
+import mock from "../../../../data/employeespecialoperator/employeespecialoperatortab/NoProgressData";
+import EventTypes from "../../../EventTypes";
 
 const state = {
-  noprogress: []
-}
-
-const mutations = {
-  [EventTypes.NOPROGRESSTYPE](state, payload) {
-    console.log(payload)
-    state.noprogress = payload.list.data;
+  rows: [],
+  data: {
+    customerData: [],
+    sSocialSecurityTypeData: [],
+    employeeResultData: [],
   }
 }
 
+
 const actions = {
-  [EventTypes.NOPROGRESSTYPE]({commit}, payload) {
-    mock.noProgress.then(response => {
-      commit(EventTypes.NOPROGRESSTYPE, {list: response.data})
+  [EventTypes.NOPROGRESSTYPE]({commit}, params) {
+    mock.noProgress(params).then(response => {
+      commit(EventTypes.NOPROGRESSTYPE, response.data)
     })
   }
 }
 
+const mutations = {
+  [EventTypes.NOPROGRESSTYPE](state, data) {
+    state.data = data.data;
+  }
+}
 const getters = {
-  noprogress() {
-    return state.noprogress
+  getRows() {
+    return state.rows
   }
 }
 

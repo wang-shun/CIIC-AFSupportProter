@@ -61,7 +61,7 @@
 
       <Row>
         <Col :xs="{span: 24}" :lg="{span: 24}">
-          <Table border :columns="accountManageColumns" :data="companysocialsecuritymanage.accountManageData"></Table>
+          <Table border :columns="accountManageColumns" :data="data.accountManageData"></Table>
           <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
         </Col>
       </Row>
@@ -69,7 +69,7 @@
   </div>
 </template>
 <script>
-  import {mapActions,mapGetters} from 'vuex'
+  import {mapState, mapGetters, mapActions} from 'vuex'
   import eventType from '../../store/EventTypes'
 
   export default {
@@ -177,17 +177,15 @@
       }
     },
     mounted() {
-      this.setCompanySocialSecurityManage()
+      this[eventType.COMPANYSOCIALSECURITYMANAGETYPE]()
     },
     computed: {
-      ...mapGetters('companySocialSecurityManage',[
-        'companysocialsecuritymanage'
-      ])
+      ...mapState('companySocialSecurityManage',{
+          data:state => state.data
+      })
     },
     methods: {
-      ...mapActions('companySocialSecurityManage', {
-        setCompanySocialSecurityManage: eventType.COMPANYSOCIALSECURITYMANAGETYPE
-      }),
+      ...mapActions('companySocialSecurityManage', [eventType.COMPANYSOCIALSECURITYMANAGETYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

@@ -157,7 +157,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../commoncontrol/customermodal.vue'
   import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
-  import eventType from '../../../store/EventTypes'
+  import EventType from '../../../store/EventTypes'
 
   export default {
     components: {customerModal, companyAccountSearchModal},
@@ -391,7 +391,7 @@
       }
     },
     mounted() {
-      this[eventType.PROGRESSINGTYPE]()
+      this[EventType.PROGRESSINGTYPE]()
     },
     computed: {
       ...mapState('Progressing', {
@@ -399,7 +399,7 @@
       })
     },
     methods: {
-      ...mapActions('Progressing', [eventType.PROGRESSINGTYPE]),
+      ...mapActions('Progressing', [EventType.PROGRESSINGTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

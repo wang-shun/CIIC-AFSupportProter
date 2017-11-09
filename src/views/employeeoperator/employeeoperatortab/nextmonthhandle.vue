@@ -170,7 +170,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../commoncontrol/customermodal.vue'
   import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
-  import eventType from '../../../store/EventTypes'
+  import EventType from '../../../store/EventTypes'
 
   export default {
     components: {customerModal, companyAccountSearchModal},
@@ -379,7 +379,7 @@
       }
     },
     mounted() {
-      this[eventType.NEXTMONTHHANDLETYPE]()
+      this[EventType.NEXTMONTHHANDLETYPE]()
     },
     computed: {
       ...mapState('nextMonthHandle',{
@@ -387,7 +387,7 @@
       })
     },
     methods: {
-      ...mapActions('nextMonthHandle',[eventType.NEXTMONTHHANDLETYPE]),
+      ...mapActions('nextMonthHandle',[EventType.NEXTMONTHHANDLETYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

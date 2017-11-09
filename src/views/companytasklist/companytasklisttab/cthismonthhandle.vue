@@ -124,7 +124,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../commoncontrol/customermodal.vue'
-  import eventType from '../../../store/EventTypes'
+  import EventType from '../../../store/EventTypes'
 
   export default {
     components: {customerModal},
@@ -269,7 +269,7 @@
       }
     },
     mounted() {
-      this[eventType.CTHISMONTHHANDLETYPE]()
+      this[EventType.CTHISMONTHHANDLETYPE]()
     },
     computed: {
       ...mapState('cThisMonthHandle',{
@@ -277,7 +277,7 @@
       })
     },
     methods: {
-      ...mapActions('cThisMonthHandle',[eventType.CTHISMONTHHANDLETYPE]),
+      ...mapActions('cThisMonthHandle',[EventType.CTHISMONTHHANDLETYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

@@ -12,7 +12,7 @@ let utils = {
 /**
  * 空函数
  */
-utils.noop = function () {
+utils.noop = () => {
 }
 
 
@@ -21,7 +21,7 @@ utils.noop = function () {
  * @param source
  * @param target
  */
-utils.copy = function (source, target) {
+utils.copy = (source, target) => {
   // copy attr
   for (var attr in source) {
     if (target[attr] != undefined) {
@@ -37,7 +37,7 @@ utils.copy = function (source, target) {
  * @param fmt 日期格式
  * @returns string
  */
-utils.formatDate = function (date, fmt) {
+utils.formatDate = (date, fmt) => {
   return moment(date).format(fmt);
 };
 
@@ -47,7 +47,7 @@ utils.formatDate = function (date, fmt) {
  * @param fmt 日期格式
  * @returns Date
  */
-utils.parseDate = function (dateString, fmt) {
+utils.parseDate = (dateString, fmt) => {
   // utc 解决时区问题
   return moment.utc(dateString, fmt);
 };
@@ -63,7 +63,7 @@ utils.parseDate = function (dateString, fmt) {
  * @returns {Promise}
  */
 utils.promise = response => {
-  return new Promise(function (resolve, reject) { // 异步处理
+  return new Promise((resolve, reject) => { // 异步处理
     if (response.data.code == 200) {
       resolve(response);
     } else {

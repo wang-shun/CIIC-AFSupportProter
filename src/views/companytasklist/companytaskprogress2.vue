@@ -55,7 +55,7 @@
   import chat from '../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
   import companyInfo from '../commoncontrol/companyinfo.vue'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   export default {
     components: {chat, companySocialSecurityInfo, companyInfo},
@@ -154,7 +154,7 @@
       }
     },
     mounted() {
-      this[eventType.COMPANYTASKPROGRESS2TYPE]()
+      this[EventType.COMPANYTASKPROGRESS2TYPE]()
     },
     computed: {
       ...mapState('companyTaskProgress2',{
@@ -162,7 +162,7 @@
       })
     },
     methods: {
-      ...mapActions('companyTaskProgress2', [eventType.COMPANYTASKPROGRESS2TYPE]),
+      ...mapActions('companyTaskProgress2', [EventType.COMPANYTASKPROGRESS2TYPE]),
       nextStep() {
         switch(this.operatorType) {
           case '1':

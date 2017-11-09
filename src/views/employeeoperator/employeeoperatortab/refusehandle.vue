@@ -170,7 +170,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../commoncontrol/customermodal.vue'
   import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
-  import eventType from '../../../store/EventTypes'
+  import EventType from '../../../store/EventTypes'
 
   export default {
     components: {customerModal, companyAccountSearchModal},
@@ -379,7 +379,7 @@
       }
     },
     mounted() {
-      this[eventType.REFUSEHANDLETYPE]()
+      this[EventType.REFUSEHANDLETYPE]()
     },
     computed: {
       ...mapState('refuseHandle',{
@@ -387,7 +387,7 @@
       })
     },
     methods: {
-      ...mapActions('refuseHandle',[eventType.REFUSEHANDLETYPE]),
+      ...mapActions('refuseHandle',[EventType.REFUSEHANDLETYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

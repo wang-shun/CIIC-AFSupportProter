@@ -55,7 +55,7 @@
   import chat from '../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
   import companyInfo from '../commoncontrol/companyinfo.vue'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   export default {
     components: {chat, companySocialSecurityInfo, companyInfo},
@@ -149,7 +149,7 @@
       }
     },
     mounted() {
-      this[eventType.COMPANYSOCIALSECURITYPROGRESS2TYPE]()
+      this[EventType.COMPANYSOCIALSECURITYPROGRESS2TYPE]()
     },
     computed: {
       ...mapState('companySocialSecurityProgress2',{
@@ -157,7 +157,7 @@
       })
     },
     methods: {
-      ...mapActions('companySocialSecurityProgress2', [eventType.COMPANYSOCIALSECURITYPROGRESS2TYPE]),
+      ...mapActions('companySocialSecurityProgress2', [EventType.COMPANYSOCIALSECURITYPROGRESS2TYPE]),
       nextStep() {
         if(this.operatorType === '1') {
           this.$router.push({name: 'companysocialsecuritytypeinfo'})

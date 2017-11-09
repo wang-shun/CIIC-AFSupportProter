@@ -4,7 +4,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import approvalStepTypeInfo from '../commoncontrol/approvalsteptypeinfo.vue'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   export default {
     components: {approvalStepTypeInfo},
@@ -12,7 +12,7 @@
       return {}
     },
     mounted() {
-      this[eventType.COMPANYTASKPROGRESSTYPEINFOTYPE]()
+      this[EventType.COMPANYTASKPROGRESSTYPEINFOTYPE]()
     },
     computed: {
       ...mapState('companyTaskProgressTypeInfo', {
@@ -20,7 +20,7 @@
       })
     },
     methods: {
-      ...mapActions('companyTaskProgressTypeInfo', [eventType.COMPANYTASKPROGRESSTYPEINFOTYPE]),
+      ...mapActions('companyTaskProgressTypeInfo', [EventType.COMPANYTASKPROGRESSTYPEINFOTYPE]),
     }
   }
 </script>

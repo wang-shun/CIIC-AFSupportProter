@@ -77,7 +77,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import chat from '../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   export default {
     components: {chat, companySocialSecurityInfo},
@@ -96,7 +96,7 @@
       }
     },
     mounted() {
-      this[eventType.COMPANYSOCIALSECURITYENDINFOTYPE]()
+      this[EventType.COMPANYSOCIALSECURITYENDINFOTYPE]()
     },
     computed: {
       ...mapState('companySocialSecurityEndInfo',{
@@ -104,7 +104,7 @@
       })
     },
     methods: {
-      ...mapActions('companySocialSecurityEndInfo', [eventType.COMPANYSOCIALSECURITYENDINFOTYPE]),
+      ...mapActions('companySocialSecurityEndInfo', [EventType.COMPANYSOCIALSECURITYENDINFOTYPE]),
       goBack() {
         this.$router.push({name: 'companysocialsecurity'})
       },

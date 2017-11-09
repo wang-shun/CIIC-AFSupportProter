@@ -180,7 +180,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import chat from '../commoncontrol/chathistory/chat.vue'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   export default {
     components: {chat},
@@ -343,7 +343,7 @@
       }
     },
     mounted() {
-      this[eventType.COMPANYSOCIALSECURITYTYPE]()
+      this[EventType.COMPANYSOCIALSECURITYTYPE]()
     },
     computed: {
       ...mapState('companySocialSecurity',{
@@ -351,7 +351,7 @@
       })
     },
     methods: {
-      ...mapActions('companySocialSecurity', [eventType.COMPANYSOCIALSECURITYTYPE]),
+      ...mapActions('companySocialSecurity', [EventType.COMPANYSOCIALSECURITYTYPE]),
       goBack() {
         this.$router.push({name: 'companysocialsecuritymanage'})
       },

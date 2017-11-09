@@ -42,7 +42,7 @@
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
   import employeeInfo from '../commoncontrol/employeeinfo.vue'
   import socialSecurityEndOperator from '../commoncontrol/socialsecurityendoperator.vue'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   export default {
     components: {chat, companySocialSecurityInfo, employeeInfo, socialSecurityEndOperator},
@@ -119,7 +119,7 @@
       this.$refs['st1'].onclick = function() {
           alert(123)
       }
-      this[eventType.EMPLOYEESPECIALPROGRESS3]()
+      this[EventType.EMPLOYEESPECIALPROGRESS3]()
     },
     computed: {
       ...mapState('employeeSpecialProgress3', {
@@ -127,7 +127,7 @@
       })
     },
     methods: {
-      ...mapActions('employeeSpecialProgress3', [eventType.EMPLOYEESPECIALPROGRESS3]),
+      ...mapActions('employeeSpecialProgress3', [EventType.EMPLOYEESPECIALPROGRESS3]),
       goBack() {
         this.$router.push({name:'employeespecialoperatorview'});
       }

@@ -134,7 +134,7 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   export default {
     data() {
@@ -657,7 +657,7 @@
       }
     },
     mounted() {
-      this[eventType.EMPLOYEECOMMCIALOPERATOR]()
+      this[EventType.EMPLOYEECOMMCIALOPERATOR]()
     },
     computed: {
       ...mapState('employeeCommcialOperator', {
@@ -665,7 +665,7 @@
       })
     },
     methods: {
-      ...mapActions('employeeCommcialOperator', [eventType.EMPLOYEECOMMCIALOPERATOR]),
+      ...mapActions('employeeCommcialOperator', [EventType.EMPLOYEECOMMCIALOPERATOR]),
       goback () {
         this.$router.push({name: 'employeeoperatorview'});
       }

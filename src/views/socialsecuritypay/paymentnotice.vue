@@ -63,7 +63,7 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   export default {
     data() {
@@ -132,7 +132,7 @@
       }
     },
     mounted() {
-      this[eventType.PAYMENTNOTICETYPE]()
+      this[EventType.PAYMENTNOTICETYPE]()
     },
     computed: {
       ...mapState('paymentNotice', {
@@ -140,7 +140,7 @@
       })
     },
     methods: {
-      ...mapActions('paymentNotice', [eventType.PAYMENTNOTICETYPE]),
+      ...mapActions('paymentNotice', [EventType.PAYMENTNOTICETYPE]),
       goBack() {
         this.$router.push({name: 'socialsecuritypay'})
       },

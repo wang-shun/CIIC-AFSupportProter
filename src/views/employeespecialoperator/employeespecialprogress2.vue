@@ -60,7 +60,7 @@
   import chat from '../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
   import employeeInfo from '../commoncontrol/employeeinfo.vue'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   export default {
     components: {chat, companySocialSecurityInfo, employeeInfo},
@@ -157,7 +157,7 @@
       }
     },
     mounted() {
-      this[eventType.EMPLOYEESPECIALPROGRESS2]()
+      this[EventType.EMPLOYEESPECIALPROGRESS2]()
     },
     computed: {
       ...mapState('employeeSpecialProgress2', {
@@ -165,7 +165,7 @@
       })
     },
     methods: {
-      ...mapActions('employeeSpecialProgress2', [eventType.EMPLOYEESPECIALPROGRESS2]),
+      ...mapActions('employeeSpecialProgress2', [EventType.EMPLOYEESPECIALPROGRESS2]),
       nextStep() {
         this.$router.push({name: 'employeespecialprogress3'});
       },

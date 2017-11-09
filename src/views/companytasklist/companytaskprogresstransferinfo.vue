@@ -86,7 +86,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import chat from '../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../commoncontrol/companysocialsecurityinfo.vue'
-  import eventType from "../../store/EventTypes"
+  import EventType from "../../store/EventTypes"
 
   export default {
     components: {chat, companySocialSecurityInfo},
@@ -110,7 +110,7 @@
       }
     },
     mounted() {
-      this[eventType.COMPANYTASKPROGRESSTRANSFERINFOTYPE]()
+      this[EventType.COMPANYTASKPROGRESSTRANSFERINFOTYPE]()
     },
     computed: {
       ...mapState('companyTaskProgressTransferInfo',{
@@ -118,7 +118,7 @@
       })
     },
     methods: {
-      ...mapActions('companyTaskProgressTransferInfo', [eventType.COMPANYTASKPROGRESSTRANSFERINFOTYPE]),
+      ...mapActions('companyTaskProgressTransferInfo', [EventType.COMPANYTASKPROGRESSTRANSFERINFOTYPE]),
       goBack() {
         this.$router.push({name: 'companytasklist'})
       },

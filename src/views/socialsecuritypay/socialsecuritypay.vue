@@ -170,7 +170,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../commoncontrol/customermodal.vue'
   import progressBar from '../commoncontrol/progress/progressbar.vue'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   const progressStop = 33.3;
 
@@ -367,7 +367,7 @@
       }
     },
     mounted() {
-      this[eventType.SOCIALSECURITYPAYTYPE]()
+      this[EventType.SOCIALSECURITYPAYTYPE]()
     },
     computed: {
       ...mapState('socialSecurityPay', {
@@ -375,7 +375,7 @@
       })
     },
     methods: {
-      ...mapActions('socialSecurityPay', [eventType.SOCIALSECURITYPAYTYPE]),
+      ...mapActions('socialSecurityPay', [EventType.SOCIALSECURITYPAYTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

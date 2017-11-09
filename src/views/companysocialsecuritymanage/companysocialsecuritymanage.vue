@@ -70,7 +70,7 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import eventType from '../../store/EventTypes'
+  import EventType from '../../store/EventTypes'
 
   export default {
     data() {
@@ -177,7 +177,7 @@
       }
     },
     mounted() {
-      this[eventType.COMPANYSOCIALSECURITYMANAGETYPE]()
+      this[EventType.COMPANYSOCIALSECURITYMANAGETYPE]()
     },
     computed: {
       ...mapState('companySocialSecurityManage',{
@@ -185,7 +185,7 @@
       })
     },
     methods: {
-      ...mapActions('companySocialSecurityManage', [eventType.COMPANYSOCIALSECURITYMANAGETYPE]),
+      ...mapActions('companySocialSecurityManage', [EventType.COMPANYSOCIALSECURITYMANAGETYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

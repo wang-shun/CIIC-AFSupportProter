@@ -117,7 +117,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../commoncontrol/customermodal.vue'
-  import eventType from '../../../store/EventTypes'
+  import EventType from '../../../store/EventTypes'
 
   export default {
     components: {customerModal},
@@ -262,7 +262,7 @@
       }
     },
     mounted() {
-      this[eventType.CREFUSEDTYPE]()
+      this[EventType.CREFUSEDTYPE]()
     },
     computed: {
       ...mapState('cRefused',{
@@ -270,7 +270,7 @@
       })
     },
     methods: {
-      ...mapActions('cRefused',[eventType.CREFUSEDTYPE]),
+      ...mapActions('cRefused',[EventType.CREFUSEDTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

@@ -28,7 +28,7 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :xs="{span: 4, offset: 20}" :lg="{span: 4, offset: 20}">
+      <Col :sm="{span:24}" class="right">
         <Button type="primary" @click="goBack">确定终止</Button>
         <Button type="error" @click="goBack">批退</Button>
         <Button type="ghost" @click="goBack">返回</Button>
@@ -137,4 +137,5 @@
 <style scoped>
   .mt20 {margin-top: 20px;}
   .ml30 {margin-left: 30px;}
+  .right {text-align: right;}
 </style>

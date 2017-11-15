@@ -1,133 +1,111 @@
 <template>
-  <Form :label-width=120>
+  <Form :label-width=150>
     <Row class="mt20">
-      <Col :xs="{span: 1}" :lg="{span: 1}">
-      <Button type="dashed" @click="">添加</Button>
-      </Col>
-      <Col :xs="{span: 2}" :lg="{span: 2}">
-      <Button type="error" @click="">删除</Button>
+      <Col :xs="{span: 24}" :lg="{span: 24}">
+        <Button type="dashed">添加</Button>
+        <Button type="error">删除</Button>
       </Col>
     </Row>
 
-    <Table class="mt20" border :columns="operatorTableNewColumns" :data="data.operatorTableNewData"
-           ref="employeeSocialSecurityData" v-if="operatorType === '1'"></Table>
-    <Table class="mt20" border :columns="operatorTableRepairColumns"
-           :data="data.operatorTableRepairData" ref="employeeSocialSecurityData"
-           v-else-if="operatorType === '2'"></Table>
-    <Table class="mt20" border :columns="operatorTableChangeColumns"
-           :data="data.operatorTableChangeData" ref="employeeSocialSecurityData"
-           v-else-if="operatorType === '3'"></Table>
-    <Table class="mt20" width="1271" border :columns="operatorTableOutColumns"
-           :data="data.operatorTableOutData" ref="employeeSocialSecurityData" v-else></Table>
+    <Table class="mt20" border :columns="operatorTableNewColumns" :data="data.operatorTableNewData" ref="employeeSocialSecurityData" v-if="operatorType === '1'"></Table>
+    <Table class="mt20" border :columns="operatorTableRepairColumns" :data="data.operatorTableRepairData" ref="employeeSocialSecurityData" v-else-if="operatorType === '2'"></Table>
+    <Table class="mt20" border :columns="operatorTableChangeColumns" :data="data.operatorTableChangeData" ref="employeeSocialSecurityData" v-else-if="operatorType === '3'"></Table>
+    <Table class="mt20" width="1271" border :columns="operatorTableOutColumns" :data="data.operatorTableOutData" ref="employeeSocialSecurityData" v-else></Table>
 
-    <Row class="mt20">
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
-      <Form-item label="办理方式：">
-        <Select v-model="handleValue" style="width: 100%;">
-          <Option v-for="item in handleList" :value="item.value" :key="item.value">{{item.label}}</Option>
-        </Select>
-      </Form-item>
+    <Row class="mt20" type="flex" justify="start">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="办理方式：">
+          <Select v-model="handleValue" style="width: 100%;">
+            <Option v-for="item in handleList" :value="item.value" :key="item.value">{{item.label}}</Option>
+          </Select>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-if="operatorType === '4'">
-      <Form-item label="截止月份：">
-        <DatePicker v-model="socialSecurityEndMonth" placement="bottom-end" placeholder="选择日期"
-                    style="width: 100%;"></DatePicker>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '4'">
+        <Form-item label="截止月份：">
+          <DatePicker v-model="socialSecurityEndMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-if="operatorType === '1'">
-      <Form-item label="社保账号分类：">
-        <Select v-model="socialSecurityAccountTypeValue" style="width: 100%;">
-          <Option v-for="item in socialSecurityAccountTypeList" :value="item.value" :key="item.value">{{item.label}}
-          </Option>
-        </Select>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '1'">
+        <Form-item label="社保账号分类：">
+          <Select v-model="socialSecurityAccountTypeValue" style="width: 100%;">
+            <Option v-for="item in socialSecurityAccountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+          </Select>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-else-if="operatorType === '2'">
-      <Form-item label="补缴基数：">
-        <Input v-model="socialSecurityRepairBase" placeholder="请输入..."></Input>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '2'">
+        <Form-item label="补缴基数：">
+          <Input v-model="socialSecurityRepairBase" placeholder="请输入..."></Input>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-else-if="operatorType === '3'">
-      <Form-item label="新社保缴费基数:">
-        <Input v-model="socialSecurityChangeBase" placeholder="请输入..."></Input>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '3'">
+        <Form-item label="新社保缴费基数:">
+          <Input v-model="socialSecurityChangeBase" placeholder="请输入..."></Input>
+        </Form-item>
       </Col>
-    </Row>
-    <Row>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-if="operatorType === '1'">
-      <Form-item label="任务：">
-        <Select v-model="taskValue" style="width: 100%;">
-          <Option v-for="item in taskList" :value="item.value" :key="item.value">{{item.label}}</Option>
-        </Select>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '1'">
+        <Form-item label="任务：">
+          <Select v-model="taskValue" style="width: 100%;">
+            <Option v-for="item in taskList" :value="item.value" :key="item.value">{{item.label}}</Option>
+          </Select>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-else-if="operatorType === '2'">
-      <Form-item label="补缴起始月份：">
-        <DatePicker v-model="socialSecurityRepairStartMonth" placement="bottom-end" placeholder="选择日期"
-                    style="width: 100%;"></DatePicker>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '2'">
+        <Form-item label="补缴起始月份：">
+          <DatePicker v-model="socialSecurityRepairStartMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-else-if="operatorType === '3'">
-      <Form-item label="调整起始月份：">
-        <DatePicker v-model="socialSecurityChangeStartMonth" placement="bottom-end" placeholder="选择日期"
-                    style="width: 100%;"></DatePicker>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '3'">
+        <Form-item label="调整起始月份：">
+          <DatePicker v-model="socialSecurityChangeStartMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-if="operatorType === '1'">
-      <Form-item label="社保序号：">
-        <Input v-model="socialSecurityIndex" placeholder="请输入..."></Input>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '1'">
+        <Form-item label="社保序号：">
+          <Input v-model="socialSecurityIndex" placeholder="请输入..."></Input>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-else-if="operatorType === '2'">
-      <Form-item label="补缴截止月份：">
-        <DatePicker v-model="socialSecurityRepairEndMonth" placement="bottom-end" placeholder="选择日期"
-                    style="width: 100%;"></DatePicker>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '2'">
+        <Form-item label="补缴截止月份：">
+          <DatePicker v-model="socialSecurityRepairEndMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-else-if="operatorType === '3'">
-      <Form-item label="调整截止月份：">
-        <DatePicker v-model="socialSecurityChangeEndMonth" placement="bottom-end" placeholder="选择日期"
-                    style="width: 100%;"></DatePicker>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '3'">
+        <Form-item label="调整截止月份：">
+          <DatePicker v-model="socialSecurityChangeEndMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+        </Form-item>
       </Col>
-    </Row>
-    <Row>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-if="operatorType === '1'">
-      <Form-item label="起缴月份：">
-        <DatePicker v-model="socialSecurityStartMonth" placement="bottom-end" placeholder="选择日期"
-                    style="width: 100%;"></DatePicker>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '1'">
+        <Form-item label="起缴月份：">
+          <DatePicker v-model="socialSecurityStartMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-else-if="operatorType === '2'">
-      <Form-item label="补缴办理月份：">
-        <DatePicker v-model="socialSecurityRepairDoMonth" placement="bottom-end" placeholder="选择日期"
-                    style="width: 100%;"></DatePicker>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '2'">
+        <Form-item label="补缴办理月份：">
+          <DatePicker v-model="socialSecurityRepairDoMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-else-if="operatorType === '3'">
-      <Form-item label="调整办理月份：">
-        <DatePicker v-model="socialSecurityChangeDoMonth" placement="bottom-end" placeholder="选择日期"
-                    style="width: 100%;"></DatePicker>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '3'">
+        <Form-item label="调整办理月份：">
+          <DatePicker v-model="socialSecurityChangeDoMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+        </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-if="operatorType === '1'">
-      <Form-item label="截止月份：">
-        <DatePicker v-model="socialSecurityEndMonth" placement="bottom-end" placeholder="选择日期"
-                    style="width: 100%;"></DatePicker>
-      </Form-item>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '1'">
+        <Form-item label="截止月份：">
+          <DatePicker v-model="socialSecurityEndMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+        </Form-item>
       </Col>
     </Row>
     <Row>
-      <Col :xs="{span: 17, offset: 1}" :lg="{span: 17, offset: 1}">
+      <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
       <Form-item label="批退原因：">
         <Input v-model="refuseReason" type="textarea" :rows=4 placeholder="请输入..."></Input>
       </Form-item>
       </Col>
     </Row>
     <Row>
-      <Col :xs="{span: 4, offset: 16}" :lg="{span: 4, offset: 16}">
-      <Button type="primary" @click="">批量提交</Button>
-      <Button type="ghost" @click="goback">返回</Button>
+      <Col :sm="{span:24}" class="right">
+        <Button type="primary" >批量提交</Button>
+        <Button type="ghost" @click="goback">返回</Button>
       </Col>
     </Row>
   </Form>
@@ -675,5 +653,8 @@
 <style scoped>
   .mt20 {
     margin-top: 20px;
+  }
+  .right {
+    text-align: right;
   }
 </style>

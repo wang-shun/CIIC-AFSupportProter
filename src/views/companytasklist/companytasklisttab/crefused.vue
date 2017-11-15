@@ -4,65 +4,57 @@
       <Panel name="1">
         企业任务单
         <div slot="content">
-          <Form ref="companyTaskInfo" :model="companyTaskInfo" :label-width=120>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+          <Form ref="companyTaskInfo" :model="companyTaskInfo" :label-width=150>
+            <Row type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Select v-model="companyTaskInfo.serviceCenterValue" style="width: 100%;" disabled>
                     <Option v-for="item in companyTaskInfo.serviceCenterList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="customerNumber">
                   <Input v-model="companyTaskInfo.customerNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="customerName">
                   <Input v-model="companyTaskInfo.customerName" @on-focus="companyTaskInfo.isShowCustomerName = true" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="账户类型：" prop="accountTypeValue">
                   <Select v-model="companyTaskInfo.accountTypeValue" style="width: 100%;">
                     <Option v-for="item in companyTaskInfo.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算区县：" prop="regionValue">
                   <Select v-model="companyTaskInfo.regionValue" style="width: 100%;">
                     <Option v-for="item in companyTaskInfo.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务单编号：" prop="taskNumber">
                   <Input v-model="companyTaskInfo.taskNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务单类型：" prop="taskTypeValue">
                   <Select v-model="companyTaskInfo.taskTypeValue" style="width: 100%;">
                     <Option v-for="item in companyTaskInfo.taskTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务发起时间：" prop="taskStartTime">
                   <DatePicker v-model="companyTaskInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%"></DatePicker>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="处理状态：" prop="handleStateValue">
                   <Select v-model="companyTaskInfo.handleStateValue" style="width: 100%;">
                     <Option v-for="item in companyTaskInfo.handleStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -71,7 +63,7 @@
               </Col>
             </Row>
             <Row>
-              <Col :xs="{span: 4, offset: 16}" :lg="{span: 4, offset: 16}">
+              <Col :sm="{span:24}" class="right">
                 <Button type="primary" @click="" icon="ios-search">查询</Button>
                 <Button type="default" @click="resetSearchCondition('companyTaskInfo')">重置</Button>
               </Col>
@@ -83,7 +75,7 @@
 
     <Form>
       <Row class="mt20">
-        <Col :xs="{span: 24}" :lg="{span: 24}">
+        <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="data.taskData"></Table>
           <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
         </Col>
@@ -292,4 +284,5 @@
 <style scoped>
   .mt20 {margin-top: 20px;}
   .ml10 {margin-left: 10px;}
+  .right {text-align: right;}
 </style>

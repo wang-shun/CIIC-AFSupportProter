@@ -28,12 +28,12 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :xs="{span: 5}" :lg="{span: 5}">
+      <Col :sm="{span:12}" :md="{span: 12}" :lg="{span: 12}">
         <Button type="error" @click="goBack">批退</Button>
         <Button type="primary" @click="nextStep">下一步</Button>
         <Button type="ghost" @click="goBack" class="ml10">关闭/返回</Button>
       </Col>
-      <Col :xs="{span: 5, offset: 14}" :lg="{span: 5, offset: 14}">
+      <Col :sm="{span:12}" :md="{span: 12}" :lg="{span: 12}" class="right">
         <Button type="primary" @click="isUpload = true">上传扫描件</Button>
         <Button type="primary" @click="goBack">反馈未签收</Button>
         <Button type="primary" @click="nextStep">签收全部材料</Button>
@@ -138,7 +138,7 @@
               ]);
             }
           },
-          {title: '备注说明', key: 'notes',
+          {title: '备注说明', key: 'notes', width: 300,
             render: (h, params) => {
               return h('div', [
                 h('i-input', {props: {value: params.row.notes}})
@@ -184,4 +184,5 @@
 <style scoped>
   .mt20 {margin-top: 20px;}
   .ml10 {margin-left: 10px}
+  .right {text-align: right;}
 </style>

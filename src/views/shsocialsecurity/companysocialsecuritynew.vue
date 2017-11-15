@@ -27,19 +27,11 @@
       </Panel>
     </Collapse>
     <Row class="mt20">
-      <Col :xs="{span: 1, offset: 17}" :lg="{span: 1, offset: 17}" v-show="operatorType !== '2'">
-        <Button type="primary" @click="">暂存</Button>
-      </Col>
-      <Col :xs="{span: 1}" :lg="{span: 1}" v-if="operatorType !== '2'">
-        <Button type="success" @click="instance('success')">办理</Button>
-      </Col>
-      <Col :xs="{span: 1, offset: 17}" :lg="{span: 1, offset: 17}" v-else>
-        <Button type="success" @click="instance('success')">办理</Button>
-      </Col>
-      <Col :xs="{span: 1}" :lg="{span: 1}">
-        <Button type="error" @click="">批退</Button>
-      </Col>
-      <Col :xs="{span: 1}" :lg="{span: 1}">
+      <Col :sm="{span: 24}" class="right">
+        <Button type="primary" v-show="operatorType !== '2'">暂存</Button>
+        <Button type="success" @click="instance('success')" v-if="operatorType !== '2'">办理</Button>
+        <Button type="success" @click="instance('success')" v-else>办理</Button>
+        <Button type="error">批退</Button>
         <Button type="ghost" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -112,5 +104,8 @@
 <style scoped>
   .mt20 {
     margin-top: 20px;
+  }
+  .right {
+    text-align: right;
   }
 </style>

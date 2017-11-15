@@ -4,86 +4,76 @@
       <Panel name="1">
         雇员社保查询
         <div slot="content">
-          <Form :label-width=120 ref="searchCondition" :model="searchCondition">
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
+          <Form :label-width=150 ref="searchCondition" :model="searchCondition">
+            <Row type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
-                  <Cascader :data="serviceCenterData" v-model="searchCondition.serviceCenterValue" trigger="hover"></Cascader>
+                  <Cascader :data="serviceCenterData" v-model="searchCondition.serviceCenterValue" trigger="hover" transfer></Cascader>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="customerNumber">
                   <Input v-model="searchCondition.customerNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="customerName">
                   <Input v-model="searchCondition.customerName" @on-focus="isShowCustomerName = true" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="结算区域：" prop="region">
+                  <Select v-model="searchCondition.region" transfer>
+                    <Option v-for="item in regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="账户类型：" prop="accountTypeValue">
+                  <Select v-model="searchCondition.accountTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="雇员编号：" prop="employeeNumber">
+                  <Input v-model="searchCondition.employeeNumber" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="雇员姓名：" prop="employeeName">
+                  <Input v-model="searchCondition.employeeName" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="身份证号：" prop="idNumber">
+                  <Input v-model="searchCondition.idNumber" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="社保状态：" prop="sSecurityState">
+                  <Select v-model="searchCondition.sSecurityState" style="width: 100%;" transfer>
+                    <Option v-for="item in sSecurityStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="人员分类：" prop="personTypeValue">
+                  <Select v-model="searchCondition.personTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in personTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账户分类：" prop="companyAccountType">
                   <Input v-model="searchCondition.companyAccountType" @on-focus="isShowAccountType = true" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
             </Row>
             <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
-                <Form-item label="结算区域：" prop="region">
-                  <Select v-model="searchCondition.region">
-                    <Option v-for="item in regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="searchCondition.accountTypeValue" style="width: 100%;">
-                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
-                  <Input v-model="searchCondition.employeeNumber" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
-                <Form-item label="雇员姓名：" prop="employeeName">
-                  <Input v-model="searchCondition.employeeName" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
-                <Form-item label="身份证号：" prop="idNumber">
-                  <Input v-model="searchCondition.idNumber" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
-                <Form-item label="社保状态：" prop="sSecurityState">
-                  <Select v-model="searchCondition.sSecurityState" style="width: 100%;">
-                    <Option v-for="item in sSecurityStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
-                <Form-item label="人员分类：" prop="personTypeValue">
-                  <Select v-model="searchCondition.personTypeValue" style="width: 100%;">
-                    <Option v-for="item in personTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
-                <Button type="primary" @click="" icon="ios-search">查询</Button>
-                <Button type="default" @click="resetSearchCondition('searchCondition')">重置</Button>
+              <Col :sm="{span:24}" class="right">
+                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="default" @click="resetSearchCondition('searchCondition')" class="ml10">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -91,10 +81,13 @@
       </Panel>
     </Collapse>
 
-    <div class="create">
-      <Button type="info" @click="exportData" style="margin: 20px 0 10px 0;">导出</Button>
-      <Table border :columns="employeeSocialSecurityColumns" :data="data.employeeSocialSecurityData" ref="employeeSocialSecurityData"></Table>
-    </div>
+    <Row style="margin: 10px 0;">
+      <Col :sm="{span: 24}">
+        <Button type="info" @click="exportData">导出</Button>
+      </Col>
+    </Row>
+    
+    <Table border :columns="employeeSocialSecurityColumns" :data="data.employeeSocialSecurityData" ref="employeeSocialSecurityData"></Table>
     <Page :total="100" show-sizer show-elevator></Page>
 
 
@@ -228,7 +221,7 @@
               ]);
             }
           },
-          {title: '证件号', key: 'eidno', align: 'center',
+          {title: '证件号', key: 'eidno', align: 'center', width: 526,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.eidno),
@@ -311,5 +304,12 @@
 
   .checkBtn .ivu-btn {
     float: right;
+  }
+
+  .right {
+    text-align: right;
+  }
+  .ml10 {
+    margin-left: 10px;
   }
 </style>

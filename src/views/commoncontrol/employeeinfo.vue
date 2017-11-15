@@ -1,69 +1,63 @@
 <template>
-  <Form :label-width=100>
-    <Row class="mt20">
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
-        <Form-item label="雇员编号：" class="">
+  <Form :label-width=150>
+    <Row class="mt20" type="flex" justify="start">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="雇员编号：">
           <label>{{employee.code}}</label>
         </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
-        <Form-item label="雇员姓名：" class="">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="雇员姓名：">
           <label>{{employee.name}}</label>
         </Form-item>
       </Col>
-    </Row>
-    <Row>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
-        <Form-item label="证件号码：" class="">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="证件号码：">
           <label>{{employee.idNo}}</label>
         </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
-        <Form-item label="入职日期：" class="">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="入职日期：">
           <label>{{employee.checkInTime}}</label>
         </Form-item>
       </Col>
-    </Row>
-    <Row>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
-        <Form-item label="学历：" class="">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="学历：">
           <label>{{employee.education}}</label>
         </Form-item>
       </Col>
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
-        <Form-item label="人员分类：" class="">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="人员分类：">
           <label>{{employee.personType}}</label>
         </Form-item>
       </Col>
-    </Row>
-    <Row>
       <!-- 仅新增 -->
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-show="operatorType === '0'">
-        <Form-item label="社保账号分类：" class="">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0'">
+        <Form-item label="社保账号分类：">
           <label>{{employee.socialSecurityType}}</label>
         </Form-item>
       </Col>
       <!-- 调整和转出 -->
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-show="operatorType === '1' || operatorType === '2'">
-        <Form-item label="社保序号：" class="">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '1' || operatorType === '2'">
+        <Form-item label="社保序号：">
           <label>{{employee.socialSecurityIndex}}</label>
         </Form-item>
       </Col>
       <!-- 调整和转出 -->
-      <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}" v-show="operatorType === '1' || operatorType === '2'">
-        <Form-item label="企业社保账号：" class="">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '1' || operatorType === '2'">
+        <Form-item label="企业社保账号：">
           <label>{{employee.companySocialSecurityAccount}}</label>
         </Form-item>
       </Col>
       <!-- 仅新增 -->
-      <Col :xs="{span: 23}" :lg="{span: 23}" v-show="operatorType == '0'">
-        <Form-item label="户口地址：" :label-width=162 class="">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType == '0'">
+        <Form-item label="户口地址：">
           <label>{{employee.residenceAddress}}</label>
         </Form-item>
       </Col>
       <!-- 仅新增 -->
-      <Col :xs="{span: 23}" :lg="{span: 23}" v-show="operatorType == '0'">
-        <Form-item label="联系地址：" :label-width=162 class="">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType == '0'">
+        <Form-item label="联系地址：">
           <label>{{employee.contactAddress}}</label>
         </Form-item>
       </Col>

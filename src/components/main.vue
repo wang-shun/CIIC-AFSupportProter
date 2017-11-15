@@ -13,28 +13,28 @@
           <div class="layout-ceiling-main Badge">
             <ul>
               <li>
-                <Poptip trigger="hover" title="" content="待办事项" placement="bottom-start">
+                <Poptip trigger="hover" title="" content="待办事项" placement="bottom-start" transfer>
                   <Badge count="10" overflow-count="99" class="yellow">
                     <Icon type="ios-bell-outline" :size="size"></Icon>
                   </Badge>
                 </Poptip>
               </li>
               <li>
-                <Poptip trigger="hover" title="" content="站内信" placement="bottom-start">
+                <Poptip trigger="hover" title="" content="站内信" placement="bottom-start" transfer>
                   <Badge count="3" overflow-count="99" class="green">
                     <Icon type="ios-email-outline" :size="size"></Icon>
                   </Badge>
                 </Poptip>
               </li>
               <li>
-                <Poptip trigger="hover" title="" content="帮助" placement="bottom-start">
+                <Poptip trigger="hover" title="" content="帮助" placement="bottom-start" transfer>
                   <Badge count="100" overflow-count="99">
                     <Icon type="ios-help-outline" :size="size"></Icon>
                   </Badge>
                 </Poptip>
               </li>
               <li class="userCenter">
-                <Dropdown placement="bottom-start" @on-click="userCenterHandler">
+                <Dropdown placement="bottom-start" @on-click="userCenterHandler" transfer>
                   <div class="user-panel user">
                     <div class="image">
                       <!-- <Avatar src="static/img/user.jpg" size="large" /> -->
@@ -84,12 +84,12 @@
         <div class="layout-content">
           <div class="wrapper">
             <div class="layout-breadcrumb">
-              <Breadcrumb>
-                <Breadcrumb-item @click="setIndex">
-                  <router-link to="/main" id="level1" v-menuInner="{set:setIndex}">{{breadCrumb1}}</router-link>
+              <Breadcrumb separator="">
+                <Breadcrumb-item class="breadcrumbItem" @click="setIndex">
+                  <Icon type="ios-home"></Icon> <router-link to="/main" id="level1" v-menuInner="{set:setIndex}" class="breadcrumbLink">{{breadCrumb1}}</router-link>
                 </Breadcrumb-item>
-                <Breadcrumb-item v-show="breadCrumbBoolean2" id="level2">{{breadCrumb2}}</Breadcrumb-item>
-                <Breadcrumb-item v-show="breadCrumbBoolean3" id="level3">{{breadCrumb3}}</Breadcrumb-item>
+                <Breadcrumb-item v-show="breadCrumbBoolean2" id="level2" class="breadcrumbItem"><Icon type="ios-arrow-right"></Icon> {{breadCrumb2}}</Breadcrumb-item>
+                <Breadcrumb-item v-show="breadCrumbBoolean3" id="level3" class="breadcrumbItem"><Icon type="ios-location"></Icon> {{breadCrumb3}}</Breadcrumb-item>
               </Breadcrumb>
             </div>
             <div class="layout-content-main">
@@ -402,4 +402,10 @@
     text-align: center;
   }
 
+  .breadcrumbItem {
+    padding: 2px;
+  }
+  .breadcrumbLink {
+    color: #2d8cf0;
+  }
 </style>

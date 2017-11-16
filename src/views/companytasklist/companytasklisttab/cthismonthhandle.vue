@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
-                  <Select v-model="companyTaskInfo.serviceCenterValue" style="width: 100%;" disabled>
+                  <Select v-model="companyTaskInfo.serviceCenterValue" style="width: 100%;" disabled transfer>
                     <Option v-for="item in companyTaskInfo.serviceCenterList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -25,14 +25,14 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="companyTaskInfo.accountTypeValue" style="width: 100%;">
+                  <Select v-model="companyTaskInfo.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in companyTaskInfo.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算区县：" prop="regionValue">
-                  <Select v-model="companyTaskInfo.regionValue" style="width: 100%;">
+                  <Select v-model="companyTaskInfo.regionValue" style="width: 100%;" transfer>
                     <Option v-for="item in companyTaskInfo.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -44,26 +44,26 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务单类型：" prop="taskTypeValue">
-                  <Select v-model="companyTaskInfo.taskTypeValue" style="width: 100%;">
+                  <Select v-model="companyTaskInfo.taskTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in companyTaskInfo.taskTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务发起时间：" prop="taskStartTime">
-                  <DatePicker v-model="companyTaskInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%"></DatePicker>
+                  <DatePicker v-model="companyTaskInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="处理状态：" prop="handleStateValue">
-                  <Select v-model="companyTaskInfo.handleStateValue" style="width: 100%;">
+                  <Select v-model="companyTaskInfo.handleStateValue" style="width: 100%;" transfer>
                     <Option v-for="item in companyTaskInfo.handleStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
             </Row>
             <Row>
-              <Col :sm="{span:24}" class="right">
+              <Col :sm="{span:24}" class="tr">
                 <Button type="primary" icon="ios-search">查询</Button>
                 <Button type="default" @click="resetSearchCondition('companyTaskInfo')">重置</Button>
               </Col>
@@ -201,7 +201,7 @@
               ]);
             }
           },
-          {title: '任务单类型', key: 'type', width: 120, fixed: 'left', align: 'center',
+          {title: '任务单类型', key: 'type', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.type),
@@ -243,7 +243,7 @@
               ]);
             }
           },
-          {title: '发起时间', key: 'sponsorTime', width: 150, align: 'center',
+          {title: '发起时间', key: 'sponsorTime', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.sponsorTime),
@@ -288,8 +288,3 @@
     }
   }
 </script>
-<style scoped>
-  .mt20 {margin-top: 20px;}
-  .ml10 {margin-left: 10px;}
-  .right {text-align: right;}
-</style>

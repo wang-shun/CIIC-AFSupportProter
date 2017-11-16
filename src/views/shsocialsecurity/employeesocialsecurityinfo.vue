@@ -7,22 +7,22 @@
           <Form :label-width=120>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" class="">
+                <Form-item label="客户编号：">
                   <label>{{data.customer.code}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称：" class="">
+                <Form-item label="客户名称：">
                   <label>{{data.customer.name}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="服务中心：" class="">
+                <Form-item label="服务中心：">
                   <label>{{data.customer.customerServicerCenter}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客服经理：" class="">
+                <Form-item label="客服经理：">
                   <label>{{data.customer.customerServicer}}</label>
                 </Form-item>
               </Col>
@@ -36,47 +36,47 @@
           <Form :label-width=120>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" class="">
+                <Form-item label="雇员编号：">
                   <label>{{data.employee.code}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员姓名：" class="">
+                <Form-item label="雇员姓名：">
                   <label>{{data.employee.name}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="证件号码：" class="">
+                <Form-item label="证件号码：">
                   <label>{{data.employee.idNo}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="入职日期：" class="">
+                <Form-item label="入职日期：">
                   <label>{{data.employee.checkInTime}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保序号：" class="">
+                <Form-item label="社保序号：">
                   <label>{{data.employee.socialSecurityNo}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="学历：" class="">
+                <Form-item label="学历：">
                   <label>{{data.employee.education}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户：" class="">
+                <Form-item label="企业社保账户：">
                   <label>{{data.employee.socialSecurityCompanyAcount}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="人员分类：" class="">
+                <Form-item label="人员分类：">
                   <label>{{data.employee.personType}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="离职日期：" class="">
+                <Form-item label="离职日期：">
                   <label>{{data.employee.checkOutTime}}</label>
                 </Form-item>
               </Col>
@@ -90,22 +90,22 @@
           <Form :label-width=120>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保状态：" class="">
+                <Form-item label="社保状态：">
                   <label>{{data.ssinfo.state}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保缴费基数：" class="">
+                <Form-item label="社保缴费基数：">
                   <label>{{data.ssinfo.payBasePrice}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保起缴月份：" class="">
+                <Form-item label="社保起缴月份：">
                   <label>{{data.ssinfo.payStartMonth}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="办理月份：" class="">
+                <Form-item label="办理月份：">
                   <label>{{data.ssinfo.doMonth}}</label>
                 </Form-item>
               </Col>
@@ -132,7 +132,7 @@
       </Panel>
     </Collapse>
     <Row class="mt20">
-      <Col :sm="{span: 24}" class="right">
+      <Col :sm="{span: 24}" class="tr">
         <Button type="default" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -258,12 +258,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .mt20 {
-    margin-top: 20px;
-  }
-  .right {
-    text-align: right;
-  }
-</style>

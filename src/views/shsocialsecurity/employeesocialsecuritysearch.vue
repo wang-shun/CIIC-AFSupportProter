@@ -71,7 +71,7 @@
               </Col>
             </Row>
             <Row>
-              <Col :sm="{span:24}" class="right">
+              <Col :sm="{span:24}" class="tr">
                 <Button type="primary" icon="ios-search">查询</Button>
                 <Button type="default" @click="resetSearchCondition('searchCondition')" class="ml10">重置</Button>
               </Col>
@@ -298,18 +298,6 @@
 
 </script>
 <style scoped>
-  .ivu-card {
-    background: rgba(246, 246, 246, 1);
-  }
-
-  .checkBtn .ivu-btn {
-    float: right;
-  }
-
-  .right {
-    text-align: right;
-  }
-  .ml10 {
-    margin-left: 10px;
-  }
+  .ivu-card {background: rgba(246, 246, 246, 1);}
+  .checkBtn .ivu-btn {float: right;}
 </style>

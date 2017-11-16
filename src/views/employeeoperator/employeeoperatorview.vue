@@ -37,9 +37,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .mt20 {
-    margin-top: 20px;
-  }
-</style>

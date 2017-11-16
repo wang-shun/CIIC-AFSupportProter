@@ -4,44 +4,40 @@
       <Panel name="1">
         企业社保账户管理
         <div slot="content">
-          <Form ref="accountManageInfo" :model="accountManageInfo" :label-width=120>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+          <Form ref="accountManageInfo" :model="accountManageInfo" :label-width=150>
+            <Row type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="养老金用公司名称：" prop="pensionCompanyName">
                   <Input v-model="accountManageInfo.pensionCompanyName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="accountManageInfo.accountTypeValue" style="width: 100%;">
+                  <Select v-model="accountManageInfo.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in accountManageInfo.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="开户日期：" prop="taskStartTime">
-                  <DatePicker v-model="accountManageInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%"></DatePicker>
+                  <DatePicker v-model="accountManageInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%" transfer></DatePicker>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账号：" prop="taskNumber">
                   <Input v-model="accountManageInfo.taskNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="状态：" prop="stateValue">
-                  <Select v-model="accountManageInfo.stateValue" style="width: 100%;">
+                  <Select v-model="accountManageInfo.stateValue" style="width: 100%;" transfer>
                     <Option v-for="item in accountManageInfo.stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
             </Row>
             <Row>
-              <Col :xs="{span: 1, offset: 17}" :lg="{span: 1, offset: 17}">
+              <Col :sm="{span:24}" class="tr">
                 <Button type="primary" @click="" icon="ios-search">查询</Button>
               </Col>
             </Row>
@@ -52,7 +48,7 @@
 
     <Form>
       <Row class="mt20">
-        <Col :xs="{span: 1}" :lg="{span: 1}">
+        <Col :sm="{span:24}">
           <Form-item class="ml10">
             <Button type="info" @click="">导出</Button>
           </Form-item>
@@ -60,7 +56,7 @@
       </Row>
 
       <Row>
-        <Col :xs="{span: 24}" :lg="{span: 24}">
+        <Col :sm="{span: 24}">
           <Table border :columns="accountManageColumns" :data="data.accountManageData"></Table>
           <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
         </Col>
@@ -198,7 +194,3 @@
     }
   }
 </script>
-<style scoped>
-  .mt20 {margin-top: 20px;}
-  .ml10 {margin-left: 10px;}
-</style>

@@ -1,101 +1,89 @@
 <template>
   <div>
-    <Form :label-width=120 ref="operatorSearchData" :model="operatorSearchData">
-      <Row class="mt20">
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+    <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
+      <Row class="mt20" type="flex" justify="start">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="服务中心：" prop="serviceCenterValue">
-            <Select v-model="operatorSearchData.serviceCenterValue" style="width: 100%;">
+            <Select v-model="operatorSearchData.serviceCenterValue" style="width: 100%;" transfer>
               <Option v-for="item in operatorSearchData.serviceCenterList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="客户编号：" prop="customerNumber">
             <Input v-model="operatorSearchData.customerNumber" placeholder="请输入..."></Input>
           </Form-item>
         </Col>
-      </Row>
-      <Row>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="客户名称：" prop="customerName">
             <Input v-model="operatorSearchData.customerName" @on-focus="operatorSearchData.isShowCustomerName = true" placeholder="请输入..."></Input>
           </Form-item>
         </Col>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="账户类型：" prop="accountTypeValue">
-            <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;">
+            <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
               <Option v-for="item in operatorSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
-      </Row>
-      <Row>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="企业社保账户分类：" prop="companyAccountType">
             <Input v-model="operatorSearchData.companyAccountType" @on-focus="operatorSearchData.isShowAccountType = true" placeholder="请输入..."></Input>
           </Form-item>
         </Col>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="人员分类：" prop="personTypeValue">
-            <Select v-model="operatorSearchData.personTypeValue" style="width: 100%;">
+            <Select v-model="operatorSearchData.personTypeValue" style="width: 100%;" transfer>
               <Option v-for="item in operatorSearchData.personTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
-      </Row>
-      <Row>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="雇员编号：" prop="employeeNumber">
             <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
           </Form-item>
         </Col>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="雇员姓名：" prop="employeeName">
             <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
           </Form-item>
         </Col>
-      </Row>
-      <Row>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="身份证号：" prop="idNumber">
             <Input v-model="operatorSearchData.idNumber" placeholder="请输入..."></Input>
           </Form-item>
         </Col>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="任务单类型：" prop="taskTypeValue">
-            <Select v-model="operatorSearchData.taskTypeValue" style="width: 100%;">
+            <Select v-model="operatorSearchData.taskTypeValue" style="width: 100%;" transfer>
               <Option v-for="item in operatorSearchData.taskTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
-      </Row>
-      <Row>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="结算中心：" prop="region">
-            <Select v-model="operatorSearchData.region" style="width: 100%;">
+            <Select v-model="operatorSearchData.region" style="width: 100%;" transfer>
               <Option v-for="item in operatorSearchData.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="是否加急：" prop="emergency">
-            <Select v-model="operatorSearchData.emergency" style="width: 100%;">
+            <Select v-model="operatorSearchData.emergency" style="width: 100%;" transfer>
               <Option v-for="item in operatorSearchData.emergencyList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
-      </Row>
-      <Row>
-        <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="任务发起时间：" prop="taskStartTime">
-            <DatePicker v-model="operatorSearchData.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;"></DatePicker>
+            <DatePicker v-model="operatorSearchData.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
           </Form-item>
         </Col>
       </Row>
       <Row>
         <Row>
-          <Col :xs="{span: 4, offset: 16}" :lg="{span: 4, offset: 16}">
-            <Button type="primary" @click="" icon="ios-search">查询</Button>
+          <Col :sm="{span: 24}" class="tr">
+            <Button type="primary" icon="ios-search">查询</Button>
             <Button type="default" @click="resetSearchCondition('operatorSearchData')">重置</Button>
           </Col>
         </Row>
@@ -208,6 +196,3 @@
     }
   }
 </script>
-<style scoped>
-  .mt20 {margin-top: 20px;}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <Form :label-width=120>
+  <Form :label-width=150>
     <Steps :current="currentStep">
       <Step title="材料收集"></Step>
       <Step title="已受理"></Step>
@@ -9,59 +9,50 @@
     <Collapse v-model="collapseInfo" class="mt20">
       <Panel name="1">
         企业社保账户信息
-
         <div slot="content">
           <company-social-security-info :company="data.company"></company-social-security-info>
         </div>
       </Panel>
       <Panel name="2">
         前道传递信息
-
         <div slot="content">
           <Row>
-            <Col :xs="{span: 10, offset: 1}" :lg="{span: 10, offset: 1}">
-            <label>共{{data.chatList.length}}条历史备注</label>
-            <chat :chatList="data.chatList" class="mt20"></chat>
+            <Col :sm="{span:23, offset: 1}">
+              <label>共{{data.chatList.length}}条历史备注</label>
+              <chat :chatList="data.chatList" class="mt20"></chat>
             </Col>
           </Row>
         </div>
       </Panel>
       <Panel name="3">
         企业终止操作
-
         <div slot="content">
           <Form :label-width=100>
-            <Row class="mt20">
-              <Col :xs="{span: 4, offset: 1}" :lg="{span: 4, offset: 1}">
-              <Form-item label="受理日期：" class="">
-                <DatePicker v-model="endOperator.accpetDate" placement="bottom-end" placeholder="选择日期"
-                            style="width: 100%;"></DatePicker>
-              </Form-item>
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="受理日期：">
+                  <DatePicker v-model="endOperator.accpetDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                </Form-item>
               </Col>
-              <Col :xs="{span: 4, offset: 1}" :lg="{span: 4, offset: 1}">
-              <Form-item label="送审日期：" class="">
-                <DatePicker v-model="endOperator.approvalDate" placement="bottom-end" placeholder="选择日期"
-                            style="width: 100%;"></DatePicker>
-              </Form-item>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="送审日期：">
+                  <DatePicker v-model="endOperator.approvalDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                </Form-item>
               </Col>
-              <Col :xs="{span: 4, offset: 1}" :lg="{span: 4, offset: 1}">
-              <Form-item label="完成日期：" class="">
-                <DatePicker v-model="endOperator.finishDate" placement="bottom-end" placeholder="选择日期"
-                            style="width: 100%;"></DatePicker>
-              </Form-item>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="完成日期：">
+                  <DatePicker v-model="endOperator.finishDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                </Form-item>
               </Col>
-              <Col :xs="{span: 4, offset: 1}" :lg="{span: 4, offset: 1}">
-              <Form-item label="终止日期：" class="">
-                <DatePicker v-model="endOperator.endDate" placement="bottom-end" placeholder="选择日期"
-                            style="width: 100%;"></DatePicker>
-              </Form-item>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="终止日期：">
+                  <DatePicker v-model="endOperator.endDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                </Form-item>
               </Col>
-            </Row>
-            <Row class="mt20">
-              <Col :xs="{span: 9, offset: 1}" :lg="{span: 9, offset: 1}">
-              <Form-item label="批退原因：" class="">
-                <Input v-model="endOperator.refuseReason" type="textarea" :rows=4 placeholder="请填写批退原因..."></Input>
-              </Form-item>
+              <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
+                <Form-item label="批退原因：">
+                  <Input v-model="endOperator.refuseReason" type="textarea" :rows=4 placeholder="请填写批退原因..."></Input>
+                </Form-item>
               </Col>
             </Row>
           </Form>
@@ -70,14 +61,10 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :xs="{span: 1}" :lg="{span: 1}">
+      <Col :sm="{span:24}" class="tr">
       <Button type="primary" @click="goBack">办理</Button>
-      </Col>
-      <Col :xs="{span: 1}" :lg="{span: 1}">
       <Button type="error" @click="goBack">批退</Button>
-      </Col>
-      <Col :xs="{span: 1}" :lg="{span: 1}">
-      <Button type="ghost" @click="goBack" class="ml10">返回</Button>
+      <Button type="ghost" @click="goBack">返回</Button>
       </Col>
     </Row>
   </Form>
@@ -125,12 +112,3 @@
     }
   }
 </script>
-<style scoped>
-  .mt20 {
-    margin-top: 20px;
-  }
-
-  .ml10 {
-    margin-left: 10px
-  }
-</style>

@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
-                  <Select v-model="operatorSearchData.serviceCenterValue" style="width: 100%;">
+                  <Select v-model="operatorSearchData.serviceCenterValue" style="width: 100%;" transfer>
                     <Option v-for="item in operatorSearchData.serviceCenterList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -25,7 +25,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;">
+                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in operatorSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -37,7 +37,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：" prop="personTypeValue">
-                  <Select v-model="operatorSearchData.personTypeValue" style="width: 100%;">
+                  <Select v-model="operatorSearchData.personTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in operatorSearchData.personTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -59,33 +59,33 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务单类型：" prop="taskTypeValue">
-                  <Select v-model="operatorSearchData.taskTypeValue" style="width: 100%;">
+                  <Select v-model="operatorSearchData.taskTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in operatorSearchData.taskTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算中心：" prop="region">
-                  <Select v-model="operatorSearchData.region" style="width: 100%;">
+                  <Select v-model="operatorSearchData.region" style="width: 100%;" transfer>
                     <Option v-for="item in operatorSearchData.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="是否加急：" prop="emergency">
-                  <Select v-model="operatorSearchData.emergency" style="width: 100%;">
+                  <Select v-model="operatorSearchData.emergency" style="width: 100%;" transfer>
                     <Option v-for="item in operatorSearchData.emergencyList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务发起时间：" prop="taskStartTime">
-                  <DatePicker v-model="operatorSearchData.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <DatePicker v-model="operatorSearchData.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
             </Row>
             <Row>
-              <Col :sm="{span: 24}" class="right">
+              <Col :sm="{span: 24}" class="tr">
                 <Button type="primary" icon="ios-search">查询</Button>
                 <Button type="default" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
@@ -258,28 +258,28 @@
               ]);
             }
           },
-          {title: '任务单类型', key: 'type', width: 120, fixed: 'left', align: 'center',
+          {title: '任务单类型', key: 'type', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.type),
               ]);
             }
           },
-          {title: '是否加急', key: 'emergency', width: 100, fixed: 'left', align: 'center',
+          {title: '是否加急', key: 'emergency', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.emergency),
               ]);
             }
           },
-          {title: '雇员', key: 'employee', width: 100, fixed: 'left', align: 'center',
+          {title: '雇员', key: 'employee', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employee),
               ]);
             }
           },
-          {title: '雇员编号', key: 'employeeId', width: 100, fixed: 'left', align: 'center',
+          {title: '雇员编号', key: 'employeeId', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeId),
@@ -394,7 +394,3 @@
     }
   }
 </script>
-<style scoped>
-  .mt20 {margin-top: 20px;}
-  .right {text-align: right;}
-</style>

@@ -1,5 +1,5 @@
 <template>
-  <Form :label-width=120>
+  <Form :label-width=150>
     <Steps :current="currentStep">
       <Step title="材料收集"></Step>
       <Step title="已受理"></Step>
@@ -23,22 +23,14 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :xs="{span: 1}" :lg="{span: 1}">
+      <Col :sm="{span: 12}">
         <Button type="error" @click="goBack">批退</Button>
-      </Col>
-      <Col :xs="{span: 1}" :lg="{span: 1}">
         <Button type="primary" @click="nextStep">下一步</Button>
-      </Col>
-      <Col :xs="{span: 1}" :lg="{span: 1}">
         <Button type="ghost" @click="goBack" class="ml10">关闭/返回</Button>
       </Col>
-      <Col :xs="{span: 2, offset: 15}" :lg="{span: 2, offset: 15}">
+      <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="isUpload = true">上传扫描件</Button>
-      </Col>
-      <Col :xs="{span: 2}" :lg="{span: 2}">
         <Button type="primary" @click="goBack">反馈未签收</Button>
-      </Col>
-      <Col :xs="{span: 2}" :lg="{span: 2}">
         <Button type="primary" @click="nextStep">签收全部材料</Button>
       </Col>
     </Row>
@@ -196,7 +188,3 @@
     }
   }
 </script>
-<style scoped>
-  .mt20 {margin-top: 20px;}
-  .ml10 {margin-left: 10px}
-</style>

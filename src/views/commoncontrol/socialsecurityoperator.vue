@@ -3,21 +3,21 @@
     <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="办理方式：">
-          <Select v-model="socialSecurityPayOperator.doValue" style="width: 100%;">
+          <Select v-model="socialSecurityPayOperator.doValue" style="width: 100%;" transfer>
             <Option v-for="item in socialSecurityPayOperator.doMethod" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="办理月份：">
-          <DatePicker v-model="socialSecurityPayOperator.doMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+          <DatePicker v-model="socialSecurityPayOperator.doMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="变更类型：">
           <span v-if="operatorType === '1'">调整</span>
           <span v-else-if="operatorType === '4'">补缴</span>
-          <Select v-model="socialSecurityPayOperator.changeValue" style="width: 100%;" v-else>
+          <Select v-model="socialSecurityPayOperator.changeValue" style="width: 100%;" transfer v-else>
             <Option v-for="item in socialSecurityPayOperator.changeType" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
@@ -31,7 +31,7 @@
       <!-- 仅转出 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '2'">
         <Form-item label="特殊变更类型：">
-          <Select v-model="socialSecurityPayOperator.specialChangeValue" style="width: 100%;">
+          <Select v-model="socialSecurityPayOperator.specialChangeValue" style="width: 100%;" transfer>
             <Option v-for="item in socialSecurityPayOperator.specialChangeType" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
@@ -39,19 +39,19 @@
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0'">
         <Form-item label="起缴月份：">
-          <DatePicker v-model="socialSecurityPayOperator.startMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+          <DatePicker v-model="socialSecurityPayOperator.startMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <!-- 仅转出 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '2'">
         <Form-item label="缴费截止月份：">
-          <DatePicker v-model="socialSecurityPayOperator.payEndMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+          <DatePicker v-model="socialSecurityPayOperator.payEndMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0'">
         <Form-item label="截至月份：">
-          <DatePicker v-model="socialSecurityPayOperator.endMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+          <DatePicker v-model="socialSecurityPayOperator.endMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span:24}" v-if="operatorType !== '2'">
@@ -220,7 +220,3 @@
     }
   }
 </script>
-<style scoped>
-  .mt20 {margin-top: 20px;}
-  .mb20 {margin-bottom: 20px;}
-</style>

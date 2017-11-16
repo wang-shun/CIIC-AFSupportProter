@@ -31,17 +31,17 @@
   <Form :label-width=150 v-else-if="operatorType === '1'">
     <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="新社保缴费基数:" class="">
+        <Form-item label="新社保缴费基数:">
           <label>{{taskChangeInfo.newPay}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="调整起始月份：" class="">
+        <Form-item label="调整起始月份：">
           <label>{{taskChangeInfo.changeStartMonth}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="调整截至月份：" class="">
+        <Form-item label="调整截至月份：">
           <label>{{taskChangeInfo.changeEndMonth}}</label>
         </Form-item>
       </Col>
@@ -50,17 +50,17 @@
   <Form :label-width=150 v-else>
     <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="用工状态:" class="">
+        <Form-item label="用工状态:">
           <label>{{taskOutInfo.state}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="离职日期：" class="">
+        <Form-item label="离职日期：">
           <label>{{taskOutInfo.leaveDate}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="社保截止年月：" class="">
+        <Form-item label="社保截止年月：">
           <label>{{taskOutInfo.socialSecurityEndDate}}</label>
         </Form-item>
       </Col>

@@ -1,5 +1,5 @@
 <template>
-  <Form :label-width=120>
+  <Form :label-width=150>
     <Steps :current="currentStep">
       <Step title="材料收集"></Step>
       <Step title="已受理"></Step>
@@ -23,12 +23,12 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :xs="{span: 5}" :lg="{span: 5}">
+      <Col :sm="{span:12}" :md="{span: 12}" :lg="{span: 12}">
         <Button type="error" @click="goBack">批退</Button>
         <Button type="primary" @click="nextStep">下一步</Button>
         <Button type="ghost" @click="goBack">关闭/返回</Button>
       </Col>
-      <Col :xs="{span: 5, offset: 14}" :lg="{span: 5, offset: 14}">
+      <Col :sm="{span:12}" :md="{span: 12}" :lg="{span: 12}" class="tr">
         <Button type="primary" @click="isUpload = true">上传扫描件</Button>
         <Button type="primary" @click="goBack">反馈未签收</Button>
         <Button type="primary" @click="nextStep">签收全部材料</Button>
@@ -72,7 +72,7 @@
         },
         operatorMaterials: {
           operatorMaterialListColumns: [
-            {title: '材料名称', key: 'material', align: 'center', width: 150,
+            {title: '材料名称', key: 'material', align: 'center', className: 'mw100',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h(params.row.isLink ? 'a' : 'span', {props: {},
@@ -85,14 +85,14 @@
                 ])
               }
             },
-            {title: '材料提交时间', key: 'materialCommitDate', align: 'center', width: 180,
+            {title: '材料提交时间', key: 'materialCommitDate', align: 'center', className: 'mw150',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h('span', params.row.materialCommitDate),
                 ]);
               }
             },
-            {title: '材料类型', key: 'materialType', align: 'center', width: 130,
+            {title: '材料类型', key: 'materialType', align: 'center', className: 'mw100',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h(params.row.isLink ? 'a' : 'span', {props: {},
@@ -105,14 +105,14 @@
                 ])
               }
             },
-            {title: '材料收到时间', key: 'materialReciveDate', align: 'center', width: 180,
+            {title: '材料收到时间', key: 'materialReciveDate', align: 'center', className: 'mw150',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h('span', params.row.materialReciveDate),
                 ]);
               }
             },
-            {title: '状态', key: 'materialReciveDate', align: 'center', width: 200,
+            {title: '状态', key: 'materialReciveDate', align: 'center', className: 'mw200',
               render: (h, params) => {
                 return h('div', [
                   h('Select', {props: {value: params.index === 0 || params.index === 3 ? '3' : params.index === 1 ? '1' : '2'}},
@@ -125,7 +125,7 @@
                 );
               }
             },
-            {title: '操作', key: 'operator', align: 'center', width: 80,
+            {title: '操作', key: 'operator', align: 'center', className: 'mw100',
               render: (h, params) => {
                 return h('div', [
                   h(!params.row.isLink ? 'span' : 'Button', {
@@ -140,7 +140,7 @@
                 ]);
               }
             },
-            {title: '备注说明', key: 'notes',
+            {title: '备注说明', key: 'notes', className: 'mw300',
               render: (h, params) => {
                 return h('div', [
                   h('i-input', {props: {value: params.row.notes}})
@@ -193,7 +193,3 @@
     }
   }
 </script>
-<style scoped>
-  .mt20 {margin-top: 20px;}
-  .ml10 {margin-left: 10px}
-</style>

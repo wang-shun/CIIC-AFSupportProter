@@ -1,14 +1,14 @@
 <template>
   <Form>
     <Row>
-      <Col :xs="{span: 9, offset: 1}" :lg="{span: 9, offset: 1}">
+      <Col :sm="{span: 10, offset: 1}">
         <Form>
           <Form-item>
             <Input v-model="mUserNumber" icon="ios-search" placeholder="请输入参保户登记码..."></Input>
           </Form-item>
         </Form>
       </Col>
-      <Col :xs="{span: 12, offset: 1}" :lg="{span: 12, offset: 1}">
+      <Col :sm="{span: 10, offset: 2}">
         <Form>
           <Form-item>
             <Input v-model="mCompanyName" icon="ios-search" placeholder="请输入养老金用公司名称..."></Input>
@@ -17,7 +17,7 @@
       </Col>
     </Row>
     <Row>
-      <Col :xs="{span: 22, offset: 1}" :lg="{span: 22, offset: 1}">
+      <Col :sm="{span: 22, offset: 1}">
         <Table border highlight-row :columns="sSocialSecurityTypeColumns" :data="filterUser"></Table>
       </Col>
     </Row>

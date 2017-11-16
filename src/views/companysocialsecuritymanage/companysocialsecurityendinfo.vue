@@ -17,7 +17,7 @@
         前道传递信息
         <div slot="content">
           <Row>
-            <Col :xs="{span: 10, offset: 1}" :lg="{span: 10, offset: 1}">
+            <Col :sm="{span: 23, offset: 1}">
               <label>共{{data.chatList.length}}条历史备注</label>
               <chat :chatList="data.chatList" class="mt20"></chat>
             </Col>
@@ -27,33 +27,29 @@
       <Panel name="3">
         企业终止操作
         <div slot="content">
-          <Form :label-width=100>
-            <Row class="mt20">
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+          <Form :label-width=150>
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="受理日期：" class="">
-                  <DatePicker v-model="endOperator.accpetDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <DatePicker v-model="endOperator.accpetDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="送审日期：" class="">
-                  <DatePicker v-model="endOperator.approvalDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <DatePicker v-model="endOperator.approvalDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="完成日期：" class="">
-                  <DatePicker v-model="endOperator.finishDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <DatePicker v-model="endOperator.finishDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="终止日期：" class="">
-                  <DatePicker v-model="endOperator.endDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <DatePicker v-model="endOperator.endDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                 <Form-item label="批退原因：" class="">
                   <Input v-model="endOperator.refuseReason" type="textarea" :rows=4 placeholder="请填写批退原因..."></Input>
                 </Form-item>
@@ -65,7 +61,7 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :xs="{span: 3, offset: 21}" :lg="{span: 3, offset: 21}">
+      <Col :sm="{span: 24, offset: 21}" class="tr">
         <Button type="primary" @click="goBack">办理</Button>
         <Button type="error" @click="goBack">批退</Button>
         <Button type="ghost" @click="goBack">返回</Button>
@@ -117,6 +113,3 @@
     }
   }
 </script>
-<style scoped>
-  .mt20 {margin-top: 20px;}
-</style>

@@ -1,21 +1,21 @@
 <template>
   <!-- 客户名称 模态框内容 -->
-  <Form>
-    <Row>
-      <Col :xs="{span: 11}" :lg="{span: 11}">
-        <Form-item label="客户编号" :label-width=80>
+  <Form :label-width=100>
+    <Row type="flex" justify="start">
+      <Col :sm="{span: 12}">
+        <Form-item label="客户编号">
           <Input v-model="mCustomerNumber" icon="ios-search" placeholder="请输入..."></Input>
         </Form-item>
       </Col>
-      <Col :xs="{span: 11, offset: 1}" :lg="{span: 11, offset: 1}">
-        <Form-item label="客户姓名" :label-width=80>
+      <Col :sm="{span: 12}">
+        <Form-item label="客户姓名">
           <Input v-model="mCustomerName" icon="ios-search" placeholder="请输入..."></Input>
         </Form-item>
       </Col>
     </Row>
     <Row>
-      <Col :xs="{span: 1, offset: 20}" :lg="{span: 1, offset: 20}">
-        <Button type="primary" @click="" icon="ios-search">查询</Button>
+      <Col :sm="{span: 24}" class="tr">
+        <Button type="primary" icon="ios-search">查询</Button>
       </Col>
     </Row>
     <Row>
@@ -81,6 +81,3 @@ export default {
     }
   }
 </script>
-<style scoped>
-  .mt20 {margin-top: 20px;}
-</style>

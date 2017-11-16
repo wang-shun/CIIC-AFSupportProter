@@ -4,49 +4,45 @@
       <Panel name="1">
         社保支付
         <div slot="content">
-          <Form ref="payInfo" :model="payInfo" :label-width=120>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+          <Form ref="payInfo" :model="payInfo" :label-width=150>
+            <Row type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账户分类：" prop="companySocialSecurityCategoryValue">
-                  <Select v-model="payInfo.companySocialSecurityCategoryValue" style="width: 100%;">
+                  <Select v-model="payInfo.companySocialSecurityCategoryValue" style="width: 100%;" transfer>
                     <Option v-for="item in payInfo.companySocialSecurityCategoryList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账户：" prop="companySocialSecurityAccount">
                   <Input v-model="payInfo.companySocialSecurityAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付年月：" prop="payDate">
-                  <DatePicker v-model="payInfo.payDate" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <DatePicker v-model="payInfo.payDate" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付状态：" prop="payStateValue">
-                  <Select v-model="payInfo.payStateValue" style="width: 100%;">
+                  <Select v-model="payInfo.payStateValue" style="width: 100%;" transfer>
                     <Option v-for="item in payInfo.payStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="customerNumber">
                   <Input v-model="payInfo.customerNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{span: 8, offset: 1}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="customerName">
                   <Input v-model="payInfo.customerName" @on-focus="isShowCustomerName = true" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
             </Row>
             <Row>
-              <Col :xs="{span: 3, offset: 16}" :lg="{span: 3, offset: 16}">
+              <Col :sm="{span: 24}" class="tr">
                 <Button type="primary" @click="" icon="ios-search">查询</Button>
                 <Button type="ghost" @click="resetSearchCondition('payInfo')">重置</Button>
               </Col>
@@ -58,7 +54,7 @@
 
     <Form>
       <Row class="mt20">
-        <Col :xs="{span: 10}" :lg="{span: 10}">
+        <Col :sm="{span: 24}">
           <Button type="default" @click="gotoPay">申请支付</Button>
           <Button type="default" @click="goPaymentNotice">查看付款通知书</Button>
           <Button type="info" @click="" >导出</Button>
@@ -73,15 +69,6 @@
       </Row>
     </Form>
 
-    <!-- 客户名称 模态框 -->
-    <Modal
-      v-model="isShowCustomerName"
-      title="选择客户"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <customer-modal :customerData="data.customerData"></customer-modal>
-    </Modal>
-
     <!-- 进度 -->
     <Modal
       v-model="isShowProgress"
@@ -95,70 +82,40 @@
     <!-- 调整 -->
     <Modal
       v-model="changeInfo.isShowChange"
+      width="640"
       @on-ok="ok"
       @on-cancel="cancel">
       <Table border :columns="changeInfo.changeColumns" :data="data.changeData"></Table>
-      <Form :label-width=180>
+      <Form :label-width=250>
         <Row class="mt20">
-          <Col :xs="{span: 2}" :lg="{span: 2}">
+          <Col :sm="{span: 24}">
             <Button type="primary" @click="changeInfo.isImport = true">导入调整明细</Button>
           </Col>
         </Row>
-        <Row class="mt20">
-          <Col :xs="{span: 24}" :lg="{span: 24}">
+        <Row class="mt20" type="flex" justify="start">
+          <Col :sm="{span: 24}">
             <Form-item label="调整金（小写）：">
               <Input v-model="changeInfo.changeAmount" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
-        </Row>
-        <Row>
-          <Col :xs="{span: 24}" :lg="{span: 24}">
+          <Col :sm="{span: 24}">
             <Form-item>
               <Checkbox v-model="changeInfo.isDeductible">抵扣费用是否纳入支付申请</Checkbox>
             </Form-item>
           </Col>
-        </Row>
-        <Row>
-          <Col :xs="{span: 24}" :lg="{span: 24}">
+          <Col :sm="{span: 24}">
             <Form-item label="申请支付金额合计（小写）：">
               <label>{{changeInfo.applyAmountLower}}</label>
             </Form-item>
           </Col>
-        </Row>
-        <Row>
-          <Col :xs="{span: 24}" :lg="{span: 24}">
+          <Col :sm="{span: 24}">
             <Form-item label="申请支付金额合计（大写）：">
               <label>{{changeInfo.applyAmountUpper}}</label>
             </Form-item>
           </Col>
-        </Row>
-        <Row>
-          <Col :xs="{span: 24}" :lg="{span: 24}">
+          <Col :sm="{span: 24}">
             <Form-item label="备注说明：">
               <Input v-model="changeInfo.notes" type="textarea" :rows="5" placeholder="请输入..."></Input>
-            </Form-item>
-          </Col>
-        </Row>
-      </Form>
-    </Modal>
-
-    <Modal
-      v-model="changeInfo.isImport"
-      @on-ok="ok"
-      @on-cancel="cancel">
-
-      <Form :label-width=120>
-        <Row>
-          <Col :xs="{span: 24}" :lg="{span: 24}">
-            <Upload action="//jsonplaceholder.typicode.com/posts/">
-              <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
-            </Upload>
-          </Col>
-        </Row>
-        <Row class="mt20">
-          <Col :xs="{span: 24}" :lg="{span: 24}">
-            <Form-item label="企业名称：">
-              上海中智经济合作技术有限公司
             </Form-item>
           </Col>
         </Row>
@@ -396,6 +353,3 @@
     }
   }
 </script>
-<style scoped>
-  .mt20 {margin-top: 20px;}
-</style>

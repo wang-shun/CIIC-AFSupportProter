@@ -27,7 +27,7 @@
       </Panel>
     </Collapse>
     <Row class="mt20">
-      <Col :sm="{span: 24}" class="right">
+      <Col :sm="{span: 24}" class="tr">
         <Button type="primary" v-show="operatorType !== '2'">暂存</Button>
         <Button type="success" @click="instance('success')" v-if="operatorType !== '2'">办理</Button>
         <Button type="success" @click="instance('success')" v-else>办理</Button>
@@ -100,12 +100,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .mt20 {
-    margin-top: 20px;
-  }
-  .right {
-    text-align: right;
-  }
-</style>

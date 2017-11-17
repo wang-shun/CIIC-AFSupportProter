@@ -21,14 +21,14 @@
               </li>
               <li>
                 <Poptip trigger="hover" title="" content="站内信" placement="bottom-start" transfer>
-                  <Badge count="3" overflow-count="99" class="green">
+                  <Badge count="3" overflow-count="99">
                     <Icon type="ios-email-outline" :size="size"></Icon>
                   </Badge>
                 </Poptip>
               </li>
               <li>
                 <Poptip trigger="hover" title="" content="帮助" placement="bottom-start" transfer>
-                  <Badge count="100" overflow-count="99">
+                  <Badge dot count="100" overflow-count="99">
                     <Icon type="ios-help-outline" :size="size"></Icon>
                   </Badge>
                 </Poptip>
@@ -118,7 +118,7 @@
         personOnline: true,
         spanLeft: 4,
         spanRight: 20,
-        size: 16, //icon的大小
+        size: 24, //icon的大小
         layoutOut: true, //控制左側菜單的顯示隱藏,
         breadCrumb1: "首页",
         breadCrumb2: "",

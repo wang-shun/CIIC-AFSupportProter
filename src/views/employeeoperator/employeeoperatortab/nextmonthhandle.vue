@@ -87,7 +87,7 @@
             <Row>
               <Col :sm="{span: 24}" class="tr">
                 <Button type="primary" icon="ios-search">查询</Button>
-                <Button type="default" @click="resetSearchCondition('operatorSearchData')">重置</Button>
+                <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -110,7 +110,7 @@
           </DropdownMenu>
         </Dropdown>
         <Button type="error" @click="isRefuseReason = true">批退</Button>
-        <Button type="default" >导出</Button>
+        <Button type="info" >导出</Button>
       </Col>
     </Row>
 
@@ -228,7 +228,7 @@
           {title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
             render: (h, params) => {
               return h('div', [
-                h('Button', {props: {type: 'primary', size: 'small'}, style: {margin: '0 auto'},
+                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
                       switch(params.row.type) {

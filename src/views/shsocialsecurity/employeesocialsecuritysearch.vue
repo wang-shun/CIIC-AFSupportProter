@@ -73,7 +73,7 @@
             <Row>
               <Col :sm="{span:24}" class="tr">
                 <Button type="primary" icon="ios-search">查询</Button>
-                <Button type="default" @click="resetSearchCondition('searchCondition')" class="ml10">重置</Button>
+                <Button type="warning" @click="resetSearchCondition('searchCondition')" class="ml10">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -86,7 +86,7 @@
         <Button type="info" @click="exportData">导出</Button>
       </Col>
     </Row>
-    
+
     <Table border :columns="employeeSocialSecurityColumns" :data="data.employeeSocialSecurityData" ref="employeeSocialSecurityData"></Table>
     <Page :total="100" show-sizer show-elevator></Page>
 
@@ -196,7 +196,7 @@
             render: (h, params) => {
               return h('div', [
                 h('Button', {
-                  props: {type: 'primary', size: 'small'},
+                  props: {type: 'success', size: 'small'},
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {

@@ -150,7 +150,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span:24}" class="tr">
-        <Button type="default" @click="goBack">返回</Button>
+        <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
 
@@ -281,7 +281,7 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('Button', {
-                  props: {type: 'primary', size: 'small'},
+                  props: {type: 'success', size: 'small'},
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {

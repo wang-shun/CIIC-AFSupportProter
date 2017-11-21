@@ -206,7 +206,7 @@
               <Col :sm="{span:24}" class="tr">
                 <Button type="primary" @click="">确认开户</Button>
                 <Button type="error" @click="goBack">批退</Button>
-                <Button type="ghost" @click="goBack">关闭/返回</Button>
+                <Button type="warning" @click="goBack">关闭/返回</Button>
               </Col>
             </Row>
           </Form>

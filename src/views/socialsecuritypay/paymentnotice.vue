@@ -46,9 +46,9 @@
               </Col>
             </Row>
             <Row>
-              <Col :xs="{span: 3, offset: 21}" :lg="{span: 3, offset: 21}">
+              <Col :sm="{span: 24}" class="tr">
                 <Button type="primary" @click="" >重新汇总</Button>
-                <Button type="default" @click="goBack" >返回</Button>
+                <Button type="warning" @click="goBack" >返回</Button>
               </Col>
             </Row>
           </Form>

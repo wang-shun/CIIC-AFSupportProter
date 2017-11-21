@@ -26,7 +26,7 @@
       <Col :sm="{span: 12}">
         <Button type="error" @click="goBack">批退</Button>
         <Button type="primary" @click="nextStep">下一步</Button>
-        <Button type="ghost" @click="goBack" class="ml10">关闭/返回</Button>
+        <Button type="warning" @click="goBack" class="ml10">关闭/返回</Button>
       </Col>
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="isUpload = true">上传扫描件</Button>

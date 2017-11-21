@@ -44,7 +44,7 @@
             <Row>
               <Col :sm="{span: 24}" class="tr">
                 <Button type="primary" @click="" icon="ios-search">查询</Button>
-                <Button type="ghost" @click="resetSearchCondition('payInfo')">重置</Button>
+                <Button type="warning" @click="resetSearchCondition('payInfo')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -55,18 +55,14 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span: 24}">
-          <Button type="default" @click="gotoPay">申请支付</Button>
-          <Button type="default" @click="goPaymentNotice">查看付款通知书</Button>
+          <Button type="primary" @click="gotoPay">申请支付</Button>
+          <Button type="primary" @click="goPaymentNotice">查看付款通知书</Button>
           <Button type="info" @click="" >导出</Button>
         </Col>
       </Row>
 
-      <Row class="mt20">
-        <Col :xs="{span: 24}" :lg="{span: 24}">
-          <Table border :columns="payColumns" :data="data.payData"></Table>
-          <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
-        </Col>
-      </Row>
+      <Table border class="mt20" :columns="payColumns" :data="data.payData"></Table>
+      <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
     </Form>
 
     <!-- 进度 -->
@@ -230,7 +226,7 @@
             render: (h, params) => {
               return h('div', [
                 h('Button', {
-                  props: {type: 'primary', size: 'small'},
+                  props: {type: 'success', size: 'small'},
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
@@ -239,7 +235,7 @@
                   }
                 }, '调整'),
                 h('Button', {
-                  props: {type: 'primary', size: 'small'},
+                  props: {type: 'success', size: 'small'},
                   style: {margin: '0 auto 0 10px'},
                   on: {
                     click: () => {

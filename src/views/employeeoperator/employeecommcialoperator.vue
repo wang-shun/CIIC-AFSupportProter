@@ -105,7 +105,7 @@
     <Row>
       <Col :sm="{span:24}" class="tr">
         <Button type="primary" >批量提交</Button>
-        <Button type="ghost" @click="goback">返回</Button>
+        <Button type="warning" @click="goback">返回</Button>
       </Col>
     </Row>
   </Form>

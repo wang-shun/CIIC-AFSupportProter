@@ -95,7 +95,7 @@
             render: (h, params) => {
               return h('div', [
                 h('Button', {
-                  props: {type: 'primary', size: 'small'},
+                  props: {type: 'success', size: 'small'},
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {

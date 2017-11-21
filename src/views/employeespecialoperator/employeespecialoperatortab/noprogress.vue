@@ -87,7 +87,7 @@
             <Row>
               <Col :sm="{span:24}" class="tr">
                 <Button type="primary" icon="ios-search">查询</Button>
-                <Button type="default" @click="resetSearchCondition('operatorSearchData')">重置</Button>
+                <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -104,12 +104,8 @@
         </Col>
       </Row>
 
-      <Row>
-        <Col :xs="{span: 24}" :lg="{span: 24}">
-          <Table border :columns="employeeResultColumns" :data="data.employeeResultData" ref="employeeSocialSecurityData"></Table>
-          <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
-        </Col>
-      </Row>
+      <Table border :columns="employeeResultColumns" :data="data.employeeResultData" ref="employeeSocialSecurityData"></Table>
+      <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
 
       <!-- 客户名称 模态框 -->
       <Modal
@@ -217,7 +213,7 @@
             render: (h, params) => {
               return h('div', [
                 h('Button', {
-                  props: {type: 'primary', size: 'small'},
+                  props: {type: 'success', size: 'small'},
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {

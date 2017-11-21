@@ -133,7 +133,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="default" @click="goBack">返回</Button>
+        <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
   </div>

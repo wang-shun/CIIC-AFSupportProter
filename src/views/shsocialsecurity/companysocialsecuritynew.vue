@@ -29,10 +29,10 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" v-show="operatorType !== '2'">暂存</Button>
-        <Button type="success" @click="instance('success')" v-if="operatorType !== '2'">办理</Button>
-        <Button type="success" @click="instance('success')" v-else>办理</Button>
+        <Button type="primary" @click="instance('success')" v-if="operatorType !== '2'">办理</Button>
+        <Button type="primary" @click="instance('success')" v-else>办理</Button>
         <Button type="error">批退</Button>
-        <Button type="ghost" @click="goBack">返回</Button>
+        <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
   </div>

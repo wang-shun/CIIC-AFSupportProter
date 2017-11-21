@@ -65,7 +65,7 @@
             <Row>
               <Col :sm="{span:24}" class="tr">
                 <Button type="primary" icon="ios-search">查询</Button>
-                <Button type="default" @click="resetSearchCondition('companyTaskInfo')">重置</Button>
+                <Button type="warning" @click="resetSearchCondition('companyTaskInfo')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -162,7 +162,7 @@
             render: (h, params) => {
               return h('div', [
                 h('Button', {
-                  props: {type: 'primary', size: 'small'}, style: {margin: '0 auto'},
+                  props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
                       switch(params.row.type) {

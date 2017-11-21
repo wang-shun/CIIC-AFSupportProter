@@ -73,7 +73,7 @@
       <Col :sm="{span:24}" class="tr">
         <Button type="primary" @click="goBack">办理</Button>
         <Button type="error" @click="goBack">批退</Button>
-        <Button type="ghost" @click="goBack">返回</Button>
+        <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
   </Form>

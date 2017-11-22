@@ -2,12 +2,12 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import leftNavigation from './modules/leftNavigation'
-import CompanySocialSecurityManage from './modules/CompanySocialSecurityManage'
-import CompanyTaskList from './modules/CompanyTaskList'
-import EmployeeOperator from './modules/EmployeeOperator'
-import EmployeeSpecialOperator from './modules/EmployeeSpecialOperator'
-import ShsocialSecurity from './modules/ShSocialSecurity'
-import SocialSecurityPay from './modules/SocialSecurityPay'
+import CompanySocialSecurityManage from './modules/SocialSecurity/CompanySocialSecurityManage'
+import CompanyTaskList from './modules/SocialSecurity/CompanyTaskList'
+import EmployeeOperator from './modules/SocialSecurity/EmployeeOperator'
+import EmployeeSpecialOperator from './modules/SocialSecurity/EmployeeSpecialOperator'
+import ShsocialSecurity from './modules/SocialSecurity/ShSocialSecurity'
+import SocialSecurityPay from './modules/SocialSecurity/SocialSecurityPay'
 
 
 Vue.use(Vuex)

@@ -7,43 +7,121 @@ const charts = r => require.ensure([], () => r(require('@/components/charts')), 
 
 const approvalstep2 = r => require.ensure([], () => r(require('@/views/commoncontrol/approvalstep2')), 'approvalstep2') //审核步骤2
 
-const employeesocialsecuritysearch = r => require.ensure([], () => r(require('@/views/ShSocialSecurity/employeesocialsecuritysearch')), 'employeesocialsecuritysearch') //雇员社保查询
-const employeesocialsecurityinfo = r => require.ensure([], () => r(require('@/views/ShSocialSecurity/employeesocialsecurityinfo')), 'employeesocialsecurityinfo') //雇员社保基本信息
-const companysocialsecuritynew = r => require.ensure([], () => r(require('@/views/ShSocialSecurity/companysocialsecuritynew')), 'companysocialsecuritynew') //企业社保基本信息
+/* ================== 本地社保 ================== */
+/*
+ * employeesocialsecuritysearch      --- 雇员社保查询
+   employeesocialsecurityinfo        --- 基本信息
+   companysocialsecuritynew          --- 基本信息
+ */
 
-const employeeoperatorview = r => require.ensure([], () => r(require('@/views/EmployeeOperator/employeeoperatorview')), 'employeeoperatorview') //雇员日常操作批退
-const employeecommcialoperator = r => require.ensure([], () => r(require('@/views/EmployeeOperator/employeecommcialoperator')), 'employeecommcialoperator') //雇员日常操作办理页面
+const employeesocialsecuritysearch = r => require.ensure([], () => r(require('@/views/socialsecurity/shsocialsecurity/employeesocialsecuritysearch')), 'employeesocialsecuritysearch') 
+const employeesocialsecurityinfo = r => require.ensure([], () => r(require('@/views/socialsecurity/shsocialsecurity/employeesocialsecurityinfo')), 'employeesocialsecurityinfo')
+const companysocialsecuritynew = r => require.ensure([], () => r(require('@/views/socialsecurity/shsocialsecurity/companysocialsecuritynew')), 'companysocialsecuritynew')
 
-const employeespecialoperatorview = r => require.ensure([], () => r(require('@/views/EmployeeSpecialOperator/employeespecialoperatorview')), 'employeespecialoperatorview') //雇员特殊操作
 
-const employeespecialprogress2  = r => require.ensure([], () => r(require('@/views/EmployeeSpecialOperator/employeespecialprogress2')), 'employeespecialprogress2') //雇员特殊操作查看进度
-const employeespecialprogress3  = r => require.ensure([], () => r(require('@/views/EmployeeSpecialOperator/employeespecialprogress3')), 'employeespecialprogress3') //雇员特殊操作查看进度
+/*
+ * employeeoperatorview              --- 雇员日常操作
+ * employeecommcialoperator          --- 雇员日常操作、办理
+ */
 
-const companytasklist = r => require.ensure([], () => r(require('@/views/CompanyTaskList/CompanyTaskList')), 'companytasklist') //企业任务单
+const employeeoperatorview = r => require.ensure([], () => r(require('@/views/socialsecurity/employeeoperator/employeeoperatorview')), 'employeeoperatorview')
+const employeecommcialoperator = r => require.ensure([], () => r(require('@/views/socialsecurity/employeeoperator/employeecommcialoperator')), 'employeecommcialoperator')
 
-const companytaskprogress2 = r => require.ensure([], () => r(require('@/views/CompanyTaskList/companytaskprogress2')), 'companytaskprogress2') //企业任务单2
-const companytaskprogresstypeinfo = r => require.ensure([], () => r(require('@/views/CompanyTaskList/companytaskprogresstypeinfo')), 'companytaskprogresstypeinfo') //企业任务单输入信息
-const companytaskprogresstransferinfo = r => require.ensure([], () => r(require('@/views/CompanyTaskList/companytaskprogresstransferinfo')), 'companytaskprogresstransferinfo') //企业任务单转移操作
-const companytaskprogresschangeinfo = r => require.ensure([], () => r(require('@/views/CompanyTaskList/companytaskprogresschangeinfo')), 'companytaskprogresschangeinfo') //企业任务单变更操作
-const companytaskprogressendinfo = r => require.ensure([], () => r(require('@/views/CompanyTaskList/companytaskprogressendinfo')), 'companytaskprogressendinfo') //企业任务单终止操作
 
-const companysocialsecuritymanage = r => require.ensure([], () => r(require('@/views/CompanySocialSecurityManage/CompanySocialSecurityManage')), 'companysocialsecuritymanage') //企业社保账户管理
-const companysocialsecurity = r => require.ensure([], () => r(require('@/views/CompanySocialSecurityManage/companysocialsecurity')), 'companysocialsecurity') //企业社保账户信息
-const companysocialsecurityprogress2 = r => require.ensure([], () => r(require('@/views/CompanySocialSecurityManage/companysocialsecurityprogress2')), 'companysocialsecurityprogress2') //企业社保账户信息2
-const companysocialsecuritytypeinfo = r => require.ensure([], () => r(require('@/views/CompanySocialSecurityManage/companysocialsecuritytypeinfo')), 'companysocialsecuritytypeinfo') //企业社保账户信息输入信息
-const companysocialsecuritychangeinfo = r => require.ensure([], () => r(require('@/views/CompanySocialSecurityManage/companysocialsecuritychangeinfo')), 'companysocialsecuritychangeinfo') //企业社保账户变更操作
-const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/views/CompanySocialSecurityManage/companysocialsecurityendinfo')), 'companysocialsecurityendinfo') //企业社保账户终止操作
+/*
+ * employeespecialoperatorview       --- 雇员特殊操作
+   employeespecialprogress2          --- 雇员特殊操作、办理(步骤2)
+   employeespecialprogress3          --- 雇员特殊操作、办理(步骤3)
+ */
 
-const socialsecurityreconcilate = r => require.ensure([], () => r(require('@/views/socialsecurityreconcilate/socialsecurityreconcilate')), 'socialsecurityreconcilate') //社保对账
+const employeespecialoperatorview = r => require.ensure([], () => r(require('@/views/socialsecurity/employeeSpecialOperator/employeespecialoperatorview')), 'employeespecialoperatorview')
+const employeespecialprogress2 = r => require.ensure([], () => r(require('@/views/socialsecurity/employeeSpecialOperator/employeespecialprogress2')), 'employeespecialprogress2')
+const employeespecialprogress3 = r => require.ensure([], () => r(require('@/views/socialsecurity/employeeSpecialOperator/employeespecialprogress3')), 'employeespecialprogress3')
 
-const socialsecuritypay = r => require.ensure([], () => r(require('@/views/SocialSecurityPay/SocialSecurityPay')), 'socialsecuritypay') //社保支付
-const paymentnotice = r => require.ensure([], () => r(require('@/views/SocialSecurityPay/paymentnotice')), 'paymentnotice') //查看付款通知书
 
-const socialsecurityreport = r => require.ensure([], () => r(require('@/views/socialsecurityreport/socialsecurityreport')), 'socialsecurityreport') //社保报表
+/*
+ * companytasklist                   --- 企业任务单
+   companytaskprogress2              --- 企业任务单、办理(步骤2)
+   companytaskprogresstypeinfo       --- 企业任务单、办理(输入)
+   companytaskprogresstransferinfo   --- 企业任务单、办理(转移)
+   companytaskprogresschangeinfo     --- 企业任务单、办理(变更)
+   companytaskprogressendinfo        --- 企业任务单、办理(终止)
+ */
 
-const yearbaseapplicate = r => require.ensure([], () => r(require('@/views/yearbaseapplicate/yearbaseapplicate')), 'yearbaseapplicate') //年度基数申报
+const companytasklist = r => require.ensure([], () => r(require('@/views/socialsecurity/companytasklist/companytasklist')), 'companytasklist')
+const companytaskprogress2 = r => require.ensure([], () => r(require('@/views/socialsecurity/companytasklist/companytaskprogress2')), 'companytaskprogress2')
+const companytaskprogresstypeinfo = r => require.ensure([], () => r(require('@/views/socialsecurity/companytasklist/companytaskprogresstypeinfo')), 'companytaskprogresstypeinfo')
+const companytaskprogresstransferinfo = r => require.ensure([], () => r(require('@/views/socialsecurity/companytasklist/companytaskprogresstransferinfo')), 'companytaskprogresstransferinfo')
+const companytaskprogresschangeinfo = r => require.ensure([], () => r(require('@/views/socialsecurity/companytasklist/companytaskprogresschangeinfo')), 'companytaskprogresschangeinfo')
+const companytaskprogressendinfo = r => require.ensure([], () => r(require('@/views/socialsecurity/companytasklist/companytaskprogressendinfo')), 'companytaskprogressendinfo')
 
-const systemmanage = r => require.ensure([], () => r(require('@/views/systemmanage/systemmanage')), 'systemmanage') //系统管理
+
+/*
+ * companysocialsecuritymanage       --- 企业社保账户管理
+   companysocialsecurity             --- 企业社保账户信息
+   companysocialsecurityprogress2    --- 企业社保账户信息2
+   companysocialsecuritytypeinfo     --- 企业社保账户信息(输入)
+   companysocialsecuritychangeinfo   --- 企业社保账户信息(变更)
+   companysocialsecurityendinfo      --- 企业社保账户信息(终止)
+ */
+
+const companysocialsecuritymanage = r => require.ensure([], () => r(require('@/views/socialsecurity/companysocialsecuritymanage/companysocialsecuritymanage')), 'companysocialsecuritymanage')
+const companysocialsecurity = r => require.ensure([], () => r(require('@/views/socialsecurity/companysocialsecuritymanage/companysocialsecurity')), 'companysocialsecurity')
+const companysocialsecurityprogress2 = r => require.ensure([], () => r(require('@/views/socialsecurity/companysocialsecuritymanage/companysocialsecurityprogress2')), 'companysocialsecurityprogress2')
+const companysocialsecuritytypeinfo = r => require.ensure([], () => r(require('@/views/socialsecurity/companysocialsecuritymanage/companysocialsecuritytypeinfo')), 'companysocialsecuritytypeinfo')
+const companysocialsecuritychangeinfo = r => require.ensure([], () => r(require('@/views/socialsecurity/companysocialsecuritymanage/companysocialsecuritychangeinfo')), 'companysocialsecuritychangeinfo')
+const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/views/socialsecurity/companysocialsecuritymanage/companysocialsecurityendinfo')), 'companysocialsecurityendinfo')
+
+
+/*
+ * socialsecurityreconcilate       --- 社保对账
+ */
+
+const socialsecurityreconcilate = r => require.ensure([], () => r(require('@/views/socialsecurity/socialsecurityreconcilate/socialsecurityreconcilate')), 'socialsecurityreconcilate')
+
+
+/*
+ * socialsecuritypay               --- 社保支付
+ * paymentnotice                   --- 查看付款通知书
+ */
+
+const socialsecuritypay = r => require.ensure([], () => r(require('@/views/socialsecurity/socialsecuritypay/socialsecuritypay')), 'socialsecuritypay')
+const paymentnotice = r => require.ensure([], () => r(require('@/views/socialsecurity/socialsecuritypay/paymentnotice')), 'paymentnotice')
+
+
+/*
+ * socialsecuritypay               --- 社保报表
+ */
+
+const socialsecurityreport = r => require.ensure([], () => r(require('@/views/socialsecurity/socialsecurityreport/socialsecurityreport')), 'socialsecurityreport')
+
+
+/*
+ * yearbaseapplicate               --- 年度基数申报
+ */
+
+const yearbaseapplicate = r => require.ensure([], () => r(require('@/views/socialsecurity/yearbaseapplicate/yearbaseapplicate')), 'yearbaseapplicate')
+
+
+/*
+ * systemmanage                    --- 系统管理
+ */
+
+const systemmanage = r => require.ensure([], () => r(require('@/views/socialsecurity/systemmanage/systemmanage')), 'systemmanage')
+
+
+/* ================== 本地公积金 ================== */
+/*
+ * employeefundsearch      --- 雇员公积金查询
+ */
+
+const employeefundsearch = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundsearch')), 'employeefundsearch') 
+
+
+
+
+
+
 
 Vue.use(Router)
 let router = new Router({
@@ -357,7 +435,19 @@ let router = new Router({
             level3:"系统管理",
             openNames:['1']
           }
-        }
+        },
+
+        {
+          path: '/employeefundsearch',
+          name: 'employeefundsearch',
+          component: employeefundsearch,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "雇员公积金查询",
+            openNames: ['1']
+          }
+        },
       ]
       }
    ]})

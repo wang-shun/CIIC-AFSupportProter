@@ -7,7 +7,7 @@ const leftNavigationList = params => Utils.promise({
       {
         id: 1,
         key: "上海社保",
-        icon: "ios-cog",
+        icon: "umbrella",
         children: [
           {cid: "1-1", ckey: "雇员社保查询", crouter: "employeesocialsecuritysearch"},
           {cid: "1-2", ckey: "雇员日常操作", crouter: "employeeoperatorview"},
@@ -19,6 +19,14 @@ const leftNavigationList = params => Utils.promise({
           {cid: "1-8", ckey: "社保报表", crouter: "socialsecurityreport"},
           {cid: "1-9", ckey: "年度基数申报", crouter: "yearbaseapplicate"},
           {cid: "1-10", ckey: "系统管理", crouter: "systemmanage"},
+        ]
+      },
+      {
+        id: 2,
+        key: "上海公积金",
+        icon: "stats-bars",
+        children: [
+          {cid: "2-1", ckey: "雇员公积金查询", crouter: "employeefundsearch"}
         ]
       }
     ]

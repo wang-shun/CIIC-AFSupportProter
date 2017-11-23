@@ -10,28 +10,73 @@
           <i-button type="text" @click="toggleClick">
             <Icon type="navicon" size="32"></Icon>
           </i-button>
+          <i-button type="text" @click="backToHome">
+            <Icon type="ios-home" size="32"></Icon>
+          </i-button>
+          <Dropdown transfer @on-click="routerToCenter">
+            <Button type="primary">
+              快速导航
+              <Icon type="arrow-down-b"></Icon>
+            </Button>
+            <DropdownMenu slot="list">
+              <DropdownItem name="http://172.16.9.25:8100/#/">销售中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8103/#/">外企客服中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.61:8070/proxyCenter/index.html#/">代理中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8101/home">外企雇员中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8104/#/">服务外包业务中心</DropdownItem>
+              <DropdownItem name="0">外企支持中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.61:8070/FCBusinessPortal/#/chart">财务咨询业务中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.61:8070/BillCenter/iView/index.html#/main">账单中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.61:8070/SettlementCenter/iview/index.html#/main/">结算中心</DropdownItem>
+              <DropdownItem name="0">财务咨询报表中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.23:7777/#/">产品中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8105/#/">供应商管理中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.24/dic_list">外企内控中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.61:8070/OperationCenter/index.html#/main/">财务咨询运营中心</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
           <div class="layout-ceiling-main Badge">
             <ul>
               <li>
-                <Poptip trigger="hover" title="" content="待办事项" placement="bottom-start" transfer>
-                  <Badge count="10" overflow-count="99" class="yellow">
-                    <Icon type="ios-bell-outline" :size="size"></Icon>
+                <a href="http://172.16.9.25:8100/#/pending_approves">
+                  <Badge dot>
+                    <Tooltip content="" placement="bottom" transfer>
+                      <Icon type="ios-compose-outline" :size="size"></Icon>
+                      <div slot="content">
+                        <p>我的审批</p>
+                      </div>
+                    </Tooltip>
                   </Badge>
-                </Poptip>
+                </a>
               </li>
               <li>
-                <Poptip trigger="hover" title="" content="站内信" placement="bottom-start" transfer>
+                <Badge dot>
+                  <Poptip trigger="hover" title="" placement="bottom" transfer>
+                    <Icon type="ios-list-outline" :size="size"></Icon>
+                    <div slot="content">
+                      <a class="inPoptip" href="javascript:;" @click="isActive = !isActive">我的任务单 {{isActive ? "▲" : "▼"}}</a>
+                      <div :class="[isActive ? 'changeToH' : 'changeToZ', 'myTaskList']">
+                        <a :href="task.url" v-for="(task, index) in taskList" :key="index">{{task.label}}</a>
+                      </div>
+                    </div>
+                  </Poptip>
+                </Badge>
+              </li>
+              <li>
+                <a href="javascript:;" @click="openMessageBox">
                   <Badge count="3" overflow-count="99">
-                    <Icon type="ios-email-outline" :size="size"></Icon>
+                    <Tooltip trigger="hover" title="" content="站内信" placement="bottom" transfer>
+                      <Icon type="ios-email-outline" :size="size"></Icon>
+                    </Tooltip>
                   </Badge>
-                </Poptip>
+                </a>
               </li>
               <li>
-                <Poptip trigger="hover" title="" content="帮助" placement="bottom-start" transfer>
-                  <Badge dot count="100" overflow-count="99">
-                    <Icon type="ios-help-outline" :size="size"></Icon>
-                  </Badge>
-                </Poptip>
+                <Badge>
+                  <Tooltip trigger="hover" title="" content="用户手册" placement="bottom" transfer>
+                    <Icon type="ios-help-outline" :size="size" @on-click="openMessageBox"></Icon>
+                  </Tooltip>
+                </Badge>
               </li>
               <li class="userCenter">
                 <Dropdown placement="bottom-start" @on-click="userCenterHandler" transfer>
@@ -43,8 +88,8 @@
                     </div>
                   </div>
                   <Dropdown-menu slot="list">
-                    <Dropdown-item name="logout">退出</Dropdown-item>
-                    <Dropdown-item divided>个人中心</Dropdown-item>
+                    <Dropdown-item name="modifyPassword">修改密码</Dropdown-item>
+                    <Dropdown-item divided name="logout">退出</Dropdown-item>
                   </Dropdown-menu>
                 </Dropdown>
               </li>
@@ -127,7 +172,28 @@
         breadCrumbBoolean2: false,
         breadCrumbBoolean3: false,
         openNames: ["1"],
-        userName: ''
+        userName: '',
+
+        taskList: [
+          {label: "雇员预录用-预增", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员预录用-发放offer", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员预录用-入职体检", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员预录用-背景调查", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员新进-新入职", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员新进-集体转入,无需用工", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员变更-外地社保转上海", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员变更-上海社保转外地", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员变更-翻牌（更改用工单位）", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员变更-上海基数调整", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员变更-外地基数调整", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员变更-暂停缴费", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员变更-恢复缴费", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员终止-离职", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员终止-集体转出，无需退工", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员变更-人员性质转换", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
+          {label: "雇员变更-修改用退工信息", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"}
+        ],
+        isActive: false,
       }
     },
     created() {
@@ -211,7 +277,21 @@
             this.$local.save('userName', '');
             break;
         }
-      }
+      },
+      openMessageBox() {
+        this.$Notice.open({
+          desc: '<div style="max-height: 100px; overflow-y: auto;"><h3>标题1</h3><p>我是标题1的内容</p><br/><h3>标题2</h3><p>我是标题2的内容</p><br/><h3>标题3</h3><p>我是标题3的内容</p></div>',
+          duration: 0
+        });
+      },
+      backToHome() {
+          window.location.href = "http://172.16.9.25:8070/#/menu";
+      },
+      routerToCenter: function(name) {
+        if(name === '0')
+          return;
+        window.location.href = name;
+      },
     },
     directives: {
       menuInner: {
@@ -402,10 +482,41 @@
     text-align: center;
   }
 
+  .ivu-tooltip-inner {
+    min-width: inherit;
+  }
+
   .breadcrumbItem {
     padding: 2px;
   }
   .breadcrumbLink {
     color: #2d8cf0;
+  }
+
+
+  .inPoptip {
+    font-size: 12px;
+    line-height: 30px;
+    text-align: center;
+    height: 30px;
+    display: block;
+    color: #666;
+  }
+  .inPoptip:hover {
+    color: #2d8cf0;
+  }
+
+  .myTaskList {height: 0; overflow-y: auto;}
+  .myTaskList a {font-size: 12px; line-height: 40px; text-align: center; color: #666; display: block; height: 40px; border-bottom: 1px dotted #eee; background: #eee;}
+  .myTaskList a:hover {color: #2d8cf0;}
+  .changeToH {animation: changeToHeight 0.5s ease 0s 1 alternate forwards;}
+  .changeToZ {animation: changeToZero 0s ease 0s 1 alternate forwards;}
+  @keyframes changeToHeight {
+    from {height: 0;}
+    to {height: 170px;}
+  }
+  @keyframes changeToZero {
+    from {height: 170px;}
+    to {height: 0;}
   }
 </style>

@@ -1,9 +1,13 @@
+//上海社保
 import CompanySocialSecurityManage from "./modules/SocialSecurity/CompanySocialSecurityManage/EventTypes";
 import CompanyTaskList from "./modules/SocialSecurity/CompanyTaskList/EventTypes";
 import EmployeeOperator from "./modules/SocialSecurity/EmployeeOperator/EventTypes";
 import EmployeeSpecialOperator from "./modules/SocialSecurity/EmployeeSpecialOperator/EventTypes";
 import ShSocialSecurity from "./modules/SocialSecurity/ShSocialSecurity/EventTypes";
 import SocialSecurityPay from "./modules/SocialSecurity/SocialSecurityPay/EventTypes";
+
+//上海公积金
+import EmployeeFundSearch from "./modules/Fund/EmployeeFundSearch/EventTypes"
 
 export default {
   LEFTNAVIGATION_SETLIST: "LEFTNAVIGATION_SETLIST",
@@ -15,4 +19,6 @@ export default {
   ...EmployeeSpecialOperator,
   ...ShSocialSecurity,
   ...SocialSecurityPay,
+
+  ...EmployeeFundSearch,
 };

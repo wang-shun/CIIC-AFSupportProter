@@ -14,7 +14,7 @@ const approvalstep2 = r => require.ensure([], () => r(require('@/views/commoncon
    companysocialsecuritynew          --- 基本信息
  */
 
-const employeesocialsecuritysearch = r => require.ensure([], () => r(require('@/views/socialsecurity/shsocialsecurity/employeesocialsecuritysearch')), 'employeesocialsecuritysearch') 
+const employeesocialsecuritysearch = r => require.ensure([], () => r(require('@/views/socialsecurity/shsocialsecurity/employeesocialsecuritysearch')), 'employeesocialsecuritysearch')
 const employeesocialsecurityinfo = r => require.ensure([], () => r(require('@/views/socialsecurity/shsocialsecurity/employeesocialsecurityinfo')), 'employeesocialsecurityinfo')
 const companysocialsecuritynew = r => require.ensure([], () => r(require('@/views/socialsecurity/shsocialsecurity/companysocialsecuritynew')), 'companysocialsecuritynew')
 
@@ -113,11 +113,13 @@ const systemmanage = r => require.ensure([], () => r(require('@/views/socialsecu
 /* ================== 本地公积金 ================== */
 /*
  * employeefundsearch      --- 雇员公积金查询
+   employeefundhistory     --- 雇员公积金批量导入历史
+   employeefundbasicinfo   --- 雇员公积金详情
  */
 
-const employeefundsearch = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundsearch')), 'employeefundsearch') 
-
-
+const employeefundsearch = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundsearch')), 'employeefundsearch')
+const employeefundhistory = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundhistory')), 'employeefundhistory')
+const employeefundbasicinfo = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundbasicinfo')), 'employeefundbasicinfo')
 
 
 
@@ -445,6 +447,28 @@ let router = new Router({
             level1: '全国公积金',
             level2: "上海公积金",
             level3: "雇员公积金查询",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employeefundhistory',
+          name: 'employeefundhistory',
+          component: employeefundhistory,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "查看导入历史",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employeefundbasicinfo',
+          name: 'employeefundbasicinfo',
+          component: employeefundbasicinfo,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "雇员公积金详情",
             openNames: ['1']
           }
         },

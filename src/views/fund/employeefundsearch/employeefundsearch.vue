@@ -131,7 +131,7 @@
         <Row>
           <Col :sm="{span: 22, offset: 1}" class="tr">
             <Button type="info" @click="isImported = true;">导入数据</Button>
-            <Button type="primary">查看历史导入</Button>
+            <Button type="primary" @click="gotoHistoryList">查看历史导入</Button>
           </Col>
         </Row>
       </Form>
@@ -222,7 +222,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.showInfo(params.index)
+                      this.$router.push({name: 'employeefundbasicinfo'})
                     }
                   }
                 }, '查看/修改'),
@@ -381,6 +381,9 @@
       ...mapActions('employeeFundSearch', [EventTypes.EMPLOYEEFUNDSEARCHTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
+      },
+      gotoHistoryList() {
+        this.$router.push({name: 'employeefundhistory'})
       },
       ok() {
 

@@ -35,12 +35,54 @@ const employeeFundHistoryDetail = params => Utils.promise({
           {startPayDate: '201604', endPayDate: '', customerPayDate: '201704', basic: '15000', percent: '0.10', price: '1500'},
         ]
       },
-      employeeFundTaskReferenceInfo: {
+      employeeFundTaskReferenceAdd: {
         changeTypeValue: 0,
         taskReferenceInfoData: [
           {changeContent: '汇缴', fundBase: '19000', fundPercent: '0.14', startPayMonth: '201701', endPayMonth: '', price: ''},
           {changeContent: '补缴', fundBase: '', fundPercent: '', startPayMonth: '', endPayMonth: '', price: ''},
         ]
+      },
+      employeeFundTaskReferenceChange: {
+        fundBase: '16000',
+        fundPercent: '0.14',
+        price: '2240',
+        startChangeDate: '201701',
+        endChangeDate: '201702'
+      },
+      fundOperatorAdd: {
+        fundType: '基本公积金',
+        fundAccount: '',
+        startPayDate: '201701',
+        operatorTipValue: 0,
+        operatorTipList: [
+          {label: '要做', value: 0},
+          {label: '中心', value: 1},
+          {label: '中智', value: 2},
+          {label: '原单位', value: 3},
+          {label: '外服', value: 4},
+          {label: '不做', value: 5},
+          {label: '外包', value: 6},
+          {label: '其他独立开户公司', value: 7},
+        ],
+        operatorTipDate: '',
+        operatorListData: [
+          {payType: 0, startMonth: '201706', endMonth: '', customerPayMonth: '201706', base: '19512', percent: '0.14', price: '2494', reason: 0, disabled: true},
+          {payType: 1, startMonth: '201701', endMonth: '201705', customerPayMonth: '201707', base: '18000', percent: '0.14', price: '2520', reason: 6, disabled: true},
+        ],
+        doRemark: '',
+        refuseRemark: ''
+      },
+      fundOperatorChange: {
+        fundType: '基本公积金',
+        taskType: '调整',
+        newFundBase: '16000',
+        newFundPercent: '0.14',
+        newPrice: '2240',
+        startChangeDate: '201701',
+        endChangeDate: '201703',
+        customerPayDate: '201706',
+        operatorTipValue: 0,
+        operatorTipDate: ''
       }
     }
   }

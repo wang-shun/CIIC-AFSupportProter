@@ -55,11 +55,11 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventTypes from '../../../store/EventTypes'
-  import companyFundAccountInfo from '../../commoncontrol/companyfundaccountinfo.vue'
-  import employeeFundAccountInfo from '../../commoncontrol/employeefundaccountinfo.vue'
-  import fundInfo from '../../commoncontrol/fundinfo.vue'
-  import fundTransfer from '../../commoncontrol/fundtransfer.vue'
-  import historyTaskList from '../../commoncontrol/historytasklist.vue'
+  import companyFundAccountInfo from '../common/companyfundaccountinfo.vue'
+  import employeeFundAccountInfo from '../common/employeefundaccountinfo.vue'
+  import fundInfo from '../common/fundinfo.vue'
+  import fundTransfer from '../common/fundtransfer.vue'
+  import historyTaskList from '../common/historytasklist.vue'
 
   export default {
     components: {companyFundAccountInfo, employeeFundAccountInfo, fundInfo, fundTransfer, historyTaskList},

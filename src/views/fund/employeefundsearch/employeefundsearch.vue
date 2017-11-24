@@ -154,7 +154,7 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import companyFundAccountSearchModal from '../../commoncontrol/companyfundaccountsearchmodal.vue'
+  import companyFundAccountSearchModal from '../common/companyfundaccountsearchmodal.vue'
   import companyModal from '../../commoncontrol/companymodal.vue'
   import EventTypes from '../../../store/EventTypes'
 

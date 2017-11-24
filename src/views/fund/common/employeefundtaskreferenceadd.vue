@@ -3,7 +3,7 @@
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="变更类型">
-          <Select v-model="referenceInfo.changeTypeValue" style="width: 100%;" transfer>
+          <Select v-model="reference.changeTypeValue" style="width: 100%;" transfer :disabled="disabled">
             <Option v-for="item in changeTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
@@ -11,7 +11,7 @@
     </Row>
     <Row>
       <Col :sm="{span: 24}">
-        <Table border :columns="taskReferenceInfoColumns" :data="referenceInfo.taskReferenceInfoData"></Table>
+        <Table border :columns="taskReferenceInfoColumns" :data="reference.taskReferenceInfoData"></Table>
       </Col>
     </Row>
   </Form>
@@ -23,6 +23,12 @@
         type: Object,
         default() {
           return {}
+        }
+      },
+      disabled: {
+        type: Boolean,
+        default() {
+          return false
         }
       }
     },
@@ -76,6 +82,11 @@
             }
           }
         ],
+      }
+    },
+    computed: {
+      reference() {
+        return this.referenceInfo
       }
     }
   }

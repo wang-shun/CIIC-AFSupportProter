@@ -179,8 +179,30 @@ const AgentBusinessList = r => require.ensure([], () => r(require('@/views/Insur
 const AddAgentBusiness = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/AddAgentBusiness')), 'AddAgentBusiness') //新增代收代付
 const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/AgentBusinessBatchList')), 'AgentBusinessBatchList') //新增代收代付
 
+/*
+ * giftApplicationManager              --弹性福利
+ * marketActivitiesManager
+ * grantManager
+ * reportFormManager
+ */
+const giftApplicationManager = r => require.ensure([], () => r(require('@/views/gift/giftApplicationManager')), 'giftApplicationManager') //礼品管理
+const personChoose = r => require.ensure([], () => r(require('@/views/gift/personChoose')), 'personChoose') //人员选择
+const giftAdd = r => require.ensure([], () => r(require('@/views/gift/giftAdd')), 'giftAdd') //新增礼品单
+const giftApply = r => require.ensure([], () => r(require('@/views/gift/giftApply')), 'giftApply') //申请礼品
+const giftConfirm = r => require.ensure([], () => r(require('@/views/gift/giftConfirm')), 'giftConfirm') //礼品确认
 
+const marketActivitiesManager = r => require.ensure([], () => r(require('@/views/marketActivities/marketActivitiesManager')), 'marketActivitiesManager') //市场活动管理
+const addActivity = r => require.ensure([], () => r(require('@/views/marketActivities/addActivity')), 'addActivity') //新增活动
+const applyActivity = r => require.ensure([], () => r(require('@/views/marketActivities/applyActivity')), 'applyActivity') //申请活动
+const marketPersonChoose = r => require.ensure([], () => r(require('@/views/marketActivities/personChoose')), 'personChoose'); //人员选择
 
+const grantManager = r => require.ensure([], () => r(require('@/views/grant/grantManager')), 'grantManager') //发放管理
+const giftExamine = r => require.ensure([], () => r(require('@/views/grant/giftExamine')), 'giftExamine') //礼品审批
+const giftGrant = r => require.ensure([], () => r(require('@/views/grant/giftGrant')), 'giftGrant') //礼品发放
+const marketExamine = r => require.ensure([], () => r(require('@/views/grant/marketExamine')), 'marketExamine') //活动审批
+const marketGrant = r => require.ensure([], () => r(require('@/views/grant/marketGrant')), 'marketGrant') //活动发放
+
+const reportFormManager = r => require.ensure([], () => r(require('@/views/reportForm/reportFormManager')), 'reportFormManager') //报表查询
 
 
 
@@ -907,6 +929,158 @@ let router = new Router({
             level2:"在保管理",
             level3:"在保管理",
             openNames:['2']
+          }
+        },
+        //弹性福利
+        {
+          path: '/giftApplicationManager',
+          name: 'giftApplicationManager',
+          component: giftApplicationManager,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "礼品管理",
+            openNames: ['2']
+          }
+        },{
+          path: '/personChoose',
+          name: 'personChoose',
+          component: personChoose,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "人员选择",
+            openNames: ['2']
+          }
+        },{
+          path: '/giftAdd',
+          name: 'giftAdd',
+          component: giftAdd,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "新增礼品",
+            openNames: ['2']
+          }
+        },{
+          path: '/giftApply',
+          name: 'giftApply',
+          component: giftApply,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "申请礼品",
+            openNames: ['2']
+          }
+        },{
+          path: '/giftConfirm',
+          name: 'giftConfirm',
+          component: giftConfirm,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "礼品确认",
+            openNames: ['2']
+          }
+        },{
+          path: '/marketActivitiesManager',
+          name: 'marketActivitiesManager',
+          component: marketActivitiesManager,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "市场活动管理",
+            openNames: ['2']
+          }
+        },{
+          path: '/addActivity',
+          name: 'addActivity',
+          component: addActivity,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "新增市场活动",
+            openNames: ['2']
+          }
+        },{
+          path: '/marketPersonChoose',
+          name: 'marketPersonChoose',
+          component: marketPersonChoose,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "市场活动申请",
+            openNames: ['2']
+          }
+        },{
+          path: '/applyActivity',
+          name: 'applyActivity',
+          component: applyActivity,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "市场活动申请",
+            openNames: ['2']
+          }
+        },{
+          path: '/grantManager',
+          name: 'grantManager',
+          component: grantManager,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "发放管理",
+            openNames: ['2']
+          }
+        }, {
+          path: '/giftExamine',
+          name: 'giftExamine',
+          component: giftExamine,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "礼品审批",
+            openNames: ['2']
+          }
+        },{
+          path: '/giftGrant',
+          name: 'giftGrant',
+          component: giftGrant,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "礼品发放",
+            openNames: ['2']
+          }
+        },{
+          path: '/marketExamine',
+          name: 'marketExamine',
+          component: marketExamine,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "活动审批",
+            openNames: ['2']
+          }
+        },{
+          path: '/marketGrant',
+          name: 'marketGrant',
+          component: marketGrant,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "活动发放",
+            openNames: ['2']
+          }
+        },{
+          path: '/reportFormManager',
+          name: 'reportFormManager',
+          component: reportFormManager,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "报表查询",
+            openNames: ['2']
           }
         }
       ]

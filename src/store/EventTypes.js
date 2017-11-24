@@ -9,6 +9,10 @@ import SocialSecurityPay from "./modules/SocialSecurity/SocialSecurityPay/EventT
 //上海公积金
 import EmployeeFundSearch from "./modules/Fund/EmployeeFundSearch/EventTypes"
 
+//弹性福利
+import gift from "./modules/gift/EventTypes"
+import market from "./modules/market/EventTypes"
+
 export default {
   LEFTNAVIGATION_SETLIST: "LEFTNAVIGATION_SETLIST",
   LEFTNAVIGATION_GETLIST: "LEFTNAVIGATION_GETLIST",
@@ -21,4 +25,6 @@ export default {
   ...SocialSecurityPay,
 
   ...EmployeeFundSearch,
+  ...gift,
+  ...market,
 };

@@ -33,7 +33,7 @@
                 h('a', {
                   on: {
                     click: () => {
-                      this.$router.push({name: 'employeefundhistorydetail', query: {taskType: params.row.taskType}})
+                      this.$router.push({name: 'employeefundhistorydetail', params: {taskType: params.row.taskType}})
                     }
                   }
                 }, params.row.taskNumber),

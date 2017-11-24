@@ -58,7 +58,7 @@
     </Row>
     <Row>
       <Col :sm="{span: 24}">
-        <Table border :columns="operatorListColumns" :data="fundOperatorInfo.operatorListData"></Table>
+        <Table border :columns="operatorListColumns" :data="fundOperator.operatorListData"></Table>
       </Col>
     </Row>
     <Row class="mt20">
@@ -156,7 +156,7 @@
           {title: '补缴原因', key: 'reason', align: 'center',
             render: (h, params) => {
               return h('div', [
-                h('Select', {props: {value: params.row.reason, disabled: params.row.disabled}},
+                h('Select', {props: {value: params.row.reason, disabled:  this.disabled}},
                   [
                     h('Option', {props: {value: 0}},'漏缴补缴'),
                     h('Option', {props: {value: 1}},'少缴补缴'),
@@ -170,11 +170,11 @@
               ]);
             }
           },
-          {title: '操作', key: 'base', align: 'center', width: 130,
+          {title: '操作', key: '', align: 'center', width: 130,
             render: (h, params) => {
               return h('div', [
                 h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small', disabled: params.row.disabled},
+                  props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small', disabled: this.disabled},
                   style: {marginRight: '5px'},
                   on: {
                     click: () => {
@@ -183,7 +183,7 @@
                   }
                 }),
                 h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small', disabled: params.row.disabled},
+                  props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small', disabled: this.disabled},
                   style: {marginRight: '5px'},
                   on: {
                     click: () => {
@@ -192,7 +192,7 @@
                   }
                 }),
                 h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small', disabled: params.row.disabled},
+                  props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small', disabled: this.disabled},
                   on: {
                     click: () => {
                       this.insert(params.index);

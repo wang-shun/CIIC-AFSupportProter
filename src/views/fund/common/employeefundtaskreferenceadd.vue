@@ -86,6 +86,7 @@
     },
     computed: {
       reference() {
+        console.log(JSON.stringify(this.referenceInfo))
         return this.referenceInfo
       }
     }

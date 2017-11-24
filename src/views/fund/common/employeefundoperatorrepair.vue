@@ -2,18 +2,22 @@
   <Form label-width=150>
     <Row>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="公积金类型：">
-          {{fundOperator.fundType}}
+      <Form-item label="公积金类型：">
+        {{fundOperator.fundType}}
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="基本/补充公积金账户：">
-          <Input v-model="fundOperator.fundAccount" placeholder="请输入..." :disabled="disabled"></Input>
+      <Form-item label="任务：">
+        {{fundOperator.taskType}}
         </Form-item>
       </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="雇员起缴月份">
-          <DatePicker v-model="fundOperator.startPayDate" placement="bottom-end" placeholder="选择日期" :disabled="disabled" style="width: 100%;" transfer></DatePicker>
+    </Row>
+    <Row>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="补缴原因：">
+          <Select v-model="fundOperator.reasonValue" style="width: 100%;" :disabled="disabled" transfer>
+            <Option v-for="item in fundOperator.reasonList" :value="item.value" :key="item.value">{{item.label}}</Option>
+          </Select>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -24,14 +28,19 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="雇员起缴月份">
+        <Form-item label="操作提示日期">
           <DatePicker v-model="fundOperator.operatorTipDate" placement="bottom-end" placeholder="选择日期" :disabled="disabled" style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="客户汇缴月份">
+          <DatePicker v-model="fundOperator.customerPayDate" placement="bottom-end" placeholder="选择日期" :disabled="disabled" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
     </Row>
     <Row>
       <Col :sm="{span: 24}">
-        <Table border :columns="operatorListColumns" :data="fundOperatorInfo.operatorListData"></Table>
+        <Table border :columns="operatorListColumns" :data="fundOperator.operatorListData"></Table>
       </Col>
     </Row>
     <Row class="mt20">
@@ -66,57 +75,46 @@
     },
     data() {
       return {
-        operatorTipList: [
-          {label: '要做', value: 0},
-          {label: '中心', value: 1},
-          {label: '中智', value: 2},
-          {label: '原单位', value: 3},
-          {label: '外服', value: 4},
-          {label: '不做', value: 5},
-          {label: '外包', value: 6},
-          {label: '其他独立开户公司', value: 7},
+        reasonList: [
+          {value: 0, label: '漏缴补缴'},
+          {value: 1, label: '少缴补缴'},
+          {value: 2, label: '欠款单位补缴'},
+          {value: 3, label: '外省市转入补缴'},
+          {value: 4, label: '错缴更正补缴'},
+          {value: 5, label: '特殊补缴'},
+          {value: 6, label: '账外补缴'},
+        ],
+
+        operatorTipsList: [
+          {value: 0, label: '要做'},
+          {value: 1, label: '中心'},
+          {value: 2, label: '中智'},
+          {value: 3, label: '原单位'},
+          {value: 4, label: '外服'},
+          {value: 5, label: '不做'},
+          {value: 6, label: '外包'},
+          {value: 7, label: '其他独立开户公司'}
         ],
         operatorListColumns: [
-          {title: '汇缴类型', key: 'payType', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('Select', {props: {value: params.row.payType, disabled: this.disabled}},
-                  [
-                    h('Option', {props: {value: 0}},'正常汇缴'),
-                    h('Option', {props: {value: 1}},'补缴'),
-                  ]
-                )]
-              );
-            }
-          },
-          {title: '起缴月份', key: 'startMonth', align: 'center',
+          {title: '补缴起始年月', key: 'startDate', align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('i-input', {
-                  props: {value: params.row.startMonth, disabled: this.disabled},
-                }, params.row.startMonth)
+                  props: {value: params.row.startDate, disabled: this.disabled},
+                }, params.row.startDate)
               ]);
             }
           },
-          {title: '截止月份', key: 'endMonth', align: 'center',
+          {title: '补缴截止年月', key: 'endDate', align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('i-input', {
-                  props: {value: params.row.endMonth, disabled: this.disabled},
-                }, params.row.endMonth)
+                  props: {value: params.row.endDate, disabled: this.disabled},
+                }, params.row.endDate)
               ]);
             }
           },
-          {title: '客户汇缴月', key: 'customerPayMonth', align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('i-input', {
-                  props: {value: params.row.customerPayMonth, disabled: this.disabled},
-                }, params.row.customerPayMonth)
-              ]);
-            }
-          },
-          {title: '基数', key: 'base', align: 'center',
+          {title: '补缴基数', key: 'base', align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('i-input', {
@@ -134,7 +132,7 @@
               ]);
             }
           },
-          {title: '金额', key: 'price', align: 'center',
+          {title: '每月金额', key: 'price', align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('i-input', {
@@ -143,24 +141,16 @@
               ]);
             }
           },
-          {title: '补缴原因', key: 'reason', align: 'center',
+          {title: '合计补缴金额', key: 'count', align: 'center',
             render: (h, params) => {
               return h('div', [
-                h('Select', {props: {value: params.row.reason, disabled: this.disabled}},
-                  [
-                    h('Option', {props: {value: 0}},'漏缴补缴'),
-                    h('Option', {props: {value: 1}},'少缴补缴'),
-                    h('Option', {props: {value: 2}},'欠款单位补缴'),
-                    h('Option', {props: {value: 3}},'外省市转入补缴'),
-                    h('Option', {props: {value: 4}},'错缴更正补缴'),
-                    h('Option', {props: {value: 5}},'特殊补缴'),
-                    h('Option', {props: {value: 6}},'账外补缴'),
-                  ]
-                )
+                h('i-input', {
+                  props: {value: params.row.count, disabled: this.disabled},
+                }, params.row.count)
               ]);
             }
           },
-          {title: '操作', key: 'base', align: 'center', width: 130,
+          {title: '操作', key: '', align: 'center', width: 130,
             render: (h, params) => {
               return h('div', [
                 h('Button', {

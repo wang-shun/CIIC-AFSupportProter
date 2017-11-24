@@ -49,21 +49,21 @@ const employeeFundHistoryDetail = params => Utils.promise({
         startChangeDate: '201701',
         endChangeDate: '201702'
       },
+      employeeFundTaskReferenceSealing: {
+        outDate: '2017-8-24',
+        endPayDate: '201708'
+      },
+      employeeFundTaskReferenceRepair: {
+        fundBase: '9000',
+        fundPercent: '0.14',
+        startRepairDate: '201702',
+        endRepairDate: '201706'
+      },
       fundOperatorAdd: {
         fundType: '基本公积金',
         fundAccount: '',
         startPayDate: '201701',
         operatorTipValue: 0,
-        operatorTipList: [
-          {label: '要做', value: 0},
-          {label: '中心', value: 1},
-          {label: '中智', value: 2},
-          {label: '原单位', value: 3},
-          {label: '外服', value: 4},
-          {label: '不做', value: 5},
-          {label: '外包', value: 6},
-          {label: '其他独立开户公司', value: 7},
-        ],
         operatorTipDate: '',
         operatorListData: [
           {payType: 0, startMonth: '201706', endMonth: '', customerPayMonth: '201706', base: '19512', percent: '0.14', price: '2494', reason: 0, disabled: true},
@@ -82,7 +82,34 @@ const employeeFundHistoryDetail = params => Utils.promise({
         endChangeDate: '201703',
         customerPayDate: '201706',
         operatorTipValue: 0,
-        operatorTipDate: ''
+        operatorTipDate: '',
+        operatorListData: [
+          {startDate: '201601', endDate: '201605', base: '9300', percent: '0.14', price: '1302', difference: '42 * 5', type: '调整', reason: ''},
+          {startDate: '201601', endDate: '201605', base: '10000', percent: '0.14', price: '1400', difference: '', type: '补缴', reason: 0},
+        ],
+        doRemark: '',
+        refuseRemark: ''
+      },
+      fundOperatorSealing: {
+        fundType: '基本公积金',
+        changeType: 1,
+        endPayDate: '201708',
+        customerPayDate: '201708',
+        doRemark: '',
+        refuseRemark: ''
+      },
+      fundOperatorRepair: {
+        fundType: '基本公积金',
+        taskType: '补缴',
+        reasonValue: 0,
+        operatorTipValue: 0,
+        operatorTipDate: '',
+        customerPayDate: '201707',
+        operatorListData: [
+          {startDate: '201702', endDate: '201706', base: '19000', percent: '', price: '', count: ''},
+          {startDate: '', endDate: '', base: '', percent: '', price: '', count: ''},
+          {startDate: '', endDate: '', base: '', percent: '', price: '', count: ''}
+        ],
       }
     }
   }

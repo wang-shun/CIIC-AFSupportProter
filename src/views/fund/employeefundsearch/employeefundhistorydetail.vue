@@ -16,14 +16,19 @@
       <Panel name="3">
         任务单参考信息
         <div slot="content">
-          <employee-fund-task-reference-add :referenceInfo="data.employeeFundTaskReferenceAdd" :disabled="true" v-if="taskType === '0'"></employee-fund-task-reference-add>
-          <employee-fund-task-reference-change :referenceInfo="data.employeeFundTaskReferenceChange" :disabled="true" v-if="taskType === '1'"></employee-fund-task-reference-change>
+          <employee-fund-task-reference-add :referenceInfo="data.employeeFundTaskReferenceAdd" :disabled="true" v-if="currentTaskType === 0"></employee-fund-task-reference-add>
+          <employee-fund-task-reference-change :referenceInfo="data.employeeFundTaskReferenceChange" :disabled="true" v-else-if="currentTaskType === 1"></employee-fund-task-reference-change>
+          <employee-fund-task-reference-sealing :referenceInfo="data.employeeFundTaskReferenceSealing" :disabled="true" v-else-if="currentTaskType === 2"></employee-fund-task-reference-sealing>
+          <employee-fund-task-reference-repair :referenceInfo="data.employeeFundTaskReferenceRepair" :disabled="true" v-else></employee-fund-task-reference-repair>
         </div>
       </Panel>
       <Panel name="4">
         操作
         <div slot="content">
-          <employee-fund-operator-add :fundOperatorInfo="data.fundOperatorAdd" :disabled="true"></employee-fund-operator-add>
+          <employee-fund-operator-add :fundOperatorInfo="data.fundOperatorAdd" :disabled="true" v-if="currentTaskType === 0"></employee-fund-operator-add>
+          <employee-fund-operator-change :fundOperatorInfo="data.fundOperatorChange" :disabled="true" v-else-if="currentTaskType === 1"></employee-fund-operator-change>
+          <employee-fund-operator-sealing :fundOperatorInfo="data.fundOperatorSealing" :disabled="true" v-else-if="currentTaskType === 2"></employee-fund-operator-sealing>
+        <employee-fund-operator-repair :fundOperatorInfo="data.fundOperatorRepair" :disabled="true" v-else></employee-fund-operator-repair>
         </div>
       </Panel>
     </Collapse>
@@ -93,14 +98,18 @@
   import historyTaskList from '../common/historytasklist.vue'
   import employeeFundTaskReferenceAdd from '../common/employeefundtaskreferenceadd.vue'
   import employeeFundTaskReferenceChange from '../common/employeefundtaskreferencechange.vue'
+  import employeeFundTaskReferenceSealing from '../common/employeefundtaskreferencesealing.vue'
+  import employeeFundTaskReferenceRepair from '../common/employeefundtaskreferencerepair.vue'
   import employeeFundOperatorAdd from '../common/employeefundoperatoradd.vue'
+  import employeeFundOperatorChange from '../common/employeefundoperatorchange.vue'
+  import employeeFundOperatorSealing from '../common/employeefundoperatorsealing.vue'
+  import employeeFundOperatorRepair from '../common/employeefundoperatorrepair.vue'
 
   export default {
-    components: {companyFundAccountInfo, employeeFundAccountInfo, historyTaskList, employeeFundTaskReferenceAdd, employeeFundTaskReferenceChange, employeeFundOperatorAdd},
+    components: {companyFundAccountInfo, employeeFundAccountInfo, historyTaskList, employeeFundTaskReferenceAdd, employeeFundTaskReferenceChange, employeeFundTaskReferenceSealing, employeeFundTaskReferenceRepair, employeeFundOperatorAdd, employeeFundOperatorChange, employeeFundOperatorSealing, employeeFundOperatorRepair},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4], //展开栏
-        taskType: this.$route.query.taskType,
         isShowPrint: false,
         outUnitValue: '',
         outUnitList: [
@@ -123,7 +132,11 @@
     computed: {
       ...mapState('employeeFundHistoryDetail', {
         data: state => state.data
-      })
+      }),
+      currentTaskType() {
+        console.log(this.$route.params.taskType)
+        return this.$route.params.taskType
+      }
     },
     methods: {
       ...mapActions('employeeFundHistoryDetail', [EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]),

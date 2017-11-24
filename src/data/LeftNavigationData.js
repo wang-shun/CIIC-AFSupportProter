@@ -40,17 +40,17 @@ const leftNavigationList = params => Utils.promise({
       {
         id: 3,
         key: "雇佣管理",
-        icon: "ios-cog-outline",
+        icon: "ios-people-outline",
         children: [
-                
+
         ]
       },
       {
         id: 4,
         key: "证件管理",
-        icon: "ios-cog-outline",
+        icon: "card",
         children: [
-                
+
         ]
       },
       // {
@@ -101,18 +101,18 @@ const leftNavigationList = params => Utils.promise({
       {
         id: 8,
         key: "弹性福利",
-        icon: "ios-cog-outline",
+        icon: "coffee",
         children: [
           {cid: "8-1", ckey: "礼品管理", crouter: "giftApplicationManager"},
           {cid: "8-2", ckey: "市场活动管理", crouter: "marketActivitiesManager"},
           {cid: "8-3", ckey: "发放管理", crouter: "grantManager"},
-          {cid: "8-4", ckey: "报表查询", crouter: "reportFormManager"}          
+          {cid: "8-4", ckey: "报表查询", crouter: "reportFormManager"}
         ]
       },
       {
         id: 9,
         key: "健康医疗",
-        icon: "ios-cog-outline",
+        icon: "ios-medkit-outline",
         children: [
           {cid: "9-1", ckey: "待处理任务", crouter: "giftApplicationManager"},
           {cid: "9-2", ckey: "已处理任务", crouter: "marketActivitiesManager"},
@@ -123,7 +123,7 @@ const leftNavigationList = params => Utils.promise({
           {cid: "9-7", ckey: "在保管理", crouter: "reportFormManager"},
           {cid: "9-8", ckey: "保单号管理", crouter: "reportFormManager"},
           {cid: "9-8", ckey: "保单管理", crouter: "reportFormManager"},
-          {cid: "9-8", ckey: "代收代付", crouter: "reportFormManager"}             
+          {cid: "9-8", ckey: "代收代付", crouter: "reportFormManager"}
         ]
       }
     ]

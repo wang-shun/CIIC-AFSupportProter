@@ -112,7 +112,66 @@
               <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}">{{subitem.ckey}}</router-link>
             </Menu-item>
           </Submenu>
-
+          <Submenu name="3">
+            <template slot="title">
+              <Icon type="stats-bars" :size="size"></Icon>
+              <span   :class="{'layout-text':layoutOut}">任务单管理</span>
+            </template>
+            <Menu-item name="5-1" v-menuInner="{set:set}">
+              <router-link :to="{name:'pendingTaskList'}" v-menuInner="{set:set}">待处理任务单列表</router-link>
+            </Menu-item>
+            <Menu-item name="5-1" v-menuInner="{set:set}">
+              <router-link :to="{name:'processedTaskList'}" v-menuInner="{set:set}">已处理任务单列表</router-link>
+            </Menu-item>
+          </Submenu>
+          <Submenu name="4">
+            <template slot="title">
+              <Icon type="stats-bars" :size="size"></Icon>
+              <span   :class="{'layout-text':layoutOut}">补充医疗理赔</span>
+            </template>
+            <Menu-item name="5-1" v-menuInner="{set:set}">
+              <router-link :to="{name:'supplementaryMedicalList'}" v-menuInner="{set:set}">补充医疗理赔</router-link>
+            </Menu-item>
+          </Submenu>
+          <Submenu name="5">
+            <template slot="title">
+              <Icon type="stats-bars" :size="size"></Icon>
+              <span   :class="{'layout-text':layoutOut}">未投保医疗</span>
+            </template>
+            <Menu-item name="5-1" v-menuInner="{set:set}">
+              <router-link :to="{name:'acceptanceList'}" v-menuInner="{set:set}">受理单列表</router-link>
+            </Menu-item>
+            <Menu-item name="5-3" v-menuInner="{set:set}">
+              <router-link :to="{name:'acceptanceAuditList'}" v-menuInner="{set:set}">未投保审核列表</router-link>
+            </Menu-item>
+            <Menu-item name="5-1" v-menuInner="{set:set}">
+              <router-link :to="{name:'medicalRelationTransform'}" v-menuInner="{set:set}">医疗关系转移</router-link>
+            </Menu-item>
+          </Submenu>
+          <Submenu name="6">
+            <template slot="title">
+              <Icon type="stats-bars" :size="size"></Icon>
+              <span   :class="{'layout-text':layoutOut}">在保管理</span>
+            </template>
+            <Menu-item name="5-1" v-menuInner="{set:set}">
+              <router-link :to="{name:'insuredList'}" v-menuInner="{set:set}">在保管理</router-link>
+            </Menu-item>
+          </Submenu>
+          <Submenu name="6">
+            <template slot="title">
+              <Icon type="stats-bars" :size="size"></Icon>
+              <span   :class="{'layout-text':layoutOut}">保单管理</span>
+            </template>
+            <Menu-item name="5-1" v-menuInner="{set:set}">
+              <router-link :to="{name:'InsurancePolicyNumList'}" v-menuInner="{set:set}">保单号管理</router-link>
+            </Menu-item>
+            <Menu-item name="5-1" v-menuInner="{set:set}">
+              <router-link :to="{name:'InsurancePolicyList'}" v-menuInner="{set:set}">保单管理</router-link>
+            </Menu-item>
+            <Menu-item name="5-1" v-menuInner="{set:set}">
+              <router-link :to="{name:'AgentBusinessList'}" v-menuInner="{set:set}">代收代付</router-link>
+            </Menu-item>
+          </Submenu>
           <!--
                     <Submenu name="1">
                       <template slot="title">

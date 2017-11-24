@@ -123,6 +123,48 @@ const employeefundbasicinfo = r => require.ensure([], () => r(require('@/views/f
 
 
 
+//任务单管理
+const pendingTaskList = r => require.ensure([], () => r(require('@/views/medicalTaskManagement/pendingTaskList')), 'pendingTaskList') //待处理任务单列表
+const processedTaskList = r => require.ensure([], () => r(require('@/views/medicalTaskManagement/processedTaskList')), 'processedTaskList') //已处理任务单列表
+
+//补充医疗理赔
+const supplementaryMedicalList = r => require.ensure([], () => r(require('@/views/medicalSupplementary/supplementaryMedicalList')), 'supplementaryMedicalList') //审核受理单
+const supplementaryMedicalBatchList = r => require.ensure([], () => r(require('@/views/medicalSupplementary/supplementaryMedicalBatchList')), 'supplementaryMedicalBatchList') //补充医疗理赔批量
+const invoiceList = r => require.ensure([], () => r(require('@/views/medicalSupplementary/invoiceList')), 'invoiceList') //发票列表
+
+//未投保医疗
+const acceptanceList = r => require.ensure([], () => r(require('@/views/medicalUninsured/acceptanceList')), 'acceptanceList') //受理单列表
+const checkMedicalList = r => require.ensure([], () => r(require('@/views/medicalUninsured/checkMedicalList')), 'checkMedicalList') //新增未投保列表
+const acceptanceAuditList = r => require.ensure([], () => r(require('@/views/medicalUninsured/acceptanceAuditList')), 'acceptanceAuditList') //未投保审核列表
+const addAcceptanceEmployeeList = r => require.ensure([], () => r(require('@/views/medicalUninsured/addAcceptanceEmployeeList')), 'addAcceptanceEmployeeList') //理赔人员列表
+const addAcceptance = r => require.ensure([], () => r(require('@/views/medicalUninsured/addAcceptance')), 'addAcceptance') //新增受理单
+const auditAcceptance = r => require.ensure([], () => r(require('@/views/medicalUninsured/auditAcceptance')), 'auditAcceptance') //审核受理单
+
+const medicalRelationTransform = r => require.ensure([], () => r(require('@/views/medicalUninsured/medicalRelationTransform')), 'medicalRelationTransform') //医疗关系转移
+const addFragmentaryReimbursement = r => require.ensure([], () => r(require('@/views/medicalUninsured/addFragmentaryReimbursement')), 'addFragmentaryReimbursement') //发票列表
+const addMedicalTransform = r => require.ensure([], () => r(require('@/views/medicalUninsured/addMedicalTransform')), 'addMedicalTransform') //医疗关系转移
+const auditNurseryFee = r => require.ensure([], () => r(require('@/views/medicalUninsured/auditNurseryFee')), 'auditNurseryFee') //医疗关系转移
+
+
+//在保管理
+const insuredList = r => require.ensure([], () => r(require('@/views/medicalTaskManagement/insuredList')), 'insuredList') //在保管理
+
+
+//保单管理
+const InsurancePolicyList = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/InsurancePolicyList')), 'InsurancePolicyList') //保单列表
+const InsurancePolicyNumEmpList = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/InsurancePolicyNumEmpList')), 'InsurancePolicyNumEmpList') //保单人员列表
+const InsurancePolicyNumCostConfirmList = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/InsurancePolicyNumCostConfirmList')), 'InsurancePolicyNumCostConfirmList') //保单费用确认
+const InsurancePolicyNumList = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/InsurancePolicyNumList')), 'InsurancePolicyNumList') //保单号列表
+const AddInsurancePolicyNum = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/AddInsurancePolicyNum')), 'AddInsurancePolicyNum') //新增保单号
+const AddPayRate = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/AddPayRate')), 'AddPayRate') //新增付费比例
+const AgentBusinessList = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/AgentBusinessList')), 'AgentBusinessList') //代收代付列表
+const AddAgentBusiness = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/AddAgentBusiness')), 'AddAgentBusiness') //新增代收代付
+const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/views/InsurancePolicyManagement/AgentBusinessBatchList')), 'AgentBusinessBatchList') //新增代收代付
+
+
+
+
+
 
 
 Vue.use(Router)
@@ -472,6 +514,283 @@ let router = new Router({
             openNames: ['1']
           }
         },
+        {
+          path: '/addAcceptanceEmployeeList',
+          name:'addAcceptanceEmployeeList',
+          component: addAcceptanceEmployeeList,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"新增受理单",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/pendingTaskList',
+          name:'pendingTaskList',
+          component: pendingTaskList,
+          meta:{
+            level1:'首页',
+            level2:"任务单管理",
+            level3:"待处理任务单列表",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/processedTaskList',
+          name:'processedTaskList',
+          component: processedTaskList,
+          meta:{
+            level1:'首页',
+            level2:"任务单管理",
+            level3:"已处理任务单列表",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/addAcceptance',
+          name:'addAcceptance',
+          component: addAcceptance,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"新增受理单",
+            openNames:['2']
+          }
+        },
+
+        {
+          path: '/invoiceList',
+          name:'invoiceList',
+          component: invoiceList,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"发票列表",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/medicalRelationTransform',
+          name:'medicalRelationTransform',
+          component: medicalRelationTransform,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"医疗关系转移",
+            openNames:['2']
+          }
+        },
+
+        {
+          path: '/auditAcceptance',
+          name:'auditAcceptance',
+          component: auditAcceptance,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"审核受理单",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/addFragmentaryReimbursement',
+          name:'addFragmentaryReimbursement',
+          component: addFragmentaryReimbursement,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"新增零星报销",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/addMedicalTransform',
+          name:'addMedicalTransform',
+          component: addMedicalTransform,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"新增医疗关系转移",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/auditNurseryFee',
+          name:'auditNurseryFee',
+          component: auditNurseryFee,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"托费报销受理",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/InsurancePolicyList',
+          name:'InsurancePolicyList',
+          component: InsurancePolicyList,
+          meta:{
+            level1:'首页',
+            level2:"保单管理",
+            level3:"保单批次列表",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/InsurancePolicyNumEmpList',
+          name:'InsurancePolicyNumEmpList',
+          component: InsurancePolicyNumEmpList,
+          meta:{
+            level1:'首页',
+            level2:"保单管理",
+            level3:"新增保单缴费批次",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/InsurancePolicyNumCostConfirmList',
+          name:'InsurancePolicyNumCostConfirmList',
+          component: InsurancePolicyNumCostConfirmList,
+          meta:{
+            level1:'首页',
+            level2:"保单管理",
+            level3:"保单费用确认",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/InsurancePolicyNumList',
+          name:'InsurancePolicyNumList',
+          component: InsurancePolicyNumList,
+          meta:{
+            level1:'首页',
+            level2:"保单管理",
+            level3:"保单号列表",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/AddInsurancePolicyNum',
+          name:'AddInsurancePolicyNum',
+          component: AddInsurancePolicyNum,
+          meta:{
+            level1:'首页',
+            level2:"保单管理",
+            level3:"新增保单号",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/AddPayRate',
+          name:'AddPayRate',
+          component: AddPayRate,
+          meta:{
+            level1:'首页',
+            level2:"保单管理",
+            level3:"新增付费比例",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/AgentBusinessList',
+          name:'AgentBusinessList',
+          component: AgentBusinessList,
+          meta:{
+            level1:'首页',
+            level2:"保单管理",
+            level3:"代收代付列表",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/AddAgentBusiness',
+          name:'AddAgentBusiness',
+          component: AddAgentBusiness,
+          meta:{
+            level1:'首页',
+            level2:"保单管理",
+            level3:"新增代收代付",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/AgentBusinessBatchList',
+          name:'AgentBusinessBatchList',
+          component: AgentBusinessBatchList,
+          meta:{
+            level1:'首页',
+            level2:"保单管理",
+            level3:"代收代付批次列表",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/supplementaryMedicalList',
+          name:'supplementaryMedicalList',
+          component: supplementaryMedicalList,
+          meta:{
+            level1:'首页',
+            level2:"补充医疗理赔",
+            level3:"补充医疗理赔",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/supplementaryMedicalBatchList',
+          name:'supplementaryMedicalBatchList',
+          component: supplementaryMedicalBatchList,
+          meta:{
+            level1:'首页',
+            level2:"补充医疗理赔",
+            level3:"补充医疗理赔批量",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/acceptanceAuditList',
+          name:'acceptanceAuditList',
+          component: acceptanceAuditList,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"未投保审核列表",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/acceptanceList',
+          name:'acceptanceList',
+          component: acceptanceList,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"受理单列表",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/checkMedicalList',
+          name:'checkMedicalList',
+          component: checkMedicalList,
+          meta:{
+            level1:'首页',
+            level2:"未投保医疗",
+            level3:"新增未投保列表",
+            openNames:['2']
+          }
+        },
+        {
+          path: '/insuredList',
+          name:'insuredList',
+          component: insuredList,
+          meta:{
+            level1:'首页',
+            level2:"在保管理",
+            level3:"在保管理",
+            openNames:['2']
+          }
+        }
       ]
       }
    ]})

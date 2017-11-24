@@ -81,6 +81,17 @@ const leftNavigationList = params => Utils.promise({
           {cid: "7-1", ckey: "保单管理", crouter: "InsurancePolicyList"},
           {cid: "7-1", ckey: "代收代付", crouter: "AgentBusinessList"}
         ]
+      },
+      {
+        id: 8,
+        key: "弹性福利",
+        icon: "ios-cog-outline",
+        children: [
+          {cid: "7-1", ckey: "礼品管理", crouter: "giftApplicationManager"},
+          {cid: "7-2", ckey: "市场活动管理", crouter: "marketActivitiesManager"},
+          {cid: "7-3", ckey: "发放管理", crouter: "grantManager"},
+          {cid: "7-4", ckey: "报表查询", crouter: "reportFormManager"}          
+        ]
       }
     ]
   }

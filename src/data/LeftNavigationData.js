@@ -36,6 +36,51 @@ const leftNavigationList = params => Utils.promise({
           {cid: "2-8", ckey: "公积金报表", crouter: "fundreport"},
           {cid: "2-9", ckey: "公积金年调", crouter: "fundyearadjust"},
         ]
+      },
+      {
+        id: 3,
+        key: "任务单管理",
+        icon: "stats-bars",
+        children: [
+          {cid: "3-1", ckey: "待处理任务单列表", crouter: "pendingTaskList"},
+          {cid: "3-2", ckey: "已处理任务单列表", crouter: "processedTaskList"}
+        ]
+      },
+      {
+        id: 4,
+        key: "补充医疗理赔",
+        icon: "stats-bars",
+        children: [
+          {cid: "4-1", ckey: "补充医疗理赔", crouter: "supplementaryMedicalList"}
+        ]
+      },
+      {
+        id: 5,
+        key: "未投保医疗",
+        icon: "stats-bars",
+        children: [
+          {cid: "5-1", ckey: "受理单列表", crouter: "acceptanceList"},
+          {cid: "5-2", ckey: "未投保审核列表", crouter: "acceptanceAuditList"},
+          {cid: "5-3", ckey: "医疗关系转移", crouter: "medicalRelationTransform"}
+        ]
+      },
+      {
+        id: 6,
+        key: "在保管理",
+        icon: "stats-bars",
+        children: [
+          {cid: "6-1", ckey: "在保管理", crouter: "insuredList"}
+        ]
+      },
+      {
+        id: 7,
+        key: "保单管理",
+        icon: "stats-bars",
+        children: [
+          {cid: "7-1", ckey: "保单号管理", crouter: "InsurancePolicyNumList"},
+          {cid: "7-1", ckey: "保单管理", crouter: "InsurancePolicyList"},
+          {cid: "7-1", ckey: "代收代付", crouter: "AgentBusinessList"}
+        ]
       }
     ]
   }

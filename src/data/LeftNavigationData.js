@@ -37,6 +37,22 @@ const leftNavigationList = params => Utils.promise({
           {cid: "2-9", ckey: "公积金年调", crouter: "fundyearadjust"},
         ]
       },
+      {
+        id: 3,
+        key: "雇佣管理",
+        icon: "ios-cog-outline",
+        children: [
+                
+        ]
+      },
+      {
+        id: 4,
+        key: "证件管理",
+        icon: "ios-cog-outline",
+        children: [
+                
+        ]
+      },
       // {
       //   id: 3,
       //   key: "任务单管理",

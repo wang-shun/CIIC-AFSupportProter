@@ -41,7 +41,7 @@
           <label>{{fund.endDate}}</label>
         </Form-item>
       </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-show="isShowPayMonth">
         <Form-item label="客户汇缴月份：">
           <label>{{fund.payMonth}}</label>
         </Form-item>
@@ -56,6 +56,12 @@
         type: Object,
         default() {
           return {}
+        }
+      },
+      isShowPayMonth: {
+        type: Boolean,
+        default() {
+          return false
         }
       }
     },

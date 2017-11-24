@@ -3,22 +3,31 @@
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="变更类型">
-          <Select v-model="changeTypeValue" style="width: 100%;" transfer>
+          <Select v-model="referenceInfo.changeTypeValue" style="width: 100%;" transfer>
             <Option v-for="item in changeTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
       </Col>
     </Row>
     <Row>
-      <Col :sm="{span: 24}"></Col>
+      <Col :sm="{span: 24}">
+        <Table border :columns="taskReferenceInfoColumns" :data="referenceInfo.taskReferenceInfoData"></Table>
+      </Col>
     </Row>
   </Form>
 </template>
 <script>
   export default {
+    props: {
+      referenceInfo: {
+        type: Object,
+        default() {
+          return {}
+        }
+      }
+    },
     data() {
       return {
-        changeTypeValue: '',
         changeTypeList: [
           {label: '新开', value: 0},
           {label: '转入', value: 1}
@@ -67,10 +76,6 @@
             }
           }
         ],
-        taskReferenceInfoData: [
-          {changeContent: '汇缴', fundBase: '19000', fundPercent: '0.14', startPayMonth: '201701', endPayMonth: '', price: ''},
-          {changeContent: '补缴', fundBase: '', fundPercent: '', startPayMonth: '', endPayMonth: '', price: ''},
-        ]
       }
     }
   }

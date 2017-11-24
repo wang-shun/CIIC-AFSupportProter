@@ -112,15 +112,33 @@ const systemmanage = r => require.ensure([], () => r(require('@/views/socialsecu
 
 /* ================== 本地公积金 ================== */
 /*
- * employeefundsearch      --- 雇员公积金查询
-   employeefundhistory     --- 雇员公积金批量导入历史
-   employeefundbasicinfo   --- 雇员公积金详情
+ * employeefundsearch          --- 雇员公积金查询
+   employeefundhistory         --- 雇员公积金批量导入历史
+   employeefundbasicinfo       --- 雇员公积金详情
+   employeefundhistorydetail   --- 雇员公积金历史任务单详情
+ * employeefundcommonoperator  --- 雇员日常操作
+ * employeefundspecialoperator --- 雇员特殊操作
+ * companyfundtasklist         --- 企业任务单
+ * companyfundaccountsearch    --- 企业公积金账户查询
+ * fundreconciliation          --- 公积金对账
+ * fundpay                     --- 公积金汇缴支付
+ * fundreport                  --- 公积金报表
+ * fundyearadjust              --- 公积金年调
  */
 
 const employeefundsearch = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundsearch')), 'employeefundsearch')
 const employeefundhistory = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundhistory')), 'employeefundhistory')
 const employeefundbasicinfo = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundbasicinfo')), 'employeefundbasicinfo')
+const employeefundhistorydetail = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundhistorydetail')), 'employeefundhistorydetail')
 
+const employeefundcommonoperator = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundcommonoperator')), 'employeefundcommonoperator')
+const employeefundspecialoperator = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/employeefundspecialoperator')), 'employeefundspecialoperator')
+const companyfundtasklist = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/companyfundtasklist')), 'companyfundtasklist')
+const companyfundaccountsearch = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/companyfundaccountsearch')), 'companyfundaccountsearch')
+const fundreconciliation = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/fundreconciliation')), 'fundreconciliation')
+const fundpay = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/fundpay')), 'fundpay')
+const fundreport = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/fundreport')), 'fundreport')
+const fundyearadjust = r => require.ensure([], () => r(require('@/views/fund/employeefundsearch/fundyearadjust')), 'fundyearadjust')
 
 
 //任务单管理
@@ -514,6 +532,106 @@ let router = new Router({
             openNames: ['1']
           }
         },
+        {
+          path: '/employeefundhistorydetail',
+          name: 'employeefundhistorydetail',
+          component: employeefundhistorydetail,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "雇员公积金历史任务单详情",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employeefundcommonoperator',
+          name: 'employeefundcommonoperator',
+          component: employeefundcommonoperator,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "雇员日常操作",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employeefundspecialoperator',
+          name: 'employeefundspecialoperator',
+          component: employeefundspecialoperator,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "雇员特殊操作",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/companyfundtasklist',
+          name: 'companyfundtasklist',
+          component: companyfundtasklist,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "企业任务单",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/companyfundaccountsearch',
+          name: 'companyfundaccountsearch',
+          component: companyfundaccountsearch,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "企业公积金账户查询",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/fundreconciliation',
+          name: 'fundreconciliation',
+          component: fundreconciliation,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "公积金对账",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/fundpay',
+          name: 'fundpay',
+          component: fundpay,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "公积金汇缴支付",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/fundreport',
+          name: 'fundreport',
+          component: fundreport,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "公积金报表",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/fundyearadjust',
+          name: 'fundyearadjust',
+          component: fundyearadjust,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "公积金年调",
+            openNames: ['1']
+          }
+        },
+
         {
           path: '/addAcceptanceEmployeeList',
           name:'addAcceptanceEmployeeList',

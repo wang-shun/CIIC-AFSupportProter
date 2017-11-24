@@ -27,6 +27,40 @@
         </Form-item>
       </Col>
     </Row>
+    <Row v-show="isShowFundStatus">
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="基本公积金账号：">
+          <label>{{employeeFundAccountInfo.basicFundAccount}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="基本公积金状态：">
+          <label>{{employeeFundAccountInfo.basicFundStatus}}</label>
+        </Form-item>
+      </Col>
+    </Row>
+    <Row v-show="isShowFundStatus">
+      <Col :sm="{span: 24}">
+        <Table border :columns="fundColumns" :data="employeeFundAccountInfo.basicFundData"></Table>
+      </Col>
+    </Row>
+    <Row class="mt20" v-show="isShowFundStatus">
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="补充公积金账号：">
+          <label>{{employeeFundAccountInfo.addFundAccount}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="补充公积金状态：">
+          <label>{{employeeFundAccountInfo.addFundStatus}}</label>
+        </Form-item>
+      </Col>
+    </Row>
+    <Row v-show="isShowFundStatus">
+      <Col :sm="{span: 24}">
+        <Table border :columns="fundColumns" :data="employeeFundAccountInfo.addFundData"></Table>
+      </Col>
+    </Row>
   </Form>
 </template>
 <script>
@@ -37,11 +71,60 @@
         default() {
           return {}
         }
+      },
+      isShowFundStatus: {
+        type: Boolean,
+        default() {
+          return false
+        }
       }
     },
     data() {
       return {
-
+        fundColumns: [
+          {title: '起缴年月', key: 'startPayDate', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.startPayDate),
+              ]);
+            }
+          },
+          {title: '截至年月', key: 'endPayDate', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.endPayDate),
+              ]);
+            }
+          },
+          {title: '客户汇缴年月', key: 'customerPayDate', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.customerPayDate),
+              ]);
+            }
+          },
+          {title: '基数', key: 'basic', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.basic),
+              ]);
+            }
+          },
+          {title: '比例', key: 'percent', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.percent),
+              ]);
+            }
+          },
+          {title: '金额', key: 'price', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.price),
+              ]);
+            }
+          }
+        ],
       }
     },
     computed: {

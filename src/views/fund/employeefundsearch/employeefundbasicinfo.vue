@@ -10,13 +10,13 @@
       <Panel name="2">
         企业公积金账户信息
         <div slot="content">
-          <company-fund-account-info :fundInfo="data.companyFundAccountInfo"></company-fund-account-info>
+          <company-fund-account-info :fundInfo="data.companyFundAccountInfo" :isShowPayMonth="true"></company-fund-account-info>
         </div>
       </Panel>
       <Panel name="3">
         雇员信息
         <div slot="content">
-          <employee-fund-account-info :employeeFundInfo="data.employeeFundAccountInfo"></employee-fund-account-info>
+          <employee-fund-account-info :employeeFundInfo="data.employeeFundAccountInfo" :isShowFundStatus="false"></employee-fund-account-info>
         </div>
       </Panel>
       <Panel name="4">

@@ -23,7 +23,7 @@
       </Panel>
     </Collapse>
     <div>
-      <Button type="warning" @click="back">返回</Button>
+      <Button type="warning" @click="back">上一步</Button>
       <Button type="primary" @click="confirm()">确认申请</Button>
     </div>
     <div class="create">
@@ -90,7 +90,11 @@ export default {
         slider: "",
         textarea: ""
       },
-      columns7: [
+      columns7: [{
+        type: 'selection',
+        width: 60,
+        align: 'center'
+      },
         {
           title: "类型",
           sortable: true,

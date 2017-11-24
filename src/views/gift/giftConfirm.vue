@@ -27,10 +27,10 @@
             </row>
             <row>
               <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Button type="warning" @click="back">上一步</Button>
               <router-link to="/giftApplicationManager">
                 <Button type="primary">提交</Button>
               </router-link>
-              <Button type="warning" @click="back">返回</Button>
               </Col>
             </row>
           </Form>
@@ -59,7 +59,7 @@
           sortable: true,
           key: 'employeeId'
         }, {
-          title: '礼品类别',
+          title: '礼品类型',
           sortable: true,
           key: 'sss1'
         }, {

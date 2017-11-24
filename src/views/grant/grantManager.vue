@@ -282,13 +282,22 @@
         },{
           value: '3',
           label: '不同意'
+        },{
+          value: '3',
+          label: '部分同意'
         }],
         grantStateList:[{
           value: '0',
           label: '全部'
         },{
           value: '1',
+          label: '未发放'
+        },{
+          value: '1',
           label: '已发放'
+        },{
+          value: '1',
+          label: '已批退'
         }],
         deptList:[{
           value: '0',

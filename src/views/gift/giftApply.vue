@@ -27,7 +27,7 @@
         <div slot="content">
           <Form :model="formItem" :label-width="120">
             <row>
-              <Col v-for="peopleType in peopleTypes" :sm="{ span: 6, offset: 1 }" :md="{ span: 3, offset: 0 }" :lg="{span: 8}">
+              <Col v-for="peopleType in testTypes" :sm="{ span: 6, offset: 1 }" :md="{ span: 3, offset: 0 }" :lg="{span: 8}">
                 <Row>
                   <Col :sm="{span: 24}" style="text-align: center">
                   <img src="./u260.png"/></Col>
@@ -55,14 +55,14 @@
                   </Form-item>
                   </Col>
                   <Col :xs="{ span: 3, offset: 6 }" :lg="{ span: 3, offset: 6 }" style="text-align: center">
-                  <Button type="primary" @click="back">加入申请列表</Button>
+                  <Button type="primary">加入申请列表</Button>
                   </Col>
                 </Row>
               </Col>
             </row>
             <row>
               <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
-              <Button type="warning" @click="back">返回</Button>
+              <Button type="warning" @click="back">上一步</Button>
               <router-link to="/giftConfirm">
                 <Button type="primary">下一步</Button>
               </router-link>
@@ -100,6 +100,17 @@
         }, {
           value: '7', label: '儿童用品'
         }],
+
+        testTypes: [{
+          value: "0", label: "全部"
+        }, {
+          value: "1", label: "雇员"
+        }, {
+          value: "2", label: "子女"
+        }, {
+          value: "3", label: "配偶"
+        }],
+
         ruleValidate: {
           name: [
             {required: true, message: '薪资项模板名称不能为空', trigger: 'blur'}

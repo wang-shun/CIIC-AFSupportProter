@@ -30,7 +30,7 @@
               </Form>
             </Col>
             <Col :xs="{ span: 6, offset: 8 }" :lg="{ span: 6, offset: 8 }">
-              <Button type="primary" size="large">查询</Button>
+              <Button type="primary" icon="ios-search">查询</Button>
               <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
             </Col>
           </Row>
@@ -38,16 +38,13 @@
       </Panel>
     </Collapse>
 
-    <br/>
-
     <div class="create"  v-if="modal1 != '7'">
-      <Row :gutter="16">
-        <Col span="2">
-          <router-link  to="/giftApply">
-            <Button type="info">确认申请</Button>
-          </router-link>
-        </Col>
-      </Row>
+      <router-link  to="/giftApplicationManager">
+        <Button type="info">返回</Button>
+      </router-link>
+      <router-link  to="/giftApply">
+        <Button type="info">确认申请</Button>
+      </router-link>
     </div>
 
     <br/>
@@ -71,9 +68,12 @@
           </Col>
         </Row>
         <Row>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 5 }" class="checkBtn">
+          <Col :xs="{ span: 6, offset: 2 }" :lg="{ span: 6, offset: 2 }">
+            <router-link  to="/giftApplicationManager">
+              <Button type="info">返回</Button>
+            </router-link>
             <router-link  to="/giftApply">
-              <Button type="primary">确认申请</Button>
+              <Button type="info">确认申请</Button>
             </router-link>
           </Col>
         </Row>

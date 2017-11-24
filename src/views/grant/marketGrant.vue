@@ -89,7 +89,7 @@
               <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
               <Button type="warning" @click="">返回</Button>
               <router-link to="/grantManager">
-                <Button type="primary" @click="">已发放</Button>
+                <Button type="primary" @click="">发放</Button>
               </router-link>
               <router-link to="/grantManager">
                 <Button type="error" @click="">批退</Button>
@@ -105,7 +105,7 @@
 
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../../store/EventTypes'
+  import EventTypes from '../../store/EventTypes/index'
   import ProgressBar from "../commoncontrol/progress/progressbar.vue";
 
   export default {

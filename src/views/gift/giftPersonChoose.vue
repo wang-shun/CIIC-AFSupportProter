@@ -1,5 +1,10 @@
 <template>
   <div class="smList">
+    <Steps :current="0">
+      <Step title="选择联系人"></Step>
+      <Step title="选择礼品"></Step>
+      <Step title="确认信息"></Step>
+    </Steps>
     <Collapse v-model="value1" accordion>
       <Panel name="1">
         <div slot="content">
@@ -263,10 +268,5 @@
 </script>
 
 <style>
-  .ivu-card {
-    background: rgba(246, 246, 246, 1);
-  }
-  .checkBtn .ivu-btn{
-    float: right;
-  }
+
 </style>

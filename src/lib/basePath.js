@@ -3,6 +3,7 @@ let Env = require('./env');
 // 默认测试
 let basePaths = {
   'AlertJob': 'http://localhost:8081',
+  'ew': 'http://localhost:8081/ew',
 }
 
 // 生产

@@ -5,7 +5,7 @@
       礼品管理查询
       <div slot="content">
         <Form :model="formItem" ref="formItem" :label-width="100">
-          <Row>
+          <Row type="flex" justify="start">
             <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
               <Form-item label="礼品名称" prop="giftname">
                 <Input v-model="formItem.giftname" placeholder="请输入"/>
@@ -32,7 +32,7 @@
       <router-link to="/giftAdd">
         <Button type="info">新增礼品</Button>
       </router-link>
-      <router-link to="/personChoose">
+      <router-link to="/giftPersonChoose">
         <Button type="info">礼品申请</Button>
       </router-link>
     </div>

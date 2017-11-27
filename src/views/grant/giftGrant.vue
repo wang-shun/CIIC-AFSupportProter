@@ -128,12 +128,12 @@
             </Row>
             <Row>
               <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
-              <Button type="warning" @click="">返回</Button>
+              <Button type="warning" @click="tt">返回</Button>
               <router-link to="/grantManager">
-                <Button type="primary" @click="" >发放</Button>
+                <Button type="primary" @click="tt" >发放</Button>
               </router-link>
               <router-link to="/grantManager">
-                <Button type="error" @click="">退批</Button>
+                <Button type="error" @click="tt">退批</Button>
               </router-link>
               </Col>
             </Row>

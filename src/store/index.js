@@ -14,6 +14,9 @@ import SocialSecurityPay from './modules/SocialSecurity/SocialSecurityPay'
 //上海公积金
 import EmployeeFundSearch from './modules/Fund/EmployeeFundSearch'
 
+//弹性福利
+import gift from "./modules/gift"
+import market from "./modules/market"
 
 Vue.use(Vuex)
 
@@ -28,5 +31,7 @@ export default new Vuex.Store({
     ...SocialSecurityPay,
 
     ...EmployeeFundSearch,
+    ...gift,
+    ...market,
   }
 });

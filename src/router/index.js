@@ -186,7 +186,7 @@ const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/views/
  * reportFormManager
  */
 const giftApplicationManager = r => require.ensure([], () => r(require('@/views/gift/giftApplicationManager')), 'giftApplicationManager') //礼品管理
-const personChoose = r => require.ensure([], () => r(require('@/views/gift/personChoose')), 'personChoose') //人员选择
+const giftPersonChoose = r => require.ensure([], () => r(require('@/views/gift/giftPersonChoose')), 'giftPersonChoose') //人员选择
 const giftAdd = r => require.ensure([], () => r(require('@/views/gift/giftAdd')), 'giftAdd') //新增礼品单
 const giftApply = r => require.ensure([], () => r(require('@/views/gift/giftApply')), 'giftApply') //申请礼品
 const giftConfirm = r => require.ensure([], () => r(require('@/views/gift/giftConfirm')), 'giftConfirm') //礼品确认
@@ -194,7 +194,7 @@ const giftConfirm = r => require.ensure([], () => r(require('@/views/gift/giftCo
 const marketActivitiesManager = r => require.ensure([], () => r(require('@/views/marketActivities/marketActivitiesManager')), 'marketActivitiesManager') //市场活动管理
 const addActivity = r => require.ensure([], () => r(require('@/views/marketActivities/addActivity')), 'addActivity') //新增活动
 const applyActivity = r => require.ensure([], () => r(require('@/views/marketActivities/applyActivity')), 'applyActivity') //申请活动
-const marketPersonChoose = r => require.ensure([], () => r(require('@/views/marketActivities/personChoose')), 'personChoose'); //人员选择
+const marketPersonChoose = r => require.ensure([], () => r(require('@/views/marketActivities/marketPersonChoose')), 'marketPersonChoose'); //人员选择
 
 const grantManager = r => require.ensure([], () => r(require('@/views/grant/grantManager')), 'grantManager') //发放管理
 const giftExamine = r => require.ensure([], () => r(require('@/views/grant/giftExamine')), 'giftExamine') //礼品审批
@@ -943,9 +943,9 @@ let router = new Router({
             openNames: ['2']
           }
         },{
-          path: '/personChoose',
-          name: 'personChoose',
-          component: personChoose,
+          path: '/giftPersonChoose',
+          name: 'giftPersonChoose',
+          component: giftPersonChoose,
           meta: {
             level1: '首页',
             level2: "弹性福利",

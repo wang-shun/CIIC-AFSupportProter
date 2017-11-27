@@ -41,7 +41,7 @@
             </Row>
             <Row>
               <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
-              <Button type="primary" @click="" icon="ios-search">查询</Button>
+              <Button type="primary" @click="tt" icon="ios-search">查询</Button>
               <Button type="warning" @click="resetSearchCondition('searchCondition')">重置</Button>
               </Col>
             </Row>

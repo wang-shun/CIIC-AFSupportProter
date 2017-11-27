@@ -13,7 +13,7 @@ import SocialSecurityPay from './modules/SocialSecurity/SocialSecurityPay'
 
 //上海公积金
 import EmployeeFundSearch from './modules/Fund/EmployeeFundSearch'
-
+import EmployeeCommonOperator from './modules/Fund/EmployeeCommonOperator'
 
 Vue.use(Vuex)
 
@@ -28,5 +28,6 @@ export default new Vuex.Store({
     ...SocialSecurityPay,
 
     ...EmployeeFundSearch,
+    ...EmployeeCommonOperator,
   }
 });

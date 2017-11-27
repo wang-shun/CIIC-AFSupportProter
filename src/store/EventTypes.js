@@ -8,6 +8,7 @@ import SocialSecurityPay from "./modules/SocialSecurity/SocialSecurityPay/EventT
 
 //上海公积金
 import EmployeeFundSearch from "./modules/Fund/EmployeeFundSearch/EventTypes"
+import EmployeeCommonOperator from "./modules/Fund/EmployeeCommonOperator/EventTypes"
 
 //弹性福利
 import gift from "./modules/gift/EventTypes"
@@ -25,6 +26,8 @@ export default {
   ...SocialSecurityPay,
 
   ...EmployeeFundSearch,
+  ...EmployeeCommonOperator,
+
   ...gift,
   ...market,
 };

@@ -1,5 +1,11 @@
 <template>
   <div class="smList">
+    <Steps :current="1">
+      <Step title="选择联系人"></Step>
+      <Step title="选择礼品"></Step>
+      <Step title="确认信息"></Step>
+    </Steps>
+
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         礼品选择
@@ -27,7 +33,7 @@
         <div slot="content">
           <Form :model="formItem" :label-width="120">
             <row>
-              <Col v-for="peopleType in testTypes" :sm="{ span: 6, offset: 1 }" :md="{ span: 3, offset: 0 }" :lg="{span: 8}">
+              <Col v-for="peopleType in testTypes" :sm="{ span: 6, offset: 1 }" :key="peopleType.value" :md="{ span: 3, offset: 0 }" :lg="{span: 8}">
                 <Row>
                   <Col :sm="{span: 24}" style="text-align: center">
                   <img src="u260.png"/></Col>
@@ -74,6 +80,7 @@
     </Collapse>
   </div>
 </template>
+
 <script>
   export default {
     data() {

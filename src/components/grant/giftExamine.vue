@@ -129,7 +129,7 @@
             <Row>
               <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
               <router-link to="/grantManager">
-                <Button type="primary" @click="" >同意已审核</Button>
+                <Button type="primary" @click="dd" >同意已审核</Button>
               </router-link>
               <router-link to="/grantManager">
                 <Button type="warning" @click="resetSearchCondition('searchCondition')">不同意并退回</Button>
@@ -247,8 +247,6 @@
   }
 </script>
 
-<style scoped>
-  .mt20 {
-    margin-top: 20px;
-  }
+<style>
+
 </style>

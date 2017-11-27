@@ -117,7 +117,6 @@ const systemmanage = r => require.ensure([], () => r(require('@/components/socia
    employeefundbasicinfo       --- 雇员公积金详情
    employeefundhistorydetail   --- 雇员公积金历史任务单详情
  * employeefundcommonoperator  --- 雇员日常操作
-   createtransferticket        --- 新建转移任务单
  * employeefundspecialoperator --- 雇员特殊操作
  * companyfundtasklist         --- 企业任务单
  * companyfundaccountsearch    --- 企业公积金账户查询
@@ -133,8 +132,6 @@ const employeefundbasicinfo = r => require.ensure([], () => r(require('@/compone
 const employeefundhistorydetail = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/employeefundhistorydetail')), 'employeefundhistorydetail')
 
 const employeefundcommonoperator = r => require.ensure([], () => r(require('@/components/fund/employeecommonoperator/employeefundcommonoperator')), 'employeefundcommonoperator')
-const createtransferticket = r => require.ensure([], () => r(require('@/components/fund/employeecommonoperator/createtransferticket')), 'createtransferticket')
-
 const employeefundspecialoperator = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/employeefundspecialoperator')), 'employeefundspecialoperator')
 const companyfundtasklist = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/companyfundtasklist')), 'companyfundtasklist')
 const companyfundaccountsearch = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/companyfundaccountsearch')), 'companyfundaccountsearch')
@@ -217,14 +214,7 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      component: main,
-      children: [
-        {
-          path: '', //默认显示的自路由
-          name: 'main',
-          component: charts
-        }
-      ]
+      component: login
     },
     {
       path: '/main',
@@ -583,17 +573,6 @@ let router = new Router({
             level1: '全国公积金',
             level2: "上海公积金",
             level3: "雇员日常操作",
-            openNames: ['1']
-          }
-        },
-        {
-          path: '/createtransferticket',
-          name: 'createtransferticket',
-          component: createtransferticket,
-          meta: {
-            level1: '全国公积金',
-            level2: "上海公积金",
-            level3: "新建转移任务单",
             openNames: ['1']
           }
         },

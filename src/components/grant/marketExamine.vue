@@ -84,9 +84,9 @@
             </Row>
             <Row>
               <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
-              <Button type="warning" @click="">返回</Button>
+              <Button type="warning" @click="yy">返回</Button>
               <router-link to="/grantManager">
-                <Button type="primary" @click="">确认审批</Button>
+                <Button type="primary" @click="tt">确认审批</Button>
               </router-link>
               </Col>
             </Row>

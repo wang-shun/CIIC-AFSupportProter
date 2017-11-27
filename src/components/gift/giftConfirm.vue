@@ -1,5 +1,10 @@
 <template>
   <div class="smList">
+    <Steps :current="2">
+      <Step title="选择联系人"></Step>
+      <Step title="选择礼品"></Step>
+      <Step title="确认信息"></Step>
+    </Steps>
     <div class="create">
       <p>申请礼品列表：</p><br/>
       <Table border stripe :columns="columns1" :data="data2" ref="table"></Table>

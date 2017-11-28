@@ -2,45 +2,32 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        雇员日常操作
+        对账差异
         <div slot="content">
-          <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
+            <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
-                 <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                 <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="社保月份：" prop="socialsecuritymonth">
-                  <Input v-model="operatorSearchData.socialsecuritymonth" placeholder="请输入..."></Input>
+                  <label v-model="operatorSearchData.socialsecuritymonth">{{operatorSearchData.socialsecuritymonth}}</label>
                 </Form-item>
               </Col>
-               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户：" prop="companyAccountType">
-                  <Input v-model="operatorSearchData.companyAccountType" @on-focus="operatorSearchData.isShowAccountType = true" placeholder="请输入..."></Input>
+               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="企业社保账户：" prop="companyAccount">
+                  <label v-model="operatorSearchData.companyAccount">{{operatorSearchData.companyAccount}}</label>
                 </Form-item>
               </Col>
-               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="服务中心：" prop="serviceCenterValue">
-                  <Cascader :data="operatorSearchData.serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="变更汇总表类型：" prop="changeTableTypeValue">
-                  <Select v-model="operatorSearchData.changeTableTypeDefaultVal" style="width: 100%;" transfer>
-                    <Option v-for="item in operatorSearchData.changeTableTypeValueList" :value="item.value" :key="item.value" >{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="差异数范围：" prop="differenceRange">
-                  <Input v-model="operatorSearchData.differenceRange" placeholder="请输入..."></Input>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="差异总数(按雇员)：" prop="differenceNumberOfEmployee">
+                  <label>{{operatorSearchData.differenceNumberOfEmployee}}</label>
                 </Form-item>
               </Col> 
-            </Row>
-            <Row>
-              <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search">查询</Button>
-                <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="差异总数(含项目)：" prop="differenceNumberOfProject">
+                  <label >{{operatorSearchData.differenceNumberOfProject}}</label>
+                </Form-item>
               </Col>
             </Row>
-          </Form>
+          </Form> 
         </div>
       </Panel>
     </Collapse>
@@ -51,29 +38,13 @@
         <Button type="info" @click="">导出</Button>
       </Col>
     </Row>
-
-    <Row class="mt20">
-      <Col :sm="{span:24}">
-        <Table border  :columns="employeeResultColumns" :data="data.tableData"></Table>
-        <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
-      </Col>
-    </Row>
-
-    <!-- 企业社保账户分类 模态框 -->
-    <Modal
-      v-model="operatorSearchData.isShowAccountType"
-      title="企业社保账户分类"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
-    </Modal>
   </div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../commoncontrol/customermodal.vue'
-  import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
-  import EventType from '../../../store/EventTypes'
+  import customerModal from '../../../commoncontrol/customermodal.vue'
+  import companyAccountSearchModal from '../../../commoncontrol/companyaccountsearchmodal.vue'
+  import EventType from '../../../../store/EventTypes'
 
   export default {
     components: {customerModal, companyAccountSearchModal},
@@ -81,23 +52,11 @@
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
-          serviceCenterValue: [],
-          serviceCenterData: [
-            {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-            {value: 2, label: '日本客户'},
-            {value: 3, label: '虹桥'},
-            {value: 4, label: '浦东'},
-            {value: 5, label: '东区1'},
-            {value: 6, label: '东区2'}
-          ], //客服中心
-           changeTableTypeDefaultVal: 1,//变更汇总类型下拉默认选项
-           changeTableTypeValueList: [
-             {value: 1,label:'YYY(养医失)',isSelect: true},
-             {value: 2, label: 'GGY(工生育)',isSelect: false}
-           ],//变更汇总表类型
-          differenceRange: '',//差异数范围
-          socialsecuritymonth:'',//社保月份
-          companyAccountType: '', //企业社保账户分类
+        
+          differenceNumberOfEmployee:33,
+          differenceNumberOfProject:66,
+          socialsecuritymonth:'201705',//社保月份
+          companyAccount: '欧莱雅（中国）有限公司上海静安分公司', //企业社保账户分类
           isShowAccountType: false, //社保账户模糊块的显示      
         },
 
@@ -109,7 +68,7 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name:'socialsecurityreconcilatedetail'});
+                      
                     }
                   }
                 }, '查看'),

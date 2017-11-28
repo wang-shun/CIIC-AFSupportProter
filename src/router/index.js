@@ -75,10 +75,11 @@ const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/
 
 /*
  * socialsecurityreconcilate       --- 社保对账
+ * socialsecurityreconcilatedetail ---社保对账查看页面
  */
 
 const socialsecurityreconcilate = r => require.ensure([], () => r(require('@/views/socialsecurity/socialsecurityreconcilate/socialsecurityreconcilate')), 'socialsecurityreconcilate')
-
+const socialsecurityreconcilatedetail = r => require.ensure([], () => r(require('@/views/socialsecurity/socialsecurityreconcilate/socialsecurityreconcilateChild/socialsecurityreconcilateDetail')), 'socialsecurityreconcilatedetail')
 
 /*
  * socialsecuritypay               --- 社保支付
@@ -461,7 +462,17 @@ let router = new Router({
             openNames:['1']
           }
         },
-
+        {
+          path: '/socialsecurityreconcilatedetail',
+          name: 'socialsecurityreconcilatedetail',
+          component: socialsecurityreconcilatedetail,
+          meta:{
+            level1:'全国社保',
+            level2:"上海社保",
+            level3:"社保对账",
+            openNames:['1']
+          }
+        },
         {
           path: '/SocialSecurityPay',
           name: 'socialsecuritypay',

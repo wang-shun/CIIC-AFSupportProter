@@ -204,7 +204,7 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" @click="">确认开户</Button>
+                <Button type="primary" @click="confirm">确认开户</Button>
                 <Button type="error" @click="goBack">批退</Button>
                 <Button type="warning" @click="goBack">关闭/返回</Button>
               </Col>
@@ -302,6 +302,24 @@
     methods: {
       goBack() {
         this.$router.push({name: this.prevPage});
+      },
+      confirm(){
+        let self = this;
+        const title='操作成功！';
+        const content = '<p>点击确定后，将自动返回查询列表</p>';
+            self.$Modal.success({
+                title: title,
+                content: content,
+                okText: '确定',
+                onOk:function(){
+                  self.$Modal.remove();
+                    self.goBack()
+                },
+                 error:function(error){
+                   self.$Message.error('停用失败!');
+                   self.$Modal.remove();
+               }
+            });
       }
     }
   }

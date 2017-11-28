@@ -13,6 +13,9 @@ import EmployeeFundSearch from "./modules/Fund/EmployeeFundSearch/EventTypes"
 import gift from "./modules/gift/EventTypes"
 import market from "./modules/market/EventTypes"
 
+//社保对账
+import SocialSecurityReconcilate from "./modules/SocialSecurity/socialsecurityreconcilate/EventTypes";
+
 export default {
   LEFTNAVIGATION_SETLIST: "LEFTNAVIGATION_SETLIST",
   LEFTNAVIGATION_GETLIST: "LEFTNAVIGATION_GETLIST",
@@ -27,4 +30,5 @@ export default {
   ...EmployeeFundSearch,
   ...gift,
   ...market,
+  ...SocialSecurityReconcilate,
 };

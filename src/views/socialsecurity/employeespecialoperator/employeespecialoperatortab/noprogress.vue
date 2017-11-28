@@ -94,7 +94,7 @@
         <Col :sm="{span:24}">
           <Form-item>
             <Button type="error" @click="isRefuseReason = true">批退</Button>
-             <Button type="error" @click="getSelect">获得选中行(测试用)</Button>
+             <!--   <Button type="error" @click="getSelect">获得选中行(测试用)</Button> -->
           </Form-item>
         </Col>
       </Row>

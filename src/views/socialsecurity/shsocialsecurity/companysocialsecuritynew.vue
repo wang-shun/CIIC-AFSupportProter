@@ -28,10 +28,10 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" v-show="operatorType !== '2'">暂存</Button>
+        <Button type="primary" v-show="operatorType !== '2'" @click="instance('save')">暂存</Button>
         <Button type="primary" @click="instance('success')" v-if="operatorType !== '2'">办理</Button>
         <Button type="primary" @click="instance('success')" v-else>办理</Button>
-        <Button type="error">批退</Button>
+        <Button type="error" @click="instance('error')">批退</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -68,32 +68,55 @@
         this.sourceFrom !== 'search' ? this.$router.push({name:'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo'});
       },
       instance (type) {
-        const title = '办理操作成功！';
+        let title = '';
         const content = '<p>点击确定后，将自动返回查询列表</p>';
         switch (type) {
           case 'info':
-            this.$Modal.info({
-              title: title,
-              content: content
-            });
+           title = '办理操作成功！'
+             this.$Modal.info({
+               title: title,
+               content: content
+             });
+           
             break;
           case 'success':
-            this.$Modal.success({
-              title: title,
-              content: content
+           let self = this;
+           title='<p>确认操作成功！</p>'
+            self.$Modal.success({
+                title: title,
+                content: content,
+                okText: '确定',
+                onOk:function(){
+                  self.$Modal.remove();
+                    self.goBack()
+                },
+                 error:function(error){
+                   self.$Message.error('停用失败!');
+                   self.$Modal.remove();
+               }
             });
             break;
           case 'warning':
-            this.$Modal.warning({
+           title = '办理操作成功！'
+            self.$Modal.warning({
               title: title,
               content: content
             });
+            
             break;
           case 'error':
-            this.$Modal.error({
-              title: title,
-              content: content
+            this.$Message.success({
+              content: '批退操作成功！',
+              duration: 0.8
             });
+             
+            break;
+            case 'save':
+             title = '暂存操作成功！'
+            this.$Message.success({
+               content: '暂存操作成功!',
+                duration: 0.8
+            })
             break;
         }
       }

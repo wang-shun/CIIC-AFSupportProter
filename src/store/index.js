@@ -17,7 +17,8 @@ import EmployeeFundSearch from './modules/Fund/EmployeeFundSearch'
 //弹性福利
 import gift from "./modules/gift"
 import market from "./modules/market"
-
+//社保对账
+import SocialSecurityReconcilate from './modules/SocialSecurity/socialsecurityreconcilate'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -33,5 +34,6 @@ export default new Vuex.Store({
     ...EmployeeFundSearch,
     ...gift,
     ...market,
+    ...SocialSecurityReconcilate
   }
 });

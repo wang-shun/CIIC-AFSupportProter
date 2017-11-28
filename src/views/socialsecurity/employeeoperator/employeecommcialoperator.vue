@@ -2,8 +2,9 @@
   <Form :label-width=150>
     <Row class="mt20">
       <Col :sm="{span: 24}">
-        <Button type="dashed">添加</Button>
-        <Button type="error">删除</Button>
+         <!-- <Button type="dashed">添加</Button>  -->
+         <Button type="info">导出</Button>
+        <!-- <Button type="error">删除</Button> -->
       </Col>
     </Row>
 

@@ -1,10 +1,10 @@
 <template>
   <div class="smList">
     <Tabs value="cthismonthhandle">
-      <TabPane label="本月处理" name="cthismonthhandle">
+      <TabPane label="未处理" name="cthismonthhandle">
         <cthismonthhandle></cthismonthhandle>
       </TabPane>
-      <TabPane label="下月处理" name="cnextmonthhandle">
+      <TabPane label="处理中" name="cnextmonthhandle">
         <cnextmonthhandle></cnextmonthhandle>
       </TabPane>
       <TabPane label="已完成" name="cfinished">
@@ -17,8 +17,8 @@
   </div>
 </template>
 <script>
-  import cthismonthhandle from './companytasklisttab/cthismonthhandle'//本月处理
-  import cnextmonthhandle from './companytasklisttab/cnextmonthhandle'//下月处理
+  import cthismonthhandle from './companytasklisttab/cthismonthhandle'//未处理
+  import cnextmonthhandle from './companytasklisttab/cnextmonthhandle'//处理中
   import cfinished from './companytasklisttab/cfinished'//完成
   import crefused from './companytasklisttab/crefused' //批退
 

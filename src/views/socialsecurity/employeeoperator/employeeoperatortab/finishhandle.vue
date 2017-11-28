@@ -7,23 +7,6 @@
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="服务中心：" prop="serviceCenterValue">
-                  <Select v-model="operatorSearchData.serviceCenterValue" style="width: 100%;" transfer>
-                    <Option v-for="item in operatorSearchData.serviceCenterList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="operatorSearchData.customerNumber" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="operatorSearchData.customerName" @on-focus="operatorSearchData.isShowCustomerName = true" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="账户类型：" prop="accountTypeValue">
                   <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in operatorSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -31,30 +14,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户分类：" prop="companyAccountType">
-                  <Input v-model="operatorSearchData.companyAccountType" @on-focus="operatorSearchData.isShowAccountType = true" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="人员分类：" prop="personTypeValue">
-                  <Select v-model="operatorSearchData.personTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in operatorSearchData.personTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号：" prop="employeeNumber">
                   <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员姓名：" prop="employeeName">
-                  <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="身份证号：" prop="idNumber">
-                  <Input v-model="operatorSearchData.idNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -65,10 +26,30 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="企业社保账户：" prop="companyAccountType">
+                  <Input v-model="operatorSearchData.companyAccountType" @on-focus="operatorSearchData.isShowAccountType = true" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="雇员姓名：" prop="employeeName">
+                  <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算中心：" prop="region">
                   <Select v-model="operatorSearchData.region" style="width: 100%;" transfer>
                     <Option v-for="item in operatorSearchData.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
+                </Form-item>
+              </Col>
+               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号：" prop="customerNumber">
+                  <Input v-model="operatorSearchData.customerNumber" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="身份证号：" prop="idNumber">
+                  <Input v-model="operatorSearchData.idNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -79,8 +60,20 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务发起时间：" prop="taskStartTime">
-                  <DatePicker v-model="operatorSearchData.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                <Form-item label="客户名称：" prop="customerName">
+                  <Input v-model="operatorSearchData.customerName" @on-focus="operatorSearchData.isShowCustomerName = true" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="人员分类：" prop="personTypeValue">
+                  <Select v-model="operatorSearchData.personTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in operatorSearchData.personTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="雇员社保起缴月份：" prop="SocialsecurityStartMonth">
+                  <DatePicker v-model="operatorSearchData.SocialsecurityStartMonth" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
             </Row>
@@ -97,43 +90,11 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}">
-        <Dropdown @on-click="routerToCommcialOperator">
-          <Button type="primary" style="width: 100px;">
-            办理
-            <Icon type="arrow-down-b"></Icon>
-          </Button>
-          <DropdownMenu slot="list">
-            <DropdownItem name="1">雇员新进、转入</DropdownItem>
-            <DropdownItem name="2">雇员补缴</DropdownItem>
-            <DropdownItem name="3">雇员调整</DropdownItem>
-            <DropdownItem name="4">雇员转出</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
-        <Button type="error" @click="isRefuseReason = true">批退</Button>
-        <Button type="info">导出</Button>
-      </Col>
-    </Row>
-
-    <Row class="mt20">
-      <Col :sm="{span: 24}">
         <Table border :columns="employeeResultColumns" :data="data.employeeResultData"></Table>
         <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
       </Col>
     </Row>
 
-    <!-- 批退理由 -->
-    <Modal
-      v-model="isRefuseReason"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <Form>
-        <p>
-          <Form-item>
-            <Input v-model="refuseReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
-          </Form-item>
-        </p>
-      </Form>
-    </Modal>
 
     <!-- 客户名称 模态框 -->
     <Modal
@@ -166,15 +127,6 @@
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
-          serviceCenterValue: '',
-          serviceCenterList: [
-            {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-            {value: 2, label: '日本客户'},
-            {value: 3, label: '虹桥'},
-            {value: 4, label: '浦东'},
-            {value: 5, label: '东区1'},
-            {value: 6, label: '东区2'}
-          ], //客服中心
           customerNumber: '', //客户编号
           customerName: '', //客户名称
           isShowCustomerName: false, //客户名称显示模态框
@@ -218,12 +170,8 @@
             {value: '2', label: '加急'}
           ], //是否加急
 
-          taskStartTime: '' //任务发起时间
+          SocialsecurityStartMonth: '' //雇员社保起缴月份
         },
-
-        isRefuseReason: false,
-        refuseReason: '',
-
         employeeResultColumns: [
           {title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
             render: (h, params) => {
@@ -378,12 +326,6 @@
       ...mapActions('finishHandle',[EventType.FINISHHANDLETYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
-      },
-      routerToCommcialOperator: function(name) {
-        this.$router.push({
-          name: 'employeecommcialoperator',
-          query: {operatorType: name}
-        });
       },
       ok () {
 

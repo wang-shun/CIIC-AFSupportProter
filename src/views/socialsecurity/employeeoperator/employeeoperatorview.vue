@@ -1,10 +1,10 @@
 <template>
   <div class="smList">
     <Tabs value="thismonthhandle">
-      <TabPane label="本月处理" name="thismonthhandle">
+      <TabPane label="未处理" name="thismonthhandle">
         <thismonthhandle></thismonthhandle>
       </TabPane>
-      <TabPane label="下月处理" name="nextmonthhandle">
+      <TabPane label="处理中" name="nextmonthhandle">
         <nextmonthhandle></nextmonthhandle>
       </TabPane>
       <TabPane label="已完成" name="finishhandle">

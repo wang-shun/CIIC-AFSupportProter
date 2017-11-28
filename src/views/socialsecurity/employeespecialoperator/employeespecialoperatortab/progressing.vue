@@ -6,10 +6,10 @@
         <div slot="content">
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="服务中心：" prop="serviceCenterValue">
-                  <Select v-model="operatorSearchData.serviceCenterValue" style="width: 100%;" transfer>
-                    <Option v-for="item in operatorSearchData.serviceCenterList" :value="item.value" :key="item.value">{{item.label}}</Option>
+               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="账户类型：" prop="accountTypeValue">
+                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in operatorSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -24,14 +24,12 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in operatorSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
+                <Form-item label="雇员编号：" prop="employeeNumber">
+                  <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户分类：" prop="companyAccountType">
+                <Form-item label="企业社保账户：" prop="companyAccountType">
                   <Input v-model="operatorSearchData.companyAccountType" @on-focus="operatorSearchData.isShowAccountType = true" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -43,8 +41,10 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
-                  <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
+                <Form-item label="任务单类型：" prop="taskTypeValue">
+                  <Select v-model="operatorSearchData.taskTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in operatorSearchData.taskTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -58,9 +58,9 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务单类型：" prop="taskTypeValue">
-                  <Select v-model="operatorSearchData.taskTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in operatorSearchData.taskTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="是否加急：" prop="emergency">
+                  <Select v-model="operatorSearchData.emergency" style="width: 100%;" transfer>
+                    <Option v-for="item in operatorSearchData.emergencyList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -68,13 +68,6 @@
                 <Form-item label="结算中心：" prop="region">
                   <Select v-model="operatorSearchData.region" style="width: 100%;" transfer>
                     <Option v-for="item in operatorSearchData.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="是否加急：" prop="emergency">
-                  <Select v-model="operatorSearchData.emergency" style="width: 100%;" transfer>
-                    <Option v-for="item in operatorSearchData.emergencyList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -104,7 +97,7 @@
         </Col>
       </Row>
 
-      <Table border :columns="employeeResultColumns" :data="data.employeeResultData" ref="employeeSocialSecurityData"></Table>
+      <Table border :columns="employeeResultColumns" :data="data.employeeResultData" ref="selection"></Table>
       <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
 
       <!-- 客户名称 模态框 -->
@@ -150,15 +143,6 @@
         collapseInfo: [1], //展开栏
 
         operatorSearchData: {
-          serviceCenterValue: '',
-          serviceCenterList: [
-            {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-            {value: 2, label: '日本客户'},
-            {value: 3, label: '虹桥'},
-            {value: 4, label: '浦东'},
-            {value: 5, label: '东区1'},
-            {value: 6, label: '东区2'}
-          ], //客服中心
           customerNumber: '', //客户编号
           customerName: '', //客户名称
           isShowCustomerName: false, //客户名称显示模态框
@@ -209,6 +193,12 @@
         refuseReason: '',
 
         employeeResultColumns: [
+           {
+              type: 'selection',
+              fixed: 'left',
+              width: 60,
+              align: 'center'
+          },
           {title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
             render: (h, params) => {
               return h('div', [

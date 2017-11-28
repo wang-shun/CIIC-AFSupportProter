@@ -7,22 +7,17 @@
           <Form :label-width=150 ref="searchCondition" :model="searchCondition">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="服务中心：" prop="serviceCenterValue">
-                  <Cascader :data="serviceCenterData" v-model="searchCondition.serviceCenterValue" trigger="hover" transfer></Cascader>
+                <Form-item label="企业社保账户：" prop="companyAccountType">
+                  <Input v-model="searchCondition.companyAccountType" @on-focus="isShowAccountType = true" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="searchCondition.customerNumber" placeholder="请输入..."></Input>
+                <Form-item label="雇员编号：" prop="employeeNumber">
+                  <Input v-model="searchCondition.employeeNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="searchCondition.customerName" @on-focus="isShowCustomerName = true" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="结算区域：" prop="region">
+                <Form-item label="结算区县：" prop="region">
                   <Select v-model="searchCondition.region" transfer>
                     <Option v-for="item in regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -36,18 +31,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
-                  <Input v-model="searchCondition.employeeNumber" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员姓名：" prop="employeeName">
                   <Input v-model="searchCondition.employeeName" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="身份证号：" prop="idNumber">
-                  <Input v-model="searchCondition.idNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -58,15 +43,25 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号：" prop="customerNumber">
+                  <Input v-model="searchCondition.customerNumber" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="身份证号：" prop="idNumber">
+                  <Input v-model="searchCondition.idNumber" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户名称：" prop="customerName">
+                  <Input v-model="searchCondition.customerName" @on-focus="isShowCustomerName = true" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：" prop="personTypeValue">
                   <Select v-model="searchCondition.personTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in personTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户分类：" prop="companyAccountType">
-                  <Input v-model="searchCondition.companyAccountType" @on-focus="isShowAccountType = true" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
             </Row>
@@ -127,7 +122,7 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         searchCondition: {
-          serviceCenterValue: [],
+       
           customerNumber: '', //客户编号
           customerName: '', //客户名称
           companyAccountType: '', //企业社保账户分类
@@ -145,15 +140,6 @@
 
         orderNumber: '', //任务单编号
         orderStartTime: '', //任务开始时间
-
-        serviceCenterData: [
-          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-          {value: 2, label: '日本客户'},
-          {value: 3, label: '虹桥'},
-          {value: 4, label: '浦东'},
-          {value: 5, label: '东区1'},
-          {value: 6, label: '东区2'}
-        ], //服务中心
 
         regionList: [
           {value: '1', label: '徐汇'},

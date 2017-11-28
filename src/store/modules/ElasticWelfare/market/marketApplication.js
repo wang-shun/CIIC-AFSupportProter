@@ -1,8 +1,8 @@
 /**
  * Created by xiweizhen on 2017-11-16 16:13:12.
  */
-import mock from "../../../data/marketActivity/marketApplication.js";
-import EventTypes from "../../EventTypes";
+import mock from "../../../../data/marketActivity/marketApplication.js";
+import EventTypes from "../../../EventTypes";
 
 const state = {
   rows: [],

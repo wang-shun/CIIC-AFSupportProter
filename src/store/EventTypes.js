@@ -11,8 +11,8 @@ import EmployeeFundSearch from "./modules/Fund/EmployeeFundSearch/EventTypes"
 import EmployeeCommonOperator from "./modules/Fund/EmployeeCommonOperator/EventTypes"
 
 //弹性福利
-import gift from "./modules/gift/EventTypes"
-import market from "./modules/market/EventTypes"
+import gift from "./modules/ElasticWelfare/gift/EventTypes"
+import market from "./modules/ElasticWelfare/market/EventTypes"
 
 export default {
   LEFTNAVIGATION_SETLIST: "LEFTNAVIGATION_SETLIST",

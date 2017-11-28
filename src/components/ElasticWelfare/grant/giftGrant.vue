@@ -128,11 +128,12 @@
             </Row>
             <Row>
               <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
+              <Button type="warning" @click="tt">返回</Button>
               <router-link to="/grantManager">
-                <Button type="primary" @click="dd" >同意已审核</Button>
+                <Button type="primary" @click="tt" >发放</Button>
               </router-link>
               <router-link to="/grantManager">
-                <Button type="warning" @click="resetSearchCondition('searchCondition')">不同意并退回</Button>
+                <Button type="error" @click="tt">退批</Button>
               </router-link>
               </Col>
             </Row>
@@ -145,8 +146,8 @@
 
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../../store/EventTypes'
-  import ProgressBar from "../commoncontrol/progress/progressbar.vue";
+  import EventTypes from '../../../store/EventTypes'
+  import ProgressBar from "../../commoncontrol/progress/progressbar.vue";
 
   export default {
     components: {ProgressBar},
@@ -232,12 +233,12 @@
           date1: '何晓东',
           date2: '2017-11-15 10:56:02',
           date3: '同意申请',
-          date4: '已审批'
+          date4: '同意'
         }, {
           date1: '赫鲁晓夫',
           date2: '2017-11-15 10:56:06',
-          date3: '',
-          date4: '未审批'
+          date3: 'sss',
+          date4: '同意'
         }],
       }
     },
@@ -247,6 +248,8 @@
   }
 </script>
 
-<style>
-
+<style scoped>
+  .mt20 {
+    margin-top: 20px;
+  }
 </style>

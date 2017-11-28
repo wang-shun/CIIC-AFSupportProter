@@ -61,7 +61,7 @@
 </template>
 <script>
   import {mapState, mapActions, mapGetters} from "vuex"
-  import EventTypes from "../../store/EventTypes"
+  import EventTypes from "../../../store/EventTypes"
 
   export default {
     data() {

@@ -15,6 +15,10 @@ import SocialSecurityPay from './modules/SocialSecurity/SocialSecurityPay'
 import EmployeeFundSearch from './modules/Fund/EmployeeFundSearch'
 import EmployeeCommonOperator from './modules/Fund/EmployeeCommonOperator'
 
+//弹性福利
+import gift from "./modules/ElasticWelfare/gift"
+import market from "./modules/ElasticWelfare/market"
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -29,5 +33,8 @@ export default new Vuex.Store({
 
     ...EmployeeFundSearch,
     ...EmployeeCommonOperator,
+
+    ...gift,
+    ...market,
   }
 });

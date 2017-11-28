@@ -59,6 +59,9 @@ const employeeFundHistoryDetail = params => Utils.promise({
         startRepairDate: '201702',
         endRepairDate: '201706'
       },
+      chatList: [
+        {icon: '#', name: '客服', date: '2017-03-02 14:14:32', content: '【发起】该雇员要求本月务必正常汇缴社保，他要办理相关贷款业务，注意：请不要当月放到下月补缴。'},
+      ],
       fundOperatorAdd: {
         fundType: '基本公积金',
         fundAccount: '',
@@ -110,6 +113,19 @@ const employeeFundHistoryDetail = params => Utils.promise({
           {startDate: '', endDate: '', base: '', percent: '', price: '', count: ''},
           {startDate: '', endDate: '', base: '', percent: '', price: '', count: ''}
         ],
+      },
+      fundOperatorTransfer: {
+        fundType: '基本公积金',
+        taskType: '转移',
+        outValue: 0,
+        outAccount: '',
+        inValue: 0,
+        inAccount: '',
+        transferDate: '',
+        backBillDate: '',
+        operatorDate: '',
+        doRemark: '',
+        refuseRemark: ''
       }
     }
   }

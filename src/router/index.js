@@ -79,7 +79,7 @@ const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/
  */
 
 const socialsecurityreconcilate = r => require.ensure([], () => r(require('@/components/socialsecurity/socialsecurityreconcilate/socialsecurityreconcilate')), 'socialsecurityreconcilate')
-const socialsecurityreconcilatedetail = r => require.ensure([], () => r(require('@/views/socialsecurity/socialsecurityreconcilate/socialsecurityreconcilateChild/socialsecurityreconcilateDetail')), 'socialsecurityreconcilatedetail')
+const socialsecurityreconcilatedetail = r => require.ensure([], () => r(require('@/components/socialsecurity/socialsecurityreconcilate/socialsecurityreconcilateChild/socialsecurityreconcilateDetail')), 'socialsecurityreconcilatedetail')
 
 /*
  * socialsecuritypay               --- 社保支付

@@ -17,6 +17,8 @@ import market from "./modules/ElasticWelfare/market/EventTypes"
 //社保对账
 import SocialSecurityReconcilate from "./modules/SocialSecurity/socialsecurityreconcilate/EventTypes";
 
+//社保报表
+import Socialsecurityreport from './modules/SocialSecurity/socialsecurityreport/EventTypes'
 export default {
   LEFTNAVIGATION_SETLIST: "LEFTNAVIGATION_SETLIST",
   LEFTNAVIGATION_GETLIST: "LEFTNAVIGATION_GETLIST",
@@ -34,4 +36,5 @@ export default {
   ...gift,
   ...market,
   ...SocialSecurityReconcilate,
+  ...Socialsecurityreport,
 };

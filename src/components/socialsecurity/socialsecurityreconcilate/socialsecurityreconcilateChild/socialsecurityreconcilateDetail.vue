@@ -31,11 +31,11 @@
         </div>
       </Panel>
     </Collapse>
-
+     <Table :columns="employeeResultColumns" :data="data.tableData"></Table>
     <Row class="mt20">
       <Col :sm="{span: 24}">
-        <Button type="info" @click="ok">批量导入社保变更汇总表</Button>
-        <Button type="info" @click="">导出</Button>
+        <Button type="info" @click="ok">导出</Button>
+        <Button type="info" @click="goBack">返回</Button>
       </Col>
     </Row>
   </div>
@@ -62,105 +62,60 @@
 
         employeeResultColumns: [
            
-          {title: '查看结果', key: 'getResult',  width: 100, align: 'center',
+          {title: '雇员编号', key: 'employeeNumber',  align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      
-                    }
-                  }
-                }, '查看'),
+              return h('div',{style:{textAlign:'center'}}, [
+                
               ]);
             }
           },
-          {title: '导入', key: 'export', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      
-                    }
-                  }
-                }, '导入'),
+          {title: '姓名', key: 'employeeName',  align: 'center',
+             render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.employeeName),
               ]);
             }
           },
-          {title: '社保月份', key: 'SocialSecurityMonth', width: 100, align: 'center',
+          {title: '变更类型', key: 'changeType', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.SocialSecurityMonth),
+                h('span', params.row.changeType),
               ]);
             }
           },
-          {title: '企业社保账户分类', key: 'companySocialSecurityType', width: 250, align: 'center',
+          {title: '险种', key: 'insuranceType',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.companySocialSecurityType),
+                h('span', params.row.insuranceType),
               ]);
             }
           },
-          {title: '下载月度变更', key: 'downloadChanngeOfMonth', width: 200, align: 'center',
+          {title: '项目', key: 'project',  align: 'center',
             render: (h, params) => {
-              let changeTableType = params.row.changeTableType;
-               if(changeTableType=='YYS(养医失)'){
-                  return h('div', [
-                        h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                          on: {
-                            click: () => {
-                              
-                            }
-                          }
-                           },'下载养医失'),
-                        ])
-                   }else{
-                     return h('div', [
-                        h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                          on: {
-                            click: () => {
-                              
-                            }
-                          }
-                           },'下载工生育'),
-                        ])
-                   }
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.project),
+              ]);
               
             }
           },
-          {title: '社保导入文件', key: 'importFileOfSocialSecurity', width: 197, align: 'center',
+          {title: '导入金额', key: 'importAmount', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.importFileOfSocialSecurity),
+                h('span', params.row.importAmount),
               ]);
             }
           },
-          {title: '变更汇总表类型', key: 'changeTableType', width: 150, align: 'center',
+          {title: '系统金额', key: 'systemAmount',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.changeTableType),
+                h('span', params.row.systemAmount),
               ]);
             }
           },
-          {title: '差异数（按雇员）', key: 'differenceNumber', width: 150, align: 'center',
+          {title: '差异', key: 'difference', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.differenceNumber),
-              ]);
-            }
-          },
-          {title: '对账操作人', key: 'reconciliationOperator', width: 150, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.reconciliationOperator),
-              ]);
-            }
-          },
-          {title: '最近对账时间', key: 'recentReconciliationTime', width: 150, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.recentReconciliationTime),
+                h('span', params.row.difference),
               ]);
             }
           }
@@ -168,15 +123,15 @@
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYRECONCILATE]()
+      this[EventType.SOCIALSECURITYRECONCILATEDETAIL]()
     },
     computed: {
-      ...mapState('socialSecurityReconcilate',{
+      ...mapState('socialSecurityReconcilateDetail',{
           data:state => state.data
       })
     },
     methods: {
-      ...mapActions('socialSecurityReconcilate',[EventType.SOCIALSECURITYRECONCILATE]),
+      ...mapActions('socialSecurityReconcilateDetail',[EventType.SOCIALSECURITYRECONCILATEDETAIL]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -185,6 +140,9 @@
       },
       cancel () {
 
+      },
+      goBack(){
+        history.go(-1);
       }
     }
   }

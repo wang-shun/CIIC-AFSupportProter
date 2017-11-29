@@ -312,7 +312,7 @@
                 content: content,
                 okText: '确定',
                 onOk:function(){
-                  self.$Modal.remove();
+                  
                     self.goBack()
                 },
                  error:function(error){

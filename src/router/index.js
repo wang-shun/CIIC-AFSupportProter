@@ -92,10 +92,11 @@ const paymentnotice = r => require.ensure([], () => r(require('@/components/soci
 
 /*
  * socialsecuritypay               --- 社保报表
+ * monthlypaymentnotice            --- 月缴费通知
  */
 
 const socialsecurityreport = r => require.ensure([], () => r(require('@/components/socialsecurity/socialsecurityreport/socialsecurityreport')), 'socialsecurityreport')
-
+const monthlypaymentnotice = r => require.ensure([], () => r(require('@/components/socialsecurity/socialsecurityreport/monthlyPaymentNotice')), 'socialsecurityreport')
 
 /*
  * yearbaseapplicate               --- 年度基数申报
@@ -507,7 +508,17 @@ let router = new Router({
             openNames:['1']
           }
         },
-
+        {
+          path: '/monthlypaymentnotice',
+          name: 'monthlypaymentnotice',
+          component: monthlypaymentnotice,
+          meta:{
+            level1:'全国社保',
+            level2:"上海社保",
+            level3:"社保报表",
+            openNames:['1']
+          }
+        },
         {
           path: '/yearbaseapplicate',
           name: 'yearbaseapplicate',

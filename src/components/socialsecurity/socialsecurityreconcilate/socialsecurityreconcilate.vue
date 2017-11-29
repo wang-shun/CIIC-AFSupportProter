@@ -47,7 +47,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}">
-        <Button type="info" @click="ok">批量导入社保变更汇总表</Button>
+        <Button type="info" @click="batchUpload">批量导入社保变更汇总表</Button>
         <Button type="info" @click="">导出</Button>
       </Col>
     </Row>
@@ -67,6 +67,41 @@
       @on-cancel="cancel">
       <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
     </Modal>
+    <!-- 批量上传-->
+    <Modal
+      v-model="isUpload"
+      @on-ok="ok"
+      @on-cancel="cancel">
+      <div style="text-align: center;">
+        <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
+        <Row type="flex" justify="start">
+                <Col :sm="{span:15}">
+                  <Form-item label="社保月份：" prop="socialsecuritymonthOfUpload">
+                  <Input v-model="socialsecuritymonthOfUpload" placeholder="请输入..."></Input>
+                </Form-item>
+                </Col>
+          </Row>
+          <Row type="flex" justify="start">
+             <Col :sm="{span:15}" >
+                <Form-item label="变更汇总表类型：" prop="changeTableTypeValueOfUpload">
+                  <Select v-model="changeTableTypeDefaultValOfUpload" style="width: 100%;" transfer>
+                    <Option v-for="item in changeTableTypeValueListOfUpload" :value="item.value" :key="item.value" >{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+            </Row>
+            <Row type="flex" justify="start">
+            <Col :sm="{span:15}">
+             <Form-item label="批量上传：" prop="">
+              <Upload action="">
+                <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+              </Upload>
+               </Form-item>
+            </Col>
+          </Row>
+          </Form>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -79,6 +114,13 @@
     components: {customerModal, companyAccountSearchModal},
     data() {
       return {
+        isUpload:false,
+        socialsecuritymonthOfUpload:'',//批量上传模块社保月份
+        changeTableTypeDefaultValOfUpload: 1,//变更汇总类型下拉默认选项
+           changeTableTypeValueListOfUpload: [
+             {value: 1,label:'YYY(养医失)',isSelect: true},
+             {value: 2, label: 'GGY(工生育)',isSelect: false}
+           ],//变更汇总表类型
         collapseInfo: [1], //展开栏
         operatorSearchData: {
           serviceCenterValue: [],
@@ -226,6 +268,9 @@
       },
       cancel () {
 
+      },
+      batchUpload(){
+        this.isUpload=true
       }
     }
   }

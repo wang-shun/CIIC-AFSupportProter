@@ -10,7 +10,7 @@
   </div>
 </template>
 <script>
-import clockModal from '../clockModal.vue';
+import clockModal from '../../clockModal.vue';
     export default {
         data () {
             return {

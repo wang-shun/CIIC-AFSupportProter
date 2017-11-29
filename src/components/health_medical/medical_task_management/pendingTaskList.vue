@@ -201,10 +201,10 @@
     </div>
 </template>
 <script>
-    import expandRow from './editTaskDetail.vue';
-    import Row from "../../../node_modules/iview/src/components/grid/row";
+   import expandRow from './editTaskDetail.vue';
+
     export default {
-      components: {Row}, data() {
+        data() {
             return {
               modal1: false,
               modal2: false,

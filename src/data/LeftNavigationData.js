@@ -114,16 +114,16 @@ const leftNavigationList = params => Utils.promise({
         key: "健康医疗",
         icon: "ios-medkit-outline",
         children: [
-          {cid: "9-1", ckey: "待处理任务", crouter: "giftApplicationManager"},
-          {cid: "9-2", ckey: "已处理任务", crouter: "marketActivitiesManager"},
-          {cid: "9-3", ckey: "补充医疗理赔", crouter: "grantManager"},
-          {cid: "9-4", ckey: "未投保受理单", crouter: "reportFormManager"},
-          {cid: "9-5", ckey: "已投保审核", crouter: "reportFormManager"},
-          {cid: "9-6", ckey: "医疗关系转移", crouter: "reportFormManager"},
-          {cid: "9-7", ckey: "在保管理", crouter: "reportFormManager"},
-          {cid: "9-8", ckey: "保单号管理", crouter: "reportFormManager"},
-          {cid: "9-8", ckey: "保单管理", crouter: "reportFormManager"},
-          {cid: "9-8", ckey: "代收代付", crouter: "reportFormManager"}
+          {cid: "9-1", ckey: "待处理任务", crouter: "pendingTaskList"},
+          {cid: "9-2", ckey: "已处理任务", crouter: "processedTaskList"},
+          {cid: "9-3", ckey: "补充医疗理赔", crouter: "acceptanceList"},
+       //   {cid: "9-4", ckey: "未投保受理单", crouter: "acceptanceAuditList"},
+          {cid: "9-4", ckey: "未投保审核", crouter: "acceptanceAuditList"},
+          {cid: "9-5", ckey: "医疗关系转移", crouter: "medicalRelationTransform"},
+          {cid: "9-6", ckey: "在保管理", crouter: "insuredList"},
+          {cid: "9-7", ckey: "保单号管理", crouter: "InsurancePolicyNumList"},
+          {cid: "9-8", ckey: "保单管理", crouter: "InsurancePolicyList"},
+          {cid: "9-9", ckey: "代收代付", crouter: "AgentBusinessList"}
         ]
       }
     ]

@@ -143,42 +143,42 @@ const fundyearadjust = r => require.ensure([], () => r(require('@/components/fun
 
 
 //任务单管理
-const pendingTaskList = r => require.ensure([], () => r(require('@/components/medicalTaskManagement/pendingTaskList')), 'pendingTaskList') //待处理任务单列表
-const processedTaskList = r => require.ensure([], () => r(require('@/components/medicalTaskManagement/processedTaskList')), 'processedTaskList') //已处理任务单列表
+const pendingTaskList = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalTaskManagement/pendingTaskList')), 'pendingTaskList') //待处理任务单列表
+const processedTaskList = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalTaskManagement/processedTaskList')), 'processedTaskList') //已处理任务单列表
 
 //补充医疗理赔
-const supplementaryMedicalList = r => require.ensure([], () => r(require('@/components/medicalSupplementary/supplementaryMedicalList')), 'supplementaryMedicalList') //审核受理单
-const supplementaryMedicalBatchList = r => require.ensure([], () => r(require('@/components/medicalSupplementary/supplementaryMedicalBatchList')), 'supplementaryMedicalBatchList') //补充医疗理赔批量
-const invoiceList = r => require.ensure([], () => r(require('@/components/medicalSupplementary/invoiceList')), 'invoiceList') //发票列表
+const supplementaryMedicalList = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalSupplementary/supplementaryMedicalList')), 'supplementaryMedicalList') //审核受理单
+const supplementaryMedicalBatchList = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalSupplementary/supplementaryMedicalBatchList')), 'supplementaryMedicalBatchList') //补充医疗理赔批量
+const invoiceList = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalSupplementary/invoiceList')), 'invoiceList') //发票列表
 
 //未投保医疗
-const acceptanceList = r => require.ensure([], () => r(require('@/components/medicalUninsured/acceptanceList')), 'acceptanceList') //受理单列表
-const checkMedicalList = r => require.ensure([], () => r(require('@/components/medicalUninsured/checkMedicalList')), 'checkMedicalList') //新增未投保列表
-const acceptanceAuditList = r => require.ensure([], () => r(require('@/components/medicalUninsured/acceptanceAuditList')), 'acceptanceAuditList') //未投保审核列表
-const addAcceptanceEmployeeList = r => require.ensure([], () => r(require('@/components/medicalUninsured/addAcceptanceEmployeeList')), 'addAcceptanceEmployeeList') //理赔人员列表
-const addAcceptance = r => require.ensure([], () => r(require('@/components/medicalUninsured/addAcceptance')), 'addAcceptance') //新增受理单
-const auditAcceptance = r => require.ensure([], () => r(require('@/components/medicalUninsured/auditAcceptance')), 'auditAcceptance') //审核受理单
+const acceptanceList = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalUninsured/acceptanceList')), 'acceptanceList') //受理单列表
+const checkMedicalList = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalUninsured/checkMedicalList')), 'checkMedicalList') //新增未投保列表
+const acceptanceAuditList = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalUninsured/acceptanceAuditList')), 'acceptanceAuditList') //未投保审核列表
+const addAcceptanceEmployeeList = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalUninsured/addAcceptanceEmployeeList')), 'addAcceptanceEmployeeList') //理赔人员列表
+const addAcceptance = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalUninsured/addAcceptance')), 'addAcceptance') //新增受理单
+const auditAcceptance = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalUninsured/auditAcceptance')), 'auditAcceptance') //审核受理单
 
-const medicalRelationTransform = r => require.ensure([], () => r(require('@/components/medicalUninsured/medicalRelationTransform')), 'medicalRelationTransform') //医疗关系转移
-const addFragmentaryReimbursement = r => require.ensure([], () => r(require('@/components/medicalUninsured/addFragmentaryReimbursement')), 'addFragmentaryReimbursement') //发票列表
-const addMedicalTransform = r => require.ensure([], () => r(require('@/components/medicalUninsured/addMedicalTransform')), 'addMedicalTransform') //医疗关系转移
-const auditNurseryFee = r => require.ensure([], () => r(require('@/components/medicalUninsured/auditNurseryFee')), 'auditNurseryFee') //医疗关系转移
+const medicalRelationTransform = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalUninsured/medicalRelationTransform')), 'medicalRelationTransform') //医疗关系转移
+const addFragmentaryReimbursement = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalUninsured/addFragmentaryReimbursement')), 'addFragmentaryReimbursement') //发票列表
+const addMedicalTransform = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalUninsured/addMedicalTransform')), 'addMedicalTransform') //医疗关系转移
+const auditNurseryFee = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalUninsured/auditNurseryFee')), 'auditNurseryFee') //医疗关系转移
 
 
 //在保管理
-const insuredList = r => require.ensure([], () => r(require('@/components/medicalTaskManagement/insuredList')), 'insuredList') //在保管理
+const insuredList = r => require.ensure([], () => r(require('@/components/HealthMedical/medicalTaskManagement/insuredList')), 'insuredList') //在保管理
 
 
 //保单管理
-const InsurancePolicyList = r => require.ensure([], () => r(require('@/components/InsurancePolicyManagement/InsurancePolicyList')), 'InsurancePolicyList') //保单列表
-const InsurancePolicyNumEmpList = r => require.ensure([], () => r(require('@/components/InsurancePolicyManagement/InsurancePolicyNumEmpList')), 'InsurancePolicyNumEmpList') //保单人员列表
-const InsurancePolicyNumCostConfirmList = r => require.ensure([], () => r(require('@/components/InsurancePolicyManagement/InsurancePolicyNumCostConfirmList')), 'InsurancePolicyNumCostConfirmList') //保单费用确认
-const InsurancePolicyNumList = r => require.ensure([], () => r(require('@/components/InsurancePolicyManagement/InsurancePolicyNumList')), 'InsurancePolicyNumList') //保单号列表
-const AddInsurancePolicyNum = r => require.ensure([], () => r(require('@/components/InsurancePolicyManagement/AddInsurancePolicyNum')), 'AddInsurancePolicyNum') //新增保单号
-const AddPayRate = r => require.ensure([], () => r(require('@/components/InsurancePolicyManagement/AddPayRate')), 'AddPayRate') //新增付费比例
-const AgentBusinessList = r => require.ensure([], () => r(require('@/components/InsurancePolicyManagement/AgentBusinessList')), 'AgentBusinessList') //代收代付列表
-const AddAgentBusiness = r => require.ensure([], () => r(require('@/components/InsurancePolicyManagement/AddAgentBusiness')), 'AddAgentBusiness') //新增代收代付
-const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/components/InsurancePolicyManagement/AgentBusinessBatchList')), 'AgentBusinessBatchList') //新增代收代付
+const InsurancePolicyList = r => require.ensure([], () => r(require('@/components/HealthMedical/InsurancePolicyManagement/InsurancePolicyList')), 'InsurancePolicyList') //保单列表
+const InsurancePolicyNumEmpList = r => require.ensure([], () => r(require('@/components/HealthMedical/InsurancePolicyManagement/InsurancePolicyNumEmpList')), 'InsurancePolicyNumEmpList') //保单人员列表
+const InsurancePolicyNumCostConfirmList = r => require.ensure([], () => r(require('@/components/HealthMedical/InsurancePolicyManagement/InsurancePolicyNumCostConfirmList')), 'InsurancePolicyNumCostConfirmList') //保单费用确认
+const InsurancePolicyNumList = r => require.ensure([], () => r(require('@/components/HealthMedical/InsurancePolicyManagement/InsurancePolicyNumList')), 'InsurancePolicyNumList') //保单号列表
+const AddInsurancePolicyNum = r => require.ensure([], () => r(require('@/components/HealthMedical/InsurancePolicyManagement/AddInsurancePolicyNum')), 'AddInsurancePolicyNum') //新增保单号
+const AddPayRate = r => require.ensure([], () => r(require('@/components/HealthMedical/InsurancePolicyManagement/AddPayRate')), 'AddPayRate') //新增付费比例
+const AgentBusinessList = r => require.ensure([], () => r(require('@/components/HealthMedical/InsurancePolicyManagement/AgentBusinessList')), 'AgentBusinessList') //代收代付列表
+const AddAgentBusiness = r => require.ensure([], () => r(require('@/components/HealthMedical/InsurancePolicyManagement/AddAgentBusiness')), 'AddAgentBusiness') //新增代收代付
+const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/components/HealthMedical/InsurancePolicyManagement/AgentBusinessBatchList')), 'AgentBusinessBatchList') //新增代收代付
 
 /*
  * giftApplicationManager              --弹性福利

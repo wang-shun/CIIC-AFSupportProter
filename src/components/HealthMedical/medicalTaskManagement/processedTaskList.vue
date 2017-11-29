@@ -181,9 +181,9 @@
   </div>
 </template>
 <script>
-  import ICol from "../../../node_modules/iview/src/components/grid/col";
+
   export default {
-    components: {ICol}, data() {
+    data() {
       return {
         value1:'1',
         formItem: {

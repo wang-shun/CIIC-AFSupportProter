@@ -87,8 +87,8 @@
                 content: content,
                 okText: '确定',
                 onOk:function(){
-                  self.$Modal.remove();
-                    self.goBack()
+                  //self.$Modal.remove();
+                   history.go(-1);
                 },
                  error:function(error){
                    self.$Message.error('停用失败!');

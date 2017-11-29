@@ -20,6 +20,8 @@ import gift from "./modules/ElasticWelfare/gift"
 import market from "./modules/ElasticWelfare/market"
 //社保对账
 import SocialSecurityReconcilate from './modules/SocialSecurity/socialsecurityreconcilate'
+//社保报表
+import Socialsecurityreport from './modules/SocialSecurity/socialsecurityreport' 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -37,6 +39,7 @@ export default new Vuex.Store({
 
     ...gift,
     ...market,
-    ...SocialSecurityReconcilate
+    ...SocialSecurityReconcilate,
+    ...Socialsecurityreport
   }
 });

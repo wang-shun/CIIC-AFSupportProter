@@ -242,13 +242,78 @@
               ]);
             }
           },
-          {title: '结算区县', key: 'eregion', align: 'center', width: 200,
+          {title: '结算区县', key: 'eregion', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.eregion),
               ]);
             }
+          },
+          {title: '公司编码', key: 'customerNumber', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.customerNumber),
+              ]);
+            }
+          },
+          {title: '客户名称', key: 'customerName', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.customerName),
+              ]);
+            }
+          },
+          {title: '企业社保账户名称', key: 'companyAccountType', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.companyAccountType),
+              ]);
+            }
+          },
+           {title: '办理时间', key: 'handleTime', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.handleTime),
+              ]);
+            }
+          },
+           {title: '办理人', key: 'handlePerson', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.handlePerson),
+              ]);
+            }
+          },
+           {title: '起缴月份', key: 'startMonth', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.startMonth),
+              ]);
+            }
+          },
+           {title: '截止月份', key: 'endMonth', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.endMonth),
+              ]);
+            }
+          },
+           {title: '办理月份', key: 'handleMonth', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.handleMonth),
+              ]);
+            }
+          },
+          {title: '入职日期', key: 'entryDate', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.entryDate),
+              ]);
+            }
           }
+
+          
         ]
       }
     },

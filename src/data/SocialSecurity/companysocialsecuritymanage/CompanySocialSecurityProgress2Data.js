@@ -6,7 +6,7 @@ const companySocialSecurityProgress2 = params => Utils.promise({
     data: {
       companyInfo: {
         customerNumber: 'KH0001',
-        customerName: '上海XX信息技术有限公司',
+        customerName: '普思埃商业（上海）有限公司',
         serviceCenter: '大客户2',
         serviceManager: '王XX'
       },

@@ -7,7 +7,7 @@ const companySocialSecurity = params => Utils.promise({
       childCompanyData: [
         {
           companyCode: 'KH00001',
-          companyName: '上海XX信息技术有限公司',
+          companyName: '普思埃商业（上海）有限公司',
           serviceCenter: '大客户2',
           serviceTeam: '龚艳社保组'
         },

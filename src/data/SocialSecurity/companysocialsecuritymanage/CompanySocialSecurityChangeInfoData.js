@@ -7,13 +7,13 @@ const companySocialSecurityChangeInfo = params => Utils.promise({
       company: {
         companySocialSecurityAccount: '12123235',
         companyNumber: '340078',
-        companyName: '上海XX信息技术有限公司',
+        companyName: '普思埃商业（上海）有限公司',
         socialSecurityCenter: '徐汇',
         uKey: '152243',
         accountType: '独立户',
         companySocialSecurityState: '有效\\封存\\终止',
         companySocialSecurityEndData: '本月18日',
-        companyServicer: '彭XX',
+        companyServicer: '金翔云',
         serviceCenter: '大客户2'
       }, //企业社保账户信息
       chatList: [

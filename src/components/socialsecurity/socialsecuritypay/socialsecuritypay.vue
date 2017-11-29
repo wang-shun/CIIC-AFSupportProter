@@ -197,7 +197,7 @@
           {title: '客户名称', key: 'customerName', width: 250, fixed: 'left', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.accountType),
+                h('span', params.row.customerName),
               ]);
             }
           },

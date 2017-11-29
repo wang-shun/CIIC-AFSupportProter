@@ -7,7 +7,7 @@ const companySocialSecurityNew = params => Utils.promise({
       company: {
         companySocialSecurityAccount: '12123235',
         companyNumber: '340078',
-        companyName: '上海XX信息技术有限公司',
+        companyName: '普思埃商业（上海）有限公司',
         socialSecurityCenter: '徐汇',
         uKey: '152243',
         accountType: '独立户',
@@ -19,7 +19,7 @@ const companySocialSecurityNew = params => Utils.promise({
 
       employee: {
         code: 'GY0001',
-        name: '张三',
+        name: '林辉',
         idNo: '35220219781124114',
         checkInTime: '2017-1-1',
         education: '本科',

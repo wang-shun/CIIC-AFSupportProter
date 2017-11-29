@@ -31,7 +31,7 @@ const companySocialSecurityManage = params => Utils.promise({
         },
         {
           action: '',
-          pensionCompanyName: 'xx有限公司1',
+          pensionCompanyName: '普思埃商业（上海）有限公司',
           accountType: '独立户',
           state: '有效',
           companySocialSecurityAccount: '',

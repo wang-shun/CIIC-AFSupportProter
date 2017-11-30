@@ -8,7 +8,7 @@ const employeeCommcialOperator = params => Utils.promise({
         {
           action: '移出',
           tid: 'SOC_XJ_000001',
-          customerNumber: '1001',
+          customerNumber: 'GS170001',
           customerName: '普思埃商业（上海）有限公司1',
           employeeName: '刘传红',
           checkDate: '2017-01-06',
@@ -96,7 +96,7 @@ const employeeCommcialOperator = params => Utils.promise({
         {
           action: '移出',
           tid: 'SOC_XJ_000001',
-          customerNumber: '1001',
+          customerNumber: 'GS170001',
           customerName: '客户1',
           employeeName: '雇员1',
           checkDate: '2017-01-06',
@@ -174,7 +174,7 @@ const employeeCommcialOperator = params => Utils.promise({
         {
           action: '移出',
           tid: 'SOC_XJ_000001',
-          customerNumber: '1001',
+          customerNumber: 'GS170001',
           customerName: '客户1',
           employeeName: '雇员1',
           checkDate: '2017-01-06',
@@ -249,7 +249,7 @@ const employeeCommcialOperator = params => Utils.promise({
       ],
 
       operatorTableOutData: [
-        {action: '移出', tid: 'SOC_XJ_000001', companyName: '1001', employeeName: '雇员1', checkOutDate: '2017-01-06', handleMethod: '', endMonth: '', notes: ''},
+        {action: '移出', tid: 'SOC_XJ_000001', companyName: 'GS170001', employeeName: '雇员1', checkOutDate: '2017-01-06', handleMethod: '', endMonth: '', notes: ''},
         {action: '移出', tid: 'SOC_XJ_000002', companyName: '1002', employeeName: '雇员2', checkOutDate: '2017-01-06', handleMethod: '', endMonth: '', notes: ''},
         {action: '移出', tid: 'SOC_XJ_000003', companyName: '1003', employeeName: '雇员3', checkOutDate: '2017-01-06', handleMethod: '', endMonth: '', notes: ''},
         {action: '移出', tid: 'SOC_XJ_000003', companyName: '1004', employeeName: '雇员4', checkOutDate: '2017-01-06', handleMethod: '', endMonth: '', notes: ''},

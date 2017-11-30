@@ -5,15 +5,15 @@ const employeeSocialSecurityInfo = params => Utils.promise({
     code:200,
     data:{
       customer: {
-        code: 'KH0001',
-        name: '上海XX信息技术有限公司',
+        code: 'GS170001',
+        name: '普思埃商业（上海）有限公司',
         customerServicerCenter: '大客户2',
-        customerServicer: '张XX'
+        customerServicer: '金翔云'
       }, //客户基本信息
 
       employee: {
         code: 'GY0001',
-        name: '张三',
+        name: '郑杰',
         idNo: '35220219781124114',
         checkInTime: '2017-1-1',
         socialSecurityNo: '123235564',

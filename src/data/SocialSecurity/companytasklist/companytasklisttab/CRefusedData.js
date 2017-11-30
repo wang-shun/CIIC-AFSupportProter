@@ -58,7 +58,7 @@ const cRefused = params => Utils.promise({
           companyCustomer: '普思埃商业（上海）有限公司',
           finishDate: '2017/06/30',
           sponsor: '中智上海',
-          initiator: '前客服1',
+          initiator: '金翔云',
           sponsorTime: '2017/06/01 10:05:29',
           notes: ''
         },
@@ -70,7 +70,7 @@ const cRefused = params => Utils.promise({
           companyCustomer: '普思埃商业（上海）有限公司',
           finishDate: '2017/06/30',
           sponsor: '中智上海',
-          initiator: '前客服1',
+          initiator: '金翔云',
           sponsorTime: '2017/06/01 10:05:29',
           notes: ''
         },
@@ -82,7 +82,7 @@ const cRefused = params => Utils.promise({
           companyCustomer: '普思埃商业（上海）有限公司',
           finishDate: '2017/06/30',
           sponsor: '中智上海',
-          initiator: '前客服1',
+          initiator: '金翔云',
           sponsorTime: '2017/06/01 10:05:29',
           notes: ''
         },
@@ -94,7 +94,7 @@ const cRefused = params => Utils.promise({
           companyCustomer: '普思埃商业（上海）有限公司',
           finishDate: '2017/06/30',
           sponsor: '中智上海',
-          initiator: '前客服1',
+          initiator: '金翔云',
           sponsorTime: '2017/06/01 10:05:29',
           notes: ''
         },
@@ -106,7 +106,7 @@ const cRefused = params => Utils.promise({
           companyCustomer: '普思埃商业（上海）有限公司',
           finishDate: '2017/06/30',
           sponsor: '中智上海',
-          initiator: '前客服1',
+          initiator: '金翔云',
           sponsorTime: '2017/06/01 10:05:29',
           notes: ''
         },
@@ -118,7 +118,7 @@ const cRefused = params => Utils.promise({
           companyCustomer: '普思埃商业（上海）有限公司',
           finishDate: '2017/06/30',
           sponsor: '中智上海',
-          initiator: '前客服1',
+          initiator: '金翔云',
           sponsorTime: '2017/06/01 10:05:29',
           notes: ''
         },
@@ -130,7 +130,7 @@ const cRefused = params => Utils.promise({
           companyCustomer: '普思埃商业（上海）有限公司',
           finishDate: '2017/06/30',
           sponsor: '中智上海',
-          initiator: '前客服1',
+          initiator: '金翔云',
           sponsorTime: '2017/06/01 10:05:29',
           notes: ''
         },
@@ -142,7 +142,7 @@ const cRefused = params => Utils.promise({
           companyCustomer: '普思埃商业（上海）有限公司',
           finishDate: '2017/06/30',
           sponsor: '中智上海',
-          initiator: '前客服1',
+          initiator: '金翔云',
           sponsorTime: '2017/06/01 10:05:29',
           notes: ''
         }

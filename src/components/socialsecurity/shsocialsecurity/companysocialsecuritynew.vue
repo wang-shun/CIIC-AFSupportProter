@@ -4,13 +4,14 @@
       <Panel name="1">
         企业社保账户信息
         <div slot="content">
-          <company-social-security-info :company="data.company"></company-social-security-info>
+          <company-social-security-info :company="operatorType == 0 ? company1:company2"></company-social-security-info>
         </div>
       </Panel>
       <Panel name="2">
         雇员信息
         <div slot="content">
-          <employee-info :operatorType='operatorType' :employee="data.employee"></employee-info>
+          <employee-info :operatorType='operatorType' :employee="operatorType == 0 ? employee1 : employee2"></employee-info>
+
         </div>
       </Panel>
       <Panel name="3">
@@ -49,12 +50,64 @@
     components: {companySocialSecurityInfo, employeeInfo, taskRefrenceInfo, socialSecurityOperator},
     data() {
       return {
+        currentIndex: this.$route.params.index,
         operatorType: this.$route.query.operatorType,
         sourceFrom: this.$route.query.sourceFrom,
-        collapseInfo: [1, 2, 3, 4] //展开栏
+        collapseInfo: [1, 2, 3, 4],
+        employee1: {
+          code: 'GY0001',
+          name: '郑杰',
+          idNo: '320106198310290811',
+          checkInTime: '2017-1-1',
+          education: '本科',
+          socialSecurityIndex: '123235564',
+          companySocialSecurityAccount: '中智大库',
+          residenceAddress: 'XXX路X号xxx',
+          contactAddress: 'XXX路X号xxx',
+          personType: '外地',
+          socialSecurityType: '中智大库'
+        },
+        employee2: {
+          code: 'GY0001',
+          name: '潘玉麟',
+          idNo: '31010519821011939x',
+          checkInTime: '2017-12-1',
+          education: '本科',
+          socialSecurityIndex: '123235564',
+          companySocialSecurityAccount: '中智大库',
+          residenceAddress: 'XXX路X号xxx',
+          contactAddress: 'XXX路X号xxx',
+          personType: '外地',
+          socialSecurityType: '中智大库'
+        },
+      company1: {
+        companySocialSecurityAccount: '12123235',
+        companyNumber: 'GS170001',
+        companyName: '普思埃商业（上海）有限公司',
+        socialSecurityCenter: '徐汇',
+        uKey: '152243',
+        accountType: '独立户',
+        companySocialSecurityState: '有效\\封存\\终止',
+        companySocialSecurityEndData: '本月18日',
+        companyServicer: '金翔云',
+        serviceCenter: '大客户2'
+      }, //企业社保账户信息
+      company2: {
+        companySocialSecurityAccount: '12123235',
+        companyNumber: 'GS170003',
+        companyName: '广州特利普斯埃商业有限公司',
+        socialSecurityCenter: '徐汇',
+        uKey: '152243',
+        accountType: '独立户',
+        companySocialSecurityState: '有效\\封存\\终止',
+        companySocialSecurityEndData: '本月18日',
+        companyServicer: '金翔云',
+        serviceCenter: '大客户2'
+      } //企业社保账户信息
       }
     },
     mounted() {
+      console.log( this.$route.query.operatorType)
       this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]()
     },
     computed: {

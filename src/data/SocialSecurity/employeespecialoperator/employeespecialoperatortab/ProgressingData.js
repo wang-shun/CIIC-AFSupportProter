@@ -89,7 +89,7 @@ const Progressing = params => Utils.promise({
           accountType: '独立户客户1',
           region: '徐汇',
           sponsor: '中智上海',
-          initiator: '前客服1',
+          initiator: '金翔云',
           sponsorTime: '2017/06/01 10:05:29',
           notes: ''
         },

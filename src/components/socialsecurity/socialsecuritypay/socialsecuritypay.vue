@@ -208,10 +208,10 @@
               ]);
             }
           },
-          {title: '支付年月', key: 'payDate', width: 180, align: 'center',
+          {title: '支付年月', key: 'payDate', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.payDate),
+                h('span', params.row.payMonth),
               ]);
             }
           },
@@ -222,7 +222,7 @@
               ]);
             }
           },
-          {title: '操作', key: 'operator', width: 180, align: 'center',
+          {title: '操作', key: 'operator', width: 130, align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {

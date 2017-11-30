@@ -10,7 +10,7 @@
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="办理月份：">
-          <DatePicker v-model="socialSecurityPayOperator.doMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+          <DatePicker v-model="socialSecurityPayOperator.doMonth" type="date" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -114,8 +114,7 @@
           payEndMonth: '', //缴费截止月份
 
           operatorListData: [
-            {operator: '补', startMonth: '201701', endMonth: '201703', base: '17817', action: '', disabled: true},
-            {operator: '补', startMonth: '201704', endMonth: '201706', base: '19000', action: '', disabled: true},
+            {operator: '', startMonth: '201701', endMonth: '', base: '18000', action: '', disabled: true},
             {operator: '', startMonth: '', endMonth: '', base: '', action: '', disabled: true},
           ],
           operatorListColumns: [

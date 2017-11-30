@@ -51,8 +51,8 @@
         collapseInfo: [1, 2, 3], //展开栏
         currentStep: 2,
         companyInfo: {
-          customerNumber: 'KH0001',
-          customerName: '上海XX信息技术有限公司',
+          customerNumber: 'GS170001',
+          customerName: '普思埃商业（上海）有限公司',
           serviceCenter: '大客户2',
           serviceManager: '王XX'
         },

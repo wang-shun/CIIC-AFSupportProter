@@ -6,7 +6,7 @@ const companySocialSecurityEndInfo = params => Utils.promise({
     data: {
       company: {
         companySocialSecurityAccount: '12123235',
-        companyNumber: '340078',
+        companyNumber: 'GS170001',
         companyName: '普思埃商业（上海）有限公司',
         socialSecurityCenter: '徐汇',
         uKey: '152243',

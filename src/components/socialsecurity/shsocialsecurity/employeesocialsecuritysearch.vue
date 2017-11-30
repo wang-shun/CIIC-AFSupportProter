@@ -207,7 +207,7 @@
               ]);
             }
           },
-          {title: '证件号', key: 'eidno', align: 'center', width: 526,
+          {title: '证件号', key: 'eidno', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.eidno),
@@ -217,21 +217,21 @@
           {title: '状态', key: 'estate', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.eidno),
+                h('span', params.row.estate),
               ]);
             }
           },
-          {title: '客服中心', key: 'eservicercenter', align: 'center', width: 250,
+          {title: '客服中心', key: 'eservicercenter', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.eidno),
+                h('span', params.row.eservicercenter),
               ]);
             }
           },
           {title: '客服经理', key: 'eservicer', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.eservicer),
+                h('span', params.row.eservice),
               ]);
             }
           },
@@ -249,21 +249,21 @@
               ]);
             }
           },
-          {title: '公司编码', key: 'customerNumber', align: 'center', width: 200,
+          {title: '公司编码', key: 'customerNumber', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.customerNumber),
               ]);
             }
           },
-          {title: '客户名称', key: 'customerName', align: 'center', width: 100,
+          {title: '客户名称', key: 'customerName', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.customerName),
               ]);
             }
           },
-          {title: '企业社保账户名称', key: 'companyAccountType', align: 'center', width: 200,
+          {title: '企业社保账户名称', key: 'companyAccountType', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyAccountType),
@@ -335,8 +335,9 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      showInfo () {
-        this.$router.push({name:'employeesocialsecurityinfo'});
+      showInfo (ind) {
+        this.$router.push({name:'employeesocialsecurityinfo', params: {index: ind}});
+        
       },
       ok () {
 

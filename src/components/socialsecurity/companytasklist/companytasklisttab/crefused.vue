@@ -201,14 +201,14 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'customerId', width: 150, align: 'center',
+          {title: '客户编号', key: 'customerId', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.customerId),
               ]);
             }
           },
-          {title: '企业客户', key: 'companyCustomer', width: 100, align: 'center',
+          {title: '企业客户', key: 'companyCustomer', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyCustomer),

@@ -87,7 +87,7 @@
         socialSecurityCenter: '徐汇',
         uKey: '152243',
         accountType: '独立户',
-        companySocialSecurityState: '有效\\封存\\终止',
+        companySocialSecurityState: '有效',
         companySocialSecurityEndData: '本月18日',
         companyServicer: '金翔云',
         serviceCenter: '大客户2'
@@ -99,7 +99,7 @@
         socialSecurityCenter: '徐汇',
         uKey: '152243',
         accountType: '独立户',
-        companySocialSecurityState: '有效\\封存\\终止',
+        companySocialSecurityState: '有效',
         companySocialSecurityEndData: '本月18日',
         companyServicer: '金翔云',
         serviceCenter: '大客户2'

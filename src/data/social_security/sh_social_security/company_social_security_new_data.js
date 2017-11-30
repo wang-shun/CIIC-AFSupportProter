@@ -11,7 +11,7 @@ const companySocialSecurityNew = params => Utils.promise({
         socialSecurityCenter: '徐汇',
         uKey: '152243',
         accountType: '独立户',
-        companySocialSecurityState: '有效\\封存\\终止',
+        companySocialSecurityState: '有效',
         companySocialSecurityEndData: '本月18日',
         companyServicer: '金翔云',
         serviceCenter: '大客户2'
@@ -32,10 +32,10 @@ const companySocialSecurityNew = params => Utils.promise({
       }, //雇员信息
 
       taskNewInfo: {
-        afDate: '2017-05-06',
+        afDate: '2017-12-01',
         storePlace: '外来从业人员',
         jobState: '已用工',
-        jobDate: '2017-06-1'
+        jobDate: '2017-12-01'
       },
       taskNewInfoData: [
         {base: '18000', startMonth: '201712', endYear: ''},

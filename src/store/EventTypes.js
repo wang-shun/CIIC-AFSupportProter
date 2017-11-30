@@ -1,10 +1,10 @@
 //上海社保
-import CompanySocialSecurityManage from "./modules/SocialSecurity/CompanySocialSecurityManage/EventTypes";
-import CompanyTaskList from "./modules/SocialSecurity/CompanyTaskList/EventTypes";
-import EmployeeOperator from "./modules/SocialSecurity/EmployeeOperator/EventTypes";
-import EmployeeSpecialOperator from "./modules/SocialSecurity/EmployeeSpecialOperator/EventTypes";
-import ShSocialSecurity from "./modules/SocialSecurity/ShSocialSecurity/EventTypes";
-import SocialSecurityPay from "./modules/SocialSecurity/SocialSecurityPay/EventTypes";
+import CompanySocialSecurityManage from "./modules/social_security/company_social_security_manage/event_types";
+import CompanyTaskList from "./modules/social_security/company_task_list/event_types";
+import EmployeeOperator from "./modules/social_security/employee_operator/event_types";
+import EmployeeSpecialOperator from "./modules/social_security/employee_special_operator/event_types";
+import ShSocialSecurity from "./modules/social_security/sh_social_security/event_types";
+import SocialSecurityPay from "./modules/social_security/SocialSecurityPay/EventTypes";
 
 //上海公积金
 import EmployeeFundSearch from "./modules/Fund/EmployeeFundSearch/EventTypes"
@@ -15,10 +15,10 @@ import gift from "./modules/ElasticWelfare/gift/EventTypes"
 import market from "./modules/ElasticWelfare/market/EventTypes"
 
 //社保对账
-import SocialSecurityReconcilate from "./modules/SocialSecurity/socialsecurityreconcilate/EventTypes";
+import SocialSecurityReconcilate from "./modules/social_security/socialsecurityreconcilate/EventTypes";
 
 //社保报表
-import Socialsecurityreport from './modules/SocialSecurity/socialsecurityreport/EventTypes'
+import Socialsecurityreport from './modules/social_security/socialsecurityreport/EventTypes'
 export default {
   LEFTNAVIGATION_SETLIST: "LEFTNAVIGATION_SETLIST",
   LEFTNAVIGATION_GETLIST: "LEFTNAVIGATION_GETLIST",

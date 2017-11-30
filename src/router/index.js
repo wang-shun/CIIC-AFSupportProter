@@ -14,9 +14,9 @@ const approvalstep2 = r => require.ensure([], () => r(require('@/components/comm
    companysocialsecuritynew          --- 基本信息
  */
 
-const employeesocialsecuritysearch = r => require.ensure([], () => r(require('@/components/socialsecurity/shsocialsecurity/employeesocialsecuritysearch')), 'employeesocialsecuritysearch')
-const employeesocialsecurityinfo = r => require.ensure([], () => r(require('@/components/socialsecurity/shsocialsecurity/employeesocialsecurityinfo')), 'employeesocialsecurityinfo')
-const companysocialsecuritynew = r => require.ensure([], () => r(require('@/components/socialsecurity/shsocialsecurity/companysocialsecuritynew')), 'companysocialsecuritynew')
+const employeesocialsecuritysearch = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecuritySearch')), 'employeesocialsecuritysearch')
+const employeesocialsecurityinfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityInfo')), 'employeesocialsecurityinfo')
+const companysocialsecuritynew = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/CompanySocialSecurityNew')), 'companysocialsecuritynew')
 
 
 /*
@@ -24,19 +24,19 @@ const companysocialsecuritynew = r => require.ensure([], () => r(require('@/comp
  * employeecommcialoperator          --- 雇员日常操作、办理
  */
 
-const employeeoperatorview = r => require.ensure([], () => r(require('@/components/socialsecurity/employeeoperator/employeeoperatorview')), 'employeeoperatorview')
-const employeecommcialoperator = r => require.ensure([], () => r(require('@/components/socialsecurity/employeeoperator/employeecommcialoperator')), 'employeecommcialoperator')
+const employeeoperatorview = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeOperatorView')), 'employeeoperatorview')
+const employeecommcialoperator = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeCommcialOperator')), 'employeecommcialoperator')
 
 
 /*
  * employeespecialoperatorview       --- 雇员特殊操作
-   employeespecialprogress2          --- 雇员特殊操作、办理(步骤2)
-   employeespecialprogress3          --- 雇员特殊操作、办理(步骤3)
+   employeespecialprogressTwo          --- 雇员特殊操作、办理(步骤2)
+   employeespecialprogressThree          --- 雇员特殊操作、办理(步骤3)
  */
 
-const employeespecialoperatorview = r => require.ensure([], () => r(require('@/components/socialsecurity/employeeSpecialOperator/employeespecialoperatorview')), 'employeespecialoperatorview')
-const employeespecialprogress2 = r => require.ensure([], () => r(require('@/components/socialsecurity/employeeSpecialOperator/employeespecialprogress2')), 'employeespecialprogress2')
-const employeespecialprogress3 = r => require.ensure([], () => r(require('@/components/socialsecurity/employeeSpecialOperator/employeespecialprogress3')), 'employeespecialprogress3')
+const employeespecialoperatorview = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialOperatorView')), 'employeespecialoperatorview')
+const employeespecialprogresstwo = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialProgressTwo')), 'employeespecialprogresstwo')
+const employeespecialprogressthree = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialProgressThree')), 'employeespecialprogressthree')
 
 
 /*
@@ -48,12 +48,12 @@ const employeespecialprogress3 = r => require.ensure([], () => r(require('@/comp
    companytaskprogressendinfo        --- 企业任务单、办理(终止)
  */
 
-const companytasklist = r => require.ensure([], () => r(require('@/components/socialsecurity/companytasklist/companytasklist')), 'companytasklist')
-const companytaskprogress2 = r => require.ensure([], () => r(require('@/components/socialsecurity/companytasklist/companytaskprogress2')), 'companytaskprogress2')
-const companytaskprogresstypeinfo = r => require.ensure([], () => r(require('@/components/socialsecurity/companytasklist/companytaskprogresstypeinfo')), 'companytaskprogresstypeinfo')
-const companytaskprogresstransferinfo = r => require.ensure([], () => r(require('@/components/socialsecurity/companytasklist/companytaskprogresstransferinfo')), 'companytaskprogresstransferinfo')
-const companytaskprogresschangeinfo = r => require.ensure([], () => r(require('@/components/socialsecurity/companytasklist/companytaskprogresschangeinfo')), 'companytaskprogresschangeinfo')
-const companytaskprogressendinfo = r => require.ensure([], () => r(require('@/components/socialsecurity/companytasklist/companytaskprogressendinfo')), 'companytaskprogressendinfo')
+const companytasklist = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskList')), 'companytasklist')
+const companytaskprogress2 = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTwo')), 'companytaskprogress2')
+const companytaskprogresstypeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTypeInfo')), 'companytaskprogresstypeinfo')
+const companytaskprogresstransferinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTransferInfo')), 'companytaskprogresstransferinfo')
+const companytaskprogresschangeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressChangeInfo')), 'companytaskprogresschangeinfo')
+const companytaskprogressendinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressEndInfo')), 'companytaskprogressendinfo')
 
 
 /*
@@ -65,12 +65,12 @@ const companytaskprogressendinfo = r => require.ensure([], () => r(require('@/co
    companysocialsecurityendinfo      --- 企业社保账户信息(终止)
  */
 
-const companysocialsecuritymanage = r => require.ensure([], () => r(require('@/components/socialsecurity/companysocialsecuritymanage/companysocialsecuritymanage')), 'companysocialsecuritymanage')
-const companysocialsecurity = r => require.ensure([], () => r(require('@/components/socialsecurity/companysocialsecuritymanage/companysocialsecurity')), 'companysocialsecurity')
-const companysocialsecurityprogress2 = r => require.ensure([], () => r(require('@/components/socialsecurity/companysocialsecuritymanage/companysocialsecurityprogress2')), 'companysocialsecurityprogress2')
-const companysocialsecuritytypeinfo = r => require.ensure([], () => r(require('@/components/socialsecurity/companysocialsecuritymanage/companysocialsecuritytypeinfo')), 'companysocialsecuritytypeinfo')
-const companysocialsecuritychangeinfo = r => require.ensure([], () => r(require('@/components/socialsecurity/companysocialsecuritymanage/companysocialsecuritychangeinfo')), 'companysocialsecuritychangeinfo')
-const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/components/socialsecurity/companysocialsecuritymanage/companysocialsecurityendinfo')), 'companysocialsecurityendinfo')
+const companysocialsecuritymanage = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityManage')), 'companysocialsecuritymanage')
+const companysocialsecurity = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurity')), 'companysocialsecurity')
+const companysocialsecurityprogress2 = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityProgressTwo')), 'companysocialsecurityprogress2')
+const companysocialsecuritytypeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityTypeInfo')), 'companysocialsecuritytypeinfo')
+const companysocialsecuritychangeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityChangeInfo')), 'companysocialsecuritychangeinfo')
+const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialsecurityEndInfo')), 'companysocialsecurityendinfo')
 
 
 /*
@@ -78,16 +78,16 @@ const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/
  * socialsecurityreconcilatedetail ---社保对账查看页面
  */
 
-const socialsecurityreconcilate = r => require.ensure([], () => r(require('@/components/socialsecurity/socialsecurityreconcilate/socialsecurityreconcilate')), 'socialsecurityreconcilate')
-const socialsecurityreconcilatedetail = r => require.ensure([], () => r(require('@/components/socialsecurity/socialsecurityreconcilate/socialsecurityreconcilateChild/socialsecurityreconcilateDetail')), 'socialsecurityreconcilatedetail')
+const socialsecurityreconcilate = r => require.ensure([], () => r(require('@/components/social_security/socialsecurityreconcilate/socialsecurityreconcilate')), 'socialsecurityreconcilate')
+const socialsecurityreconcilatedetail = r => require.ensure([], () => r(require('@/components/social_security/socialsecurityreconcilate/socialsecurityreconcilateChild/socialsecurityreconcilateDetail')), 'socialsecurityreconcilatedetail')
 
 /*
  * socialsecuritypay               --- 社保支付
  * paymentnotice                   --- 查看付款通知书
  */
 
-const socialsecuritypay = r => require.ensure([], () => r(require('@/components/socialsecurity/socialsecuritypay/socialsecuritypay')), 'socialsecuritypay')
-const paymentnotice = r => require.ensure([], () => r(require('@/components/socialsecurity/socialsecuritypay/paymentnotice')), 'paymentnotice')
+const socialsecuritypay = r => require.ensure([], () => r(require('@/components/social_security/socialsecuritypay/socialsecuritypay')), 'socialsecuritypay')
+const paymentnotice = r => require.ensure([], () => r(require('@/components/social_security/socialsecuritypay/paymentnotice')), 'paymentnotice')
 
 
 /*
@@ -95,21 +95,21 @@ const paymentnotice = r => require.ensure([], () => r(require('@/components/soci
  * monthlypaymentnotice            --- 月缴费通知
  */
 
-const socialsecurityreport = r => require.ensure([], () => r(require('@/components/socialsecurity/socialsecurityreport/socialsecurityreport')), 'socialsecurityreport')
-const monthlypaymentnotice = r => require.ensure([], () => r(require('@/components/socialsecurity/socialsecurityreport/monthlyPaymentNotice')), 'socialsecurityreport')
+const socialsecurityreport = r => require.ensure([], () => r(require('@/components/social_security/socialsecurityreport/socialsecurityreport')), 'socialsecurityreport')
+const monthlypaymentnotice = r => require.ensure([], () => r(require('@/components/social_security/socialsecurityreport/monthlyPaymentNotice')), 'socialsecurityreport')
 
 /*
  * yearbaseapplicate               --- 年度基数申报
  */
 
-const yearbaseapplicate = r => require.ensure([], () => r(require('@/components/socialsecurity/yearbaseapplicate/yearbaseapplicate')), 'yearbaseapplicate')
+const yearbaseapplicate = r => require.ensure([], () => r(require('@/components/social_security/yearbaseapplicate/yearbaseapplicate')), 'yearbaseapplicate')
 
 
 /*
  * systemmanage                    --- 系统管理
  */
 
-const systemmanage = r => require.ensure([], () => r(require('@/components/socialsecurity/systemmanage/systemmanage')), 'systemmanage')
+const systemmanage = r => require.ensure([], () => r(require('@/components/social_security/systemmanage/systemmanage')), 'systemmanage')
 
 
 /* ================== 本地公积金 ================== */
@@ -296,9 +296,9 @@ let router = new Router({
           },
         },
         {
-          path: '/employeespecialprogress2',
-          name: 'employeespecialprogress2',
-          component: employeespecialprogress2,
+          path: '/employeespecialprogresstwo',
+          name: 'employeespecialprogresstwo',
+          component: employeespecialprogresstwo,
           meta:{
             level1:'全国社保',
             level2:"上海社保",
@@ -307,9 +307,9 @@ let router = new Router({
           }
         },
         {
-          path: '/employeespecialprogress3',
-          name: 'employeespecialprogress3',
-          component: employeespecialprogress3,
+          path: '/employeespecialprogressthree',
+          name: 'employeespecialprogressthree',
+          component: employeespecialprogressthree,
           meta:{
             level1:'全国社保',
             level2:"上海社保",

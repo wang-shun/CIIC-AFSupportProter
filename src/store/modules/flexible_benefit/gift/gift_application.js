@@ -21,7 +21,7 @@ const state = {
 const actions = {
   [EventTypes.GIFTAPPLICATIONTYPE]({commit}, params) {
     mock.giftData(params).then(response => {
-      commit(EventTypes.GIFTAPPLICATIONTYPE, response.data)
+      commit(EventTypes.GIFTAPPLICATIONTYPE, response.data.data)
     })
   },
   [EventTypes.GIFTINSERTTYPE]({commit}, params) {

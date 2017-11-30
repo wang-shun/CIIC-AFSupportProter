@@ -55,10 +55,10 @@
           giftid: null,
           giftname: "",
           status: "",
-          page:{
-            total:1,
-            pageSize:10,
-            current:1,
+          page: {
+            total: 1,
+            pageSize: 10,
+            current: 1,
           }
         },
 
@@ -79,9 +79,9 @@
         }],
 
         giftManagerColumns: [{
-          title: "礼品名称", sortable: true, key: "giftname",align: "center"
+          title: "礼品名称", sortable: true, key: "giftName",align: "center"
         }, {
-          title: "类别", sortable: true, key: "gifttype",align: "center"
+          title: "类别", sortable: true, key: "giftType",align: "center"
         }, {
           title: "价格", sortable: true, key: "price",align: "center"
         }, {
@@ -161,9 +161,8 @@
 
       query() {
         this[EventTypes.GIFTAPPLICATIONTYPE](this.formItem).then(() => {
-          console.log(this.$store.state)
-          this.formItem.page = this.$store.state.GIFT.data.formItem.page
-          console.log(this.page)
+          console.log(this.$store.state.GIFT.data);
+          this.formItem.page = this.$store.state.GIFT.data.page;
         })
       },
       resetSearchCondition(name) {

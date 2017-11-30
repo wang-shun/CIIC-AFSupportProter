@@ -201,7 +201,7 @@
     </div>
 </template>
 <script>
-   import expandRow from './edit_task_detail.vue';
+   import expandRow from './EditTaskDetail.vue';
 
     export default {
         data() {

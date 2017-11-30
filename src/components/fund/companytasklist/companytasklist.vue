@@ -1,8 +1,4 @@
 <template>
-  <div>企业任务单</div>
-</template>
-<!--
-<template>
   <div class="smList">
     <Tabs value="cthismonthhandle">
       <TabPane label="未处理" name="cthismonthhandle">
@@ -42,4 +38,3 @@
     }
   }
 </script>
--->

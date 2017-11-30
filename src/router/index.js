@@ -78,16 +78,26 @@ const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/
  * socialsecurityreconcilatedetail ---社保对账查看页面
  */
 
+<<<<<<< HEAD
+const socialsecurityreconcilate = r => require.ensure([], () => r(require('@/components/socialsecurity/social_security_recon_cilate/socialsecurityreconcilate')), 'socialsecurityreconcilate')
+const socialsecurityreconcilatedetail = r => require.ensure([], () => r(require('@/components/socialsecurity/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityReconCilateDetail')), 'socialsecurityreconcilatedetail')
+=======
 const socialsecurityreconcilate = r => require.ensure([], () => r(require('@/components/social_security/socialsecurityreconcilate/socialsecurityreconcilate')), 'socialsecurityreconcilate')
 const socialsecurityreconcilatedetail = r => require.ensure([], () => r(require('@/components/social_security/socialsecurityreconcilate/socialsecurityreconcilateChild/socialsecurityreconcilateDetail')), 'socialsecurityreconcilatedetail')
+>>>>>>> 909fefb55a359a06600f5642f1cdb5252b21c414
 
 /*
  * socialsecuritypay               --- 社保支付
  * paymentnotice                   --- 查看付款通知书
  */
 
+<<<<<<< HEAD
+const socialsecuritypay = r => require.ensure([], () => r(require('@/components/socialsecurity/social_security_pay/socialsecuritypay')), 'socialsecuritypay')
+const paymentnotice = r => require.ensure([], () => r(require('@/components/socialsecurity/social_security_pay/paymentnotice')), 'paymentnotice')
+=======
 const socialsecuritypay = r => require.ensure([], () => r(require('@/components/social_security/socialsecuritypay/socialsecuritypay')), 'socialsecuritypay')
 const paymentnotice = r => require.ensure([], () => r(require('@/components/social_security/socialsecuritypay/paymentnotice')), 'paymentnotice')
+>>>>>>> 909fefb55a359a06600f5642f1cdb5252b21c414
 
 
 /*
@@ -95,21 +105,34 @@ const paymentnotice = r => require.ensure([], () => r(require('@/components/soci
  * monthlypaymentnotice            --- 月缴费通知
  */
 
+<<<<<<< HEAD
+const socialsecurityreport = r => require.ensure([], () => r(require('@/components/socialsecurity/social_security_report/socialsecurityreport')), 'socialsecurityreport')
+const monthlypaymentnotice = r => require.ensure([], () => r(require('@/components/socialsecurity/social_security_report/monthlyPaymentNotice')), 'socialsecurityreport')
+=======
 const socialsecurityreport = r => require.ensure([], () => r(require('@/components/social_security/socialsecurityreport/socialsecurityreport')), 'socialsecurityreport')
 const monthlypaymentnotice = r => require.ensure([], () => r(require('@/components/social_security/socialsecurityreport/monthlyPaymentNotice')), 'socialsecurityreport')
+>>>>>>> 909fefb55a359a06600f5642f1cdb5252b21c414
 
 /*
  * yearbaseapplicate               --- 年度基数申报
  */
 
+<<<<<<< HEAD
+const yearbaseapplicate = r => require.ensure([], () => r(require('@/components/socialsecurity/year_base_applicate/yearbaseapplicate')), 'yearbaseapplicate')
+=======
 const yearbaseapplicate = r => require.ensure([], () => r(require('@/components/social_security/yearbaseapplicate/yearbaseapplicate')), 'yearbaseapplicate')
+>>>>>>> 909fefb55a359a06600f5642f1cdb5252b21c414
 
 
 /*
  * systemmanage                    --- 系统管理
  */
 
+<<<<<<< HEAD
+const systemmanage = r => require.ensure([], () => r(require('@/components/socialsecurity/system_manage/systemmanage')), 'systemmanage')
+=======
 const systemmanage = r => require.ensure([], () => r(require('@/components/social_security/systemmanage/systemmanage')), 'systemmanage')
+>>>>>>> 909fefb55a359a06600f5642f1cdb5252b21c414
 
 
 /* ================== 本地公积金 ================== */
@@ -136,6 +159,8 @@ const employeefundhistorydetail = r => require.ensure([], () => r(require('@/com
 const employeefundcommonoperator = r => require.ensure([], () => r(require('@/components/fund/employeecommonoperator/employeefundcommonoperator')), 'employeefundcommonoperator')
 const employeefundspecialoperator = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/employeefundspecialoperator')), 'employeefundspecialoperator')
 const companyfundtasklist = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/companyfundtasklist')), 'companyfundtasklist')
+//lu
+//const companyfundtasklist = r => require.ensure([], () => r(require('@/components/fund/companytasklist/companyfundtasklist')), 'companyfundtasklist')
 const companyfundaccountsearch = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/companyfundaccountsearch')), 'companyfundaccountsearch')
 const fundreconciliation = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundreconciliation')), 'fundreconciliation')
 const fundpay = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundpay')), 'fundpay')

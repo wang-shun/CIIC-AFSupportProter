@@ -16,12 +16,12 @@ import EmployeeFundSearch from './modules/Fund/EmployeeFundSearch'
 import EmployeeCommonOperator from './modules/Fund/EmployeeCommonOperator'
 
 //弹性福利
-import gift from "./modules/ElasticWelfare/gift"
-import market from "./modules/ElasticWelfare/market"
+import gift from "./modules/flexible_benefit/gift"
+import market from "./modules/flexible_benefit/market"
 //社保对账
 import SocialSecurityReconcilate from './modules/social_security/socialsecurityreconcilate'
 //社保报表
-import Socialsecurityreport from './modules/social_security/socialsecurityreport' 
+import Socialsecurityreport from './modules/social_security/socialsecurityreport'
 Vue.use(Vuex)
 
 export default new Vuex.Store({

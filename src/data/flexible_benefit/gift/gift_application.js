@@ -1,10 +1,12 @@
-import Utils from "../../lib/utils";
+import Utils from "../../../lib/utils";
 
-const ajax = Utils.ajaxEw;
+const ajaxq = Utils.ajaxFbq;
+const ajaxc = Utils.ajaxFbc;
 
-
-const giftData = params => ajax.post("/gift/giftList" ,params);
-const giftInsert = params => ajax.post("/gift/giftInsert" ,params);
+//query服务
+const giftData = params => ajaxq.post("/giftQueryService/giftList", params);
+//command服务
+const giftInsert = params => ajaxc.post("/giftCommandService/giftInsert", params);
 
 export default {
   giftData,

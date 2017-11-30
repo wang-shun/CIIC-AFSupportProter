@@ -1,4 +1,4 @@
-import Utils from "../../lib/utils";
+import Utils from "../../../lib/utils";
 
 const ajax = Utils.ajaxEw;
 

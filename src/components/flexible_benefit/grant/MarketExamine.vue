@@ -98,7 +98,7 @@
 </template>
 
 <script>
-  import canEditTable from '../marketActivities/tables/canEditTable.vue';
+  import canEditTable from '../market_activities/tables/canEditTable.vue';
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventTypes from '../../../store/EventTypes'
   import ProgressBar from "../../commoncontrol/progress/progressbar.vue";

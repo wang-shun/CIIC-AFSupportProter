@@ -1,7 +1,7 @@
 /**
  * Created by xiweizhen on 2017-11-16 16:13:12.
  */
-import mock from "../../../../data/marketActivity/marketApplication.js";
+import mock from "../../../../data/flexible_benefit/market/market_application.js";
 import EventTypes from "../../../EventTypes";
 
 const state = {

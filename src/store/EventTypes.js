@@ -11,8 +11,8 @@ import EmployeeFundSearch from "./modules/Fund/EmployeeFundSearch/EventTypes"
 import EmployeeCommonOperator from "./modules/Fund/EmployeeCommonOperator/EventTypes"
 
 //弹性福利
-import gift from "./modules/ElasticWelfare/gift/EventTypes"
-import market from "./modules/ElasticWelfare/market/EventTypes"
+import gift from "./modules/flexible_benefit/gift/event_types"
+import market from "./modules/flexible_benefit/market/event_types"
 
 //社保对账
 import SocialSecurityReconcilate from "./modules/social_security/socialsecurityreconcilate/EventTypes";

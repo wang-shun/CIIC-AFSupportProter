@@ -1,0 +1,3 @@
+export default {
+  MONTHLYPAYMENTNOTICE: 'MONTHLYPAYMENTNOTICE'//月缴费通知书
+}

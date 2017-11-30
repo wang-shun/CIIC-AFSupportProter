@@ -156,6 +156,7 @@ let createAjaxForName = name => {
 }
 
 utils.ajaxAlertJob = createAjaxForName('AlertJob');
-utils.ajaxEw = createAjaxForName('ew');
+utils.ajaxFbq = createAjaxForName('fb-q');
+utils.ajaxFbc = createAjaxForName('fb-c');
 
 export default utils;

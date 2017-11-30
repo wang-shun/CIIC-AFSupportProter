@@ -3,7 +3,7 @@
  */
 
 
- import mock from '../../../../../data/SocialSecurity/social_security_recon_cilate/social_security_recon_cilate_child/social_security_recon_cilate_detail_data'
+ import mock from '../../../../../data/social_security/social_security_recon_cilate/social_security_recon_cilate_child/social_security_recon_cilate_detail_data'
  import EventType from '../event_types'
 
 

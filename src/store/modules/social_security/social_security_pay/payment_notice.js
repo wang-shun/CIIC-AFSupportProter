@@ -1,7 +1,7 @@
 /**
  * Created by huangye on 2017/10/25.
  */
-import mock from "../../../../data/SocialSecurity/social_security_pay/payment_notice_data";
+import mock from "../../../../data/social_security/social_security_pay/payment_notice_data";
 import EventTypes from "./event_types";
 
 const state = {

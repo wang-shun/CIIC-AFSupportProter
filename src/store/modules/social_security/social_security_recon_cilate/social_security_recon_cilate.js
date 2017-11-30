@@ -1,28 +1,26 @@
 /**
  * Created by huangye on 2017/10/25.
  */
-import mock from "../../../../data/SocialSecurity/social_security_pay/social_security_pay_data";
+import mock from "../../../../data/social_security/social_security_recon_cilate/social_security_recon_cilate_data";
 import EventTypes from "./event_types";
 
 const state = {
   rows: [],
   data: {
-    customerData: [],
-    changeData: [],
-    payData: [],
+    tableData: []
   }
 }
 
 
 const actions = {
-  [EventTypes.SOCIALSECURITYPAYTYPE]({commit}, params) {
-    mock.socialSecurityPay(params).then(response => {
-      commit(EventTypes.SOCIALSECURITYPAYTYPE, response.data)
+  [EventTypes.SOCIALSECURITYRECONCILATE]({commit}, params) {
+    mock.socialSecurityReconcilate(params).then(response => {
+      commit(EventTypes.SOCIALSECURITYRECONCILATE, response.data)
     })
   }
 }
 const mutations = {
-  [EventTypes.SOCIALSECURITYPAYTYPE](state, data) {
+  [EventTypes.SOCIALSECURITYRECONCILATE](state, data) {
     state.data = data.data;
   }
 }

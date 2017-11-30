@@ -80,7 +80,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保起缴月份：" prop="SocialsecurityStartMonth">
-                  <DatePicker v-model="operatorSearchData.SocialsecurityStartMonth" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                  <Date-picker v-model="operatorSearchData.SocialsecurityStartMonth" type="month" placement="bottom" placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
                 </Form-item>
               </Col>
             </Row>
@@ -166,7 +166,7 @@
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
-          handleMonth:'',
+          handleMonth:'1',
           handleMonthList: [
             {value: '1', label: '本月处理'},
             {value: '2', label: '下月处理'}

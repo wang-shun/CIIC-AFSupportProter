@@ -10,16 +10,19 @@
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="办理月份：">
-          <DatePicker v-model="socialSecurityPayOperator.doMonth" type="date" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+          <DatePicker v-model="socialSecurityPayOperator.doMonth" type="month" placeholder="办理年月" style="width: 100%;" transfer ></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="变更类型：">
+   
           <span v-if="operatorType === '1'">调整</span>
           <span v-else-if="operatorType === '4'">补缴</span>
+          
           <Select v-model="socialSecurityPayOperator.changeValue" style="width: 100%;" transfer v-else>
             <Option v-for="item in socialSecurityPayOperator.changeType" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
+
         </Form-item>
       </Col>
       <!-- 仅新增 -->
@@ -39,7 +42,7 @@
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0'">
         <Form-item label="起缴月份：">
-          <DatePicker v-model="socialSecurityPayOperator.startMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+          <DatePicker v-model="socialSecurityPayOperator.startMonth" type="month" placeholder="选择年月" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <!-- 仅转出 -->
@@ -51,7 +54,7 @@
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0'">
         <Form-item label="截至月份：">
-          <DatePicker v-model="socialSecurityPayOperator.endMonth" type="daterange" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+          <DatePicker v-model="socialSecurityPayOperator.endMonth" type="month" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span:24}" v-if="operatorType !== '2'">
@@ -59,12 +62,12 @@
       </Col>
     </Row>
     <Row class="mt20">
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 20}">
         <Form-item label="办理备注：">
           <Input v-model="socialSecurityPayOperator.doNotes" placeholder="请输入..."></Input>
         </Form-item>
       </Col>
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 20}">
         <Form-item label="批退备注：">
           <Input v-model="socialSecurityPayOperator.refuseNotes" placeholder="请输入..."></Input>
         </Form-item>
@@ -83,7 +86,7 @@
     data() {
       return {
         socialSecurityPayOperator: {
-          doValue: '',
+          doValue: 1,
           doMethod: [
             {value: 1, label: '网上申报'},
             {value: 2, label: '柜面办理'}
@@ -91,7 +94,7 @@
 
           socialSecurityNumber: '', //社保序号
 
-          changeValue: '',
+          changeValue: 1,
           changeType: [
             {value: 1, label: '新进'},
             {value: 2, label: '转入'},
@@ -99,9 +102,9 @@
             {value: 4, label: '转入转出'},
           ], //变更方式
 
-          doMonth: '', //办理月份
+          doMonth: '201712', //办理月份
 
-          startMonth: '', //起缴月份
+          startMonth: '201712', //起缴月份
 
           endMonth: '', //截至月份
 
@@ -114,8 +117,8 @@
           payEndMonth: '', //缴费截止月份
 
           operatorListData: [
-            {operator: '', startMonth: '201701', endMonth: '', base: '18000', action: '', disabled: true},
-            {operator: '', startMonth: '', endMonth: '', base: '', action: '', disabled: true},
+            {operator: '', startMonth: '201712', endMonth: '201712', base: '18000', action: '', disabled: true}
+            
           ],
           operatorListColumns: [
             {title: '', key: 'operator', align: 'center', width: 100,

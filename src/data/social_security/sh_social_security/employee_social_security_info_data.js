@@ -15,7 +15,7 @@ const employeeSocialSecurityInfo = params => Utils.promise({
         code: 'GY0001',
         name: '郑杰',
         idNo: '35220219781124114',
-        checkInTime: '2017-1-1',
+        checkInTime: '2017-12-1',
         socialSecurityNo: '123235564',
         education: '本科',
         socialSecurityCompanyAcount: '中智大库',
@@ -26,8 +26,8 @@ const employeeSocialSecurityInfo = params => Utils.promise({
       ssinfo: {
         state: '已做',
         payBasePrice: '19000',
-        payStartMonth: '201701',
-        doMonth: '201706'
+        payStartMonth: '201712',
+        doMonth: '201712'
       },
       socialSecurityInfoListData: [
         {changeType: '', base: '19000', startTime: '201605', endTime: ''},

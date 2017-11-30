@@ -7,8 +7,8 @@
         <Form :model="formItem" ref="formItem" :label-width="100">
           <Row type="flex" justify="start">
             <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form-item label="礼品名称" prop="giftname">
-                <Input v-model="formItem.giftname" placeholder="请输入"/>
+              <Form-item label="礼品名称" prop="giftName">
+                <Input v-model="formItem.giftName" placeholder="请输入"/>
               </Form-item>
             </Col>
             <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
@@ -36,7 +36,7 @@
         <Button type="info">礼品申请</Button>
       </router-link>
     </div>
-    <Table border :columns="giftManagerColumns" :data="giftManagerData" ref="table"></Table>
+    <Table border :columns="giftManagerColumns" :data="giftManagerData" ref="giftManagerTable"></Table>
     <Page :total="formItem.page.total" show-sizer show-elevator @on-change="getByPage" @on-page-size-change="pageSizeChange" :current.sync="formItem.page.current" :page-size="formItem.page.pageSize"></Page>
 
 
@@ -52,8 +52,8 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         formItem: {
-          giftid: null,
-          giftname: "",
+          id: null,
+          giftName: "",
           status: "",
           page: {
             total: 1,

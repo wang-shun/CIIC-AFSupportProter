@@ -98,21 +98,21 @@
         taskNewInfoColumns: [
           {title: '基数', key: 'base', align: 'center', width: 200,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.base),
               ]);
             }
           },
           {title: '起缴月份', key: 'startMonth', align: 'center', width: 200,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.startMonth),
               ]);
             }
           },
           {title: '截至月份', key: 'endYear', align: 'center', width: 200,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.endYear),
               ]);
             }

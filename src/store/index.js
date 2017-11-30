@@ -9,7 +9,7 @@ import CompanyTaskList from './modules/SocialSecurity/CompanyTaskList'
 import EmployeeOperator from './modules/SocialSecurity/EmployeeOperator'
 import EmployeeSpecialOperator from './modules/SocialSecurity/EmployeeSpecialOperator'
 import ShsocialSecurity from './modules/SocialSecurity/ShSocialSecurity'
-import SocialSecurityPay from './modules/SocialSecurity/SocialSecurityPay'
+import SocialSecurityPay from './modules/SocialSecurity/social_security_pay'
 
 //上海公积金
 import EmployeeFundSearch from './modules/Fund/EmployeeFundSearch'
@@ -19,9 +19,9 @@ import EmployeeCommonOperator from './modules/Fund/EmployeeCommonOperator'
 import gift from "./modules/ElasticWelfare/gift"
 import market from "./modules/ElasticWelfare/market"
 //社保对账
-import SocialSecurityReconcilate from './modules/SocialSecurity/socialsecurityreconcilate'
+import SocialSecurityReconcilate from './modules/SocialSecurity/social_security_recon_cilate'
 //社保报表
-import Socialsecurityreport from './modules/SocialSecurity/socialsecurityreport' 
+import Socialsecurityreport from './modules/SocialSecurity/social_security_report' 
 Vue.use(Vuex)
 
 export default new Vuex.Store({

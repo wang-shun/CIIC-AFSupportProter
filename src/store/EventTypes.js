@@ -4,7 +4,7 @@ import CompanyTaskList from "./modules/SocialSecurity/CompanyTaskList/EventTypes
 import EmployeeOperator from "./modules/SocialSecurity/EmployeeOperator/EventTypes";
 import EmployeeSpecialOperator from "./modules/SocialSecurity/EmployeeSpecialOperator/EventTypes";
 import ShSocialSecurity from "./modules/SocialSecurity/ShSocialSecurity/EventTypes";
-import SocialSecurityPay from "./modules/SocialSecurity/SocialSecurityPay/EventTypes";
+import SocialSecurityPay from "./modules/SocialSecurity/social_security_pay/event_types";
 
 //上海公积金
 import EmployeeFundSearch from "./modules/Fund/EmployeeFundSearch/EventTypes"
@@ -15,10 +15,10 @@ import gift from "./modules/ElasticWelfare/gift/EventTypes"
 import market from "./modules/ElasticWelfare/market/EventTypes"
 
 //社保对账
-import SocialSecurityReconcilate from "./modules/SocialSecurity/socialsecurityreconcilate/EventTypes";
+import SocialSecurityReconcilate from "./modules/SocialSecurity/social_security_recon_cilate/event_types";
 
 //社保报表
-import Socialsecurityreport from './modules/SocialSecurity/socialsecurityreport/EventTypes'
+import Socialsecurityreport from './modules/SocialSecurity/social_security_report/event_types'
 export default {
   LEFTNAVIGATION_SETLIST: "LEFTNAVIGATION_SETLIST",
   LEFTNAVIGATION_GETLIST: "LEFTNAVIGATION_GETLIST",

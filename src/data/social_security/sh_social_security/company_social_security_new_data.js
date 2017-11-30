@@ -20,13 +20,13 @@ const companySocialSecurityNew = params => Utils.promise({
       employee: {
         code: 'GY0001',
         name: '郑杰',
-        idNo: '35220219781124114',
-        checkInTime: '2017-1-1',
+        idNo: '320106198310290811',
+        checkInTime: '2017-12-1',
         education: '本科',
         socialSecurityIndex: '123235564',
         companySocialSecurityAccount: '中智大库',
-        residenceAddress: 'XXX路X号xxx',
-        contactAddress: 'XXX路X号xxx',
+        residenceAddress: '上海市人民路100号1203',
+        contactAddress: '上海市人民路100号1203',
         personType: '外地',
         socialSecurityType: '中智大库'
       }, //雇员信息
@@ -38,18 +38,17 @@ const companySocialSecurityNew = params => Utils.promise({
         jobDate: '2017-06-1'
       },
       taskNewInfoData: [
-        {base: '18000', startMonth: '201701', endYear: ''},
-        {base: '', startMonth: '', endYear: ''}
+        {base: '18000', startMonth: '201712', endYear: ''},
       ], //任务单参考信息 -- 新增
       taskNewInfoData1: [
-        {base: '18000', startMonth: '201701', endYear: ''},
-        {base: '', startMonth: '', endYear: ''}
+        {base: '18000', startMonth: '201712', endYear: ''},
+
       ], //任务单参考信息 -- 新增
       
       taskChangeInfo: {
-        newPay: '19000',
-        changeStartMonth: '201701',
-        changeEndMonth: '201706'
+        newPay: '18000',
+        changeStartMonth: '201712',
+        changeEndMonth: '201712'
       }, //任务单参考信息 -- 调整
 
       taskOutInfo: {

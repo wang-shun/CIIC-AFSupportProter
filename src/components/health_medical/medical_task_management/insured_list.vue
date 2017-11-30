@@ -117,7 +117,7 @@
     </div>
 </template>
 <script>
-    import expandRow from './expand-row.vue';
+    import expandRow from './expand_row.vue';
     export default {
         data() {
             return {

@@ -74,7 +74,7 @@ const noProgress = params => Utils.promise({
           tid: 'SS_KH_0001',
           type: '终止',
           emergency: '',
-          employee: '刘传宏',
+          employee: '刘德敏',
           employeeId: 'GY009',
           employeeCardNumber: '',
           companySocialSecurityAccount: '',

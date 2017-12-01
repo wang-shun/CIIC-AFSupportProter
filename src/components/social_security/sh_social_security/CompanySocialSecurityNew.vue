@@ -56,7 +56,7 @@
         collapseInfo: [1, 2, 3, 4],
         employee1: {
           code: 'GY0001',
-          name: '郑杰',
+          name: '潘玉麟',
           idNo: '320106198310290811',
           checkInTime: '2017-12-1',
           education: '本科',
@@ -69,7 +69,7 @@
         },
         employee2: {
           code: 'GY0003',
-          name: '潘玉麟',
+          name: '刘传宏',
           idNo: '31010519821011939x',
           checkInTime: '2017-12-1',
           education: '本科',

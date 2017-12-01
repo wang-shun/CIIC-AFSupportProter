@@ -74,7 +74,7 @@ const finishHandle = params => Utils.promise({
           tid: 'SS_KH_0001',
           type: '新进转入',
           emergency: '是',
-          employee: '刘传宏',
+          employee: '刘德敏',
           employeeId: 'GY009',
           employeeCardNumber: '356601198801150012',
           companySocialSecurityAccount: '9100101',

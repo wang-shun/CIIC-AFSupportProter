@@ -20,7 +20,7 @@ const employeeSocialSecurityInfo = params => Utils.promise({
         education: '本科',
         socialSecurityCompanyAcount: '中智大库',
         personType: '外地',
-        checkOutTime: '2017-1-1'
+        checkOutTime: '2017-12-1'
       }, //雇员信息
 
       ssinfo: {

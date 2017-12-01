@@ -141,13 +141,12 @@ const employeefundhistorydetail = r => require.ensure([], () => r(require('@/com
 const employeefundcommonoperator = r => require.ensure([], () => r(require('@/components/fund/employeecommonoperator/employeefundcommonoperator')), 'employeefundcommonoperator')
 const employeefundspecialoperator = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/employeefundspecialoperator')), 'employeefundspecialoperator')
 const companyfundtasklist = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/companyfundtasklist')), 'companyfundtasklist')
-//lu
-//const companyfundtasklist = r => require.ensure([], () => r(require('@/components/fund/companytasklist/companyfundtasklist')), 'companyfundtasklist')
 const companyfundaccountsearch = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/companyfundaccountsearch')), 'companyfundaccountsearch')
 const fundreconciliation = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundreconciliation')), 'fundreconciliation')
 const fundpay = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundpay')), 'fundpay')
 const fundreport = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundreport')), 'fundreport')
 const fundyearadjust = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundyearadjust')), 'fundyearadjust')
+
 
 
 //任务单管理
@@ -235,7 +234,7 @@ let router = new Router({
           component: charts
         },
         {
-          path: '/employeesocialsecuritysearch',
+          path: '/employee_social_security_search',
           name:'employeesocialsecuritysearch',
           component: employeesocialsecuritysearch,
           meta:{
@@ -246,7 +245,7 @@ let router = new Router({
           }
         },
         {
-          path: '/employeesocialsecurityinfo',
+          path: '/employee_social_security_info',
           name:'employeesocialsecurityinfo',
           component: employeesocialsecurityinfo,
           meta:{
@@ -257,7 +256,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companysocialsecuritynew',
+          path: '/company_social_security_new',
           name:'companysocialsecuritynew',
           component: companysocialsecuritynew,
           meta:{
@@ -269,7 +268,7 @@ let router = new Router({
         },
 
         {
-          path: '/employeeoperatorview',
+          path: '/employee_operator_view',
           name:'employeeoperatorview',
           component: employeeoperatorview,
           meta:{
@@ -280,7 +279,7 @@ let router = new Router({
           }
         },
         {
-          path: '/employeecommcialoperator',
+          path: '/employee_comm_cial_operator',
           name:'employeecommcialoperator',
           component: employeecommcialoperator,
           meta:{
@@ -292,7 +291,7 @@ let router = new Router({
         },
 
         {
-          path: '/employeespecialoperatorview',
+          path: '/employee_special_operator_view',
           name: 'employeespecialoperatorview',
           component: employeespecialoperatorview,
           meta:{
@@ -303,7 +302,7 @@ let router = new Router({
           },
         },
         {
-          path: '/employeespecialprogresstwo',
+          path: '/employee_special_progress_two',
           name: 'employeespecialprogresstwo',
           component: employeespecialprogresstwo,
           meta:{
@@ -314,7 +313,7 @@ let router = new Router({
           }
         },
         {
-          path: '/employeespecialprogressthree',
+          path: '/employee_special_progress_three',
           name: 'employeespecialprogressthree',
           component: employeespecialprogressthree,
           meta:{
@@ -326,7 +325,7 @@ let router = new Router({
         },
 
         {
-          path: '/CompanyTaskList',
+          path: '/company_task_list',
           name: 'companytasklist',
           component: companytasklist,
           meta:{
@@ -337,7 +336,7 @@ let router = new Router({
           },
         },
         {
-          path: '/companytaskprogress2',
+          path: '/company_task_progress2',
           name: 'companytaskprogress2',
           component: companytaskprogress2,
           meta:{
@@ -348,7 +347,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companytaskprogresstypeinfo',
+          path: '/company_task_progress_type_info',
           name: 'companytaskprogresstypeinfo',
           component: companytaskprogresstypeinfo,
           meta:{
@@ -359,7 +358,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companytaskprogresstransferinfo',
+          path: '/company_task_progress_transfer_info',
           name: 'companytaskprogresstransferinfo',
           component: companytaskprogresstransferinfo,
           meta:{
@@ -370,7 +369,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companytaskprogresschangeinfo',
+          path: '/company_task_progress_change_info',
           name: 'companytaskprogresschangeinfo',
           component: companytaskprogresschangeinfo,
           meta:{
@@ -381,7 +380,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companytaskprogressendinfo',
+          path: '/company_task_progres_send_info',
           name: 'companytaskprogressendinfo',
           component: companytaskprogressendinfo,
           meta:{
@@ -393,7 +392,7 @@ let router = new Router({
         },
 
         {
-          path: '/CompanySocialSecurityManage',
+          path: '/company_social_security_manage',
           name: 'companysocialsecuritymanage',
           component: companysocialsecuritymanage,
           meta:{
@@ -404,7 +403,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companysocialsecurity',
+          path: '/company_social_security',
           name: 'companysocialsecurity',
           component: companysocialsecurity,
           meta:{
@@ -415,7 +414,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companysocialsecurityprogress2',
+          path: '/company_social_security_progress2',
           name: 'companysocialsecurityprogress2',
           component: companysocialsecurityprogress2,
           meta:{
@@ -426,7 +425,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companysocialsecuritytypeinfo',
+          path: '/company_social_security_type_info',
           name: 'companysocialsecuritytypeinfo',
           component: companysocialsecuritytypeinfo,
           meta:{
@@ -437,7 +436,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companysocialsecuritychangeinfo',
+          path: '/company_social_security_change_info',
           name: 'companysocialsecuritychangeinfo',
           component: companysocialsecuritychangeinfo,
           meta:{
@@ -448,7 +447,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companysocialsecurityendinfo',
+          path: '/company_social_security_end_info',
           name: 'companysocialsecurityendinfo',
           component: companysocialsecurityendinfo,
           meta:{
@@ -460,7 +459,7 @@ let router = new Router({
         },
 
         {
-          path: '/socialsecurityreconcilate',
+          path: '/social_security_recon_cilate',
           name: 'socialsecurityreconcilate',
           component: socialsecurityreconcilate,
           meta:{
@@ -471,7 +470,7 @@ let router = new Router({
           }
         },
         {
-          path: '/socialsecurityreconcilatedetail',
+          path: '/social_security_recon_cilate_detail',
           name: 'socialsecurityreconcilatedetail',
           component: socialsecurityreconcilatedetail,
           meta:{
@@ -482,7 +481,7 @@ let router = new Router({
           }
         },
         {
-          path: '/SocialSecurityPay',
+          path: '/social_security_pay',
           name: 'socialsecuritypay',
           component: socialsecuritypay,
           meta:{
@@ -493,7 +492,7 @@ let router = new Router({
           }
         },
         {
-          path: '/paymentnotice',
+          path: '/payment_notice',
           name: 'paymentnotice',
           component: paymentnotice,
           meta:{
@@ -505,7 +504,7 @@ let router = new Router({
         },
 
         {
-          path: '/socialsecurityreport',
+          path: '/social_security_report',
           name: 'socialsecurityreport',
           component: socialsecurityreport,
           meta:{
@@ -516,7 +515,7 @@ let router = new Router({
           }
         },
         {
-          path: '/monthlypaymentnotice',
+          path: '/monthly_payment_notice',
           name: 'monthlypaymentnotice',
           component: monthlypaymentnotice,
           meta:{
@@ -527,7 +526,7 @@ let router = new Router({
           }
         },
         {
-          path: '/yearbaseapplicate',
+          path: '/year_base_applicate',
           name: 'yearbaseapplicate',
           component: yearbaseapplicate,
           meta:{
@@ -539,7 +538,7 @@ let router = new Router({
         },
 
         {
-          path: '/systemmanage',
+          path: '/system_manage',
           name: 'systemmanage',
           component: systemmanage,
           meta:{
@@ -551,7 +550,7 @@ let router = new Router({
         },
 
         {
-          path: '/employeefundsearch',
+          path: '/employee_fund_search',
           name: 'employeefundsearch',
           component: employeefundsearch,
           meta: {
@@ -562,7 +561,7 @@ let router = new Router({
           }
         },
         {
-          path: '/employeefundhistory',
+          path: '/employee_fund_history',
           name: 'employeefundhistory',
           component: employeefundhistory,
           meta: {
@@ -573,7 +572,7 @@ let router = new Router({
           }
         },
         {
-          path: '/employeefundbasicinfo',
+          path: '/employee_fund_basic_info',
           name: 'employeefundbasicinfo',
           component: employeefundbasicinfo,
           meta: {
@@ -584,7 +583,7 @@ let router = new Router({
           }
         },
         {
-          path: '/employeefundhistorydetail',
+          path: '/employee_fund_history_detail',
           name: 'employeefundhistorydetail',
           component: employeefundhistorydetail,
           meta: {
@@ -595,7 +594,7 @@ let router = new Router({
           }
         },
         {
-          path: '/employeefundcommonoperator',
+          path: '/employee_fund_common_operator',
           name: 'employeefundcommonoperator',
           component: employeefundcommonoperator,
           meta: {
@@ -606,7 +605,7 @@ let router = new Router({
           }
         },
         {
-          path: '/employeefundspecialoperator',
+          path: '/employee_fund_special_operator',
           name: 'employeefundspecialoperator',
           component: employeefundspecialoperator,
           meta: {
@@ -617,7 +616,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companyfundtasklist',
+          path: '/company_fund_task_list',
           name: 'companyfundtasklist',
           component: companyfundtasklist,
           meta: {
@@ -628,7 +627,7 @@ let router = new Router({
           }
         },
         {
-          path: '/companyfundaccountsearch',
+          path: '/company_fund_account_search',
           name: 'companyfundaccountsearch',
           component: companyfundaccountsearch,
           meta: {
@@ -639,7 +638,7 @@ let router = new Router({
           }
         },
         {
-          path: '/fundreconciliation',
+          path: '/fund_reconciliation',
           name: 'fundreconciliation',
           component: fundreconciliation,
           meta: {
@@ -650,7 +649,7 @@ let router = new Router({
           }
         },
         {
-          path: '/fundpay',
+          path: '/fund_pay',
           name: 'fundpay',
           component: fundpay,
           meta: {
@@ -661,7 +660,7 @@ let router = new Router({
           }
         },
         {
-          path: '/fundreport',
+          path: '/fund_report',
           name: 'fundreport',
           component: fundreport,
           meta: {
@@ -672,7 +671,7 @@ let router = new Router({
           }
         },
         {
-          path: '/fundyearadjust',
+          path: '/fund_year_adjust',
           name: 'fundyearadjust',
           component: fundyearadjust,
           meta: {

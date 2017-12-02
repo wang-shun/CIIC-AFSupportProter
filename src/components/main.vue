@@ -3,8 +3,7 @@
     <div class="layout-ceiling layoutMenuLeft">
       <Row type="flex" class="topFlex">
         <i-col :span="spanLeft" class="layout-menu-left">
-          <img src="static/img/cute.png" alt="金钱豹">
-          <span class="logoFonts">Payroll</span>
+          <div data-v-3413f463="" style="padding-left: 20px;padding-top: 10px;color: #fff;font-size: 20px;">GT1 支持中心</div>
         </i-col>
         <i-col :span="spanRight">
           <i-button type="text" @click="toggleClick">

@@ -68,7 +68,7 @@
           customerNumber: 'KH0001',
           customerName: '上海XX信息技术有限公司',
           serviceCenter: '大客户2',
-          serviceManager: '王XX'
+          serviceManager: '金翔云'
         },
         operatorMaterials: {
           operatorMaterialListColumns: [

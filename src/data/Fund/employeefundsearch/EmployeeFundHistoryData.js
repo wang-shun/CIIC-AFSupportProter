@@ -8,10 +8,10 @@ const employeeFundHistory = params => Utils.promise({
     code:200,
     data: {
       inputBatchData: [
-        {importOperator: '王XX', importTime: '', importCount: '80', importSuccessCount: '70', importFailCount: '10', importDetail: ''},
-        {importOperator: '王XX', importTime: '', importCount: '80', importSuccessCount: '70', importFailCount: '10', importDetail: ''},
-        {importOperator: '王XX', importTime: '', importCount: '80', importSuccessCount: '70', importFailCount: '10', importDetail: ''},
-        {importOperator: '王XX', importTime: '', importCount: '80', importSuccessCount: '70', importFailCount: '10', importDetail: ''}
+        {importOperator: '金翔云', importTime: '', importCount: '80', importSuccessCount: '70', importFailCount: '10', importDetail: ''},
+        {importOperator: '金翔云', importTime: '', importCount: '80', importSuccessCount: '70', importFailCount: '10', importDetail: ''},
+        {importOperator: '金翔云', importTime: '', importCount: '80', importSuccessCount: '70', importFailCount: '10', importDetail: ''},
+        {importOperator: '金翔云', importTime: '', importCount: '80', importSuccessCount: '70', importFailCount: '10', importDetail: ''}
       ],
       inputDetailData: [
         {companyNumber: '', companyName: '客户1', employeeNumber: '10001', employeeName: '雇员1', idNumber: '', basicFundAccount: '10001***', addFundAccount: '10001***', importResult: '成功'},

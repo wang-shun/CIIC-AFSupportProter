@@ -223,6 +223,7 @@ let router = new Router({
     {
       path: '/',
       component: login
+
     },
     {
       path: '/main',
@@ -231,7 +232,9 @@ let router = new Router({
         {
           path: '', //默认显示的自路由
           name:'main',
-          component: charts
+          //component: charts
+          // name:'employeesocialsecuritysearch',
+           component: employeesocialsecuritysearch
         },
         {
           path: '/employee_social_security_search',

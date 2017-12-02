@@ -35,7 +35,7 @@ const employeeSpecialProgress2 = params => Utils.promise({
         customerNumber: 'GS170001',
         customerName: '普思埃商业（上海）有限公司',
         serviceCenter: '大客户2',
-        serviceManager: '王XX'
+        serviceManager: '金翔云'
       },
 
       operatorMaterialListData: [

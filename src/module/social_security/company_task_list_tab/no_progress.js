@@ -8,7 +8,7 @@ export class NoProgress extends CompanyTaskList{
 
     }
     static getTableData(params){
-        debugger
+
        let url = getLocation+domainJson.getCompanyTask
        return super.getTableData(params,url)
     }

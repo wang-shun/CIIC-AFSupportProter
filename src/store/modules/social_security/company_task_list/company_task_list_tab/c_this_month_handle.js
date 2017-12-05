@@ -20,7 +20,7 @@ const actions = {
 
 const mutations = {
   [EventTypes.CTHISMONTHHANDLETYPE](state, data) {
-    debugger
+ 
     state.customerName = data.name;
     state.customerIdentity = data.code;
   }

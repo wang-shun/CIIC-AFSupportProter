@@ -4,6 +4,7 @@
   import mock from '../../data/social_security/company_task_list/company_task_list_tab/c_this_month_handle_data'
 
 export class CompanyTaskList{  
+  
     // 构造   modifiedBy,modifiedTime
     // constructor(active,comAccountId,companyId,companyTaskId,createdBy,createdTime,customerId,expireDate,
     //    submitRemark,submitTime,submitterDeptId,submitterId,taskCategory,taskFormContent,taskName,taskStatus){  

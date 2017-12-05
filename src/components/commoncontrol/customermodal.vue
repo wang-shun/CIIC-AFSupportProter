@@ -83,7 +83,7 @@ export default {
     },
     methods: {
       getCurrentRow(currentRow,oldCurrentRow){
-        debugger
+        
         this.$store.commit(EventTypes.CTHISMONTHHANDLETYPE,currentRow)
       }
 

@@ -332,26 +332,17 @@
       //点击查询按钮
       clickQuery(){
         //获得页面条件参数
-        let queryParams = {
-          companyId:this.companyTaskInfo.customerNumber,//客户编号
-          companyName:this.getCustomerName,//客户姓名
-          taskCategory:this.companyTaskInfo.taskTypeValue,//任务类型
-          taskStartTime:this.companyTaskInfo.taskStartTime,//任务发起时间
-          pageSize:this.size,
-          currentPage:1
-        }
-
-        let params = {
+      let params = {
           pageSize:this.size,
           pageNum:1,
           params:{
           companyId:this.companyTaskInfo.customerNumber,//客户编号
           companyName:this.getCustomerName,//客户姓名
           taskCategory:this.companyTaskInfo.taskTypeValue,//任务类型
-          taskStartTime:this.companyTaskInfo.taskStartTime,//任务发起时间
+          submitTimeStrat:this.companyTaskInfo.taskStartTime==""?null:this.companyTaskInfo.taskStartTime[0],//任务发起时间
+          submitTimeEnd:this.companyTaskInfo.taskStartTime==""?null:this.companyTaskInfo.taskStartTime[1]
         }
-        }
-        
+      }
         NoProgress.postTableData(params).then(data=>{
 
 

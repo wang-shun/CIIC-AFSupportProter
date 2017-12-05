@@ -8,7 +8,7 @@
         <progressing></progressing>
       </TabPane>
       <TabPane label="已完成" name="finished">
-        <finished></finished>
+        <finished ></finished>
       </TabPane>
       <TabPane label="批退" name="refused">
         <refused></refused>
@@ -21,7 +21,7 @@
   import progressing from './company_task_list_tab/Progressing'//处理中
   import finished from './company_task_list_tab/Finished'//完成
   import refused from './company_task_list_tab/Refused' //批退
-
+  
   export default {
     components: {noprogress,progressing,finished,refused},
     data() {
@@ -35,6 +35,7 @@
 
     },
     methods: {
+
     }
   }
 </script>

@@ -161,4 +161,7 @@ let createAjaxForName = name => {
 utils.ajaxFbq = createAjaxForName('fb-q');
 utils.ajaxFbc = createAjaxForName('fb-c');
 
+utils.ajaxSsq = createAjaxForName('ss-q');
+utils.ajaxSsc = createAjaxForName('ss-c');
+
 export default utils;

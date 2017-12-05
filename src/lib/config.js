@@ -12,6 +12,10 @@ let basePaths = {};
     basePaths['fb-q'] = localhost + ':6017';
     // 弹性福利 command 服务
     basePaths['fb-c'] = localhost + ':6019';
+    // 社保 query 服务
+    basePaths['ss-q'] = localhost + ':6001';
+    // 社保 command 服务
+    basePaths['ss-c'] = localhost + ':6003';
   } else {
     // war
     basePaths['AlertJob'] = localhost + '/AlertJob-Host';
@@ -30,7 +34,8 @@ let apiProxyTable = (name) => {
 }
 
 let proxyTable = {
-  '/api/alertjob': apiProxyTable('fb-q'),
+  '/api/soccommandservice': apiProxyTable('ss-c'),
+  '/api/socqueryservice': apiProxyTable('ss-q'),
 }
 
 module.exports = {

@@ -1,26 +1,27 @@
 import utils from "./utils";
+import ajax from "./ajax";
 import _ from 'lodash'
 
 // Vue插件
 // localstorage
 let local = {
-  save (key, value) {
+  save(key, value) {
     localStorage.setItem(key, value);
   },
-  fetch (key) {
+  fetch(key) {
     return localStorage.getItem(key) || {};
   },
-  back (vm, step) {
+  back(vm, step) {
     window.history.go(-1);
     //  window.history.back();
   },
-  set(key, value){
+  set(key, value) {
     if (typeof(value) !== 'string') {
       value = JSON.stringify(value);
     }
     localStorage.setItem(key, value);
   },
-  get(key){
+  get(key) {
     var value = localStorage.getItem(key);
     try {
       return JSON.parse(value)
@@ -32,10 +33,11 @@ let local = {
 };
 
 
-export default{
+export default {
   install: function (vm) {
     vm.prototype.$local = local;
     vm.prototype.$utils = utils;
+    vm.prototype.$ajax = ajax;
     vm.prototype._ = _;
   }
 }

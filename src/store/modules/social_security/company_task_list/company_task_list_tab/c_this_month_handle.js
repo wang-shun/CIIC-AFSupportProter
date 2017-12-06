@@ -9,14 +9,14 @@ const state = {
 }
 
 
-const actions = {
-  [EventTypes.CTHISMONTHHANDLETYPE]({commit}, params) {
-    mock.cThisMonthHandle(params).then(response => {
+// const actions = {
+//   [EventTypes.CTHISMONTHHANDLETYPE]({commit}, params) {
+//     mock.cThisMonthHandle(params).then(response => {
       
-      commit(EventTypes.CTHISMONTHHANDLETYPE, response.data)
-    })
-  }
-}
+//       commit(EventTypes.CTHISMONTHHANDLETYPE, response.data)
+//     })
+//   }
+// }
 
 const mutations = {
   [EventTypes.CTHISMONTHHANDLETYPE](state, data) {
@@ -37,6 +37,6 @@ export default {
   namespaced: namespaced,
   state,
   mutations,
-  actions,
+  // actions,
   getters
 }

@@ -4,7 +4,7 @@
       <Panel name="1">
         企业社保账户信息
         <div slot="content">
-          <company-social-security-info :company="operatorType == 0 ? company1:company2"></company-social-security-info>
+          <company-social-security-info ref="companyInfo" :company="operatorType == 0 ? company1:company2"></company-social-security-info>
         </div>
       </Panel>
       <Panel name="2">
@@ -56,7 +56,7 @@
         collapseInfo: [1, 2, 3, 4],
         employee1: {
           code: 'GY0001',
-          name: '潘玉麟',
+          name: '郑杰',
           idNo: '320106198310290811',
           checkInTime: '2017-12-1',
           education: '本科',
@@ -69,7 +69,7 @@
         },
         employee2: {
           code: 'GY0003',
-          name: '刘传宏',
+          name: '郑杰',
           idNo: '31010519821011939x',
           checkInTime: '2017-12-1',
           education: '本科',
@@ -107,8 +107,8 @@
       }
     },
     mounted() {
-      console.log( this.$route.query.operatorType)
-      this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]()
+      this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]();
+      this.$refs.companyInfo.company = this.company2;
     },
     computed: {
       ...mapState('companySocialSecurityNew', {
@@ -119,6 +119,16 @@
       ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name:'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo'});
+      },
+      initCompany(){
+         console.log( this.$route.query.operatorType);
+        if(this.operatorType == 0){
+          this.$refs.companyInfo.company = this.company2;
+        }else if(this.operatorType == 1){
+
+        }else{
+          
+        }
       },
       instance (type) {
         let title = '';

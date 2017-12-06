@@ -19,7 +19,7 @@
       </Col>
     </Row>
     <Row>
-      <Table border="" :columns="customerColumns" :data="customerData" class="mt20" highlight-row ref="currentRowTable" @on-current-change="getCurrentRow"></Table>
+      <Table border="" :columns="customerColumns" :data="customerData" class="mt20" highlight-row ref="noProgressCurrentRowTable" @on-current-change="getCurrentRow"></Table>
       <Page :current="2" :total="50" simple></Page>
     </Row>
   </Form>

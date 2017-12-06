@@ -6,13 +6,6 @@
         <div slot="content">
           <Form ref="companyTaskInfo" :model="companyTaskInfo" :label-width=150>
             <Row type="flex" justify="start">
-              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="companyTaskInfo.accountTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in companyTaskInfo.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="customerNumber">
                   <Input v-model="companyTaskInfo.customerNumber" placeholder="请输入..."></Input>
@@ -20,7 +13,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="getCustomerName" @on-focus="companyTaskInfo.isShowCustomerName = true" placeholder="请输入..."></Input>
+                  <Input v-model="companyTaskInfo.customerName"  placeholder="请输入..."></Input><!--@on-focus="focusCustomerName" -->
                 </Form-item>
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -30,20 +23,6 @@
                   </Select>
                 </Form-item>
               </Col>
-              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="结算区县：" prop="regionValue">
-                  <Select v-model="companyTaskInfo.regionValue" style="width: 100%;" transfer>
-                    <Option v-for="item in companyTaskInfo.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col> -->
-              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="处理状态：" prop="handleStateValue">
-                  <Select v-model="companyTaskInfo.handleStateValue" style="width: 100%;" transfer>
-                    <Option v-for="item in companyTaskInfo.handleStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务发起时间：" prop="taskStartTime">
                   <DatePicker v-model="companyTaskInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%" transfer></DatePicker>
@@ -109,6 +88,7 @@
   import Axios from 'axios'
   import {NoProgress} from '../../../../module/social_security/company_task_list_tab/no_progress'
   import mock from '../../../../data/social_security/company_task_list/company_task_list_tab/c_this_month_handle_data'
+  import Utils from '../../../../lib/utils'
   export default {
     components: {customerModal},
     data() {
@@ -121,35 +101,16 @@
         sizeArr:[5,10],
         companyTaskInfo: {
           customerNumber: '',
+          customerName:'',
           isShowCustomerName: false,
-          // accountTypeValue: '',
-          // accountTypeList: [
-          //   {value: '1', label: '独立库'},
-          //   {value: '2', label: '大库'},
-          //   {value: '3', label: '外包'}
-          // ],
-          // regionValue: '',
-          // regionList: [
-          //   {value: '1', label: '徐汇'},
-          //   {value: '2', label: '长宁'},
-          //   {value: '3', label: '浦东'},
-          //   {value: '4', label: '卢湾'},
-          //   {value: '5', label: '静安'},
-          //   {value: '6', label: '黄浦'}
-          // ],
           taskTypeValue: '',
           taskTypeList: [
-            {value: '1', label: '新开转入'},
-            {value: '2', label: '调整'},
-            {value: '3', label: '补缴'},
+            {value: '1', label: '开户'},
+            {value: '2', label: '转移'},
+            {value: '3', label: '变更'},
+            {value: '4', label: '终止'},
           ],
           taskStartTime: '',
-          // handleStateValue: '',
-          // handleStateList: [
-          //   {value: '1', label: '已受理'},
-          //   {value: '2', label: '已送审'},
-          //   {value: '3', label: '已完成'}
-          // ],
         },
         isRefuseReason: false,
         refuseReason: '',
@@ -220,13 +181,6 @@
               ]);
             }
           },
-          {title: '发起供应商', key: 'sponsor', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.sponsor),
-              ]);
-            }
-          },
           {title: '发起人', key: 'initiator', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
@@ -257,7 +211,6 @@
           pageSize:this.size,
           pageNum:1,
         params:null
-        
       }
       NoProgress.getTableData(params).then(data=>{
           self.loading=true;
@@ -268,30 +221,18 @@
       })
     },
     computed: {
-      // data:function(){
-      //   this.closeLoading()
-      //   return this.$store.state.cThisMonthHandle.data
-      //   }
-
       //get Customer Identity 客户的唯一标识
-        getCustomerIdentity:function(){
-        return this.$store.state.cThisMonthHandle.customerIdentity
-      },
+      //   getCustomerIdentity:function(){
+      //   return this.$store.state.cThisMonthHandle.customerIdentity
+      // }
       //get CustomerName
-      getCustomerName:function(){
-        return this.$store.state.cThisMonthHandle.customerName
-      }
+      // getCustomerName:function(){
+      //   return this.$store.state.cThisMonthHandle.customerName
+      // }
     },
     methods: {
       //...mapActions('cThisMonthHandle',[EventType.CTHISMONTHHANDLETYPE]),
       resetSearchCondition(name) {
-        //重置  將客戶名 清空
-        let data={
-           customerName:'',
-           customerIdentity:''
-        }
-        //该state 只用来存放客户名称
-        this.$store.commit(EventType.CTHISMONTHHANDLETYPE,data)
         this.$refs[name].resetFields()
       },
       routerToCommcialOperator: function(name) {
@@ -304,9 +245,8 @@
       getPage(page){
           this.loading=true;
           let self= this
-          let params = {pageSize:this.size,currentPage:page}
-          NoProgress.getTableData(params).then(data=>{
-          self.loading=true;
+          let params =this.getParams(page)
+          NoProgress.postTableData(params).then(data=>{
           self.refreash(data)
           }
           ).catch(error=>{
@@ -331,29 +271,37 @@
       },
       //点击查询按钮
       clickQuery(){
+         this.loading=true;
         //获得页面条件参数
-      let params = {
-          pageSize:this.size,
-          pageNum:1,
-          params:{
-          companyId:this.companyTaskInfo.customerNumber,//客户编号
-          companyName:this.getCustomerName,//客户姓名
-          taskCategory:this.companyTaskInfo.taskTypeValue,//任务类型
-          submitTimeStrat:this.companyTaskInfo.taskStartTime==""?null:this.companyTaskInfo.taskStartTime[0],//任务发起时间
-          submitTimeEnd:this.companyTaskInfo.taskStartTime==""?null:this.companyTaskInfo.taskStartTime[1]
-        }
-      }
+      let params = this.getParams(1)
+      let self = this
         NoProgress.postTableData(params).then(data=>{
-
-
+            
+           self.refreash(data)
 
         }).catch(error=>{
 
           console.log(error)
         })
       },
-      ok () {
+      //获得请求参数
+      getParams(page){
+        debugger
+        return {
+          pageSize:this.size,
+          pageNum:page,
+            params:{
+              companyId:this.companyTaskInfo.customerNumber==""?'':this.companyTaskInfo.customerNumber,//客户编号
+              companyName:this.companyTaskInfo.customerName==""?'':this.companyTaskInfo.customerName,//客户姓名
+              taskCategory:this.companyTaskInfo.taskTypeValue==""?'':this.companyTaskInfo.taskTypeValue,//任务类型
+              submitTimeStart:this.companyTaskInfo.taskStartTime=="" || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
+              submitTimeEnd:this.companyTaskInfo.taskStartTime==""||this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null ?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
+            }
+         }
+        },
 
+      ok () {
+         
       },
       cancel () {
 

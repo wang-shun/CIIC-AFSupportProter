@@ -19,12 +19,13 @@
       </Col>
     </Row>
     <Row>
-      <Table border="" :columns="customerColumns" :data="customerData" class="mt20"></Table>
+      <Table border="" :columns="customerColumns" :data="customerData" class="mt20" highlight-row ref="currentRowTable" @on-current-change="getCurrentRow"></Table>
       <Page :current="2" :total="50" simple></Page>
     </Row>
   </Form>
 </template>
 <script>
+  import EventTypes from '../../store/EventTypes'
 export default {
     name:"customerModal",
     props: {
@@ -38,7 +39,11 @@ export default {
         mCustomerNumber: '', //客户编号
         mCustomerName: '', //客户姓名
         customerColumns: [
-          {title: '操作', key: 'id', type: 'selection', width: 60, align: 'center'},
+                    {
+                        type: 'index',
+                        width: 60,
+                        align: 'center'
+                    },
           {title: '客户名称', key: 'name', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -77,6 +82,10 @@ export default {
 
     },
     methods: {
+      getCurrentRow(currentRow,oldCurrentRow){
+        
+        this.$store.commit(EventTypes.CTHISMONTHHANDLETYPE,currentRow)
+      }
 
     }
   }

@@ -1,31 +1,8 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
-var basePath = require('../src/lib/basePath')
+var config = require('../src/lib/config')
 console.log(__dirname);
 
-//
-var proxyTable = () => {
-
-  function apiProxyTable(name) {
-    return {
-      target: basePath[name]+'/api',
-      changeOrigin: true,
-      pathRewrite: {
-        '^/api': '/'
-      }
-    };
-  }
-
-  return {
-    '/api/alertjob': apiProxyTable('AlertJob'),
-    '/api/authservice': apiProxyTable('AuthService'),
-    '/api/basicdataservice': apiProxyTable('BasicDataService'),
-    '/api/logservice': apiProxyTable('LogService'),
-    '/api/orgmanageservice': apiProxyTable('OrgManageService'),
-    '/api/siteletterservice': apiProxyTable('SiteLetterService'),
-    '/api/sspservice': apiProxyTable('SSPService')
-  }
-}
 
 module.exports = {
   build: {
@@ -53,7 +30,7 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: proxyTable,
+    proxyTable: config.proxyTable,
     // proxyTable: {
     //   '/demo/routers': {
     //     target: 'http://10.66.2.36:8080',

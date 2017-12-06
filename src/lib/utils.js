@@ -1,12 +1,16 @@
 import axios from "axios";
 import moment from "moment";
 import qs from "qs";
-import config from "./config";
+
+const config = require('./config')
+const DEBUG = config.env.debug;
+const BASE_PATHS = config.basePaths;
+const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 
 let utils = {
   // 默认分页大小 5
   DEFAULT_PAGE_SIZE: 5,
-  DEBUG: config.env === 'development'
+  DEBUG: DEBUG
 };
 
 /**
@@ -72,7 +76,6 @@ utils.promise = response => {
   });
 }
 
-const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 /**
  * 创建 ajax 对象
  * @param config
@@ -89,8 +92,8 @@ let createAjax = config => {
       if (!Boolean(contentType)) {
         // 不区分大小写查找
         for (var header in config.headers) {
-          if ('content-type' === header.toLowerCase()) {
-            contentType = CONTENT_TYPE;
+          if (header.indexOf(CONTENT_TYPE) >= 0) {
+            contentType = header;
             break;
           }
         }
@@ -101,7 +104,7 @@ let createAjax = config => {
       }
 
       // outer log
-      if (utils.DEBUG) {
+      if (DEBUG) {
         let formatDate = (format, date) => {
           date = date || new Date();
           var o = {
@@ -147,7 +150,7 @@ let createAjax = config => {
 
 let createAjaxForName = name => {
   return createAjax({
-    baseURL: config.basePaths[name],
+    baseURL: BASE_PATHS[name],
     timeout: utils.DEBUG ? 0 : 5000,
     headers: {
       'Content-Type': CONTENT_TYPE
@@ -155,8 +158,10 @@ let createAjaxForName = name => {
   });
 }
 
-utils.ajaxAlertJob = createAjaxForName('AlertJob');
 utils.ajaxFbq = createAjaxForName('fb-q');
 utils.ajaxFbc = createAjaxForName('fb-c');
+
+utils.ajaxSsq = createAjaxForName('ss-q');
+utils.ajaxSsc = createAjaxForName('ss-c');
 
 export default utils;

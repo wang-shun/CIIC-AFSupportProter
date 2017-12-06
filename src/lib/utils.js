@@ -9,7 +9,8 @@ const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 
 let utils = {
   // 默认分页大小 5
-  DEFAULT_PAGE_SIZE: 5,
+  DEFAULT_PAGE_SIZE: 1,
+  DEFAULT_PAGE_SIZE_OPTS: [5,10],
   DEBUG: DEBUG
 };
 

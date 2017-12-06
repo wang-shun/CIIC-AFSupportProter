@@ -193,6 +193,7 @@ let createProxyAjaxForName = name => {
   return proxy;
 }
 
-AJAX.ajaxAlertJob = createProxyAjaxForName('AlertJob');
+AJAX.ajaxSsq = createProxyAjaxForName('ss-q');
+AJAX.ajaxSsc = createProxyAjaxForName('ss-c');
 
 export default AJAX;

@@ -4,6 +4,7 @@ import Router from 'vue-router'
 const main = r => require.ensure([], () => r(require('@/components/main')), 'main') //首页
 const login = r => require.ensure([], () => r(require('@/components/login')), 'login') //登录
 const charts = r => require.ensure([], () => r(require('@/components/charts')), 'charts') //报表
+const demo = r => require.ensure([], () => r(require('@/components/demo')), 'demo') // 演示
 
 const approvalstep2 = r => require.ensure([], () => r(require('@/components/commoncontrol/approvalstep2')), 'approvalstep2') //审核步骤2
 
@@ -217,13 +218,16 @@ const reportFormManager = r => require.ensure([], () => r(require('@/components/
 
 Vue.use(Router)
 let router = new Router({
-
   linkActiveClass: 'is-active',
   routes: [
     {
       path: '/',
       component: login
 
+    },
+    {
+      path: '/demo',
+      component: demo
     },
     {
       path: '/main',

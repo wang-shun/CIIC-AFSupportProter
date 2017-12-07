@@ -419,18 +419,9 @@
         ]
       }
     },
-    mounted() {
+    async mounted() {
       this[EventType.THISMONTHHANDLETYPE]()
-      var params = {
-        pageSize: this.employeeResultPageData.pageSize,
-        pageNum: this.employeeResultPageData.pageNum,
-      };
-
-      params.params = {};
-      api.employeeOperatorQuery(params).then(response => {
-        this.employeeResultData = response.data.data;
-        this.employeeResultPageData.total = response.data.total;
-      })
+      this.employeeOperatorQuery();
     },
     computed: {
       ...mapState('thisMonthHandle',{
@@ -456,9 +447,10 @@
         };
 
         params.params = {};
-        api.employeeOperatorQuery(params).then(response => {
-          this.employeeResultData = response.data.data;
-          this.employeeResultPageData.total = response.data.total;
+
+        api.employeeOperatorQuery(params).then(data => {
+          this.employeeResultData = data.data;
+          this.employeeResultPageData.total = data.total;
         })
       },
       handleEmployeeOperatorQuery(val) {

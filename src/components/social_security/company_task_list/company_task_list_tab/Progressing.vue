@@ -106,6 +106,7 @@
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import EventType from '../../../../store/EventTypes'
   import {Progressing} from '../../../../module/social_security/company_task_list_tab/Progressing'
+    import Utils from '../../../../lib/utils'
   export default {
     components: {customerModal},
     data() {
@@ -115,7 +116,7 @@
         totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
         size:5,//分页
-        sizeArr:[5,10],
+        sizeArr:[5],
         companyTaskInfo: {
           customerNumber: '',
           customerName:"",
@@ -336,7 +337,7 @@
               taskCategory:this.companyTaskInfo.taskTypeValue==''?'':this.companyTaskInfo.taskTypeValue,//任务类型
               accountType:this.companyTaskInfo.accountTypeValue==""?'':this.companyTaskInfo.accountTypeValue,//账户类型
               regionValue:this.companyTaskInfo.regionValue==''?'':this.companyTaskInfo.regionValue,//结算区县
-              task_status:this.companyTaskInfo.handleStateValue==""?'':this.companyTaskInfo.handleStateValue,//任务状态
+              taskStatus:this.companyTaskInfo.handleStateValue==''?'':this.companyTaskInfo.handleStateValue,//处理状态
               submitTimeStart:this.companyTaskInfo.taskStartTime=='' || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
               submitTimeEnd:this.companyTaskInfo.taskStartTime==''||this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null ?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
             }

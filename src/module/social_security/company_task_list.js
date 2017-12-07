@@ -9,6 +9,7 @@ export class CompanyTaskList{
     }
     //get request type
     static getTableData(params,url){
+      debugger
         console.log(url)
         return new Promise(function(resolve,reject){
             Axios.get(url, {params: params}) .then(function (response) {  
@@ -54,7 +55,6 @@ export class CompanyTaskList{
         })
      
     }
-    
     //post request type
     static postTableData(params,url){
       return new Promise(function(resolve,reject){
@@ -109,7 +109,6 @@ export class CompanyTaskList{
       utils.ajaxSsc.post(url,params).then(response=>{
         if(response.data.code=="200"){
 
-          debugger
         }else{
           reject(Error('后台异常！'))
         }

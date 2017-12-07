@@ -12,12 +12,10 @@ export class Progressing extends CompanyTaskList{
     }
     static getTableData(params){
         let url = domainJson.getProgressingCompanyTask
-        debugger
         return super.getTableData(params,url)
      }
     
     static postTableData(params){
-        debugger
          let url =domainJson.getProgressingCompanyTask
          return super.postTableData(params,url)
      }

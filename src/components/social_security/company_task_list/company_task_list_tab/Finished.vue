@@ -33,7 +33,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算区县：" prop="regionValue">
                   <Select v-model="companyTaskInfo.regionValue" style="width: 100%;" transfer>
-                    <Option v-for="item in companyTaskInfo.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="item in companyTaskInfo.regionList" :value="item.label" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col> 
@@ -45,7 +45,7 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" @click="" icon="ios-search">查询</Button>
+                <Button type="primary" @click="clickQuery" icon="ios-search">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('companyTaskInfo')">重置</Button>
               </Col>
             </Row>
@@ -57,8 +57,8 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span:24}">
-          <Table border :columns="taskColumns" :data="data.taskData"></Table>
-          <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
+          <Table border :columns="taskColumns" :data="taskData"></Table>
+          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
         </Col>
       </Row>
 
@@ -92,11 +92,16 @@
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import EventType from '../../../../store/EventTypes'
 import {Finished} from '../../../../module/social_security/company_task_list_tab/Finished'
+  import Utils from '../../../../lib/utils'
   export default {
     components: {customerModal},
     data() {
       return{
         collapseInfo: [1], //展开栏
+         size:5,//分页
+        sizeArr:[5],
+        totalSize:0,//后台传过来的总数
+        taskData:[],//表格数据
         companyTaskInfo: {
           serviceCenterValue: '',
           serviceCenterList: [],
@@ -231,6 +236,7 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
       Finished.getTableData(params).then(data=>{
           self.loading=true;
            self.refreash(data)
+           
         }
       ).catch(error=>{
         console.log(error);
@@ -270,8 +276,8 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
       },
        //将后台查询的数据赋到页面
       refreash(data){
+        debugger
           this.taskData = data.data.taskData
-          this.customerData = data.data.customerData;
           if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
           else this.totalSize  =Number(data.data.totalSize)
           this.closeLoading();
@@ -301,9 +307,11 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
           pageSize:this.size,
           pageNum:page,
             params:{
-              companyId:this.companyTaskInfo.customerNumber==""?'':this.companyTaskInfo.customerNumber,//客户编号
-              companyName:this.companyTaskInfo.customerName==""?'':this.companyTaskInfo.customerName,//客户姓名
-              taskCategory:this.companyTaskInfo.taskTypeValue==""?'':this.companyTaskInfo.taskTypeValue,//任务类型
+              companyId:this.companyTaskInfo.customerNumber==''?'':this.companyTaskInfo.customerNumber,//客户编号
+              companyName:this.companyTaskInfo.customerName==''?'':this.companyTaskInfo.customerName,//客户姓名
+              taskCategory:this.companyTaskInfo.taskTypeValue==''?'':this.companyTaskInfo.taskTypeValue,//任务类型
+              accountType:this.companyTaskInfo.accountTypeValue==""?'':this.companyTaskInfo.accountTypeValue,//账户类型
+              regionValue:this.companyTaskInfo.regionValue==''?'':this.companyTaskInfo.regionValue,//结算区县
               submitTimeStart:this.companyTaskInfo.taskStartTime==""?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
               submitTimeEnd:this.companyTaskInfo.taskStartTime==""?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
             }

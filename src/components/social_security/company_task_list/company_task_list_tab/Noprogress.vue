@@ -98,7 +98,7 @@
         totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
         size:5,//分页
-        sizeArr:[5,10],
+        sizeArr:[5],
         companyTaskInfo: {
           customerNumber: '',
           customerName:'',
@@ -108,7 +108,7 @@
             {value: '1', label: '开户'},
             {value: '2', label: '转移'},
             {value: '3', label: '变更'},
-            {value: '4', label: '终止'},
+            {value: '4', label: '终止'}
           ],
           taskStartTime: '',
         },

@@ -9,7 +9,7 @@ const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 
 let utils = {
   // 默认分页大小 5
-  DEFAULT_PAGE_SIZE: 1,
+  DEFAULT_PAGE_SIZE: 5,
   DEFAULT_PAGE_SIZE_OPTS: [5,10],
   DEBUG: DEBUG
 };
@@ -75,6 +75,22 @@ utils.promise = response => {
       reject(response);
     }
   });
+}
+
+
+/**
+ * 清楚指定 value ，默认清楚 '[全部]'
+ * @param params
+ * @param value
+ */
+utils.clear = (params,value = '[全部]') =>{
+  var p = {};
+  for(var key of Object.keys(params)){
+    if(params[key] != value){
+      p[key] = params[key];
+    }
+  }
+  return p
 }
 
 /**

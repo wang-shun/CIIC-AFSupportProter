@@ -1,25 +1,22 @@
 /**
  * Created by huangye on 2017/10/25.
  */
-import mock from "../../../../../data/social_security/company_task_list/company_task_list_tab/c_next_month_handle_data";
+//import mock from "../../../../../data/social_security/company_task_list/company_task_list_tab/c_next_month_handle_data";
 import EventTypes from "../event_types";
 
 const state = {
-  rows: [],
-  data: {
-    customerData: [],
-    taskData: [],
-  }
+  customerName:'',
+  customerIdentity:''
 }
 
 
-const actions = {
-  [EventTypes.CNEXTMONTHHANDLETYPE]({commit}, params) {
-    mock.cNextMonthHandle(params).then(response => {
-      commit(EventTypes.CNEXTMONTHHANDLETYPE, response.data)
-    })
-  }
-}
+// const actions = {
+//   [EventTypes.CNEXTMONTHHANDLETYPE]({commit}, params) {
+//     mock.cNextMonthHandle(params).then(response => {
+//       commit(EventTypes.CNEXTMONTHHANDLETYPE, response.data)
+//     })
+//   }
+// }
 
 const mutations = {
   [EventTypes.CNEXTMONTHHANDLETYPE](state, data) {
@@ -38,6 +35,6 @@ export default {
   namespaced: namespaced,
   state,
   mutations,
-  actions,
+ // actions,
   getters
 }

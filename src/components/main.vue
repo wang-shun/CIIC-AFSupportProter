@@ -20,18 +20,18 @@
             <DropdownMenu slot="list">
               <DropdownItem name="http://172.16.9.25:8100/#/">销售中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8103/#/">外企客服中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.61:8070/proxyCenter/index.html#/">代理中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8101/home">外企雇员中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8109/#/">代理中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8101/">外企雇员中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8104/#/">服务外包业务中心</DropdownItem>
-              <DropdownItem name="0">外企支持中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.61:8070/FCBusinessPortal/#/chart">财务咨询业务中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.61:8070/BillCenter/iView/index.html#/main">账单中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.61:8070/SettlementCenter/iview/index.html#/main/">结算中心</DropdownItem>
-              <DropdownItem name="0">财务咨询报表中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.23:7777/#/">产品中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8108/#/main/">外企支持中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8112/#/">财务咨询业务中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8110/#/">账单中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8111/#/">结算中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8070/#/">财务咨询报表中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8106/#/">产品中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8105/#/">供应商管理中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.24/dic_list">外企内控中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.61:8070/OperationCenter/index.html#/main/">财务咨询运营中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8107/dic_list">外企内控中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8113/#/">财务咨询运营中心</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <div class="layout-ceiling-main Badge">

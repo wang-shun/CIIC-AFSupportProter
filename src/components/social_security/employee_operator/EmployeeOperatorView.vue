@@ -1,20 +1,19 @@
 <template>
   <div class="smList">
-    <Tabs value="noprogress">
+    <Tabs v-model="tabName" @on-click="switchTab">
       <TabPane label="未处理" name="noprogress">
-        <noprogress></noprogress>
+        <noprogress v-if="tabNames.noprogress"></noprogress>
       </TabPane>
       <TabPane label="处理中" name="progressing">
-        <progressing></progressing>
+        <progressing v-if="tabNames.progressing"></progressing>
       </TabPane>
       <TabPane label="已完成" name="finished">
-        <finished></finished>
+        <finished v-if="tabNames.finished"></finished>
       </TabPane>
-      <TabPane label="批退" name="refused">
-        <refused></refused>
+      <TabPane label="已批退" name="refused">
+        <refused v-if="tabNames.refused"></refused>
       </TabPane>
     </Tabs>
-
   </div>
 </template>
 <script>
@@ -24,16 +23,27 @@
   import refused from './employee_operator_tab/Refused'//雇员日常操作 --批退
 
   export default {
-    components: {noprogress,progressing,finished,refused},
+    components: {noprogress, progressing, finished, refused},
     data() {
       return {
+        tabName:'noprogress',
+        tabNames: {
+          noprogress: true,
+          progressing: false,
+          finished: false,
+          refused: false,
+        }
       }
     },
     mounted() {
 
     },
-    computed: {},
+    computed: {
+    },
     methods: {
+      switchTab(name) {
+        this.tabNames[name] = true;
+      }
     }
   }
 </script>

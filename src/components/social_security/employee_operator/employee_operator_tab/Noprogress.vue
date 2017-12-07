@@ -7,101 +7,119 @@
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="*未处理：" prop="handleMonth">
-                <Select v-model="operatorSearchData.handleMonth" style="width: 100%;" transfer>
-                  <Option v-for="item in operatorSearchData.handleMonthList" :value="item.value" :key="item.value">
-                    {{item.label}}
-                  </Option>
+              <Form-item label="*未处理：" prop="taskStatus">
+                <Select v-model="operatorSearchData.taskStatus" style="width: 100%;" transfer>
+                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="1" label="本月未处理"></Option>
+                  <Option value="2" label="下月未处理"></Option>
+                  <!--<Option value="3" label="处理中"></Option>
+                  <Option value="4" label="已完成"></Option>
+                  <Option value="5" label="批退"></Option>-->
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名：" prop="employeeName">
-                <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
+              <Form-item label="雇员姓名：" prop="empName">
+                <Input v-model="operatorSearchData.empName" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="结算中心：" prop="region">
-                <Select v-model="operatorSearchData.region" style="width: 100%;" transfer>
-                  <Option v-for="item in operatorSearchData.regionList" :value="item.value" :key="item.value">
-                    {{item.label}}
-                  </Option>
+              <Form-item label="结算中心：" prop="settlementArea">
+                <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
+                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="徐汇区" label="徐汇区"></Option>
+                  <Option value="浦东新区" label="浦东新区"></Option>
+                  <Option value="闵行区" label="闵行区"></Option>
+                  <Option value="闸北区" label="闸北区"></Option>
+                  <Option value="黄浦区" label="黄浦区"></Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="账户类型：" prop="accountTypeValue">
-                <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
-                  <Option v-for="item in operatorSearchData.accountTypeList" :value="item.value" :key="item.value">
-                    {{item.label}}
-                  </Option>
+              <Form-item label="账户类型：" prop="ssAccountType">
+                <Select v-model="operatorSearchData.ssAccountType" style="width: 100%;" transfer>
+                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="1" label="中智大库"></Option>
+                  <Option value="2" label="中智外包"></Option>
+                  <Option value="3" label="独立户"></Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="人员分类：" prop="personTypeValue">
-                <Select v-model="operatorSearchData.personTypeValue" style="width: 100%;" transfer>
-                  <Option v-for="item in operatorSearchData.personTypeList" :value="item.value" :key="item.value">
-                    {{item.label}}
-                  </Option>
+              <Form-item label="人员分类：" prop="empClassify">
+                <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
+                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="本地" label="本地"></Option>
+                  <Option value="外地" label="外地"></Option>
+                  <Option value="外籍三险" label="外籍三险"></Option>
+                  <Option value="外籍五险" label="外籍五险"></Option>
+                  <Option value="延迟退休人员" label="延迟退休人员"></Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="企业社保账户：" prop="companyAccountType">
-                <Input v-model="operatorSearchData.companyAccountType"
-                       @on-focus="operatorSearchData.isShowAccountType = true" placeholder="请输入..."></Input>
+              <Form-item label="企业社保账户：" prop="ssAccount">
+                <Input v-model="operatorSearchData.companyAccountType" placeholder="请输入...">
+                <Button slot="append" icon="ios-search" @click="isShowAccountType = true"></Button>
+                </Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户编号：" prop="customerNumber">
-                <Input v-model="operatorSearchData.customerNumber" placeholder="请输入..."></Input>
+              <Form-item label="客户编号：" prop="companyId">
+                <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="身份证号：" prop="idNumber">
-                <Input v-model="operatorSearchData.idNumber" placeholder="请输入..."></Input>
+              <Form-item label="身份证号：" prop="idNum">
+                <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="任务单类型：" prop="taskTypeValue">
-                <Select v-model="operatorSearchData.taskTypeValue" style="width: 100%;" transfer>
-                  <Option v-for="item in operatorSearchData.taskTypeList" :value="item.value" :key="item.value">
-                    {{item.label}}
-                  </Option>
+              <Form-item label="任务单类型：" prop="taskCategory">
+                <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
+                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="1" label="新进"></Option>
+                  <Option value="2" label="转入"></Option>
+                  <Option value="3" label="调整"></Option>
+                  <Option value="4" label="补缴"></Option>
+                  <Option value="5" label="转出"></Option>
+                  <!--<Option value="6" label="终止"></Option>
+                  <Option value="7" label="退账"></Option>
+                  <Option value="8" label="提取"></Option>-->
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户名称：" prop="customerName">
-                <Input v-model="operatorSearchData.customerName"
-                       @on-focus="operatorSearchData.isShowCustomerName = true" placeholder="请输入..."></Input>
+              <Form-item label="客户名称：" prop="title">
+                <Input v-model="operatorSearchData.customerName" placeholder="请输入...">
+                <Button slot="append" icon="ios-search" @click="isShowEmpName = true"></Button>
+                </Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号：" prop="employeeNumber">
-                <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
+              <Form-item label="雇员编号：" prop="employeeId">
+                <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="是否加急：" prop="emergency">
-                <Select v-model="operatorSearchData.emergency" style="width: 100%;" transfer>
-                  <Option v-for="item in operatorSearchData.emergencyList" :value="item.value" :key="item.value">
-                    {{item.label}}
-                  </Option>
+              <Form-item label="是否加急：" prop="urgent">
+                <Select v-model="operatorSearchData.urgent" style="width: 100%;" transfer>
+                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="0" label="否"></Option>
+                  <Option value="1" label="是"></Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="社保起缴月份：" prop="SocialsecurityStartMonth">
-                <Date-picker v-model="operatorSearchData.SocialsecurityStartMonth" type="month" placement="bottom"
-                             placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
+              <Form-item label="社保起缴月份：" prop="startMonth">
+                <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="bottom"
+                             placeholder="选择年月份" style="width: 100%;"></Date-picker>
               </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search">查询</Button>
+              <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
               <Button type="warning" @click="$refs['operatorSearchData'].resetFields()">重置</Button>
               </Col>
             </Row>
@@ -112,54 +130,49 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}">
-      <Dropdown @on-click="routerToCommcialOperator">
-        <Button type="primary" style="width: 100px;">
-          批量办理
-          <Icon type="arrow-down-b"></Icon>
-        </Button>
-        <DropdownMenu slot="list">
-          <DropdownItem name="1">雇员新进、转入</DropdownItem>
-          <DropdownItem name="2">雇员补缴</DropdownItem>
-          <DropdownItem name="3">雇员调整</DropdownItem>
-          <DropdownItem name="4">雇员转出</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-      <Button type="error" @click="isRefuseReason = true">批退</Button>
+      <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
+      <Button type="error" @click="showRefuseReason">批退</Button>
       <Button type="info" @click="">导出</Button>
       </Col>
     </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData"></Table>
+      <Table border ref="selection"
+             :columns="employeeResultColumns"
+             :data="employeeResultData"
+             @on-selection-change="selectionChange"></Table>
       <Page
-        @on-change="handleEmployeeOperatorQuery"
+        class="pageSize"
+        @on-change="handlePageNum"
+        @on-page-size-change="handlePageSite"
         :total="employeeResultPageData.total"
         :page-size="employeeResultPageData.pageSize"
         :page-size-opts="employeeResultPageData.pageSizeOpts"
         :current="employeeResultPageData.pageNum"
-        show-sizer show-total class="pageSize"></Page>
+        show-sizer show-total></Page>
       </Col>
     </Row>
 
     <!-- 批退理由 -->
     <Modal
       v-model="isRefuseReason"
-      @on-ok="ok"
-      @on-cancel="cancel">
+      :mask-closable="false"
+      :closable="false"
+      @on-ok="handleRefuseReason">
       <Form>
         <p>
-          <Form-item>
-            <Input v-model="refuseReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
-          </Form-item>
+          <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
         </p>
       </Form>
     </Modal>
 
     <!-- 客户名称 模态框 -->
     <Modal
-      v-model="operatorSearchData.isShowCustomerName"
+      v-model="isShowEmpName"
       title="选择客户"
+      :mask-closable="false"
+      :closable="false"
       @on-ok="ok"
       @on-cancel="cancel">
       <customer-modal :customerData="data.customerData"></customer-modal>
@@ -167,8 +180,10 @@
 
     <!-- 企业社保账户分类 模态框 -->
     <Modal
-      v-model="operatorSearchData.isShowAccountType"
+      v-model="isShowAccountType"
       title="企业社保账户分类"
+      :mask-closable="false"
+      :closable="false"
       @on-ok="ok"
       @on-cancel="cancel">
       <company-account-search-modal
@@ -189,65 +204,35 @@
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
-          handleMonth: '1',
-          handleMonthList: [
-            {value: '1', label: '本月处理'},
-            {value: '2', label: '下月处理'}
-          ], //本月或者下月处理
-          customerNumber: '', //客户编号
-          customerName: '', //客户名称
-          isShowCustomerName: false, //客户名称显示模态框
-          accountTypeValue: '',
-          accountTypeList: [
-            {value: '1', label: '独立户'},
-            {value: '2', label: '大库'},
-            {value: '3', label: '外包'}
-          ], //账户类型
-          companyAccountType: '', //企业社保账户分类
-          isShowAccountType: false, //客户名称显示模态框
-          personTypeValue: '',
-          personTypeList: [
-            {value: '1', label: '本地'},
-            {value: '2', label: '外地'},
-            {value: '3', label: '外籍三险'},
-            {value: '4', label: '外籍五险'}
-          ], //人员分类
-          employeeNumber: '', //雇员编号
-          employeeName: '', //雇员姓名
-          idNumber: '', //身份证号
-          taskTypeValue: '',
-          taskTypeList: [
-            {value: '1', label: '新开转入'},
-            {value: '2', label: '调整'},
-            {value: '3', label: '补缴'},
-            {value: '4', label: '转出'}
-          ], //人员分类
-          regionList: [
-            {value: '1', label: '徐汇'},
-            {value: '2', label: '长宁'},
-            {value: '3', label: '浦东'},
-            {value: '4', label: '卢湾'},
-            {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
-          ],
-          region: '', //结算区域
-          emergency: '',
-          emergencyList: [
-            {value: '1', label: ''},
-            {value: '2', label: '加急'}
-          ], //是否加急
-          SocialsecurityStartMonth: ''//社保起缴月份
+          taskStatus: '',
+          empName: '',
+          settlementArea: '',
+          ssAccountType: '',
+          empClassify: '',
+          ssAccount: '',
+          companyId: '',
+          idNum: '',
+          taskCategory: '',
+          title: '',
+          employeeId: '',
+          urgent: '',
+          startMonth: '',
         },
 
+        isShowAccountType: false,
+        isShowEmpName: false,
+
+        // 批退
         isRefuseReason: false,
-        refuseReason: '',
+        rejectionRemark: '',
+        selectEmployeeResultData: [],
 
         employeeResultData: [],
         employeeResultPageData: {
           total: 0,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
           pageNum: 1,
-          pageSizeOpts: [5, 10]
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
           {
@@ -264,32 +249,7 @@
                   props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      switch (params.row.type) {
-                        case '新进转入':
-                          this.$router.push({
-                            name: 'companysocialsecuritynew',
-                            query: {operatorType: '0', sourceFrom: 'operator'}
-                          });
-                          break;
-                        case '调整':
-                          this.$router.push({
-                            name: 'companysocialsecuritynew',
-                            query: {operatorType: '1', sourceFrom: 'operator'}
-                          });
-                          break;
-                        case '转出':
-                          this.$router.push({
-                            name: 'companysocialsecuritynew',
-                            query: {operatorType: '2', sourceFrom: 'operator'}
-                          });
-                          break;
-                        case '补缴':
-                          this.$router.push({
-                            name: 'companysocialsecuritynew',
-                            query: {operatorType: '4', sourceFrom: 'operator'}
-                          });
-                          break;
-                      }
+                      this.batchHandle(params.row, false);
                     }
                   }
                 }, '办理'),
@@ -297,124 +257,52 @@
             }
           },
           {
-            title: '任务单编号', key: 'empTaskId', width: 120, fixed: 'left', align: 'center',
+            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.empTaskId),
-              ]);
-            }
-          },
-          {
-            title: '任务单类型', key: 'taskCategory', width: 120, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.taskCategory),
-              ]);
+              return this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {
             title: '是否加急', key: 'urgent', width: 100, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.urgent),
-              ]);
+              return this.$decode.urgent(params.row.urgent)
             }
           },
           {
-            title: '雇员', key: 'empName', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.empName),
-              ]);
-            }
+            title: '雇员', key: 'empName', width: 100, align: 'center'
           },
           {
-            title: '雇员编号', key: 'employeeId', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeId),
-              ]);
-            }
+            title: '雇员编号', key: 'employeeId', width: 100, align: 'center'
           },
           {
-            title: '雇员证件号', key: 'idNum', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.idNum),
-              ]);
-            }
+            title: '雇员证件号', key: 'idNum', width: 200, align: 'center'
           },
           {
-            title: '企业社保账号', key: 'comAccountId', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.comAccountId),
-              ]);
-            }
+            title: '企业社保账号', key: 'comAccountId', width: 200, align: 'center'
           },
           {
-            title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.ssPwd),
-              ]);
-            }
+            title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
           },
           {
-            title: '执行日期', key: 'doDate', width: 150, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.doDate),
-              ]);
-            }
+            title: '执行日期', key: 'doDate', width: 150, align: 'center'
           },
           {
-            title: '客户编号', key: 'companyId', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyId),
-              ]);
-            }
+            title: '客户编号', key: 'companyId', width: 100, align: 'center'
           },
           {
-            title: '客户名称', key: 'title', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.title),
-              ]);
-            }
+            title: '客户名称', key: 'title', width: 200, align: 'center'
           },
           {
-            title: '完成截止日期', key: 'expireDate', width: 150, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.expireDate),
-              ]);
-            }
+            title: '完成截止日期', key: 'expireDate', width: 150, align: 'center'
           },
           {
-            title: '发起人', key: 'submitterId', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.submitterId),
-              ]);
-            }
+            title: '发起人', key: 'submitterId', width: 100, align: 'center'
           },
           {
-            title: '发起时间', key: 'submitTime', width: 180, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.submitTime),
-              ]);
-            }
+            title: '发起时间', key: 'submitTime', width: 180, align: 'center'
           },
           {
-            title: '备注', key: 'handleRemark', width: 300, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.handleRemark),
-              ]);
-            }
+            title: '备注', key: 'handleRemark', width: 300, align: 'center'
           }
         ]
       }
@@ -426,37 +314,161 @@
     computed: {
       ...mapState('thisMonthHandle', {
         data: state => state.data
-      })
+      }),
     },
     methods: {
       ...mapActions('thisMonthHandle', [EventType.THISMONTHHANDLETYPE]),
-      routerToCommcialOperator: (name) => {
-        //this.$refs.selection.getSelection() 获得选中行
+      routerToCommcialOperator(name) {
         this.$router.push({
           name: 'employeecommcialoperator',
           query: {operatorType: name}
         });
       },
       employeeOperatorQuery() {
-        var params = {
+        // 处理参数
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.operatorSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+          // 处理 社保起缴月份
+          if (params.startMonth) {
+            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
+          }
+        }
+
+        api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
           pageNum: this.employeeResultPageData.pageNum,
-        };
-
-        params.params = {};
-
-        api.employeeOperatorQuery(params).then(data => {
+          params: params,
+        }).then(data => {
           this.employeeResultData = data.data;
           this.employeeResultPageData.total = data.total;
         })
       },
-      handleEmployeeOperatorQuery(val) {
+      handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
         this.employeeOperatorQuery();
       },
+      handlePageSite(val) {
+        this.employeeResultPageData.pageSize = val;
+        this.employeeOperatorQuery();
+      },
+      // 检查是否选中任务
+      checkSelectEmployeeResultData() {
+        if (this.selectEmployeeResultData.length == 0) {
+          this.$Modal.warning({
+            title: '批退',
+            content: '请选择任务'
+          });
+          return false;
+        }
+        return true;
+      },
+      // 批退
+      showRefuseReason() {
+        if (this.checkSelectEmployeeResultData()) {
+          this.isRefuseReason = true
+        }
+      },
+      handleRefuseReason() {
+        var ids = [];
+        for (var d of this.selectEmployeeResultData) {
+          ids.push(d.empTaskId);
+        }
+
+        var ajax = api.refuseReason({
+          remark: this.rejectionRemark,
+          ids: ids
+        })
+
+        this.$ajax.handle({
+          vm: this,
+          ajax: ajax,
+          title: '任务批退',
+          callback: (data) => {
+            this.employeeOperatorQuery();
+          }
+        })
+      },
+      // 选中项发生变化时就会触发
+      selectionChange(selection) {
+        this.selectEmployeeResultData = selection;
+      },
+      // 检测批量办理
+      checkHandle() {
+        // 检查类型是否一致（只有选中了任务才能进行办理）
+        if (!this.checkSelectEmployeeResultData()) {
+          return false;
+        }
+
+        var length = this.selectEmployeeResultData.length;
+        if (length > 1) {
+          var taskCategory = this.selectEmployeeResultData[0].taskCategory
+
+          for (var i = 1; i < length; i++) {
+            if (taskCategory != this.selectEmployeeResultData[i].taskCategory) {
+              this.$Modal.warning({
+                title: '任务办理',
+                content: '任务类型不一致'
+              });
+              return false;
+            }
+          }
+        }
+        this.batchHandle(this.selectEmployeeResultData, true);
+      },
+      // 批量办理
+      batchHandle(data, isBatch = false) {
+        if (isBatch) {
+          // 组织任务 ID
+          var taskIds = [];
+          var taskCategory = data[0].taskCategory;
+          for (var empTask of data) {
+            taskIds.push(empTask.empTaskId);
+          }
+
+          this.$router.push({
+            name: 'employeecommcialoperator',
+            query: {operatorType: name, sourceFrom: 'operator', taskIds: taskIds}
+          });
+        } else {
+          // 根据任务类型跳转
+          switch (data.taskCategory) {
+            case '1': // 新进
+            case '2': // 转入
+              this.$router.push({
+                name: 'companysocialsecuritynew',
+                query: {operatorType: '0', sourceFrom: 'operator', taskId: data.empTaskId}
+              });
+              break;
+            case '3': // 调整
+              this.$router.push({
+                name: 'companysocialsecuritynew',
+                query: {operatorType: '1', sourceFrom: 'operator', taskId: data.empTaskId}
+              });
+              break;
+            case '4':// 补缴
+              this.$router.push({
+                name: 'companysocialsecuritynew',
+                query: {operatorType: '4', sourceFrom: 'operator', taskId: data.empTaskId}
+              });
+              break;
+            case '5':// 转出
+              this.$router.push({
+                name: 'companysocialsecuritynew',
+                query: {operatorType: '2', sourceFrom: 'operator', taskId: data.empTaskId}
+              });
+              break;
+          }
+        }
+      }
+      ,
       ok() {
 
-      },
+      }
+      ,
       cancel() {
 
       }

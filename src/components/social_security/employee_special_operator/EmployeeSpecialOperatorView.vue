@@ -1,17 +1,17 @@
 <template>
   <div class="smList">
-    <Tabs value="noprogress">
+    <Tabs v-model="tabName" @on-click="switchTab">
       <TabPane label="未处理" name="noprogress">
-        <noprogress></noprogress>
+        <noprogress v-if="tabNames.noprogress"></noprogress>
       </TabPane>
       <TabPane label="处理中" name="progressing">
-        <progressing></progressing>
+        <progressing v-if="tabNames.progressing"></progressing>
       </TabPane>
       <TabPane label="已完成" name="finished">
-        <finished></finished>
+        <finished v-if="tabNames.finished"></finished>
       </TabPane>
       <TabPane label="已批退" name="refused">
-        <refused></refused>
+        <refused v-if="tabNames.refused"></refused>
       </TabPane>
     </Tabs>
   </div>
@@ -27,6 +27,13 @@
     components: {noprogress,progressing,finished,refused},
     data() {
       return {
+        tabName:'noprogress',
+        tabNames: {
+          noprogress: true,
+          progressing: false,
+          finished: false,
+          refused: false,
+        }
       }
     },
     mounted() {
@@ -36,6 +43,9 @@
 
     },
     methods: {
+      switchTab(name) {
+        this.tabNames[name] = true;
+      }
     }
   }
 </script>

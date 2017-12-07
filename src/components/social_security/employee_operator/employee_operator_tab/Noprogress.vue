@@ -102,7 +102,7 @@
             <Row>
               <Col :sm="{span: 24}" class="tr">
               <Button type="primary" icon="ios-search">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
+              <Button type="warning" @click="$refs['operatorSearchData'].resetFields()">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -242,12 +242,12 @@
         isRefuseReason: false,
         refuseReason: '',
 
-        employeeResultData:[],
-        employeeResultPageData:{
+        employeeResultData: [],
+        employeeResultPageData: {
           total: 0,
           pageSize: this.$utils.DEFAULT_PAGE_SIZE,
           pageNum: 1,
-          pageSizeOpts:[5,10]
+          pageSizeOpts: [5, 10]
         },
         employeeResultColumns: [
           {
@@ -419,46 +419,35 @@
         ]
       }
     },
-    mounted() {
+    async mounted() {
       this[EventType.THISMONTHHANDLETYPE]()
-      var params = {
-        pageSize: this.employeeResultPageData.pageSize,
-        pageNum: this.employeeResultPageData.pageNum,
-      };
-
-      params.params = {};
-      api.employeeOperatorQuery(params).then(response => {
-        this.employeeResultData = response.data.data;
-        this.employeeResultPageData.total = response.data.total;
-      })
+      this.employeeOperatorQuery();
     },
     computed: {
-      ...mapState('thisMonthHandle',{
-          data:state => state.data
+      ...mapState('thisMonthHandle', {
+        data: state => state.data
       })
     },
     methods: {
       ...mapActions('thisMonthHandle', [EventType.THISMONTHHANDLETYPE]),
-      resetSearchCondition(name) {
-        this.$refs[name].resetFields()
-      },
-      routerToCommcialOperator: function (name) {
+      routerToCommcialOperator: (name) => {
         //this.$refs.selection.getSelection() 获得选中行
         this.$router.push({
           name: 'employeecommcialoperator',
           query: {operatorType: name}
         });
       },
-      employeeOperatorQuery(){
+      employeeOperatorQuery() {
         var params = {
           pageSize: this.employeeResultPageData.pageSize,
           pageNum: this.employeeResultPageData.pageNum,
         };
 
         params.params = {};
-        api.employeeOperatorQuery(params).then(response => {
-          this.employeeResultData = response.data.data;
-          this.employeeResultPageData.total = response.data.total;
+
+        api.employeeOperatorQuery(params).then(data => {
+          this.employeeResultData = data.data;
+          this.employeeResultPageData.total = data.total;
         })
       },
       handleEmployeeOperatorQuery(val) {

@@ -40,7 +40,7 @@ const AJAX = {
     ajax.then((response) => {
       if (response.data.code == 200) {
         if (cb) {
-          cb(response.data.data);// 回调处理
+          cb(response.data);// 回调处理
         }
         if (vm) {
           vm.$Notice.success({
@@ -178,16 +178,8 @@ let createProxyAjaxForName = name => {
   var instance = createAjaxForName(name)
   var proxy = {};
   for (var method of ['get', 'post']) {
-    proxy[method] = (url, data, config) => {
-      return new Promise((resolve, reject) => {
-        instance[method](url, data, config)
-          .then(response => {
-            resolve(response)
-          })
-          .catch(response => {
-            reject(response)
-          });
-      })
+    proxy[method] = async (url, data, config) => {
+      return await instance[method](url, data, config);
     }
   }
   return proxy;

@@ -83,9 +83,10 @@
                   <Option value="3" label="调整"></Option>
                   <Option value="4" label="补缴"></Option>
                   <Option value="5" label="转出"></Option>
-                  <!--<Option value="6" label="终止"></Option>
                   <Option value="7" label="退账"></Option>
-                  <Option value="8" label="提取"></Option>-->
+                  <!--<Option value="6" label="终止"></Option>
+                  <Option value="8" label="提取"></Option>
+                  <Option value="9" label="特殊操作"></Option>-->
                 </Select>
               </Form-item>
               </Col>
@@ -160,11 +161,9 @@
       :mask-closable="false"
       :closable="false"
       @on-ok="handleRefuseReason">
-      <Form>
-        <p>
-          <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
-        </p>
-      </Form>
+      <p>
+        <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
+      </p>
     </Modal>
 
     <!-- 客户名称 模态框 -->
@@ -249,7 +248,7 @@
                   props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.batchHandle(params.row, false);
+                      this.batchHandle(params.row);
                     }
                   }
                 }, '办理'),
@@ -291,9 +290,6 @@
           },
           {
             title: '客户名称', key: 'title', width: 200, align: 'center'
-          },
-          {
-            title: '完成截止日期', key: 'expireDate', width: 150, align: 'center'
           },
           {
             title: '发起人', key: 'submitterId', width: 100, align: 'center'
@@ -417,16 +413,16 @@
             }
           }
         }
-        this.batchHandle(this.selectEmployeeResultData, true);
+        this.batchHandle(this.selectEmployeeResultData);
       },
       // 批量办理
       batchHandle(data, isBatch = false) {
         if (isBatch) {
           // 组织任务 ID
           var taskIds = [];
-          var taskCategory = data[0].taskCategory;
-          for (var empTask of data) {
-            taskIds.push(empTask.empTaskId);
+          var taskCategory = rows[0].taskCategory;
+          for (var row of rows) {
+            taskIds.push(row.empTaskId);
           }
 
           this.$router.push({

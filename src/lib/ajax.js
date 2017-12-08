@@ -68,13 +68,13 @@ const AJAX = {
           default:
             message = response.statusText;
         }
-      }
 
-      if (vm) {
-        vm.$Notice.error({
-          title: title,
-          desc: message
-        });
+        if (vm) {
+          vm.$Notice.error({
+            title: title,
+            desc: message
+          });
+        }
       }
     })
   }

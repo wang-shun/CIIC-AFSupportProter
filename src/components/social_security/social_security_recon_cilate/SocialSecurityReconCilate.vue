@@ -36,7 +36,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -54,8 +54,22 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border  :columns="employeeResultColumns" :data="data.tableData"></Table>
-        <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
+        <Table 
+          border ref="selection"
+            :columns="statementColumns" 
+            :data="statementData"
+            @on-selection-change="selectionChange">
+        </Table>
+        <Page 
+          class="pageSize"
+          @on-change="handlePageNum"
+          @on-page-size-change="handlePageSite"
+          :total="statementPageData.total" 
+          :page-size="statementPageData.pageSize" 
+          :page-size-opts="statementPageData.pageSizeOpts"
+          :current="statementPageData.pageNum"
+          show-sizer show-total>
+        </Page>
       </Col>
     </Row>
 
@@ -109,6 +123,7 @@
   import customerModal from '../../commoncontrol/customermodal.vue'
   import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
   import EventType from '../../../store/EventTypes'
+  import api from '../../../api/social_security/statement'
 
   export default {
     components: {customerModal, companyAccountSearchModal},
@@ -143,7 +158,7 @@
           isShowAccountType: false, //社保账户模糊块的显示      
         },
 
-        employeeResultColumns: [
+        statementColumns: [
            
           {title: '查看结果', key: 'getResult',  width: 100, align: 'center',
             render: (h, params) => {
@@ -171,17 +186,24 @@
               ]);
             }
           },
-          {title: '社保月份', key: 'SocialSecurityMonth', width: 100, align: 'center',
+          {title: '社保导入文件', key: 'importFileOfSocialSecurity', width: 197, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.SocialSecurityMonth),
+                h('span', params.row.importFileOfSocialSecurity),
               ]);
             }
           },
-          {title: '企业社保账户分类', key: 'companySocialSecurityType', width: 250, align: 'center',
+          {title: '社保月份', key: 'ssMonth', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.companySocialSecurityType),
+                h('span', params.row.ssMonth),
+              ]);
+            }
+          },
+          {title: '企业社保账户分类', key: 'comAccountName', width: 250, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.comAccountName),
               ]);
             }
           },
@@ -212,42 +234,42 @@
               
             }
           },
-          {title: '社保导入文件', key: 'importFileOfSocialSecurity', width: 197, align: 'center',
+          {title: '变更汇总表类型', key: 'impFileType', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.importFileOfSocialSecurity),
+                h('span', params.row.impFileType),
               ]);
             }
           },
-          {title: '变更汇总表类型', key: 'changeTableType', width: 150, align: 'center',
+          {title: '差异数（按雇员）', key: 'diffSumByEmp', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.changeTableType),
+                h('span', params.row.diffSumByEmp),
               ]);
             }
           },
-          {title: '差异数（按雇员）', key: 'differenceNumber', width: 150, align: 'center',
+          {title: '对账操作人', key: 'modifiedBy', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.differenceNumber),
+                h('span', params.row.modifiedBy),
               ]);
             }
           },
-          {title: '对账操作人', key: 'reconciliationOperator', width: 150, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.reconciliationOperator),
-              ]);
-            }
-          },
-          {title: '最近对账时间', key: 'recentReconciliationTime', width: 150, align: 'center',
+          {title: '最近对账时间', key: 'modifiedTime', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.recentReconciliationTime),
+                h('span', params.row.modifiedTime),
               ]);
             }
           }
-        ]
+        ],
+        statementData: [],
+        statementPageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+        }
       }
     },
     mounted() {
@@ -271,7 +293,34 @@
       },
       batchUpload(){
         this.isUpload=true
+      },
+      handlePageNum(val) {
+        this.statementPageData.pageNum = val;
+        this.statementQuery();
+      },
+      handlePageSite(val) {
+        this.statementPageData.pageSize = val;
+        this.statementQuery();
+      },
+      // 选中项发生变化时就会触发
+      selectionChange(selection) {
+        this.statementPageData = selection;
+      },
+      //查询页面数据
+      statementQuery() {
+        var params = {
+          pageSize: this.statementPageData.pageSize,
+          pageNum: this.statementPageData.pageNum,
+        };
+
+        params.params = {};
+
+        api.statementQuery(params).then(data => {
+          this.statementData = data.data;
+          this.statementPageData.total = data.total;
+        })
       }
+
     }
   }
 </script>

@@ -64,14 +64,14 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span:24}">
-          <Button type="error" @click="isRefuseReason = true">批退</Button>
+          <Button type="error" @click="getModal">批退</Button>
           <Button type="info" @click="">导出</Button>
         </Col>
       </Row>
 
       <Row class="mt20">
         <Col :sm="{span:24}">
-          <Table border :columns="taskColumns" :data="taskData"></Table>
+          <Table border :columns="taskColumns" :data="taskData" ref="selection"></Table>
           <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
         </Col>
       </Row>
@@ -79,7 +79,7 @@
       <!-- 批退理由 -->
       <Modal
         v-model="isRefuseReason"
-        @on-ok="ok"
+        @on-ok="asyncOK"
         @on-cancel="cancel">
         <Form>
           <p>
@@ -106,6 +106,7 @@
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import EventType from '../../../../store/EventTypes'
   import {Progressing} from '../../../../module/social_security/company_task_list_tab/Progressing'
+    import Utils from '../../../../lib/utils'
   export default {
     components: {customerModal},
     data() {
@@ -115,7 +116,7 @@
         totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
         size:5,//分页
-        sizeArr:[5,10],
+        sizeArr:[5],
         companyTaskInfo: {
           customerNumber: '',
           customerName:"",
@@ -154,6 +155,12 @@
         loading: true,//分页是表单加载动画
 
         taskColumns: [
+           {
+                 type: 'selection',
+                 width: 60,
+                 align: 'center',
+                 fixed: 'left'
+            },
           {title: '操作', key: 'action', fixed: 'center', width: 80, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -336,14 +343,51 @@
               taskCategory:this.companyTaskInfo.taskTypeValue==''?'':this.companyTaskInfo.taskTypeValue,//任务类型
               accountType:this.companyTaskInfo.accountTypeValue==""?'':this.companyTaskInfo.accountTypeValue,//账户类型
               regionValue:this.companyTaskInfo.regionValue==''?'':this.companyTaskInfo.regionValue,//结算区县
-              task_status:this.companyTaskInfo.handleStateValue==""?'':this.companyTaskInfo.handleStateValue,//任务状态
+              taskStatus:this.companyTaskInfo.handleStateValue==''?'':this.companyTaskInfo.handleStateValue,//处理状态
               submitTimeStart:this.companyTaskInfo.taskStartTime=='' || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
               submitTimeEnd:this.companyTaskInfo.taskStartTime==''||this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null ?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
             }
          }
         },
-      ok () {
-
+        getModal(){
+           let getRows = this.$refs.selection.getSelection()
+           if(getRows.length==0){
+             this.$Message.warning('请先选择!');
+             return
+           }else{
+             let taskType = getRows[0].type;
+             for(let obj of getRows){
+               if(taskType!=obj.type){
+                  this.$Message.error('任务单类型不一致!');
+                 return
+               }
+             }
+           }
+          this.isRefuseReason = true
+          this.refuseLoading = true
+        },
+      asyncOK() {
+         let getRows = this.$refs.selection.getSelection()
+         let taskIdStr = ""
+         for(let obj of getRows){
+               taskIdStr+=obj.tid+","
+             }
+        let params = {
+                    taskIdStr:taskIdStr,
+                      refuseReason:this.refuseReason
+                      }
+                 
+        let self = this
+        Progressing.refusingTask(params).then(result=>{
+          if(result){
+            self.$Message.success("批退成功！")
+             self.isRefuseReason = false
+             this.clickQuery()
+          }else{
+              //this.refuseLoading = true
+          }
+          
+        })
       },
       cancel () {
 

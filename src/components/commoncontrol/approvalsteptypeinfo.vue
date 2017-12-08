@@ -20,7 +20,7 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户社保截至日：">
-                  <Input v-model="beforeSendInfo.customerSocialSecurityEndDate" placeholder="请输入..."></Input>
+                  <Input v-model="beforeSendInfo.customerSocialSecurityEndDate" placeholder="每月18号"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -181,6 +181,15 @@
                   </CheckboxGroup>
                 </Form-item>
               </Col>
+            </Row>
+            <Row class="mt20" type="flex" justify="start">
+                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="任务状态：">
+                  <Select v-model="companyOpenAccountOperator.taskTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in companyOpenAccountOperator.taskTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="受理日期：">
                   <Input v-model="companyOpenAccountOperator.acceptanceDate" placeholder="请输入..."></Input>
@@ -196,15 +205,21 @@
                   <DatePicker v-model="companyOpenAccountOperator.finishedDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="受理日期：">
-                  <DatePicker v-model="companyOpenAccountOperator.refuseReason" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+
+              <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
+                <Form-item label="办理原因：">
+                  <Input v-model="companyOpenAccountOperator.handleReason" type="textarea" :rows=4 placeholder="请填写办理原因..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
+                <Form-item label="批退原因：">
+                  <Input v-model="companyOpenAccountOperator.refuseReason" type="textarea" :rows=4 placeholder="请填写批退原因..."></Input>
                 </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" @click="confirm">确认开户</Button>
+                <Button type="primary" @click="confirm">办理</Button>
                 <Button type="error" @click="goBack">批退</Button>
                 <Button type="warning" @click="goBack">关闭/返回</Button>
               </Col>
@@ -251,6 +266,13 @@
             {value: '1', label: '开户'},
             {value: '2', label: '转入'},
           ], //任务
+          taskTypeValue:"",//值
+          taskTypeList:[
+            {value: '0', label: '初始（材料收缴）'},
+            {value: '1', label: '受理中'},
+            {value: '2', label: '送审中'},
+            {value: '3', label: '已完成'},
+          ],//任务状态类型
           joinSafeguardRegister: '', //参保户登记码
           bankCardNumber: '', //牡丹卡号
           pensionMoneyUseCompanyName: '', //养老金用公司名称
@@ -289,6 +311,7 @@
           acceptanceDate: '', //受理日期
           sendCheckDate: '', //送审日期
           finishedDate: '', //完成日期
+          handleReason:'',//办理原因
           refuseReason: '' //批退原因
         }
       }

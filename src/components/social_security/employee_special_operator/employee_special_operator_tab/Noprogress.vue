@@ -44,11 +44,11 @@
               <Form-item label="人员分类：" prop="empClassify">
                 <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
-                  <Option value="本地" label="本地"></Option>
-                  <Option value="外地" label="外地"></Option>
-                  <Option value="外籍三险" label="外籍三险"></Option>
-                  <Option value="外籍五险" label="外籍五险"></Option>
-                  <Option value="延迟退休人员" label="延迟退休人员"></Option>
+                  <Option value="1" label="本地"></Option>
+                  <Option value="2" label="外地"></Option>
+                  <Option value="3" label="外籍三险"></Option>
+                  <Option value="4" label="外籍五险"></Option>
+                  <Option value="5" label="延迟退休人员"></Option>
                 </Select>
               </Form-item>
               </Col>
@@ -60,7 +60,8 @@
                   <Option value="2" label="转入"></Option>
                   <Option value="3" label="调整"></Option>
                   <Option value="4" label="补缴"></Option>
-                  <Option value="5" label="转出"></Option>-->
+                  <Option value="5" label="转出"></Option>
+                  <Option value="7" label="退账"></Option>-->
                   <Option value="6" label="终止"></Option>
                   <Option value="8" label="提取"></Option>
                   <Option value="9" label="特殊操作"></Option>
@@ -178,6 +179,7 @@
   import companyAccountSearchModal from '../../../commoncontrol/companyaccountsearchmodal.vue'
   import EventType from '../../../../store/EventTypes'
   import api from '../../../../api/social_security/employee_operator'
+  import apiSelectData from '../../../../api/select-data'
 
   export default {
     components: {customerModal, companyAccountSearchModal},
@@ -327,6 +329,7 @@
     mounted() {
       this[EventType.NOPROGRESSTYPE]()
       this.employeeOperatorQuery();
+      this.initData();//
     },
     computed: {
       ...mapState('noProgress', {
@@ -335,8 +338,8 @@
     },
     methods: {
       ...mapActions('noProgress', [EventType.NOPROGRESSTYPE]),
-      resetSearchCondition(name) {
-        this.$refs[name].resetFields()
+      initData(){
+        // apiSelectData
       },
       routerToCommcialOperator: function (name) {
         this.$router.push({

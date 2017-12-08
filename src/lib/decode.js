@@ -32,6 +32,8 @@ export default {
         return '退账'
       case '8':
         return '提取'
+      case '8':
+        return '特殊操作'
       default: // 默认 1
         return '新进'
     }

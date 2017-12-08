@@ -9,7 +9,6 @@ export class CompanyTaskList{
     }
     //get request type
     static getTableData(params,url){
-      debugger
         console.log(url)
         return new Promise(function(resolve,reject){
             Axios.get(url, {params: params}) .then(function (response) {  
@@ -116,6 +115,61 @@ export class CompanyTaskList{
         console.log(error)
       })
 
+    })
+  }
+
+  //批退任务单
+  static refusingTask(params){
+    let url = domainJson.refusingTaskUrl
+    return new Promise((resolve,reject)=>{
+      utils.ajaxSsc.post(url,params).then(response=>{
+        if(response.data.code=="200"){
+            if(response.data.data){
+              resolve(response.data.data)
+            }
+        }else{
+          reject(Error('后台异常！'))
+        }
+      }).catch(error=>{
+        console.log(error)
+      })
+    })
+  }
+
+  //获得企业任务单 办理页面 企业信息和材料信息
+  static getCompanyInfoAndMaterial(params){
+    let url =domainJson.getCompanyInfoAndMaterialUrl
+    return new Promise((resolve,reject)=>{
+      utils.ajaxSsc.post(url,params).then(response=>{
+        let result = response.data;
+        if(result.code=="200"){
+          let data = {
+            companyTaskStatus:result.data.taskStatus,
+            companyInfo:{customerNumber:result.data.companyId,
+                         customerName:result.data.companyName,
+                         serviceManager:""
+                        },
+            operatorMaterialListData:[]
+                     }
+                    for(let obj of result.data.materialList){
+                      let material = {}
+                      material.material = obj.materialName;//材料名称
+                      material.materialCommitDate = obj.submitTime; //提交时间
+                      material.materialType = obj.materialType;//材料类型
+                      material.materialReciveDate = obj.receiveTime;//收到时间
+                      material.state = obj.status;//状态
+                      material.notes = obj.remark;//备注说明
+                      data.operatorMaterialListData.push(material)
+                    }
+
+              resolve(data)
+            
+        }else{
+          reject(Error('后台异常！'))
+        }
+      }).catch(error=>{
+        console.log(error)
+      })
     })
   }
 }

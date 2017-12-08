@@ -12,11 +12,6 @@
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="服务中心：" class="">
-          <label>{{companyInfo.serviceCenter}}</label>
-        </Form-item>
-      </Col>
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客服经理：" class="">
           <label>{{companyInfo.serviceManager}}</label>
         </Form-item>

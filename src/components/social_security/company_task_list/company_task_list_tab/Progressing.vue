@@ -64,14 +64,14 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span:24}">
-          <Button type="error" @click="isRefuseReason = true">批退</Button>
+          <Button type="error" @click="getModal">批退</Button>
           <Button type="info" @click="">导出</Button>
         </Col>
       </Row>
 
       <Row class="mt20">
         <Col :sm="{span:24}">
-          <Table border :columns="taskColumns" :data="taskData"></Table>
+          <Table border :columns="taskColumns" :data="taskData" ref="selection"></Table>
           <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
         </Col>
       </Row>
@@ -79,7 +79,7 @@
       <!-- 批退理由 -->
       <Modal
         v-model="isRefuseReason"
-        @on-ok="ok"
+        @on-ok="asyncOK"
         @on-cancel="cancel">
         <Form>
           <p>
@@ -155,6 +155,12 @@
         loading: true,//分页是表单加载动画
 
         taskColumns: [
+           {
+                 type: 'selection',
+                 width: 60,
+                 align: 'center',
+                 fixed: 'left'
+            },
           {title: '操作', key: 'action', fixed: 'center', width: 80, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -343,8 +349,45 @@
             }
          }
         },
-      ok () {
-
+        getModal(){
+           let getRows = this.$refs.selection.getSelection()
+           if(getRows.length==0){
+             this.$Message.warning('请先选择!');
+             return
+           }else{
+             let taskType = getRows[0].type;
+             for(let obj of getRows){
+               if(taskType!=obj.type){
+                  this.$Message.error('任务单类型不一致!');
+                 return
+               }
+             }
+           }
+          this.isRefuseReason = true
+          this.refuseLoading = true
+        },
+      asyncOK() {
+         let getRows = this.$refs.selection.getSelection()
+         let taskIdStr = ""
+         for(let obj of getRows){
+               taskIdStr+=obj.tid+","
+             }
+        let params = {
+                    taskIdStr:taskIdStr,
+                      refuseReason:this.refuseReason
+                      }
+                 
+        let self = this
+        Progressing.refusingTask(params).then(result=>{
+          if(result){
+            self.$Message.success("批退成功！")
+             self.isRefuseReason = false
+             this.clickQuery()
+          }else{
+              //this.refuseLoading = true
+          }
+          
+        })
       },
       cancel () {
 

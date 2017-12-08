@@ -17,7 +17,7 @@
       <Panel name="2">
         办理所需材料清单
         <div slot="content">
-          <Table class="mt20" border :columns="operatorMaterials.operatorMaterialListColumns" :data="data.operatorMaterialListData" ref="employeeSocialSecurityData"></Table>
+          <Table class="mt20" border :columns="operatorMaterials.operatorMaterialListColumns" :data="operatorMaterialListData" ref="employeeSocialSecurityData"></Table>
         </div>
       </Panel>
     </Collapse>
@@ -29,7 +29,7 @@
         <Button type="warning" @click="goBack">关闭/返回</Button>
       </Col>
       <Col :sm="{span:12}" :md="{span: 12}" :lg="{span: 12}" class="tr">
-        <Button type="primary" @click="isUpload = true">上传扫描件</Button>
+        <!-- <Button type="primary" @click="isUpload = true">上传扫描件</Button> -->
         <Button type="primary" @click="goBack">反馈未签收</Button>
         <Button type="primary" @click="nextStep">签收全部材料</Button>
       </Col>
@@ -38,7 +38,7 @@
     <chat :chatList="data.chatList" class="mt20"></chat>
 
     <!-- 批退理由 -->
-    <Modal
+    <!-- <Modal
       v-model="isUpload"
       @on-ok="ok"
       @on-cancel="cancel">
@@ -47,7 +47,7 @@
           <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
         </Upload>
       </div>
-    </Modal>
+    </Modal> -->
   </Form>
 </template>
 <script>
@@ -56,25 +56,27 @@
   import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
   import companyInfo from '../../commoncontrol/companyinfo.vue'
   import EventType from '../../../store/EventTypes'
-
+  import {CompanyTaskList} from '../../../module/social_security/company_task_list'
   export default {
     components: {chat, companySocialSecurityInfo, companyInfo},
     data() {
       return {
         collapseInfo: [1, 2], //展开栏
         operatorType: this.$route.query.operatorType,
-        currentStep: 2,
-        companyInfo: {
-          customerNumber: 'GS170001',
-          customerName: '普思埃商业（上海）有限公司',
-          serviceCenter: '大客户2',
-          serviceManager: '金翔云'
-        },
+        currentStep: 0,
+        companyInfo: {},//企业信息
+        operatorMaterialListData:[],//材料
+        // {
+        //   customerNumber: 'GS170001',
+        //   customerName: '普思埃商业（上海）有限公司',
+        //   serviceCenter: '大客户2',
+        //   serviceManager: '金翔云'
+        // }
         operatorMaterials: {
           operatorMaterialListColumns: [
             {title: '材料名称', key: 'material', align: 'center', className: 'mw100',
               render: (h, params) => {
-                return h('div', {style: {textAlign: 'left'}}, [
+                return h('div', {style: {textAlign: 'center'}}, [
                   h(params.row.isLink ? 'a' : 'span', {props: {},
                     on: {
                       click: () => {
@@ -87,27 +89,21 @@
             },
             {title: '材料提交时间', key: 'materialCommitDate', align: 'center', className: 'mw150',
               render: (h, params) => {
-                return h('div', {style: {textAlign: 'left'}}, [
+                return h('div', {style: {textAlign: 'center'}}, [
                   h('span', params.row.materialCommitDate),
                 ]);
               }
             },
             {title: '材料类型', key: 'materialType', align: 'center', className: 'mw100',
               render: (h, params) => {
-                return h('div', {style: {textAlign: 'left'}}, [
-                  h(params.row.isLink ? 'a' : 'span', {props: {},
-                    on: {
-                      click: (event) => {
-                        this.isUpload = event.target.nodeName == 'A' ? true : false;
-                      }
-                    }
-                  }, params.row.materialType)
+                return h('div', {style: {textAlign: 'center'}}, [
+                  h('span', params.row.materialType)
                 ])
               }
             },
             {title: '材料收到时间', key: 'materialReciveDate', align: 'center', className: 'mw150',
               render: (h, params) => {
-                return h('div', {style: {textAlign: 'left'}}, [
+                return h('div', {style: {textAlign: 'center'}}, [
                   h('span', params.row.materialReciveDate),
                 ]);
               }
@@ -115,29 +111,14 @@
             {title: '状态', key: 'materialReciveDate', align: 'center', className: 'mw200',
               render: (h, params) => {
                 return h('div', [
-                  h('Select', {props: {value: params.index === 0 || params.index === 3 ? '3' : params.index === 1 ? '1' : '2'}},
+                  h('Select', {props: {value: params.row.state}},
                     [
-                      h('Option', {props: {value: '1'}},'材料不齐全'),
-                      h('Option', {props: {value: '2'}},'未签收'),
-                      h('Option', {props: {value: '3'}},'已签收'),
+                      h('Option', {props: {value: '0'}},'未签收'),
+                      h('Option', {props: {value: '1'}},'已签收'),
+                      h('Option', {props: {value: '2'}},'材料不齐全'),
                     ]
                   )]
                 );
-              }
-            },
-            {title: '操作', key: 'operator', align: 'center', className: 'mw100',
-              render: (h, params) => {
-                return h('div', [
-                  h(!params.row.isLink ? 'span' : 'Button', {
-                    props: {type: 'primary', size: 'small'},
-                    style: {margin: '0 auto'},
-                    on: {
-                      click: () => {
-
-                      }
-                    }
-                  }, !params.row.isLink ? '' : '上传'),
-                ]);
               }
             },
             {title: '备注说明', key: 'notes', className: 'mw300',
@@ -150,11 +131,19 @@
           ],
 
         },
-        isUpload: false,
+        //isUpload: false,
       }
     },
     mounted() {
       this[EventType.COMPANYTASKPROGRESS2TYPE]()
+      let params = {companyTaskId:this.$route.query.tid}
+      let self = this
+      CompanyTaskList.getCompanyInfoAndMaterial(params).then(result=>{
+        self.companyInfo = result.companyInfo
+        self.operatorMaterialListData = result.operatorMaterialListData;
+        self.currentStep  =result.companyTaskStatus==null?0:Number(result.companyTaskStatus)
+
+      })
     },
     computed: {
       ...mapState('companyTaskProgress2',{

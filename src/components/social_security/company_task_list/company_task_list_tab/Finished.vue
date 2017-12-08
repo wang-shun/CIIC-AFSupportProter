@@ -276,7 +276,6 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
       },
        //将后台查询的数据赋到页面
       refreash(data){
-        debugger
           this.taskData = data.data.taskData
           if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
           else this.totalSize  =Number(data.data.totalSize)

@@ -39,7 +39,7 @@ const companyTaskProgress2 = params => Utils.promise({
           isLink: false,
           material: '材料4',
           materialCommitDate: '2017-7-3 12:33:33',
-          materialType: '',
+          materialType: '压缩文件',
           materialReciveDate: '2017-7-5 12:33:33',
           state: '1',
           operator: '',

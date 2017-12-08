@@ -29,7 +29,7 @@
         <Button type="warning" @click="goBack">关闭/返回</Button>
       </Col>
       <Col :sm="{span:12}" :md="{span: 12}" :lg="{span: 12}" class="tr">
-        <Button type="primary" @click="isUpload = true">上传扫描件</Button>
+        <!-- <Button type="primary" @click="isUpload = true">上传扫描件</Button> -->
         <Button type="primary" @click="goBack">反馈未签收</Button>
         <Button type="primary" @click="nextStep">签收全部材料</Button>
       </Col>
@@ -38,7 +38,7 @@
     <chat :chatList="data.chatList" class="mt20"></chat>
 
     <!-- 批退理由 -->
-    <Modal
+    <!-- <Modal
       v-model="isUpload"
       @on-ok="ok"
       @on-cancel="cancel">
@@ -47,7 +47,7 @@
           <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
         </Upload>
       </div>
-    </Modal>
+    </Modal> -->
   </Form>
 </template>
 <script>
@@ -150,7 +150,7 @@
           ],
 
         },
-        isUpload: false,
+       // isUpload: false,
       }
     },
     mounted() {

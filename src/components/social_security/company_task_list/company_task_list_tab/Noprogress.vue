@@ -43,14 +43,14 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span:24}">
-          <Button type="error" @click="isRefuseReason = true">批退</Button>
+          <Button type="error" @click="getModal">批退</Button>
           <Button type="info" @click="exportExcel">导出</Button>
         </Col>
       </Row>
 
       <Row class="mt20">
         <Col :sm="{span:24}">
-          <Table border :columns="taskColumns" :data="taskData" :loading="loading"></Table>
+          <Table border ref="selection" :columns="taskColumns" :data="taskData" :loading="loading"></Table>
           
           <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" show-sizer show-total  class="pageSize"  @on-change="getPage"></Page>
         </Col>
@@ -59,12 +59,14 @@
       <!-- 批退理由 -->
       <Modal
         v-model="isRefuseReason"
-        @on-ok="ok"
+        :loading="refuseLoading"
+        :mask-closable="false"
+        @on-ok="asyncOK"
         @on-cancel="cancel">
         <Form>
           <p>
             <Form-item>
-              <Input v-model="refuseReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
+              <Input v-model="refuseReason" type="textarea" :rows=4  placeholder="请填写批退备注..."></Input>
             </Form-item>
           </p>
         </Form>
@@ -74,7 +76,8 @@
       <Modal
         v-model="companyTaskInfo.isShowCustomerName"
         title="选择客户"
-        @on-ok="ok"
+       
+        @on-ok="asyncOK"
         @on-cancel="cancel" width='800'>
         <customer-modal :customerData="customerData"></customer-modal>
       </Modal>
@@ -99,6 +102,7 @@
         collapseInfo: [1], //展开栏
         size:5,//分页
         sizeArr:[5],
+        refuseLoading:true,//批退模糊态的加载
         companyTaskInfo: {
           customerNumber: '',
           customerName:'',
@@ -116,7 +120,12 @@
         refuseReason: '',
         loading: true,//分页是表单加载动画
         taskColumns: [
-          
+           {
+                 type: 'selection',
+                 width: 60,
+                 align: 'center',
+                 fixed: 'left'
+            },
           {title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -126,13 +135,13 @@
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1'}})
+                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1',tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '2'}})
+                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '2',tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '3'}})
+                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '3',tid:params.row.tid}})
                           break;
                         case '终止':
                           this.$router.push({name: 'companytaskprogress2', query: {operatorType: '4',tid:params.row.tid}})
@@ -284,24 +293,60 @@
           console.log(error)
         })
       },
-      //获得请求参数
+      //获得列表请求请求参数
       getParams(page){
-        debugger
         return {
           pageSize:this.size,
           pageNum:page,
             params:{
-              companyId:this.companyTaskInfo.customerNumber==""?'':this.companyTaskInfo.customerNumber,//客户编号
-              companyName:this.companyTaskInfo.customerName==""?'':this.companyTaskInfo.customerName,//客户姓名
-              taskCategory:this.companyTaskInfo.taskTypeValue==""?'':this.companyTaskInfo.taskTypeValue,//任务类型
+              companyId:this.companyTaskInfo.customerNumber,//客户编号
+              companyName:this.companyTaskInfo.customerName,//客户姓名
+              taskCategory:this.companyTaskInfo.taskTypeValue,//任务类型
               submitTimeStart:this.companyTaskInfo.taskStartTime=="" || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
               submitTimeEnd:this.companyTaskInfo.taskStartTime==""||this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null ?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
             }
          }
         },
-
-      ok () {
-         
+        getModal(){
+           let getRows = this.$refs.selection.getSelection()
+           if(getRows.length==0){
+             this.$Message.warning('请先选择!');
+             return
+           }else{
+             let taskType = getRows[0].type;
+             for(let obj of getRows){
+               if(taskType!=obj.type){
+                  this.$Message.error('任务单类型不一致!');
+                 return
+               }
+             }
+           }
+          this.isRefuseReason = true
+          this.refuseLoading = true
+        },
+        
+      asyncOK() {
+         let getRows = this.$refs.selection.getSelection()
+         let taskIdStr = ""
+         for(let obj of getRows){
+               taskIdStr+=obj.tid+","
+             }
+        let params = {
+                    taskIdStr:taskIdStr,
+                      refuseReason:this.refuseReason
+                      }
+                 
+        let self = this
+        NoProgress.refusingTask(params).then(result=>{
+          if(result){
+            self.$Message.success("批退成功！")
+             self.isRefuseReason = false
+             this.clickQuery()
+          }else{
+              //this.refuseLoading = true
+          }
+          
+        })
       },
       cancel () {
 

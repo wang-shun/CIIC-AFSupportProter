@@ -137,9 +137,9 @@
               </Breadcrumb>
             </div>
             <div class="layout-content-main">
-              <transition name="fade" mode="out-in">
+              <!--<transition name="fade" mode="out-in">-->
                 <router-view :key="key"></router-view>
-              </transition>
+              <!--</transition>-->
             </div>
           </div>
           <div class="layout-copy">

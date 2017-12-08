@@ -1,5 +1,6 @@
 import utils from "./utils";
 import ajax from "./ajax";
+import decode from "./decode";
 import _ from 'lodash'
 
 // Vue插件
@@ -38,6 +39,7 @@ export default {
     vm.prototype.$local = local;
     vm.prototype.$utils = utils;
     vm.prototype.$ajax = ajax;
+    vm.prototype.$decode = decode;
     vm.prototype._ = _;
   }
 }

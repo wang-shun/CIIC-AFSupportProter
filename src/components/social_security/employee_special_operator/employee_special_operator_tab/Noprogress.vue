@@ -68,8 +68,8 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名：" prop="empName">
-                <Input v-model="operatorSearchData.empName" placeholder="请输入..."></Input>
+              <Form-item label="雇员姓名：" prop="employeeName">
+                <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -187,7 +187,7 @@
 
         operatorSearchData: {
           taskStatus: '',
-          empName: '',
+          employeeName: '',
           settlementArea: '',
           ssAccountType: '',
           empClassify: '',
@@ -255,7 +255,7 @@
             }
           },
           {
-            title: '雇员', key: 'empName', width: 100, align: 'center'
+            title: '雇员', key: 'employeeName', width: 100, align: 'center'
           },
           {
             title: '雇员编号', key: 'employeeId', width: 100, align: 'center'
@@ -295,36 +295,22 @@
             }
           },
           {
-            title: '雇员分类', key: 'employeeType', width: 100, align: 'center',
+            title: '雇员分类', key: 'empClassify', width: 100, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeType),
-              ]);
+              return this.$decode.empClassify(params.row.empClassify)
             }
           },
           {
-            title: '账户类型', key: 'accountType', width: 120, align: 'center',
+            title: '账户类型', key: 'ssAccountType', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.accountType),
-              ]);
+              return this.$decode.accountType(params.row.ssAccountType)
             }
           },
           {
-            title: '结算区县', key: 'region', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.region),
-              ]);
-            }
+            title: '结算区县', key: 'settlementArea', width: 100, align: 'center'
           },
           {
-            title: '发起供应商', key: 'sponsor', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.sponsor),
-              ]);
-            }
+            title: '发起供应商', key: 'supplierId', width: 200, align: 'center'
           },
           {
             title: '发起人', key: 'submitterId', width: 100, align: 'center'

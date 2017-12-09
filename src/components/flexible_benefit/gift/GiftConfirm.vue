@@ -130,50 +130,15 @@
       back() {
         this.$local.back();
       },
-      selectChange() {
-        this.formItem.disabled = false;
-        if (this.formItem.types == "computed" || this.formItem.types == "seniorComputed" || this.formItem.types == "fixed") {
-          this.onlyNum = true;
-        } else {
-          this.onlyNum = false;
-        }
-      },
-      passData() {
-        let data = this.$route.params.data;
-        if (data) {
-          this.editObj = data;
-          this.formItem.name = data.name;
-          this.formItem.code = data.code;
-          this.formItem.types = createLookMap("label", "value", this.salaryType)[data.types];
-          this.formItem.typeVal = createLookMap("label", "value", this.dataTypes)[data.typeVal];
-        } else {
-          data = ""
-        }
-      }
     },
     watch: {
       //监听路由变化 页面重载或路由跳转获取URL参数
       $route() {
-        console.log("路由发生了变化");
-        this.passData();
       }
     },
     created() {
-      this.passData();
     },
   }
-
-  function createLookMap(key, value, jsonArr) {
-    let map = {}
-    for (let i = 0; i < jsonArr.length; i++) {
-      let item = jsonArr[i]
-      let mapKey = item[key]
-      let mapValue = item[value]
-      map[mapKey] = mapValue
-    }
-    return map
-  }
-
 </script>
 
 <style>

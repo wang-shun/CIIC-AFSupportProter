@@ -1,45 +1,42 @@
 <template>
   <div class="smList">
     <Collapse v-model="collapseInfo">
-    <Panel name="1">
-      礼品管理查询
-      <div slot="content">
-        <Form :model="formItem" ref="formItem" :label-width="100">
-          <Row type="flex" justify="start">
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+      <Panel name="1">
+        礼品管理查询
+        <div slot="content">
+          <Form :model="formItem" ref="formItem" :label-width="100">
+            <Row>
+              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
               <Form-item label="礼品名称" prop="giftName">
                 <Input v-model="formItem.giftName" placeholder="请输入"/>
               </Form-item>
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              </Col>
+              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
               <Form-item label="状态" prop="status">
-                <Select v-model="formItem.status" placeholder="请选择">
+                <Select v-model="formItem.status" :clearable="true" placeholder="请选择">
                   <Option v-for="item in statusProperties" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
-            </Col>
-            <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
+              </Col>
+              <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
               <Button type="primary" @click="query()" icon="ios-search">查询</Button>
               <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
-            </Col>
-          </Row>
-        </Form>
-      </div>
-    </Panel>
-  </Collapse>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+    </Collapse>
 
-    <div class="create">
+    <div class="tr" style="margin: 20px auto">
       <router-link to="/giftAdd">
         <Button type="info">新增礼品</Button>
       </router-link>
-      <router-link to="/giftPersonChoose">
-        <Button type="info">礼品申请</Button>
-      </router-link>
     </div>
     <Table border :columns="giftManagerColumns" :data="giftManagerData" ref="giftManagerTable"></Table>
-    <Page :total="formItem.page.total" show-sizer show-elevator @on-change="getByPage" @on-page-size-change="pageSizeChange" :current.sync="formItem.page.current" :page-size="formItem.page.pageSize"></Page>
-
-
+    <Page :total="formItem.page.total" show-sizer show-elevator @on-change="getByPage"
+          @on-page-size-change="pageSizeChange" :current.sync="formItem.page.current"
+          :page-size="formItem.page.pageSize"></Page>
   </div>
 </template>
 
@@ -79,17 +76,53 @@
         }],
 
         giftManagerColumns: [{
-          title: "礼品名称", sortable: true, key: "giftName",align: "center"
+          title: "礼品名称", sortable: true, key: "giftName", align: "center"
         }, {
-          title: "类别", sortable: true, key: "giftType",align: "center"
+          title: "类别", sortable: true, key: "giftType", align: "center",
+          render: (h, params) => {
+            switch (params.row.giftType) {
+              case 0:
+                return "票券";
+                break;
+              case 1:
+                return "办公用品";
+                break;
+              case 2:
+                return "生活用品";
+                break;
+              case 3:
+                return "食品";
+                break;
+              case 4:
+                return "饰品";
+                break;
+              case 5:
+                return "数码周边";
+                break;
+              case 6:
+                return "儿童用品";
+                break;
+
+            }
+          }
         }, {
-          title: "价格", sortable: true, key: "price",align: "center"
+          title: "价格", sortable: true, key: "price", align: "center"
         }, {
-          title: "数量", sortable: true, key: "number",align: "center"
+          title: "数量", sortable: true, key: "number", align: "center"
         }, {
-          title: "备注", sortable: true, key: "remarks",align: "center"
+          title: "备注", sortable: true, key: "remarks", align: "center"
         }, {
-          title: "状态", sortable: true, key: "status",align: "center"
+          title: "状态", sortable: true, key: "status", align: "center",
+          render: (h, params) => {
+            switch (params.row.status) {
+              case 0:
+                return "正常";
+                break;
+              case 1:
+                return "已下架";
+                break;
+            }
+          }
         }, {
           title: "操作", key: "action", width: 300, align: "center",
           render: (h, params) => {
@@ -103,10 +136,7 @@
                   style: {marginRight: "5px"},
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: "giftAdd",
-                        params: {data: params.row}
-                      });
+                      this.$router.push({name: "giftUpdate", query: {data: params.row}});
                     }
                   }
                 }, "编辑"),
@@ -150,10 +180,10 @@
       };
     },
     computed: {
-      ...mapState("GIFT", {giftManagerData: state => state.data.giftManagerData,}),
+      ...mapState("GIFT", {giftManagerData: state => state.data.giftManagerData,})
     },
     created() {
-//      this.$store.dispatch(EventTypes.GIFTAPPLICATIONTYPE,this.formItem);
+      // this.$store.dispatch(EventTypes.GIFTAPPLICATIONTYPE, this.formItem);
       this.query();
     },
     methods: {
@@ -161,53 +191,20 @@
 
       query() {
         this[EventTypes.GIFTAPPLICATIONTYPE](this.formItem).then(() => {
-          console.log(this.$store.state.GIFT.data);
           this.formItem.page = this.$store.state.GIFT.data.page;
         })
       },
       resetSearchCondition(name) {
-        console.info(name)
         this.$refs[name].resetFields()
       },
-      getByPage () {
+      getByPage() {
         this.query()
       },
-      pageSizeChange (pageSize) {
-        this.pageSize = pageSize
+      pageSizeChange(pageSize) {
+        this.formItem.page.pageSize = pageSize;
         this.query()
       },
-      show(index) {
-        this.$Modal.info({
-          title: "用户信息",
-          content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-        });
-      },
-      remove(index) {
-        this.data6.splice(index, 1);
-      },
-      showModel() {
-        this.modal1 = true;
-      },
-      // 导出csv
-      exportData(type) {
-        if (type === 1) {
-          this.$refs.table.exportCsv({
-            filename: "原始数据"
-          });
-        } else if (type === 2) {
-          this.$refs.table.exportCsv({
-            filename: "排序和过滤后的数据",
-            original: false
-          });
-        } else if (type === 3) {
-          this.$refs.table.exportCsv({
-            filename: "自定义数据",
-            columns: this.columns7.filter((col, index) => index < 4),
-            data: this.data6.filter((data, index) => index < 4)
-          });
-        }
-      }
-    }
+    },
   };
 </script>
 

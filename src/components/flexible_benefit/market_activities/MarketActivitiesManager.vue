@@ -2,17 +2,18 @@
   <div class="smList">
     <Collapse v-model="collapseInfo" accordion>
       <Panel name="1">
+        市场活动查询
         <div slot="content">
-          <Form :model="formItem" :label-width="100">
+          <Form :model="formItem" ref="formItem" :label-width="100">
             <Row>
               <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form-item label="活动主题">
-                <Input v-model="formItem.activitytitle" placeholder="请输入"></Input>
+              <Form-item label="活动主题" prop="activityTitle">
+                <Input v-model="formItem.activityTitle" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form-item label="状态">
-                <Select v-model="formItem.status" placeholder="请选择">
+              <Form-item label="状态" prop="status">
+                <Select v-model="formItem.status" :clearable="true" placeholder="请选择">
                   <Option v-for="item in statusTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
@@ -20,25 +21,23 @@
             </Row>
             <Row>
               <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
-                <Button type="primary" @click="query()" icon="ios-search">查询</Button>
-                <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+              <Button type="primary" @click="query()" icon="ios-search">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
     </Collapse>
-    <div class="create">
-      <Row :gutter="16">
-        <Col span="2">
-        <router-link to="/addActivity">
-          <Button type="info">新增活动</Button>
-        </router-link>
-        </Col>
-      </Row>
+    <div class="tr" style="margin: 20px auto">
+      <router-link to="/addActivity">
+        <Button type="info">新增活动</Button>
+      </router-link>
     </div>
-    <Table border :columns="marketListColumns" :data="marketListData" ref="table"></Table>
-    <Page :total="100" show-sizer show-elevator></Page>
+    <Table border :columns="marketListColumns" :data="marketListData" ref="marketManagerTable"></Table>
+    <Page :total="formItem.page.total" show-sizer show-elevator @on-change="getByPage" @on-page-size-change="pageSizeChange"
+          :current.sync="formItem.page.current" :page-size="formItem.page.pageSize"></Page>
+
   </div>
 </template>
 <script>
@@ -50,23 +49,47 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         formItem: {
-          activitytitle: '',
+          activityTitle: '',
           status: '',
+          page: {
+            current: 1,
+            pageSize: 10,
+            total: 1,
+          }
         },
         marketListColumns: [{
-          title: '主题', sortable: true, key: 'activitytitle'
+          title: '主题', sortable: true, key: 'activityTitle',align: "center",
         }, {
-          title: '发布人', sortable: true, key: 'publisher'
+          title: '发布人', sortable: true, key: 'publisher',align: "center",
         }, {
-          title: '开始时间', sortable: true, key: 'begintime'
+          title: '开始时间', sortable: true, key: 'beginTime',align: "center",
+          render:(h,params) =>{
+            return this.$utils.formatDate(params.row.beginTime, 'YYYY-MM-DD');
+          }
         }, {
-          title: '结束时间', sortable: true, key: 'endtime'
+          title: '结束时间', sortable: true, key: 'endTime',align: "center",
+          render:(h,params) =>{
+            return this.$utils.formatDate(params.row.endTime, 'YYYY-MM-DD');
+          }
         }, {
-          title: '状态', sortable: true, key: 'status'
+          title: '状态', sortable: true, key: 'status',align: "center",
+          render:(h,params) =>{
+            switch (params.row.status){
+              case 0:
+                return "进行中";
+                break;
+              case 1:
+                return "待审核";
+                break;
+              case 2:
+                return "已结束";
+                break;
+            }
+          }
         }, {
-          title: '内容', sortable: true, key: 'content'
+          title: '内容', sortable: true, key: 'content',align: "center",
         }, {
-          title: '操作', align: 'center',key: 'action',
+          title: '操作', align: 'center', key: 'action',align: "center",
           width: 240,
           render: (h, params) => {
             if (params.row.status == '0') {
@@ -82,8 +105,8 @@
                   on: {
                     click: () => {
                       this.$router.push({
-                        name: 'addActivity',
-                        params: {
+                        name: 'updateActivity',
+                        query: {
                           data: params.row
                         }
                       });
@@ -157,11 +180,9 @@
           value: '3', label: '配偶'
         }],
         statusTypes: [{
-          value: '4', label: '全部'
+          value: '0', label: '进行中'
         }, {
-          value: '0', label: '待审核'
-        }, {
-          value: '1', label: '进行中'
+          value: '1', label: '待审核'
         }, {
           value: '2', label: '已结束'
         }],
@@ -170,54 +191,34 @@
     computed: {
       ...mapState("MARKET", {
         marketListData: state => state.data.marketListData,
+        page:state => state.data.page,
       }),
     },
     created() {
-      this[EventTypes.MARKETAPPLICATIONTYPE](this.formItem)
+      this.query();
     },
     methods: {
       ...mapActions("MARKET", [EventTypes.MARKETAPPLICATIONTYPE]),
       query() {
-        this[EventTypes.MARKETAPPLICATIONTYPE](this.formItem);
+        this[EventTypes.MARKETAPPLICATIONTYPE](this.formItem).then(() => {
+          this.formItem.page = this.$store.state.MARKET.data.page;
+        });
       },
-      show(index) {
-        this.$Modal.info({
-          title: '用户信息',
-          content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-        })
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields();
       },
-      remove(index) {
-        this.data6.splice(index, 1);
+      getByPage() {
+        this.query()
       },
-      // 导出csv
-      exportData(type) {
-        if (type === 1) {
-          this.$refs.table.exportCsv({
-            filename: '原始数据'
-          });
-        } else if (type === 2) {
-          this.$refs.table.exportCsv({
-            filename: '排序和过滤后的数据',
-            original: false
-          });
-        } else if (type === 3) {
-          this.$refs.table.exportCsv({
-            filename: '自定义数据',
-            columns: this.columns7.filter((col, index) => index < 4),
-            data: this.data6.filter((data, index) => index < 4)
-          });
-        }
-      }
-    }
+      pageSizeChange(pageSize) {
+        this.formItem.page.pageSize = pageSize;
+        this.query()
+      },
+    },
+
+
   }
 </script>
 
-<style scoped>
-  .ivu-card {
-    background: rgba(246, 246, 246, 1);
-  }
-
-  .checkBtn .ivu-btn {
-    float: right;
-  }
+<style>
 </style>

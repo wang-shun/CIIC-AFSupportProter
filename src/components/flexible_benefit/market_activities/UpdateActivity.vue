@@ -96,6 +96,7 @@
             {required: true, message: '请输入发布人', trigger: 'change'}
           ],
           giftForm: [
+            {required: true, message: '请选择派送方式', trigger: 'change'},
             {
               validator(rule, val, callback) {
                 if (!val || val.length === 0) {
@@ -108,6 +109,7 @@
             }
           ],
           sendWay: [
+            {required: true, message: '请选择派送方式', trigger: 'change'},
             {
               validator(rule, val, callback) {
                 if (!val || val.length === 0) {
@@ -120,6 +122,7 @@
             }
           ],
           marketTime: [
+            {required: true, message: '请选择活动时间', trigger: 'change'},
             {
               validator(rule, val, callback) {
                 if (!val || val.length < 2) {

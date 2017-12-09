@@ -174,6 +174,9 @@
           applyMaxnum: [
             {type: 'integer', required: true, message: '请输入最大申请数', trigger: 'change'}
           ],
+          status: [
+            {required: true, message: '请选择礼品状态', trigger: 'change'}
+          ],
           remarks: [
             {
               validator(rule, val, callback) {

@@ -16,12 +16,12 @@
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
           <Form-item label="适用人群：" prop="rightPerson">
             <Select v-model="formItem.rightPerson" placeholder="请选择">
-            <Option v-for="item in rightpersonTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
+              <Option v-for="item in rightpersonTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="礼品类型:" prop="giftType">
+          <Form-item label="礼品类型：" prop="giftType">
             <Select v-model="formItem.giftType" placeholder="请选择">
               <Option v-for="item in giftTypeProperties" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
@@ -43,6 +43,13 @@
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Form-item label="状态" prop="status">
+            <Select v-model="formItem.status" placeholder="请选择">
+              <Option v-for="item in statusProperties" :value="item.value" :key="item.value">{{item.label}}</Option>
+            </Select>
+          </Form-item>
+          </Col>
+          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
           <Form-item label="礼品图片：" prop="pictureUrl">
             <Upload :before-upload="handleUpload" :format="['jpg','jpeg','png']" :max-size="2048"
                     action="//jsonplaceholder.typicode.com/posts/">
@@ -56,7 +63,7 @@
             <Checkbox v-model="formItem.isNew">是</Checkbox>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
+          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
           <Form-item label="礼品介绍：" prop="remarks">
             <Input v-model="formItem.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                    placeholder="礼品介绍不超过200个字"/>
@@ -97,15 +104,18 @@
 <script>
   import {mapState, mapActions, mapGetters} from "vuex"
   import EventTypes from "../../../store/EventTypes"
+  import Vue from 'vue'
 
   export default {
     data() {
       return {
+        id: null,
         addResult: "1",
         file: null,
         formItem: {
+          id: null,
           giftName: "",//礼品名称
-          price: 0,//价格
+          price: null,//价格
           rightPerson: "",//使用人群
           giftType: "",//礼品类型
           color: "",//颜色
@@ -113,46 +123,38 @@
           applyMaxnum: null,//最大申请数量
           pictureUrl: "",//图片
           isNew: "",//是否new,
+          status:"",//状态
           remarks: "",//礼品介绍
         },
 
-        rightpersonTypes: [
-          {
-            value: '0', label: '男士适用'
-          }, {
-            value: '1', label: '女士适用'
-          }, {
-            value: '2', label: '男女通用'
-          }],
+        rightpersonTypes: [{
+          value: '0', label: '男士适用'
+        }, {
+          value: '1', label: '女士适用'
+        }, {
+          value: '2', label: '男女通用'
+        }],
 
-        giftTypeProperties: [
-          {
-            value: '0', label: '票券'
-          }, {
-            value: '1', label: '办公用品'
-          }, {
-            value: '2', label: '生活用品'
-          }, {
-            value: '3', label: '食品'
-          }, {
-            value: '4', label: '饰品'
-          }, {
-            value: '5', label: '数码周边'
-          }, {
-            value: '6', label: '儿童用品'
-          }],
-
-        ruleValidate: {
-          name: [
-            {required: true, message: '薪资项模板名称不能为空', trigger: 'blur'}
-          ],
-          types: [
-            {required: true, message: '请选择薪资项模板类别', trigger: 'change'}
-          ],
-          dataTypes: [
-            {required: true, message: '请选择数据类型', trigger: 'change'}
-          ],
-        },
+        giftTypeProperties: [{
+          value: '0', label: '票券'
+        }, {
+          value: '1', label: '办公用品'
+        }, {
+          value: '2', label: '生活用品'
+        }, {
+          value: '3', label: '食品'
+        }, {
+          value: '4', label: '饰品'
+        }, {
+          value: '5', label: '数码周边'
+        }, {
+          value: '6', label: '儿童用品'
+        }],
+        statusProperties: [{
+          value: "0", label: "正常"
+        }, {
+          value: "1", label: "已下架"
+        }],
         giftValidator: {
           giftName: [
             {required: true, message: '请输入礼品名称', trigger: 'blur'}
@@ -172,6 +174,9 @@
           applyMaxnum: [
             {type: 'integer', required: true, message: '请输入最大申请数', trigger: 'change'}
           ],
+          status: [
+            {required: true, message: '请选择礼品状态', trigger: 'change'}
+          ],
           remarks: [
             {
               validator(rule, val, callback) {
@@ -187,6 +192,20 @@
         }
       };
     },
+
+    created() {
+      let updateData = this.$route.query.data;
+      delete updateData._index;
+      delete updateData._rowKey;
+      delete updateData.page;
+      delete updateData.createTime;
+      delete updateData.modifiedTime;
+      this.formItem = updateData;
+      this.formItem.rightPerson = this.formItem.rightPerson + '';
+      this.formItem.giftType = this.formItem.giftType + '';
+      this.formItem.status = this.formItem.status + '';
+    },
+
     methods: {
       ...mapActions("GIFT", [EventTypes.GIFTINSERTTYPE]),
       handleUpload(file) {
@@ -196,11 +215,6 @@
       addGift() {
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
-            /**上传附件表单校验*/
-            if (this.file == null) {
-              this.$Message.error("请上传附件");
-              return;
-            }
             /**传输文件的数据*/
             let data = new FormData();
             Object.keys(this.formItem).forEach(v => {
@@ -226,11 +240,18 @@
       back() {
         this.$local.back();
       },
+      selectChange() {
+        this.formItem.disabled = false;
+        if (this.formItem.types == "computed" || this.formItem.types == "seniorComputed" || this.formItem.types == "fixed") {
+          this.onlyNum = true;
+        } else {
+          this.onlyNum = false;
+        }
+      }
     },
     watch: {},
-    created() {
-    },
   }
+
 </script>
 
 <style>

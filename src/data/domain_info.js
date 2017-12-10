@@ -11,7 +11,11 @@ let domainJson = {
     //批退
     "getRefusedCompanyTask":"/api/soccommandservice/ssComTask/getRefusedTask",
     //获得客户名称
-    "getCustomerName":"/api/soccommandservice/cmyCompany/getCompanyName"
+    "getCustomerName":"/api/soccommandservice/cmyCompany/getCompanyName",
+    //批退任务
+    "refusingTaskUrl":"/api/soccommandservice/ssComTask/refusingTask",
+    //获得企业信息和材料收缴信息url
+    "getCompanyInfoAndMaterialUrl":"/api/soccommandservice/ssComTask/getCompanyInfoAndMaterial"
     
 }
 

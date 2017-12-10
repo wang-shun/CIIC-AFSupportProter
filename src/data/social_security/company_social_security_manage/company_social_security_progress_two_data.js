@@ -33,7 +33,7 @@ const companySocialSecurityProgress2 = params => Utils.promise({
           notes: ''
         },
         {
-          isLink: true,
+          isLink: false,
           material: '材料3',
           materialCommitDate: '2017-7-3 12:33:33',
           materialType: '扫描件',
@@ -46,7 +46,7 @@ const companySocialSecurityProgress2 = params => Utils.promise({
           isLink: false,
           material: '材料4',
           materialCommitDate: '2017-7-3 12:33:33',
-          materialType: '',
+          materialType: '压缩文件',
           materialReciveDate: '2017-7-5 12:33:33',
           state: '1',
           operator: '',

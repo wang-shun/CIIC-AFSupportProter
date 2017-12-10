@@ -9,13 +9,15 @@ const state = {
   data: {
     giftManagerData: [],
     addResult: "",
-    page:{
+    page: {
       current: 1,
       pageSize: 10,
       total: 1
-    }
+    },
+    giftInfo: {}
+
   }
-}
+};
 
 
 const actions = {
@@ -26,15 +28,15 @@ const actions = {
   },
   [EventTypes.GIFTINSERTTYPE]({commit}, params) {
     mock.giftInsert(params.data).then(response => {
-      commit(EventTypes.GIFTINSERTTYPE, response.data)
+      commit(EventTypes.GIFTINSERTTYPE, response.data);
       params.callback(response)
     }, () => {
       params.errCallback()
     }).catch(() => {
       params.errCallback()
     })
-  }
-}
+  },
+};
 
 const mutations = {
   [EventTypes.GIFTAPPLICATIONTYPE](state, data) {
@@ -46,13 +48,13 @@ const mutations = {
   [EventTypes.GIFTINSERTTYPE](state, data) {
     state.data.addResult = data;
   },
-}
+};
 
 const getters = {
   getRows() {
     return state.rows
   }
-}
+};
 
 const namespaced = true;
 

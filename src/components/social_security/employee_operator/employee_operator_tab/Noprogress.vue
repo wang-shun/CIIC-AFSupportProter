@@ -19,8 +19,8 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名：" prop="empName">
-                <Input v-model="operatorSearchData.empName" placeholder="请输入..."></Input>
+              <Form-item label="雇员姓名：" prop="employeeName">
+                <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -49,11 +49,11 @@
               <Form-item label="人员分类：" prop="empClassify">
                 <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
-                  <Option value="本地" label="本地"></Option>
-                  <Option value="外地" label="外地"></Option>
-                  <Option value="外籍三险" label="外籍三险"></Option>
-                  <Option value="外籍五险" label="外籍五险"></Option>
-                  <Option value="延迟退休人员" label="延迟退休人员"></Option>
+                  <Option value="1" label="本地"></Option>
+                  <Option value="2" label="外地"></Option>
+                  <Option value="3" label="外籍三险"></Option>
+                  <Option value="4" label="外籍五险"></Option>
+                  <Option value="5" label="延迟退休人员"></Option>
                 </Select>
               </Form-item>
               </Col>
@@ -83,9 +83,10 @@
                   <Option value="3" label="调整"></Option>
                   <Option value="4" label="补缴"></Option>
                   <Option value="5" label="转出"></Option>
-                  <!--<Option value="6" label="终止"></Option>
                   <Option value="7" label="退账"></Option>
-                  <Option value="8" label="提取"></Option>-->
+                  <!--<Option value="6" label="终止"></Option>
+                  <Option value="8" label="提取"></Option>
+                  <Option value="9" label="特殊操作"></Option>-->
                 </Select>
               </Form-item>
               </Col>
@@ -160,11 +161,9 @@
       :mask-closable="false"
       :closable="false"
       @on-ok="handleRefuseReason">
-      <Form>
-        <p>
-          <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
-        </p>
-      </Form>
+      <p>
+        <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
+      </p>
     </Modal>
 
     <!-- 客户名称 模态框 -->
@@ -205,7 +204,7 @@
         collapseInfo: [1], //展开栏
         operatorSearchData: {
           taskStatus: '',
-          empName: '',
+          employeeName: '',
           settlementArea: '',
           ssAccountType: '',
           empClassify: '',
@@ -249,7 +248,7 @@
                   props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.batchHandle(params.row, false);
+                      this.batchHandle(params.row);
                     }
                   }
                 }, '办理'),
@@ -269,7 +268,7 @@
             }
           },
           {
-            title: '雇员', key: 'empName', width: 100, align: 'center'
+            title: '雇员', key: 'employeeName', width: 100, align: 'center'
           },
           {
             title: '雇员编号', key: 'employeeId', width: 100, align: 'center'
@@ -291,9 +290,6 @@
           },
           {
             title: '客户名称', key: 'title', width: 200, align: 'center'
-          },
-          {
-            title: '完成截止日期', key: 'expireDate', width: 150, align: 'center'
           },
           {
             title: '发起人', key: 'submitterId', width: 100, align: 'center'
@@ -417,16 +413,16 @@
             }
           }
         }
-        this.batchHandle(this.selectEmployeeResultData, true);
+        this.batchHandle(this.selectEmployeeResultData);
       },
       // 批量办理
       batchHandle(data, isBatch = false) {
         if (isBatch) {
           // 组织任务 ID
           var taskIds = [];
-          var taskCategory = data[0].taskCategory;
-          for (var empTask of data) {
-            taskIds.push(empTask.empTaskId);
+          var taskCategory = rows[0].taskCategory;
+          for (var row of rows) {
+            taskIds.push(row.empTaskId);
           }
 
           this.$router.push({

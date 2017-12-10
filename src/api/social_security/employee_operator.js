@@ -9,9 +9,8 @@ export default {
     return await response.data;
   },
   // 批退
-  refuseReason: async (params) => {
-    let response = await AJAX.post('/api/soccommandservice/ssEmpTask/rejection', params);
-    return await response.data;
+  refuseReason: (params) => {
+    return AJAX.post('/api/soccommandservice/ssEmpTask/rejection', params);
   }
 }
 

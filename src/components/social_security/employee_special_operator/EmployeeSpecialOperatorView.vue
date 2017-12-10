@@ -24,10 +24,10 @@
   import refused from './employee_special_operator_tab/Refused'//已批退
 
   export default {
-    components: {noprogress,progressing,finished,refused},
+    components: {noprogress, progressing, finished, refused},
     data() {
       return {
-        tabName:'noprogress',
+        tabName: 'noprogress',
         tabNames: {
           noprogress: true,
           progressing: false,
@@ -39,9 +39,7 @@
     mounted() {
 
     },
-    computed: {
-
-    },
+    computed: {},
     methods: {
       switchTab(name) {
         this.tabNames[name] = true;

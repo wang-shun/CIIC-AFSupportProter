@@ -6,6 +6,7 @@ const config = require('./config')
 const DEBUG = config.env.debug;
 const BASE_PATHS = config.basePaths;
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
+const DATA_TYPE = 'multipart/form-data';
 
 let utils = {
   // 默认分页大小 5
@@ -175,8 +176,20 @@ let createAjaxForName = name => {
   });
 }
 
+
+let createAjaxForData = name => {
+  return createAjax({
+    baseURL: config.basePaths[name],
+    timeout: utils.DEBUG ? 0 : 5000,
+    headers: {
+      'Content-Type': DATA_TYPE
+    }
+  });
+};
+
 utils.ajaxFbq = createAjaxForName('fb-q');
 utils.ajaxFbc = createAjaxForName('fb-c');
+utils.ajaxData = createAjaxForData('fb-c');
 
 utils.ajaxSsq = createAjaxForName('ss-q');
 utils.ajaxSsc = createAjaxForName('ss-c');

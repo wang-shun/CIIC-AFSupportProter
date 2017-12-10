@@ -26,7 +26,7 @@
     components: {noprogress, progressing, finished, refused},
     data() {
       return {
-        tabName:'noprogress',
+        tabName: 'noprogress',
         tabNames: {
           noprogress: true,
           progressing: false,
@@ -38,8 +38,7 @@
     mounted() {
 
     },
-    computed: {
-    },
+    computed: {},
     methods: {
       switchTab(name) {
         this.tabNames[name] = true;

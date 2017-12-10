@@ -194,25 +194,26 @@ const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/compon
  * grantManager
  * reportFormManager
  */
-const giftApplicationManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftApplicationManager')), 'giftApplicationManager') //礼品管理
-const giftPersonChoose = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftPersonChoose')), 'giftPersonChoose') //人员选择
-const giftAdd = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/giftAdd')), 'GiftAdd') //新增礼品单
-const giftApply = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/giftApply')), 'GiftApply') //申请礼品
-const giftConfirm = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/giftConfirm')), 'GiftConfirm') //礼品确认
+const giftApplicationManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftApplicationManager')), 'giftApplicationManager'); //礼品管理
+const giftPersonChoose = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftPersonChoose')), 'giftPersonChoose'); //人员选择
+const giftAdd = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftAdd')), 'GiftAdd'); //新增礼品单
+const giftUpdate = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftUpdate')), 'GiftUpdate'); //编辑礼品
+const giftApply = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftApply')), 'GiftApply'); //申请礼品
+const giftConfirm = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftConfirm')), 'GiftConfirm'); //礼品确认
 
-const marketActivitiesManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/MarketActivitiesManager')), 'marketActivitiesManager') //市场活动管理
-const addActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/addActivity')), 'AddActivity') //新增活动
-const applyActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/applyActivity')), 'ApplyActivity') //申请活动
-const marketPersonChoose = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/marketPersonChoose')), 'MarketPersonChoose'); //人员选择
+const marketActivitiesManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/MarketActivitiesManager')), 'marketActivitiesManager'); //市场活动管理
+const addActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/AddActivity')), 'AddActivity'); //新增活动
+const updateActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/UpdateActivity')), 'UpdateActivity'); //更新活动
+const applyActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/ApplyActivity')), 'ApplyActivity'); //申请活动
+const marketPersonChoose = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/MarketPersonChoose')), 'MarketPersonChoose'); //人员选择
 
-const grantManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/grantManager')), 'GrantManager') //发放管理
-const giftExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/giftExamine')), 'GiftExamine') //礼品审批
-const giftGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/giftGrant')), 'GiftGrant') //礼品发放
-const marketExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/marketExamine')), 'MarketExamine') //活动审批
-const marketGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/marketGrant')), 'MarketGrant') //活动发放
+const grantManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GrantManager')), 'GrantManager'); //发放管理
+const giftExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GiftExamine')), 'GiftExamine'); //礼品审批
+const giftGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GiftGrant')), 'GiftGrant'); //礼品发放
+const marketExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketExamine')), 'MarketExamine'); //活动审批
+const marketGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketGrant')), 'MarketGrant'); //活动发放
 
-const reportFormManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/report_form/ReportFormManager')), 'ReportFormManager') //报表查询
-
+const reportFormManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/report_form/ReportFormManager')), 'ReportFormManager'); //报表查询
 
 
 
@@ -998,6 +999,16 @@ let router = new Router({
             openNames: ['2']
           }
         },{
+          path: '/giftUpdate',
+          name: 'giftUpdate',
+          component: giftUpdate,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "修改礼品",
+            openNames: ['2']
+          }
+        },{
           path: '/giftApply',
           name: 'giftApply',
           component: giftApply,
@@ -1031,6 +1042,16 @@ let router = new Router({
           path: '/addActivity',
           name: 'addActivity',
           component: addActivity,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "新增市场活动",
+            openNames: ['2']
+          }
+        },{
+          path: '/updateActivity',
+          name: 'updateActivity',
+          component: updateActivity,
           meta: {
             level1: '首页',
             level2: "弹性福利",

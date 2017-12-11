@@ -36,14 +36,6 @@
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
-          <Form-item label="状态：" prop="status">
-            <Select v-model="formItem.status" style="width:50%">
-              <Option value="0">进行中</Option>
-              <Option value="1">已结束</Option>
-            </Select>
-          </Form-item>
-          </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
           <Form-item label="详细内容：" prop="content">
             <Input v-model="formItem.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
           </Form-item>
@@ -72,21 +64,10 @@
           activityTitle: "",//活动主题
           publisher: "",//发布人
           marketTime: [],//开始时间--结束时间
-          status: "",//状态
           content: "",//详细内容
           giftForm: [],//礼品形式
           sendWay: [],//派送方式
         },
-        peopleTypes: [
-          {
-            value: '1',
-            label: '常规礼品申请'
-          },
-          {
-            value: '2',
-            label: '公司礼品申请'
-          }
-        ],
         marketValidate: {
           activityTitle: [
             {required: true, message: '请输入活动主题', trigger: 'blur'}
@@ -95,6 +76,7 @@
             {required: true, message: '请输入发布人', trigger: 'change'}
           ],
           giftForm: [
+            {required: true, message: '请选择派送方式', trigger: 'change'},
             {
               validator(rule, val ,callback) {
                if (!val || val.length === 0) {
@@ -107,6 +89,7 @@
             }
           ],
           sendWay: [
+            {required: true, message: '请选择派送方式', trigger: 'change'},
             {
               validator(rule, val ,callback) {
                 if (!val || val.length === 0) {
@@ -119,6 +102,7 @@
             }
           ],
           marketTime: [
+            {required: true, message: '请选择活动时间', trigger: 'change'},
             {
               validator(rule, val ,callback) {
                 if (!val || val.length < 2) {

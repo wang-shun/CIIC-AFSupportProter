@@ -31,7 +31,7 @@
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
-          <Form-item label="活动时间：">
+          <Form-item label="活动时间：" prop="marketTime">
             <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;" placeholder="选择日期"></DatePicker>
           </Form-item>
           </Col>
@@ -39,7 +39,7 @@
           <Form-item label="状态：" prop="status">
             <Select v-model="formItem.status" style="width:200px">
               <Option value="0">进行中</Option>
-              <Option value="1">已结束</Option>
+              <Option value="2">已结束</Option>
             </Select>
           </Form-item>
           </Col>

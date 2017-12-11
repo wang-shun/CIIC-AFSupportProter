@@ -10,13 +10,13 @@
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
           <Form-item label="价格：" prop="price">
-            <InputNumber :min="0" :precision="2" v-model="formItem.price" style="width: 100%"></InputNumber>
+            <Input v-model="formItem.price" placeholder="请输入"/>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
           <Form-item label="适用人群：" prop="rightPerson">
             <Select v-model="formItem.rightPerson" placeholder="请选择">
-            <Option v-for="item in rightpersonTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
+              <Option v-for="item in rightpersonTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
           </Col>
@@ -158,7 +158,13 @@
             {required: true, message: '请输入礼品名称', trigger: 'blur'}
           ],
           price: [
-            {type: 'number', required: true, message: '请输入价格', trigger: 'change'}
+            {
+              required: true,
+              type: 'string',
+              pattern: /^(([1-9]\d*)|(0))([.]\d{2})?$/,
+              message: '请输入价格,两位小数',
+              trigger: 'blur'
+            }
           ],
           rightPerson: [
             {required: true, message: '请选择适用人群', trigger: 'change'}

@@ -32,7 +32,8 @@
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
           <Form-item label="活动时间：" prop="marketTime">
-            <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;" placeholder="选择日期"></DatePicker>
+            <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;"
+                        placeholder="选择日期"></DatePicker>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
@@ -73,7 +74,7 @@
           activityTitle: "",//活动主题
           publisher: "",//发布人
           marketTime: [],//活动时间
-          status: "",//状态
+          status: null,//状态
           content: "",//详细内容
           giftForm: [],//礼品形式
           sendWay: [],//派送方式
@@ -96,8 +97,8 @@
             {required: true, message: '请输入发布人', trigger: 'change'}
           ],
           giftForm: [
-            {required: true, message: '请选择派送方式', trigger: 'change'},
-            {
+            {required: true, type: 'array', min: 1, message: '请选择礼品形式', trigger: 'change'},
+            /*{
               validator(rule, val, callback) {
                 if (!val || val.length === 0) {
                   callback(new Error('请选择礼品形式'))
@@ -105,24 +106,14 @@
                   callback()
                 }
               },
+              required: true,
               trigger: 'change'
-            }
+            }*/
           ],
           sendWay: [
-            {required: true, message: '请选择派送方式', trigger: 'change'},
-            {
-              validator(rule, val, callback) {
-                if (!val || val.length === 0) {
-                  callback(new Error('请选择派送方式'))
-                } else {
-                  callback()
-                }
-              },
-              trigger: 'change'
-            }
+            {required: true, type: 'array', min: 1, message: '请选择派送方式', trigger: 'change'},
           ],
           marketTime: [
-            {required: true, message: '请选择活动时间', trigger: 'change'},
             {
               validator(rule, val, callback) {
                 if (!val || val.length < 2) {
@@ -131,6 +122,7 @@
                   callback()
                 }
               },
+              required: true,
               trigger: 'change'
             }
           ],
@@ -138,17 +130,8 @@
             {required: true, message: '请选择状态', trigger: 'change'}
           ],
           content: [
-            {required: true, message: '请输入详细内容', trigger: 'change'},
-            {
-              validator(rule, val, callback) {
-                if (!val || val.length >= 200) {
-                  callback(new Error('不超过200字'))
-                } else {
-                  callback()
-                }
-              },
-              trigger: 'blur'
-            }
+            {required: true, message: '请输入详细内容', trigger: 'blur'},
+            {required: true, type: 'string', max: 200, message: '200字以内', trigger: 'blur'}
           ],
         }
       }
@@ -162,7 +145,7 @@
       delete updateData.createTime;
       updateData.status = updateData.status + '';
       /*拼接活动时间数组*/
-      let time=[];
+      let time = [];
       time.push(this.$utils.formatDate(updateData.beginTime, 'YYYY-MM-DD HH:mm:ss'));//先转换为时间格式的字符串，不然时间会对应不上
       time.push(this.$utils.formatDate(updateData.endTime, 'YYYY-MM-DD HH:mm:ss'));
       updateData.marketTime = time;

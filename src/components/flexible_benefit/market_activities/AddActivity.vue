@@ -32,7 +32,8 @@
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
           <Form-item label="活动时间：" prop="marketTime">
-            <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;" placeholder="选择日期"></DatePicker>
+            <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;"
+                        placeholder="选择日期"></DatePicker>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
@@ -76,41 +77,21 @@
             {required: true, message: '请输入发布人', trigger: 'change'}
           ],
           giftForm: [
-            {required: true, message: '请选择派送方式', trigger: 'change'},
-            {
-              validator(rule, val ,callback) {
-               if (!val || val.length === 0) {
-                 callback(new Error('请选择礼品形式'))
-               } else {
-                 callback()
-               }
-              },
-              trigger: 'change'
-            }
+            {required: true, type: 'array', min: 1, message: '请选择派送方式', trigger: 'change'},
           ],
           sendWay: [
-            {required: true, message: '请选择派送方式', trigger: 'change'},
-            {
-              validator(rule, val ,callback) {
-                if (!val || val.length === 0) {
-                  callback(new Error('请选择派送方式'))
-                } else {
-                  callback()
-                }
-              },
-              trigger: 'change'
-            }
+            {required: true, type: 'array', min: 1, message: '请选择派送方式', trigger: 'change'},
           ],
           marketTime: [
-            {required: true, message: '请选择活动时间', trigger: 'change'},
             {
-              validator(rule, val ,callback) {
+              validator(rule, val, callback) {
                 if (!val || val.length < 2) {
                   callback(new Error('请选择活动时间'))
                 } else {
                   callback()
                 }
               },
+              required: true,
               trigger: 'change'
             }
           ],
@@ -118,17 +99,8 @@
             {required: true, message: '请选择状态', trigger: 'change'}
           ],
           content: [
-            {required: true, message: '请输入详细内容', trigger: 'change'},
-            {
-              validator(rule, val ,callback) {
-                if (!val || val.length >= 200) {
-                  callback(new Error('不超过200字'))
-                } else {
-                  callback()
-                }
-              },
-              trigger: 'blur'
-            }
+            {required: true, message: '请输入详细内容', trigger: 'blur'},
+            {required: true, type: 'string', max: 200, message: '200字以内', trigger: 'blur'}
           ],
         }
       }

@@ -1,190 +1,123 @@
 <template>
-  <Tabs :animated="false">
-    <TabPane label="医疗关系转移">
-      <div class="medicalRelationTransform">
-        <Collapse v-model="value1" accordion>
+  <div class="smList">
+    <Tabs :animated="false">
+      <TabPane label="医疗关系转移">
+        <Collapse v-model="collapseInfo" accordion>
           <Panel name="1">
             <div slot="content">
-              <row>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-                <Form :label-width="100">
+              <Form :label-width="100">
+                <row>
+                  <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
                   <Form-item label="雇员编号">
                     <Input placeholder="请输入"></Input>
                   </Form-item>
-                </Form>
-                </Col>
+                  </Col>
 
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :label-width="100">
-                  <Form-item label="雇员姓名">
-                    <Input placeholder="请输入"></Input>
-                  </Form-item>
-                </Form>
-                </Col>
+                  <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
+                  <Form :label-width="100">
+                    <Form-item label="雇员姓名">
+                      <Input placeholder="请输入"></Input>
+                    </Form-item>
+                  </Form>
+                  </Col>
 
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :label-width="100">
+                  <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="证件号码">
                     <Input placeholder="请输入"></Input>
                   </Form-item>
-                </Form>
-                </Col>
-              </row>
-              <row>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :label-width="100">
+                  </Col>
+                </row>
+                <row>
+                  <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="公司编号">
                     <Input placeholder="请输入"></Input>
                   </Form-item>
-                </Form>
-                </Col>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :label-width="100">
+                  </Col>
+
+                  <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="公司名称">
                     <Input placeholder="请输入"></Input>
                   </Form-item>
-                </Form>
-                </Col>
-              </row>
-              <row>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :model="formItem" :label-width="100">
-                  <Form-item label="">
-                  </Form-item>
-                </Form>
-                </Col>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :model="formItem" :label-width="100">
-                  <Form-item label="">
-                  </Form-item>
-                </Form>
-                </Col>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :model="formItem" :label-width="100">
-                  <Form-item label="">
-                    <Button type="primary" size="large">查询</Button>
-                  </Form-item>
-                </Form>
-                </Col>
-              </Row>
+                  </Col>
+                </row>
+
+                <row>
+                  <Col :xs="{ span: 6, offset: 8 }" :lg="{ span: 6, offset: 8 }" class="checkBtn">
+                  <Button type="primary" size="large">查询</Button>
+                  </Col>
+                </Row>
+              </Form>
             </div>
           </Panel>
         </Collapse>
-        <br>
-        <Row>
-          <Col span="6">
+        <div class="tr" style="margin: 20px auto;">
           <router-link to="/addMedicalTransform">
-            <Button type="primary">
-              新增医疗关系转移
-            </Button>
+            <Button type="primary">新增医疗关系转移</Button>
           </router-link>
-          </Col>
-          <Col span="6">
-          <Button type="primary" style="margin-left: 850px;" @click="exportData(1)">
-            <Icon type="ios-download-outline"></Icon>
-            导出数据
-          </Button>
-          </Col>
-        </Row>
-        <br>
+          <Button icon="ios-download-outline" type="primary" @click="exportData(1)">导出数据</Button>
+        </div>
         <Table border :columns="columns7" :data="data6" ref="table1"></Table>
         <Page :total="100" show-sizer show-elevator></Page>
-      </div>
-    </TabPane>
-    <TabPane label="零星报销">
-      <div class="medicalRelationTransform">
-        <Collapse v-model="value1" accordion>
+      </TabPane>
+
+      <TabPane label="零星报销">
+        <Collapse v-model="collapseInfo" accordion>
           <Panel name="1">
             <div slot="content">
-              <row>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-                <Form :label-width="100">
+              <Form :label-width="100">
+                <row>
+                  <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
                   <Form-item label="雇员编号">
                     <Input placeholder="请输入"></Input>
                   </Form-item>
-                </Form>
-                </Col>
+                  </Col>
 
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :label-width="100">
+                  <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="雇员姓名">
                     <Input placeholder="请输入"></Input>
                   </Form-item>
-                </Form>
-                </Col>
+                  </Col>
 
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :label-width="100">
+                  <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="证件号码">
                     <Input placeholder="请输入"></Input>
                   </Form-item>
-                </Form>
-                </Col>
-              </row>
-              <row>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :label-width="100">
+                  </Col>
+                </row>
+
+                <row>
+                  <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="公司编号">
                     <Input placeholder="请输入"></Input>
                   </Form-item>
-                </Form>
-                </Col>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :label-width="100">
+                  </Col>
+                  <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="公司名称">
                     <Input placeholder="请输入"></Input>
                   </Form-item>
-                </Form>
-                </Col>
-              </row>
-              <row>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :model="formItem" :label-width="100">
-                  <Form-item label="">
-                  </Form-item>
-                </Form>
-                </Col>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :model="formItem" :label-width="100">
-                  <Form-item label="">
-                  </Form-item>
-                </Form>
-                </Col>
-                <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                <Form :model="formItem" :label-width="100">
-                  <Form-item label="">
-                    <Button type="primary" size="large">查询</Button>
-                  </Form-item>
-                </Form>
-                </Col>
-              </Row>
+                  </Col>
+                </row>
+                <row>
+                  <Col :xs="{ span: 6, offset: 8 }" :lg="{ span: 6, offset: 8 }" class="checkBtn">
+                  <Button type="primary" size="large">查询</Button>
+                  </Col>
+                </Row>
+              </Form>
             </div>
           </Panel>
         </Collapse>
-        <br>
-        <Row>
-          <Col span="6">
+
+        <div class="tr" style="margin: 20px auto;">
           <router-link to="/addFragmentaryReimbursement">
-            <Button type="primary">
-              新增零星报销
-            </Button>
+            <Button type="primary">新增零星报销</Button>
           </router-link>
-          </Col>
-          <Col span="6">
-          <Button type="primary" style="margin-left: 850px;" @click="exportData(2)">
-            <Icon type="ios-download-outline"></Icon>
-            导出数据
-          </Button>
-          </Col>
-        </Row>
-        <br>
+          <Button icon="ios-download-outline" type="primary" @click="exportData(2)">导出数据</Button>
+        </div>
         <Table border :columns="columns8" :data="data8" ref="table2"></Table>
         <Page :total="100" show-sizer show-elevator></Page>
-      </div>
-    </TabPane>
-  </Tabs>
-
-
+      </TabPane>
+    </Tabs>
+  </div>
 </template>
 
 <script>
@@ -193,8 +126,7 @@
   export default {
     data() {
       return {
-        modal1: false,
-        value1: '1',
+        collapseInfo: [1, 2, 3], //展开栏
         formItem: {
           input: '',
           select: '',

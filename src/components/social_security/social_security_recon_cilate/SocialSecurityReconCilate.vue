@@ -60,7 +60,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}">
         <Button type="info" @click="batchUpload">批量导入社保变更汇总表</Button>
-        <Button type="info" @click="">导出</Button>
+        <Button type="info" >导出</Button>
       </Col>
     </Row>
 
@@ -153,10 +153,6 @@
         operatorSearchData: {
           //客服中心
           serviceCenterValue: [],
-          
-            
-           
-          
           minDiffSumByEmp: '',//最小差异数（按雇员）
           maxDiffSumByEmp: '',//最大差异数（按雇员）
 
@@ -291,17 +287,17 @@
               ]);
             }
           },
-          {title: '对账操作人', key: 'modifiedBy', width: 150, align: 'center',
+          {title: '对账操作人', key: 'statementUserId', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.modifiedBy),
+                h('span', params.row.statementUserId),
               ]);
             }
           },
-          {title: '最近对账时间', key: 'modifiedTime', width: 150, align: 'center',
+          {title: '最近对账时间', key: 'statementTime', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.modifiedTime),
+                h('span', params.row.statementTime),
               ]);
             }
           }

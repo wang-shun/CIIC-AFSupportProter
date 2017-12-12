@@ -136,7 +136,17 @@
                   style: {marginRight: "5px"},
                   on: {
                     click: () => {
-                      this.$router.push({name: "giftUpdate", query: {data: params.row}});
+                      let updateData = params.row;
+                      delete updateData._index;
+                      delete updateData._rowKey;
+                      delete updateData.page;
+                      delete updateData.createTime;
+                      delete updateData.modifiedTime;
+                      updateData.rightPerson = updateData.rightPerson + '';
+                      updateData.giftType = updateData.giftType + '';
+                      updateData.status = updateData.status + '';
+
+                      this.$router.push({name: "giftUpdate", params: {data: params.row}});
                     }
                   }
                 }, "编辑"),

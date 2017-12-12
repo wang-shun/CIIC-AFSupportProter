@@ -112,20 +112,7 @@
         id: null,
         addResult: "1",
         file: null,
-        formItem: {
-          id: null,
-          giftName: "",//礼品名称
-          price: null,//价格
-          rightPerson: "",//使用人群
-          giftType: "",//礼品类型
-          color: "",//颜色
-          number: null,//数量
-          applyMaxnum: null,//最大申请数量
-          pictureUrl: "",//图片
-          isNew: "",//是否new,
-          status: "",//状态
-          remarks: "",//礼品介绍
-        },
+        formItem: {},
 
         rightpersonTypes: [{
           value: '0', label: '男士适用'
@@ -200,20 +187,24 @@
     },
 
     created() {
-      let updateData = this.$route.query.data;
-      delete updateData._index;
-      delete updateData._rowKey;
-      delete updateData.page;
-      delete updateData.createTime;
-      delete updateData.modifiedTime;
-      this.formItem = updateData;
-      this.formItem.rightPerson = this.formItem.rightPerson + '';
-      this.formItem.giftType = this.formItem.giftType + '';
-      this.formItem.status = this.formItem.status + '';
+      this.formItem = this.$route.params.data;
+      this.initData();
     },
-
+    watch: {
+      formItem: function (val, oldval) {
+        if (this.formItem) {
+          sessionStorage.setItem('updateGiftFormItem', JSON.stringify(this.formItem));
+        }
+        // console.log("this.formItem==watch======" + sessionStorage.getItem('updateGiftFormItem'));
+      }
+    },
     methods: {
       ...mapActions("GIFT", [EventTypes.GIFTINSERTTYPE]),
+      initData() {
+        if (!this.formItem) {
+          this.formItem = JSON.parse(sessionStorage.getItem('updateGiftFormItem'));
+        }
+      },
       handleUpload(file) {
         this.file = file;
         return false;
@@ -255,7 +246,6 @@
         }
       }
     },
-    watch: {},
   }
 
 </script>

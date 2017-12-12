@@ -1,7 +1,7 @@
 html,body,.ivu-row-flex,.layout{
   height: 100%;
   min-height: 100%;
-  overflow: auto;
+  overflow-y: hidden;
 }
 .layout{
   overflow: auto;

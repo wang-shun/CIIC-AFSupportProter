@@ -104,10 +104,25 @@
                   },
                   on: {
                     click: () => {
+                      /*处理数据*/
+                      let updateData = params.row;
+                      delete updateData._index;
+                      delete updateData._rowKey;
+                      delete updateData.page;
+                      delete updateData.createTime;
+                      updateData.status = updateData.status + '';
+                      updateData.giftForm = updateData.giftForm.split(',');
+                      updateData.sendWay = updateData.sendWay.split(',');
+                      /*拼接活动时间数组*/
+                      let time = [];
+                      time.push(this.$utils.formatDate(updateData.beginTime, 'YYYY-MM-DD HH:mm:ss'));//先转换为时间格式的字符串，不然时间会对应不上
+                      time.push(this.$utils.formatDate(updateData.endTime, 'YYYY-MM-DD HH:mm:ss'));
+                      updateData.marketTime = time;
+
                       this.$router.push({
                         name: 'updateActivity',
-                        query: {
-                          data: params.row
+                        params: {
+                          data: updateData
                         }
                       });
                     }

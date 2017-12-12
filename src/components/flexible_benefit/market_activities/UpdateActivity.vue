@@ -69,16 +69,7 @@
     data() {
       return {
         onlyNum: false,
-        formItem: {
-          id: null,
-          activityTitle: "",//活动主题
-          publisher: "",//发布人
-          marketTime: [],//活动时间
-          status: null,//状态
-          content: "",//详细内容
-          giftForm: [],//礼品形式
-          sendWay: [],//派送方式
-        },
+        formItem: {},
         peopleTypes: [
           {
             value: '1',
@@ -138,24 +129,24 @@
     },
 
     created() {
-      let updateData = this.$route.query.data;
-      delete updateData._index;
-      delete updateData._rowKey;
-      delete updateData.page;
-      delete updateData.createTime;
-      updateData.status = updateData.status + '';
-      /*拼接活动时间数组*/
-      let time = [];
-      time.push(this.$utils.formatDate(updateData.beginTime, 'YYYY-MM-DD HH:mm:ss'));//先转换为时间格式的字符串，不然时间会对应不上
-      time.push(this.$utils.formatDate(updateData.endTime, 'YYYY-MM-DD HH:mm:ss'));
-      updateData.marketTime = time;
-
-      this.formItem = updateData;
-      this.formItem.giftForm = this.formItem.giftForm.split(',');
-      this.formItem.sendWay = this.formItem.sendWay.split(',');
+      this.formItem = this.$route.params.data;
+      this.initData();
+    },
+    watch: {
+      formItem: function (val, oldval) {
+        if (this.formItem) {
+          sessionStorage.setItem('updateActivityFormItem', JSON.stringify(this.formItem));
+        }
+        // console.log("this.formItem==watch======" + sessionStorage.getItem('updateActivityFormItem'));
+      }
     },
     methods: {
       ...mapActions("MARKET", [EventTypes.MARKETINSERTTYPE]),
+       initData() {
+        if (!this.formItem) {
+          this.formItem = JSON.parse(sessionStorage.getItem('updateActivityFormItem'));
+        }
+      },
       back() {
         this.$local.back();
       },

@@ -99,10 +99,10 @@
               ]);
             }
           },
-          {title: '项目', key: 'projectName',  align: 'center',
+          {title: '项目', key: 'projectTypeName',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.projectName),
+                h('span', params.row.projectTypeName),
               ]);
               
             }

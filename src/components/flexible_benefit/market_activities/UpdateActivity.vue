@@ -142,7 +142,7 @@
     },
     methods: {
       ...mapActions("MARKET", [EventTypes.MARKETINSERTTYPE]),
-       initData() {
+      initData() {
         if (!this.formItem) {
           this.formItem = JSON.parse(sessionStorage.getItem('updateActivityFormItem'));
         }

@@ -2,33 +2,33 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        对账差异
+        城镇社会保险变更总汇明细(养保、医保、失保)
         <div slot="content">
             <!-- <Form :label-width=150 ref="pagParam" :model="pagParam">
               <Form-item label="" >
                 <Input v-model="pagParam.statementId" disabled></Input>
               </Form-item>
             </Form> -->
-            <Form :label-width=150 ref="statementData" :model="statementData">
+            <Form :label-width=150 ref="empChangeData" :model="empChangeData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="社保月份：" prop="ssMonth">
-                  <label>{{statementData.ssMonth}}</label>
+                  <label>{{empChangeData.ssMonth}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="企业社保账户：" prop="comAccountName">
-                  <label >{{statementData.comAccountName}}</label>
+                  <label >{{empChangeData.comAccountName}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="差异总数(按雇员)：" prop="diffSumByEmp">
-                  <label>{{statementData.diffSumByEmp}}</label>
+                <Form-item label="最近计算人：" prop="diffSumByEmp">
+                  <label>{{empChangeData.diffSumByEmp}}</label>
                 </Form-item>
               </Col> 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="差异总数(含项目)：" prop="diffSumByItem">
-                  <label >{{statementData.diffSumByItem}}</label>
+                <Form-item label="最近计算时间：" prop="diffSumByItem">
+                  <label >{{empChangeData.diffSumByItem}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -61,7 +61,7 @@
     data() {
       return {
         collapseInfo: [1], //展开栏
-        statementData: {
+        empChangeData: {
           ssMonth:'',//社保月份
           comAccountName: '', //企业社保账户分类 
           diffSumByEmp:'',
@@ -92,14 +92,21 @@
               ]);
             }
           },
-          {title: '险种', key: 'ssTypeName',  align: 'center',
+          {title: '个人月缴纳基数', key: 'changeTypeName', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.changeTypeName),
+              ]);
+            }
+          },
+          {title: '养老单位缴费额', key: 'ssTypeName',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.ssTypeName),
               ]);
             }
           },
-          {title: '项目', key: 'projectName',  align: 'center',
+          {title: '养老个人缴费额', key: 'projectName',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.projectName),
@@ -107,38 +114,85 @@
               
             }
           },
-          {title: '导入金额', key: 'impAmount', align: 'center',
+          {title: '养老单位补缴', key: 'impAmount', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.impAmount),
               ]);
             }
           },
-          {title: '系统金额', key: 'ssAmount',  align: 'center',
+          {title: '养老个人补缴', key: 'ssAmount',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.ssAmount),
               ]);
             }
           },
-          {title: '差异', key: 'diffAmount', align: 'center',
+          {title: '养老一次性支付', key: 'diffAmount', align: 'center',
             render: (h, params) => {
-              let impAmount = params.row.impAmount;
-              let ssAmount = params.row.ssAmount;
-              let diffAmount = params.row.diffAmount;
-              let diffShow = '';
-              if(impAmount == 0 && diffAmount == -ssAmount){
-                diffShow = '导入不存在'
-              }else if(ssAmount == 0 && diffAmount == impAmount){
-                diffShow = '系统不存在'
-              }else{
-                diffShow = diffAmount
-              }
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', diffShow),
+                h('span', params.row.diffAmount),
               ]);
             }
-          }
+          },
+          {title: '医疗单位缴费额', key: 'ssTypeName',  align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.ssTypeName),
+              ]);
+            }
+          },
+          {title: '医疗个人缴费额', key: 'projectName',  align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.projectName),
+              ]);
+              
+            }
+          },
+          {title: '医疗单位补缴', key: 'impAmount', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.impAmount),
+              ]);
+            }
+          },
+          {title: '医疗个人补缴', key: 'ssAmount',  align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.ssAmount),
+              ]);
+            }
+          },
+          {title: '失业单位缴费额', key: 'ssTypeName',  align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.ssTypeName),
+              ]);
+            }
+          },
+          {title: '失业个人缴费额', key: 'projectName',  align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.projectName),
+              ]);
+              
+            }
+          },
+          {title: '失业单位补缴', key: 'impAmount', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.impAmount),
+              ]);
+            }
+          },
+          {title: '失业个人补缴', key: 'ssAmount',  align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.ssAmount),
+              ]);
+            }
+          },
         ],
         // pagParam: {
         //   //对账主表ID

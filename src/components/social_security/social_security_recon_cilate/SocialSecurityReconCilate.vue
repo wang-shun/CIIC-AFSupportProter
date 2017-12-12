@@ -191,7 +191,10 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      window.sessionStorage.setItem("statementId", params.row.statementId)
                       this.$router.push({name:'socialsecurityreconcilatedetail'});
+
+                      //window.sessionStorage.getItem("")
                     }
                   }
                 }, '查看'),
@@ -249,7 +252,9 @@
                       props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                         on: {
                           click: () => {
-                              
+                              window.sessionStorage.setItem("ssMonth", params.row.ssMonth)
+                              window.sessionStorage.setItem("comAccountId", params.row.comAccountId)
+                              this.$router.push({name:'SocialSecurityEmpChangeDetailYys'});
                           }
                         }
                       },'下载养医失'
@@ -260,7 +265,8 @@
                         h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                           on: {
                             click: () => {
-                              
+                              window.sessionStorage.setItem("statementId", params.row.statementId)
+                              this.$router.push({name:'socialsecurityreconcilatedetail'});
                             }
                           }
                            },'下载工生育'),

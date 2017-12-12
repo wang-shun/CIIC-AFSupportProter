@@ -77,7 +77,7 @@
             {required: true, message: '请输入发布人', trigger: 'change'}
           ],
           giftForm: [
-            {required: true, type: 'array', min: 1, message: '请选择派送方式', trigger: 'change'},
+            {required: true, type: 'array', min: 1, message: '请选择礼品形式', trigger: 'change'},
           ],
           sendWay: [
             {required: true, type: 'array', min: 1, message: '请选择派送方式', trigger: 'change'},

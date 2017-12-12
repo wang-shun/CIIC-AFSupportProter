@@ -179,7 +179,6 @@
   import companyAccountSearchModal from '../../../commoncontrol/companyaccountsearchmodal.vue'
   import EventType from '../../../../store/EventTypes'
   import api from '../../../../api/social_security/employee_operator'
-  import apiSelectData from '../../../../api/select-data'
 
   export default {
     components: {customerModal, companyAccountSearchModal},

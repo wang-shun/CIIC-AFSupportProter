@@ -36,14 +36,6 @@
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
-          <Form-item label="状态：" prop="status">
-            <Select v-model="formItem.status" style="width:50%">
-              <Option value="0">进行中</Option>
-              <Option value="1">已结束</Option>
-            </Select>
-          </Form-item>
-          </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
           <Form-item label="详细内容：" prop="content">
             <Input v-model="formItem.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
           </Form-item>
@@ -72,7 +64,6 @@
           activityTitle: "",//活动主题
           publisher: "",//发布人
           marketTime: [],//开始时间--结束时间
-          status: "",//状态
           content: "",//详细内容
           giftForm: [],//礼品形式
           sendWay: [],//派送方式
@@ -129,9 +120,6 @@
               },
               trigger: 'change'
             }
-          ],
-          status: [
-            {required: true, message: '请选择状态', trigger: 'change'}
           ],
           content: [
             {required: true, message: '请输入详细内容', trigger: 'change'},

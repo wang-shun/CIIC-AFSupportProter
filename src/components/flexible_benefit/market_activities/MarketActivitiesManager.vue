@@ -79,9 +79,6 @@
                 return "进行中";
                 break;
               case 1:
-                return "待审核";
-                break;
-              case 2:
                 return "已结束";
                 break;
             }
@@ -197,9 +194,7 @@
         statusTypes: [{
           value: '0', label: '进行中'
         }, {
-          value: '1', label: '待审核'
-        }, {
-          value: '2', label: '已结束'
+          value: '1', label: '已结束'
         }],
       }
     },

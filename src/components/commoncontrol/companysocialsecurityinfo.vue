@@ -37,11 +37,6 @@
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="服务中心：" class="">
-          <label>{{company.serviceCenter}}</label>
-        </Form-item>
-      </Col>
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="企业社保账户状态：" class="">
           <label>{{company.companySocialSecurityState}}</label>
         </Form-item>

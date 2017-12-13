@@ -252,8 +252,7 @@
                       props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                         on: {
                           click: () => {
-                              window.sessionStorage.setItem("ssMonth", params.row.ssMonth)
-                              window.sessionStorage.setItem("comAccountId", params.row.comAccountId)
+                              window.sessionStorage.setItem("statementId", params.row.statementId)
                               this.$router.push({name:'SocialSecurityEmpChangeDetailYys'});
                           }
                         }
@@ -266,7 +265,7 @@
                           on: {
                             click: () => {
                               window.sessionStorage.setItem("statementId", params.row.statementId)
-                              this.$router.push({name:'socialsecurityreconcilatedetail'});
+                              this.$router.push({name:'SocialSecurityEmpChangeDetailGsy'});
                             }
                           }
                            },'下载工生育'),

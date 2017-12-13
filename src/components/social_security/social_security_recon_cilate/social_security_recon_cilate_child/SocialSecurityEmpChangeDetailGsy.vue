@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        城镇社会保险变更总汇明细(养保、医保、失保)
+        城镇社会保险变更总汇明细(工保、生保)
         <div slot="content">
             <!-- <Form :label-width=150 ref="pagParam" :model="pagParam">
               <Form-item label="" >
@@ -99,97 +99,31 @@
               ]);
             }
           },
-          {title: '养老单位缴费额', key: 'comAmountPension',  align: 'center',
+          {title: '工伤单位缴费额', key: 'comAmountAccident',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.comAmountPension),
+                h('span', params.row.comAmountAccident),
               ]);
             }
           },
-          {title: '养老个人缴费额', key: 'empAmountPension',  align: 'center',
+          {title: '工伤单位补缴', key: 'comCompensatedAmountAccident', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.empAmountPension),
-              ]);
-              
-            }
-          },
-          {title: '养老单位补缴', key: 'comCompensatedAmountPension', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.comCompensatedAmountPension),
+                h('span', params.row.comCompensatedAmountAccident),
               ]);
             }
           },
-          {title: '养老个人补缴', key: 'empCompensatedAmountPension',  align: 'center',
+          {title: '生育单位缴费额', key: 'comAmountMaternity',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.empCompensatedAmountPension),
+                h('span', params.row.comAmountMaternity),
               ]);
             }
           },
-          {title: '养老一次性支付', key: 'onePaymentPension', align: 'center',
+          {title: '生育单位补缴', key: 'comCompensatedAmountMaternity', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.onePaymentPension),
-              ]);
-            }
-          },
-          {title: '医疗单位缴费额', key: 'comAmountMedical',  align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.comAmountMedical),
-              ]);
-            }
-          },
-          {title: '医疗个人缴费额', key: 'empAmountMedical',  align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.empAmountMedical),
-              ]);
-              
-            }
-          },
-          {title: '医疗单位补缴', key: 'comCompensatedAmountMedical', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.comCompensatedAmountMedical),
-              ]);
-            }
-          },
-          {title: '医疗个人补缴', key: 'empCompensatedAmountMedical',  align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.empCompensatedAmountMedical),
-              ]);
-            }
-          },
-          {title: '失业单位缴费额', key: 'comAmountUnemployment',  align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.comAmountUnemployment),
-              ]);
-            }
-          },
-          {title: '失业个人缴费额', key: 'empAmountUnemployment',  align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.empAmountUnemployment),
-              ]);
-              
-            }
-          },
-          {title: '失业单位补缴', key: 'comCompensatedAmountUnemployment', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.comCompensatedAmountUnemployment),
-              ]);
-            }
-          },
-          {title: '失业个人补缴', key: 'empCompensatedAmountUnemployment',  align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.empCompensatedAmountUnemployment),
+                h('span', params.row.comCompensatedAmountMaternity),
               ]);
             }
           },

@@ -83,6 +83,7 @@ const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/
 const socialsecurityreconcilate = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/socialsecurityreconcilate')), 'socialsecurityreconcilate')
 const socialsecurityreconcilatedetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityReconCilateDetail')), 'socialsecurityreconcilatedetail')
 const SocialSecurityEmpChangeDetailYys = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailYys')), 'SocialSecurityEmpChangeDetailYys')
+const SocialSecurityEmpChangeDetailGsy = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailGsy')), 'SocialSecurityEmpChangeDetailGsy')
 
 /*
  * socialsecuritypay               --- 社保支付
@@ -492,6 +493,17 @@ let router = new Router({
           path: '/social_security_emp_change_detail_yys',
           name: 'SocialSecurityEmpChangeDetailYys',
           component: SocialSecurityEmpChangeDetailYys,
+          meta:{
+            level1:'全国社保',
+            level2:"上海社保",
+            level3:"社保对账",
+            openNames:['1']
+          }
+        },
+        {
+          path: '/social_security_emp_change_detail_gsy',
+          name: 'SocialSecurityEmpChangeDetailGsy',
+          component: SocialSecurityEmpChangeDetailGsy,
           meta:{
             level1:'全国社保',
             level2:"上海社保",

@@ -69,47 +69,7 @@
           giftForm: [],//礼品形式
           sendWay: [],//派送方式
         },
-        peopleTypes: [
-          {
-            value: '1',
-            label: '常规礼品申请'
-          },
-          {
-            value: '2',
-            label: '公司礼品申请'
-          }
-        ],
-        marketValidate: {
-          activityTitle: [
-            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入活动主题', trigger: 'blur'}
-          ],
-          publisher: [
-            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入发布人', trigger: 'change'}
-          ],
-          giftForm: [
-            {required: true, type: 'array', min: 1, message: '请选择礼品形式', trigger: 'change'}
-          ],
-          sendWay: [
-            {required: true, type: 'array', min: 1, message: '请选择派送方式', trigger: 'change'},
-          ],
-          marketTime: [
-            {
-              validator(rule, val, callback) {
-                if (!val || val.length !== 2 || val[0] === null || val[1] === null) {
-                  callback(new Error('请选择活动时间'))
-                } else {
-                  callback()
-                }
-              },
-              required: true,
-              trigger: 'change'
-            }
-          ],
-          content: [
-            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入详细内容', trigger: 'blur'},
-            {required: true, type: 'string', max: 200, message: '200字以内', trigger: 'blur'}
-          ],
-        }
+        marketValidate: this.$Validator.marketValidate,
       }
     },
     methods: {

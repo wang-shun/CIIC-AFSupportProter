@@ -41,8 +41,9 @@ const actions = {
 const mutations = {
   [EventTypes.GIFTAPPLICATIONTYPE](state, data) {
     state.data.giftManagerData = data.list;
-    state.data.page.current = data.pageNum;
-    state.data.page.pageSize = data.pageSize;
+    //不需要的数据，覆盖前台会出现显示问题
+    // state.data.page.current = data.pageNum;
+    // state.data.page.pageSize = data.pageSize;
     state.data.page.total = data.total;
   },
   [EventTypes.GIFTINSERTTYPE](state, data) {

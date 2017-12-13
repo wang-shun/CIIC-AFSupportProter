@@ -160,8 +160,7 @@
           price: [
             {
               required: true,
-              type: 'string',
-              pattern: /^(([1-9]\d*)|(0))([.]\d{2})?$/,
+              pattern: /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/,
               message: '请输入价格,两位小数',
               trigger: 'blur'
             }
@@ -200,6 +199,7 @@
         return false;
       },
       addGift() {
+        console.info("新增");
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
             /**上传附件表单校验*/
@@ -216,7 +216,8 @@
             this[EventTypes.GIFTINSERTTYPE]({
               data: data,
               callback: (res) => {
-                if (res.data == 1) {
+                console.log(res);
+                if (res.data.errorcode === "200") {
                   this.$router.push({path: '/giftApplicationManager'})
                 } else {
                   this.$Message.error("服务器异常，请稍后再试");

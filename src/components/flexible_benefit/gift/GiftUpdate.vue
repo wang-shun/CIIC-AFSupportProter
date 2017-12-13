@@ -149,10 +149,9 @@
           price: [
             {
               required: true,
-              type: 'string',
-              pattern: /^(([1-9]\d*)|(0))([.]\d{2})?$/,
+              pattern: /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/,
               message: '请输入价格,两位小数',
-              trigger: 'blur'
+              trigger: 'change'
             }
           ],
           rightPerson: [
@@ -221,13 +220,15 @@
             this[EventTypes.GIFTINSERTTYPE]({
               data: data,
               callback: (res) => {
-                if (res.data == 1) {
+                if (res.data.errorcode === "200") {
                   this.$router.push({path: '/giftApplicationManager'})
                 } else {
-                  this.$Message.error("服务器异常，请稍后再试");
+                  console.log(res.data)
+                  this.$Message.error("服务器异常，请稍后再试:");
                 }
               },
-              errCallback: () => {
+              errCallback: (error) => {
+                console.log(error)
                 this.$Message.error("服务器异常，请稍后再试");
               }
             });
@@ -237,14 +238,6 @@
       back() {
         this.$local.back();
       },
-      selectChange() {
-        this.formItem.disabled = false;
-        if (this.formItem.types == "computed" || this.formItem.types == "seniorComputed" || this.formItem.types == "fixed") {
-          this.onlyNum = true;
-        } else {
-          this.onlyNum = false;
-        }
-      }
     },
   }
 

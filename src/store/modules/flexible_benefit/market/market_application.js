@@ -28,10 +28,10 @@ const actions = {
     mock.marketInsert(params.data).then(response => {
       commit(EventTypes.MARKETINSERTTYPE, response.data);
       params.callback(response)
-    }, () => {
-      params.errCallback()
-    }).catch(() => {
-      params.errCallback()
+    }, error => {
+      params.errCallback(error)
+    }).catch(error => {
+      params.errCallback(error)
     })
   }
 };

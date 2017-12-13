@@ -87,53 +87,27 @@
             {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入发布人', trigger: 'change'}
           ],
           giftForm: [
-            {
-              validator(rule, val, callback) {
-                if (!val || val.length === 0) {
-                  callback(new Error('请选择礼品形式'))
-                } else {
-                  callback()
-                }
-              },
-              trigger: 'change'
-            }
+            {required: true, type: 'array', min: 1, message: '请选择礼品形式', trigger: 'change'}
           ],
           sendWay: [
-            {
-              validator(rule, val, callback) {
-                if (!val || val.length === 0) {
-                  callback(new Error('请选择派送方式'))
-                } else {
-                  callback()
-                }
-              },
-              trigger: 'change'
-            }
+            {required: true, type: 'array', min: 1, message: '请选择派送方式', trigger: 'change'},
           ],
           marketTime: [
             {
               validator(rule, val, callback) {
-                if (!val || val.length < 2) {
+                if (!val || val.length !== 2 || val[0] === null || val[1] === null) {
                   callback(new Error('请选择活动时间'))
                 } else {
                   callback()
                 }
               },
+              required: true,
               trigger: 'change'
             }
           ],
           content: [
-            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入详细内容', trigger: 'change'},
-            {
-              validator(rule, val, callback) {
-                if (!val || val.length >= 200) {
-                  callback(new Error('不超过200字'))
-                } else {
-                  callback()
-                }
-              },
-              trigger: 'blur'
-            }
+            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入详细内容', trigger: 'blur'},
+            {required: true, type: 'string', max: 200, message: '200字以内', trigger: 'blur'}
           ],
         }
       }

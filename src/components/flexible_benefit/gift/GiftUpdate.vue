@@ -196,6 +196,7 @@
         // console.log("this.formItem==watch======" + sessionStorage.getItem('updateGiftFormItem'));
       }
     },
+
     methods: {
       ...mapActions("GIFT", [EventTypes.GIFTINSERTTYPE]),
       initData() {

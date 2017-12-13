@@ -16,7 +16,7 @@
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
           <Form-item label="适用人群：" prop="rightPerson">
             <Select v-model="formItem.rightPerson" placeholder="请选择">
-              <Option v-for="item in rightpersonTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
+            <Option v-for="item in rightpersonTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
           </Col>
@@ -210,7 +210,7 @@
                   this.$Message.error("服务器异常，请稍后再试");
                 }
               },
-              errCallback: () => {
+              errCallback: error => {
                 this.$Message.error("服务器异常，请稍后再试");
               }
             });

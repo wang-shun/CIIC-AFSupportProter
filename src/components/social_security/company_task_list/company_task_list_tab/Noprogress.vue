@@ -335,7 +335,6 @@
                     taskIdStr:taskIdStr,
                       refuseReason:this.refuseReason
                       }
-                 
         let self = this
         NoProgress.refusingTask(params).then(result=>{
           if(result){

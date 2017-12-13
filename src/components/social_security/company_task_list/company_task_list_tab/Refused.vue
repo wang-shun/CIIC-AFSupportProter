@@ -63,13 +63,13 @@
       </Modal>
 
       <!-- 客户名称 模态框 -->
-      <Modal
+      <!-- <Modal
         v-model="companyTaskInfo.isShowCustomerName"
         title="选择客户"
         @on-ok="ok"
         @on-cancel="cancel">
         <customer-modal :customerData="data.customerData"></customer-modal>
-      </Modal>
+      </Modal> -->
     </Form>
   </div>
 </template>

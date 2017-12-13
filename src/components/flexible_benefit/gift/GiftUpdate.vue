@@ -113,7 +113,6 @@
         addResult: "1",
         file: null,
         formItem: {},
-
         rightpersonTypes: [{
           value: '0', label: '男士适用'
         }, {
@@ -238,7 +237,7 @@
       back() {
         this.$local.back();
       },
-    },
+    }
   }
 
 </script>

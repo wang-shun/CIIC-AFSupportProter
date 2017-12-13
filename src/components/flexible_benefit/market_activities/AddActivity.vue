@@ -32,7 +32,8 @@
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
           <Form-item label="活动时间：" prop="marketTime">
-            <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;" placeholder="选择日期"></DatePicker>
+            <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;"
+                        placeholder="选择日期"></DatePicker>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
@@ -80,26 +81,26 @@
         ],
         marketValidate: {
           activityTitle: [
-            {required: true, message: '请输入活动主题', trigger: 'blur'}
+            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入活动主题', trigger: 'blur'}
           ],
           publisher: [
-            {required: true, message: '请输入发布人', trigger: 'change'}
+            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入发布人', trigger: 'change'}
           ],
           giftForm: [
             {
-              validator(rule, val ,callback) {
-               if (!val || val.length === 0) {
-                 callback(new Error('请选择礼品形式'))
-               } else {
-                 callback()
-               }
+              validator(rule, val, callback) {
+                if (!val || val.length === 0) {
+                  callback(new Error('请选择礼品形式'))
+                } else {
+                  callback()
+                }
               },
               trigger: 'change'
             }
           ],
           sendWay: [
             {
-              validator(rule, val ,callback) {
+              validator(rule, val, callback) {
                 if (!val || val.length === 0) {
                   callback(new Error('请选择派送方式'))
                 } else {
@@ -111,7 +112,7 @@
           ],
           marketTime: [
             {
-              validator(rule, val ,callback) {
+              validator(rule, val, callback) {
                 if (!val || val.length < 2) {
                   callback(new Error('请选择活动时间'))
                 } else {
@@ -122,9 +123,9 @@
             }
           ],
           content: [
-            {required: true, message: '请输入详细内容', trigger: 'change'},
+            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入详细内容', trigger: 'change'},
             {
-              validator(rule, val ,callback) {
+              validator(rule, val, callback) {
                 if (!val || val.length >= 200) {
                   callback(new Error('不超过200字'))
                 } else {

@@ -143,7 +143,7 @@
         }],
         giftValidator: {
           giftName: [
-            {required: true, message: '请输入礼品名称', trigger: 'blur'}
+            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入礼品名称', trigger: 'blur'}
           ],
           price: [
             {
@@ -171,7 +171,7 @@
           remarks: [
             {
               validator(rule, val, callback) {
-                if (!val || val.length >= 200) {
+                if (val.length >= 200) {
                   callback(new Error('不超过200字'))
                 } else {
                   callback()

@@ -32,7 +32,8 @@
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
           <Form-item label="活动时间：">
-            <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;" placeholder="选择日期"></DatePicker>
+            <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;"
+                        placeholder="选择日期"></DatePicker>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
@@ -90,10 +91,10 @@
         ],
         marketValidate: {
           activityTitle: [
-            {required: true, message: '请输入活动主题', trigger: 'blur'}
+            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入活动主题', trigger: 'blur'}
           ],
           publisher: [
-            {required: true, message: '请输入发布人', trigger: 'change'}
+            {required: true, pattern: /[^\s]+/, message: '请输入发布人', trigger: 'change'}
           ],
           giftForm: [
             {required: true, type: 'array', min: 1, message: '请选择礼品形式', trigger: 'change'},
@@ -129,7 +130,7 @@
             {required: true, message: '请选择状态', trigger: 'change'}
           ],
           content: [
-            {required: true, message: '请输入详细内容', trigger: 'change'},
+            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入详细内容', trigger: 'change'},
             {
               validator(rule, val, callback) {
                 if (!val || val.length >= 200) {

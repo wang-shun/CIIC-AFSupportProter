@@ -142,20 +142,9 @@
             value: '6', label: '儿童用品'
           }],
 
-        ruleValidate: {
-          name: [
-            {required: true, message: '薪资项模板名称不能为空', trigger: 'blur'}
-          ],
-          types: [
-            {required: true, message: '请选择薪资项模板类别', trigger: 'change'}
-          ],
-          dataTypes: [
-            {required: true, message: '请选择数据类型', trigger: 'change'}
-          ],
-        },
         giftValidator: {
           giftName: [
-            {required: true, message: '请输入礼品名称', trigger: 'blur'}
+            {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入礼品名称', trigger: 'blur'}
           ],
           price: [
             {
@@ -180,7 +169,7 @@
           remarks: [
             {
               validator(rule, val, callback) {
-                if (!val || val.length >= 200) {
+                if (val.length >= 200) {
                   callback(new Error('不超过200字'))
                 } else {
                   callback()

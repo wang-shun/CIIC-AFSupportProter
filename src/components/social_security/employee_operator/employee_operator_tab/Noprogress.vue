@@ -129,7 +129,7 @@
       <Col :sm="{span: 24}">
       <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
       <Button type="error" @click="showRefuseReason">批退</Button>
-      <Button type="info" @click="">导出</Button>
+      <Button type="info" @click="exprotExcel">导出</Button>
       </Col>
     </Row>
 
@@ -276,7 +276,7 @@
     },
     async mounted() {
       this[EventType.THISMONTHHANDLETYPE]()
-      this.employeeOperatorQuery();
+//      this.employeeOperatorQuery();
     },
     computed: {
       ...mapState('thisMonthHandle', {
@@ -411,6 +411,10 @@
             query: {taskCategory: taskCategory, taskId: data.empTaskId}
           });
         }
+      },
+      exprotExcel() {
+        this.$ajax.createProxyAjaxForName("ss-c").download("/api/soccommandservice/salCompany/exprot",this.operatorSearchData);
+//        this.$ajax.createProxyAjaxForName("ss-c").get("/api/soccommandservice/salCompany/exprot",this.operatorSearchData);
       },
       ok() {
 

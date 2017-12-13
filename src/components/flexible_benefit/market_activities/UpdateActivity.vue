@@ -31,16 +31,15 @@
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
-          <Form-item label="活动时间：" prop="marketTime">
-            <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;"
-                        placeholder="选择日期"></DatePicker>
+          <Form-item label="活动时间：">
+            <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;" placeholder="选择日期"></DatePicker>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
           <Form-item label="状态：" prop="status">
             <Select v-model="formItem.status" style="width:200px">
               <Option value="0">进行中</Option>
-              <Option value="2">已结束</Option>
+              <Option value="1">已结束</Option>
             </Select>
           </Form-item>
           </Col>
@@ -69,7 +68,16 @@
     data() {
       return {
         onlyNum: false,
-        formItem: {},
+        formItem: {
+          id: null,
+          activityTitle: "",//活动主题
+          publisher: "",//发布人
+          marketTime: [],//活动时间
+          status: "",//状态
+          content: "",//详细内容
+          giftForm: [],//礼品形式
+          sendWay: [],//派送方式
+        },
         peopleTypes: [
           {
             value: '1',
@@ -88,8 +96,8 @@
             {required: true, message: '请输入发布人', trigger: 'change'}
           ],
           giftForm: [
-            {required: true, type: 'array', min: 1, message: '请选择礼品形式', trigger: 'change'},
-            /*{
+            {required: true, message: '请选择派送方式', trigger: 'change'},
+            {
               validator(rule, val, callback) {
                 if (!val || val.length === 0) {
                   callback(new Error('请选择礼品形式'))
@@ -97,14 +105,24 @@
                   callback()
                 }
               },
-              required: true,
               trigger: 'change'
-            }*/
+            }
           ],
           sendWay: [
-            {required: true, type: 'array', min: 1, message: '请选择派送方式', trigger: 'change'},
+            {required: true, message: '请选择派送方式', trigger: 'change'},
+            {
+              validator(rule, val, callback) {
+                if (!val || val.length === 0) {
+                  callback(new Error('请选择派送方式'))
+                } else {
+                  callback()
+                }
+              },
+              trigger: 'change'
+            }
           ],
           marketTime: [
+            {required: true, message: '请选择活动时间', trigger: 'change'},
             {
               validator(rule, val, callback) {
                 if (!val || val.length < 2) {
@@ -113,7 +131,6 @@
                   callback()
                 }
               },
-              required: true,
               trigger: 'change'
             }
           ],
@@ -121,32 +138,41 @@
             {required: true, message: '请选择状态', trigger: 'change'}
           ],
           content: [
-            {required: true, message: '请输入详细内容', trigger: 'blur'},
-            {required: true, type: 'string', max: 200, message: '200字以内', trigger: 'blur'}
+            {required: true, message: '请输入详细内容', trigger: 'change'},
+            {
+              validator(rule, val, callback) {
+                if (!val || val.length >= 200) {
+                  callback(new Error('不超过200字'))
+                } else {
+                  callback()
+                }
+              },
+              trigger: 'blur'
+            }
           ],
         }
       }
     },
 
     created() {
-      this.formItem = this.$route.params.data;
-      this.initData();
-    },
-    watch: {
-      formItem: function (val, oldval) {
-        if (this.formItem) {
-          sessionStorage.setItem('updateActivityFormItem', JSON.stringify(this.formItem));
-        }
-        // console.log("this.formItem==watch======" + sessionStorage.getItem('updateActivityFormItem'));
-      }
+      let updateData = this.$route.query.data;
+      delete updateData._index;
+      delete updateData._rowKey;
+      delete updateData.page;
+      delete updateData.createTime;
+      updateData.status = updateData.status + '';
+      /*拼接活动时间数组*/
+      let time=[];
+      time.push(this.$utils.formatDate(updateData.beginTime, 'YYYY-MM-DD HH:mm:ss'));//先转换为时间格式的字符串，不然时间会对应不上
+      time.push(this.$utils.formatDate(updateData.endTime, 'YYYY-MM-DD HH:mm:ss'));
+      updateData.marketTime = time;
+
+      this.formItem = updateData;
+      this.formItem.giftForm = this.formItem.giftForm.split(',');
+      this.formItem.sendWay = this.formItem.sendWay.split(',');
     },
     methods: {
       ...mapActions("MARKET", [EventTypes.MARKETINSERTTYPE]),
-      initData() {
-        if (!this.formItem) {
-          this.formItem = JSON.parse(sessionStorage.getItem('updateActivityFormItem'));
-        }
-      },
       back() {
         this.$local.back();
       },

@@ -199,7 +199,6 @@
         return false;
       },
       addGift() {
-        console.info("新增");
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
             /**上传附件表单校验*/
@@ -216,7 +215,6 @@
             this[EventTypes.GIFTINSERTTYPE]({
               data: data,
               callback: (res) => {
-                console.log(res);
                 if (res.data.errorcode === "200") {
                   this.$router.push({path: '/giftApplicationManager'})
                 } else {

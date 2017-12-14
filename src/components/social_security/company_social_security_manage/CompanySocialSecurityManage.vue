@@ -210,7 +210,6 @@
               comAccountName: this.comAccountCdn.comAccountName
 
           }
-          
         };
 
         //params.params = {};

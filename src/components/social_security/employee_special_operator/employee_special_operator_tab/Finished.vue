@@ -18,14 +18,12 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户编号：" prop="companyId">
-                <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
+                <input-company v-model="operatorSearchData.companyId"></input-company>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户名称：" prop="title">
-                <Input v-model="operatorSearchData.customerName" placeholder="请输入...">
-                <Button slot="append" icon="ios-search" @click="isShowEmpName = true"></Button>
-                </Input>
+                <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -35,9 +33,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户：" prop="ssAccount">
-                <Input v-model="operatorSearchData.companyAccountType" placeholder="请输入...">
-                <Button slot="append" icon="ios-search" @click="isShowAccountType = true"></Button>
-                </Input>
+                <input-account v-model="operatorSearchData.ssAccount"></input-account>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -142,25 +138,6 @@
       </Col>
     </Row>
 
-    <!-- 客户名称 模态框 -->
-    <Modal
-      v-model="operatorSearchData.isShowCustomerName"
-      title="选择客户"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <customer-modal :customerData="data.customerData"></customer-modal>
-    </Modal>
-
-    <!-- 企业社保账户分类 模态框 -->
-    <Modal
-      v-model="operatorSearchData.isShowAccountType"
-      title="企业社保账户分类"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <company-account-search-modal
-        :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
-    </Modal>
-
     <!-- 批退理由 -->
     <Modal
       v-model="isRefuseReason"
@@ -175,14 +152,14 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import companyAccountSearchModal from '../../../commoncontrol/companyaccountsearchmodal.vue'
   import EventType from '../../../../store/EventTypes'
   import api from '../../../../api/social_security/employee_operator'
-  import apiSelectData from '../../../../api/select-data'
+
+  import InputAccount from '../../../commoncontrol/form/input-account'
+  import InputCompany from '../../../commoncontrol/form/input-company'
 
   export default {
-    components: {customerModal, companyAccountSearchModal},
+    components: {InputAccount, InputCompany},
     data() {
       return {
         collapseInfo: [1], //展开栏
@@ -202,9 +179,6 @@
           urgent: '',
           submitTime: '',
         },
-
-        isShowAccountType: false,
-        isShowEmpName: false,
 
         // 批退
         isRefuseReason: false,

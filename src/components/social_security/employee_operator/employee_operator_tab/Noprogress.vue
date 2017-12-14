@@ -59,14 +59,12 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户：" prop="ssAccount">
-                <Input v-model="operatorSearchData.companyAccountType" placeholder="请输入...">
-                <Button slot="append" icon="ios-search" @click="isShowAccountType = true"></Button>
-                </Input>
+                <input-account v-model="operatorSearchData.ssAccount"></input-account>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户编号：" prop="companyId">
-                <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
+                <input-company v-model="operatorSearchData.companyId"></input-company>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -92,9 +90,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户名称：" prop="title">
-                <Input v-model="operatorSearchData.customerName" placeholder="请输入...">
-                <Button slot="append" icon="ios-search" @click="isShowEmpName = true"></Button>
-                </Input>
+                <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -133,7 +129,7 @@
       <Col :sm="{span: 24}">
       <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
       <Button type="error" @click="showRefuseReason">批退</Button>
-      <Button type="info" @click="">导出</Button>
+      <Button type="info" @click="exprotExcel">导出</Button>
       </Col>
     </Row>
 
@@ -165,40 +161,18 @@
         <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
       </p>
     </Modal>
-
-    <!-- 客户名称 模态框 -->
-    <Modal
-      v-model="isShowEmpName"
-      title="选择客户"
-      :mask-closable="false"
-      :closable="false"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <customer-modal :customerData="data.customerData"></customer-modal>
-    </Modal>
-
-    <!-- 企业社保账户分类 模态框 -->
-    <Modal
-      v-model="isShowAccountType"
-      title="企业社保账户分类"
-      :mask-closable="false"
-      :closable="false"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <company-account-search-modal
-        :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
-    </Modal>
   </div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import companyAccountSearchModal from '../../../commoncontrol/companyaccountsearchmodal.vue'
   import EventType from '../../../../store/EventTypes'
   import api from '../../../../api/social_security/employee_operator'
 
+  import InputAccount from '../../../commoncontrol/form/input-account'
+  import InputCompany from '../../../commoncontrol/form/input-company'
+
   export default {
-    components: {customerModal, companyAccountSearchModal},
+    components: {InputAccount, InputCompany},
     data() {
       return {
         collapseInfo: [1], //展开栏
@@ -217,9 +191,6 @@
           urgent: '',
           startMonth: '',
         },
-
-        isShowAccountType: false,
-        isShowEmpName: false,
 
         // 批退
         isRefuseReason: false,
@@ -305,7 +276,7 @@
     },
     async mounted() {
       this[EventType.THISMONTHHANDLETYPE]()
-      this.employeeOperatorQuery();
+//      this.employeeOperatorQuery();
     },
     computed: {
       ...mapState('thisMonthHandle', {
@@ -339,8 +310,10 @@
           pageNum: this.employeeResultPageData.pageNum,
           params: params,
         }).then(data => {
-          this.employeeResultData = data.data;
-          this.employeeResultPageData.total = data.total;
+          if (data.code == 200) {
+            this.employeeResultData = data.data;
+            this.employeeResultPageData.total = data.total;
+          }
         })
       },
       handlePageNum(val) {
@@ -413,13 +386,14 @@
             }
           }
         }
-        this.batchHandle(this.selectEmployeeResultData);
+        this.batchHandle(this.selectEmployeeResultData, true);
       },
       // 批量办理
       batchHandle(data, isBatch = false) {
         if (isBatch) {
           // 组织任务 ID
           var taskIds = [];
+          var rows = data;
           var taskCategory = rows[0].taskCategory;
           for (var row of rows) {
             taskIds.push(row.empTaskId);
@@ -427,44 +401,24 @@
 
           this.$router.push({
             name: 'employeecommcialoperator',
-            query: {operatorType: name, sourceFrom: 'operator', taskIds: taskIds}
+            query: {operatorType: taskCategory, taskIds: taskIds}
           });
         } else {
+          var taskCategory = data.taskCategory;
           // 根据任务类型跳转
-          switch (data.taskCategory) {
-            case '1': // 新进
-            case '2': // 转入
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '0', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-            case '3': // 调整
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '1', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-            case '4':// 补缴
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '4', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-            case '5':// 转出
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '2', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-          }
+          this.$router.push({
+            name: 'companysocialsecuritynew',
+            query: {taskCategory: taskCategory, taskId: data.empTaskId}
+          });
         }
-      }
-      ,
+      },
+      exprotExcel() {
+        this.$ajax.createProxyAjaxForName("ss-c").download("/api/soccommandservice/salCompany/exprot",this.operatorSearchData);
+//        this.$ajax.createProxyAjaxForName("ss-c").get("/api/soccommandservice/salCompany/exprot",this.operatorSearchData);
+      },
       ok() {
 
-      }
-      ,
+      },
       cancel() {
 
       }

@@ -7,7 +7,6 @@ const BASE_PATHS = config.basePaths;
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 
 const AJAX = {
-  DEBUG: DEBUG,
   formatDate: (format, date) => {
     date = date || new Date();
     var o = {
@@ -30,6 +29,7 @@ const AJAX = {
     let vm = config.vm;
     let ajax = config.ajax;
     let cb = config.callback;
+    let errCb = config.errCallback;
     let title = config.title || '';
 
     // vm 和 ajax 是必须的
@@ -76,9 +76,56 @@ const AJAX = {
           });
         }
       }
+      if (errCb) {
+        errCb(error);
+      }
     })
   }
 };
+
+// 文件下载
+const download = (url, data) => {
+  // 分析 url 包含 "?"
+  if (data && Object.keys(data).length > 0) {
+    if (url.indexOf("?") < 0) {
+      url += "?"
+    }
+
+    var uri = url;
+    // 参数类型如果不是字符串类型 序列号
+    if (typeof(data) !== "string") {
+      uri = qs.stringify(data);
+    }
+
+    // 问号结尾不添加 "&"
+    if (url.lastIndexOf("?") != url.length - 1) {
+      url += "&";
+    }
+    url += uri;
+  }
+
+  // 下载
+  let iframe = document.createElement('iframe')
+  iframe.style.display = 'none'
+  iframe.src = url
+  iframe.onload = () => {
+    document.body.removeChild(iframe)
+  }
+  document.body.appendChild(iframe)
+}
+
+// 文件上传
+let upload = (url, data, config = {}) => {
+  let formData = new FormData();
+  Object.keys(data).forEach(key => {
+    formData.append(key, data[key])
+  });
+
+  config.headers['Content-Type'] = 'multipart/form-data';
+  config.timeout = DEBUG ? 0 : 5000;
+
+  return createAjax(config)['post'](url, formData, config);
+}
 
 /**
  * 创建 AJAX 对象
@@ -132,6 +179,13 @@ let createAjax = config => {
   )
   // 添加一个 response 拦截器
   ajax.interceptors.response.use(response => {
+      var contentType = response.headers['content-type'];
+
+      // 响应数据不是 json 直接返回
+      if (contentType.indexOf('application/json') < 0) {
+        return response;
+      }
+
       if (response) {
         if (response.status === 200
           || response.status === 304
@@ -164,6 +218,7 @@ let createAjax = config => {
   return ajax;
 }
 
+
 let createAjaxForName = name => {
   return createAjax({
     baseURL: BASE_PATHS[name],
@@ -175,15 +230,34 @@ let createAjaxForName = name => {
 }
 
 let createProxyAjaxForName = name => {
-  var instance = createAjaxForName(name)
-  var proxy = {};
+  var instance = createAjaxForName(name);
+  var baseURL = BASE_PATHS[name];
+  var proxy = {
+    baseURL: baseURL
+  };
   for (var method of ['get', 'post']) {
     proxy[method] = async (url, data, config) => {
       return await instance[method](url, data, config);
     }
   }
+
+  // 下载
+  proxy.download = (url, data) => {
+    download(baseURL + url, data)
+  }
+
+  // 上传
+  proxy.upload = (url, data, config = {}) => {
+    return upload(baseURL + url, data, config);
+  }
   return proxy;
 }
+
+AJAX.download = download;
+AJAX.upload = upload;
+AJAX.createAjax = createAjax;
+AJAX.createAjaxForName = createAjaxForName;
+AJAX.createProxyAjaxForName = createProxyAjaxForName;
 
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q');
 AJAX.ajaxSsc = createProxyAjaxForName('ss-c');

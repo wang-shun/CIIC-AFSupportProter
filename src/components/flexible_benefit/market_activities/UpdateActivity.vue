@@ -96,8 +96,8 @@
             {required: true, message: '请输入发布人', trigger: 'change'}
           ],
           giftForm: [
-            {required: true, message: '请选择派送方式', trigger: 'change'},
-            {
+            {required: true, type: 'array', min: 1, message: '请选择礼品形式', trigger: 'change'},
+            /*{
               validator(rule, val, callback) {
                 if (!val || val.length === 0) {
                   callback(new Error('请选择礼品形式'))
@@ -105,21 +105,12 @@
                   callback()
                 }
               },
+              required: true,
               trigger: 'change'
-            }
+            }*/
           ],
           sendWay: [
-            {required: true, message: '请选择派送方式', trigger: 'change'},
-            {
-              validator(rule, val, callback) {
-                if (!val || val.length === 0) {
-                  callback(new Error('请选择派送方式'))
-                } else {
-                  callback()
-                }
-              },
-              trigger: 'change'
-            }
+            {required: true, type: 'array', min: 1, message: '请选择派送方式', trigger: 'change'},
           ],
           marketTime: [
             {required: true, message: '请选择活动时间', trigger: 'change'},
@@ -153,26 +144,25 @@
         }
       }
     },
-
     created() {
-      let updateData = this.$route.query.data;
-      delete updateData._index;
-      delete updateData._rowKey;
-      delete updateData.page;
-      delete updateData.createTime;
-      updateData.status = updateData.status + '';
-      /*拼接活动时间数组*/
-      let time=[];
-      time.push(this.$utils.formatDate(updateData.beginTime, 'YYYY-MM-DD HH:mm:ss'));//先转换为时间格式的字符串，不然时间会对应不上
-      time.push(this.$utils.formatDate(updateData.endTime, 'YYYY-MM-DD HH:mm:ss'));
-      updateData.marketTime = time;
-
-      this.formItem = updateData;
-      this.formItem.giftForm = this.formItem.giftForm.split(',');
-      this.formItem.sendWay = this.formItem.sendWay.split(',');
+      this.formItem = this.$route.params.data;
+      this.initData();
+    },
+    watch: {
+      formItem: function (val, oldval) {
+        if (this.formItem) {
+          sessionStorage.setItem('updateActivityFormItem', JSON.stringify(this.formItem));
+        }
+        // console.log("this.formItem==watch======" + sessionStorage.getItem('updateActivityFormItem'));
+      }
     },
     methods: {
       ...mapActions("MARKET", [EventTypes.MARKETINSERTTYPE]),
+      initData() {
+        if (!this.formItem) {
+          this.formItem = JSON.parse(sessionStorage.getItem('updateActivityFormItem'));
+        }
+      },
       back() {
         this.$local.back();
       },

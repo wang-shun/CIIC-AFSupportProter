@@ -10,7 +10,7 @@
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
           <Form-item label="价格：" prop="price">
-            <InputNumber :min="0" :precision="2" v-model="formItem.price" style="width: 100%"></InputNumber>
+            <Input v-model="formItem.price" placeholder="请输入"/>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
@@ -112,21 +112,7 @@
         id: null,
         addResult: "1",
         file: null,
-        formItem: {
-          id: null,
-          giftName: "",//礼品名称
-          price: null,//价格
-          rightPerson: "",//使用人群
-          giftType: "",//礼品类型
-          color: "",//颜色
-          number: null,//数量
-          applyMaxnum: null,//最大申请数量
-          pictureUrl: "",//图片
-          isNew: "",//是否new,
-          status:"",//状态
-          remarks: "",//礼品介绍
-        },
-
+        formItem: {},
         rightpersonTypes: [{
           value: '0', label: '男士适用'
         }, {
@@ -160,7 +146,12 @@
             {required: true, message: '请输入礼品名称', trigger: 'blur'}
           ],
           price: [
-            {type: 'number', required: true, message: '请输入价格', trigger: 'change'}
+            {
+              required: true,
+              pattern: /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/,
+              message: '请输入价格,两位小数',
+              trigger: 'change'
+            }
           ],
           rightPerson: [
             {required: true, message: '请选择适用人群', trigger: 'change'}
@@ -194,20 +185,24 @@
     },
 
     created() {
-      let updateData = this.$route.query.data;
-      delete updateData._index;
-      delete updateData._rowKey;
-      delete updateData.page;
-      delete updateData.createTime;
-      delete updateData.modifiedTime;
-      this.formItem = updateData;
-      this.formItem.rightPerson = this.formItem.rightPerson + '';
-      this.formItem.giftType = this.formItem.giftType + '';
-      this.formItem.status = this.formItem.status + '';
+      this.formItem = this.$route.params.data;
+      this.initData();
     },
-
+    watch: {
+      formItem: function (val, oldval) {
+        if (this.formItem) {
+          sessionStorage.setItem('updateGiftFormItem', JSON.stringify(this.formItem));
+        }
+        // console.log("this.formItem==watch======" + sessionStorage.getItem('updateGiftFormItem'));
+      }
+    },
     methods: {
       ...mapActions("GIFT", [EventTypes.GIFTINSERTTYPE]),
+      initData() {
+        if (!this.formItem) {
+          this.formItem = JSON.parse(sessionStorage.getItem('updateGiftFormItem'));
+        }
+      },
       handleUpload(file) {
         this.file = file;
         return false;
@@ -224,13 +219,13 @@
             this[EventTypes.GIFTINSERTTYPE]({
               data: data,
               callback: (res) => {
-                if (res.data == 1) {
+                if (res.data.errorcode === "200") {
                   this.$router.push({path: '/giftApplicationManager'})
                 } else {
-                  this.$Message.error("服务器异常，请稍后再试");
+                  this.$Message.error("服务器异常，请稍后再试:");
                 }
               },
-              errCallback: () => {
+              errCallback: (error) => {
                 this.$Message.error("服务器异常，请稍后再试");
               }
             });
@@ -240,16 +235,7 @@
       back() {
         this.$local.back();
       },
-      selectChange() {
-        this.formItem.disabled = false;
-        if (this.formItem.types == "computed" || this.formItem.types == "seniorComputed" || this.formItem.types == "fixed") {
-          this.onlyNum = true;
-        } else {
-          this.onlyNum = false;
-        }
-      }
-    },
-    watch: {},
+    }
   }
 
 </script>

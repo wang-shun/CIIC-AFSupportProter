@@ -91,13 +91,13 @@
       </Modal>
 
       <!-- 客户名称 模态框 -->
-      <Modal
+      <!-- <Modal
         v-model="companyTaskInfo.isShowCustomerName"
         title="选择客户"
         @on-ok="ok"
         @on-cancel="cancel">
         <customer-modal :customerData="customerData"></customer-modal>
-      </Modal>
+      </Modal> -->
     </Form>
   </div>
 </template>
@@ -170,16 +170,16 @@
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1'}})
+                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1',tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '2'}})
+                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '2',tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '3'}})
+                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '3',tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '4'}})
+                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '4',tid:params.row.tid}})
                           break;
                         default:
                           break;

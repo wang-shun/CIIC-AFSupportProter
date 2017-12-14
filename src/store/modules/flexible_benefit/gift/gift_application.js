@@ -8,7 +8,7 @@ const state = {
   rows: [],
   data: {
     giftManagerData: [],
-    addResult: "",
+    addResult: null,
     page: {
       current: 1,
       pageSize: 10,
@@ -30,10 +30,10 @@ const actions = {
     mock.giftInsert(params.data).then(response => {
       commit(EventTypes.GIFTINSERTTYPE, response.data);
       params.callback(response)
-    }, () => {
-      params.errCallback()
-    }).catch(() => {
-      params.errCallback()
+    }, error => {
+      params.errCallback(error);
+    }).catch(error => {
+      params.errCallback(error);
     })
   },
 };

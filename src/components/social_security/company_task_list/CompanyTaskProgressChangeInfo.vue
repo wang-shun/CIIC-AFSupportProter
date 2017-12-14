@@ -16,12 +16,25 @@
       <Panel name="2">
         前道传递信息
         <div slot="content">
-          <Row>
-            <Col :sm="{span: 23, offset: 1}">
-              <label>共{{data.chatList.length}}条历史备注</label>
-              <chat :chatList="data.chatList" class="mt20"></chat>
-            </Col>
-          </Row>
+          <Form :label-width=100>
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="发起人：" class="">
+                  <label>{{historyRemark.submitName}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="发起时间：" class="">
+                  <label>{{historyRemark.submitTime}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="发起备注：" class="">
+                  <label>{{historyRemark.submitRemark}}</label>
+                </Form-item>
+              </Col>
+            </Row>
+         </Form>
         </div>
       </Panel>
       <Panel name="3">
@@ -31,22 +44,22 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="变更内容：">
-                  <Select v-model="changeOperator.changeContentValue" style="width: 100%;">
+                  <Select v-model="changeOperator.changeContentValue" style="width: 100%;" @on-change="changeContentType">
                     <Option v-for="item in changeOperator.changeContentList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="industryRatioShow">
                 <Form-item label="所属行业：">
-                  <Input v-model="changeOperator.belongsIndustry" placeholder="请输入..."></Input>
+                  <Input v-model="changeOperator.belongsIndustry"  placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="industryRatioShow">
                 <Form-item label="企业工伤比例：">
-                  <Input v-model="changeOperator.companyWorkInjuryPercentage" placeholder="请输入..."></Input>
+                  <Input v-model="changeOperator.companyWorkInjuryPercentage"  placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="industryRatioShow">
                 <Form-item label="变更开始月份：">
                   <DatePicker v-model="changeOperator.changeStartMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
                 </Form-item>
@@ -98,6 +111,12 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         currentStep: 2,
+        industryRatioShow:false, 
+         historyRemark:{
+          submitName:'',
+          submitTime:'',
+          submitRemark:''
+         },
         changeOperator: {
           changeContentValue: '',
           changeContentList: [
@@ -128,6 +147,13 @@
       ...mapActions('companyTaskProgressChangeInfo', [EventType.COMPANYTASKPROGRESSCHANGEINFOTYPE]),
       goBack() {
         this.$router.push({name: 'companytasklist'})
+      },
+      //变更内容的选择
+      changeContentType(){
+        let state = this.changeOperator.changeContentValue
+        if(state=='1'){
+          this.industryRatioShow=true
+        }
       },
       ok () {
 

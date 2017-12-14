@@ -408,7 +408,7 @@
         self.currentStep = Number(result.companyTaskStatus)
         switch(result.companyOpenAccountOperator.taskTypeValue) {
                         case '0':
-                        debugger
+                        
                               self.handDateControl = true;
                               self.sendDateControl=true;
                               self.finishDateControl=true;

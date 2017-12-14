@@ -175,7 +175,7 @@
         self.comAccountId = result.comAccountId
         self.companyInfo = result.companyInfo
         self.historyRemark = result.historyRemark;
-        debugger
+        
         self.transferOperator = result.transferOperator;
         self.currentStep  =result.transferOperator.taskStatus==null?0:Number(result.transferOperator.taskStatus)
         switch(result.transferOperator.taskStatus) {
@@ -249,7 +249,7 @@
                 //loading:true,
                 onOk:function(){
                    let params = self.getParams()
-                   debugger
+                   
                    CompanyTaskList.updateOrTransferTask(params).then(result=>{
                     if(result){
                        self.$Message.success('办理成功!');

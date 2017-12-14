@@ -12,7 +12,6 @@ export class CompanyTaskList{
         console.log(url)
         return new Promise(function(resolve,reject){
             Axios.get(url, {params: params}) .then(function (response) {  
-                console.log(response)
                 let responseData = {
                   data:{
                     taskData:[],
@@ -235,6 +234,21 @@ export class CompanyTaskList{
       })
     })
   }
+
+  //转移任务办理时 修改任务状态或者终止任务单的完成
+  static updateOrChangeTask(params){
+    let url =domainJson.updateOrChangeTaskUrl
+    return new Promise((resolve,reject)=>{
+      utils.ajaxSsc.post(url,params).then(response=>{
+        if(response.data.code=="200"){
+          resolve(response.data.data)
+       }else{
+         reject(Error("转移操作后台异常！"))
+       }
+      })
+    })
+  }
+  
   //最后一步获得数据 终止和转移 变更
   static theLastStepGetDate(result,type){
 
@@ -283,7 +297,6 @@ export class CompanyTaskList{
             endDate: ssComAccountDTO.endDate,  //终止时间
           }
        }
-       debugger
        if(type=='transfer'){
         let dynamicExtend = resultData.dynamicExtend
         let settlementArea= ssComAccountDTO.settlementArea//结算区县
@@ -300,6 +313,42 @@ export class CompanyTaskList{
           transferDate: transferDate
         }
      }
+     if(type=='change'){
+          //changeOperator
+          let dynamicExtendRes = resultData.dynamicExtend
+          //如果扩展字段有值显示扩展字段
+          let changeContentValue =null//变更类型
+          let payMethodValue = null//付款方式
+          let pensionMoneyUseCompanyName = null//养老金公司名称
+          let belongsIndustry = null//所属行业
+          let companyWorkInjuryPercentage = null//企业工伤比例
+          let changeStartMonth=null//变更开始月份
+          if(dynamicExtendRes!=null && dynamicExtendRes!=""){
+              let res = JSON.parse(dynamicExtendRes)
+              changeContentValue = res.changeContentValue
+          if(changeContentValue=='1'){//工伤比例变更
+            
+              belongsIndustry = res.belongsIndustry
+              companyWorkInjuryPercentage =res.companyWorkInjuryPercentage
+              changeStartMonth = res.startMonth
+          }else if(changeContentValue=='2'){
+              payMethodValue = res.paymentWay
+          }else if(changeContentValue=='3'){
+              pensionMoneyUseCompanyName = res.comAccountName
+            }
+          }
+          changeContentValue = (changeContentValue==null || changeContentValue=='')?'1':changeContentValue
+          data.changeOperator = {
+            ...common,
+            changeContentValue,
+            payMethodValue,
+            pensionMoneyUseCompanyName,
+            belongsIndustry,
+            companyWorkInjuryPercentage,
+            changeStartMonth
+          }
+     }
+
        return data
   }
 
@@ -321,9 +370,9 @@ export class CompanyTaskList{
     let url = domainJson.getComInfoAndPayWayUrl
     return new Promise((resolve,reject)=>{
       utils.ajaxSsc.post(url,params).then(response=>{
-        debugger
+        
         let result = this.handleReturnData(response)
-        debugger
+        
         if(!result.isError){
           //获得前台显示数据
           let data = this.ComInfoAndPayWayData(result.data)
@@ -338,10 +387,10 @@ export class CompanyTaskList{
   //企业任务单 开户办理
   static addOrUpdate(params){
     let url =domainJson.addOrUpdateCompanyTaskUrl
-    debugger
+    
     return new Promise((resolve,reject)=>{
       utils.ajaxSsc.post(url,params).then(response=>{
-        debugger
+        
         let result = this.handleReturnData(response)
         if(!result.isError){
           //获得前台显示数据
@@ -381,7 +430,6 @@ export class CompanyTaskList{
       dispatchMaterial = JSON.parse(ssComAccountDTO.dispatchMaterial)
     }
     //发出的材料
-    debugger
     return {
       companyTaskStatus:result.taskStatus,
       comAccountId:isNull?'':ssComAccountDTO.comAccountId,

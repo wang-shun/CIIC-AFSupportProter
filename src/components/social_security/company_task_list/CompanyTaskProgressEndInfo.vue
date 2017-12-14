@@ -154,7 +154,7 @@
       //查询页面信息
       queryPageInfo(){
         let params = {
-          companyTaskId:this.$route.query.tid,
+          companyTaskId:this.tid,
           operatorType:this.operatorType
         }
         let self = this
@@ -162,7 +162,7 @@
         self.comAccountId = result.comAccountId
         self.companyInfo = result.companyInfo
         self.historyRemark = result.historyRemark;
-        debugger
+        
         self.endOperator = result.endOperator;
 
         self.currentStep  =result.endOperator.taskStatus==null?0:Number(result.endOperator.taskStatus)
@@ -203,7 +203,7 @@
           let taskState = this.endOperator.taskStatus
          //acceptanceDate sendCheckDate finishedDate
          let formObj = this.endOperator
-         debugger
+         
         if(taskState=='0'){
             this.handDateControl = true;
             this.sendDateControl=true;
@@ -279,7 +279,7 @@
                 //loading:true,
                 onOk:function(){
                    let params = self.getParams()
-                   debugger
+                   
                    CompanyTaskList.updateOrEndingTask(params).then(result=>{
                     if(result){
                        self.$Message.success('办理成功!');

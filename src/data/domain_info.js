@@ -24,8 +24,10 @@ let domainJson = {
     "addOrUpdateCompanyTaskUrl":"/api/soccommandservice/ssComTask/addOrUpdateCompanyTask",
     //修改任务单状态（因为操作时不一定直接办理完成） 或者终止任务的完成
     "updateOrEndingTaskUrl":"/api/soccommandservice/ssComTask/updateOrEndingTask",
-    //
-    "updateOrTransferTaskUrl":"/api/soccommandservice/ssComTask/updateOrTransferTask"
+    //修改任务单状态（因为操作时不一定直接办理完成） 或者转移任务的完成
+    "updateOrTransferTaskUrl":"/api/soccommandservice/ssComTask/updateOrTransferTask",
+      //修改任务单状态（因为操作时不一定直接办理完成） 或者变更任务的完成
+    "updateOrChangeTaskUrl":"/api/soccommandservice/ssComTask/updateOrChangeTask"
 
 }
 

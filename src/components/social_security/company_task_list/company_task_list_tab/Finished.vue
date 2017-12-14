@@ -167,58 +167,58 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
               ]);
             }
           },
-          {title: '任务单编号', key: 'tid', width: 150, fixed: 'left', align: 'center',
+          {title: '任务单编号', key: 'tid', width: 150, fixed: 'center', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.tid),
               ]);
             }
           },
           {title: '任务单类型', key: 'type', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.type),
               ]);
             }
           },
           {title: '客户编号', key: 'customerId', width: 100, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.customerId),
               ]);
             }
           },
           {title: '企业客户', key: 'companyCustomer', width: 250, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.companyCustomer),
               ]);
             }
           },
           {title: '完成截止日期', key: 'finishDate', width: 150, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.finishDate),
               ]);
             }
           },
           {title: '发起人', key: 'initiator', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.initiator),
               ]);
             }
           },
           {title: '发起时间', key: 'sponsorTime', width: 180, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.sponsorTime),
               ]);
             }
           },
           {title: '备注', key: 'notes', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.notes),
               ]);
             }

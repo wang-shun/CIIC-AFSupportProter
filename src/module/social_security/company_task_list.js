@@ -27,10 +27,10 @@ export class CompanyTaskList{
                       obj.action=""
                       obj.tid = i.companyTaskId
                       if(i.taskCategory==1) obj.type='开户'
-                      //1:开户：2：终止 3：变更 4 转移
-                      else if (i.taskCategory==2) obj.type='终止'
+                      //1:开户：2：转移 3：变更 4：终止
+                      else if (i.taskCategory==2) obj.type='转移'
                       else if (i.taskCategory==3) obj.type='变更'
-                      else if(i.taskCategory==4)  obj.type='转移'
+                      else if(i.taskCategory==4)  obj.type='终止'
                       obj.customerId = i.companyId
                       obj.companyCustomer = i.companyName
                       obj.sponsorTime = i.submitTime
@@ -197,54 +197,13 @@ export class CompanyTaskList{
     })
   }
   //终止操作最后一步页面的信息获取
-  static getEndPageInfo(params){
+  static getEndPageInfo(params,type){
     let url =domainJson.getCompanyInfoAndMaterialUrl
     return new Promise((resolve,reject)=>{
       utils.ajaxSsc.post(url,params).then(response=>{
-
-        let result = this.handleReturnData(response)
-        debugger
+        let result = this.handleReturnData(response)  
         if(!result.isError){
-          let resultData = result.data
-          let ssComAccountDTO =resultData.ssComAccountDTO
-          let data = {
-            companyTaskStatus:result.data.taskStatus,
-            comAccountId:ssComAccountDTO.comAccountId,
-                companyInfo:{
-                    //企业社保账号
-                  companySocialSecurityAccount:ssComAccountDTO.ssAccount,
-                  //客户编号
-                  companyNumber:result.data.companyId,
-                  //参保户名称
-                  companyName:result.data.companyName,
-                  //社保中心
-                  socialSecurityCenter:ssComAccountDTO.settlementArea,
-                  //UKey密码
-                  uKey:ssComAccountDTO.ssPwd,
-                  //账户类型 1:中智大库 2中智外包 3独立户
-                  accountType:ssComAccountDTO.ssAccountType=='1'?'中智大库':ssComAccountDTO.ssAccountType=='2'?'中智外包':'独立户',
-                    //客服经理
-                  companyServicer:'',
-                    //企业社保账户状态 0初始 1有效 2 终止
-                  companySocialSecurityState:ssComAccountDTO.state=='0'?'初始':ssComAccountDTO.state=='1'?'有效':'终止',
-                  //客户社保截至日：
-                  companySocialSecurityEndData:ssComAccountDTO.expireDate
-                },
-                historyRemark:{
-                  submitName:resultData.submitterName,
-                  submitTime:resultData.submitTime,
-                  submitRemark:resultData.submitRemark
-                },
-                endOperator: {
-                  taskStatus:resultData.taskStatus,
-                  acceptanceDate: resultData.startHandleDate, //受理日期startHandleDate,sendCheckDate,finishDate
-                  sendCheckDate: resultData.sendCheckDate, //送审日期
-                  finishedDate: resultData.finishDate, //完成日期
-                  endDate: ssComAccountDTO.endDate,  //终止时间
-                  handleReason:resultData.handleRemark,//办理原因
-                  refuseReason: resultData.rejectionRemark//批退原因
-                }
-             }  
+            let data =this.theLastStepGetDate(result,type)
               resolve(data)
         }else reject(Error(result.message))
       })
@@ -255,18 +214,94 @@ export class CompanyTaskList{
     let url =domainJson.updateOrEndingTaskUrl
     return new Promise((resolve,reject)=>{
       utils.ajaxSsc.post(url,params).then(response=>{
-        let result = this.handleReturnData(response)
-        if(!result.isError){
-          let resultData = result.data      
-          resolve(resultData)
-
-        }else reject(Error(result.message))
+        if(response.data.code=="200"){
+          resolve(response.data.data)
+       }else{
+         reject(Error("终止操作后台异常！"))
+       }
       })
     })
   }
+   //转移任务办理时 修改任务状态或者终止任务单的完成
+   static updateOrTransferTask(params){
+    let url =domainJson.updateOrTransferTaskUrl
+    return new Promise((resolve,reject)=>{
+      utils.ajaxSsc.post(url,params).then(response=>{
+        if(response.data.code=="200"){
+          resolve(response.data.data)
+       }else{
+         reject(Error("转移操作后台异常！"))
+       }
+      })
+    })
+  }
+  //最后一步获得数据 终止和转移 变更
+  static theLastStepGetDate(result,type){
 
-
-
+    let resultData = result.data
+    let ssComAccountDTO =resultData.ssComAccountDTO
+    let data = {
+          companyTaskStatus:result.data.taskStatus,
+          comAccountId:ssComAccountDTO.comAccountId,
+          companyInfo:{
+              //企业社保账号
+            companySocialSecurityAccount:ssComAccountDTO.ssAccount,
+            //客户编号
+            companyNumber:result.data.companyId,
+            //参保户名称
+            companyName:result.data.companyName,
+            //社保中心
+            socialSecurityCenter:ssComAccountDTO.settlementArea,
+            //UKey密码
+            uKey:ssComAccountDTO.ssPwd,
+            //账户类型 1:中智大库 2中智外包 3独立户
+            accountType:ssComAccountDTO.ssAccountType=='1'?'中智大库':ssComAccountDTO.ssAccountType=='2'?'中智外包':'独立户',
+              //客服经理
+            companyServicer:'',
+              //企业社保账户状态 0初始 1有效 2 终止
+            companySocialSecurityState:ssComAccountDTO.state=='0'?'初始':ssComAccountDTO.state=='1'?'有效':'终止',
+            //客户社保截至日：
+            companySocialSecurityEndData:ssComAccountDTO.expireDate
+          },
+          historyRemark:{
+            submitName:resultData.submitterName,
+            submitTime:resultData.submitTime,
+            submitRemark:resultData.submitRemark
+          }
+       }  
+       let common ={
+         taskStatus:resultData.taskStatus,
+        acceptanceDate: resultData.startHandleDate, //受理日期startHandleDate,sendCheckDate,finishDate
+        sendCheckDate: resultData.sendCheckDate, //送审日期
+        finishedDate: resultData.finishDate, //完成日期
+        handleReason:resultData.handleRemark,//办理原因
+        refuseReason: resultData.rejectionRemark//批退原因
+      }
+       if(type=='end'){
+          data.endOperator= {
+            ...common,
+            endDate: ssComAccountDTO.endDate,  //终止时间
+          }
+       }
+       debugger
+       if(type=='transfer'){
+        let dynamicExtend = resultData.dynamicExtend
+        let settlementArea= ssComAccountDTO.settlementArea//结算区县
+        let transferDate = null;
+        //如果扩展字段有值显示扩展字段
+        if(dynamicExtend!=null && dynamicExtend!=""){
+          let res = JSON.parse(dynamicExtend)
+          settlementArea = res.settlementArea
+          transferDate = res.transferDate
+        }
+        data.transferOperator= {
+          ...common,
+          regionValue: settlementArea,
+          transferDate: transferDate
+        }
+     }
+       return data
+  }
 
   //签收全部材料
   static signAllMaterials(params){
@@ -320,9 +355,8 @@ export class CompanyTaskList{
   //处理返回值
   static handleReturnData(response){
     if(response.data.code=="200"){
-      if(response.data.data) return {data:response.data.data,message:"正常",isError:false}
-       else return {data:response.data.data,message:"后台异常！",isError:true}
-   }
+      return {data:response.data.data,message:"正常",isError:false}  
+   }else return {message:"后台异常！",isError:true}
   }
 
   /**

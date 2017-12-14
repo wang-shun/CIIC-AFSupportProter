@@ -120,9 +120,6 @@
           acceptanceDate: '', //受理日期
           sendCheckDate: '', //送审日期
           finishedDate: '', //完成日期
-          // accpetDate: '',
-          // approvalDate: '',
-          // finishDate: '',
           endDate: '',
           handleReason:'',
           refuseReason: ''
@@ -141,16 +138,16 @@
       }
     },
     mounted() {
-      this[EventType.COMPANYTASKPROGRESSSENDINFOTYPE]()
+      //this[EventType.COMPANYTASKPROGRESSSENDINFOTYPE]()
       this.queryPageInfo()
     },
     computed: {
-      ...mapState('companyTaskProgressSendInfo', {
-        data: state => state.data
-      })
+      // ...mapState('companyTaskProgressSendInfo', {
+      //   data: state => state.data
+      // })
     },
     methods: {
-      ...mapActions('companyTaskProgressSendInfo', [EventType.COMPANYTASKPROGRESSSENDINFOTYPE]),
+      // ...mapActions('companyTaskProgressSendInfo', [EventType.COMPANYTASKPROGRESSSENDINFOTYPE]),
       goBack() {
         this.$router.push({name: 'companytasklist'})
       },
@@ -161,11 +158,13 @@
           operatorType:this.operatorType
         }
         let self = this
-        CompanyTaskList.getEndPageInfo(params).then(result=>{
+        CompanyTaskList.getEndPageInfo(params,'end').then(result=>{
         self.comAccountId = result.comAccountId
         self.companyInfo = result.companyInfo
         self.historyRemark = result.historyRemark;
+        debugger
         self.endOperator = result.endOperator;
+
         self.currentStep  =result.endOperator.taskStatus==null?0:Number(result.endOperator.taskStatus)
         switch(result.endOperator.taskStatus) {
                         case '0':
@@ -210,26 +209,16 @@
             this.sendDateControl=true;
             this.finishDateControl=true;
             this.endDateControl = true;
-            formObj.acceptanceDate = null;
-            formObj.sendCheckDate = null;
-            formObj.finishedDate =null;
-            formObj.endDate = null;
         }else if(taskState=='1'){
             this.handDateControl = false;
             this.sendDateControl=true;
             this.finishDateControl=true;
              this.endDateControl = true;
-             formObj.sendCheckDate = null;
-             formObj.finishedDate =null;
-             formObj.endDate = null;
         }else if(taskState=='2'){
             this.handDateControl = false;
             this.sendDateControl=false;
             this.finishDateControl=true;
              this.endDateControl = true;
-              formObj.sendCheckDate =null;
-             formObj.finishedDate =null;
-             formObj.endDate = null;
         }else if(taskState=='3'){
             this.handDateControl = false;
             this.sendDateControl=false;
@@ -296,16 +285,14 @@
                        self.$Message.success('办理成功!');
                        self.goBack()
                     }else{
-                      self.$Message.error('办理失败!');
+                     self.$Message.error('办理失败!');
                     }
-                    
                    }).catch(error=>{
+                     self.$Message.error('办理异常!');
                      console.log(error)
                    })
-                   
                 },
                  error:function(error){
-                   self.$Message.error('办理失败!');
                    self.$Modal.remove();
                }
             });

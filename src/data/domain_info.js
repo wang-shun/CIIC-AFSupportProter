@@ -23,7 +23,9 @@ let domainJson = {
     //企业任务单开户办理页面 添加或者修改（修改是有可能填完数据 然后暂存起来）
     "addOrUpdateCompanyTaskUrl":"/api/soccommandservice/ssComTask/addOrUpdateCompanyTask",
     //修改任务单状态（因为操作时不一定直接办理完成） 或者终止任务的完成
-    "updateOrEndingTaskUrl":"/api/soccommandservice/ssComTask/updateOrEndingTask"
+    "updateOrEndingTaskUrl":"/api/soccommandservice/ssComTask/updateOrEndingTask",
+    //
+    "updateOrTransferTaskUrl":"/api/soccommandservice/ssComTask/updateOrTransferTask"
 
 }
 

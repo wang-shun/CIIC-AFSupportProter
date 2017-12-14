@@ -9,34 +9,34 @@
                 <row>
                   <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
                   <Form-item label="雇员编号">
-                    <Input placeholder="请输入"></Input>
+                    <Input v-model="employeeId" placeholder="请输入"/>
                   </Form-item>
                   </Col>
 
                   <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form :label-width="100">
                     <Form-item label="雇员姓名">
-                      <Input placeholder="请输入"></Input>
+                      <Input v-model="name" placeholder="请输入"/>
                     </Form-item>
                   </Form>
                   </Col>
 
                   <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="证件号码">
-                    <Input placeholder="请输入"></Input>
+                    <Input placeholder="请输入"/>
                   </Form-item>
                   </Col>
                 </row>
                 <row>
                   <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="公司编号">
-                    <Input placeholder="请输入"></Input>
+                    <Input placeholder="请输入"/>
                   </Form-item>
                   </Col>
 
                   <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="公司名称">
-                    <Input placeholder="请输入"></Input>
+                    <Input placeholder="请输入"/>
                   </Form-item>
                   </Col>
                 </row>
@@ -68,19 +68,19 @@
                 <row>
                   <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
                   <Form-item label="雇员编号">
-                    <Input placeholder="请输入"></Input>
+                    <Input placeholder="请输入"/>
                   </Form-item>
                   </Col>
 
                   <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="雇员姓名">
-                    <Input placeholder="请输入"></Input>
+                    <Input placeholder="请输入"/>
                   </Form-item>
                   </Col>
 
                   <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="证件号码">
-                    <Input placeholder="请输入"></Input>
+                    <Input placeholder="请输入"/>
                   </Form-item>
                   </Col>
                 </row>
@@ -88,12 +88,12 @@
                 <row>
                   <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="公司编号">
-                    <Input placeholder="请输入"></Input>
+                    <Input placeholder="请输入"/>
                   </Form-item>
                   </Col>
                   <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                   <Form-item label="公司名称">
-                    <Input placeholder="请输入"></Input>
+                    <Input placeholder="请输入"/>
                   </Form-item>
                   </Col>
                 </row>
@@ -128,16 +128,11 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         formItem: {
-          input: '',
-          select: '',
-          select1: '',
-          radio: 'male',
-          checkbox: [],
-          switch: true,
-          date: '',
-          time: '',
-          slider: [20, 50],
-          textarea: ''
+          employeeId: null,
+          name: null,
+          code: null,
+          companyCode: null,
+          companyName: null,
         },
         columns7: [
           {

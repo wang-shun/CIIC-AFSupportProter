@@ -12,6 +12,11 @@ let basePaths = {};
     basePaths['fb-q'] = localhost + ':6017';
     // 弹性福利 command 服务
     basePaths['fb-c'] = localhost + ':6019';
+
+    //健康医疗
+    basePaths['health-q'] = localhost + ':6013';
+    basePaths['health-c'] = localhost + ':6015';
+
     // 社保 query 服务
     basePaths['ss-q'] = localhost + ':6001';
     // 社保 command 服务

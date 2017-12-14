@@ -75,117 +75,118 @@
           value: "1", label: "已下架"
         }],
 
-        giftManagerColumns: [{
-          title: "礼品名称", sortable: true, key: "giftName", align: "center"
-        }, {
-          title: "类别", sortable: true, key: "giftType", align: "center",
-          render: (h, params) => {
-            switch (params.row.giftType) {
-              case 0:
-                return "票券";
-                break;
-              case 1:
-                return "办公用品";
-                break;
-              case 2:
-                return "生活用品";
-                break;
-              case 3:
-                return "食品";
-                break;
-              case 4:
-                return "饰品";
-                break;
-              case 5:
-                return "数码周边";
-                break;
-              case 6:
-                return "儿童用品";
-                break;
+        giftManagerColumns: [
+          {
+            title: "礼品名称", sortable: true, key: "giftName", align: "center"
+          }, {
+            title: "类别", sortable: true, key: "giftType", align: "center",
+            render: (h, params) => {
+              switch (params.row.giftType) {
+                case 0:
+                  return "票券";
+                  break;
+                case 1:
+                  return "办公用品";
+                  break;
+                case 2:
+                  return "生活用品";
+                  break;
+                case 3:
+                  return "食品";
+                  break;
+                case 4:
+                  return "饰品";
+                  break;
+                case 5:
+                  return "数码周边";
+                  break;
+                case 6:
+                  return "儿童用品";
+                  break;
 
+              }
             }
-          }
-        }, {
-          title: "价格", sortable: true, key: "price", align: "center"
-        }, {
-          title: "数量", sortable: true, key: "number", align: "center"
-        }, {
-          title: "备注", sortable: true, key: "remarks", align: "center"
-        }, {
-          title: "状态", sortable: true, key: "status", align: "center",
-          render: (h, params) => {
-            switch (params.row.status) {
-              case 0:
-                return "正常";
-                break;
-              case 1:
-                return "已下架";
-                break;
+          }, {
+            title: "价格", sortable: true, key: "price", align: "center"
+          }, {
+            title: "数量", sortable: true, key: "number", align: "center"
+          }, {
+            title: "备注", sortable: true, key: "remarks", align: "center"
+          }, {
+            title: "状态", sortable: true, key: "status", align: "center",
+            render: (h, params) => {
+              switch (params.row.status) {
+                case 0:
+                  return "正常";
+                  break;
+                case 1:
+                  return "已下架";
+                  break;
+              }
             }
-          }
-        }, {
-          title: "操作", key: "action", width: 300, align: "center",
-          render: (h, params) => {
-            if (params.row.status == '0') {
-              return h("div", [
-                h("Button", {
-                  props: {
-                    type: "success",
-                    size: "small"
-                  },
-                  style: {marginRight: "5px"},
-                  on: {
-                    click: () => {
-                      let updateData = params.row;
-                      delete updateData._index;
-                      delete updateData._rowKey;
-                      delete updateData.page;
-                      delete updateData.createTime;
-                      delete updateData.modifiedTime;
-                      updateData.rightPerson = updateData.rightPerson + '';
-                      updateData.giftType = updateData.giftType + '';
-                      updateData.status = updateData.status + '';
-                      this.$router.push({name: "giftUpdate", params: {data: updateData}});
+          }, {
+            title: "操作", key: "action", width: 300, align: "center",
+            render: (h, params) => {
+              if (params.row.status == '0') {
+                return h("div", [
+                  h("Button", {
+                    props: {
+                      type: "success",
+                      size: "small"
+                    },
+                    style: {marginRight: "5px"},
+                    on: {
+                      click: () => {
+                        let updateData = params.row;
+                        delete updateData._index;
+                        delete updateData._rowKey;
+                        delete updateData.page;
+                        delete updateData.createTime;
+                        delete updateData.modifiedTime;
+                        updateData.rightPerson = updateData.rightPerson + '';
+                        updateData.giftType = updateData.giftType + '';
+                        updateData.status = updateData.status + '';
+                        this.$router.push({name: "giftUpdate", params: {data: updateData}});
+                      }
                     }
-                  }
-                }, "编辑"),
-                h("Button", {
-                  props: {
-                    type: "success",
-                    size: "small"
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({
-                        name: "giftApplicationManager",
-                        params: {data: params.row}
-                      });
+                  }, "编辑"),
+                  h("Button", {
+                    props: {
+                      type: "success",
+                      size: "small"
+                    },
+                    on: {
+                      click: () => {
+                        this.$router.push({
+                          name: "giftApplicationManager",
+                          params: {data: params.row}
+                        });
+                      }
                     }
-                  }
-                }, "发放记录")
-              ]);
-            } else {
-              return h("div", [
-                h("Button", {
-                  props: {
-                    type: "success",
-                    size: "small"
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({
-                        name: "giftApplicationManager",
-                        params: {
-                          data: params.row
-                        }
-                      });
+                  }, "发放记录")
+                ]);
+              } else {
+                return h("div", [
+                  h("Button", {
+                    props: {
+                      type: "success",
+                      size: "small"
+                    },
+                    on: {
+                      click: () => {
+                        this.$router.push({
+                          name: "giftApplicationManager",
+                          params: {
+                            data: params.row
+                          }
+                        });
+                      }
                     }
-                  }
-                }, "发放记录")
-              ]);
+                  }, "发放记录")
+                ]);
+              }
             }
-          }
-        }],
+          }],
       };
     },
     computed: {

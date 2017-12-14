@@ -15,6 +15,9 @@ import EmployeeCommonOperator from "./modules/Fund/EmployeeCommonOperator/EventT
 import gift from "./modules/flexible_benefit/gift/event_types"
 import market from "./modules/flexible_benefit/market/event_types"
 
+//健康医疗
+import transfer from './modules/health_medical/relationship_transfer/event_types';
+
 //社保对账
 
 import SocialSecurityReconcilate from "./modules/social_security/social_security_recon_cilate/event_types";
@@ -36,9 +39,13 @@ export default {
 
   ...EmployeeFundSearch,
   ...EmployeeCommonOperator,
-
+  //弹性福利
   ...gift,
   ...market,
+
+  //健康医疗
+  ...transfer,
+
   ...SocialSecurityReconcilate,
   ...Socialsecurityreport,
 };

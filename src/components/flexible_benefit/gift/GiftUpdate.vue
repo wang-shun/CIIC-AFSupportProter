@@ -222,12 +222,10 @@
                 if (res.data.errorcode === "200") {
                   this.$router.push({path: '/giftApplicationManager'})
                 } else {
-                  console.log(res.data)
                   this.$Message.error("服务器异常，请稍后再试:");
                 }
               },
               errCallback: (error) => {
-                console.log(error)
                 this.$Message.error("服务器异常，请稍后再试");
               }
             });

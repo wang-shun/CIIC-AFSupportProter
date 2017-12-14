@@ -55,9 +55,9 @@
       <Button icon="ios-download-outline" type="primary" @click="exportData(2)">导出数据</Button>
     </div>
     <Table border :columns="reimbursementColumns" :data="reimbursementData" ref="reimbursementTable"></Table>
-    <Page :total="this.total" show-sizer show-elevator @on-change="getByPage"
-          @on-page-size-change="pageSizeChange" :current.sync="this.page.pageNum"
-          :page-size="this.page.pageSize"></Page>
+    <Page :total="total" show-sizer show-elevator @on-change="getByPage"
+          @on-page-size-change="pageSizeChange" :current.sync="page.pageNum"
+          :page-size="page.pageSize"></Page>
   </div>
 </template>
 
@@ -140,9 +140,8 @@
       query() {
         /*封装为后台可以接受的数据结构*/
         let queryData = this.page;
-        queryData.params = this.transferItem;
+        queryData.params = this.reimbursementItem;
         this[EventTypes.REIMBURSEMENT_LIST](queryData).then(() => {
-          console.info(this.$store.state.TRANSFER.data);
           this.total = this.$store.state.TRANSFER.data.reimbursementTotal;
         })
       },

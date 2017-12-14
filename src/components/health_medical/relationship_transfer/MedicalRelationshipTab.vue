@@ -55,9 +55,9 @@
       <Button icon="ios-download-outline" type="primary" @click="exportDataTransfer(1)">导出数据</Button>
     </div>
     <Table border :columns="transferColumns" :data="transferData" ref="transferTable"></Table>
-    <Page :total="this.transferTotal" show-sizer show-elevator @on-change="getTransferByPage"
-          @on-page-size-change="pageSizeChangeTransfer" :current.sync="this.transferPage.pageNum"
-          :page-size="this.transferPage.pageSize"></Page>
+    <Page :total="transferTotal" show-sizer show-elevator @on-change="getTransferByPage"
+          @on-page-size-change="pageSizeChangeTransfer" :current.sync="transferPage.pageNum"
+          :page-size="transferPage.pageSize"></Page>
   </div>
 </template>
 
@@ -133,7 +133,6 @@
         let queryData = this.transferPage;
         queryData.params = this.transferItem;
         this[EventTypes.TRANSFER_LIST](queryData).then(() => {
-          console.info(this.$store.state.TRANSFER.data);
           this.transferTotal = this.$store.state.TRANSFER.data.transferTotal;
         });
       },

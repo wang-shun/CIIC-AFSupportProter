@@ -1,7 +1,7 @@
 html,body,.ivu-row-flex,.layout{
   height: 100%;
   min-height: 100%;
-  overflow: auto;
+  overflow-y: hidden;
 }
 .layout{
   overflow: auto;
@@ -102,7 +102,7 @@ html,body,.ivu-row-flex,.layout{
 }
 .layout-content{ height: 84%; overflow: auto!important;}
 .ivu-form-item{
-  margin-bottom: 25px;
+  margin-bottom: 16px;
 }
 .salaryTabs .ivu-tabs-content {
   overflow: auto;
@@ -306,6 +306,9 @@ html,body,.ivu-row-flex,.layout{
     line-height: 1;
     padding: 10px 12px 10px 0;
     box-sizing: border-box;
+}
+.ivu-table td {
+  height: 40px;
 }
 
 /* inline cover style */

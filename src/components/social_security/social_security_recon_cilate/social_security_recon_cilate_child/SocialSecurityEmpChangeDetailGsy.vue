@@ -2,33 +2,33 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        对账差异
+        城镇社会保险变更总汇明细(工保、生保)
         <div slot="content">
             <!-- <Form :label-width=150 ref="pagParam" :model="pagParam">
               <Form-item label="" >
                 <Input v-model="pagParam.statementId" disabled></Input>
               </Form-item>
             </Form> -->
-            <Form :label-width=150 ref="statementData" :model="statementData">
+            <Form :label-width=150 ref="empChangeData" :model="empChangeData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="社保月份：" prop="ssMonth">
-                  <label>{{statementData.ssMonth}}</label>
+                  <label>{{empChangeData.ssMonth}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="企业社保账户：" prop="comAccountName">
-                  <label >{{statementData.comAccountName}}</label>
+                  <label >{{empChangeData.comAccountName}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="差异总数(按雇员)：" prop="diffSumByEmp">
-                  <label>{{statementData.diffSumByEmp}}</label>
+                <Form-item label="最近计算人：" prop="computeUserId">
+                  <label>{{empChangeData.computeUserId}}</label>
                 </Form-item>
               </Col> 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="差异总数(含项目)：" prop="diffSumByItem">
-                  <label >{{statementData.diffSumByItem}}</label>
+                <Form-item label="最近计算时间：" prop="lastComputeTime">
+                  <label >{{empChangeData.lastComputeTime}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -37,8 +37,8 @@
       </Panel>
     </Collapse>
     <Table 
-        :columns="statementResultColumns" 
-        :data="statementResultData">
+        :columns="empChangeDetailDataColumns" 
+        :data="empChangeDetailData">
     </Table>
      
     <Row class="mt20">
@@ -54,21 +54,21 @@
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import companyAccountSearchModal from '../../../commoncontrol/companyaccountsearchmodal.vue'
   import EventType from '../../../../store/EventTypes'
-  import api from '../../../../api/social_security/statement_detail'
+  import api from '../../../../api/social_security/month_emp_change'
 
   export default {
     components: {customerModal, companyAccountSearchModal},
     data() {
       return {
         collapseInfo: [1], //展开栏
-        statementData: {
+        empChangeData: {
           ssMonth:'',//社保月份
           comAccountName: '', //企业社保账户分类 
-          diffSumByEmp:'',
-          diffSumByItem:'',
+          computeUserId:'',
+          lastComputeTime:'',
         },
-        statementResultData: [],
-        statementResultColumns: [
+        empChangeDetailData: [],
+        empChangeDetailDataColumns: [
            
           {title: '雇员编号', key: 'employeeId',  align: 'center',
             render: (h, params) => {
@@ -92,53 +92,41 @@
               ]);
             }
           },
-          {title: '险种', key: 'ssTypeName',  align: 'center',
+          {title: '个人月缴纳基数', key: 'baseAmount', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.ssTypeName),
+                h('span', params.row.baseAmount),
               ]);
             }
           },
-          {title: '项目', key: 'projectTypeName',  align: 'center',
+          {title: '工伤单位缴费额', key: 'comAmountAccident',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.projectTypeName),
-              ]);
-              
-            }
-          },
-          {title: '导入金额', key: 'impAmount', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.impAmount),
+                h('span', params.row.comAmountAccident),
               ]);
             }
           },
-          {title: '系统金额', key: 'ssAmount',  align: 'center',
+          {title: '工伤单位补缴', key: 'comCompensatedAmountAccident', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.ssAmount),
+                h('span', params.row.comCompensatedAmountAccident),
               ]);
             }
           },
-          {title: '差异', key: 'diffAmount', align: 'center',
+          {title: '生育单位缴费额', key: 'comAmountMaternity',  align: 'center',
             render: (h, params) => {
-              let impAmount = params.row.impAmount;
-              let ssAmount = params.row.ssAmount;
-              let diffAmount = params.row.diffAmount;
-              let diffShow = '';
-              if(impAmount == 0 && diffAmount == -ssAmount){
-                diffShow = '导入不存在'
-              }else if(ssAmount == 0 && diffAmount == impAmount){
-                diffShow = '系统不存在'
-              }else{
-                diffShow = diffAmount
-              }
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', diffShow),
+                h('span', params.row.comAmountMaternity),
               ]);
             }
-          }
+          },
+          {title: '生育单位补缴', key: 'comCompensatedAmountMaternity', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.comCompensatedAmountMaternity),
+              ]);
+            }
+          },
         ],
         // pagParam: {
         //   //对账主表ID
@@ -154,8 +142,8 @@
       //     };
       //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
       //this.doAlert(pagParam.statementId); 
-      this.serachStatementData(window.sessionStorage.getItem("statementId"));
-      this.serachStatementResultData(window.sessionStorage.getItem("statementId"));
+      this.serachMonthEmpChange(window.sessionStorage.getItem("statementId"));
+      this.showMonthEmpChangeDetail(window.sessionStorage.getItem("statementId"));
       
     },
     computed: {
@@ -180,18 +168,18 @@
       doAlert(value) {
         alert(value);
       },
-      serachStatementData(statementId){
-        api.serachStatementData({
+      serachMonthEmpChange(statementId){
+        api.serachMonthEmpChange({
           statementId: statementId
         }).then(data => {
-          this.statementData = data.data;
+          this.empChangeData = data.data;
         })
       },
-      serachStatementResultData(statementId){
-        api.serachStatementResultData({
+      showMonthEmpChangeDetail(statementId){
+        api.showMonthEmpChangeDetail({
           statementId: statementId
         }).then(data => {
-          this.statementResultData = data.data;
+          this.empChangeDetailData = data.data;
         })
       },
     }

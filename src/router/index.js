@@ -117,7 +117,6 @@ const yearbaseapplicate = r => require.ensure([], () => r(require('@/components/
 const systemmanage = r => require.ensure([], () => r(require('@/components/social_security/system_manage/systemmanage')), 'systemmanage')
 
 
-
 /* ================== 本地公积金 ================== */
 /*
  * employeefundsearch          --- 雇员公积金查询
@@ -149,7 +148,6 @@ const fundreport = r => require.ensure([], () => r(require('@/components/fund/em
 const fundyearadjust = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundyearadjust')), 'fundyearadjust')
 
 
-
 //任务单管理
 const pendingTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/PendingTaskList')), 'pendingTaskList') //待处理任务单列表
 const processedTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/ProcessedTaskList')), 'processedTaskList') //已处理任务单列表
@@ -167,7 +165,6 @@ const addAcceptanceEmployeeList = r => require.ensure([], () => r(require('@/com
 const addAcceptance = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddAcceptance')), 'addAcceptance') //新增受理单
 const auditAcceptance = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AuditAcceptance')), 'auditAcceptance') //审核受理单
 
-const addFragmentaryReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddFragmentaryReimbursement')), 'addFragmentaryReimbursement') //发票列表
 const auditNurseryFee = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AuditNurseryFee')), 'auditNurseryFee') //医疗关系转移
 
 
@@ -192,6 +189,7 @@ const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/compon
  */
 const relationshipTransfer = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/RelationshipTransfer')), 'relationshipTransfer'); //医疗关系转移
 const addMedicalRelationship = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddMedicalRelationship')), 'addMedicalRelationship'); //医疗关系转移
+const addReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddReimbursement')), 'addReimbursement'); //医疗关系转移
 
 /*
  * giftApplicationManager              --弹性福利
@@ -216,7 +214,6 @@ const marketGrant = r => require.ensure([], () => r(require('@/components/flexib
 const reportFormManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/report_form/ReportFormManager')), 'ReportFormManager'); //报表查询
 
 
-
 Vue.use(Router)
 let router = new Router({
   linkActiveClass: 'is-active',
@@ -236,65 +233,65 @@ let router = new Router({
       children: [
         {
           path: '', //默认显示的自路由
-          name:'main',
+          name: 'main',
           //component: charts
           // name:'employeesocialsecuritysearch',
-           component: employeesocialsecuritysearch
+          component: employeesocialsecuritysearch
         },
         {
           path: '/employee_social_security_search',
-          name:'employeesocialsecuritysearch',
+          name: 'employeesocialsecuritysearch',
           component: employeesocialsecuritysearch,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"雇员社保查询",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "雇员社保查询",
+            openNames: ['1']
           }
         },
         {
           path: '/employee_social_security_info',
-          name:'employeesocialsecurityinfo',
+          name: 'employeesocialsecurityinfo',
           component: employeesocialsecurityinfo,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"雇员社保基本信息",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "雇员社保基本信息",
+            openNames: ['1']
           }
         },
         {
           path: '/company_social_security_new',
-          name:'companysocialsecuritynew',
+          name: 'companysocialsecuritynew',
           component: companysocialsecuritynew,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"雇员社保办理",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "雇员社保办理",
+            openNames: ['1']
           }
         },
 
         {
           path: '/employee_operator_view',
-          name:'employeeoperatorview',
+          name: 'employeeoperatorview',
           component: employeeoperatorview,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"雇员日常操作",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "雇员日常操作",
+            openNames: ['1']
           }
         },
         {
           path: '/employee_comm_cial_operator',
-          name:'employeecommcialoperator',
+          name: 'employeecommcialoperator',
           component: employeecommcialoperator,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"雇员日常操作",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "雇员日常操作",
+            openNames: ['1']
           }
         },
 
@@ -302,33 +299,33 @@ let router = new Router({
           path: '/employee_special_operator_view',
           name: 'employeespecialoperatorview',
           component: employeespecialoperatorview,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"雇员特殊操作",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "雇员特殊操作",
+            openNames: ['1']
           },
         },
         {
           path: '/employee_special_progress_two',
           name: 'employeespecialprogresstwo',
           component: employeespecialprogresstwo,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"雇员特殊操作",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "雇员特殊操作",
+            openNames: ['1']
           }
         },
         {
           path: '/employee_special_progress_three',
           name: 'employeespecialprogressthree',
           component: employeespecialprogressthree,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"雇员特殊操作",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "雇员特殊操作",
+            openNames: ['1']
           }
         },
 
@@ -336,66 +333,66 @@ let router = new Router({
           path: '/company_task_list',
           name: 'companytasklist',
           component: companytasklist,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业任务单",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业任务单",
+            openNames: ['1']
           },
         },
         {
           path: '/company_task_progress2',
           name: 'companytaskprogress2',
           component: companytaskprogress2,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业任务单",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业任务单",
+            openNames: ['1']
           }
         },
         {
           path: '/company_task_progress_type_info',
           name: 'companytaskprogresstypeinfo',
           component: companytaskprogresstypeinfo,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业任务单",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业任务单",
+            openNames: ['1']
           }
         },
         {
           path: '/company_task_progress_transfer_info',
           name: 'companytaskprogresstransferinfo',
           component: companytaskprogresstransferinfo,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业任务单",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业任务单",
+            openNames: ['1']
           }
         },
         {
           path: '/company_task_progress_change_info',
           name: 'companytaskprogresschangeinfo',
           component: companytaskprogresschangeinfo,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业任务单",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业任务单",
+            openNames: ['1']
           }
         },
         {
           path: '/company_task_progres_send_info',
           name: 'companytaskprogressendinfo',
           component: companytaskprogressendinfo,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业任务单",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业任务单",
+            openNames: ['1']
           }
         },
 
@@ -403,66 +400,66 @@ let router = new Router({
           path: '/company_social_security_manage',
           name: 'companysocialsecuritymanage',
           component: companysocialsecuritymanage,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业社保账户管理",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业社保账户管理",
+            openNames: ['1']
           }
         },
         {
           path: '/company_social_security',
           name: 'companysocialsecurity',
           component: companysocialsecurity,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业社保账户管理",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业社保账户管理",
+            openNames: ['1']
           }
         },
         {
           path: '/company_social_security_progress2',
           name: 'companysocialsecurityprogress2',
           component: companysocialsecurityprogress2,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业社保账户管理",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业社保账户管理",
+            openNames: ['1']
           }
         },
         {
           path: '/company_social_security_type_info',
           name: 'companysocialsecuritytypeinfo',
           component: companysocialsecuritytypeinfo,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业社保账户管理",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业社保账户管理",
+            openNames: ['1']
           }
         },
         {
           path: '/company_social_security_change_info',
           name: 'companysocialsecuritychangeinfo',
           component: companysocialsecuritychangeinfo,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业社保账户管理",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业社保账户管理",
+            openNames: ['1']
           }
         },
         {
           path: '/company_social_security_end_info',
           name: 'companysocialsecurityendinfo',
           component: companysocialsecurityendinfo,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"企业社保账户管理",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "企业社保账户管理",
+            openNames: ['1']
           }
         },
 
@@ -470,44 +467,44 @@ let router = new Router({
           path: '/social_security_recon_cilate',
           name: 'socialsecurityreconcilate',
           component: socialsecurityreconcilate,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"社保对账",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "社保对账",
+            openNames: ['1']
           }
         },
         {
           path: '/social_security_recon_cilate_detail',
           name: 'socialsecurityreconcilatedetail',
           component: socialsecurityreconcilatedetail,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"社保对账",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "社保对账",
+            openNames: ['1']
           }
         },
         {
           path: '/social_security_pay',
           name: 'socialsecuritypay',
           component: socialsecuritypay,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"社保支付",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "社保支付",
+            openNames: ['1']
           }
         },
         {
           path: '/payment_notice',
           name: 'paymentnotice',
           component: paymentnotice,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"社保支付",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "社保支付",
+            openNames: ['1']
           }
         },
 
@@ -515,33 +512,33 @@ let router = new Router({
           path: '/social_security_report',
           name: 'socialsecurityreport',
           component: socialsecurityreport,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"社保报表",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "社保报表",
+            openNames: ['1']
           }
         },
         {
           path: '/monthly_payment_notice',
           name: 'monthlypaymentnotice',
           component: monthlypaymentnotice,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"社保报表",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "社保报表",
+            openNames: ['1']
           }
         },
         {
           path: '/year_base_applicate',
           name: 'yearbaseapplicate',
           component: yearbaseapplicate,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"年度基数申报",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "年度基数申报",
+            openNames: ['1']
           }
         },
 
@@ -549,11 +546,11 @@ let router = new Router({
           path: '/system_manage',
           name: 'systemmanage',
           component: systemmanage,
-          meta:{
-            level1:'全国社保',
-            level2:"上海社保",
-            level3:"系统管理",
-            openNames:['1']
+          meta: {
+            level1: '全国社保',
+            level2: "上海社保",
+            level3: "系统管理",
+            openNames: ['1']
           }
         },
 
@@ -692,279 +689,279 @@ let router = new Router({
 
         {
           path: '/addAcceptanceEmployeeList',
-          name:'addAcceptanceEmployeeList',
+          name: 'addAcceptanceEmployeeList',
           component: addAcceptanceEmployeeList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增受理单",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "新增受理单",
+            openNames: ['2']
           }
         },
         {
           path: '/pendingTaskList',
-          name:'pendingTaskList',
+          name: 'pendingTaskList',
           component: pendingTaskList,
-          meta:{
-            level1:'首页',
-            level2:"任务单管理",
-            level3:"待处理任务单列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "任务单管理",
+            level3: "待处理任务单列表",
+            openNames: ['2']
           }
         },
         {
           path: '/processedTaskList',
-          name:'processedTaskList',
+          name: 'processedTaskList',
           component: processedTaskList,
-          meta:{
-            level1:'首页',
-            level2:"任务单管理",
-            level3:"已处理任务单列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "任务单管理",
+            level3: "已处理任务单列表",
+            openNames: ['2']
           }
         },
         {
           path: '/addAcceptance',
-          name:'addAcceptance',
+          name: 'addAcceptance',
           component: addAcceptance,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增受理单",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "新增受理单",
+            openNames: ['2']
           }
         },
 
         {
           path: '/invoiceList',
-          name:'invoiceList',
+          name: 'invoiceList',
           component: invoiceList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"发票列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "发票列表",
+            openNames: ['2']
           }
         },
         {
           path: '/relationshipTransfer',
-          name:'relationshipTransfer',
+          name: 'relationshipTransfer',
           component: relationshipTransfer,
-          meta:{
-            level1:'首页',
-            level2:"医疗关系转移",
-            level3:"医疗关系转移",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "医疗关系转移",
+            level3: "医疗关系转移",
+            openNames: ['2']
           }
         },
 
         {
           path: '/auditAcceptance',
-          name:'auditAcceptance',
+          name: 'auditAcceptance',
           component: auditAcceptance,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"审核受理单",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "审核受理单",
+            openNames: ['2']
           }
         },
         {
-          path: '/addFragmentaryReimbursement',
-          name:'addFragmentaryReimbursement',
-          component: addFragmentaryReimbursement,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增零星报销",
-            openNames:['2']
+          path: '/addReimbursement',
+          name: 'addReimbursement',
+          component: addReimbursement,
+          meta: {
+            level1: '首页',
+            level2: "医疗关系",
+            level3: "新增零星报销",
+            openNames: ['2']
           }
         },
         {
           path: '/addMedicalRelationship',
-          name:'addMedicalRelationship',
+          name: 'addMedicalRelationship',
           component: addMedicalRelationship,
-          meta:{
-            level1:'首页',
-            level2:"医疗关系",
-            level3:"新增医疗关系转移",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "医疗关系",
+            level3: "新增医疗关系转移",
+            openNames: ['2']
           }
         },
         {
           path: '/auditNurseryFee',
-          name:'auditNurseryFee',
+          name: 'auditNurseryFee',
           component: auditNurseryFee,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"托费报销受理",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "托费报销受理",
+            openNames: ['2']
           }
         },
         {
           path: '/InsurancePolicyList',
-          name:'InsurancePolicyList',
+          name: 'InsurancePolicyList',
           component: InsurancePolicyList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"保单批次列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "保单管理",
+            level3: "保单批次列表",
+            openNames: ['2']
           }
         },
         {
           path: '/InsurancePolicyNumEmpList',
-          name:'InsurancePolicyNumEmpList',
+          name: 'InsurancePolicyNumEmpList',
           component: InsurancePolicyNumEmpList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"新增保单缴费批次",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "保单管理",
+            level3: "新增保单缴费批次",
+            openNames: ['2']
           }
         },
         {
           path: '/InsurancePolicyNumCostConfirmList',
-          name:'InsurancePolicyNumCostConfirmList',
+          name: 'InsurancePolicyNumCostConfirmList',
           component: InsurancePolicyNumCostConfirmList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"保单费用确认",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "保单管理",
+            level3: "保单费用确认",
+            openNames: ['2']
           }
         },
         {
           path: '/InsurancePolicyNumList',
-          name:'InsurancePolicyNumList',
+          name: 'InsurancePolicyNumList',
           component: InsurancePolicyNumList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"保单号列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "保单管理",
+            level3: "保单号列表",
+            openNames: ['2']
           }
         },
         {
           path: '/AddInsurancePolicyNum',
-          name:'AddInsurancePolicyNum',
+          name: 'AddInsurancePolicyNum',
           component: AddInsurancePolicyNum,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"新增保单号",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "保单管理",
+            level3: "新增保单号",
+            openNames: ['2']
           }
         },
         {
           path: '/AddPayRate',
-          name:'AddPayRate',
+          name: 'AddPayRate',
           component: AddPayRate,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"新增付费比例",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "保单管理",
+            level3: "新增付费比例",
+            openNames: ['2']
           }
         },
         {
           path: '/AgentBusinessList',
-          name:'AgentBusinessList',
+          name: 'AgentBusinessList',
           component: AgentBusinessList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"代收代付列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "保单管理",
+            level3: "代收代付列表",
+            openNames: ['2']
           }
         },
         {
           path: '/AddAgentBusiness',
-          name:'AddAgentBusiness',
+          name: 'AddAgentBusiness',
           component: AddAgentBusiness,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"新增代收代付",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "保单管理",
+            level3: "新增代收代付",
+            openNames: ['2']
           }
         },
         {
           path: '/AgentBusinessBatchList',
-          name:'AgentBusinessBatchList',
+          name: 'AgentBusinessBatchList',
           component: AgentBusinessBatchList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"代收代付批次列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "保单管理",
+            level3: "代收代付批次列表",
+            openNames: ['2']
           }
         },
         {
           path: '/supplementaryMedicalList',
-          name:'supplementaryMedicalList',
+          name: 'supplementaryMedicalList',
           component: supplementaryMedicalList,
-          meta:{
-            level1:'首页',
-            level2:"补充医疗理赔",
-            level3:"补充医疗理赔",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "补充医疗理赔",
+            level3: "补充医疗理赔",
+            openNames: ['2']
           }
         },
         {
           path: '/supplementaryMedicalBatchList',
-          name:'supplementaryMedicalBatchList',
+          name: 'supplementaryMedicalBatchList',
           component: supplementaryMedicalBatchList,
-          meta:{
-            level1:'首页',
-            level2:"补充医疗理赔",
-            level3:"补充医疗理赔批量",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "补充医疗理赔",
+            level3: "补充医疗理赔批量",
+            openNames: ['2']
           }
         },
         {
           path: '/acceptanceAuditList',
-          name:'acceptanceAuditList',
+          name: 'acceptanceAuditList',
           component: acceptanceAuditList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"未投保审核列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "未投保审核列表",
+            openNames: ['2']
           }
         },
         {
           path: '/acceptanceList',
-          name:'acceptanceList',
+          name: 'acceptanceList',
           component: acceptanceList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"受理单列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "受理单列表",
+            openNames: ['2']
           }
         },
         {
           path: '/checkMedicalList',
-          name:'checkMedicalList',
+          name: 'checkMedicalList',
           component: checkMedicalList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增未投保列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "新增未投保列表",
+            openNames: ['2']
           }
         },
         {
           path: '/insuredList',
-          name:'insuredList',
+          name: 'insuredList',
           component: insuredList,
-          meta:{
-            level1:'首页',
-            level2:"在保管理",
-            level3:"在保管理",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "在保管理",
+            level3: "在保管理",
+            openNames: ['2']
           }
         },
         //弹性福利
@@ -978,7 +975,7 @@ let router = new Router({
             level3: "礼品管理",
             openNames: ['2']
           }
-        },{
+        }, {
           path: '/giftAdd',
           name: 'giftAdd',
           component: giftAdd,
@@ -988,7 +985,7 @@ let router = new Router({
             level3: "新增礼品",
             openNames: ['2']
           }
-        },{
+        }, {
           path: '/giftUpdate',
           name: 'giftUpdate',
           component: giftUpdate,
@@ -998,7 +995,7 @@ let router = new Router({
             level3: "修改礼品",
             openNames: ['2']
           }
-        },{
+        }, {
           path: '/marketActivitiesManager',
           name: 'marketActivitiesManager',
           component: marketActivitiesManager,
@@ -1008,7 +1005,7 @@ let router = new Router({
             level3: "市场活动管理",
             openNames: ['2']
           }
-        },{
+        }, {
           path: '/addActivity',
           name: 'addActivity',
           component: addActivity,
@@ -1018,7 +1015,7 @@ let router = new Router({
             level3: "新增市场活动",
             openNames: ['2']
           }
-        },{
+        }, {
           path: '/updateActivity',
           name: 'updateActivity',
           component: updateActivity,
@@ -1028,7 +1025,7 @@ let router = new Router({
             level3: "新增市场活动",
             openNames: ['2']
           }
-        },{
+        }, {
           path: '/grantManager',
           name: 'grantManager',
           component: grantManager,
@@ -1048,7 +1045,7 @@ let router = new Router({
             level3: "礼品审批",
             openNames: ['2']
           }
-        },{
+        }, {
           path: '/giftGrant',
           name: 'giftGrant',
           component: giftGrant,
@@ -1058,7 +1055,7 @@ let router = new Router({
             level3: "礼品发放",
             openNames: ['2']
           }
-        },{
+        }, {
           path: '/marketExamine',
           name: 'marketExamine',
           component: marketExamine,
@@ -1068,7 +1065,7 @@ let router = new Router({
             level3: "活动审批",
             openNames: ['2']
           }
-        },{
+        }, {
           path: '/marketGrant',
           name: 'marketGrant',
           component: marketGrant,
@@ -1078,7 +1075,7 @@ let router = new Router({
             level3: "活动发放",
             openNames: ['2']
           }
-        },{
+        }, {
           path: '/reportFormManager',
           name: 'reportFormManager',
           component: reportFormManager,
@@ -1090,20 +1087,22 @@ let router = new Router({
           }
         }
       ]
-      }
-   ]})
+    }
+  ]
+})
 
-router.beforeEach((to,from,next)=>{
+router.beforeEach((to, from, next) => {
   // console.log(router.app.$local);
-    window.document.title="社保中心";
-    localStorage.setItem('level1',to.meta.level1);
-    localStorage.setItem('level2',to.meta.level2);
-    localStorage.setItem('level3',to.meta.level3);
-    localStorage.setItem('level4',to.meta.level4);
-    localStorage.setItem("openNames",[to.meta.openNames]);
-    next();
+  window.document.title = "社保中心";
+  localStorage.setItem('level1', to.meta.level1);
+  localStorage.setItem('level2', to.meta.level2);
+  localStorage.setItem('level3', to.meta.level3);
+  localStorage.setItem('level4', to.meta.level4);
+  localStorage.setItem("openNames", [to.meta.openNames]);
+  next();
 });
-router.afterEach((to,from)=>{});
+router.afterEach((to, from) => {
+});
 
 
 export default router;

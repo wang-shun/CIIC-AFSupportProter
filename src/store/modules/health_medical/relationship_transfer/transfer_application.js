@@ -38,6 +38,16 @@ const actions = {
       params.errCallback(error);
     })
   },
+  [EventTypes.REIMBURSEMENT_INSERT]({commit}, params) {
+    mock.reimbursementAdd(params.data).then(response => {
+      commit(EventTypes.REIMBURSEMENT_INSERT, response.data);
+      params.callback(response.data);
+    }, error => {
+      params.errCallback(error);
+    }).catch(error => {
+      params.errCallback(error);
+    })
+  },
 
 };
 
@@ -51,6 +61,9 @@ const mutations = {
     state.data.reimbursementTotal = data.total;
   },
   [EventTypes.TRANSFER_INSERT](state, data) {
+    state.data.addResult = data.code;
+  },
+  [EventTypes.REIMBURSEMENT_INSERT](state, data) {
     state.data.addResult = data.code;
   },
 

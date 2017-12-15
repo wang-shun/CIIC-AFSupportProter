@@ -49,7 +49,7 @@
     </Collapse>
 
     <div class="tr" style="margin: 20px auto;">
-      <router-link to="/addFragmentaryReimbursement">
+      <router-link to="/addReimbursement">
         <Button type="primary">新增零星报销</Button>
       </router-link>
       <Button icon="ios-download-outline" type="primary" @click="exportData(2)">导出数据</Button>

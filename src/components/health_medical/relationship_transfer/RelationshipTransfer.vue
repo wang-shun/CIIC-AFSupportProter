@@ -1,6 +1,6 @@
 <template>
   <div class="smList">
-    <Tabs @on-click="changeTab">
+    <Tabs @on-click="changeTab" v-model="currentTab">
       <TabPane label="医疗关系转移">
 
       </TabPane>
@@ -27,8 +27,16 @@
         currentTab: 0
       }
     },
+    created() {
+      let ts = this.$route.params.data;
+      console.info(ts)
+      if(ts) {
+        this.changeTab(ts);
+      }
+    },
     methods: {
       changeTab(i) {
+        console.info(i);
         this.currentTab = i;
       }
     }

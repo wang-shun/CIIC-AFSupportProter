@@ -8,9 +8,11 @@ const transferList = params => ajaxq.post("/api/afsupportcenter/healthmedical/qu
 const reimbursementList = params => ajaxq.post("/api/afsupportcenter/healthmedical/queryservice/FragmentaryReimbursement/getEntityList", params);
 //command服务
 const transferAdd = params => ajaxc.post("/api/afsupportcenter/healthmedical/commandservice/MedicalRelationTransform/save", params);
+const reimbursementAdd = params => ajaxc.post("/api/afsupportcenter/healthmedical/commandservice/FragmentaryReimbursement/save", params);
 
 export default {
   transferList,
   reimbursementList,
   transferAdd,
+  reimbursementAdd,
 }

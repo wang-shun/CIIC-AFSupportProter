@@ -1,11 +1,11 @@
 <template>
-  <div class="smList">
+  <div class="addMedicalTransform">
     <Card>
-      <Form :model="transferItem" ref="transferItem" :rules="transferValidate" :label-width="120">
+      <Form :model="reimbursementItem" ref="reimbursementItem" :rules="reimbursementValidator" :label-width="120">
         <row>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
           <Form-item label="雇员编号：" prop="employeeId">
-            <Input v-model="transferItem.employeeId" placeholder="请输入"/>
+            <Input v-model="reimbursementItem.employeeId" placeholder="请输入"/>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
@@ -34,31 +34,37 @@
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="转出日期：" prop="turnOutDate">
-            <DatePicker v-model="transferItem.turnOutDate" placeholder="请输入"></DatePicker>
+          <Form-item label="受理金额：" prop="caseMoney">
+            <InputNumber v-model="reimbursementItem.caseMoney" placeholder="请输入" style="width: 100%"></InputNumber>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="转出地点：" prop="turnOutAddress">
-            <Input v-model="transferItem.turnOutAddress" placeholder="请输入"/>
+          <Form-item label="发票数：" prop="invoiceNumber">
+            <InputNumber v-model="reimbursementItem.invoiceNumber" placeholder="请输入" style="width: 100%"></InputNumber>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="转回日期：" prop="turnBackDate">
-            <DatePicker v-model="transferItem.turnBackDate" placeholder="请输入"></DatePicker>
+          <Form-item label="医保结算金额：" prop="medicalClearingMoney">
+            <InputNumber v-model="reimbursementItem.medicalClearingMoney" placeholder="请输入"
+                         style="width: 100%"></InputNumber>
           </Form-item>
           </Col>
-
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="备注：">
-            <Input type="textarea" v-model="transferItem.remark" :autosize="{minRows: 2,maxRows: 5}"
+          <Form-item label="医疗备注：" prop="medicalRemark">
+            <Input type="textarea" v-model="reimbursementItem.medicalRemark" :autosize="{minRows: 2,maxRows: 5}"
                    placeholder="请输入..."/>
+          </Form-item>
+          </Col>
+          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Form-item label="医疗结算反馈：" prop="medicalCle1aringFeedBack">
+            <Input type="textarea" v-model="reimbursementItem.medicalCle1aringFeedBack"
+                   :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
           </Form-item>
           </Col>
         </row>
       </Form>
       <div class="tc">
-        <Button type="primary" @click="addTransfer">提交</Button>
+        <Button type="primary" @click="addReimbursement">提交</Button>
         <Button type="success" @click="back">返回</Button>
       </div>
     </Card>
@@ -71,35 +77,31 @@
   export default {
     data() {
       return {
-        transferItem: {
-          employeeId: "",
-          turnOutDate: null,
-          turnOutAddress: null,
-          turnBackDate: null,
-          remark: ""
+        reimbursementItem: {
+          employeeId: null,
+          caseMoney: null,
+          invoiceNumber: null,
+          medicalRemark: null,
+          medicalClearingMoney: null,
+          medicalCle1aringFeedBack: null,
         },
-        transferValidate: this.$Validator.transferValidator,
-      }
+        reimbursementValidator: this.$Validator.reimbursementValidator
+      };
     },
     methods: {
-      ...mapActions("TRANSFER", [EventTypes.TRANSFER_INSERT]),
+      ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_INSERT]),
 
       back() {
         this.$local.back();
       },
-      addTransfer() {
-        this.$refs['transferItem'].validate((valid) => {
+      addReimbursement() {
+        this.$refs['reimbursementItem'].validate((valid) => {
           if (valid) {
-            /*vue数据脱绑*/
-            let params = JSON.parse(JSON.stringify(this.transferItem));
-            /*前台时间转化为字符串*/
-            params.turnOutDate = this.$utils.formatDate(this.transferItem.turnOutDate, 'YYYY-MM-DD');
-            params.turnBackDate = this.$utils.formatDate(this.transferItem.turnBackDate, 'YYYY-MM-DD');
-            this[EventTypes.TRANSFER_INSERT]({
-              data: params,
+            this[EventTypes.REIMBURSEMENT_INSERT]({
+              data: this.reimbursementItem,
               callback: (res) => {
                 if (res.code === 200) {
-                  this.$router.push({path: '/relationshipTransfer'})
+                  this.$router.push({name: 'relationshipTransfer', params: {data: 1}})
                 } else {
                   this.$Message.error("服务器异常，请稍后再试");
                 }

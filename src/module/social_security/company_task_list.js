@@ -304,7 +304,7 @@ export class CompanyTaskList{
         //如果扩展字段有值显示扩展字段
         if(dynamicExtend!=null && dynamicExtend!=""){
           let res = JSON.parse(dynamicExtend)
-          settlementArea = res.settlementArea
+          settlementArea = res.settlementArea==""||res.settlementArea==null?settlementArea:res.settlementArea
           transferDate = res.transferDate
         }
         data.transferOperator= {
@@ -375,7 +375,7 @@ export class CompanyTaskList{
         
         if(!result.isError){
           //获得前台显示数据
-          let data = this.ComInfoAndPayWayData(result.data)
+          let data = this.comInfoAndPayWayData(result.data)
           resolve(data)
         }else reject(Error(result.message))
     })
@@ -411,7 +411,7 @@ export class CompanyTaskList{
   /**
    * @param result 后台返回的数据
    */
-  static ComInfoAndPayWayData(result){
+  static comInfoAndPayWayData(result){
     //前道传过来的社保截止和支付方式的json
     let taskFormContent =  JSON.parse(result.taskFormContent)
     //账户信息
@@ -462,23 +462,22 @@ export class CompanyTaskList{
             resourceNotes: isNull?'':ssComAccountDTO.originPlaceRemark, //来源地备注
             giveMethodValue: isNull?'':ssComAccountDTO.deliverWay,//交予方式
             giveMethodNotes: isNull?'':ssComAccountDTO.deliverWayRemark, //交予方式备注
-            giveProofDate: isNull || ssComAccountDTO.provideCertificateTime==null ?'':new Date(ssComAccountDTO.provideCertificateTime), //交予凭证时间
-            changeDate: isNull || ssComAccountDTO.changeTime==null ?'':new Date(ssComAccountDTO.changeTime), //变更时间
-            recieveDate: isNull || ssComAccountDTO.receiveDate==null ?'':new Date(ssComAccountDTO.receiveDate), //收到日期
-            moveInDate: isNull || ssComAccountDTO.intoDate==null ?'':new Date(ssComAccountDTO.intoDate), //转入日期
+            giveProofDate: isNull || ssComAccountDTO.provideCertificateTime==null ?'':ssComAccountDTO.provideCertificateTime, //交予凭证时间
+            changeDate: isNull || ssComAccountDTO.changeTime==null ?'':ssComAccountDTO.changeTime, //变更时间
+            recieveDate: isNull || ssComAccountDTO.receiveDate==null ?'':ssComAccountDTO.receiveDate, //收到日期
+            moveInDate: isNull || ssComAccountDTO.intoDate==null ?'':ssComAccountDTO.intoDate, //转入日期
             sufferedOnTheJobPercentageId:industryInfo==null?'':industryInfo.ssAccountRatioId,//工伤历史变更表的 iD
             belongToIndustries: industryInfo==null?'':industryInfo.industryCategory, //所属行业
             sufferedOnTheJobPercentage: industryInfo==null?'':industryInfo.comRatio, //企业工伤比例
             sufferedOnTheJobPercentageChangeStartMonth: industryInfo==null?'':industryInfo.startMonth, //企业工伤比例开始调整月份
             sendedMaterials: dispatchMaterial, //发出材料
             acceptanceDate: isNull || result.startHandleDate==null?'':result.startHandleDate, //受理日期 startHandleDate,sendCheckDate,finishDate
-            sendCheckDate: isNull || result.sendCheckDate==null?'':new Date(result.sendCheckDate), //送审日期
-            finishedDate: isNull || result.finishDate==null?'':new Date(result.finishDate), //完成日期
+            sendCheckDate: isNull || result.sendCheckDate==null?'':result.sendCheckDate, //送审日期
+            finishedDate: isNull || result.finishDate==null?'':result.finishDate, //完成日期
             handleReason:isNull || result.handleRemark==null?'':result.handleRemark,//办理原因
             refuseReason: '' //批退原因
           }
     }
   }
-  
 }
 

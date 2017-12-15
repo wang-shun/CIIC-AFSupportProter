@@ -41,7 +41,7 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="任务：">
-                  <Select v-model="companyOpenAccountOperator.taskValue" style="width: 100%;" transfer>
+                  <Select v-model="companyOpenAccountOperator.taskValue" style="width: 100%;" transfer >
                     <Option v-for="item in taskList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>

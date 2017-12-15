@@ -50,6 +50,7 @@ const employeespecialprogressthree = r => require.ensure([], () => r(require('@/
    openaccountinfo                   --- 开户信息查看
    transferinfo                      --- 转移信息查看
    ChangeInfo                        --- 变更信息查看
+   EndInfo                           --- 终止信息查看
  */
 
 const companytasklist = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskList')), 'companytasklist')
@@ -61,7 +62,7 @@ const companytaskprogressendinfo = r => require.ensure([], () => r(require('@/co
 const openaccountinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/OpenAccountInfo')), 'openaccountinfo')
 const transferinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/TransferInfo')), 'transferinfo')
 const changeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/ChangeInfo')), 'changeinfo')
-
+const endinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/EndInfo')), 'endinfo')
 /*
  * companysocialsecuritymanage       --- 企业社保账户管理
    companysocialsecurity             --- 企业社保账户信息
@@ -429,6 +430,17 @@ let router = new Router({
           path: '/change_info',
           name: 'changeinfo',
           component: changeinfo,
+          meta:{
+            level1:'全国社保',
+            level2:"上海社保",
+            level3:"查看",
+            openNames:['1']
+          }
+        },
+        {
+          path: '/end_info',
+          name: 'endinfo',
+          component: endinfo,
           meta:{
             level1:'全国社保',
             level2:"上海社保",

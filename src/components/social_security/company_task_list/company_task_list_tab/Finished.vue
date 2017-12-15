@@ -156,7 +156,7 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
                           this.$router.push({name: 'changeinfo', query:{operatorType: '3',tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'companytaskprogress2', query:{operatorType: '4',tid:params.row.tid}})
+                          this.$router.push({name: 'endinfo', query:{operatorType: '4',tid:params.row.tid}})
                           break;
                         default:
                           break;

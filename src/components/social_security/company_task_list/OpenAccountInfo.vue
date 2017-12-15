@@ -278,6 +278,7 @@
             {value: '1', label: '受理中'},
             {value: '2', label: '送审中'},
             {value: '3', label: '已完成'},
+            {value: '4', label: '批退'}
           ],//任务状态类型
         companyOpenAccountOperator: {
           taskValue: '',//任务类型

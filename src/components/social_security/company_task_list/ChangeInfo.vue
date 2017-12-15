@@ -119,7 +119,7 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :sm="{span:24}" class="tr">
+      <Col :sm="{span:18}" class="tr">
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -153,6 +153,7 @@
             {value: '1', label: '受理中'},
             {value: '2', label: '送审中'},
             {value: '3', label: '已完成'},
+            {value: '4', label: '批退'}
           ],//任务状态类型
          payMethodList: [
             {value: '1', label: '我司付款，账单到他司'},
@@ -295,6 +296,8 @@
            return  taskList[2].label
         }else if(taskStatus=='3'){
            return  taskList[3].label
+        }else if(taskStatus=='4'){
+           return  taskList[4].label
         }else{
             return ''
         }

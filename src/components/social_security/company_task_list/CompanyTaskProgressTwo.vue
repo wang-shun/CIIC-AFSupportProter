@@ -126,8 +126,18 @@
             },
             {title: '状态', key: 'materialReciveDate', align: 'center', className: 'mw200',
               render: (h, params) => {
+                let selt = this
                 return h('div', [
-                  h('Select', {props: {value: params.row.state}},
+                  h('Select', {
+                    props: {
+                    value: params.row.state
+                    },
+                    on:{
+                      input:function(event){
+                        console.log(self)
+                      }
+                    }
+                  },
                     [
                       h('Option', {props: {value: '0'}},'未签收'),
                       h('Option', {props: {value: '1'}},'已签收'),
@@ -139,8 +149,18 @@
             },
             {title: '备注说明', key: 'notes', className: 'mw300',
               render: (h, params) => {
+                let selt = this
                 return h('div', [
-                  h('i-input', {props: {value: params.row.notes}})
+                  h('i-input', {
+                    props: {
+                      value: params.row.notes
+                      },
+                      on:{
+                        input:function(event){
+                          debugger
+                        }
+                      }
+                  })
                 ]);
               }
             },
@@ -161,7 +181,6 @@
                                     },
                                     on: {
                                         click: () => {
-                                          
                                             params.index
                                             CompanyTaskList.getCompanyInfoAndMaterial({})
                                             
@@ -178,16 +197,13 @@
       }
     },
     mounted() {
-      // this[EventType.COMPANYTASKPROGRESS2TYPE]()
+   
       this.queryPageInfo();
     },
     computed: {
-      // ...mapState('companyTaskProgress2',{
-      //     data:state =>state.data
-      // })
+   
     },
     methods: {
-      //  ...mapActions('companyTaskProgress2', [EventType.COMPANYTASKPROGRESS2TYPE]),
       nextStep() {
         switch(this.operatorType) {
           case '1':

@@ -38,59 +38,53 @@
         </div>
       </Panel>
       <Panel name="4">
-        企业转移操作
+        企业终止操作
         <div slot="content">
-          <Form :label-width=150>
+          <Form :label-width=100>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保中心(结算区县)：" class="">
-                 <label>{{transferOperator.regionValue}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务状态：">
-                    <label>{{getTaskTypeValue()}}</label>
+                 <label>{{getTaskStatus()}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="受理日期：" class="">
-                     <label>{{transferOperator.acceptanceDate}}</label>
+                <Form-item label="受理日期：">
+                 <label>{{endOperator.acceptanceDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="送审日期：" class="">
-                  <label>{{transferOperator.sendCheckDate}}</label>
+                <Form-item label="送审日期：">
+                    <label>{{endOperator.sendCheckDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="完成日期：" class="">
-                  <label>{{transferOperator.finishedDate}}</label>
+                <Form-item label="完成日期：">
+                     <label>{{endOperator.finishedDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转移日期：" class="">
-                     <label>{{transferOperator.transferDate}}</label>
+                <Form-item label="终止日期：">
+                     <label>{{endOperator.endDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                   <Form-item label="办理备注：">
-                       <label>{{transferOperator.handleReason==''?'无':transferOperator.handleReason}}</label>
+                      <label>{{endOperator.handleReason}}</label>
                   </Form-item>
                 </Col>
-              <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                <Form-item label="批退备注：" class="">
-                      <label>{{transferOperator.refuseReason==''?'无':transferOperator.refuseReason}}</label>
-                </Form-item>
+                <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
+                  <Form-item label="批退备注：">
+                    <label>{{endOperator.refuseReason}}</label>
+                  </Form-item>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
     </Collapse>
-
     <Row class="mt20">
       <Col :sm="{span:18}" class="tr">
-        <Button type="warning" @click="goBack">返回</Button>
+      <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
   </Form>
@@ -99,48 +93,18 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import chat from '../../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
-  import EventType from "../../../store/EventTypes"
+  import EventType from '../../../store/EventTypes'
   import {CompanyTaskList} from '../../../module/social_security/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
     components: {chat, companySocialSecurityInfo},
     data() {
       return {
-        operatorType: this.$route.query.operatorType,
          tid:this.$route.query.tid,
         collapseInfo: [1, 2, 3,4], //展开栏
+        currentStep: 2,
         companyInfo:{},
-           regionList: [
-            {value: '1', label: '徐汇'},
-            {value: '2', label: '长宁'},
-            {value: '3', label: '浦东'},
-            {value: '4', label: '卢湾'},
-            {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
-          ],
-          taskTypeList:[
-            {value: '0',label: '初始(材料收缴)',disabled:false},
-            {value: '1', label: '受理中',disabled:false},
-            {value: '2', label: '送审中',disabled:false},
-            {value: '3', label: '已完成',disabled:false},
-            {value: '4', label: '批退'}
-          ],//任务状态类型
-           historyRemark:{
-          submitName:'',
-          submitTime:'',
-          submitRemark:''
-         },
-        transferOperator: {
-          taskStatus:'',
-          acceptanceDate: '',
-          sendCheckDate: '',
-          finishedDate: '',
-          refuseReason: '',
-          handleReason:'',
-          regionValue: '',
-          transferDate: ''
-        },
-        operatorMaterialListData:[],
+         operatorMaterialListData:[],
         operatorMaterials: {
           operatorMaterialListColumns: [
             {title: '材料名称', key: 'material', align: 'center', className: 'mw100',
@@ -193,49 +157,74 @@
             }
           ],
 
-        }
+        },
+        endOperator: {
+          taskStatus:'',
+          acceptanceDate: '', //受理日期
+          sendCheckDate: '', //送审日期
+          finishedDate: '', //完成日期
+          endDate: '',
+          handleReason:'',
+          refuseReason: ''
+        },
+         historyRemark:{
+          submitName:'',
+          submitTime:'',
+          submitRemark:''
+         },
+         taskTypeList:[
+            {value: '0',label: '初始(材料收缴)'},
+            {value: '1', label: '受理中'},
+            {value: '2', label: '送审中'},
+            {value: '3', label: '已完成'},
+            {value: '4', label: '批退'}
+          ],//任务状态类型
       }
     },
     mounted() {
       this.queryPageInfo()
     },
     computed: {
-  
+     
     },
     methods: {
       goBack() {
         this.$router.push({name: 'companytasklist'})
       },
+      //查询页面信息
       queryPageInfo(){
-         let params = {
+        let params = {
           companyTaskId:this.tid,
-          operatorType:'3'
+          operatorType:'4'
         }
-          let self = this
-        CompanyTaskList.getCompanyInfoAndMaterial(params).then(result=>{
+        let self = this
+         CompanyTaskList.getCompanyInfoAndMaterial(params).then(result=>{
             //获得材料
          self.operatorMaterialListData = result.operatorMaterialListData;
       })
-        CompanyTaskList.getEndPageInfo(params,'transfer').then(result=>{
-        self.comAccountId = result.comAccountId
+        CompanyTaskList.getEndPageInfo(params,'end').then(result=>{
         self.companyInfo = result.companyInfo
         self.historyRemark = result.historyRemark;
-        self.transferOperator = result.transferOperator;
-        self.currentStep  =result.transferOperator.taskStatus==null?0:Number(result.transferOperator.taskStatus)
+        self.endOperator = result.endOperator;
       })
-
       },
-      //任务状态
-      getTaskTypeValue(){
-          let taskType = this.transferOperator.taskStatus
-            let taskTypeStr = ''
-           for(let i of this.taskTypeList){
-               if(i.value==taskType){
-                    taskTypeStr=i.label
-                    break;
-               }
-           }
-           return taskTypeStr
+       getTaskStatus(){
+        let taskStatus = this.endOperator.taskStatus
+        let taskList =this.taskTypeList
+        if(taskStatus=='0'){
+           return  taskList[0].label
+        }else if(taskStatus=='1'){
+           return  taskList[1].label
+        }else if(taskStatus=='2'){
+           return  taskList[2].label
+        }else if(taskStatus=='3'){
+           return  taskList[3].label
+        }else if(taskStatus=='4'){
+           return  taskList[4].label
+        }else{
+            return ''
+        }
+        
       },
       ok () {
 

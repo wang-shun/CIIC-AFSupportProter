@@ -219,7 +219,7 @@
       let params = {
           pageSize:this.size,
           pageNum:1,
-        params:null
+        params:{}
       }
       NoProgress.getTableData(params).then(data=>{
           self.loading=true;

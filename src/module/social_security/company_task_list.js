@@ -1,7 +1,8 @@
 
   import {domainJson} from '../../data/domain_info'
   import Axios from 'axios'
-  import utils from '../../lib/utils'
+  import utils from '../../lib/ajax'
+  let ajax = utils.ajaxSsc
 export class CompanyTaskList{  
 
     constructor(){
@@ -11,7 +12,7 @@ export class CompanyTaskList{
     static getTableData(params,url){
         console.log(url)
         return new Promise(function(resolve,reject){
-            Axios.get(url, {params: params}) .then(function (response) {  
+          ajax.get(url, params) .then(function (response) {  
                 let responseData = {
                   data:{
                     taskData:[],
@@ -56,7 +57,7 @@ export class CompanyTaskList{
     //post request type
     static postTableData(params,url){
       return new Promise(function(resolve,reject){
-          utils.ajaxSsc.post(url, params).then(function (response) {  
+        ajax.post(url, params).then(function (response) {  
               console.log(response)
               let responseData = {
                 data:{
@@ -104,7 +105,7 @@ export class CompanyTaskList{
   //get customer name 
   static getCustomerData(params,url){
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         if(response.data.code=="200"){
 
         }else{
@@ -121,7 +122,7 @@ export class CompanyTaskList{
   static refusingTask(params){
     let url = domainJson.refusingTaskUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         if(response.data.code=="200"){
             if(response.data.data){
               resolve(response.data.data)
@@ -139,7 +140,7 @@ export class CompanyTaskList{
   static getCompanyInfoAndMaterial(params){
     let url =domainJson.getCompanyInfoAndMaterialUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         let result = this.handleReturnData(response)
         if(!result.isError){
           let companyInfo = null
@@ -199,7 +200,7 @@ export class CompanyTaskList{
   static getEndPageInfo(params,type){
     let url =domainJson.getCompanyInfoAndMaterialUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         let result = this.handleReturnData(response)  
         if(!result.isError){
             let data =this.theLastStepGetDate(result,type)
@@ -212,7 +213,7 @@ export class CompanyTaskList{
   static updateOrEndingTask(params){
     let url =domainJson.updateOrEndingTaskUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         if(response.data.code=="200"){
           resolve(response.data.data)
        }else{
@@ -225,7 +226,7 @@ export class CompanyTaskList{
    static updateOrTransferTask(params){
     let url =domainJson.updateOrTransferTaskUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         if(response.data.code=="200"){
           resolve(response.data.data)
        }else{
@@ -239,7 +240,7 @@ export class CompanyTaskList{
   static updateOrChangeTask(params){
     let url =domainJson.updateOrChangeTaskUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         if(response.data.code=="200"){
           resolve(response.data.data)
        }else{
@@ -356,7 +357,7 @@ export class CompanyTaskList{
   static signAllMaterials(params){
     let url = domainJson.signAllMaterialsUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         //返回结果
         let result = this.handleReturnData(response)
         if(!result.isError) resolve(result) 
@@ -369,7 +370,7 @@ export class CompanyTaskList{
   static getComInfoAndPayWay(params){
     let url = domainJson.getComInfoAndPayWayUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         
         let result = this.handleReturnData(response)
         
@@ -389,7 +390,7 @@ export class CompanyTaskList{
     let url =domainJson.addOrUpdateCompanyTaskUrl
     
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         
         let result = this.handleReturnData(response)
         if(!result.isError){

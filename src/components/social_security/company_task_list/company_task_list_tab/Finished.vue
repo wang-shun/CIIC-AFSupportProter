@@ -231,7 +231,7 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
       let params = {
           pageSize:this.size,
           pageNum:1,
-        params:null
+        params:{}
       }
       Finished.getTableData(params).then(data=>{
           self.loading=true;

@@ -167,6 +167,7 @@ let createAjax = config => {
 }
 
 let createAjaxForName = name => {
+  
   return createAjax({
     baseURL: BASE_PATHS[name],
     timeout: utils.DEBUG ? 0 : 5000,

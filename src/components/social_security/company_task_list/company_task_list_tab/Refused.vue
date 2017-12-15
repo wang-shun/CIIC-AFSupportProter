@@ -204,7 +204,7 @@
       let params = {
           pageSize:this.size,
           pageNum:1,
-        params:null
+        params:{}
       }
       Refused.getTableData(params).then(data=>{
           self.loading=true;

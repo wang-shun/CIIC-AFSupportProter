@@ -168,7 +168,6 @@ const addAcceptance = r => require.ensure([], () => r(require('@/components/heal
 const auditAcceptance = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AuditAcceptance')), 'auditAcceptance') //审核受理单
 
 const addFragmentaryReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddFragmentaryReimbursement')), 'addFragmentaryReimbursement') //发票列表
-const addMedicalTransform = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddMedicalTransform')), 'addMedicalTransform') //医疗关系转移
 const auditNurseryFee = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AuditNurseryFee')), 'auditNurseryFee') //医疗关系转移
 
 
@@ -192,7 +191,7 @@ const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/compon
  * relationshipTransfer     --医疗关系转移
  */
 const relationshipTransfer = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/RelationshipTransfer')), 'relationshipTransfer'); //医疗关系转移
-
+const addMedicalRelationship = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddMedicalRelationship')), 'addMedicalRelationship'); //医疗关系转移
 
 /*
  * giftApplicationManager              --弹性福利
@@ -782,12 +781,12 @@ let router = new Router({
           }
         },
         {
-          path: '/addMedicalTransform',
-          name:'addMedicalTransform',
-          component: addMedicalTransform,
+          path: '/addMedicalRelationship',
+          name:'addMedicalRelationship',
+          component: addMedicalRelationship,
           meta:{
             level1:'首页',
-            level2:"未投保医疗",
+            level2:"医疗关系",
             level3:"新增医疗关系转移",
             openNames:['2']
           }

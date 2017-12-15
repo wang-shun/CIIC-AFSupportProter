@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="smList">
     <Tabs @on-click="changeTab">
       <TabPane label="医疗关系转移">
 

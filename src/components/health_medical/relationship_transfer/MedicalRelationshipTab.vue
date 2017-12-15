@@ -49,7 +49,7 @@
       </Panel>
     </Collapse>
     <div class="tr" style="margin: 20px auto;">
-      <router-link to="/addMedicalTransform">
+      <router-link to="/addMedicalRelationship">
         <Button type="primary">新增医疗关系转移</Button>
       </router-link>
       <Button icon="ios-download-outline" type="primary" @click="exportDataTransfer(1)">导出数据</Button>

@@ -35,7 +35,7 @@
       </Col>
     </Row>
 
-    <chat :chatList="data.chatList" class="mt20"></chat>
+    <!-- <chat :chatList="data.chatList" class="mt20"></chat> -->
       
       <!-- 批退理由 -->
       <Modal
@@ -164,7 +164,7 @@
                                           
                                             params.index
                                             CompanyTaskList.getCompanyInfoAndMaterial({})
-                                            debugger
+                                            
                                         }
                                     }
                                 }, '处理')
@@ -178,16 +178,16 @@
       }
     },
     mounted() {
-      this[EventType.COMPANYTASKPROGRESS2TYPE]()
+      // this[EventType.COMPANYTASKPROGRESS2TYPE]()
       this.queryPageInfo();
     },
     computed: {
-      ...mapState('companyTaskProgress2',{
-          data:state =>state.data
-      })
+      // ...mapState('companyTaskProgress2',{
+      //     data:state =>state.data
+      // })
     },
     methods: {
-       ...mapActions('companyTaskProgress2', [EventType.COMPANYTASKPROGRESS2TYPE]),
+      //  ...mapActions('companyTaskProgress2', [EventType.COMPANYTASKPROGRESS2TYPE]),
       nextStep() {
         switch(this.operatorType) {
           case '1':

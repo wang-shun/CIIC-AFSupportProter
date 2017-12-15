@@ -4,41 +4,41 @@
       <Panel name="1">
         企业社保账户管理
         <div slot="content">
-          <Form ref="comAccountCdn" :model="comAccountCdn" :label-width=150>
+          <Form ref="comAccountSearch" :model="comAccountSearch" :label-width=150>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="养老金用公司名称：" prop="comAccountName">
-                  <Input v-model="comAccountCdn.comAccountName" placeholder="请输入..."></Input>
+                  <Input v-model="comAccountSearch.comAccountName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="comAccountCdn.accountTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in comAccountCdn.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="账户类型：" prop="ssAccountType">
+                  <Select v-model="comAccountSearch.ssAccountType" style="width: 100%;" transfer>
+                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="开户日期：" prop="taskStartTime">
-                  <DatePicker v-model="comAccountCdn.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%" transfer></DatePicker>
+                <Form-item label="企业社保账号：" prop="ssAccount">
+                  <Input v-model="comAccountSearch.ssAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账号：" prop="taskNumber">
-                  <Input v-model="comAccountCdn.taskNumber" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="状态：" prop="stateValue">
-                  <Select v-model="comAccountCdn.stateValue" style="width: 100%;" transfer>
-                    <Option v-for="item in comAccountCdn.stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="状态：" prop="state">
+                  <Select v-model="comAccountSearch.state" style="width: 100%;" transfer>
+                    <Option v-for="item in comAccountSearch.stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号:" prop="companyId">
+                  <Input v-model="comAccountSearch.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" @click="handleQueryAccount(1)" icon="ios-search">查询</Button>
+                <Button type="primary" @click="handlePageNum(1)" icon="ios-search">查询</Button>
               </Col>
             </Row>
           </Form>
@@ -60,14 +60,14 @@
           <Table border :columns="accountManageColumns" :data="accountManageData"></Table>
  
             <Page
-            @on-change="handleQueryAccount"
-            @on-page-size-change="handleQueryAccount"
+            class="pageSize"
+            @on-change="handlePageNum"
+            @on-page-size-change="handlePageSize"
             :total="resultPageData.total"
             :page-size="resultPageData.pageSize"
             :page-size-opts="resultPageData.pageSizeOpts"
             :current="resultPageData.pageNum"
-            
-            show-sizer show-total class="pageSize"></Page>
+            show-sizer show-total></Page>
         </Col>
       </Row>
     </Form>
@@ -81,30 +81,29 @@
     data() {
       return{
         collapseInfo: [1], //展开栏
-        comAccountCdn: {
-          pensionCompanyName: '',
-          accountTypeValue: '',
-          accountTypeList: [
+        comAccountSearch: {
+          comAccountName: '',
+          ssAccountType: '',
+          ssAccount: '',
+          companyId: '',
+          state: '',
+        },
+        accountTypeList: [
             {value: '1', label: '中智大库'},
             {value: '2', label: '中智独立库'},
             {value: '3', label: '独立户'},
-          ],
-          openAccountDate: '',
-          companySocialSecurityAccount: '',
-          stateValue: '',
-          stateList: [
+        ],
+        stateList: [
             {value: '1', label: '有效'},
             {value: '2', label: '封存'},
             {value: '3', label: '终止'},
-          ]
-        },
+        ],
         accountManageData: [],
         resultPageData: {
           total: 0,
-          //pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSize: 5,
           pageNum: 1,
-          pageSizeOpts: [5, 10]
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         accountManageColumns: [
           {title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
@@ -150,31 +149,33 @@
               ]);
             }
           },
-          {title: '开户\\转入日期', key: 'checkInDate', width: 120, align: 'center',
+          {title: '开户\\转入日期', key: 'intoDate', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.checkInDate),
+                h('span', params.row.intoDate),
               ]);
             }
           },
           {title: '终止日期', key: 'endDate', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.sponsor),
+                h('span', params.row.endDate),
               ]);
             }
           },
-          {title: '备注说明', key: 'notes', align: 'center',
+          {title: '备注说明', key: 'remark', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.notes),
+                h('span', params.row.remark),
               ]);
             }
           }
         ],
+        ajax:{},
       }
     },
     mounted() {
+      this.ajax = this.$ajax.ajaxSsc;
       this[EventType.COMPANYSOCIALSECURITYMANAGETYPE]()
       this.queryAccount();
     },
@@ -185,20 +186,7 @@
     },
     methods: {
       ...mapActions('companySocialSecurityManage', [EventType.COMPANYSOCIALSECURITYMANAGETYPE]),
-      ajax(){
-        return this.$ajax.ajaxSsc;
-      },
-      clickQuery(){
-         this.loading=true;
-        //获得页面条件参数
-      let params = this.getParams(1)
-      let self = this
-        this.operatorQuery(params).then(data=>{
-           self.refreash(data)
-        }).catch(error=>{
-          console.log(error)
-        })
-      },
+       
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -206,33 +194,24 @@
         var params = {
           pageSize: this.resultPageData.pageSize,
           pageNum: this.resultPageData.pageNum,
-          params:{
-              comAccountName: this.comAccountCdn.comAccountName
-
-          }
+          params:this.comAccountSearch
         };
-        //params.params = {};
- 
-        {
-         console.log(params);
-          // 处理 社保起缴月份
-          if (params.startMonth) {
-            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
-          }
-
-        }
-    
+        console.log(params);
         this.operatorQuery(params).then(data => {
           this.accountManageData = data.data;
           this.resultPageData.total = data.total;
         })
       },
-      handleQueryAccount(val) {
+      handlePageNum(val) {
         this.resultPageData.pageNum = val;
         this.queryAccount();
       },
+      handlePageSize(val) {
+        this.resultPageData.pageSize = val;
+        this.queryAccount();
+      },
       async operatorQuery (params) {
-        let response = await this.ajax().post('/api/soccommandservice/ssComAccount/accountQuery', params);
+        let response = await this.ajax.post('/api/soccommandservice/ssComAccount/accountQuery', params);
         return await response.data;
       },
       ok () {

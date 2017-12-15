@@ -413,8 +413,12 @@
         }
       },
       exprotExcel() {
-        this.$ajax.createProxyAjaxForName("ss-c").download("/api/soccommandservice/salCompany/exprot",this.operatorSearchData);
-//        this.$ajax.createProxyAjaxForName("ss-c").get("/api/soccommandservice/salCompany/exprot",this.operatorSearchData);
+        var ajax = this.$ajax.createProxyAjaxForName("ss-c");
+//        ajax.download("/api/soccommandservice/salCompany/exprot",this.operatorSearchData);
+      },
+      beforeUpload(file){
+        this.operatorSearchData.file = file;
+        return false;
       },
       ok() {
 

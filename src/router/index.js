@@ -47,6 +47,9 @@ const employeespecialprogressthree = r => require.ensure([], () => r(require('@/
    companytaskprogresstransferinfo   --- 企业任务单、办理(转移)
    companytaskprogresschangeinfo     --- 企业任务单、办理(变更)
    companytaskprogressendinfo        --- 企业任务单、办理(终止)
+   openaccountinfo                   --- 开户信息查看
+   transferinfo                      --- 转移信息查看
+   ChangeInfo                        --- 变更信息查看
  */
 
 const companytasklist = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskList')), 'companytasklist')
@@ -55,7 +58,9 @@ const companytaskprogresstypeinfo = r => require.ensure([], () => r(require('@/c
 const companytaskprogresstransferinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTransferInfo')), 'companytaskprogresstransferinfo')
 const companytaskprogresschangeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressChangeInfo')), 'companytaskprogresschangeinfo')
 const companytaskprogressendinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressEndInfo')), 'companytaskprogressendinfo')
-
+const openaccountinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/OpenAccountInfo')), 'openaccountinfo')
+const transferinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/TransferInfo')), 'transferinfo')
+const changeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/ChangeInfo')), 'changeinfo')
 
 /*
  * companysocialsecuritymanage       --- 企业社保账户管理
@@ -398,7 +403,39 @@ let router = new Router({
             openNames:['1']
           }
         },
-
+        {
+          path: '/open_account_info',
+          name: 'openaccountinfo',
+          component: openaccountinfo,
+          meta:{
+            level1:'全国社保',
+            level2:"上海社保",
+            level3:"查看",
+            openNames:['1']
+          }
+        },
+        {
+          path: '/transfer_info',
+          name: 'transfertnfo',
+          component: transferinfo,
+          meta:{
+            level1:'全国社保',
+            level2:"上海社保",
+            level3:"查看",
+            openNames:['1']
+          }
+        },
+        {
+          path: '/change_info',
+          name: 'changeinfo',
+          component: changeinfo,
+          meta:{
+            level1:'全国社保',
+            level2:"上海社保",
+            level3:"查看",
+            openNames:['1']
+          }
+        },
         {
           path: '/company_social_security_manage',
           name: 'companysocialsecuritymanage',

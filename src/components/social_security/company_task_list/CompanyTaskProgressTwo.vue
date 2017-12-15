@@ -164,7 +164,7 @@
                                           
                                             params.index
                                             CompanyTaskList.getCompanyInfoAndMaterial({})
-                                            debugger
+                                            
                                         }
                                     }
                                 }, '处理')

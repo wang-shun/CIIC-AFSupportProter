@@ -147,23 +147,23 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1'}})
+                          this.$router.push({name: 'openaccountinfo', query:{operatorType: '1',tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '2'}})
+                          this.$router.push({name: 'transfertnfo', query:{operatorType: '2',tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '3'}})
+                          this.$router.push({name: 'changeinfo', query:{operatorType: '3',tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '4'}})
+                          this.$router.push({name: 'companytaskprogress2', query:{operatorType: '4',tid:params.row.tid}})
                           break;
                         default:
                           break;
                       }
                     }
                   }
-                }, params.row.emergency === '是' ? '查看' : '修改'),
+                }, '查看'),
               ]);
             }
           },

@@ -80,11 +80,31 @@ const AJAX = {
         errCb(error);
       }
     })
-  }
+  },
 };
+
+const logInfo = (method, url, data) => {
+  // outer log
+  if (DEBUG) {
+    let logInfo = {
+      url: url,
+      method: method,
+      time: AJAX.formatDate('yyyy-MM-dd hh:mm:ss:S'),
+      data: null,
+    };
+    if (typeof(data) === 'string') {
+      logInfo.data = decodeURIComponent(data);
+    } else {
+      logInfo.data = qs.stringify(data);
+    }
+
+    console.log(JSON.stringify(logInfo));
+  }
+}
 
 // 文件下载
 const download = (url, data) => {
+  logInfo('get', url, data);
   // 分析 url 包含 "?"
   if (data && Object.keys(data).length > 0) {
     if (url.indexOf("?") < 0) {
@@ -121,8 +141,15 @@ let upload = (url, data, config = {}) => {
     formData.append(key, data[key])
   });
 
-  config.headers['Content-Type'] = 'multipart/form-data';
-  config.timeout = DEBUG ? 0 : 5000;
+  // 初始化参数
+  if (!Boolean(config.headers)) {
+    config.headers = {
+      'Content-Type': 'multipart/form-data'
+    };
+  }
+  if (!Boolean(config.timeout)) {
+    config.timeout = DEBUG ? 0 : 5000;
+  }
 
   return createAjax(config)['post'](url, formData, config);
 }
@@ -139,36 +166,12 @@ let createAjax = config => {
       // Do something before request is sent
       var contentType = config.headers['Content-Type'];
 
-      if (!Boolean(contentType)) {
-        // 不区分大小写查找
-        for (var header in config.headers) {
-          if (header.indexOf(CONTENT_TYPE) >= 0) {
-            contentType = header;
-            break;
-          }
-        }
-      }
-
       if (contentType.indexOf(CONTENT_TYPE) >= 0) {
         config.data = qs.stringify(config.data);
       }
 
-      // outer log
-      if (DEBUG) {
-        let logInfo = {
-          url: config.url,
-          method: config.method,
-          time: AJAX.formatDate('yyyy-MM-dd hh:mm:ss:S'),
-          data: null,
-        };
-        if (contentType.indexOf(CONTENT_TYPE) >= 0) {
-          logInfo.data = decodeURIComponent(config.data);
-        } else {
-          logInfo.data = JSON.stringify(config.data);
-        }
-
-        console.log(JSON.stringify(logInfo));
-      }
+      // log
+      logInfo(config.method, config.url, config.data);
 
       return config;
     }
@@ -254,7 +257,7 @@ let createProxyAjaxForName = name => {
 }
 
 AJAX.download = download;
-AJAX.upload = upload;
+AJAX.upload = upload; 
 AJAX.createAjax = createAjax;
 AJAX.createAjaxForName = createAjaxForName;
 AJAX.createProxyAjaxForName = createProxyAjaxForName;

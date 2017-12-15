@@ -189,7 +189,9 @@ const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/compon
  */
 const relationshipTransfer = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/RelationshipTransfer')), 'relationshipTransfer'); //医疗关系转移
 const addMedicalRelationship = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddMedicalRelationship')), 'addMedicalRelationship'); //医疗关系转移
+const updateMedicalRelationship = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/UpdateMedicalRelationship')), 'updateMedicalRelationship'); //医疗关系转移
 const addReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddReimbursement')), 'addReimbursement'); //医疗关系转移
+const updateReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/UpdateReimbursement')), 'updateReimbursement'); //医疗关系转移
 
 /*
  * giftApplicationManager              --弹性福利
@@ -778,6 +780,17 @@ let router = new Router({
           }
         },
         {
+          path: '/updateReimbursement',
+          name: 'updateReimbursement',
+          component: updateReimbursement,
+          meta: {
+            level1: '首页',
+            level2: "医疗关系",
+            level3: "修改零星报销",
+            openNames: ['2']
+          }
+        },
+        {
           path: '/addMedicalRelationship',
           name: 'addMedicalRelationship',
           component: addMedicalRelationship,
@@ -785,6 +798,17 @@ let router = new Router({
             level1: '首页',
             level2: "医疗关系",
             level3: "新增医疗关系转移",
+            openNames: ['2']
+          }
+        },
+        {
+          path: '/updateMedicalRelationship',
+          name: 'updateMedicalRelationship',
+          component: updateMedicalRelationship,
+          meta: {
+            level1: '首页',
+            level2: "医疗关系",
+            level3: "修改医疗关系转移",
             openNames: ['2']
           }
         },

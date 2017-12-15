@@ -29,7 +29,6 @@
     },
     created() {
       let ts = this.$route.params.data;
-      console.info(ts)
       if(ts) {
         this.changeTab(ts);
       }

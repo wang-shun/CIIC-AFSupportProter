@@ -83,46 +83,67 @@
         },
         reimbursementColumns: [
           {
-            title: '雇员编号', sortable: true, key: 'employeeId'
+            title: '雇员编号', sortable: true, key: 'employeeId', align: "center",
           },
           {
-            title: '雇员姓名', sortable: true, key: 'column2'
+            title: '雇员姓名', sortable: true, key: 'column2', align: "center",
           },
           {
-            title: '中止日期', sortable: true, key: 'column3'
+            title: '中止日期', sortable: true, key: 'column3', align: "center",
           },
           {
-            title: '证件号码', sortable: true, key: 'column4'
+            title: '证件号码', sortable: true, key: 'column4', align: "center",
           },
           {
-            title: '公司编号', sortable: true, key: 'column5'
+            title: '公司编号', sortable: true, key: 'column5', align: "center",
           },
           {
-            title: '公司名称', sortable: true, key: 'column6'
+            title: '公司名称', sortable: true, key: 'column6', align: "center",
           },
           {
-            title: '客户经理', sortable: true, key: 'column7'
+            title: '客户经理', sortable: true, key: 'column7', align: "center",
           },
           {
-            title: '受理金额', sortable: true, key: 'caseMoney'
+            title: '受理金额', sortable: true, key: 'caseMoney', align: "center",
           },
           {
-            title: '发票数', sortable: true, key: 'invoiceNumber'
+            title: '发票数', sortable: true, key: 'invoiceNumber', align: "center",
           },
           {
-            title: '医疗备注', sortable: true, key: 'medicalRemark'
+            title: '医疗备注', sortable: true, key: 'medicalRemark', align: "center",
           },
           {
-            title: '医保结算金额', sortable: true, key: 'medicalClearingMoney'
+            title: '医保结算金额', sortable: true, key: 'medicalClearingMoney', align: "center",
           },
           {
-            title: '医疗结算反馈', sortable: true, key: 'medicalClearingFeedBack'
+            title: '医疗结算反馈', sortable: true, key: 'medicalClearingFeedBack', align: "center",
           },
           {
-            title: '转出地点', sortable: true, key: 'column13'
+            title: '转出地点', sortable: true, key: 'column13', align: "center",
           },
           {
-            title: '转出时间', sortable: true, key: 'column14'
+            title: '转出时间', sortable: true, key: 'column14', align: "center",
+          }, {
+            title: "操作", sortable: true, align: "center",
+            render: (h, params) => {
+              return h("div", [
+                h("Button", {
+                  props: {
+                    type: "success",
+                    size: "small"
+                  },
+                  style: {marginRight: "5px"},
+                  on: {
+                    click: () => {
+                      let updateData = params.row;
+                      delete updateData._index;
+                      delete updateData._rowKey;
+                      this.$router.push({name: "updateReimbursement", params: {data: updateData}});
+                    }
+                  }
+                }, "编辑"),
+              ]);
+            }
           }
         ],
       }

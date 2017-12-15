@@ -83,37 +83,58 @@
         },
         transferColumns: [
           {
-            title: '雇员编号', sortable: true, key: 'employeeId'
+            title: '雇员编号', sortable: true, key: 'employeeId', align: "center",
           },
           {
-            title: '雇员姓名', sortable: true, key: 'column2'
+            title: '雇员姓名', sortable: true, key: 'column2', align: "center",
           },
           {
-            title: '中止日期', sortable: true, key: 'column3'
+            title: '中止日期', sortable: true, key: 'column3', align: "center",
           },
           {
-            title: '证件号码', sortable: true, key: 'column4'
+            title: '证件号码', sortable: true, key: 'column4', align: "center",
           },
           {
-            title: '公司编号', sortable: true, key: 'column5'
+            title: '公司编号', sortable: true, key: 'column5', align: "center",
           },
           {
-            title: '公司名称', sortable: true, key: 'column6'
+            title: '公司名称', sortable: true, key: 'column6', align: "center",
           },
           {
-            title: '客户经理', sortable: true, key: 'column7'
+            title: '客户经理', sortable: true, key: 'column7', align: "center",
           },
           {
-            title: '转出日期', sortable: true, key: 'turnOutDate'
+            title: '转出日期', sortable: true, key: 'turnOutDate', align: "center",
           },
           {
-            title: '转出地点', sortable: true, key: 'turnOutAddress'
+            title: '转出地点', sortable: true, key: 'turnOutAddress', align: "center",
           },
           {
-            title: '转回日期', sortable: true, key: 'turnBackDate'
+            title: '转回日期', sortable: true, key: 'turnBackDate', align: "center",
           },
           {
             title: '备注', sortable: true, key: 'remark'
+          }, {
+            title: "操作", sortable: true, align: "center",
+            render: (h, params) => {
+              return h("div", [
+                h("Button", {
+                  props: {
+                    type: "success",
+                    size: "small"
+                  },
+                  style: {marginRight: "5px"},
+                  on: {
+                    click: () => {
+                      let updateData = params.row;
+                      delete updateData._index;
+                      delete updateData._rowKey;
+                      this.$router.push({name: "updateMedicalRelationship", params: {data: updateData}});
+                    }
+                  }
+                }, "编辑"),
+              ]);
+            }
           }
         ],
       }

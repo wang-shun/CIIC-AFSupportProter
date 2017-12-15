@@ -48,6 +48,26 @@ const actions = {
       params.errCallback(error);
     })
   },
+  [EventTypes.TRANSFER_UPDATE]({commit}, params) {
+    mock.transferUpdate(params.data).then(response => {
+      commit(EventTypes.TRANSFER_UPDATE, response.data);
+      params.callback(response.data);
+    }, error => {
+      params.errCallback(error);
+    }).catch(error => {
+      params.errCallback(error);
+    })
+  },
+  [EventTypes.REIMBURSEMENT_UPDATE]({commit}, params) {
+    mock.reimbursementUpdate(params.data).then(response => {
+      commit(EventTypes.REIMBURSEMENT_UPDATE, response.data);
+      params.callback(response.data);
+    }, error => {
+      params.errCallback(error);
+    }).catch(error => {
+      params.errCallback(error);
+    })
+  },
 
 };
 
@@ -66,7 +86,12 @@ const mutations = {
   [EventTypes.REIMBURSEMENT_INSERT](state, data) {
     state.data.addResult = data.code;
   },
-
+  [EventTypes.TRANSFER_UPDATE](state, data) {
+    state.data.addResult = data.code;
+  },
+  [EventTypes.REIMBURSEMENT_UPDATE](state, data) {
+    state.data.addResult = data.code;
+  },
 };
 
 const getters = {

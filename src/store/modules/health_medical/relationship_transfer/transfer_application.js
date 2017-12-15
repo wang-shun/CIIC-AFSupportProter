@@ -11,7 +11,7 @@ const state = {
     reimbursementData: [],
     addResult: null,
     //返回的总条数
-    transferTotal: null,
+    transferTotal: 1,
     reimbursementTotal: null,
   }
 };

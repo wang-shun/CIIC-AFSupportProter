@@ -1,13 +1,15 @@
 <template>
-  <div class="smList">
-    <Tabs :animated="false">
+  <div>
+    <Tabs @on-click="changeTab">
       <TabPane label="医疗关系转移">
-        <medicalRelationshipTab></medicalRelationshipTab>
+
       </TabPane>
       <TabPane label="零星报销">
-        <sporadicReimbursementTab></sporadicReimbursementTab>
+
       </TabPane>
     </Tabs>
+    <medicalRelationshipTab v-if="currentTab === 0"></medicalRelationshipTab>
+    <sporadicReimbursementTab v-else></sporadicReimbursementTab>
   </div>
 </template>
 
@@ -19,6 +21,16 @@
     components: {
       medicalRelationshipTab,
       sporadicReimbursementTab
+    },
+    data() {
+      return {
+        currentTab: 0
+      }
+    },
+    methods: {
+      changeTab(i) {
+        this.currentTab = i;
+      }
     }
   }
 </script>

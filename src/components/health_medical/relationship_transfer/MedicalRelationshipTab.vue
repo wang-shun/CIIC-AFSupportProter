@@ -70,8 +70,6 @@
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
-        //数据总条数
-        transferTotal: 1,
         transferItem: {
           employeeId: null,
           name: null,
@@ -121,7 +119,10 @@
       }
     },
     computed: {
-      ...mapState("TRANSFER", {transferData: state => state.data.transferData,})
+      ...mapState("TRANSFER", {
+        transferData: state => state.data.transferData,
+        transferTotal: state => state.data.transferTotal
+      }),
     },
     created() {
       this.queryTransfer();
@@ -132,16 +133,14 @@
         /*封装为后台可以接受的数据结构*/
         let queryData = this.transferPage;
         queryData.params = this.transferItem;
-        this[EventTypes.TRANSFER_LIST](queryData).then(() => {
-          this.transferTotal = this.$store.state.TRANSFER.data.transferTotal;
-        });
+        this[EventTypes.TRANSFER_LIST](queryData);
       },
-      // ok() {
-      //   this.$Message.info('已审核通过');
-      // },
-      // remove(index) {
-      //   this.transferData.splice(index, 1);
-      // },
+      ok() {
+        this.$Message.info('已审核通过');
+      },
+      remove(index) {
+        this.transferData.splice(index, 1);
+      },
       //分页方法
       getTransferByPage() {
         this.queryTransfer()

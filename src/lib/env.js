@@ -1,6 +1,6 @@
 let env = {};
 
-let dev = 'development';
+let dev = 'production';
 
 // development
 
@@ -11,7 +11,7 @@ env.debug = true;
 if("production" === dev){
   env.localhost = "http://172.16.9.24";
   env.isJar = true;
-  env.debug = false;
+  env.debug = true;
 }
 
 module.exports = env;

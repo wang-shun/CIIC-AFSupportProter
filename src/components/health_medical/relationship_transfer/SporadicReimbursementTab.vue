@@ -40,7 +40,7 @@
             </row>
             <row>
               <Col :xs="{ span: 6, offset: 8 }" :lg="{ span: 6, offset: 8 }">
-              <Button type="primary" size="large">查询</Button>
+              <Button type="primary" @click="query" size="large">查询</Button>
               </Col>
             </Row>
           </Form>
@@ -55,7 +55,7 @@
       <Button icon="ios-download-outline" type="primary" @click="exportData(2)">导出数据</Button>
     </div>
     <Table border :columns="reimbursementColumns" :data="reimbursementData" ref="reimbursementTable"></Table>
-    <Page :total="total" show-sizer show-elevator @on-change="getByPage"
+    <Page :total="reimbursementTotal" show-sizer show-elevator @on-change="getByPage"
           @on-page-size-change="pageSizeChange" :current.sync="page.pageNum"
           :page-size="page.pageSize"></Page>
   </div>
@@ -70,8 +70,6 @@
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
-        //数据总条数
-        total: 1,
         reimbursementItem: {
           employeeId: null,
           name: null,
@@ -130,7 +128,10 @@
       }
     },
     computed: {
-      ...mapState("TRANSFER", {reimbursementData: state => state.data.reimbursementData,})
+      ...mapState("TRANSFER", {
+        reimbursementData: state => state.data.reimbursementData,
+        reimbursementTotal: state => state.data.reimbursementTotal
+      })
     },
     created() {
       this.query();
@@ -141,9 +142,7 @@
         /*封装为后台可以接受的数据结构*/
         let queryData = this.page;
         queryData.params = this.reimbursementItem;
-        this[EventTypes.REIMBURSEMENT_LIST](queryData).then(() => {
-          this.total = this.$store.state.TRANSFER.data.reimbursementTotal;
-        })
+        this[EventTypes.REIMBURSEMENT_LIST](queryData);
       },
       ok() {
         this.$Message.info('已审核通过');

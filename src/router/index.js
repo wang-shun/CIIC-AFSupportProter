@@ -173,11 +173,7 @@ const insuredList = r => require.ensure([], () => r(require('@/components/health
 
 
 //保单管理
-const InsurancePolicyList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/InsurancePolicyList')), 'InsurancePolicyList') //保单列表
-const InsurancePolicyNumEmpList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/InsurancePolicyNumEmpList')), 'InsurancePolicyNumEmpList') //保单人员列表
-const InsurancePolicyNumCostConfirmList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/InsurancePolicyNumCostConfirmList')), 'InsurancePolicyNumCostConfirmList') //保单费用确认
 const AddPayRate = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddPayRate')), 'AddPayRate') //新增付费比例
-const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AgentBusinessBatchList')), 'AgentBusinessBatchList') //新增代收代付
 
 /**
  * 健康医疗
@@ -193,8 +189,12 @@ const updateReimbursement = r => require.ensure([], () => r(require('@/component
 const collectionPayment = r => require.ensure([], () => r(require('@/components/health_medical/collection_payment/CollectionPayment')), 'collectionPayment'); //代收代付
 const addCollectionPayment = r => require.ensure([], () => r(require('@/components/health_medical/collection_payment/AddCollectionPayment')), 'addCollectionPayment'); //代收代付
 //保单号管理
-const policyNumManagement = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/PolicyNumManagement')), 'policyNumManagement') //保单号管理
-const addPolicyNum = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicyNum')), 'addPolicyNum') //保单号管理
+const policyNumManagement = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/PolicyNumManagement')), 'policyNumManagement'); //保单号管理
+const addPolicyNum = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicyNum')), 'addPolicyNum'); //新增保单号
+//保单管理
+const policyManagement = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/PolicyManagement')), 'policyManagement'); //保单管理
+const addPolicy = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicy')), 'addPolicy'); //新增保单缴费
+const addPolicyConfirm = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicyConfirm')), 'addPolicyConfirm'); //新增保单费用确认
 
 /*
  * giftApplicationManager              --弹性福利
@@ -827,34 +827,34 @@ let router = new Router({
           }
         },
         {
-          path: '/InsurancePolicyList',
-          name: 'InsurancePolicyList',
-          component: InsurancePolicyList,
+          path: '/policyManagement',
+          name: 'policyManagement',
+          component: policyManagement,
           meta: {
             level1: '首页',
-            level2: "保单管理",
-            level3: "保单批次列表",
+            level2: "健康医疗",
+            level3: "保单管理",
             openNames: ['2']
           }
         },
         {
-          path: '/InsurancePolicyNumEmpList',
-          name: 'InsurancePolicyNumEmpList',
-          component: InsurancePolicyNumEmpList,
+          path: '/addPolicy',
+          name: 'addPolicy',
+          component: addPolicy,
           meta: {
             level1: '首页',
-            level2: "保单管理",
-            level3: "新增保单缴费批次",
+            level2: "健康医疗",
+            level3: "新增保单缴费",
             openNames: ['2']
           }
         },
         {
-          path: '/InsurancePolicyNumCostConfirmList',
-          name: 'InsurancePolicyNumCostConfirmList',
-          component: InsurancePolicyNumCostConfirmList,
+          path: '/addPolicyConfirm',
+          name: 'addPolicyConfirm',
+          component: addPolicyConfirm,
           meta: {
             level1: '首页',
-            level2: "保单管理",
+            level2: "健康医疗",
             level3: "保单费用确认",
             openNames: ['2']
           }
@@ -911,17 +911,6 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "新增代收代付",
-            openNames: ['2']
-          }
-        },
-        {
-          path: '/AgentBusinessBatchList',
-          name: 'AgentBusinessBatchList',
-          component: AgentBusinessBatchList,
-          meta: {
-            level1: '首页',
-            level2: "保单管理",
-            level3: "代收代付批次列表",
             openNames: ['2']
           }
         },

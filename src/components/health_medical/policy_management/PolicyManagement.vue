@@ -15,7 +15,7 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
               <Form-item label="保单名称">
                 <Select placeholder="选择保单">
                   <Option value="0">全部</Option>
@@ -25,21 +25,34 @@
                 </Select>
               </Form-item>
               </Col>
+              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
+              <Form-item label="保单号">
+                <Select placeholder="选择保单号">
+                  <Option value="0">全部</Option>
+                  <Option value="1">补充医疗大保单2017</Option>
+                  <Option value="2">补充医疗大保单2016</Option>
+                </Select>
+              </Form-item>
+              </Col>
             </Row>
+
             <row>
               <Col :xs="{ span: 6, offset: 8 }" :lg="{ span: 6, offset: 8 }">
               <Button type="primary" @click="queryTransfer" size="large">查询</Button>
               </Col>
             </Row>
           </Form>
+
         </div>
       </Panel>
     </Collapse>
+
     <div class="floatRightBtns">
-      <router-link to="/addPolicyNum">
-        <Button type="primary">新增保单号</Button>
+      <router-link to="/addPolicy">
+        <Button type="primary">新增保单缴费批次</Button>
       </router-link>
     </div>
+
     <Table border :columns="columns7" :data="data6"></Table>
   </div>
 </template>
@@ -63,129 +76,110 @@
         },
         columns7: [
           {
-            title: '保单号名称',
+            title: '保单名称',
             sortable: true,
-            key: 'column1'
+            key: 'acceptanceId'
           },
           {
             title: '保单号',
             sortable: true,
-            key: 'column12'
+            key: 'employeeId'
           },
           {
-            title: '保单名称',
+            title: '保单开始日期',
             sortable: true,
-            key: 'column11'
-          },
-          {
-            title: '保单起始日期',
-            sortable: true,
-            key: 'column2'
+            key: 'employeeName'
           },
           {
             title: '保单结束日期',
             sortable: true,
-            key: 'column3'
+            key: 'companyId'
           },
           {
-            title: '付费周期',
+            title: '付费年月',
             sortable: true,
-            key: 'column4'
+            key: 'companyName'
           },
           {
-            title: '付费计算规则',
+            title: '总人数',
             sortable: true,
-            key: 'column5'
+            key: 'Type'
           },
           {
-            title: '创建者',
+            title: '保费',
             sortable: true,
-            key: 'column6'
+            key: 'MoneyType'
           },
           {
-            title: '创建时间',
+            title: '操作人',
             sortable: true,
-            key: 'column7'
+            key: 'acceptancePeople'
+          },
+          {
+            title: '操作时间',
+            sortable: true,
+            key: 'jointandseveralPeople'
           },
           {
             title: '操作',
             key: 'action',
-            width: 200,
+            width: 150,
             align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
                   props: {
                     type: 'primary',
-                    style: {
-                      marginRight: '15px'
-                    },
                     size: 'small'
                   },
                   on: {
                     click: () => {
                       this.$router.push({
-                        name: 'addPolicyNum',
+                        name: 'addPolicyConfirm',
                         params: {
                           data: params.row
                         }
                       });
                     }
                   }
-                }, '查看'),
-                h('Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({
-                        name: 'addPolicyNum',
-                        params: {
-                          data: params.row
-                        }
-                      });
-                    }
-                  }
-                }, '编辑')
+                }, '查看')
               ]);
             }
           }
         ],
         data6: [
           {
-            column11: '补充医疗大保单',
-            column12: '补充医疗大保单201721321',
-            column1: '补充医疗大保单2017',
-            column2: '2017-01-01',
-            column3: '2017-12-31',
-            column4: '月缴',
-            column5: '固定保费',
-            column6: '杨琴华',
-            column7: '2016-12-20 15：30'
+            acceptanceId: '补充医疗大保单',
+            employeeId: '补充医疗大保单2017',
+            employeeName: '2016-01-01',
+            companyId: '2016-12-31',
+            companyName: '201708',
+            Type: '70000',
+            MoneyType: '1，400，000',
+            acceptancePeople: '杨琴华',
+            jointandseveralPeople: '2017-9-20 15：30'
           },
           {
-            column11: '补充医疗大保单',
-            column12: '补充医疗大保单201721323',
-            column1: '补充医疗大保单2016',
-            column2: '2016-01-01',
-            column3: '2016-12-31',
-            column4: '月缴',
-            column5: '固定保费',
-            column6: '杨琴华',
-            column7: '2015-12-20 15：30'
+            acceptanceId: '补充医疗大保单',
+            employeeId: '补充医疗大保单2017',
+            employeeName: '2016-01-01',
+            companyId: '2016-12-31',
+            companyName: '201707',
+            Type: '60000',
+            MoneyType: '1，200，000',
+            acceptancePeople: '杨琴华',
+            jointandseveralPeople: '2017-8-20 15：30'
           },
           {
-            column11: '补充医疗大保单',
-            column12: '补充医疗大保单2017213218',
-            column1: '补充医疗大保单2015',
-            column2: '2015-01-01',
-            column3: '2015-12-31',
-            column4: '月缴',
-            column5: '固定保费',
-            column6: '杨琴华',
-            column7: '2014-12-20 15：30'
+            acceptanceId: '补充医疗大保单',
+            employeeId: '补充医疗大保单2017',
+            employeeName: '2016-01-01',
+            companyId: '2016-12-31',
+            companyName: '201706',
+            Type: '50000',
+            MoneyType: '1，000，000',
+            acceptancePeople: '杨琴华',
+            jointandseveralPeople: '2017-7-20 15：30'
           }
         ]
       }

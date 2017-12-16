@@ -160,18 +160,12 @@ const invoiceList = r => require.ensure([], () => r(require('@/components/health
 //未投保医疗
 const acceptanceList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AcceptanceList')), 'acceptanceList') //受理单列表
 const checkMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/CheckMedicalList')), 'checkMedicalList') //新增未投保列表
-const acceptanceAuditList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AcceptanceAuditList')), 'acceptanceAuditList') //未投保审核列表
 const addAcceptanceEmployeeList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddAcceptanceEmployeeList')), 'addAcceptanceEmployeeList') //理赔人员列表
 const addAcceptance = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddAcceptance')), 'addAcceptance') //新增受理单
-const auditAcceptance = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AuditAcceptance')), 'auditAcceptance') //审核受理单
 
 const auditNurseryFee = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AuditNurseryFee')), 'auditNurseryFee') //医疗关系转移
-
-
 //在保管理
 const insuredList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/InsuredList')), 'insuredList') //在保管理
-
-
 //保单管理
 const AddPayRate = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddPayRate')), 'AddPayRate') //新增付费比例
 
@@ -191,6 +185,9 @@ const addCollectionPayment = r => require.ensure([], () => r(require('@/componen
 //保单号管理
 const policyNumManagement = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/PolicyNumManagement')), 'policyNumManagement'); //保单号管理
 const addPolicyNum = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicyNum')), 'addPolicyNum'); //新增保单号
+//未投保审核
+const uninsuredReview = r => require.ensure([], () => r(require('@/components/health_medical/uninsured/UninsuredReview')), 'uninsuredReview'); //新增保单号
+const uninsuredReviewDeal = r => require.ensure([], () => r(require('@/components/health_medical/uninsured/UninsuredReviewDeal')), 'uninsuredReviewDeal'); //新增保单号
 //保单管理
 const policyManagement = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/PolicyManagement')), 'policyManagement'); //保单管理
 const addPolicy = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicy')), 'addPolicy'); //新增保单缴费
@@ -761,13 +758,13 @@ let router = new Router({
         },
 
         {
-          path: '/auditAcceptance',
-          name: 'auditAcceptance',
-          component: auditAcceptance,
+          path: '/uninsuredReviewDeal',
+          name: 'uninsuredReviewDeal',
+          component: uninsuredReviewDeal,
           meta: {
             level1: '首页',
-            level2: "未投保医疗",
-            level3: "审核受理单",
+            level2: "健康医疗",
+            level3: "未投保审核处理",
             openNames: ['2']
           }
         },
@@ -937,13 +934,13 @@ let router = new Router({
           }
         },
         {
-          path: '/acceptanceAuditList',
-          name: 'acceptanceAuditList',
-          component: acceptanceAuditList,
+          path: '/uninsuredReview',
+          name: 'uninsuredReview',
+          component: uninsuredReview,
           meta: {
             level1: '首页',
-            level2: "未投保医疗",
-            level3: "未投保审核列表",
+            level2: "健康医疗",
+            level3: "未投保审核",
             openNames: ['2']
           }
         },

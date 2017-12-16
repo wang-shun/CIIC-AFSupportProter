@@ -17,7 +17,7 @@
       <Panel name="2">
         办理所需材料清单
         <div slot="content">
-          <Table class="mt20" border :columns="operatorMaterials.operatorMaterialListColumns" :data="operatorMaterialListData" ref="materialData"></Table>
+          <Table class="mt20" border :columns="operatorMaterials.operatorMaterialListColumns" :data="receiveMaterial" ref="materialData"></Table>
         </div>
       </Panel>
     </Collapse>
@@ -84,9 +84,11 @@
         isRefuseReason:false,//批退
         refuseLoading:true,//确定是否关闭
         refuseReason:'',//批退理由
+        tempArray:[],
         currentStep: 0,
         companyInfo: {},//企业信息
         socialSecurityinfo:{},
+        receiveMaterial:[],//用于修改材料收缴状态后的信息
         operatorMaterialListData:[],//材料
         operatorMaterials: {
           operatorMaterialListColumns: [
@@ -126,7 +128,7 @@
             },
             {title: '状态', key: 'materialReciveDate', align: 'center', className: 'mw200',
               render: (h, params) => {
-                let selt = this
+                let self = this
                 return h('div', [
                   h('Select', {
                     props: {
@@ -134,7 +136,7 @@
                     },
                     on:{
                       input:function(event){
-                        console.log(self)
+                        self.receiveMaterial[params.index].state = event
                       }
                     }
                   },
@@ -149,7 +151,7 @@
             },
             {title: '备注说明', key: 'notes', className: 'mw300',
               render: (h, params) => {
-                let selt = this
+                let self = this
                 return h('div', [
                   h('i-input', {
                     props: {
@@ -157,7 +159,8 @@
                       },
                       on:{
                         input:function(event){
-                          debugger
+                           params.row.notes = event
+                          self.receiveMaterial[params.index] = params.row
                         }
                       }
                   })
@@ -170,6 +173,7 @@
                         width: 150,
                         align: 'center',
                         render: (h, params) => {
+                          let self = this
                             return h('div', [
                                 h('Button', {
                                     props: {
@@ -181,9 +185,26 @@
                                     },
                                     on: {
                                         click: () => {
-                                            params.index
-                                            CompanyTaskList.getCompanyInfoAndMaterial({})
-                                            
+                                          //初始状态
+                                          let state =  self.operatorMaterialListData[params.index].state
+                                          let isUpdateObj =  self.receiveMaterial[params.index]
+                                          if(state=='1' && state!=isUpdateObj.state){
+                                             self.$Notice.error({
+                                                    title: '操作失败',
+                                                    desc: '该材料已经签收.',
+                                                    duration: 3
+                                             });
+                                            return;
+                                          }
+                                          let param ={comMaterialId:isUpdateObj.id,status:isUpdateObj.state,remark:isUpdateObj.notes}
+                                          let paramsList = []
+                                          //以List<String>的形式传到后台
+                                          paramsList.push(JSON.stringify(param))
+                                          CompanyTaskList.signMaterials({paramsList:paramsList}).then(result=>{
+                                              if(result){
+                                                self.$Message.success("操作成功！")
+                                              }
+                                          })
                                         }
                                     }
                                 }, '处理')
@@ -236,40 +257,48 @@
             self.socialSecurityinfo = result.companyInfo
           }
         self.operatorMaterialListData = result.operatorMaterialListData;
+        //clone 新对象
+        self.receiveMaterial = Utils.deepClone(self.operatorMaterialListData)
+
         self.currentStep  =result.companyTaskStatus==null?0:Number(result.companyTaskStatus)
 
       })
       },
       signAllMaterials(){
-        let materialArr = this.$refs.materialData.data
+        let materialArr = this.operatorMaterialListData
+        let materialUpdateArr = this.receiveMaterial
         let materialId = "";
-        var typeInfo =0;
-       
-        //将材料的ID 拼接成以，分割的字符串
-        for(let obj of materialArr){
+        var typeInfo =0;//表示无材料
+       let paramsList=[]
+        for(let i in materialArr){
+          //表示已全部签收
           typeInfo =1;
-          if(obj.state!='1'){
+          if(materialArr[i].state!='1'){
+             //表示有材料未签收
              typeInfo =2;
-             materialId+=obj.id+","
-            //  typeInfo =2;
-            // let info = {}
-            // info.comMaterialId = obj.id
-            // info.remark = obj.notes
-            //  params.push(info)
+            let param ={comMaterialId:materialUpdateArr[i].id,status:1,remark:materialUpdateArr[i].notes}
+            paramsList.push(JSON.stringify(param))
           }
         }
-        if(materialId=="" && typeInfo==0){
-          this.$Message.error("没有材料信息！")
-        }else if(materialId=="" && typeInfo==1){
-          this.$Message.error("已全部签收！")
-        }else{
-          CompanyTaskList.signAllMaterials({materialId:materialId}).then(result=>{
+        if(paramsList.length==0 && typeInfo==0){
+          this.$Notice.error({
+                title: '操作失败',
+                desc: '没有材料信息！',
+                duration: 3
+               });
+        }else if(paramsList.length==0 && typeInfo==1){
+          this.$Notice.error({
+                title: '操作失败',
+                desc: '已全部签收！',
+                duration: 3
+               });
 
+        }else{
+          CompanyTaskList.signMaterials({paramsList:paramsList}).then(result=>{
              if(result){
                this.$Message.success("操作成功！")
                this.nextStep()
              }
-
            })
         }
        

@@ -216,4 +216,16 @@ utils.ajaxData = createAjaxForData('fb-c');
 utils.ajaxSsq = createAjaxForName('ss-q');
 utils.ajaxSsc = createAjaxForName('ss-c');
 
+/**
+ * clone
+ * @param {*} obj 
+ */
+let self = this
+utils.deepClone=obj=>{
+  var newObj = obj instanceof Array ? [] : {};
+  for(var k in obj) 
+  newObj[k] = obj[k] instanceof Object ? self.a.deepClone(obj[k]) : obj[k];
+  return newObj;
+}
+
 export default utils;

@@ -39,26 +39,15 @@
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
           <Table border :columns="columns7" :data="data6"></Table>
           </Col>
-          <Col span="2" style="margin-left: 30px;">
-          <Button type="primary" ref="rmb" @click="modal1 = true">新增付费</Button>
-          <Modal
-            v-model="modal1"
-            title="新增付费对话框"
-            @on-ok="ok">
-            <Input v-model="formItem.code1" placeholder="公司编号："></Input>
-            <br> <br>
-            <Input v-model="formItem.code2" placeholder="公司名称："></Input>
-            <br> <br>
-            <Input v-model="formItem.code3" placeholder="保费："></Input>
-            <br> <br>
-            <Input v-model="formItem.code4" placeholder="人数："></Input>
-            <br> <br>
-            <Input v-model="formItem.code5" placeholder="备注："></Input>
-          </Modal>
+          <Col span="3" style="margin-left: 10px;">
+          <Button type="primary" @click="modal1 = true">新增付费</Button>
           </Col>
+          <Col span="3">
           <router-link to="/AddPayRate">
             <Button type="primary">导入付费</Button>
           </router-link>
+          </Col>
+
         </row>
         <br>
         <row>
@@ -73,6 +62,21 @@
         </row>
       </Form>
     </Card>
+
+    <Modal
+      v-model="modal1"
+      title="新增付费对话框"
+      @on-ok="ok">
+      <Input v-model="formItem.code1" placeholder="公司编号："></Input>
+      <br> <br>
+      <Input v-model="formItem.code2" placeholder="公司名称："></Input>
+      <br> <br>
+      <Input v-model="formItem.code3" placeholder="保费："></Input>
+      <br> <br>
+      <Input v-model="formItem.code4" placeholder="人数："></Input>
+      <br> <br>
+      <Input v-model="formItem.code5" placeholder="备注："></Input>
+    </Modal>
   </div>
 </template>
 <script>

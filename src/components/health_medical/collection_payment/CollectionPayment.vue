@@ -1,45 +1,44 @@
 <template>
-  <div class="AgentBusinessList">
+  <div>
     <Collapse v-model="value1" accordion>
       <Panel name="1">
         <div slot="content">
-          <Row>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-            <Form :model="formItem" :label-width="100">
+          <Form :model="collectionPaymentItem" :label-width="100">
+            <Row>
+              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
               <Form-item label="保险公司">
-                <Select placeholder="选择保险公司">
+                <Select v-model="collectionPaymentItem.input" placeholder="选择保险公司">
                   <Option value="0">全部</Option>
                   <Option value="1">中国人民财产保险股份有限公司苏州市分公司</Option>
                   <Option value="2">平安养老保险股份有限公司上海分公司</Option>
                   <Option value="3">中国平安财产保险股份有限公司上海分公司</Option>
                 </Select>
               </Form-item>
-            </Form>
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-            <Form :model="formItem" :label-width="100">
+              </Col>
+              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
               <Form-item label="保单名称">
-                <Select placeholder="选择保单">
+                <Select v-model="collectionPaymentItem.select" placeholder="选择保单">
                   <Option value="0">全部</Option>
                   <Option value="1">惠氏公司商业保险保费</Option>
                   <Option value="2">爱茉莉公司-平安团体险保单</Option>
                   <Option value="3">伊顿公司实习生意外险保费</Option>
                 </Select>
               </Form-item>
-            </Form>
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 20, offset: 0 }" class="checkBtn">
-            <router-link to="/addCollectionPayment">
-              <Button type="primary">新增代收代付</Button>
-            </router-link>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+          </Form>
+          <div class="tc">
+            <Button type="primary" @click="query()" icon="ios-search">查询</Button>
+          </div>
         </div>
       </Panel>
     </Collapse>
-    <br>
+    <div class="floatRightBtns">
+      <router-link to="/addCollectionPayment">
+        <Button type="primary">新增代收代付</Button>
+      </router-link>
+    </div>
     <Table border :columns="columns7" :data="data6"></Table>
-
   </div>
 </template>
 <script>
@@ -47,69 +46,38 @@
     data() {
       return {
         value1: '1',
-        formItem: {
+        collectionPaymentItem: {
           input: '',
           select: '',
-          select1: '',
-          radio: 'male',
-          checkbox: [],
-          switch: true,
-          date: '',
-          time: '',
-          slider: [20, 50],
-          textarea: ''
         },
         columns7: [
           {
-            title: '保险公司',
-            sortable: true,
-            key: 'column1'
+            title: '保险公司', sortable: true, key: 'column1', align: 'center',
           },
           {
-            title: '保单名称',
-            sortable: true,
-            key: 'column2'
+            title: '保单名称', sortable: true, key: 'column2', align: 'center',
           },
           {
-            title: '保单开始日期',
-            sortable: true,
-            key: 'column3'
+            title: '保单开始日期', sortable: true, key: 'column3', align: 'center',
           },
           {
-            title: '保单结束日期',
-            sortable: true,
-            key: 'column4'
+            title: '保单结束日期', sortable: true, key: 'column4', align: 'center',
           },
           {
-            title: '缴费周期',
-            sortable: true,
-            key: 'column6'
+            title: '缴费周期', sortable: true, key: 'column6', align: 'center',
           },
           {
-            title: '最新缴费年月',
-            sortable: true,
-            key: 'column5'
+            title: '最新缴费年月', sortable: true, key: 'column5', align: 'center',
           },
           {
-            title: '操作',
-            key: 'action',
-            width: 150,
-            align: 'center',
+            title: '操作', key: 'action', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
+                  props: {type: 'primary', size: 'small'},
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: 'AgentBusinessBatchList',
-                        params: {
-                          data: params.row
-                        }
-                      });
+                      this.$router.push({name: 'addCollectionPayment', params: {data: params.row}});
                     }
                   }
                 }, '查看')
@@ -160,11 +128,4 @@
 
 </script>
 <style scoped>
-  .ivu-card {
-    background: rgba(246, 246, 246, 1);
-  }
-
-  .checkBtn .ivu-btn {
-    float: right;
-  }
 </style>

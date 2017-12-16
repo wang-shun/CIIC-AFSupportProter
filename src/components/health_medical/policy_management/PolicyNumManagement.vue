@@ -52,99 +52,64 @@
         formItem: {
           input: '',
           select: '',
-          select1: '',
-          radio: 'male',
-          checkbox: [],
-          switch: true,
-          date: '',
-          time: '',
-          slider: [20, 50],
-          textarea: ''
         },
         columns7: [
           {
-            title: '保单号名称',
-            sortable: true,
-            key: 'column1'
+            title: '保单号名称', sortable: true, key: 'column1', align: "center",
           },
           {
-            title: '保单号',
-            sortable: true,
-            key: 'column12'
+            title: '保单号', sortable: true, key: 'column12', align: "center",
           },
           {
-            title: '保单名称',
-            sortable: true,
-            key: 'column11'
+            title: '保单名称', sortable: true, key: 'column11', align: "center",
           },
           {
-            title: '保单起始日期',
-            sortable: true,
-            key: 'column2'
+            title: '保单起始日期', sortable: true, key: 'column2', align: "center",
           },
           {
-            title: '保单结束日期',
-            sortable: true,
-            key: 'column3'
+            title: '保单结束日期', sortable: true, key: 'column3', align: "center",
           },
           {
-            title: '付费周期',
-            sortable: true,
-            key: 'column4'
+            title: '付费周期', sortable: true, key: 'column4', align: "center",
           },
           {
-            title: '付费计算规则',
-            sortable: true,
-            key: 'column5'
+            title: '付费计算规则', sortable: true, key: 'column5', align: "center",
           },
           {
-            title: '创建者',
-            sortable: true,
-            key: 'column6'
+            title: '创建者', sortable: true, key: 'column6', align: "center",
           },
           {
-            title: '创建时间',
-            sortable: true,
-            key: 'column7'
+            title: '创建时间', sortable: true, key: 'column7', align: "center",
           },
           {
-            title: '操作',
-            key: 'action',
-            width: 200,
-            align: 'center',
+            title: '操作', key: 'action', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'primary',
-                    style: {
-                      marginRight: '15px'
-                    },
+                    type: 'success',
                     size: 'small'
                   },
+                  style: {marginRight: "10px"},
                   on: {
                     click: () => {
                       this.$router.push({
                         name: 'addPolicyNum',
-                        params: {
-                          data: params.row
-                        }
+                        params: {data: params.row}
                       });
                     }
                   }
                 }, '查看'),
                 h('Button', {
                   props: {
-                    type: 'primary',
+                    type: 'success',
                     size: 'small'
                   },
                   on: {
                     click: () => {
                       this.$router.push({
                         name: 'addPolicyNum',
-                        params: {
-                          data: params.row
-                        }
+                        params: {data: params.row}
                       });
                     }
                   }

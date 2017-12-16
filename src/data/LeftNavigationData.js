@@ -116,7 +116,7 @@ const leftNavigationList = params => Utils.promise({
           {cid: "9-4", ckey: "未投保审核", crouter: "acceptanceAuditList"},
           {cid: "9-5", ckey: "医疗关系转移", crouter: "relationshipTransfer"},
           {cid: "9-6", ckey: "在保管理", crouter: "insuredList"},
-          {cid: "9-7", ckey: "保单号管理", crouter: "InsurancePolicyNumList"},
+          {cid: "9-7", ckey: "保单号管理", crouter: "policyNumManagement"},
           {cid: "9-8", ckey: "保单管理", crouter: "InsurancePolicyList"},
           {cid: "9-9", ckey: "代收代付", crouter: "collectionPayment"}
         ]

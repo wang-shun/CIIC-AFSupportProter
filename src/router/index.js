@@ -179,19 +179,21 @@ const InsurancePolicyNumCostConfirmList = r => require.ensure([], () => r(requir
 const InsurancePolicyNumList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/InsurancePolicyNumList')), 'InsurancePolicyNumList') //保单号列表
 const AddInsurancePolicyNum = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddInsurancePolicyNum')), 'AddInsurancePolicyNum') //新增保单号
 const AddPayRate = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddPayRate')), 'AddPayRate') //新增付费比例
-const AgentBusinessList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AgentBusinessList')), 'AgentBusinessList') //代收代付列表
-const AddAgentBusiness = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddAgentBusiness')), 'AddAgentBusiness') //新增代收代付
 const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AgentBusinessBatchList')), 'AgentBusinessBatchList') //新增代收代付
 
 /**
  * 健康医疗
  * relationshipTransfer     --医疗关系转移
+ * collectionPayment        --代收代付
  */
 const relationshipTransfer = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/RelationshipTransfer')), 'relationshipTransfer'); //医疗关系转移
-const addMedicalRelationship = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddMedicalRelationship')), 'addMedicalRelationship'); //医疗关系转移
-const updateMedicalRelationship = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/UpdateMedicalRelationship')), 'updateMedicalRelationship'); //医疗关系转移
-const addReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddReimbursement')), 'addReimbursement'); //医疗关系转移
-const updateReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/UpdateReimbursement')), 'updateReimbursement'); //医疗关系转移
+const addMedicalRelationship = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddMedicalRelationship')), 'addMedicalRelationship'); //新增医疗关系转移
+const updateMedicalRelationship = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/UpdateMedicalRelationship')), 'updateMedicalRelationship'); //更新医疗关系转移
+const addReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddReimbursement')), 'addReimbursement'); //新增零星报销
+const updateReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/UpdateReimbursement')), 'updateReimbursement'); //更新零星报销
+
+const collectionPayment = r => require.ensure([], () => r(require('@/components/health_medical/collection_payment/CollectionPayment')), 'CollectionPayment'); //代收代付
+const addCollectionPayment = r => require.ensure([], () => r(require('@/components/health_medical/collection_payment/AddCollectionPayment')), 'AddCollectionPayment'); //代收代付
 
 /*
  * giftApplicationManager              --弹性福利
@@ -890,9 +892,9 @@ let router = new Router({
           }
         },
         {
-          path: '/AgentBusinessList',
-          name: 'AgentBusinessList',
-          component: AgentBusinessList,
+          path: '/collectionPayment',
+          name: 'collectionPayment',
+          component: collectionPayment,
           meta: {
             level1: '首页',
             level2: "保单管理",
@@ -901,9 +903,9 @@ let router = new Router({
           }
         },
         {
-          path: '/AddAgentBusiness',
-          name: 'AddAgentBusiness',
-          component: AddAgentBusiness,
+          path: '/addCollectionPayment',
+          name: 'addCollectionPayment',
+          component: addCollectionPayment,
           meta: {
             level1: '首页',
             level2: "保单管理",

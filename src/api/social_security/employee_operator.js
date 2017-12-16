@@ -22,5 +22,19 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/queryByEmpTaskId', params);
     return await response.data;
   },
+  // 查询任务单费用段，根据雇员任务 id
+  queryEmpTaskById: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssEmpTask/empTaskById', params);
+    return await response.data;
+  },
+  // 雇员任务办理
+  handleEmpTask: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssEmpTask/handle', params,{
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    return await response.data;
+  }
 }
 

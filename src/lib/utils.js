@@ -78,6 +78,27 @@ utils.promise = response => {
   });
 }
 
+/**
+ * 清楚指定 key
+ * @param params
+ * @param keys []
+ */
+utils.clearKey = (params,keys) =>{
+  var p = {};
+  for(var name of Object.keys(params)){
+    var exists = false;
+    for(var key of Object.keys(keys)){
+      if(params[name] == key){
+        exists = true;
+        break;
+      }
+      if(!exists){
+        p[name] = params[name];
+      }
+    }
+  }
+  return p
+}
 
 /**
  * 清楚指定 value ，默认清楚 '[全部]'
@@ -167,7 +188,7 @@ let createAjax = config => {
 }
 
 let createAjaxForName = name => {
-  
+
   return createAjax({
     baseURL: BASE_PATHS[name],
     timeout: utils.DEBUG ? 0 : 5000,

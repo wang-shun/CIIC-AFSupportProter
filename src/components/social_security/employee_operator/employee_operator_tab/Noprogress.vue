@@ -276,7 +276,7 @@
     },
     async mounted() {
       this[EventType.THISMONTHHANDLETYPE]()
-//      this.employeeOperatorQuery();
+      this.employeeOperatorQuery();
     },
     computed: {
       ...mapState('thisMonthHandle', {
@@ -405,27 +405,34 @@
           });
         } else {
           var taskCategory = data.taskCategory;
+          var operatorType = '0';
+          switch (taskCategory) {
+            case '1':
+            case '2':
+              operatorType = '0';
+              break;
+            case '3':
+              operatorType = '1';
+              break;
+            case '4':
+              operatorType = '4';
+              break;
+            case '5':
+              operatorType = '2';
+              break;
+            default:
+              operatorType = '0';
+          }
+
           // 根据任务类型跳转
           this.$router.push({
             name: 'companysocialsecuritynew',
-            query: {taskCategory: taskCategory, taskId: data.empTaskId}
+            query: {taskCategory: taskCategory, empTaskId: data.empTaskId, operatorType: operatorType}
           });
         }
       },
       exprotExcel() {
-        var ajax = this.$ajax.createProxyAjaxForName("ss-c");
-//        ajax.download("/api/soccommandservice/salCompany/exprot",this.operatorSearchData);
       },
-      beforeUpload(file){
-        this.operatorSearchData.file = file;
-        return false;
-      },
-      ok() {
-
-      },
-      cancel() {
-
-      }
     }
   }
 </script>

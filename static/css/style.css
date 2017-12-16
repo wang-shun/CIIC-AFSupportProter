@@ -397,6 +397,7 @@ html, body, .ivu-row-flex, .layout {
 
 .floatRightBtns {
   text-align: right;
+  margin: 20px auto;
 }
 
 .ivu-form .ivu-form-item-label {

@@ -354,8 +354,8 @@ export class CompanyTaskList{
   }
 
   //签收全部材料
-  static signAllMaterials(params){
-    let url = domainJson.signAllMaterialsUrl
+  static signMaterials(params){
+    let url = domainJson.signMaterialsUrl
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
         //返回结果

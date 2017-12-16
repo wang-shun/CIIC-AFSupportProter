@@ -17,7 +17,7 @@ let domainJson = {
     //获得企业信息和材料收缴信息url
     "getCompanyInfoAndMaterialUrl":"/api/soccommandservice/ssComTask/getCompanyInfoAndMaterial",
     //签收全部
-    "signAllMaterialsUrl":"/api/soccommandservice/ssComMaterial/signAllMaterials",
+    "signMaterialsUrl":"/api/soccommandservice/ssComMaterial/signMaterials",
     //查询企业信息和前道传过来的JSON（包含社保截止和付款方式）
     "getComInfoAndPayWayUrl":"/api/soccommandservice/ssComTask/getComInfoAndPayWay",
     //企业任务单开户办理页面 添加或者修改（修改是有可能填完数据 然后暂存起来）

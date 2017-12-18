@@ -261,12 +261,18 @@
       },
       filterData() {
         var oldRows = this.getRows();
+        var empTaskId = this.socialSecurityPayOperator.empTaskId;
 
         var newRows = [];
         for (var row of oldRows) {
           if (row.startMonth != '' || row.endMonth != '' || row.baseAmount != '') {
-            row.empTaskId = this.socialSecurityPayOperator.empTaskId;
-            newRows.push(this.$utils.clearKey(row, ['disabled']));
+            newRows.push({
+              empTaskId:empTaskId,
+              startMonth:row.startMonth,
+              endMonth:row.endMonth,
+              baseAmount:row.baseAmount,
+              remitWay:row.remitWay,
+            });
           }
         }
         return newRows;

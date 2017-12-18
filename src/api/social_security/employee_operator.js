@@ -29,11 +29,7 @@ export default {
   },
   // 雇员任务办理
   handleEmpTask: async (params) => {
-    let response = await AJAX.post('/api/soccommandservice/ssEmpTask/handle', params,{
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+    let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/handle', params);
     return await response.data;
   }
 }

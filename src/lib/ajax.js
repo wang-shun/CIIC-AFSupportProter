@@ -245,6 +245,13 @@ let createProxyAjaxForName = name => {
   }
 
   // 下载
+  proxy.postJSON = async (url, data, config = {}) => {
+    config.headers = config.headers || {};
+    config.headers['Content-Type'] = config.headers['Content-Type'] || 'application/json';
+    return await proxy.post(url, data, config);
+  }
+
+  // 下载
   proxy.download = (url, data) => {
     download(baseURL + url, data)
   }
@@ -257,7 +264,7 @@ let createProxyAjaxForName = name => {
 }
 
 AJAX.download = download;
-AJAX.upload = upload; 
+AJAX.upload = upload;
 AJAX.createAjax = createAjax;
 AJAX.createAjaxForName = createAjaxForName;
 AJAX.createProxyAjaxForName = createProxyAjaxForName;

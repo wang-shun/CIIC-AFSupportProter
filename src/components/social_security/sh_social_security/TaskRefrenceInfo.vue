@@ -87,10 +87,16 @@
         }
       },
       taskOutInfo: {
-        type: Object
+        type: Object,
+        default() {
+          return {}
+        }
       },
       taskNewInfoData: {
-        type: Array
+        type: Array,
+        default() {
+          return []
+        }
       }
     },
     data() {

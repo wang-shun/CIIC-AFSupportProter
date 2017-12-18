@@ -9,6 +9,7 @@ const state = {
     taskNewInfo:{},
     taskChangeInfo:{},
     taskNewInfoData:[],
+    taskOutInfo:{},
   }
 }
 

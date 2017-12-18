@@ -404,29 +404,36 @@
             query: {operatorType: taskCategory, taskIds: taskIds}
           });
         } else {
+          // 任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
           var taskCategory = data.taskCategory;
           var operatorType = '0';
+          var name = 'empTaskHandleView';
           switch (taskCategory) {
             case '1':
             case '2':
               operatorType = '0';
+              name = 'empTaskHandleView';
               break;
             case '3':
               operatorType = '1';
+              name = 'empTaskHandle3View';
               break;
             case '4':
               operatorType = '4';
+              name = 'empTaskHandle4View';
               break;
             case '5':
               operatorType = '2';
+              name = 'empTaskHandle5View';
               break;
             default:
               operatorType = '0';
+              name = 'empTaskHandleView'
           }
 
           // 根据任务类型跳转
           this.$router.push({
-            name: 'companysocialsecuritynew',
+            name: name,
             query: {taskCategory: taskCategory, empTaskId: data.empTaskId, operatorType: operatorType}
           });
         }

@@ -17,9 +17,7 @@
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="变更类型：" prop="taskCategory">
-        <span v-if="operatorType === '1'">调整</span>
-        <span v-else-if="operatorType === '4'">补缴</span>
-        <Select v-model="socialSecurityPayOperator.taskCategory" style="width: 100%;" transfer v-else>
+        <Select v-model="socialSecurityPayOperator.taskCategory" style="width: 100%;" transfer :disabled="operatorType !== '0'">
           <Option v-for="item in taskCategoryType" :value="item.value" :key="item.value" :label="item.label"></Option>
         </Select>
       </Form-item>
@@ -55,6 +53,8 @@
                     style="width: 100%;" transfer></DatePicker>
       </Form-item>
       </Col>
+    </Row>
+    <Row class="mt20">
       <Col :sm="{span:24}" v-if="operatorType !== '2'">
       <Table border width="100%" :columns="operatorListColumns"
              :data="operatorListData"></Table>
@@ -128,16 +128,15 @@
             key: 'startMonth',
             align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('i-input', {
-                  props: {value: params.row.startMonth, disabled: Boolean(params.row.disabled)},
-                  on: {
-                    'on-blur': (e) => {
-                      this.setRow(params, 'startMonth', e.target.value);
-                    }
+              return h('DatePicker', {
+                props: {value: params.row.startMonth, type: 'month', disabled: Boolean(params.row.disabled)},
+                attrs: {placeholder: '选择年月'},
+                on: {
+                  'on-change': (value) => {
+                    this.setRow(params, 'startMonth', value);
                   }
-                }, params.row.startMonth)
-              ]);
+                }
+              });
             }
           },
           {
@@ -145,16 +144,15 @@
             key: 'endMonth',
             align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('i-input', {
-                  props: {value: params.row.endMonth, disabled: Boolean(params.row.disabled)},
-                  on: {
-                    'on-blur': (e) => {
-                      this.setRow(params, 'endMonth', e.target.value);
-                    }
+              return h('DatePicker', {
+                props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
+                attrs: {placeholder: '选择年月'},
+                on: {
+                  'on-change': (value) => {
+                    this.setRow(params, 'endMonth', value);
                   }
-                }, params.row.endMonth)
-              ]);
+                }
+              });
             }
           },
           {
@@ -162,16 +160,14 @@
             key: 'baseAmount',
             align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('i-input', {
-                  props: {value: params.row.baseAmount, disabled: Boolean(params.row.disabled)},
-                  on: {
-                    'on-blur': (e) => {
-                      this.setRow(params, 'baseAmount', e.target.value);
-                    }
+              return h('Input', {
+                props: {value: params.row.baseAmount, disabled: Boolean(params.row.disabled)},
+                on: {
+                  'on-blur': (e) => {
+                    this.setRow(params, 'baseAmount', e.target.value);
                   }
-                }, params.row.baseAmount)
-              ]);
+                }
+              }, params.row.baseAmount);
             }
           },
           {
@@ -231,8 +227,6 @@
 
           taskStatus: '',
           empTaskId: '',
-
-
         }
       }
     },
@@ -259,6 +253,9 @@
           form: this.socialSecurityPayOperator
         };
       },
+      yyyyMM(str){
+        return str.replace('-','');
+      },
       filterData() {
         var oldRows = this.getRows();
         var empTaskId = this.socialSecurityPayOperator.empTaskId;
@@ -267,11 +264,11 @@
         for (var row of oldRows) {
           if (row.startMonth != '' || row.endMonth != '' || row.baseAmount != '') {
             newRows.push({
-              empTaskId:empTaskId,
-              startMonth:row.startMonth,
-              endMonth:row.endMonth,
-              baseAmount:row.baseAmount,
-              remitWay:row.remitWay,
+              empTaskId: empTaskId,
+              startMonth: this.yyyyMM(row.startMonth),
+              endMonth: this.yyyyMM(row.endMonth),
+              baseAmount: row.baseAmount,
+              remitWay: row.remitWay,
             });
           }
         }
@@ -297,7 +294,7 @@
         this.getRows().splice(index, 0, this.newRow());
       },
       removeRow(index) {
-        var data = this.getData();
+        var data = this.getRows();
 
         // 保留最后一个并清空
         if (data.length == 1) {

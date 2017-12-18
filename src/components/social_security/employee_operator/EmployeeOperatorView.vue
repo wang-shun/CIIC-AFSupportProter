@@ -17,10 +17,10 @@
   </div>
 </template>
 <script>
-  import noprogress from './employee_operator_tab/Noprogress'//雇员日常操作 -- 未处理
-  import progressing from './employee_operator_tab/Progressing'//雇员日常操作 -- 处理中
-  import finished from './employee_operator_tab/Finished'//雇员日常操作 -- 已完成
-  import refused from './employee_operator_tab/Refused'//雇员日常操作 --批退
+  import noprogress from './tab/Noprogress'//雇员日常操作 -- 未处理
+  import progressing from './tab/Progressing'//雇员日常操作 -- 处理中
+  import finished from './tab/Finished'//雇员日常操作 -- 已完成
+  import refused from './tab/Refused'//雇员日常操作 --批退
 
   export default {
     components: {noprogress, progressing, finished, refused},

@@ -102,63 +102,8 @@ const logInfo = (method, url, data) => {
   }
 }
 
-// 文件下载
-const download = (url, data) => {
-  logInfo('get', url, data);
-  // 分析 url 包含 "?"
-  if (data && Object.keys(data).length > 0) {
-    if (url.indexOf("?") < 0) {
-      url += "?"
-    }
-
-    var uri = url;
-    // 参数类型如果不是字符串类型 序列号
-    if (typeof(data) !== "string") {
-      uri = qs.stringify(data);
-    }
-
-    // 问号结尾不添加 "&"
-    if (url.lastIndexOf("?") != url.length - 1) {
-      url += "&";
-    }
-    url += uri;
-  }
-
-  // 下载
-  let iframe = document.createElement('iframe')
-  iframe.style.display = 'none'
-  iframe.src = url
-  iframe.onload = () => {
-    document.body.removeChild(iframe)
-  }
-  document.body.appendChild(iframe)
-}
-
-// 文件上传
-let upload = (url, data, config = {}) => {
-  let formData = new FormData();
-  Object.keys(data).forEach(key => {
-    formData.append(key, data[key])
-  });
-
-  // 初始化参数
-  if (!Boolean(config.headers)) {
-    config.headers = {
-      'Content-Type': 'multipart/form-data'
-    };
-  }
-  if (!Boolean(config.timeout)) {
-    config.timeout = DEBUG ? 0 : 5000;
-  }
-
-  return createAjax(config)['post'](url, formData, config);
-}
-
-/**
- * 创建 AJAX 对象
- * @param config
- */
-let createAjax = config => {
+// 创建 AJAX 对象
+const createAjax = config => {
   let ajax = axios.create(config);
 
   // 添加一个 request 拦截器
@@ -221,8 +166,7 @@ let createAjax = config => {
   return ajax;
 }
 
-
-let createAjaxForName = name => {
+const createAjaxForName = name => {
   return createAjax({
     baseURL: BASE_PATHS[name],
     timeout: DEBUG ? 0 : 5000,
@@ -244,7 +188,6 @@ let createProxyAjaxForName = name => {
     }
   }
 
-  // 下载
   proxy.postJSON = async (url, data, config = {}) => {
     config.headers = config.headers || {};
     config.headers['Content-Type'] = config.headers['Content-Type'] || 'application/json';
@@ -253,18 +196,51 @@ let createProxyAjaxForName = name => {
 
   // 下载
   proxy.download = (url, data) => {
-    download(baseURL + url, data)
+    logInfo('get', url, data);
+    // 分析 url 包含 "?"
+    if (data && Object.keys(data).length > 0) {
+      if (url.indexOf("?") < 0) {
+        url += "?"
+      }
+
+      var uri = url;
+      // 参数类型如果不是字符串类型 序列号
+      if (typeof(data) !== "string") {
+        uri = qs.stringify(data);
+      }
+
+      // 问号结尾不添加 "&"
+      if (url.lastIndexOf("?") != url.length - 1) {
+        url += "&";
+      }
+      url += uri;
+    }
+
+    // 下载
+    let iframe = document.createElement('iframe')
+    iframe.style.display = 'none'
+    iframe.src = baseURL + url
+    iframe.onload = () => {
+      document.body.removeChild(iframe)
+    }
+    document.body.appendChild(iframe)
   }
 
   // 上传
-  proxy.upload = (url, data, config = {}) => {
-    return upload(baseURL + url, data, config);
+  proxy.upload = async (url, data, config = {}) => {
+    let formData = new FormData();
+    Object.keys(data).forEach(key => {
+      formData.append(key, data[key])
+    });
+
+    config.headers = config.headers || {};
+    config.headers['Content-Type'] = config.headers['Content-Type'] || 'multipart/form-data';
+
+    return await proxy.post(url, data, config);
   }
   return proxy;
 }
 
-AJAX.download = download;
-AJAX.upload = upload;
 AJAX.createAjax = createAjax;
 AJAX.createAjaxForName = createAjaxForName;
 AJAX.createProxyAjaxForName = createProxyAjaxForName;

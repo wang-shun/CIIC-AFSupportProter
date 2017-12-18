@@ -479,6 +479,9 @@
         if ('4' == taskStatus) {
           content = "批退办理";
         }
+
+        // expireDate
+
         this.$Modal.confirm({
           title: "确认办理吗？",
           content: content,
@@ -492,6 +495,14 @@
               fromData.handleRemarkDate = null;
               fromData.rejectionRemarkDate = null;
               fromData.taskStatus = taskStatus;
+            }
+
+            // 转下月处理
+            if(type && type == 'next'){
+              var nextDay = parseInt(this.company.expireDate) + 1;
+              var submitTime = new Date();
+              submitTime.setDate(nextDay);
+              fromData.submitTime = this.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');
             }
 
             fromData.empTaskPeriods = this.filterData();

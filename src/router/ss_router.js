@@ -29,10 +29,16 @@ const employeespecialoperatorview = r => require.ensure([], () => r(require('@/c
 const employeespecialprogresstwo = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialProgressTwo')), 'employeespecialprogresstwo')
 const employeespecialprogressthree = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialProgressThree')), 'employeespecialprogressthree')
 
+// 雇员任务办理
 const empTaskHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandleView')), 'empTaskHandleView')
 const empTaskHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle3View')), 'empTaskHandle3View')
 const empTaskHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle4View')), 'empTaskHandle4View')
 const empTaskHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle5View')), 'empTaskHandle5View')
+// 雇员任务批量办理
+const empTaskBatchHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandleView')), 'empTaskBatchHandleView')
+const empTaskBatchHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle3View')), 'empTaskBatchHandle3View')
+const empTaskBatchHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle4View')), 'empTaskBatchHandle4View')
+const empTaskBatchHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle5View')), 'empTaskBatchHandle5View')
 
 
 /*
@@ -253,6 +259,50 @@ export default [
       openNames:['1']
     }
   },
+
+  // 雇员任务批量办理
+  {
+    path: '/emp_task_batch_handle_view',
+    name: 'empTaskBatchHandleView',
+    component: empTaskBatchHandleView,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"雇员批量操作新进转入",
+      openNames:['1']
+    }
+  },{
+    path: '/emp_task_batch_handle3_view',
+    name: 'empTaskBatchHandle3View',
+    component: empTaskBatchHandle3View,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"雇员任务批量操作调整",
+      openNames:['1']
+    }
+  },{
+    path: '/emp_task_batch_handle4_view',
+    name: 'empTaskBatchHandle4View',
+    component: empTaskBatchHandle4View,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"雇员批量操作补缴",
+      openNames:['1']
+    }
+  },{
+    path: '/emp_task_batch_handle5_view',
+    name: 'empTaskBatchHandle5View',
+    component: empTaskBatchHandle5View,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"雇员批量操作转出",
+      openNames:['1']
+    }
+  },
+
 
   {
     path: '/company_task_list',

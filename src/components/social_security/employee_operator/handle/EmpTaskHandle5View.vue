@@ -16,25 +16,116 @@
       <Panel name="3">
         任务单参考信息
         <div slot="content">
-          <task-refrence-info :operatorType='operatorType' :taskNewInfo="data.taskNewInfo"
-                              :taskNewInfoData="data.taskNewInfoData" :taskChangeInfo="data.taskChangeInfo"
-                              :taskOutInfo="data.taskOutInfo"></task-refrence-info>
+          <Form :label-width=150>
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="用工状态:">
+                <label>{{taskOutInfo.state}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="离职日期：">
+                <label>{{taskOutInfo.leaveDate}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="社保截止年月：">
+                <label>{{taskOutInfo.socialSecurityEndDate}}</label>
+              </Form-item>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Panel>
       <Panel name="4">
-        <span v-if="operatorType === '0'">社保汇缴操作</span><span v-else-if="operatorType === '1'">社保调整操作</span><span v-else>社保转出操作</span>
+        社保转出操作
         <div slot="content">
-          <social-security-operator
-            :operatorType='operatorType'
-            :empTaskId="empTaskId"
-            ref="ssOperator"></social-security-operator>
+          <Form :label-width=150>
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="办理方式：">
+                <Select v-model="socialSecurityPayOperator.handleWay" style="width: 100%;" transfer>
+                  <Option value="1" label="网上申报"></Option>
+                  <Option value="2" label="柜面办理"></Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="办理月份：">
+                <DatePicker v-model="socialSecurityPayOperator.handleMonth" type="month" placeholder="办理年月"
+                            style="width: 100%;"
+                            transfer></DatePicker>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="变更类型：">
+                <Select v-model="socialSecurityPayOperator.taskCategory" style="width: 100%;" transfer>
+                  <Option v-for="item in taskCategoryType" :value="item.value" :key="item.value"
+                          :label="item.label"></Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <!-- 仅转出 -->
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="特殊变更类型：">
+                <Select v-model="socialSecurityPayOperator.taskCategorySpecial" style="width: 100%;" transfer>
+                  <Option v-for="item in specialChangeType" :value="item.value" :key="item.value">
+                    {{item.label}}
+                  </Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <!-- 仅转出 -->
+              <!-- 仅新增 -->
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="截至月份：">
+                <DatePicker v-model="socialSecurityPayOperator.endMonth"
+                            type="month"
+                            placement="bottom-end"
+                            placeholder="选择日期"
+                            style="width: 100%;" transfer></DatePicker>
+              </Form-item>
+              </Col>
+            </Row>
+            <Row class="mt20">
+              <Col span="16">
+              <Form-item label="办理备注：" prop="handleRemark">
+                <Input v-model="socialSecurityPayOperator.handleRemark" placeholder="请输入..."></Input>
+              </Form-item>
+              </Col>
+              <Col span="4">
+              <Form-item label="备注人：">
+                <label>{{socialSecurityPayOperator.handleRemarkMan}}</label>
+              </Form-item>
+              </Col>
+              <Col span="4">
+              <Form-item label="备注时间：">
+                <label>{{socialSecurityPayOperator.handleRemarkDate}}</label>
+              </Form-item>
+              </Col>
+              <Col span="16">
+              <Form-item label="批退备注：" prop="rejectionRemark">
+                <Input v-model="socialSecurityPayOperator.rejectionRemark" placeholder="请输入..."></Input>
+              </Form-item>
+              </Col>
+              <Col span="4">
+              <Form-item label="备注人：">
+                <label>{{socialSecurityPayOperator.rejectionRemarkMan}}</label>
+              </Form-item>
+              </Col>
+              <Col span="4">
+              <Form-item label="备注时间：">
+                <label>{{socialSecurityPayOperator.rejectionRemarkDate}}</label>
+              </Form-item>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Panel>
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
       <Button type="primary" @click="instance('1','next')">转下月处理</Button>
-      <Button type="primary" @click="instance('5')">不需处理</Button>
       <Button type="primary" @click="instance('3')">办理</Button>
       <Button type="error" @click="instance('4')">批退</Button>
       <Button type="primary" v-show="operatorType !== '2'" @click="instance('1')">暂存</Button>
@@ -48,64 +139,266 @@
   import companyInfo from '../../components/CompanyInfo'
   import employeeInfo from '../../components/EmployeeInfo'
 
-  import taskRefrenceInfo from '../../sh_social_security/taskRefrenceInfo'
-  import socialSecurityOperator from '../../../commoncontrol/socialsecurityoperator'
   import EventTypes from '../../../../store/EventTypes'
   import api from '../../../../api/social_security/employee_operator'
 
   export default {
-    components: {companyInfo, employeeInfo, taskRefrenceInfo, socialSecurityOperator},
+    components: {companyInfo, employeeInfo},
     data() {
       return {
         empTaskId: '',
-        currentIndex: this.$route.params.index,
         operatorType: '',
+        currentIndex: this.$route.params.index,
         sourceFrom: '',
         collapseInfo: [1, 2, 3, 4],
         employee: {},
         company: {},
 
-        ssOperator: {},
+        taskCategoryType: [
+          {value: '5', label: '转出'},
+          {value: '6', label: '封存'},
+        ], //变更方式
+        specialChangeType: [
+          {value: 1, label: '退休'},
+          {value: 2, label: '终止'}
+        ], //特殊变更类型：
+
+        operatorListColumns: [
+          {
+            title: '', key: 'remitWay', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remitWay),
+              ]);
+            }
+          },
+          {
+            title: '起缴月份',
+            key: 'startMonth',
+            align: 'center',
+            render: (h, params) => {
+              return h('DatePicker', {
+                props: {value: params.row.startMonth, type: 'month', disabled: Boolean(params.row.disabled)},
+                attrs: {placeholder: '选择年月'},
+                on: {
+                  'on-change': (value) => {
+                    this.setRow(params, 'startMonth', value);
+                  }
+                }
+              });
+            }
+          },
+          {
+            title: '截止月份',
+            key: 'endMonth',
+            align: 'center',
+            render: (h, params) => {
+              return h('DatePicker', {
+                props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
+                attrs: {placeholder: '选择年月'},
+                on: {
+                  'on-change': (value) => {
+                    this.setRow(params, 'endMonth', value);
+                  }
+                }
+              });
+            }
+          },
+          {
+            title: '基数',
+            key: 'baseAmount',
+            align: 'center',
+            render: (h, params) => {
+              return h('Input', {
+                props: {value: params.row.baseAmount, disabled: Boolean(params.row.disabled)},
+                on: {
+                  'on-blur': (e) => {
+                    this.setRow(params, 'baseAmount', e.target.value);
+                  }
+                }
+              }, params.row.baseAmount);
+            }
+          },
+          {
+            title: '操作',
+            key: 'base',
+            align: 'center',
+            width: 130,
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
+                  style: {marginRight: '5px'},
+                  on: {
+                    click: () => {
+                      params.row.disabled = false;
+                    }
+                  }
+                }),
+                h('Button', {
+                  props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
+                  style: {marginRight: '5px'},
+                  on: {
+                    click: () => {
+                      this.removeRow(params.index);
+                    }
+                  }
+                }),
+                h('Button', {
+                  props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
+                  on: {
+                    click: () => {
+                      this.insertRow(params.index);
+                    }
+                  }
+                })
+              ]);
+            }
+          }
+        ],
+        operatorListData: [
+          {remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false}
+        ],
+        socialSecurityPayOperator: {
+          handleWay: '1',
+          handleMonth: '',
+          taskCategory: '1',
+          empSsSerial: '',
+          startMonth: '',
+          endMonth: '',
+          rejectionRemark: '',
+          handleRemark: '',
+          handleRemarkMan: '',
+          handleRemarkDate: '',
+          rejectionRemark: '',
+          rejectionRemarkMan: '',
+          rejectionRemarkDate: '',
+
+          taskStatus: '',
+          empTaskId: '',
+        },
+
+        // 任务单参考信息
+        taskNewInfoColumns: [
+          {title: '基数', key: 'base', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.base),
+              ]);
+            }
+          },
+          {title: '起缴月份', key: 'startMonth', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.startMonth),
+              ]);
+            }
+          },
+          {title: '截至月份', key: 'endYear', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.endYear),
+              ]);
+            }
+          }
+        ], //任务单参考信息 -- 新增
       }
     },
     mounted() {
-      this.ssOperator = this.$refs['ssOperator'];
       this.initData(this.$route.query)
       this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]()
     },
     computed: {
       ...mapState('companySocialSecurityNew', {
-        data: state => state.data
+        data: state => state.data,
+        taskOutInfo: state => state.data.taskOutInfo,
       })
     },
     methods: {
       ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
       initData(data) {
-        this.ssOperator.initData({
-          empTaskId: data.empTaskId,
-          operatorType: data.operatorType,
-        })
         this.empTaskId = data.empTaskId;
         this.operatorType = data.operatorType;
         this.sourceFrom = data.sourceFrom;
+        this.socialSecurityPayOperator.empTaskId = this.empTaskId;
+        var empTaskId = data.empTaskId;
 
+        api.queryEmpTaskById({
+          empTaskId: empTaskId,
+          operatorType: 1,// 任务单费用段
+        }).then(data => {
+          if (data.data.empTaskPeriods.length > 0) {
+            this.operatorListData = data.data.empTaskPeriods;
+          }
+          this.$utils.copy(data.data, this.socialSecurityPayOperator);
+        });
 
-        api.queryEmpArchiveByEmpTaskId({empTaskId: this.empTaskId}).then((data) => {
+        api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId}).then((data) => {
           this.employee = data.data;
         })
-        api.queryComAccountByEmpTaskId({empTaskId: this.empTaskId}).then((data) => {
+        api.queryComAccountByEmpTaskId({empTaskId: empTaskId}).then((data) => {
           this.company = data.data;
         })
       },
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo'});
       },
-      yyyyMM(date){
+      // yyyy-MM or date
+      yyyyMM(date) {
+        if (typeof(date) == 'string') {
+          return date.replace('-', '');
+        }
         return this.$utils.formatDate(date, 'YYYYMM')
       },
+      filterData() {
+        var oldRows = this.getRows();
+        var empTaskId = this.socialSecurityPayOperator.empTaskId;
+
+        var newRows = [];
+        for (var row of oldRows) {
+          if (row.startMonth != '' || row.endMonth != '' || row.baseAmount != '') {
+            newRows.push({
+              empTaskId: empTaskId,
+              startMonth: this.yyyyMM(row.startMonth),
+              endMonth: this.yyyyMM(row.endMonth),
+              baseAmount: row.baseAmount,
+              remitWay: row.remitWay,
+            });
+          }
+        }
+        return newRows;
+      },
+      newRow() {
+        return {
+          remitWay: '',
+          startMonth: '',
+          endMonth: '',
+          baseAmount: '',
+          disabled: false
+        };
+      },
+      getRows() {
+        return this.operatorListData;
+      },
+      setRow(params, name, value) {
+        this.getRows()[params.index][name] = value;
+        params.row[name] = value;
+      },
+      insertRow(index) {
+        this.getRows().splice(index, 0, this.newRow());
+      },
+      removeRow(index) {
+        var data = this.getRows();
+
+        // 保留最后一个并清空
+        if (data.length == 1) {
+          this.$utils.copy(this.newRow(), data[0]);
+        } else {
+          data.splice(index, 1);
+        }
+      },
       instance(taskStatus, type) {
-        var data = this.ssOperator.getData();
-        var fromData = data.form;
+        var fromData = this.$utils.clear(this.socialSecurityPayOperator,'');
 
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
@@ -127,7 +420,16 @@
               fromData.taskStatus = taskStatus;
             }
 
-            fromData.empTaskPeriods = data.data;
+
+            // 转下月处理
+            if(type && type == 'next'){
+              var nextDay = parseInt(this.company.expireDate) + 1;
+              var submitTime = new Date();
+              submitTime.setDate(nextDay);
+              fromData.submitTime = this.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');
+            }
+
+            fromData.empTaskPeriods = this.filterData();
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success(content + "成功");

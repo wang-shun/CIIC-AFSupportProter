@@ -44,6 +44,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}">
         <Button type="info" @click="ok">导出</Button>
+        <Button type="info" @click="calculate()">重新计算</Button>
         <Button type="info" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -67,6 +68,7 @@
           diffSumByEmp:'',
           diffSumByItem:'',
         },
+        statementId :'',
         statementResultData: [],
         statementResultColumns: [
            
@@ -156,7 +158,7 @@
       //this.doAlert(pagParam.statementId); 
       this.serachStatementData(window.sessionStorage.getItem("statementId"));
       this.serachStatementResultData(window.sessionStorage.getItem("statementId"));
-      
+      this.statementId = window.sessionStorage.getItem("statementId");
     },
     computed: {
       ...mapState('socialSecurityReconcilateDetail',{
@@ -192,6 +194,16 @@
           statementId: statementId
         }).then(data => {
           this.statementResultData = data.data;
+        })
+      },
+      calculate(){
+        //alert(this.statementId);
+        api.calculate({
+          statementId: this.statementId
+        }).then(data => {
+          this.serachStatementData(this.statementId);
+          this.serachStatementResultData(this.statementId);
+          
         })
       },
     }

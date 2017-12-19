@@ -14,6 +14,12 @@ export default {
   serachStatementResultData: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssStatementResult/statementResultQuery', params);
     return await response.data;
+  },
+  
+  // 重算结果
+  calculate: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssStatementResult/calculateSstatementResult', params);
+    return await response.data;
   }
 }
 

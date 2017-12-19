@@ -9,11 +9,8 @@ const state = {
   data: {
     giftManagerData: [],
     addResult: null,
-    page: {
-      current: 1,
-      pageSize: 10,
-      total: 1
-    },
+    total: null,
+    current: 1,
     giftInfo: {}
 
   }
@@ -22,7 +19,7 @@ const state = {
 
 const actions = {
   [EventTypes.GIFTAPPLICATIONTYPE]({commit}, params) {
-    mock.giftData(params).then(response => {
+    return mock.giftData(params).then(response => {
       commit(EventTypes.GIFTAPPLICATIONTYPE, response.data.data)
     })
   },
@@ -42,9 +39,9 @@ const mutations = {
   [EventTypes.GIFTAPPLICATIONTYPE](state, data) {
     state.data.giftManagerData = data.list;
     //不需要的数据，覆盖前台会出现显示问题
-    // state.data.page.current = data.pageNum;
-    // state.data.page.pageSize = data.pageSize;
-    state.data.page.total = data.total;
+    // state.data.current = data.pageNum;
+    // state.data.pageSize = data.pageSize;
+    state.data.total = data.total;
   },
   [EventTypes.GIFTINSERTTYPE](state, data) {
     state.data.addResult = data;

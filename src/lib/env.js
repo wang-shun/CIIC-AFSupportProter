@@ -1,6 +1,6 @@
 let env = {};
 
-let dev = 'production';
+let dev = 'development';
 
 // development
 

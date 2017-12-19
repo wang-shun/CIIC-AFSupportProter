@@ -22,7 +22,7 @@
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
           <Form-item label="礼品类型:" prop="giftType">
-            <Select v-model="formItem.giftType" placeholder="请选择">
+            <Select v-model="formItem.giftType" placeholder="请选择" transfer>
               <Option v-for="item in giftTypeProperties" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -61,28 +61,6 @@
             <Input v-model="formItem.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                    placeholder="礼品介绍不超过200个字"/>
           </Form-item>
-          </Col>
-        </row>
-        <row>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          备注:
-          </Col>
-        </row>
-        <row>
-          <Col :xs="{ span: 6, offset: 2 }" :lg="{ span: 6, offset: 0 }">
-          1.库存为0，礼品自动下架
-          </Col>
-        </row>
-        <row>
-          <Col :xs="{ span: 6, offset: 2 }" :lg="{ span: 6, offset: 0 }">
-          2.礼品在前道申请时的排序规则：
-          先按是否有new标识排序，有则排在前面
-          然后按创建时间排序，最新的排在前面
-          </Col>
-        </row>
-        <row>
-          <Col :xs="{ span: 6, offset: 2 }" :lg="{ span: 6, offset: 0 }">
-          3. 礼品介绍不超过200个字
           </Col>
         </row>
       </Form>

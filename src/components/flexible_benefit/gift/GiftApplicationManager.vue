@@ -19,7 +19,8 @@
               </Form-item>
               </Col>
               <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
-              <Button type="primary" @click="query()" icon="ios-search">查询</Button>
+              <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
+
               <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
@@ -34,9 +35,13 @@
       </router-link>
     </div>
     <Table border :columns="giftManagerColumns" :data="giftManagerData" ref="giftManagerTable"></Table>
-    <Page :total="formItem.page.total" show-sizer show-elevator @on-change="getByPage"
-          @on-page-size-change="pageSizeChange" :current.sync="formItem.page.current"
-          :page-size="formItem.page.pageSize"></Page>
+    <Page show-sizer show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :total="page.total"
+          :current="page.current"
+          :page-size="page.pageSize"></Page>
+
   </div>
 </template>
 
@@ -52,11 +57,11 @@
           id: null,
           giftName: "",
           status: "",
-          page: {
-            total: 1,
-            pageSize: 10,
-            current: 1,
-          }
+        },
+        page: {
+          current: 1,
+          pageSize: 10,
+          total: 0
         },
 
         peopleTypes: [{
@@ -190,28 +195,33 @@
       };
     },
     computed: {
-      ...mapState("GIFT", {giftManagerData: state => state.data.giftManagerData,})
+      ...mapState("GIFT", {
+        giftManagerData: state => state.data.giftManagerData,
+      })
     },
     created() {
       // this.$store.dispatch(EventTypes.GIFTAPPLICATIONTYPE, this.formItem);
-      this.query();
+      this.getByPage(1);
     },
     methods: {
       ...mapActions("GIFT", [EventTypes.GIFTAPPLICATIONTYPE]),
 
       query() {
-        this[EventTypes.GIFTAPPLICATIONTYPE](this.formItem).then(() => {
-          this.formItem.page = this.$store.state.GIFT.data.page;
+        let data = this.formItem;
+        data.page = this.page;
+        this[EventTypes.GIFTAPPLICATIONTYPE](data).then(() => {
+          this.page.total = this.$store.state.GIFT.data.total;
         })
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      getByPage() {
+      getByPage(val) {
+        this.page.current = val;
         this.query()
       },
       pageSizeChange(pageSize) {
-        this.formItem.page.pageSize = pageSize;
+        this.page.pageSize = pageSize;
         this.query()
       },
     },

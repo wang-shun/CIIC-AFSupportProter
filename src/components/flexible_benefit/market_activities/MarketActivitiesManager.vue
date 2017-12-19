@@ -21,7 +21,7 @@
             </Row>
             <Row>
               <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
-              <Button type="primary" @click="query()" icon="ios-search">查询</Button>
+              <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
               <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
@@ -35,8 +35,13 @@
       </router-link>
     </div>
     <Table border :columns="marketListColumns" :data="marketListData" ref="marketManagerTable"></Table>
-    <Page :total="formItem.page.total" show-sizer show-elevator @on-change="getByPage" @on-page-size-change="pageSizeChange"
-          :current.sync="formItem.page.current" :page-size="formItem.page.pageSize"></Page>
+    <Page show-sizer
+          show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :current.sync="page.current"
+          :total="page.total"
+          :page-size="page.pageSize"></Page>
 
   </div>
 </template>
@@ -51,177 +56,189 @@
         formItem: {
           activityTitle: '',
           status: '',
-          page: {
-            current: 1,
-            pageSize: 10,
-            total: 1,
-          }
         },
-        marketListColumns: [{
-          title: '主题', sortable: true, key: 'activityTitle',align: "center",
-        }, {
-          title: '发布人', sortable: true, key: 'publisher',align: "center",
-        }, {
-          title: '开始时间', sortable: true, key: 'beginTime',align: "center",
-          render:(h,params) =>{
-            return this.$utils.formatDate(params.row.beginTime, 'YYYY-MM-DD');
-          }
-        }, {
-          title: '结束时间', sortable: true, key: 'endTime',align: "center",
-          render:(h,params) =>{
-            return this.$utils.formatDate(params.row.endTime, 'YYYY-MM-DD');
-          }
-        }, {
-          title: '状态', sortable: true, key: 'status',align: "center",
-          render:(h,params) =>{
-            switch (params.row.status){
-              case 0:
-                return "进行中";
-                break;
-              case 1:
-                return "已结束";
-                break;
+        page: {
+          current: 1,
+          pageSize: 10,
+          total: 0,
+        },
+        marketListColumns: [
+          {
+            title: '主题', sortable: true, key: 'activityTitle', align: "center",
+          },
+          {
+            title: '发布人', sortable: true, key: 'publisher', align: "center",
+          },
+          {
+            title: '开始时间', sortable: true, key: 'beginTime', align: "center",
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.beginTime, 'YYYY-MM-DD');
             }
-          }
-        }, {
-          title: '内容', sortable: true, key: 'content',align: "center",
-        }, {
-          title: '操作', align: 'center', key: 'action',align: "center",
-          width: 240,
-          render: (h, params) => {
-            if (params.row.status == '0') {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      /*处理数据*/
-                      let updateData = params.row;
-                      delete updateData._index;
-                      delete updateData._rowKey;
-                      delete updateData.page;
-                      delete updateData.createTime;
-                      updateData.status = updateData.status + '';
-                      updateData.giftForm = updateData.giftForm.split(',');
-                      updateData.sendWay = updateData.sendWay.split(',');
-                      /*拼接活动时间数组*/
-                      let time = [];
-                      time.push(this.$utils.formatDate(updateData.beginTime, 'YYYY-MM-DD HH:mm:ss'));//先转换为时间格式的字符串，不然时间会对应不上
-                      time.push(this.$utils.formatDate(updateData.endTime, 'YYYY-MM-DD HH:mm:ss'));
-                      updateData.marketTime = time;
+          },
+          {
+            title: '结束时间', sortable: true, key: 'endTime', align: "center",
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.endTime, 'YYYY-MM-DD');
+            }
+          },
+          {
+            title: '状态', sortable: true, key: 'status', align: "center",
+            render: (h, params) => {
+              switch (params.row.status) {
+                case 0:
+                  return "进行中";
+                  break;
+                case 1:
+                  return "已结束";
+                  break;
+              }
+            }
+          },
+          {
+            title: '内容', sortable: true, key: 'content', align: "center",
+          },
+          {
+            title: '操作', align: 'center', key: 'action', align: "center",
+            width: 240,
+            render: (h, params) => {
+              if (params.row.status == '0') {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'success',
+                      size: 'small'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        /*处理数据*/
+                        let updateData = params.row;
+                        delete updateData._index;
+                        delete updateData._rowKey;
+                        delete updateData.page;
+                        delete updateData.createTime;
+                        updateData.status = updateData.status + '';
+                        updateData.giftForm = updateData.giftForm.split(',');
+                        updateData.sendWay = updateData.sendWay.split(',');
+                        /*拼接活动时间数组*/
+                        let time = [];
+                        time.push(this.$utils.formatDate(updateData.beginTime, 'YYYY-MM-DD HH:mm:ss'));//先转换为时间格式的字符串，不然时间会对应不上
+                        time.push(this.$utils.formatDate(updateData.endTime, 'YYYY-MM-DD HH:mm:ss'));
+                        updateData.marketTime = time;
 
-                      this.$router.push({
-                        name: 'updateActivity',
-                        params: {
-                          data: updateData
-                        }
-                      });
+                        this.$router.push({
+                          name: 'updateActivity',
+                          params: {
+                            data: updateData
+                          }
+                        });
+                      }
                     }
-                  }
-                }, '编辑'),
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({
-                        name: 'marketPersonChoose',
-                        params: {
-                          data: params.row
-                        }
-                      });
+                  }, '编辑'),
+                  h('Button', {
+                    props: {
+                      type: 'success',
+                      size: 'small'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.$router.push({
+                          name: 'marketPersonChoose',
+                          params: {
+                            data: params.row
+                          }
+                        });
+                      }
                     }
-                  }
-                }, '申请'),
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({
-                        name: 'addActivity',
-                        params: {
-                          data: params.row
-                        }
-                      });
+                  }, '申请'),
+                  h('Button', {
+                    props: {
+                      type: 'success',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.$router.push({
+                          name: 'addActivity',
+                          params: {
+                            data: params.row
+                          }
+                        });
+                      }
                     }
-                  }
-                }, '申请历史')
-              ]);
-            } else {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'success', size: 'small'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({
-                        name: 'addActivity',
-                        params: {
-                          data: params.row
-                        }
-                      });
+                  }, '申请历史')
+                ]);
+              } else {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'success', size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.$router.push({
+                          name: 'addActivity',
+                          params: {
+                            data: params.row
+                          }
+                        });
+                      }
                     }
-                  }
-                }, '申请历史')
-              ]);
+                  }, '申请历史')
+                ]);
+              }
             }
           }
-        }],
-        peopleTypes: [{
-          value: '0', label: '全部'
-        }, {
-          value: '1', label: '雇员'
-        }, {
-          value: '2', label: '子女'
-        }, {
-          value: '3', label: '配偶'
-        }],
-        statusTypes: [{
-          value: '0', label: '进行中'
-        }, {
-          value: '1', label: '已结束'
-        }],
+        ],
+        peopleTypes: [
+          {
+            value: '0', label: '全部'
+          }, {
+            value: '1', label: '雇员'
+          }, {
+            value: '2', label: '子女'
+          }, {
+            value: '3', label: '配偶'
+          }],
+        statusTypes: [
+          {
+            value: '0', label: '进行中'
+          }, {
+            value: '1', label: '已结束'
+          }],
       }
     },
     computed: {
       ...mapState("MARKET", {
         marketListData: state => state.data.marketListData,
-        page:state => state.data.page,
       }),
     },
     created() {
-      this.query();
+      this.getByPage(1);
     },
     methods: {
       ...mapActions("MARKET", [EventTypes.MARKETAPPLICATIONTYPE]),
       query() {
-        this[EventTypes.MARKETAPPLICATIONTYPE](this.formItem).then(() => {
-          this.formItem.page = this.$store.state.MARKET.data.page;
+        let data = this.formItem;
+        data.page = this.page;
+        this[EventTypes.MARKETAPPLICATIONTYPE](data).then(() => {
+          this.page.total = this.$store.state.MARKET.data.total;
         });
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields();
       },
-      getByPage() {
+      getByPage(val) {
+        this.page.current = val;
         this.query()
       },
       pageSizeChange(pageSize) {
-        this.formItem.page.pageSize = pageSize;
+        this.page.pageSize = pageSize;
         this.query()
       },
     },

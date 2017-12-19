@@ -9,18 +9,14 @@ const state = {
   data: {
     marketListData: [],
     addResult: '',
-    page: {
-      current: 1,
-      pageSize: 10,
-      total: 1
-    },
+    total: null,
   }
 };
 
 
 const actions = {
   [EventTypes.MARKETAPPLICATIONTYPE]({commit}, params) {
-    mock.marketData(params).then(response => {
+    return mock.marketData(params).then(response => {
       commit(EventTypes.MARKETAPPLICATIONTYPE, response.data.data)
     })
   },
@@ -42,7 +38,7 @@ const mutations = {
     //不需要的数据，覆盖前台会出现显示问题
     // state.data.page.current = data.pageNum;
     // state.data.page.pageSize = data.pageSize;
-    state.data.page.total = data.total;
+    state.data.total = data.total;
   },
   [EventTypes.MARKETINSERTTYPE](state, data) {
     state.data.addResult = data;

@@ -141,6 +141,7 @@ export class CompanyTaskList{
     let url =domainJson.getCompanyInfoAndMaterialUrl
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
+        
         let result = this.handleReturnData(response)
         if(!result.isError){
           let companyInfo = null
@@ -175,22 +176,9 @@ export class CompanyTaskList{
           let data = {
             companyTaskStatus:result.data.taskStatus,
             companyInfo:companyInfo==null?{}:companyInfo,
-            operatorMaterialListData:[]
+            operatorMaterialListData:this.getMaterial(result.data.materialList)
                      }
-                    for(let obj of result.data.materialList){
-                      let material = {}
-                      material.id = obj.comMaterialId//材料ID
-                      material.material = obj.materialName;//材料名称
-                      material.materialCommitDate = obj.submitTime; //提交时间
-                     //材料类型  1 原件、2  复印件、3 扫描件
-                      if(obj.materialType=='1')material.materialType='原件'
-                      if(obj.materialType=='2')material.materialType='复印件'
-                      if(obj.materialType=='3')material.materialType='扫描件'
-                      material.materialReciveDate = obj.receiveTime;//收到时间
-                      material.state = obj.status;//状态
-                      material.notes = obj.remark;//备注说明
-                      data.operatorMaterialListData.push(material)
-                    }
+                      
               resolve(data)
         }else reject(Error(result.message))
       })
@@ -201,6 +189,7 @@ export class CompanyTaskList{
     let url =domainJson.getCompanyInfoAndMaterialUrl
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
+        
         let result = this.handleReturnData(response)  
         if(!result.isError){
             let data =this.theLastStepGetDate(result,type)
@@ -252,9 +241,11 @@ export class CompanyTaskList{
   
   //最后一步获得数据 终止和转移 变更
   static theLastStepGetDate(result,type){
-
+    
     let resultData = result.data
     let ssComAccountDTO =resultData.ssComAccountDTO
+    //材料信息
+    let operatorMaterialListData = this.getMaterial(result.data.materialList)
     let data = {
           companyTaskStatus:result.data.taskStatus,
           comAccountId:ssComAccountDTO.comAccountId,
@@ -282,7 +273,8 @@ export class CompanyTaskList{
             submitName:resultData.submitterName,
             submitTime:resultData.submitTime,
             submitRemark:resultData.submitRemark
-          }
+          },
+          operatorMaterialListData:operatorMaterialListData
        }  
        let common ={
          taskStatus:resultData.taskStatus,
@@ -431,6 +423,7 @@ export class CompanyTaskList{
       dispatchMaterial = JSON.parse(ssComAccountDTO.dispatchMaterial)
     }
     //发出的材料
+    
     return {
       companyTaskStatus:result.taskStatus,
       comAccountId:isNull?'':ssComAccountDTO.comAccountId,
@@ -479,6 +472,25 @@ export class CompanyTaskList{
             refuseReason: '' //批退原因
           }
     }
+  }
+  //获得材料信息
+  static getMaterial(materialList){
+    let operatorMaterialListData =[]
+    for(let obj of materialList){
+      let material = {}
+      material.id = obj.comMaterialId//材料ID
+      material.material = obj.materialName;//材料名称
+      material.materialCommitDate = obj.submitTime; //提交时间
+     //材料类型  1 原件、2  复印件、3 扫描件
+      if(obj.materialType=='1')material.materialType='原件'
+      if(obj.materialType=='2')material.materialType='复印件'
+      if(obj.materialType=='3')material.materialType='扫描件'
+      material.materialReciveDate = obj.receiveTime;//收到时间
+      material.state = obj.status;//状态
+      material.notes = obj.remark;//备注说明
+      operatorMaterialListData.push(material)
+    }
+    return operatorMaterialListData
   }
 }
 

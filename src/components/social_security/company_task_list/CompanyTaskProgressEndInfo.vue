@@ -40,43 +40,47 @@
       <Panel name="3">
         企业终止操作
         <div slot="content">
-          <Form :label-width=100>
+          <Form ref="endOperator" :model="endOperator" :rules="ruleValidate" :label-width="100">
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务状态：">
+                <Form-item label="任务状态：" prop="taskStatus">
                   <Select v-model="endOperator.taskStatus" style="width: 100%;" transfer @on-change="taskTypeChange"	>
                     <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="受理日期：">
-                  <DatePicker v-model="endOperator.acceptanceDate" placement="bottom-end" :disabled="handDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="受理日期：" prop="acceptanceDate">
+                  <DatePicker v-if="handDateIsDateOrLabel" v-model="endOperator.acceptanceDate" placement="bottom-end" :disabled="handDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <label v-else>{{endOperator.acceptanceDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="送审日期：">
-                  <DatePicker v-model="endOperator.sendCheckDate" placement="bottom-end" :disabled="sendDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="送审日期：" prop="sendCheckDate">
+                  <DatePicker v-if="sendDateIsDateOrLabel" v-model="endOperator.sendCheckDate" placement="bottom-end" :disabled="sendDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <label v-else>{{endOperator.sendCheckDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="完成日期：">
-                  <DatePicker v-model="endOperator.finishedDate" placement="bottom-end" :disabled="finishDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="完成日期：" prop="finishedDate">
+                  <DatePicker v-if="finishDateIsDateOrLabel" v-model="endOperator.finishedDate" placement="bottom-end" :disabled="finishDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                    <label v-else>{{endOperator.finishedDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="终止日期：">
-                  <DatePicker v-model="endOperator.endDate" placement="bottom-end" :disabled="endDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="终止日期：" prop="endDate">
+                  <DatePicker v-if="endDateIsDateOrLabel" v-model="endOperator.endDate" placement="bottom-end" :disabled="endDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <label v-else>{{endOperator.endDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                  <Form-item label="办理备注：">
-                    <Input v-model="endOperator.handleReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
+                  <Form-item prop="handleReason" label="办理备注：">
+                    <Input v-model="endOperator.handleReason" type="textarea" placeholder="请填写批退备注..." :rows="4"></Input>
                   </Form-item>
                 </Col>
                 <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                  <Form-item label="批退备注：">
-                    <Input v-model="endOperator.refuseReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
+                  <Form-item prop="refuseReason" label="批退备注：" >
+                    <Input v-model="endOperator.refuseReason" type="textarea"  placeholder="请填写批退备注..." :rows="4"></Input>
                   </Form-item>
               </Col>
             </Row>
@@ -104,6 +108,67 @@
   export default {
     components: {chat, companySocialSecurityInfo},
     data() {
+      //受审日期
+       const validateAcceptanceDate=(rule, value, callback)=>{
+            
+            let self= this
+            if(self.endOperator.taskStatus=='0'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                if(value==null){
+                 self.endOperator.acceptanceDate=''
+                }
+               return callback(new Error('请选择受理时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+       //送审日期
+       const validateSendCheckDate=(rule, value, callback)=>{
+            let self= this
+            if(self.endOperator.taskStatus=='0'|| self.endOperator.taskStatus=='1'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                if(value==null){
+                 self.endOperator.sendCheckDate=''
+                }
+                return callback(new Error('请选择送审时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+        //完成日期 
+       const validateFinishedDate=(rule, value, callback)=>{
+            let self= this
+            if(self.endOperator.taskStatus=='0'|| self.endOperator.taskStatus=='1'|| self.endOperator.taskStatus=='2'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                return callback(new Error('请选择完成时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+
+      const validateEndDate=(rule, value, callback)=>{
+        
+            let self= this
+            if(self.endOperator.taskStatus=='0'|| self.endOperator.taskStatus=='1'|| self.endOperator.taskStatus=='2'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                return callback(new Error('请选择终止时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+
       return {
          operatorType: this.$route.query.operatorType,
          tid:this.$route.query.tid,
@@ -115,6 +180,11 @@
          sendDateControl:false,//送审日期 是否可编辑
          finishDateControl:false,//完成日期  是否可编辑
          endDateControl:false,//终止日期 是否可编辑
+
+         handDateIsDateOrLabel:false,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
+         sendDateIsDateOrLabel:false,//送审日期 
+         finishDateIsDateOrLabel:false,//完成日期  
+         endDateIsDateOrLabel:false,
         endOperator: {
           taskStatus:'',
           acceptanceDate: '', //受理日期
@@ -135,6 +205,30 @@
             {value: '2', label: '送审中',disabled:false},
             {value: '3', label: '已完成',disabled:false},
           ],//任务状态类型
+          ruleValidate:{
+                taskStatus:[
+                   { required: true, type: 'string', message: '请选择任务状态.', trigger: 'change' }
+                 ],
+                acceptanceDate:[
+                   { type: 'date',validator:validateAcceptanceDate, trigger: 'change' }
+                ],
+                sendCheckDate:[
+                   { type: 'date',validator:validateSendCheckDate, trigger: 'change' }
+                ],
+                finishedDate: [
+                   { type: 'date',validator:validateFinishedDate, trigger: 'change' }
+                ],
+                endDate:[
+                   { type: 'date',validator:validateEndDate, trigger: 'change' }
+                ],
+                 refuseReason:[
+                  {type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+                 ],
+                 handleReason:[
+                  { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+                ]
+          }
+         
       }
     },
     mounted() {
@@ -155,7 +249,8 @@
       queryPageInfo(){
         let params = {
           companyTaskId:this.tid,
-          operatorType:this.operatorType
+          operatorType:this.operatorType,
+          isComplete:'0'//表示不为空 查询状态不为3的任务:
         }
         let self = this
         CompanyTaskList.getEndPageInfo(params,'end').then(result=>{
@@ -171,13 +266,20 @@
                               self.handDateControl = true;
                               self.sendDateControl=true;
                               self.finishDateControl=true;
-                               self.endDateControl = true;
+                              self.endDateControl = true;
+                              self.handDateIsDateOrLabel=true//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
+                              self.sendDateIsDateOrLabel=true//送审日期 
+                              self.finishDateIsDateOrLabel=true//完成日期  
+                              self.endDateIsDateOrLabel=true
                           break;
                         case '1':
-                          self.taskTypeList[0].disabled = true;
+                              self.taskTypeList[0].disabled = true;
                               self.sendDateControl=true;
                               self.finishDateControl=true;
-                               self.endDateControl = true;
+                              self.endDateControl = true;
+                              self.sendDateIsDateOrLabel=true//送审日期 
+                              self.finishDateIsDateOrLabel=true//完成日期  
+                              self.endDateIsDateOrLabel=true
                           break;
                         case '2':
                            self.taskTypeList[0].disabled = true;
@@ -185,6 +287,8 @@
                            self.handDateControl = true;
                            self.finishDateControl=true;
                            self.endDateControl = true;
+                           self.finishDateIsDateOrLabel=true//完成日期  
+                           self.endDateIsDateOrLabel=true
                           break;
                         case '3':
                            self.taskTypeList[0].disabled = true;
@@ -200,78 +304,52 @@
 
       },
       taskTypeChange(){
+        
           let taskState = this.endOperator.taskStatus
          //acceptanceDate sendCheckDate finishedDate
          let formObj = this.endOperator
-         
         if(taskState=='0'){
             this.handDateControl = true;
             this.sendDateControl=true;
             this.finishDateControl=true;
             this.endDateControl = true;
+            this.endOperator.acceptanceDate=null //受理日期
+            this.endOperator.sendCheckDate=null //送审日期
+            this.endOperator.finishedDate=null//完成日期
+            this.endOperator.endDate = null
         }else if(taskState=='1'){
             this.handDateControl = false;
             this.sendDateControl=true;
             this.finishDateControl=true;
              this.endDateControl = true;
+             this.endOperator.sendCheckDate=null //送审日期
+            this.endOperator.finishedDate=null//完成日期
+            this.endOperator.endDate = null
         }else if(taskState=='2'){
             this.handDateControl = false;
             this.sendDateControl=false;
             this.finishDateControl=true;
              this.endDateControl = true;
+              this.endOperator.finishedDate=null//完成日期
+            this.endOperator.endDate = null
         }else if(taskState=='3'){
             this.handDateControl = false;
             this.sendDateControl=false;
             this.finishDateControl=false;
              this.endDateControl = false;
+            
         }
-      },
-       //校验表单数据
-      checkData(){
-        //暂时只校验 任务单类型和时间的选择
-         let formObj = this.endOperator
-          let taskState = formObj.taskStatus
-        if(taskState=='3'){
-           if(formObj.acceptanceDate==null || formObj.acceptanceDate==''){
-             this.$Message.error("请选择受审时间！")
-             return false;
-           }
-           if(formObj.sendCheckDate==null || formObj.sendCheckDate==''){
-              this.$Message.error("请选择送审时间！")
-               return false;
-           }
-           if(formObj.finishedDate==null || formObj.finishedDate==''){
-             this.$Message.error("请选择完成时间！")
-              return false;
-           }
-           if(formObj.endDate==null || formObj.endDate==''){
-             this.$Message.error("请选择终止时间！")
-              return false;
-           }
-        }
-        if(taskState=='2'){
-           if(formObj.acceptanceDate==null || formObj.acceptanceDate==''){
-             this.$Message.error("请选择受理时间！")
-             return false;
-           }
-           if(formObj.sendCheckDate==null || formObj.sendCheckDate==''){
-              this.$Message.error("请选择送审时间！")
-               return false;
-           }
-        }
-        if(taskState=='1'){
-           if(formObj.acceptanceDate==null || formObj.acceptanceDate==''){
-             this.$Message.error("请选择受审时间！")
-             return false;
-           }
-        }
-        return true;
       },
        //办理
       confirm(){
-            //校验数据
-            let res = this.checkData()
-            if(!res){return;}
+        
+      let validResult = false;
+      //校验表单
+        this.$refs['endOperator'].validate((valid) => {
+                    if (valid)validResult = true;
+                })
+          //校验是否通过
+         if(!validResult)return;
             let self = this;
             self.$Modal.confirm({
                 title: '',

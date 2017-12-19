@@ -247,7 +247,8 @@
       queryPageInfo(){
         let params = {
           companyTaskId:this.$route.query.tid,
-          operatorType:this.operatorType
+          operatorType:this.operatorType,
+          isComplete:'0'//表示查询未完成任务信息
         }
         let self = this
         CompanyTaskList.getCompanyInfoAndMaterial(params).then(result=>{

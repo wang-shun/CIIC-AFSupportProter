@@ -109,10 +109,10 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
           customerName: '',
           isShowCustomerName: false,
           accountTypeValue: '',
-          accountTypeList: [
-            {value: '1', label: '独立库'},
-            {value: '2', label: '大库'},
-            {value: '3', label: '外包'}
+          accountTypeList: [//1:中智大库 2中智外包 3独立户
+            {value: '1', label: '大库'},
+            {value: '2', label: '外包'},
+            {value: '3', label: '独立库'}
           ],
           regionValue: '',
           regionList: [

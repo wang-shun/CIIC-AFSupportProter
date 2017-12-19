@@ -382,13 +382,16 @@
       queryPageInfo(){
           let params = {
           companyTaskId:this.tid,
-          operatorType:'1'
+          operatorType:'1',
+           isComplete:'3'//表示不为空 查询状态不为3的任务
         }
         let self = this
         CompanyTaskList.getCompanyInfoAndMaterial(params).then(result=>{
+          
             //获得材料
          self.operatorMaterialListData = result.operatorMaterialListData;
       })
+      
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
          //获得公司信息
         self.companyInfo = result.companyInfo

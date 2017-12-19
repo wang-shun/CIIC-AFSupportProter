@@ -40,76 +40,79 @@
       <Panel name="3">
         企业变更操作
         <div slot="content">
-          <Form :label-width=150>
-            
-              <Row class="mt20" type="flex" justify="start">
+          <Form ref="changeOperator" :model="changeOperator"  :rules="ruleValidate" :label-width=150>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务状态：">
-                  <Select v-model="changeOperator.taskStatus" style="width: 100%;" transfer @on-change="taskTypeChange"	>
-                    <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
+                <Form-item label="变更内容：" prop="changeContentValue">
+                  <Select v-model="changeOperator.changeContentValue" style="width: 100%;" transfer @on-change="changeContentType" v-if="currentStep=='0'">
+                    <Option v-for="item in changeContentList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
+                  <label v-else>{{currentStep=='1'?'行业比例':currentStep=='2'?'付款方式':currentStep=='3'?'公司名称':''}}</label>
                 </Form-item>
               </Col>
+              <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="变更内容：">
-                  <Select v-model="changeOperator.changeContentValue" style="width: 100%;" transfer @on-change="changeContentType">
-                    <Option v-for="item in changeContentList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="任务状态：" prop="taskStatus">
+                  <Select v-model="changeOperator.taskStatus" style="width: 100%;" transfer @on-change="taskTypeChange"	>
+                    <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               </Row>
               <Row v-if="payMethodShow || companyNameShow" class="mt20" type="flex" justify="start">
                 <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="payMethodShow">
-                <Form-item label="付款方式：">
+                <Form-item label="付款方式：" prop="payMethodValue">
                   <Select v-model="changeOperator.payMethodValue" style="width: 100%;" transfer >
                     <Option v-for="item in payMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="companyNameShow">
-                <Form-item label="养老金用公司名称：">
+                <Form-item label="养老金用公司名称：" prop="pensionMoneyUseCompanyName">
                   <Input v-model="changeOperator.pensionMoneyUseCompanyName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col> 
               </Row>
               <Row class="mt20" type="flex" justify="start">
                 <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="industryRatioShow">
-                <Form-item label="所属行业：">
+                <Form-item label="所属行业：" prop="belongsIndustry">
                   <Input v-model="changeOperator.belongsIndustry"  placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="industryRatioShow">
-                <Form-item label="企业工伤比例：">
+                <Form-item label="企业工伤比例：" prop="companyWorkInjuryPercentage">
                   <Input v-model="changeOperator.companyWorkInjuryPercentage"  placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="industryRatioShow">
-                <Form-item label="变更开始月份：">
+                <Form-item label="变更开始月份：" prop="changeStartMonth">
                   <DatePicker v-model="changeOperator.changeStartMonth" type="month" format="yyyyMM" placement="bottom-end" placeholder="选择日期"  style="width: 100%; "></DatePicker>
                 </Form-item>
               </Col>     
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="受理日期：">
-                  <DatePicker v-model="changeOperator.acceptanceDate" :disabled="handDateControl" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="受理日期：" prop="acceptanceDate">
+                  <DatePicker v-if="handDateIsDateOrLabel" v-model="changeOperator.acceptanceDate" :disabled="handDateControl" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <label v-else>{{changeOperator.acceptanceDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="送审日期：">
-                  <DatePicker v-model="changeOperator.sendCheckDate" :disabled="sendDateControl" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="送审日期：" prop="sendCheckDate" >
+                  <DatePicker v-if="sendDateIsDateOrLabel" v-model="changeOperator.sendCheckDate" :disabled="sendDateControl" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                   <label v-else>{{changeOperator.sendCheckDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="完成日期：">
-                  <DatePicker v-model="changeOperator.finishedDate" :disabled="finishDateControl" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="完成日期：" prop="finishedDate">
+                  <DatePicker v-if="finishDateIsDateOrLabel"  v-model="changeOperator.finishedDate" :disabled="finishDateControl" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                   <label v-else>{{changeOperator.finishedDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                  <Form-item label="办理备注：">
+                  <Form-item label="办理备注：" prop="handleReason">
                     <Input v-model="changeOperator.handleReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
                   </Form-item>
                 </Col>
                 <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                  <Form-item label="批退备注：">
+                  <Form-item label="批退备注：" prop="refuseReason">
                     <Input v-model="changeOperator.refuseReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
                   </Form-item>
               </Col>
@@ -138,6 +141,143 @@
   export default {
     components: {chat, companySocialSecurityInfo},
     data() {
+          
+        //所属行业
+        const validateBelongsIndustry=(rule, value, callback)=>{
+          
+          let self= this;
+          let changeval = self.changeOperator.changeContentValue;
+            if(changeval=='1'){
+              if(value==null || value.trim()==''){
+                return callback(new Error('该项不能为空！'))
+              }else if(value.length>10){
+                return callback(new Error('不能超过十位.'))
+              }else if(value.trim()!=value){
+                return callback(new Error('格式不正确.'))
+              }else{
+                callback()
+              }
+            }else{
+              callback()
+            }
+       };
+       //工伤比例
+      const validateComWorkInjuryPercentage=(rule, value, callback)=>{
+        
+          let self= this;
+          let changeval = self.changeOperator.changeContentValue;
+            if(changeval=='1'){
+                if (value==null || value.trim()=='') {
+                    return callback(new Error('该项不能为空！'));
+                } 
+               var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                if(!rex.test(value)) {
+                    callback(new Error('请输入正确的金钱格式.'));
+                }else{
+                    if (value.length > 20) {
+                          callback(new Error('长度不能超过20个.'));
+                    } else {
+                         callback();
+                    }
+               }
+            }else{
+              callback()
+            }
+       };
+       //开始月份
+      const validateChangeStartMonth=(rule, value, callback)=>{
+          let self= this;
+          let changeval = self.changeOperator.changeContentValue;
+            if(changeval=='1'){
+              if (value==null || value==""){
+                    return callback(new Error('该项不能为空！'));
+                }else{
+                   return callback();
+                }
+            }else{
+              callback();
+            }
+       };
+      const validatePayMethodValue=(rule, value, callback)=>{
+        
+          let self= this;
+          let changeval = self.changeOperator.changeContentValue;
+            if(changeval=='2'){
+              if (value==null || value==""){
+                    return callback(new Error('请选择付款方式！'));
+                }else{
+                    return callback()
+                }
+            }else{
+              callback();
+            }
+      }
+      //企业名称变更名
+      const validatePensionMoneyComName=(rule, value, callback)=>{
+        
+          let self= this;
+          let changeval = self.changeOperator.changeContentValue;
+            if(changeval=='3'){
+              if (value==null || value.trim()==""){
+                    return callback(new Error('该项不能为空！'));
+                }else if(value.length>20){
+                   return callback(new Error('最多不超过20个.'));
+                }else{
+                  callback()
+                }
+
+            }else{
+              callback();
+            }
+      }
+
+       //受审日期
+       const validateAcceptanceDate=(rule, value, callback)=>{
+            
+            if(this.changeOperator.taskStatus=='0'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                if(value==null){
+                 this.changeOperator.acceptanceDate=''
+                }
+               return callback(new Error('请选择受理时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+       //送审日期
+       const validateSendCheckDate=(rule, value, callback)=>{
+            
+            let self= this
+            if(self.changeOperator.taskStatus=='0'|| self.changeOperator.taskStatus=='1'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                if(value==null){
+                 self.$set(self.changeOperator,'sendCheckDate','')
+                }
+                return callback(new Error('请选择送审时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+        //完成日期 
+       const validateFinishedDate=(rule, value, callback)=>{
+            
+            if(this.changeOperator.taskStatus=='0'|| this.changeOperator.taskStatus=='1'|| this.changeOperator.taskStatus=='2'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                return callback(new Error('请选择完成时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+      
       return {
         collapseInfo: [1, 2, 3], //展开栏
         currentStep: 2,
@@ -150,6 +290,10 @@
           handDateControl:false,//受理日期 是否可编辑 
          sendDateControl:false,//送审日期 是否可编辑
          finishDateControl:false,//完成日期  是否可编辑
+         getTaskInitialStatus:'0',
+         handDateIsDateOrLabel:true,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
+         sendDateIsDateOrLabel:true,//送审日期 
+         finishDateIsDateOrLabel:true,//完成日期  
          companyInfo:{},
          historyRemark:{
           submitName:'',
@@ -188,6 +332,45 @@
           finishedDate: '', //完成日期
           handleReason:'',
           refuseReason: ''
+        },
+        ruleValidate:{
+          changeContentValue:[
+            { required: true, message: '请选择变更内容!', trigger: 'change' },
+          ],
+          taskStatus:[
+            { required: true, message: '请选择任务单状态!', trigger: 'change' },
+          ],
+          belongsIndustry: [
+                        { required: true, validator:validateBelongsIndustry, trigger: 'blur' }
+                    ],
+          companyWorkInjuryPercentage:[
+                          { required: true, validator:validateComWorkInjuryPercentage, trigger: 'blur' },
+          ],
+          changeStartMonth: [
+                          { required: true, type: 'date', validator: validateChangeStartMonth, trigger: 'change' }
+                    ],
+          payMethodValue:[
+                    { required: true, type: 'string', validator:validatePayMethodValue, trigger: 'blur' }
+          ],
+          pensionMoneyUseCompanyName:[
+                    { required: true, type: 'string', validator:validatePensionMoneyComName, trigger: 'blur' }
+          ],
+          acceptanceDate: [
+                       { type: 'date',validator:validateAcceptanceDate, trigger: 'change' }
+                       ],
+          sendCheckDate: [
+                       { type: 'date',validator:validateSendCheckDate, trigger: 'change' }
+                       ],
+          finishedDate: [
+                       { type: 'date',validator:validateFinishedDate, trigger: 'change' }
+                       ],
+          refuseReason:[
+                          { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+                       ],
+          handleReason:[
+                         { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+                       ] 
+
         }
       }
     },
@@ -205,7 +388,8 @@
       queryPageInfo(){
         let params = {
           companyTaskId:this.tid,
-          operatorType:this.operatorType
+          operatorType:this.operatorType,
+          isComplete:'0'//表示不为空 查询状态不为3的任务:
         }
         let self = this
         CompanyTaskList.getEndPageInfo(params,'change').then(result=>{
@@ -218,18 +402,22 @@
                         case '0':
                               self.handDateControl = true;
                               self.sendDateControl=true;
-                              self.finishDateControl=true;
+                              self.finishDateControl=true; 
                           break;
                         case '1':
                           self.taskTypeList[0].disabled = true;
                               self.sendDateControl=true;
                               self.finishDateControl=true;
+                               self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
                           break;
                         case '2':
                            self.taskTypeList[0].disabled = true;
                            self.taskTypeList[1].disabled = true;
                            self.handDateControl = true;
                            self.finishDateControl=true;
+                             self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
+                              self.sendDateIsDateOrLabel=false//送审日期 
+                           
                           break;
                         case '3':
                            self.taskTypeList[0].disabled = true;
@@ -237,10 +425,14 @@
                            self.taskTypeList[2].disabled = true;
                            self.handDateControl = true;
                            self.sendDateControl=true;
+                             self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
+                              self.sendDateIsDateOrLabel=false//送审日期 
+                             self.finishDateIsDateOrLabel=false//完成日期 
                           break;
                         default:
                           break;
                       }
+                      this.changeContentType();
       })
 
       },
@@ -271,14 +463,20 @@
             this.handDateControl = true;
             this.sendDateControl=true;
             this.finishDateControl=true;
+            this.$set(this.changeOperator,'acceptanceDate',null)
+             this.$set(this.changeOperator,'sendCheckDate',null)
+            this.$set(this.changeOperator,'finishedDate',null)
         }else if(taskState=='1'){
             this.handDateControl = false;
             this.sendDateControl=true;
             this.finishDateControl=true;
+            this.$set(this.changeOperator,'sendCheckDate',null)
+            this.$set(this.changeOperator,'finishedDate',null)
         }else if(taskState=='2'){
             this.handDateControl = false;
             this.sendDateControl=false;
             this.finishDateControl=true;
+           this.$set(this.changeOperator,'finishedDate',null)
         }else if(taskState=='3'){
             this.handDateControl = false;
             this.sendDateControl=false;
@@ -288,9 +486,17 @@
       
       //办理
       confirm(){
-            //校验数据
-            let res = this.checkData()
-            if(!res){return;}
+        let beforeValid = false;
+        
+        this.$refs['changeOperator'].validate((valid) => {
+                    if (valid) {
+                        beforeValid = true;
+                    }
+                })
+
+        if(!beforeValid){
+              return;
+            }
             let self = this;
             self.$Modal.confirm({
                 title: '',

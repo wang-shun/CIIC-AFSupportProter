@@ -16,15 +16,15 @@
       <Panel name="2">
         前道传递信息
         <div slot="content">
-          <Form :label-width=200>
+          <Form ref="beforeSendInfo" :model="beforeSendInfo" :rules="ruleValidate" :label-width=200>
             <Row class="mt20" type="flex" justify="start">
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="客户社保截至日：">
+                <Form-item label="客户社保截至日：" prop="customerSocialSecurityEndDate">
                   <Input v-model="beforeSendInfo.customerSocialSecurityEndDate" placeholder="每月18号"></Input>
                 </Form-item>
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="付款方式：">
+                <Form-item label="付款方式：" prop="payMethodValue">
                   <Select v-model="beforeSendInfo.payMethodValue" style="width: 100%;" transfer>
                     <Option v-for="item in payMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -37,88 +37,88 @@
       <Panel name="3">
         企业开户\转入操作
         <div slot="content">
-          <Form :label-width=200>
+          <Form  ref="companyOpenAccountOperator" :model="companyOpenAccountOperator" :rules="ruleValidate" :label-width=200>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="任务：">
+                <Form-item label="任务：" prop="taskValue">
                   <Select v-model="companyOpenAccountOperator.taskValue" style="width: 100%;" transfer >
                     <Option v-for="item in taskList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="参保户登记码：">
+                <Form-item label="参保户登记码：" prop="joinSafeguardRegister">
                   <Input v-model="companyOpenAccountOperator.joinSafeguardRegister" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="牡丹卡号：">
+                <Form-item label="牡丹卡号：" prop="bankCardNumber">
                   <Input v-model="companyOpenAccountOperator.bankCardNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="养老金用公司名称：">
+                <Form-item label="养老金用公司名称：" prop="pensionMoneyUseCompanyName">
                   <Input v-model="companyOpenAccountOperator.pensionMoneyUseCompanyName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="社保中心(结算区县)：">
+                <Form-item label="社保中心(结算区县)：" prop="socialSecurityCenterValue">
                   <Select v-model="companyOpenAccountOperator.socialSecurityCenterValue" style="width: 100%;" transfer>
                     <Option v-for="item in socialSecurityCenterList" :value="item.label" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="付款行：">
+                <Form-item label="付款行：" prop="payBank">
                   <Input v-model="companyOpenAccountOperator.payBank" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="工行查询账号：">
+                <Form-item label="工行查询账号：" prop="icbcSearchAccount">
                   <Input v-model="companyOpenAccountOperator.icbcSearchAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="养老金独立开户用户名：">
+                <Form-item label="养老金独立开户用户名：" prop="pensionMoneySingleUserName">
                   <Input v-model="companyOpenAccountOperator.pensionMoneySingleUserName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="养老金独立开户密码：">
+                <Form-item label="养老金独立开户密码：" prop="pensionMoneySinglePassWord">
                   <Input v-model="companyOpenAccountOperator.pensionMoneySinglePassWord" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="初期余额：">
+                <Form-item label="初期余额：" prop="originalSum">
                   <Input v-model="companyOpenAccountOperator.originalSum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="初期欠费：">
+                <Form-item label="初期欠费："  prop="originalArrears">
                   <Input v-model="companyOpenAccountOperator.originalArrears" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="来源地：">
+                <Form-item label="来源地：" prop="resourceValue">
                   <Select v-model="companyOpenAccountOperator.resourceValue" style="width: 100%;" transfer>
                     <Option v-for="item in resourceList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="来源地备注：">
+                <Form-item label="来源地备注：" prop="resourceNotes">
                   <Input v-model="companyOpenAccountOperator.resourceNotes" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="交予方式：">
+                <Form-item label="交予方式：" prop="giveMethodValue">
                   <Select v-model="companyOpenAccountOperator.giveMethodValue" style="width: 100%;" transfer>
                     <Option v-for="item in giveMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="交予方式备注：">
+                <Form-item label="交予方式备注：" prop="giveMethodNotes">
                   <Input v-model="companyOpenAccountOperator.giveMethodNotes" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -143,22 +143,22 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="所属行业：">
+                <Form-item label="所属行业："  prop="belongToIndustries">
                   <Input v-model="companyOpenAccountOperator.belongToIndustries" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="企业工伤比例：">
+                <Form-item label="企业工伤比例："  prop="sufferedOnTheJobPercentage">
                   <Input v-model="companyOpenAccountOperator.sufferedOnTheJobPercentage" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="企业工伤比例开始调整月份：">
-                  <DatePicker v-model="companyOpenAccountOperator.sufferedOnTheJobPercentageChangeStartMonth" type="month" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                <Form-item label="企业工伤比例开始调整月份：" prop="sufferedOnTheJobPercentageChangeStartMonth">
+                  <DatePicker v-model="companyOpenAccountOperator.sufferedOnTheJobPercentageChangeStartMonth" type="month" format="yyyyMM" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="发出材料：">
+                <Form-item label="发出材料：" prop="sendedMaterials">
                   <CheckboxGroup v-model="companyOpenAccountOperator.sendedMaterials">
                     <Checkbox label="正式通知书">
                       <span>正式通知书</span>
@@ -184,35 +184,37 @@
             </Row>
             <Row class="mt20" type="flex" justify="start">
                 <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="任务状态：">
+                <Form-item label="任务状态：" prop="taskTypeValue">
                   <Select v-model="companyOpenAccountOperator.taskTypeValue" style="width: 100%;" transfer @on-change="taskTypeChange"	>
                     <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="受理日期：">
-                  <DatePicker v-model="companyOpenAccountOperator.acceptanceDate" placeholder="选择日期" :disabled="handDateControl"  style="width: 100%;" transfer></DatePicker>
+                <Form-item label="受理日期：" prop="acceptanceDate">
+                  <DatePicker v-if="handDateIsDateOrLabel" v-model="companyOpenAccountOperator.acceptanceDate" placeholder="选择日期" :disabled="handDateControl"  style="width: 100%;" transfer></DatePicker>
+                  <label v-else>{{companyOpenAccountOperator.acceptanceDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="送审日期：">
-                  <DatePicker v-model="companyOpenAccountOperator.sendCheckDate" placement="bottom-end" placeholder="选择日期" :disabled="sendDateControl" style="width: 100%;" transfer></DatePicker>
+                <Form-item label="送审日期：" prop="sendCheckDate">
+                  <DatePicker v-if="sendDateIsDateOrLabel" v-model="companyOpenAccountOperator.sendCheckDate" placement="bottom-end" placeholder="选择日期" :disabled="sendDateControl" style="width: 100%;" transfer></DatePicker>
+                   <label v-else>{{companyOpenAccountOperator.sendCheckDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="完成日期：">
-                  <DatePicker v-model="companyOpenAccountOperator.finishedDate" placement="bottom-end" placeholder="选择日期" :disabled="finishDateControl" style="width: 100%;" transfer></DatePicker>
+                <Form-item label="完成日期："  prop="finishedDate">
+                  <DatePicker v-if="finishDateIsDateOrLabel" v-model="companyOpenAccountOperator.finishedDate" placement="bottom-end" placeholder="选择日期" :disabled="finishDateControl" style="width: 100%;" transfer></DatePicker>
+                  <label v-else>{{companyOpenAccountOperator.finishedDate}}</label>
                 </Form-item>
               </Col>
-
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                <Form-item label="办理备注：">
+                <Form-item label="办理备注：" prop="handleReason">
                   <Input v-model="companyOpenAccountOperator.handleReason" type="textarea" :rows=4 placeholder="请填写办理原因..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                <Form-item label="批退备注：">
+                <Form-item label="批退备注：" prop="refuseReason">
                   <Input v-model="companyOpenAccountOperator.refuseReason" type="textarea" :rows=4 placeholder="请填写批退原因..."></Input>
                 </Form-item>
               </Col>
@@ -239,14 +241,131 @@
     name:"employeecommcialprogress3",
     components: {chat, companyInfo},
     data() {
+       const validateBankCardNumber = (rule, value, callback) => {
+                if (!value.trim()) {
+                    return callback(new Error('该项不能为空！'));
+                }
+                let rex = /^\d*$/
+                  if(!rex.test(value)) {
+                        callback(new Error('请输入纯数字.'));
+                    }else if(value.trim()!=value){
+                         callback(new Error('请输入纯数字.'));
+                   } else {
+                        if (value.length > 20) {
+                            callback(new Error('长度不能超过20位.'));
+                        } else {
+                            callback();
+                        }
+                    }
+            };
+            //用户名和密码
+       const validateUserNameAndPsw=(rule, value, callback)=>{
+                
+                console.log(this.companyOpenAccountOperator.taskTypeValue)
+                if (!value.trim()) {
+                    return callback(new Error('该项不能为空！'));
+                }
+                let regex=/^[0-9A-Za-z_]{1,50}$/ //数字、字母、下划线
+                if (!regex.test(value)) {
+                    return callback(new Error('只能包含数字,字母或下划线.'));
+                }
+                if(value.length>20){
+                   return callback(new Error('长度不能超过20位.'));
+                }
+                
+                
+                 callback();
+       };
+       //初始余额和欠费 
+       const validateUserMoney=(rule, value, callback)=>{
+
+               var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+              if(!rex.test(value)){
+                    callback(new Error('请输入正确的金钱格式.'));
+                }else{
+                    if(value.length > 20){
+                          callback(new Error('长度不能超过20位.'));
+                    }else{
+                         callback();
+                    }
+               }
+       };
+      //工伤比例
+       const validateSufferedOnTheJobPercentage=(rule, value, callback)=>{
+
+               var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+               if (value==null || value.trim()=="") {
+                     callback(new Error('该项不能为空！'));
+                }else if(!rex.test(value)){
+                    callback(new Error('请输入正确的格式.'));
+                }else{
+                    if(value.length > 20){
+                          callback(new Error('长度不能超过20位.'));
+                    }else{
+                         callback();
+                    }
+               }
+       };
+        //受审日期
+       const validateAcceptanceDate=(rule, value, callback)=>{
+            
+            if(this.companyOpenAccountOperator.taskTypeValue=='0'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                if(value==null){
+                 this.companyOpenAccountOperator.acceptanceDate=''
+                }
+               return callback(new Error('请选择受理时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+       //送审日期
+       const validateSendCheckDate=(rule, value, callback)=>{
+            
+            let self= this
+            if(self.companyOpenAccountOperator.taskTypeValue=='0'|| self.companyOpenAccountOperator.taskTypeValue=='1'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                if(value==null){
+                 self.companyOpenAccountOperator.sendCheckDate=''
+                }
+                return callback(new Error('请选择送审时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+        //完成日期 
+       const validateFinishedDate=(rule, value, callback)=>{
+            
+            if(this.companyOpenAccountOperator.taskTypeValue=='0'|| this.companyOpenAccountOperator.taskTypeValue=='1'|| this.companyOpenAccountOperator.taskTypeValue=='2'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                return callback(new Error('请选择完成时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+       
       return {
         collapseInfo: [1, 2, 3], //展开栏
         currentStep: 0,
         comAccountId:'',//社保账户表ID
          tid: this.$route.query.tid,
-         handDateControl:false,//受理日期 是否可编辑 
-         sendDateControl:false,//送审日期 是否可编辑
-         finishDateControl:false,//完成日期  是否可编辑
+         handDateControl:false,//受理日期 是否可编辑 更换状态时判断
+         sendDateControl:false,//送审日期 是否可编辑 更换状态时判断
+         finishDateControl:false,//完成日期  是否可编辑 更换状态时判断
+         
+         handDateIsDateOrLabel:false,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
+         sendDateIsDateOrLabel:false,//送审日期 
+         finishDateIsDateOrLabel:false,//完成日期  
+
         companyInfo: {
           customerNumber: 'GS170001',
           customerName: '普思埃商业（上海）有限公司',
@@ -274,12 +393,12 @@
             {value: '2', label: '转入'},
           ], //任务
            socialSecurityCenterList: [
-            {value: '1', label: '徐汇区'},
-            {value: '2', label: '长宁区'},
-            {value: '3', label: '浦东区'},
-            {value: '4', label: '卢湾区'},
-            {value: '5', label: '静安区'},
-            {value: '6', label: '黄浦区'}
+            {value: '1', label: '徐汇'},
+            {value: '2', label: '长宁'},
+            {value: '3', label: '浦东'},
+            {value: '4', label: '卢湾'},
+            {value: '5', label: '静安'},
+            {value: '6', label: '黄浦'}
           ], //社保中心
            giveMethodList: [
             {value: '1', label: '交客服'},
@@ -299,7 +418,7 @@
           joinSafeguardRegister: '', //参保户登记码
           bankCardNumber: '', //牡丹卡号
           pensionMoneyUseCompanyName: '', //养老金用公司名称
-          socialSecurityCenterValue: '',
+          socialSecurityCenterValue: '',//社保中心
           payBank: '', //付款行
           icbcSearchAccount: '', //工行查询账号
           pensionMoneySingleUserName: '', //养老金独立开户用户名
@@ -325,7 +444,96 @@
           finishedDate: '', //完成日期
           handleReason:'',//办理原因
           refuseReason: '' //批退原因
-        }
+        },
+        ruleValidate: {
+                    customerSocialSecurityEndDate:[
+                        { required: true, message: '请选择社保截止日期！', trigger: 'blur' }
+                    ],
+                    payMethodValue:[
+                        { required: true, message: '请选择付款方式！', trigger: 'change' }
+                    ],
+                    taskValue: [
+                        { required: true, message: '请选择任务状态！', trigger: 'blur' }
+                    ],
+                    joinSafeguardRegister: [
+                        { required: true, message: '该项不能为空!', trigger: 'blur' },
+                        { max:20, message: '最多不超过20个.', trigger: 'blur' }
+                    ],
+                     bankCardNumber: [
+                        { required: true,validator: validateBankCardNumber, trigger: 'blur' }
+                        
+                    ],
+                    pensionMoneyUseCompanyName: [
+                        { required: true, message: '该项不能为空!', trigger: 'blur' },
+                        { max:20, message: '最多不超过20个.', trigger: 'blur' }
+                    ],
+                    socialSecurityCenterValue: [
+                        { required: true, message: '请选择社保中心!', trigger: 'change' }
+                    ],
+                    icbcSearchAccount: [
+                        { required: true, message: '该项不能为空!', trigger: 'blur' },
+                        { type:'string',max:20, message: '最多不超过20个.', trigger: 'blur' }
+                    ],
+
+                    payBank: [
+                        { required: true, message: '该项不能为空!', trigger: 'blur' },
+                        { type:'string', max:20, message: '最多不超过20个.', trigger: 'blur' }
+                    ],
+                    pensionMoneySingleUserName: [
+                        { required: true, validator: validateUserNameAndPsw, trigger: 'blur' },
+                       
+                    ],
+                    pensionMoneySinglePassWord: [
+                        { required: true, validator: validateUserNameAndPsw, trigger: 'blur' },
+                       
+                    ],
+                    originalSum:[
+                      {validator: validateUserMoney, trigger: 'blur'}
+                    ],
+                    originalArrears:[
+                      {validator: validateUserMoney, trigger: 'blur'}
+                      ],
+                      resourceValue: [
+                        { required: true, message: '请选择来源地!', trigger: 'change' }
+                    ],
+                    resourceNotes: [
+                        { type:'string', max:50, message: '最多不超过50个.', trigger: 'blur' }
+                    ],
+                     giveMethodValue: [
+                        { required: true, message: '请选择交予方式!', trigger: 'change' }
+                    ],
+                     giveMethodNotes: [
+                        {type:'string', max:100, message: '最多不超过100个.', trigger: 'blur' }
+                    ],
+                    belongToIndustries: [
+                       { required: true, message: '该项不能为空!', trigger: 'blur' },
+                        {type:'string', max:10, message: '最多不超过10位.', trigger: 'blur' }
+                    ],
+                    sufferedOnTheJobPercentage:[
+                      {required:true,validator: validateSufferedOnTheJobPercentage, trigger: 'blur'}
+                    ],
+                    sufferedOnTheJobPercentageChangeStartMonth: [
+                        { required: true, type: 'date', message: '请选择变更开始调整月份.', trigger: 'change' }
+                    ],
+                    taskTypeValue: [
+                       { required: true, message: '该项不能为空!', trigger: 'blur' }
+                       ],
+                     acceptanceDate: [
+                       { type: 'date',validator:validateAcceptanceDate, trigger: 'change' }
+                       ],
+                     sendCheckDate: [
+                       { type: 'date',validator:validateSendCheckDate, trigger: 'change' }
+                       ],
+                     finishedDate: [
+                       { type: 'date',validator:validateFinishedDate, trigger: 'change' }
+                       ],
+                       refuseReason:[
+                          { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+                       ],
+                       handleReason:[
+                         { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+                       ] 
+                },
       }
     },
     mounted() {
@@ -340,9 +548,22 @@
       },
       //办理
       confirm(){
-            //校验数据
-            let res = this.checkData()
-            if(!res){return;}
+        let beforeValid = false;
+        
+        this.$refs['beforeSendInfo'].validate((valid) => {
+                    if (valid) {
+                        beforeValid = true;
+                    }
+                })
+        let companyOpenValid = false;
+         this.$refs['companyOpenAccountOperator'].validate((valid) => {
+                    if (valid) {
+                        companyOpenValid = true;
+                    }
+                })
+            if(!beforeValid || !companyOpenValid){
+              return;
+            }
             let self = this;
             self.$Modal.confirm({
                 title: '',
@@ -398,7 +619,10 @@
       },
       //查询页面公司信息和前道传递信息
       queryPageInfo(){
-        let params = {companyTaskId:this.tid}
+        let params = {
+          companyTaskId:this.tid,
+           isComplete:'0'//表示不为空 查询状态不为3的任务:
+        }
         let self = this
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
         self.comAccountId = result.comAccountId
@@ -408,28 +632,28 @@
         self.currentStep = Number(result.companyTaskStatus)
         switch(result.companyOpenAccountOperator.taskTypeValue) {
                         case '0':
-                        
-                              self.handDateControl = true;
-                              self.sendDateControl=true;
-                              self.finishDateControl=true;
+                           self.handDateIsDateOrLabel = true;
+                           self.sendDateIsDateOrLabel=true;
+                           self.finishDateIsDateOrLabel=true; 
                           break;
                         case '1':
                           self.taskTypeList[0].disabled = true;
-                              self.sendDateControl=true;
-                              self.finishDateControl=true;
+                              self.sendDateIsDateOrLabel=true;
+                           self.finishDateIsDateOrLabel=true;
                           break;
                         case '2':
+                           
                            self.taskTypeList[0].disabled = true;
                            self.taskTypeList[1].disabled = true;
-                           self.handDateControl = true;
-                           self.finishDateControl=true;
+                           self.finishDateIsDateOrLabel=true; 
+  
                           break;
                         case '3':
+                        
                            self.taskTypeList[0].disabled = true;
                            self.taskTypeList[1].disabled = true;
                            self.taskTypeList[2].disabled = true;
-                           self.handDateControl = true;
-                           self.sendDateControl=true;
+                           
                           break;
                         default:
                           break;
@@ -504,45 +728,9 @@
            }
           return {...ssComTaskDTO,...ssComAccountDTO,...ssAccountRatio}
       },
-      //校验表单数据
-      checkData(){
-        //暂时只校验 任务单类型和时间的选择
-        let taskState = this.companyOpenAccountOperator.taskTypeValue
-         let formObj = this.companyOpenAccountOperator
-        if(taskState=='3'){
-           if(formObj.acceptanceDate==null || formObj.acceptanceDate==''){
-             this.$Message.error("请选择受审时间！")
-             return false;
-           }
-           if(formObj.sendCheckDate==null || formObj.sendCheckDate==''){
-              this.$Message.error("请选择送审时间！")
-               return false;
-           }
-           if(formObj.finishedDate==null || formObj.finishedDate==''){
-             this.$Message.error("请选择完成时间！")
-              return false;
-           }
-        }
-        if(taskState=='2'){
-           if(formObj.acceptanceDate==null || formObj.acceptanceDate==''){
-             this.$Message.error("请选择受审时间！")
-             return false;
-           }
-           if(formObj.sendCheckDate==null || formObj.sendCheckDate==''){
-              this.$Message.error("请选择送审时间！")
-               return false;
-           }
-        }
-        if(taskState=='1'){
-           if(formObj.acceptanceDate==null || formObj.acceptanceDate==''){
-             this.$Message.error("请选择受审时间！")
-             return false;
-           }
-        }
-        return true;
-      },
       //任务类型发生变化
       taskTypeChange(){
+        
         let taskState = this.companyOpenAccountOperator.taskTypeValue
          //acceptanceDate sendCheckDate finishedDate
          let formObj = this.companyOpenAccountOperator

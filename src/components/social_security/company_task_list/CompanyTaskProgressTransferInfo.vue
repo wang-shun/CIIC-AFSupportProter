@@ -40,49 +40,53 @@
       <Panel name="3">
         企业转移操作
         <div slot="content">
-          <Form :label-width=150>
+          <Form ref="transferOperator" :model="transferOperator" :rules="ruleValidate" :label-width=150>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保中心(结算区县)：" class="">
+                <Form-item label="社保中心(结算区县)：" class="" prop="regionValue">
                   <Select v-model="transferOperator.regionValue" style="width: 100%;">
                     <Option v-for="item in regionList" :value="item.label" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务状态：">
+                <Form-item label="任务状态：" prop="taskStatus">
                   <Select v-model="transferOperator.taskStatus" style="width: 100%;" transfer @on-change="taskTypeChange"	>
                     <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="受理日期：" class="">
-                  <DatePicker v-model="transferOperator.acceptanceDate" placement="bottom-end" :disabled="handDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="受理日期：" prop="acceptanceDate" class="">
+                  <DatePicker v-if="handDateIsDateOrLabel" v-model="transferOperator.acceptanceDate" placement="bottom-end" :disabled="handDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <label v-else>{{transferOperator.acceptanceDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="送审日期：" class="">
-                  <DatePicker v-model="transferOperator.sendCheckDate" placement="bottom-end" :disabled="sendDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="送审日期：" class="" prop="sendCheckDate">
+                  <DatePicker v-if="sendDateIsDateOrLabel" v-model="transferOperator.sendCheckDate" placement="bottom-end" :disabled="sendDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                 <label v-else>{{transferOperator.sendCheckDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="完成日期：" class="">
-                  <DatePicker v-model="transferOperator.finishedDate" placement="bottom-end" :disabled="finishDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="完成日期：" class="" prop="finishedDate">
+                  <DatePicker v-if="finishDateIsDateOrLabel" v-model="transferOperator.finishedDate" placement="bottom-end" :disabled="finishDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                    <label v-else>{{transferOperator.finishedDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转移日期：" class="">
-                  <DatePicker v-model="transferOperator.transferDate" placement="bottom-end" :disabled="transferDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                <Form-item label="转移日期：" class="" prop="transferDate">
+                  <DatePicker v-if="transferDateIsDateOrLabel" v-model="transferOperator.transferDate" placement="bottom-end" :disabled="transferDateControl" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                   <label v-else>{{transferOperator.transferDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                  <Form-item label="办理备注：">
+                  <Form-item label="办理备注：" prop="handleReason">
                     <Input v-model="transferOperator.handleReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
                   </Form-item>
                 </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                <Form-item label="批退备注：" class="">
+                <Form-item label="批退备注：" class="" prop="refuseReason">
                   <Input v-model="transferOperator.refuseReason" type="textarea" :rows=4 placeholder="请填写批退原因..."></Input>
                 </Form-item>
               </Col>
@@ -112,6 +116,65 @@
   export default {
     components: {chat, companySocialSecurityInfo},
     data() {
+       //受审日期
+       const validateAcceptanceDate=(rule, value, callback)=>{
+            
+            let self= this
+            if(self.transferOperator.taskStatus=='0'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                if(value==null){
+                 self.transferOperator.acceptanceDate=''
+                }
+               return callback(new Error('请选择受理时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+       //送审日期
+       const validateSendCheckDate=(rule, value, callback)=>{
+            let self= this
+            if(self.transferOperator.taskStatus=='0'|| self.transferOperator.taskStatus=='1'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                if(value==null){
+                 self.transferOperator.sendCheckDate=''
+                }
+                return callback(new Error('请选择送审时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+        //完成日期 
+       const validateFinishedDate=(rule, value, callback)=>{
+            let self= this
+            if(self.transferOperator.taskStatus=='0'|| self.transferOperator.taskStatus=='1'|| self.transferOperator.taskStatus=='2'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                return callback(new Error('请选择完成时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
+
+      const validateTransferDate=(rule, value, callback)=>{
+            let self= this
+            if(self.transferOperator.taskStatus=='0'|| self.transferOperator.taskStatus=='1'|| self.transferOperator.taskStatus=='2'){
+               callback();
+            }else{
+              if(value==null || value==''){
+                return callback(new Error('请选择转移时间.'));
+              }else{
+                callback();
+              }
+            }
+       };
       return {
         operatorType: this.$route.query.operatorType,
          tid:this.$route.query.tid,
@@ -123,6 +186,11 @@
          sendDateControl:false,//送审日期 是否可编辑
          finishDateControl:false,//完成日期  是否可编辑
          transferDateControl:false,//转移日期 是否可编辑
+
+         handDateIsDateOrLabel:false,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
+         sendDateIsDateOrLabel:false,//送审日期 
+         finishDateIsDateOrLabel:false,//完成日期  
+         transferDateIsDateOrLabel:false,
            regionList: [
             {value: '1', label: '徐汇'},
             {value: '2', label: '长宁'},
@@ -151,6 +219,34 @@
           handleReason:'',
           regionValue: '',
           transferDate: ''
+        },
+        ruleValidate:{
+          regionValue:[
+               { required: true, type: 'string', message: '请选择结算区县.', trigger: 'change' }
+          ],
+          taskStatus:[
+               { required: true, type: 'string', message: '请选择任务状态.', trigger: 'change' }
+          ],
+          acceptanceDate: [
+                 { type: 'date',validator:validateAcceptanceDate, trigger: 'change' }
+          ],
+          sendCheckDate: [
+                 { type: 'date',validator:validateSendCheckDate, trigger: 'change' }
+          ],
+          finishedDate: [
+                 { type: 'date',validator:validateFinishedDate, trigger: 'change' }
+           ],
+           transferDate:[
+                  { type: 'date',validator:validateTransferDate, trigger: 'change' }
+           ],
+          refuseReason:[
+                  { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+           ],
+          handleReason:[
+                  { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+          ],
+          
+          
         }
       }
     },
@@ -168,42 +264,40 @@
         
         let params = {
           companyTaskId:this.$route.query.tid,
-          operatorType:this.operatorType
+          operatorType:this.operatorType,
+          isComplete:'0'//表示不为空 查询状态不为3的任务:
         }
         let self = this
         CompanyTaskList.getEndPageInfo(params,'transfer').then(result=>{
         self.comAccountId = result.comAccountId
         self.companyInfo = result.companyInfo
         self.historyRemark = result.historyRemark;
-        
+
         self.transferOperator = result.transferOperator;
         self.currentStep  =result.transferOperator.taskStatus==null?0:Number(result.transferOperator.taskStatus)
         switch(result.transferOperator.taskStatus) {
                         case '0':
-                              self.handDateControl = true;
-                              self.sendDateControl=true;
-                              self.finishDateControl=true;
-                               self.transferDateControl = true;
+                          self.handDateIsDateOrLabel = true;
+                          self.sendDateIsDateOrLabel = true;
+                          self.finishDateIsDateOrLabel = true;
+                          self.transferDateIsDateOrLabel = true;
                           break;
                         case '1':
                           self.taskTypeList[0].disabled = true;
-                              self.sendDateControl=true;
-                              self.finishDateControl=true;
-                               self.transferDateControl = true;
+                          self.sendDateIsDateOrLabel = true;
+                          self.finishDateIsDateOrLabel = true;
+                          self.transferDateIsDateOrLabel = true;
                           break;
                         case '2':
                            self.taskTypeList[0].disabled = true;
                            self.taskTypeList[1].disabled = true;
-                           self.handDateControl = true;
-                           self.finishDateControl=true;
-                           self.transferDateControl = true;
+                           self.finishDateIsDateOrLabel=true;
+                           self.transferDateIsDateOrLabel = true;
                           break;
                         case '3':
                            self.taskTypeList[0].disabled = true;
                            self.taskTypeList[1].disabled = true;
                            self.taskTypeList[2].disabled = true;
-                           self.handDateControl = true;
-                           self.sendDateControl=true;
                           break;
                         default:
                           break;
@@ -220,6 +314,10 @@
             this.sendDateControl=true;
             this.finishDateControl=true;
             this.transferDateControl = true;
+            formObj.acceptanceDate = null;
+            formObj.sendCheckDate = null;
+            formObj.finishedDate =null;
+             formObj.transferDate =null;
         }else if(taskState=='1'){
             this.handDateControl = false;
             this.sendDateControl=true;
@@ -239,9 +337,15 @@
       },
       //办理
       confirm(){
-            //校验数据
-            let res = this.checkData()
-            if(!res){return;}
+        let validResult = false;
+        this.$refs['transferOperator'].validate((valid) => {
+                    if (valid) {
+                        validResult = true;
+                    }
+                })
+         if(!validResult){
+              return;
+            }
             let self = this;
             self.$Modal.confirm({
                 title: '',
@@ -267,47 +371,6 @@
                }
             });
       },
-      //校验表单数据
-      checkData(){
-        //暂时只校验 任务单类型和时间的选择
-         let formObj = this.transferOperator
-          let taskState = formObj.taskStatus
-        if(taskState=='3'){
-           if(formObj.acceptanceDate==null || formObj.acceptanceDate==''){
-             this.$Message.error("请选择受审日期！")
-             return false;
-           }
-           if(formObj.sendCheckDate==null || formObj.sendCheckDate==''){
-              this.$Message.error("请选择送审日期！")
-               return false;
-           }
-           if(formObj.finishedDate==null || formObj.finishedDate==''){
-             this.$Message.error("请选择完成日期！")
-              return false;
-           }
-           if(formObj.transferDate==null || formObj.transferDate==''){
-             this.$Message.error("请选择转移日期！")
-              return false;
-           }
-        }
-        if(taskState=='2'){
-           if(formObj.acceptanceDate==null || formObj.acceptanceDate==''){
-             this.$Message.error("请选择受理日期！")
-             return false;
-           }
-           if(formObj.sendCheckDate==null || formObj.sendCheckDate==''){
-              this.$Message.error("请选择送审日期！")
-               return false;
-           }
-        }
-        if(taskState=='1'){
-           if(formObj.acceptanceDate==null || formObj.acceptanceDate==''){
-             this.$Message.error("请选择受审时间！")
-             return false;
-           }
-        }
-        return true;
-      },
        getParams(){
         //通过任务单的状态 添加受理或者送审或者完成时间
           let formObj = this.transferOperator
@@ -328,7 +391,6 @@
             finishDate = Utils.formatDate(formObj.finishedDate,'YYYY-MM-DD')
             transferDate = Utils.formatDate(formObj.transferDate,'YYYY-MM-DD')
           }
-          
           let ssComTaskDTO = {
             comAccountId:this.comAccountId,
             companyTaskId: this.tid,

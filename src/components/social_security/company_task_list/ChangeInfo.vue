@@ -252,10 +252,12 @@
       queryPageInfo(){
         let params = {
           companyTaskId:this.tid,
-          operatorType:'3'
+          operatorType:'3',
+          isComplete:'3'//表示不为空 查询状态不为3的任务
         }
         let self = this
         CompanyTaskList.getEndPageInfo(params,'change').then(result=>{
+        self.operatorMaterialListData = result.operatorMaterialListData;
         self.companyInfo = result.companyInfo
         self.historyRemark = result.historyRemark;
         self.changeOperator = result.changeOperator;
@@ -273,11 +275,6 @@
                           break;
                       }
       })
-      //获得材料信息
-       CompanyTaskList.getCompanyInfoAndMaterial(params).then(result=>{      
-        self.operatorMaterialListData = result.operatorMaterialListData;
-      })
-
       },
       //显示变更内容的label
       controlChangeTypeShow(industryRatioShow,payMethodShow,companyNameShow){

@@ -235,7 +235,7 @@
 <script>
   import chat from '../../../components/commoncontrol/chathistory/chat.vue'
   import companyInfo from '../../../components/commoncontrol/companyinfo.vue'
-  import {CompanyTaskList} from '../../../module/social_security/company_task_list'
+  import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
     name:"employeecommcialprogress3",

@@ -89,7 +89,7 @@
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import EventType from '../../../../store/EventTypes'
   import Axios from 'axios'
-  import {NoProgress} from '../../../../module/social_security/company_task_list_tab/no_progress'
+  import {NoProgress} from '../../../../api/social_security/company_task_list/company_task_list_tab/no_progress'
   import mock from '../../../../data/social_security/company_task_list/company_task_list_tab/c_this_month_handle_data'
   import Utils from '../../../../lib/utils'
   export default {

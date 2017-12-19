@@ -1,6 +1,6 @@
 
 import {CompanyTaskList} from '../company_task_list'
-import {domainJson} from '../../../data/domain_info'
+import {domainJson} from '../../../../data/domain_info'
 
 export class Progressing extends CompanyTaskList{
 

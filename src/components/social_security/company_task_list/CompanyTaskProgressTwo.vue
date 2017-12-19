@@ -71,8 +71,8 @@
   import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
   import companyInfo from '../../commoncontrol/companyinfo.vue'
   import EventType from '../../../store/EventTypes'
-  import {CompanyTaskList} from '../../../module/social_security/company_task_list'
-    import {NoProgress} from '../../../module/social_security/company_task_list_tab/no_progress'
+  import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
+    import {NoProgress} from '../../../api/social_security/company_task_list/company_task_list_tab/no_progress'
     import Utils from '../../../lib/utils'
   export default {
     components: {chat, companySocialSecurityInfo, companyInfo},

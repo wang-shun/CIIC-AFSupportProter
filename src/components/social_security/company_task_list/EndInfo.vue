@@ -94,7 +94,7 @@
   import chat from '../../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
   import EventType from '../../../store/EventTypes'
-  import {CompanyTaskList} from '../../../module/social_security/company_task_list'
+  import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
     components: {chat, companySocialSecurityInfo},
@@ -193,10 +193,18 @@
       },
       //查询页面信息
       queryPageInfo(){
+      
+        let isComplete = ''
+        //代表已完成查看
+        if(this.source=='0'){
+          isComplete = '3'
+        }else if(this.source=='1'){//代表批退页面过来的查看
+          isComplete = '4'
+        }
         let params = {
           companyTaskId:this.tid,
           operatorType:'4',
-           isComplete:'3'//表示不为空 查询状态不为3的任务
+           isComplete:isComplete//0代表查看已完成 4代表查看批退
         }
         let self = this
         CompanyTaskList.getEndPageInfo(params,'end').then(result=>{

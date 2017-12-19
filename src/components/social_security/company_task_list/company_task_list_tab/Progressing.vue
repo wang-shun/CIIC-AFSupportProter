@@ -105,7 +105,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import EventType from '../../../../store/EventTypes'
-  import {Progressing} from '../../../../module/social_security/company_task_list_tab/Progressing'
+  import {Progressing} from '../../../../api/social_security/company_task_list/company_task_list_tab/Progressing'
     import Utils from '../../../../lib/utils'
   export default {
     components: {customerModal},

@@ -136,7 +136,7 @@
   import chat from '../../commoncontrol/chathistory/chat.vue'
   import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
   import EventType from '../../../store/EventTypes'
-  import {CompanyTaskList} from '../../../module/social_security/company_task_list'
+  import {CompanyTaskList} from '../../..//api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
     components: {chat, companySocialSecurityInfo},

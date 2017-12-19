@@ -224,7 +224,7 @@
 <script>
   import chat from '../../../components/commoncontrol/chathistory/chat.vue'
   import companyInfo from '../../../components/commoncontrol/companyinfo.vue'
-  import {CompanyTaskList} from '../../../module/social_security/company_task_list'
+  import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
     name:"employeecommcialprogress3",
@@ -234,6 +234,7 @@
         collapseInfo: [1, 2, 3,4], //展开栏
         comAccountId:'',//社保账户表ID
          tid: this.$route.query.tid,
+         source:this.$route.query.source,
         companyInfo: {
           customerNumber: '',
           customerName: '',
@@ -380,10 +381,19 @@
       },
       //查询页面公司信息和前道传递信息
       queryPageInfo(){
-          let params = {
+        
+        let isComplete = ''
+        //代表已完成查看
+        if(this.source=='0'){
+          isComplete = '3'
+        }else if(this.source=='1'){//代表批退页面过来的查看
+          isComplete = '4'
+        }
+
+        let params = {
           companyTaskId:this.tid,
           operatorType:'1',
-           isComplete:'3'//表示不为空 查询状态不为3的任务
+           isComplete:isComplete//0代表查看已完成 4代表查看批退
         }
         let self = this
         CompanyTaskList.getCompanyInfoAndMaterial(params).then(result=>{

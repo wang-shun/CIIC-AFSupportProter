@@ -77,7 +77,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import EventType from '../../../../store/EventTypes'
-  import {Refused} from '../../../../module/social_security/company_task_list_tab/Refused'
+  import {Refused} from '../../../../api/social_security/company_task_list/company_task_list_tab/Refused'
   import Utils from '../../../../lib/utils'
   export default {
     components: {customerModal},
@@ -120,16 +120,16 @@
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'openaccountinfo', query:{operatorType: '1',tid:params.row.tid}})
+                          this.$router.push({name: 'openaccountinfo', query:{operatorType: '1',source:1,tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'transfertnfo', query:{operatorType: '2',tid:params.row.tid}})
+                          this.$router.push({name: 'transfertnfo', query:{operatorType: '2',source:1,tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'changeinfo', query:{operatorType: '3',tid:params.row.tid}})
+                          this.$router.push({name: 'changeinfo', query:{operatorType: '3',source:1,tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'endinfo', query:{operatorType: '4',tid:params.row.tid}})
+                          this.$router.push({name: 'endinfo', query:{operatorType: '4',source:1,tid:params.row.tid}})
                           break;
                         default:
                           break;

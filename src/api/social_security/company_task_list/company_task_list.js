@@ -1,7 +1,7 @@
 
-  import {domainJson} from '../../data/domain_info'
+  import {domainJson} from '../../../data/domain_info'
   import Axios from 'axios'
-  import utils from '../../lib/ajax'
+  import utils from '../../../lib/ajax'
   let ajax = utils.ajaxSsc
 export class CompanyTaskList{  
 

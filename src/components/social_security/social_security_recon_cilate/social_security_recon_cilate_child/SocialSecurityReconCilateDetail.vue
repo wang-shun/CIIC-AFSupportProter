@@ -125,14 +125,13 @@
           },
           {title: '差异', key: 'diffAmount', align: 'center',
             render: (h, params) => {
-              let impAmount = params.row.impAmount;
-              let ssAmount = params.row.ssAmount;
+              let diffHeadcount = params.row.diffHeadcount;
               let diffAmount = params.row.diffAmount;
               let diffShow = '';
-              if(impAmount == 0 && diffAmount == -ssAmount){
-                diffShow = '导入不存在'
-              }else if(ssAmount == 0 && diffAmount == impAmount){
+              if(diffHeadcount == 1){
                 diffShow = '系统不存在'
+              }else if(diffHeadcount == 2){
+                diffShow = '导入不存在'
               }else{
                 diffShow = diffAmount
               }

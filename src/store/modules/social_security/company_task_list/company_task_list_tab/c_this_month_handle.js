@@ -2,7 +2,7 @@
 import mock from '../../../../../data/social_security/company_task_list/company_task_list_tab/c_this_month_handle_data'
 import EventTypes from '../event_types'
 import Axios from 'axios'
-import {domainJson,getLocation} from '../../../../../data/domain_info'
+import {domainJson,getLocation} from '../../../../../api/social_security/domain_info'
 const state = {
     customerName:'',
     customerIdentity:''

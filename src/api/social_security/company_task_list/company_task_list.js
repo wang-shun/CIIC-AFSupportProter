@@ -1,5 +1,5 @@
 
-  import {domainJson} from '../../../data/domain_info'
+  import {domainJson} from '../../../api/social_security/domain_info'
   import Axios from 'axios'
   import utils from '../../../lib/ajax'
   let ajax = utils.ajaxSsc

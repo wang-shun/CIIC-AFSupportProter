@@ -108,6 +108,7 @@
       return {
         operatorType: this.$route.query.operatorType,
          tid:this.$route.query.tid,
+         source:this.$route.query.source,
         collapseInfo: [1, 2, 3,4], //展开栏
         companyInfo:{},
            regionList: [

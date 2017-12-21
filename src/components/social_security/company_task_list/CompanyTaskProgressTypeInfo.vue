@@ -367,10 +367,10 @@
          finishDateIsDateOrLabel:false,//完成日期  
 
         companyInfo: {
-          customerNumber: 'GS170001',
-          customerName: '普思埃商业（上海）有限公司',
-          serviceCenter: '大客户2',
-          serviceManager: '金翔云'
+          customerNumber: '',
+          customerName: '',
+          serviceCenter: '',
+          serviceManager: ''
         },
          payMethodList: [
             {value: '1', label: '我司付款，账单到他司'},
@@ -571,6 +571,7 @@
                 //loading:true,
                 onOk:function(){
                    let params = self.getParams()
+                   
                    CompanyTaskList.addOrUpdate(params).then(result=>{
                     if(result){
                        self.$Message.success('办理成功!');
@@ -671,6 +672,7 @@
             }
         let ssComAccountDTO={
               comAccountId: this.comAccountId,
+              companyId:this.companyInfo.customerNumber,
               ssAccount: this.companyOpenAccountOperator.joinSafeguardRegister,//参保户登记码
               bankAccount: this.companyOpenAccountOperator.bankCardNumber,
               comAccountName: this.companyOpenAccountOperator.pensionMoneyUseCompanyName,

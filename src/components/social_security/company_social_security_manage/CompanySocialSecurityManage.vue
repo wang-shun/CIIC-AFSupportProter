@@ -114,7 +114,9 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'companysocialsecurity'})
+                      console.log(params)
+                      
+                      this.$router.push({name: 'companysocialsecurity',query:{comAccountId:params.row.comAccountId}})
                     }
                   }
                 }, '查看'),

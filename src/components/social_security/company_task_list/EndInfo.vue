@@ -101,6 +101,7 @@
     data() {
       return {
          tid:this.$route.query.tid,
+         source:this.$route.query.source,
         collapseInfo: [1, 2, 3,4], //展开栏
         currentStep: 2,
         companyInfo:{},

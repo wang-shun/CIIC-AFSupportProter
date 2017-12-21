@@ -142,6 +142,7 @@
         payMethodShow:false,//控制付款方式input
         companyNameShow:false,//控制养老金公司名称 input
          tid:this.$route.query.tid,
+         source:this.$route.query.source,
          companyInfo:{},
          historyRemark:{
           submitName:'',
@@ -251,7 +252,7 @@
       //查询页面信息
       queryPageInfo(){
         let isComplete = ''
-        //代表已完成查看
+        //代表已完成查看的查看
         if(this.source=='0'){
           isComplete = '3'
         }else if(this.source=='1'){//代表批退页面过来的查看

@@ -100,12 +100,12 @@ const SocialSecurityEmpChangeDetailGsy = r => require.ensure([], () => r(require
  */
 
 
-const socialsecuritypay = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/socialsecuritypay')), 'socialsecuritypay')
+const socialSecurityPay = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/SocialSecurityPay')), 'socialSecurityPay')
 const paymentnotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/paymentnotice')), 'paymentnotice')
 
 
 /*
- * socialsecuritypay               --- 社保报表
+ * socialsecurityreport               --- 社保报表
  * monthlypaymentnotice            --- 月缴费通知
  */
 
@@ -540,8 +540,8 @@ export default [
   },
   {
     path: '/social_security_pay',
-    name: 'socialsecuritypay',
-    component: socialsecuritypay,
+    name: 'socialSecurityPay',
+    component: socialSecurityPay,
     meta:{
       level1:'全国社保',
       level2:"上海社保",

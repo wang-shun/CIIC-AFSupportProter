@@ -114,7 +114,7 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      component: login
+      component: main
 
     },
     {

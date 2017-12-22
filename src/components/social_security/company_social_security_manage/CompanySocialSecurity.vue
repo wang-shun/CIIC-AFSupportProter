@@ -268,9 +268,20 @@
                 h('a', {
                   on: {
                     click: () => {
+                     let taskType = params.row.taskCategory
+                     let taskStatus = params.row.taskStatus
+                     let pageInfo = ""
+                     let source = ""
+                     if(taskType=='1')pageInfo='openaccountinfo'
+                     else if(taskType=='2')pageInfo='transferinfo'
+                      else if(taskType=='3')pageInfo='changeinfo'
+                       else if(taskType=='4')pageInfo='endinfo'
+
+                      if(taskStatus=='3')source='0'
+                       else if(taskStatus=='4')source='1'
                       this.$router.push({
-                        name: 'companysocialsecurityprogress2',
-                        query: {operatorType: params.row.taskType === '开户' ? '1' : params.row.taskType === '变更' ? '2' : '4'}
+                        name: pageInfo,
+                        query: {operatorType:params.row.taskCategory,source:source,tid:params.row.companyTaskId}
                       });
                     }
                   }
@@ -383,8 +394,7 @@
       }
     },
     mounted() {
-      let comAccountId = this.comAccountId
-      
+      let comAccountId = this.comAccountId 
       api.companySocialSecurityQuery({comAccountId:comAccountId}).then(result=>{
         this.companySocialSecurityInfo = result.data.account
         this.childCompanyData = result.data.ssAccountComRelation

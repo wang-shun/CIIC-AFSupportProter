@@ -205,7 +205,8 @@
     },
     methods: {
       goBack() {
-        this.$router.push({name: 'companytasklist'})
+        window.history.go(-1)
+        //this.$router.push({name: 'companytasklist'})
       },
       queryPageInfo(){
         let isComplete = ''

@@ -114,8 +114,8 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      console.log(params)
-                      
+                      sessionStorage.managerPageNum = this.resultPageData.pageNum
+                      sessionStorage.managerPageSize = this.resultPageData.pageSize
                       this.$router.push({name: 'companysocialsecurity',query:{comAccountId:params.row.comAccountId}})
                     }
                   }
@@ -192,10 +192,18 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      queryAccount() {
+      queryAccount() { 
+      let sessionPageNum = sessionStorage.managerPageNum
+      let sessionPageSize = sessionStorage.managerPageSize
+      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+         this.resultPageData.pageNum = Number(sessionPageNum)
+         this.resultPageData.pageSize = Number(sessionPageSize)
+         sessionStorage.removeItem("managerPageNum") 
+         sessionStorage.removeItem("managerPageSize") 
+      }
         var params = {
-          pageSize: this.resultPageData.pageSize,
-          pageNum: this.resultPageData.pageNum,
+          pageNum: typeof(sessionPageNum)=="undefined"?this.resultPageData.pageNum:Number(sessionPageNum),
+          pageSize: typeof(sessionPageSize)=="undefined"?this.resultPageData.pageSize:Number(sessionPageSize),
           params:this.comAccountSearch
         };
         this.operatorQuery(params).then(data => {

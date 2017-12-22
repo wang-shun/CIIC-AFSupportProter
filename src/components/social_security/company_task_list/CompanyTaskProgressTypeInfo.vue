@@ -223,7 +223,7 @@
               <Col :sm="{span:24}" class="tr">
                 <Button type="primary" @click="confirm">办理</Button>
                 <Button type="error" @click="refuseTask">批退</Button>
-                <Button type="warning" @click="goBack">关闭/返回</Button>
+                <Button type="warning" @click="goBack">返回</Button>
               </Col>
             </Row>
           </Form>

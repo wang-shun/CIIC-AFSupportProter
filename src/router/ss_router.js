@@ -50,8 +50,8 @@ const empTaskBatchHandle5View = r => require.ensure([], () => r(require('@/compo
    companytaskprogressendinfo        --- 企业任务单、办理(终止)
    openaccountinfo                   --- 开户信息查看
    transferinfo                      --- 转移信息查看
-   ChangeInfo                        --- 变更信息查看
-   EndInfo                           --- 终止信息查看
+   changeinfo                        --- 变更信息查看
+   endinfo                           --- 终止信息查看
  */
 
 const companytasklist = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskList')), 'companytasklist')

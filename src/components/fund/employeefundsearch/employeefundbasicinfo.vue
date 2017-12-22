@@ -47,7 +47,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary">保存</Button>
-        <Button type="warning" @click="back">关闭/返回</Button>
+        <Button type="warning" @click="back">返回</Button>
       </Col>
     </Row>
   </div>

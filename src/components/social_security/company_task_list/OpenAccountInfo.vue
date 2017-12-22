@@ -377,7 +377,8 @@
     },
     methods: {
       goBack() {
-        this.$router.push({name: 'companytasklist'});
+        window.history.go(-1)
+       // this.$router.push({name: 'companytasklist'});
       },
       //查询页面公司信息和前道传递信息
       queryPageInfo(){

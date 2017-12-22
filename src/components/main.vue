@@ -108,7 +108,7 @@
               <span :class="{'layout-text':layoutOut}">{{item.key}}</span>
             </template>
             <Menu-item v-for="subitem in item.children" :name="subitem.cid" :key="subitem.cid">
-              <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}">{{subitem.ckey}}</router-link>
+              <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}" @click.native="getMenu(subitem)">{{subitem.ckey}}</router-link>
             </Menu-item>
           </Submenu>
 
@@ -231,6 +231,20 @@
           this.spanRight = 20;
           this.size = 16;
           this.layoutOut = false;
+        }
+      },
+
+      getMenu(obj){
+        //社保账户管理 清除页面
+        let sessionPageNum = sessionStorage.managerPageNum
+        let sessionPageSize = sessionStorage.managerPageSize
+        if(obj.crouter=='companysocialsecuritymanage'){
+          if(typeof(sessionPageNum)!='undefined'){
+            sessionStorage.removeItem("managerPageNum") 
+          }
+          if(typeof(sessionPageSize)!="undefined"){
+            sessionStorage.removeItem("managerPageSize") 
+          }
         }
       },
       onSelect(name) {

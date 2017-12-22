@@ -1,8 +1,8 @@
 <template>
   <div class="smList">
-    <Tabs value="noprogress" @on-click='onClickO'>
-      <TabPane label="未处理" name="noprogress" >
-        <noprogress></noprogress>
+    <Tabs v-model="tab" @on-click='onClickO'>
+      <TabPane label="未处理" name="noprogress">
+        <noprogress v-if="isNoprogress"></noprogress>
       </TabPane>
       <TabPane label="处理中" name="progressing">
         <progressing v-if="isProgressing"></progressing>
@@ -26,22 +26,34 @@
     components: {noprogress,progressing,finished,refused},
     data() {
       return {
+        isNoprogress:false,
         isProgressing:false,
         isFinished:false,
-        isRefused:false
+        isRefused:false,
+        tab:'noprogress'
       }
     },
     mounted() {
-
+      if(typeof(sessionStorage.companyTaskTab)!="undefined"){
+          this.tab = sessionStorage.companyTaskTab
+      }
+       this.controlShow(this.tab)
     },
     computed: {
 
     },
     methods: {
       onClickO(name){
-        if(name=="progressing"&&!this.isProgressing)this.isProgressing=true
-        if(name=="finished"&&!this.isFinished)this.isFinished=true
-        if(name=="refused"&&!this.isRefused)this.isRefused=true
+       //将tab类型 缓存
+       sessionStorage.companyTaskTab = this.tab
+        this.controlShow(name)
+      },
+       //控制处理中 tab 显示
+      controlShow(name){
+        if(name=="noprogress"&&!this.isNoprogress) this.isNoprogress=true
+          if(name=="progressing"&&!this.isProgressing) this.isProgressing=true
+        if(name=="finished" && !this.isFinished)this.isFinished=true
+        if(name=="refused" && !this.isRefused)this.isRefused=true
       }
 
     }

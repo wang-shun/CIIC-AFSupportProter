@@ -40,11 +40,13 @@ let domainJson = {
 
       //修改任务单状态（因为操作时不一定直接办理完成） 或者变更任务的完成
     "updateOrChangeTaskUrl":"/api/soccommandservice/ssComTask/updateOrChangeTask",
-
+   
+    //任务单的撤销
+    "taskRevocationUrl":"/api/soccommandservice/ssComTask/taskRevocation",
+    
     //企业社保管理查看页面信息
     "comSocialSecurityManageInfoUrl":"/api/soccommandservice/ssComAccount/comSocialSecurityManageInfo",
     
-
 }
 
 // let getLocation = domainJson.protcal+"://"+domainJson.domain+":"+domainJson.port

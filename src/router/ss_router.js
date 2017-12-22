@@ -52,6 +52,7 @@ const empTaskBatchHandle5View = r => require.ensure([], () => r(require('@/compo
    transferinfo                      --- 转移信息查看
    changeinfo                        --- 变更信息查看
    endinfo                           --- 终止信息查看
+   refresh                           --- 刷新跳转页面
  */
 
 const companytasklist = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskList')), 'companytasklist')
@@ -64,6 +65,8 @@ const openaccountinfo = r => require.ensure([], () => r(require('@/components/so
 const transferinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/TransferInfo')), 'transferinfo')
 const changeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/ChangeInfo')), 'changeinfo')
 const endinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/EndInfo')), 'endinfo')
+const refresh = r=> require.ensure([], () => r(require('@/components/social_security/company_task_list/company_task_list_tab/ReFresh')), 'refresh')
+
 /*
  * companysocialsecuritymanage       --- 企业社保账户管理
    companysocialsecurity             --- 企业社保账户信息
@@ -79,7 +82,6 @@ const companysocialsecurityprogress2 = r => require.ensure([], () => r(require('
 const companysocialsecuritytypeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityTypeInfo')), 'companysocialsecuritytypeinfo')
 const companysocialsecuritychangeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityChangeInfo')), 'companysocialsecuritychangeinfo')
 const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialsecurityEndInfo')), 'companysocialsecurityendinfo')
-
 
 /*
  * socialsecurityreconcilate       --- 社保对账
@@ -352,6 +354,17 @@ export default [
     path: '/company_task_progress_change_info',
     name: 'companytaskprogresschangeinfo',
     component: companytaskprogresschangeinfo,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"企业任务单",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/re_fresh',
+    name: 'refresh',
+    component: refresh,
     meta:{
       level1:'全国社保',
       level2:"上海社保",

@@ -58,7 +58,7 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData"></Table>
-          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
+          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr":current="pageNum" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
         </Col>
       </Row>
 
@@ -99,6 +99,7 @@
       return{
         collapseInfo: [1], //展开栏
          size:5,//分页
+         pageNum:1,
         sizeArr:[5],
         totalSize:0,//后台传过来的总数
         taskData:[],//表格数据
@@ -227,12 +228,22 @@
       }
     },
     mounted() {
-      let self= this
+      
+      let sessionPageNum = sessionStorage.taskFiPageNum
+      let sessionPageSize = sessionStorage.taskFiPageSize
+      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+         this.pageNum = Number(sessionPageNum)
+         this.size = Number(sessionPageSize)
+        //  sessionStorage.removeItem("taskFiPageNum") 
+        //  sessionStorage.removeItem("taskFiPageSize") 
+      }
+
       let params = {
           pageSize:this.size,
-          pageNum:1,
+          pageNum:this.pageNum,
         params:{}
       }
+       let self= this
       Finished.getTableData(params).then(data=>{
           self.loading=true;
            self.refreash(data)
@@ -260,6 +271,11 @@
       },
          //页面 上 ，下一页操作
       getPage(page){
+        
+          this.pageNum = page
+          sessionStorage.taskFiPageNum=page
+          sessionStorage.taskFiPageSize = this.size
+
           this.loading=true;
           let self= this
           let params =this.getParams(page)

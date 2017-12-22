@@ -125,6 +125,7 @@
     <Row class="mt20">
       <Col :sm="{span:24}" class="tr">
         <Button type="primary" @click="confirm">办理</Button>
+        <Button type="primary" @click="revoke">撤销</Button>
         <Button type="error" @click="refuseTask">批退</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
@@ -172,7 +173,7 @@
                 } 
                var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
                 if(!rex.test(value)) {
-                    callback(new Error('请输入正确的金钱格式.'));
+                    callback(new Error('请输入正确的格式.'));
                 }else{
                     if (value.length > 20) {
                           callback(new Error('长度不能超过20个.'));
@@ -230,7 +231,6 @@
               callback();
             }
       }
-
        //受审日期
        const validateAcceptanceDate=(rule, value, callback)=>{
             
@@ -382,6 +382,7 @@
     },
     methods: {
       goBack() {
+        
         this.$router.push({name: 'companytasklist'})
       },
       //查询页面信息
@@ -522,77 +523,6 @@
                }
             });
       },
-      //校验表单数据
-      checkData(){
-        //暂时只校验 任务单类型和时间的选择
-         let formObj = this.changeOperator
-          let taskState = formObj.taskStatus
-          let result = this.checkChangeCentextIsNotNull()
-          
-          if(!result)return false
-        if(taskState=='3'){
-           if(this.isNull(formObj.acceptanceDate)){
-             this.$Message.error("请选择受理时间！")
-             return false;
-           }
-           if(this.isNull(formObj.sendCheckDate)){
-              this.$Message.error("请选择送审时间！")
-               return false;
-           }
-           if(this.isNull(formObj.finishedDate)){
-             this.$Message.error("请选择完成时间！")
-              return false;
-           }
-        }
-        if(taskState=='2'){
-           if(this.isNull(formObj.acceptanceDate)){
-             this.$Message.error("请选择受理时间！")
-             return false;
-           }
-           if(this.isNull(formObj.sendCheckDate)){
-              this.$Message.error("请选择送审时间！")
-               return false;
-           }
-        }
-        if(taskState=='1'){
-           if(this.isNull(formObj.acceptanceDate)){
-             this.$Message.error("请选择受审时间！")
-             return false;
-           }
-        }
-        return true;
-      },
-      //检查变更内容是否为空
-      checkChangeCentextIsNotNull(){
-        let changeOperator =  this.changeOperator;
-        let changeContentValue = changeOperator.changeContentValue
-        //changeOperator.changeContentValue
-        if(changeContentValue=='1'){
-            if(this.isNull(changeOperator.belongsIndustry)){
-                this.$Message.error('请输入所属行业！')
-                return false
-            }
-            if(this.isNull(changeOperator.companyWorkInjuryPercentage)){
-                this.$Message.error('请输入企业工伤比例！')
-                return false
-            }
-            if(this.isNull(changeOperator.changeStartMonth)){
-                this.$Message.error('请选择变更开始月份！')
-                return false
-            }
-        }else if(changeContentValue=='2'){
-          if(this.isNull(changeOperator.payMethodValue)){
-                this.$Message.error('请选择付款方式！')
-                return false
-            }
-        }else if(changeContentValue=='3'){
-          if(this.isNull(changeOperator.pensionMoneyUseCompanyName)){
-                this.$Message.error('请输入养老金公司名称！')
-                return false
-            }
-        }
-       return true
-      },
       //判断是否为空的通用方法
       isNull(str){
         if(typeof(str)=="object"){
@@ -674,7 +604,7 @@
                       self.$Message.success("批退成功！")
                       setTimeout(self.goBack(),500)
                     }else{
-                        self.$Message.success("处理失败！")
+                        self.$Message.error("处理失败！")
                     }
                   })
                 },
@@ -684,9 +614,55 @@
                }
             });
       },
+      //撤销任务单 状态(将任务单状态往回走一步)
+      revoke(){
+        
+
+        if(this.currentStep=='0'){
+          this.$Notice.warning({
+                    title: '操作失败',
+                    desc: '该任务单已经是初始状态.',
+                    duration: 3
+                });
+                return;
+        }
+        let params = {
+                companyTaskId:this.tid,
+                taskStatus:this.currentStep
+            }
+            let self = this
+            self.$Modal.confirm({
+                title: '',
+                content: '确认撤销吗?',
+                //loading:true,
+                onOk:function(){
+                    CompanyTaskList.taskRevocation(params).then(result=>{
+                      if(result){
+                         self.$Message.success("撤退成功！")
+                          self.refresh()
+                      }else{
+                       self.$Message.error("操作失败！")
+                      }
+                    }).catch(error=>{
+                      self.$Message.error(error)
+                    })
+                },
+                 error:function(error){
+                   self.$Message.error('操作失败!');
+                   self.$Modal.remove();
+               }
+            });
+           
+      }
+      ,
+      refresh(){
+        //companytaskprogresschangeinfo
+        this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companytaskprogresschangeinfo'}})
+      },
       ok () {
 
-      },
+      }
+      ,
       cancel () {
 
       }

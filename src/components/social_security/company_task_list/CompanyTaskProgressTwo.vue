@@ -188,14 +188,14 @@
                                           //初始状态
                                           let state =  self.operatorMaterialListData[params.index].state
                                           let isUpdateObj =  self.receiveMaterial[params.index]
-                                          if(state=='1' && state!=isUpdateObj.state){
-                                             self.$Notice.error({
-                                                    title: '操作失败',
-                                                    desc: '该材料已经签收.',
-                                                    duration: 3
-                                             });
-                                            return;
-                                          }
+                                          // if(state=='1' && state!=isUpdateObj.state){
+                                          //    self.$Notice.error({
+                                          //           title: '操作失败',
+                                          //           desc: '该材料已经签收.',
+                                          //           duration: 3
+                                          //    });
+                                          //   return;
+                                          // }
                                           let param ={comMaterialId:isUpdateObj.id,status:isUpdateObj.state,remark:isUpdateObj.notes}
                                           let paramsList = []
                                           //以List<String>的形式传到后台
@@ -207,7 +207,7 @@
                                           })
                                         }
                                     }
-                                }, '处理')
+                                }, '保存')
                             ]);
                         }
                     }
@@ -226,6 +226,7 @@
     },
     methods: {
       nextStep() {
+        
         switch(this.operatorType) {
           case '1':
             this.$router.push({name: 'companytaskprogresstypeinfo', query: {operatorType: '1',tid:this.tid}})
@@ -269,32 +270,31 @@
         let materialArr = this.operatorMaterialListData
         let materialUpdateArr = this.receiveMaterial
         let materialId = "";
-        var typeInfo =0;//表示无材料
+       // var typeInfo =0;//表示无材料
        let paramsList=[]
         for(let i in materialArr){
-          //表示已全部签收
-          typeInfo =1;
-          if(materialArr[i].state!='1'){
              //表示有材料未签收
-             typeInfo =2;
             let param ={comMaterialId:materialUpdateArr[i].id,status:1,remark:materialUpdateArr[i].notes}
             paramsList.push(JSON.stringify(param))
-          }
+          
         }
-        if(paramsList.length==0 && typeInfo==0){
+
+        if(paramsList.length==0){
           this.$Notice.error({
                 title: '操作失败',
                 desc: '没有材料信息！',
                 duration: 3
                });
-        }else if(paramsList.length==0 && typeInfo==1){
-          this.$Notice.error({
-                title: '操作失败',
-                desc: '已全部签收！',
-                duration: 3
-               });
+        }
+        // else if(paramsList.length==0 && typeInfo==1){
+        //   this.$Notice.error({
+        //         title: '操作失败',
+        //         desc: '已全部签收！',
+        //         duration: 3
+        //        });
 
-        }else{
+        // }
+        else{
           CompanyTaskList.signMaterials({paramsList:paramsList}).then(result=>{
              if(result){
                this.$Message.success("操作成功！")

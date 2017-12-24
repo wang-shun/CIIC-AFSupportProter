@@ -140,7 +140,7 @@
     },
 
     methods: {
-      ...mapActions("GIFT", [EventTypes.GIFTINSERTTYPE]),
+      ...mapActions("GIFT", [EventTypes.GIFTUPDATETYPE]),
       initData() {
         if (!this.formItem) {
           this.formItem = JSON.parse(sessionStorage.getItem('updateGiftFormItem'));
@@ -159,10 +159,10 @@
               data.append(v, this.formItem[v])
             });
             data.append('file', this.file);
-            this[EventTypes.GIFTINSERTTYPE]({
+            this[EventTypes.GIFTUPDATETYPE]({
               data: data,
               callback: (res) => {
-                if (res.data.errorcode === "200") {
+                if (res.data.code === 200) {
                   this.$router.push({name: 'giftApplicationManager'})
                 } else {
                   this.$Message.error("服务器异常，请稍后再试:");

@@ -20,7 +20,7 @@ const state = {
 const actions = {
   [EventTypes.GIFTAPPLICATIONTYPE]({commit}, params) {
     return mock.giftData(params).then(response => {
-      commit(EventTypes.GIFTAPPLICATIONTYPE, response.data.data)
+      commit(EventTypes.GIFTAPPLICATIONTYPE, response.data)
     })
   },
   [EventTypes.GIFTINSERTTYPE]({commit}, params) {
@@ -33,17 +33,30 @@ const actions = {
       params.errCallback(error);
     })
   },
+  [EventTypes.GIFTUPDATETYPE]({commit}, params) {
+    mock.giftUpdate(params.data).then(response => {
+      commit(EventTypes.GIFTUPDATETYPE, response.data);
+      params.callback(response)
+    }, error => {
+      params.errCallback(error);
+    }).catch(error => {
+      params.errCallback(error);
+    })
+  },
 };
 
 const mutations = {
   [EventTypes.GIFTAPPLICATIONTYPE](state, data) {
-    state.data.giftManagerData = data.list;
+    state.data.giftManagerData = data.object.records;
     //不需要的数据，覆盖前台会出现显示问题
     // state.data.current = data.pageNum;
     // state.data.pageSize = data.pageSize;
-    state.data.total = data.total;
+    state.data.total = data.object.total;
   },
   [EventTypes.GIFTINSERTTYPE](state, data) {
+    state.data.addResult = data;
+  },
+  [EventTypes.GIFTUPDATETYPE](state, data) {
     state.data.addResult = data;
   },
 };

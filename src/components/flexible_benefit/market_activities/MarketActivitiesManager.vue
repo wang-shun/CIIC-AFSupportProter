@@ -39,9 +39,9 @@
           show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
-          :current.sync="page.current"
-          :total="page.total"
-          :page-size="page.pageSize"></Page>
+          :current.sync="formItem.current"
+          :total="formItem.total"
+          :page-size="formItem.size"></Page>
 
   </div>
 </template>
@@ -56,10 +56,8 @@
         formItem: {
           activityTitle: '',
           status: '',
-        },
-        page: {
           current: 1,
-          pageSize: 10,
+          size: 10,
           total: 0,
         },
         marketListColumns: [
@@ -224,21 +222,19 @@
     methods: {
       ...mapActions("MARKET", [EventTypes.MARKETAPPLICATIONTYPE]),
       query() {
-        let data = this.formItem;
-        data.page = this.page;
-        this[EventTypes.MARKETAPPLICATIONTYPE](data).then(() => {
-          this.page.total = this.$store.state.MARKET.data.total;
+        this[EventTypes.MARKETAPPLICATIONTYPE](this.formItem).then(() => {
+          this.formItem.total = this.$store.state.MARKET.data.total;
         });
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields();
       },
       getByPage(val) {
-        this.page.current = val;
+        this.formItem.current = val;
         this.query()
       },
-      pageSizeChange(pageSize) {
-        this.page.pageSize = pageSize;
+      pageSizeChange(size) {
+        this.formItem.pageSize = size;
         this.query()
       },
     },

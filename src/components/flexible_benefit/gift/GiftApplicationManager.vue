@@ -38,9 +38,9 @@
     <Page show-sizer show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
-          :total="page.total"
-          :current="page.current"
-          :page-size="page.pageSize"></Page>
+          :total="formItem.total"
+          :current="formItem.current"
+          :page-size="formItem.size"></Page>
 
   </div>
 </template>
@@ -57,10 +57,8 @@
           id: null,
           giftName: "",
           status: "",
-        },
-        page: {
           current: 1,
-          pageSize: 10,
+          size: 10,
           total: 0
         },
 
@@ -207,21 +205,19 @@
       ...mapActions("GIFT", [EventTypes.GIFTAPPLICATIONTYPE]),
 
       query() {
-        let data = this.formItem;
-        data.page = this.page;
-        this[EventTypes.GIFTAPPLICATIONTYPE](data).then(() => {
-          this.page.total = this.$store.state.GIFT.data.total;
+        this[EventTypes.GIFTAPPLICATIONTYPE](this.formItem).then(() => {
+          this.formItem.total = this.$store.state.GIFT.data.total;
         })
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
       getByPage(val) {
-        this.page.current = val;
+        this.formItem.current = val;
         this.query()
       },
-      pageSizeChange(pageSize) {
-        this.page.pageSize = pageSize;
+      pageSizeChange(size) {
+        this.formItem.size = size;
         this.query()
       },
     },

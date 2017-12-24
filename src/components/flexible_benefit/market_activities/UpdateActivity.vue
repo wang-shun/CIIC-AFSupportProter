@@ -106,7 +106,7 @@
       }
     },
     methods: {
-      ...mapActions("MARKET", [EventTypes.MARKETINSERTTYPE]),
+      ...mapActions("MARKET", [EventTypes.MARKETUPDATETYPE]),
       initData() {
         if (!this.formItem) {
           this.formItem = JSON.parse(sessionStorage.getItem('updateActivityFormItem'));
@@ -127,10 +127,10 @@
             params.modifiedTime = this.$utils.formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss');
             params.giftForm = params.giftForm.join();
             params.sendWay = params.sendWay.join();
-            this[EventTypes.MARKETINSERTTYPE]({
+            this[EventTypes.MARKETUPDATETYPE]({
               data: params,
               callback: (res) => {
-                if (res.data == 1) {
+                if (res.data.code === 200) {
                   this.$router.push({path: '/marketActivitiesManager'})
                 } else {
                   this.$Message.error("服务器异常，请稍后再试");

@@ -59,7 +59,7 @@
             <Row>
               <Col :sm="{span: 24}" class="tr">
                 <Button type="primary" @click="payComHandlePageNum(1)" icon="ios-search">查询</Button>
-                <Button type="warning" @click="resetSearchCondition('payComInfo')">重置</Button>
+                <Button type="warning" @click="resetSearchCondition('payComSearchData')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -116,10 +116,8 @@
     <!-- 调整 -->
     <Modal
       v-model="changeInfo.isShowChange"
-      width="640"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <Table border :columns="changeInfo.changeColumns" :data="data.changeData"></Table>
+      width="640">
+      <Table border :columns="changeInfo.changeColumns" :data="changeInfo.changeData"></Table>
       <Form :label-width=250>
         <Row class="mt20">
           <Col :sm="{span: 24}">
@@ -128,32 +126,36 @@
         </Row>
         <Row class="mt20" type="flex" justify="start">
           <Col :sm="{span: 24}">
-            <Form-item label="调整金（小写）：">
-              <Input v-model="changeInfo.changeAmount" placeholder="请输入..."></Input>
+            <Form-item label="额外金：">
+              <Input v-model="changeInfo.extraAmount" placeholder="请输入..." @on-change="calculateTotalPayAmount()"></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 24}">
             <Form-item>
-              <Checkbox v-model="changeInfo.isDeductible">抵扣费用是否纳入支付申请</Checkbox>
+              <Checkbox v-model="changeInfo.ifDeductedIntoPay"  @on-change="calculateTotalPayAmount()" true-value="1" false-value="0" >抵扣费用是否纳入支付申请 </Checkbox>
             </Form-item>
           </Col>
           <Col :sm="{span: 24}">
             <Form-item label="申请支付金额合计（小写）：">
-              <label>{{changeInfo.applyAmountLower}}</label>
+              <label>{{changeInfo.totalPayAmount}}</label>
             </Form-item>
           </Col>
           <Col :sm="{span: 24}">
             <Form-item label="申请支付金额合计（大写）：">
-              <label>{{changeInfo.applyAmountUpper}}</label>
+              <label>{{changeInfo.totalPayAmountUpper}}</label>
             </Form-item>
           </Col>
           <Col :sm="{span: 24}">
             <Form-item label="备注说明：">
-              <Input v-model="changeInfo.notes" type="textarea" :rows="5" placeholder="请输入..."></Input>
+              <Input v-model="changeInfo.remark" type="textarea" :rows="5" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
         </Row>
       </Form>
+      <div slot="footer">
+          <Button type="Text"  @click="closeAdjustment()">取消</Button>
+          <Button type="primary"  @click="saveAdjustment()">保存</Button>
+      </div>
     </Modal>
   </div>
 </template>
@@ -210,28 +212,36 @@
         changeInfo: {
           isShowChange: false,
           changeColumns: [
-            {title: '应缴纳合计', key: 'shouldPayAmount', align: 'center',
+            {title: '应缴纳合计', key: 'oughtAmount', align: 'center',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.shouldPayAmount),
+                  h('span', params.row.oughtAmount),
                 ]);
               }
             },
-            {title: '抵扣费用', key: 'deductibleFee', align: 'center',
+            {title: '退账抵扣费用', key: 'refundDeducted', align: 'center',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.deductibleFee),
+                  h('span', params.row.refundDeducted),
+                ]);
+              }
+            },
+            {title: '调整抵扣费用', key: 'adjustDeducted', align: 'center',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'right'}}, [
+                  h('span', params.row.adjustDeducted),
                 ]);
               }
             }
           ],
-
-          changeAmount: '',
-          isDeductible: false,
-          applyAmountLower: '',
-          applyAmountUpper: '',
-          notes: '',
-          isImport: false
+          paymentComId:'',
+          extraAmount: '',
+          ifDeductedIntoPay: false,
+          totalPayAmount: '',
+          totalPayAmountUpper: '',
+          remark: '',
+          isImport: false,
+          changeData:[],
         },
 
         payComColumns: [
@@ -289,7 +299,16 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.changeInfo.isShowChange = true;
+                      let paymentComId = params.row.paymentComId;
+                      let oughtAmount = params.row.oughtAmount;
+                      let refundDeducted = params.row.refundDeducted;
+                      let adjustDeducted = params.row.adjustDeducted;
+                      let ifDeductedIntoPay = params.row.ifDeductedIntoPay;
+                      let extraAmount = params.row.extraAmount;
+                      let totalPayAmount = params.row.totalPayAmount;
+                      let remark = params.row.remark;
+
+                      this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark)
                     }
                   }
                 }, '调整'),
@@ -360,20 +379,6 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.totalPayAmount),
-              ]);
-            }
-          },
-          {title: '申请人', key: 'applierId', width: 120, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.applierId),
-              ]);
-            }
-          },
-          {title: '申请时间', key: 'applicationDate', width: 180, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.applicationDate),
               ]);
             }
           },
@@ -462,7 +467,7 @@
         })
 
       },
-    
+      //获得支付状态
       getPaymentStateName(paymentState) {
         var paymentStateMap = new Map();
         paymentStateMap.set("1","未到帐");
@@ -475,7 +480,102 @@
         paymentStateMap.set("8","财务部支付成功");
 
         return paymentStateMap.get(paymentState);
-      }
+      },
+      //调整按钮弹出框
+      doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark){
+        //基本数据填充数据填充
+        this.changeInfo.paymentComId = paymentComId;
+        // if(ifDeductedIntoPay == 0){
+        //   this.changeInfo.ifDeductedIntoPay = false;
+        // }else{
+        //   this.changeInfo.ifDeductedIntoPay = true;
+        // }
+        this.changeInfo.ifDeductedIntoPay = ifDeductedIntoPay;
+        this.changeInfo.extraAmount = extraAmount;
+        this.changeInfo.totalPayAmount = totalPayAmount;
+        
+        this.changeInfo.remark = remark;
+        this.changeInfo.changeData = [
+          {
+            oughtAmount : oughtAmount,
+            refundDeducted : refundDeducted,
+            adjustDeducted : adjustDeducted
+          }
+        ],
+
+
+        //展现
+        this.changeInfo.isShowChange = true;
+      },
+      //页面计算申请支付金额合计
+      calculateTotalPayAmount(){
+        //应缴纳金额
+        let oughtAmount = this.changeInfo.changeData[0].oughtAmount;
+        //退账抵扣费用
+        let refundDeducted = this.changeInfo.changeData[0].refundDeducted;
+        //调整抵扣费用
+        let adjustDeducted = this.changeInfo.changeData[0].adjustDeducted;
+        //抵扣费用是否纳入支付申请
+        let ifDeductedIntoPay = this.changeInfo.ifDeductedIntoPay;
+        //额外金
+        let extraAmount = this.changeInfo.extraAmount;
+
+        //计算合计
+        let totalPayAmount = 0;
+        if(ifDeductedIntoPay == 1){
+          totalPayAmount = Number(oughtAmount) + Number(refundDeducted) + Number(adjustDeducted) + Number(extraAmount);
+        }
+        else{
+          totalPayAmount = Number(oughtAmount) + Number(extraAmount);
+        }
+        //赋值
+        this.changeInfo.totalPayAmount = totalPayAmount;
+      },
+      //保存调整结果
+      saveAdjustment(){
+        //变更数据ID
+        let paymentComId = this.changeInfo.paymentComId;
+        //额外金
+        let extraAmount = this.changeInfo.extraAmount;
+        alert(Number(extraAmount));
+
+
+        //抵扣费用是否纳入支付申请
+        let ifDeductedIntoPay = this.changeInfo.ifDeductedIntoPay;
+        //数据转换
+        // if(ifDeductedIntoPay == true){
+        //   ifDeductedIntoPay = 1;
+        // }else{
+        //   ifDeductedIntoPay = 0;
+        // }
+
+        //备注
+        let remark = this.changeInfo.remark;
+
+        payComApi.saveAdjustment({
+          paymentComId: paymentComId,
+          extraAmount: extraAmount,
+          ifDeductedIntoPay: ifDeductedIntoPay,
+          remark: remark,
+        }).then(data => {
+          if(data.code == "200"){
+            alert("操作成功");
+            this.closeAdjustment();
+            //重新查询
+            this.paymentComQuery()
+
+          }else{
+            alert(data.message);
+          }
+        })
+
+      },
+      //变比调整框调整
+      closeAdjustment(){
+        this.changeInfo.isShowChange = false;
+      },
+      
+      
     }
   }
 </script>

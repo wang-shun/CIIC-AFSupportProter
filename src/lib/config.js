@@ -15,7 +15,7 @@ let basePaths = {};
     // 社保 query 服务
     basePaths['ss-q'] = localhost + ':6001';
     // 社保 command 服务
-    basePaths['ss-c'] = localhost + ':6003';
+    basePaths['ss-c'] = localhost + ':80';
   } else {
     // war
     basePaths['AlertJob'] = localhost + '/AlertJob-Host';

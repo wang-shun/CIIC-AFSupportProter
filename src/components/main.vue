@@ -233,12 +233,11 @@
           this.layoutOut = false;
         }
       },
-
       getMenu(obj){
-        //社保账户管理 清除页面
-        let sessionPageNum = sessionStorage.managerPageNum
-        let sessionPageSize = sessionStorage.managerPageSize
         if(obj.crouter=='companysocialsecuritymanage'){
+            //社保账户管理 清除页面缓存
+            let sessionPageNum = sessionStorage.managerPageNum
+            let sessionPageSize = sessionStorage.managerPageSize
           if(typeof(sessionPageNum)!='undefined'){
             sessionStorage.removeItem("managerPageNum") 
           }
@@ -246,6 +245,24 @@
             sessionStorage.removeItem("managerPageSize") 
           }
         }
+
+        //任务单页面缓存清除
+        if(obj.crouter=='companytasklist'){
+          let tab = sessionStorage.companyTaskTab
+          let sessionPageNum = sessionStorage.taskFiPageNum
+          let sessionPageSize = sessionStorage.taskFiPageSize
+          if(typeof(tab)!='undefined'){
+            sessionStorage.removeItem("companyTaskTab") 
+          }
+
+          if(typeof(sessionPageNum)!="undefined"){
+            sessionStorage.removeItem("taskFiPageNum") 
+          }
+          if(typeof(sessionPageSize)!="undefined"){
+            sessionStorage.removeItem("taskFiPageSize") 
+          }
+        }
+        
       },
       onSelect(name) {
       },

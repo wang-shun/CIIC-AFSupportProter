@@ -380,10 +380,8 @@ export class CompanyTaskList{
   //企业任务单 开户办理
   static addOrUpdate(params){
     let url =domainJson.addOrUpdateCompanyTaskUrl
-    
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
-        
         let result = this.handleReturnData(response)
         if(!result.isError){
           //获得前台显示数据
@@ -391,9 +389,24 @@ export class CompanyTaskList{
         }else reject(Error(result.message))
     })
   })
-
-
   }
+
+
+  //任务单的撤销
+  static taskRevocation(params){
+    let url =domainJson.taskRevocationUrl
+      return new Promise((resolve,reject)=>{
+        ajax.post(url,params).then(response=>{
+          let result = this.handleReturnData(response)
+          if(!result.isError){
+            //获得前台显示数据
+            resolve(true)
+          }else reject(Error(result.message))
+      })
+    })
+  }
+
+
   //处理返回值
   static handleReturnData(response){
     if(response.data.code=="200"){

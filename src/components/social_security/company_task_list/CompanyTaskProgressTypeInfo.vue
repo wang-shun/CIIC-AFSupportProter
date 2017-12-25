@@ -222,6 +222,7 @@
             <Row>
               <Col :sm="{span:24}" class="tr">
                 <Button type="primary" @click="confirm">办理</Button>
+                <Button type="primary" @click="revoke">撤销</Button>
                 <Button type="error" @click="refuseTask">批退</Button>
                 <Button type="warning" @click="goBack">返回</Button>
               </Col>
@@ -759,6 +760,49 @@
             this.sendDateControl=false;
             this.finishDateControl=false;
         }
+      },
+      //撤销任务单 状态(将任务单状态往回走一步)
+      revoke(){
+ 
+        if(this.currentStep=='0'){
+          this.$Notice.warning({
+                    title: '操作失败',
+                    desc: '该任务单已经是初始状态.',
+                    duration: 3
+                });
+                return;
+        }
+        let params = {
+                companyTaskId:this.tid,
+                taskStatus:this.currentStep
+            }
+            let self = this
+            self.$Modal.confirm({
+                title: '',
+                content: '确认撤销吗?',
+                //loading:true,
+                onOk:function(){
+                    CompanyTaskList.taskRevocation(params).then(result=>{
+                      if(result){
+                         self.$Message.success("撤退成功！")
+                          self.refresh()
+                      }else{
+                       self.$Message.error("操作失败！")
+                      }
+                    }).catch(error=>{
+                      self.$Message.error(error)
+                    })
+                },
+                 error:function(error){
+                   self.$Message.error('操作失败!');
+                   self.$Modal.remove();
+               }
+            });
+           
+      },
+      refresh(){
+        //companytaskprogresschangeinfo
+        this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companytaskprogresstypeinfo'}})
       }
     }
   }

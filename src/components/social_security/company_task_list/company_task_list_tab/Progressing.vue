@@ -72,7 +72,7 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData" ref="selection"></Table>
-          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
+          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" :current="pageNum" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
         </Col>
       </Row>
 
@@ -116,6 +116,7 @@
         totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
         size:5,//分页
+        pageNum:1,
         sizeArr:[5],
         companyTaskInfo: {
           customerNumber: '',
@@ -250,10 +251,19 @@
       }
     },
     mounted() {
+      
+      let sessionPageNum = sessionStorage.taskPageNum
+      let sessionPageSize = sessionStorage.taskPageSize
+      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+         this.pageNum = Number(sessionPageNum)
+         this.size = Number(sessionPageSize)
+         sessionStorage.removeItem("taskPageNum") 
+         sessionStorage.removeItem("taskPageSize") 
+      }
      let self= this
       let params = {
           pageSize:this.size,
-          pageNum:1,
+          pageNum:this.pageNum,
         params:{}
       }
       Progressing.getTableData(params).then(data=>{

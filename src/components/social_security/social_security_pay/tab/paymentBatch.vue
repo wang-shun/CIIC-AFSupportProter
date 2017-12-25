@@ -51,7 +51,7 @@
             <Row>
               <Col :sm="{span: 24}" class="tr">
                 <Button type="primary" @click="payBatchHandlePageNum(1)" icon="ios-search">查询</Button>
-                <Button type="warning" @click="resetSearchCondition('payBatchInfo')">重置</Button>
+                <Button type="warning" @click="resetSearchCondition('payBatchSearchData')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -62,9 +62,9 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span: 24}">
-          <Button type="primary" @click="gotoPay">添加到出账批次号</Button>
-          <Button type="primary" @click="goPaymentNotice">从出账批次号中移除</Button>
-          <Button type="info" @click="" >导出</Button>
+          <Button type="primary" @click="gotoPay">申请支付</Button>
+          <Button type="primary" @click="goPaymentNotice">新建批号</Button>
+          <Button type="primary" @click="" >删除批号</Button>
         </Col>
       </Row>
 
@@ -210,10 +210,17 @@
                 ]);
               }
             },
-            {title: '抵扣费用', key: 'deductibleFee', align: 'center',
+            {title: '退账抵扣费用', key: 'refundDeducted', align: 'center',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.deductibleFee),
+                  h('span', params.row.refundDeducted),
+                ]);
+              }
+            },
+            {title: '调整抵扣费用', key: 'adjustDeducted', align: 'center',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'right'}}, [
+                  h('span', params.row.adjustDeducted),
                 ]);
               }
             }

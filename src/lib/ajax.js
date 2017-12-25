@@ -102,6 +102,30 @@ const logInfo = (method, url, data) => {
   }
 }
 
+const getUrl = (url, data) => {
+  // 分析 url 包含 "?"
+  if (data && Object.keys(data).length > 0) {
+    if (url.indexOf("?") < 0) {
+      url += "?"
+    }
+
+
+    var uri = data;
+    // 参数类型如果不是字符串类型 序列号
+    if (typeof(data) !== "string") {
+      uri = qs.stringify(data);
+    }
+
+    // 问号结尾不添加 "&"
+    if (url.lastIndexOf("?") != url.length - 1) {
+      url += "&";
+    }
+
+    url += uri;
+  }
+  return url;
+}
+
 // 创建 AJAX 对象
 const createAjax = config => {
   let ajax = axios.create(config);
@@ -182,12 +206,19 @@ let createProxyAjaxForName = name => {
   var proxy = {
     baseURL: baseURL
   };
-  for (var method of ['get', 'post']) {
-    proxy[method] = async (url, data, config) => {
-      return await instance[method](url, data, config);
-    }
+
+  proxy.get = async (url, config) => {
+    return await instance['get'](url, config);
   }
 
+  proxy.post = async (url, data, config) => {
+    return await instance['post'](url, data, config);
+  }
+
+  proxy.getJSON = async (url, data, config) => {
+    url = getUrl(url, data);
+    return await proxy.get(url, config);
+  }
   proxy.postJSON = async (url, data, config = {}) => {
     config.headers = config.headers || {};
     config.headers['Content-Type'] = config.headers['Content-Type'] || 'application/json';
@@ -196,25 +227,9 @@ let createProxyAjaxForName = name => {
 
   // 下载
   proxy.download = (url, data) => {
+    url = getUrl(url, data);
+    data = {};
     logInfo('get', url, data);
-    // 分析 url 包含 "?"
-    if (data && Object.keys(data).length > 0) {
-      if (url.indexOf("?") < 0) {
-        url += "?"
-      }
-
-      var uri = url;
-      // 参数类型如果不是字符串类型 序列号
-      if (typeof(data) !== "string") {
-        uri = qs.stringify(data);
-      }
-
-      // 问号结尾不添加 "&"
-      if (url.lastIndexOf("?") != url.length - 1) {
-        url += "&";
-      }
-      url += uri;
-    }
 
     // 下载
     let iframe = document.createElement('iframe')
@@ -225,7 +240,6 @@ let createProxyAjaxForName = name => {
     }
     document.body.appendChild(iframe)
   }
-
   // 上传
   proxy.upload = async (url, data, config = {}) => {
     let formData = new FormData();

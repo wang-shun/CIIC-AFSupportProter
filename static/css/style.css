@@ -166,7 +166,7 @@ html, body, .ivu-row-flex, .layout {
 }
 
 .ivu-form-item {
-  margin-bottom: 16px;
+  margin-bottom: 5px;
 }
 
 .salaryTabs .ivu-tabs-content {
@@ -413,7 +413,7 @@ html, body, .ivu-row-flex, .layout {
 }
 
 .ivu-table td {
-  height: 40px;
+  height: 30px;
 }
 
 /* inline cover style */
@@ -1016,3 +1016,4 @@ html, body, .ivu-row-flex, .layout {
 .pr50 {
   padding-right: 50px;
 }
+

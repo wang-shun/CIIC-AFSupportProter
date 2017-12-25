@@ -19,6 +19,9 @@ import EmployeeCommonOperator from './modules/Fund/EmployeeCommonOperator'
 //弹性福利
 import gift from "./modules/flexible_benefit/gift"
 import market from "./modules/flexible_benefit/market"
+
+//健康医疗
+import transfer from './modules/health_medical/relationship_transfer'
 //社保对账
 
 import SocialSecurityReconcilate from './modules/social_security/social_security_recon_cilate'
@@ -41,6 +44,8 @@ export default new Vuex.Store({
 
     ...gift,
     ...market,
+
+    ...transfer,
     ...SocialSecurityReconcilate,
     ...Socialsecurityreport
   }

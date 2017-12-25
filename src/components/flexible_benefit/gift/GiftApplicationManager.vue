@@ -19,7 +19,8 @@
               </Form-item>
               </Col>
               <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
-              <Button type="primary" @click="query()" icon="ios-search">查询</Button>
+              <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
+
               <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
@@ -34,9 +35,13 @@
       </router-link>
     </div>
     <Table border :columns="giftManagerColumns" :data="giftManagerData" ref="giftManagerTable"></Table>
-    <Page :total="formItem.page.total" show-sizer show-elevator @on-change="getByPage"
-          @on-page-size-change="pageSizeChange" :current.sync="formItem.page.current"
-          :page-size="formItem.page.pageSize"></Page>
+    <Page show-sizer show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :total="formItem.total"
+          :current="formItem.current"
+          :page-size="formItem.size"></Page>
+
   </div>
 </template>
 
@@ -52,11 +57,9 @@
           id: null,
           giftName: "",
           status: "",
-          page: {
-            total: 1,
-            pageSize: 10,
-            current: 1,
-          }
+          current: 1,
+          size: 10,
+          total: 0
         },
 
         peopleTypes: [{
@@ -75,142 +78,146 @@
           value: "1", label: "已下架"
         }],
 
-        giftManagerColumns: [{
-          title: "礼品名称", sortable: true, key: "giftName", align: "center"
-        }, {
-          title: "类别", sortable: true, key: "giftType", align: "center",
-          render: (h, params) => {
-            switch (params.row.giftType) {
-              case 0:
-                return "票券";
-                break;
-              case 1:
-                return "办公用品";
-                break;
-              case 2:
-                return "生活用品";
-                break;
-              case 3:
-                return "食品";
-                break;
-              case 4:
-                return "饰品";
-                break;
-              case 5:
-                return "数码周边";
-                break;
-              case 6:
-                return "儿童用品";
-                break;
+        giftManagerColumns: [
+          {
+            title: "礼品名称", sortable: true, key: "giftName", align: "center"
+          }, {
+            title: "类别", sortable: true, key: "giftType", align: "center",
+            render: (h, params) => {
+              switch (params.row.giftType) {
+                case 0:
+                  return "票券";
+                  break;
+                case 1:
+                  return "办公用品";
+                  break;
+                case 2:
+                  return "生活用品";
+                  break;
+                case 3:
+                  return "食品";
+                  break;
+                case 4:
+                  return "饰品";
+                  break;
+                case 5:
+                  return "数码周边";
+                  break;
+                case 6:
+                  return "儿童用品";
+                  break;
 
+              }
             }
-          }
-        }, {
-          title: "价格", sortable: true, key: "price", align: "center"
-        }, {
-          title: "数量", sortable: true, key: "number", align: "center"
-        }, {
-          title: "备注", sortable: true, key: "remarks", align: "center"
-        }, {
-          title: "状态", sortable: true, key: "status", align: "center",
-          render: (h, params) => {
-            switch (params.row.status) {
-              case 0:
-                return "正常";
-                break;
-              case 1:
-                return "已下架";
-                break;
+          }, {
+            title: "价格", sortable: true, key: "price", align: "center"
+          }, {
+            title: "数量", sortable: true, key: "number", align: "center"
+          }, {
+            title: "备注", sortable: true, key: "remarks", align: "center"
+          }, {
+            title: "状态", sortable: true, key: "status", align: "center",
+            render: (h, params) => {
+              switch (params.row.status) {
+                case 0:
+                  return "正常";
+                  break;
+                case 1:
+                  return "已下架";
+                  break;
+              }
             }
-          }
-        }, {
-          title: "操作", key: "action", width: 300, align: "center",
-          render: (h, params) => {
-            if (params.row.status == '0') {
-              return h("div", [
-                h("Button", {
-                  props: {
-                    type: "success",
-                    size: "small"
-                  },
-                  style: {marginRight: "5px"},
-                  on: {
-                    click: () => {
-                      let updateData = params.row;
-                      delete updateData._index;
-                      delete updateData._rowKey;
-                      delete updateData.page;
-                      delete updateData.createTime;
-                      delete updateData.modifiedTime;
-                      updateData.rightPerson = updateData.rightPerson + '';
-                      updateData.giftType = updateData.giftType + '';
-                      updateData.status = updateData.status + '';
-                      this.$router.push({name: "giftUpdate", params: {data: updateData}});
+          }, {
+            title: "操作", key: "action", width: 300, align: "center",
+            render: (h, params) => {
+              if (params.row.status == '0') {
+                return h("div", [
+                  h("Button", {
+                    props: {
+                      type: "success",
+                      size: "small"
+                    },
+                    style: {marginRight: "5px"},
+                    on: {
+                      click: () => {
+                        let updateData = params.row;
+                        delete updateData._index;
+                        delete updateData._rowKey;
+                        delete updateData.page;
+                        delete updateData.createTime;
+                        delete updateData.modifiedTime;
+                        updateData.rightPerson = updateData.rightPerson + '';
+                        updateData.giftType = updateData.giftType + '';
+                        updateData.status = updateData.status + '';
+                        this.$router.push({name: "giftUpdate", params: {data: updateData}});
+                      }
                     }
-                  }
-                }, "编辑"),
-                h("Button", {
-                  props: {
-                    type: "success",
-                    size: "small"
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({
-                        name: "giftApplicationManager",
-                        params: {data: params.row}
-                      });
+                  }, "编辑"),
+                  h("Button", {
+                    props: {
+                      type: "success",
+                      size: "small"
+                    },
+                    on: {
+                      click: () => {
+                        this.$router.push({
+                          name: "giftApplicationManager",
+                          params: {data: params.row}
+                        });
+                      }
                     }
-                  }
-                }, "发放记录")
-              ]);
-            } else {
-              return h("div", [
-                h("Button", {
-                  props: {
-                    type: "success",
-                    size: "small"
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({
-                        name: "giftApplicationManager",
-                        params: {
-                          data: params.row
-                        }
-                      });
+                  }, "发放记录")
+                ]);
+              } else {
+                return h("div", [
+                  h("Button", {
+                    props: {
+                      type: "success",
+                      size: "small"
+                    },
+                    on: {
+                      click: () => {
+                        this.$router.push({
+                          name: "giftApplicationManager",
+                          params: {
+                            data: params.row
+                          }
+                        });
+                      }
                     }
-                  }
-                }, "发放记录")
-              ]);
+                  }, "发放记录")
+                ]);
+              }
             }
-          }
-        }],
+          }],
       };
     },
     computed: {
-      ...mapState("GIFT", {giftManagerData: state => state.data.giftManagerData,})
+      ...mapState("GIFT", {
+        giftManagerData: state => state.data.giftManagerData,
+      })
     },
     created() {
       // this.$store.dispatch(EventTypes.GIFTAPPLICATIONTYPE, this.formItem);
-      this.query();
+      this.getByPage(1);
     },
     methods: {
       ...mapActions("GIFT", [EventTypes.GIFTAPPLICATIONTYPE]),
 
       query() {
         this[EventTypes.GIFTAPPLICATIONTYPE](this.formItem).then(() => {
-          this.formItem.page = this.$store.state.GIFT.data.page;
+          this.formItem.total = this.$store.state.GIFT.data.total;
         })
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      getByPage() {
+      getByPage(val) {
+        this.formItem.current = val;
         this.query()
       },
-      pageSizeChange(pageSize) {
-        this.formItem.page.pageSize = pageSize;
+      pageSizeChange(size) {
+        this.formItem.size = size;
         this.query()
       },
     },

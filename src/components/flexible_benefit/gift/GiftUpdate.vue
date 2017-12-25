@@ -22,7 +22,7 @@
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
           <Form-item label="礼品类型：" prop="giftType">
-            <Select v-model="formItem.giftType" placeholder="请选择">
+            <Select v-model="formItem.giftType" placeholder="请选择" transfer>
               <Option v-for="item in giftTypeProperties" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -70,28 +70,6 @@
           </Form-item>
           </Col>
         </row>
-        <row>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          备注:
-          </Col>
-        </row>
-        <row>
-          <Col :xs="{ span: 6, offset: 2 }" :lg="{ span: 6, offset: 0 }">
-          1.库存为0，礼品自动下架
-          </Col>
-        </row>
-        <row>
-          <Col :xs="{ span: 6, offset: 2 }" :lg="{ span: 6, offset: 0 }">
-          2.礼品在前道申请时的排序规则：
-          先按是否有new标识排序，有则排在前面
-          然后按创建时间排序，最新的排在前面
-          </Col>
-        </row>
-        <row>
-          <Col :xs="{ span: 6, offset: 2 }" :lg="{ span: 6, offset: 0 }">
-          3. 礼品介绍不超过200个字
-          </Col>
-        </row>
       </Form>
       <div class="tc">
         <Button type="warning" @click="back">返回</Button>
@@ -113,74 +91,38 @@
         addResult: "1",
         file: null,
         formItem: {},
-        rightpersonTypes: [{
-          value: '0', label: '男士适用'
-        }, {
-          value: '1', label: '女士适用'
-        }, {
-          value: '2', label: '男女通用'
-        }],
+        rightpersonTypes: [
+          {
+            value: '0', label: '男士适用'
+          }, {
+            value: '1', label: '女士适用'
+          }, {
+            value: '2', label: '男女通用'
+          }],
 
-        giftTypeProperties: [{
-          value: '0', label: '票券'
-        }, {
-          value: '1', label: '办公用品'
-        }, {
-          value: '2', label: '生活用品'
-        }, {
-          value: '3', label: '食品'
-        }, {
-          value: '4', label: '饰品'
-        }, {
-          value: '5', label: '数码周边'
-        }, {
-          value: '6', label: '儿童用品'
-        }],
-        statusProperties: [{
-          value: "0", label: "正常"
-        }, {
-          value: "1", label: "已下架"
-        }],
-        giftValidator: {
-          giftName: [
-            {required: true, message: '请输入礼品名称', trigger: 'blur'}
-          ],
-          price: [
-            {
-              required: true,
-              pattern: /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/,
-              message: '请输入价格,两位小数',
-              trigger: 'change'
-            }
-          ],
-          rightPerson: [
-            {required: true, message: '请选择适用人群', trigger: 'change'}
-          ],
-          giftType: [
-            {required: true, message: '请选择礼品类型', trigger: 'change'}
-          ],
-          number: [
-            {type: 'integer', required: true, message: '请输入礼品数量', trigger: 'change'}
-          ],
-          applyMaxnum: [
-            {type: 'integer', required: true, message: '请输入最大申请数', trigger: 'change'}
-          ],
-          status: [
-            {required: true, message: '请选择礼品状态', trigger: 'change'}
-          ],
-          remarks: [
-            {
-              validator(rule, val, callback) {
-                if (!val || val.length >= 200) {
-                  callback(new Error('不超过200字'))
-                } else {
-                  callback()
-                }
-              },
-              trigger: 'blur'
-            }
-          ],
-        }
+        giftTypeProperties: [
+          {
+            value: '0', label: '票券'
+          }, {
+            value: '1', label: '办公用品'
+          }, {
+            value: '2', label: '生活用品'
+          }, {
+            value: '3', label: '食品'
+          }, {
+            value: '4', label: '饰品'
+          }, {
+            value: '5', label: '数码周边'
+          }, {
+            value: '6', label: '儿童用品'
+          }],
+        statusProperties: [
+          {
+            value: "0", label: "正常"
+          }, {
+            value: "1", label: "已下架"
+          }],
+        giftValidator: this.$Validator.giftValidator,
       };
     },
 
@@ -196,8 +138,9 @@
         // console.log("this.formItem==watch======" + sessionStorage.getItem('updateGiftFormItem'));
       }
     },
+
     methods: {
-      ...mapActions("GIFT", [EventTypes.GIFTINSERTTYPE]),
+      ...mapActions("GIFT", [EventTypes.GIFTUPDATETYPE]),
       initData() {
         if (!this.formItem) {
           this.formItem = JSON.parse(sessionStorage.getItem('updateGiftFormItem'));
@@ -216,11 +159,11 @@
               data.append(v, this.formItem[v])
             });
             data.append('file', this.file);
-            this[EventTypes.GIFTINSERTTYPE]({
+            this[EventTypes.GIFTUPDATETYPE]({
               data: data,
               callback: (res) => {
-                if (res.data.errorcode === "200") {
-                  this.$router.push({path: '/giftApplicationManager'})
+                if (res.data.code === 200) {
+                  this.$router.push({name: 'giftApplicationManager'})
                 } else {
                   this.$Message.error("服务器异常，请稍后再试:");
                 }

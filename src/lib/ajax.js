@@ -229,14 +229,22 @@ let createProxyAjaxForName = name => {
   // 上传
   proxy.upload = async (url, data, config = {}) => {
     let formData = new FormData();
+
     Object.keys(data).forEach(key => {
-      formData.append(key, data[key])
+      let value = data[key];
+      if (value instanceof Array) {
+        for (var ele of value) {
+          formData.append(key, ele)
+        }
+      } else {
+        formData.append(key, data[key])
+      }
     });
 
     config.headers = config.headers || {};
     config.headers['Content-Type'] = config.headers['Content-Type'] || 'multipart/form-data';
 
-    return await proxy.post(url, data, config);
+    return await proxy.post(url, formData, config);
   }
   return proxy;
 }
@@ -247,5 +255,14 @@ AJAX.createProxyAjaxForName = createProxyAjaxForName;
 
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q');
 AJAX.ajaxSsc = createProxyAjaxForName('ss-c');
+AJAX.ajaxAlertJob = createProxyAjaxForName('AlertJob');
+AJAX.ajaxAuthService = createProxyAjaxForName('AuthService');
+AJAX.ajaxBasicDataService = createProxyAjaxForName('BasicDataService');
+AJAX.ajaxSiteLetterService = createProxyAjaxForName('SiteLetterService');
+AJAX.ajaxSSPService = createProxyAjaxForName('SSPService');
+AJAX.ajaxSpecialOperationService = createProxyAjaxForName('SpecialOperationService');
+
+// 其他中心服务
+AJAX.ajaxProductCenterService = createProxyAjaxForName('ProductCenter');
 
 export default AJAX;

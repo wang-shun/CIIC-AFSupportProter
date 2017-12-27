@@ -70,18 +70,18 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span: 24}">
-          <Button type="primary" @click="gotoPay">添加到出账批次号</Button>
-          <Button type="primary" @click="goPaymentNotice">从出账批次号中移除</Button>
+          <Button type="primary" @click="gotoAddBatch()">添加到出账批次号</Button>
+          <Button type="primary" @click="gotoDelBatch()">从出账批次号中移除</Button>
         </Col>
       </Row>
 
         <Row class="mt20">
             <Col :sm="{span:24}">
                 <Table stripe
-                    border ref="selection"
+                    border ref="payComSelection"
                     :columns="payComColumns" 
                     :data="payComData"
-                    @on-selection-change="payComSelectionChange">
+                    >
                 </Table>
                 <Page 
                     class="pageSize"
@@ -102,6 +102,32 @@
         <Row class="mt20">
         </Row>
     </Form>
+
+
+    <!-- 添加批次 -->
+    <Modal
+      v-model="addBatchData.isShowAddBatch"
+      width="80%"
+      title="加入批次">
+      <Table border :columns="addBatchData.payBatchColumns" :data="addBatchData.payBatchData" ></Table>
+      
+      <div slot="footer">
+      </div>
+    </Modal>
+    <!-- 删除批次 -->
+    <Modal v-model="delBatchData.isShowDelBatch" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>移除确认</span>
+      </p>
+      <div style="text-align:center">
+        <p>选中的数据将从批次中移除</p>
+        <p>是否继续移除</p>
+      </div>
+      <div slot="footer">
+        <Button type="error" size="large"  @click="doDelBatch()">移除</Button>
+      </div>
+    </Modal>
 
     <!-- 进度 -->
     <Modal
@@ -204,11 +230,131 @@
           ],
 
         },
-
         isShowCustomerName: false,
         isShowProgress: false,
         progressStop: progressStop,
 
+        //加入批次功能数据结构
+        addBatchData:{
+          isShowAddBatch : false,
+          payBatchColumns: [
+            {title: '操作', key: 'operator', width: 100, align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {type: 'success', size: 'small'},
+                  style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+                      let paymentId = params.row.paymentId;
+
+                      this.doAddBatch(paymentId);
+                    }
+                  }
+                }, '选择'),
+              ]);
+            }
+          },
+            {title: '出账批次号', key: 'paymentBatchNum', width: 140, align: 'center',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'right'}}, [
+                  h('span', params.row.paymentBatchNum),
+                ]);
+              }
+            },
+            {title: '申请支付总金额', key: 'totalApplicationAmount', width: 140, align: 'center',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'right'}}, [
+                  h('span', params.row.totalApplicationAmount),
+                ]);
+              }
+            },
+            {title: '总雇员数', key: 'totalEmpCount', width: 120, align: 'center',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'left'}}, [
+                  h('span', params.row.totalEmpCount),
+                ]);
+              }
+            },
+            {title: '支付年月', key: 'paymentMonth', width: 120, align: 'center',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'left'}}, [
+                  h('span', params.row.paymentMonth),
+                ]);
+              }
+            },
+            {title: '账户/客户总数', key: 'paymentMonth', width: 120, align: 'center',
+              render: (h, params) => {
+                let totalAccount = params.row.totalAccount;
+                let totalCom = params.row.totalCom;
+
+                return h('div', {style: {textAlign: 'left'}}, [
+                  h('span', totalAccount+"/"+totalCom),
+                ]);
+              }
+            },
+            {title: '支付状态', key: 'paymentStateName', width: 180, align: 'center',
+              render: (h, params) => {
+                let paymentState = params.row.paymentState;
+                let paymentStateName = this.getPaymentStateName(paymentState);
+
+                return h('div', {style: {textAlign: 'left'}}, [
+                  h('span', paymentStateName),
+                ]);
+              }
+            },
+            {title: '制单人', key: 'createPaymentUser', width: 120, align: 'center',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'left'}}, [
+                  h('span', params.row.createPaymentUser),
+                ]);
+              }
+            },
+            {title: '制单日期', key: 'createPaymentDate', width: 120, align: 'center',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'left'}}, [
+                  h('span', params.row.createPaymentDate),
+                ]);
+              }
+            },
+            {title: '财务支付日期', key: 'financePaymentDate', width: 120, align: 'center',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'left'}}, [
+                  h('span', params.row.financePaymentDate),
+                ]);
+              }
+            },
+            {title: '账户类型', key: 'accountType', width: 200, align: 'center',
+              render: (h, params) => {
+                let accountType = params.row.accountType;
+                let accountTypeName = "";
+                if(accountType == 1){
+                    accountTypeName = "中智大库"
+                }else if(accountType == 2){
+                    accountTypeName = "中智外包"
+                }else{
+                    accountTypeName = "独立户"
+                }
+
+                return h('div', {style: {textAlign: 'left'}}, [
+                  h('span', accountTypeName),
+                ]);
+              }
+            }
+          ], 
+          payBatchData:[],
+          paymentComIdList:[],
+
+
+        },
+        //从批次移除功能数据结构
+        delBatchData:{
+          isShowDelBatch : false,
+          paymentComIdList:[],
+
+        },
+
+        //调整功能数据结构
         changeInfo: {
           isShowChange: false,
           changeColumns: [
@@ -274,7 +420,24 @@
               ]);
             }
           },
-          {title: '支付年月', key: 'paymentMonth', width: 180, align: 'center',
+          {title: '账户类型', key: 'ssAccountType', width: 120, align: 'center',
+            render: (h, params) => {
+              let ssAccountType = params.row.accountType;
+              let accountTypeName = "";
+              if(ssAccountType == 1){
+                  accountTypeName = "中智大库"
+              }else if(ssAccountType == 2){
+                  accountTypeName = "中智外包"
+              }else{
+                  accountTypeName = "独立户"
+              }
+
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', accountTypeName),
+              ]);
+            }
+          },
+          {title: '支付年月', key: 'paymentMonth', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentMonth),
@@ -326,7 +489,7 @@
                   style: {margin: '0 auto 0 10px'},
                   on: {
                     click: () => {
-                      this.isShowProgress = true;
+                      this.goPaymentNotice();
                     }
                   }
                 }, '付款通知书')
@@ -443,9 +606,9 @@
         this.paymentComQuery();
       },
       // 选中项发生变化时就会触发
-      payComSelectionChange(selection) {
-        this.payComPageData = selection;
-      },
+      // payComSelectionChange(selection) {
+      //   this.payComPageData = selection;
+      // },
       //查询页面数据
       paymentComQuery() {
         // 处理参数
@@ -537,17 +700,15 @@
         let paymentComId = this.changeInfo.paymentComId;
         //额外金
         let extraAmount = this.changeInfo.extraAmount;
-        alert(Number(extraAmount));
+        extraAmount = extraAmount * 1;
+        if(isNaN(extraAmount)){
+          alert("额外金必须为数字");
+          return;
+        }
 
 
         //抵扣费用是否纳入支付申请
         let ifDeductedIntoPay = this.changeInfo.ifDeductedIntoPay;
-        //数据转换
-        // if(ifDeductedIntoPay == true){
-        //   ifDeductedIntoPay = 1;
-        // }else{
-        //   ifDeductedIntoPay = 0;
-        // }
 
         //备注
         let remark = this.changeInfo.remark;
@@ -558,7 +719,7 @@
           ifDeductedIntoPay: ifDeductedIntoPay,
           remark: remark,
         }).then(data => {
-          if(data.code == "200"){
+          if(data.code == "0"){
             alert("操作成功");
             this.closeAdjustment();
             //重新查询
@@ -570,12 +731,173 @@
         })
 
       },
-      //变比调整框调整
+      //关闭调整框
       closeAdjustment(){
         this.changeInfo.isShowChange = false;
       },
+      gotoAddBatch(){
+        //获取选中列
+
+        let selection = this.$refs.payComSelection.getSelection();
+
+        //判断条件
+        //是否有选中列
+        if(selection.length == 0){
+          alert("没有选中的列");
+          return;
+        }
+
+        //已有批次的不可再添加
+        let isHaveBatch = false;
+        selection.some(item => {
+          if(item.paymentId != null && item.paymentId != ""){
+            isHaveBatch = true;
+            //跳出循环
+            return true;
+          }
+        });
+        if(isHaveBatch){
+            alert("已有出账批次的数据不可以再加入批次");
+            return;
+        }
+
+
+
+        //判断选中列是否都是同一个社保账户分类
+        let ssAccountType = selection[0].ssAccountType;
+        let isManyAccountType = false;
+        selection.some(item => {
+          if(item.ssAccountType != ssAccountType){
+            isManyAccountType = true;
+            //跳出循环
+            return true;
+          }
+        });
+        if(isManyAccountType){
+            alert("选中列中企业社保账户分类不同");
+            return;
+        }
+
+
+        //判断选中列的支付状态(只有可付:3 和内部审批批退:5 可以进行此操作)
+        let isDisableState = false;
+        selection.some(item => {
+          if(item.paymentState != "3" && item.paymentState != "5"){
+            isDisableState = true;
+            //跳出循环
+            return true;
+          }
+        });
+        if(isDisableState){
+            alert("只有可付和内部审批批退状态的记录可以进行添加批次操作");
+            return;
+        }
+        //检索数据
+        payComApi.showAddBatch({
+          accountType: ssAccountType
+        }).then(data => {
+          this.addBatchData.payBatchData = data.data;
+        })
+        //将数据传给子画面
+        this.addBatchData.paymentComIdList = [];
+        selection.forEach(item => {
+          this.addBatchData.paymentComIdList.push(item.paymentComId);
+        });
+        //展示页面
+        this.addBatchData.isShowAddBatch = true;
+      },
+      //执行添加批次
+      doAddBatch(paymentId){
+        let paymentComIdList = this.addBatchData.paymentComIdList;
+        payComApi.doAddBatch({
+          paymentId: paymentId,
+          paymentComIdList: paymentComIdList,
+        }).then(data => {
+          if(data.code == "0"){
+            alert("操作成功");
+            this.closeAddBatch();
+            //重新查询
+            this.paymentComQuery()
+
+          }else{
+            alert(data.message);
+          }
+        })
+      },
+      //关闭添加批次框
+      closeAddBatch(){
+        this.addBatchData.isShowAddBatch = false;
+      },
       
-      
+      gotoDelBatch(){
+        //获取选中列
+
+        let selection = this.$refs.payComSelection.getSelection();
+
+        //判断条件
+        //是否有选中列
+        if(selection.length == 0){
+          alert("没有选中的列");
+          return;
+        }
+
+        //没有批次的不可再删除
+        let isHaventBatch = false;
+        selection.some(item => {
+          if(item.paymentId == null || item.paymentId == ""){
+            isHaventBatch = true;
+            //跳出循环
+            return true;
+          }
+        });
+        if(isHaventBatch){
+            alert("请选择已有批次的客户费用");
+            return;
+        }
+        //判断选中列的支付状态(只有可付:3 和内部审批批退:5 可以进行此操作)
+        let isDisableState = false;
+        selection.some(item => {
+          if(item.paymentState != "3" && item.paymentState != "5"){
+            isDisableState = true;
+            //跳出循环
+            return true;
+          }
+        });
+        if(isDisableState){
+            alert("只有可付和内部审批批退状态的记录可以进行操作");
+            return;
+        }
+        //将数据传给子画面
+        this.delBatchData.paymentComIdList = [];
+        selection.forEach(item => {
+          this.delBatchData.paymentComIdList.push(item.paymentComId);
+        });
+        //展示页面
+        this.delBatchData.isShowDelBatch = true;
+      },
+      //执行移除批次
+      doDelBatch(){
+        let paymentComIdList = this.delBatchData.paymentComIdList;
+        payComApi.doDelBatch({
+          paymentComIdList: paymentComIdList,
+        }).then(data => {
+          if(data.code == "0"){
+            alert("操作成功");
+            this.closeDelBatch();
+            //重新查询
+            this.paymentComQuery()
+
+          }else{
+            alert(data.message);
+          }
+        })
+      },
+      //关闭移除批次框
+      closeDelBatch(){
+        this.delBatchData.isShowDelBatch = false;
+      },
+
+
     }
   }
 </script>

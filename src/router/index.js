@@ -40,7 +40,6 @@ const fundreport = r => require.ensure([], () => r(require('@/components/fund/em
 const fundyearadjust = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundyearadjust')), 'fundyearadjust')
 
 
-
 //任务单管理
 const pendingTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/PendingTaskList')), 'pendingTaskList') //待处理任务单列表
 const processedTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/ProcessedTaskList')), 'processedTaskList') //已处理任务单列表
@@ -53,31 +52,38 @@ const invoiceList = r => require.ensure([], () => r(require('@/components/health
 //未投保医疗
 const acceptanceList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AcceptanceList')), 'acceptanceList') //受理单列表
 const checkMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/CheckMedicalList')), 'checkMedicalList') //新增未投保列表
-const acceptanceAuditList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AcceptanceAuditList')), 'acceptanceAuditList') //未投保审核列表
 const addAcceptanceEmployeeList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddAcceptanceEmployeeList')), 'addAcceptanceEmployeeList') //理赔人员列表
 const addAcceptance = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddAcceptance')), 'addAcceptance') //新增受理单
-const auditAcceptance = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AuditAcceptance')), 'auditAcceptance') //审核受理单
 
-const medicalRelationTransform = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/MedicalRelationTransform')), 'medicalRelationTransform') //医疗关系转移
-const addFragmentaryReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddFragmentaryReimbursement')), 'addFragmentaryReimbursement') //发票列表
-const addMedicalTransform = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddMedicalTransform')), 'addMedicalTransform') //医疗关系转移
 const auditNurseryFee = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AuditNurseryFee')), 'auditNurseryFee') //医疗关系转移
-
-
 //在保管理
 const insuredList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/InsuredList')), 'insuredList') //在保管理
-
-
 //保单管理
-const InsurancePolicyList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/InsurancePolicyList')), 'InsurancePolicyList') //保单列表
-const InsurancePolicyNumEmpList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/InsurancePolicyNumEmpList')), 'InsurancePolicyNumEmpList') //保单人员列表
-const InsurancePolicyNumCostConfirmList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/InsurancePolicyNumCostConfirmList')), 'InsurancePolicyNumCostConfirmList') //保单费用确认
-const InsurancePolicyNumList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/InsurancePolicyNumList')), 'InsurancePolicyNumList') //保单号列表
-const AddInsurancePolicyNum = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddInsurancePolicyNum')), 'AddInsurancePolicyNum') //新增保单号
 const AddPayRate = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddPayRate')), 'AddPayRate') //新增付费比例
-const AgentBusinessList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AgentBusinessList')), 'AgentBusinessList') //代收代付列表
-const AddAgentBusiness = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddAgentBusiness')), 'AddAgentBusiness') //新增代收代付
-const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AgentBusinessBatchList')), 'AgentBusinessBatchList') //新增代收代付
+
+/**
+ * 健康医疗
+ * relationshipTransfer     --医疗关系转移
+ * collectionPayment        --代收代付
+ */
+const relationshipTransfer = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/RelationshipTransfer')), 'relationshipTransfer'); //医疗关系转移
+const addMedicalRelationship = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddMedicalRelationship')), 'addMedicalRelationship'); //新增医疗关系转移
+const updateMedicalRelationship = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/UpdateMedicalRelationship')), 'updateMedicalRelationship'); //更新医疗关系转移
+const addReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/AddReimbursement')), 'addReimbursement'); //新增零星报销
+const updateReimbursement = r => require.ensure([], () => r(require('@/components/health_medical/relationship_transfer/UpdateReimbursement')), 'updateReimbursement'); //更新零星报销
+//代收代付
+const collectionPayment = r => require.ensure([], () => r(require('@/components/health_medical/collection_payment/CollectionPayment')), 'collectionPayment'); //代收代付
+const addCollectionPayment = r => require.ensure([], () => r(require('@/components/health_medical/collection_payment/AddCollectionPayment')), 'addCollectionPayment'); //代收代付
+//保单号管理
+const policyNumManagement = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/PolicyNumManagement')), 'policyNumManagement'); //保单号管理
+const addPolicyNum = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicyNum')), 'addPolicyNum'); //新增保单号
+//未投保审核
+const uninsuredReview = r => require.ensure([], () => r(require('@/components/health_medical/uninsured/UninsuredReview')), 'uninsuredReview'); //新增保单号
+const uninsuredReviewDeal = r => require.ensure([], () => r(require('@/components/health_medical/uninsured/UninsuredReviewDeal')), 'uninsuredReviewDeal'); //新增保单号
+//保单管理
+const policyManagement = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/PolicyManagement')), 'policyManagement'); //保单管理
+const addPolicy = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicy')), 'addPolicy'); //新增保单缴费
+const addPolicyConfirm = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicyConfirm')), 'addPolicyConfirm'); //新增保单费用确认
 
 /*
  * giftApplicationManager              --弹性福利
@@ -86,17 +92,12 @@ const AgentBusinessBatchList = r => require.ensure([], () => r(require('@/compon
  * reportFormManager
  */
 const giftApplicationManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftApplicationManager')), 'giftApplicationManager'); //礼品管理
-const giftPersonChoose = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftPersonChoose')), 'giftPersonChoose'); //人员选择
 const giftAdd = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftAdd')), 'GiftAdd'); //新增礼品单
 const giftUpdate = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftUpdate')), 'GiftUpdate'); //编辑礼品
-const giftApply = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftApply')), 'GiftApply'); //申请礼品
-const giftConfirm = r => require.ensure([], () => r(require('@/components/flexible_benefit/gift/GiftConfirm')), 'GiftConfirm'); //礼品确认
 
 const marketActivitiesManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/MarketActivitiesManager')), 'marketActivitiesManager'); //市场活动管理
 const addActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/AddActivity')), 'AddActivity'); //新增活动
 const updateActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/UpdateActivity')), 'UpdateActivity'); //更新活动
-const applyActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/ApplyActivity')), 'ApplyActivity'); //申请活动
-const marketPersonChoose = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/MarketPersonChoose')), 'MarketPersonChoose'); //人员选择
 
 const grantManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GrantManager')), 'GrantManager'); //发放管理
 const giftExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GiftExamine')), 'GiftExamine'); //礼品审批
@@ -105,7 +106,6 @@ const marketExamine = r => require.ensure([], () => r(require('@/components/flex
 const marketGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketGrant')), 'MarketGrant'); //活动发放
 
 const reportFormManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/report_form/ReportFormManager')), 'ReportFormManager'); //报表查询
-
 
 
 Vue.use(Router)
@@ -308,56 +308,78 @@ let router = new Router({
           path: '/invoiceList',
           name:'invoiceList',
           component: invoiceList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"发票列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "发票列表",
+            openNames: ['2']
           }
         },
         {
-          path: '/medicalRelationTransform',
-          name:'medicalRelationTransform',
-          component: medicalRelationTransform,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"医疗关系转移",
-            openNames:['2']
+          path: '/relationshipTransfer',
+          name: 'relationshipTransfer',
+          component: relationshipTransfer,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "医疗关系转移",
+            openNames: ['2']
           }
         },
 
         {
-          path: '/auditAcceptance',
-          name:'auditAcceptance',
-          component: auditAcceptance,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"审核受理单",
-            openNames:['2']
+          path: '/uninsuredReviewDeal',
+          name: 'uninsuredReviewDeal',
+          component: uninsuredReviewDeal,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "未投保审核处理",
+            openNames: ['2']
           }
         },
         {
-          path: '/addFragmentaryReimbursement',
-          name:'addFragmentaryReimbursement',
-          component: addFragmentaryReimbursement,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增零星报销",
-            openNames:['2']
+          path: '/addReimbursement',
+          name: 'addReimbursement',
+          component: addReimbursement,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "新增零星报销",
+            openNames: ['2']
           }
         },
         {
-          path: '/addMedicalTransform',
-          name:'addMedicalTransform',
-          component: addMedicalTransform,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增医疗关系转移",
-            openNames:['2']
+          path: '/updateReimbursement',
+          name: 'updateReimbursement',
+          component: updateReimbursement,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "修改零星报销",
+            openNames: ['2']
+          }
+        },
+        {
+          path: '/addMedicalRelationship',
+          name: 'addMedicalRelationship',
+          component: addMedicalRelationship,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "新增医疗关系转移",
+            openNames: ['2']
+          }
+        },
+        {
+          path: '/updateMedicalRelationship',
+          name: 'updateMedicalRelationship',
+          component: updateMedicalRelationship,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "修改医疗关系转移",
+            openNames: ['2']
           }
         },
         {
@@ -372,102 +394,91 @@ let router = new Router({
           }
         },
         {
-          path: '/InsurancePolicyList',
-          name:'InsurancePolicyList',
-          component: InsurancePolicyList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"保单批次列表",
-            openNames:['2']
+          path: '/policyManagement',
+          name: 'policyManagement',
+          component: policyManagement,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "保单管理",
+            openNames: ['2']
           }
         },
         {
-          path: '/InsurancePolicyNumEmpList',
-          name:'InsurancePolicyNumEmpList',
-          component: InsurancePolicyNumEmpList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"新增保单缴费批次",
-            openNames:['2']
+          path: '/addPolicy',
+          name: 'addPolicy',
+          component: addPolicy,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "新增保单缴费",
+            openNames: ['2']
           }
         },
         {
-          path: '/InsurancePolicyNumCostConfirmList',
-          name:'InsurancePolicyNumCostConfirmList',
-          component: InsurancePolicyNumCostConfirmList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"保单费用确认",
-            openNames:['2']
+          path: '/addPolicyConfirm',
+          name: 'addPolicyConfirm',
+          component: addPolicyConfirm,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "保单费用确认",
+            openNames: ['2']
           }
         },
         {
-          path: '/InsurancePolicyNumList',
-          name:'InsurancePolicyNumList',
-          component: InsurancePolicyNumList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"保单号列表",
-            openNames:['2']
+          path: '/policyNumManagement',
+          name: 'policyNumManagement',
+          component: policyNumManagement,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "保单号管理",
+            openNames: ['2']
           }
         },
         {
-          path: '/AddInsurancePolicyNum',
-          name:'AddInsurancePolicyNum',
-          component: AddInsurancePolicyNum,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"新增保单号",
-            openNames:['2']
+          path: '/addPolicyNum',
+          name: 'addPolicyNum',
+          component: addPolicyNum,
+          meta: {
+            level1: '首页',
+            level2: "弹性福利",
+            level3: "新增保单号",
+            openNames: ['2']
           }
         },
         {
           path: '/AddPayRate',
-          name:'AddPayRate',
+          name: 'AddPayRate',
           component: AddPayRate,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"新增付费比例",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "保单管理",
+            level3: "新增付费比例",
+            openNames: ['2']
           }
         },
         {
-          path: '/AgentBusinessList',
-          name:'AgentBusinessList',
-          component: AgentBusinessList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"代收代付列表",
-            openNames:['2']
+          path: '/collectionPayment',
+          name: 'collectionPayment',
+          component: collectionPayment,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "代收代付",
+            openNames: ['2']
           }
         },
         {
-          path: '/AddAgentBusiness',
-          name:'AddAgentBusiness',
-          component: AddAgentBusiness,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"新增代收代付",
-            openNames:['2']
-          }
-        },
-        {
-          path: '/AgentBusinessBatchList',
-          name:'AgentBusinessBatchList',
-          component: AgentBusinessBatchList,
-          meta:{
-            level1:'首页',
-            level2:"保单管理",
-            level3:"代收代付批次列表",
-            openNames:['2']
+          path: '/addCollectionPayment',
+          name: 'addCollectionPayment',
+          component: addCollectionPayment,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "新增代收代付",
+            openNames: ['2']
           }
         },
         {
@@ -493,14 +504,14 @@ let router = new Router({
           }
         },
         {
-          path: '/acceptanceAuditList',
-          name:'acceptanceAuditList',
-          component: acceptanceAuditList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"未投保审核列表",
-            openNames:['2']
+          path: '/uninsuredReview',
+          name: 'uninsuredReview',
+          component: uninsuredReview,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "未投保审核",
+            openNames: ['2']
           }
         },
         {
@@ -547,17 +558,8 @@ let router = new Router({
             level3: "礼品管理",
             openNames: ['2']
           }
-        },{
-          path: '/giftPersonChoose',
-          name: 'giftPersonChoose',
-          component: giftPersonChoose,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "人员选择",
-            openNames: ['2']
-          }
-        },{
+        },
+        {
           path: '/giftAdd',
           name: 'giftAdd',
           component: giftAdd,
@@ -567,7 +569,8 @@ let router = new Router({
             level3: "新增礼品",
             openNames: ['2']
           }
-        },{
+        },
+        {
           path: '/giftUpdate',
           name: 'giftUpdate',
           component: giftUpdate,
@@ -577,27 +580,8 @@ let router = new Router({
             level3: "修改礼品",
             openNames: ['2']
           }
-        },{
-          path: '/giftApply',
-          name: 'giftApply',
-          component: giftApply,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "申请礼品",
-            openNames: ['2']
-          }
-        },{
-          path: '/giftConfirm',
-          name: 'giftConfirm',
-          component: giftConfirm,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "礼品确认",
-            openNames: ['2']
-          }
-        },{
+        },
+        {
           path: '/marketActivitiesManager',
           name: 'marketActivitiesManager',
           component: marketActivitiesManager,
@@ -607,7 +591,8 @@ let router = new Router({
             level3: "市场活动管理",
             openNames: ['2']
           }
-        },{
+        },
+        {
           path: '/addActivity',
           name: 'addActivity',
           component: addActivity,
@@ -617,7 +602,8 @@ let router = new Router({
             level3: "新增市场活动",
             openNames: ['2']
           }
-        },{
+        },
+        {
           path: '/updateActivity',
           name: 'updateActivity',
           component: updateActivity,
@@ -627,27 +613,8 @@ let router = new Router({
             level3: "新增市场活动",
             openNames: ['2']
           }
-        },{
-          path: '/marketPersonChoose',
-          name: 'marketPersonChoose',
-          component: marketPersonChoose,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "市场活动申请",
-            openNames: ['2']
-          }
-        },{
-          path: '/applyActivity',
-          name: 'applyActivity',
-          component: applyActivity,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "市场活动申请",
-            openNames: ['2']
-          }
-        },{
+        },
+        {
           path: '/grantManager',
           name: 'grantManager',
           component: grantManager,
@@ -657,7 +624,8 @@ let router = new Router({
             level3: "发放管理",
             openNames: ['2']
           }
-        }, {
+        },
+        {
           path: '/giftExamine',
           name: 'giftExamine',
           component: giftExamine,
@@ -667,7 +635,8 @@ let router = new Router({
             level3: "礼品审批",
             openNames: ['2']
           }
-        },{
+        },
+        {
           path: '/giftGrant',
           name: 'giftGrant',
           component: giftGrant,
@@ -677,7 +646,8 @@ let router = new Router({
             level3: "礼品发放",
             openNames: ['2']
           }
-        },{
+        },
+        {
           path: '/marketExamine',
           name: 'marketExamine',
           component: marketExamine,
@@ -687,7 +657,8 @@ let router = new Router({
             level3: "活动审批",
             openNames: ['2']
           }
-        },{
+        },
+        {
           path: '/marketGrant',
           name: 'marketGrant',
           component: marketGrant,
@@ -709,20 +680,21 @@ let router = new Router({
           }
         }
       ]
-      }
-   ]})
+    }
+  ]
+})
 
-router.beforeEach((to,from,next)=>{
+router.beforeEach((to, from, next) => {
   // console.log(router.app.$local);
-    window.document.title="社保中心";
-    localStorage.setItem('level1',to.meta.level1);
-    localStorage.setItem('level2',to.meta.level2);
-    localStorage.setItem('level3',to.meta.level3);
-    localStorage.setItem('level4',to.meta.level4);
-    localStorage.setItem("openNames",[to.meta.openNames]);
-    next();
+  window.document.title = "社保中心";
+  localStorage.setItem('level1', to.meta.level1);
+  localStorage.setItem('level2', to.meta.level2);
+  localStorage.setItem('level3', to.meta.level3);
+  localStorage.setItem('level4', to.meta.level4);
+  localStorage.setItem("openNames", [to.meta.openNames]);
+  next();
 });
-router.afterEach((to,from)=>{});
+router.afterEach((to, from) => {});
 
 
 export default router;

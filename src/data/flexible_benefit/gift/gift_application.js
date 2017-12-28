@@ -8,10 +8,12 @@ const ajaxData = Utils.ajaxData;
 const giftData = params => ajaxq.post("/giftQueryService/giftList", params);
 //command服务
 const giftInsert = params => ajaxData.post("/giftCommandService/giftInsert", params);
+const giftUpdate = params => ajaxData.post("/giftCommandService/giftUpdate", params);
 
 export default {
   giftData,
   giftInsert,
+  giftUpdate,
 }
 
 /*const giftData = params => Utils.promise({

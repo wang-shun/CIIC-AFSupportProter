@@ -10,8 +10,8 @@
               <Form-item label="*未处理：" prop="taskStatus">
                 <Select v-model="operatorSearchData.taskStatus" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
-                  <Option value="1" label="本月未处理"></Option>
-                  <Option value="2" label="下月未处理"></Option>
+                  <Option value="-1" label="本月未处理"></Option>
+                  <Option value="-2" label="下月未处理"></Option>
                   <!--<Option value="3" label="处理中"></Option>
                   <Option value="4" label="已完成"></Option>
                   <Option value="5" label="批退"></Option>-->

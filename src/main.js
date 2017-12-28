@@ -8,6 +8,7 @@ import iView from 'iview'
 import Axios from 'axios'
 import VueAxios from 'vue-axios'
 import commons from "./lib/commons";
+import Validator from '@/validator/flexible_benefit'
 
 
 import 'iview/dist/styles/iview.css';
@@ -21,6 +22,7 @@ Vue.use(Vuex)
 Vue.use(iView);
 Vue.use(commons);
 Vue.use(VueAxios,Axios);
+Vue.use(Validator);
 
 const app = new Vue({
     router,

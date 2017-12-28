@@ -9,19 +9,15 @@ const state = {
   data: {
     marketListData: [],
     addResult: '',
-    page: {
-      current: 1,
-      pageSize: 10,
-      total: 1
-    },
+    total: null,
   }
 };
 
 
 const actions = {
   [EventTypes.MARKETAPPLICATIONTYPE]({commit}, params) {
-    mock.marketData(params).then(response => {
-      commit(EventTypes.MARKETAPPLICATIONTYPE, response.data.data)
+    return mock.marketData(params).then(response => {
+      commit(EventTypes.MARKETAPPLICATIONTYPE, response.data)
     })
   },
   [EventTypes.MARKETINSERTTYPE]({commit}, params) {
@@ -33,19 +29,33 @@ const actions = {
     }).catch(error => {
       params.errCallback(error)
     })
-  }
+  },
+  [EventTypes.MARKETUPDATETYPE]({commit}, params) {
+    mock.marketUpdate(params.data).then(response => {
+      commit(EventTypes.MARKETUPDATETYPE, response.data);
+      params.callback(response)
+    }, error => {
+      params.errCallback(error)
+    }).catch(error => {
+      params.errCallback(error)
+    })
+  },
 };
 
 const mutations = {
   [EventTypes.MARKETAPPLICATIONTYPE](state, data) {
-    state.data.marketListData = data.list;
-    state.data.page.current = data.pageNum;
-    state.data.page.pageSize = data.pageSize;
-    state.data.page.total = data.total;
+    state.data.marketListData = data.object.records;
+    //不需要的数据，覆盖前台会出现显示问题
+    // state.data.page.current = data.pageNum;
+    // state.data.page.pageSize = data.pageSize;
+    state.data.total = data.object.total;
   },
   [EventTypes.MARKETINSERTTYPE](state, data) {
     state.data.addResult = data;
-  }
+  },
+  [EventTypes.MARKETUPDATETYPE](state, data) {
+    state.data.addResult = data;
+  },
 };
 const getters = {
   getRows() {

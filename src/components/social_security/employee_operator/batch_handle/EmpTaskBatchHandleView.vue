@@ -2,98 +2,110 @@
   <Form :label-width=150>
     <Row class="mt20">
       <Col :sm="{span: 24}">
-         <!-- <Button type="dashed">添加</Button>  -->
-         <Button type="info">导出</Button>
-        <!-- <Button type="error">删除</Button> -->
+      <!-- <Button type="dashed">添加</Button>  -->
+      <Button type="info">导出</Button>
+      <!-- <Button type="error">删除</Button> -->
       </Col>
     </Row>
 
-    <Table class="mt20" border :columns="operatorTableNewColumns" :data="data.operatorTableNewData" ref="employeeSocialSecurityData" v-if="operatorType === '1'"></Table>
-    <Table class="mt20" border :columns="operatorTableRepairColumns" :data="data.operatorTableRepairData" ref="employeeSocialSecurityData" v-else-if="operatorType === '2'"></Table>
-    <Table class="mt20" border :columns="operatorTableChangeColumns" :data="data.operatorTableChangeData" ref="employeeSocialSecurityData" v-else-if="operatorType === '3'"></Table>
-    <Table class="mt20" width="1271" border :columns="operatorTableOutColumns" :data="data.operatorTableOutData" ref="employeeSocialSecurityData" v-else></Table>
+    <Table class="mt20" border :columns="operatorTableNewColumns" :data="data.operatorTableNewData"
+           ref="employeeSocialSecurityData"></Table>
+    <!--<Table class="mt20" border :columns="operatorTableRepairColumns" :data="data.operatorTableRepairData" ref="employeeSocialSecurityData"></Table>
+    <Table class="mt20" border :columns="operatorTableChangeColumns" :data="data.operatorTableChangeData" ref="employeeSocialSecurityData"></Table>
+    <Table class="mt20" width="1271" border :columns="operatorTableOutColumns" :data="data.operatorTableOutData" ref="employeeSocialSecurityData"></Table>-->
 
     <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="办理方式：">
-          <Select v-model="handleValue" style="width: 100%;" transfer>
-            <Option v-for="item in handleList" :value="item.value" :key="item.value">{{item.label}}</Option>
-          </Select>
-        </Form-item>
+      <Form-item label="办理方式：">
+        <Select v-model="handleValue" style="width: 100%;" transfer>
+          <Option v-for="item in handleList" :value="item.value" :key="item.value">{{item.label}}</Option>
+        </Select>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '4'">
-        <Form-item label="截止月份：">
-          <DatePicker v-model="socialSecurityEndMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-        </Form-item>
+      <Form-item label="截止月份：">
+        <DatePicker v-model="socialSecurityEndMonth" type="month" placeholder="选择日期" style="width: 100%;"
+                    transfer></DatePicker>
+      </Form-item>
       </Col>
+
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '1'">
-        <Form-item label="社保账号分类：">
-          <Select v-model="socialSecurityAccountTypeValue" style="width: 100%;" transfer>
-            <Option v-for="item in socialSecurityAccountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-          </Select>
-        </Form-item>
+      <Form-item label="社保账号分类：">
+        <Select v-model="socialSecurityAccountTypeValue" style="width: 100%;" transfer>
+          <Option v-for="item in socialSecurityAccountTypeList" :value="item.value" :key="item.value">{{item.label}}
+          </Option>
+        </Select>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '2'">
-        <Form-item label="补缴基数：">
-          <Input v-model="socialSecurityRepairBase" placeholder="请输入..."></Input>
-        </Form-item>
+      <Form-item label="补缴基数：">
+        <Input v-model="socialSecurityRepairBase" placeholder="请输入..."></Input>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '3'">
-        <Form-item label="新社保缴费基数:">
-          <Input v-model="socialSecurityChangeBase" placeholder="请输入..."></Input>
-        </Form-item>
+      <Form-item label="新社保缴费基数:">
+        <Input v-model="socialSecurityChangeBase" placeholder="请输入..."></Input>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '1'">
-        <Form-item label="任务：">
-          <Select v-model="taskValue" style="width: 100%;" transfer>
-            <Option v-for="item in taskList" :value="item.value" :key="item.value">{{item.label}}</Option>
-          </Select>
-        </Form-item>
+      <Form-item label="任务：">
+        <Select v-model="taskValue" style="width: 100%;" transfer>
+          <Option v-for="item in taskList" :value="item.value" :key="item.value">{{item.label}}</Option>
+        </Select>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '2'">
-        <Form-item label="补缴起始月份：">
-          <DatePicker v-model="socialSecurityRepairStartMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-        </Form-item>
+      <Form-item label="补缴起始月份：">
+        <DatePicker v-model="socialSecurityRepairStartMonth" type="month" placeholder="选择日期" style="width: 100%;"
+                    transfer></DatePicker>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '3'">
-        <Form-item label="调整起始月份：">
-          <DatePicker v-model="socialSecurityChangeStartMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-        </Form-item>
+      <Form-item label="调整起始月份：">
+        <DatePicker v-model="socialSecurityChangeStartMonth" type="month" placeholder="选择日期" style="width: 100%;"
+                    transfer></DatePicker>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '1'">
-        <Form-item label="社保序号：">
-          <Input v-model="socialSecurityIndex" placeholder="请输入..."></Input>
-        </Form-item>
+      <Form-item label="社保序号：">
+        <Input v-model="socialSecurityIndex" placeholder="请输入..."></Input>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '2'">
-        <Form-item label="补缴截止月份：">
-          <DatePicker v-model="socialSecurityRepairEndMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-        </Form-item>
+      <Form-item label="补缴截止月份：">
+        <DatePicker v-model="socialSecurityRepairEndMonth" type="month" placeholder="选择日期" style="width: 100%;"
+                    transfer></DatePicker>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '3'">
-        <Form-item label="调整截止月份：">
-          <DatePicker v-model="socialSecurityChangeEndMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-        </Form-item>
+      <Form-item label="调整截止月份：">
+        <DatePicker v-model="socialSecurityChangeEndMonth" type="month" placeholder="选择日期" style="width: 100%;"
+                    transfer></DatePicker>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '1'">
-        <Form-item label="起缴月份：">
-          <DatePicker v-model="socialSecurityStartMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-        </Form-item>
+      <Form-item label="起缴月份：">
+        <DatePicker v-model="socialSecurityStartMonth" type="month" placeholder="选择日期" style="width: 100%;"
+                    transfer></DatePicker>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '2'">
-        <Form-item label="补缴办理月份：">
-          <DatePicker v-model="socialSecurityRepairDoMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-        </Form-item>
+      <Form-item label="补缴办理月份：">
+        <DatePicker v-model="socialSecurityRepairDoMonth" type="month" placeholder="选择日期" style="width: 100%;"
+                    transfer></DatePicker>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-else-if="operatorType === '3'">
-        <Form-item label="调整办理月份：">
-          <DatePicker v-model="socialSecurityChangeDoMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-        </Form-item>
+      <Form-item label="调整办理月份：">
+        <DatePicker v-model="socialSecurityChangeDoMonth" type="month" placeholder="选择日期" style="width: 100%;"
+                    transfer></DatePicker>
+      </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType === '1'">
-        <Form-item label="截止月份：">
-          <DatePicker v-model="socialSecurityEndMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-        </Form-item>
+      <Form-item label="截止月份：">
+        <DatePicker v-model="socialSecurityEndMonth" type="month" placeholder="选择日期" style="width: 100%;"
+                    transfer></DatePicker>
+      </Form-item>
       </Col>
     </Row>
     <Row>
@@ -105,8 +117,8 @@
     </Row>
     <Row>
       <Col :sm="{span:24}" class="tr">
-        <Button type="primary" >批量提交</Button>
-        <Button type="warning" @click="goback">返回</Button>
+      <Button type="primary">批量提交</Button>
+      <Button type="warning" @click="goback">返回</Button>
       </Col>
     </Row>
   </Form>
@@ -145,7 +157,7 @@
             }
           },
           {
-            title: '客户编号', width: 120, key: 'customerNumber', align: 'center',
+            title: '客户编号', width: 120, key: 'customerNumber', align: 'center', fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.customerNumber),
@@ -153,7 +165,7 @@
             }
           },
           {
-            title: '客户名称', width: 120, key: 'customerName', align: 'center',
+            title: '客户名称', width: 120, key: 'customerName', align: 'center', fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.customerName),
@@ -161,7 +173,7 @@
             }
           },
           {
-            title: '雇员姓名', width: 120, key: 'employeeName', align: 'center',
+            title: '雇员姓名', width: 120, key: 'employeeName', align: 'center', fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeName),
@@ -169,7 +181,7 @@
             }
           },
           {
-            title: '入职日期', width: 120, key: 'checkDate', align: 'center',
+            title: '入职日期', width: 120, key: 'checkDate', align: 'center', fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.checkDate),
@@ -177,7 +189,7 @@
             }
           },
           {
-            title: '人员分类', width: 120, key: 'personType', align: 'center',
+            title: '人员分类', width: 120, key: 'personType', align: 'center', fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.personType),
@@ -250,7 +262,7 @@
             title: '社保起始月份', key: 'socialSecurityStartMonth', align: 'center', width: 180, ellipsis: true,
             render: (h, params) => {
               return h('div', [
-                h('DatePicker', {props: {value: params.row.socialSecurityStartMonth}})
+                h('DatePicker', {props: {type: 'month', value: params.row.socialSecurityStartMonth}})
               ]);
             }
           },
@@ -258,7 +270,7 @@
             title: '社保截止月份', key: 'socialSecurityEndMonth', align: 'center', width: 180, ellipsis: true,
             render: (h, params) => {
               return h('div', [
-                h('DatePicker', {props: {value: params.row.socialSecurityEndMonth}})
+                h('DatePicker', {props: {type: 'month', value: params.row.socialSecurityEndMonth}})
               ]);
             }
           },
@@ -632,7 +644,8 @@
         socialSecurityChangeEndMonth: '', //调整截止月份
         socialSecurityChangeDoMonth: '', //调整办理月份
 
-        refuseReason: '' //批退原因
+        refuseReason: '', //批退原因
+
       }
     },
     mounted() {
@@ -645,7 +658,7 @@
     },
     methods: {
       ...mapActions('employeeCommcialOperator', [EventType.EMPLOYEECOMMCIALOPERATOR]),
-      goback () {
+      goback() {
         this.$router.push({name: 'employeeoperatorview'});
       }
     }

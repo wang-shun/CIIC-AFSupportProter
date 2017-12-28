@@ -98,13 +98,13 @@
 </template>
 
 <script>
-  import canEditTable from '../market_activities/tables/canEditTable.vue';
+  // import canEditTable from '../market_activities/tables/canEditTable.vue';
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventTypes from '../../../store/EventTypes'
   import ProgressBar from "../../commoncontrol/progress/progressbar.vue";
 
   export default {
-    components: {ProgressBar, canEditTable},
+    components: {ProgressBar},
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏

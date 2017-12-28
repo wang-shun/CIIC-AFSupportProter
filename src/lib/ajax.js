@@ -276,7 +276,5 @@ AJAX.ajaxSiteLetterService = createProxyAjaxForName('SiteLetterService');
 AJAX.ajaxSSPService = createProxyAjaxForName('SSPService');
 AJAX.ajaxSpecialOperationService = createProxyAjaxForName('SpecialOperationService');
 
-// 其他中心服务
-AJAX.ajaxProductCenterService = createProxyAjaxForName('ProductCenter');
 
 export default AJAX;

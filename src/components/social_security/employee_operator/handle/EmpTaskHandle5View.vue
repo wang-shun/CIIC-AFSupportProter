@@ -125,10 +125,10 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" @click="instance('1','next')">转下月处理</Button>
-      <Button type="primary" @click="instance('3')">办理</Button>
-      <Button type="error" @click="instance('4')">批退</Button>
-      <Button type="primary" v-show="operatorType !== '2'" @click="instance('1')">暂存</Button>
+      <Button type="primary" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
+      <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
+      <Button type="error" @click="instance('4')" v-if="showButton">批退</Button>
+      <Button type="primary" v-show="operatorType !== '2'" @click="instance('1')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -276,6 +276,7 @@
 
           taskStatus: '',
           empTaskId: '',
+          empArchiveId: '',
         },
 
         // 任务单参考信息
@@ -302,6 +303,7 @@
             }
           }
         ], //任务单参考信息 -- 新增
+        showButton: true,
       }
     },
     mounted() {
@@ -330,6 +332,7 @@
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
           }
+          this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
         });
 

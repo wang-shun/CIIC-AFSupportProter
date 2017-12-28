@@ -198,7 +198,10 @@ let createAjaxForName = name => {
   });
 }
 
-
+/**
+ * 上传附件的ajax请求
+ * @param name
+ */
 let createAjaxForData = name => {
   return createAjax({
     baseURL: config.basePaths[name],
@@ -208,10 +211,18 @@ let createAjaxForData = name => {
     }
   });
 };
-
+/**
+ * 弹性福利读写服务
+ */
 utils.ajaxFbq = createAjaxForName('fb-q');
 utils.ajaxFbc = createAjaxForName('fb-c');
 utils.ajaxData = createAjaxForData('fb-c');
+
+/**
+ * 健康医疗读写服务
+ */
+utils.ajaxhmq = createAjaxForName('health-q');
+utils.ajaxhmc = createAjaxForName('health-c');
 
 utils.ajaxSsq = createAjaxForName('ss-q');
 utils.ajaxSsc = createAjaxForName('ss-c');

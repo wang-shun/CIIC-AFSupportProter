@@ -193,11 +193,11 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" @click="instance('1','next')">转下月处理</Button>
-      <Button type="primary" @click="instance('5')">不需处理</Button>
-      <Button type="primary" @click="instance('3')">办理</Button>
-      <Button type="error" @click="instance('4')">批退</Button>
-      <Button type="primary" v-show="operatorType !== '2'" @click="instance('1')">暂存</Button>
+      <Button type="primary" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
+      <Button type="primary" @click="instance('5')" v-if="showButton">不需处理</Button>
+      <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
+      <Button type="error" @click="instance('4')" v-if="showButton">批退</Button>
+      <Button type="primary" v-show="operatorType !== '2'" @click="instance('1')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -347,25 +347,29 @@
 
           taskStatus: '',
           empTaskId: '',
+          empArchiveId: '',
         },
 
         // 任务单参考信息
         taskNewInfoColumns: [
-          {title: '基数', key: 'base', align: 'center', width: 200,
+          {
+            title: '基数', key: 'base', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.base),
               ]);
             }
           },
-          {title: '起缴月份', key: 'startMonth', align: 'center', width: 200,
+          {
+            title: '起缴月份', key: 'startMonth', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.startMonth),
               ]);
             }
           },
-          {title: '截至月份', key: 'endYear', align: 'center', width: 200,
+          {
+            title: '截至月份', key: 'endYear', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.endYear),
@@ -373,6 +377,8 @@
             }
           }
         ], //任务单参考信息 -- 新增
+
+        showButton: true,
       }
     },
     mounted() {
@@ -404,6 +410,7 @@
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
           }
+          this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
         });
 
@@ -472,7 +479,7 @@
         }
       },
       instance(taskStatus, type) {
-        var fromData = this.$utils.clear(this.socialSecurityPayOperator,'');
+        var fromData = this.$utils.clear(this.socialSecurityPayOperator, '');
 
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
@@ -498,7 +505,7 @@
             }
 
             // 转下月处理
-            if(type && type == 'next'){
+            if (type && type == 'next') {
               var nextDay = parseInt(this.company.expireDate) + 1;
               var submitTime = new Date();
               submitTime.setDate(nextDay);

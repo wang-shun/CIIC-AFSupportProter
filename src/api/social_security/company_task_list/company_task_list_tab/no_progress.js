@@ -9,6 +9,7 @@ export class NoProgress extends CompanyTaskList{
      //get request
     static getTableData(params){
        let url = domainJson.getNoProgressCompanyTask
+       
        return super.getTableData(params,url)
     }
 

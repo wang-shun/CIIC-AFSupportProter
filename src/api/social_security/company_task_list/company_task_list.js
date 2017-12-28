@@ -25,7 +25,7 @@ export class CompanyTaskList{
                     for(let i of response.data.data){
                       let obj ={}
                       obj.action=""
-                      obj.tid = i.companyTaskId
+                      obj.tid = i.comTaskId
                       if(i.taskCategory==1) obj.type='开户'
                       //1:开户：2：转移 3：变更 4：终止
                       else if (i.taskCategory==2) obj.type='转移'
@@ -58,7 +58,7 @@ export class CompanyTaskList{
     static postTableData(params,url){
       return new Promise(function(resolve,reject){
         ajax.post(url, params).then(function (response) {  
-              console.log(response)
+              
               let responseData = {
                 data:{
                   taskData:[],
@@ -71,7 +71,7 @@ export class CompanyTaskList{
                   for(let i of response.data.data){
                     let obj ={}
                     obj.action=""
-                    obj.tid = i.companyTaskId
+                    obj.tid = i.comTaskId
                     if(i.taskCategory==1) obj.type='开户'
                     //1:开户：2：转移 3：变更 4：终止
                     else if (i.taskCategory==2) obj.type='转移'
@@ -145,32 +145,36 @@ export class CompanyTaskList{
         let result = this.handleReturnData(response)
         if(!result.isError){
           let companyInfo = null
-          let ssComAccountDTO =result.data.ssComAccountDTO
+          let ssComAccountBO =result.data.ssComAccountBO
+          //1 表示开户
           if(params.operatorType=='1'){
-            companyInfo = {customerNumber:result.data.companyId,
+         
+            companyInfo = {
+                          customerNumber:result.data.companyId,
                            customerName:result.data.companyName,
                            serviceManager:""
                           }
           }else{
+            
             companyInfo ={
               //企业社保账号
-             companySocialSecurityAccount:ssComAccountDTO.ssAccount,
+             companySocialSecurityAccount:ssComAccountBO.ssAccount,
              //客户编号
              companyNumber:result.data.companyId,
              //参保户名称
              companyName:result.data.companyName,
              //社保中心
-             socialSecurityCenter:ssComAccountDTO.settlementArea,
+             socialSecurityCenter:ssComAccountBO.settlementArea,
              //UKey密码
-             uKey:ssComAccountDTO.ssPwd,
+             uKey:ssComAccountBO.ssPwd,
              //账户类型 1:中智大库 2中智外包 3独立户
-             accountType:ssComAccountDTO.ssAccountType=='1'?'中智大库':ssComAccountDTO.ssAccountType=='2'?'中智外包':'独立户',
+             accountType:ssComAccountBO.ssAccountType=='1'?'中智大库':ssComAccountBO.ssAccountType=='2'?'中智外包':'独立户',
               //客服经理
              companyServicer:'',
               //企业社保账户状态 0初始 1有效 2 终止
-             companySocialSecurityState:ssComAccountDTO.state=='0'?'初始':ssComAccountDTO.state=='1'?'有效':'终止',
+             companySocialSecurityState:ssComAccountBO.state=='0'?'初始':ssComAccountBO.state=='1'?'有效':'终止',
              //客户社保截至日：
-             companySocialSecurityEndData:ssComAccountDTO.expireDate
+             companySocialSecurityEndData:ssComAccountBO.expireDate
             }
           }
           let data = {
@@ -243,31 +247,32 @@ export class CompanyTaskList{
   static theLastStepGetDate(result,type){
     
     let resultData = result.data
-    let ssComAccountDTO =resultData.ssComAccountDTO
+    let ssComAccountBO =resultData.ssComAccountBO
     //材料信息
     let operatorMaterialListData = this.getMaterial(result.data.materialList)
+    
     let data = {
           companyTaskStatus:result.data.taskStatus,
-          comAccountId:ssComAccountDTO.comAccountId,
+          comAccountId:ssComAccountBO.comAccountId,
           companyInfo:{
               //企业社保账号
-            companySocialSecurityAccount:ssComAccountDTO.ssAccount,
+            companySocialSecurityAccount:ssComAccountBO.ssAccount,
             //客户编号
             companyNumber:result.data.companyId,
             //参保户名称
             companyName:result.data.companyName,
             //社保中心
-            socialSecurityCenter:ssComAccountDTO.settlementArea,
+            socialSecurityCenter:ssComAccountBO.settlementArea,
             //UKey密码
-            uKey:ssComAccountDTO.ssPwd,
+            uKey:ssComAccountBO.ssPwd,
             //账户类型 1:中智大库 2中智外包 3独立户
-            accountType:ssComAccountDTO.ssAccountType=='1'?'中智大库':ssComAccountDTO.ssAccountType=='2'?'中智外包':'独立户',
+            accountType:ssComAccountBO.ssAccountType=='1'?'中智大库':ssComAccountBO.ssAccountType=='2'?'中智外包':'独立户',
               //客服经理
             companyServicer:'',
               //企业社保账户状态 0初始 1有效 2 终止
-            companySocialSecurityState:ssComAccountDTO.state=='0'?'初始':ssComAccountDTO.state=='1'?'有效':'终止',
+            companySocialSecurityState:ssComAccountBO.state=='0'?'初始':ssComAccountBO.state=='1'?'有效':'终止',
             //客户社保截至日：
-            companySocialSecurityEndData:ssComAccountDTO.expireDate
+            companySocialSecurityEndData:ssComAccountBO.expireDate
           },
           historyRemark:{
             submitName:resultData.submitterName,
@@ -287,12 +292,12 @@ export class CompanyTaskList{
        if(type=='end'){
           data.endOperator= {
             ...common,
-            endDate: ssComAccountDTO.endDate,  //终止时间
+            endDate: ssComAccountBO.endDate,  //终止时间
           }
        }
        if(type=='transfer'){
         let dynamicExtend = resultData.dynamicExtend
-        let settlementArea= ssComAccountDTO.settlementArea//结算区县
+        let settlementArea= ssComAccountBO.settlementArea//结算区县
         let transferDate = null;
         //如果扩展字段有值显示扩展字段
         if(dynamicExtend!=null && dynamicExtend!=""){
@@ -421,25 +426,25 @@ export class CompanyTaskList{
     //前道传过来的社保截止和支付方式的json
     let taskFormContent =  JSON.parse(result.taskFormContent)
     //账户信息
-    let ssComAccountDTO =  result.ssComAccountDTO
+    let ssComAccountBO =  result.ssComAccountBO
     //判断账户信息是否为空
-    let isNull = ssComAccountDTO==null || ssComAccountDTO==""
+    let isNull = ssComAccountBO==null || ssComAccountBO==""
 
     //行业表里信息
     let industryInfo = null
-    if(!isNull && ssComAccountDTO.ssAccountRatio!=null){
-      industryInfo = ssComAccountDTO.ssAccountRatio
+    if(!isNull && ssComAccountBO.ssAccountRatio!=null){
+      industryInfo = ssComAccountBO.ssAccountRatio
     }
 
     let dispatchMaterial = []
-    if(!isNull && ssComAccountDTO.dispatchMaterial!=null){
-      dispatchMaterial = JSON.parse(ssComAccountDTO.dispatchMaterial)
+    if(!isNull && ssComAccountBO.dispatchMaterial!=null){
+      dispatchMaterial = JSON.parse(ssComAccountBO.dispatchMaterial)
     }
     //发出的材料
     
     return {
       companyTaskStatus:result.taskStatus,
-      comAccountId:isNull?'':ssComAccountDTO.comAccountId,
+      comAccountId:isNull?'':ssComAccountBO.comAccountId,
       companyInfo: {
             customerNumber: result.companyId,
             customerName: result.companyName,
@@ -455,24 +460,24 @@ export class CompanyTaskList{
       companyOpenAccountOperator: {
             taskValue: result.taskCategory,
             taskTypeValue:result.taskStatus,//任务状态值
-            joinSafeguardRegister: isNull?'':ssComAccountDTO.ssAccount, //参保户登记码
-            bankCardNumber: isNull?'':ssComAccountDTO.bankAccount, //牡丹卡号
-            pensionMoneyUseCompanyName: isNull?'':ssComAccountDTO.comAccountName, //养老金用公司名称
-            socialSecurityCenterValue: isNull?'':ssComAccountDTO.settlementArea,//社保中心(结算区县)
-            payBank: isNull?'':ssComAccountDTO.paymentBank, //付款行
-            icbcSearchAccount: isNull?'':ssComAccountDTO.queryAccount, //工行查询账号
-            pensionMoneySingleUserName: isNull?'':ssComAccountDTO.ssUsername, //养老金独立开户用户名
-            pensionMoneySinglePassWord: isNull?'':ssComAccountDTO.ssPwd, //养老金独立开户密码
-            originalSum: isNull?'':ssComAccountDTO.initialBalance, //初期余额
-            originalArrears: isNull?'':ssComAccountDTO.initialDebt, //初期欠费
-            resourceValue: isNull?'':ssComAccountDTO.originPlace,//来源地
-            resourceNotes: isNull?'':ssComAccountDTO.originPlaceRemark, //来源地备注
-            giveMethodValue: isNull?'':ssComAccountDTO.deliverWay,//交予方式
-            giveMethodNotes: isNull?'':ssComAccountDTO.deliverWayRemark, //交予方式备注
-            giveProofDate: isNull || ssComAccountDTO.provideCertificateTime==null ?'':ssComAccountDTO.provideCertificateTime, //交予凭证时间
-            changeDate: isNull || ssComAccountDTO.changeTime==null ?'':ssComAccountDTO.changeTime, //变更时间
-            recieveDate: isNull || ssComAccountDTO.receiveDate==null ?'':ssComAccountDTO.receiveDate, //收到日期
-            moveInDate: isNull || ssComAccountDTO.intoDate==null ?'':ssComAccountDTO.intoDate, //转入日期
+            joinSafeguardRegister: isNull?'':ssComAccountBO.ssAccount, //参保户登记码
+            bankCardNumber: isNull?'':ssComAccountBO.bankAccount, //牡丹卡号
+            pensionMoneyUseCompanyName: isNull?'':ssComAccountBO.comAccountName, //养老金用公司名称
+            socialSecurityCenterValue: isNull?'':ssComAccountBO.settlementArea,//社保中心(结算区县)
+            payBank: isNull?'':ssComAccountBO.paymentBank, //付款行
+            icbcSearchAccount: isNull?'':ssComAccountBO.queryAccount, //工行查询账号
+            pensionMoneySingleUserName: isNull?'':ssComAccountBO.ssUsername, //养老金独立开户用户名
+            pensionMoneySinglePassWord: isNull?'':ssComAccountBO.ssPwd, //养老金独立开户密码
+            originalSum: isNull?'':ssComAccountBO.initialBalance, //初期余额
+            originalArrears: isNull?'':ssComAccountBO.initialDebt, //初期欠费
+            resourceValue: isNull?'':ssComAccountBO.originPlace,//来源地
+            resourceNotes: isNull?'':ssComAccountBO.originPlaceRemark, //来源地备注
+            giveMethodValue: isNull?'':ssComAccountBO.deliverWay,//交予方式
+            giveMethodNotes: isNull?'':ssComAccountBO.deliverWayRemark, //交予方式备注
+            giveProofDate: isNull || ssComAccountBO.provideCertificateTime==null ?'':ssComAccountBO.provideCertificateTime, //交予凭证时间
+            changeDate: isNull || ssComAccountBO.changeTime==null ?'':ssComAccountBO.changeTime, //变更时间
+            recieveDate: isNull || ssComAccountBO.receiveDate==null ?'':ssComAccountBO.receiveDate, //收到日期
+            moveInDate: isNull || ssComAccountBO.intoDate==null ?'':ssComAccountBO.intoDate, //转入日期
             sufferedOnTheJobPercentageId:industryInfo==null?'':industryInfo.ssAccountRatioId,//工伤历史变更表的 iD
             belongToIndustries: industryInfo==null?'':industryInfo.industryCategory, //所属行业
             sufferedOnTheJobPercentage: industryInfo==null?'':industryInfo.comRatio, //企业工伤比例

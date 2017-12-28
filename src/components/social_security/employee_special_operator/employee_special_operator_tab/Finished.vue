@@ -116,12 +116,6 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Button type="error" @click="isRefuseReason = true">批退</Button>
-      </Col>
-    </Row>
-
-    <Row class="mt20">
-      <Col :sm="{span:24}">
       <Table border ref="selection"
              :columns="employeeResultColumns"
              :data="employeeResultData"
@@ -138,16 +132,6 @@
       </Col>
     </Row>
 
-    <!-- 批退理由 -->
-    <Modal
-      v-model="isRefuseReason"
-      :mask-closable="false"
-      :closable="false"
-      @on-ok="handleRefuseReason">
-      <p>
-        <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
-      </p>
-    </Modal>
   </div>
 </template>
 <script>
@@ -179,9 +163,6 @@
           urgent: '',
           submitTime: '',
         },
-
-        // 批退
-        isRefuseReason: false,
         rejectionRemark: '',
         selectEmployeeResultData: [],
 
@@ -197,12 +178,6 @@
 
         employeeResultColumns: [
           {
-            type: 'selection',
-            fixed: 'left',
-            width: 60,
-            align: 'center'
-          },
-          {
             title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -211,17 +186,17 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'employeespecialprogresstwo'})
+                      this.$router.push({name: 'empspecialtaskdetail',query:{empTaskId:params.row.empTaskId}})
                     }
                   }
-                }, '办理'),
+                }, '查看'),
               ]);
             }
           },
           {
-            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
+            title: '特殊操作', key: 'taskCategorySpecial', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
-              return this.$decode.taskCategory(params.row.taskCategory)
+              return this.$decode.specialOperatorType(params.row.taskCategorySpecial)
             }
           },
           {
@@ -335,8 +310,8 @@
           }
           // 操作类型，1 日常操作、2 特殊操作，默认日常操作
           params.operatorType = 2;
-          // 任务处理状态:、1 本月未处理、2 下月未处理、3 处理中、4 已完成、5 批退
-          params.taskStatus = 4;
+          // 任务处理状态:、1、未处理 2 、处理中(已办)  3 已完成(已做) 4、批退 5、不需处理
+          params.taskStatus = 3;
 
           // 处理任务发起时间
           var submitTimes = params.submitTime;
@@ -364,114 +339,10 @@
         this.employeeResultPageData.pageSize = val;
         this.employeeOperatorQuery();
       },
-      // 检查是否选中任务
-      checkSelectEmployeeResultData() {
-        if (this.selectEmployeeResultData.length == 0) {
-          this.$Modal.warning({
-            title: '批退',
-            content: '请选择任务'
-          });
-          return false;
-        }
-        return true;
-      },
-      // 批退
-      showRefuseReason() {
-        if (this.checkSelectEmployeeResultData()) {
-          this.isRefuseReason = true
-        }
-      },
-      handleRefuseReason() {
-        var ids = [];
-        for (var d of this.selectEmployeeResultData) {
-          ids.push(d.empTaskId);
-        }
-
-        var ajax = api.refuseReason({
-          remark: this.rejectionRemark,
-          ids: ids
-        })
-
-        this.$ajax.handle({
-          vm: this,
-          ajax: ajax,
-          title: '任务批退',
-          callback: (data) => {
-            this.employeeOperatorQuery();
-          }
-        })
-      },
+  
       // 选中项发生变化时就会触发
       selectionChange(selection) {
         this.selectEmployeeResultData = selection;
-      },
-      // 检测批量办理
-      checkHandle() {
-        // 检查类型是否一致（只有选中了任务才能进行办理）
-        if (!this.checkSelectEmployeeResultData()) {
-          return false;
-        }
-
-        var length = this.selectEmployeeResultData.length;
-        if (length > 1) {
-          var taskCategory = this.selectEmployeeResultData[0].taskCategory
-
-          for (var i = 1; i < length; i++) {
-            if (taskCategory != this.selectEmployeeResultData[i].taskCategory) {
-              this.$Modal.warning({
-                title: '任务办理',
-                content: '任务类型不一致'
-              });
-              return false;
-            }
-          }
-        }
-        this.batchHandle(this.selectEmployeeResultData);
-      },
-      // 批量办理
-      batchHandle(data, isBatch = false) {
-        if (isBatch) {
-          // 组织任务 ID
-          var taskIds = [];
-          var taskCategory = rows[0].taskCategory;
-          for (var row of rows) {
-            taskIds.push(row.empTaskId);
-          }
-
-          this.$router.push({
-            name: 'employeecommcialoperator',
-            query: {operatorType: name, sourceFrom: 'operator', taskIds: taskIds}
-          });
-        } else {
-          // 根据任务类型跳转
-          switch (data.taskCategory) {
-            case '1': // 新进
-            case '2': // 转入
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '0', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-            case '3': // 调整
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '1', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-            case '4':// 补缴
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '4', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-            case '5':// 转出
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '2', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-          }
-        }
       }
       ,
       ok() {

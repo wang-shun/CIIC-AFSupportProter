@@ -63,9 +63,15 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="社保中心(结算区县)：" prop="socialSecurityCenterValue">
-                  <Select v-model="companyOpenAccountOperator.socialSecurityCenterValue" style="width: 100%;" transfer>
-                    <Option v-for="item in socialSecurityCenterList" :value="item.label" :key="item.value">{{item.label}}</Option>
-                  </Select>
+                  	<AutoComplete
+                      v-model="companyOpenAccountOperator.socialSecurityCenterValue"
+                      placeholder="请选择">
+                      <div class="demo-auto-complete-item">
+                          <Option v-for="option in socialSecurityCenterList" :value="option.label" :key="option.label">
+                              <span class="demo-auto-complete-title">{{ option.label }}</span>
+                          </Option>
+                      </div>
+                  </AutoComplete>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
@@ -244,16 +250,20 @@
     data() {
        const validateBankCardNumber = (rule, value, callback) => {
                 if (!value.trim()) {
-                    return callback(new Error('该项不能为空！'));
+                   // return callback(new Error('该项不能为空！'));
+                    return callback(new Error(''));
                 }
                 let rex = /^\d*$/
                   if(!rex.test(value)) {
-                        callback(new Error('请输入纯数字.'));
+                        //callback(new Error('请输入纯数字.'));
+                        callback(new Error(''));
                     }else if(value.trim()!=value){
-                         callback(new Error('请输入纯数字.'));
+                        //callback(new Error('请输入纯数字.'));
+                         callback(new Error(''));
                    } else {
                         if (value.length > 20) {
-                            callback(new Error('长度不能超过20位.'));
+                          //callback(new Error('长度不能超过20位.'));
+                            callback(new Error(''));
                         } else {
                             callback();
                         }
@@ -261,17 +271,19 @@
             };
             //用户名和密码
        const validateUserNameAndPsw=(rule, value, callback)=>{
-                
-                console.log(this.companyOpenAccountOperator.taskTypeValue)
+              
                 if (!value.trim()) {
-                    return callback(new Error('该项不能为空！'));
+                  //return callback(new Error('该项不能为空！'));
+                    return callback(new Error(''));
                 }
                 let regex=/^[0-9A-Za-z_]{1,50}$/ //数字、字母、下划线
                 if (!regex.test(value)) {
-                    return callback(new Error('只能包含数字,字母或下划线.'));
+                  //return callback(new Error('只能包含数字,字母或下划线.'));
+                    return callback(new Error(''));
                 }
                 if(value.length>20){
-                   return callback(new Error('长度不能超过20位.'));
+                  //return callback(new Error('长度不能超过20位.'));
+                   return callback(new Error(''));
                 }
                 
                 
@@ -279,13 +291,19 @@
        };
        //初始余额和欠费 
        const validateUserMoney=(rule, value, callback)=>{
-
+              
                var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+              if(value==null || value.trim()==""){
+                callback();
+                return;
+              }
               if(!rex.test(value)){
-                    callback(new Error('请输入正确的金钱格式.'));
+                  //callback(new Error('请输入正确的金钱格式.'));
+                    callback(new Error(''));
                 }else{
                     if(value.length > 20){
-                          callback(new Error('长度不能超过20位.'));
+                       // callback(new Error('长度不能超过20位.'));
+                          callback(new Error(''));
                     }else{
                          callback();
                     }
@@ -296,12 +314,15 @@
 
                var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
                if (value==null || value.trim()=="") {
-                     callback(new Error('该项不能为空！'));
+                     //callback(new Error('该项不能为空！'));
+                       callback(new Error(''));
                 }else if(!rex.test(value)){
-                    callback(new Error('请输入正确的格式.'));
+                    //callback(new Error('请输入正确的格式.'));
+                      callback(new Error(''));
                 }else{
                     if(value.length > 20){
-                          callback(new Error('长度不能超过20位.'));
+                      //  callback(new Error('长度不能超过20位.'));
+                          callback(new Error(''));
                     }else{
                          callback();
                     }
@@ -317,7 +338,9 @@
                 if(value==null){
                  this.companyOpenAccountOperator.acceptanceDate=''
                 }
-               return callback(new Error('请选择受理时间.'));
+                //return callback(new Error('请选择受理时间.'));
+               return callback(new Error(''));
+               
               }else{
                 callback();
               }
@@ -334,7 +357,8 @@
                 if(value==null){
                  self.companyOpenAccountOperator.sendCheckDate=''
                 }
-                return callback(new Error('请选择送审时间.'));
+                //return callback(new Error('请选择送审时间.'));
+                return callback(new Error(''));
               }else{
                 callback();
               }
@@ -347,7 +371,8 @@
                callback();
             }else{
               if(value==null || value==''){
-                return callback(new Error('请选择完成时间.'));
+                //return callback(new Error('请选择完成时间.'));
+                return callback(new Error(''));
               }else{
                 callback();
               }
@@ -469,7 +494,8 @@
                         { max:20, message: '最多不超过20个.', trigger: 'blur' }
                     ],
                     socialSecurityCenterValue: [
-                        { required: true, message: '请选择社保中心!', trigger: 'change' }
+                        { required: true, message: '请选择社保中心!', trigger: 'blur' },
+                         { required: true, message: '请选择社保中心!', trigger: 'change' }
                     ],
                     icbcSearchAccount: [
                         { required: true, message: '该项不能为空!', trigger: 'blur' },
@@ -622,7 +648,7 @@
       //查询页面公司信息和前道传递信息
       queryPageInfo(){
         let params = {
-          companyTaskId:this.tid,
+          comTaskId:this.tid,
            isComplete:'0'//表示不为空 查询状态不为3的任务:
         }
         let self = this
@@ -719,7 +745,7 @@
           }
           //判断状态
           let ssComTaskDTO = {
-            companyTaskId: this.tid,
+            comTaskId: this.tid,
             taskCategory: this.companyOpenAccountOperator.taskValue,
             taskFormContent: JSON.stringify(taskFormContent),
             taskStatus: taskStatus,
@@ -773,7 +799,7 @@
                 return;
         }
         let params = {
-                companyTaskId:this.tid,
+                comTaskId:this.tid,
                 taskStatus:this.currentStep
             }
             let self = this

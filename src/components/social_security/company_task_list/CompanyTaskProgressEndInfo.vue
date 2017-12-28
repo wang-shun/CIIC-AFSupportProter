@@ -75,7 +75,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                   <Form-item prop="handleReason" label="办理备注：">
-                    <Input v-model="endOperator.handleReason" type="textarea" placeholder="请填写批退备注..." :rows="4"></Input>
+                    <Input v-model="endOperator.handleReason" type="textarea" placeholder="请填写办理备注..." :rows="4"></Input>
                   </Form-item>
                 </Col>
                 <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
@@ -120,7 +120,8 @@
                 if(value==null){
                  self.endOperator.acceptanceDate=''
                 }
-               return callback(new Error('请选择受理时间.'));
+               // return callback(new Error('请选择受理时间.'));
+               return callback(new Error(''));
               }else{
                 callback();
               }
@@ -136,7 +137,8 @@
                 if(value==null){
                  self.endOperator.sendCheckDate=''
                 }
-                return callback(new Error('请选择送审时间.'));
+                //return callback(new Error('请选择送审时间.'));
+                return callback(new Error(''));
               }else{
                 callback();
               }
@@ -149,7 +151,8 @@
                callback();
             }else{
               if(value==null || value==''){
-                return callback(new Error('请选择完成时间.'));
+                //return callback(new Error('请选择完成时间.'));
+                return callback(new Error(''));
               }else{
                 callback();
               }
@@ -163,7 +166,8 @@
                callback();
             }else{
               if(value==null || value==''){
-                return callback(new Error('请选择终止时间.'));
+                //return callback(new Error('请选择终止时间.'));
+                return callback(new Error(''));
               }else{
                 callback();
               }
@@ -233,23 +237,19 @@
       }
     },
     mounted() {
-      //this[EventType.COMPANYTASKPROGRESSSENDINFOTYPE]()
       this.queryPageInfo()
     },
     computed: {
-      // ...mapState('companyTaskProgressSendInfo', {
-      //   data: state => state.data
-      // })
+
     },
     methods: {
-      // ...mapActions('companyTaskProgressSendInfo', [EventType.COMPANYTASKPROGRESSSENDINFOTYPE]),
       goBack() {
         this.$router.push({name: 'companytasklist'})
       },
       //查询页面信息
       queryPageInfo(){
         let params = {
-          companyTaskId:this.tid,
+          comTaskId:this.tid,
           operatorType:this.operatorType,
           isComplete:'0'//表示不为空 查询状态不为3的任务:
         }
@@ -398,7 +398,7 @@
           }
           let ssComTaskDTO = {
             comAccountId:this.comAccountId,
-            companyTaskId: this.tid,
+            comTaskId: this.tid,
             taskStatus: taskStatus,
             startHandleDate: startHandleDate,
             sendCheckDate: sendCheckDate,
@@ -406,7 +406,6 @@
             endDate:endDate,
             handleRemark:formObj.handleReason
            }
-
            return ssComTaskDTO
       },
       //批退任务
@@ -449,7 +448,7 @@
                 return;
         }
         let params = {
-                companyTaskId:this.tid,
+                comTaskId:this.tid,
                 taskStatus:this.currentStep
             }
             let self = this

@@ -262,7 +262,7 @@
         ],
 
         historyTaskColumns: [
-          {title: '任务单编号', key: 'companyTaskId', align: 'center', className: 'mw100',
+          {title: '任务单编号', key: 'comTaskId', align: 'center', className: 'mw100',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('a', {
@@ -281,11 +281,11 @@
                        else if(taskStatus=='4')source='1'
                       this.$router.push({
                         name: pageInfo,
-                        query: {operatorType:params.row.taskCategory,source:source,tid:params.row.companyTaskId}
+                        query: {operatorType:params.row.taskCategory,source:source,tid:params.row.comTaskId}
                       });
                     }
                   }
-                }, params.row.companyTaskId)
+                }, params.row.comTaskId)
               ]);
             }
           },
@@ -398,6 +398,7 @@
       api.companySocialSecurityQuery({comAccountId:comAccountId}).then(result=>{
         this.companySocialSecurityInfo = result.data.account
         this.childCompanyData = result.data.ssAccountComRelation
+        
         this.historyTaskData = result.data.ssComTask
         this.workInjuryData = result.data.ssAccountRatio
       })

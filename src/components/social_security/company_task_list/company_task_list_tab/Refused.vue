@@ -155,7 +155,7 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'customerId', width: 100, align: 'center',
+          {title: '客户编号', key: 'customerId', width: 110, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.customerId),
@@ -217,7 +217,7 @@
         params:{}
       }
       let self= this
-      Refused.getTableData(params).then(data=>{
+      Refused.postTableData(params).then(data=>{
           self.loading=true;
           self.refreash(data)
         }

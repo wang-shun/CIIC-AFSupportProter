@@ -23,11 +23,13 @@ const employeecommcialoperator = r => require.ensure([], () => r(require('@/comp
  * employeespecialoperatorview       --- 雇员特殊操作
    employeespecialprogressTwo          --- 雇员特殊操作、办理(步骤2)
    employeespecialprogressThree          --- 雇员特殊操作、办理(步骤3)
+   empSpecialtaskdetail                 ---特殊任务单查看详情页 
  */
 
 const employeespecialoperatorview = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialOperatorView')), 'employeespecialoperatorview')
 const employeespecialprogresstwo = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialProgressTwo')), 'employeespecialprogresstwo')
 const employeespecialprogressthree = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialProgressThree')), 'employeespecialprogressthree')
+const empspecialtaskdetail = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmpSpecialTaskDetail')), 'empspecialtaskdetail')
 
 // 雇员任务办理
 const empTaskHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandleView')), 'empTaskHandleView')
@@ -219,6 +221,18 @@ export default [
     }
   },
 
+  {
+    path: '/emp_special_task_detail',
+    name: 'empspecialtaskdetail',
+    component: empspecialtaskdetail,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"雇员特殊操作",
+      openNames:['1']
+    }
+  },
+  
   // 雇员任务办理，任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
   {
     path: '/emp_task_handle_view',

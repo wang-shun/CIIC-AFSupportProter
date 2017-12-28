@@ -392,7 +392,7 @@
         }
 
         let params = {
-          companyTaskId:this.tid,
+          comTaskId:this.tid,
           operatorType:'1',
            isComplete:isComplete//0代表查看已完成 4代表查看批退
         }

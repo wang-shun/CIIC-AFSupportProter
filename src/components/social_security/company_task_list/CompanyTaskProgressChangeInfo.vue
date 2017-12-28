@@ -150,11 +150,14 @@
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='1'){
               if(value==null || value.trim()==''){
-                return callback(new Error('该项不能为空！'))
+                //return callback(new Error('该项不能为空！'))
+                return callback(new Error(''))
               }else if(value.length>10){
-                return callback(new Error('不能超过十位.'))
+                //return callback(new Error('不能超过十位.'))
+                return callback(new Error(''))
               }else if(value.trim()!=value){
-                return callback(new Error('格式不正确.'))
+                // return callback(new Error('格式不正确.'))
+                return callback(new Error(''))
               }else{
                 callback()
               }
@@ -169,14 +172,17 @@
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='1'){
                 if (value==null || value.trim()=='') {
-                    return callback(new Error('该项不能为空！'));
+                  //return callback(new Error('该项不能为空！'));
+                    return callback(new Error(''));
                 } 
                var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
                 if(!rex.test(value)) {
-                    callback(new Error('请输入正确的格式.'));
+                  // callback(new Error('请输入正确的格式.'));
+                    callback(new Error(''));
                 }else{
                     if (value.length > 20) {
-                          callback(new Error('长度不能超过20个.'));
+                          //callback(new Error('长度不能超过20个.'));
+                          callback(new Error(''));
                     } else {
                          callback();
                     }
@@ -191,7 +197,8 @@
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='1'){
               if (value==null || value==""){
-                    return callback(new Error('该项不能为空！'));
+                //return callback(new Error('该项不能为空！'));
+                    return callback(new Error(''));
                 }else{
                    return callback();
                 }
@@ -205,7 +212,8 @@
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='2'){
               if (value==null || value==""){
-                    return callback(new Error('请选择付款方式！'));
+                  //return callback(new Error('请选择付款方式！'));
+                    return callback(new Error(''));
                 }else{
                     return callback()
                 }
@@ -218,13 +226,19 @@
         
           let self= this;
           let changeval = self.changeOperator.changeContentValue;
+          
             if(changeval=='3'){
               if (value==null || value.trim()==""){
-                    return callback(new Error('该项不能为空！'));
+                     //callback(new Error('该项不能为空！'));
+                     callback(new Error(''));
+                     return 
                 }else if(value.length>20){
-                   return callback(new Error('最多不超过20个.'));
+                  // callback(new Error('最多不超过20个.'));
+                    callback(new Error(''));
+                    return
                 }else{
                   callback()
+                  return 
                 }
 
             }else{
@@ -241,7 +255,8 @@
                 if(value==null){
                  this.changeOperator.acceptanceDate=''
                 }
-               return callback(new Error('请选择受理时间.'));
+                //return callback(new Error('请选择受理时间.'));
+               return callback(new Error(''));
               }else{
                 callback();
               }
@@ -258,7 +273,8 @@
                 if(value==null){
                  self.$set(self.changeOperator,'sendCheckDate','')
                 }
-                return callback(new Error('请选择送审时间.'));
+                // return callback(new Error('请选择送审时间.'));
+                return callback(new Error(''));
               }else{
                 callback();
               }
@@ -271,7 +287,8 @@
                callback();
             }else{
               if(value==null || value==''){
-                return callback(new Error('请选择完成时间.'));
+                //return callback(new Error('请选择完成时间.'));
+                return callback(new Error(''));
               }else{
                 callback();
               }
@@ -290,7 +307,7 @@
           handDateControl:false,//受理日期 是否可编辑 
          sendDateControl:false,//送审日期 是否可编辑
          finishDateControl:false,//完成日期  是否可编辑
-         getTaskInitialStatus:'0',
+         getTaskInitialStatus:'0',//任务的初始状态
          handDateIsDateOrLabel:true,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
          sendDateIsDateOrLabel:true,//送审日期 
          finishDateIsDateOrLabel:true,//完成日期  
@@ -365,12 +382,11 @@
                        { type: 'date',validator:validateFinishedDate, trigger: 'change' }
                        ],
           refuseReason:[
-                          { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+                       { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
                        ],
           handleReason:[
-                         { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+                       { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
                        ] 
-
         }
       }
     },
@@ -388,7 +404,7 @@
       //查询页面信息
       queryPageInfo(){
         let params = {
-          companyTaskId:this.tid,
+          comTaskId:this.tid,
           operatorType:this.operatorType,
           isComplete:'0'//表示不为空 查询状态不为3的任务:
         }
@@ -409,15 +425,15 @@
                           self.taskTypeList[0].disabled = true;
                               self.sendDateControl=true;
                               self.finishDateControl=true;
-                               self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
+                              self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
                           break;
                         case '2':
                            self.taskTypeList[0].disabled = true;
                            self.taskTypeList[1].disabled = true;
                            self.handDateControl = true;
                            self.finishDateControl=true;
-                             self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-                              self.sendDateIsDateOrLabel=false//送审日期 
+                           self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
+                           self.sendDateIsDateOrLabel=false//送审日期 
                            
                           break;
                         case '3':
@@ -426,9 +442,9 @@
                            self.taskTypeList[2].disabled = true;
                            self.handDateControl = true;
                            self.sendDateControl=true;
-                             self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-                              self.sendDateIsDateOrLabel=false//送审日期 
-                             self.finishDateIsDateOrLabel=false//完成日期 
+                           self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
+                           self.sendDateIsDateOrLabel=false//送审日期 
+                           self.finishDateIsDateOrLabel=false//完成日期 
                           break;
                         default:
                           break;
@@ -554,7 +570,7 @@
          let changeContext =  this.getChangeContext()
           let ssComTaskDTO = {
             comAccountId:this.comAccountId,
-            companyTaskId: this.tid,
+            comTaskId: this.tid,
             taskStatus: taskStatus,
             startHandleDate: startHandleDate,
             sendCheckDate: sendCheckDate,
@@ -619,7 +635,7 @@
         
 
         if(this.currentStep=='0'){
-          this.$Notice.warning({
+          this.$Notice.error({
                     title: '操作失败',
                     desc: '该任务单已经是初始状态.',
                     duration: 3
@@ -627,7 +643,7 @@
                 return;
         }
         let params = {
-                companyTaskId:this.tid,
+                comTaskId:this.tid,
                 taskStatus:this.currentStep
             }
             let self = this

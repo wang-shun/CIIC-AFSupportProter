@@ -171,7 +171,7 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'customerId', width: 100, align: 'center',
+          {title: '客户编号', key: 'customerId', width: 110, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.customerId),
@@ -217,8 +217,10 @@
       }
     },
     mounted() {
+      
       let sessionPageNum = sessionStorage.taskPageNum
       let sessionPageSize = sessionStorage.taskPageSize
+
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.pageNum = Number(sessionPageNum)
          this.size = Number(sessionPageSize)
@@ -232,7 +234,7 @@
       }
 
       let self= this
-      NoProgress.getTableData(params).then(data=>{
+      NoProgress.postTableData(params).then(data=>{
           self.loading=true;
            self.refreash(data)
         }

@@ -116,7 +116,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Button type="error" @click="isRefuseReason = true">批退</Button>
+      <Button type="error" @click="handleRefuseReason">批退</Button>
       </Col>
     </Row>
 
@@ -211,7 +211,8 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'employeespecialprogresstwo'})
+                      
+                      this.$router.push({name: 'employeespecialprogresstwo',query:{taskStatus:params.row.handleStatus,empTaskId:params.row.empTaskId}})
                     }
                   }
                 }, '办理'),
@@ -219,7 +220,7 @@
             }
           },
           {
-            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
+            title: '特殊操作', key: 'taskCategorySpecial', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
               return this.$decode.taskCategory(params.row.taskCategory)
             }
@@ -227,7 +228,7 @@
           {
             title: '是否加急', key: 'urgent', width: 100, align: 'center',
             render: (h, params) => {
-              return this.$decode.urgent(params.row.urgent)
+              return this.$decode.specialOperatorType(params.row.taskCategorySpecial)
             }
           },
           {
@@ -335,8 +336,8 @@
           }
           // 操作类型，1 日常操作、2 特殊操作，默认日常操作
           params.operatorType = 2;
-          // 任务处理状态:、1 本月未处理、2 下月未处理、3 处理中、4 已完成、5 批退
-          params.taskStatus = 3;
+          // 任务处理状态:、1、未处理 2 、处理中(已办)  3 已完成(已做) 4、批退 5、不需处理
+          params.taskStatus = 2;
 
           // 处理任务发起时间
           var submitTimes = params.submitTime;

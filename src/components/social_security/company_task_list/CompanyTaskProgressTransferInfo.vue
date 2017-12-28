@@ -44,9 +44,15 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保中心(结算区县)：" class="" prop="regionValue">
-                  <Select v-model="transferOperator.regionValue" style="width: 100%;">
-                    <Option v-for="item in regionList" :value="item.label" :key="item.value">{{item.label}}</Option>
-                  </Select>
+                  <AutoComplete
+                      v-model="transferOperator.regionValue"
+                      placeholder="请选择">
+                      <div class="demo-auto-complete-item">
+                          <Option v-for="option in regionList" :value="option.label" :key="option.label">
+                              <span class="demo-auto-complete-title">{{ option.label }}</span>
+                          </Option>
+                      </div>
+                  </AutoComplete>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -128,7 +134,8 @@
                 if(value==null){
                  self.transferOperator.acceptanceDate=''
                 }
-               return callback(new Error('请选择受理时间.'));
+                // return callback(new Error('请选择受理时间.'));
+               return callback(new Error(''));
               }else{
                 callback();
               }
@@ -144,7 +151,8 @@
                 if(value==null){
                  self.transferOperator.sendCheckDate=''
                 }
-                return callback(new Error('请选择送审时间.'));
+                //return callback(new Error('请选择送审时间.'));
+                return callback(new Error(''));
               }else{
                 callback();
               }
@@ -157,7 +165,8 @@
                callback();
             }else{
               if(value==null || value==''){
-                return callback(new Error('请选择完成时间.'));
+                //return callback(new Error('请选择完成时间.'));
+                return callback(new Error(''));
               }else{
                 callback();
               }
@@ -170,7 +179,8 @@
                callback();
             }else{
               if(value==null || value==''){
-                return callback(new Error('请选择转移时间.'));
+                //return callback(new Error('请选择转移时间.'));
+                return callback(new Error(''));
               }else{
                 callback();
               }
@@ -223,7 +233,8 @@
         },
         ruleValidate:{
           regionValue:[
-               { required: true, type: 'string', message: '请选择结算区县.', trigger: 'change' }
+               { required: true, type: 'string', message: '请选择结算区县.', trigger: 'change' },
+               { required: true, type: 'string', message: '请选择结算区县.', trigger: 'blur' }
           ],
           taskStatus:[
                { required: true, type: 'string', message: '请选择任务状态.', trigger: 'change' }
@@ -264,7 +275,7 @@
       queryPageInfo(){
         
         let params = {
-          companyTaskId:this.$route.query.tid,
+          comTaskId:this.$route.query.tid,
           operatorType:this.operatorType,
           isComplete:'0'//表示不为空 查询状态不为3的任务:
         }
@@ -394,7 +405,7 @@
           }
           let ssComTaskDTO = {
             comAccountId:this.comAccountId,
-            companyTaskId: this.tid,
+            comTaskId: this.tid,
             taskStatus: taskStatus,
             startHandleDate: startHandleDate,
             sendCheckDate: sendCheckDate,
@@ -445,7 +456,7 @@
                 return;
         }
         let params = {
-                companyTaskId:this.tid,
+                comTaskId:this.tid,
                 taskStatus:this.currentStep
             }
             let self = this

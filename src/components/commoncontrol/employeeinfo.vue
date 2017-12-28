@@ -21,9 +21,21 @@
           <label>{{emp.checkInTime}}</label>
         </Form-item>
       </Col>
+      <!-- 调整和转出 -->
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="社保序号：">
+          <label>{{emp.socialSecurityIndex}}</label>
+        </Form-item>
+      </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="学历：">
           <label>{{emp.education}}</label>
+        </Form-item>
+      </Col>
+      <!-- 仅新增 -->
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="账户类型：">
+          <label>{{emp.socialSecurityType}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -31,24 +43,14 @@
           <label>{{emp.empClassify}}</label>
         </Form-item>
       </Col>
-      <!-- 仅新增 -->
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0'">
-        <Form-item label="社保账号分类：">
-          <label>{{emp.socialSecurityType}}</label>
-        </Form-item>
-      </Col>
+      
+      
       <!-- 调整和转出 -->
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="社保序号：">
-          <label>{{emp.socialSecurityIndex}}</label>
-        </Form-item>
-      </Col>
-      <!-- 调整和转出 -->
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+      <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="企业社保账号：">
           <label>{{emp.companySocialSecurityAccount}}</label>
         </Form-item>
-      </Col>
+      </Col> -->
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType == '0'">
         <Form-item label="户口地址：">
@@ -88,6 +90,7 @@
     computed: {
       emp(){
         var emp = this.employee;
+        
         emp.empClassify = this.$decode.empClassify(emp.empClassify)
         return emp;
       }

@@ -221,7 +221,7 @@ utils.ajaxSsc = createAjaxForName('ss-c');
  * @param {*} obj 
  */
 let self = this
-utils.deepClone=obj=>{
+utils.deepClone= (obj)=>{
   var newObj = obj instanceof Array ? [] : {};
   for(var k in obj) 
   newObj[k] = obj[k] instanceof Object ? self.a.deepClone(obj[k]) : obj[k];

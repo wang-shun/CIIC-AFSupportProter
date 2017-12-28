@@ -116,7 +116,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Button type="error" @click="isRefuseReason = true">批退</Button>
+      <Button type="error" @click="showRefuseReason">批退</Button>
       </Col>
     </Row>
 
@@ -205,13 +205,15 @@
           {
             title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
             render: (h, params) => {
+              let self = this
               return h('div', [
                 h('Button', {
                   props: {type: 'success', size: 'small'},
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'employeespecialprogresstwo'})
+                      
+                      this.$router.push({name: 'employeespecialprogresstwo',query:{taskStatus:params.row.handleStatus,empTaskId:params.row.empTaskId}})
                     }
                   }
                 }, '办理'),
@@ -219,9 +221,9 @@
             }
           },
           {
-            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
+            title: '特殊操作', key: 'taskCategorySpecial', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
-              return this.$decode.taskCategory(params.row.taskCategory)
+              return this.$decode.specialOperatorType(params.row.taskCategorySpecial)
             }
           },
           {
@@ -335,7 +337,8 @@
           }
           // 操作类型，1 日常操作、2 特殊操作，默认日常操作
           params.operatorType = 2;
-
+          //任务单状态
+          params.taskStatus = 1;
           // 处理任务发起时间
           var submitTimes = params.submitTime;
           if (submitTimes) {
@@ -350,6 +353,7 @@
           pageNum: this.employeeResultPageData.pageNum,
           params: params,
         }).then(data => {
+          
           this.employeeResultData = data.data;
           this.employeeResultPageData.total = data.total;
         })
@@ -403,75 +407,6 @@
       selectionChange(selection) {
         this.selectEmployeeResultData = selection;
       },
-      // 检测批量办理
-      checkHandle() {
-        // 检查类型是否一致（只有选中了任务才能进行办理）
-        if (!this.checkSelectEmployeeResultData()) {
-          return false;
-        }
-
-        var length = this.selectEmployeeResultData.length;
-        if (length > 1) {
-          var taskCategory = this.selectEmployeeResultData[0].taskCategory
-
-          for (var i = 1; i < length; i++) {
-            if (taskCategory != this.selectEmployeeResultData[i].taskCategory) {
-              this.$Modal.warning({
-                title: '任务办理',
-                content: '任务类型不一致'
-              });
-              return false;
-            }
-          }
-        }
-        this.batchHandle(this.selectEmployeeResultData);
-      },
-      // 批量办理
-      batchHandle(data, isBatch = false) {
-        if (isBatch) {
-          // 组织任务 ID
-          var taskIds = [];
-          var taskCategory = rows[0].taskCategory;
-          for (var row of rows) {
-            taskIds.push(row.empTaskId);
-          }
-
-          this.$router.push({
-            name: 'employeecommcialoperator',
-            query: {operatorType: name, sourceFrom: 'operator', taskIds: taskIds}
-          });
-        } else {
-          // 根据任务类型跳转
-          switch (data.taskCategory) {
-            case '1': // 新进
-            case '2': // 转入
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '0', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-            case '3': // 调整
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '1', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-            case '4':// 补缴
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '4', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-            case '5':// 转出
-              this.$router.push({
-                name: 'companysocialsecuritynew',
-                query: {operatorType: '2', sourceFrom: 'operator', taskId: data.empTaskId}
-              });
-              break;
-          }
-        }
-      }
-      ,
       ok() {
 
       }

@@ -8,6 +8,32 @@ export default {
   paymentBatchQuery: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssPayment/paymentQuery', params);
     return await response.data;
-  }
+  },
+
+  // 申请支付
+  doApplyPay: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssPayment/doApplyPay', params);
+    return await response.data;
+  },
+  
+  // 删除批次
+  doDelPayment: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssPayment/doDelPayment', params);
+    return await response.data;
+  },
+
+  //获取支付年月
+  getPaymentMonth: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssPayment/getPaymentMonth', params);
+    return await response.data;
+  },
+
+  //添加批次
+  addPayment: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssPayment/addPayment', params);
+    return await response.data;
+  },
+
+
 }
 

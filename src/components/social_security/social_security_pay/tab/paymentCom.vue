@@ -882,7 +882,7 @@
           paymentComIdList: paymentComIdList,
         }).then(data => {
           if(data.code == "0"){
-            alert("操作成功");
+            alert("移除成功");
             this.closeDelBatch();
             //重新查询
             this.paymentComQuery()

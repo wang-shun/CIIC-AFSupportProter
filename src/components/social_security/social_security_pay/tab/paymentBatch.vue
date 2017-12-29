@@ -9,7 +9,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="账户类型：" prop="accountType">
                   <Select v-model="payBatchSearchData.accountType" clearable style="width: 100%;" transfer>
-                    <Option v-for="item in staticpayBatchSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="item in staticPayBatchSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>    
               </Col>
@@ -43,7 +43,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付状态：" prop="paymentState">
                   <Select v-model="payBatchSearchData.paymentState" clearable style="width: 100%;" transfer>
-                    <Option v-for="item in staticpayBatchSearchData.paymentStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="item in staticPayBatchSearchData.paymentStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -62,19 +62,16 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span: 24}">
-          <Button type="primary" @click="gotoPay">申请支付</Button>
-          <Button type="primary" @click="goPaymentNotice">新建批号</Button>
-          <Button type="primary" @click="" >删除批号</Button>
+          <Button type="primary" @click="goAddPayment()">新建批号</Button>
         </Col>
       </Row>
 
         <Row class="mt20">
             <Col :sm="{span:24}">
                 <Table stripe
-                    border ref="selection"
+                    border ref="payBatchselection"
                     :columns="payBatchColumns" 
-                    :data="payBatchData"
-                    @on-selection-change="payBatchSelectionChange">
+                    :data="payBatchData">
                 </Table>
                 <Page 
                     class="pageSize"
@@ -96,58 +93,68 @@
         </Row>
     </Form>
 
-    <!-- 进度 -->
-    <Modal
-      v-model="isShowProgress"
-      width="680"
-      title="查看进度"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <progress-bar></progress-bar>
+    <!-- 申请支付 -->
+    <Modal v-model="applyPayData.isShow" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>申请确认</span>
+      </p>
+      <div style="text-align:center">
+        <p>将申请支付</p>
+        <p>是否继续</p>
+      </div>
+      <div slot="footer">
+        <Button type="success" size="large"  @click="doApplyPay()">申请</Button>
+      </div>
     </Modal>
 
-    <!-- 调整 -->
-    <Modal
-      v-model="changeInfo.isShowChange"
-      width="640"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <Table border :columns="changeInfo.changeColumns" :data="data.changeData"></Table>
-      <Form :label-width=250>
+    <!-- 删除批次 -->
+    <Modal v-model="delPaymentData.isShow" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>删除确认</span>
+      </p>
+      <div style="text-align:center">
+        <p>该批次将被删除</p>
+        <p>是否继续</p>
+      </div>
+      <div slot="footer">
+        <Button type="error" size="large"  @click="doDelPayment()">删除</Button>
+      </div>
+    </Modal>
+
+    <!-- 增加批次 -->
+    <Modal v-model="addPaymentData.isShow" width="540">
+      <Form :label-width=80>
         <Row class="mt20">
-          <Col :sm="{span: 24}">
-            <Button type="primary" @click="changeInfo.isImport = true">导入调整明细</Button>
+          <Col :sm="{span: 12}">
+            <Form-item label="支付年月：" prop="paymentMonthOfAdd">
+              <label>{{addPaymentData.paymentMonth}}</label>
+            </Form-item>
           </Col>
         </Row>
-        <Row class="mt20" type="flex" justify="start">
-          <Col :sm="{span: 24}">
-            <Form-item label="调整金（小写）：">
-              <Input v-model="changeInfo.changeAmount" placeholder="请输入..."></Input>
+        <Row class="mt20">
+          <Col :sm="{span: 12}">
+            <Form-item label="出账批号：" prop="paymentBatchNumOfAdd">
+              <input type="text" maxlength=20 v-model="addPaymentData.paymentBatchNum" >
             </Form-item>
           </Col>
-          <Col :sm="{span: 24}">
-            <Form-item>
-              <Checkbox v-model="changeInfo.isDeductible">抵扣费用是否纳入支付申请</Checkbox>
-            </Form-item>
-          </Col>
-          <Col :sm="{span: 24}">
-            <Form-item label="申请支付金额合计（小写）：">
-              <label>{{changeInfo.applyAmountLower}}</label>
-            </Form-item>
-          </Col>
-          <Col :sm="{span: 24}">
-            <Form-item label="申请支付金额合计（大写）：">
-              <label>{{changeInfo.applyAmountUpper}}</label>
-            </Form-item>
-          </Col>
-          <Col :sm="{span: 24}">
-            <Form-item label="备注说明：">
-              <Input v-model="changeInfo.notes" type="textarea" :rows="5" placeholder="请输入..."></Input>
-            </Form-item>
+          <Col :sm="{span: 12}">
+            <Form-item label="账户类型：" prop="accountTypeOfAdd">
+              <Select v-model="addPaymentData.accountType" clearable style="width: 100%;" transfer>
+                <Option v-for="item in staticPayBatchSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+              </Select>
+            </Form-item>  
           </Col>
         </Row>
       </Form>
+
+      <div slot="footer">
+          <Button type="Text"  @click="closeAddPayment()">取消</Button>
+          <Button type="primary"  @click="doAddPayment()">保存</Button>
+      </div>
     </Modal>
+
   </div>
 </template>
 <script>
@@ -175,7 +182,7 @@
           paymentState: '',
           comAccountId: ''
         },
-        staticpayBatchSearchData: {
+        staticPayBatchSearchData: {
             
           accountTypeList: [
             {value: '1', label: '中智大库'},
@@ -200,43 +207,8 @@
         isShowProgress: false,
         progressStop: progressStop,
 
-        changeInfo: {
-          isShowChange: false,
-          changeColumns: [
-            {title: '应缴纳合计', key: 'shouldPayAmount', align: 'center',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.shouldPayAmount),
-                ]);
-              }
-            },
-            {title: '退账抵扣费用', key: 'refundDeducted', align: 'center',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.refundDeducted),
-                ]);
-              }
-            },
-            {title: '调整抵扣费用', key: 'adjustDeducted', align: 'center',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.adjustDeducted),
-                ]);
-              }
-            }
-          ],
-
-          changeAmount: '',
-          isDeductible: false,
-          applyAmountLower: '',
-          applyAmountUpper: '',
-          notes: '',
-          isImport: false
-        },
-
         payBatchColumns: [
-          {title: '', key: 'id', width: 55, fixed: 'left', type: 'selection'},
-          {title: '出账批次号', key: 'paymentBatchNum', width: 140, align: 'center',
+          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.paymentBatchNum),
@@ -264,7 +236,7 @@
               ]);
             }
           },
-          {title: '账户/客户总数', key: 'paymentMonth', width: 180, align: 'center',
+          {title: '账户/客户总数', key: 'paymentMonth', width: 120, align: 'center',
             render: (h, params) => {
               let totalAccount = params.row.totalAccount;
               let totalCom = params.row.totalCom;
@@ -284,17 +256,17 @@
               ]);
             }
           },
-          {title: '制单人', key: 'createPaymentUser', width: 120, align: 'center',
+          {title: '申请人', key: 'requestUser', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.createPaymentUser),
+                h('span', params.row.requestUser),
               ]);
             }
           },
-          {title: '制单日期', key: 'createPaymentDate', width: 120, align: 'center',
+          {title: '申请日期', key: 'requestDate', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.createPaymentDate),
+                h('span', params.row.requestDate),
               ]);
             }
           },
@@ -305,7 +277,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'accountType', width: 250, align: 'center',
+          {title: '账户类型', key: 'accountType', width: 180, align: 'center',
             render: (h, params) => {
               let accountType = params.row.accountType;
               let accountTypeName = "";
@@ -321,7 +293,35 @@
                 h('span', accountTypeName),
               ]);
             }
-          }
+          },
+          {title: '操作', key: 'operator', width: 220, align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {type: 'success', size: 'small'},
+                  style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+                      let paymentId = params.row.paymentId;
+                      let paymentState = params.row.paymentState;
+                      this.goApplyPay(paymentId,paymentState)
+                    }
+                  }
+                }, '申请支付'),
+                h('Button', {
+                  props: {type: 'error', size: 'small'},
+                  style: {margin: '0 auto 0 10px'},
+                  on: {
+                    click: () => {
+                      let paymentId = params.row.paymentId;
+                      let paymentState = params.row.paymentState;
+                      this.goDelPayment(paymentId,paymentState)
+                    }
+                  }
+                }, '删除')
+              ]);
+            }
+          },
         ],
         payBatchData: [],
         payBatchPageData: {
@@ -329,7 +329,26 @@
           pageNum: 1,
           pageSize: this.$utils.DEFAULT_PAGE_SIZE,
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
-        }
+        },
+        //申请支付
+        applyPayData:{
+          isShow : false,
+          paymentId:'',
+
+        },
+        //删除批次
+        delPaymentData:{
+          isShow : false,
+          paymentId:'',
+
+        },
+        //新增批次
+        addPaymentData:{
+          isShow : false,
+          paymentMonth : '',
+          paymentBatchNum : '',
+          accountType : ''
+        },
       }
     },
     mounted() {
@@ -345,11 +364,6 @@
       ...mapActions('socialSecurityPay', [EventType.SOCIALSECURITYPAYTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
-      },
-      gotoPay() {
-        this.$Notice.success({
-          title: '支付申请操作成功！'
-        });
       },
       goPaymentNotice() {
         this.$router.push({name: 'paymentnotice'})
@@ -406,7 +420,124 @@
         paymentStateMap.set("8","财务部支付成功");
 
         return paymentStateMap.get(paymentState);
-      }
+      },
+      //申请支付
+      goApplyPay(paymentId,paymentState) {
+        //验证可操作性
+        if(paymentState != "3" && paymentState != "5"){
+          alert("只有可付和内部审批批退状态的批次可以申请支付");
+          return;
+        }
+        this.applyPayData.isShow = true;
+        this.applyPayData.paymentId = paymentId;
+
+      },
+      doApplyPay() {
+        let paymentId = this.applyPayData.paymentId;
+
+        payBatchApi.doApplyPay({
+          paymentId: paymentId,
+        }).then(data => {
+          if(data.code == "0"){
+            alert("申请成功");
+            this.closeApplyPay();
+            //重新查询
+            this.paymentBatchQuery()
+
+          }else{
+            alert(data.message);
+          }
+        })
+      },
+      closeApplyPay(){
+        this.applyPayData.isShow = false;
+      },
+
+      //删除批次
+      goDelPayment(paymentId,paymentState) {
+        //验证可操作性
+        if(paymentState != "3" && paymentState != "5"){
+          alert("只有可付和内部审批批退状态的批次可以删除");
+          return;
+        }
+        this.delPaymentData.isShow = true;
+        this.delPaymentData.paymentId = paymentId;
+
+      },
+      doDelPayment() {
+        let paymentId = this.delPaymentData.paymentId;
+
+        payBatchApi.doDelPayment({
+          paymentId: paymentId,
+        }).then(data => {
+          if(data.code == "0"){
+            alert("删除成功");
+            this.closeDelPayment();
+            //重新查询
+            this.paymentBatchQuery()
+
+          }else{
+            alert(data.message);
+          }
+        })
+      },
+      closeDelPayment(){
+        this.delPaymentData.isShow = false;
+      },
+
+
+      //新增批次
+      goAddPayment() {
+        //获取支付年月
+         payBatchApi.getPaymentMonth({
+        }).then(data => {
+          if(data.code == "0"){
+            this.addPaymentData.paymentMonth = data.data;
+            this.addPaymentData.paymentBatchNum = '';
+            this.addPaymentData.accountType = '';
+            
+            this.addPaymentData.isShow = true;
+          }else{
+            alert(data.message);
+          }
+        })
+      },
+      doAddPayment() {
+        let paymentMonth = this.addPaymentData.paymentMonth;
+        let paymentBatchNum = this.addPaymentData.paymentBatchNum;
+        let accountType = this.addPaymentData.accountType;
+        if(paymentMonth == null || paymentMonth == ""){
+          alert("支付年月不可为空");
+          return;
+        }
+        if(paymentBatchNum == null || paymentBatchNum == ""){
+          alert("出账批号不可为空");
+          return;
+        }
+        if(accountType == null || accountType == ""){
+          alert("账户类型不可为空");
+          return;
+        }
+        payBatchApi.addPayment({
+          paymentMonth: paymentMonth,
+          paymentBatchNum: paymentBatchNum,
+          accountType: accountType,
+        }).then(data => {
+          if(data.code == "0"){
+            alert("添加成功成功");
+            this.closeAddPayment();
+            //重新查询
+            //this.paymentBatchQuery()
+            this.payBatchHandlePageNum(1);
+          }else{
+            alert(data.message);
+          }
+        })
+      },
+      closeAddPayment(){
+        this.addPaymentData.isShow = false;
+      },
+
     }
   }
 </script>

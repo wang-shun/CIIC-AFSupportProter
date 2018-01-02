@@ -489,7 +489,8 @@
                   style: {margin: '0 auto 0 10px'},
                   on: {
                     click: () => {
-                      this.goPaymentNotice();
+                      let paymentComId = params.row.paymentComId;
+                      this.goPaymentNotice(paymentComId);
                     }
                   }
                 }, '付款通知书')
@@ -588,7 +589,8 @@
           title: '支付申请操作成功！'
         });
       },
-      goPaymentNotice() {
+      goPaymentNotice(paymentComId) {
+        window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
         this.$router.push({name: 'paymentnotice'})
       },
       ok () {

@@ -8,40 +8,47 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称：">
-                  <label>{{data.companyName}}</label>
+                  <label>{{paymentComData.comAccountName}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公司名称：">
-                  <label>{{data.companySocialSecurityAccount}}</label>
+                <Form-item label="企业社保账户：">
+                  <label>{{paymentComData.comAccountId}}</label>
                 </Form-item>
               </Col>
             </Row>
-            <Table border :columns="noticeInfo.noticeColumns" :data="data.noticeData"></Table>
+            <Table 
+                :columns="noticeColumns" 
+                :data="noticeData">
+            </Table>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="应缴纳合计（小写）：">
-                  <label>{{data.shouldPayAmount}}</label>
+                  <label>{{paymentComData.oughtAmount}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="调整金额（小写）：">
-                  <label>{{data.changeAmount}}</label>
+                <Form-item label="额外金（小写）：">
+                  <label>{{paymentComData.extraAmount}}</label>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="申请支付金额合计（小写）：">
-                  <label>{{data.applyAmountLower}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="调整金额（小写）：">
-                  <label>{{data.applyAmountUpper}}</label>
-                </Form-item>
-              </Col>
+            </Row>
+            <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="申请支付金额合计（小写）：">
-                  <label>{{data.notes}}</label>
+                  <label>{{paymentComData.totalPayAmount}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请支付金额合计（大写）：">
+                  <label>{{paymentComData.totalPayAmountUP}}</label>
+                </Form-item>
+              </Col>
+            </Row>
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="备注说明：">
+                  <label>{{paymentComData.remark}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -60,75 +67,81 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/EventTypes'
+  import api from '../../../api/social_security/payment_notice'
 
   export default {
     data() {
       return{
         collapseInfo: [1], //展开栏
-        noticeInfo: {
-          noticeColumns: [
-            {title: '序号', key: 'index', align: 'center', width: 100, className: 'mw100',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.index),
-                ]);
-              }
-            },
-            {title: '项目', key: 'project', align: 'center', width: 240, className: 'mw240',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.project),
-                ]);
-              }
-            },
-            {title: '基本养老保险', key: 'basePensionInsurance', align: 'center', className: 'mw200',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.basePensionInsurance),
-                ]);
-              }
-            },
-            {title: '基本医疗保险', key: 'baseMedicalInsurance', align: 'center', className: 'mw200',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.baseMedicalInsurance),
-                ]);
-              }
-            },
-            {title: '地方附加医疗保险', key: 'areaAddMedicalInsurance', align: 'center', className: 'mw200',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.areaAddMedicalInsurance),
-                ]);
-              }
-            },
-            {title: '失业保险', key: 'unemploymentInsurance', align: 'center', className: 'mw200',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.unemploymentInsurance),
-                ]);
-              }
-            },
-            {title: '工伤保险', key: 'injuryInsurance', align: 'center', className: 'mw200',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.injuryInsurance),
-                ]);
-              }
-            },
-            {title: '生育保险', key: 'fertilityInsurance', align: 'center', className: 'mw200',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.fertilityInsurance),
-                ]);
-              }
-            },
-          ],
-        }
+        noticeColumns: [
+          {title: '项目', key: 'paymentItem', align: 'center', width: 240, className: 'mw240',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.paymentItemName),
+              ]);
+            }
+          },
+          {title: '基本养老保险', key: 'basePensionAmount', align: 'center', className: 'mw200',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.basePensionAmount),
+              ]);
+            }
+          },
+          {title: '基本医疗保险', key: 'baseMedicalAmount', align: 'center', className: 'mw200',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.baseMedicalAmount),
+              ]);
+            }
+          },
+          {title: '地方附加医疗保险', key: 'addMedicalAmount', align: 'center', className: 'mw200',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.addMedicalAmount),
+              ]);
+            }
+          },
+          {title: '失业保险', key: 'unemploymentAmount', align: 'center', className: 'mw200',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.unemploymentAmount),
+              ]);
+            }
+          },
+          {title: '工伤保险', key: 'accidentAmount', align: 'center', className: 'mw200',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.accidentAmount),
+              ]);
+            }
+          },
+          {title: '生育保险', key: 'maternityAmount', align: 'center', className: 'mw200',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.maternityAmount),
+              ]);
+            }
+          },
+        ],
+        noticeData:[],
+        
+        paymentComData: {
+          comAccountName: '',
+          comAccountId: '',
+          oughtAmount: '',
+          companyName: '',
+          changeAmount: '',
+          totalPayAmount: '',
+          totalPayAmountUP: '',
+          remark: '',
+        },
       }
     },
     mounted() {
-      this[EventType.PAYMENTNOTICETYPE]()
+      this[EventType.PAYMENTNOTICETYPE]();
+      this.getPaymentComDtoByPaymentId(window.sessionStorage.getItem("paymentnotice_paymentComId"));
+      this.statementResultQuery(window.sessionStorage.getItem("paymentnotice_paymentComId"));
     },
     computed: {
       ...mapState('paymentNotice', {
@@ -145,7 +158,21 @@
       },
       cancel () {
 
-      }
+      },
+      getPaymentComDtoByPaymentId(paymentComId){
+        api.getPaymentComDtoByPaymentId({
+          paymentComId: paymentComId
+        }).then(data => {
+          this.paymentComData = data.data;
+        })
+      },
+      statementResultQuery(paymentComId){
+        api.statementResultQuery({
+          paymentComId: paymentComId
+        }).then(data => {
+          this.noticeData = data.data;
+        })
+      },
     }
   }
 </script>

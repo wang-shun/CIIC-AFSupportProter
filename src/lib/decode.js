@@ -50,7 +50,7 @@ export default {
         return '独立户'
     }
   },
-  // 账户类型
+  // 人员分类
   empClassify: (empClassify) => {
     
     switch (empClassify){
@@ -70,7 +70,7 @@ export default {
         return '本地'
     }
   },
-  // 账户类型
+  // 材料类型
   materialType: (type) => {
     //1 原件、2  复印件、3 扫描件
     switch (type){
@@ -85,6 +85,7 @@ export default {
         return ''
     }
   },
+  //特殊任务单类型
   specialOperatorType:(type)=>{
     switch (type){
       case '1':
@@ -127,9 +128,34 @@ export default {
         return '无'
     }
 
-  }
+  },
 
-
-
-
+  archiveStatus:(type)=>{
+    switch (type){
+      case '1':
+        return '已办'
+      case '2':
+        return '已做'
+      case '3':
+        return '转出'
+      default: // 默认 0
+        return '无'
+    }
+  },
+  empTaskStatus:(type)=>{
+    switch (type){
+      case '1':
+        return '未处理'
+      case '2':
+        return '处理中'
+      case '3':
+        return '已完成'
+      case '4':
+        return '批退'
+      case '5':
+        return '不需处理'
+      default: // 默认 0
+        return '无'
+    }
+  },
 };

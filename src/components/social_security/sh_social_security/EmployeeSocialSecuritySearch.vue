@@ -7,25 +7,30 @@
           <Form :label-width=150 ref="searchCondition" :model="searchCondition">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="企业社保账号：" prop="ssAccount">
+                  <Input v-model="searchCondition.ssAccount" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账户：" prop="companyAccountType">
-                  <Input v-model="searchCondition.companyAccountType" @on-focus="isShowAccountType = true" placeholder="请输入..."></Input>
+                  <Input v-model="searchCondition.companyAccountType" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col> -->
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="雇员编号：" prop="employeeId">
+                  <Input v-model="searchCondition.employeeId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
-                  <Input v-model="searchCondition.employeeNumber" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="结算区县：" prop="region">
-                  <Select v-model="searchCondition.region" transfer>
-                    <Option v-for="item in regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="结算区县：" prop="settlementArea">
+                  <Select v-model="searchCondition.settlementArea" transfer>
+                    <Option v-for="item in regionList" :value="item.label" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="searchCondition.accountTypeValue" style="width: 100%;" transfer>
+                <Form-item label="账户类型：" prop="ssAccountType">
+                  <Select v-model="searchCondition.ssAccountType" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -36,30 +41,30 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保状态：" prop="sSecurityState">
-                  <Select v-model="searchCondition.sSecurityState" style="width: 100%;" transfer>
+                <Form-item label="社保状态：" prop="archiveTaskStatus">
+                  <Select v-model="searchCondition.archiveTaskStatus" style="width: 100%;" transfer>
                     <Option v-for="item in sSecurityStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="searchCondition.customerNumber" placeholder="请输入..."></Input>
+                <Form-item label="客户编号：" prop="companyId">
+                  <Input v-model="searchCondition.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="身份证号：" prop="idNumber">
-                  <Input v-model="searchCondition.idNumber" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="searchCondition.customerName" @on-focus="isShowCustomerName = true" placeholder="请输入..."></Input>
+                <Form-item label="客户名称：" prop="title">
+                  <Input v-model="searchCondition.title"  placeholder="请输入..."></Input><!-- @on-focus="isShowCustomerName = true" -->
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="人员分类：" prop="personTypeValue">
-                  <Select v-model="searchCondition.personTypeValue" style="width: 100%;" transfer>
+                <Form-item label="身份证号：" prop="idNum">
+                  <Input v-model="searchCondition.idNum" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="人员分类：" prop="empClassify">
+                  <Select v-model="searchCondition.empClassify" style="width: 100%;" transfer>
                     <Option v-for="item in personTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -67,7 +72,7 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('searchCondition')" class="ml10">重置</Button>
               </Col>
             </Row>
@@ -82,8 +87,16 @@
       </Col>
     </Row>
 
-    <Table border :columns="employeeSocialSecurityColumns" :data="data.employeeSocialSecurityData" ref="employeeSocialSecurityData"></Table>
-    <Page :total="100" show-sizer show-elevator></Page>
+    <Table border :columns="employeeSocialSecurityColumns" :data="employeeSocialSecurityData" ref="employeeSocialSecurityData"></Table>
+    <Page
+        class="pageSize"
+        @on-change="handlePageNum"
+        @on-page-size-change="handlePageSize"
+        :total="pageData.total"
+        :page-size="pageData.pageSize"
+        :page-size-opts="pageData.pageSizeOpts"
+        :current="pageData.pageNum"
+        show-sizer show-total></Page>
 
 
     <!-- 客户名称 模态框 -->
@@ -115,26 +128,33 @@
   import companyAccountSearchModal from "../../commoncontrol/companyaccountsearchmodal.vue"
   import ICol from "../../../../node_modules/iview/src/components/grid/col";
   import EventTypes from '../../../store/EventTypes'
+  import api from '../../../api/social_security/employee_operator'
 
   export default {
     components: {ICol, customerModal, companyAccountSearchModal},
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
-        searchCondition: {
-       
-          customerNumber: '', //客户编号
-          customerName: '', //客户名称
-          companyAccountType: '', //企业社保账户分类
-          region: '', //结算区域
-          accountTypeValue: '',
-          employeeNumber: '', //雇员编号
-          employeeName: '', //雇员姓名
-          idNumber: '', //身份证号
-          sSecurityState: '',
-          personTypeValue: ''
+        pageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
-
+        searchCondition: {
+          companyId: '', //客户编号
+          title: '', //客户名称
+         // companyAccountType: '', //企业社保账户分类
+          settlementArea: '', //结算区域
+          ssAccountType: '',  //社保账户类型
+          employeeId: '', //雇员编号
+          employeeName: '', //雇员姓名
+          idNum: '', //身份证号
+          ssAccount:'',//企业社保账号
+          archiveTaskStatus: '',//社保状态
+          empClassify: '' //人员分类
+        },
+        employeeSocialSecurityData:[],//列表数据
         isShowCustomerName: false, //客户名称Modal
         isShowAccountType: false, //企业社保账户分类Modal
 
@@ -150,27 +170,28 @@
           {value: '6', label: '黄浦'}
         ],
 
-        sSecurityStateList: [
+        sSecurityStateList: [ //1-已办  2-已做 3-转出
           {value: '1', label: '已办'},
           {value: '2', label: '已做'},
-          {value: '3', label: '转出(失业)'},
+          {value: '3', label: '转出'},
         ], //社保状态
 
         isShowCustomerName: false, //客户名称显示模态框
         mCustomerNumber: '', //客户编号
         mCustomerName: '', //客户姓名
-
         accountTypeList: [
-          {value: '1', label: '独立户'},
-          {value: '2', label: '大库'},
-          {value: '3', label: '外包'}
+            {value: '1', label: '中智大库'},
+            {value: '2', label: '中智外包'},
+            {value: '3', label: '独立户'}
         ], //账户类型
 
         personTypeList: [
           {value: '1', label: '本地'},
           {value: '2', label: '外地'},
           {value: '3', label: '外籍三险'},
-          {value: '4', label: '外籍五险'}
+          {value: '4', label: '外籍五险'},
+          {value: '5', label: '延迟退休人员'}
+  
         ], //人员分类
 
         employeeSocialSecurityColumns: [
@@ -186,45 +207,46 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.showInfo(params.index)
+                      debugger
+                      this.showInfo(params.row.empArchiveId)
                     }
                   }
                 }, '查看'),
               ]);
             }
           },
-          {title: '雇员编码', key: 'enumber', align: 'center', width: 120,
+          {title: '雇员编码', key: 'employeeId', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.enumber),
+                h('span', params.row.employeeId),
               ]);
             }
           },
-          {title: '雇员姓名', key: 'ename', align: 'center', width: 140,
+          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 140,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.ename),
+                h('span', params.row.employeeName),
               ]);
             }
           },
-          {title: '证件号', key: 'eidno', align: 'center', width: 200,
+          {title: '证件号', key: 'idNum', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.eidno),
+                h('span', params.row.idNum),
               ]);
             }
           },
-          {title: '状态', key: 'estate', align: 'center', width: 120,
+          {title: '企业社保账号', key: 'ssAccount', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.estate),
+                h('span', params.row.ssAccount),
               ]);
             }
           },
-          {title: '客服中心', key: 'eservicercenter', align: 'center', width: 120,
+          {title: '状态', key: 'archiveTaskStatus', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.eservicercenter),
+                h('span', this.$decode.archiveTaskStatus(params.row.archiveStatus)),
               ]);
             }
           },
@@ -235,52 +257,38 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'eaccounttype', align: 'center', width: 120,
+          {title: '账户类型', key: 'ssAccountType', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.eaccounttype),
+                h('span', this.$decode.accountType(params.row.ssAccountType)),
               ]);
             }
           },
-          {title: '结算区县', key: 'eregion', align: 'center', width: 100,
+          {title: '结算区县', key: 'settlementArea', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.eregion),
+                h('span', params.row.settlementArea),
               ]);
             }
           },
-          {title: '公司编码', key: 'customerNumber', align: 'center', width: 100,
+          {title: '公司编码', key: 'companyId', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerNumber),
+                h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '客户名称', key: 'customerName', align: 'center', width: 250,
+          {title: '客户名称', key: 'title', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerName),
+                h('span', params.row.title),
               ]);
             }
           },
-          {title: '企业社保账户名称', key: 'companyAccountType', align: 'center', width: 150,
+          {title: '企业社保账户名称', key: 'comAccountName', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyAccountType),
-              ]);
-            }
-          },
-           {title: '办理时间', key: 'handleTime', align: 'center', width: 200,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.handleTime),
-              ]);
-            }
-          },
-           {title: '办理人', key: 'handlePerson', align: 'center', width: 100,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.handlePerson),
+                h('span', params.row.comAccountName),
               ]);
             }
           },
@@ -298,17 +306,17 @@
               ]);
             }
           },
-           {title: '办理月份', key: 'handleMonth', align: 'center', width: 100,
+           {title: '办理月份', key: 'ssMonth', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.handleMonth),
+                h('span', params.row.ssMonth),
               ]);
             }
           },
-          {title: '入职日期', key: 'entryDate', align: 'center', width: 150,
+          {title: '入职日期', key: 'inDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.entryDate),
+                h('span', params.row.inDate),
               ]);
             }
           }
@@ -319,6 +327,8 @@
     },
     mounted() {
       this[EventTypes.EMPLOYEESOCIALSECURITYSEARCH]()
+      this.employeeQuery({})
+
     },
     computed: {
       ...mapState('employeeSocialSecuritySearch',{
@@ -336,8 +346,31 @@
         this.$refs[name].resetFields()
       },
       showInfo (ind) {
-        this.$router.push({name:'employeesocialsecurityinfo', params: {index: ind}});
+        this.$router.push({name:'employeesocialsecurityinfo', query: {empArchiveId: ind}});
         
+      },
+      employeeQuery(params){
+        debugger
+        let self =this
+        api.employeeQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params,
+        }).then(data => {
+          debugger
+          self.employeeSocialSecurityData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+        })
+      },
+      handlePageNum(val) {
+        this.pageData.pageNum = val;
+        let params = this.searchCondition
+        this.employeeQuery(params);
+      },
+      handlePageSize(val) {
+        this.pageData.pageSize = val;
+        let params = this.searchCondition
+        this.employeeQuery(params);
       },
       ok () {
 

@@ -55,6 +55,7 @@
     data() {
       return {
         empTaskId: '',
+        empArchiveId:this.$route.query.empArchiveId,
         currentIndex: this.$route.params.index,
         operatorType: '',
         sourceFrom: '',
@@ -95,7 +96,7 @@
         })
       },
       goBack() {
-        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo'});
+        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo',query:{empArchiveId:this.empArchiveId}});
       },
       instance(type) {
         let title = '';

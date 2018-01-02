@@ -129,7 +129,7 @@
       <Col :sm="{span: 24}">
       <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
       <Button type="error" @click="showRefuseReason">批退</Button>
-      <Button type="info" @click="">导出</Button>
+      <Button type="info" @click="exprotExcel">导出</Button>
       </Col>
     </Row>
 
@@ -392,32 +392,68 @@
       batchHandle(data, isBatch = false) {
         if (isBatch) {
           // 组织任务 ID
-          var taskIds = [];
+          var empTaskIds = [];
           var rows = data;
-          var taskCategory = rows[0].taskCategory;
           for (var row of rows) {
-            taskIds.push(row.empTaskId);
+            empTaskIds.push(row.empTaskId);
+          }
+
+          // 任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
+          var taskCategory = rows[0].taskCategory;
+          var name = 'empTaskHandleView';
+          switch (taskCategory) {
+            case '1':
+            case '2':
+              name = 'empTaskBatchHandleView';
+              break;
+            case '3':
+              name = 'empTaskBatchHandle3View';
+              break;
+            case '4':
+              name = 'empTaskBatchHandle4View';
+              break;
+            case '5':
+              name = 'empTaskBatchHandle5View';
+              break;
+            default:
+              name = 'empTaskBatchHandleView'
           }
 
           this.$router.push({
-            name: 'employeecommcialoperator',
-            query: {operatorType: taskCategory, taskIds: taskIds}
+            name: name,
+            query: {operatorType: taskCategory, empTaskIds: empTaskIds}
           });
         } else {
+          // 任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
           var taskCategory = data.taskCategory;
+          var name = 'empTaskHandleView';
+          switch (taskCategory) {
+            case '1':
+            case '2':
+              name = 'empTaskHandleView';
+              break;
+            case '3':
+              name = 'empTaskHandle3View';
+              break;
+            case '4':
+              name = 'empTaskHandle4View';
+              break;
+            case '5':
+              name = 'empTaskHandle5View';
+              break;
+            default:
+              name = 'empTaskHandleView'
+          }
+
           // 根据任务类型跳转
           this.$router.push({
-            name: 'companysocialsecuritynew',
-            query: {taskCategory: taskCategory, taskId: data.empTaskId}
+            name: name,
+            query: {taskCategory: taskCategory, empTaskId: data.empTaskId}
           });
         }
       },
-      ok() {
-
+      exprotExcel() {
       },
-      cancel() {
-
-      }
     }
   }
 </script>

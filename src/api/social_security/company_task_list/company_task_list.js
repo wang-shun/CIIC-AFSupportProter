@@ -1,7 +1,8 @@
 
-  import {domainJson} from '../../data/domain_info'
+  import {domainJson} from '../../../api/social_security/domain_info'
   import Axios from 'axios'
-  import utils from '../../lib/utils'
+  import utils from '../../../lib/ajax'
+  let ajax = utils.ajaxSsc
 export class CompanyTaskList{  
 
     constructor(){
@@ -11,8 +12,7 @@ export class CompanyTaskList{
     static getTableData(params,url){
         console.log(url)
         return new Promise(function(resolve,reject){
-            Axios.get(url, {params: params}) .then(function (response) {  
-                console.log(response)
+          ajax.get(url, params) .then(function (response) {  
                 let responseData = {
                   data:{
                     taskData:[],
@@ -27,10 +27,10 @@ export class CompanyTaskList{
                       obj.action=""
                       obj.tid = i.companyTaskId
                       if(i.taskCategory==1) obj.type='开户'
-                      //1:开户：2：终止 3：变更 4 转移
-                      else if (i.taskCategory==2) obj.type='终止'
+                      //1:开户：2：转移 3：变更 4：终止
+                      else if (i.taskCategory==2) obj.type='转移'
                       else if (i.taskCategory==3) obj.type='变更'
-                      else if(i.taskCategory==4)  obj.type='转移'
+                      else if(i.taskCategory==4)  obj.type='终止'
                       obj.customerId = i.companyId
                       obj.companyCustomer = i.companyName
                       obj.sponsorTime = i.submitTime
@@ -57,7 +57,7 @@ export class CompanyTaskList{
     //post request type
     static postTableData(params,url){
       return new Promise(function(resolve,reject){
-          utils.ajaxSsc.post(url, params).then(function (response) {  
+        ajax.post(url, params).then(function (response) {  
               console.log(response)
               let responseData = {
                 data:{
@@ -105,7 +105,7 @@ export class CompanyTaskList{
   //get customer name 
   static getCustomerData(params,url){
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         if(response.data.code=="200"){
 
         }else{
@@ -122,7 +122,7 @@ export class CompanyTaskList{
   static refusingTask(params){
     let url = domainJson.refusingTaskUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         if(response.data.code=="200"){
             if(response.data.data){
               resolve(response.data.data)
@@ -140,7 +140,8 @@ export class CompanyTaskList{
   static getCompanyInfoAndMaterial(params){
     let url =domainJson.getCompanyInfoAndMaterialUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
+        
         let result = this.handleReturnData(response)
         if(!result.isError){
           let companyInfo = null
@@ -175,76 +176,23 @@ export class CompanyTaskList{
           let data = {
             companyTaskStatus:result.data.taskStatus,
             companyInfo:companyInfo==null?{}:companyInfo,
-            operatorMaterialListData:[]
+            operatorMaterialListData:this.getMaterial(result.data.materialList)
                      }
-                    for(let obj of result.data.materialList){
-                      let material = {}
-                      material.id = obj.comMaterialId//材料ID
-                      material.material = obj.materialName;//材料名称
-                      material.materialCommitDate = obj.submitTime; //提交时间
-                     //材料类型  1 原件、2  复印件、3 扫描件
-                      if(obj.materialType=='1')material.materialType='原件'
-                      if(obj.materialType=='2')material.materialType='复印件'
-                      if(obj.materialType=='3')material.materialType='扫描件'
-                      material.materialReciveDate = obj.receiveTime;//收到时间
-                      material.state = obj.status;//状态
-                      material.notes = obj.remark;//备注说明
-                      data.operatorMaterialListData.push(material)
-                    }
+                      
               resolve(data)
         }else reject(Error(result.message))
       })
     })
   }
   //终止操作最后一步页面的信息获取
-  static getEndPageInfo(params){
+  static getEndPageInfo(params,type){
     let url =domainJson.getCompanyInfoAndMaterialUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
-
-        let result = this.handleReturnData(response)
-        debugger
+      ajax.post(url,params).then(response=>{
+        
+        let result = this.handleReturnData(response)  
         if(!result.isError){
-          let resultData = result.data
-          let ssComAccountDTO =resultData.ssComAccountDTO
-          let data = {
-            companyTaskStatus:result.data.taskStatus,
-            comAccountId:ssComAccountDTO.comAccountId,
-                companyInfo:{
-                    //企业社保账号
-                  companySocialSecurityAccount:ssComAccountDTO.ssAccount,
-                  //客户编号
-                  companyNumber:result.data.companyId,
-                  //参保户名称
-                  companyName:result.data.companyName,
-                  //社保中心
-                  socialSecurityCenter:ssComAccountDTO.settlementArea,
-                  //UKey密码
-                  uKey:ssComAccountDTO.ssPwd,
-                  //账户类型 1:中智大库 2中智外包 3独立户
-                  accountType:ssComAccountDTO.ssAccountType=='1'?'中智大库':ssComAccountDTO.ssAccountType=='2'?'中智外包':'独立户',
-                    //客服经理
-                  companyServicer:'',
-                    //企业社保账户状态 0初始 1有效 2 终止
-                  companySocialSecurityState:ssComAccountDTO.state=='0'?'初始':ssComAccountDTO.state=='1'?'有效':'终止',
-                  //客户社保截至日：
-                  companySocialSecurityEndData:ssComAccountDTO.expireDate
-                },
-                historyRemark:{
-                  submitName:resultData.submitterName,
-                  submitTime:resultData.submitTime,
-                  submitRemark:resultData.submitRemark
-                },
-                endOperator: {
-                  taskStatus:resultData.taskStatus,
-                  acceptanceDate: resultData.startHandleDate, //受理日期startHandleDate,sendCheckDate,finishDate
-                  sendCheckDate: resultData.sendCheckDate, //送审日期
-                  finishedDate: resultData.finishDate, //完成日期
-                  endDate: ssComAccountDTO.endDate,  //终止时间
-                  handleReason:resultData.handleRemark,//办理原因
-                  refuseReason: resultData.rejectionRemark//批退原因
-                }
-             }  
+            let data =this.theLastStepGetDate(result,type)
               resolve(data)
         }else reject(Error(result.message))
       })
@@ -254,25 +202,154 @@ export class CompanyTaskList{
   static updateOrEndingTask(params){
     let url =domainJson.updateOrEndingTaskUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
-        let result = this.handleReturnData(response)
-        if(!result.isError){
-          let resultData = result.data      
-          resolve(resultData)
-
-        }else reject(Error(result.message))
+      ajax.post(url,params).then(response=>{
+        if(response.data.code=="200"){
+          resolve(response.data.data)
+       }else{
+         reject(Error("终止操作后台异常！"))
+       }
+      })
+    })
+  }
+   //转移任务办理时 修改任务状态或者终止任务单的完成
+   static updateOrTransferTask(params){
+    let url =domainJson.updateOrTransferTaskUrl
+    return new Promise((resolve,reject)=>{
+      ajax.post(url,params).then(response=>{
+        if(response.data.code=="200"){
+          resolve(response.data.data)
+       }else{
+         reject(Error("转移操作后台异常！"))
+       }
       })
     })
   }
 
+  //转移任务办理时 修改任务状态或者终止任务单的完成
+  static updateOrChangeTask(params){
+    let url =domainJson.updateOrChangeTaskUrl
+    return new Promise((resolve,reject)=>{
+      ajax.post(url,params).then(response=>{
+        if(response.data.code=="200"){
+          resolve(response.data.data)
+       }else{
+         reject(Error("转移操作后台异常！"))
+       }
+      })
+    })
+  }
+  
+  //最后一步获得数据 终止和转移 变更
+  static theLastStepGetDate(result,type){
+    
+    let resultData = result.data
+    let ssComAccountDTO =resultData.ssComAccountDTO
+    //材料信息
+    let operatorMaterialListData = this.getMaterial(result.data.materialList)
+    let data = {
+          companyTaskStatus:result.data.taskStatus,
+          comAccountId:ssComAccountDTO.comAccountId,
+          companyInfo:{
+              //企业社保账号
+            companySocialSecurityAccount:ssComAccountDTO.ssAccount,
+            //客户编号
+            companyNumber:result.data.companyId,
+            //参保户名称
+            companyName:result.data.companyName,
+            //社保中心
+            socialSecurityCenter:ssComAccountDTO.settlementArea,
+            //UKey密码
+            uKey:ssComAccountDTO.ssPwd,
+            //账户类型 1:中智大库 2中智外包 3独立户
+            accountType:ssComAccountDTO.ssAccountType=='1'?'中智大库':ssComAccountDTO.ssAccountType=='2'?'中智外包':'独立户',
+              //客服经理
+            companyServicer:'',
+              //企业社保账户状态 0初始 1有效 2 终止
+            companySocialSecurityState:ssComAccountDTO.state=='0'?'初始':ssComAccountDTO.state=='1'?'有效':'终止',
+            //客户社保截至日：
+            companySocialSecurityEndData:ssComAccountDTO.expireDate
+          },
+          historyRemark:{
+            submitName:resultData.submitterName,
+            submitTime:resultData.submitTime,
+            submitRemark:resultData.submitRemark
+          },
+          operatorMaterialListData:operatorMaterialListData
+       }  
+       let common ={
+         taskStatus:resultData.taskStatus,
+        acceptanceDate: resultData.startHandleDate, //受理日期startHandleDate,sendCheckDate,finishDate
+        sendCheckDate: resultData.sendCheckDate, //送审日期
+        finishedDate: resultData.finishDate, //完成日期
+        handleReason:resultData.handleRemark,//办理原因
+        refuseReason: resultData.rejectionRemark//批退原因
+      }
+       if(type=='end'){
+          data.endOperator= {
+            ...common,
+            endDate: ssComAccountDTO.endDate,  //终止时间
+          }
+       }
+       if(type=='transfer'){
+        let dynamicExtend = resultData.dynamicExtend
+        let settlementArea= ssComAccountDTO.settlementArea//结算区县
+        let transferDate = null;
+        //如果扩展字段有值显示扩展字段
+        if(dynamicExtend!=null && dynamicExtend!=""){
+          let res = JSON.parse(dynamicExtend)
+          settlementArea = res.settlementArea==""||res.settlementArea==null?settlementArea:res.settlementArea
+          transferDate = res.transferDate
+        }
+        data.transferOperator= {
+          ...common,
+          regionValue: settlementArea,
+          transferDate: transferDate
+        }
+     }
+     if(type=='change'){
+          //changeOperator
+          let dynamicExtendRes = resultData.dynamicExtend
+          //如果扩展字段有值显示扩展字段
+          let changeContentValue =null//变更类型
+          let payMethodValue = null//付款方式
+          let pensionMoneyUseCompanyName = null//养老金公司名称
+          let belongsIndustry = null//所属行业
+          let companyWorkInjuryPercentage = null//企业工伤比例
+          let changeStartMonth=null//变更开始月份
+          if(dynamicExtendRes!=null && dynamicExtendRes!=""){
+              let res = JSON.parse(dynamicExtendRes)
+              changeContentValue = res.changeContentValue
+          if(changeContentValue=='1'){//工伤比例变更
+            
+              belongsIndustry = res.belongsIndustry
+              companyWorkInjuryPercentage =res.companyWorkInjuryPercentage
+              changeStartMonth = res.startMonth
+          }else if(changeContentValue=='2'){
+              payMethodValue = res.paymentWay
+          }else if(changeContentValue=='3'){
+              pensionMoneyUseCompanyName = res.comAccountName
+            }
+          }
+          changeContentValue = (changeContentValue==null || changeContentValue=='')?'1':changeContentValue
+          data.changeOperator = {
+            ...common,
+            changeContentValue,
+            payMethodValue,
+            pensionMoneyUseCompanyName,
+            belongsIndustry,
+            companyWorkInjuryPercentage,
+            changeStartMonth
+          }
+     }
 
-
+       return data
+  }
 
   //签收全部材料
-  static signAllMaterials(params){
-    let url = domainJson.signAllMaterialsUrl
+  static signMaterials(params){
+    let url = domainJson.signMaterialsUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
+      ajax.post(url,params).then(response=>{
         //返回结果
         let result = this.handleReturnData(response)
         if(!result.isError) resolve(result) 
@@ -285,13 +362,13 @@ export class CompanyTaskList{
   static getComInfoAndPayWay(params){
     let url = domainJson.getComInfoAndPayWayUrl
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
-        debugger
+      ajax.post(url,params).then(response=>{
+        
         let result = this.handleReturnData(response)
-        debugger
+        
         if(!result.isError){
           //获得前台显示数据
-          let data = this.ComInfoAndPayWayData(result.data)
+          let data = this.comInfoAndPayWayData(result.data)
           resolve(data)
         }else reject(Error(result.message))
     })
@@ -303,10 +380,8 @@ export class CompanyTaskList{
   //企业任务单 开户办理
   static addOrUpdate(params){
     let url =domainJson.addOrUpdateCompanyTaskUrl
-    debugger
     return new Promise((resolve,reject)=>{
-      utils.ajaxSsc.post(url,params).then(response=>{
-        debugger
+      ajax.post(url,params).then(response=>{
         let result = this.handleReturnData(response)
         if(!result.isError){
           //获得前台显示数据
@@ -314,21 +389,35 @@ export class CompanyTaskList{
         }else reject(Error(result.message))
     })
   })
-
-
   }
+
+
+  //任务单的撤销
+  static taskRevocation(params){
+    let url =domainJson.taskRevocationUrl
+      return new Promise((resolve,reject)=>{
+        ajax.post(url,params).then(response=>{
+          let result = this.handleReturnData(response)
+          if(!result.isError){
+            //获得前台显示数据
+            resolve(true)
+          }else reject(Error(result.message))
+      })
+    })
+  }
+
+
   //处理返回值
   static handleReturnData(response){
     if(response.data.code=="200"){
-      if(response.data.data) return {data:response.data.data,message:"正常",isError:false}
-       else return {data:response.data.data,message:"后台异常！",isError:true}
-   }
+      return {data:response.data.data,message:"正常",isError:false}  
+   }else return {message:"后台异常！",isError:true}
   }
 
   /**
    * @param result 后台返回的数据
    */
-  static ComInfoAndPayWayData(result){
+  static comInfoAndPayWayData(result){
     //前道传过来的社保截止和支付方式的json
     let taskFormContent =  JSON.parse(result.taskFormContent)
     //账户信息
@@ -347,7 +436,7 @@ export class CompanyTaskList{
       dispatchMaterial = JSON.parse(ssComAccountDTO.dispatchMaterial)
     }
     //发出的材料
-    debugger
+    
     return {
       companyTaskStatus:result.taskStatus,
       comAccountId:isNull?'':ssComAccountDTO.comAccountId,
@@ -380,23 +469,41 @@ export class CompanyTaskList{
             resourceNotes: isNull?'':ssComAccountDTO.originPlaceRemark, //来源地备注
             giveMethodValue: isNull?'':ssComAccountDTO.deliverWay,//交予方式
             giveMethodNotes: isNull?'':ssComAccountDTO.deliverWayRemark, //交予方式备注
-            giveProofDate: isNull || ssComAccountDTO.provideCertificateTime==null ?'':new Date(ssComAccountDTO.provideCertificateTime), //交予凭证时间
-            changeDate: isNull || ssComAccountDTO.changeTime==null ?'':new Date(ssComAccountDTO.changeTime), //变更时间
-            recieveDate: isNull || ssComAccountDTO.receiveDate==null ?'':new Date(ssComAccountDTO.receiveDate), //收到日期
-            moveInDate: isNull || ssComAccountDTO.intoDate==null ?'':new Date(ssComAccountDTO.intoDate), //转入日期
+            giveProofDate: isNull || ssComAccountDTO.provideCertificateTime==null ?'':ssComAccountDTO.provideCertificateTime, //交予凭证时间
+            changeDate: isNull || ssComAccountDTO.changeTime==null ?'':ssComAccountDTO.changeTime, //变更时间
+            recieveDate: isNull || ssComAccountDTO.receiveDate==null ?'':ssComAccountDTO.receiveDate, //收到日期
+            moveInDate: isNull || ssComAccountDTO.intoDate==null ?'':ssComAccountDTO.intoDate, //转入日期
             sufferedOnTheJobPercentageId:industryInfo==null?'':industryInfo.ssAccountRatioId,//工伤历史变更表的 iD
             belongToIndustries: industryInfo==null?'':industryInfo.industryCategory, //所属行业
             sufferedOnTheJobPercentage: industryInfo==null?'':industryInfo.comRatio, //企业工伤比例
             sufferedOnTheJobPercentageChangeStartMonth: industryInfo==null?'':industryInfo.startMonth, //企业工伤比例开始调整月份
             sendedMaterials: dispatchMaterial, //发出材料
             acceptanceDate: isNull || result.startHandleDate==null?'':result.startHandleDate, //受理日期 startHandleDate,sendCheckDate,finishDate
-            sendCheckDate: isNull || result.sendCheckDate==null?'':new Date(result.sendCheckDate), //送审日期
-            finishedDate: isNull || result.finishDate==null?'':new Date(result.finishDate), //完成日期
+            sendCheckDate: isNull || result.sendCheckDate==null?'':result.sendCheckDate, //送审日期
+            finishedDate: isNull || result.finishDate==null?'':result.finishDate, //完成日期
             handleReason:isNull || result.handleRemark==null?'':result.handleRemark,//办理原因
             refuseReason: '' //批退原因
           }
     }
   }
-  
+  //获得材料信息
+  static getMaterial(materialList){
+    let operatorMaterialListData =[]
+    for(let obj of materialList){
+      let material = {}
+      material.id = obj.comMaterialId//材料ID
+      material.material = obj.materialName;//材料名称
+      material.materialCommitDate = obj.submitTime; //提交时间
+     //材料类型  1 原件、2  复印件、3 扫描件
+      if(obj.materialType=='1')material.materialType='原件'
+      if(obj.materialType=='2')material.materialType='复印件'
+      if(obj.materialType=='3')material.materialType='扫描件'
+      material.materialReciveDate = obj.receiveTime;//收到时间
+      material.state = obj.status;//状态
+      material.notes = obj.remark;//备注说明
+      operatorMaterialListData.push(material)
+    }
+    return operatorMaterialListData
+  }
 }
 

@@ -4,26 +4,31 @@
       <Panel name="1">
         对账差异
         <div slot="content">
-            <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
+            <!-- <Form :label-width=150 ref="pagParam" :model="pagParam">
+              <Form-item label="" >
+                <Input v-model="pagParam.statementId" disabled></Input>
+              </Form-item>
+            </Form> -->
+            <Form :label-width=150 ref="statementData" :model="statementData">
             <Row type="flex" justify="start">
-                 <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="社保月份：" prop="socialsecuritymonth">
-                  <label v-model="operatorSearchData.socialsecuritymonth">{{operatorSearchData.socialsecuritymonth}}</label>
-                </Form-item>
-              </Col>
-               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="企业社保账户：" prop="companyAccount">
-                  <label v-model="operatorSearchData.companyAccount">{{operatorSearchData.companyAccount}}</label>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="社保月份：" prop="ssMonth">
+                  <label>{{statementData.ssMonth}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="差异总数(按雇员)：" prop="differenceNumberOfEmployee">
-                  <label>{{operatorSearchData.differenceNumberOfEmployee}}</label>
+                <Form-item label="企业社保账户：" prop="comAccountName">
+                  <label >{{statementData.comAccountName}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="差异总数(按雇员)：" prop="diffSumByEmp">
+                  <label>{{statementData.diffSumByEmp}}</label>
                 </Form-item>
               </Col> 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="差异总数(含项目)：" prop="differenceNumberOfProject">
-                  <label >{{operatorSearchData.differenceNumberOfProject}}</label>
+                <Form-item label="差异总数(含项目)：" prop="diffSumByItem">
+                  <label >{{statementData.diffSumByItem}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -31,10 +36,15 @@
         </div>
       </Panel>
     </Collapse>
-     <Table :columns="employeeResultColumns" :data="data.tableData"></Table>
+    <Table 
+        :columns="statementResultColumns" 
+        :data="statementResultData">
+    </Table>
+     
     <Row class="mt20">
       <Col :sm="{span: 24}">
         <Button type="info" @click="ok">导出</Button>
+        <Button type="info" @click="calculate()">重新计算</Button>
         <Button type="info" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -45,26 +55,27 @@
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import companyAccountSearchModal from '../../../commoncontrol/companyaccountsearchmodal.vue'
   import EventType from '../../../../store/EventTypes'
+  import api from '../../../../api/social_security/statement_detail'
 
   export default {
     components: {customerModal, companyAccountSearchModal},
     data() {
       return {
         collapseInfo: [1], //展开栏
-        operatorSearchData: {
-        
-          differenceNumberOfEmployee:33,
-          differenceNumberOfProject:66,
-          socialsecuritymonth:'201705',//社保月份
-          companyAccount: '欧莱雅（中国）有限公司上海静安分公司', //企业社保账户分类
-          isShowAccountType: false, //社保账户模糊块的显示      
+        statementData: {
+          ssMonth:'',//社保月份
+          comAccountName: '', //企业社保账户分类 
+          diffSumByEmp:'',
+          diffSumByItem:'',
         },
-
-        employeeResultColumns: [
+        statementId :'',
+        statementResultData: [],
+        statementResultColumns: [
            
-          {title: '雇员编号', key: 'employeeNumber',  align: 'center',
+          {title: '雇员编号', key: 'employeeId',  align: 'center',
             render: (h, params) => {
-              return h('div',{style:{textAlign:'center'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.employeeId),
                 
               ]);
             }
@@ -76,54 +87,77 @@
               ]);
             }
           },
-          {title: '变更类型', key: 'changeType', align: 'center',
+          {title: '变更类型', key: 'changeTypeName', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.changeType),
+                h('span', params.row.changeTypeName),
               ]);
             }
           },
-          {title: '险种', key: 'insuranceType',  align: 'center',
+          {title: '险种', key: 'ssTypeName',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.insuranceType),
+                h('span', params.row.ssTypeName),
               ]);
             }
           },
-          {title: '项目', key: 'project',  align: 'center',
+          {title: '项目', key: 'projectTypeName',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.project),
+                h('span', params.row.projectTypeName),
               ]);
               
             }
           },
-          {title: '导入金额', key: 'importAmount', align: 'center',
+          {title: '导入金额', key: 'impAmount', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.importAmount),
+                h('span', params.row.impAmount),
               ]);
             }
           },
-          {title: '系统金额', key: 'systemAmount',  align: 'center',
+          {title: '系统金额', key: 'ssAmount',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.systemAmount),
+                h('span', params.row.ssAmount),
               ]);
             }
           },
-          {title: '差异', key: 'difference', align: 'center',
+          {title: '差异', key: 'diffAmount', align: 'center',
             render: (h, params) => {
+              let diffHeadcount = params.row.diffHeadcount;
+              let diffAmount = params.row.diffAmount;
+              let diffShow = '';
+              if(diffHeadcount == 1){
+                diffShow = '系统不存在'
+              }else if(diffHeadcount == 2){
+                diffShow = '导入不存在'
+              }else{
+                diffShow = diffAmount
+              }
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.difference),
+                h('span', diffShow),
               ]);
             }
           }
-        ]
+        ],
+        // pagParam: {
+        //   //对账主表ID
+        //   statementId : ''
+        // }
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYRECONCILATEDETAIL]()
+      this[EventType.SOCIALSECURITYRECONCILATEDETAIL]();
+      // var pagParam= {
+      //       //对账主表ID
+      //       statementId : window.sessionStorage.getItem("statementId")
+      //     };
+      //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
+      //this.doAlert(pagParam.statementId); 
+      this.serachStatementData(window.sessionStorage.getItem("statementId"));
+      this.serachStatementResultData(window.sessionStorage.getItem("statementId"));
+      this.statementId = window.sessionStorage.getItem("statementId");
     },
     computed: {
       ...mapState('socialSecurityReconcilateDetail',{
@@ -136,14 +170,42 @@
         this.$refs[name].resetFields()
       },
       ok () {
-
+        
       },
       cancel () {
 
       },
       goBack(){
         history.go(-1);
-      }
+      },
+      doAlert(value) {
+        alert(value);
+      },
+      serachStatementData(statementId){
+        api.serachStatementData({
+          statementId: statementId
+        }).then(data => {
+          this.statementData = data.data;
+        })
+      },
+      serachStatementResultData(statementId){
+        api.serachStatementResultData({
+          statementId: statementId
+        }).then(data => {
+          this.statementResultData = data.data;
+        })
+      },
+      calculate(){
+        //alert(this.statementId);
+        api.calculate({
+          statementId: this.statementId
+        }).then(data => {
+          this.serachStatementData(this.statementId);
+          this.serachStatementResultData(this.statementId);
+          
+        })
+      },
     }
   }
 </script>
+  

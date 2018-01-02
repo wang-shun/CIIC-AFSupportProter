@@ -58,7 +58,7 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData"></Table>
-          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
+          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr":current="pageNum" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
         </Col>
       </Row>
 
@@ -91,7 +91,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import EventType from '../../../../store/EventTypes'
-import {Finished} from '../../../../module/social_security/company_task_list_tab/Finished'
+  import {Finished} from '../../../../api/social_security/company_task_list/company_task_list_tab/Finished'
   import Utils from '../../../../lib/utils'
   export default {
     components: {customerModal},
@@ -99,6 +99,7 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
       return{
         collapseInfo: [1], //展开栏
          size:5,//分页
+         pageNum:1,
         sizeArr:[5],
         totalSize:0,//后台传过来的总数
         taskData:[],//表格数据
@@ -109,10 +110,10 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
           customerName: '',
           isShowCustomerName: false,
           accountTypeValue: '',
-          accountTypeList: [
-            {value: '1', label: '独立库'},
-            {value: '2', label: '大库'},
-            {value: '3', label: '外包'}
+          accountTypeList: [//1:中智大库 2中智外包 3独立户
+            {value: '1', label: '大库'},
+            {value: '2', label: '外包'},
+            {value: '3', label: '独立库'}
           ],
           regionValue: '',
           regionList: [
@@ -147,78 +148,78 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1'}})
+                          this.$router.push({name: 'openaccountinfo', query:{operatorType: '1',source:0,tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '2'}})
+                          this.$router.push({name: 'transfertnfo', query:{operatorType: '2',source:0,tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '3'}})
+                          this.$router.push({name: 'changeinfo', query:{operatorType: '3',source:0,tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '4'}})
+                          this.$router.push({name: 'endinfo', query:{operatorType: '4',source:0,tid:params.row.tid}})
                           break;
                         default:
                           break;
                       }
                     }
                   }
-                }, params.row.emergency === '是' ? '查看' : '修改'),
+                }, '查看'),
               ]);
             }
           },
-          {title: '任务单编号', key: 'tid', width: 150, fixed: 'left', align: 'center',
+          {title: '任务单编号', key: 'tid', width: 150, fixed: 'center', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.tid),
               ]);
             }
           },
           {title: '任务单类型', key: 'type', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.type),
               ]);
             }
           },
           {title: '客户编号', key: 'customerId', width: 100, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.customerId),
               ]);
             }
           },
           {title: '企业客户', key: 'companyCustomer', width: 250, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.companyCustomer),
               ]);
             }
           },
           {title: '完成截止日期', key: 'finishDate', width: 150, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.finishDate),
               ]);
             }
           },
           {title: '发起人', key: 'initiator', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.initiator),
               ]);
             }
           },
           {title: '发起时间', key: 'sponsorTime', width: 180, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.sponsorTime),
               ]);
             }
           },
           {title: '备注', key: 'notes', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.notes),
               ]);
             }
@@ -227,12 +228,22 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
       }
     },
     mounted() {
-      let self= this
+      
+      let sessionPageNum = sessionStorage.taskFiPageNum
+      let sessionPageSize = sessionStorage.taskFiPageSize
+      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+         this.pageNum = Number(sessionPageNum)
+         this.size = Number(sessionPageSize)
+        //  sessionStorage.removeItem("taskFiPageNum") 
+        //  sessionStorage.removeItem("taskFiPageSize") 
+      }
+
       let params = {
           pageSize:this.size,
-          pageNum:1,
-        params:null
+          pageNum:this.pageNum,
+        params:{}
       }
+       let self= this
       Finished.getTableData(params).then(data=>{
           self.loading=true;
            self.refreash(data)
@@ -260,6 +271,11 @@ import {Finished} from '../../../../module/social_security/company_task_list_tab
       },
          //页面 上 ，下一页操作
       getPage(page){
+        
+          this.pageNum = page
+          sessionStorage.taskFiPageNum=page
+          sessionStorage.taskFiPageSize = this.size
+
           this.loading=true;
           let self= this
           let params =this.getParams(page)

@@ -62,21 +62,28 @@
           total: 0
         },
 
-        peopleTypes: [{
-          value: "0", label: "全部"
-        }, {
-          value: "1", label: "雇员"
-        }, {
-          value: "2", label: "子女"
-        }, {
-          value: "3", label: "配偶"
-        }],
+        peopleTypes: [
+          {
+            value: "0", label: "全部"
+          },
+          {
+            value: "1", label: "雇员"
+          },
+          {
+            value: "2", label: "子女"
+          },
+          {
+            value: "3", label: "配偶"
+          }
+        ],
 
-        statusProperties: [{
-          value: "0", label: "正常"
-        }, {
-          value: "1", label: "已下架"
-        }],
+        statusProperties: [
+          {
+            value: "0", label: "正常"
+          }, {
+            value: "1", label: "已下架"
+          }
+        ],
 
         giftManagerColumns: [
           {

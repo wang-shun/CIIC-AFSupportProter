@@ -108,7 +108,7 @@
               <span :class="{'layout-text':layoutOut}">{{item.key}}</span>
             </template>
             <Menu-item v-for="subitem in item.children" :name="subitem.cid" :key="subitem.cid">
-              <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}">{{subitem.ckey}}</router-link>
+              <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}" @click.native="getMenu(subitem)">{{subitem.ckey}}</router-link>
             </Menu-item>
           </Submenu>
 
@@ -232,6 +232,37 @@
           this.size = 16;
           this.layoutOut = false;
         }
+      },
+      getMenu(obj){
+        if(obj.crouter=='companysocialsecuritymanage'){
+            //社保账户管理 清除页面缓存
+            let sessionPageNum = sessionStorage.managerPageNum
+            let sessionPageSize = sessionStorage.managerPageSize
+          if(typeof(sessionPageNum)!='undefined'){
+            sessionStorage.removeItem("managerPageNum") 
+          }
+          if(typeof(sessionPageSize)!="undefined"){
+            sessionStorage.removeItem("managerPageSize") 
+          }
+        }
+
+        //任务单页面缓存清除
+        if(obj.crouter=='companytasklist'){
+          let tab = sessionStorage.companyTaskTab
+          let sessionPageNum = sessionStorage.taskFiPageNum
+          let sessionPageSize = sessionStorage.taskFiPageSize
+          if(typeof(tab)!='undefined'){
+            sessionStorage.removeItem("companyTaskTab") 
+          }
+
+          if(typeof(sessionPageNum)!="undefined"){
+            sessionStorage.removeItem("taskFiPageNum") 
+          }
+          if(typeof(sessionPageSize)!="undefined"){
+            sessionStorage.removeItem("taskFiPageSize") 
+          }
+        }
+        
       },
       onSelect(name) {
       },

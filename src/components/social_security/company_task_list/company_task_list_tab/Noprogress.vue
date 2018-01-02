@@ -52,7 +52,7 @@
         <Col :sm="{span:24}">
           <Table border ref="selection" :columns="taskColumns" :data="taskData" :loading="loading"></Table>
           
-          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" show-sizer show-total  class="pageSize"  @on-change="getPage"></Page>
+          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" :current="pageNum" show-sizer show-total  class="pageSize"  @on-change="getPage"></Page>
         </Col>
       </Row>
        
@@ -89,7 +89,7 @@
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import EventType from '../../../../store/EventTypes'
   import Axios from 'axios'
-  import {NoProgress} from '../../../../module/social_security/company_task_list_tab/no_progress'
+  import {NoProgress} from '../../../../api/social_security/company_task_list/company_task_list_tab/no_progress'
   import mock from '../../../../data/social_security/company_task_list/company_task_list_tab/c_this_month_handle_data'
   import Utils from '../../../../lib/utils'
   export default {
@@ -101,6 +101,7 @@
         totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
         size:5,//分页
+        pageNum:1,
         sizeArr:[5],
         refuseLoading:true,//批退模糊态的加载
         companyTaskInfo: {
@@ -133,6 +134,7 @@
                   props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      this.setSessionNumAndSize()
                       switch(params.row.type) {
                         case '开户':
                           this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1',tid:params.row.tid}})
@@ -215,12 +217,21 @@
       }
     },
     mounted() {
-      let self= this
+      let sessionPageNum = sessionStorage.taskPageNum
+      let sessionPageSize = sessionStorage.taskPageSize
+      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+         this.pageNum = Number(sessionPageNum)
+         this.size = Number(sessionPageSize)
+         sessionStorage.removeItem("taskPageNum") 
+         sessionStorage.removeItem("taskPageSize") 
+      }
       let params = {
           pageSize:this.size,
-          pageNum:1,
-        params:null
+          pageNum:this.pageNum,
+        params:{}
       }
+
+      let self= this
       NoProgress.getTableData(params).then(data=>{
           self.loading=true;
            self.refreash(data)
@@ -230,17 +241,10 @@
       })
     },
     computed: {
-      //get Customer Identity 客户的唯一标识
-      //   getCustomerIdentity:function(){
-      //   return this.$store.state.cThisMonthHandle.customerIdentity
-      // }
-      //get CustomerName
-      // getCustomerName:function(){
-      //   return this.$store.state.cThisMonthHandle.customerName
-      // }
+      
     },
     methods: {
-      //...mapActions('cThisMonthHandle',[EventType.CTHISMONTHHANDLETYPE]),
+
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -252,6 +256,8 @@
       },
       //页面 上 ，下一页操作
       getPage(page){
+          this.pageNum = page
+          this.setSessionNumAndSize()
           this.loading=true;
           let self= this
           let params =this.getParams(page)
@@ -261,6 +267,10 @@
           ).catch(error=>{
             console.log(error);
           })
+      },
+      setSessionNumAndSize(){
+          sessionStorage.taskPageNum=this.pageNum
+          sessionStorage.taskPageSize = this.size
       },
       //关闭查询loding 
       closeLoading(){

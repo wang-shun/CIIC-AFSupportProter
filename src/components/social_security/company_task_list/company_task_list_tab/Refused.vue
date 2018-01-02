@@ -44,7 +44,7 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData"></Table>
-          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
+          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" :current="pageNum" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
         </Col>
       </Row>
 
@@ -77,7 +77,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../commoncontrol/customermodal.vue'
   import EventType from '../../../../store/EventTypes'
-  import {Refused} from '../../../../module/social_security/company_task_list_tab/Refused'
+  import {Refused} from '../../../../api/social_security/company_task_list/company_task_list_tab/Refused'
   import Utils from '../../../../lib/utils'
   export default {
     components: {customerModal},
@@ -88,6 +88,7 @@
         totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
         size:5,//分页
+        pageNum:1,
         sizeArr:[5],
         companyTaskInfo: {
           serviceCenterValue: '',
@@ -120,16 +121,16 @@
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1'}})
+                          this.$router.push({name: 'openaccountinfo', query:{operatorType: '1',source:1,tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '2'}})
+                          this.$router.push({name: 'transfertnfo', query:{operatorType: '2',source:1,tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '3'}})
+                          this.$router.push({name: 'changeinfo', query:{operatorType: '3',source:1,tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '4'}})
+                          this.$router.push({name: 'endinfo', query:{operatorType: '4',source:1,tid:params.row.tid}})
                           break;
                         default:
                           break;
@@ -142,35 +143,35 @@
           },
           {title: '任务单编号', key: 'tid', width: 150, fixed: 'center', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.tid),
               ]);
             }
           },
           {title: '任务单类型', key: 'type', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.type),
               ]);
             }
           },
           {title: '客户编号', key: 'customerId', width: 100, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.customerId),
               ]);
             }
           },
           {title: '企业客户', key: 'companyCustomer', width: 250, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.companyCustomer),
               ]);
             }
           },
           {title: '完成截止日期', key: 'finishDate', width: 150, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.finishDate),
               ]);
             }
@@ -184,7 +185,7 @@
           },
           {title: '发起时间', key: 'sponsorTime', width: 180, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.sponsorTime),
               ]);
             }
@@ -200,12 +201,22 @@
       }
     },
     mounted() {
-      let self= this
+      
+      let sessionPageNum = sessionStorage.taskRePageNum
+      let sessionPageSize = sessionStorage.taskRePageSize
+      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+         this.pageNum = Number(sessionPageNum)
+         this.size = Number(sessionPageSize)
+        //  sessionStorage.removeItem("taskRePageNum") 
+        //  sessionStorage.removeItem("taskRePageSize") 
+      }
+      
       let params = {
           pageSize:this.size,
           pageNum:1,
-        params:null
+        params:{}
       }
+      let self= this
       Refused.getTableData(params).then(data=>{
           self.loading=true;
           self.refreash(data)
@@ -239,6 +250,10 @@
       },
       //页面 上 ，下一页操作
       getPage(page){
+        
+         this.pageNum = page
+          sessionStorage.taskRePageNum=page
+          sessionStorage.taskRePageSize = this.size
           this.loading=true;
           let self= this
           let params =this.getParams(page)

@@ -7,7 +7,6 @@ const BASE_PATHS = config.basePaths;
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 
 const AJAX = {
-  DEBUG: DEBUG,
   formatDate: (format, date) => {
     date = date || new Date();
     var o = {
@@ -30,6 +29,7 @@ const AJAX = {
     let vm = config.vm;
     let ajax = config.ajax;
     let cb = config.callback;
+    let errCb = config.errCallback;
     let title = config.title || '';
 
     // vm 和 ajax 是必须的
@@ -76,15 +76,58 @@ const AJAX = {
           });
         }
       }
+      if (errCb) {
+        errCb(error);
+      }
     })
-  }
+  },
 };
 
-/**
- * 创建 AJAX 对象
- * @param config
- */
-let createAjax = config => {
+const logInfo = (method, url, data) => {
+  // outer log
+  if (DEBUG) {
+    let logInfo = {
+      url: url,
+      method: method,
+      time: AJAX.formatDate('yyyy-MM-dd hh:mm:ss:S'),
+      data: null,
+    };
+    if (typeof(data) === 'string') {
+      logInfo.data = decodeURIComponent(data);
+    } else {
+      logInfo.data = qs.stringify(data);
+    }
+
+    console.log(JSON.stringify(logInfo));
+  }
+}
+
+const getUrl = (url, data) => {
+  // 分析 url 包含 "?"
+  if (data && Object.keys(data).length > 0) {
+    if (url.indexOf("?") < 0) {
+      url += "?"
+    }
+
+
+    var uri = data;
+    // 参数类型如果不是字符串类型 序列号
+    if (typeof(data) !== "string") {
+      uri = qs.stringify(data);
+    }
+
+    // 问号结尾不添加 "&"
+    if (url.lastIndexOf("?") != url.length - 1) {
+      url += "&";
+    }
+
+    url += uri;
+  }
+  return url;
+}
+
+// 创建 AJAX 对象
+const createAjax = config => {
   let ajax = axios.create(config);
 
   // 添加一个 request 拦截器
@@ -92,36 +135,12 @@ let createAjax = config => {
       // Do something before request is sent
       var contentType = config.headers['Content-Type'];
 
-      if (!Boolean(contentType)) {
-        // 不区分大小写查找
-        for (var header in config.headers) {
-          if (header.indexOf(CONTENT_TYPE) >= 0) {
-            contentType = header;
-            break;
-          }
-        }
-      }
-
       if (contentType.indexOf(CONTENT_TYPE) >= 0) {
         config.data = qs.stringify(config.data);
       }
 
-      // outer log
-      if (DEBUG) {
-        let logInfo = {
-          url: config.url,
-          method: config.method,
-          time: AJAX.formatDate('yyyy-MM-dd hh:mm:ss:S'),
-          data: null,
-        };
-        if (contentType.indexOf(CONTENT_TYPE) >= 0) {
-          logInfo.data = decodeURIComponent(config.data);
-        } else {
-          logInfo.data = JSON.stringify(config.data);
-        }
-
-        console.log(JSON.stringify(logInfo));
-      }
+      // log
+      logInfo(config.method, config.url, config.data);
 
       return config;
     }
@@ -132,6 +151,13 @@ let createAjax = config => {
   )
   // 添加一个 response 拦截器
   ajax.interceptors.response.use(response => {
+      var contentType = response.headers['content-type'];
+
+      // 响应数据不是 json 直接返回
+      if (contentType.indexOf('application/json') < 0) {
+        return response;
+      }
+
       if (response) {
         if (response.status === 200
           || response.status === 304
@@ -164,7 +190,7 @@ let createAjax = config => {
   return ajax;
 }
 
-let createAjaxForName = name => {
+const createAjaxForName = name => {
   return createAjax({
     baseURL: BASE_PATHS[name],
     timeout: DEBUG ? 0 : 5000,
@@ -175,17 +201,81 @@ let createAjaxForName = name => {
 }
 
 let createProxyAjaxForName = name => {
-  var instance = createAjaxForName(name)
-  var proxy = {};
-  for (var method of ['get', 'post']) {
-    proxy[method] = async (url, data, config) => {
-      return await instance[method](url, data, config);
+  var instance = createAjaxForName(name);
+  var baseURL = BASE_PATHS[name];
+  var proxy = {
+    baseURL: baseURL
+  };
+
+  proxy.get = async (url, config) => {
+    return await instance['get'](url, config);
+  }
+
+  proxy.post = async (url, data, config) => {
+    return await instance['post'](url, data, config);
+  }
+
+  proxy.getJSON = async (url, data, config) => {
+    url = getUrl(url, data);
+    return await proxy.get(url, config);
+  }
+  proxy.postJSON = async (url, data, config = {}) => {
+    config.headers = config.headers || {};
+    config.headers['Content-Type'] = config.headers['Content-Type'] || 'application/json';
+    return await proxy.post(url, data, config);
+  }
+
+  // 下载
+  proxy.download = (url, data) => {
+    url = getUrl(url, data);
+    data = {};
+    logInfo('get', url, data);
+
+    // 下载
+    let iframe = document.createElement('iframe')
+    iframe.style.display = 'none'
+    iframe.src = baseURL + url
+    iframe.onload = () => {
+      document.body.removeChild(iframe)
     }
+    document.body.appendChild(iframe)
+  }
+  // 上传
+  proxy.upload = async (url, data, config = {}) => {
+    let formData = new FormData();
+
+    Object.keys(data).forEach(key => {
+      let value = data[key];
+      if (value instanceof Array) {
+        for (var ele of value) {
+          formData.append(key, ele)
+        }
+      } else {
+        formData.append(key, data[key])
+      }
+    });
+
+    config.headers = config.headers || {};
+    config.headers['Content-Type'] = config.headers['Content-Type'] || 'multipart/form-data';
+
+    return await proxy.post(url, formData, config);
   }
   return proxy;
 }
 
+AJAX.createAjax = createAjax;
+AJAX.createAjaxForName = createAjaxForName;
+AJAX.createProxyAjaxForName = createProxyAjaxForName;
+
+AJAX.ajaxFbq = createProxyAjaxForName('fb-q');
+AJAX.ajaxFbc = createProxyAjaxForName('fb-c');
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q');
 AJAX.ajaxSsc = createProxyAjaxForName('ss-c');
+AJAX.ajaxAlertJob = createProxyAjaxForName('AlertJob');
+AJAX.ajaxAuthService = createProxyAjaxForName('AuthService');
+AJAX.ajaxBasicDataService = createProxyAjaxForName('BasicDataService');
+AJAX.ajaxSiteLetterService = createProxyAjaxForName('SiteLetterService');
+AJAX.ajaxSSPService = createProxyAjaxForName('SSPService');
+AJAX.ajaxSpecialOperationService = createProxyAjaxForName('SpecialOperationService');
 
 export default AJAX;

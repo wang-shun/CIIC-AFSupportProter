@@ -196,7 +196,7 @@
       }
     },
     created() {
-      let queryData = this.$route.params.data;
+      let queryData = JSON.parse(sessionStorage.getItem('marketGrantFormItem'));
       this.selectMarketGrantInformation(queryData);
     },
     methods: {

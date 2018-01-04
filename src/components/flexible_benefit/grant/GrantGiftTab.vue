@@ -93,9 +93,9 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        this.$router.push({
-                          name: 'giftGrant', params: {data: params.row}
-                        });
+                        //将数据暂存在sessionStorage
+                        sessionStorage.setItem('giftGrantFormItem', JSON.stringify(params.row));
+                        this.$router.push({name: 'giftGrant'});
                       }
                     }
                   }, '发放')

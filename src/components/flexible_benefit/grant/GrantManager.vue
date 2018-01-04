@@ -27,12 +27,6 @@
         currentTab: 0
       }
     },
-    created() {
-      let ts = this.$route.params.data;
-      if (ts) {
-        this.changeTab(ts);
-      }
-    },
     methods: {
       changeTab(i) {
         this.currentTab = i;

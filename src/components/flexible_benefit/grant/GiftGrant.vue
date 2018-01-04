@@ -162,7 +162,7 @@
       }
     },
     created() {
-      let queryData = this.$route.params.data;
+      let queryData = JSON.parse(sessionStorage.getItem('giftGrantFormItem'));
       this.selectGiftGrantInformation(queryData);
     },
     methods: {

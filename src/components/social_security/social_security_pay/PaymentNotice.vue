@@ -17,51 +17,15 @@
                 </Form-item>
               </Col>
             </Row>
-            <Table 
-                :columns="noticeColumns" 
-                :data="noticeData">
-            </Table>
-            <Row class="mt20" type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="应缴纳合计（小写）：">
-                  <label>{{paymentComData.oughtAmount}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="额外金（小写）：">
-                  <label>{{paymentComData.extraAmount}}</label>
-                </Form-item>
-              </Col>
-            </Row>
-            <Row class="mt20" type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="申请支付金额合计（小写）：">
-                  <label>{{paymentComData.totalPayAmount}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="申请支付金额合计（大写）：">
-                  <label>{{paymentComData.totalPayAmountUP}}</label>
-                </Form-item>
-              </Col>
-            </Row>
-            <Row class="mt20" type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="备注说明：">
-                  <label>{{paymentComData.remark}}</label>
-                </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" @click="" >重新汇总</Button>
-                <Button type="warning" @click="goBack" >返回</Button>
-              </Col>
-            </Row>
+            
           </Form>
         </div>
       </Panel>
     </Collapse>
+    <Table 
+        :columns="noticeColumns" 
+        :data="noticeData">
+    </Table>
   </div>
 </template>
 <script>
@@ -140,8 +104,11 @@
     },
     mounted() {
       this[EventType.PAYMENTNOTICETYPE]();
-      this.getPaymentComDtoByPaymentId(window.sessionStorage.getItem("paymentnotice_paymentComId"));
-      this.statementResultQuery(window.sessionStorage.getItem("paymentnotice_paymentComId"));
+      let paymentComId = window.sessionStorage.getItem("paymentnotice_paymentComId");
+      let comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
+      let paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
+      this.getPaymentComDtoByPaymentId(paymentComId);
+      this.statementResultQuery(comAccountId,paymentMonth);
     },
     computed: {
       ...mapState('paymentNotice', {
@@ -166,9 +133,10 @@
           this.paymentComData = data.data;
         })
       },
-      statementResultQuery(paymentComId){
+      statementResultQuery(comAccountId,paymentMonth){
         api.statementResultQuery({
-          paymentComId: paymentComId
+          comAccountId: comAccountId,
+          paymentMonth: paymentMonth
         }).then(data => {
           this.noticeData = data.data;
         })

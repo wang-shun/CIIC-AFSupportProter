@@ -490,7 +490,9 @@
                   on: {
                     click: () => {
                       let paymentComId = params.row.paymentComId;
-                      this.goPaymentNotice(paymentComId);
+                      let comAccountId = params.row.comAccountId;
+                      let paymentMonth = params.row.paymentMonth;
+                      this.goPaymentNotice(paymentComId,comAccountId,paymentMonth);
                     }
                   }
                 }, '付款通知书')
@@ -589,8 +591,10 @@
           title: '支付申请操作成功！'
         });
       },
-      goPaymentNotice(paymentComId) {
+      goPaymentNotice(paymentComId,comAccountId,paymentMonth) {
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
+        window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
+        window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
         this.$router.push({name: 'paymentnotice'})
       },
       ok () {
@@ -784,14 +788,14 @@
         //判断选中列的支付状态(只有可付:3 和内部审批批退:5 可以进行此操作)
         let isDisableState = false;
         selection.some(item => {
-          if(item.paymentState != "3" && item.paymentState != "5"){
+          if(item.paymentState != "3" && item.paymentState != "5" && item.paymentState != "7"){
             isDisableState = true;
             //跳出循环
             return true;
           }
         });
         if(isDisableState){
-            alert("只有可付和内部审批批退状态的记录可以进行添加批次操作");
+            alert("只有可付和批退状态的记录可以进行添加批次操作");
             return;
         }
         //检索数据
@@ -856,17 +860,17 @@
             alert("请选择已有批次的客户费用");
             return;
         }
-        //判断选中列的支付状态(只有可付:3 和内部审批批退:5 可以进行此操作)
+        //判断选中列的支付状态(只有可付:3 和批退:5 可以进行此操作)
         let isDisableState = false;
         selection.some(item => {
-          if(item.paymentState != "3" && item.paymentState != "5"){
+          if(item.paymentState != "3" && item.paymentState != "5" && item.paymentState != "7"){
             isDisableState = true;
             //跳出循环
             return true;
           }
         });
         if(isDisableState){
-            alert("只有可付和内部审批批退状态的记录可以进行操作");
+            alert("只有可付和批退状态的记录可以进行操作");
             return;
         }
         //将数据传给子画面

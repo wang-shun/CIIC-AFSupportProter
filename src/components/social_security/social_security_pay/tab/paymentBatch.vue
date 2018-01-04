@@ -424,8 +424,8 @@
       //申请支付
       goApplyPay(paymentId,paymentState) {
         //验证可操作性
-        if(paymentState != "3" && paymentState != "5"){
-          alert("只有可付和内部审批批退状态的批次可以申请支付");
+        if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
+          alert("只有可付和批退状态的批次可以申请支付");
           return;
         }
         this.applyPayData.isShow = true;
@@ -456,8 +456,8 @@
       //删除批次
       goDelPayment(paymentId,paymentState) {
         //验证可操作性
-        if(paymentState != "3" && paymentState != "5"){
-          alert("只有可付和内部审批批退状态的批次可以删除");
+        if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
+          alert("只有可付和批退状态的批次可以删除");
           return;
         }
         this.delPaymentData.isShow = true;

@@ -103,8 +103,16 @@ const SocialSecurityEmpChangeDetailGsy = r => require.ensure([], () => r(require
 
 
 const socialSecurityPay = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/SocialSecurityPay')), 'socialSecurityPay')
-const paymentnotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/paymentnotice')), 'paymentnotice')
+const paymentnotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/Paymentnotice')), 'paymentnotice')
 
+/*
+ * socialsecuritypay               --- 社保支付批次审核
+ * paymentnotice                   --- 查看批次明细
+ */
+
+
+const paymentBatchReviewed = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay_reviewed/PaymentBatchReviewed')), 'paymentBatchReviewed')
+const paymentComReviewed = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay_reviewed/PaymentComReviewed')), 'paymentComReviewed')
 
 /*
  * socialsecurityreport               --- 社保报表
@@ -571,6 +579,28 @@ export default [
       level1:'全国社保',
       level2:"上海社保",
       level3:"社保支付",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/payment_batch_reviewed',
+    name: 'paymentBatchReviewed',
+    component: paymentBatchReviewed,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"社保支付审核",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/payment_com_reviewed',
+    name: 'paymentComReviewed',
+    component: paymentComReviewed,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"社保支付审核",
       openNames:['1']
     }
   },

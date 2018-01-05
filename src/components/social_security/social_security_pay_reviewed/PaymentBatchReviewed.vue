@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        企业账户管理
+        社保支付审核
         <div slot="content">
           <Form ref="payBatchSearchData" :model="payBatchSearchData" :label-width=150>
             <Row type="flex" justify="start">
@@ -60,12 +60,6 @@
     </Collapse>
 
     <Form>
-      <Row class="mt20">
-        <Col :sm="{span: 24}">
-          <Button type="primary" @click="goAddPayment()">新建批号</Button>
-        </Col>
-      </Row>
-
         <Row class="mt20">
             <Col :sm="{span:24}">
                 <Table stripe
@@ -93,81 +87,51 @@
         </Row>
     </Form>
 
-    <!-- 申请支付 -->
-    <Modal v-model="applyPayData.isShow" width="360">
+    <!-- 审核通过 -->
+    <Modal v-model="reviewdePassData.isShow" width="360">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
-        <span>申请确认</span>
+        <span>通过确认</span>
+      </p>
+      <div style="text-align:center">
+        <p>将审核通过</p>
+        <p>是否继续</p>
+      </div>
+      <div slot="footer">
+        <Button type="Text"  @click="closeReviewdePass()">取消</Button>
+        <Button type="success" size="large"  @click="doReviewdePass()">通过</Button>
+      </div>
+    </Modal>
+
+    <!-- 批退 -->
+    <Modal v-model="rejectionData.isShow" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>批退确认</span>
       </p>
       <Form :label-width=0>
         <Row class="mt20" type="flex" justify="start">
           <Col :sm="{span: 24}">
             <Form-item label="">
-              <Input v-model="applyPayData.applyRemark" type="textarea" :rows="5"  maxlength=200 placeholder="请填写申请备注"></Input>
+              <Input v-model="rejectionData.rejectionRemark" type="textarea" :rows="5"  maxlength=200 placeholder="请填写批退备注"></Input>
             </Form-item>
           </Col>
         </Row>
       </Form>
       <div slot="footer">
-        <Button type="error" size="large"  @click="doApplyPay()">申请</Button>
+        <Button type="error" size="large"  @click="doRejection()">批退</Button>
       </div>
     </Modal>
 
-    <!-- 删除批次 -->
-    <Modal v-model="delPaymentData.isShow" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
-        <Icon type="information-circled"></Icon>
-        <span>删除确认</span>
-      </p>
-      <div style="text-align:center">
-        <p>该批次将被删除</p>
-        <p>是否继续</p>
-      </div>
-      <div slot="footer">
-        <Button type="error" size="large"  @click="doDelPayment()">删除</Button>
-      </div>
-    </Modal>
-
-    <!-- 增加批次 -->
-    <Modal v-model="addPaymentData.isShow" width="540">
-      <Form :label-width=80>
-        <Row class="mt20">
-          <Col :sm="{span: 12}">
-            <Form-item label="支付年月：" prop="paymentMonthOfAdd">
-              <label>{{addPaymentData.paymentMonth}}</label>
-            </Form-item>
-          </Col>
-        </Row>
-        <Row class="mt20">
-          <Col :sm="{span: 12}">
-            <Form-item label="出账批号：" prop="paymentBatchNumOfAdd">
-              <input type="text" maxlength=20 v-model="addPaymentData.paymentBatchNum" >
-            </Form-item>
-          </Col>
-          <Col :sm="{span: 12}">
-            <Form-item label="账户类型：" prop="accountTypeOfAdd">
-              <Select v-model="addPaymentData.accountType" clearable style="width: 100%;" transfer>
-                <Option v-for="item in staticPayBatchSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-              </Select>
-            </Form-item>  
-          </Col>
-        </Row>
-      </Form>
-
-      <div slot="footer">
-          <Button type="Text"  @click="closeAddPayment()">取消</Button>
-          <Button type="primary"  @click="doAddPayment()">保存</Button>
-      </div>
-    </Modal>
 
   </div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import progressBar from '../../../commoncontrol/progress/progressbar.vue'
-  import EventType from '../../../../store/EventTypes'
-  import payBatchApi from '../../../../api/social_security/payment_batch'
+  import customerModal from '../../commoncontrol/customermodal.vue'
+  import progressBar from '../../commoncontrol/progress/progressbar.vue'
+  import EventType from '../../../store/EventTypes'
+  import reviewedBatchApi from '../../../api/social_security/payment_batch_reviewed'
 
   const progressStop = 33.3;
 
@@ -195,14 +159,8 @@
             {value: '3', label: '独立户'}
           ],
           paymentStateList: [
-            //{value: '', label: '清空'},
-            {value: '1', label: '未到帐'},
-            {value: '2', label: '无需支付'},
-            {value: '3', label: '可付'},
             {value: '4', label: '申请中'},
-            {value: '5', label: '内部审批批退'},
             {value: '6', label: '已申请到财务部'},
-            {value: '7', label: '财务部批退'},
             {value: '8', label: '财务部支付成功'},
           ],
 
@@ -213,6 +171,44 @@
         progressStop: progressStop,
 
         payBatchColumns: [
+          {title: '操作', key: 'operator', width: 220, align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {type: 'success', size: 'small'},
+                  style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+                      let paymentId = params.row.paymentId;
+                      this.goPaymentComReviewed(paymentId);
+                    }
+                  }
+                }, '查看'),
+                h('Button', {
+                  props: {type: 'success', size: 'small'},
+                  style: {margin: '0 auto 0 10px'},
+                  on: {
+                    click: () => {
+                      let paymentId = params.row.paymentId;
+                      let paymentState = params.row.paymentState;
+                      this.goReviewdePass(paymentId,paymentState);
+                    }
+                  }
+                }, '审批通过'),
+                h('Button', {
+                  props: {type: 'error', size: 'small'},
+                  style: {margin: '0 auto 0 10px'},
+                  on: {
+                    click: () => {
+                      let paymentId = params.row.paymentId;
+                      let paymentState = params.row.paymentState;
+                      this.goRejection(paymentId,paymentState);
+                    }
+                  }
+                }, '批退'),
+              ]);
+            }
+          },
           {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
@@ -220,7 +216,7 @@
               ]);
             }
           },
-          {title: '申请支付总金额', key: 'totalApplicationAmount', width: 140, align: 'center',
+          {title: '申请支付总金额', key: 'totalApplicationAmount', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.totalApplicationAmount),
@@ -251,7 +247,7 @@
               ]);
             }
           },
-          {title: '支付状态', key: 'paymentStateName', width: 180, align: 'center',
+          {title: '支付状态', key: 'paymentStateName', width: 140, align: 'center',
             render: (h, params) => {
               let paymentState = params.row.paymentState;
               let paymentStateName = this.getPaymentStateName(paymentState);
@@ -275,6 +271,13 @@
               ]);
             }
           },
+          {title: '申请备注', key: 'requestDate', width: 260, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.applyRemark),
+              ]);
+            }
+          },
           {title: '财务支付日期', key: 'financePaymentDate', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -282,7 +285,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'accountType', width: 180, align: 'center',
+          {title: '账户类型', key: 'accountType', width: 120, align: 'center',
             render: (h, params) => {
               let accountType = params.row.accountType;
               let accountTypeName = "";
@@ -299,34 +302,7 @@
               ]);
             }
           },
-          {title: '操作', key: 'operator', width: 220, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      let paymentId = params.row.paymentId;
-                      let paymentState = params.row.paymentState;
-                      this.goApplyPay(paymentId,paymentState)
-                    }
-                  }
-                }, '申请支付'),
-                h('Button', {
-                  props: {type: 'error', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      let paymentId = params.row.paymentId;
-                      let paymentState = params.row.paymentState;
-                      this.goDelPayment(paymentId,paymentState)
-                    }
-                  }
-                }, '删除')
-              ]);
-            }
-          },
+          
         ],
         payBatchData: [],
         payBatchPageData: {
@@ -335,25 +311,18 @@
           pageSize: this.$utils.DEFAULT_PAGE_SIZE,
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
-        //申请支付
-        applyPayData:{
-          isShow : false,
-          paymentId:'',
-          applyRemark:'',
-
-        },
-        //删除批次
-        delPaymentData:{
+        //审核通过
+        reviewdePassData:{
           isShow : false,
           paymentId:'',
 
         },
-        //新增批次
-        addPaymentData:{
+        //批退
+        rejectionData:{
           isShow : false,
-          paymentMonth : '',
-          paymentBatchNum : '',
-          accountType : ''
+          paymentId:'',
+          rejectionRemark:'',
+
         },
       }
     },
@@ -403,7 +372,7 @@
           params = this.$utils.clear(params, '');
         }
 
-        payBatchApi.paymentBatchQuery({
+        reviewedBatchApi.paymentBatchQuery({
           pageSize: this.payBatchPageData.pageSize,
           pageNum: this.payBatchPageData.pageNum,
           params: params,
@@ -427,30 +396,26 @@
 
         return paymentStateMap.get(paymentState);
       },
-      //申请支付
-      goApplyPay(paymentId,paymentState) {
+      //审批通过
+      goReviewdePass(paymentId,paymentState) {
         //验证可操作性
-        if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
-          alert("只有可付和批退状态的批次可以申请支付");
+        if(paymentState != "4"){
+          alert("只有申请中状态的批次可以审核");
           return;
         }
-
-        this.applyPayData.paymentId = paymentId;
-        this.applyPayData.applyRemark = '';
-        this.applyPayData.isShow = true;
+        this.reviewdePassData.isShow = true;
+        this.reviewdePassData.paymentId = paymentId;
 
       },
-      doApplyPay() {
-        let paymentId = this.applyPayData.paymentId;
-        let applyRemark = this.applyPayData.applyRemark;
+      doReviewdePass() {
+        let paymentId = this.reviewdePassData.paymentId;
 
-        payBatchApi.doApplyPay({
+        reviewedBatchApi.doReviewdePass({
           paymentId: paymentId,
-          applyRemark: applyRemark,
         }).then(data => {
           if(data.code == "0"){
-            alert("申请成功");
-            this.closeApplyPay();
+            alert("审核成功");
+            this.closeReviewdePass();
             //重新查询
             this.paymentBatchQuery()
 
@@ -459,30 +424,34 @@
           }
         })
       },
-      closeApplyPay(){
-        this.applyPayData.isShow = false;
+      closeReviewdePass(){
+        this.reviewdePassData.isShow = false;
       },
 
-      //删除批次
-      goDelPayment(paymentId,paymentState) {
+      //批退
+      goRejection(paymentId,paymentState) {
         //验证可操作性
-        if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
-          alert("只有可付和批退状态的批次可以删除");
+        if(paymentState != "4"){
+          alert("只有申请中状态的批次可以批退");
           return;
         }
-        this.delPaymentData.isShow = true;
-        this.delPaymentData.paymentId = paymentId;
+
+        this.rejectionData.rejectionRemark = '';
+        this.rejectionData.paymentId = paymentId;
+        this.rejectionData.isShow = true;
 
       },
-      doDelPayment() {
-        let paymentId = this.delPaymentData.paymentId;
+      doRejection() {
+        let paymentId = this.rejectionData.paymentId;
+        let rejectionRemark = this.rejectionData.rejectionRemark;
 
-        payBatchApi.doDelPayment({
+        reviewedBatchApi.doRejection({
           paymentId: paymentId,
+          rejectionRemark: rejectionRemark,
         }).then(data => {
           if(data.code == "0"){
-            alert("删除成功");
-            this.closeDelPayment();
+            alert("批退成功");
+            this.closeRejection();
             //重新查询
             this.paymentBatchQuery()
 
@@ -491,63 +460,14 @@
           }
         })
       },
-      closeDelPayment(){
-        this.delPaymentData.isShow = false;
+      closeRejection(){
+        this.rejectionData.isShow = false;
       },
 
-
-      //新增批次
-      goAddPayment() {
-        //获取支付年月
-         payBatchApi.getPaymentMonth({
-        }).then(data => {
-          if(data.code == "0"){
-            this.addPaymentData.paymentMonth = data.data;
-            this.addPaymentData.paymentBatchNum = '';
-            this.addPaymentData.accountType = '';
-            
-            this.addPaymentData.isShow = true;
-          }else{
-            alert(data.message);
-          }
-        })
+      goPaymentComReviewed(paymentId) {
+        window.sessionStorage.setItem("paymentComReviewed_paymentId", paymentId)
+        this.$router.push({name: 'paymentComReviewed'})
       },
-      doAddPayment() {
-        let paymentMonth = this.addPaymentData.paymentMonth;
-        let paymentBatchNum = this.addPaymentData.paymentBatchNum;
-        let accountType = this.addPaymentData.accountType;
-        if(paymentMonth == null || paymentMonth == ""){
-          alert("支付年月不可为空");
-          return;
-        }
-        if(paymentBatchNum == null || paymentBatchNum == ""){
-          alert("出账批号不可为空");
-          return;
-        }
-        if(accountType == null || accountType == ""){
-          alert("账户类型不可为空");
-          return;
-        }
-        payBatchApi.addPayment({
-          paymentMonth: paymentMonth,
-          paymentBatchNum: paymentBatchNum,
-          accountType: accountType,
-        }).then(data => {
-          if(data.code == "0"){
-            alert("添加成功成功");
-            this.closeAddPayment();
-            //重新查询
-            //this.paymentBatchQuery()
-            this.payBatchHandlePageNum(1);
-          }else{
-            alert(data.message);
-          }
-        })
-      },
-      closeAddPayment(){
-        this.addPaymentData.isShow = false;
-      },
-
     }
   }
 </script>

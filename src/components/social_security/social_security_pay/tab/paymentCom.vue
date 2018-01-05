@@ -173,14 +173,14 @@
           </Col>
           <Col :sm="{span: 24}">
             <Form-item label="备注说明：">
-              <Input v-model="changeInfo.remark" type="textarea" :rows="5" placeholder="请输入..."></Input>
+              <Input v-model="changeInfo.remark" type="textarea" :rows="5" maxlength=200 placeholder="请输入..."></Input>
             </Form-item>
           </Col>
         </Row>
       </Form>
       <div slot="footer">
           <Button type="Text"  @click="closeAdjustment()">取消</Button>
-          <Button type="primary"  @click="saveAdjustment()">保存</Button>
+          <Button type="success"  @click="saveAdjustment()">保存</Button>
       </div>
     </Modal>
   </div>
@@ -208,7 +208,8 @@
           paymentMonthMax: '',
           paymentMonthMaxShow: '',
           paymentState: '',
-          comAccountId: ''
+          comAccountId: '',
+          paymentBatchNum:''
         },
         staticPayComSearchData: {
             
@@ -555,7 +556,7 @@
               ]);
             }
           },
-          {title: '申请备注', key: 'remark', width: 250, align: 'center',
+          {title: '额外金备注', key: 'remark', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remark),

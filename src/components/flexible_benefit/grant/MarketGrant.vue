@@ -105,12 +105,6 @@
             type: 'selection', width: 60, align: 'center'
           },
           {
-            title: '类型', key: 'date1', align: 'center',
-          },
-          {
-            title: '公司编码', key: 'date2', align: 'center',
-          },
-          {
             title: '公司名称', key: 'date3', align: 'center',
           },
           {

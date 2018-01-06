@@ -79,10 +79,26 @@
             }
           },
           {
-            title: '审批状态', key: 'approvalStatus', align: 'center',
+            title: '申请时间', key: 'applyTime', align: 'center',
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.applyTime, 'YYYY-MM-DD HH:mm:ss');
+            }
           },
           {
-            title: '发放状态', key: 'sendStatus', align: 'center',
+            title: '审批状态', key: 'approvalStatus', align: 'center',
+            render: (h, params) => {
+              switch (params.row.approvalStatus) {
+                case 0:
+                  return "审批中";
+                  break;
+                case 1:
+                  return "同意";
+                  break;
+                case 2:
+                  return "不同意";
+                  break;
+              }
+            }
           },
           {
             title: '操作', key: 'action', align: 'center', width: 200,

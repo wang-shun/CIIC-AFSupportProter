@@ -80,9 +80,35 @@
           },
           {
             title: '审批状态', key: 'approvalStatus', align: 'center',
+            render: (h, params) => {
+              switch (params.row.approvalStatus) {
+                case 0:
+                  return "审批中";
+                  break;
+                case 1:
+                  return "同意";
+                  break;
+                case 2:
+                  return "不同意";
+                  break;
+              }
+            }
           },
           {
             title: '发放状态', key: 'sendStatus', align: 'center',
+            render: (h, params) => {
+              switch (params.row.sendStatus) {
+                case 1:
+                  return "未处理";
+                  break;
+                case 2:
+                  return "已发放";
+                  break;
+                case 3:
+                  return "已退批";
+                  break;
+              }
+            }
           },
           {
             title: '操作', key: 'action', width: 200, align: 'center',

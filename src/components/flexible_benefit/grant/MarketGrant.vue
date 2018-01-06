@@ -210,7 +210,7 @@
       },
       grantMarket(val) {
         this.applyInformation.sendStatus = val;
-        apiAjax.grantGiftUpdate(this.applyInformation).then(response => {
+        apiAjax.grantUpdate(this.applyInformation).then(response => {
           if (response.data.code === 200) {
             this.$router.push({name: "grantManager"});
           } else {

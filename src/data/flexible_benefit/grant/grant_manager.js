@@ -10,11 +10,11 @@ const grantList = params => ajaxQuery.postJSON("/grantQueryService/applyList", p
 const queryGiftInformation = params => ajaxQuery.postJSON("/grantQueryService/queryGiftInformation", params);
 const queryMarketInformation = params => ajaxQuery.postJSON("/grantQueryService/queryMarketInformation", params);
 //command服务
-const grantGiftUpdate = params => ajaxCommand.postJSON("/grantQueryService/applyUpdate", params);
+const grantUpdate = params => ajaxCommand.postJSON("/grantCommandService/updateApplyGrant", params);
 
 export default {
   grantList,
   queryGiftInformation,
   queryMarketInformation,
-  grantGiftUpdate,
+  grantUpdate,
 }

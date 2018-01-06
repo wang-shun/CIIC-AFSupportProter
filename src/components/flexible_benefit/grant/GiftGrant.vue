@@ -4,51 +4,36 @@
       <Panel name="1">
         申请信息
         <div slot="content">
-          <Form :model="applyInformation" ref="applyInformation" :label-width="140">
+          <Form :model="applyRecord" ref="applyRecord" :label-width="140">
             <Row>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
               <Form-item label="申请单号：">
-                {{applyInformation.applyRecordId}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="填报人：">
-                {{applyInformation.contactName}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请人部门：">
-                {{applyInformation.contactName}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请人职位：">
-                {{applyInformation.contactPosition}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="审批状态：">
-                {{applyInformation.approvalStatus}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请时间：">
-                {{this.$utils.formatDate(applyInformation.applyTime, 'YYYY-MM-DD HH:mm:ss')}}
+                {{applyRecord.applyRecordId}}
               </Form-item>
               </Col>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
               <Form-item label="主题：">
-                {{applyInformation.projectTopics}}
+                {{applyRecord.projectTopics}}
               </Form-item>
               </Col>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="分机：">
-                {{applyInformation.applicantExtension}}
+              <Form-item label="申请类别：">
+                礼品申请
               </Form-item>
               </Col>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="公司名称：">
-                {{applyInformation.companyName}}
+              <Form-item label="申请人部门：">
+                {{applyRecord.contactName}}
+              </Form-item>
+              </Col>
+              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+              <Form-item label="申请人职位：">
+                {{applyRecord.contactPosition}}
+              </Form-item>
+              </Col>
+              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+              <Form-item label="申请时间：">
+                {{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}
               </Form-item>
               </Col>
             </Row>
@@ -57,31 +42,74 @@
       </Panel>
     </Collapse>
 
-    <div class="create">
+    <div>
       <Card style="width: 100%">
         申请明细:
-        <Form :model="applyInformation" ref="applyInformation" :label-width="140">
+        <Form :model="gift" ref="gift" :label-width="140">
           <Row>
             <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
             <Form-item label="礼品名称：">
-              {{applyInformation.giftName}}
+              {{gift.giftName}}
             </Form-item>
             </Col>
             <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
             <Form-item label="数量：">
-              {{applyInformation.number}}
-            </Form-item>
-            </Col>
-          </Row>
-          <Row>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-            <Form-item label="需求时间：">
-              {{applyInformation.price}}
+              {{gift.number}}
             </Form-item>
             </Col>
             <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
             <Form-item label="单价：">
-              {{applyInformation.price}}
+              {{gift.price}}
+            </Form-item>
+            </Col>
+          </Row>
+        </Form>
+      </Card>
+    </div>
+
+    <div>
+      <Card style="width: 100%">
+        赠送对象:
+        <Form :model="applyRecordDetail" ref="applyRecordDetail" :label-width="140">
+          <Row>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Form-item label="对象类型：">
+              {{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}
+            </Form-item>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Form-item label="姓名：">
+              {{applyRecordDetail.contactName}}
+            </Form-item>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Form-item label="手机号：">
+              {{applyRecordDetail.contactPhoneNum}}
+            </Form-item>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Form-item label="公司：">
+              {{applyRecordDetail.companyName}}
+            </Form-item>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Form-item label="部门：">
+              {{applyRecordDetail.contactDeptName}}
+            </Form-item>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Form-item label="职位：">
+              {{applyRecordDetail.contactPosition}}
+            </Form-item>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Form-item label="部门：">
+              {{applyRecordDetail.contactDeptName}}
+            </Form-item>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Form-item label="公司地址：">
+              {{applyRecordDetail.companyAddress}}
             </Form-item>
             </Col>
           </Row>
@@ -93,41 +121,15 @@
       <Panel name="2">
         审批列表
         <div slot="content">
-          <Form :model="applyInformation" ref="applyInformation" :label-width="140">
+          <Form :model="applyRecordDetail" ref="applyRecordDetail" :label-width="140">
             <Row>
               <Col :xs="{span: 12, offset: 1}" :lg="{ span: 12, offset: 1}">
-              <Card style="width: 100%">
-                <Form :model="applyInformation" ref="applyInformation" :label-width="140">
-                  <Row>
-                    <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-                    <Form-item label="审批人：">
-                      {{applyInformation.giftName}}
-                    </Form-item>
-                    </Col>
-                    <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-                    <Form-item label="审批时间：">
-                      {{applyInformation.number}}
-                    </Form-item>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-                    <Form-item label="审批意见：">
-                      {{applyInformation.price}}
-                    </Form-item>
-                    </Col>
-                    <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-                    <Form-item label="审批标志：">
-                      {{applyInformation.price}}
-                    </Form-item>
-                    </Col>
-                  </Row>
-                </Form>
-              </Card>
+              <Table stripe border :columns="approvalStepColumns" :data="approvalStepList"
+                     ref="approvalStepTable"></Table>
               </Col>
               <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
               <Form-item label="发放备注：">
-                <Input v-model="applyInformation.contactEmail" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
+                <Input v-model="applyRecordDetail.sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
                        placeholder=""/>
               </Form-item>
               </Col>
@@ -153,12 +155,25 @@
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
-        applyInformation: {
-          giftPO: {},
-          applyRecordPO: {},
-          applyGiftRecordPO: {},
-          applyRecordDetailPO: {},
-        },
+        gift: {},
+        applyRecord: {},
+        applyGiftRecord: {},
+        applyRecordDetail: {},
+        approvalStepList: [],
+        approvalStepColumns: [
+          {
+            title: '审批人', key: 'approverName', align: 'center',
+          },
+          {
+            title: '审批时间', key: 'approveTime', align: 'center',
+          },
+          {
+            title: '状态', key: 'approveAction', align: 'center',
+          },
+          {
+            title: '审批意见', key: 'approveRemark', align: 'center',
+          },
+        ]
       }
     },
     created() {
@@ -168,15 +183,20 @@
     methods: {
       selectGiftGrantInformation(val) {
         apiAjax.queryGiftInformation(val).then(response => {
-          this.applyInformation = response.data.object;
+          this.gift = response.data.object.gift;
+          this.applyRecord = response.data.object.applyRecord;
+          this.applyGiftRecord = response.data.object.applyGiftRecord;
+          this.applyRecordDetail = response.data.object.applyRecordDetail;
+          this.approvalStepList = response.data.object.approvalStepList;
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
       },
       grantGift(val) {
-        this.applyInformation.sendStatus = val;
-        apiAjax.grantGiftUpdate(this.applyInformation).then(response => {
+        let updateData = this.applyRecordDetail;
+        updateData.sendStatus = val;
+        apiAjax.grantUpdate(updateData).then(response => {
           if (response.data.code === 200) {
             this.$router.push({name: "grantManager"});
           } else {
@@ -212,6 +232,25 @@
             break;
           case 6:
             return "儿童用品";
+            break;
+        }
+      },
+      presentingObjectTypeList(val) {
+        switch (val) {
+          case 0:
+            return "管理方";
+            break;
+          case 1:
+            return "客户";
+            break;
+          case 2:
+            return "联系人";
+            break;
+          case 3:
+            return "雇员";
+            break;
+          case 4:
+            return "其他";
             break;
         }
       },

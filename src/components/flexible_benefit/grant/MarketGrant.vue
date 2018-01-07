@@ -71,8 +71,10 @@
 
 <script>
   import apiAjax from "../../../data/flexible_benefit/grant/grant_manager.js";
+  import marketTableExpand from './MarketTableExpand.vue';
 
   export default {
+    components: {marketTableExpand},
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
@@ -83,7 +85,14 @@
         sendRemark: "",
         applyDetailColumns: [
           {
-            type: 'selection', width: 60, align: 'center'
+            type: 'expand', width: 60, align: 'center',
+            render: (h, params) => {
+              return h(marketTableExpand, {
+                props: {
+                  row: params.row
+                }
+              })
+            }
           },
           {
             title: '公司名称', key: 'date3', align: 'center',

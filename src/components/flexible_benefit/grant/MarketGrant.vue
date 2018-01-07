@@ -4,55 +4,32 @@
       <Panel name="1">
         申请信息
         <div slot="content">
-          <Form :model="applyInformation" ref="applyInformation" :label-width="140">
-            <Row>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请单号：">
-                {{applyInformation.applyRecordId}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="填报人：">
-                {{applyInformation.contactName}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请人部门：">
-                {{applyInformation.contactName}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请人职位：">
-                {{applyInformation.contactPosition}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="审批状态：">
-                {{applyInformation.approvalStatus}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请时间：">
-                {{this.$utils.formatDate(applyInformation.applyTime, 'YYYY-MM-DD HH:mm:ss')}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="主题：">
-                {{applyInformation.projectTopics}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="分机：">
-                {{applyInformation.applicantExtension}}
-              </Form-item>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="公司名称：">
-                {{applyInformation.companyName}}
-              </Form-item>
-              </Col>
-            </Row>
-          </Form>
+          <Row>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>申请单号: </span>
+            <span>{{ applyRecord.applyRecordId }}</span>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>主题: </span>
+            <span>{{ applyRecord.projectTopics }}</span>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>申请类别:</span>
+            <span>礼品申请</span>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>申请人部门: </span>
+            <span>{{ applyRecord.contactDeptName }}</span>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>申请人职位: </span>
+            <span>{{ applyRecord.contactPosition }}</span>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>申请时间: </span>
+            <span>{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}</span>
+            </Col>
+          </Row>
         </div>
       </Panel>
     </Collapse>
@@ -66,26 +43,26 @@
       <Panel name="2">
         审批列表
         <div slot="content">
-          <Form :label-width=120 ref="applyInformation" :model="applyInformation">
-            <Row>
-              <Col :xs="{span: 12, offset: 1}" :lg="{ span: 12, offset: 1}">
-              <Table stripe border :columns="examineColumns" :data="examineData" ref="table"></Table>
-              </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
+          <Row>
+            <Col :xs="{span: 12, offset: 1}" :lg="{ span: 12, offset: 1}">
+            <Table stripe border :columns="examineColumns" :data="examineData" ref="table"></Table>
+            </Col>
+            <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
+            <Form :label-width=120>
               <Form-item label="审批意见：">
-                <Input v-model="applyInformation.customerName" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
+                <Input v-model="sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
                        placeholder=""/>
               </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
-              <Button type="warning" @click="back()">返回</Button>
-              <Button type="primary" @click="grantMarket(2)">发放</Button>
-              <Button type="error" @click="grantMarket(3)">批退</Button>
-              </Col>
-            </Row>
-          </Form>
+            </Form>
+            </Col>
+          </Row>
+          <Row>
+            <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
+            <Button type="warning" @click="back()">返回</Button>
+            <Button type="primary" @click="grantMarket(2)">发放</Button>
+            <Button type="error" @click="grantMarket(3)">批退</Button>
+            </Col>
+          </Row>
         </div>
       </Panel>
     </Collapse>
@@ -99,7 +76,11 @@
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
-        applyInformation: {},
+        marketActivity: {},
+        applyRecord: {},
+        recordDetailList: [],
+        applyMarketActivityRecordList: [],
+        sendRemark: "",
         applyDetailColumns: [
           {
             type: 'selection', width: 60, align: 'center'
@@ -196,7 +177,10 @@
     methods: {
       selectMarketGrantInformation(val) {
         apiAjax.queryMarketInformation(val).then(response => {
-          this.applyInformation = response.data.object;
+          this.applyRecord = response.data.object.applyRecord;
+          this.marketActivity = response.data.object.marketActivity;
+          this.recordDetailList = response.data.object.recordDetailList;
+          this.applyMarketActivityRecordList = response.data.object.applyMarketActivityRecordList;
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");

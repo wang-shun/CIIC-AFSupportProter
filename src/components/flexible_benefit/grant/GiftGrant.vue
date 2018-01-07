@@ -4,40 +4,32 @@
       <Panel name="1">
         申请信息
         <div slot="content">
-          <Form :model="applyRecord" ref="applyRecord" :label-width="140">
             <Row>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请单号：">
-                {{applyRecord.applyRecordId}}
-              </Form-item>
+              <span>申请单号: </span>
+              <span>{{ applyRecord.applyRecordId }}</span>
               </Col>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="主题：">
-                {{applyRecord.projectTopics}}
-              </Form-item>
+              <span>主题: </span>
+              <span>{{ applyRecord.projectTopics }}</span>
               </Col>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请类别：">
-                礼品申请
-              </Form-item>
+              <span>申请类别:</span>
+              <span>礼品申请</span>
               </Col>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请人部门：">
-                {{applyRecord.contactName}}
-              </Form-item>
+              <span>申请人部门: </span>
+              <span>{{ applyRecord.contactDeptName }}</span>
               </Col>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请人职位：">
-                {{applyRecord.contactPosition}}
-              </Form-item>
+              <span>申请人职位: </span>
+              <span>{{ applyRecord.contactPosition }}</span>
               </Col>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="申请时间：">
-                {{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}
-              </Form-item>
+              <span>申请时间: </span>
+              <span>{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}</span>
               </Col>
             </Row>
-          </Form>
         </div>
       </Panel>
     </Collapse>

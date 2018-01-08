@@ -3,7 +3,7 @@
     <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="企业社保账号：">
-        <label>{{company.comAccountId}}</label>
+        <label>{{company.ssAccount}}</label>
       </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

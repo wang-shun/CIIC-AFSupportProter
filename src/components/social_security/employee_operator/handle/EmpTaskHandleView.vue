@@ -16,7 +16,8 @@
       <Panel name="3">
         任务单参考信息
         <div slot="content">
-          <Form :label-width=150 v-if="operatorType === '0'">
+                     <!--  v-if="operatorType === '1' || operatorType === '2'" -->
+            <Form :label-width=150 >
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="开AF单日期：">
@@ -26,6 +27,11 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="存档地：">
                 <label>{{taskNewInfo.storePlace}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="工资：">
+                <label>{{taskNewInfo.salary}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -45,7 +51,7 @@
               </Col>
             </Row>
           </Form>
-          <Form :label-width=150 v-else-if="operatorType === '1'">
+          <!-- <Form :label-width=150 v-else-if="operatorType === '1'">
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="新社保缴费基数:">
@@ -63,8 +69,8 @@
               </Form-item>
               </Col>
             </Row>
-          </Form>
-          <Form :label-width=150 v-else>
+          </Form> -->
+          <!-- <Form :label-width=150 v-else>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="用工状态:">
@@ -82,7 +88,7 @@
               </Form-item>
               </Col>
             </Row>
-          </Form>
+          </Form> -->
         </div>
       </Panel>
       <Panel name="4">
@@ -120,7 +126,7 @@
               </Form-item>
               </Col>
               <!-- 仅转出 -->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '2'">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '2'">
               <Form-item label="特殊变更类型：">
                 <Select v-model="socialSecurityPayOperator.taskCategorySpecial" style="width: 100%;" transfer>
                   <Option v-for="item in specialChangeType" :value="item.value" :key="item.value">
@@ -128,7 +134,7 @@
                   </Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col> -->
               <!-- 仅新增 -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="起缴月份：">
@@ -197,7 +203,7 @@
       <Button type="primary" @click="instance('5')" v-if="showButton">不需处理</Button>
       <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
       <Button type="error" @click="instance('4')" v-if="showButton">批退</Button>
-      <Button type="primary" v-show="operatorType !== '2'" @click="instance('1')" v-if="showButton">暂存</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -220,9 +226,28 @@
         currentIndex: this.$route.params.index,
         sourceFrom: '',
         collapseInfo: [1, 2, 3, 4],
-        employee: {},
+        employee: {
+          idNum:'',
+          education:'',
+          inDate:'',
+          employeeId:'',
+          employeeName:'',
+          residenceAddress:'',
+          residenceAttribute:'',
+          contactAddress:'',
+         employeeAttribute:''
+        },
         company: {},
-
+        taskNewInfo: {
+        afDate: '2017-12-01',
+        storePlace: '外来从业人员',
+        salary:'18000',
+        jobState: '已用工',
+        jobDate: '2017-12-01'
+      },
+      taskNewInfoData: [
+        {base: '18000', startMonth: '201712', endYear: ''}
+      ], //任务单参考信息 -- 新增
         taskCategoryType: [
           {value: '1', label: '新进'},
           {value: '2', label: '转入'},
@@ -252,8 +277,8 @@
                 props: {value: params.row.startMonth, type: 'month', disabled: Boolean(params.row.disabled)},
                 attrs: {placeholder: '选择年月'},
                 on: {
-                  'on-change': (value) => {
-                    this.setRow(params, 'startMonth', value);
+                  input: (event) => {
+                    this.setRow(params, 'startMonth', event);
                   }
                 }
               });
@@ -268,8 +293,8 @@
                 props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
                 attrs: {placeholder: '选择年月'},
                 on: {
-                  'on-change': (value) => {
-                    this.setRow(params, 'endMonth', value);
+                  input: (event) => {
+                    this.setRow(params, 'endMonth', event);
                   }
                 }
               });
@@ -364,15 +389,30 @@
             title: '起缴月份', key: 'startMonth', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.startMonth),
+                h('span', params.row.startMonth,{
+                  on: {
+                  input: (event) => {
+                    
+                    self.taskNewInfoData[params.index].row.startMonth = event
+                  }
+                }
+                }),
               ]);
             }
           },
           {
             title: '截至月份', key: 'endYear', align: 'center', width: 200,
             render: (h, params) => {
+              let self = this
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.endYear),
+                h('span', params.row.endYear,{
+                  on: {
+                  input: (event) => {
+                    
+                    self.taskNewInfoData[params.index].row.endYear = event
+                  }
+                }
+                }),
               ]);
             }
           }
@@ -383,19 +423,13 @@
     },
     mounted() {
       this.initData(this.$route.query)
-      this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]()
+    
     },
     computed: {
-      ...mapState('companySocialSecurityNew', {
-        data: state => state.data,
-        taskNewInfo: state => state.data.taskNewInfo,
-        taskOutInfo: state => state.data.taskOutInfo,
-        taskChangeInfo: state => state.data.taskChangeInfo,
-        taskNewInfoData: state => state.data.taskNewInfoData,
-      })
+     
     },
     methods: {
-      ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
+ 
       initData(data) {
         this.empTaskId = data.empTaskId;
         this.operatorType = data.operatorType;
@@ -410,14 +444,21 @@
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
           }
-          this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
+          this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
+          
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
         });
-
-        api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId}).then((data) => {
-          this.employee = data.data;
+        
+        api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
+          
+          if(data.data!=null){
+            
+            this.employee = data.data;
+          }
+          
         })
-        api.queryComAccountByEmpTaskId({empTaskId: empTaskId}).then((data) => {
+        api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
+          
           this.company = data.data;
         })
       },
@@ -466,7 +507,8 @@
         params.row[name] = value;
       },
       insertRow(index) {
-        this.getRows().splice(index, 0, this.newRow());
+        
+        this.getRows().splice(0, 0, this.newRow());
       },
       removeRow(index) {
         var data = this.getRows();
@@ -480,7 +522,7 @@
       },
       instance(taskStatus, type) {
         var fromData = this.$utils.clear(this.socialSecurityPayOperator, '');
-
+        
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
         if ('4' == taskStatus) {
@@ -488,7 +530,7 @@
         }
 
         // expireDate
-
+        let self= this;
         this.$Modal.confirm({
           title: "确认办理吗？",
           content: content,
@@ -496,30 +538,38 @@
           cancelText: '取消',
           onOk: () => {
             {// 处理日期
-              fromData.handleMonth = this.yyyyMM(fromData.handleMonth)
-              fromData.startMonth = this.yyyyMM(fromData.startMonth)
-              fromData.endMonth = this.yyyyMM(fromData.endMonth)
+              fromData.handleMonth = self.yyyyMM(this.socialSecurityPayOperator.handleMonth)
+              fromData.startMonth = self.yyyyMM(self.socialSecurityPayOperator.startMonth)
+              fromData.endMonth = typeof(self.socialSecurityPayOperator.endMonth)=='undefined'|| self.socialSecurityPayOperator.endMonth==null || self.socialSecurityPayOperator.endMonth==""?"":self.yyyyMM(self.socialSecurityPayOperator.endMonth)
               fromData.handleRemarkDate = null;
               fromData.rejectionRemarkDate = null;
               fromData.taskStatus = taskStatus;
+              fromData.companyId = self.company.companyId;
+              fromData.comAccountId = self.company.comAccountId;
+              fromData.employeeId = self.employee.employeeId;
+              fromData.employeeName = self.employee.employeeName;
+              fromData.salary = typeof(self.employee.ssEmpTask.salary)=='undefined'?'':self.employee.ssEmpTask.salary;
+              fromData.empClassify = self.employee.employeeAttribute;
+              fromData.inDate = self.employee.inDate;
             }
 
             // 转下月处理
             if (type && type == 'next') {
-              var nextDay = parseInt(this.company.expireDate) + 1;
+              var nextDay = parseInt(self.company.expireDate) + 1;
               var submitTime = new Date();
               submitTime.setDate(nextDay);
-              fromData.submitTime = this.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');
+              fromData.submitTime = self.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');
             }
 
-            fromData.empTaskPeriods = this.filterData();
+            fromData.empTaskPeriods = self.filterData();
+            
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
-                this.$Message.success(content + "成功");
+                self.$Message.success(content + "成功");
                 // 返回任务列表页面
                 history.go(-1);
               } else {
-                this.$Message.error(content + "失败！" + data.message);
+                self.$Message.error(content + "失败！" + data.message);
               }
             })
           }

@@ -55,6 +55,7 @@
     data() {
       return {
         empTaskId: '',
+        empArchiveId:this.$route.query.empArchiveId,
         currentIndex: this.$route.params.index,
         operatorType: '',
         sourceFrom: '',
@@ -87,15 +88,15 @@
         this.sourceFrom = data.sourceFrom;
 
 
-        api.queryEmpArchiveByEmpTaskId({empTaskId: this.empTaskId}).then((data) => {
+        api.queryEmpArchiveByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {
           this.employee = data.data;
         })
-        api.queryComAccountByEmpTaskId({empTaskId: this.empTaskId}).then((data) => {
+        api.queryComAccountByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {
           this.company = data.data;
         })
       },
       goBack() {
-        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo'});
+        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo',query:{empArchiveId:this.empArchiveId}});
       },
       instance(type) {
         let title = '';
@@ -160,8 +161,7 @@
             fromData.rejectionRemarkDate = null;
           }
             fromData.empTaskPeriods = data.data;
-            api.handleEmpTask(fromData)
-            console.log(JSON.stringify(fromData));
+            api.handleEmpTask(fromData);
             break;
         }
       }

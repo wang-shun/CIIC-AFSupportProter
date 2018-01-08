@@ -27,11 +27,11 @@
               <Form-item label="结算中心：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
-                  <Option value="徐汇区" label="徐汇区"></Option>
-                  <Option value="浦东新区" label="浦东新区"></Option>
-                  <Option value="闵行区" label="闵行区"></Option>
-                  <Option value="闸北区" label="闸北区"></Option>
-                  <Option value="黄浦区" label="黄浦区"></Option>
+                  <Option value="徐汇" label="徐汇"></Option>
+                  <Option value="浦东新" label="浦东"></Option>
+                  <Option value="闵行" label="闵行"></Option>
+                  <Option value="闸北" label="闸北"></Option>
+                  <Option value="黄浦" label="黄浦"></Option>
                 </Select>
               </Form-item>
               </Col>
@@ -109,7 +109,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
-                <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="bottom"
+                <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="right"
                              placeholder="选择年月份" style="width: 100%;"></Date-picker>
               </Form-item>
               </Col>
@@ -248,7 +248,7 @@
             title: '雇员证件号', key: 'idNum', width: 200, align: 'center'
           },
           {
-            title: '企业社保账号', key: 'comAccountId', width: 200, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center'
           },
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
@@ -257,7 +257,7 @@
             title: '执行日期', key: 'doDate', width: 150, align: 'center'
           },
           {
-            title: '客户编号', key: 'companyId', width: 100, align: 'center'
+            title: '客户编号', key: 'companyId', width: 120, align: 'center'
           },
           {
             title: '客户名称', key: 'title', width: 200, align: 'center'
@@ -448,7 +448,7 @@
           // 根据任务类型跳转
           this.$router.push({
             name: name,
-            query: {taskCategory: taskCategory, empTaskId: data.empTaskId}
+            query: {operatorType: taskCategory, empTaskId: data.empTaskId}
           });
         }
       },

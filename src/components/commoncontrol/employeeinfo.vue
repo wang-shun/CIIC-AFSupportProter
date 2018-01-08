@@ -18,13 +18,13 @@
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="入职日期：">
-          <label>{{emp.checkInTime}}</label>
+          <label>{{emp.inDate}}</label>
         </Form-item>
       </Col>
       <!-- 调整和转出 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="社保序号：">
-          <label>{{emp.socialSecurityIndex}}</label>
+          <label>{{emp.ssSerial}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -35,7 +35,7 @@
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="账户类型：">
-          <label>{{emp.socialSecurityType}}</label>
+          <label>{{emp.ssAccountType}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

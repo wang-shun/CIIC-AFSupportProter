@@ -196,16 +196,27 @@
         //处理参数
         api.accAndEmpDetailQuery({empTaskId:this.empTaskId}).then(data => {
           // this.operatorMaterialListData = data.data;
-          this.receiveMaterialListData = data.data;//Utils.deepClone(this.operatorMaterialListData)
-        })
-        
-        api.queryEmpArchiveByEmpTaskId({empTaskId:this.empTaskId}).then((data) => {
+          if(data.data!=null){
+            this.receiveMaterialListData = data.data;
+            //Utils.deepClone(this.operatorMaterialListData)
+          }
           
-          this.employeeInfo = data.data;
+          
         })
-
-        api.queryComAccountByEmpTaskId({empTaskId:this.empTaskId}).then((data) => {
-          this.companyInfo = data.data;
+        //6表示特殊操作 查询雇员信息
+        api.queryEmpArchiveByEmpTaskId({empTaskId:this.empTaskId,operatorType:'6'}).then((data) => {
+          if(data.data!=null){
+            
+            this.employeeInfo = data.data;
+          }
+          
+        })
+         //6表示特殊操作 查询雇员信息
+        api.queryComAccountByEmpTaskId({empTaskId:this.empTaskId,operatorType:'6'}).then((data) => {
+          if(data.data!=null){
+            this.companyInfo = data.data;
+          }
+          
         })
       },
       signAllMaterials(){

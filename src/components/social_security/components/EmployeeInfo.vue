@@ -18,7 +18,7 @@
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="入职日期：">
-        <label>{{emp.checkInTime}}</label>
+        <label>{{emp.inDate}}</label>
       </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -26,36 +26,51 @@
         <label>{{emp.education}}</label>
       </Form-item>
       </Col>
+      <!-- 调整和转出 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+      <Form-item label="社保序号：" v-if="operatorType !== '1' && operatorType !== '2'">
+        <label>{{emp.ssSerial}}</label>
+      </Form-item>
+      </Col>
+      <!-- 仅新增 -->
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
+      <Form-item label="社保账号分类：">
+        <label>{{emp.ssAccountType}}</label>
+      </Form-item>
+      </Col>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
       <Form-item label="人员分类：">
         <label>{{emp.empClassify}}</label>
       </Form-item>
       </Col>
+    </Row>
+    <row>
       <!-- 仅新增 -->
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0'">
-      <Form-item label="社保账号分类：">
-        <label>{{emp.socialSecurityType}}</label>
-      </Form-item>
-      </Col>
-      <!-- 调整和转出 -->
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-      <Form-item label="社保序号：">
-        <label>{{emp.socialSecurityIndex}}</label>
-      </Form-item>
-      </Col>
-      <!-- 仅新增 -->
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType == '0'">
+      <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
       <Form-item label="户口地址：">
         <label>{{emp.residenceAddress}}</label>
       </Form-item>
       </Col>
+      <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
+      <Form-item label="户口属性：">
+        <label>{{emp.residenceAttribute}}</label>
+      </Form-item>
+      </Col>
+    </row>
+    <row>
       <!-- 仅新增 -->
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType == '0'">
+      <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
       <Form-item label="联系地址：">
         <label>{{emp.contactAddress}}</label>
       </Form-item>
       </Col>
-    </Row>
+      <!-- 仅新增 -->
+      <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
+      <Form-item label="雇员属性：">
+        <label>{{emp.employeeAttribute}}</label>
+      </Form-item>
+      </Col>
+    </row>
   </Form>
 </template>
 <script>

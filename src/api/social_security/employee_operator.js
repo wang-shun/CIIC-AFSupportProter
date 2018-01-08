@@ -52,10 +52,22 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/ssEmpTask/empSpecialTaskHandle', params);
     return await response.data;
   },
+  //保存材料
   saveMaterial:async (params)=>{
     let response = await AJAX.post('/api/soccommandservice/ssEmpMaterial/saveMaterial', params);
     return await response.data;
-  }
+  },
+
+  //雇员查询
+  employeeQuery:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/employeeQuery', params);
+    return await response.data;
+  },
+  //查询雇员详细信息
+  employeeDetailInfoQuery:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/employeeDetailInfoQuery', params);
+    return await response.data;
+  } 
 
 }
 

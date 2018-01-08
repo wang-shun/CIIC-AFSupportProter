@@ -1,40 +1,34 @@
 <!--市场活动发放界面-->
 <template>
   <div>
-    <Row class="expand-row">
-      <Col span="8">
-      <span class="expand-key">Job: </span>
-      <span class="expand-value">{{ row.job }}</span>
-      </Col>
-      <Col span="8">
-      <span class="expand-key">Interest: </span>
-      <span class="expand-value">{{ row.interest }}</span>
-      </Col>
-      <Col span="8">
-      <span class="expand-key">Birthday: </span>
-      <span class="expand-value">{{ row.birthday }}</span>
-      </Col>
-    </Row>
-    <Row>
-      <Col span="8">
-      <span class="expand-key">Favorite book: </span>
-      <span class="expand-value">《{{ row.book }}》</span>
-      </Col>
-      <Col span="8">
-      <span class="expand-key">Favorite movie: </span>
-      <span class="expand-value">{{ row.movie }}</span>
-      </Col>
-      <Col span="8">
-      <span class="expand-key">Favorite music: </span>
-      <span class="expand-value">{{ row.music }}</span>
-      </Col>
-    </Row>
+    <Table border :columns="marketExpandColumns" :data="examineData" ref="table"></Table>
   </div>
 </template>
 <script>
   export default {
     props: {
-      row: Object
+      examineData: Array
+    },
+    data() {
+      return {
+        marketExpandColumns: [
+          {
+            title: '审批编号', key: 'date0', align: 'center',
+          },
+          {
+            title: '审批人', key: 'date1', align: 'center',
+          },
+          {
+            title: '审批时间', key: 'date2', align: 'center',
+          },
+          {
+            title: '审批意见', key: 'date3', align: 'center',
+          },
+          {
+            title: '审批标志', key: 'date4', align: 'center',
+          }
+        ],
+      }
     }
   };
 </script>

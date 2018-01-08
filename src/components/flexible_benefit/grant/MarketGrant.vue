@@ -41,12 +41,9 @@
 
     <Collapse v-model="collapseInfo">
       <Panel name="2">
-        审批列表
+        审批
         <div slot="content">
           <Row>
-            <Col :xs="{span: 12, offset: 1}" :lg="{ span: 12, offset: 1}">
-            <Table stripe border :columns="examineColumns" :data="examineData" ref="table"></Table>
-            </Col>
             <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
             <Form :label-width=120>
               <Form-item label="审批意见：">
@@ -57,7 +54,7 @@
             </Col>
           </Row>
           <Row>
-            <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
+            <Col :xs="{span: 3, offset: 3}" :lg="{ span: 3, offset: 3}">
             <Button type="warning" @click="back()">返回</Button>
             <Button type="primary" @click="grantMarket(2)">发放</Button>
             <Button type="error" @click="grantMarket(3)">批退</Button>
@@ -85,11 +82,14 @@
         sendRemark: "",
         applyDetailColumns: [
           {
+            type: 'selection', width: 60, align: 'center'
+          },
+          {
             type: 'expand', width: 60, align: 'center',
             render: (h, params) => {
               return h(marketTableExpand, {
                 props: {
-                  row: params.row
+                  examineData: params.row.examineData
                 }
               })
             }
@@ -135,6 +135,22 @@
             date9: '5',
             date10: '同意',
             date11: '已审批',
+            examineData: [
+              {
+                date0: '21',
+                date1: '何晓东',
+                date2: '2017-11-15 10:56:02',
+                date3: '同意申请',
+                date4: '同意'
+              },
+              {
+                date0: '22',
+                date1: '赫鲁晓夫',
+                date2: '2017-11-15 10:56:06',
+                date3: '222',
+                date4: '同意'
+              }
+            ],
           }, {
             date1: 'AF类型',
             date2: '5106',
@@ -147,34 +163,22 @@
             date9: '1',
             date10: '同意',
             date11: '已审批',
-          }
-        ],
-        examineColumns: [
-          {
-            title: '审批人', key: 'date1', align: 'center',
-          },
-          {
-            title: '审批时间', key: 'date2', align: 'center',
-          },
-          {
-            title: '审批意见', key: 'date3', align: 'center',
-          },
-          {
-            title: '审批标志', key: 'date4', align: 'center',
-          }
-        ],
-        examineData: [
-          {
-            date1: '何晓东',
-            date2: '2017-11-15 10:56:02',
-            date3: '同意申请',
-            date4: '同意'
-          },
-          {
-            date1: '赫鲁晓夫',
-            date2: '2017-11-15 10:56:06',
-            date3: '222',
-            date4: '同意'
+            examineData: [
+              {
+                date0: '21',
+                date1: '何晓东',
+                date2: '2017-11-15 10:56:02',
+                date3: '同意申请',
+                date4: '同意'
+              },
+              {
+                date0: '22',
+                date1: '赫鲁晓夫',
+                date2: '2017-11-15 10:56:06',
+                date3: '222',
+                date4: '同意'
+              }
+            ],
           }
         ],
       }
@@ -196,8 +200,10 @@
         });
       },
       grantMarket(val) {
-        this.applyInformation.sendStatus = val;
-        apiAjax.grantUpdate(this.applyInformation).then(response => {
+        let applyInformation = {};
+        applyInformation.sendStatus = val;
+        applyInformation.sendRemark = this.sendRemark;
+        apiAjax.grantUpdate(applyInformation).then(response => {
           if (response.data.code === 200) {
             this.$router.push({name: "grantManager"});
           } else {

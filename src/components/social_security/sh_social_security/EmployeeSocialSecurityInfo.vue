@@ -8,17 +8,17 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：">
-                  <label>{{customer.companyId}}</label>
+                  <label>{{employeeAndCustomer.companyId}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：">
-                  <label>{{customer.title}}</label>
+                  <label>{{employeeAndCustomer.title}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客服经理：">
-                  <label>{{customer.customerServicer}}</label>
+                  <label>{{employeeAndCustomer.customerServicer}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -32,47 +32,47 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号：">
-                  <label>{{employee.employeeId}}</label>
+                  <label>{{employeeAndCustomer.employeeId}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员姓名：">
-                  <label>{{employee.employeeName}}</label>
+                  <label>{{employeeAndCustomer.employeeName}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件号码：">
-                  <label>{{employee.idNum}}</label>
+                  <label>{{employeeAndCustomer.idNum}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="入职日期：">
-                  <label>{{employee.inDate}}</label>
+                  <label>{{employeeAndCustomer.inDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保序号：">
-                  <label>{{employee.ssSerial}}</label>
+                  <label>{{employeeAndCustomer.ssSerial}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="学历：">
-                  <label>{{employee.education}}</label>
+                  <label>{{employeeAndCustomer.education}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账户：">
-                  <label>{{employee.ssAccount}}</label>
+                  <label>{{employeeAndCustomer.ssAccount}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：">
-                  <label>{{employee.empClassify}}</label>
+                  <label>{{getEmpClassify(employeeAndCustomer.empClassify)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="离职日期：">
-                  <label>{{employee.outDate}}</label>
+                  <label>{{employeeAndCustomer.outDate}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -120,11 +120,12 @@
       return {
         collapseInfo: [1, 2, 3, 4], //展开栏
         customer:{
+          
+        },
+        employeeAndCustomer:{
           companyId:'',
           title:'',
           customerServicer:'',
-        },//客户基本信息
-        employee:{
           employeeId:'',
           idNum:'',
           inDate:'',
@@ -133,7 +134,7 @@
           ssAccount:'',
           empClassify:'',
           outDate:''
-        },//雇员基本信息
+        },//客户和雇员基本信息
         socialSecurityInfoListData:[],//基数变更详情
         changeListData:[],//变动历史
         socialSecurityInfoListColumns: [
@@ -180,7 +181,7 @@
                   on: {
                     click: () => {
                       this.$router.push({
-                        name: 'companysocialsecuritynew',
+                        name: 'employeesocialsecuritytaskinfo',
                         query: {operatorType: params.row.taskCategory, sourceFrom: 'search',empTaskId:params.row.empTaskId,empArchiveId:this.$route.query.empArchiveId}
                       });
                     }
@@ -235,10 +236,10 @@
     async mounted() {
       await this[EventTypes.EMPLOYEESOCIALSECURITYINFO]()
       let params = {empArchiveId:this.$route.query.empArchiveId}
-      debugger
+      
       api.employeeDetailInfoQuery(params).then(data=>{
         console.log(data)
-          this.employee=data.data.ssEmpArchive
+          this.employeeAndCustomer=data.data.ssEmpArchive
           this.socialSecurityInfoListData=data.data.empBasePeriod
           this.changeListData = data.data.ssEmpTasks
       })
@@ -252,6 +253,10 @@
       ...mapActions('employeeSocialSecurityInfo', [EventTypes.EMPLOYEESOCIALSECURITYINFO]),
       goBack() {
         this.$router.push({name: 'employeesocialsecuritysearch'});
+      },
+      getEmpClassify(val){
+        if(val==null || typeof(val)=='undefined')return ''
+        return this.$decode.empClassify(val)
       }
     }
   }

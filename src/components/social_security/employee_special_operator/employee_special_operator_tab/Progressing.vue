@@ -222,13 +222,13 @@
           {
             title: '特殊操作', key: 'taskCategorySpecial', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
-              return this.$decode.taskCategory(params.row.taskCategory)
+              return this.$decode.specialOperatorType(params.row.taskCategorySpecial)
             }
           },
           {
             title: '是否加急', key: 'urgent', width: 100, align: 'center',
             render: (h, params) => {
-              return this.$decode.specialOperatorType(params.row.taskCategorySpecial)
+              return this.$decode.urgent(params.row.urgent)
             }
           },
           {

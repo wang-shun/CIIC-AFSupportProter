@@ -264,12 +264,13 @@
           
           this.getStatus(this.taskInitialStatus)
         })
-      
-        api.queryEmpArchiveByEmpTaskId({empTaskId:this.empTaskId}).then((data) => {
+        //6表示特殊操作 查询雇员信息
+        api.queryEmpArchiveByEmpTaskId({empTaskId:this.empTaskId,operatorType:'6'}).then((data) => {
           this.employeeInfo = data.data;
         })
 
-        api.queryComAccountByEmpTaskId({empTaskId:this.empTaskId}).then((data) => {
+        //6表示特殊操作 查询雇员信息
+        api.queryComAccountByEmpTaskId({empTaskId:this.empTaskId,operatorType:'6'}).then((data) => {
           this.companyInfo = data.data;
         })
       },

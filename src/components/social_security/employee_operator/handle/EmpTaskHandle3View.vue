@@ -322,11 +322,20 @@
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
         });
 
-        api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId}).then((data) => {
-          this.employee = data.data;
+        api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
+          
+           if(data.data!=null){
+            this.employee = data.data;
+          }
+          
         })
-        api.queryComAccountByEmpTaskId({empTaskId: empTaskId}).then((data) => {
-          this.company = data.data;
+        
+        api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
+          
+          if(data.data!=null){
+            this.company = data.data;
+          }
+          
         })
       },
       goBack() {

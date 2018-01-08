@@ -3,12 +3,13 @@
  * employeesocialsecuritysearch      --- 雇员社保查询
    employeesocialsecurityinfo        --- 基本信息
    companysocialsecuritynew          --- 基本信息
+   EmployeeSocialSecurityTaskInfo    --- 雇员任务详情
  */
 
 const employeesocialsecuritysearch = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecuritySearch')), 'employeesocialsecuritysearch')
 const employeesocialsecurityinfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityInfo')), 'employeesocialsecurityinfo')
 const companysocialsecuritynew = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/CompanySocialSecurityNew')), 'companysocialsecuritynew')
-
+const employeesocialsecuritytaskinfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityTaskInfo')), 'employeesocialsecuritytaskinfo')
 
 /*
  * employeeoperatorview              --- 雇员日常操作
@@ -163,7 +164,18 @@ export default [
       openNames:['1']
     }
   },
-
+  {
+    path: '/employee_social_security_task_info',
+    name:'employeesocialsecuritytaskinfo',
+    component: employeesocialsecuritytaskinfo,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"雇员社保查询",
+      openNames:['1']
+    }
+  },
+  
   {
     path: '/employee_operator_view',
     name:'employeeoperatorview',

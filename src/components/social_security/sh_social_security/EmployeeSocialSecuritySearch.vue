@@ -207,7 +207,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      debugger
+                      
                       this.showInfo(params.row.empArchiveId)
                     }
                   }
@@ -245,8 +245,8 @@
           },
           {title: '状态', key: 'archiveTaskStatus', align: 'center', width: 120,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', this.$decode.archiveTaskStatus(params.row.archiveStatus)),
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', this.$decode.archiveStatus(params.row.archiveTaskStatus)),
               ]);
             }
           },
@@ -350,14 +350,14 @@
         
       },
       employeeQuery(params){
-        debugger
+        
         let self =this
         api.employeeQuery({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
           params: params,
         }).then(data => {
-          debugger
+          
           self.employeeSocialSecurityData = data.data.rows;
           self.pageData.total = Number(data.data.total);
         })

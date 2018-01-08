@@ -88,10 +88,10 @@
         this.sourceFrom = data.sourceFrom;
 
 
-        api.queryEmpArchiveByEmpTaskId({empTaskId: this.empTaskId}).then((data) => {
+        api.queryEmpArchiveByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {
           this.employee = data.data;
         })
-        api.queryComAccountByEmpTaskId({empTaskId: this.empTaskId}).then((data) => {
+        api.queryComAccountByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {
           this.company = data.data;
         })
       },
@@ -161,8 +161,7 @@
             fromData.rejectionRemarkDate = null;
           }
             fromData.empTaskPeriods = data.data;
-            api.handleEmpTask(fromData)
-            console.log(JSON.stringify(fromData));
+            api.handleEmpTask(fromData);
             break;
         }
       }

@@ -323,10 +323,10 @@
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
         });
 
-        api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId}).then((data) => {
+        api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
           this.employee = data.data;
         })
-        api.queryComAccountByEmpTaskId({empTaskId: empTaskId}).then((data) => {
+        api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
           this.company = data.data;
         })
       },

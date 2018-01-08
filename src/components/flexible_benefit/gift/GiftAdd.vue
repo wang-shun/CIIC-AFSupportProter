@@ -144,13 +144,14 @@
               return;
             }
             /**传输文件的数据*/
-            let data = new FormData();
+            /*let data = new FormData();
             Object.keys(this.formItem).forEach(v => {
               data.append(v, this.formItem[v])
             });
-            data.append('file', this.file);
+            data.append('file', this.file);*/
+            this.formItem.file = this.file;
             this[EventTypes.GIFTINSERTTYPE]({
-              data: data,
+              data: this.formItem,
               callback: (res) => {
                 if (res.data.code === 200) {
                   this.$router.push({path: '/giftApplicationManager'})

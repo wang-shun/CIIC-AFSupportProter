@@ -135,7 +135,7 @@
               }
             }
           }, {
-            title: "操作", key: "action", width: 300, align: "center",
+            title: "操作", key: "action", width: 200, align: "center",
             render: (h, params) => {
               if (params.row.status == '0') {
                 return h("div", [
@@ -159,40 +159,7 @@
                         this.$router.push({name: "giftUpdate", params: {data: updateData}});
                       }
                     }
-                  }, "编辑"),
-                  h("Button", {
-                    props: {
-                      type: "success",
-                      size: "small"
-                    },
-                    on: {
-                      click: () => {
-                        this.$router.push({
-                          name: "giftApplicationManager",
-                          params: {data: params.row}
-                        });
-                      }
-                    }
-                  }, "发放记录")
-                ]);
-              } else {
-                return h("div", [
-                  h("Button", {
-                    props: {
-                      type: "success",
-                      size: "small"
-                    },
-                    on: {
-                      click: () => {
-                        this.$router.push({
-                          name: "giftApplicationManager",
-                          params: {
-                            data: params.row
-                          }
-                        });
-                      }
-                    }
-                  }, "发放记录")
+                  }, "编辑")
                 ]);
               }
             }

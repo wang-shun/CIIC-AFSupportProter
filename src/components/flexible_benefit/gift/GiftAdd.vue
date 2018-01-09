@@ -143,12 +143,11 @@
               this.$Message.error("请上传附件");
               return;
             }
-            /**传输文件的数据*/
-            /*let data = new FormData();
-            Object.keys(this.formItem).forEach(v => {
-              data.append(v, this.formItem[v])
-            });
-            data.append('file', this.file);*/
+            /**最大申请数量不能大于礼品数量*/
+            if (this.formItem.applyMaxnum > this.formItem.number) {
+              this.$Message.error("最大申请数量不能大于礼品数量");
+              return;
+            }
             this.formItem.file = this.file;
             this[EventTypes.GIFTINSERTTYPE]({
               data: this.formItem,

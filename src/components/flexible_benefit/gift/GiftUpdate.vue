@@ -153,6 +153,11 @@
       addGift() {
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
+            /**最大申请数量不能大于礼品数量*/
+            if (this.formItem.applyMaxnum > this.formItem.number) {
+              this.$Message.error("最大申请数量不能大于礼品数量");
+              return;
+            }
             /**传输文件的数据*/
             let data = this.formItem;
             data.file = this.file;

@@ -166,7 +166,7 @@ html, body, .ivu-row-flex, .layout {
 }
 
 .ivu-form-item {
-  margin-bottom: 5px;
+  margin-bottom: 16px;
 }
 
 .salaryTabs .ivu-tabs-content {
@@ -413,7 +413,11 @@ html, body, .ivu-row-flex, .layout {
 }
 
 .ivu-table td {
-  height: 30px;
+  height: 40px;
+}
+
+.ivu-date-picker {
+  width: 100%;
 }
 
 /* inline cover style */

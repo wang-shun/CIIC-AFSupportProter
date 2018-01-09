@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import SsRouter from './ss_router'
+import EmployManageRouter from './employ_manage_router'
 
 const main = r => require.ensure([], () => r(require('@/components/main')), 'main') //首页
 const login = r => require.ensure([], () => r(require('@/components/login')), 'login') //登录
@@ -259,6 +260,7 @@ let router = new Router({
           }
         },
 
+        ...EmployManageRouter,
         {
           path: '/addAcceptanceEmployeeList',
           name:'addAcceptanceEmployeeList',

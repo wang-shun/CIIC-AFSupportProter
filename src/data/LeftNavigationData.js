@@ -16,10 +16,10 @@ const leftNavigationList = params => Utils.promise({
           {cid: "1-5", ckey: "企业社保账户管理", crouter: "companysocialsecuritymanage"},
           {cid: "1-6", ckey: "社保对账", crouter: "socialsecurityreconcilate"},
           {cid: "1-7", ckey: "社保支付", crouter: "socialSecurityPay"},
-          {cid: "1-7", ckey: "社保支付审核", crouter: "paymentBatchReviewed"},
-          {cid: "1-8", ckey: "社保报表", crouter: "socialsecurityreport"},
-          {cid: "1-9", ckey: "年度基数申报", crouter: "yearbaseapplicate"},
-          {cid: "1-10", ckey: "系统管理", crouter: "systemmanage"},
+          {cid: "1-8", ckey: "社保支付审核", crouter: "paymentBatchReviewed"},
+          {cid: "1-9", ckey: "社保报表", crouter: "socialsecurityreport"},
+          {cid: "1-10", ckey: "年度基数申报", crouter: "yearbaseapplicate"},
+          {cid: "1-11", ckey: "系统管理", crouter: "systemmanage"},
         ]
       },
       {
@@ -42,7 +42,12 @@ const leftNavigationList = params => Utils.promise({
         id: 3,
         key: "雇佣管理",
         icon: "ios-people-outline",
-        children: []
+        children: [
+          {cid: "3-1", ckey: "用工资料管理任务单", crouter: "employmentDataManagementTaskList"},
+          {cid: "3-2", ckey: "退工办理任务单", crouter: "dismissalHandleTaskList"},
+          {cid: "3-3", ckey: "档案综合办理", crouter: "recordComprehensiveHandling"},
+          {cid: "3-4", ckey: "档案配对", crouter: "recordMatch"}
+        ]
       },
       {
         id: 4,

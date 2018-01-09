@@ -4,32 +4,32 @@
       <Panel name="1">
         申请信息
         <div slot="content">
-            <Row>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <span>申请单号: </span>
-              <span>{{ applyRecord.applyRecordId }}</span>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <span>主题: </span>
-              <span>{{ applyRecord.projectTopics }}</span>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <span>申请类别:</span>
-              <span>礼品申请</span>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <span>申请人部门: </span>
-              <span>{{ applyRecord.contactDeptName }}</span>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <span>申请人职位: </span>
-              <span>{{ applyRecord.contactPosition }}</span>
-              </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <span>申请时间: </span>
-              <span>{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}</span>
-              </Col>
-            </Row>
+          <Row>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>申请单号: </span>
+            <span>{{ applyRecord.applyRecordId }}</span>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>主题: </span>
+            <span>{{ applyRecord.projectTopics }}</span>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>申请类别:</span>
+            <span>礼品申请</span>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>申请人部门: </span>
+            <span>{{ applyRecord.contactDeptName }}</span>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>申请人职位: </span>
+            <span>{{ applyRecord.contactPosition }}</span>
+            </Col>
+            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <span>申请时间: </span>
+            <span>{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}</span>
+            </Col>
+          </Row>
         </div>
       </Panel>
     </Collapse>
@@ -186,9 +186,9 @@
         });
       },
       grantGift(val) {
-        let updateData = this.applyRecordDetail;
-        updateData.sendStatus = val;
-        apiAjax.grantUpdate(updateData).then(response => {
+        this.applyRecordDetail.sendStatus = val;
+        this.applyRecordDetail.sendTime = new Date();
+        apiAjax.giftGrantUpdate(this.applyRecordDetail).then(response => {
           if (response.data.code === 200) {
             this.$router.push({name: "grantManager"});
           } else {

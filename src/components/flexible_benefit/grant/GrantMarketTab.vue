@@ -9,25 +9,25 @@
             <Row>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
               <Form-item label="审批状态：">
-                <Select v-model="searchCondition.customerNumber" :clearable="true">
+                <Select v-model="searchCondition.recordApprovalReason" :clearable="true">
                   <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :xs="{span:6, offset: 1}" :lg="{ span: 6, offset: 1}">
               <Form-item label="发放状态：">
-                <Select v-model="searchCondition.customerNumber" :clearable="true">
+                <Select v-model="searchCondition.sendStatus" :clearable="true">
                   <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+              <!--<Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
               <Form-item :label-width="160" label="申请人所属部门:" :clearable="true">
                 <Select v-model="searchCondition.customerNumber">
                   <Option v-for="item in deptList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col>-->
             </Row>
           </Form>
           <div class="tc">
@@ -55,7 +55,7 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         searchCondition: {
-          approvalStatus: "",
+          recordApprovalReason: "",
           sendStatus: '',
           applyType: 2,//申请类型：1-活动
           current: 1,
@@ -79,15 +79,9 @@
             }
           },
           {
-            title: '申请时间', key: 'applyTime', align: 'center',
+            title: '审批状态', key: 'recordApprovalReason', align: 'center',
             render: (h, params) => {
-              return this.$utils.formatDate(params.row.applyTime, 'YYYY-MM-DD HH:mm:ss');
-            }
-          },
-          {
-            title: '审批状态', key: 'approvalStatus', align: 'center',
-            render: (h, params) => {
-              switch (params.row.approvalStatus) {
+              switch (params.row.recordApprovalReason) {
                 case 0:
                   return "审批中";
                   break;
@@ -101,9 +95,25 @@
             }
           },
           {
+            title: '发放状态', key: 'sendStatus', align: 'center',
+            render: (h, params) => {
+              switch (params.row.sendStatus) {
+                case 1:
+                  return "未处理";
+                  break;
+                case 2:
+                  return "已发放";
+                  break;
+                case 3:
+                  return "已退批";
+                  break;
+              }
+            }
+          },
+          {
             title: '操作', key: 'action', align: 'center', width: 200,
             render: (h, params) => {
-              if (params.row.approvalStatus == '1') {
+              if (params.row.recordApprovalReason === 1 && params.row.sendStatus === 1) {
                 return h('div', [
                   h('Button', {
                     props: {type: 'success', size: 'small'},

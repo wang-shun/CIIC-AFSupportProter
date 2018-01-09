@@ -8,8 +8,8 @@
           <Form :model="searchCondition" ref="searchCondition" :label-width=120>
             <Row>
               <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-              <Form-item label="审批状态：" prop="approvalStatus">
-                <Select v-model="searchCondition.approvalStatus" :clearable="true">
+              <Form-item label="审批状态：" prop="recordApprovalReason">
+                <Select v-model="searchCondition.recordApprovalReason" :clearable="true">
                   <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
@@ -21,13 +21,13 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}" :clearable="true">
+              <!--<Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}" :clearable="true">
               <Form-item :label-width="160" label="申请人所属部门:" prop="customerNumber">
                 <Select v-model="searchCondition.customerNumber">
                   <Option v-for="item in deptList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col>-->
             </Row>
           </Form>
           <div class="tc">
@@ -55,7 +55,7 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         searchCondition: {
-          approvalStatus: "",
+          recordApprovalReason: "",
           sendStatus: '',
           applyType: 1,//申请类型：1-礼品
           current: 1,
@@ -79,9 +79,9 @@
             }
           },
           {
-            title: '审批状态', key: 'approvalStatus', align: 'center',
+            title: '审批状态', key: 'recordApprovalReason', align: 'center',
             render: (h, params) => {
-              switch (params.row.approvalStatus) {
+              switch (params.row.recordApprovalReason) {
                 case 0:
                   return "审批中";
                   break;
@@ -113,7 +113,7 @@
           {
             title: '操作', key: 'action', width: 200, align: 'center',
             render: (h, params) => {
-              if (params.row.approvalStatus === 1 && params.row.sendStatus ===1) {
+              if (params.row.recordApprovalReason === 1 && params.row.sendStatus ===1) {
                 return h('div', [
                   h('Button', {
                     props: {type: 'success', size: 'small'},

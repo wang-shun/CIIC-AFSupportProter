@@ -15,7 +15,7 @@
             </Col>
             <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
             <span>申请类别:</span>
-            <span>礼品申请</span>
+            <span>活动申请</span>
             </Col>
             <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
             <span>申请人部门: </span>
@@ -36,7 +36,7 @@
 
     <div class="create">
       申请明细:
-      <Table stripe border :columns="applyDetailColumns" :data="applyDetailData" ref="applyDetailTable"></Table>
+      <Table stripe border :columns="applyDetailColumns" :data="recordDetailList" ref="applyDetailTable"></Table>
     </div>
 
     <Collapse v-model="collapseInfo">
@@ -46,7 +46,7 @@
           <Row>
             <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
             <Form :label-width=120>
-              <Form-item label="审批意见：">
+              <Form-item label="发放备注：">
                 <Input v-model="sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
                        placeholder=""/>
               </Form-item>
@@ -95,90 +95,42 @@
             }
           },
           {
-            title: '公司名称', key: 'date3', align: 'center',
+            title: '公司名称', key: 'companyName', align: 'center',
           },
           {
-            title: '联系人', key: 'date4', align: 'center',
+            title: '联系人', key: 'contactName', align: 'center',
           },
           {
-            title: '部门', key: 'date5', align: 'center',
+            title: '部门', key: 'contactDeptName', align: 'center',
           },
           {
-            title: '职位', key: 'date6', align: 'center',
+            title: '职位', key: 'contactPosition', align: 'center',
           },
           {
+            //客服中心数据
             title: '客户服务', key: 'date7', align: 'center',
           },
           {
-            title: '数量', key: 'date8', align: 'center',
+            title: '数量', key: 'number', align: 'center',
           },
           {
-            title: '审批后数量', key: 'date9', align: 'center',
+            title: '审批后数量', key: 'approvalNumber', align: 'center',
           },
           {
-            title: '审批意见', key: 'date10', align: 'center',
-          },
-          {
-            title: '状态', key: 'date11', align: 'center',
-          }
-        ],
-        applyDetailData: [
-          {
-            date1: 'AF类型',
-            date2: '2942',
-            date3: '白金软件',
-            date4: '程杰',
-            date5: '人事部',
-            date6: '专员',
-            date7: '何晓东',
-            date8: '1',
-            date9: '5',
-            date10: '同意',
-            date11: '已审批',
-            examineData: [
-              {
-                date0: '21',
-                date1: '何晓东',
-                date2: '2017-11-15 10:56:02',
-                date3: '同意申请',
-                date4: '同意'
-              },
-              {
-                date0: '22',
-                date1: '赫鲁晓夫',
-                date2: '2017-11-15 10:56:06',
-                date3: '222',
-                date4: '同意'
+            title: '状态', key: 'approvalStatus', align: 'center',
+            render: (h, params) => {
+              switch (params.row.approvalStatus) {
+                case 0:
+                  return "审批中";
+                  break;
+                case 1:
+                  return "同意";
+                  break;
+                case 2:
+                  return "不同意";
+                  break;
               }
-            ],
-          }, {
-            date1: 'AF类型',
-            date2: '5106',
-            date3: '先灵葆雅',
-            date4: '唐继宏',
-            date5: '人事部',
-            date6: '总监',
-            date7: '何晓东',
-            date8: '1',
-            date9: '1',
-            date10: '同意',
-            date11: '已审批',
-            examineData: [
-              {
-                date0: '21',
-                date1: '何晓东',
-                date2: '2017-11-15 10:56:02',
-                date3: '同意申请',
-                date4: '同意'
-              },
-              {
-                date0: '22',
-                date1: '赫鲁晓夫',
-                date2: '2017-11-15 10:56:06',
-                date3: '222',
-                date4: '同意'
-              }
-            ],
+            }
           }
         ],
       }
@@ -191,19 +143,22 @@
       selectMarketGrantInformation(val) {
         apiAjax.queryMarketInformation(val).then(response => {
           this.applyRecord = response.data.object.applyRecord;
-          this.marketActivity = response.data.object.marketActivity;
           this.recordDetailList = response.data.object.recordDetailList;
-          this.applyMarketActivityRecordList = response.data.object.applyMarketActivityRecordList;
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
       },
       grantMarket(val) {
-        let applyInformation = {};
-        applyInformation.sendStatus = val;
-        applyInformation.sendRemark = this.sendRemark;
-        apiAjax.grantUpdate(applyInformation).then(response => {
+        /**
+         * 遍历数据赋值
+         */
+        this.recordDetailList.forEach(item => {
+          item.sendStatus = val;
+          item.sendTime = new Date();
+          item.sendRemark = this.sendRemark;
+        });
+        apiAjax.marketGrantUpdate(this.recordDetailList).then(response => {
           if (response.data.code === 200) {
             this.$router.push({name: "grantManager"});
           } else {

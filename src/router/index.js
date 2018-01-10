@@ -100,9 +100,7 @@ const addActivity = r => require.ensure([], () => r(require('@/components/flexib
 const updateActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/UpdateActivity')), 'UpdateActivity'); //更新活动
 
 const grantManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GrantManager')), 'GrantManager'); //发放管理
-const giftExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GiftExamine')), 'GiftExamine'); //礼品审批
 const giftGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GiftGrant')), 'GiftGrant'); //礼品发放
-const marketExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketExamine')), 'MarketExamine'); //活动审批
 const marketGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketGrant')), 'MarketGrant'); //活动发放
 
 const reportFormManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/report_form/ReportFormManager')), 'ReportFormManager'); //报表查询
@@ -626,17 +624,6 @@ let router = new Router({
           }
         },
         {
-          path: '/giftExamine',
-          name: 'giftExamine',
-          component: giftExamine,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "礼品审批",
-            openNames: ['2']
-          }
-        },
-        {
           path: '/giftGrant',
           name: 'giftGrant',
           component: giftGrant,
@@ -644,17 +631,6 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "礼品发放",
-            openNames: ['2']
-          }
-        },
-        {
-          path: '/marketExamine',
-          name: 'marketExamine',
-          component: marketExamine,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "活动审批",
             openNames: ['2']
           }
         },

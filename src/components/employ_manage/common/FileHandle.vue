@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form :label-width="150">
-      <Row justify="start">
+      <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="预留档案编号：">
             <Select v-model="file1.reservedFileNumberValue" transfer>
@@ -75,14 +75,14 @@
           </Form-item>
         </Col>
       </Row>
-      <Row>
+      <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="primary">保存</Button>
         </Col>
       </Row>
     </Form>
     <Form :label-width="150" class="mt40">
-      <Row justify="start">
+      <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="">
             <Checkbox v-model="file2.isFileHalfwayOut">档案中途转出</Checkbox>
@@ -149,7 +149,7 @@
           </Form-item>
         </Col>
       </Row>
-      <Row>
+      <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="primary">保存</Button>
         </Col>

@@ -3,39 +3,30 @@
     <Form :label-width="150">
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="服务中心：">
-            {{customer.serviceCenter}}
+          <Form-item label="补调档案1：">
+            <DatePicker v-model="makeUpFile.makeUpfile1" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="客户编号：">
-            {{customer.customerNumber}}
+          <Form-item label="补调档人1：">
+            <Input v-model="makeUpFile.maker1" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="客户名称：">
-            {{customer.customerName}}
+          <Button type="primary" class="ml10">保存</Button>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="补调档案2：">
+            <DatePicker v-model="makeUpFile.makeUpfile2" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="客服专员：">
-            {{customer.servicer}}
+          <Form-item label="补调档人2：">
+            <DatePicker v-model="makeUpFile.maker2" type="daterange" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="中道专员：">
-            {{customer.centerServicer}}
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="雇员服务专员：">
-            {{customer.employeeServicer}}
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="客服经理：">
-            {{customer.serviceManager}}
-          </Form-item>
+          <Button type="primary" class="ml10">保存</Button>
         </Col>
       </Row>
     </Form>
@@ -44,7 +35,7 @@
 <script>
   export default {
     props: {
-      customerInfo: {
+      makeUpFileInfo: {
         type: Object,
         required: true
       }
@@ -55,8 +46,8 @@
       }
     },
     computed: {
-      customer() {
-        return this.customerInfo;
+      makeUpFile() {
+        return this.makeUpFileInfo;
       }
     }
   }

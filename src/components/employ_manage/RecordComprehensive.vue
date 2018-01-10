@@ -1,11 +1,16 @@
 <template>
   <div>
     <div class="smList">
+      <Row type="flex" justify="start" class="mt20 mb20">
+        <Col :sm="{span: 24}" class="tr">
+          <Button type="warning" @click="goBack">返回</Button>
+        </Col>
+      </Row>
       <Collapse v-model="collapseInfo">
         <Panel name="1">
           客户信息
           <div slot="content">
-          <customer-info :customerInfo="customerInfo"></customer-info>
+            <customer-info :customerInfo="customerInfo"></customer-info>
           </div>
         </Panel>
         <Panel name="2">
@@ -38,13 +43,60 @@
             <modify-file-number :modifyFileNumberInfo="modifyFileNumberInfo"></modify-file-number>
           </div>
         </Panel>
-        <Panel name="6">
+        <Panel name="7">
           退工材料办理
           <div slot="content">
             <refuse-materials-handle :refuseMaterialsInfo="refuseMaterialsInfo"></refuse-materials-handle>
           </div>
         </Panel>
+        <Panel name="8">
+          档案备注
+          <div slot="content">
+            <file-notes :fileNotesViewData="fileNotesViewData"></file-notes>
+          </div>
+        </Panel>
+        <Panel name="9">
+          出库\寄信
+          <div slot="content">
+            <out-stock-and-mail :stockAndMailInfo="stockAndMailInfo"></out-stock-and-mail>
+          </div>
+        </Panel>
+        <Panel name="10">
+          档案结费
+          <div slot="content">
+            <file-settle :fileSettleInfo="fileSettleInfo"></file-settle>
+          </div>
+        </Panel>
+        <Panel name="11">
+          补调档案
+          <div slot="content">
+            <make-up-file :makeUpFileInfo="makeUpFileInfo"></make-up-file>
+          </div>
+        </Panel>
+        <Panel name="12">
+          退工归还材料签收
+          <div slot="content">
+            <refuse-return-materials-sign :refuseReturnMaterialsSignInfo="refuseReturnMaterialsSignInfo"></refuse-return-materials-sign>
+          </div>
+        </Panel>
+        <Panel name="13">
+          公司名称变更材料打印
+          <div slot="content">
+            <company-name-change-matrials-print></company-name-change-matrials-print>
+          </div>
+        </Panel>
+        <Panel name="14">
+          工伤申报管理
+          <div slot="content">
+            <injury-report-manage :injuryReportManageInfo="injuryReportManageInfo"></injury-report-manage>
+          </div>
+        </Panel>
       </Collapse>
+      <Row type="flex" justify="start" class="mt20 mb20">
+        <Col :sm="{span: 24}" class="tr">
+          <Button type="warning" @click="goBack">返回</Button>
+        </Col>
+      </Row>
     </div>
   </div>
 </template>
@@ -56,12 +108,19 @@
   import fileHandle from "./common/FileHandle.vue"
   import modifyFileNumber from "./common/ModifyFileNumber.vue"
   import refuseMaterialsHandle from "./common/RefuseMaterialsHandle.vue"
+  import fileNotes from "./common/FileNotes.vue"
+  import outStockAndMail from "./common/OutStockAndMail.vue"
+  import fileSettle from "./common/FileSettle.vue"
+  import makeUpFile from "./common/MakeUpFile.vue"
+  import refuseReturnMaterialsSign from "./common/RefuseReturnMaterialsSign.vue"
+  import companyNameChangeMatrialsPrint from "./common/CompanyNameChangeMatrialsPrint.vue"
+  import injuryReportManage from "./common/InjuryReportManage.vue"
 
   export default {
-    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, fileHandle, modifyFileNumber, refuseMaterialsHandle},
+    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, fileHandle, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage},
     data() {
       return {
-        collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8],
+        collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
         customerInfo: {
           serviceCenter: "浦东",
           customerNumber: "340078",
@@ -195,19 +254,30 @@
           mergeArchiveDate: "",
           hasStub: false
         },
+        stockAndMailInfo: {
+          outStockDate: "",
+          outStocker: "",
+          actMailDate: "",
+          actSender: ""
+        },
+        fileSettleInfo: {
+          actSettleDate: "",
+          refuseFileFeePayTo: "",
+          filePrice: "",
+          priceRange: "",
+          refuseTicketMergeFileDate: ""
+        },
+        makeUpFileInfo: {
+          makeUpfile1: "",
+          maker1: "",
+          makeUpfile2: "",
+          maker2: ""
+        },
 
-
-
-        refuseNotesData: [],
-        employmentViewData: [],
-        MaterialsBorrowData: [],
         fileNotesViewData: [],
-
-        historyTaskData: [
-          {customerNumber: "001", customerName: "客户1", employDate: "2010-01-01", refuseDate: "2010-01-01"},
-          {customerNumber: "001", customerName: "客户1", employDate: "2010-01-01", refuseDate: "2010-01-01"},
-          {customerNumber: "002", customerName: "客户2", employDate: "2010-01-02", refuseDate: "2010-01-02"}
-        ]
+        refuseReturnMaterialsSignInfo: [],
+        companyNameChangeMatrialsPrintInfo: [],
+        injuryReportManageInfo: []
       }
     },
     methods: {

@@ -10,11 +10,11 @@
         </Panel>
       </Collapse>
     </div>
-    <Row justify="start" class="mt20">
+    <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="goHandle">办理</Button>
         <Button type="primary" @click="batchOperating">批量操作</Button>
-        <Button type="primary" @click="exportXLS">导出XLS</Button>
+        <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
     </Row>
     <Table border :columns="dismissalColumns" :data="dismissalData" class="mt20"></Table>

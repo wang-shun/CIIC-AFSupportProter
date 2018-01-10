@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form :label-width="150">
-      <Row justify="start">
+      <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际录用日期：">
             <DatePicker v-model="handle.actEmployDate" type="date" placeholder="" transfer></DatePicker>
@@ -46,9 +46,9 @@
           </Form-item>
         </Col>
       </Row>
-      <Row>
+      <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-          <Button type="default">默认</Button>
+          <Button type="warning">默认</Button>
           <Button type="primary">保存</Button>
         </Col>
       </Row>

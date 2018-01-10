@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form :label-width="150">
-      <Row justify="start">
+      <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="原档案编号：">
             <Input v-model="modifyFileNumber.originFileNumber" placeholder="请输入"/>
@@ -35,7 +35,7 @@
           </Form-item>
         </Col>
       </Row>
-      <Row>
+      <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="primary">保存</Button>
         </Col>

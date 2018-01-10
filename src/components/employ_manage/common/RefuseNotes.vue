@@ -1,7 +1,7 @@
 <template>
   <div>
     <Table border :columns="refuseNotesColumns" :data="refuseNotes" class="mt20"></Table>
-    <Row class="mt20">
+    <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary">新增</Button>
         <Button type="error">删除</Button>

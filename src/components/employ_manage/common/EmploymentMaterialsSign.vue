@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form :label-width="150">
-      <Row justify="start">
+      <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="材料提交人：">
             {{materials.materialCommiter}}
@@ -14,7 +14,7 @@
         </Col>
       </Row>
       <Table border :columns="materialsColumns" :data="materials.materialsData" class="mt20"></Table>
-      <Row justify="start" class="mt20">
+      <Row type="flex" justify="start" class="mt20">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="材料批退原因：">
             <Select v-model="materials.reasonValue" transfer>
@@ -23,7 +23,7 @@
           </Form-item>
         </Col>
       </Row>
-      <Row justify="start">
+      <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="primary">材料全部签收</Button>
           <Button type="error" @click="refuseAll">材料全部批退</Button>

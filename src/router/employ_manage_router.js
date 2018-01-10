@@ -6,7 +6,9 @@
    dismissalHandleEmployment             --- 退工档案任务单
  * recordComprehensiveHandling           --- 档案综合办理
    recordComprehensive                   --- 档案综合办理详细
+   fileMatrialsUseAndBorrow              --- 档案材料利用与借出
  * recordMatch                           --- 档案配对
+   matchImportFile                       --- 配对导入数据
  */
 
 const employmentDataManagementTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/EmploymentDataManagementTaskList')), 'EmploymentDataManagementTaskList');
@@ -17,8 +19,10 @@ const dismissalHandleEmployment = r => require.ensure([], () => r(require('@/com
 
 const recordComprehensiveHandling = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensiveHandling')), 'RecordComprehensiveHandling');
 const recordComprehensive = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensive')), 'RecordComprehensive');
+const fileMatrialsUseAndBorrow = r => require.ensure([], () => r(require('@/components/employ_manage/FileMatrialsUseAndBorrow')), 'FileMatrialsUseAndBorrow');
 
 const recordMatch = r => require.ensure([], () => r(require('@/components/employ_manage/RecordMatch')), 'RecordMatch');
+const matchImportFile = r => require.ensure([], () => r(require('@/components/employ_manage/MatchImportFile')), 'MatchImportFile');
 
 export default [
   {
@@ -41,9 +45,10 @@ export default [
       level2:"雇佣管理",
       level3:"用工资料任务单",
       openNames:['3'],
-      activeName: '1-1'
+      activeName: '3-1'
     }
   },
+
   {
     path: '/dismissal_handle_task_list',
     name:'dismissalHandleTaskList',
@@ -64,9 +69,10 @@ export default [
       level2:"雇佣管理",
       level3:"退工档案任务单",
       openNames:['3'],
-      activeName: '1-2'
+      activeName: '3-2'
     }
   },
+
   {
     path: '/record_comprehensive_handling',
     name:'recordComprehensiveHandling',
@@ -85,11 +91,24 @@ export default [
     meta:{
       level1:'首页',
       level2:"雇佣管理",
-      level3:"综合查询",
+      level3:"档案综合办理",
       openNames:['3'],
-      activeName: '1-3'
+      activeName: '3-3'
     }
   },
+  {
+    path: '/file_matrials_use_and_borrow',
+    name:'fileMatrialsUseAndBorrow',
+    component: fileMatrialsUseAndBorrow,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"档案材料利用与借出",
+      openNames:['3'],
+      activeName: '3-3'
+    }
+  },
+
   {
     path: '/record_match',
     name:'recordMatch',
@@ -99,6 +118,18 @@ export default [
       level2:"雇佣管理",
       level3:"档案配对",
       openNames:['3']
+    }
+  },
+  {
+    path: '/match_import_file',
+    name:'matchImportFile',
+    component: matchImportFile,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"档案配对",
+      openNames:['3'],
+      activeName: '3-4'
     }
   }
 ]

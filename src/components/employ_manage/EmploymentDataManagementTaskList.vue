@@ -10,7 +10,7 @@
         </Panel>
       </Collapse>
     </div>
-    <Row justify="start" class="mt20">
+    <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="goHandle">办理</Button>
         <Dropdown>
@@ -22,7 +22,7 @@
             <DropdownItem v-for="(print, index) in printList" :key="index">{{print}}</DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <Button type="primary" @click="exportXLS">导出XLS</Button>
+        <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="isShowStockTitle = true">生成入库贴头</Button>
         <Button type="primary" @click="sendToFileMangement">递交档案处</Button>
       </Col>

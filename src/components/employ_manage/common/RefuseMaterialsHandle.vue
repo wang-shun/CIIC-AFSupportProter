@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form :label-width="150">
-      <Row justify="start">
+      <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工单红联暂存：">
             <Input v-model="refuseMaterials.tempStore" placeholder="请输入"/>

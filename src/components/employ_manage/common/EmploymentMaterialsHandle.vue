@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-      <Row justify="start">
+      <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="预留档案编号：" prop="reservedFileNumberValue">
             <Select v-model="handle.reservedFileNumberValue" transfer>
@@ -104,7 +104,7 @@
           </Form-item>
         </Col>
       </Row>
-      <Row>
+      <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="resetForm('handleInfo')">重置</Button>
           <Button type="primary">保存</Button>

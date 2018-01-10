@@ -1,6 +1,11 @@
 <template>
   <div>
     <div class="smList">
+      <Row type="flex" justify="start" class="mt20 mb20">
+        <Col :sm="{span: 24}" class="tr">
+          <Button type="warning" @click="goBack">返回</Button>
+        </Col>
+      </Row>
       <Collapse v-model="collapseInfo">
         <Panel name="1">
           客户信息
@@ -45,6 +50,11 @@
           </div>
         </Panel>
       </Collapse>
+      <Row type="flex" justify="start" class="mt20 mb20">
+        <Col :sm="{span: 24}" class="tr">
+          <Button type="warning" @click="goBack">返回</Button>
+        </Col>
+      </Row>
     </div>
   </div>
 </template>

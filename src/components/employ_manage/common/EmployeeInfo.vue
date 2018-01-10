@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form :label-width="100">
-      <Row justify="start">
+      <Row type="flex" justify="start">
         <Col :sm="{span: 12}">
           <Form-item label="客户编号：">
             {{customer.customerNumber}}

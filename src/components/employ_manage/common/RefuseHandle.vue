@@ -211,7 +211,7 @@
           </Form-item>
         </Col>
       </Row>
-      <Row>
+      <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="primary">保存</Button>
           <Button type="primary">绑定</Button>

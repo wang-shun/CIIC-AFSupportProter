@@ -59,53 +59,67 @@
       </Card>
     </div>
 
-    <div>
+    <div v-if="applyRecordDetail.presentingObjectType !== 4">
       <Card style="width: 100%">
         赠送对象:
-        <Form :model="applyRecordDetail" ref="applyRecordDetail" :label-width="140">
-          <Row>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-            <Form-item label="对象类型：">
-              {{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}
-            </Form-item>
-            </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-            <Form-item label="姓名：">
-              {{applyRecordDetail.contactName}}
-            </Form-item>
-            </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-            <Form-item label="手机号：">
-              {{applyRecordDetail.contactPhoneNum}}
-            </Form-item>
-            </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-            <Form-item label="公司：">
-              {{applyRecordDetail.companyName}}
-            </Form-item>
-            </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-            <Form-item label="部门：">
-              {{applyRecordDetail.contactDeptName}}
-            </Form-item>
-            </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-            <Form-item label="职位：">
-              {{applyRecordDetail.contactPosition}}
-            </Form-item>
-            </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-            <Form-item label="部门：">
-              {{applyRecordDetail.contactDeptName}}
-            </Form-item>
-            </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
-            <Form-item label="公司地址：">
-              {{applyRecordDetail.companyAddress}}
-            </Form-item>
-            </Col>
-          </Row>
-        </Form>
+        <Row>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>对象类型: </span>
+          <span>{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}</span>
+          </Col>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>姓名: </span>
+          <span>{{applyRecordDetail.contactName}}</span>
+          </Col>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>手机号: </span>
+          <span>{{applyRecordDetail.contactPhoneNum}}</span>
+          </Col>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>公司: </span>
+          <span>{{applyRecordDetail.companyName}}</span>
+          </Col>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>部门: </span>
+          <span>{{applyRecordDetail.contactDeptName}}</span>
+          </Col>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>职位: </span>
+          <span>{{applyRecordDetail.contactPosition}}</span>
+          </Col>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>部门: </span>
+          <span>{{applyRecordDetail.contactDeptName}}</span>
+          </Col>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>公司地址: </span>
+          <span>{{applyRecordDetail.companyAddress}}</span>
+          </Col>
+        </Row>
+      </Card>
+    </div>
+
+    <div v-else>
+      <Card style="width: 100%">
+        赠送对象:
+        <Row>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>对象类型: </span>
+          <span>{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}</span>
+          </Col>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>类型: </span>
+          <span>{{this.otherProperties(applyRecordDetail.applicantType)}}</span>
+          </Col>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>申请人: </span>
+          <span>{{applyRecordDetail.applicant}}</span>
+          </Col>
+          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <span>申请人分机号: </span>
+          <span>{{applyRecordDetail.applicantExtension}}</span>
+          </Col>
+        </Row>
       </Card>
     </div>
 
@@ -113,27 +127,27 @@
       <Panel name="2">
         审批列表
         <div slot="content">
-          <Form :model="applyRecordDetail" ref="applyRecordDetail" :label-width="140">
-            <Row>
-              <Col :xs="{span: 12, offset: 1}" :lg="{ span: 12, offset: 1}">
-              <Table stripe border :columns="approvalStepColumns" :data="approvalStepList"
-                     ref="approvalStepTable"></Table>
-              </Col>
-              <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
+          <Row>
+            <Col :xs="{span: 12, offset: 1}" :lg="{ span: 12, offset: 1}">
+            <Table stripe border :columns="approvalStepColumns" :data="approvalStepList"
+                   ref="approvalStepTable"></Table>
+            </Col>
+            <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
+            <Form :model="applyRecordDetail" ref="applyRecordDetail" :label-width="140">
               <Form-item label="发放备注：">
                 <Input v-model="applyRecordDetail.sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
                        placeholder=""/>
               </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
-              <Button type="warning" @click="back()">返回</Button>
-              <Button type="primary" @click="grantGift(2)">发放</Button>
-              <Button type="error" @click="grantGift(3)">退批</Button>
-              </Col>
-            </Row>
-          </Form>
+            </Form>
+            </Col>
+          </Row>
+          <Row>
+            <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
+            <Button type="warning" @click="back()">返回</Button>
+            <Button type="primary" @click="grantGift(2)">发放</Button>
+            <Button type="error" @click="grantGift(3)">退批</Button>
+            </Col>
+          </Row>
         </div>
       </Panel>
     </Collapse>
@@ -243,6 +257,16 @@
             break;
           case 4:
             return "其他";
+            break;
+        }
+      },
+      otherProperties(val) {
+        switch (val) {
+          case 0:
+            return "个人";
+            break;
+          case 1:
+            return "公司";
             break;
         }
       },

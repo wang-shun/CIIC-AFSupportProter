@@ -44,8 +44,8 @@
         </row>
         <row>
           <Col :xs="{ span: 6, offset: 8 }" :lg="{ span: 6, offset: 8 }">
-          <Button type="primary" @click="addMarketActivity()">提交</Button>
           <Button type="warning" @click="back">返回</Button>
+          <Button type="primary" @click="addMarketActivity()">提交</Button>
           </Col>
         </row>
       </Form>

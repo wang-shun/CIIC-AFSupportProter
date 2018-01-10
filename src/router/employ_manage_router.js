@@ -5,6 +5,7 @@
  * dismissalHandleTaskList               --- 退工办理任务单
    dismissalHandleEmployment             --- 退工档案任务单
  * recordComprehensiveHandling           --- 档案综合办理
+   recordComprehensive                   --- 档案综合办理详细
  * recordMatch                           --- 档案配对
  */
 
@@ -15,6 +16,8 @@ const dismissalHandleTaskList = r => require.ensure([], () => r(require('@/compo
 const dismissalHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleEmployment')), 'DismissalHandleEmployment');
 
 const recordComprehensiveHandling = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensiveHandling')), 'RecordComprehensiveHandling');
+const recordComprehensive = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensive')), 'RecordComprehensive');
+
 const recordMatch = r => require.ensure([], () => r(require('@/components/employ_manage/RecordMatch')), 'RecordMatch');
 
 export default [
@@ -61,7 +64,7 @@ export default [
       level2:"雇佣管理",
       level3:"退工档案任务单",
       openNames:['3'],
-      activeName: '1-1'
+      activeName: '1-2'
     }
   },
   {
@@ -73,6 +76,18 @@ export default [
       level2:"雇佣管理",
       level3:"档案综合办理",
       openNames:['3']
+    }
+  },
+  {
+    path: '/record_comprehensive',
+    name:'recordComprehensive',
+    component: recordComprehensive,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"综合查询",
+      openNames:['3'],
+      activeName: '1-3'
     }
   },
   {

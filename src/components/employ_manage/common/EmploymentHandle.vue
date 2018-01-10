@@ -4,12 +4,12 @@
       <Row justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际录用日期：">
-            <Input v-model="handle.actEmployDate" placeholder="请输入"/>
+            <DatePicker v-model="handle.actEmployDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="开F单日期：">
-            <Input v-model="handle.FDate" placeholder="请输入"/>
+            <DatePicker v-model="handle.FDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

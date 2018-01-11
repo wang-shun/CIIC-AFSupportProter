@@ -117,6 +117,9 @@
             title: '审批后数量', key: 'approvalNumber', align: 'center',
           },
           {
+            title: '派送地址', key: 'deliveryAddress', align: 'center',
+          },
+          {
             title: '状态', key: 'approvalStatus', align: 'center',
             render: (h, params) => {
               switch (params.row.approvalStatus) {

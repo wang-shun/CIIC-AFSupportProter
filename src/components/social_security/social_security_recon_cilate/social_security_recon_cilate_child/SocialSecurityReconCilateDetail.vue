@@ -25,22 +25,22 @@
                 <Form-item label="差异总数(按雇员)：" prop="diffSumByEmp">
                   <label>{{statementData.diffSumByEmp}}</label>
                 </Form-item>
-              </Col> 
+              </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="差异总数(含项目)：" prop="diffSumByItem">
                   <label >{{statementData.diffSumByItem}}</label>
                 </Form-item>
               </Col>
             </Row>
-          </Form> 
+          </Form>
         </div>
       </Panel>
     </Collapse>
-    <Table 
-        :columns="statementResultColumns" 
+    <Table
+        :columns="statementResultColumns"
         :data="statementResultData">
     </Table>
-     
+
     <Row class="mt20">
       <Col :sm="{span: 24}">
         <Button type="info" @click="ok">导出</Button>
@@ -52,9 +52,9 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import companyAccountSearchModal from '../../../commoncontrol/companyaccountsearchmodal.vue'
-  import EventType from '../../../../store/EventTypes'
+  import customerModal from '../../../common_control/CustomerModal.vue'
+  import companyAccountSearchModal from '../../../common_control/CompanyAccountSearchModal.vue'
+  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/statement_detail'
 
   export default {
@@ -64,19 +64,19 @@
         collapseInfo: [1], //展开栏
         statementData: {
           ssMonth:'',//社保月份
-          comAccountName: '', //企业社保账户分类 
+          comAccountName: '', //企业社保账户分类
           diffSumByEmp:'',
           diffSumByItem:'',
         },
         statementId :'',
         statementResultData: [],
         statementResultColumns: [
-           
+
           {title: '雇员编号', key: 'employeeId',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.employeeId),
-                
+
               ]);
             }
           },
@@ -106,7 +106,7 @@
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.projectTypeName),
               ]);
-              
+
             }
           },
           {title: '导入金额', key: 'impAmount', align: 'center',
@@ -154,7 +154,7 @@
       //       statementId : window.sessionStorage.getItem("statementId")
       //     };
       //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
-      //this.doAlert(pagParam.statementId); 
+      //this.doAlert(pagParam.statementId);
       this.serachStatementData(window.sessionStorage.getItem("statementId"));
       this.serachStatementResultData(window.sessionStorage.getItem("statementId"));
       this.statementId = window.sessionStorage.getItem("statementId");
@@ -170,7 +170,7 @@
         this.$refs[name].resetFields()
       },
       ok () {
-        
+
       },
       cancel () {
 
@@ -202,10 +202,9 @@
         }).then(data => {
           this.serachStatementData(this.statementId);
           this.serachStatementResultData(this.statementId);
-          
+
         })
       },
     }
   }
 </script>
-  

@@ -75,8 +75,8 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import EventType from '../../../../store/EventTypes'
+  import customerModal from '../../../common_control/CustomerModal.vue'
+  import EventType from '../../../../store/event_types'
   import {Refused} from '../../../../api/social_security/company_task_list/company_task_list_tab/Refused'
   import Utils from '../../../../lib/utils'
   export default {
@@ -201,16 +201,16 @@
       }
     },
     mounted() {
-      
+
       let sessionPageNum = sessionStorage.taskRePageNum
       let sessionPageSize = sessionStorage.taskRePageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.pageNum = Number(sessionPageNum)
          this.size = Number(sessionPageSize)
-        //  sessionStorage.removeItem("taskRePageNum") 
-        //  sessionStorage.removeItem("taskRePageSize") 
+        //  sessionStorage.removeItem("taskRePageNum")
+        //  sessionStorage.removeItem("taskRePageSize")
       }
-      
+
       let params = {
           pageSize:this.size,
           pageNum:1,
@@ -228,7 +228,7 @@
     computed: {
       ...mapState('cRefused',{
           data:state =>state.data
-      }) 
+      })
     },
     methods: {
       ...mapActions('cRefused',[EventType.CREFUSEDTYPE]),
@@ -250,7 +250,7 @@
       },
       //页面 上 ，下一页操作
       getPage(page){
-        
+
          this.pageNum = page
           sessionStorage.taskRePageNum=page
           sessionStorage.taskRePageSize = this.size
@@ -264,7 +264,7 @@
             console.log(error);
           })
       },
-      //关闭查询loding 
+      //关闭查询loding
       closeLoading(){
           this.loading=false;
       },
@@ -278,7 +278,7 @@
       },
       //导表
       exportExcel(){
-       
+
       },
       //点击查询按钮
       clickQuery(){

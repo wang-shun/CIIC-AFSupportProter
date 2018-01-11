@@ -44,7 +44,7 @@
                     </Col>
                   </Row>
                 </Form-item>
-              </Col> 
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -68,16 +68,16 @@
       <Col :sm="{span:24}">
         <Table stripe
           border ref="selection"
-            :columns="statementColumns" 
+            :columns="statementColumns"
             :data="statementData"
             @on-selection-change="selectionChange">
         </Table>
-        <Page 
+        <Page
           class="pageSize"
           @on-change="handlePageNum"
           @on-page-size-change="handlePageSite"
-          :total="statementPageData.total" 
-          :page-size="statementPageData.pageSize" 
+          :total="statementPageData.total"
+          :page-size="statementPageData.pageSize"
           :page-size-opts="statementPageData.pageSizeOpts"
           :current="statementPageData.pageNum"
           show-sizer show-total>
@@ -132,9 +132,9 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../commoncontrol/customermodal.vue'
-  import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
-  import EventType from '../../../store/EventTypes'
+  import customerModal from '../../common_control/CustomerModal.vue'
+  import companyAccountSearchModal from '../../common_control/CompanyAccountSearchModal.vue'
+  import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/statement'
 
   export default {
@@ -158,7 +158,7 @@
 
           ssMonth:'',//社保月份
           comAccountId: '', //企业社保账户
-            
+
         },
         //默认静态参数
         staticSearchData:{
@@ -179,12 +179,12 @@
             {value: 'YYS',label:'YYS(养医失)',isSelect: true},
             {value: 'GSY', label: 'GSY(工生育)',isSelect: false}
           ],
-          isShowAccountType: false, //社保账户模糊块的显示    
+          isShowAccountType: false, //社保账户模糊块的显示
         },
         upLoadData: {
         },
         statementColumns: [
-           
+
           {title: '查看结果', key: 'getResult',  width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -207,7 +207,7 @@
                 h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      
+
                     }
                   }
                 }, '导入'),
@@ -271,7 +271,7 @@
                            },'下载工生育'),
                 ])
               }
-              
+
             }
           },
           {title: '变更汇总表类型', key: 'impFileName', width: 150, align: 'center',
@@ -386,7 +386,7 @@
         // api.statementQuery(params).then(data => {
         //   this.statementData = data.data;
         //   this.statementPageData.total = data.total;
-          
+
         // })
       }
 

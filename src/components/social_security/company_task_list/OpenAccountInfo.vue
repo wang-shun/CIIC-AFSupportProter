@@ -222,8 +222,8 @@
   </Form>
 </template>
 <script>
-  import chat from '../../../components/commoncontrol/chathistory/chat.vue'
-  import companyInfo from '../../../components/commoncontrol/companyinfo.vue'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import companyInfo from '../../common_control/CompanyInfo.vue'
   import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
@@ -378,11 +378,11 @@
     methods: {
       goBack() {
         window.history.go(-1)
-       // this.$router.push({name: 'companytasklist'});
+       // this.$router.push({name: 'companyTaskList'});
       },
       //查询页面公司信息和前道传递信息
       queryPageInfo(){
-        
+
         let isComplete = ''
         //代表已完成查看
         if(this.source=='0'){
@@ -398,11 +398,11 @@
         }
         let self = this
         CompanyTaskList.getCompanyInfoAndMaterial(params).then(result=>{
-          
+
             //获得材料
          self.operatorMaterialListData = result.operatorMaterialListData;
       })
-      
+
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
          //获得公司信息
         self.companyInfo = result.companyInfo
@@ -458,7 +458,7 @@
            }
            return payMethodStr
       }
-     
+
     }
   }
 </script>

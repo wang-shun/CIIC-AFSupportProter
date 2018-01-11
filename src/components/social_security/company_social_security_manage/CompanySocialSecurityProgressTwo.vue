@@ -52,10 +52,10 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
-  import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
-  import companyInfo from '../../commoncontrol/companyinfo.vue'
-  import EventType from '../../../store/EventTypes'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import companySocialSecurityInfo from '../../common_control/CompanySocialSecurityInfo.vue'
+  import companyInfo from '../../common_control/CompanyInfo.vue'
+  import EventType from '../../../store/event_types'
 
   export default {
     components: {chat, companySocialSecurityInfo, companyInfo},

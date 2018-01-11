@@ -125,7 +125,7 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/EventTypes'
+  import EventType from '../../../../store/event_types'
 
   export default {
     data() {

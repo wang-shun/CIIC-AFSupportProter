@@ -48,7 +48,7 @@
 
     <Form>
       <Row class="mt20">
-        <Col :sm="{span:24}">
+        <Col :sm="{span:24}" class="tr">
           <Form-item class="ml10">
             <Button type="info" @click="">导出</Button>
           </Form-item>
@@ -58,7 +58,7 @@
       <Row>
         <Col :sm="{span: 24}">
           <Table border :columns="accountManageColumns" :data="accountManageData"></Table>
- 
+
             <Page
             class="pageSize"
             @on-change="handlePageNum"
@@ -75,8 +75,8 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/EventTypes'
-  
+  import EventType from '../../../store/event_types'
+
   export default {
     data() {
       return{
@@ -188,18 +188,18 @@
     },
     methods: {
       ...mapActions('companySocialSecurityManage', [EventType.COMPANYSOCIALSECURITYMANAGETYPE]),
-       
+
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      queryAccount() { 
+      queryAccount() {
       let sessionPageNum = sessionStorage.managerPageNum
       let sessionPageSize = sessionStorage.managerPageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.resultPageData.pageNum = Number(sessionPageNum)
          this.resultPageData.pageSize = Number(sessionPageSize)
-         sessionStorage.removeItem("managerPageNum") 
-         sessionStorage.removeItem("managerPageSize") 
+         sessionStorage.removeItem("managerPageNum")
+         sessionStorage.removeItem("managerPageSize")
       }
         var params = {
           pageNum: typeof(sessionPageNum)=="undefined"?this.resultPageData.pageNum:Number(sessionPageNum),
@@ -227,7 +227,7 @@
 
       },
       cancel () {
- 
+
       }
     }
   }

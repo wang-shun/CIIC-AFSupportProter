@@ -176,7 +176,7 @@
       @on-cancel="cancel">
       <ul>
         <li v-for="chatItem in chatList">
-            
+
             <div class="content">
               <p class="info">
                 <span>{{chatItem.name}}</span>
@@ -192,8 +192,8 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
-  import EventType from '../../../store/EventTypes'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/company_social_security_manage/company_social_security_manage'
   export default {
     components: {chat},
@@ -214,7 +214,7 @@
           paymentWay: '',//支付方式
           queryAccount: '',//工行查询账号
           expireDate: '',//社保截止日
-          ssUsername: '',//养老金用户名 
+          ssUsername: '',//养老金用户名
           ssPwd: '',//养老金密码
           initialBalance: '',//初期余额
           initialDebt: '',//初期欠费
@@ -340,17 +340,17 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      
+
                       this.chatList =  [
                         {
                           name:params.row.submitterName,
-                          date: params.row.submitTime, 
+                          date: params.row.submitTime,
                           content: params.row.submitRemark
                         }
                       ]
-                        
+
                       this.isShowNotes = true
-                      
+
                     }
                   }
                 }, '查看'),
@@ -394,20 +394,20 @@
       }
     },
     mounted() {
-      let comAccountId = this.comAccountId 
+      let comAccountId = this.comAccountId
       api.companySocialSecurityQuery({comAccountId:comAccountId}).then(result=>{
         this.companySocialSecurityInfo = result.data.account
         this.childCompanyData = result.data.ssAccountComRelation
-        
+
         this.historyTaskData = result.data.ssComTask
         this.workInjuryData = result.data.ssAccountRatio
       })
     },
     computed: {
-     
+
     },
     methods: {
-      
+
       goBack() {
         this.$router.push({name: 'companysocialsecuritymanage'})
       },
@@ -422,7 +422,7 @@
 </script>
 <style scoped>
   li {clear: both; margin-top: 10px;}
-  
+
   .content {
     width: 352px;
     float: left;
@@ -434,15 +434,15 @@
   .content .text {
     color: #333;
     padding-top: 10px;
-    
+
   }
   .date{
     padding-left: 20px;
   }
 ul {
-  list-style: none; 
-  width: 400px; 
-  height: 116px; 
+  list-style: none;
+  width: 400px;
+  height: 116px;
   overflow-y: auto;
   padding-top: 30px;
   padding-left: 20px;

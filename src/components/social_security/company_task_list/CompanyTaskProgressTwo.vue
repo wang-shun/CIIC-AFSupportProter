@@ -36,7 +36,7 @@
     </Row>
 
     <!-- <chat :chatList="data.chatList" class="mt20"></chat> -->
-      
+
       <!-- 批退理由 -->
       <Modal
         v-model="isRefuseReason"
@@ -67,10 +67,10 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
-  import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
-  import companyInfo from '../../commoncontrol/companyinfo.vue'
-  import EventType from '../../../store/EventTypes'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import companySocialSecurityInfo from '../../common_control/CompanySocialSecurityInfo.vue'
+  import companyInfo from '../../common_control/CompanyInfo.vue'
+  import EventType from '../../../store/event_types'
   import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
     import {NoProgress} from '../../../api/social_security/company_task_list/company_task_list_tab/no_progress'
     import Utils from '../../../lib/utils'
@@ -218,27 +218,27 @@
       }
     },
     mounted() {
-   
+
       this.queryPageInfo();
     },
     computed: {
-   
+
     },
     methods: {
       nextStep() {
-        
+
         switch(this.operatorType) {
           case '1':
-            this.$router.push({name: 'companytaskprogresstypeinfo', query: {operatorType: '1',tid:this.tid}})
+            this.$router.push({name: 'companyTaskProgressTypeInfo', query: {operatorType: '1',tid:this.tid}})
             break;
           case '2':
-            this.$router.push({name: 'companytaskprogresstransferinfo', query: {operatorType: '2',tid:this.tid}})
+            this.$router.push({name: 'companyTaskProgressTransferInfo', query: {operatorType: '2',tid:this.tid}})
             break;
           case '3':
-            this.$router.push({name: 'companytaskprogresschangeinfo', query: {operatorType: '3',tid:this.tid}})
+            this.$router.push({name: 'CompanyTaskProgressChangeInfo', query: {operatorType: '3',tid:this.tid}})
             break;
           case '4':
-            this.$router.push({name: 'companytaskprogressendinfo', query: {operatorType: '4',tid:this.tid}})
+            this.$router.push({name: 'companyTaskProgressEndInfo', query: {operatorType: '4',tid:this.tid}})
             break;
           default:
             break;
@@ -246,7 +246,7 @@
       },
       //查询页面信息
       queryPageInfo(){
-        
+
         let params = {
           operatorType:this.operatorType,
           comTaskId:this.$route.query.tid,
@@ -277,7 +277,7 @@
              //表示有材料未签收
             let param ={comMaterialId:materialUpdateArr[i].id,status:1,remark:materialUpdateArr[i].notes}
             paramsList.push(JSON.stringify(param))
-          
+
         }
 
         if(paramsList.length==0){
@@ -303,7 +303,7 @@
              }
            })
         }
-       
+
       },
       //获得批退模糊态
       getModal(){
@@ -311,7 +311,7 @@
           this.refuseLoading = true
         },
       goBack() {
-        this.$router.push({name: 'companytasklist'})
+        this.$router.push({name: 'companyTaskList'})
       },
       asyncOK() {
         let params = {
@@ -327,7 +327,7 @@
           }else{
               //this.refuseLoading = true
           }
-          
+
         })
       },
       cancel () {

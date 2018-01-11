@@ -101,9 +101,9 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
-  import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
-  import EventType from '../../../store/EventTypes'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import companySocialSecurityInfo from '../../common_control/CompanySocialSecurityInfo.vue'
+  import EventType from '../../../store/event_types'
   import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
@@ -111,7 +111,7 @@
     data() {
       //受审日期
        const validateAcceptanceDate=(rule, value, callback)=>{
-            
+
             let self= this
             if(self.endOperator.taskStatus=='0'){
                callback();
@@ -144,7 +144,7 @@
               }
             }
        };
-        //完成日期 
+        //完成日期
        const validateFinishedDate=(rule, value, callback)=>{
             let self= this
             if(self.endOperator.taskStatus=='0'|| self.endOperator.taskStatus=='1'|| self.endOperator.taskStatus=='2'){
@@ -160,7 +160,7 @@
        };
 
       const validateEndDate=(rule, value, callback)=>{
-        
+
             let self= this
             if(self.endOperator.taskStatus=='0'|| self.endOperator.taskStatus=='1'|| self.endOperator.taskStatus=='2'){
                callback();
@@ -181,14 +181,14 @@
         collapseInfo: [1, 2, 3], //展开栏
         currentStep: 2,
         companyInfo:{},
-        handDateControl:false,//受理日期 是否可编辑 
+        handDateControl:false,//受理日期 是否可编辑
          sendDateControl:false,//送审日期 是否可编辑
          finishDateControl:false,//完成日期  是否可编辑
          endDateControl:false,//终止日期 是否可编辑
 
          handDateIsDateOrLabel:false,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-         sendDateIsDateOrLabel:false,//送审日期 
-         finishDateIsDateOrLabel:false,//完成日期  
+         sendDateIsDateOrLabel:false,//送审日期
+         finishDateIsDateOrLabel:false,//完成日期
          endDateIsDateOrLabel:false,
         endOperator: {
           taskStatus:'',
@@ -233,7 +233,7 @@
                   { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
                 ]
           }
-         
+
       }
     },
     mounted() {
@@ -244,7 +244,7 @@
     },
     methods: {
       goBack() {
-        this.$router.push({name: 'companytasklist'})
+        this.$router.push({name: 'companyTaskList'})
       },
       //查询页面信息
       queryPageInfo(){
@@ -258,7 +258,7 @@
         self.comAccountId = result.comAccountId
         self.companyInfo = result.companyInfo
         self.historyRemark = result.historyRemark;
-        
+
         self.endOperator = result.endOperator;
 
         self.currentStep  =result.endOperator.taskStatus==null?0:Number(result.endOperator.taskStatus)
@@ -269,8 +269,8 @@
                               self.finishDateControl=true;
                               self.endDateControl = true;
                               self.handDateIsDateOrLabel=true//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-                              self.sendDateIsDateOrLabel=true//送审日期 
-                              self.finishDateIsDateOrLabel=true//完成日期  
+                              self.sendDateIsDateOrLabel=true//送审日期
+                              self.finishDateIsDateOrLabel=true//完成日期
                               self.endDateIsDateOrLabel=true
                           break;
                         case '1':
@@ -278,8 +278,8 @@
                               self.sendDateControl=true;
                               self.finishDateControl=true;
                               self.endDateControl = true;
-                              self.sendDateIsDateOrLabel=true//送审日期 
-                              self.finishDateIsDateOrLabel=true//完成日期  
+                              self.sendDateIsDateOrLabel=true//送审日期
+                              self.finishDateIsDateOrLabel=true//完成日期
                               self.endDateIsDateOrLabel=true
                           break;
                         case '2':
@@ -288,7 +288,7 @@
                            self.handDateControl = true;
                            self.finishDateControl=true;
                            self.endDateControl = true;
-                           self.finishDateIsDateOrLabel=true//完成日期  
+                           self.finishDateIsDateOrLabel=true//完成日期
                            self.endDateIsDateOrLabel=true
                           break;
                         case '3':
@@ -305,7 +305,7 @@
 
       },
       taskTypeChange(){
-        
+
           let taskState = this.endOperator.taskStatus
          //acceptanceDate sendCheckDate finishedDate
          let formObj = this.endOperator
@@ -338,12 +338,12 @@
             this.sendDateControl=false;
             this.finishDateControl=false;
              this.endDateControl = false;
-            
+
         }
       },
        //办理
       confirm(){
-        
+
       let validResult = false;
       //校验表单
         this.$refs['endOperator'].validate((valid) => {
@@ -358,7 +358,7 @@
                 //loading:true,
                 onOk:function(){
                    let params = self.getParams()
-                   
+
                    CompanyTaskList.updateOrEndingTask(params).then(result=>{
                     if(result){
                        self.$Message.success('办理成功!');
@@ -437,7 +437,7 @@
       },
       //撤销任务单 状态(将任务单状态往回走一步)
       revoke(){
-        
+
 
         if(this.currentStep=='0'){
           this.$Notice.warning({
@@ -473,11 +473,11 @@
                    self.$Modal.remove();
                }
             });
-           
+
       },
       refresh(){
-        //companytaskprogresschangeinfo
-        this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companytaskprogressendinfo'}})
+        //CompanyTaskProgressChangeInfo
+        this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companyTaskProgressEndInfo'}})
       },
       ok () {
 

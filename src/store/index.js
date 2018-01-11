@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import leftNavigation from './modules/leftNavigation'
+import leftNavigation from './modules/left_navigation'
 
 //上海社保
 import CompanySocialSecurityManage from './modules/social_security/company_social_security_manage'
@@ -13,8 +13,8 @@ import SocialSecurityPay from './modules/social_security/social_security_pay'
 
 
 //上海公积金
-import EmployeeFundSearch from './modules/Fund/EmployeeFundSearch'
-import EmployeeCommonOperator from './modules/Fund/EmployeeCommonOperator'
+import EmployeeFundSearch from './modules/fund/employee_fund_search'
+import EmployeeCommonOperator from './modules/fund/employee_common_operator'
 
 //弹性福利
 import gift from "./modules/flexible_benefit/gift"

@@ -98,7 +98,7 @@
             <Col span="16">
             <Form-item label="批退备注：" prop="rejectionRemark">
                 <label>{{socialSecurityPayOperator.rejectionRemark}}</label>
-                
+
             </Form-item>
             </Col>
             <Col span="4">
@@ -129,8 +129,8 @@
   import employeeInfo from '../components/EmployeeInfo.vue'
 
   import taskRefrenceInfo from './taskRefrenceInfo.vue'
-  import socialSecurityOperator from '../../commoncontrol/socialsecurityoperator.vue'
-  import EventTypes from '../../../store/EventTypes'
+  import socialSecurityOperator from '../../common_control/SocialSecurityOperator.vue'
+  import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
 
   export default {
@@ -162,7 +162,7 @@
           {
             title: '', key: 'remitWay', align: 'center', width: 100,
             render: (h, params) => {
-                
+
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remitWay=='1'?'正常':params.row.remitWay=='2'?'补缴':''),
               ]);
@@ -228,7 +228,7 @@
     },
     methods: {
       ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
-      initData(data) { 
+      initData(data) {
         this.empTaskId = data.empTaskId;
         this.operatorType = data.operatorType;
         this.sourceFrom = data.sourceFrom;

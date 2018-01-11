@@ -121,7 +121,7 @@
   import companyInfo from '../../components/CompanyInfo'
   import employeeInfo from '../../components/EmployeeInfo'
 
-  import EventTypes from '../../../../store/EventTypes'
+  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
   const HANDLE_TITLE = "补缴";

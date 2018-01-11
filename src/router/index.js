@@ -8,37 +8,37 @@ const login = r => require.ensure([], () => r(require('@/components/login')), 'l
 const charts = r => require.ensure([], () => r(require('@/components/charts')), 'charts') //报表
 const demo = r => require.ensure([], () => r(require('@/components/demo')), 'demo') // 演示
 
-const approvalstep2 = r => require.ensure([], () => r(require('@/components/commoncontrol/approvalstep2')), 'approvalstep2') //审核步骤2
+const approvalStep2 = r => require.ensure([], () => r(require('@/components/common_control/ApprovalStep2')), 'approvalStep2') //审核步骤2
 
 /* ================== 本地公积金 ================== */
 /*
- * employeefundsearch          --- 雇员公积金查询
-   employeefundhistory         --- 雇员公积金批量导入历史
-   employeefundbasicinfo       --- 雇员公积金详情
-   employeefundhistorydetail   --- 雇员公积金历史任务单详情
- * employeefundcommonoperator  --- 雇员日常操作
- * employeefundspecialoperator --- 雇员特殊操作
- * companyfundtasklist         --- 企业任务单
- * companyfundaccountsearch    --- 企业公积金账户查询
- * fundreconciliation          --- 公积金对账
- * fundpay                     --- 公积金汇缴支付
- * fundreport                  --- 公积金报表
- * fundyearadjust              --- 公积金年调
+ * employeeFundSearch          --- 雇员公积金查询
+   employeeFundHistory         --- 雇员公积金批量导入历史
+   employeeFundBasicInfo       --- 雇员公积金详情
+   employeeFundHistoryDetail   --- 雇员公积金历史任务单详情
+ * employeeFundCommonOperator  --- 雇员日常操作
+ * employeeFundSpecialOperator --- 雇员特殊操作
+ * companyFundTaskList         --- 企业任务单
+ * companyFundAccountSearch    --- 企业公积金账户查询
+ * fundReconciliation          --- 公积金对账
+ * fundPay                     --- 公积金汇缴支付
+ * fundReport                  --- 公积金报表
+ * fundYearAdjust              --- 公积金年调
  */
 
-const employeefundsearch = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/employeefundsearch')), 'employeefundsearch')
-const employeefundhistory = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/employeefundhistory')), 'employeefundhistory')
-const employeefundbasicinfo = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/employeefundbasicinfo')), 'employeefundbasicinfo')
-const employeefundhistorydetail = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/employeefundhistorydetail')), 'employeefundhistorydetail')
+const employeeFundSearch = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundSearch')), 'EmployeeFundSearch')
+const employeeFundHistory = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundHistory')), 'EmployeeFundHistory')
+const employeeFundBasicInfo = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundBasicInfo')), 'EmployeeFundBasicInfo')
+const employeeFundHistoryDetail = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundHistoryDetail')), 'EmployeeFundHistoryDetail')
 
-const employeefundcommonoperator = r => require.ensure([], () => r(require('@/components/fund/employeecommonoperator/employeefundcommonoperator')), 'employeefundcommonoperator')
-const employeefundspecialoperator = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/employeefundspecialoperator')), 'employeefundspecialoperator')
-const companyfundtasklist = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/companyfundtasklist')), 'companyfundtasklist')
-const companyfundaccountsearch = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/companyfundaccountsearch')), 'companyfundaccountsearch')
-const fundreconciliation = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundreconciliation')), 'fundreconciliation')
-const fundpay = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundpay')), 'fundpay')
-const fundreport = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundreport')), 'fundreport')
-const fundyearadjust = r => require.ensure([], () => r(require('@/components/fund/employeefundsearch/fundyearadjust')), 'fundyearadjust')
+const employeeFundCommonOperator = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/EmployeeFundCommonOperator')), 'employeeFundCommonOperator')
+const employeeFundSpecialOperator = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundSpecialOperator')), 'EmployeeFundSpecialOperator')
+const companyFundTaskList = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/CompanyFundTaskList')), 'CompanyFundTaskList')
+const companyFundAccountSearch = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/CompanyFundAccountSearch')), 'CompanyFundAccountSearch')
+const fundReconciliation = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/FundReconciliation')), 'FundReconciliation')
+const fundPay = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/FundPay')), 'FundPay')
+const fundReport = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/FundReport')), 'FundReport')
+const fundYearAdjust = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/FundYearAdjust')), 'FundYearAdjust')
 
 
 //任务单管理
@@ -129,8 +129,8 @@ let router = new Router({
         ...SsRouter,
         {
           path: '/employee_fund_search',
-          name: 'employeefundsearch',
-          component: employeefundsearch,
+          name: 'employeeFundSearch',
+          component: employeeFundSearch,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -140,8 +140,8 @@ let router = new Router({
         },
         {
           path: '/employee_fund_history',
-          name: 'employeefundhistory',
-          component: employeefundhistory,
+          name: 'employeeFundHistory',
+          component: employeeFundHistory,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -151,8 +151,8 @@ let router = new Router({
         },
         {
           path: '/employee_fund_basic_info',
-          name: 'employeefundbasicinfo',
-          component: employeefundbasicinfo,
+          name: 'employeeFundBasicInfo',
+          component: employeeFundBasicInfo,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -162,8 +162,8 @@ let router = new Router({
         },
         {
           path: '/employee_fund_history_detail',
-          name: 'employeefundhistorydetail',
-          component: employeefundhistorydetail,
+          name: 'employeeFundHistoryDetail',
+          component: employeeFundHistoryDetail,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -173,8 +173,8 @@ let router = new Router({
         },
         {
           path: '/employee_fund_common_operator',
-          name: 'employeefundcommonoperator',
-          component: employeefundcommonoperator,
+          name: 'employeeFundCommonOperator',
+          component: employeeFundCommonOperator,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -184,8 +184,8 @@ let router = new Router({
         },
         {
           path: '/employee_fund_special_operator',
-          name: 'employeefundspecialoperator',
-          component: employeefundspecialoperator,
+          name: 'employeeFundSpecialOperator',
+          component: employeeFundSpecialOperator,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -195,8 +195,8 @@ let router = new Router({
         },
         {
           path: '/company_fund_task_list',
-          name: 'companyfundtasklist',
-          component: companyfundtasklist,
+          name: 'companyFundTaskList',
+          component: companyFundTaskList,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -206,8 +206,8 @@ let router = new Router({
         },
         {
           path: '/company_fund_account_search',
-          name: 'companyfundaccountsearch',
-          component: companyfundaccountsearch,
+          name: 'companyFundAccountSearch',
+          component: companyFundAccountSearch,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -217,8 +217,8 @@ let router = new Router({
         },
         {
           path: '/fund_reconciliation',
-          name: 'fundreconciliation',
-          component: fundreconciliation,
+          name: 'fundReconciliation',
+          component: fundReconciliation,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -228,8 +228,8 @@ let router = new Router({
         },
         {
           path: '/fund_pay',
-          name: 'fundpay',
-          component: fundpay,
+          name: 'fundPay',
+          component: fundPay,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -239,8 +239,8 @@ let router = new Router({
         },
         {
           path: '/fund_report',
-          name: 'fundreport',
-          component: fundreport,
+          name: 'fundReport',
+          component: fundReport,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",
@@ -250,8 +250,8 @@ let router = new Router({
         },
         {
           path: '/fund_year_adjust',
-          name: 'fundyearadjust',
-          component: fundyearadjust,
+          name: 'fundYearAdjust',
+          component: fundYearAdjust,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",

@@ -46,8 +46,8 @@
   import employeeInfo from '../components/EmployeeInfo.vue'
 
   import taskRefrenceInfo from './taskRefrenceInfo.vue'
-  import socialSecurityOperator from '../../commoncontrol/socialsecurityoperator.vue'
-  import EventTypes from '../../../store/EventTypes'
+  import socialSecurityOperator from '../../common_control/SocialSecurityOperator.vue'
+  import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
 
   export default {

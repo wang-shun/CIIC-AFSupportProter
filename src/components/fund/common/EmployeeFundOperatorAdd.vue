@@ -1,6 +1,6 @@
 <template>
   <Form label-width=150>
-    <Row>
+    <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="公积金类型：">
           {{fundOperator.fundType}}
@@ -9,6 +9,11 @@
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="基本/补充公积金账户：">
           <Input v-model="fundOperator.fundAccount" placeholder="请输入..." :disabled="disabled"></Input>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="">
+          <Checkbox v-model="fundOperator.isCreateSealingTicket">创建封存任务单</Checkbox>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -24,7 +29,7 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="雇员起缴月份">
+        <Form-item label="操作提示日期">
           <DatePicker v-model="fundOperator.operatorTipDate" placement="bottom-end" placeholder="选择日期" :disabled="disabled" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>

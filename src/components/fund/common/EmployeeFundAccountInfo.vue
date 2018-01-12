@@ -27,7 +27,7 @@
         </Form-item>
       </Col>
     </Row>
-    <Row v-show="isShowFundStatus">
+    <Row>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="基本公积金账号：">
           <label>{{employeeFundAccountInfo.basicFundAccount}}</label>
@@ -39,12 +39,12 @@
         </Form-item>
       </Col>
     </Row>
-    <Row v-show="isShowFundStatus">
+    <Row>
       <Col :sm="{span: 24}">
         <Table border :columns="fundColumns" :data="employeeFundAccountInfo.basicFundData"></Table>
       </Col>
     </Row>
-    <Row class="mt20" v-show="isShowFundStatus">
+    <Row class="mt20">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="补充公积金账号：">
           <label>{{employeeFundAccountInfo.addFundAccount}}</label>
@@ -56,7 +56,7 @@
         </Form-item>
       </Col>
     </Row>
-    <Row v-show="isShowFundStatus">
+    <Row>
       <Col :sm="{span: 24}">
         <Table border :columns="fundColumns" :data="employeeFundAccountInfo.addFundData"></Table>
       </Col>
@@ -70,12 +70,6 @@
         type: Object,
         default() {
           return {}
-        }
-      },
-      isShowFundStatus: {
-        type: Boolean,
-        default() {
-          return false
         }
       }
     },

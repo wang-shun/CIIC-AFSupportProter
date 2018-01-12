@@ -8,22 +8,27 @@ const employeeFundHistoryDetail = params => Utils.promise({
     code:200,
     data: {
       companyFundAccountInfo: {
-        customerNumber: '26318',
-        customerName: '欧莱雅（法国）化妆品集团公司',
-        region: '徐汇',
-        status: '有效',
-        fundCenter: '上海市公积金管理中心(浦东分行)',
-        serviceManager: '金翔云',
-        accountType: '独立户',
-        endDate: '本月18日',
-        payMonth: '201708'
+        customerBasicFundAccount: "2631228",
+        customerAddFundAccount: "2631228125",
+        customerCenter: "XXX",
+        payRegion: "徐汇",
+        companyFundAccountStatus: "正常/中止",
+        lastPayMonth: "201712",
+        serviceManager: "金翔云",
+        customerServicer: "金翔云",
+        endDate: "201712",
+        payMethodValue: "0",
+        UKeyValue: "0",
+        customerNumber: "",
+        customerName: "",
+        accountType: "大库、外包、独立户"
       },
       employeeFundAccountInfo: {
         employeeNumber: 'GY0001',
-        employeeName: '张三',
+        employeeName: '林子晖',
         IdNumber: '35220219781124114',
         checkInDate: '2017-1-1',
-        companyFundAccountType: '中智大库',
+        companyFundAccountType: '欧莱雅（法国）化妆品集团公司（开户送审中）',
         basicFundAccount: '123235502',
         basicFundStatus: '已办',
         addFundAccount: '21323213',
@@ -38,16 +43,13 @@ const employeeFundHistoryDetail = params => Utils.promise({
       employeeFundTaskReferenceAdd: {
         changeTypeValue: 0,
         taskReferenceInfoData: [
-          {changeContent: '汇缴', fundBase: '19000', fundPercent: '0.14', startPayMonth: '201701', endPayMonth: '', price: ''},
-          {changeContent: '补缴', fundBase: '', fundPercent: '', startPayMonth: '', endPayMonth: '', price: ''},
+          {fundBase: '19000', fundPercent: '0.14', startPayMonth: '201701', endPayMonth: '', price: ''},
+          {fundBase: '', fundPercent: '', startPayMonth: '', endPayMonth: '', price: ''},
         ]
       },
       employeeFundTaskReferenceChange: {
-        fundBase: '16000',
-        fundPercent: '0.14',
-        price: '2240',
-        startChangeDate: '201701',
-        endChangeDate: '201702'
+        leaveDate: '2017-8-24',
+        endPayDate: '201708'
       },
       employeeFundTaskReferenceSealing: {
         outDate: '2017-8-24',
@@ -65,6 +67,7 @@ const employeeFundHistoryDetail = params => Utils.promise({
       fundOperatorAdd: {
         fundType: '基本公积金',
         fundAccount: '',
+        isCreateSealingTicket: false,
         startPayDate: '201701',
         operatorTipValue: 0,
         operatorTipDate: '',
@@ -77,19 +80,9 @@ const employeeFundHistoryDetail = params => Utils.promise({
       },
       fundOperatorChange: {
         fundType: '基本公积金',
-        taskType: '调整',
-        newFundBase: '16000',
-        newFundPercent: '0.14',
-        newPrice: '2240',
-        startChangeDate: '201701',
-        endChangeDate: '201703',
-        customerPayDate: '201706',
-        operatorTipValue: 0,
-        operatorTipDate: '',
-        operatorListData: [
-          {startDate: '201601', endDate: '201605', base: '9300', percent: '0.14', price: '1302', difference: '42 * 5', type: '调整', reason: ''},
-          {startDate: '201601', endDate: '201605', base: '10000', percent: '0.14', price: '1400', difference: '', type: '补缴', reason: 0},
-        ],
+        changeTypeValue: 0,
+        payEndMonth: '',
+        customerPayEndMonth: '201708',
         doRemark: '',
         refuseRemark: ''
       },
@@ -126,7 +119,13 @@ const employeeFundHistoryDetail = params => Utils.promise({
         operatorDate: '',
         doRemark: '',
         refuseRemark: ''
-      }
+      },
+      taskListNotesChangeData: [
+        {fundType: '基本公积金', taskType: '启封', handleOrRefuse: '办理', noteWriter: '金翔云', noteDate: '2015-06-01', noteContent: '备注内容1……'},
+        {fundType: '基本公积金', taskType: '调整', handleOrRefuse: '办理', noteWriter: '金翔云', noteDate: '2015-06-01', noteContent: '备注内容2……'},
+        {fundType: '补缴公积金', taskType: '封存', handleOrRefuse: '办理', noteWriter: '金翔云', noteDate: '2015-06-01', noteContent: '备注内容3……'},
+        {fundType: '补充公积金', taskType: '补缴', handleOrRefuse: '批退', noteWriter: '金翔云', noteDate: '2015-06-01', noteContent: '备注内容4……'},
+      ]
     }
   }
 })

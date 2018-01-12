@@ -14,7 +14,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="customerNumber">
+                <Form-item label="雇员编号：" prop="employeeNumber">
                   <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -62,7 +62,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="是否加急：" prop="accountTypeValue">
+                <Form-item label="是否加急：" prop="isEmergencyValue">
                   <Select v-model="operatorSearchData.isEmergencyValue" style="width: 100%;" transfer>
                     <Option v-for="item in emergencyList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -176,7 +176,7 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'employeeFundHistoryDetail', params: {taskType: params.row.taskType, isDisabled: false}})
+                      this.$router.push({name: 'employeeFundHistoryDetail', query: {taskType: params.row.taskType}})
                     }
                   }
                 }, '办理'),

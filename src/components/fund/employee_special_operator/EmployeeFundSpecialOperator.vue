@@ -18,10 +18,10 @@
   </div>
 </template>
 <script>
-  import noProcess from './employee_common_operator_tab/NoProcess.vue'
-  import processing from './employee_common_operator_tab/Processing.vue'
-  import finished from './employee_common_operator_tab/Finished.vue'
-  import refused from './employee_common_operator_tab/Refused.vue'
+  import noProcess from './employee_special_operator_tab/NoProcess.vue'
+  import processing from './employee_special_operator_tab/Processing.vue'
+  import finished from './employee_special_operator_tab/Finished.vue'
+  import refused from './employee_special_operator_tab/Refused.vue'
 
   export default {
     components: {noProcess, processing, finished, refused},

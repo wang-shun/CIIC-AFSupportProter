@@ -116,7 +116,8 @@ const employeeFundHistoryDetail = params => Utils.promise({
         inAccount: '',
         transferDate: '',
         backBillDate: '',
-        operatorDate: '',
+        operatorDate: '2017-7-7',
+        printDate: '2017-7-7',
         doRemark: '',
         refuseRemark: ''
       },

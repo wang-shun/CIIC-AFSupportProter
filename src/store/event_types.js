@@ -10,6 +10,7 @@ import SocialSecurityPay from "./modules/social_security/social_security_pay/eve
 //上海公积金
 import EmployeeFundSearch from "./modules/fund/employee_fund_search/event_types"
 import EmployeeCommonOperator from "./modules/fund/employee_common_operator/event_types"
+import EmployeeFundSpecialOperator from "./modules/fund/employee_special_operator/event_types"
 
 //弹性福利
 import gift from "./modules/flexible_benefit/gift/event_types"
@@ -39,6 +40,8 @@ export default {
 
   ...EmployeeFundSearch,
   ...EmployeeCommonOperator,
+  ...EmployeeFundSpecialOperator,
+
   //弹性福利
   ...gift,
   ...market,

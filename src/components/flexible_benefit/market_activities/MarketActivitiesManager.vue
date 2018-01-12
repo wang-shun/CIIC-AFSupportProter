@@ -96,8 +96,7 @@
             title: '内容', sortable: true, key: 'content', align: "center",
           },
           {
-            title: '操作', align: 'center', key: 'action', align: "center",
-            width: 240,
+            title: '操作', align: 'center', key: 'action', align: "center", width: 200,
             render: (h, params) => {
               if (params.row.status == '0') {
                 return h('div', [
@@ -135,41 +134,6 @@
                       }
                     }
                   }, '编辑'),
-                  h('Button', {
-                    props: {
-                      type: 'success',
-                      size: 'small'
-                    },
-                    style: {
-                      marginRight: '5px'
-                    },
-                    on: {
-                      click: () => {
-                        this.$router.push({
-                          name: 'marketPersonChoose',
-                          params: {
-                            data: params.row
-                          }
-                        });
-                      }
-                    }
-                  }, '申请'),
-                  h('Button', {
-                    props: {
-                      type: 'success',
-                      size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.$router.push({
-                          name: 'addActivity',
-                          params: {
-                            data: params.row
-                          }
-                        });
-                      }
-                    }
-                  }, '申请历史')
                 ]);
               } else {
                 return h('div', [

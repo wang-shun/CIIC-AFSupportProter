@@ -101,9 +101,7 @@ const addActivity = r => require.ensure([], () => r(require('@/components/flexib
 const updateActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/UpdateActivity')), 'UpdateActivity'); //更新活动
 
 const grantManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GrantManager')), 'GrantManager'); //发放管理
-const giftExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GiftExamine')), 'GiftExamine'); //礼品审批
 const giftGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GiftGrant')), 'GiftGrant'); //礼品发放
-const marketExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketExamine')), 'MarketExamine'); //活动审批
 const marketGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketGrant')), 'MarketGrant'); //活动发放
 
 const reportFormManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/report_form/ReportFormManager')), 'ReportFormManager'); //报表查询
@@ -275,41 +273,41 @@ let router = new Router({
         },
         {
           path: '/pendingTaskList',
-          name:'pendingTaskList',
+          name: 'pendingTaskList',
           component: pendingTaskList,
-          meta:{
-            level1:'首页',
-            level2:"任务单管理",
-            level3:"待处理任务单列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "任务单管理",
+            level3: "待处理任务单列表",
+            openNames: ['2']
           }
         },
         {
           path: '/processedTaskList',
-          name:'processedTaskList',
+          name: 'processedTaskList',
           component: processedTaskList,
-          meta:{
-            level1:'首页',
-            level2:"任务单管理",
-            level3:"已处理任务单列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "任务单管理",
+            level3: "已处理任务单列表",
+            openNames: ['2']
           }
         },
         {
           path: '/addAcceptance',
-          name:'addAcceptance',
+          name: 'addAcceptance',
           component: addAcceptance,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增受理单",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "新增受理单",
+            openNames: ['2']
           }
         },
 
         {
           path: '/invoiceList',
-          name:'invoiceList',
+          name: 'invoiceList',
           component: invoiceList,
           meta: {
             level1: '首页',
@@ -387,13 +385,13 @@ let router = new Router({
         },
         {
           path: '/auditNurseryFee',
-          name:'auditNurseryFee',
+          name: 'auditNurseryFee',
           component: auditNurseryFee,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"托费报销受理",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "托费报销受理",
+            openNames: ['2']
           }
         },
         {
@@ -486,24 +484,24 @@ let router = new Router({
         },
         {
           path: '/supplementaryMedicalList',
-          name:'supplementaryMedicalList',
+          name: 'supplementaryMedicalList',
           component: supplementaryMedicalList,
-          meta:{
-            level1:'首页',
-            level2:"补充医疗理赔",
-            level3:"补充医疗理赔",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "补充医疗理赔",
+            level3: "补充医疗理赔",
+            openNames: ['2']
           }
         },
         {
           path: '/supplementaryMedicalBatchList',
-          name:'supplementaryMedicalBatchList',
+          name: 'supplementaryMedicalBatchList',
           component: supplementaryMedicalBatchList,
-          meta:{
-            level1:'首页',
-            level2:"补充医疗理赔",
-            level3:"补充医疗理赔批量",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "补充医疗理赔",
+            level3: "补充医疗理赔批量",
+            openNames: ['2']
           }
         },
         {
@@ -519,35 +517,35 @@ let router = new Router({
         },
         {
           path: '/acceptanceList',
-          name:'acceptanceList',
+          name: 'acceptanceList',
           component: acceptanceList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"受理单列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "受理单列表",
+            openNames: ['2']
           }
         },
         {
           path: '/checkMedicalList',
-          name:'checkMedicalList',
+          name: 'checkMedicalList',
           component: checkMedicalList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增未投保列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "新增未投保列表",
+            openNames: ['2']
           }
         },
         {
           path: '/insuredList',
-          name:'insuredList',
+          name: 'insuredList',
           component: insuredList,
-          meta:{
-            level1:'首页',
-            level2:"在保管理",
-            level3:"在保管理",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "在保管理",
+            level3: "在保管理",
+            openNames: ['2']
           }
         },
         //弹性福利
@@ -629,17 +627,6 @@ let router = new Router({
           }
         },
         {
-          path: '/giftExamine',
-          name: 'giftExamine',
-          component: giftExamine,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "礼品审批",
-            openNames: ['2']
-          }
-        },
-        {
           path: '/giftGrant',
           name: 'giftGrant',
           component: giftGrant,
@@ -647,17 +634,6 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "礼品发放",
-            openNames: ['2']
-          }
-        },
-        {
-          path: '/marketExamine',
-          name: 'marketExamine',
-          component: marketExamine,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "活动审批",
             openNames: ['2']
           }
         },
@@ -671,7 +647,8 @@ let router = new Router({
             level3: "活动发放",
             openNames: ['2']
           }
-        },{
+        },
+        {
           path: '/reportFormManager',
           name: 'reportFormManager',
           component: reportFormManager,

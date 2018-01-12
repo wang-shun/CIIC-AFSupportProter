@@ -44,8 +44,8 @@
         </row>
         <row>
           <Col :xs="{ span: 6, offset: 8 }" :lg="{ span: 6, offset: 8 }">
-          <Button type="primary" @click="addMarketActivity()">提交</Button>
           <Button type="warning" @click="back">返回</Button>
+          <Button type="primary" @click="addMarketActivity()">提交</Button>
           </Col>
         </row>
       </Form>
@@ -83,8 +83,8 @@
             /*vue数据脱绑*/
             let params = JSON.parse(JSON.stringify(this.formItem));
             /*前台时间转化为字符串*/
-            params.beginTime = this.$utils.formatDate(this.formItem.marketTime[0], 'YYYY-MM-DD HH:mm:ss');
-            params.endTime = this.$utils.formatDate(this.formItem.marketTime[1], 'YYYY-MM-DD HH:mm:ss');
+            params.beginTime = this.formItem.marketTime[0];
+            params.endTime = this.formItem.marketTime[1];
             params.giftForm = params.giftForm.join();
             params.sendWay = params.sendWay.join();
             this[EventTypes.MARKETINSERTTYPE]({

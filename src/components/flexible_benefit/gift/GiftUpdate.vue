@@ -59,8 +59,8 @@
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="是否New：" prop="isNew">
-            <Checkbox v-model="formItem.isNew">是</Checkbox>
+          <Form-item label="是否New：" prop="newTag">
+            <Checkbox v-model="formItem.newTag">是</Checkbox>
           </Form-item>
           </Col>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
@@ -153,12 +153,14 @@
       addGift() {
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
+            /**最大申请数量不能大于礼品数量*/
+            if (this.formItem.applyMaxnum > this.formItem.number) {
+              this.$Message.error("最大申请数量不能大于礼品数量");
+              return;
+            }
             /**传输文件的数据*/
-            let data = new FormData();
-            Object.keys(this.formItem).forEach(v => {
-              data.append(v, this.formItem[v])
-            });
-            data.append('file', this.file);
+            let data = this.formItem;
+            data.file = this.file;
             this[EventTypes.GIFTUPDATETYPE]({
               data: data,
               callback: (res) => {
@@ -169,6 +171,7 @@
                 }
               },
               errCallback: (error) => {
+                console.info(error.message)
                 this.$Message.error("服务器异常，请稍后再试");
               }
             });

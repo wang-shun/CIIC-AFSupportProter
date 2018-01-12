@@ -62,21 +62,28 @@
           total: 0
         },
 
-        peopleTypes: [{
-          value: "0", label: "全部"
-        }, {
-          value: "1", label: "雇员"
-        }, {
-          value: "2", label: "子女"
-        }, {
-          value: "3", label: "配偶"
-        }],
+        peopleTypes: [
+          {
+            value: "0", label: "全部"
+          },
+          {
+            value: "1", label: "雇员"
+          },
+          {
+            value: "2", label: "子女"
+          },
+          {
+            value: "3", label: "配偶"
+          }
+        ],
 
-        statusProperties: [{
-          value: "0", label: "正常"
-        }, {
-          value: "1", label: "已下架"
-        }],
+        statusProperties: [
+          {
+            value: "0", label: "正常"
+          }, {
+            value: "1", label: "已下架"
+          }
+        ],
 
         giftManagerColumns: [
           {
@@ -128,7 +135,7 @@
               }
             }
           }, {
-            title: "操作", key: "action", width: 300, align: "center",
+            title: "操作", key: "action", width: 200, align: "center",
             render: (h, params) => {
               if (params.row.status == '0') {
                 return h("div", [
@@ -152,40 +159,7 @@
                         this.$router.push({name: "giftUpdate", params: {data: updateData}});
                       }
                     }
-                  }, "编辑"),
-                  h("Button", {
-                    props: {
-                      type: "success",
-                      size: "small"
-                    },
-                    on: {
-                      click: () => {
-                        this.$router.push({
-                          name: "giftApplicationManager",
-                          params: {data: params.row}
-                        });
-                      }
-                    }
-                  }, "发放记录")
-                ]);
-              } else {
-                return h("div", [
-                  h("Button", {
-                    props: {
-                      type: "success",
-                      size: "small"
-                    },
-                    on: {
-                      click: () => {
-                        this.$router.push({
-                          name: "giftApplicationManager",
-                          params: {
-                            data: params.row
-                          }
-                        });
-                      }
-                    }
-                  }, "发放记录")
+                  }, "编辑")
                 ]);
               }
             }

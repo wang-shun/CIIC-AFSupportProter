@@ -262,13 +262,13 @@ let router = new Router({
         ...EmployManageRouter,
         {
           path: '/addAcceptanceEmployeeList',
-          name:'addAcceptanceEmployeeList',
+          name: 'addAcceptanceEmployeeList',
           component: addAcceptanceEmployeeList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增受理单",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "新增受理单",
+            openNames: ['2']
           }
         },
         {
@@ -674,7 +674,8 @@ router.beforeEach((to, from, next) => {
   localStorage.setItem("openNames", [to.meta.openNames]);
   next();
 });
-router.afterEach((to, from) => {});
+router.afterEach((to, from) => {
+});
 
 
 export default router;

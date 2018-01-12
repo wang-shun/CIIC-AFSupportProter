@@ -4,33 +4,39 @@
       <Panel name="1">
         企业公积金账户信息
         <div slot="content">
-          <company-fund-account-info :fundInfo="data.companyFundAccountInfo" :isShowPayMonth="isDisabled"></company-fund-account-info>
+          <company-fund-account-info :companyFundAccountInfo="data.companyFundAccountInfo"></company-fund-account-info>
         </div>
       </Panel>
       <Panel name="2">
         雇员信息
         <div slot="content">
-          <employee-fund-account-info :employeeFundInfo="data.employeeFundAccountInfo" :isShowFundStatus="isDisabled"></employee-fund-account-info>
+          <employee-fund-account-info :employeeFundInfo="data.employeeFundAccountInfo"></employee-fund-account-info>
         </div>
       </Panel>
       <Panel name="3">
         任务单参考信息
         <div slot="content">
-          <employee-fund-task-reference-add :referenceInfo="data.employeeFundTaskReferenceAdd" :disabled="isDisabled" v-if="currentTaskType === 0"></employee-fund-task-reference-add>
-          <employee-fund-task-reference-change :referenceInfo="data.employeeFundTaskReferenceChange" :disabled="isDisabled" v-else-if="currentTaskType === 1"></employee-fund-task-reference-change>
-          <employee-fund-task-reference-sealing :referenceInfo="data.employeeFundTaskReferenceSealing" :disabled="isDisabled" v-else-if="currentTaskType === 2"></employee-fund-task-reference-sealing>
-          <employee-fund-task-reference-repair :referenceInfo="data.employeeFundTaskReferenceRepair" :disabled="isDisabled" v-else-if="currentTaskType === 3"></employee-fund-task-reference-repair>
+          <employee-fund-task-reference-add :referenceInfo="data.employeeFundTaskReferenceAdd" v-if="currentTaskType == 0"></employee-fund-task-reference-add>
+          <employee-fund-task-reference-change :referenceInfo="data.employeeFundTaskReferenceChange" v-else-if="currentTaskType == 1"></employee-fund-task-reference-change>
+          <employee-fund-task-reference-sealing :referenceInfo="data.employeeFundTaskReferenceSealing" v-else-if="currentTaskType == 2"></employee-fund-task-reference-sealing>
+          <employee-fund-task-reference-repair :referenceInfo="data.employeeFundTaskReferenceRepair" v-else-if="currentTaskType == 3"></employee-fund-task-reference-repair>
           <employee-fund-task-reference-transfer :chat="data.chatList" v-else></employee-fund-task-reference-transfer>
         </div>
       </Panel>
       <Panel name="4">
         操作
         <div slot="content">
-          <employee-fund-operator-add :fundOperatorInfo="data.fundOperatorAdd" :disabled="isDisabled" v-if="currentTaskType === 0"></employee-fund-operator-add>
-          <employee-fund-operator-change :fundOperatorInfo="data.fundOperatorChange" :disabled="isDisabled" v-else-if="currentTaskType === 1"></employee-fund-operator-change>
-          <employee-fund-operator-sealing :fundOperatorInfo="data.fundOperatorSealing" :disabled="isDisabled" v-else-if="currentTaskType === 2"></employee-fund-operator-sealing>
-          <employee-fund-operator-repair :fundOperatorInfo="data.fundOperatorRepair" :disabled="isDisabled" v-else-if="currentTaskType === 3"></employee-fund-operator-repair>
-          <employee-fund-operator-transfer :fundOperatorInfo="data.fundOperatorTransfer" :disabled="isDisabled" v-else></employee-fund-operator-transfer>
+          <employee-fund-operator-add :fundOperatorInfo="data.fundOperatorAdd" v-if="currentTaskType == 0"></employee-fund-operator-add>
+          <employee-fund-operator-change :fundOperatorInfo="data.fundOperatorChange" v-else-if="currentTaskType == 1"></employee-fund-operator-change>
+          <employee-fund-operator-sealing :fundOperatorInfo="data.fundOperatorSealing" v-else-if="currentTaskType == 2"></employee-fund-operator-sealing>
+          <employee-fund-operator-repair :fundOperatorInfo="data.fundOperatorRepair" v-else-if="currentTaskType == 3"></employee-fund-operator-repair>
+          <employee-fund-operator-transfer :fundOperatorInfo="data.fundOperatorTransfer" v-else></employee-fund-operator-transfer>
+        </div>
+      </Panel>
+      <Panel name="5">
+        任务单备注
+        <div slot="content">
+          <Table border :columns="taskListNotesColumns" :data="data.taskListNotesChangeData"></Table>
         </div>
       </Panel>
     </Collapse>
@@ -38,11 +44,12 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary">已处理</Button>
         <Button type="primary" class="ml10">不需处理</Button>
-        <Button type="primary" class="ml10"v-show="currentTaskType !== 4">转下月处理</Button>
+        <Button type="primary" class="ml10" v-show="currentTaskType != 4">转下月处理</Button>
         <Button type="error" class="ml10">批退</Button>
-        <Button type="primary" class="ml10" @click="isShowPrint = true" v-show="currentTaskType === 0">打印转移通知书</Button>
-        <Button type="primary" class="ml10" @click="isShowPrint = true" v-show="currentTaskType === 4">打印转移单</Button>
-        <Button type="warning" class="ml10" @click="back">保存并返回</Button>
+        <Button type="primary" class="ml10" @click="isShowPrint = true" v-show="currentTaskType == 0">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="isShowPrint = true" v-show="currentTaskType == 4">打印转移单</Button>
+        <Button type="primary" class="ml10">保存</Button>
+        <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
     </Row>
 
@@ -52,7 +59,7 @@
       title="打印转移通知书"
       width="720">
       <Form label-width=100>
-        <Row>
+        <Row type="flex" justify="start">
           <Col :sm="{span: 12}">
             <Form-item label="转出单位">
               <Select v-model="outUnitValue" style="width: 100%;" transfer>
@@ -114,9 +121,9 @@
     components: {companyFundAccountInfo, employeeFundAccountInfo, historyTaskList, employeeFundTaskReferenceAdd, employeeFundTaskReferenceChange, employeeFundTaskReferenceSealing, employeeFundTaskReferenceRepair, employeeFundTaskReferenceTransfer, employeeFundOperatorAdd, employeeFundOperatorChange, employeeFundOperatorSealing, employeeFundOperatorRepair, employeeFundOperatorTransfer},
     data() {
       return {
-        collapseInfo: [1, 2, 3, 4], //展开栏
+        collapseInfo: [1, 2, 3, 4, 5], //展开栏
         isShowPrint: false,
-        outUnitValue: '',
+        outUnitValue: 1,
         outUnitList: [
           {label: '原单位', value: 0},
           {label: '市公积金封存办(中心)', value: 1},
@@ -128,7 +135,51 @@
         outUnitAccount: '',
         inUnit: '',
         inUnitAccount: '',
-        transferDate: ''
+        transferDate: '',
+        taskListNotesColumns: [
+          {title: '公积金类型', key: 'fundType', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.fundType),
+              ]);
+            }
+          },
+          {title: '任务类型', key: 'taskType', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.taskType),
+              ]);
+            }
+          },
+          {title: '办理/批退', key: 'handleOrRefuse', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.handleOrRefuse),
+              ]);
+            }
+          },
+          {title: '备注人', key: 'noteWriter', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.noteWriter),
+              ]);
+            }
+          },
+          {title: '备注人', key: 'noteDate', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.noteDate),
+              ]);
+            }
+          },
+          {title: '备注内容', key: 'noteContent', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.noteContent),
+              ]);
+            }
+          }
+        ]
       }
     },
     mounted() {
@@ -139,11 +190,7 @@
         data: state => state.data
       }),
       currentTaskType() {
-        console.log(this.$route.params.taskType)
-        return this.$route.params.taskType
-      },
-      isDisabled() {
-        return this.$route.params.isDisabled
+        return this.$route.query.taskType;
       }
     },
     methods: {

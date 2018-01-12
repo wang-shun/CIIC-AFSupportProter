@@ -24,12 +24,6 @@
         default() {
           return {}
         }
-      },
-      disabled: {
-        type: Boolean,
-        default() {
-          return false
-        }
       }
     },
     data() {
@@ -39,13 +33,6 @@
           {label: '转入', value: 1}
         ],
         taskReferenceInfoColumns: [
-          {title: '变更内容', key: 'changeContent', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.changeContent),
-              ]);
-            }
-          },
           {title: '公积金基数', key: 'fundBase', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [

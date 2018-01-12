@@ -219,42 +219,46 @@
               }, params.row.baseAmount);
             }
           },
-          {
-            title: '操作',
-            key: 'base',
-            align: 'center',
-            width: 130,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      params.row.disabled = false;
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      this.removeRow(params.index);
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
-                  on: {
-                    click: () => {
-                      this.insertRow(params.index);
-                    }
-                  }
-                })
-              ]);
-            }
-          }
+          /**@augments
+           * 不能删除  暂时屏蔽
+           * 现在只做一条时间段的需求
+           */
+          // {
+          //   title: '操作',
+          //   key: 'base',
+          //   align: 'center',
+          //   width: 130,
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             params.row.disabled = false;
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             this.removeRow(params.index);
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
+          //         on: {
+          //           click: () => {
+          //             this.insertRow(params.index);
+          //           }
+          //         }
+          //       })
+          //     ]);
+          //   }
+          // }
         ],
         operatorListData: [
           {remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false}

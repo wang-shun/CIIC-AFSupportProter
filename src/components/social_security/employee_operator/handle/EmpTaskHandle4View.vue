@@ -20,17 +20,17 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item :label="handleTitle + '缴费基数:'">
-                <label>18000</label>
+                <label>{{socialSecurityPayOperator.empBase}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item :label="handleTitle + '起始月份：'">
-                <label>{{taskChangeInfo.changeStartMonth}}</label>
+                <label>{{socialSecurityPayOperator.startMonth}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item :label="handleTitle + '截至月份：'">
-                <label>{{taskChangeInfo.changeEndMonth}}</label>
+                <label>{{socialSecurityPayOperator.endMonth}}</label>
               </Form-item>
               </Col>
             </Row>
@@ -168,7 +168,7 @@
                 props: {value: params.row.startMonth, type: 'month', disabled: Boolean(params.row.disabled)},
                 attrs: {placeholder: '选择年月'},
                 on: {
-                  'on-change': (value) => {
+                  input: (value) => {
                     this.setRow(params, 'startMonth', value);
                   }
                 }
@@ -184,7 +184,7 @@
                 props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
                 attrs: {placeholder: '选择年月'},
                 on: {
-                  'on-change': (value) => {
+                  input: (value) => {
                     this.setRow(params, 'endMonth', value);
                   }
                 }
@@ -206,42 +206,46 @@
               }, params.row.baseAmount);
             }
           },
-          {
-            title: '操作',
-            key: 'base',
-            align: 'center',
-            width: 130,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      params.row.disabled = false;
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      this.removeRow(params.index);
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
-                  on: {
-                    click: () => {
-                      this.insertRow(params.index);
-                    }
-                  }
-                })
-              ]);
-            }
-          }
+          /**@augments
+           * 不能删除  暂时屏蔽
+           * 现在只做一条时间段的需求
+           */
+          // {
+          //   title: '操作',
+          //   key: 'base',
+          //   align: 'center',
+          //   width: 130,
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             params.row.disabled = false;
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             this.removeRow(params.index);
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
+          //         on: {
+          //           click: () => {
+          //             this.insertRow(params.index);
+          //           }
+          //         }
+          //       })
+          //     ]);
+          //   }
+          // }
         ],
         operatorListData: [
           {remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false}
@@ -253,10 +257,10 @@
           empSsSerial: '',
           startMonth: '',
           endMonth: '',
-          rejectionRemark: '',
           handleRemark: '',
           handleRemarkMan: '',
           handleRemarkDate: '',
+
           rejectionRemark: '',
           rejectionRemarkMan: '',
           rejectionRemarkDate: '',
@@ -264,6 +268,7 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
+          empBase:''
         },
 
         // 任务单参考信息
@@ -318,6 +323,14 @@
         }).then(data => {
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
+          }else{
+            this.operatorListData=[{
+                remitWay: '1', 
+                startMonth: data.data.startMonth, 
+                endMonth: data.data.endMonth, 
+                baseAmount: data.data.empBase, 
+                disabled: false
+               }]
           }
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
@@ -388,13 +401,15 @@
         }
       },
       instance(taskStatus, type) {
+        
         var fromData = this.$utils.clear(this.socialSecurityPayOperator,'');
-
+        console.log(fromData)
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
         if ('4' == taskStatus) {
           content = "批退办理";
         }
+        
         this.$Modal.confirm({
           title: "确认办理吗？",
           content: content,
@@ -420,15 +435,16 @@
             }
 
             fromData.empTaskPeriods = this.filterData();
-            api.handleEmpTask(fromData).then(data => {
-              if (data.code == 200) {
-                this.$Message.success(content + "成功");
-                // 返回任务列表页面
-                history.go(-1);
-              } else {
-                this.$Message.error(content + "失败！" + data.message);
-              }
-            })
+            
+            // api.handleEmpTask(fromData).then(data => {
+            //   if (data.code == 200) {
+            //     this.$Message.success(content + "成功");
+            //     // 返回任务列表页面
+            //     history.go(-1);
+            //   } else {
+            //     this.$Message.error(content + "失败！" + data.message);
+            //   }
+            // })
           }
         });
 

@@ -1,15 +1,13 @@
 <template>
   <div>
     <Tabs @on-click="changeTab" v-model="currentTab">
-      <TabPane label="礼品发放">
-
-      </TabPane>
-      <TabPane label="活动发放">
-
-      </TabPane>
+      <TabPane label="礼品发放"></TabPane>
+      <TabPane label="活动发放"></TabPane>
     </Tabs>
+
     <grantGiftTab v-if="currentTab === 0"></grantGiftTab>
     <grantMarketTab v-else></grantMarketTab>
+
   </div>
 </template>
 

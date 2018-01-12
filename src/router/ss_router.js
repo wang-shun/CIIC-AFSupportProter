@@ -24,7 +24,7 @@ const employeecommcialoperator = r => require.ensure([], () => r(require('@/comp
  * employeespecialoperatorview       --- 雇员特殊操作
    employeespecialprogressTwo          --- 雇员特殊操作、办理(步骤2)
    employeespecialprogressThree          --- 雇员特殊操作、办理(步骤3)
-   empSpecialtaskdetail                 ---特殊任务单查看详情页 
+   empSpecialtaskdetail                 ---特殊任务单查看详情页
  */
 
 const employeespecialoperatorview = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialOperatorView')), 'employeespecialoperatorview')
@@ -129,7 +129,7 @@ const monthlypaymentnotice = r => require.ensure([], () => r(require('@/componen
  * yearbaseapplicate               --- 年度基数申报
  */
 
-const yearbaseapplicate = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/yearbaseapplicate')), 'yearbaseapplicate')
+const yearbaseapplicate = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/employeesocannualadjust')), 'employeesocannualadjust')
 
 
 /*
@@ -183,7 +183,7 @@ export default [
       openNames:['1']
     }
   },
-  
+
   {
     path: '/employee_operator_view',
     name:'employeeoperatorview',
@@ -252,7 +252,7 @@ export default [
       openNames:['1']
     }
   },
-  
+
   // 雇员任务办理，任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
   {
     path: '/emp_task_handle_view',

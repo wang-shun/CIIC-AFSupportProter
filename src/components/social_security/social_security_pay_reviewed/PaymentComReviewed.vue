@@ -276,7 +276,7 @@
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
         window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
         window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
-        this.$router.push({name: 'paymentnotice'})
+        this.$router.push({name: 'paymentNotice'})
       },
       ok () {
 

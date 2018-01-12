@@ -26,8 +26,10 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="operatorSearchData.customerName" @on-focus="isShowCustomerName = true" placeholder="请输入..."></Input>
+                <Form-item label="缴费银行：" prop="payBankValue">
+                  <Select v-model="operatorSearchData.payBankValue" style="width: 100%;" transfer>
+                    <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -43,9 +45,9 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴费银行：" prop="payBankValue">
-                  <Select v-model="operatorSearchData.payBankValue" style="width: 100%;" transfer>
-                    <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="账户类型：" prop="accountTypeValue">
+                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -55,30 +57,13 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务单编号：" prop="taskNumber">
-                  <Input v-model="operatorSearchData.taskNumber" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业公积金账户：" prop="companyFundAccount">
-                  <Input v-model="operatorSearchData.companyFundAccount" @on-focus="isShowCompanyFoundAccountList = true" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务发起时间：" prop="taskStartTime">
                   <DatePicker v-model="operatorSearchData.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="operatorSearchData.emergencyValue" style="width: 100%;" transfer>
+                <Form-item label="是否加急：" prop="accountTypeValue">
+                  <Select v-model="operatorSearchData.isEmergencyValue" style="width: 100%;" transfer>
                     <Option v-for="item in emergencyList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -96,27 +81,16 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :sm="{span: 24}">
+      <Col :sm="{span: 24}" class="tr">
         <Button type="error" @click="isShowRefuseBatch = true">批量批退</Button>
         <Button type="info" @click="">导出</Button>
-        <Dropdown @on-click="routerToFundCommonOperator">
-          <Button type="primary" style="width: 100px;">
-            批量批退
-            <Icon type="arrow-down-b"></Icon>
-          </Button>
-          <DropdownMenu slot="list">
-            <DropdownItem name="createTransferTicket">新建转移任务单</DropdownItem>
-            <DropdownItem name="2">导出雇员转移清册</DropdownItem>
-            <DropdownItem name="3">导出雇员转移TXT</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
       </Col>
     </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Table border :columns="noProcessColumns" :data="data.noProcessData"></Table>
-      <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
+        <Table border :columns="noProcessColumns" :data="data.noProcessData"></Table>
+        <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
       </Col>
     </Row>
 
@@ -137,57 +111,32 @@
         <Button type="warning" @click="isShowRefuseBatch = false">取消</Button>
       </div>
     </Modal>
-
-    <!-- 公司名称 模态框 -->
-    <Modal
-      v-model="isShowCustomerName"
-      title="公司名称"
-      width="720"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <company-modal :companyData="data.companyData"></company-modal>
-    </Modal>
-
-    <!-- 企业公积金账户分类 模态框 -->
-    <Modal
-      v-model="isShowCompanyFoundAccountList"
-      title="企业公积金账户分类"
-      width="720"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <company-fund-account-search-modal :companyFundAccountData="data.companyFundAccountList"></company-fund-account-search-modal>
-    </Modal>
   </div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import companyFundAccountSearchModal from '../../common/CompanyFundAccountSearchModal.vue'
-  import companyModal from '../../../common_control/CompanyModal.vue'
   import EventType from '../../../../store/event_types'
 
   export default {
-    components: {companyModal, companyFundAccountSearchModal},
     data() {
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
-          processStatusValue: '',
+          processStatusValue: 0,
           employeeNumber: '',
-          taskTypeValue: '',
-          customerName: '',
+          taskTypeValue: 0,
+          payBankValue: 0,
           employeeName: '',
-          fundTypeValue: '',
-          payBankValue: '',
+          fundTypeValue: 0,
+          accountTypeValue: 0,
           IdNumber: '',
-          taskNumber: '',
-          accountTypeValue: '',
-          companyFundAccount: '',
           taskStartTime: '',
-          emergencyValue: '',
+          isEmergencyValue: -1
         },
         processStatusList: [
-          {value: 0, label: '本月处理'},
-          {value: 1, label: '下月处理'}
+          {value: 0, label: '全部'},
+          {value: 1, label: '本月处理'},
+          {value: 2, label: '下月处理'}
         ],
         taskTypeList: [
           {value: 0, label: '新增(新开)'},
@@ -197,11 +146,6 @@
           {value: 4, label: '补缴'},
           {value: 5, label: '离职'}
         ],
-        isShowCustomerName: false,
-        fundTypeList: [
-          {value: 0, label: '基本公积金'},
-          {value: 1, label: '补充公积金'}
-        ],
         payBankList: [
           {value: 0, label: '徐汇'},
           {value: 1, label: '长宁'},
@@ -210,26 +154,29 @@
           {value: 4, label: '静安'},
           {value: 5, label: '黄浦'},
         ],
+        fundTypeList: [
+          {value: 0, label: '基本公积金'},
+          {value: 1, label: '补充公积金'}
+        ],
         accountTypeList: [
           {value: 0, label: '独立户'},
           {value: 1, label: '大库'},
           {value: 2, label: '外包'},
         ],
-        isShowCompanyFoundAccountList: false,
         emergencyList: [
-          {value: 0, label: ''},
+          {value: -1, label: ''},
           {value: 1, label: '加急'}
         ],
         isShowRefuseBatch: false,
         refuseReason: '',
         noProcessColumns: [
-          {title: '操作', key: '', fixed: 'left', width: 100, align: 'center',
+          {title: '操作', fixed: 'left', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'employeefundhistorydetail', params: {taskType: params.row.taskType, isDisabled: false}})
+                      this.$router.push({name: 'employeeFundHistoryDetail', params: {taskType: params.row.taskType, isDisabled: false}})
                     }
                   }
                 }, '办理'),
@@ -285,10 +232,17 @@
               ]);
             }
           },
-          {title: '发起供应商', key: 'sponsor', width: 200, align: 'center',
+          {title: '公积金类型', key: 'fundType', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.sponsor),
+                h('span', params.row.fundType),
+              ]);
+            }
+          },
+          {title: '公积金账号', key: 'fundAccount', width: 200, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.fundAccount),
               ]);
             }
           },

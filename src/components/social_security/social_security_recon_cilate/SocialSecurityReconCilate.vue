@@ -192,7 +192,7 @@
                   on: {
                     click: () => {
                       window.sessionStorage.setItem("statementId", params.row.statementId)
-                      this.$router.push({name:'socialsecurityreconcilatedetail'});
+                      this.$router.push({name:'socialSecurityReconcilateDetail'});
 
                       //window.sessionStorage.getItem("")
                     }
@@ -253,7 +253,7 @@
                         on: {
                           click: () => {
                               window.sessionStorage.setItem("statementId", params.row.statementId)
-                              this.$router.push({name:'SocialSecurityEmpChangeDetailYys'});
+                              this.$router.push({name:'socialSecurityEmpChangeDetailYys'});
                           }
                         }
                       },'下载养医失'
@@ -265,7 +265,7 @@
                           on: {
                             click: () => {
                               window.sessionStorage.setItem("statementId", params.row.statementId)
-                              this.$router.push({name:'SocialSecurityEmpChangeDetailGsy'});
+                              this.$router.push({name:'socialSecurityEmpChangeDetailGsy'});
                             }
                           }
                            },'下载工生育'),

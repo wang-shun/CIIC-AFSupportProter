@@ -409,7 +409,7 @@
     methods: {
 
       goBack() {
-        this.$router.push({name: 'companysocialsecuritymanage'})
+        this.$router.push({name: 'companySocialSecurityManage'})
       },
       ok () {
 

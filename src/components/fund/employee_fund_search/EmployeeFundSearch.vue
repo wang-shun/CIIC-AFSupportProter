@@ -17,14 +17,16 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业公积金账户：" prop="companyFundAccount">
-                  <Input v-model="searchCondition.companyFundAccount" @on-focus="isShowCompanyFoundAccountList = true" placeholder="请输入..."></Input>
+                <Form-item label="客户公积金账户：" prop="customerFundAccount">
+                  <Input v-model="searchCondition.customerFundAccount" @on-focus="isShowCompanyFoundAccountList = true" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公司名称：" prop="companyName">
-                  <Input v-model="searchCondition.companyName" @on-focus="isShowCompanyName = true" placeholder="请输入..."></Input>
-                </Form-item>
+                <Form-item label="账户类型：" prop="accountTypeValue">
+                  <Select v-model="searchCondition.accountTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+              </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员姓名：" prop="employeeName">
@@ -39,10 +41,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="searchCondition.accountTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
+                <Form-item label="客服经理：" prop="serviceManager">
+                  <Input v-model="searchCondition.serviceManager" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -59,7 +59,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="提示操作：" prop="tipsOperatorValue">
-                <Select v-model="searchCondition.operatorTipsValue" style="width: 100%;" transfer>
+                <Select v-model="searchCondition.tipsOperatorValue" style="width: 100%;" transfer>
                   <Option v-for="item in operatorTipsList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
@@ -76,12 +76,12 @@
       </Panel>
     </Collapse>
     <Row class="mt20">
-      <Col :sm="{span: 24}">
+      <Col :sm="{span: 24}" class="tr">
         <Button type="info">导出</Button>
-        <Button type="primary" class="ml10" @click="isShowImportFundAccount = true;">批量导入公积金账号</Button>
+        <Button type="info" class="ml10" @click="isShowImportFundAccount = true;">批量导入公积金账号</Button>
       </Col>
     </Row>
-    <Table border class="mt20" :columns="employeeFundColumns" :data="data.employeeFundData"></Table>
+    <Table border class="mt20" :row-class-name="rowClassName" :columns="employeeFundColumns" :data="data.employeeFundData"></Table>
     <Page :total="100" show-sizer show-elevator></Page>
 
     <!-- 企业公积金账户分类 模态框 -->
@@ -110,7 +110,7 @@
       title="批量导入操作">
       <Form :label-width=100>
         <Row type="flex" justify="start">
-          <Col :sm="{span: 22, offset: 1}">
+          <Col :sm="{span: 12, offset: 6}" class="tc">
             <Form-item label="上传Excel：">
               <Upload action="">
                 <Button type="ghost" icon="ios-cloud-upload-outline">选择文件上传</Button>
@@ -164,39 +164,36 @@
       return {
         collapseInfo: [1], //展开栏
         searchCondition: {
-          serviceCenterValue: [],
-          employeeNumber: '',
-          companyFundAccount: '',
-          companyName: '',
-          employeeName: '',
-          payBankValue: '',
-          accountTypeValue: '',
-          idNumber: '',
-          workStatusValue: '',
-          operatorTipsValue: ''
+          serviceCenterValue: "",
+          employeeNumber: "",
+          customerFundAccount: "",
+          accountTypeValue: "",
+          employeeName: "",
+          payBankValue: "",
+          serviceManager: "",
+          idNumber: "",
+          workStatusValue: "",
+          tipsOperatorValue: ""
         },
         serviceCenterData: [
           {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
           {value: 2, label: '日本客户'},
           {value: 3, label: '虹桥'},
-          {value: 4, label: '浦东'},
-          {value: 5, label: '东区1'},
-          {value: 6, label: '东区2'}
+          {value: 4, label: '浦东'}
         ], //客服中心
-        isShowCompanyFoundAccountList: false, //显示企业公积金账户列表
-        isShowCompanyName: false, //显示公司名称
-        payBankList: [
-          {value: 0, label: '徐汇'},
-          {value: 1, label: '长宁'},
-          {value: 2, label: '浦东'},
-          {value: 3, label: '卢湾'},
-          {value: 4, label: '静安'},
-          {value: 5, label: '黄浦'}
-        ],
         accountTypeList: [
           {value: 0, label: '独立户'},
           {value: 1, label: '大库'},
           {value: 2, label: '外包'}
+        ],
+        isShowCompanyFoundAccountList: false, //显示企业公积金账户列表
+        isShowCompanyName: false, //显示公司名称
+        payBankList: [
+          {value: 0, label: '徐汇支行'},
+          {value: 1, label: '卢湾支行'},
+          {value: 2, label: '西郊支行'},
+          {value: 3, label: '东方路支行'},
+          {value: 4, label: '其他'}
         ],
         workStatusList: [
           {value: 0, label: '在职'},
@@ -207,14 +204,12 @@
           {value: 1, label: '中心'},
           {value: 2, label: '中智'},
           {value: 3, label: '原单位'},
-          {value: 4, label: '外服'},
-          {value: 5, label: '不做'},
-          {value: 6, label: '外包'},
-          {value: 7, label: '其他独立开户公司'}
+          {value: 4, label: '其他独立开户公司'},
+          {value: 5, label: '外包'}
         ],
         isShowImportFundAccount: false,
         employeeFundColumns: [
-          {title: '操作', key: 'action', align: 'center', width: 120,
+          {title: '操作', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', [
                 h('Button', {
@@ -222,24 +217,31 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'employeefundbasicinfo'})
+                      this.$router.push({name: 'employeeFundBasicInfo'})
                     }
                   }
                 }, '查看/修改'),
               ]);
             }
           },
-          {title: '公司编码', key: 'companyNumber', align: 'center', width: 150,
+          {title: '客户编号', key: 'customerNumber', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyNumber),
+                h('span', params.row.customerNumber),
               ]);
             }
           },
-          {title: '公司名称', key: 'companyName', align: 'center', width: 350,
+          {title: '客户名称', key: 'customerName', align: 'center', width: 350,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
+                h('span', params.row.customerName),
+              ]);
+            }
+          },
+          {title: '企业账户类型', key: 'companyAccountType', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.companyAccountType),
               ]);
             }
           },
@@ -264,17 +266,38 @@
               ]);
             }
           },
-          {title: '公积金状态', key: 'fundStatus', align: 'center', width: 150,
+          {title: '基本公积金账号', key: 'basicFundAccount', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.fundStatus),
+                h('span', params.row.basicFundAccount),
+              ]);
+            }
+          },
+          {title: '基本公积金状态', key: 'basicFundStatus', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.basicFundStatus),
+              ]);
+            }
+          },
+          {title: '补充公积金账号', key: 'addFundAccount', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.addFundAccount),
+              ]);
+            }
+          },
+          {title: '补充公积金状态', key: 'addFundStatus', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.addFundStatus),
               ]);
             }
           },
           {title: '上下岗状态', key: 'workStatus', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.workStatus),
+                h('span', {style: {color: params.row.workStatus === '离职' ? 'red' : '#495060'}}, params.row.workStatus),
               ]);
             }
           },
@@ -292,13 +315,6 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'accountType', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.accountType),
-              ]);
-            }
-          },
           {title: '操作提示', key: 'operatorTips', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -313,6 +329,13 @@
               ]);
             }
           },
+          {title: '操作提示日期', key: 'notes', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.notes),
+              ]);
+            }
+          }
         ],
         isImported: false,
         isShowHistoryImported: false,
@@ -383,7 +406,18 @@
         this.$refs[name].resetFields()
       },
       gotoHistoryList() {
-        this.$router.push({name: 'employeefundhistory'})
+        this.$router.push({name: 'employeeFundHistory'})
+      },
+      rowClassName(row, index) {
+        if(row.companyAccountType === "中智大库") {
+          return "dk_bg"
+        } else if(row.companyAccountType === "中智外包") {
+          return "wb_bg"
+        } else if(row.companyAccountType === "独立户") {
+          return "dl_bg"
+        } else {
+          return ""
+        }
       },
       ok() {
 
@@ -394,6 +428,15 @@
     }
   }
 </script>
-<style scoped>
+<style>
   .tred {color: red;}
+  .ivu-table .dk_bg td{
+    background-color: #bdddfe;
+  }
+  .ivu-table .wb_bg td{
+    background-color: #fee6c3;
+  }
+  .ivu-table .dl_bg td{
+    background-color: #ffe2db;
+  }
 </style>

@@ -341,7 +341,7 @@
         this.$refs[name].resetFields()
       },
       goPaymentNotice() {
-        this.$router.push({name: 'paymentnotice'})
+        this.$router.push({name: 'paymentNotice'})
       },
       ok () {
 

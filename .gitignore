@@ -1,6 +1,22 @@
 .DS_Store
+node_modules/
+dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+.idea/
+yarn.lock
+
+# Editor directories and files
 .idea
-*.tgitconfig
-/dist
-/node_modules
-*.log*
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# IntelliJ project files
+*.iml
+out
+gen

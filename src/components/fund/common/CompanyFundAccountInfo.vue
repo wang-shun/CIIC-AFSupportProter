@@ -2,48 +2,77 @@
   <Form label-width=150>
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="客户编号：">
-          <label>{{fund.customerNumber}}</label>
+        <Form-item label="客户基本公积金账号：">
+          <label>{{companyFundAccount.customerBasicFundAccount}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="客户名称：">
-          <label>{{fund.customerName}}</label>
+        <Form-item label="客户补充公积金账号：">
+          <label>{{companyFundAccount.customerAddFundAccount}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="结算区域：">
-          <label>{{fund.region}}</label>
+        <Form-item label="客户中心：">
+          <label>{{companyFundAccount.customerCenter}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="缴费区县：">
+          <label>{{companyFundAccount.payRegion}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="企业公积金账户状态：">
-          <label>{{fund.status}}</label>
+          <label>{{companyFundAccount.companyFundAccountStatus}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="所属公积金中心：">
-          <label>{{fund.fundCenter}}</label>
+        <Form-item label="末次汇缴月：">
+          <label>{{companyFundAccount.lastPayMonth}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客服经理：">
-          <label>{{fund.serviceManager}}</label>
+          <label>{{companyFundAccount.serviceManager}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="客户专员：">
+          <label>{{companyFundAccount.customerServicer}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="截单年月：">
+          <label>{{companyFundAccount.endDate}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="付款方式：">
+          <Select v-model="companyFundAccount.payMethodValue" style="width:200px">
+            <Option v-for="payMethod in payMethodList" :value="payMethod.value" :key="payMethod.value">{{payMethod.label}}</Option>
+          </Select>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="公积金企业U盾：">
+          <Select v-model="companyFundAccount.UKeyValue" style="width:200px">
+            <Option v-for="UKey in UKeyList" :value="UKey.value" :key="UKey.value">{{UKey.label}}</Option>
+          </Select>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="客户编号：">
+          <label>{{companyFundAccount.customerNumber}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="客户名称：">
+          <label>{{companyFundAccount.customerName}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="账户类型：">
-          <label>{{fund.accountType}}</label>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="客户公积金截止日：">
-          <label>{{fund.endDate}}</label>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-show="isShowPayMonth">
-        <Form-item label="客户汇缴月份：">
-          <label>{{fund.payMonth}}</label>
+          <label>{{companyFundAccount.accountType}}</label>
         </Form-item>
       </Col>
     </Row>
@@ -52,27 +81,26 @@
 <script>
   export default {
     props: {
-      fundInfo: {
+      companyFundAccountInfo: {
         type: Object,
         default() {
           return {}
-        }
-      },
-      isShowPayMonth: {
-        type: Boolean,
-        default() {
-          return false
         }
       }
     },
     data() {
       return {
-        companyFundAccountInfo: this.fundInfo
+        payMethodList: [
+          {label: "自付", value: "0"}
+        ],
+        UKeyList: [
+          {label: "有(中智代办)", value: "0"}
+        ]
       }
     },
     computed: {
-      fund() {
-        return this.fundInfo
+      companyFundAccount() {
+        return this.companyFundAccountInfo
       }
     },
   }

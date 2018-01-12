@@ -2,52 +2,46 @@
   <div class="smList">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
+        基本信息
         <div slot="content">
-          <Table border class="mt20" :columns="fundColumns" :data="data.fundData"></Table>
-          <Page :total="100" show-sizer show-elevator></Page>
+          <basic-info :basicInfo="data.basicInfo"></basic-info>
         </div>
       </Panel>
       <Panel name="2">
         企业公积金账户信息
         <div slot="content">
-          <company-fund-account-info :fundInfo="data.companyFundAccountInfo" :isShowPayMonth="true"></company-fund-account-info>
+          <company-fund-account-info :companyFundAccountInfo="data.companyFundAccountInfo"></company-fund-account-info>
         </div>
       </Panel>
       <Panel name="3">
-        雇员信息
-        <div slot="content">
-          <employee-fund-account-info :employeeFundInfo="data.employeeFundAccountInfo" :isShowFundStatus="false"></employee-fund-account-info>
-        </div>
-      </Panel>
-      <Panel name="4">
-        基本公积金信息
+        雇员基本公积金信息
         <div slot="content">
           <fund-info :fundInfo="data.basicFundInfo" :isBasicFund="true"></fund-info>
         </div>
       </Panel>
-      <Panel name="5">
-        补充公积金信息
+      <Panel name="4">
+        雇员补充公积金信息
         <div slot="content">
           <fund-info :fundInfo="data.addFundInfo" :isBasicFund="false"></fund-info>
         </div>
       </Panel>
-      <Panel name="6">
-        基本/补充公积金转移
+      <Panel name="5">
+        雇员基本/补充公积金转移
         <div slot="content">
-          <fund-transfer :fundInfo="data.transferFundInfo"></fund-transfer>
+          <fund-transfer :transferFundInfo="data.transferFundInfo"></fund-transfer>
         </div>
       </Panel>
-      <Panel name="7">
-        历史任务单
+      <Panel name="6">
+        备注
         <div slot="content">
-          <history-task-list :taskListInfo="data.taskList"></history-task-list>
+          <fund-notes :notesInfo="data.notesInfo"></fund-notes>
         </div>
       </Panel>
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary">保存</Button>
-        <Button type="warning" @click="back">返回</Button>
+        <Button type="warning" @click="back">关闭/返回</Button>
       </Col>
     </Row>
   </div>
@@ -55,14 +49,14 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventTypes from '../../../store/event_types'
+  import basicInfo from '../common/BasicInfo.vue'
   import companyFundAccountInfo from '../common/CompanyFundAccountInfo.vue'
-  import employeeFundAccountInfo from '../common/EmployeeFundAccountInfo.vue'
   import fundInfo from '../common/FundInfo.vue'
   import fundTransfer from '../common/FundTransfer.vue'
-  import historyTaskList from '../common/HistoryTaskList.vue'
+  import fundNotes from '../common/FundNotes.vue'
 
   export default {
-    components: {companyFundAccountInfo, employeeFundAccountInfo, fundInfo, fundTransfer, historyTaskList},
+    components: {basicInfo, companyFundAccountInfo, fundInfo, fundTransfer, fundNotes},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5, 6, 7], //展开栏

@@ -128,7 +128,7 @@
     methods: {
       ...mapActions('companySocialSecurityChangeInfo', [EventType.COMPANYSOCIALSECURITYCHANGEINFOTYPE]),
       goBack() {
-        this.$router.push({name: 'companysocialsecurity'})
+        this.$router.push({name: 'companySocialSecurity'})
       },
       ok () {
 

@@ -1,6 +1,6 @@
 <template>
   <div class="smList">
-    <Tabs value="thismonthhandle">
+    <Tabs value="NoProcess">
       <TabPane label="未处理" name="NoProcess">
         <no-process></no-process>
       </TabPane>

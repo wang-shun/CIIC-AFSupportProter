@@ -241,10 +241,6 @@ html, body, .ivu-row-flex, .layout {
   width: 100%;
 }
 
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active:hover {
-  background: none !important;
-}
-
 .ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item {
   padding-left: 0;
   width: 100%;

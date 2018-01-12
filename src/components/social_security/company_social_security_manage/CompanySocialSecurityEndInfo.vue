@@ -102,7 +102,7 @@
     methods: {
       ...mapActions('companySocialSecurityEndInfo', [EventType.COMPANYSOCIALSECURITYENDINFOTYPE]),
       goBack() {
-        this.$router.push({name: 'companysocialsecurity'})
+        this.$router.push({name: 'companySocialSecurity'})
       },
       ok () {
 

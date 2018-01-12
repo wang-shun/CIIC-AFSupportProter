@@ -7,53 +7,74 @@ const employeeFundBasicInfo = params => Utils.promise({
   data:{
     code:200,
     data: {
+      basicInfo: {
+        employeeNumber: "GY0001",
+        employeeName: "张三",
+        IdNumber: "35220219781124114",
+        customerNumber: "2017-1-1",
+        customerName: "中智大库",
+        entryDate: "2017-1-1",
+        leaveDate: "2018-1-1",
+        personalBasicFundAccount: "32243434",
+        personalBasicFundStatus: "",
+        personalAddFundAccount: "32243434",
+        personalAddFundStatus: ""
+      },
       fundData: [
         {companyNumber: '1001', companyName: '客户1', checkInDate: '2017-01-09', checkOutDate: '', workStatus: '在职'},
         {companyNumber: '1002', companyName: '客户2', checkInDate: '2017-01-07', checkOutDate: '2017-01-08', workStatus: '离职'}
       ],
       companyFundAccountInfo: {
-        customerNumber: '26318',
-        customerName: '欧莱雅（法国）化妆品集团公司',
-        region: '徐汇',
-        status: '有效',
-        fundCenter: '上海市公积金管理中心(浦东分行)',
-        serviceManager: '金翔云',
-        accountType: '独立户',
-        endDate: '本月18日',
-        payMonth: '201708'
-      },
-      employeeFundAccountInfo: {
-        employeeNumber: 'GY0001',
-        employeeName: '张三',
-        IdNumber: '35220219781124114',
-        checkInDate: '2017-1-1',
-        companyFundAccountType: '中智大库'
+        customerBasicFundAccount: "2631228",
+        customerAddFundAccount: "2631228125",
+        customerCenter: "XXX",
+        payRegion: "徐汇",
+        companyFundAccountStatus: "正常/中止",
+        lastPayMonth: "201712",
+        serviceManager: "金翔云",
+        customerServicer: "金翔云",
+        endDate: "201712",
+        payMethodValue: "0",
+        UKeyValue: "0",
+        customerNumber: "",
+        customerName: "",
+        accountType: "大库、外包、独立户"
       },
       basicFundInfo: {
-        account: '',
-        status: '',
+        account: '123235502',
+        status: '已办',
+        actTurnIn: '2017-01-01',
+        actTurnOut: '2018-01-01',
+        payEndMonth: '201801',
+        payBaseLine: '',
+        price: '',
+        payPercent: '',
         fundData: [
-          {changeType: '启封', payType: '正常汇缴', basic: '19000', startPayDate: '201505', endPayDate: '201604', price: '', percent: ''},
-          {changeType: '启封', payType: '补缴', basic: '18000', startPayDate: '201405', endPayDate: '201504', price: '', percent: ''},
+          {taskType: '转入', baseline: '19000', startPayDate: '201505', endPayDate: '201604', price: '', percent: ''},
+          {taskType: '调整', baseline: '18000', startPayDate: '201405', endPayDate: '201504', price: '', percent: ''},
         ]
       },
       addFundInfo: {
-        account: '',
-        status: '',
+        account: '21323213',
+        status: '已做',
+        actTurnIn: '2017-01-01',
+        actTurnOut: '2018-01-01',
+        payEndMonth: '201801',
+        payBaseLine: '',
+        price: '',
+        payPercent: '',
         fundData: [
-          {changeType: '启封', payType: '正常汇缴', basic: '19000', startPayDate: '201505', endPayDate: '201604', price: '', percent: ''},
-          {changeType: '启封', payType: '补缴', basic: '18000', startPayDate: '201405', endPayDate: '201504', price: '', percent: ''},
+          {taskType: '转入', baseline: '19000', startPayDate: '201505', endPayDate: '201604', price: '', percent: ''},
+          {taskType: '调整', baseline: '18000', startPayDate: '201405', endPayDate: '201504', price: '', percent: ''},
         ]
       },
       transferFundInfo: [
-        {fundType: '基本公积金', intoPlace: '原单位', outerPlace: '中智', transferDate: '2016-04-05', operatorDate: '', backDate: ''},
-        {fundType: '补充公积金', intoPlace: '中智', outerPlace: '中心', transferDate: '2017-04-05', operatorDate: '', backDate: ''}
+        {fundType: '基本公积金', intoPlace: '原单位', outerPlace: '中智', transferDate: '2016-04-05', status:'已办', operatorDate: '', printDate: '', backDate: ''},
+        {fundType: '补充公积金', intoPlace: '中智', outerPlace: '中心', transferDate: '2017-04-05', status:'转出', operatorDate: '', printDate: '', backDate: ''}
       ],
-      taskList: [
-        {taskType: 0, fundType: '基本公积金', taskNumber: 'XK00001', task: '新增', changeType: '启封', taskCreater: '金翔云', beforeDoDate: '2015-06-01', doResult: '已办理'},
-        {taskType: 1, fundType: '基本公积金', taskNumber: 'BG00002', task: '变更', changeType: '调整', taskCreater: '金翔云', beforeDoDate: '2016-06-01', doResult: '不需办理'},
-        {taskType: 2, fundType: '补缴公积金', taskNumber: 'ZC00003', task: '离职', changeType: '封存', taskCreater: '金翔云', beforeDoDate: '2016-07-01', doResult: '批退'},
-        {taskType: 3, fundType: '补充公积金', taskNumber: 'BU00001', task: '变更', changeType: '补缴', taskCreater: '金翔云', beforeDoDate: '2016-09-01', doResult: '暂存'}
+      notesInfo: [
+        {notesContent: "基本公积金", noteWriter: "原单位", noteDate: ""},
+        {notesContent: "补充公积金", noteWriter: "中智", noteDate: ""}
       ]
     }
   }

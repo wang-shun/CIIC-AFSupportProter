@@ -116,7 +116,7 @@
                     click: () => {
                       sessionStorage.managerPageNum = this.resultPageData.pageNum
                       sessionStorage.managerPageSize = this.resultPageData.pageSize
-                      this.$router.push({name: 'companysocialsecurity',query:{comAccountId:params.row.comAccountId}})
+                      this.$router.push({name: 'companySocialSecurity',query:{comAccountId:params.row.comAccountId}})
                     }
                   }
                 }, '查看'),

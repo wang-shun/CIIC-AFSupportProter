@@ -96,7 +96,7 @@
         })
       },
       goBack() {
-        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo',query:{empArchiveId:this.empArchiveId}});
+        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo',query:{empArchiveId:this.empArchiveId}});
       },
       instance(type) {
         let title = '';

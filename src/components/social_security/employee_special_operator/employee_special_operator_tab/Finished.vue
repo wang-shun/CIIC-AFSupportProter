@@ -186,7 +186,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'empspecialtaskdetail',query:{empTaskId:params.row.empTaskId}})
+                      this.$router.push({name: 'empSpecialTaskDetail',query:{empTaskId:params.row.empTaskId}})
                     }
                   }
                 }, '查看'),

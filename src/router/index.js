@@ -32,13 +32,13 @@ const employeeFundBasicInfo = r => require.ensure([], () => r(require('@/compone
 const employeeFundHistoryDetail = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundHistoryDetail')), 'EmployeeFundHistoryDetail')
 
 const employeeFundCommonOperator = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/EmployeeFundCommonOperator')), 'employeeFundCommonOperator')
-const employeeFundSpecialOperator = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundSpecialOperator')), 'EmployeeFundSpecialOperator')
-const companyFundTaskList = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/CompanyFundTaskList')), 'CompanyFundTaskList')
-const companyFundAccountSearch = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/CompanyFundAccountSearch')), 'CompanyFundAccountSearch')
-const fundReconciliation = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/FundReconciliation')), 'FundReconciliation')
-const fundPay = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/FundPay')), 'FundPay')
-const fundReport = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/FundReport')), 'FundReport')
-const fundYearAdjust = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/FundYearAdjust')), 'FundYearAdjust')
+const employeeFundSpecialOperator = r => require.ensure([], () => r(require('@/components/fund/EmployeeFundSpecialOperator')), 'EmployeeFundSpecialOperator')
+const companyFundTaskList = r => require.ensure([], () => r(require('@/components/fund/CompanyFundTaskList')), 'CompanyFundTaskList')
+const companyFundAccountSearch = r => require.ensure([], () => r(require('@/components/fund/CompanyFundAccountSearch')), 'CompanyFundAccountSearch')
+const fundReconciliation = r => require.ensure([], () => r(require('@/components/fund/FundReconciliation')), 'FundReconciliation')
+const fundPay = r => require.ensure([], () => r(require('@/components/fund/FundPay')), 'FundPay')
+const fundReport = r => require.ensure([], () => r(require('@/components/fund/FundReport')), 'FundReport')
+const fundYearAdjust = r => require.ensure([], () => r(require('@/components/fund/FundYearAdjust')), 'FundYearAdjust')
 
 
 //任务单管理
@@ -157,7 +157,8 @@ let router = new Router({
             level1: '全国公积金',
             level2: "上海公积金",
             level3: "雇员公积金详情",
-            openNames: ['1']
+            openNames: ['1'],
+            activeName: '2-1'
           }
         },
         {

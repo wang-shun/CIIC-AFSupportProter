@@ -2,7 +2,7 @@
   <Form label-width=150>
     <Row>
       <Col :sm="{span: 24}">
-        <Table border class="mt20" :columns="fundColumns" :data="fund"></Table>
+        <Table border class="mt20" :columns="fundColumns" :data="transferFund"></Table>
       </Col>
     </Row>
   </Form>
@@ -10,7 +10,7 @@
 <script>
   export default {
     props: {
-      fundInfo: {
+      transferFundInfo: {
         type: Array,
         default() {
           return []
@@ -48,10 +48,24 @@
               ]);
             }
           },
+          {title: '状态', key: 'status', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.status),
+              ]);
+            }
+          },
           {title: '操作日期', key: 'operatorDate', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.operatorDate),
+              ]);
+            }
+          },
+          {title: '打印日期', key: 'printDate', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.printDate),
               ]);
             }
           },
@@ -66,8 +80,8 @@
       }
     },
     computed: {
-      fund() {
-        return this.fundInfo
+      transferFund() {
+        return this.transferFundInfo
       }
     },
   }

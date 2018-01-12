@@ -165,16 +165,16 @@
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '1'}})
+                          this.$router.push({name: 'companyTaskProgress2', query: {operatorType: '1'}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '2'}})
+                          this.$router.push({name: 'companyTaskProgress2', query: {operatorType: '2'}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '3'}})
+                          this.$router.push({name: 'companyTaskProgress2', query: {operatorType: '3'}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '4'}})
+                          this.$router.push({name: 'companyTaskProgress2', query: {operatorType: '4'}})
                           break;
                         default:
                           break;
@@ -266,7 +266,7 @@
       },
       routerToCommcialOperator: function(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },

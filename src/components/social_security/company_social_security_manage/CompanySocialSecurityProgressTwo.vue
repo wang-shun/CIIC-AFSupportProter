@@ -160,13 +160,13 @@
       ...mapActions('companySocialSecurityProgress2', [EventType.COMPANYSOCIALSECURITYPROGRESS2TYPE]),
       nextStep() {
         if(this.operatorType === '1') {
-          this.$router.push({name: 'companysocialsecuritytypeinfo'})
+          this.$router.push({name: 'companySocialSecurityTypeInfo'})
         } else {
-          this.operatorType === '2' ? this.$router.push({name: 'companysocialsecuritychangeinfo'}) : this.$router.push({name: 'companysocialsecurityendinfo'})
+          this.operatorType === '2' ? this.$router.push({name: 'companySocialSecurityChangeInfo'}) : this.$router.push({name: 'companySocialSecurityEndInfo'})
         }
       },
       goBack() {
-        this.$router.push({name: 'companysocialsecuritymanage'})
+        this.$router.push({name: 'companySocialSecurityManage'})
       },
       ok () {
 

@@ -21,6 +21,36 @@
           <label>{{fund.status}}</label>
         </Form-item>
       </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="实际转入日期：">
+          <label>{{fund.actTurnIn}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="实际转出日期：">
+          <label>{{fund.actTurnOut}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="缴纳至月份：">
+          <label>{{fund.payEndMonth}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="缴费基数：">
+          <label>{{fund.payBaseLine}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="缴费金额：">
+          <label>{{fund.price}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="缴费比例：">
+          <label>{{fund.payPercent}}</label>
+        </Form-item>
+      </Col>
     </Row>
     <Row>
       <Col :sm="{span: 24}">
@@ -48,24 +78,17 @@
     data() {
       return {
         fundColumns: [
-          {title: '变更类型', key: 'changeType', align: 'center',
+          {title: '任务类型', key: 'taskType', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.changeType),
+                h('span', params.row.taskType),
               ]);
             }
           },
-          {title: '汇缴类型', key: 'payType', align: 'center',
+          {title: '基数', key: 'baseline', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.payType),
-              ]);
-            }
-          },
-          {title: '基数', key: 'basic', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.basic),
+                h('span', params.row.baseline),
               ]);
             }
           },
@@ -83,14 +106,14 @@
               ]);
             }
           },
-          {title: '金额', key: 'price', align: 'center',
+          {title: '缴费金额', key: 'price', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.price),
               ]);
             }
           },
-          {title: '比例', key: 'percent', align: 'center',
+          {title: '缴费比例', key: 'percent', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.percent),

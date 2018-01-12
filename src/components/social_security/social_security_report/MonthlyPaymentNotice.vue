@@ -16,7 +16,7 @@
                   <label>{{data.reportYearAndMonth}}</label>
                 </Form-item>
               </Col>
-              
+
               <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
                 <Form-item label="公司名称：">
                   <label>{{data.companyName}}</label>
@@ -40,7 +40,7 @@
                   <label>{{data.shouldPayAmountCapital}}</label>
                 </Form-item>
               </Col>
-              
+
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -56,7 +56,7 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/EventTypes'
+  import EventType from '../../../store/event_types'
 
   export default {
     data() {

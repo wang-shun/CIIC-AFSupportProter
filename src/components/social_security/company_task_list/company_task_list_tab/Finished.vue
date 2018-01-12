@@ -36,7 +36,7 @@
                     <Option v-for="item in companyTaskInfo.regionList" :value="item.label" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
-              </Col> 
+              </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务发起时间：" prop="taskStartTime">
                   <DatePicker v-model="companyTaskInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%" transfer></DatePicker>
@@ -89,8 +89,8 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import EventType from '../../../../store/EventTypes'
+  import customerModal from '../../../common_control/CustomerModal.vue'
+  import EventType from '../../../../store/event_types'
   import {Finished} from '../../../../api/social_security/company_task_list/company_task_list_tab/Finished'
   import Utils from '../../../../lib/utils'
   export default {
@@ -228,14 +228,14 @@
       }
     },
     mounted() {
-      
+
       let sessionPageNum = sessionStorage.taskFiPageNum
       let sessionPageSize = sessionStorage.taskFiPageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.pageNum = Number(sessionPageNum)
          this.size = Number(sessionPageSize)
-        //  sessionStorage.removeItem("taskFiPageNum") 
-        //  sessionStorage.removeItem("taskFiPageSize") 
+        //  sessionStorage.removeItem("taskFiPageNum")
+        //  sessionStorage.removeItem("taskFiPageSize")
       }
 
       let params = {
@@ -247,7 +247,7 @@
       Finished.postTableData(params).then(data=>{
           self.loading=true;
            self.refreash(data)
-           
+
         }
       ).catch(error=>{
         console.log(error);
@@ -271,7 +271,7 @@
       },
          //页面 上 ，下一页操作
       getPage(page){
-        
+
           this.pageNum = page
           sessionStorage.taskFiPageNum=page
           sessionStorage.taskFiPageSize = this.size
@@ -286,7 +286,7 @@
             console.log(error);
           })
       },
-      //关闭查询loding 
+      //关闭查询loding
       closeLoading(){
           this.loading=false;
       },
@@ -299,7 +299,7 @@
       },
       //导表
       exportExcel(){
-       
+
       },
        //点击查询按钮
       clickQuery(){
@@ -308,7 +308,7 @@
       let params = this.getParams(1)
       let self = this
         Finished.postTableData(params).then(data=>{
-            
+
            self.refreash(data)
 
         }).catch(error=>{

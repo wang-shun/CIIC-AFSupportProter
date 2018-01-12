@@ -146,8 +146,8 @@
 
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../../../store/EventTypes'
-  import ProgressBar from "../../commoncontrol/progress/progressbar.vue";
+  import EventTypes from '../../../store/event_types'
+  import ProgressBar from "../../common_control/progress/ProgressBar.vue";
 
   export default {
     components: {ProgressBar},

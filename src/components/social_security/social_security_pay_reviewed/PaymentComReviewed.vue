@@ -11,7 +11,7 @@
                   <Input v-model="payComSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              
+
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账户：" prop="comAccountId">
                   <Input v-model="payComSearchData.comAccountId" placeholder="请输入..."></Input>
@@ -34,16 +34,16 @@
             <Col :sm="{span:24}">
                 <Table stripe
                     border ref="payComSelection"
-                    :columns="payComColumns" 
+                    :columns="payComColumns"
                     :data="payComData"
                     >
                 </Table>
-                <Page 
+                <Page
                     class="pageSize"
                     @on-change="payComHandlePageNum"
                     @on-page-size-change="payComHandlePageSite"
-                    :total="payComPageData.total" 
-                    :page-size="payComPageData.pageSize" 
+                    :total="payComPageData.total"
+                    :page-size="payComPageData.pageSize"
                     :page-size-opts="payComPageData.pageSizeOpts"
                     :current="payComPageData.pageNum"
                     show-sizer show-total>
@@ -61,9 +61,9 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../commoncontrol/customermodal.vue'
-  import progressBar from '../../commoncontrol/progress/progressbar.vue'
-  import EventType from '../../../store/EventTypes'
+  import customerModal from '../../common_control/CustomerModal.vue'
+  import progressBar from '../../common_control/progress/ProgressBar.vue'
+  import EventType from '../../../store/event_types'
   import payComReviewedApi from '../../../api/social_security/payment_com_reviewed'
 
   const progressStop = 33.3;
@@ -79,7 +79,7 @@
           comAccountId: ''
         },
         staticPayComSearchData: {
-            
+
           ssAccountTypeList: [
             {value: '1', label: '中智大库'},
             {value: '2', label: '中智外包'},
@@ -103,7 +103,7 @@
         progressStop: progressStop,
 
         payComColumns: [
-          
+
           {title: '操作', key: 'operator', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -276,7 +276,7 @@
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
         window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
         window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
-        this.$router.push({name: 'paymentnotice'})
+        this.$router.push({name: 'paymentNotice'})
       },
       ok () {
 

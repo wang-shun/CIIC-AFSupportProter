@@ -121,7 +121,7 @@
   import companyInfo from '../../components/CompanyInfo'
   import employeeInfo from '../../components/EmployeeInfo'
 
-  import EventTypes from '../../../../store/EventTypes'
+  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
   const HANDLE_TITLE = "调整";
@@ -323,19 +323,19 @@
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          
+
            if(data.data!=null){
             this.employee = data.data;
           }
-          
+
         })
-        
+
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          
+
           if(data.data!=null){
             this.company = data.data;
           }
-          
+
         })
       },
       goBack() {

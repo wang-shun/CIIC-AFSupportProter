@@ -113,14 +113,14 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../../../store/EventTypes'
+  import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
   export default {
     data() {
       return {
         collapseInfo: [1, 2, 3, 4], //展开栏
         customer:{
-          
+
         },
         employeeAndCustomer:{
           companyId:'',
@@ -236,7 +236,7 @@
     async mounted() {
       await this[EventTypes.EMPLOYEESOCIALSECURITYINFO]()
       let params = {empArchiveId:this.$route.query.empArchiveId}
-      
+
       api.employeeDetailInfoQuery(params).then(data=>{
         console.log(data)
           this.employeeAndCustomer=data.data.ssEmpArchive

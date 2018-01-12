@@ -63,7 +63,7 @@
 
     <Form>
       <Row class="mt20">
-        <Col :sm="{span:24}">
+        <Col :sm="{span:24}" class="tr">
           <Button type="error" @click="getModal">批退</Button>
           <Button type="info" @click="">导出</Button>
         </Col>
@@ -103,8 +103,8 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import EventType from '../../../../store/EventTypes'
+  import customerModal from '../../../common_control/CustomerModal.vue'
+  import EventType from '../../../../store/event_types'
   import {Progressing} from '../../../../api/social_security/company_task_list/company_task_list_tab/Progressing'
     import Utils from '../../../../lib/utils'
   export default {
@@ -171,16 +171,16 @@
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1',tid:params.row.tid}})
+                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '1',tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '2',tid:params.row.tid}})
+                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '2',tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '3',tid:params.row.tid}})
+                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '3',tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '4',tid:params.row.tid}})
+                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '4',tid:params.row.tid}})
                           break;
                         default:
                           break;
@@ -251,14 +251,14 @@
       }
     },
     mounted() {
-      
+
       let sessionPageNum = sessionStorage.taskPageNum
       let sessionPageSize = sessionStorage.taskPageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.pageNum = Number(sessionPageNum)
          this.size = Number(sessionPageSize)
-         sessionStorage.removeItem("taskPageNum") 
-         sessionStorage.removeItem("taskPageSize") 
+         sessionStorage.removeItem("taskPageNum")
+         sessionStorage.removeItem("taskPageSize")
       }
      let self= this
       let params = {
@@ -286,7 +286,7 @@
       // getCustomerName:function(){
       //   return this.$store.state.cThisMonthHandle.customerName
       // }
-      
+
     },
     methods: {
       ...mapActions('cNextMonthHandle',[EventType.CNEXTMONTHHANDLETYPE]),
@@ -311,7 +311,7 @@
             console.log(error);
           })
       },
-       //关闭查询loding 
+       //关闭查询loding
       closeLoading(){
           this.loading=false;
       },
@@ -325,7 +325,7 @@
       },
       //导表
       exportExcel(){
-       
+
       },
       //点击查询按钮
       clickQuery(){
@@ -334,7 +334,7 @@
       let params = this.getParams(1)
       let self = this
         Progressing.postTableData(params).then(data=>{
-            
+
            self.refreash(data)
 
         }).catch(error=>{
@@ -386,7 +386,7 @@
                     taskIdStr:taskIdStr,
                       refuseReason:this.refuseReason
                       }
-                 
+
         let self = this
         Progressing.refusingTask(params).then(result=>{
           if(result){
@@ -396,7 +396,7 @@
           }else{
               //this.refuseLoading = true
           }
-          
+
         })
       },
       cancel () {

@@ -166,7 +166,7 @@ html, body, .ivu-row-flex, .layout {
 }
 
 .ivu-form-item {
-  margin-bottom: 5px;
+  margin-bottom: 16px;
 }
 
 .salaryTabs .ivu-tabs-content {
@@ -239,10 +239,6 @@ html, body, .ivu-row-flex, .layout {
 
 .ivu-menu .ivu-menu-item-selected {
   width: 100%;
-}
-
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active:hover {
-  background: none !important;
 }
 
 .ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item {
@@ -413,7 +409,11 @@ html, body, .ivu-row-flex, .layout {
 }
 
 .ivu-table td {
-  height: 30px;
+  height: 40px;
+}
+
+.ivu-date-picker {
+  width: 100%;
 }
 
 /* inline cover style */

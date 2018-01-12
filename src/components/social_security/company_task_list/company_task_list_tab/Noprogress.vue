@@ -42,7 +42,7 @@
 
     <Form>
       <Row class="mt20">
-        <Col :sm="{span:24}">
+        <Col :sm="{span:24}" class="tr">
           <Button type="error" @click="getModal">批退</Button>
           <Button type="info" @click="exportExcel">导出</Button>
         </Col>
@@ -51,11 +51,11 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border ref="selection" :columns="taskColumns" :data="taskData" :loading="loading"></Table>
-          
+
           <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" :current="pageNum" show-sizer show-total  class="pageSize"  @on-change="getPage"></Page>
         </Col>
       </Row>
-       
+
       <!-- 批退理由 -->
       <Modal
         v-model="isRefuseReason"
@@ -76,7 +76,7 @@
       <Modal
         v-model="companyTaskInfo.isShowCustomerName"
         title="选择客户"
-       
+
         @on-ok="asyncOK"
         @on-cancel="cancel" width='800'>
         <customer-modal :customerData="customerData"></customer-modal>
@@ -86,8 +86,8 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import EventType from '../../../../store/EventTypes'
+  import customerModal from '../../../common_control/CustomerModal.vue'
+  import EventType from '../../../../store/event_types'
   import Axios from 'axios'
   import {NoProgress} from '../../../../api/social_security/company_task_list/company_task_list_tab/no_progress'
   import mock from '../../../../data/social_security/company_task_list/company_task_list_tab/c_this_month_handle_data'
@@ -137,16 +137,16 @@
                       this.setSessionNumAndSize()
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1',tid:params.row.tid}})
+                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '1',tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '2',tid:params.row.tid}})
+                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '2',tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '3',tid:params.row.tid}})
+                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '3',tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '4',tid:params.row.tid}})
+                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '4',tid:params.row.tid}})
                           break;
                         default:
                           break;
@@ -217,15 +217,15 @@
       }
     },
     mounted() {
-      
+
       let sessionPageNum = sessionStorage.taskPageNum
       let sessionPageSize = sessionStorage.taskPageSize
 
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.pageNum = Number(sessionPageNum)
          this.size = Number(sessionPageSize)
-         sessionStorage.removeItem("taskPageNum") 
-         sessionStorage.removeItem("taskPageSize") 
+         sessionStorage.removeItem("taskPageNum")
+         sessionStorage.removeItem("taskPageSize")
       }
       let params = {
           pageSize:this.size,
@@ -243,7 +243,7 @@
       })
     },
     computed: {
-      
+
     },
     methods: {
 
@@ -274,7 +274,7 @@
           sessionStorage.taskPageNum=this.pageNum
           sessionStorage.taskPageSize = this.size
       },
-      //关闭查询loding 
+      //关闭查询loding
       closeLoading(){
           this.loading=false;
       },
@@ -288,7 +288,7 @@
       },
       //导表
       exportExcel(){
-       
+
       },
       //点击查询按钮
       clickQuery(){
@@ -297,7 +297,7 @@
       let params = this.getParams(1)
       let self = this
         NoProgress.postTableData(params).then(data=>{
-            
+
            self.refreash(data)
 
         }).catch(error=>{
@@ -336,7 +336,7 @@
           this.isRefuseReason = true
           this.refuseLoading = true
         },
-        
+
       asyncOK() {
          let getRows = this.$refs.selection.getSelection()
          let taskIdStr = ""
@@ -356,7 +356,7 @@
           }else{
               //this.refuseLoading = true
           }
-          
+
         })
       },
       cancel () {

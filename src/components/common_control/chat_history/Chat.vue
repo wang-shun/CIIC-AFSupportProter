@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <chat-item v-for="item in chatList" :chatItem="item" :key="item.date"></chat-item>
+    <chat-item v-for="item in chat" :chatItem="item" :key="item.date"></chat-item>
   </ul>
 </template>
 <script>
@@ -11,6 +11,11 @@
     props: {
       chatList: {
         type: Array
+      }
+    },
+    computed: {
+      chat() {
+        return this.chatList;
       }
     }
   }

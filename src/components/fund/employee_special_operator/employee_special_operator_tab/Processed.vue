@@ -85,12 +85,37 @@
         </div>
       </Panel>
     </Collapse>
+
+    <Row class="mt20">
+      <Col :sm="{span: 24}" class="tr">
+        <Button type="error" @click="isShowRefuseBatch = true">批量批退</Button>
+      </Col>
+    </Row>
+
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="refusedColumns" :data="data.sRefusedData"></Table>
+        <Table border :columns="processedColumns" :data="data.sProcessedData"></Table>
         <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
       </Col>
     </Row>
+
+    <!-- 批退理由 -->
+    <Modal
+      v-model="isShowRefuseBatch"
+      @on-ok="ok"
+      @on-cancel="cancel">
+      <Form>
+        <p>
+          <Form-item>
+            <Input v-model="refuseReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
+          </Form-item>
+        </p>
+      </Form>
+      <div slot="footer">
+        <Button type="primary" @click="isShowRefuseBatch = false">确认批退</Button>
+        <Button type="warning" @click="isShowRefuseBatch = false">取消</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -207,7 +232,7 @@
         ],
         isShowRefuseBatch: false,
         refuseReason: '',
-        refusedColumns: [
+        processedColumns: [
           {title: '操作', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -288,15 +313,15 @@
       }
     },
     mounted() {
-      this[EventType.SREFUSED]()
+      this[EventType.SPROCESSED]()
     },
     computed: {
-      ...mapState('sRefused',{
+      ...mapState('sProcessed',{
         data:state => state.data
       })
     },
     methods: {
-      ...mapActions('sRefused',[EventType.SREFUSED]),
+      ...mapActions('sProcessed',[EventType.SPROCESSED]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

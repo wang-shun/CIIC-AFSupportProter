@@ -3,11 +3,11 @@
  */
 import Utils from "../../../../lib/utils";
 
-const sRefused = params => Utils.promise({
+const sProcessed = params => Utils.promise({
   data:{
     code:200,
     data: {
-      sRefusedData: [
+      sProcessedData: [
         {type: '个人信息修改', emergency: '', employee: '林子晖', employeeId: 'GY009', employeeCardNumber: '', companyCustomer: '欧莱雅', customerId: '26318', initiator: '金翔云', sponsorTime: '2017/06/01 10:05:29'},
         {type: '账户合并', emergency: '加急', employee: '王莺', employeeId: 'GY000', employeeCardNumber: '', companyCustomer: '欧莱雅', customerId: '26318', initiator: '金翔云', sponsorTime: ''},
         {type: '外地公积金转入', emergency: '', employee: '周蕾', employeeId: 'GY001', employeeCardNumber: '', companyCustomer: '欧莱雅', customerId: '26318', initiator: '金翔云', sponsorTime: ''},
@@ -22,5 +22,5 @@ const sRefused = params => Utils.promise({
 })
 
 export default {
-  sRefused
+  sProcessed
 }

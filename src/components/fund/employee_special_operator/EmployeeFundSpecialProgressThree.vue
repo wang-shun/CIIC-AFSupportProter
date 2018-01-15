@@ -20,13 +20,12 @@
         </div>
       </Panel>
       <Panel name="3">
-        办理所需材料清单
+        公积金特殊操作
         <div slot="content">
-          <handle-need-matrials-list :materialsListInfo="data.materialListData"></handle-need-matrials-list>
+          <fund-special-operate :specialOperateInfo="data.specialOperateInfo"></fund-special-operate>
         </div>
       </Panel>
       <Panel name="4">
-        材料签收往来记录
         <div slot="content">
           <chat :chatList="data.chatList"></chat>
         </div>
@@ -34,15 +33,27 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :sm="{span:12}" :md="{span: 12}" :lg="{span: 12}">
-        <Button type="error" @click="goBack">批退</Button>
-        <Button type="primary" @click="nextStep">下一步</Button>
-        <Button type="warning" @click="goBack">关闭/返回</Button>
+      <Col :sm="{span:22}">
+        <Form-item label="办理备注：">
+          <Input v-model="handleNotes" placeholder="请输入..."></Input>
+        </Form-item>
       </Col>
-      <Col :sm="{span:12}" :md="{span: 12}" :lg="{span: 12}" class="tr">
-        <Button type="primary">保存</Button>
-        <Button type="primary" @click="goBack">反馈未签收</Button>
-        <Button type="primary" @click="goBack">签收全部材料</Button>
+      <Col :sm="{span:2}">
+        <Button type="primary" class="ml10">保存</Button>
+      </Col>
+      <Col :sm="{span:22}">
+        <Form-item label="批退备注：">
+          <Input v-model="refuseNotes" placeholder="请输入..."></Input>
+        </Form-item>
+      </Col>
+      <Col :sm="{span:2}">
+        <Button type="error" class="ml10">批退</Button>
+      </Col>
+    </Row>
+
+    <Row class="mt20">
+      <Col :sm="{span:24}" class="tr">
+        <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
   </Form>
@@ -53,30 +64,29 @@
 
   import companyFundAccountInfo from '../common/CompanyFundAccountInfo.vue'
   import employeeInfo from '../common/EmployeeInfo.vue'
-  import handleNeedMatrialsList from '../common/HandleNeedMatrialsList.vue'
   import chat from '../../common_control/chat_history/Chat.vue'
+  import fundSpecialOperate from '../common/FundSpecialOperate.vue'
 
   export default {
-    components: {companyFundAccountInfo, employeeInfo, handleNeedMatrialsList, chat},
+    components: {companyFundAccountInfo, employeeInfo, chat, fundSpecialOperate},
     data() {
       return {
         currentStep: 2,
         collapseInfo: [1, 2, 3, 4], //展开栏
+        handleNotes: '',
+        refuseNotes: ''
       }
     },
     mounted() {
-      this[EventType.EMPLOYEEFUNDSPECIALPROGRESSTWO]()
+      this[EventType.EMPLOYEEFUNDSPECIALPROGRESSTHREE]()
     },
     computed: {
-      ...mapState('employeeFundSpecialProgressTwo', {
+      ...mapState('employeeFundSpecialProgressThree', {
         data:state => state.data
       })
     },
     methods: {
-      ...mapActions('employeeFundSpecialProgressTwo', [EventType.EMPLOYEEFUNDSPECIALPROGRESSTWO]),
-      nextStep() {
-        this.$router.push({name: 'employeeFundSpecialProgressThree'});
-      },
+      ...mapActions('employeeFundSpecialProgressThree', [EventType.EMPLOYEEFUNDSPECIALPROGRESSTHREE]),
       goBack() {
         this.$router.go(-1);
       }

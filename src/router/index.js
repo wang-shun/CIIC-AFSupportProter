@@ -35,6 +35,7 @@ const employeeFundHistoryDetail = r => require.ensure([], () => r(require('@/com
 const employeeFundCommonOperator = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/EmployeeFundCommonOperator')), 'employeeFundCommonOperator')
 const employeeFundSpecialOperator = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialOperator')), 'EmployeeFundSpecialOperator')
 const employeeFundSpecialProgressTwo = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialProgressTwo')), 'EmployeeFundSpecialProgressTwo')
+const employeeFundSpecialProgressThree = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialProgressThree')), 'EmployeeFundSpecialProgressThree')
 const companyFundTaskList = r => require.ensure([], () => r(require('@/components/fund/CompanyFundTaskList')), 'CompanyFundTaskList')
 const companyFundAccountSearch = r => require.ensure([], () => r(require('@/components/fund/CompanyFundAccountSearch')), 'CompanyFundAccountSearch')
 const fundReconciliation = r => require.ensure([], () => r(require('@/components/fund/FundReconciliation')), 'FundReconciliation')
@@ -204,6 +205,17 @@ let router = new Router({
             level1: '全国公积金',
             level2: "上海公积金",
             level3: "雇员特殊操作",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employee_fund_special_progress_three',
+          name: 'employeeFundSpecialProgressThree',
+          component: employeeFundSpecialProgressThree,
+          meta: {
+            level1: '全国公积金',
+            level2: '上海公积金',
+            level3: '雇员特殊操作',
             openNames: ['1']
           }
         },

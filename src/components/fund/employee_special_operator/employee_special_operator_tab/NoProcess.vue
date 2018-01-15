@@ -2,87 +2,87 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        雇员日常操作
+        雇员特殊操作
         <div slot="content">
-        <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
-          <Row type="flex" justify="start">
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="服务中心：" prop="serviceCenterValue">
-                <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号：" prop="employeeNumber">
-                <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="任务单编号：" prop="taskTicketNumber">
-                <Input v-model="operatorSearchData.taskTicketNumber" placeholder="请输入..."></Input>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户名称：" prop="customerName">
-                <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名：" prop="employeeName">
-                <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公积金类型：" prop="fundTypeValue">
-                <Select v-model="operatorSearchData.fundTypeValue" style="width: 100%;" transfer>
-                  <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="缴费银行：" prop="payBankValue">
-                <Select v-model="operatorSearchData.payBankValue" style="width: 100%;" transfer>
-                  <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="身份证号：" prop="IdNumber">
-                <Input v-model="operatorSearchData.IdNumber" placeholder="请输入..."></Input>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="账户类型：" prop="accountTypeValue">
-                <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
-                  <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="企业公积金账号：" prop="companyFundAccount">
-                <Input v-model="operatorSearchData.companyFundAccount" placeholder="请输入..."></Input>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="是否加急：" prop="isEmergencyValue">
-                <Select v-model="operatorSearchData.isEmergencyValue" style="width: 100%;" transfer>
-                  <Option v-for="item in emergencyList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="任务发起时间：" prop="taskStartTime">
-                <DatePicker v-model="operatorSearchData.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-              </Form-item>
-            </Col>
-          </Row>
-          <Row>
-            <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
-            </Col>
-          </Row>
-        </Form>
-      </div>
+          <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
+            <Row type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="服务中心：" prop="serviceCenterValue">
+                  <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="雇员编号：" prop="employeeNumber">
+                  <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="任务单编号：" prop="taskTicketNumber">
+                  <Input v-model="operatorSearchData.taskTicketNumber" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户名称：" prop="customerName">
+                  <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="雇员姓名：" prop="employeeName">
+                  <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="公积金类型：" prop="fundTypeValue">
+                  <Select v-model="operatorSearchData.fundTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="缴费银行：" prop="payBankValue">
+                  <Select v-model="operatorSearchData.payBankValue" style="width: 100%;" transfer>
+                    <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="身份证号：" prop="IdNumber">
+                  <Input v-model="operatorSearchData.IdNumber" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="账户类型：" prop="accountTypeValue">
+                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="企业公积金账号：" prop="companyFundAccount">
+                  <Input v-model="operatorSearchData.companyFundAccount" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="是否加急：" prop="isEmergencyValue">
+                  <Select v-model="operatorSearchData.isEmergencyValue" style="width: 100%;" transfer>
+                    <Option v-for="item in emergencyList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="任务发起时间：" prop="taskStartTime">
+                  <DatePicker v-model="operatorSearchData.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                </Form-item>
+              </Col>
+            </Row>
+            <Row>
+              <Col :sm="{span: 24}" class="tr">
+                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
       </Panel>
     </Collapse>
 
@@ -280,7 +280,7 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'employeeFundSpecialProgressTwo'})
+                      this.$router.push({name: 'employeeFundSpecialProgressTwo'});
                     }
                   }
                 }, '办理'),

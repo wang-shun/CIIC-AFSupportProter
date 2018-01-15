@@ -3,7 +3,7 @@
  */
 import Utils from "../../../lib/utils";
 
-const employeeFundSpecialProgressTwo = params => Utils.promise({
+const employeeFundSpecialProgressThree = params => Utils.promise({
   data:{
     code:200,
     data: {
@@ -43,44 +43,6 @@ const employeeFundSpecialProgressTwo = params => Utils.promise({
           {startPayDate: '201604', endPayDate: '', customerPayDate: '201704', basic: '15000', percent: '0.10', price: '1500'},
         ]
       },
-      materialListData: [
-        {
-          isLink: false,
-          materialName: '营业执照',
-          submitTime: '2017-7-3 12:33:33',
-          materialType: '原件',
-          receiveTime: '2017-7-5 12:33:33',
-          state: '1',
-          notes: ''
-        },
-        {
-          isLink: false,
-          materialName: '资格证',
-          submitTime: '2017-7-3 12:33:33',
-          materialType: '复印件',
-          receiveTime: '',
-          state: '1',
-          notes: ''
-        },
-        {
-          isLink: true,
-          materialName: '身份证复印件',
-          submitTime: '2017-7-3 12:33:33',
-          materialType: '扫描件',
-          receiveTime: '',
-          state: '1',
-          notes: ''
-        },
-        {
-          isLink: false,
-          materialName: '工商登记表',
-          submitTime: '2017-7-3 12:33:33',
-          materialType: '',
-          receiveTime: '2017-7-5 12:33:33',
-          state: '1',
-          notes: ''
-        }
-      ],
       chatList: [
         {
           icon: '#',
@@ -94,11 +56,28 @@ const employeeFundSpecialProgressTwo = params => Utils.promise({
           date: '2017-03-05 13:16:52',
           content: '已阅'
         }
-      ]
+      ],
+      specialOperateInfo: {
+        changeContentValue: '0',
+        acceptedDate: '',
+        deliveredDate: '',
+        finishDate: '',
+        specialOperateData: [
+          {printReport: '《上海市住房公积金单位缴存登记表》'},
+          {printReport: '《上海市补充公积金单位缴存登记表》'},
+          {printReport: '《单位住房公积金缴存网点变更登记表》'},
+          {printReport: '《变更地址(公积金)》'},
+          {printReport: '《变更银行(公积金)》'},
+          {printReport: '《单位住房公积金账户信息变更登记表》'},
+          {printReport: '《单位住房公积金账户销户登记表》'},
+          {printReport: '《公积金开户表格》'}
+        ]
+      },
+
     }
   }
 })
 
 export default {
-  employeeFundSpecialProgressTwo
+  employeeFundSpecialProgressThree
 }

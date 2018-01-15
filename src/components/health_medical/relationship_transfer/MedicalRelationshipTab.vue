@@ -48,7 +48,7 @@
         </div>
       </Panel>
     </Collapse>
-    <div class="tr" style="margin: 20px auto;">
+    <div class="tr m20">
       <router-link to="/addMedicalRelationship">
         <Button type="primary">新增医疗关系转移</Button>
       </router-link>

@@ -20,7 +20,6 @@
               </Col>
               <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
               <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
-
               <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
@@ -29,7 +28,7 @@
       </Panel>
     </Collapse>
 
-    <div class="tr" style="margin: 20px auto">
+    <div class="tr m20">
       <router-link to="/giftAdd">
         <Button type="info">新增礼品</Button>
       </router-link>

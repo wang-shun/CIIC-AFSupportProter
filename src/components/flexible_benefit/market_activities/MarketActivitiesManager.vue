@@ -29,7 +29,7 @@
         </div>
       </Panel>
     </Collapse>
-    <div class="tr" style="margin: 20px auto">
+    <div class="tr m20">
       <router-link to="/addActivity">
         <Button type="info">新增活动</Button>
       </router-link>

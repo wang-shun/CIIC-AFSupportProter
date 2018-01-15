@@ -1,7 +1,7 @@
 html, body, .ivu-row-flex, .layout {
   height: 100%;
   min-height: 100%;
-  overflow-y: hidden;
+  overflow: auto;
 }
 
 .layout {
@@ -397,7 +397,6 @@ html, body, .ivu-row-flex, .layout {
 
 .floatRightBtns {
   text-align: right;
-  margin: 20px auto;
 }
 
 .ivu-form .ivu-form-item-label {
@@ -410,14 +409,6 @@ html, body, .ivu-row-flex, .layout {
   line-height: 1;
   padding: 10px 12px 10px 0;
   box-sizing: border-box;
-}
-
-.ivu-table td {
-  height: 40px;
-}
-
-.ivu-date-picker {
-  width: 100%;
 }
 
 /* inline cover style */
@@ -1019,26 +1010,4 @@ html, body, .ivu-row-flex, .layout {
 
 .pr50 {
   padding-right: 50px;
-}
-
-*:hover::-webkit-scrollbar, *:hover::-webkit-scrollbar-track, *:hover::-webkit-scrollbar-thumb {
-  visibility: visible;
-}
-*::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-  background-color: #5cadff;
-  visibility: hidden;
-}
-*::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  border-radius: 10px;
-  background-color: #eee;
-  visibility: hidden;
-}
-*::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-  background-color: #5cadff;
-  visibility: hidden;
 }

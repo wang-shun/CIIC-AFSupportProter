@@ -3,7 +3,8 @@
     <div class="layout-ceiling layoutMenuLeft">
       <Row type="flex" class="topFlex">
         <i-col :span="spanLeft" class="layout-menu-left">
-          <div data-v-3413f463="" style="padding-left: 20px;padding-top: 10px;color: #fff;font-size: 20px;">GT1 支持中心</div>
+          <img src="static/img/cute.png" alt="金钱豹">
+          <span class="logoFonts">Payroll</span>
         </i-col>
         <i-col :span="spanRight">
           <i-button type="text" @click="toggleClick">
@@ -20,18 +21,18 @@
             <DropdownMenu slot="list">
               <DropdownItem name="http://172.16.9.25:8100/#/">销售中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8103/#/">外企客服中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8109/#/">代理中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8101/">外企雇员中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.61:8070/proxyCenter/index.html#/">代理中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8101/home">外企雇员中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8104/#/">服务外包业务中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8108/#/main/">外企支持中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8112/#/">财务咨询业务中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8110/#/">账单中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8111/#/">结算中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8070/#/">财务咨询报表中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8106/#/">产品中心</DropdownItem>
+              <DropdownItem name="0">外企支持中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.61:8070/FCBusinessPortal/#/chart">财务咨询业务中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.61:8070/BillCenter/iView/index.html#/main">账单中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.61:8070/SettlementCenter/iview/index.html#/main/">结算中心</DropdownItem>
+              <DropdownItem name="0">财务咨询报表中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.23:7777/#/">产品中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8105/#/">供应商管理中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8107/dic_list">外企内控中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8113/#/">财务咨询运营中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.24/dic_list">外企内控中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.61:8070/OperationCenter/index.html#/main/">财务咨询运营中心</DropdownItem>
             </DropdownMenu>
           </Dropdown>
           <div class="layout-ceiling-main Badge">
@@ -108,7 +109,7 @@
               <span :class="{'layout-text':layoutOut}">{{item.key}}</span>
             </template>
             <Menu-item v-for="subitem in item.children" :name="subitem.cid" :key="subitem.cid">
-              <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}" @click.native="getMenu(subitem)">{{subitem.ckey}}</router-link>
+              <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}">{{subitem.ckey}}</router-link>
             </Menu-item>
           </Submenu>
 
@@ -130,16 +131,23 @@
             <div class="layout-breadcrumb">
               <Breadcrumb separator="">
                 <Breadcrumb-item class="breadcrumbItem" @click="setIndex">
-                  <Icon type="ios-home"></Icon> <router-link to="/main" id="level1" v-menuInner="{set:setIndex}" class="breadcrumbLink">{{breadCrumb1}}</router-link>
+                  <Icon type="ios-home"></Icon>
+                  <router-link to="/main" id="level1" v-menuInner="{set:setIndex}" class="breadcrumbLink">{{breadCrumb1}}</router-link>
                 </Breadcrumb-item>
-                <Breadcrumb-item v-show="breadCrumbBoolean2" id="level2" class="breadcrumbItem"><Icon type="ios-arrow-right"></Icon> {{breadCrumb2}}</Breadcrumb-item>
-                <Breadcrumb-item v-show="breadCrumbBoolean3" id="level3" class="breadcrumbItem"><Icon type="ios-location"></Icon> {{breadCrumb3}}</Breadcrumb-item>
+                <Breadcrumb-item v-show="breadCrumbBoolean2" id="level2" class="breadcrumbItem">
+                  <Icon type="ios-arrow-right"></Icon>
+                  {{breadCrumb2}}
+                </Breadcrumb-item>
+                <Breadcrumb-item v-show="breadCrumbBoolean3" id="level3" class="breadcrumbItem">
+                  <Icon type="ios-location"></Icon>
+                  {{breadCrumb3}}
+                </Breadcrumb-item>
               </Breadcrumb>
             </div>
             <div class="layout-content-main">
-              <!--<transition name="fade" mode="out-in">-->
+              <transition name="fade" mode="out-in">
                 <router-view :key="key"></router-view>
-              <!--</transition>-->
+              </transition>
             </div>
           </div>
           <div class="layout-copy">
@@ -233,37 +241,6 @@
           this.layoutOut = false;
         }
       },
-      getMenu(obj){
-        if(obj.crouter=='companysocialsecuritymanage'){
-            //社保账户管理 清除页面缓存
-            let sessionPageNum = sessionStorage.managerPageNum
-            let sessionPageSize = sessionStorage.managerPageSize
-          if(typeof(sessionPageNum)!='undefined'){
-            sessionStorage.removeItem("managerPageNum")
-          }
-          if(typeof(sessionPageSize)!="undefined"){
-            sessionStorage.removeItem("managerPageSize")
-          }
-        }
-
-        //任务单页面缓存清除
-        if(obj.crouter=='companyTaskList'){
-          let tab = sessionStorage.companyTaskTab
-          let sessionPageNum = sessionStorage.taskFiPageNum
-          let sessionPageSize = sessionStorage.taskFiPageSize
-          if(typeof(tab)!='undefined'){
-            sessionStorage.removeItem("companyTaskTab")
-          }
-
-          if(typeof(sessionPageNum)!="undefined"){
-            sessionStorage.removeItem("taskFiPageNum")
-          }
-          if(typeof(sessionPageSize)!="undefined"){
-            sessionStorage.removeItem("taskFiPageSize")
-          }
-        }
-
-      },
       onSelect(name) {
       },
       onOpenChange(name) {
@@ -315,10 +292,10 @@
         });
       },
       backToHome() {
-          window.location.href = "http://172.16.9.25:8070/#/menu";
+        window.location.href = "http://172.16.9.25:8070/#/menu";
       },
-      routerToCenter: function(name) {
-        if(name === '0')
+      routerToCenter: function (name) {
+        if (name === '0')
           return;
         window.location.href = name;
       },
@@ -519,10 +496,10 @@
   .breadcrumbItem {
     padding: 2px;
   }
+
   .breadcrumbLink {
     color: #2d8cf0;
   }
-
 
   .inPoptip {
     font-size: 12px;
@@ -532,21 +509,54 @@
     display: block;
     color: #666;
   }
+
   .inPoptip:hover {
     color: #2d8cf0;
   }
 
-  .myTaskList {height: 0; overflow-y: auto;}
-  .myTaskList a {font-size: 12px; line-height: 40px; text-align: center; color: #666; display: block; height: 40px; border-bottom: 1px dotted #eee; background: #eee;}
-  .myTaskList a:hover {color: #2d8cf0;}
-  .changeToH {animation: changeToHeight 0.5s ease 0s 1 alternate forwards;}
-  .changeToZ {animation: changeToZero 0s ease 0s 1 alternate forwards;}
-  @keyframes changeToHeight {
-    from {height: 0;}
-    to {height: 170px;}
+  .myTaskList {
+    height: 0;
+    overflow-y: auto;
   }
+
+  .myTaskList a {
+    font-size: 12px;
+    line-height: 40px;
+    text-align: center;
+    color: #666;
+    display: block;
+    height: 40px;
+    border-bottom: 1px dotted #eee;
+    background: #eee;
+  }
+
+  .myTaskList a:hover {
+    color: #2d8cf0;
+  }
+
+  .changeToH {
+    animation: changeToHeight 0.5s ease 0s 1 alternate forwards;
+  }
+
+  .changeToZ {
+    animation: changeToZero 0s ease 0s 1 alternate forwards;
+  }
+
+  @keyframes changeToHeight {
+    from {
+      height: 0;
+    }
+    to {
+      height: 170px;
+    }
+  }
+
   @keyframes changeToZero {
-    from {height: 170px;}
-    to {height: 0;}
+    from {
+      height: 170px;
+    }
+    to {
+      height: 0;
+    }
   }
 </style>

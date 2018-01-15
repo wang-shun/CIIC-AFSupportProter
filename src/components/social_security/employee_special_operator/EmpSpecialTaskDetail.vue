@@ -236,7 +236,7 @@
         })
       },
       goBack() {
-        this.$router.push({name:'employeespecialoperatorview'});
+        this.$router.push({name:'employeeSpecialOperatorView'});
       },
       getChangeValue(val){
 

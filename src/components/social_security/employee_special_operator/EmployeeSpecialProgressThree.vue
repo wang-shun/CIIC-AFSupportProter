@@ -396,7 +396,7 @@
             });
       },
       goBack() {
-        this.$router.push({name:'employeespecialoperatorview'});
+        this.$router.push({name:'employeeSpecialOperatorView'});
       },
       getChangeValue(val){
         if(typeof(val)=='undefined' ||  val==null || val.trim()==''){
@@ -419,7 +419,7 @@
           ajax: ajax,
           title: '任务批退',
           callback: (data) => {
-            this.$router.push({name: 'employeespecialoperatorview'});
+            this.$router.push({name: 'employeeSpecialOperatorView'});
           }
         })
       },

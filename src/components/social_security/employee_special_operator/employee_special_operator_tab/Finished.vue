@@ -186,6 +186,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      debugger
                       this.$router.push({name: 'empSpecialTaskDetail',query:{empTaskId:params.row.empTaskId}})
                     }
                   }
@@ -292,7 +293,7 @@
       },
       routerToCommcialOperator: function (name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },

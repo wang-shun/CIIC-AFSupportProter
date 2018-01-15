@@ -267,7 +267,7 @@
       ...mapActions('thisMonthHandle', [EventType.THISMONTHHANDLETYPE]),
       routerToCommcialOperator(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },

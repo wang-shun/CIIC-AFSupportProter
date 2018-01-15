@@ -1,7 +1,7 @@
 import utils from "./utils";
 import ajax from "./ajax";
 import decode from "./decode";
-import _ from 'lodash'
+import _ from 'lodash';
 
 // Vue插件
 // localstorage

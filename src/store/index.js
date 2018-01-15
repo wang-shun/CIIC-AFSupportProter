@@ -27,6 +27,12 @@ import transfer from './modules/health_medical/relationship_transfer'
 import SocialSecurityReconcilate from './modules/social_security/social_security_recon_cilate'
 //社保报表
 import Socialsecurityreport from './modules/social_security/social_security_report'
+
+//证件管理
+import CompanyDataMaintenance from './modules/credentials_management/company_data_maintenance'
+import EmpCredebtialsManagement from './modules/credentials_management/emp_credentials_deal'
+import OrgPolicyMaintenance from './modules/credentials_management/org_policy_maintenance'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -47,6 +53,10 @@ export default new Vuex.Store({
 
     ...transfer,
     ...SocialSecurityReconcilate,
-    ...Socialsecurityreport
+    ...Socialsecurityreport,
+
+    ...CompanyDataMaintenance,
+    ...EmpCredebtialsManagement,
+    ...OrgPolicyMaintenance,
   }
 });

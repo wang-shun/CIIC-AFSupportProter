@@ -35,9 +35,9 @@
         </div>
       </Panel>
     </Collapse>
-    <div class="floatRightBtns">
+    <div class="tr m10">
       <router-link to="/addPolicyNum">
-        <Button type="primary">新增保单号</Button>
+        <Button type="info">新增保单号</Button>
       </router-link>
     </div>
     <Table border :columns="columns7" :data="data6"></Table>

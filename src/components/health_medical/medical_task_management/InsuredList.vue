@@ -110,7 +110,7 @@
             </Panel>
         </Collapse>
         <div class="create">
-           <Button type="primary"  @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出数据</Button>
+           <Button type="info"  @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出数据</Button>
         </div>
         <Table border :columns="columns7" :data="data6" ref="table"></Table>
         <Page :total="100" show-sizer show-elevator></Page>

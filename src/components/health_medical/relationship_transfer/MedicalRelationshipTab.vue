@@ -50,9 +50,9 @@
     </Collapse>
     <div class="tr m20">
       <router-link to="/addMedicalRelationship">
-        <Button type="primary">新增医疗关系转移</Button>
+        <Button type="info">新增医疗关系转移</Button>
       </router-link>
-      <Button icon="ios-download-outline" type="primary" @click="exportDataTransfer(1)">导出数据</Button>
+      <Button icon="ios-download-outline" type="info" @click="exportDataTransfer(1)">导出数据</Button>
     </div>
     <Table border :columns="transferColumns" :data="transferData" ref="transferTable"></Table>
     <Page :total="transferTotal" show-sizer show-elevator @on-change="getTransferByPage"

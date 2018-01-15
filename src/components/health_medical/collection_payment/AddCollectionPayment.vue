@@ -47,16 +47,15 @@
             <Button type="primary">导入付费</Button>
           </router-link>
           </Col>
-
         </row>
         <br>
         <row>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-          <div class="floatRightBtns">
+          <div class="tc">
+            <Button type="warning" @click="back">返回</Button>
             <router-link to="/AddInsurancePolicyNum">
               <Button type="primary">提交</Button>
             </router-link>
-            <Button type="success" @click="back">返回</Button>
           </div>
           </Col>
         </row>

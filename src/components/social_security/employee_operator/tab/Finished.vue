@@ -228,7 +228,7 @@
             title: '雇员证件号', key: 'idNum', width: 200, align: 'center'
           },
           {
-            title: '企业社保账号', key: 'comAccountId', width: 200, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center'
           },
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
@@ -428,7 +428,7 @@
           // 根据任务类型跳转
           this.$router.push({
             name: name,
-            query: {taskCategory: taskCategory, empTaskId: data.empTaskId}
+            query: {operatorType: taskCategory, empTaskId: data.empTaskId}
           });
         }
       },

@@ -148,16 +148,16 @@
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'openaccountinfo', query:{operatorType: '1',source:0,tid:params.row.tid}})
+                          this.$router.push({name: 'openAccountInfo', query:{operatorType: '1',source:0,tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'transfertnfo', query:{operatorType: '2',source:0,tid:params.row.tid}})
+                          this.$router.push({name: 'transferInfo', query:{operatorType: '2',source:0,tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'changeinfo', query:{operatorType: '3',source:0,tid:params.row.tid}})
+                          this.$router.push({name: 'changeInfo', query:{operatorType: '3',source:0,tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'endinfo', query:{operatorType: '4',source:0,tid:params.row.tid}})
+                          this.$router.push({name: 'endInfo', query:{operatorType: '4',source:0,tid:params.row.tid}})
                           break;
                         default:
                           break;

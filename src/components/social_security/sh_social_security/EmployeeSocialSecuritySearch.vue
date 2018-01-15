@@ -346,7 +346,7 @@
         this.$refs[name].resetFields()
       },
       showInfo (ind) {
-        this.$router.push({name:'employeesocialsecurityinfo', query: {empArchiveId: ind}});
+        this.$router.push({name:'employeeSocialSecurityInfo', query: {empArchiveId: ind}});
 
       },
       employeeQuery(params){

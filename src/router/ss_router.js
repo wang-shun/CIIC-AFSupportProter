@@ -59,7 +59,7 @@ const empTaskBatchHandle5View = r => require.ensure([], () => r(require('@/compo
  */
 
 const companyTaskList = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskList')), 'CompanyTaskList')
-const companyTaskProgress2 = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTwo')), 'CompanyTaskProgress2')
+const companyTaskProgressTwo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTwo')), 'CompanyTaskProgressTwo')
 const companyTaskProgressTypeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTypeInfo')), 'companyTaskProgressTypeInfo')
 const companyTaskProgressTransferInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTransferInfo')), 'CompanyTaskProgressTransferInfo')
 const companyTaskProgressChangeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressChangeInfo')), 'CompanyTaskProgressChangeInfo')
@@ -352,9 +352,9 @@ export default [
     },
   },
   {
-    path: '/company_task_progress2',
-    name: 'companyTaskProgress2',
-    component: companyTaskProgress2,
+    path: '/company_task_progress_two',
+    name: 'companyTaskProgressTwo',
+    component: companyTaskProgressTwo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",

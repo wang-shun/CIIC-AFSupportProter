@@ -354,7 +354,7 @@
         })
       },
       goBack() {
-        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo'});
+        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo'});
       },
       // yyyy-MM or date
       yyyyMM(date) {

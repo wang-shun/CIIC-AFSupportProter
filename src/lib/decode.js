@@ -158,4 +158,18 @@ export default {
         return '无'
     }
   },
+  //日常操作的缴纳方式
+  remitWay:(type)=>{
+    
+    switch (type){
+      case '1':
+        return '正常'
+      case '2':
+        return '补缴'
+      case '3':
+        return '调整'
+      default: // 默认 0
+        return ''
+    }
+  }
 };

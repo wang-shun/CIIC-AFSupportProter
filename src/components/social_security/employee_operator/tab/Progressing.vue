@@ -237,7 +237,7 @@
             title: '雇员证件号', key: 'idNum', width: 200, align: 'center'
           },
           {
-            title: '企业社保账号', key: 'comAccountId', width: 200, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center'
           },
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
@@ -276,7 +276,7 @@
       ...mapActions('thisMonthHandle', [EventType.THISMONTHHANDLETYPE]),
       routerToCommcialOperator(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },

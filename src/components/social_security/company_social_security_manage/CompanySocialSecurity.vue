@@ -272,10 +272,10 @@
                      let taskStatus = params.row.taskStatus
                      let pageInfo = ""
                      let source = ""
-                     if(taskType=='1')pageInfo='openaccountinfo'
-                     else if(taskType=='2')pageInfo='transferinfo'
-                      else if(taskType=='3')pageInfo='changeinfo'
-                       else if(taskType=='4')pageInfo='endinfo'
+                     if(taskType=='1')pageInfo='openAccountInfo'
+                     else if(taskType=='2')pageInfo='transferInfo'
+                      else if(taskType=='3')pageInfo='changeInfo'
+                       else if(taskType=='4')pageInfo='endInfo'
 
                       if(taskStatus=='3')source='0'
                        else if(taskStatus=='4')source='1'

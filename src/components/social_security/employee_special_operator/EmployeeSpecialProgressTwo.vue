@@ -264,15 +264,15 @@
           title: '任务批退',
           callback: (data) => {
             this.$router.push({
-                name: 'employeespecialoperatorview'});
+                name: 'employeeSpecialOperatorView'});
           }
         })
       },
       nextStep() {
-        this.$router.push({name: 'employeespecialprogressthree',query:{empTaskId:this.empTaskId}});
+        this.$router.push({name: 'employeeSpecialProgressThree',query:{empTaskId:this.empTaskId}});
       },
       goBack() {
-        this.$router.push({name: 'employeespecialoperatorview'})
+        this.$router.push({name: 'employeeSpecialOperatorView'})
       },
       ok () {
         this.$Message.info('点击了确定');

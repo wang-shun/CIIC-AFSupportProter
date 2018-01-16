@@ -6,110 +6,114 @@
           <Form :model="formItem" :label-width="140">
             <Row justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="款项类型">
-                <Select placeholder="请选择">
-                  <Option v-for="item in dataTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              <Form-item label="款项类型" prop="moneyType">
+                <Select v-model="formItem.moneyType" placeholder="请选择" :clearable="true">
+                  <Option v-for="item in moneyTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="受理类型">
-                <Select placeholder="请选择">
-                  <Option v-for="item in peopleTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              <Form-item label="受理类型" prop="caseType">
+                <Select v-model="formItem.caseType" placeholder="请选择" :clearable="true">
+                  <Option v-for="item in caseTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="管理方编号">
-                <Input v-model="formItem.code" placeholder="请输入"></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="管理方名称">
-                <Input v-model="formItem.code" placeholder="请输入"></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号">
-                <Input v-model="formItem.code" placeholder="请输入"></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名">
-                <Input v-model="formItem.code" placeholder="请输入"></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码">
-                <Input v-model="formItem.code" placeholder="请输入"></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司编号">
-                <Input v-model="formItem.code" placeholder="请输入"></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司名称">
-                <Input v-model="formItem.code" placeholder="请输入"></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="状态">
-                <Select placeholder="请选择">
-                  <Option>已受理</Option>
-                  <Option>拒赔</Option>
+              <Form-item label="状态" prop="status">
+                <Select v-model="formItem.status" placeholder="请选择" :clearable="true">
+                  <Option v-for="item in statusProperties" :value="item.value" :key="item.value">{{ item.label }}
+                  </Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="处理日期">
-                <DatePicker type="date" style="width: 130px;" placeholder="选择日期"></DatePicker>
-                <span style="width: 5px;">-</span>
-                <DatePicker type="date" style="width: 135px;" placeholder="选择日期"></DatePicker>
+              <Form-item label="受理日期" prop="handlerDateRange">
+                <DatePicker v-model="formItem.handlerDateRange" type="daterange" placement="bottom-end"
+                            placeholder="选择日期" style="width: 100%"></DatePicker>
               </Form-item>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="管理方编号" prop="managementId">
+                <Input v-model="formItem.managementId" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="管理方名称" prop="managementName">
+                <Input v-model="formItem.managementName" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公司编号" prop="companyId">
+                <Input v-model="formItem.companyId" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公司名称" prop="companyName">
+                <Input v-model="formItem.companyName" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员编号" prop="employeeId">
+                <Input v-model="formItem.employeeId" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员姓名" prop="employeeName">
+                <Input v-model="formItem.employeeName" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="证件号码" prop="idCardType">
+                <Input v-model="formItem.idCardType" placeholder="请输入"/>
               </Form-item>
               </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" size="large">查询</Button>
+              <Button type="primary" icon="ios-search">查询</Button>
+              <Button type="warning">重置</Button>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
     </Collapse>
+
     <div class="tr m20">
       <router-link to="/addAcceptanceEmployeeList">
         <Button type="info">新建受理单</Button>
       </router-link>
       <Button type="info" ref="rmb" @click="modal11 = true">受理</Button>
       <Modal v-model="modal11" title="受理对话框" @on-ok="ok" ok-text="受理">
-        <Input v-model="formItem.code" placeholder="请输入操作说明："></Input>
+        <Input v-model="formItem.code" placeholder="请输入操作说明："/>
       </Modal>
       <Button type="info" ref="rmb1" @click="modal1 = true">拒赔</Button>
       <Modal v-model="modal1" title="拒赔对话框" @on-ok="ok" ok-text="拒赔">
-        <Input v-model="formItem.code" placeholder="请输入操作说明："></Input>
+        <Input v-model="formItem.code" placeholder="请输入操作说明："/>
       </Modal>
       <Button type="info" icon="ios-download-outline" @click="exportData(1)">导出数据</Button>
     </div>
 
-    <Table border :columns="columns7" :data="data6" ref="table"></Table>
+    <Table border :columns="acceptanceColumns" :data="acceptanceData" ref="table"></Table>
     <Page :total="100" show-sizer show-elevator></Page>
 
     <Modal v-model="modal1" title="拒赔操作对话框" @on-ok="ok" @on-cancel="cancel">
-      <Input v-model="formItem.code" placeholder="请输入拒赔原因：" class="mt15"></Input>
-      <Select class="mt15">
+      <Input v-model="formItem.code" placeholder="请输入拒赔原因：" class="mt15"/>
+      <Select class="mt15" :clearable="true">
         <Option value="1">退员工</Option>
         <Option value="1">退客户</Option>
         <Option value="1">作废</Option>
         <Option value="1">其他</Option>
       </Select>
     </Modal>
+
   </div>
 </template>
 <script>
+  import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
+
   export default {
     data() {
       return {
@@ -117,146 +121,140 @@
         modal11: false,
         value1: '1',
         formItem: {
-          input: '',
-          select: '',
-          select1: '',
-          radio: 'male',
-          checkbox: [],
-          switch: true,
-          date: '',
-          time: '',
-          slider: [20, 50],
-          textarea: ''
+          moneyType: null,
+          caseType: null,
+          status: null,
+          managementId: null,
+          managementName: null,
+          companyId: null,
+          companyName: null,
+          employeeId: null,
+          employeeName: null,
+          idCardType: null,
+          handlerDateRange: [],
         },
-        columns7: [
+        caseTypes: admissibility.caseTypes,
+        moneyTypes: admissibility.moneyTypes,
+        statusProperties: admissibility.statusProperties,
+        acceptanceColumns: [
           {
             type: 'selection', width: 60, align: 'center'
           },
           {
-            title: '受理编号', sortable: true, key: 'acceptanceId'
+            title: '受理编号', sortable: true, key: 'acceptanceId', align: 'center'
           },
           {
-            title: '雇员编号', sortable: true, key: 'employeeId'
+            title: '雇员编号', sortable: true, key: 'employeeId', align: 'center'
           },
           {
-            title: '雇员姓名', sortable: true, key: 'employeeName'
+            title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center'
           },
           {
-            title: '公司编号', sortable: true, key: 'companyId'
+            title: '公司编号', sortable: true, key: 'companyId', align: 'center'
           },
           {
-            title: '公司名称', sortable: true, key: 'companyname'
+            title: '公司名称', sortable: true, key: 'companyName', align: 'center'
           },
           {
-            title: '类型', sortable: true, key: 'Type'
+            title: '类型', sortable: true, key: 'caseType', align: 'center'
           },
           {
-            title: '款项', sortable: true, key: 'MoneyType'
+            title: '款项', sortable: true, key: 'moneyType', align: 'center'
           },
           {
-            title: '连带人', sortable: true, key: 'jointandseveralPeople'
+            title: '连带人', sortable: true, key: 'jointPersonName', align: 'center'
           },
           {
-            title: '受理人', sortable: true, key: 'acceptancePeople'
+            title: '受理人', sortable: true, key: 'handler', align: 'center'
           },
           {
-            title: '状态', sortable: true, key: 'status'
+            title: '状态', sortable: true, key: 'status', align: 'center',
+            render: (h, params) => {
+              switch (params.row.giftType) {
+                case 0:
+                  return "票券";
+                  break;
+                case 1:
+                  return "办公用品";
+                  break;
+                case 2:
+                  return "生活用品";
+                  break;
+                case 3:
+                  return "食品";
+                  break;
+                case 4:
+                  return "饰品";
+                  break;
+                case 5:
+                  return "数码周边";
+                  break;
+                case 6:
+                  return "儿童用品";
+                  break;
+              }
+            }
           },
           {
-            title: '处理日期', sortable: true, key: 'acceptanceDate'
+            title: '受理日期', sortable: true, key: 'handlerDate', align: 'center'
           },
           {
-            title: '受理金额', sortable: true, key: 'acceptanceMoney'
+            title: '受理金额', sortable: true, key: 'caseMoney', align: 'center'
           },
           {
             title: '操作', key: 'action', width: 180, align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  on: {
-                    click: () => {
-                      this.$router.push({name: 'auditNurseryFee', params: {data: params.row}});
+              if (params.row.status === 0) {
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    on: {
+                      click: () => {
+                        this.$router.push({name: 'auditNurseryFee', params: {data: params.row}});
+                      }
                     }
-                  }
-                }, '受理'),
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  on: {
-                    click: () => {
-                      this.$router.push({name: 'auditNurseryFee', params: {data: params.row}});
+                  }, '受理'),
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    on: {
+                      click: () => {
+                        this.$router.push({name: 'auditNurseryFee', params: {data: params.row}});
+                      }
                     }
-                  }
-                }, '拒赔')
-              ]);
+                  }, '拒赔')
+                ]);
+              }
             }
           }
         ],
-        data6: [
+        acceptanceData: [
           {
             acceptanceId: '20160215072',
             employeeId: '11L2674',
             employeeName: '戴敏',
             companyId: '13684',
-            companyname: '苹果科技公司',
-            Type: '子女',
-            MoneyType: '托费',
-            jointandseveralPeople: '段嘉晨',
-            acceptancePeople: '胡艳',
-            status: '拒赔',
-            acceptanceDate: '2016-02-16',
-            acceptanceMoney: '150'
+            companyName: '苹果科技公司',
+            caseType: '子女',
+            moneyType: '托费',
+            jointPersonName: '段嘉晨',
+            handler: '胡艳',
+            status: 0,
+            handlerDate: '2016-02-16',
+            caseMoney: '150'
           },
           {
             acceptanceId: '20160215071',
             employeeId: '11L2674',
             employeeName: '戴敏',
             companyId: '13684',
-            companyname: '苹果科技公司',
-            Type: '子女',
-            MoneyType: '托费',
-            jointandseveralPeople: '段嘉晨',
-            acceptancePeople: '胡艳',
-            status: '已受理',
-            acceptanceDate: '2016-02-16',
-            acceptanceMoney: '100'
-          }
-        ],
-        peopleTypes: [
-          {
-            value: '0', label: '全部'
-          },
-          {
-            value: '1', label: '雇员'
-          },
-          {
-            value: '2', label: '子女'
-          },
-          {
-            value: '3', label: '配偶'
-          }
-        ],
-        dataTypes: [
-          {
-            value: '0', label: '全部'
-          },
-          {
-            value: '1num', label: '医疗费'
-          },
-          {
-            value: '2', label: '体检费用'
-          },
-          {
-            value: '3', label: '住院补贴'
-          },
-          {
-            value: '4', label: '托费'
-          },
-          {
-            value: '5', label: '大额理赔款'
-          },
-          {
-            value: '6', label: '其他'
+            companyName: '苹果科技公司',
+            caseType: '子女',
+            moneyType: '托费',
+            jointPersonName: '段嘉晨',
+            handler: '胡艳',
+            status: 1,
+            handlerDate: '2016-02-16',
+            caseMoney: '100'
           }
         ]
 

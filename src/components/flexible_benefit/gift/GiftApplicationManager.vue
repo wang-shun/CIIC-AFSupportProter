@@ -1,24 +1,26 @@
 <template>
-  <div class="smList">
+  <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         礼品管理查询
         <div slot="content">
           <Form :model="formItem" ref="formItem" :label-width="100">
-            <Row>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+            <Row class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="礼品名称" prop="giftName">
                 <Input v-model="formItem.giftName" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="状态" prop="status">
                 <Select v-model="formItem.status" :clearable="true" placeholder="请选择">
                   <Option v-for="item in statusProperties" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
+            </Row>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 24}" class="tr">
               <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
               <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
@@ -27,7 +29,6 @@
         </div>
       </Panel>
     </Collapse>
-
     <div class="tr m20">
       <router-link to="/giftAdd">
         <Button type="info">新增礼品</Button>

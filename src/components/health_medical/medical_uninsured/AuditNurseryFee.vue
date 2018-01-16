@@ -1,59 +1,59 @@
 <template>
   <div>
     <Card>
-      <Form :model="formItem" :label-width="150" :rules="ruleValidate">
-        <Row type="flex" justify="start">
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+      <Form :model="formItem" :rules="ruleValidate" :label-width="180">
+        <Row type="flex" justify="start" class="mt20 mr10">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="雇员编号：" prop="name">
             <span class="expand-value">11F0125</span>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="雇员姓名：" prop="types">
             <span class="expand-value">戴丽</span>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="申请类型：" prop="types">
             <span class="expand-value">支付个人</span>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="付款类型：" prop="name">
             <span class="expand-value">子女托费</span>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="发票张数：" prop="name">
-            <Input v-model="formItem.name" placeholder="3"></Input>
+            <Input v-model="formItem.name" placeholder="3"/>
           </Form-item>
           </Col>
 
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="税前金额：">
-            <Input v-model="formItem.name" placeholder="300.00"></Input>
+            <Input v-model="formItem.name" placeholder="300.00"/>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="税额：">
-            <Input v-model="formItem.name" placeholder="0.00"></Input>
+            <Input v-model="formItem.name" placeholder="0.00"/>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实付金额：">
-            <Input v-model="formItem.name" placeholder="300.00"></Input>
+            <Input v-model="formItem.name" placeholder="300.00"/>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="" prop="name">
-            <Checkbox v-model="single">无发票报销</Checkbox>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="无发票报销" prop="name">
+            <Checkbox v-model="single">是</Checkbox>
           </Form-item>
           </Col>
         </Row>
         <Row type="flex" justify="start">
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="备注：">
-            <Input type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+            <Input type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
           </Form-item>
           </Col>
         </Row>

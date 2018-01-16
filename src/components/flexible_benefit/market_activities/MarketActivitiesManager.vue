@@ -5,13 +5,13 @@
         市场活动查询
         <div slot="content">
           <Form :model="formItem" ref="formItem" :label-width="100">
-            <Row>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+            <Row class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="活动主题" prop="activityTitle">
                 <Input v-model="formItem.activityTitle" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
               <Form-item label="状态" prop="status">
                 <Select v-model="formItem.status" :clearable="true" placeholder="请选择">
                   <Option v-for="item in statusTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -20,7 +20,7 @@
               </Col>
             </Row>
             <Row>
-              <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
+              <Col :sm="{span: 24}" class="tr">
               <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
               <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>

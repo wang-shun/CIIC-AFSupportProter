@@ -6,22 +6,22 @@
         礼品管理查询
         <div slot="content">
           <Form ref="searchCondition" :model="searchCondition" :label-width=120>
-            <Row>
-              <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Row class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="审批状态：">
                 <Select v-model="searchCondition.recordApprovalReason" :clearable="true">
                   <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :xs="{span:6, offset: 1}" :lg="{ span: 6, offset: 1}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="发放状态：">
                 <Select v-model="searchCondition.sendStatus" :clearable="true">
                   <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <!--<Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item :label-width="160" label="申请人所属部门:" :clearable="true">
                 <Select v-model="searchCondition.customerNumber">
                   <Option v-for="item in deptList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -29,11 +29,13 @@
               </Form-item>
               </Col>-->
             </Row>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 24}" class="tr">
+              <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('searchCondition')">重置</Button>
+              </Col>
+            </Row>
           </Form>
-          <div class="tc">
-            <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
-            <Button type="warning" @click="resetSearchCondition('searchCondition')">重置</Button>
-          </div>
         </div>
       </Panel>
     </Collapse>

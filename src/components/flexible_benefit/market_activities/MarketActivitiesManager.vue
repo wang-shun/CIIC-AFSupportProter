@@ -19,7 +19,7 @@
               </Form-item>
               </Col>
             </Row>
-            <Row>
+            <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
               <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
               <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>

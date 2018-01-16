@@ -4,28 +4,28 @@
       <Panel name="1">
         申请信息
         <div slot="content">
-          <Row>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Row class="m10">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>申请单号: </span>
             <span>{{ applyRecord.applyRecordId }}</span>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>主题: </span>
             <span>{{ applyRecord.projectTopics }}</span>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>申请类别:</span>
             <span>活动申请</span>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>申请人部门: </span>
             <span>{{ applyRecord.contactDeptName }}</span>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>申请人职位: </span>
             <span>{{ applyRecord.contactPosition }}</span>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>申请时间: </span>
             <span>{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}</span>
             </Col>
@@ -43,7 +43,7 @@
       <Panel name="2">
         审批
         <div slot="content">
-          <Row>
+          <Row class="m10">
             <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
             <Form :label-width=120>
               <Form-item label="发放备注：">
@@ -53,8 +53,8 @@
             </Form>
             </Col>
           </Row>
-          <Row>
-            <Col :xs="{span: 3, offset: 3}" :lg="{ span: 3, offset: 3}">
+          <Row type="flex" justify="start">
+            <Col :sm="{span: 24}" class="tr">
             <Button type="warning" @click="back()">返回</Button>
             <Button type="primary" @click="grantMarket(2)">发放</Button>
             <Button type="error" @click="grantMarket(3)">批退</Button>

@@ -30,7 +30,7 @@
           {title: '材料类型', key: 'materialType', align: 'center', className: 'mw100',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', this.$decode.materialType(params.row.materialType))
+                h('span', params.row.materialType)
               ])
             }
           },
@@ -45,7 +45,7 @@
             render: (h, params) => {
               let self = this
               return h('div', [
-                h('Select', {props: {value: params.row.status =='0'?'0':params.row.status=='1'?'1':params.row.status=='2'?'2':''},
+                h('Select', {props: {value: params.row.status == '0' ? '0' : params.row.status == '1' ? '1' : params.row.status == '2' ? '2' : ''},
                     on:{
                       input:function(event){
                         self.receiveMaterialListData[params.index].status = event

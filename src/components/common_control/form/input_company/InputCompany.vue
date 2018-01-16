@@ -5,8 +5,10 @@
       :size="size"
       :id="elementId"
       :disabled="disabled"
-      :name="name">
-    <Button slot="append" :icon="icon" @click="handleClick"></Button>
+      :name="name"
+      :icon="icon"
+      @on-click="handleClick"
+    >
     </Input>
     <Modal
       v-model="visible"

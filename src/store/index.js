@@ -16,6 +16,9 @@ import SocialSecurityPay from './modules/social_security/social_security_pay'
 import EmployeeFundSearch from './modules/fund/employee_fund_search'
 import EmployeeCommonOperator from './modules/fund/employee_common_operator'
 import EmployeeFundSpecialOperator from './modules/fund/employee_special_operator'
+import EmployeeFundTransferOperator from './modules/fund/employee_transfer_operator'
+import CompanyFundTaskList from './modules/fund/company_fund_task_list'
+import CompanyFundAccountSearch from './modules/fund/company_fund_account_search'
 
 //弹性福利
 import gift from "./modules/flexible_benefit/gift"
@@ -43,6 +46,9 @@ export default new Vuex.Store({
     ...EmployeeFundSearch,
     ...EmployeeCommonOperator,
     ...EmployeeFundSpecialOperator,
+    ...EmployeeFundTransferOperator,
+    ...CompanyFundTaskList,
+    ...CompanyFundAccountSearch,
 
     ...gift,
     ...market,

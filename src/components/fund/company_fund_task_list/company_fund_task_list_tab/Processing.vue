@@ -2,39 +2,24 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        雇员特殊操作
+        企业任务单
         <div slot="content">
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="服务中心：" prop="serviceCenterValue">
+                <Form-item label="客服中心：" prop="serviceCenterValue">
                   <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
-                  <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
+                <Form-item label="客户名称：" prop="title">
+                  <input-company v-model="operatorSearchData.customerName"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转入单位：" prop="customerName">
-                  <Input v-model="operatorSearchData.transferInCompany" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转出单位：" prop="taskStartTime">
-                  <Input v-model="operatorSearchData.transferOutCompany" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员姓名：" prop="employeeName">
-                  <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金类型：" prop="fundTypeValue">
-                  <Select v-model="operatorSearchData.fundTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="账户类型：" prop="accountTypeValue">
+                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -46,19 +31,31 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="身份证号：" prop="IdNumber">
-                  <Input v-model="operatorSearchData.IdNumber" placeholder="请输入..."></Input>
+                <Form-item label="企业公积金账户：" prop="companyFundAccount">
+                  <input-company v-model="operatorSearchData.companyFundAccount"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员公积金账号：" prop="companyFundAccount">
-                  <Input v-model="operatorSearchData.employeeFundAccount" placeholder="请输入..."></Input>
+                <Form-item label="公积金类型：" prop="fundTypeValue">
+                  <Select v-model="operatorSearchData.fundTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="客服经理：" prop="serviceManager">
+                  <Input v-model="operatorSearchData.serviceManager" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="任务发起时间：" prop="taskStartTime">
+                  <DatePicker v-model="operatorSearchData.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="处理进度：" prop="taskStartTime">
+                  <Select v-model="operatorSearchData.handleProcessValue" style="width: 100%;" transfer>
+                    <Option v-for="item in handleProcessList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -76,17 +73,14 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+        <Button type="error">批量批退</Button>
         <Button type="info">导出</Button>
-        <Button type="primary" @click="nextStep">编辑</Button>
-        <Button type="info">打印转移通知书</Button>
-        <Button type="info">导出雇员转移TXT</Button>
-        <Button type="info">批量导入回单日期</Button>
       </Col>
     </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="processedColumns" :data="data.tProcessedData"></Table>
+        <Table border :columns="processingColumns" :data="data.lProcessingData"></Table>
         <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
       </Col>
     </Row>
@@ -96,21 +90,24 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../../store/event_types'
 
+  import InputAccount from '../../../common_control/form/input_account'
+  import InputCompany from '../../../common_control/form/input_company'
+
   export default {
+    components: {InputAccount, InputCompany},
     data() {
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
           serviceCenterValue: '',
-          employeeNumber: '',
-          transferInCompany: '',
-          transferOutCompany: '',
-          employeeName: '',
-          fundTypeValue: 0,
-          payBankValue: 0,
-          IdNumber: '',
-          employeeFundAccount: '',
-          accountTypeValue: 0
+          customerName: '',
+          accountTypeValue: '',
+          payBankValue: '',
+          companyFundAccount: '',
+          fundTypeValue: '',
+          serviceManager: '',
+          taskStartTime: '',
+          handleProcessValue: ''
         },
         serviceCenterData: [
           {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
@@ -135,7 +132,32 @@
           {value: 1, label: '大库'},
           {value: 2, label: '外包'},
         ],
-        processedColumns: [
+        handleProcessList: [
+          {value: 0, label: '已受理'},
+          {value: 1, label: '已送审'},
+          {value: 2, label: '已完成'},
+        ],
+        processingColumns: [
+          {title: '操作', width: 100, align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+                      this.$router.push({name: 'companyFundTaskProgressTwo'});
+                    }
+                  }
+                }, '办理'),
+              ]);
+            }
+          },
+          {title: '任务类型', key: 'taskType', width: 150, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.taskType),
+              ]);
+            }
+          },
           {title: '公积金类型', key: 'fundType', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -143,108 +165,66 @@
               ]);
             }
           },
-          {title: '公司编码', key: 'companyNumber', width: 150, align: 'center',
+          {title: '客户编号', key: 'customerNumber', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyNumber),
+                h('span', params.row.customerNumber),
               ]);
             }
           },
-          {title: '公司名称', key: 'companyName', width: 150, align: 'center',
+          {title: '客户名称', key: 'customerName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
+                h('span', params.row.customerName),
               ]);
             }
           },
-          {title: '雇员编号', key: 'employeeId', width: 150, align: 'center',
+          {title: '经办人', key: 'managers', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeId),
+                h('span', params.row.managers),
               ]);
             }
           },
-          {title: '雇员姓名', key: 'employeeName', width: 150, align: 'center',
+          {title: '客户缴费起始年月', key: 'customerPayStartDate', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeName),
+                h('span', params.row.customerPayStartDate),
               ]);
             }
           },
-          {title: '雇员证件号', key: 'employeeCardNumber', width: 200, align: 'center',
+          {title: '付款方式', key: 'payMethod', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeCardNumber),
+                h('span', params.row.payMethod),
               ]);
             }
           },
-          {title: '入职日期', key: 'entryDate', width: 200, align: 'center',
+          {title: '公积金企业U盾', key: 'UKey', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.entryDate),
+                h('span', params.row.UKey),
               ]);
             }
           },
-          {title: '操作日期', key: 'operateDate', width: 200, align: 'center',
+          {title: '客户经理', key: 'serviceManager', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.operateDate),
+                h('span', params.row.serviceManager),
               ]);
             }
           },
-          {title: '回单日期', key: 'feedbackDate', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.feedbackDate),
-              ]);
-            }
-          },
-          {title: '打印日期', key: 'printDate', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.printDate),
-              ]);
-            }
-          },
-          {title: '转出单位', key: 'transferOutCompany', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.printDate),
-              ]);
-            }
-          },
-          {title: '转入单位', key: 'transferInCompany', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.transferInCompany),
-              ]);
-            }
-          },
-          {title: '转移日期', key: 'transferDate', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.transferDate),
-              ]);
-            }
-          },
-          {title: '任务发起人', key: 'initiator', width: 150, align: 'center',
+          {title: '发起人', key: 'initiator', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.initiator),
               ]);
             }
           },
-          {title: '任务发起时间', key: 'sponsorTime', width: 200, align: 'center',
+          {title: '发起时间', key: 'sponsorTime', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.sponsorTime),
-              ]);
-            }
-          },
-          {title: '备注', key: 'notes', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.notes),
               ]);
             }
           }
@@ -252,23 +232,23 @@
       }
     },
     mounted() {
-      this[EventType.TPROCESSED]()
+      this[EventType.LPROCESSING]()
     },
     computed: {
-      ...mapState('tProcessed',{
+      ...mapState('lProcessing',{
         data:state => state.data
       })
     },
     methods: {
-      ...mapActions('tProcessed',[EventType.TPROCESSED]),
+      ...mapActions('lProcessing',[EventType.LPROCESSING]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      routerToFundCommonOperator(name) {
-        this.$router.push({name: name})
+      ok () {
+
       },
-      nextStep() {
-        this.$router.push({name: 'employeeFundTransferProgressTwo'});
+      cancel () {
+
       }
     }
   }

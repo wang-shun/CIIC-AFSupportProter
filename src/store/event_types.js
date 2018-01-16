@@ -11,6 +11,9 @@ import SocialSecurityPay from "./modules/social_security/social_security_pay/eve
 import EmployeeFundSearch from "./modules/fund/employee_fund_search/event_types"
 import EmployeeCommonOperator from "./modules/fund/employee_common_operator/event_types"
 import EmployeeFundSpecialOperator from "./modules/fund/employee_special_operator/event_types"
+import EmployeeFundTransferOperator from "./modules/fund/employee_transfer_operator/event_types"
+import CompanyFundTaskList from "./modules/fund/company_fund_task_list/event_types"
+import CompanyFundAccountSearch from "./modules/fund/company_fund_account_search/event_types"
 
 //弹性福利
 import gift from "./modules/flexible_benefit/gift/event_types"
@@ -41,6 +44,9 @@ export default {
   ...EmployeeFundSearch,
   ...EmployeeCommonOperator,
   ...EmployeeFundSpecialOperator,
+  ...EmployeeFundTransferOperator,
+  ...CompanyFundTaskList,
+  ...CompanyFundAccountSearch,
 
   //弹性福利
   ...gift,

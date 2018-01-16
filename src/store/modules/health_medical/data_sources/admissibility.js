@@ -72,6 +72,38 @@ const statusProperties = [
   }
 ];
 
+function statusToChina(status) {
+  switch (status) {
+    case 0:
+      return "未受理";
+      break;
+    case 1:
+      return "已受理";
+      break;
+    case 2:
+      return "拒赔";
+      break;
+    case 3:
+      return "已审核未同步";
+      break;
+    case 4:
+      return "已同步未支付";
+      break;
+    case 5:
+      return "财务退回";
+      break;
+    case 6:
+      return "已同步已支付";
+      break;
+    case 7:
+      return "已退票";
+      break;
+    case 8:
+      return "已完成";
+      break;
+  }
+}
+
 /**
  * 健康医疗公共数据
  * 下拉框
@@ -80,4 +112,5 @@ export default {
   moneyTypes,
   caseTypes,
   statusProperties,
+  statusToChina,
 }

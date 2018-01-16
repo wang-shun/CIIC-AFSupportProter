@@ -1,6 +1,6 @@
 <template>
-  <div class="acceptanceList">
-    <Collapse v-model="value1" accordion>
+  <div>
+    <Collapse v-model="collapseInfo">
       <Panel name="1">
         <div slot="content">
           <Form :model="formItem" :label-width="140">
@@ -85,27 +85,25 @@
       <router-link to="/addAcceptanceEmployeeList">
         <Button type="info">新建受理单</Button>
       </router-link>
-      <Button type="info" ref="rmb" @click="modal11 = true">受理</Button>
-      <Modal v-model="modal11" title="受理对话框" @on-ok="ok" ok-text="受理">
-        <Input v-model="formItem.code" placeholder="请输入操作说明："/>
-      </Modal>
-      <Button type="info" ref="rmb1" @click="modal1 = true">拒赔</Button>
-      <Modal v-model="modal1" title="拒赔对话框" @on-ok="ok" ok-text="拒赔">
-        <Input v-model="formItem.code" placeholder="请输入操作说明："/>
-      </Modal>
+      <Button type="info" ref="rmb" @click="modalAccept = true">受理</Button>
+      <Button type="info" ref="rmb1" @click="modalRefuse = true">拒赔</Button>
       <Button type="info" icon="ios-download-outline" @click="exportData(1)">导出数据</Button>
     </div>
 
-    <Table border :columns="acceptanceColumns" :data="acceptanceData" ref="table"></Table>
+    <Table border stripe :columns="acceptanceColumns" :data="acceptanceData" ref="table"></Table>
     <Page :total="100" show-sizer show-elevator></Page>
 
-    <Modal v-model="modal1" title="拒赔操作对话框" @on-ok="ok" @on-cancel="cancel">
+    <Modal v-model="modalAccept" title="受理对话框" @on-ok="updateAcceptanceList(1)" ok-text="受理">
+      <Input v-model="formItem.code" placeholder="请输入操作说明："/>
+    </Modal>
+
+    <Modal v-model="modalRefuse" title="拒赔操作对话框" @on-ok="updateAcceptanceList(2)">
       <Input v-model="formItem.code" placeholder="请输入拒赔原因：" class="mt15"/>
-      <Select class="mt15" :clearable="true">
+      <Select class="mt15" :clearable="true" placeholder="请选择拒赔类型：">
         <Option value="1">退员工</Option>
-        <Option value="1">退客户</Option>
-        <Option value="1">作废</Option>
-        <Option value="1">其他</Option>
+        <Option value="2">退客户</Option>
+        <Option value="3">作废</Option>
+        <Option value="4">其他</Option>
       </Select>
     </Modal>
 
@@ -117,9 +115,9 @@
   export default {
     data() {
       return {
-        modal1: false,
-        modal11: false,
-        value1: '1',
+        collapseInfo: [1, 2, 3], //展开栏
+        modalAccept: false,
+        modalRefuse: false,
         formItem: {
           moneyType: null,
           caseType: null,
@@ -132,6 +130,10 @@
           employeeName: null,
           idCardType: null,
           handlerDateRange: [],
+        },
+        dealMeg: {
+          handler: "xwz",
+
         },
         caseTypes: admissibility.caseTypes,
         moneyTypes: admissibility.moneyTypes,
@@ -170,29 +172,7 @@
           {
             title: '状态', sortable: true, key: 'status', align: 'center',
             render: (h, params) => {
-              switch (params.row.giftType) {
-                case 0:
-                  return "票券";
-                  break;
-                case 1:
-                  return "办公用品";
-                  break;
-                case 2:
-                  return "生活用品";
-                  break;
-                case 3:
-                  return "食品";
-                  break;
-                case 4:
-                  return "饰品";
-                  break;
-                case 5:
-                  return "数码周边";
-                  break;
-                case 6:
-                  return "儿童用品";
-                  break;
-              }
+              return admissibility.statusToChina(params.row.status)
             }
           },
           {
@@ -261,6 +241,9 @@
       }
     },
     methods: {
+      updateAcceptanceList(val) {
+
+      },
       show(index) {
         this.$Modal.info({
           title: '用户信息',

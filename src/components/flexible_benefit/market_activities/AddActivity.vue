@@ -2,7 +2,7 @@
   <div class="smList">
     <Card>
       <Form :model="formItem" ref="formItem" :rules="marketValidate" :label-width="120">
-        <row class="mt20 mr10">
+        <Row class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="活动主题：" prop="activityTitle">
             <Input v-model="formItem.activityTitle" placeholder="请输入"/>
@@ -41,13 +41,13 @@
             <Input v-model="formItem.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
           </Form-item>
           </Col>
-        </row>
-        <row>
+        </Row>
+        <Row type="flex" justify="start">
           <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="back">返回</Button>
           <Button type="primary" @click="addMarketActivity()">提交</Button>
           </Col>
-        </row>
+        </Row>
       </Form>
     </Card>
   </div>

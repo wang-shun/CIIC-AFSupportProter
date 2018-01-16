@@ -28,7 +28,6 @@
             <Input v-model="formItem.name" placeholder="3"/>
           </Form-item>
           </Col>
-
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="税前金额：">
             <Input v-model="formItem.name" placeholder="300.00"/>

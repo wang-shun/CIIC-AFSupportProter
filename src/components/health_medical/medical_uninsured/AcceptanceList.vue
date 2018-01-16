@@ -4,57 +4,57 @@
       <Panel name="1">
         <div slot="content">
           <Form :model="formItem" :label-width="140">
-            <Row>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+            <Row justify="start" class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="款项类型">
                 <Select placeholder="请选择">
                   <Option v-for="item in dataTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="受理类型">
                 <Select placeholder="请选择">
                   <Option v-for="item in peopleTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="管理方编号">
                 <Input v-model="formItem.code" placeholder="请输入"></Input>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="管理方名称">
                 <Input v-model="formItem.code" placeholder="请输入"></Input>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员编号">
                 <Input v-model="formItem.code" placeholder="请输入"></Input>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员姓名">
                 <Input v-model="formItem.code" placeholder="请输入"></Input>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="证件号码">
                 <Input v-model="formItem.code" placeholder="请输入"></Input>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="公司编号">
                 <Input v-model="formItem.code" placeholder="请输入"></Input>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="公司名称">
                 <Input v-model="formItem.code" placeholder="请输入"></Input>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="状态">
                 <Select placeholder="请选择">
                   <Option>已受理</Option>
@@ -62,7 +62,7 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="处理日期">
                 <DatePicker type="date" style="width: 130px;" placeholder="选择日期"></DatePicker>
                 <span style="width: 5px;">-</span>
@@ -71,10 +71,12 @@
               </Form-item>
               </Col>
             </Row>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 24}" class="tr">
+              <Button type="primary" size="large">查询</Button>
+              </Col>
+            </Row>
           </Form>
-          <div class="tc">
-            <Button type="primary" size="large">查询</Button>
-          </div>
         </div>
       </Panel>
     </Collapse>

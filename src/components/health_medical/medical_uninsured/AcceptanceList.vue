@@ -3,7 +3,7 @@
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         <div slot="content">
-          <Form :model="formItem" :label-width="140">
+          <Form ref="formItem" :model="formItem" :label-width="140">
             <Row justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="款项类型" prop="moneyType">
@@ -72,8 +72,8 @@
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search">查询</Button>
-              <Button type="warning">重置</Button>
+              <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -85,19 +85,20 @@
       <router-link to="/addAcceptanceEmployeeList">
         <Button type="info">新建受理单</Button>
       </router-link>
-      <Button type="info" ref="rmb" @click="modalAccept = true">受理</Button>
-      <Button type="info" ref="rmb1" @click="modalRefuse = true">拒赔</Button>
+      <Button type="info" ref="rmb" @click="modalButton(true)">受理</Button>
+      <Button type="info" ref="rmb1" @click="modalButton(false)">拒赔</Button>
       <Button type="info" icon="ios-download-outline" @click="exportData(1)">导出数据</Button>
     </div>
 
-    <Table border stripe :columns="acceptanceColumns" :data="acceptanceData" ref="table"></Table>
+    <Table border stripe ref="acceptanceData" :columns="acceptanceColumns" :data="acceptanceData"
+           @on-selection-change="selectTableData"></Table>
     <Page :total="100" show-sizer show-elevator></Page>
 
-    <Modal v-model="modalAccept" title="受理对话框" @on-ok="updateAcceptanceList(1)" ok-text="受理">
+    <Modal v-model="modalAccept" title="受理对话框" ok-text="受理" @on-ok="updateAcceptanceList(1)" :mask-closable="true">
       <Input v-model="formItem.code" placeholder="请输入操作说明："/>
     </Modal>
 
-    <Modal v-model="modalRefuse" title="拒赔操作对话框" @on-ok="updateAcceptanceList(2)">
+    <Modal v-model="modalRefuse" title="拒赔操作对话框" ok-text="拒赔" @on-ok="updateAcceptanceList(2)" :mask-closable="true">
       <Input v-model="formItem.code" placeholder="请输入拒赔原因：" class="mt15"/>
       <Select class="mt15" :clearable="true" placeholder="请选择拒赔类型：">
         <Option value="1">退员工</Option>
@@ -119,6 +120,8 @@
         modalAccept: false,
         modalRefuse: false,
         formItem: {
+          current: 1,
+          size: 10,
           moneyType: null,
           caseType: null,
           status: null,
@@ -133,8 +136,11 @@
         },
         dealMeg: {
           handler: "xwz",
-
+          handlerDate: new Date(),
+          status: null,
+          //还有受理备注，拒赔类型 两个字段
         },
+        selectData: [],
         caseTypes: admissibility.caseTypes,
         moneyTypes: admissibility.moneyTypes,
         statusProperties: admissibility.statusProperties,
@@ -190,7 +196,9 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        this.$router.push({name: 'auditNurseryFee', params: {data: params.row}});
+                        this.selectData = [];
+                        this.selectData.push(params.row);
+                        this.modalButton(true);
                       }
                     }
                   }, '受理'),
@@ -198,7 +206,10 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        this.$router.push({name: 'auditNurseryFee', params: {data: params.row}});
+                        //auditNurseryFee
+                        this.selectData = [];
+                        this.selectData.push(params.row);
+                        this.modalRefuse = true;
                       }
                     }
                   }, '拒赔')
@@ -241,20 +252,41 @@
       }
     },
     methods: {
-      updateAcceptanceList(val) {
+      queryAcceptanceList() {
 
       },
-      show(index) {
-        this.$Modal.info({
-          title: '用户信息',
-          content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-        })
+      modalButton(val) {
+        if (this.selectData.length === 0) {
+          this.$Message.error("请选择受理单");
+          return;
+        }
+        if (val) {
+          this.modalAccept = true;
+        } else {
+          this.modalRefuse = true;
+        }
+      },
+      updateAcceptanceList(val) {
+        this.dealMeg.status = val;
+
+        this.getByPage(1);
       },
       remove(index) {
         this.data6.splice(index, 1);
       },
-      showModel() {
-        this.modal1 = true;
+      selectTableData(rows) {
+        this.selectData = rows;
+      },
+      getByPage(val) {
+        this.formItem.current = val;
+        this.queryAcceptanceList()
+      },
+      pageSizeChange(size) {
+        this.formItem.size = size;
+        this.queryAcceptanceList()
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
       },
       // 导出csv
       exportData(type) {

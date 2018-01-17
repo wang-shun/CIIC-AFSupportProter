@@ -64,7 +64,7 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="受理金额：" prop="caseMoney">
-            <InputNumber :min="1" :precision="2" v-model="formItem.caseMoney" style="width: 100%"></InputNumber>
+            <InputNumber :min="1" v-model="formItem.caseMoney" style="width: 100%"></InputNumber>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -89,6 +89,7 @@
     </Card>
   </div>
 </template>
+
 <script>
   import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
 

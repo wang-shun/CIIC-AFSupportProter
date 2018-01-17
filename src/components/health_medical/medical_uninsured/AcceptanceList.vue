@@ -141,8 +141,8 @@
           //还有受理备注，拒赔类型 两个字段
         },
         selectData: [],
-        caseTypes: admissibility.caseTypes,
         moneyTypes: admissibility.moneyTypes,
+        caseTypes: admissibility.caseTypes,
         statusProperties: admissibility.statusProperties,
         acceptanceColumns: [
           {
@@ -270,9 +270,6 @@
         this.dealMeg.status = val;
 
         this.getByPage(1);
-      },
-      remove(index) {
-        this.data6.splice(index, 1);
       },
       selectTableData(rows) {
         this.selectData = rows;

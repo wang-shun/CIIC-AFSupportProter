@@ -134,8 +134,7 @@
                 if(value==null){
                  self.transferOperator.acceptanceDate=''
                 }
-                // return callback(new Error('请选择受理时间.'));
-               return callback(new Error(''));
+                return callback(new Error('请选择受理时间.'));
               }else{
                 callback();
               }
@@ -151,8 +150,7 @@
                 if(value==null){
                  self.transferOperator.sendCheckDate=''
                 }
-                //return callback(new Error('请选择送审时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择送审时间.'));
               }else{
                 callback();
               }
@@ -165,8 +163,7 @@
                callback();
             }else{
               if(value==null || value==''){
-                //return callback(new Error('请选择完成时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择完成时间.'));
               }else{
                 callback();
               }
@@ -179,8 +176,7 @@
                callback();
             }else{
               if(value==null || value==''){
-                //return callback(new Error('请选择转移时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择转移时间.'));
               }else{
                 callback();
               }

@@ -120,8 +120,7 @@
                 if(value==null){
                  self.endOperator.acceptanceDate=''
                 }
-               // return callback(new Error('请选择受理时间.'));
-               return callback(new Error(''));
+               return callback(new Error('请选择受理时间.'));
               }else{
                 callback();
               }
@@ -137,8 +136,7 @@
                 if(value==null){
                  self.endOperator.sendCheckDate=''
                 }
-                //return callback(new Error('请选择送审时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择送审时间.'));
               }else{
                 callback();
               }
@@ -151,8 +149,7 @@
                callback();
             }else{
               if(value==null || value==''){
-                //return callback(new Error('请选择完成时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择完成时间.'));
               }else{
                 callback();
               }
@@ -166,8 +163,7 @@
                callback();
             }else{
               if(value==null || value==''){
-                //return callback(new Error('请选择终止时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择终止时间.'));
               }else{
                 callback();
               }

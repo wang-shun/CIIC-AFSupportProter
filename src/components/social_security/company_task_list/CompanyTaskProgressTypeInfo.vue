@@ -250,20 +250,16 @@
     data() {
        const validateBankCardNumber = (rule, value, callback) => {
                 if (!value.trim()) {
-                   // return callback(new Error('该项不能为空！'));
-                    return callback(new Error(''));
+                   return callback(new Error('该项不能为空！'));
                 }
                 let rex = /^\d*$/
                   if(!rex.test(value)) {
-                        //callback(new Error('请输入纯数字.'));
-                        callback(new Error(''));
+                        callback(new Error('请输入纯数字.'));
                     }else if(value.trim()!=value){
-                        //callback(new Error('请输入纯数字.'));
-                         callback(new Error(''));
+                        callback(new Error('请输入纯数字.'));
                    } else {
                         if (value.length > 20) {
-                          //callback(new Error('长度不能超过20位.'));
-                            callback(new Error(''));
+                        callback(new Error('长度不能超过20位.'));
                         } else {
                             callback();
                         }
@@ -273,17 +269,14 @@
        const validateUserNameAndPsw=(rule, value, callback)=>{
 
                 if (!value.trim()) {
-                  //return callback(new Error('该项不能为空！'));
-                    return callback(new Error(''));
+                  return callback(new Error('该项不能为空！'));
                 }
                 let regex=/^[0-9A-Za-z_]{1,50}$/ //数字、字母、下划线
                 if (!regex.test(value)) {
-                  //return callback(new Error('只能包含数字,字母或下划线.'));
-                    return callback(new Error(''));
+                  return callback(new Error('只能包含数字,字母或下划线.'));
                 }
                 if(value.length>20){
-                  //return callback(new Error('长度不能超过20位.'));
-                   return callback(new Error(''));
+                  return callback(new Error('长度不能超过20位.'));
                 }
 
 
@@ -298,12 +291,10 @@
                 return;
               }
               if(!rex.test(value)){
-                  //callback(new Error('请输入正确的金钱格式.'));
-                    callback(new Error(''));
+                  callback(new Error('请输入正确的金钱格式.'));
                 }else{
                     if(value.length > 20){
-                       // callback(new Error('长度不能超过20位.'));
-                          callback(new Error(''));
+                        callback(new Error('长度不能超过20位.'));
                     }else{
                          callback();
                     }
@@ -314,15 +305,12 @@
 
                var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
                if (value==null || value.trim()=="") {
-                     //callback(new Error('该项不能为空！'));
-                       callback(new Error(''));
+                     callback(new Error('该项不能为空！'));
                 }else if(!rex.test(value)){
-                    //callback(new Error('请输入正确的格式.'));
-                      callback(new Error(''));
+                    callback(new Error('请输入正确的格式.'));
                 }else{
                     if(value.length > 20){
-                      //  callback(new Error('长度不能超过20位.'));
-                          callback(new Error(''));
+                       callback(new Error('长度不能超过20位.'));
                     }else{
                          callback();
                     }
@@ -338,8 +326,7 @@
                 if(value==null){
                  this.companyOpenAccountOperator.acceptanceDate=''
                 }
-                //return callback(new Error('请选择受理时间.'));
-               return callback(new Error(''));
+                return callback(new Error('请选择受理时间.'));
 
               }else{
                 callback();
@@ -357,8 +344,7 @@
                 if(value==null){
                  self.companyOpenAccountOperator.sendCheckDate=''
                 }
-                //return callback(new Error('请选择送审时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择送审时间.'));
               }else{
                 callback();
               }
@@ -371,8 +357,7 @@
                callback();
             }else{
               if(value==null || value==''){
-                //return callback(new Error('请选择完成时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择完成时间.'));
               }else{
                 callback();
               }

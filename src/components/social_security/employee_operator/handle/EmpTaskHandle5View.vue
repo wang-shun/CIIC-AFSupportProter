@@ -20,17 +20,17 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="用工状态:">
-                <label>{{taskOutInfo.state}}</label>
+                <label></label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="离职日期：">
-                <label>{{taskOutInfo.leaveDate}}</label>
+                <label>{{socialSecurityPayOperator.outDate}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保截止年月：">
-                <label>{{taskOutInfo.socialSecurityEndDate}}</label>
+                <label>{{yyyyMM(socialSecurityPayOperator.endMonth)}}</label>
               </Form-item>
               </Col>
             </Row>
@@ -40,10 +40,10 @@
       <Panel name="4">
         社保转出操作
         <div slot="content">
-          <Form :label-width=150>
+          <Form ref="socialSecurityPayOperator" :model="socialSecurityPayOperator" :rules="ruleValidate" :label-width=150>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="办理方式：">
+              <Form-item label="办理方式：" prop="handleWay">
                 <Select v-model="socialSecurityPayOperator.handleWay" style="width: 100%;" transfer>
                   <Option value="1" label="网上申报"></Option>
                   <Option value="2" label="柜面办理"></Option>
@@ -51,14 +51,14 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="办理月份：">
+              <Form-item label="办理月份：" prop="handleMonth">
                 <DatePicker v-model="socialSecurityPayOperator.handleMonth" type="month" placeholder="办理年月"
                             style="width: 100%;"
                             transfer></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="变更类型：">
+              <Form-item label="变更类型：" prop="taskCategory">
                 <Select v-model="socialSecurityPayOperator.taskCategory" style="width: 100%;" transfer>
                   <Option v-for="item in taskCategoryType" :value="item.value" :key="item.value"
                           :label="item.label"></Option>
@@ -66,7 +66,7 @@
               </Form-item>
               </Col>
               <!-- 仅转出 -->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="特殊变更类型：">
                 <Select v-model="socialSecurityPayOperator.taskCategorySpecial" style="width: 100%;" transfer>
                   <Option v-for="item in specialChangeType" :value="item.value" :key="item.value">
@@ -74,11 +74,11 @@
                   </Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col> -->
               <!-- 仅转出 -->
               <!-- 仅新增 -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="截至月份：">
+              <Form-item label="缴费截止月份：" prop="endMonth">
                 <DatePicker v-model="socialSecurityPayOperator.endMonth"
                             type="month"
                             placement="bottom-end"
@@ -125,10 +125,10 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button> 
       <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
-      <Button type="error" @click="instance('4')" v-if="showButton">批退</Button>
-      <Button type="primary" v-show="operatorType !== '2'" @click="instance('1')" v-if="showButton">暂存</Button>
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -136,8 +136,8 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import companyInfo from '../../components/CompanyInfo'
-  import employeeInfo from '../../components/EmployeeInfo'
+  import companyInfo from '../../components/CompanyInfo.vue'
+  import employeeInfo from '../../components/EmployeeInfo.vue'
 
   import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
@@ -145,6 +145,42 @@
   export default {
     components: {companyInfo, employeeInfo},
     data() {
+      //办理日期
+      const validateHandleMonth =(rule, value, callback)=>{
+            debugger
+            let self= this
+            let handleMonth = self.socialSecurityPayOperator.handleMonth;
+            if(handleMonth==null || typeof(handleMonth)=='undefined' || handleMonth==""){
+                return callback(new Error('不能为空.'))
+            }
+
+            let now = new Date();
+            let nowMonth = self.getYearMonth(now);
+            let valueMonth = self.getYearMonth(handleMonth);
+
+            if(valueMonth<nowMonth){
+              return callback(new Error('不能小于当前月.'))
+            }
+              callback()
+
+      }
+      //截止月份
+    const validateEndMonth=(rule, value, callback)=>{
+            debugger
+            let self= this
+            if(value==null || typeof(value)=='undefined' || value==""){
+                return callback(new Error('不能为空.'))
+            }
+            let handleMonth = self.getYearMonth(self.socialSecurityPayOperator.handleMonth);
+            let lastMonth = self.getLastYearMonth(self.socialSecurityPayOperator.handleMonth);
+            console.log(lastMonth)
+            let valueMonth = self.getYearMonth(self.socialSecurityPayOperator.endMonth);
+            debugger
+            if(Number(valueMonth)!=Number(handleMonth) && Number(valueMonth)!=Number(lastMonth)){
+              return callback(new Error('只能等于办理月份或者在办理月份前一月.'))
+            }
+            callback()
+    }
       return {
         empTaskId: '',
         operatorType: '',
@@ -153,116 +189,15 @@
         collapseInfo: [1, 2, 3, 4],
         employee: {},
         company: {},
-
         taskCategoryType: [
           {value: '5', label: '转出'},
           {value: '6', label: '封存'},
         ], //变更方式
-        specialChangeType: [
-          {value: 1, label: '退休'},
-          {value: 2, label: '终止'}
-        ], //特殊变更类型：
-
-        operatorListColumns: [
-          {
-            title: '', key: 'remitWay', align: 'center', width: 100,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.remitWay),
-              ]);
-            }
-          },
-          {
-            title: '起缴月份',
-            key: 'startMonth',
-            align: 'center',
-            render: (h, params) => {
-              return h('DatePicker', {
-                props: {value: params.row.startMonth, type: 'month', disabled: Boolean(params.row.disabled)},
-                attrs: {placeholder: '选择年月'},
-                on: {
-                  'on-change': (value) => {
-                    this.setRow(params, 'startMonth', value);
-                  }
-                }
-              });
-            }
-          },
-          {
-            title: '截止月份',
-            key: 'endMonth',
-            align: 'center',
-            render: (h, params) => {
-              return h('DatePicker', {
-                props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
-                attrs: {placeholder: '选择年月'},
-                on: {
-                  'on-change': (value) => {
-                    this.setRow(params, 'endMonth', value);
-                  }
-                }
-              });
-            }
-          },
-          {
-            title: '基数',
-            key: 'baseAmount',
-            align: 'center',
-            render: (h, params) => {
-              return h('Input', {
-                props: {value: params.row.baseAmount, disabled: Boolean(params.row.disabled)},
-                on: {
-                  'on-blur': (e) => {
-                    this.setRow(params, 'baseAmount', e.target.value);
-                  }
-                }
-              }, params.row.baseAmount);
-            }
-          },
-          /**@augments
-           * 不能删除  暂时屏蔽
-           * 现在只做一条时间段的需求
-           */
-          // {
-          //   title: '操作',
-          //   key: 'base',
-          //   align: 'center',
-          //   width: 130,
-          //   render: (h, params) => {
-          //     return h('div', [
-          //       h('Button', {
-          //         props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
-          //         style: {marginRight: '5px'},
-          //         on: {
-          //           click: () => {
-          //             params.row.disabled = false;
-          //           }
-          //         }
-          //       }),
-          //       h('Button', {
-          //         props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
-          //         style: {marginRight: '5px'},
-          //         on: {
-          //           click: () => {
-          //             this.removeRow(params.index);
-          //           }
-          //         }
-          //       }),
-          //       h('Button', {
-          //         props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
-          //         on: {
-          //           click: () => {
-          //             this.insertRow(params.index);
-          //           }
-          //         }
-          //       })
-          //     ]);
-          //   }
-          // }
-        ],
-        operatorListData: [
-          {remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false}
-        ],
+        // specialChangeType: [
+        //   {value: '', label: '无'},
+        //   {value: 1, label: '退休'},
+        //   {value: 2, label: '终止'}
+        // ], //特殊变更类型：
         socialSecurityPayOperator: {
           handleWay: '1',
           handleMonth: '',
@@ -277,51 +212,56 @@
           rejectionRemark: '',
           rejectionRemarkMan: '',
           rejectionRemarkDate: '',
-
+          outDate:'',
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
         },
-
-        // 任务单参考信息
-        taskNewInfoColumns: [
-          {title: '基数', key: 'base', align: 'center', width: 200,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.base),
-              ]);
-            }
-          },
-          {title: '起缴月份', key: 'startMonth', align: 'center', width: 200,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.startMonth),
-              ]);
-            }
-          },
-          {title: '截至月份', key: 'endYear', align: 'center', width: 200,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.endYear),
-              ]);
-            }
-          }
-        ], //任务单参考信息 -- 新增
         showButton: true,
+        ruleValidate:{
+                handleWay:[
+                   { required: true, type: 'string', message: '请选择办理方式.', trigger: 'change' }
+                 ],
+                handleMonth: [
+                   { required: true,type: 'date',validator:validateHandleMonth, trigger: 'change' }
+                ],
+                taskCategory:[
+                  { required: true,type: 'string',message:'选择任务类型.', trigger: 'blur' }
+                ],
+                endMonth:[
+                  { required: true,type: 'date',validator:validateEndMonth, trigger: 'change' }
+                ]
+          }
+
       }
     },
     mounted() {
       this.initData(this.$route.query)
-      this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]()
     },
     computed: {
-      ...mapState('companySocialSecurityNew', {
-        data: state => state.data,
-        taskOutInfo: state => state.data.taskOutInfo,
-      })
     },
     methods: {
-      ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
+      getYearMonth(date){
+        debugger
+        if(date==null || date=="")return "";
+        let year = date.getFullYear(); 
+        let month = date.getMonth()+1;
+        if(month>=1 && month<=9){
+              month='0'+month
+        }
+        return Number(year+''+month);
+      },
+      getLastYearMonth(date){
+        debugger
+        if(date==null || date=="")return "";
+        let year = date.getFullYear(); 
+        let month = date.getMonth();
+        if(month>=1 && month<=9){
+              month='0'+month
+        }
+        debugger
+        return Number(month)==0?(Number(year)-1)+'12':Number(year+''+month) 
+      },
       initData(data) {
         this.empTaskId = data.empTaskId;
         this.operatorType = data.operatorType;
@@ -333,11 +273,18 @@
           empTaskId: empTaskId,
           operatorType: 1,// 任务单费用段
         }).then(data => {
-          if (data.data.empTaskPeriods.length > 0) {
-            this.operatorListData = data.data.empTaskPeriods;
-          }
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
+          
+          debugger
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
+          let handleMonth = this.socialSecurityPayOperator.handleMonth;
+          debugger
+          if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
+            let date = new Date();
+            
+            handleMonth=this.getYearMonth(date);
+            this.socialSecurityPayOperator.handleMonth=handleMonth;
+          }
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
@@ -346,6 +293,7 @@
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
           this.company = data.data;
         })
+       
       },
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo'});
@@ -357,53 +305,7 @@
         }
         return this.$utils.formatDate(date, 'YYYYMM')
       },
-      filterData() {
-        var oldRows = this.getRows();
-        var empTaskId = this.socialSecurityPayOperator.empTaskId;
-
-        var newRows = [];
-        for (var row of oldRows) {
-          if (row.startMonth != '' || row.endMonth != '' || row.baseAmount != '') {
-            newRows.push({
-              empTaskId: empTaskId,
-              startMonth: this.yyyyMM(row.startMonth),
-              endMonth: this.yyyyMM(row.endMonth),
-              baseAmount: row.baseAmount,
-              remitWay: row.remitWay,
-            });
-          }
-        }
-        return newRows;
-      },
-      newRow() {
-        return {
-          remitWay: '',
-          startMonth: '',
-          endMonth: '',
-          baseAmount: '',
-          disabled: false
-        };
-      },
-      getRows() {
-        return this.operatorListData;
-      },
-      setRow(params, name, value) {
-        this.getRows()[params.index][name] = value;
-        params.row[name] = value;
-      },
-      insertRow(index) {
-        this.getRows().splice(index, 0, this.newRow());
-      },
-      removeRow(index) {
-        var data = this.getRows();
-
-        // 保留最后一个并清空
-        if (data.length == 1) {
-          this.$utils.copy(this.newRow(), data[0]);
-        } else {
-          data.splice(index, 1);
-        }
-      },
+    
       instance(taskStatus, type) {
         var fromData = this.$utils.clear(this.socialSecurityPayOperator,'');
 
@@ -411,6 +313,14 @@
         var content = "任务办理";
         if ('4' == taskStatus) {
           content = "批退办理";
+        }else{
+           let validResult = false;
+          //校验表单
+        this.$refs['socialSecurityPayOperator'].validate((valid) => {
+            if (valid)validResult = true;
+        })
+          //校验是否通过
+         if(!validResult)return;
         }
         this.$Modal.confirm({
           title: "确认办理吗？",
@@ -420,23 +330,18 @@
           onOk: () => {
             {// 处理日期
               fromData.handleMonth = this.yyyyMM(fromData.handleMonth)
-              fromData.startMonth = this.yyyyMM(fromData.startMonth)
               fromData.endMonth = this.yyyyMM(fromData.endMonth)
               fromData.handleRemarkDate = null;
               fromData.rejectionRemarkDate = null;
               fromData.taskStatus = taskStatus;
             }
-
-
             // 转下月处理
-            if(type && type == 'next'){
-              var nextDay = parseInt(this.company.expireDate) + 1;
-              var submitTime = new Date();
-              submitTime.setDate(nextDay);
-              fromData.submitTime = this.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');
-            }
-
-            fromData.empTaskPeriods = this.filterData();
+            // if(type && type == 'next'){
+            //   var nextDay = parseInt(this.company.expireDate) + 1;
+            //   var submitTime = new Date();
+            //   submitTime.setDate(nextDay);
+            //   fromData.submitTime = this.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');
+            // }
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success(content + "成功");

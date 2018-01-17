@@ -37,6 +37,9 @@ const empTaskHandleView = r => require.ensure([], () => r(require('@/components/
 const empTaskHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle3View')), 'EmpTaskHandle3View')
 const empTaskHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle4View')), 'EmpTaskHandle4View')
 const empTaskHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle5View')), 'EmpTaskHandle5View')
+const empTaskHandle7View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle7View')), 'EmpTaskHandle7View')
+
+
 // 雇员任务批量办理
 const empTaskBatchHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandleView')), 'empTaskBatchHandleView')
 const empTaskBatchHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle3View')), 'empTaskBatchHandle3View')
@@ -295,7 +298,18 @@ export default [
       openNames:['1']
     }
   },
-
+  {
+    path: '/emp_task_handle7_view',
+    name: 'empTaskHandle7View',
+    component: empTaskHandle7View,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"雇员操作转出",
+      openNames:['1']
+    }
+  },
+  
   // 雇员任务批量办理
   {
     path: '/emp_task_batch_handle_view',

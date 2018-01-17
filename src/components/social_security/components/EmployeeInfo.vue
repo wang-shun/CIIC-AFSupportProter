@@ -35,7 +35,7 @@
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
       <Form-item label="社保账号分类：">
-        <label>{{emp.ssAccountType}}</label>
+        <label>{{$decode.accountType(emp.ssAccountType)}}</label>
       </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">

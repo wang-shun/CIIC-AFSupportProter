@@ -26,7 +26,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="状态：" prop="state">
                   <Select v-model="comAccountSearch.state" style="width: 100%;" transfer>
-                    <Option v-for="item in comAccountSearch.stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="item in stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>

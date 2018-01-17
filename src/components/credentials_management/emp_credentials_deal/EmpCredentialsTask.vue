@@ -70,12 +70,9 @@
       </Panel>
       <Panel name="3">
         证件办理
-        <Form :model="formItem" :label-width="120" slot="content">
-          <Row type="flex" justify="start">
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            </i-col>
-          </Row>
-        </Form>
+         <div slot="content">
+          <CredentialsDealInfo></CredentialsDealInfo>
+        </div>
       </Panel>
       <Panel name="4">
         基础操作
@@ -199,7 +196,9 @@
 </template>
 
 <script>
+  import CredentialsDealInfo from './common/CredentialsDealTask'
   export default {
+    components: {CredentialsDealInfo},
     data () {
       return {
         value1: ['2', '3'],

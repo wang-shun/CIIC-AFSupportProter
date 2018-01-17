@@ -48,11 +48,11 @@
       </Panel>
     </Collapse>
 
-    <div class="tr" style="margin: 20px auto;">
+    <div class="tr m20">
       <router-link to="/addReimbursement">
-        <Button type="primary">新增零星报销</Button>
+        <Button type="info">新增零星报销</Button>
       </router-link>
-      <Button icon="ios-download-outline" type="primary" @click="exportData(2)">导出数据</Button>
+      <Button icon="ios-download-outline" type="info" @click="exportData(2)">导出数据</Button>
     </div>
     <Table border :columns="reimbursementColumns" :data="reimbursementData" ref="reimbursementTable"></Table>
     <Page :total="reimbursementTotal" show-sizer show-elevator @on-change="getByPage"

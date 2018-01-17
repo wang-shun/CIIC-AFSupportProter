@@ -235,7 +235,7 @@
             this.$router.push({name: 'companyTaskProgressTransferInfo', query: {operatorType: '2',tid:this.tid}})
             break;
           case '3':
-            this.$router.push({name: 'CompanyTaskProgressChangeInfo', query: {operatorType: '3',tid:this.tid}})
+            this.$router.push({name: 'companyTaskProgressChangeInfo', query: {operatorType: '3',tid:this.tid}})
             break;
           case '4':
             this.$router.push({name: 'companyTaskProgressEndInfo', query: {operatorType: '4',tid:this.tid}})

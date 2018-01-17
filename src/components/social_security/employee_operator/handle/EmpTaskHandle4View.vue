@@ -107,10 +107,10 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
       <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
-      <Button type="error" @click="instance('4')" v-if="showButton">批退</Button>
-      <Button type="primary" v-show="operatorType !== '2'" @click="instance('1')" v-if="showButton">暂存</Button>
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -154,8 +154,8 @@
           {
             title: '', key: 'remitWay', align: 'center', width: 100,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.remitWay),
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', this.$decode.remitWay(params.row.remitWay)),
               ]);
             }
           },
@@ -206,7 +206,8 @@
               }, params.row.baseAmount);
             }
           },
-          /**@augments
+          /**
+           * @augments
            * 不能删除  暂时屏蔽
            * 现在只做一条时间段的需求
            */
@@ -325,7 +326,7 @@
             this.operatorListData = data.data.empTaskPeriods;
           }else{
             this.operatorListData=[{
-                remitWay: '1', 
+                remitWay: '2', 
                 startMonth: data.data.startMonth, 
                 endMonth: data.data.endMonth, 
                 baseAmount: data.data.empBase, 
@@ -337,10 +338,17 @@
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          this.employee = data.data;
+          
+          if(data.data!=null){
+             this.employee = data.data;
+          }
+         
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
+          
+          if(data.data!=null){
           this.company = data.data;
+          }
         })
       },
       goBack() {
@@ -424,8 +432,6 @@
               fromData.rejectionRemarkDate = null;
               fromData.taskStatus = taskStatus;
             }
-
-
             // 转下月处理
             if(type && type == 'next'){
               var nextDay = parseInt(this.company.expireDate) + 1;
@@ -436,15 +442,22 @@
 
             fromData.empTaskPeriods = this.filterData();
             
-            // api.handleEmpTask(fromData).then(data => {
-            //   if (data.code == 200) {
-            //     this.$Message.success(content + "成功");
-            //     // 返回任务列表页面
-            //     history.go(-1);
-            //   } else {
-            //     this.$Message.error(content + "失败！" + data.message);
-            //   }
-            // })
+            api.handleEmpTask(fromData).then(data => {
+              if (data.code == 200) {
+                this.$Message.success(content + "成功");
+                // 返回任务列表页面
+                history.go(-1);
+              } else {
+                this.$Message.error({
+                  top:100,
+                  duration: 5,
+                  content:content + "失败！" + data.message,
+                  closable:true
+                }
+                  
+                  );
+              }
+            })
           }
         });
 

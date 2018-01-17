@@ -33,7 +33,7 @@
         </div>
       </Panel>
     </Collapse>
-    <div class="floatRightBtns">
+    <div class="tr m10">
       <router-link to="/addCollectionPayment">
         <Button type="primary">新增代收代付</Button>
       </router-link>
@@ -74,7 +74,7 @@
             render: (h, params) => {
               return h('div', [
                 h('Button', {
-                  props: {type: 'primary', size: 'small'},
+                  props: {type: 'success', size: 'small'},
                   on: {
                     click: () => {
                       this.$router.push({name: 'addCollectionPayment', params: {data: params.row}});

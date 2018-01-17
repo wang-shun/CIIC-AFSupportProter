@@ -19,9 +19,9 @@
             </Button>
             <DropdownMenu slot="list">
               <DropdownItem name="http://172.16.9.25:8100/#/">销售中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8103/#/">外企客服中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8103/#/">客服中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8109/#/">代理中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8101/">外企雇员中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8101/">雇员中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8104/#/">服务外包业务中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8108/#/main/">外企支持中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8112/#/">财务咨询业务中心</DropdownItem>

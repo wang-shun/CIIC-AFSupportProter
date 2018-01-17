@@ -646,7 +646,7 @@
     methods: {
       ...mapActions('employeeCommcialOperator', [EventType.EMPLOYEECOMMCIALOPERATOR]),
       goback () {
-        this.$router.push({name: 'employeeoperatorview'});
+        this.$router.push({name: 'employeeOperatorView'});
       }
     }
   }

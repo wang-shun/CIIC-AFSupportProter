@@ -4,28 +4,28 @@
       <Panel name="1">
         申请信息
         <div slot="content">
-          <Row>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Row type="flex" justify="start" class="m10">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>申请单号: </span>
             <span>{{ applyRecord.applyRecordId }}</span>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>主题: </span>
             <span>{{ applyRecord.projectTopics }}</span>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>申请类别:</span>
             <span>礼品申请</span>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>申请人部门: </span>
             <span>{{ applyRecord.contactDeptName }}</span>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>申请人职位: </span>
             <span>{{ applyRecord.contactPosition }}</span>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <span>申请时间: </span>
             <span>{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}</span>
             </Col>
@@ -38,18 +38,18 @@
       <Card style="width: 100%">
         申请明细:
         <Form :model="gift" ref="gift" :label-width="140">
-          <Row>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Row type="flex" justify="start" class="m10">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="礼品名称：">
               {{gift.giftName}}
             </Form-item>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="数量：">
               {{gift.number}}
             </Form-item>
             </Col>
-            <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="单价：">
               {{gift.price}}
             </Form-item>
@@ -62,36 +62,36 @@
     <div v-if="applyRecordDetail.presentingObjectType !== 4">
       <Card style="width: 100%">
         赠送对象:
-        <Row>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+        <Row type="flex" justify="start" class="m10">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>对象类型: </span>
           <span>{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}</span>
           </Col>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>姓名: </span>
           <span>{{applyRecordDetail.contactName}}</span>
           </Col>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>手机号: </span>
           <span>{{applyRecordDetail.contactPhoneNum}}</span>
           </Col>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>公司: </span>
           <span>{{applyRecordDetail.companyName}}</span>
           </Col>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>部门: </span>
           <span>{{applyRecordDetail.contactDeptName}}</span>
           </Col>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>职位: </span>
           <span>{{applyRecordDetail.contactPosition}}</span>
           </Col>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>部门: </span>
           <span>{{applyRecordDetail.contactDeptName}}</span>
           </Col>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>公司地址: </span>
           <span>{{applyRecordDetail.companyAddress}}</span>
           </Col>
@@ -102,20 +102,20 @@
     <div v-else>
       <Card style="width: 100%">
         赠送对象:
-        <Row>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+        <Row type="flex" justify="start" class="m10">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>对象类型: </span>
           <span>{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}</span>
           </Col>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>类型: </span>
           <span>{{this.otherProperties(applyRecordDetail.applicantType)}}</span>
           </Col>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>申请人: </span>
           <span>{{applyRecordDetail.applicant}}</span>
           </Col>
-          <Col :xs="{span: 6, offset: 1}" :lg="{ span: 6, offset: 1}">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span>申请人分机号: </span>
           <span>{{applyRecordDetail.applicantExtension}}</span>
           </Col>
@@ -127,12 +127,12 @@
       <Panel name="2">
         审批列表
         <div slot="content">
-          <Row>
-            <Col :xs="{span: 12, offset: 1}" :lg="{ span: 12, offset: 1}">
+          <Row type="flex" justify="start" class="m10">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Table stripe border :columns="approvalStepColumns" :data="approvalStepList"
                    ref="approvalStepTable"></Table>
             </Col>
-            <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form :model="applyRecordDetail" ref="applyRecordDetail" :label-width="140">
               <Form-item label="发放备注：">
                 <Input v-model="applyRecordDetail.sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
@@ -141,8 +141,8 @@
             </Form>
             </Col>
           </Row>
-          <Row>
-            <Col :xs="{span: 3, offset: 16}" :lg="{ span: 3, offset: 16}">
+          <Row type="flex" justify="start">
+            <Col :sm="{span: 24}" class="tr">
             <Button type="warning" @click="back()">返回</Button>
             <Button type="primary" @click="grantGift(2)">发放</Button>
             <Button type="error" @click="grantGift(3)">退批</Button>

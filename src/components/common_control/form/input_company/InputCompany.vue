@@ -7,6 +7,7 @@
       :disabled="disabled"
       :name="name"
       :icon="icon"
+      placeholder="请点击右侧搜索按钮..."
       @on-click="handleClick"
     >
     </Input>

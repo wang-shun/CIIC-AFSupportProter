@@ -42,7 +42,8 @@ const companyFundTaskList = r => require.ensure([], () => r(require('@/component
 const companyFundTaskProgressTwo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskProgressTwo')), 'CompanyFundTaskProgressTwo')
 const companyFundTaskProgressThree = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskProgressThree')), 'CompanyFundTaskProgressThree')
 const companyFundAccountSearch = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountSearch')), 'CompanyFundAccountSearch')
-const fundReconciliation = r => require.ensure([], () => r(require('@/components/fund/FundReconciliation')), 'FundReconciliation')
+const companyFundAccountProgressTwo = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountProgressTwo')), 'CompanyFundAccountProgressTwo')
+const fundReconciliation = r => require.ensure([], () => r(require('@/components/fund/fund_reconciliation/FundReconciliation')), 'FundReconciliation')
 const fundPay = r => require.ensure([], () => r(require('@/components/fund/FundPay')), 'FundPay')
 const fundReport = r => require.ensure([], () => r(require('@/components/fund/FundReport')), 'FundReport')
 const fundYearAdjust = r => require.ensure([], () => r(require('@/components/fund/FundYearAdjust')), 'FundYearAdjust')
@@ -282,6 +283,17 @@ let router = new Router({
           path: '/company_fund_account_search',
           name: 'companyFundAccountSearch',
           component: companyFundAccountSearch,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "企业公积金账户查询",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/company_fund_account_progress_two',
+          name: 'companyFundAccountProgressTwo',
+          component: companyFundAccountProgressTwo,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",

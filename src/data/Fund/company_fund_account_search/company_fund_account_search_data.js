@@ -15,6 +15,20 @@ const companyFundAccountSearch = params => Utils.promise({
         {customerNumber: "4354", companyFundName: "xx有限公司4", customerPayDate: "201709", fundAccount: "055203-881720976", fundType: "补充公积金", payProgress: "", payApplyDate: "", UKey: "", serviceManager: "", serviceCenter: "", payBank: "", notes: ""},
         {customerNumber: "4354", companyFundName: "xx有限公司5", customerPayDate: "201709", fundAccount: "055876-209881720977", fundType: "补充公积金", payProgress: "", payApplyDate: "", UKey: "", serviceManager: "", serviceCenter: "", payBank: "", notes: ""},
         {customerNumber: "4354", companyFundName: "xx有限公司5", customerPayDate: "201709", fundAccount: "055203-881425184", fundType: "基本公积金", payProgress: "", payApplyDate: "", UKey: "", serviceManager: "", serviceCenter: "", payBank: "", notes: ""},
+      ],
+      companyFundAccountInfo: {
+        companyName: '欧莱雅(法国)化妆品集团公司',
+        openAccountBank: '',
+        companyBasicFundAccount: '',
+        companyAddFundAccount: '',
+        UKey: '',
+        payMethodValue: 0,
+        transferInDate: '',
+        endDate: ''
+      },
+      bindAndUnbindCompanyData: [
+        {companyNumber: '1001', companyName: '公司1', bindDate: '2017-05-22 10:22'},
+        {companyNumber: '1002', companyName: '公司2', bindDate: '2017-05-22 10:22'},
       ]
     }
   }

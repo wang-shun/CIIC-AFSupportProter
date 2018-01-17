@@ -14,6 +14,7 @@ import EmployeeFundSpecialOperator from "./modules/fund/employee_special_operato
 import EmployeeFundTransferOperator from "./modules/fund/employee_transfer_operator/event_types"
 import CompanyFundTaskList from "./modules/fund/company_fund_task_list/event_types"
 import CompanyFundAccountSearch from "./modules/fund/company_fund_account_search/event_types"
+import FundReconciliation from "./modules/fund/fund_reconciliation/event_types"
 
 //弹性福利
 import gift from "./modules/flexible_benefit/gift/event_types"
@@ -47,6 +48,7 @@ export default {
   ...EmployeeFundTransferOperator,
   ...CompanyFundTaskList,
   ...CompanyFundAccountSearch,
+  ...FundReconciliation,
 
   //弹性福利
   ...gift,

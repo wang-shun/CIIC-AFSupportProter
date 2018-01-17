@@ -19,6 +19,7 @@ import EmployeeFundSpecialOperator from './modules/fund/employee_special_operato
 import EmployeeFundTransferOperator from './modules/fund/employee_transfer_operator'
 import CompanyFundTaskList from './modules/fund/company_fund_task_list'
 import CompanyFundAccountSearch from './modules/fund/company_fund_account_search'
+import FundReconciliation from './modules/fund/fund_reconciliation'
 
 //弹性福利
 import gift from "./modules/flexible_benefit/gift"
@@ -49,6 +50,7 @@ export default new Vuex.Store({
     ...EmployeeFundTransferOperator,
     ...CompanyFundTaskList,
     ...CompanyFundAccountSearch,
+    ...FundReconciliation,
 
     ...gift,
     ...market,

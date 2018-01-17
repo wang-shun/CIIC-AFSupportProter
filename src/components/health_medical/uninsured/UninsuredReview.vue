@@ -123,28 +123,34 @@
         },
         uninsuredColumns: [
           {
-            title: '受理编号', sortable: true, key: 'acceptanceId', align: 'center',
+            title: '受理编号', sortable: true, key: 'umAcceptanceId', align: 'center',
           },
           {
-            title: '公司编号', sortable: true, key: 'companyId', align: 'center',
+            title: '雇员编号', sortable: true, key: 'employeeId', align: 'center'
           },
           {
-            title: '公司名称', sortable: true, key: 'companyname', align: 'center',
+            title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center'
           },
           {
-            title: '雇员编号', sortable: true, key: 'employeeId', align: 'center',
+            title: '公司编号', sortable: true, key: 'companyId', align: 'center'
           },
           {
-            title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center',
+            title: '公司名称', sortable: true, key: 'companyName', align: 'center'
           },
           {
-            title: '类型', sortable: true, key: 'Type', align: 'center',
+            title: '受理类型', sortable: true, key: 'caseType', align: 'center',
+            render: (h, params) => {
+              return admissibility.caseTypeToChina(params.row.caseType)
+            }
           },
           {
-            title: '款项类型', sortable: true, key: 'MoneyType', align: 'center',
+            title: '款项类型', sortable: true, key: 'moneyType', align: 'center',
+            render: (h, params) => {
+              return admissibility.moneyTypeToChina(params.row.moneyType)
+            }
           },
           {
-            title: '连带人', sortable: true, key: 'jointandseveralPeople', align: 'center',
+            title: '连带人', sortable: true, key: 'jointPersonName', align: 'center'
           },
           {
             title: '性别', sortable: true, key: 'gender', align: 'center',
@@ -153,13 +159,13 @@
             title: '报销金额', sortable: true, key: 'reimbursementMoney', align: 'center',
           },
           {
-            title: '审核人', sortable: true, key: 'handler', align: 'center',
+            title: '审核人', sortable: true, key: 'auditor', align: 'center',
           },
           {
-            title: '审核日期', sortable: true, key: 'handlerTime', align: 'center',
+            title: '审核日期', sortable: true, key: 'auditDate', align: 'center',
           },
           {
-            title: '付款记录', sortable: true, key: 'PayID', align: 'center',
+            title: '付款记录', sortable: true, key: 'payID', align: 'center',
           },
           {
             title: '操作', key: 'action', width: 150, align: 'center',
@@ -169,10 +175,7 @@
                   props: {type: 'success', size: 'small'},
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: 'uninsuredReviewDeal',
-                        params: {data: params.row}
-                      });
+                      this.$router.push({name: 'uninsuredReviewDeal', params: {data: params.row}});
                     }
                   }
                 }, '审核')
@@ -182,36 +185,36 @@
         ],
         uninsuredData: [
           {
-            acceptanceId: '20160215072',
+            umAcceptanceId: '20160215072',
             employeeId: '11L2674',
             employeeName: '戴敏',
             companyId: '13684',
-            companyname: '苹果科技公司',
-            Type: '子女',
-            MoneyType: '托费',
-            jointandseveralPeople: '段嘉晨',
+            companyName: '苹果科技公司',
+            caseType: 1,
+            moneyType: 2,
+            jointPersonName: '段嘉晨',
             gender: '女',
             reimbursementYearMonth: '2016-02',
             reimbursementMoney: '1500',
-            handler: '王正微',
-            handlerTime: '2016-02-15',
-            PayID: '1983865'
+            auditor: '王正微',
+            auditDate: '2016-02-15',
+            payID: '1983865'
           },
           {
-            acceptanceId: '20160215072',
+            umAcceptanceId: '20160215072',
             employeeId: '11L2674',
             employeeName: '戴敏',
             companyId: '13684',
-            companyname: '苹果科技公司',
-            Type: '子女',
-            MoneyType: '托费',
-            jointandseveralPeople: '段嘉晨',
+            companyName: '苹果科技公司',
+            caseType: 2,
+            moneyType: 4,
+            jointPersonName: '段嘉晨',
             gender: '女',
             reimbursementYearMonth: '2016-02',
             reimbursementMoney: '1500',
-            handler: '王正微',
-            handlerTime: '2016-02-15',
-            PayID: '1983865'
+            auditor: '王正微',
+            auditDate: '2016-02-15',
+            payID: '1983865'
           }
         ],
         moneyTypes: admissibility.moneyTypes,

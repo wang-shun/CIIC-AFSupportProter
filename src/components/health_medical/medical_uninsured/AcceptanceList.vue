@@ -20,7 +20,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="状态" prop="status">
+              <Form-item label="受理状态" prop="status">
                 <Select v-model="formItem.status" placeholder="请选择" :clearable="true">
                   <Option v-for="item in statusProperties" :value="item.value" :key="item.value">{{ item.label }}
                   </Option>
@@ -164,10 +164,16 @@
             title: '公司名称', sortable: true, key: 'companyName', align: 'center'
           },
           {
-            title: '类型', sortable: true, key: 'caseType', align: 'center'
+            title: '受理类型', sortable: true, key: 'caseType', align: 'center',
+            render: (h, params) => {
+              return admissibility.caseTypeToChina(params.row.caseType)
+            }
           },
           {
-            title: '款项', sortable: true, key: 'moneyType', align: 'center'
+            title: '款项类型', sortable: true, key: 'moneyType', align: 'center',
+            render: (h, params) => {
+              return admissibility.moneyTypeToChina(params.row.moneyType)
+            }
           },
           {
             title: '连带人', sortable: true, key: 'jointPersonName', align: 'center'
@@ -188,7 +194,7 @@
             title: '受理金额', sortable: true, key: 'caseMoney', align: 'center'
           },
           {
-            title: '操作', key: 'action', width: 180, align: 'center',
+            title: '操作', key: 'action', width: 120, align: 'center',
             render: (h, params) => {
               if (params.row.status === 0) {
                 return h('div', [
@@ -225,8 +231,8 @@
             employeeName: '戴敏',
             companyId: '13684',
             companyName: '苹果科技公司',
-            caseType: '子女',
-            moneyType: '托费',
+            caseType: 1,
+            moneyType: 1,
             jointPersonName: '段嘉晨',
             handler: '胡艳',
             status: 0,
@@ -239,8 +245,8 @@
             employeeName: '戴敏',
             companyId: '13684',
             companyName: '苹果科技公司',
-            caseType: '子女',
-            moneyType: '托费',
+            caseType: 2,
+            moneyType: 3,
             jointPersonName: '段嘉晨',
             handler: '胡艳',
             status: 1,

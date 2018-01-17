@@ -72,6 +72,11 @@ const statusProperties = [
   }
 ];
 
+/**
+ * 受理单状态
+ * @param status
+ * @returns {string}
+ */
 function statusToChina(status) {
   switch (status) {
     case 0:
@@ -101,6 +106,49 @@ function statusToChina(status) {
     case 8:
       return "已完成";
       break;
+  }
+}
+
+/**
+ * 款项类型table显示
+ * @param status
+ * @returns {string}
+ */
+function moneyTypeToChina(status) {
+  switch (status) {
+    case 1:
+      return "医疗费";
+      break;
+    case 2:
+      return "体检费用";
+      break;
+    case 3:
+      return "住院补贴";
+      break;
+    case 4:
+      return "托费";
+      break;
+    case 5:
+      return "大额理赔款";
+      break;
+    case 6:
+      return "其他";
+      break;
+  }
+}
+
+/**
+ * 受理类型table显示
+ * @param status
+ * @returns {string}
+ */
+function caseTypeToChina(status) {
+  if (status === 1) {
+    return "雇员";
+  } else if (status === 2) {
+    return "子女";
+  } else if (status === 3) {
+    return "配偶";
   }
 }
 
@@ -135,6 +183,32 @@ const addAcceptanceRules = {
 };
 
 /**
+ * 未投保审核
+ * 付款方式
+ * @type {*[]}
+ */
+const payTypes = [
+  {
+    value: '1', label: '打卡'
+  },
+  {
+    value: '2', label: '现金'
+  },
+];
+
+/**
+ * 付款方式table显示
+ * @param status
+ * @returns {string}
+ */
+function payTypeToChina(status) {
+  if (status === 1) {
+    return "打卡";
+  } else if (status === 2) {
+    return "现金";
+  }
+}
+/**
  * 健康医疗公共数据
  * 下拉框
  */
@@ -143,5 +217,9 @@ export default {
   caseTypes,
   statusProperties,
   statusToChina,
+  moneyTypeToChina,
+  caseTypeToChina,
   addAcceptanceRules,
+  payTypes,
+  payTypeToChina,
 }

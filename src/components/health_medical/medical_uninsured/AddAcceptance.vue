@@ -1,21 +1,21 @@
 <template>
   <div>
     <Card>
-      <Form :model="formItem" :label-width="140">
-        <Row type="flex" justify="start" class="mt20 mr10">
+      <Form ref="formItem" :model="formItem" :rules="acceptanceRules" :label-width="140">
+        <Row class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="业务顾问：" prop="types">
-            <span class="expand-value">周莉</span>
+          <Form-item label="业务顾问：">
+            <span class="expand-value">{{this.employeeInfo.employeeName}}</span>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="雇员编号：" prop="name">
-            <span class="expand-value">1232154</span>
+          <Form-item label="雇员编号：">
+            <span class="expand-value">{{this.employeeInfo.employeeId}}</span>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="雇员姓名：" v-if="!onlyNum" prop="dataTypes">
-            <span class="expand-value">戴敏</span>
+          <Form-item label="雇员姓名：">
+            <span class="expand-value">{{this.employeeInfo.employeeName}}</span>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -24,54 +24,58 @@
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="中止日期：">
-            <Input v-model="formItem.name" placeholder="请输入"/>
+          <Form-item label="退保日期：" prop="surrenderDate">
+            <DatePicker type="date" v-model="formItem.surrenderDate" placeholder="请输入" style="width: 100%"></DatePicker>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退保日期：">
-            <Input v-model="formItem.name" placeholder="请输入"/>
+          <Form-item label="中止日期：" prop="dimissionDate">
+            <DatePicker type="date" v-model="formItem.dimissionDate" placeholder="请输入"
+                        style="width: 100%"></DatePicker>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="款项类型：">
-            <Select placeholder="请选择">
+          <Form-item label="款项类型：" prop="moneyType">
+            <Select v-model="formItem.moneyType" placeholder="请选择" :clearable="true">
               <Option v-for="item in moneyTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="受理类型：">
-            <Select placeholder="请选择">
+          <Form-item label="受理类型：" prop="caseType">
+            <Select v-model="formItem.caseType" placeholder="请选择" :clearable="true">
               <Option v-for="item in caseTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="连带人：">
-            <Select placeholder="请输入">
-              <Option v-for="item in liandairens" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          <Form-item label="连带人：" prop="jointPersonName">
+            <Select v-model="formItem.jointPersonName" placeholder="请输入" :clearable="true">
+              <Option v-for="item in jointPersonNameList" :value="item.value" :key="item.value">{{ item.label }}
+              </Option>
             </Select>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="连带人出生日期：">
-            <Input v-model="formItem.name" placeholder="请输入"/>
+          <Form-item label="连带人出生日期：" prop="jointPersonBirthDate">
+            <DatePicker v-model="formItem.jointPersonBirthDate" type="date" placeholder="请输入"
+                        style="width: 100%"></DatePicker>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="受理金额：">
-            <Input v-model="formItem.name" placeholder="请输入"/>
+          <Form-item label="受理金额：" prop="caseMoney">
+            <InputNumber :min="1" :precision="2" v-model="formItem.caseMoney" style="width: 100%"></InputNumber>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="发票张数：">
-            <Input v-model="formItem.name" placeholder="请输入"/>
+          <Form-item label="发票张数：" prop="invoiceNumber">
+            <InputNumber :min="1" v-model="formItem.invoiceNumber" style="width: 100%"></InputNumber>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="医疗备注：">
-            <Input type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
+          <Form-item label="医疗备注：" prop="medicalRemark">
+            <Input type="textarea" v-model="formItem.medicalRemark" :autosize="{minRows: 2,maxRows: 5}"
+                   placeholder="请输入..."/>
           </Form-item>
           </Col>
         </Row>
@@ -79,9 +83,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
         <Button type="warning" @click="back">返回</Button>
-        <router-link to="/addAcceptanceEmployeeList">
-          <Button type="primary">提交</Button>
-        </router-link>
+        <Button type="primary" @click="addAcceptance">提交</Button>
         </Col>
       </Row>
     </Card>
@@ -93,20 +95,27 @@
   export default {
     data() {
       return {
-        onlyNum: false,
         formItem: {
-          name: null,
-          code: null,
-          types: "",
-          typeVal: "请选择",
-          disabled: true,
-          routerChanged: false,
-          note: "雇员的名称"
+          surrenderDate: null,
+          dimissionDate: null,
+          moneyType: null,
+          caseType: null,
+          jointPersonName: null,
+          jointPersonBirthDate: null,
+          caseMoney: null,
+          invoiceNumber: null,
+          medicalRemark: null,
+        },
+        employeeInfo: {
+          employeeId: null,
+          employeeName: null,
+          companyId: null,
+          companyName: null,
         },
         moneyTypes: admissibility.moneyTypes,
         caseTypes: admissibility.caseTypes,
         /** 连带人后台加载*/
-        liandairens: [
+        jointPersonNameList: [
           {
             value: '1',
             label: '戴敏一'
@@ -120,31 +129,23 @@
             label: '戴敏三'
           }
         ],
-
-        ruleValidate: {
-          name: [
-            {required: true, message: '薪资项模板名称不能为空', trigger: 'blur'}
-          ],
-          types: [
-            {required: true, message: '请选择薪资项模板类别', trigger: 'change'}
-          ],
-          dataTypes: [
-            {required: true, message: '请选择数据类型', trigger: 'change'}
-          ],
-        }
-      }
+        acceptanceRules: admissibility.addAcceptanceRules,
+      };
+    },
+    created() {
+      //雇员数据
+      this.employeeInfo = JSON.parse(sessionStorage.getItem('acceptanceEmployee'));
     },
     methods: {
+      addAcceptance() {
+        this.$refs['formItem'].validate((valid) => {
+          if (valid) {
+            this.$router.push({name: "addAcceptanceEmployeeList"})
+          }
+        });
+      },
       back() {
         this.$local.back();
-      },
-      selectChange() {
-        this.formItem.disabled = false;
-        if (this.formItem.types == "computed" || this.formItem.types == "seniorComputed" || this.formItem.types == "fixed") {
-          this.onlyNum = true;
-        } else {
-          this.onlyNum = false;
-        }
       },
     },
   }

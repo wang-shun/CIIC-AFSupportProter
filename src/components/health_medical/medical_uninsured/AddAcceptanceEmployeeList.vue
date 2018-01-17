@@ -2,27 +2,28 @@
   <div>
     <Collapse v-model="value1">
       <Panel name="1">
+        查询雇员
         <div slot="content">
           <Form :model="formItem" :label-width="140">
             <Row justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员编号">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+                <Input v-model="formItem.employeeId" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员姓名">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+                <Input v-model="formItem.employeeName" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="公司编号">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+                <Input v-model="formItem.companyId" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="公司名称">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+                <Input v-model="formItem.companyName" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -87,7 +88,7 @@
             title: '公司名称', sortable: true, key: 'companyName'
           },
           {
-            title: '是否中止', sortable: true, key: 'IsLeave'
+            title: '是否中止', sortable: true, key: 'isLeave'
           },
           {
             title: '操作', key: 'action', width: 150, align: 'center',
@@ -97,9 +98,8 @@
                   props: {type: 'success', size: 'small'},
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: 'addAcceptance', params: {data: params.row}
-                      });
+                      sessionStorage.setItem('acceptanceEmployee', JSON.stringify(params.row));
+                      this.$router.push({name: 'addAcceptance'});
                     }
                   }
                 }, '新增受理单')
@@ -109,19 +109,18 @@
         ],
         addAcceptanceData: [
           {
-            IsLeave: '是',
             employeeId: '11L2674',
             employeeName: '戴敏',
             companyId: '13684',
-            companyName: '苹果公司'
-
+            companyName: '苹果公司',
+            isLeave: '是'
           },
           {
-            IsLeave: '是',
             employeeId: '11L2674',
             employeeName: '戴敏',
             companyId: '13684',
-            companyName: '苹果公司'
+            companyName: '苹果公司',
+            isLeave: '是'
           }
         ],
       }

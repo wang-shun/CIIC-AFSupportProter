@@ -31,11 +31,11 @@
       </Panel>
     </Collapse>
 
-    <div class="create">
-       <div style="display:inline-block">
+    <Row style="margin: 10px; 0px; 5px; 0px;">
+      <i-col style="text-align: right">
         <Button type="primary" @click="add">新增政策</Button>
-      </div>
-    </div>
+      </i-col>
+    </Row>
 
     <Table border :columns="colums1" :data="orgPolicyPage" ></Table>
     <Page :current="1" :total="100" show-total show-sizer show-elevator></Page>

@@ -105,6 +105,19 @@
         <CredentialsMaterial></CredentialsMaterial>
        </Form>
     </Card>
+    <Modal v-model="taskFollow" title="任务跟进">
+      <Form ref="formItem" :model="formItem"  :label-width="120">
+        <Row >
+          <i-col span="12">
+            <Form-item label="跟进说明：" prop="name"  style="width:400px;">
+              <Input v-model="formItem.followDescription" placeholder="请输入" type="textarea" :autosize="{minRows: 2,maxRows: 5}"/>
+            </Form-item> 
+          </i-col>
+        </Row>
+      </Form>
+      <h3>跟进历史</h3>
+      <Table border :colums="formItem.columns2" :data="formItem.data2"></Table>
+    </Modal>
   </div>
 </template>
 
@@ -122,6 +135,7 @@
     },
     data () {
       return {
+        taskFollow: false,
         formItem: {
           name: '',
           operateType: '',
@@ -138,7 +152,10 @@
           organizationCode: '',
           foreignBusinessApprovalCertificate: '',
           businessRenameNotice: '',
-          specialMaterialRemark: ''
+          specialMaterialRemark: '',
+          followDescription:'',
+          colums2: '',
+          data2: ''
         },
         colums1: [
           {
@@ -218,7 +235,9 @@
                   },
                   on: {
                     click: () => {
-                      
+                      this.formItem.colums2 = this.colums2
+                      this.formItem.data2 = this.data2
+                      this.taskFollow = true
                     }
                   }
                 }, '跟进')
@@ -227,6 +246,21 @@
           }
         ],
         data1: [{}],
+        columns2: [
+          {
+            title: '跟进人',
+            key: 'createdBy'
+          },
+          {
+            title: '跟进时间',
+            key: 'createdTime'
+          },
+          {
+            title: '跟进说明',
+            key: 'followDescription'
+          }
+        ],
+        data2: [{}]
       }
     },
     mounted () {

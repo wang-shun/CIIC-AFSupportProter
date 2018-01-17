@@ -15,7 +15,7 @@
       :mask-closable="maskClosable"
       :title="title"
       @on-ok="ok"
-      @on-cancel="cancel">
+      @on-cancel="cancel" style="position:absolute;z-index:99">
       <!-- 客户名称 模态框内容 -->
       <Form :label-width="20" ref="queryForm" v-model="queryForm">
         <Row type="flex" justify="start">

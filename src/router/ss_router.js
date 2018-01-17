@@ -126,11 +126,16 @@ const monthlypaymentnotice = r => require.ensure([], () => r(require('@/componen
 
 
 /*
- * yearbaseapplicate               --- 年度基数申报
+ * annualadjustemployee            --- 年调雇员工资收集表下载
+ * annualadjustcompany             --- 年调客户列表
+ * annualadjustcompanyemp          --- 年调客户雇员信息维护
+ * annualadjustaccount             --- 导出申报表及执行年调
  */
 
-const yearbaseapplicate = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/employeesocannualadjust')), 'employeesocannualadjust')
-
+const annualadjustemployee = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustEmployee')), 'annualadjustemployee')
+const annualadjustcompany = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompany')), 'annualadjustcompany')
+const annualadjustcompanyemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompanyEmp')), 'annualadjustcompanyemp')
+//const annualadjustaccount = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccount')), 'annualadjustaccount')
 
 /*
  * systemmanage                    --- 系统管理
@@ -640,16 +645,50 @@ export default [
     }
   },
   {
-    path: '/year_base_applicate',
-    name: 'yearbaseapplicate',
-    component: yearbaseapplicate,
+    path: '/annual_adjust_employee',
+    name: 'annualadjustemployee',
+    component: annualadjustemployee,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
-      level3:"年度基数申报",
+      level3:"年调雇员工资收集表下载",
       openNames:['1']
     }
   },
+  {
+    path: '/annual_adjust_company',
+    name: 'annualadjustcompany',
+    component: annualadjustcompany,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"年调客户列表",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/annual_adjust_company_emp',
+    name: 'annualadjustcompanyemp',
+    component: annualadjustcompanyemp,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"年调客户雇员信息维护",
+      openNames:['1']
+    }
+  },
+  /*
+  {
+    path: '/account_employee_annual_adjust',
+    name: 'accountemployeeannualadjust',
+    component: accountemployeeannualadjust,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"导出申报表及执行年调",
+      openNames:['1']
+    }
+  },*/
 
   {
     path: '/system_manage',

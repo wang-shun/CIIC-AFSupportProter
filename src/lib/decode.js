@@ -27,15 +27,13 @@ export default {
       case '5':
         return '转出'
       case '6':
-        return '终止'
+        return '封存'
       case '7':
         return '退账'
-      case '8':
-        return '提取'
       case '9':
         return '特殊操作'
       default: // 默认 1
-        return '新进'
+        return ''
     }
   },
   // 账户类型
@@ -89,40 +87,34 @@ export default {
   specialOperatorType:(type)=>{
     switch (type){
       case '1':
-        return '死亡'
+        return '死亡终止'
       case '2':
-        return '终止'
-      case '3':
         return '修改个人信息'
-      case '4':
-        return '修改人员信息'
-      case '5':
-        return '退账'
-        case '6':
+      case '3':
         return '工龄认定'
-      case '7':
+      case '4':
         return '特殊工种认定'
-      case '8':
+      case '5':
         return '账户合并'
-      case '9':
+        case '6':
         return '遗属'
-      case '10':
+      case '7':
         return '退休'
-        case '11':
+      case '8':
         return '因病丧劳提前退休'
-      case '12':
+      case '9':
         return '特殊工种提前退休'
-      case '13':
+      case '10':
         return '退休高级专家增资'
-      case '14':
+        case '11':
         return '退休军转增资'
-      case '15':
+      case '12':
         return '外国人终止提取'
-        case '16':
+      case '13':
         return '外来人员医保卡领取'
-      case '17':
+      case '14':
         return '医保帐户提取'
-        case '18':
+      case '15':
         return '生育津贴领取'
       default: // 默认 0
         return '无'

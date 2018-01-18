@@ -8,7 +8,7 @@
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件类型" prop="type">
                   <Select v-model="queryItem.type" placeholder="请选择" transfer>
-                    <Option v-for="(value,key) in this.baseDic.credentialsType" :value="value" :key="key">{{ value }}</Option>
+                    <Option v-for="(value,key) in this.baseDic.credentialsType" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>    
               </i-col>
@@ -22,7 +22,7 @@
             </Row>   
             <Row type="flex" justify="start" class="tr">  
               <i-col :sm="{span: 24}">
-                <Button type="primary" @click="query" class="ml10" icon="ios-search">查询</Button>
+                <Button type="primary" @click="handleCurrentChange(1)" class="ml10" icon="ios-search">查询</Button>
                 <Button type="warning" @click="$refs['queryItem'].resetFields();" class="ml10">重置</Button>
               </i-col>
             </Row>                                  
@@ -37,18 +37,21 @@
       </i-col>
     </Row>
 
-    <Table border :columns="colums1" :data="orgPolicyPage" ></Table>
-    <Page :current="1" :total="100" show-total show-sizer show-elevator></Page>
+    <Table border :columns="colums1" :data="data1" ></Table>
+     <Page @on-change="handleCurrentChange"
+              :current="pageNum"
+              :page-size="pageSize"
+              :total="total" show-elevator show-total></Page>
 
     <Modal
       v-model="modal1"
       title="办理机构政策">
-      <Form ref="policyForm" :model="formItem" :rules="ruleValidate" :label-width="120"> 
+      <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="120"> 
         <Row type="flex" justify="start">
           <i-col span="12">
             <Form-item label="证件类型：" style="width:400px;" prop="type">
               <Select v-model="formItem.type" placeholder="请选择" style="width:260px" transfer>
-                <Option v-for="(value,key) in this.baseDic.credentialsType" :value="value" :key="key">{{ value }}</Option>
+                <Option v-for="(value,key) in this.baseDic.credentialsType" :value="key" :key="key">{{ value }}</Option>
               </Select>
             </Form-item>    
           </i-col>
@@ -73,8 +76,8 @@
       <div slot="footer">
         <Row type="flex" justify="start" class="tr">  
           <i-col :sm="{span: 24}">
-            <Button type="primary" @click="ok('policyForm')" class="ml10">确定</Button>
-            <Button type="warning" @click="modal1 = false" class="ml10">取消</Button>
+            <Button type="primary" @click="ok('formItem')" class="ml10">确定</Button>
+            <Button type="warning" @click="$refs['formItem'].resetFields();modal1 = false" class="ml10">取消</Button>
           </i-col>
         </Row> 
       </div>
@@ -83,27 +86,32 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
-import eventType from '../../../store/event_types'
+import axios from 'axios'
+import Tools from '../../../lib/tools'
 
+const host = process.env.SITE_HOST
 export default {
   data () {
     return {
       value1: '1',
       modal1: false,
+      pageNum: 1,
+      pageSize: 10,
+      total: null,
       queryItem: {
         type: '',
         name: ''
       },
       formItem: {
+        orgPolicyId: '',
         type: '',
         name: '',
-        policyDescription: ''
-      },
-      policyForm: {
-        type: '',
-        name: '',
-        policyDescription: ''
+        policyDescription: '',
+        isActive: '',
+        createdTime: '',
+        createdBy: '',
+        modifiedBy: '',
+        modifiedTime: ''
       },
       ruleValidate: {
         type: [{ required: true, message: '请选择证件类型', trigger: 'change' }],
@@ -127,7 +135,10 @@ export default {
         {
           title: '创建日期',
           key: 'createdTime',
-          sortable: true
+          sortable: true,
+          render: (h, params) => {
+            return Tools.formatDate(params.row.createdTime, 'YYYY-MM-DD HH:mm:ss');
+          }
         },
         {
           title: '政策内容',
@@ -152,10 +163,9 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.formItem.name = params.row.name
-                    this.formItem.type = params.row.type
-                    this.formItem.policyDescription = params.row.policyDescription
+                    this.formItem = params.row
                     this.modal1 = true
+                    console.log(params.row)
                   }
                 }
               }, '编辑'),
@@ -174,6 +184,8 @@ export default {
                       content: '您真的要删除吗？',
                       okText: '删除',
                       onOk: () => {
+                        console.log(params.row.orgPoilcyId)
+                        this.del(params.row.orgPoilcyId)
                       }
                     })
                   }
@@ -182,42 +194,78 @@ export default {
             ])
           }
         }
-      ]
+      ],
+      data1: []
     }
-  },
-  mounted () {
   },
   created () {
     this.find()
   },
-  computed: {
-    ...mapGetters({
-      orgPolicyPage: eventType.ORG_POLICY_PAGE_GET
-    })
-  },
   methods: {
-    ...mapActions({
-      getorgPolicyPage: eventType.ORG_POLICY_PAGE_SET
-    }),
     find () {
-      var param = {}
-      this.getorgPolicyPage(param)
+      var params = {}
+      params.params = {}
+      params.params.pageNum = this.pageNum
+      params.params.pageSize = this.pageSize
+      params.params.name = this.queryItem.name
+      params.params.type = this.queryItem.type
+      axios.get(host + '/api/orgPolicy/find', params).then(response => {
+        this.data1 = response.data.data.records
+        this.total = response.data.data.total
+        console.log(response)
+      })
+    },
+    handleCurrentChange(val) {
+      this.pageNum = val
+      this.find()
     },
     add () {
-      this.$refs['policyForm'].resetFields()
       this.modal1 = true
     },
-    query () {},
-    reset () {},
     ok (value) {
       this.$refs[value].validate((valid) => {
         if (valid) {
-          this.$Message.success('保存成功!')
-          this.modal1 = false
-        } else {
-          this.$Message.error('保存失败!')
+          axios.post(host + '/api/orgPolicy/saveOrUpdate',this.formItem).then((response) => {
+            console.log(response.data.errCode)
+            if (response.data.errCode === '0'){
+               this.$Notice.success({
+                  title: '保存成功',
+                  desc: ''
+                })
+                this.modal1 = false
+                this.find()
+            } else {
+              this.$Notice.error({
+                title: '保存失败',
+                desc: ''
+              })
+            }
+          }).catch((error) => {
+            this.$Notice.error({
+              title: '保存失败',
+              desc: ''
+            })
+          })
         }
       })
+    },
+    del (val) {
+      if (val !== '' && val !== null) {
+        axios.delete(host + '/api/orgPolicy/delete/'+val).then((response) => {
+          console.log(response.data.errCode===0)
+            if (response.data.errCode === '0'){
+              console.log("success")
+              this.$Message.success('删除成功!')
+              //this.find()
+            } else {
+               console.log("error1")
+              this.$Message.error('删除失败!')
+            }
+          }).catch((error) => {
+             console.log("error2")
+            this.$Message.error('删除失败!')
+          })
+      }
     }
   }
 }

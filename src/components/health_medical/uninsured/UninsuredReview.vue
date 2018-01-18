@@ -170,8 +170,8 @@
           {
             title: '操作', key: 'action', width: 120, align: 'center',
             render: (h, params) => {
-              /**已受理并且受理类型不是子女的显示审核按钮*/
-              if (params.row.status === 1 && params.row.caseType !== 2) {
+              /**已受理并且款项类型不是子女托费的显示审核按钮*/
+              if (params.row.status === 1 && params.row.moneyType !== 4) {
                 return h('div', [
                   h('Button', {
                     props: {type: 'success', size: 'small'},

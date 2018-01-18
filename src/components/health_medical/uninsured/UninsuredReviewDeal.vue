@@ -119,6 +119,7 @@
       },
       handleUpload(file) {
         this.formItem.attachment = file;
+
         /**附件的表单校验，iview不支持，自己调用动态校验方法*/
         let fields = this.$refs['formItem']._data.fields;
         let valid = true;
@@ -128,12 +129,8 @@
               if (errors) {
                 valid = false;
               }
-              if (++count === this.fields.length) {
-                // all finish
-                resolve(valid);
-                if (typeof callback === 'function') {
-                  callback(valid)
-                }
+              if (typeof callback === 'function') {
+                callback(valid)
               }
             });
             break;

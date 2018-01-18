@@ -220,6 +220,18 @@
                     }
                   }, '拒赔')
                 ]);
+              } else {
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    on: {
+                      click: () => {
+                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        this.$router.push({name: 'LookAcceptanceUninsured'});
+                      }
+                    }
+                  }, '查看')
+                ]);
               }
             }
           }

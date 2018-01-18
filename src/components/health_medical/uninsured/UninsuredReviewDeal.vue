@@ -1,5 +1,5 @@
 <template>
-  <div class="auditAcceptance">
+  <div>
     <Card>
       <Form ref="formItem" :model="formItem" :rules="uninsuredReviewDealRules" :label-width="140">
         <Row justify="start" class="mt20 mr10">

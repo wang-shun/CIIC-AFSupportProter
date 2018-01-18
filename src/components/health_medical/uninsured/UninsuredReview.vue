@@ -171,7 +171,7 @@
             title: '操作', key: 'action', width: 120, align: 'center',
             render: (h, params) => {
               /**已受理并且款项类型不是子女托费的显示审核按钮*/
-              if (params.row.status === 1 && params.row.moneyType !== 4) {
+              if (params.row.status === 1) {
                 return h('div', [
                   h('Button', {
                     props: {type: 'success', size: 'small'},
@@ -180,7 +180,28 @@
                         this.$router.push({name: 'uninsuredReviewDeal', params: {data: params.row}});
                       }
                     }
-                  }, '审核')
+                  }, '审核'),
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    on: {
+                      click: () => {
+                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        this.$router.push({name: 'LookAcceptanceUninsured'});
+                      }
+                    }
+                  }, '查看')
+                ]);
+              } else {
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    on: {
+                      click: () => {
+                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        this.$router.push({name: 'LookAcceptanceUninsured'});
+                      }
+                    }
+                  }, '查看')
                 ]);
               }
             }

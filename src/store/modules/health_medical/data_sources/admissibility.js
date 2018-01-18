@@ -13,13 +13,10 @@ const moneyTypes = [
     value: '3', label: '住院补贴'
   },
   {
-    value: '4', label: '托费'
+    value: '4', label: '大额理赔款'
   },
   {
-    value: '5', label: '大额理赔款'
-  },
-  {
-    value: '6', label: '其他'
+    value: '5', label: '其他'
   }
 ];
 /**
@@ -126,12 +123,9 @@ function moneyTypeToChina(status) {
       return "住院补贴";
       break;
     case 4:
-      return "托费";
-      break;
-    case 5:
       return "大额理赔款";
       break;
-    case 6:
+    case 5:
       return "其他";
       break;
   }

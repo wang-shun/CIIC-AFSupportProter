@@ -95,16 +95,13 @@
     <Page :total="100" show-sizer show-elevator></Page>
 
     <Modal v-model="modalAccept" title="受理对话框" ok-text="受理" @on-ok="updateAcceptanceList(1)" :mask-closable="true">
-      <Input v-model="formItem.code" placeholder="请输入操作说明："/>
+      <Input v-model="dealMeg.remark" placeholder="请输入操作说明："/>
     </Modal>
 
     <Modal v-model="modalRefuse" title="拒赔操作对话框" ok-text="拒赔" @on-ok="updateAcceptanceList(2)" :mask-closable="true">
-      <Input v-model="formItem.code" placeholder="请输入拒赔原因：" class="mt15"/>
-      <Select class="mt15" :clearable="true" placeholder="请选择拒赔类型：">
-        <Option value="1">退员工</Option>
-        <Option value="2">退客户</Option>
-        <Option value="3">作废</Option>
-        <Option value="4">其他</Option>
+      <Input v-model="dealMeg.remark" placeholder="请输入拒赔原因：" class="mt15"/>
+      <Select v-model="dealMeg.rejectType" :clearable="true" placeholder="请选择拒赔类型：" class="mt15">
+        <Option v-for="item in rejectTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
     </Modal>
 
@@ -138,11 +135,13 @@
           handler: "xwz",
           handlerDate: new Date(),
           status: null,
-          //还有受理备注，拒赔类型 两个字段
+          rejectType: null,
+          remark: null,
         },
         selectData: [],
         moneyTypes: admissibility.moneyTypes,
         caseTypes: admissibility.caseTypes,
+        rejectTypes: admissibility.rejectTypes,
         statusProperties: admissibility.statusProperties,
         acceptanceColumns: [
           {

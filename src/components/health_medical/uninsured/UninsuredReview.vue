@@ -22,7 +22,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="受理单编号" prop="umAcceptanceId">
-                <Input v-model="formItem.umAcceptanceId" placeholder="请输入"></Input>
+                <Input v-model="formItem.umAcceptanceId" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

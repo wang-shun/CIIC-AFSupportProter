@@ -153,6 +153,26 @@ function caseTypeToChina(status) {
 }
 
 /**
+ * 受理单拒赔类型
+ * @type {[null,null,null,null]}
+ */
+const rejectTypes = [
+  {
+    value: '1', label: '退员工'
+  },
+  {
+    value: '2', label: '退客户'
+  },
+  {
+    value: '3', label: '作废'
+  },
+  {
+    value: '4', label: '其他'
+  },
+];
+
+
+/**
  * 新增受理单表单校验
  */
 const addAcceptanceRules = {
@@ -179,6 +199,9 @@ const addAcceptanceRules = {
   ],
   invoiceNumber: [
     {required: true, type: 'integer', message: '请输入发票张数', trigger: 'change'}
+  ],
+  medicalRemark: [
+    {type: 'string', max: 66, message: '字段太长', trigger: 'blur'}
   ],
 };
 
@@ -210,11 +233,6 @@ function payTypeToChina(status) {
 }
 
 /**
- * 健康医疗公共数据
- * 下拉框
- */
-
-/**
  * 未投保审核表单校验
  */
 const uninsuredReviewDealRules = {
@@ -228,7 +246,8 @@ const uninsuredReviewDealRules = {
     {required: true, type: 'date', message: '请选择住院结束日期', trigger: 'change'}
   ],
   clinicHospital: [
-    {required: true, message: '请输入就诊医院', trigger: 'change'}
+    {required: true, message: '请输入就诊医院', trigger: 'change'},
+    {type: 'string', max: 16, message: '字段太长', trigger: 'blur'},
   ],
   acceptAmount: [
     {required: true, type: 'number', message: '请输入受理金额', trigger: 'change'}
@@ -237,7 +256,8 @@ const uninsuredReviewDealRules = {
     {required: true, message: '请选择付款方式', trigger: 'change'}
   ],
   diagnose: [
-    {required: true, message: '请输入诊断', trigger: 'change'}
+    {required: true, message: '请输入诊断', trigger: 'change'},
+    {type: 'string', max: 16, message: '字段太长', trigger: 'blur'},
   ],
   hospitalizationDays: [
     {required: true, type: 'integer', message: '请输入住院天数', trigger: 'change'}
@@ -245,10 +265,28 @@ const uninsuredReviewDealRules = {
   auditAmount: [
     {required: true, type: 'number', message: '请输入审核金额', trigger: 'change'}
   ],
+  remark: [
+    {type: 'string', max: 66, message: '字段太长', trigger: 'blur'},
+  ],
   attachment: [
-    {required: true, message: '请上传附件', trigger: 'change'}
+    {
+      required: true,
+      validator(rule, val, callback) {
+        if (val === null) {
+          callback(new Error('请上传附件'))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'change'
+    },
   ],
 };
+
+/**
+ * 健康医疗公共数据
+ * 下拉框
+ */
 
 export default {
   moneyTypes,
@@ -257,6 +295,7 @@ export default {
   statusToChina,
   moneyTypeToChina,
   caseTypeToChina,
+  rejectTypes,
   addAcceptanceRules,
   payTypes,
   payTypeToChina,

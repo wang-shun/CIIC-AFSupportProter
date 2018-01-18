@@ -59,8 +59,15 @@
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="附件：" prop="attachment">
-            <Input v-model="formItem.attachment" placeholder="请输入"/>
+          <Form-item ref="upload" label="附件：" prop="attachment">
+            <Upload
+              :before-upload="handleUpload"
+              :format="['jpg','jpeg','png']"
+              :max-size="2048"
+              action="//jsonplaceholder.typicode.com/posts/">
+              <Button type="ghost" icon="ios-cloud-upload-outline">上传附件</Button>
+              <div v-if="formItem.attachment !== null">图片: {{ this.formItem.attachment.name }}</div>
+            </Upload>
           </Form-item>
           </Col>
         </row>
@@ -109,6 +116,30 @@
             this.$router.push({name: "uninsuredReview"})
           }
         });
+      },
+      handleUpload(file) {
+        this.formItem.attachment = file;
+        /**附件的表单校验，iview不支持，自己调用动态校验方法*/
+        let fields = this.$refs['formItem']._data.fields;
+        let valid = true;
+        for (let field of fields) {
+          if (field.prop === 'attachment') {
+            field.validate('', errors => {
+              if (errors) {
+                valid = false;
+              }
+              if (++count === this.fields.length) {
+                // all finish
+                resolve(valid);
+                if (typeof callback === 'function') {
+                  callback(valid)
+                }
+              }
+            });
+            break;
+          }
+        }
+        return false;
       },
       back() {
         this.$local.back();

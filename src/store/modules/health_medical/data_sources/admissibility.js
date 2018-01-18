@@ -208,10 +208,48 @@ function payTypeToChina(status) {
     return "现金";
   }
 }
+
 /**
  * 健康医疗公共数据
  * 下拉框
  */
+
+/**
+ * 未投保审核表单校验
+ */
+const uninsuredReviewDealRules = {
+  diagnoseDate: [
+    {required: true, type: 'date', message: '请选择就诊日期', trigger: 'change'}
+  ],
+  hospitalizationStartDate: [
+    {required: true, type: 'date', message: '请选择住院开始日期', trigger: 'change'}
+  ],
+  hospitalizationEndDate: [
+    {required: true, type: 'date', message: '请选择住院结束日期', trigger: 'change'}
+  ],
+  clinicHospital: [
+    {required: true, message: '请输入就诊医院', trigger: 'change'}
+  ],
+  acceptAmount: [
+    {required: true, type: 'number', message: '请输入受理金额', trigger: 'change'}
+  ],
+  payType: [
+    {required: true, message: '请选择付款方式', trigger: 'change'}
+  ],
+  diagnose: [
+    {required: true, message: '请输入诊断', trigger: 'change'}
+  ],
+  hospitalizationDays: [
+    {required: true, type: 'integer', message: '请输入住院天数', trigger: 'change'}
+  ],
+  auditAmount: [
+    {required: true, type: 'number', message: '请输入审核金额', trigger: 'change'}
+  ],
+  attachment: [
+    {required: true, message: '请上传附件', trigger: 'change'}
+  ],
+};
+
 export default {
   moneyTypes,
   caseTypes,
@@ -222,4 +260,5 @@ export default {
   addAcceptanceRules,
   payTypes,
   payTypeToChina,
+  uninsuredReviewDealRules,
 }

@@ -176,12 +176,6 @@
             }
           },
           {
-            title: '连带人', sortable: true, key: 'jointPersonName', align: 'center'
-          },
-          {
-            title: '受理人', sortable: true, key: 'handler', align: 'center'
-          },
-          {
             title: '状态', sortable: true, key: 'status', align: 'center',
             render: (h, params) => {
               return admissibility.statusToChina(params.row.status)
@@ -194,6 +188,12 @@
             title: '受理金额', sortable: true, key: 'caseMoney', align: 'center'
           },
           {
+            title: '连带人', sortable: true, key: 'jointPersonName', align: 'center'
+          },
+          {
+            title: '受理人', sortable: true, key: 'handler', align: 'center'
+          },
+          {
             title: '操作', key: 'action', width: 120, align: 'center',
             render: (h, params) => {
               if (params.row.status === 0) {
@@ -202,7 +202,8 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        this.selectData = [];
+                        /**清除选中数据，同时清除selectData数据*/
+                        this.$refs.acceptanceData.selectAll(false);
                         this.selectData.push(params.row);
                         this.modalButton(true);
                       }
@@ -213,7 +214,7 @@
                     on: {
                       click: () => {
                         //auditNurseryFee
-                        this.selectData = [];
+                        this.$refs.acceptanceData.selectAll(false);
                         this.selectData.push(params.row);
                         this.modalRefuse = true;
                       }

@@ -132,6 +132,9 @@
             title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center'
           },
           {
+            title: '性别', sortable: true, key: 'gender', align: 'center',
+          },
+          {
             title: '公司编号', sortable: true, key: 'companyId', align: 'center'
           },
           {
@@ -150,12 +153,6 @@
             }
           },
           {
-            title: '连带人', sortable: true, key: 'jointPersonName', align: 'center'
-          },
-          {
-            title: '性别', sortable: true, key: 'gender', align: 'center',
-          },
-          {
             title: '报销金额', sortable: true, key: 'reimbursementMoney', align: 'center',
           },
           {
@@ -168,18 +165,24 @@
             title: '付款记录', sortable: true, key: 'payID', align: 'center',
           },
           {
-            title: '操作', key: 'action', width: 150, align: 'center',
+            title: '连带人', sortable: true, key: 'jointPersonName', align: 'center'
+          },
+          {
+            title: '操作', key: 'action', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  on: {
-                    click: () => {
-                      this.$router.push({name: 'uninsuredReviewDeal', params: {data: params.row}});
+              /**已受理并且受理类型不是子女的显示审核按钮*/
+              if (params.row.status === 1 && params.row.caseType !== 2) {
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    on: {
+                      click: () => {
+                        this.$router.push({name: 'uninsuredReviewDeal', params: {data: params.row}});
+                      }
                     }
-                  }
-                }, '审核')
-              ]);
+                  }, '审核')
+                ]);
+              }
             }
           }
         ],
@@ -198,6 +201,7 @@
             reimbursementMoney: '1500',
             auditor: '王正微',
             auditDate: '2016-02-15',
+            status: 1,
             payID: '1983865'
           },
           {
@@ -214,6 +218,7 @@
             reimbursementMoney: '1500',
             auditor: '王正微',
             auditDate: '2016-02-15',
+            status: 1,
             payID: '1983865'
           }
         ],

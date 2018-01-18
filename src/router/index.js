@@ -44,7 +44,8 @@ const companyFundTaskProgressThree = r => require.ensure([], () => r(require('@/
 const companyFundAccountSearch = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountSearch')), 'CompanyFundAccountSearch')
 const companyFundAccountProgressTwo = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountProgressTwo')), 'CompanyFundAccountProgressTwo')
 const fundReconciliation = r => require.ensure([], () => r(require('@/components/fund/fund_reconciliation/FundReconciliation')), 'FundReconciliation')
-const fundPay = r => require.ensure([], () => r(require('@/components/fund/FundPay')), 'FundPay')
+const fundPay = r => require.ensure([], () => r(require('@/components/fund/fund_pay/FundPay')), 'FundPay')
+const makePayList = r => require.ensure([], () => r(require('@/components/fund/fund_pay/MakePayList')), 'MakePayList')
 const fundReport = r => require.ensure([], () => r(require('@/components/fund/FundReport')), 'FundReport')
 const fundYearAdjust = r => require.ensure([], () => r(require('@/components/fund/FundYearAdjust')), 'FundYearAdjust')
 
@@ -316,6 +317,17 @@ let router = new Router({
           path: '/fund_pay',
           name: 'fundPay',
           component: fundPay,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "公积金汇缴支付",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/make_pay_list',
+          name: 'makePayList',
+          component: makePayList,
           meta: {
             level1: '全国公积金',
             level2: "上海公积金",

@@ -216,7 +216,10 @@
       ...mapActions('companyFundAccountSearch',[EventType.COMPANYFUNDACCOUNTSEARCH]),
       nextStep() {
         this.$router.push({name: "companyFundAccountProgressTwo"});
-      }
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
+      },
     }
   }
 </script>

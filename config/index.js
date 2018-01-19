@@ -2,11 +2,28 @@
 var path = require('path')
 var config = require('../src/lib/config')
 console.log(__dirname);
+let buildParam = process.argv.slice(2)  // 获取命令行参数
+let env
+if (buildParam) {
+  let envParam = buildParam[0]
+  switch (envParam) {
+    case 'sit':
+      env = require('./sit.env')
+      break;
+    case 'uat':
+      env = require('./uat.env')
+      break
+ default:
+      env = require('./prod.env')
+  }
+} else {
+  env = require('./prod.env')
+}
 
 
 module.exports = {
   build: {
-    env: require('./prod.env'),
+    env: env,
     index: path.resolve(__dirname, '../dist/index.html'),
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',

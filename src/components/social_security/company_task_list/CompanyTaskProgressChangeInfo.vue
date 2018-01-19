@@ -150,14 +150,11 @@
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='1'){
               if(value==null || value.trim()==''){
-                //return callback(new Error('该项不能为空！'))
-                return callback(new Error(''))
+                return callback(new Error('该项不能为空！'))
               }else if(value.length>10){
-                //return callback(new Error('不能超过十位.'))
-                return callback(new Error(''))
+                return callback(new Error('不能超过十位.'))
               }else if(value.trim()!=value){
-                // return callback(new Error('格式不正确.'))
-                return callback(new Error(''))
+                return callback(new Error('格式不正确.'))
               }else{
                 callback()
               }
@@ -172,17 +169,14 @@
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='1'){
                 if (value==null || value.trim()=='') {
-                  //return callback(new Error('该项不能为空！'));
-                    return callback(new Error(''));
+                  return callback(new Error('该项不能为空！'));
                 }
                var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
                 if(!rex.test(value)) {
-                  // callback(new Error('请输入正确的格式.'));
-                    callback(new Error(''));
+                  callback(new Error('请输入正确的格式.'));
                 }else{
                     if (value.length > 20) {
-                          //callback(new Error('长度不能超过20个.'));
-                          callback(new Error(''));
+                          callback(new Error('长度不能超过20个.'));
                     } else {
                          callback();
                     }
@@ -197,8 +191,7 @@
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='1'){
               if (value==null || value==""){
-                //return callback(new Error('该项不能为空！'));
-                    return callback(new Error(''));
+                return callback(new Error('该项不能为空！'));
                 }else{
                    return callback();
                 }
@@ -212,8 +205,7 @@
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='2'){
               if (value==null || value==""){
-                  //return callback(new Error('请选择付款方式！'));
-                    return callback(new Error(''));
+                  return callback(new Error('请选择付款方式！'));
                 }else{
                     return callback()
                 }
@@ -255,8 +247,7 @@
                 if(value==null){
                  this.changeOperator.acceptanceDate=''
                 }
-                //return callback(new Error('请选择受理时间.'));
-               return callback(new Error(''));
+                return callback(new Error('请选择受理时间.'));
               }else{
                 callback();
               }
@@ -287,8 +278,7 @@
                callback();
             }else{
               if(value==null || value==''){
-                //return callback(new Error('请选择完成时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择完成时间.'));
               }else{
                 callback();
               }

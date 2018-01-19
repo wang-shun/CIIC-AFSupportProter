@@ -97,6 +97,7 @@ const addPolicyNum = r => require.ensure([], () => r(require('@/components/healt
 //未投保审核
 const uninsuredReview = r => require.ensure([], () => r(require('@/components/health_medical/uninsured/UninsuredReview')), 'uninsuredReview'); //新增保单号
 const uninsuredReviewDeal = r => require.ensure([], () => r(require('@/components/health_medical/uninsured/UninsuredReviewDeal')), 'uninsuredReviewDeal'); //新增保单号
+const LookAcceptanceUninsured = r => require.ensure([], () => r(require('@/components/health_medical/uninsured/LookAcceptanceUninsured')), 'LookAcceptanceUninsured'); //新增保单号
 //保单管理
 const policyManagement = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/PolicyManagement')), 'policyManagement'); //保单管理
 const addPolicy = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicy')), 'addPolicy'); //新增保单缴费
@@ -343,7 +344,6 @@ let router = new Router({
             openNames: ['2']
           }
         },
-
         {
           path: '/uninsuredReviewDeal',
           name: 'uninsuredReviewDeal',
@@ -352,6 +352,17 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "未投保审核处理",
+            openNames: ['2']
+          }
+        },
+        {
+          path: '/LookAcceptanceUninsured',
+          name: 'LookAcceptanceUninsured',
+          component: LookAcceptanceUninsured,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "查看受理单-投保审核信息",
             openNames: ['2']
           }
         },

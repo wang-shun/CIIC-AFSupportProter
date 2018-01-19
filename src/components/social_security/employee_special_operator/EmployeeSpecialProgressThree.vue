@@ -113,8 +113,7 @@
                 if(value==null){
                  this.socialSecuritySpecialOperator.acceptanceDate=''
                 }
-                //return callback(new Error('请选择受理时间.'));
-               return callback(new Error(''));
+                return callback(new Error('请选择受理时间.'));
 
               }else{
                 callback();
@@ -132,8 +131,7 @@
                 if(value==null){
                  self.socialSecuritySpecialOperator.sendCheckDate=''
                 }
-                //return callback(new Error('请选择送审时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择送审时间.'));
               }else{
                 callback();
               }
@@ -174,24 +172,21 @@
         //雇员特殊任务单的类型
              changeTypeList:[
                 //{value:'0', label: '无'},
-                {value:'1',label:'死亡'},
-                {value:'2',label:'终止'},
-                {value:'3',label:'修改个人信息'},
-                {value:'4',label:'修改人员信息'},
-                {value:'5',label:'退账'},
-                {value:'6',label:'工龄认定'},
-                {value:'7',label:'特殊工种认定'},
-                {value:'8',label:'账户合并'},
-                {value:'9',label:'遗属'},
-                {value:'10',label:'退休'},
-                {value:'11',label:'因病丧劳提前退休'},
-                {value:'12',label:'特殊工种提前退休'},
-                {value:'13',label:'退休高级专家增资'},
-                {value:'14',label:'退休军转增资'},
-                {value:'15',label:'外国人终止提取'},
-                {value:'16',label:'外来人员医保卡领取'},
-                {value:'17',label:'医保帐户提取'},
-                {value:'18',label:'生育津贴领取'}
+                {value:'1',label:'死亡终止'},
+                {value:'2',label:'修改个人信息'},
+                {value:'3',label:'工龄认定'},
+                {value:'4',label:'特殊工种认定'},
+                {value:'5',label:'账户合并'},
+                {value:'6',label:'遗属'},
+                {value:'7',label:'退休'},
+                {value:'8',label:'因病丧劳提前退休'},
+                {value:'9',label:'特殊工种提前退休'},
+                {value:'10',label:'退休高级专家增资'},
+                {value:'11',label:'退休军转增资'},
+                {value:'12',label:'外国人终止提取'},
+                {value:'13',label:'外来人员医保卡领取'},
+                {value:'14',label:'医保帐户提取'},
+                {value:'15',label:'生育津贴领取'},
             ],
             doMethodList: [
             {value: '1', label: '网上申报'},

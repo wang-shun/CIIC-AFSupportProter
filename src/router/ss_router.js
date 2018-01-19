@@ -37,6 +37,9 @@ const empTaskHandleView = r => require.ensure([], () => r(require('@/components/
 const empTaskHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle3View')), 'EmpTaskHandle3View')
 const empTaskHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle4View')), 'EmpTaskHandle4View')
 const empTaskHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle5View')), 'EmpTaskHandle5View')
+const empTaskHandle7View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle7View')), 'EmpTaskHandle7View')
+
+
 // 雇员任务批量办理
 const empTaskBatchHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandleView')), 'empTaskBatchHandleView')
 const empTaskBatchHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle3View')), 'empTaskBatchHandle3View')
@@ -118,12 +121,15 @@ const paymentComReviewed = r => require.ensure([], () => r(require('@/components
 /*
  * socialSecurityReport               --- 社保报表
  * monthlyPaymentNotice            --- 月缴费通知
+ * EmployeeCostDetail              --- 雇员缴费明细
+ * RefundDetails                   --- 退费明细
  */
 
 
 const socialSecurityReport = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/SocialSecurityReport')), 'SocialSecurityReport')
 const monthlyPaymentNotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/MonthlyPaymentNotice')), 'MonthlyPaymentNotice')
-
+const employeeCostDetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/EmployeeCostDetail')), 'EmployeeCostDetail')
+const refundDetails = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/RefundDetails')), 'RefundDetails')
 
 /*
  * yearBaseApplicate               --- 年度基数申报
@@ -295,7 +301,18 @@ export default [
       openNames:['1']
     }
   },
-
+  {
+    path: '/emp_task_handle7_view',
+    name: 'empTaskHandle7View',
+    component: empTaskHandle7View,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"雇员操作转出",
+      openNames:['1']
+    }
+  },
+  
   // 雇员任务批量办理
   {
     path: '/emp_task_batch_handle_view',
@@ -639,6 +656,29 @@ export default [
       openNames:['1']
     }
   },
+  {
+    path: '/employee_cost_detail',
+    name: 'employeeCostDetail',
+    component: employeeCostDetail,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"社保报表",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/refund_details',
+    name: 'refundDetails',
+    component: refundDetails,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"社保报表",
+      openNames:['1']
+    }
+  },
+  
   {
     path: '/year_base_applicate',
     name: 'yearBaseApplicate',

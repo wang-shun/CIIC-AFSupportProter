@@ -5,42 +5,38 @@
       <Panel name="1">
         零星医疗查询
         <div slot="content">
-          <Form v-model="reimbursementItem" ref="reimbursementItem" :label-width="100">
-            <row>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Form ref="reimbursementItem" :model="reimbursementItem" :label-width="140">
+            <Row justify="start" class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员编号">
                 <Input placeholder="请输入"/>
               </Form-item>
               </Col>
-
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员姓名">
                 <Input placeholder="请输入"/>
               </Form-item>
               </Col>
-
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="证件号码">
                 <Input placeholder="请输入"/>
               </Form-item>
               </Col>
-            </row>
-
-            <row>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="公司编号">
                 <Input placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="公司名称">
                 <Input placeholder="请输入"/>
               </Form-item>
               </Col>
             </row>
-            <row>
-              <Col :xs="{ span: 6, offset: 8 }" :lg="{ span: 6, offset: 8 }">
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 24}" class="tr">
               <Button type="primary" @click="query" size="large">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('reimbursementItem')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -55,8 +51,12 @@
       <Button icon="ios-download-outline" type="info" @click="exportData(2)">导出数据</Button>
     </div>
     <Table border :columns="reimbursementColumns" :data="reimbursementData" ref="reimbursementTable"></Table>
-    <Page :total="reimbursementTotal" show-sizer show-elevator @on-change="getByPage"
-          @on-page-size-change="pageSizeChange" :current.sync="page.pageNum"
+    <Page :total="reimbursementTotal"
+          show-sizer
+          show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :current.sync="page.pageNum"
           :page-size="page.pageSize"></Page>
   </div>
 </template>
@@ -178,6 +178,9 @@
       pageSizeChange(pageSize) {
         this.page.pageSize = pageSize;
         this.query()
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
       },
       // 导出csv
       exportData(type) {

@@ -147,7 +147,7 @@
     data() {
       //办理日期
       const validateHandleMonth =(rule, value, callback)=>{
-            debugger
+            
             let self= this
             let handleMonth = self.socialSecurityPayOperator.handleMonth;
             if(handleMonth==null || typeof(handleMonth)=='undefined' || handleMonth==""){
@@ -166,7 +166,7 @@
       }
       //截止月份
     const validateEndMonth=(rule, value, callback)=>{
-            debugger
+            
             let self= this
             if(value==null || typeof(value)=='undefined' || value==""){
                 return callback(new Error('不能为空.'))
@@ -175,7 +175,7 @@
             let lastMonth = self.getLastYearMonth(self.socialSecurityPayOperator.handleMonth);
             console.log(lastMonth)
             let valueMonth = self.getYearMonth(self.socialSecurityPayOperator.endMonth);
-            debugger
+            
             if(Number(valueMonth)!=Number(handleMonth) && Number(valueMonth)!=Number(lastMonth)){
               return callback(new Error('只能等于办理月份或者在办理月份前一月.'))
             }
@@ -242,7 +242,7 @@
     },
     methods: {
       getYearMonth(date){
-        debugger
+        
         if(date==null || date=="")return "";
         let year = date.getFullYear(); 
         let month = date.getMonth()+1;
@@ -252,14 +252,14 @@
         return Number(year+''+month);
       },
       getLastYearMonth(date){
-        debugger
+        
         if(date==null || date=="")return "";
         let year = date.getFullYear(); 
         let month = date.getMonth();
         if(month>=1 && month<=9){
               month='0'+month
         }
-        debugger
+        
         return Number(month)==0?(Number(year)-1)+'12':Number(year+''+month) 
       },
       initData(data) {
@@ -275,10 +275,10 @@
         }).then(data => {
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
           
-          debugger
+          
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
           let handleMonth = this.socialSecurityPayOperator.handleMonth;
-          debugger
+          
           if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
             let date = new Date();
             

@@ -436,7 +436,7 @@
             }
             //获得时间段
             //fromData.empTaskPeriods = this.filterData();
-            debugger
+            
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success(content + "成功");

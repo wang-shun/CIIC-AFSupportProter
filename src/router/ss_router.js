@@ -121,12 +121,15 @@ const paymentComReviewed = r => require.ensure([], () => r(require('@/components
 /*
  * socialSecurityReport               --- 社保报表
  * monthlyPaymentNotice            --- 月缴费通知
+ * EmployeeCostDetail              --- 雇员缴费明细
+ * RefundDetails                   --- 退费明细
  */
 
 
 const socialSecurityReport = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/SocialSecurityReport')), 'SocialSecurityReport')
 const monthlyPaymentNotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/MonthlyPaymentNotice')), 'MonthlyPaymentNotice')
-
+const employeeCostDetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/EmployeeCostDetail')), 'EmployeeCostDetail')
+const refundDetails = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/RefundDetails')), 'RefundDetails')
 
 /*
  * yearBaseApplicate               --- 年度基数申报
@@ -653,6 +656,29 @@ export default [
       openNames:['1']
     }
   },
+  {
+    path: '/employee_cost_detail',
+    name: 'employeeCostDetail',
+    component: employeeCostDetail,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"社保报表",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/refund_details',
+    name: 'refundDetails',
+    component: refundDetails,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"社保报表",
+      openNames:['1']
+    }
+  },
+  
   {
     path: '/year_base_applicate',
     name: 'yearBaseApplicate',

@@ -46,8 +46,11 @@ const companyFundAccountProgressTwo = r => require.ensure([], () => r(require('@
 const fundReconciliation = r => require.ensure([], () => r(require('@/components/fund/fund_reconciliation/FundReconciliation')), 'FundReconciliation')
 const fundPay = r => require.ensure([], () => r(require('@/components/fund/fund_pay/FundPay')), 'FundPay')
 const makePayList = r => require.ensure([], () => r(require('@/components/fund/fund_pay/MakePayList')), 'MakePayList')
-const fundReport = r => require.ensure([], () => r(require('@/components/fund/FundReport')), 'FundReport')
-const fundYearAdjust = r => require.ensure([], () => r(require('@/components/fund/FundYearAdjust')), 'FundYearAdjust')
+const fundReport = r => require.ensure([], () => r(require('@/components/fund/fund_report/FundReport')), 'FundReport')
+const fundYearAdjust = r => require.ensure([], () => r(require('@/components/fund/fund_year_adjust/FundYearAdjust')), 'FundYearAdjust')
+const fundYearAdjustMaintain = r => require.ensure([], () => r(require('@/components/fund/fund_year_adjust/FundYearAdjustMaintain')), 'FundYearAdjustMaintain')
+const fundYearAdjustStatus = r => require.ensure([], () => r(require('@/components/fund/fund_year_adjust/FundYearAdjustStatus')), 'FundYearAdjustStatus')
+const fundYearAdjustViewDifference = r => require.ensure([], () => r(require('@/components/fund/fund_year_adjust/FundYearAdjustViewDifference')), 'FundYearAdjustViewDifference')
 
 
 //任务单管理
@@ -357,6 +360,43 @@ let router = new Router({
             openNames: ['1']
           }
         },
+        {
+          path: '/fund_year_adjust_maintain',
+          name: 'fundYearAdjustMaintain',
+          component: fundYearAdjustMaintain,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "公积金年调",
+            openNames: ['1'],
+            activeName: '2-10'
+          }
+        },
+        {
+          path: '/fund_year_adjust_status',
+          name: 'fundYearAdjustStatus',
+          component: fundYearAdjustStatus,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "数据收集状态",
+            openNames: ['1'],
+            activeName: '2-10'
+          }
+        },
+        {
+          path: '/fund_year_adjust_view_difference',
+          name: 'fundYearAdjustViewDifference',
+          component: fundYearAdjustViewDifference,
+          meta: {
+            level1: '全国公积金',
+            level2: "上海公积金",
+            level3: "查看差异对比",
+            openNames: ['1'],
+            activeName: '2-10'
+          }
+        },
+
 
         ...EmployManageRouter,
         {

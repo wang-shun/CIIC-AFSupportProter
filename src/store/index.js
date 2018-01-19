@@ -21,6 +21,8 @@ import CompanyFundTaskList from './modules/fund/company_fund_task_list'
 import CompanyFundAccountSearch from './modules/fund/company_fund_account_search'
 import FundReconciliation from './modules/fund/fund_reconciliation'
 import FundPay from './modules/fund/fund_pay'
+import FundReport from './modules/fund/fund_report'
+import FundYearAdjust from './modules/fund/fund_year_adjust'
 
 //弹性福利
 import gift from "./modules/flexible_benefit/gift"
@@ -53,6 +55,8 @@ export default new Vuex.Store({
     ...CompanyFundAccountSearch,
     ...FundReconciliation,
     ...FundPay,
+    ...FundReport,
+    ...FundYearAdjust,
 
     ...gift,
     ...market,

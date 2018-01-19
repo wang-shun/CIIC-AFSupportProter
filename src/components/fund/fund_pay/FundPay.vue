@@ -145,7 +145,7 @@
 
     <Modal
       v-model="isShowFundPayRepairList"
-      title="上海市补充公积金汇缴变更清册"
+      title="上海市公积金补缴清册"
       width="960"
     >
       <fund-pay-repair-list :fundPayRepairInfo="data.fundPayRepairInfo"></fund-pay-repair-list>
@@ -156,7 +156,7 @@
 
     <Modal
       v-model="isShowAddFundPayRepairList"
-      title="上海市补充公积金汇缴变更清册"
+      title="上海市补充公积金补缴清册"
       width="960"
     >
       <add-fund-pay-repair-list :addFundPayRepairInfo="data.addFundPayRepairInfo"></add-fund-pay-repair-list>
@@ -167,7 +167,7 @@
 
     <Modal
       v-model="isShowAddFundPayRepairList"
-      title="上海市补充公积金汇缴变更清册"
+      title="上海市补充公积金汇缴补缴清册"
       width="960"
     >
       <add-fund-pay-repair-list :addFundPayRepairInfo="data.addFundPayRepairInfo"></add-fund-pay-repair-list>

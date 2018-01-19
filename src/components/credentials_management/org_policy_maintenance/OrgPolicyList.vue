@@ -51,7 +51,7 @@
           <i-col span="12">
             <Form-item label="证件类型：" style="width:400px;" prop="type">
               <Select v-model="formItem.type" placeholder="请选择" style="width:260px" transfer>
-                <Option v-for="(value,key) in this.baseDic.credentialsType" :value="key" :key="key">{{ value }}</Option>
+                <Option v-for="(value,key) in this.baseDic.credentialsType" :value="value" :key="key">{{ value }}</Option>
               </Select>
             </Form-item>    
           </i-col>
@@ -97,7 +97,7 @@ export default {
       value1: '1',
       modal1: false,
       pageNum: 1,
-      pageSize: 10,
+      pageSize: 5,
       total: null,
       queryItem: {
         type: '',
@@ -168,8 +168,9 @@ export default {
                 on: {
                   click: () => {
                     this.formItem = params.row
-                    this.modal1 = true
                     console.log(params.row)
+                    this.modal1 = true
+                    
                   }
                 }
               }, '编辑'),

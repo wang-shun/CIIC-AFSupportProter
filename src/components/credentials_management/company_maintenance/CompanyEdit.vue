@@ -126,11 +126,15 @@ import axios from 'axios'
 import Tools from '../../../lib/tools'
 import Decode from '../../../lib/decode'
 
+  const host = process.env.SITE_HOST
   export default {
     data () {
       return {
         title: '',
         formItem: {
+          companyExtId: '',
+          companyId: '',
+          credentialsType: '',
           name: '',
           operateType: '',
           operateAccount: '',
@@ -151,7 +155,7 @@ import Decode from '../../../lib/decode'
         colums1: [
           {
             title: '证件类型',
-            key: 'credentialsType'
+            key: 'lab'
           },
           {
             title: '办理机构',
@@ -204,52 +208,142 @@ import Decode from '../../../lib/decode'
         ],
         data1: [
           {
-            credentialsType: '积分办理',
-            name: '梅园路',
-            operateAccount: '1358231671',
-            operateType: '待审代交',
-            chargeType: '常规收费',
-            payType: '台账',
+            lab: '积分办理',
+            // idx: 1,
+            // companyExtId: formItem.companyExtId,
+            // companyId: formItem.companyId,
+            // credentialsType: formItem.credentialsType,
+            // name: formItem.name,
+            // operateType: formItem.operateType,
+            // operateAccount: formItem.operateAccount,
+            // operatePwd: formItem.operatePwd,
+            // chargeType: formItem.chargeType,
+            // payType: formItem.payType,
+            // specialChargeRemark: formItem.specialChargeRemark,
+            // introduceMail: formItem.introduceMail,
+            // onlineContactIdCard: formItem.onlineContactIdCard,
+            // onlineContactIsSecretariat: formItem.onlineContactIsSecretariat,
+            // onlineContact: formItem.onlineContact,
+            // businessLicence: formItem.businessLicence,
+            // organizationCode: formItem.organizationCode,
+            // foreignBusinessApprovalCertificate: formItem.foreignBusinessApprovalCertificate,
+            // businessRenameNotice: formItem.businessRenameNotice,
+            // specialMaterialRemark: formItem.specialMaterialRemark
+          },
+          {
+            lab: '居住证B证',
+            idx: 2,
+            companyExtId: '',
+            companyId: '',
+            credentialsType: '',
+            name: '',
+            operateType: '',
+            operateAccount: '',
+            operatePwd: '',
+            chargeType: '',
+            payType: '',
             specialChargeRemark: '',
-            introduceMail: true,
-            onlineContactIdCard: true,
-            onlineContactIsSecretariat: true,
-            onlineContact: '李小白',
-            businessLicence: true,
-            organizationCode: false,
-            foreignBusinessApprovalCertificate: false,
-            businessRenameNotice: false,
+            introduceMail: '',
+            onlineContactIdCard: '',
+            onlineContactIsSecretariat: '',
+            onlineContact: '',
+            businessLicence: '',
+            organizationCode: '',
+            foreignBusinessApprovalCertificate: '',
+            businessRenameNotice: '',
             specialMaterialRemark: ''
           },
           {
-            credentialsType: '居住证B证',
-            name: '徐汇人才',
-            operateAccount: '15370922638',
-            operateType: '待审不代交',
-            chargeType: '特殊收费',
-            payType: '员工自付',
-            specialChargeRemark: '常规+（服务费）10%常规',
-            introduceMail: true,
-            onlineContactIdCard: false,
-            onlineContactIsSecretariat: false,
+            lab: '留学生落户',
+            idx: 3,
+            companyExtId: '',
+            companyId: '',
+            credentialsType: '',
+            name: '',
+            operateType: '',
+            operateAccount: '',
+            operatePwd: '',
+            chargeType: '',
+            payType: '',
+            specialChargeRemark: '',
+            introduceMail: '',
+            onlineContactIdCard: '',
+            onlineContactIsSecretariat: '',
             onlineContact: '',
-            businessLicence: false,
-            organizationCode: true,
-            foreignBusinessApprovalCertificate: false,
-            businessRenameNotice: false,
-            specialMaterialRemark: '特殊情况说明。。。。。。'
+            businessLicence: '',
+            organizationCode: '',
+            foreignBusinessApprovalCertificate: '',
+            businessRenameNotice: '',
+            specialMaterialRemark: ''
           },
           {
-            credentialsType: '留学生落户'
+            lab: '居转户',
+            idx: 4,
+            companyExtId: '',
+            companyId: '',
+            credentialsType: '',
+            name: '',
+            operateType: '',
+            operateAccount: '',
+            operatePwd: '',
+            chargeType: '',
+            payType: '',
+            specialChargeRemark: '',
+            introduceMail: '',
+            onlineContactIdCard: '',
+            onlineContactIsSecretariat: '',
+            onlineContact: '',
+            businessLicence: '',
+            organizationCode: '',
+            foreignBusinessApprovalCertificate: '',
+            businessRenameNotice: '',
+            specialMaterialRemark: ''
           },
           {
-            credentialsType: '居转户'
+            lab: '夫妻分居',
+            idx: 5,
+            companyExtId: '',
+            companyId: '',
+            credentialsType: '',
+            name: '',
+            operateType: '',
+            operateAccount: '',
+            operatePwd: '',
+            chargeType: '',
+            payType: '',
+            specialChargeRemark: '',
+            introduceMail: '',
+            onlineContactIdCard: '',
+            onlineContactIsSecretariat: '',
+            onlineContact: '',
+            businessLicence: '',
+            organizationCode: '',
+            foreignBusinessApprovalCertificate: '',
+            businessRenameNotice: '',
+            specialMaterialRemark: ''
           },
           {
-            credentialsType: '夫妻分居'
-          },
-          {
-            credentialsType: '人才引进'
+            lab: '人才引进',
+            idx: 6,
+            companyExtId: '',
+            companyId: '',
+            credentialsType: '',
+            name: '',
+            operateType: '',
+            operateAccount: '',
+            operatePwd: '',
+            chargeType: '',
+            payType: '',
+            specialChargeRemark: '',
+            introduceMail: '',
+            onlineContactIdCard: '',
+            onlineContactIsSecretariat: '',
+            onlineContact: '',
+            businessLicence: '',
+            organizationCode: '',
+            foreignBusinessApprovalCertificate: '',
+            businessRenameNotice: '',
+            specialMaterialRemark: ''
           }
         ]
       }
@@ -258,13 +352,23 @@ import Decode from '../../../lib/decode'
       this.find()
     },
     methods: {
-      // let companyCode = this.$router.params.companyCode,
       find () {
-        var params = {}
-        params.params = {}
-        params.params.name = this.queryItem.name
-        axios.get(host + '/api/companyExt/find', companyCode).then(response => {
+        let that = this
+        let companyCode = this.$route.params.data
+        console.log("companyCode:"+companyCode)
+        axios.get(host + '/api/companyExt/find/'+companyCode).then(response => {
           // this.data1 = response.data.data
+          // let val = response.data.data
+          // that.data1.forEach(function (r, rindex){
+          //   console.log("r:"+r)
+          //   val.forEach(function (item, index){
+          //     console.log("  item:"+item)
+          //     if (item.credentialsType === r.idx){
+          //       r = item
+          //       console.log(r.lab+"   "+item.credentialsType)
+          //     }
+          //   })
+          // })
         })
       },
       save () {},

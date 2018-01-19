@@ -74,7 +74,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'companyEdit', id: params.row.id})
+                    this.$router.push({name: 'companyEdit', params:{companyCode: params.row.companyCode}})
                   }
                 }
               }, '编辑')

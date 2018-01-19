@@ -88,6 +88,7 @@
 <script>
 import axios from 'axios'
 import Tools from '../../../lib/tools'
+import Decode from '../../../lib/decode'
 
 const host = process.env.SITE_HOST
 export default {
@@ -126,7 +127,10 @@ export default {
         },
         {
           title: '证件类型',
-          key: 'type'
+          key: 'type',
+          render: (h, params) => {
+            return Decode.sel_type(params.row.type);
+          }
         },
         {
           title: '创建人',
@@ -212,7 +216,6 @@ export default {
       axios.get(host + '/api/orgPolicy/find', params).then(response => {
         this.data1 = response.data.data.records
         this.total = response.data.data.total
-        console.log(response)
       })
     },
     handleCurrentChange(val) {

@@ -122,8 +122,9 @@
 </template>
 
 <script>
-  // import {mapGetters, mapActions} from 'vuex'
-  // import * as eventType from '../../../store/event_types/credentials_management_type'
+import axios from 'axios'
+import Tools from '../../../lib/tools'
+import Decode from '../../../lib/decode'
 
   export default {
     data () {
@@ -160,10 +161,6 @@
             title: '操作账号',
             key: 'operateAccount'
           },
-          // {
-          //   title: '',
-          //   key: ''
-          // },
           {
             title: '操作方式',
             key: 'operateType'
@@ -257,13 +254,19 @@
         ]
       }
     },
-    mounted () {
-    },
     created () {
-    },
-    computed: {
+      this.find()
     },
     methods: {
+      // let companyCode = this.$router.params.companyCode,
+      find () {
+        var params = {}
+        params.params = {}
+        params.params.name = this.queryItem.name
+        axios.get(host + '/api/companyExt/find', companyCode).then(response => {
+          // this.data1 = response.data.data
+        })
+      },
       save () {},
       back () {
         this.$router.go(-1)

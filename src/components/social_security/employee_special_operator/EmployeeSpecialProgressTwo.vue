@@ -55,10 +55,10 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
+  import chat from '../../common_control/chat_history/Chat.vue'
   import CompanyInfo from '../components/CompanyInfo.vue'
-  import employeeInfo from '../../commoncontrol/employeeinfo.vue'
-  import EventType from '../../../store/EventTypes'
+  import employeeInfo from '../../common_control/EmployeeInfo.vue'
+  import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
   import Utils from '../../../lib/utils'
 
@@ -132,7 +132,7 @@
                   props: {value: params.row.remark},
                   on:{
                     input:function(event){
-                      
+
                           params.row.remark = event
                           self.receiveMaterialListData[params.index] = params.row
                         }
@@ -187,10 +187,10 @@
       this.accAndEmpDetailQuery()
     },
     computed: {
-      
+
     },
     methods: {
-     
+
       //页面信息查询
       accAndEmpDetailQuery() {
         //处理参数
@@ -200,27 +200,27 @@
             this.receiveMaterialListData = data.data;
             //Utils.deepClone(this.operatorMaterialListData)
           }
-          
-          
+
+
         })
         //6表示特殊操作 查询雇员信息
         api.queryEmpArchiveByEmpTaskId({empTaskId:this.empTaskId,operatorType:'6'}).then((data) => {
           if(data.data!=null){
-            
+
             this.employeeInfo = data.data;
           }
-          
+
         })
          //6表示特殊操作 查询雇员信息
         api.queryComAccountByEmpTaskId({empTaskId:this.empTaskId,operatorType:'6'}).then((data) => {
           if(data.data!=null){
             this.companyInfo = data.data;
           }
-          
+
         })
       },
       signAllMaterials(){
-  
+
         let materialArr = this.receiveMaterialListData
         let materialId = "";
        // var typeInfo =0;//表示无材料
@@ -229,7 +229,7 @@
              //表示有材料未签收
             let param ={empMaterialId:materialArr[i].empMaterialId,status:1,remark:materialArr[i].remark}
             paramsList.push(JSON.stringify(param))
-          
+
         }
         if(paramsList.length==0){
           this.$Notice.error({
@@ -249,7 +249,7 @@
             }
         })
         }
-       
+
       },
        handleRefuseReason() {
         var ids = [];

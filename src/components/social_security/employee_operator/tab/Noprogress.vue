@@ -126,7 +126,7 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :sm="{span: 24}">
+      <Col :sm="{span: 24}" class="tr">
       <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
       <Button type="error" @click="showRefuseReason">批退</Button>
       <Button type="info" @click="exprotExcel">导出</Button>
@@ -165,11 +165,11 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/EventTypes'
+  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
-  import InputAccount from '../../../commoncontrol/form/input-account'
-  import InputCompany from '../../../commoncontrol/form/input-company'
+  import InputAccount from '../../../common_control/form/input_account'
+  import InputCompany from '../../../common_control/form/input_company'
 
   export default {
     components: {InputAccount, InputCompany},

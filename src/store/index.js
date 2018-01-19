@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import leftNavigation from './modules/leftNavigation'
+import leftNavigation from './modules/left_navigation'
 
 //上海社保
 import CompanySocialSecurityManage from './modules/social_security/company_social_security_manage'
@@ -13,8 +13,16 @@ import SocialSecurityPay from './modules/social_security/social_security_pay'
 
 
 //上海公积金
-import EmployeeFundSearch from './modules/Fund/EmployeeFundSearch'
-import EmployeeCommonOperator from './modules/Fund/EmployeeCommonOperator'
+import EmployeeFundSearch from './modules/fund/employee_fund_search'
+import EmployeeCommonOperator from './modules/fund/employee_common_operator'
+import EmployeeFundSpecialOperator from './modules/fund/employee_special_operator'
+import EmployeeFundTransferOperator from './modules/fund/employee_transfer_operator'
+import CompanyFundTaskList from './modules/fund/company_fund_task_list'
+import CompanyFundAccountSearch from './modules/fund/company_fund_account_search'
+import FundReconciliation from './modules/fund/fund_reconciliation'
+import FundPay from './modules/fund/fund_pay'
+import FundReport from './modules/fund/fund_report'
+import FundYearAdjust from './modules/fund/fund_year_adjust'
 
 //弹性福利
 import gift from "./modules/flexible_benefit/gift"
@@ -41,6 +49,14 @@ export default new Vuex.Store({
 
     ...EmployeeFundSearch,
     ...EmployeeCommonOperator,
+    ...EmployeeFundSpecialOperator,
+    ...EmployeeFundTransferOperator,
+    ...CompanyFundTaskList,
+    ...CompanyFundAccountSearch,
+    ...FundReconciliation,
+    ...FundPay,
+    ...FundReport,
+    ...FundYearAdjust,
 
     ...gift,
     ...market,

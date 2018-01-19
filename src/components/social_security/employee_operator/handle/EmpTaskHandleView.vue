@@ -214,7 +214,7 @@
   import companyInfo from '../../components/CompanyInfo'
   import employeeInfo from '../../components/EmployeeInfo'
 
-  import EventTypes from '../../../../store/EventTypes'
+  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
   export default {
@@ -392,7 +392,7 @@
                 h('span', params.row.startMonth,{
                   on: {
                   input: (event) => {
-                    
+
                     self.taskNewInfoData[params.index].row.startMonth = event
                   }
                 }
@@ -408,7 +408,7 @@
                 h('span', params.row.endYear,{
                   on: {
                   input: (event) => {
-                    
+
                     self.taskNewInfoData[params.index].row.endYear = event
                   }
                 }
@@ -423,13 +423,13 @@
     },
     mounted() {
       this.initData(this.$route.query)
-    
+
     },
     computed: {
-     
+
     },
     methods: {
- 
+
       initData(data) {
         this.empTaskId = data.empTaskId;
         this.operatorType = data.operatorType;
@@ -445,20 +445,20 @@
             this.operatorListData = data.data.empTaskPeriods;
           }
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
-          
+
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
         });
-        
+
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          
+
           if(data.data!=null){
-            
+
             this.employee = data.data;
           }
-          
+
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          
+
           this.company = data.data;
         })
       },
@@ -507,7 +507,7 @@
         params.row[name] = value;
       },
       insertRow(index) {
-        
+
         this.getRows().splice(0, 0, this.newRow());
       },
       removeRow(index) {
@@ -522,7 +522,7 @@
       },
       instance(taskStatus, type) {
         var fromData = this.$utils.clear(this.socialSecurityPayOperator, '');
-        
+
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
         if ('4' == taskStatus) {
@@ -562,7 +562,7 @@
             }
 
             fromData.empTaskPeriods = self.filterData();
-            
+
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 self.$Message.success(content + "成功");

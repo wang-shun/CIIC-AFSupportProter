@@ -4,7 +4,7 @@
       <Panel name='1'>
         下载Excel报表
         <div slot="content">
-           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData"> 
+           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
                  <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                  <Form-item label="报表年月：" prop="reportYearAndMonth">
@@ -26,11 +26,11 @@
                    <Button type="info" @click="monthlypaymentnotice">月缴费通知书</Button>
               </Col>
             </Row>
-          </Form> 
+          </Form>
         </div>
       </Panel>
     </Collapse>
-   
+
     <!-- 企业社保账户分类 模态框 -->
     <Modal
       v-model="operatorSearchData.isShowAccountType"
@@ -45,9 +45,9 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../commoncontrol/customermodal.vue'
-  import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
-  import EventType from '../../../store/EventTypes'
+  import customerModal from '../../common_control/CustomerModal.vue'
+  import companyAccountSearchModal from '../../common_control/CompanyAccountSearchModal.vue'
+  import EventType from '../../../store/event_types'
 
   export default {
     components: {customerModal, companyAccountSearchModal},
@@ -57,15 +57,15 @@
         operatorSearchData: {
           reportYearAndMonth:'',//报表年月
           companyAccountType:'',//企业社保账户
-          isShowAccountType: false, //社保账户模糊块的显示      
+          isShowAccountType: false, //社保账户模糊块的显示
         },
 
         employeeResultColumns: [
-           
+
           {title: '雇员编号', key: 'employeeNumber',  align: 'center',
             render: (h, params) => {
               return h('div',{style:{textAlign:'center'}}, [
-                
+
               ]);
             }
           },
@@ -95,7 +95,7 @@
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.project),
               ]);
-              
+
             }
           },
           {title: '导入金额', key: 'importAmount', align: 'center',

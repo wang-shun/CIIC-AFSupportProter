@@ -82,7 +82,7 @@
     </Collapse>
 
     <Row style="margin: 10px 0;">
-      <Col :sm="{span: 24}">
+      <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="exportData">导出</Button>
       </Col>
     </Row>
@@ -124,10 +124,10 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from "../../commoncontrol/customermodal.vue"
-  import companyAccountSearchModal from "../../commoncontrol/companyaccountsearchmodal.vue"
+  import customerModal from "../../common_control/CustomerModal.vue"
+  import companyAccountSearchModal from "../../common_control/CompanyAccountSearchModal.vue"
   import ICol from "../../../../node_modules/iview/src/components/grid/col";
-  import EventTypes from '../../../store/EventTypes'
+  import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
 
   export default {
@@ -191,7 +191,7 @@
           {value: '3', label: '外籍三险'},
           {value: '4', label: '外籍五险'},
           {value: '5', label: '延迟退休人员'}
-  
+
         ], //人员分类
 
         employeeSocialSecurityColumns: [
@@ -207,7 +207,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      
+
                       this.showInfo(params.row.empArchiveId)
                     }
                   }
@@ -321,7 +321,7 @@
             }
           }
 
-          
+
         ]
       }
     },
@@ -347,17 +347,17 @@
       },
       showInfo (ind) {
         this.$router.push({name:'employeesocialsecurityinfo', query: {empArchiveId: ind}});
-        
+
       },
       employeeQuery(params){
-        
+
         let self =this
         api.employeeQuery({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
           params: params,
         }).then(data => {
-          
+
           self.employeeSocialSecurityData = data.data.rows;
           self.pageData.total = Number(data.data.total);
         })

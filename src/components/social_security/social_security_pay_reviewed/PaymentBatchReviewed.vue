@@ -11,7 +11,7 @@
                   <Select v-model="payBatchSearchData.accountType" clearable style="width: 100%;" transfer>
                     <Option v-for="item in staticPayBatchSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
-                </Form-item>    
+                </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="出账批号：" prop="paymentBatchNum">
@@ -36,7 +36,7 @@
                         <input type="text" v-model="payBatchSearchData.paymentMonthMax" hidden>
                     </Form-item>
                     </Col>
-                  </Row>                   
+                  </Row>
                   <!-- <DatePicker v-model="payBatchInfo.payDate" type="daterange" format="yyyy-MM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker> -->
                 </Form-item>
               </Col>
@@ -64,15 +64,15 @@
             <Col :sm="{span:24}">
                 <Table stripe
                     border ref="payBatchselection"
-                    :columns="payBatchColumns" 
+                    :columns="payBatchColumns"
                     :data="payBatchData">
                 </Table>
-                <Page 
+                <Page
                     class="pageSize"
                     @on-change="payBatchHandlePageNum"
                     @on-page-size-change="payBatchHandlePageSite"
-                    :total="payBatchPageData.total" 
-                    :page-size="payBatchPageData.pageSize" 
+                    :total="payBatchPageData.total"
+                    :page-size="payBatchPageData.pageSize"
                     :page-size-opts="payBatchPageData.pageSizeOpts"
                     :current="payBatchPageData.pageNum"
                     show-sizer show-total>
@@ -128,15 +128,12 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../commoncontrol/customermodal.vue'
-  import progressBar from '../../commoncontrol/progress/progressbar.vue'
-  import EventType from '../../../store/EventTypes'
+  import customerModal from '../../common_control/CustomerModal.vue'
+  import EventType from '../../../store/event_types'
   import reviewedBatchApi from '../../../api/social_security/payment_batch_reviewed'
 
-  const progressStop = 33.3;
-
   export default {
-    components: {customerModal, progressBar},
+    components: {customerModal},
     data() {
       return{
         collapseInfo: [1], //展开栏
@@ -152,7 +149,7 @@
           comAccountId: ''
         },
         staticPayBatchSearchData: {
-            
+
           accountTypeList: [
             {value: '1', label: '中智大库'},
             {value: '2', label: '中智外包'},
@@ -168,7 +165,6 @@
 
         isShowCustomerName: false,
         isShowProgress: false,
-        progressStop: progressStop,
 
         payBatchColumns: [
           {title: '操作', key: 'operator', width: 220, align: 'center',
@@ -302,7 +298,7 @@
               ]);
             }
           },
-          
+
         ],
         payBatchData: [],
         payBatchPageData: {
@@ -341,7 +337,7 @@
         this.$refs[name].resetFields()
       },
       goPaymentNotice() {
-        this.$router.push({name: 'paymentnotice'})
+        this.$router.push({name: 'paymentNotice'})
       },
       ok () {
 
@@ -382,7 +378,7 @@
         })
 
       },
-    
+
       getPaymentStateName(paymentState) {
         var paymentStateMap = new Map();
         paymentStateMap.set("1","未到帐");

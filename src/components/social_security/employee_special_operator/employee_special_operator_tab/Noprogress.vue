@@ -115,7 +115,7 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :sm="{span:24}">
+      <Col :sm="{span:24}" class="tr">
       <Button type="error" @click="showRefuseReason">批退</Button>
       </Col>
     </Row>
@@ -152,11 +152,11 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/EventTypes'
+  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
-  import InputAccount from '../../../commoncontrol/form/input-account'
-  import InputCompany from '../../../commoncontrol/form/input-company'
+  import InputAccount from '../../../common_control/form/input_account'
+  import InputCompany from '../../../common_control/form/input_company'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -212,7 +212,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      
+
                       this.$router.push({name: 'employeespecialprogresstwo',query:{taskStatus:params.row.handleStatus,empTaskId:params.row.empTaskId}})
                     }
                   }
@@ -353,7 +353,7 @@
           pageNum: this.employeeResultPageData.pageNum,
           params: params,
         }).then(data => {
-          
+
           this.employeeResultData = data.data;
           this.employeeResultPageData.total = data.total;
         })

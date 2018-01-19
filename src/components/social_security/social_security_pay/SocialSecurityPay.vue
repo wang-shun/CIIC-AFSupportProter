@@ -11,8 +11,8 @@
   </div>
 </template>
 <script>
-  import paymentCom from './tab/paymentCom'//社保支付 -- 企业账户管理
-  import paymentBatch from './tab/paymentBatch'//社保支付 -- 支付批次
+  import paymentCom from './tab/PaymentCom'//社保支付 -- 企业账户管理
+  import paymentBatch from './tab/PaymentBatch'//社保支付 -- 支付批次
 
   export default {
     components: {paymentCom, paymentBatch},

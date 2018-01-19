@@ -134,11 +134,11 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/EventTypes'
+  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
-  import InputAccount from '../../../commoncontrol/form/input-account'
-  import InputCompany from '../../../commoncontrol/form/input-company'
+  import InputAccount from '../../../common_control/form/input_account'
+  import InputCompany from '../../../common_control/form/input_company'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -184,7 +184,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                       this.$router.push({name: 'empspecialtaskdetail',query:{empTaskId:params.row.empTaskId}})
+                       this.$router.push({name: 'empSpecialTaskDetail',query:{empTaskId:params.row.empTaskId}})
                     }
                   }
                 }, '查看'),
@@ -290,7 +290,7 @@
       },
       routerToCommcialOperator: function (name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },
@@ -392,7 +392,7 @@
           }
 
           this.$router.push({
-            name: 'employeecommcialoperator',
+            name: 'employeeCommcialOperator',
             query: {operatorType: name, sourceFrom: 'operator', taskIds: taskIds}
           });
         } else {
@@ -401,25 +401,25 @@
             case '1': // 新进
             case '2': // 转入
               this.$router.push({
-                name: 'companysocialsecuritynew',
+                name: 'companySocialSecurityNew',
                 query: {operatorType: '0', sourceFrom: 'operator', taskId: data.empTaskId}
               });
               break;
             case '3': // 调整
               this.$router.push({
-                name: 'companysocialsecuritynew',
+                name: 'companySocialSecurityNew',
                 query: {operatorType: '1', sourceFrom: 'operator', taskId: data.empTaskId}
               });
               break;
             case '4':// 补缴
               this.$router.push({
-                name: 'companysocialsecuritynew',
+                name: 'companySocialSecurityNew',
                 query: {operatorType: '4', sourceFrom: 'operator', taskId: data.empTaskId}
               });
               break;
             case '5':// 转出
               this.$router.push({
-                name: 'companysocialsecuritynew',
+                name: 'companySocialSecurityNew',
                 query: {operatorType: '2', sourceFrom: 'operator', taskId: data.empTaskId}
               });
               break;

@@ -46,7 +46,7 @@
                       </Select>
                     </Form-item>
                   </Col>
-                
+
                   <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                     <Form-item label="受理日期：" class="" prop="startHandleDate">
                       <DatePicker v-if="handDateIsDateOrLabel" v-model="socialSecuritySpecialOperator.startHandleDate"  :disabled="handDateControl"  placement="top-start" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
@@ -92,10 +92,10 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
+  import chat from '../../common_control/chat_history/Chat.vue'
   import CompanyInfo from '../components/CompanyInfo.vue'
-  import employeeInfo from '../../commoncontrol/employeeinfo.vue'
-  import EventType from '../../../store/EventTypes'
+  import employeeInfo from '../../common_control/EmployeeInfo.vue'
+  import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
   import Utils from '../../../lib/utils'
   export default {
@@ -105,7 +105,7 @@
 
       //受审日期
        const validateAcceptanceDate=(rule, value, callback)=>{
-            
+
             if(this.socialSecuritySpecialOperator.handleStatus=='1'){
                callback();
             }else{
@@ -115,7 +115,7 @@
                 }
                 //return callback(new Error('请选择受理时间.'));
                return callback(new Error(''));
-               
+
               }else{
                 callback();
               }
@@ -123,7 +123,7 @@
        };
        //送审日期
        const validateSendCheckDate=(rule, value, callback)=>{
-            
+
             let self= this
             if(self.socialSecuritySpecialOperator.handleStatus=='1'|| self.socialSecuritySpecialOperator.handleStatus=='2'){
                callback();
@@ -139,9 +139,9 @@
               }
             }
        };
-        //完成日期 
+        //完成日期
        const validateFinishedDate=(rule, value, callback)=>{
-            
+
             if(this.socialSecuritySpecialOperator.handleStatus=='1'|| this.socialSecuritySpecialOperator.handleStatus=='2'|| this.socialSecuritySpecialOperator.handleStatus=='3'){
                callback();
             }else{
@@ -158,13 +158,13 @@
         collapseInfo: [1, 2, 3], //展开栏
         currentStep:0,
         empTaskId:this.$route.query.empTaskId,
-        handDateControl:false,//受理日期 是否可编辑 
+        handDateControl:false,//受理日期 是否可编辑
          sendDateControl:false,//送审日期 是否可编辑
          finishDateControl:false,//完成日期  是否可编辑
          taskInitialStatus:'',//任务查询的最初状态
          handDateIsDateOrLabel:true,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-         sendDateIsDateOrLabel:true,//送审日期 
-         finishDateIsDateOrLabel:true,//完成日期  
+         sendDateIsDateOrLabel:true,//送审日期
+         finishDateIsDateOrLabel:true,//完成日期
          taskTypeList:[
             {value: '1',label: '初始(材料收缴)',disabled:false},
             {value: '2', label: '受理中',disabled:false},
@@ -221,7 +221,7 @@
                    taskCategorySpecial:[
                      {required:true, type: 'string',message: '该项不能为空!', trigger: 'change' }
                    ],
-                   
+
                    handleWay:[
                      {required:true, type: 'string',message: '该项不能为空!', trigger: 'change' }
                    ],
@@ -239,7 +239,7 @@
                        ],
                        handleReason:[
                          { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
-                       ] 
+                       ]
                 },
       }
     },
@@ -256,12 +256,12 @@
       accAndEmpDetailQuery(){
         //处理参数
         api.specialTaskQuery({empTaskId:this.empTaskId}).then(data => {
-          
+
           this.socialSecuritySpecialOperator = data.data;
-          
+
           this.taskInitialStatus = data.data.handleStatus;
           this.currentStep = Number(this.taskInitialStatus)-1
-          
+
           this.getStatus(this.taskInitialStatus)
         })
         //6表示特殊操作 查询雇员信息
@@ -275,13 +275,13 @@
         })
       },
       getStatus(handleStatus){
-        
+
         let self= this
           switch(handleStatus) {
                 case '1':
                       self.handDateControl = true;
                       self.sendDateControl=true;
-                      self.finishDateControl=true; 
+                      self.finishDateControl=true;
                   break;
                 case '2':
                   self.taskTypeList[0].disabled = true;
@@ -295,8 +295,8 @@
                     self.handDateControl = true;
                     self.finishDateControl=true;
                       self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-                      self.sendDateIsDateOrLabel=false//送审日期 
-                    
+                      self.sendDateIsDateOrLabel=false//送审日期
+
                   break;
                 case '4':
                     self.taskTypeList[0].disabled = true;
@@ -305,8 +305,8 @@
                     self.handDateControl = true;
                     self.sendDateControl=true;
                       self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-                      self.sendDateIsDateOrLabel=false//送审日期 
-                      self.finishDateIsDateOrLabel=false//完成日期 
+                      self.sendDateIsDateOrLabel=false//送审日期
+                      self.finishDateIsDateOrLabel=false//完成日期
                   break;
                 default:
                   break;
@@ -314,7 +314,7 @@
       },
       //任务状态变更
       taskTypeChange(){
-        
+
           let taskState = this.socialSecuritySpecialOperator.handleStatus
          //acceptanceDate sendCheckDate finishedDate
          let formObj = this.socialSecuritySpecialOperator
@@ -369,7 +369,7 @@
                       handleRemark:obj.handleRemark,
                       rejectionRemark:obj.rejectionRemark
                     }
-                    
+
                     api.empSpecialTaskHandle(params).then(data=>{
                         if(data){
                           self.$Notice.success({
@@ -387,7 +387,7 @@
                           });
                         }
                     })
-                   
+
                 },
                  error:function(error){
                    self.$Message.error('办理失败!');
@@ -405,7 +405,7 @@
           let index = Number(val)-1
         return this.changeTypeList[index].label;
         }
-        
+
       },
       handleRefuseReason() {
         var ids = [];

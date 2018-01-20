@@ -1,6 +1,7 @@
 <template>
   <div>
     <Card dis-hover>
+      <p solt="title">雇员信息录入</p>
       <Form ref="empAddForm" :model="formItem" :rules="ruleValidate" :label-width="120">
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

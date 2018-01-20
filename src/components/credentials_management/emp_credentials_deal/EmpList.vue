@@ -5,6 +5,11 @@
         <div slot="content">
           <Form ref="queryItem" :model="queryItem" :label-width="120"> 
             <Row type="flex" justify="start" prop="empCode">
+              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号：" prop="companyCode"> 
+                  <Input v-model="queryItem.companyCode" placeholder="请输入"/>                                                           
+                </Form-item> 
+              </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                      
                 <Form-item label="雇员编号：" prop="empCode">
                   <Input v-model="queryItem.empCode" placeholder="请输入"/>
@@ -27,12 +32,7 @@
                   </Select>
                 </Form-item>    
               </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="companyCode"> 
-                  <Input v-model="queryItem.companyCode" placeholder="请输入"/>                                                           
-                </Form-item> 
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                                       
+              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                                       
                 <Form-item label="办理日期：" prop="dealTime">
                   <DatePicker type="date" v-model="queryItem.dealTime" placeholder="请输入" style="width: 57%" transfer/>
                 </Form-item>                                                
@@ -46,7 +46,7 @@
                 <Form-item label="材料退回日期：" prop="materialBackTime">
                   <DatePicker type="date" v-model="queryItem.materialBackTime" placeholder="请输入" style="width: 57%" transfer/>
                 </Form-item>                                                
-              </i-col>                                      
+              </i-col>                                       -->
             </Row>   
           </Form>  
           <Row type="flex" justify="start" class="tr">  

@@ -167,15 +167,15 @@ import Decode from '../../../lib/decode'
           },
           {
             title: '操作方式',
-            key: 'operateType'
+            key: 'operateTypeN'
           },
           {
             title: '费用类型',
-            key: 'chargeType'
+            key: 'chargeTypeN'
           },
           {
             title: '支付方式',
-            key: 'payType'
+            key: 'payTypeN'
           },
           {
             title: '特殊收费备注',
@@ -221,7 +221,9 @@ import Decode from '../../../lib/decode'
           let labs = [{lab:'积分办理',idx:1},{lab:'居住证B证',idx:2},{lab:'留学生落户',idx:3},{lab:'居转户',idx:4},{lab:'夫妻分居',idx:5},{lab:'人才引进',idx:6}]
           for (let x in t){
             for (let y in labs){
-              if (x.credentialsType === 1) {}
+              if (t[x].credentialsType === labs[y].idx) {
+                labs[y] = t[x]
+              }
             }
             
           }

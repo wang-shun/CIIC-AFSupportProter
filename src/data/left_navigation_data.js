@@ -53,7 +53,11 @@ const leftNavigationList = params => Utils.promise({
         id: 4,
         key: "证件管理",
         icon: "card",
-        children: []
+        children: [
+          {cid: '4-1', ckey: '雇员证件办理', crouter: 'empList'},
+          {cid: '4-2', ckey: '客户数据维护', crouter: 'companyList'},
+          {cid: '4-3', ckey: '办理机构政策维护', crouter: 'orgPolicyList'}
+        ]
       },
       // {
       //   id: 3,

@@ -3,7 +3,7 @@
     <div class="layout-ceiling layoutMenuLeft">
       <Row type="flex" class="topFlex">
         <i-col :span="spanLeft" class="layout-menu-left">
-          <div data-v-3413f463="" style="padding-left: 20px;padding-top: 10px;color: #fff;font-size: 20px;">GT1 支持中心</div>
+          <div data-v-3413f463="" class="layout-menu-left ivu-col ivu-col-span-4"></div>
         </i-col>
         <i-col :span="spanRight">
           <i-button type="text" @click="toggleClick">
@@ -451,6 +451,12 @@
     transition: width .2s ease-in-out;
   }
 
+  .ivu-col-span-4 {
+    float: left;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto
+  }
+
   .ivu-menu-dark {
     background: #222d32;
     border-left: 2px solid #222d32;
@@ -484,7 +490,7 @@
   }
 
   .layoutMenuLeft .layout-menu-left {
-    background: #367fa9;
+    background: #367fa9 url(/static/img/support_center.jpg) no-repeat 100%
   }
 
   .ivu-badge {

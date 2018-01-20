@@ -63,6 +63,22 @@ const insuredList = r => require.ensure([], () => r(require('@/components/health
 const AddPayRate = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddPayRate')), 'AddPayRate') //新增付费比例
 
 /**
+ * 证件管理
+ * EmpList 雇员列表
+ * EmpAdd 新增单项雇员
+ * EmpCredentialsTask 雇员证件办理管理
+ * CompanyList 客户数据维护列表
+ * CompanyEdit 客户数据维护
+ * OrgPolicyList 办理机构政策维护列表
+ */
+const EmpList = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpList')),'empList')
+const EmpAdd = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpAdd')),'empAdd')
+const EmpCredentialsTask = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpCredentialsTask')),'empCredentialsTask')
+const CompanyList = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyList')),'companyList')
+const CompanyEdit = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyEdit')),'companyEdit')
+const OrgPolicyList = r => require.ensure([], () => r(require('@/components/credentials_management/org_policy_maintenance/OrgPolicyList')),'orgPolicyList')
+
+/**
  * 健康医疗
  * relationshipTransfer     --医疗关系转移
  * collectionPayment        --代收代付
@@ -668,6 +684,75 @@ let router = new Router({
             level2: "弹性福利",
             level3: "报表查询",
             openNames: ['2']
+          }
+        },
+        /**
+         * 证件管理
+         */
+        {
+          path: '/emp_credentials_deal/emp_list',
+          name: 'empList',
+          component: EmpList,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '雇员证件办理',
+            openNames: ['4']
+          }
+        },
+        {
+          path: '/emp_credentials_deal/emp_add',
+          name: 'empAdd',
+          component: EmpAdd,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '新增雇员',
+            openNames: ['4']
+          }
+        },
+        {
+          path: '/emp_credentials_deal/emp_credentials_task',
+          name: 'empCredentialsTask',
+          component: EmpCredentialsTask,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '雇员证件管理',
+            openNames: ['4']
+          }
+        },
+        {
+          path: '/company_maintenance/company_list',
+          name: 'companyList',
+          component: CompanyList,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '客户数据维护',
+            openNames: ['4']
+          }
+        },
+        {
+          path: '/company_maintenance/company_edit',
+          name: 'companyEdit',
+          component: CompanyEdit,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '客户数据编辑',
+            openNames: ['4']
+          }
+        },
+        {
+          path: '/org_policy_maintenance/org_policy_list',
+          name: 'orgPolicyList',
+          component: OrgPolicyList,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '办理机构政策维护',
+            openNames: ['4']
           }
         }
       ]

@@ -90,15 +90,29 @@
       <Button type="info" icon="ios-download-outline" @click="exportData(1)">导出数据</Button>
     </div>
 
-    <Table border stripe ref="acceptanceData" :columns="acceptanceColumns" :data="acceptanceData"
+    <Table border
+           stripe
+           ref="acceptanceData"
+           :columns="acceptanceColumns"
+           :data="acceptanceData"
            @on-selection-change="selectTableData"></Table>
-    <Page :total="100" show-sizer show-elevator></Page>
+    <Page :total="100"
+          show-sizer
+          show-elevator></Page>
 
-    <Modal v-model="modalAccept" title="受理对话框" ok-text="受理" @on-ok="updateAcceptanceList(1)" :mask-closable="true">
+    <Modal v-model="modalAccept"
+           title="受理对话框"
+           ok-text="受理"
+           @on-ok="updateAcceptanceList(1)"
+           :mask-closable="true">
       <Input v-model="dealMeg.remark" placeholder="请输入操作说明："/>
     </Modal>
 
-    <Modal v-model="modalRefuse" title="拒赔操作对话框" ok-text="拒赔" @on-ok="updateAcceptanceList(2)" :mask-closable="true">
+    <Modal v-model="modalRefuse"
+           title="拒赔操作对话框"
+           ok-text="拒赔"
+           @on-ok="updateAcceptanceList(2)"
+           :mask-closable="true">
       <Input v-model="dealMeg.remark" placeholder="请输入拒赔原因：" class="mt15"/>
       <Select v-model="dealMeg.rejectType" :clearable="true" placeholder="请选择拒赔类型：" class="mt15">
         <Option v-for="item in rejectTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>

@@ -71,6 +71,11 @@
         </Col>
       </Row>
     </Card>
+    <Row type="flex" justify="start">
+      <Col :sm="{span: 24}" class="tr">
+      <Button type="warning" @click="back()">返回</Button>
+      </Col>
+    </Row>
   </div>
 </template>
 
@@ -116,7 +121,10 @@
       queryAcceptanceUninsured() {
         let sdd = [];
         console.info(sdd.length);
-      }
+      },
+      back() {
+        this.$local.back();
+      },
     },
   }
 </script>

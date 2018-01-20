@@ -1,5 +1,5 @@
 <template>
-  <div class="smList">
+  <div>
     <Tabs @on-click="changeTab" v-model="currentTab">
       <TabPane label="医疗关系转移">
 

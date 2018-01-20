@@ -206,146 +206,7 @@ import Decode from '../../../lib/decode'
             }
           }
         ],
-        data1: [
-          {
-            lab: '积分办理',
-            // idx: 1,
-            // companyExtId: formItem.companyExtId,
-            // companyId: formItem.companyId,
-            // credentialsType: formItem.credentialsType,
-            // name: formItem.name,
-            // operateType: formItem.operateType,
-            // operateAccount: formItem.operateAccount,
-            // operatePwd: formItem.operatePwd,
-            // chargeType: formItem.chargeType,
-            // payType: formItem.payType,
-            // specialChargeRemark: formItem.specialChargeRemark,
-            // introduceMail: formItem.introduceMail,
-            // onlineContactIdCard: formItem.onlineContactIdCard,
-            // onlineContactIsSecretariat: formItem.onlineContactIsSecretariat,
-            // onlineContact: formItem.onlineContact,
-            // businessLicence: formItem.businessLicence,
-            // organizationCode: formItem.organizationCode,
-            // foreignBusinessApprovalCertificate: formItem.foreignBusinessApprovalCertificate,
-            // businessRenameNotice: formItem.businessRenameNotice,
-            // specialMaterialRemark: formItem.specialMaterialRemark
-          },
-          {
-            lab: '居住证B证',
-            idx: 2,
-            companyExtId: '',
-            companyId: '',
-            credentialsType: '',
-            name: '',
-            operateType: '',
-            operateAccount: '',
-            operatePwd: '',
-            chargeType: '',
-            payType: '',
-            specialChargeRemark: '',
-            introduceMail: '',
-            onlineContactIdCard: '',
-            onlineContactIsSecretariat: '',
-            onlineContact: '',
-            businessLicence: '',
-            organizationCode: '',
-            foreignBusinessApprovalCertificate: '',
-            businessRenameNotice: '',
-            specialMaterialRemark: ''
-          },
-          {
-            lab: '留学生落户',
-            idx: 3,
-            companyExtId: '',
-            companyId: '',
-            credentialsType: '',
-            name: '',
-            operateType: '',
-            operateAccount: '',
-            operatePwd: '',
-            chargeType: '',
-            payType: '',
-            specialChargeRemark: '',
-            introduceMail: '',
-            onlineContactIdCard: '',
-            onlineContactIsSecretariat: '',
-            onlineContact: '',
-            businessLicence: '',
-            organizationCode: '',
-            foreignBusinessApprovalCertificate: '',
-            businessRenameNotice: '',
-            specialMaterialRemark: ''
-          },
-          {
-            lab: '居转户',
-            idx: 4,
-            companyExtId: '',
-            companyId: '',
-            credentialsType: '',
-            name: '',
-            operateType: '',
-            operateAccount: '',
-            operatePwd: '',
-            chargeType: '',
-            payType: '',
-            specialChargeRemark: '',
-            introduceMail: '',
-            onlineContactIdCard: '',
-            onlineContactIsSecretariat: '',
-            onlineContact: '',
-            businessLicence: '',
-            organizationCode: '',
-            foreignBusinessApprovalCertificate: '',
-            businessRenameNotice: '',
-            specialMaterialRemark: ''
-          },
-          {
-            lab: '夫妻分居',
-            idx: 5,
-            companyExtId: '',
-            companyId: '',
-            credentialsType: '',
-            name: '',
-            operateType: '',
-            operateAccount: '',
-            operatePwd: '',
-            chargeType: '',
-            payType: '',
-            specialChargeRemark: '',
-            introduceMail: '',
-            onlineContactIdCard: '',
-            onlineContactIsSecretariat: '',
-            onlineContact: '',
-            businessLicence: '',
-            organizationCode: '',
-            foreignBusinessApprovalCertificate: '',
-            businessRenameNotice: '',
-            specialMaterialRemark: ''
-          },
-          {
-            lab: '人才引进',
-            idx: 6,
-            companyExtId: '',
-            companyId: '',
-            credentialsType: '',
-            name: '',
-            operateType: '',
-            operateAccount: '',
-            operatePwd: '',
-            chargeType: '',
-            payType: '',
-            specialChargeRemark: '',
-            introduceMail: '',
-            onlineContactIdCard: '',
-            onlineContactIsSecretariat: '',
-            onlineContact: '',
-            businessLicence: '',
-            organizationCode: '',
-            foreignBusinessApprovalCertificate: '',
-            businessRenameNotice: '',
-            specialMaterialRemark: ''
-          }
-        ]
+        data1: []
       }
     },
     created () {
@@ -353,22 +214,18 @@ import Decode from '../../../lib/decode'
     },
     methods: {
       find () {
-        let that = this
         let companyCode = this.$route.params.data
         console.log("companyCode:"+companyCode)
         axios.get(host + '/api/companyExt/find/'+companyCode).then(response => {
-          // this.data1 = response.data.data
-          // let val = response.data.data
-          // that.data1.forEach(function (r, rindex){
-          //   console.log("r:"+r)
-          //   val.forEach(function (item, index){
-          //     console.log("  item:"+item)
-          //     if (item.credentialsType === r.idx){
-          //       r = item
-          //       console.log(r.lab+"   "+item.credentialsType)
-          //     }
-          //   })
-          // })
+          let t = response.data.data
+          let labs = [{lab:'积分办理',idx:1},{lab:'居住证B证',idx:2},{lab:'留学生落户',idx:3},{lab:'居转户',idx:4},{lab:'夫妻分居',idx:5},{lab:'人才引进',idx:6}]
+          for (let x in t){
+            for (let y in labs){
+              if (x.credentialsType === 1) {}
+            }
+            
+          }
+          this.data1 = labs
         })
       },
       save () {},

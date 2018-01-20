@@ -5,17 +5,18 @@
          退费明细
         <div slot="content">
           <Form :label-width='200'>
+            <Row>
+              <Col :sm="{span: 23}"  style="padding-bottom:10px">
+                <Button type="warning" @click="goBack" >返回</Button>
+              </Col>
+            </Row>
             <Table border :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData"></Table>
             
           </Form>
         </div>
       </Panel>
     </Collapse>
-    <Row>
-      <Col :sm="{span: 23}" class="tr" style="padding-top:10px">
-        <Button type="warning" @click="goBack" >返回</Button>
-      </Col>
-    </Row>
+    
   </div>
 </template>
 <script>

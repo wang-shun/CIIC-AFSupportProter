@@ -425,7 +425,7 @@
             query: {operatorType: taskCategory, empTaskIds: empTaskIds}
           });
         } else {
-          debugger
+          
           // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = data.taskCategory;
           var name = 'empTaskHandleView';

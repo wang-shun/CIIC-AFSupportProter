@@ -62,14 +62,11 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../common_control/CustomerModal.vue'
-  import progressBar from '../../common_control/progress/ProgressBar.vue'
   import EventType from '../../../store/event_types'
   import payComReviewedApi from '../../../api/social_security/payment_com_reviewed'
 
-  const progressStop = 33.3;
-
   export default {
-    components: {customerModal, progressBar},
+    components: {customerModal},
     data() {
       return{
         collapseInfo: [1], //展开栏
@@ -100,7 +97,6 @@
         },
         isShowCustomerName: false,
         isShowProgress: false,
-        progressStop: progressStop,
 
         payComColumns: [
 

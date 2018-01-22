@@ -16,14 +16,14 @@
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="补缴原因：">
           <Select v-model="fundOperator.reasonValue" style="width: 100%;" :disabled="disabled" transfer>
-            <Option v-for="item in fundOperator.reasonList" :value="item.value" :key="item.value">{{item.label}}</Option>
+            <Option v-for="item in reasonList" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="操作提示：">
           <Select v-model="fundOperator.operatorTipValue" style="width: 100%;" :disabled="disabled" transfer>
-            <Option v-for="item in operatorTipList" :value="item.value" :key="item.value">{{item.label}}</Option>
+            <Option v-for="item in operatorTipsList" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
       </Col>

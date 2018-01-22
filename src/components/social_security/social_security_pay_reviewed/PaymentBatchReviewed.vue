@@ -129,14 +129,11 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../common_control/CustomerModal.vue'
-  import progressBar from '../../common_control/progress/ProgressBar.vue'
   import EventType from '../../../store/event_types'
   import reviewedBatchApi from '../../../api/social_security/payment_batch_reviewed'
 
-  const progressStop = 33.3;
-
   export default {
-    components: {customerModal, progressBar},
+    components: {customerModal},
     data() {
       return{
         collapseInfo: [1], //展开栏
@@ -168,7 +165,6 @@
 
         isShowCustomerName: false,
         isShowProgress: false,
-        progressStop: progressStop,
 
         payBatchColumns: [
           {title: '操作', key: 'operator', width: 220, align: 'center',

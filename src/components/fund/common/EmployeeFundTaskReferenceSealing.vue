@@ -7,7 +7,7 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="调整截至年月：">
+        <Form-item label="汇缴截至年月：">
           {{reference.endPayDate}}
         </Form-item>
       </Col>

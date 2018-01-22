@@ -136,7 +136,7 @@
       title="查看进度"
       @on-ok="ok"
       @on-cancel="cancel">
-      <progress-bar></progress-bar>
+      <progress-bar :stepsInfo="steps"></progress-bar>
     </Modal>
 
     <!-- 调整 -->
@@ -234,6 +234,12 @@
         isShowCustomerName: false,
         isShowProgress: false,
         progressStop: progressStop,
+        steps: [
+          {isOver: 1, title: '创建支付', author: '迎曦', date: '2016-12-12 12:32', action: {name: '', action: ''}},
+          {isOver: 0,title: '部门初审', author: '小龙女', date: '', action: {name: '催一下', action: ''}},
+          {isOver: -1, title: '财务复审', author: '', date: '', action: {name: '', action: ''}},
+          {isOver: -1, title: '财务复审', author: '', date: '', action: {name: '', action: ''}},
+        ],
 
         //加入批次功能数据结构
         addBatchData:{

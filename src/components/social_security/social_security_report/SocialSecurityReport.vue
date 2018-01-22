@@ -148,18 +148,23 @@ import InputAccount from './InputAccount.vue'
         this.$router.push({name: 'monthlyPaymentNotice'})
       },
       employeeCostDetail(){
-        
+        let result = this.validCondition();
+        if(!result)return;
         let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMMDD')
         this.$router.push({name: 'employeeCostDetail',query:{ssMonth:ssMonth,comAccountId:this.operatorSearchData.comAccountId}})
       },
       refundDetails(){
+        let result = this.validCondition();
+        if(!result)return;
+         let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMMDD')
+         this.$router.push({name: 'refundDetails',query:{ssMonth:ssMonth,comAccountId:this.operatorSearchData.comAccountId}})
+      },
+      validCondition(){
         let result = false;
         this.$refs['operatorSearchData'].validate((valid) => {
                     if (valid)result=true;
-                })
-                if(!result)return;
-         let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMMDD')
-         this.$router.push({name: 'refundDetails',query:{ssMonth:ssMonth,comAccountId:this.operatorSearchData.comAccountId}})
+        })
+        return result
       }
     }
   }

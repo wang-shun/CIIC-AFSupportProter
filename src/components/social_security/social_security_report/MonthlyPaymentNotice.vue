@@ -137,7 +137,7 @@
     methods: {
       ...mapActions('socialsecurityreport', [EventType.MONTHLYPAYMENTNOTICE]),
       goBack() {
-        this.$router.push({name: 'socialsecuritypay'})
+        this.$router.push({name: 'socialSecurityReport'})
       },
       ok () {
 

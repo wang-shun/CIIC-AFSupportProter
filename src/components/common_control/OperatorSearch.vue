@@ -61,7 +61,7 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="结算中心：" prop="region">
+          <Form-item label="结算区县：" prop="region">
             <Select v-model="operatorSearchData.region" style="width: 100%;" transfer>
               <Option v-for="item in operatorSearchData.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>

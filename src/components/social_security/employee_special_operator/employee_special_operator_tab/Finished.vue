@@ -84,7 +84,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="结算中心：" prop="settlementArea">
+              <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="徐汇区" label="徐汇区"></Option>
@@ -186,7 +186,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      
+
                       this.$router.push({name: 'empSpecialTaskDetail',query:{empTaskId:params.row.empTaskId}})
                     }
                   }

@@ -181,7 +181,7 @@
                   on: {
                     click: () => {
                       this.$router.push({
-                        name: 'employeesocialsecuritytaskinfo',
+                        name: 'employeeSocialSecurityTaskInfo',
                         query: {operatorType: params.row.taskCategory, sourceFrom: 'search',empTaskId:params.row.empTaskId,empArchiveId:this.$route.query.empArchiveId}
                       });
                     }
@@ -234,25 +234,21 @@
       }
     },
     async mounted() {
-      await this[EventTypes.EMPLOYEESOCIALSECURITYINFO]()
       let params = {empArchiveId:this.$route.query.empArchiveId}
 
       api.employeeDetailInfoQuery(params).then(data=>{
-        console.log(data)
           this.employeeAndCustomer=data.data.ssEmpArchive
           this.socialSecurityInfoListData=data.data.empBasePeriod
           this.changeListData = data.data.ssEmpTasks
       })
     },
     computed: {
-      ...mapState('employeeSocialSecurityInfo', {
-        data: state => state.data,
-      })
+
     },
     methods: {
-      ...mapActions('employeeSocialSecurityInfo', [EventTypes.EMPLOYEESOCIALSECURITYINFO]),
       goBack() {
-        this.$router.push({name: 'employeesocialsecuritysearch'});
+        
+        this.$router.push({name: 'employeeSocialSecuritySearch'});
       },
       getEmpClassify(val){
         if(val==null || typeof(val)=='undefined')return ''

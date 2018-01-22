@@ -1,26 +1,27 @@
 <template>
-  <div class="smList">
+  <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         礼品管理查询
         <div slot="content">
           <Form :model="formItem" ref="formItem" :label-width="100">
-            <Row>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+            <Row class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="礼品名称" prop="giftName">
                 <Input v-model="formItem.giftName" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="状态" prop="status">
                 <Select v-model="formItem.status" :clearable="true" placeholder="请选择">
                   <Option v-for="item in statusProperties" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 3, offset: 12 }" :lg="{ span: 3, offset: 12 }">
+            </Row>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 24}" class="tr">
               <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
-
               <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
@@ -28,8 +29,7 @@
         </div>
       </Panel>
     </Collapse>
-
-    <div class="tr" style="margin: 20px auto">
+    <div class="tr m20">
       <router-link to="/giftAdd">
         <Button type="info">新增礼品</Button>
       </router-link>
@@ -62,21 +62,28 @@
           total: 0
         },
 
-        peopleTypes: [{
-          value: "0", label: "全部"
-        }, {
-          value: "1", label: "雇员"
-        }, {
-          value: "2", label: "子女"
-        }, {
-          value: "3", label: "配偶"
-        }],
+        peopleTypes: [
+          {
+            value: "0", label: "全部"
+          },
+          {
+            value: "1", label: "雇员"
+          },
+          {
+            value: "2", label: "子女"
+          },
+          {
+            value: "3", label: "配偶"
+          }
+        ],
 
-        statusProperties: [{
-          value: "0", label: "正常"
-        }, {
-          value: "1", label: "已下架"
-        }],
+        statusProperties: [
+          {
+            value: "0", label: "正常"
+          }, {
+            value: "1", label: "已下架"
+          }
+        ],
 
         giftManagerColumns: [
           {
@@ -128,7 +135,7 @@
               }
             }
           }, {
-            title: "操作", key: "action", width: 300, align: "center",
+            title: "操作", key: "action", width: 200, align: "center",
             render: (h, params) => {
               if (params.row.status == '0') {
                 return h("div", [
@@ -152,40 +159,7 @@
                         this.$router.push({name: "giftUpdate", params: {data: updateData}});
                       }
                     }
-                  }, "编辑"),
-                  h("Button", {
-                    props: {
-                      type: "success",
-                      size: "small"
-                    },
-                    on: {
-                      click: () => {
-                        this.$router.push({
-                          name: "giftApplicationManager",
-                          params: {data: params.row}
-                        });
-                      }
-                    }
-                  }, "发放记录")
-                ]);
-              } else {
-                return h("div", [
-                  h("Button", {
-                    props: {
-                      type: "success",
-                      size: "small"
-                    },
-                    on: {
-                      click: () => {
-                        this.$router.push({
-                          name: "giftApplicationManager",
-                          params: {
-                            data: params.row
-                          }
-                        });
-                      }
-                    }
-                  }, "发放记录")
+                  }, "编辑")
                 ]);
               }
             }

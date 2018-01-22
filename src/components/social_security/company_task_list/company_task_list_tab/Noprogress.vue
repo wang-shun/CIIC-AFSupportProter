@@ -8,12 +8,13 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="companyTaskInfo.customerNumber" placeholder="请输入..."></Input>
+                  <input-company v-model="companyTaskInfo.customerNumber"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="companyTaskInfo.customerName"  placeholder="请输入..."></Input><!--@on-focus="focusCustomerName" -->
+                  <input-company-name v-model="companyTaskInfo.customerName" ></input-company-name>
+                  <!-- <Input v-model="companyTaskInfo.customerName"  placeholder="请输入..."></Input>@on-focus="focusCustomerName" -->
                 </Form-item>
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -88,12 +89,12 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
   import EventType from '../../../../store/event_types'
-  import Axios from 'axios'
   import {NoProgress} from '../../../../api/social_security/company_task_list/company_task_list_tab/no_progress'
-  import mock from '../../../../data/social_security/company_task_list/company_task_list_tab/c_this_month_handle_data'
   import Utils from '../../../../lib/utils'
+  import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
+  import InputCompany from '../../../common_control/form/input_company'
   export default {
-    components: {customerModal},
+    components: {customerModal,InputCompanyName,InputCompany},
     data() {
       return{
         taskData:[],//table 里的数据
@@ -137,16 +138,16 @@
                       this.setSessionNumAndSize()
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '1',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressTwo', query: {operatorType: '1',tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '2',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressTwo', query: {operatorType: '2',tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '3',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressTwo', query: {operatorType: '3',tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'CompanyTaskProgress2', query: {operatorType: '4',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressTwo', query: {operatorType: '4',tid:params.row.tid}})
                           break;
                         default:
                           break;
@@ -252,7 +253,7 @@
       },
       routerToCommcialOperator: function(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },

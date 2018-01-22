@@ -47,16 +47,15 @@
             <Button type="primary">导入付费</Button>
           </router-link>
           </Col>
-
         </row>
         <br>
         <row>
           <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-          <div class="floatRightBtns">
-            <router-link to="/AddInsurancePolicyNum">
+          <div class="tc">
+            <Button type="warning" @click="back">返回</Button>
+            <router-link to="/CollectionPayment">
               <Button type="primary">提交</Button>
             </router-link>
-            <Button type="success" @click="back">返回</Button>
           </div>
           </Col>
         </row>
@@ -67,15 +66,15 @@
       v-model="modal1"
       title="新增付费对话框"
       @on-ok="ok">
-      <Input v-model="formItem.code1" placeholder="公司编号："></Input>
+      <Input v-model="formItem.code1" placeholder="公司编号："/>
       <br> <br>
-      <Input v-model="formItem.code2" placeholder="公司名称："></Input>
+      <Input v-model="formItem.code2" placeholder="公司名称："/>
       <br> <br>
-      <Input v-model="formItem.code3" placeholder="保费："></Input>
+      <Input v-model="formItem.code3" placeholder="保费："/>
       <br> <br>
-      <Input v-model="formItem.code4" placeholder="人数："></Input>
+      <Input v-model="formItem.code4" placeholder="人数："/>
       <br> <br>
-      <Input v-model="formItem.code5" placeholder="备注："></Input>
+      <Input v-model="formItem.code5" placeholder="备注："/>
     </Modal>
   </div>
 </template>
@@ -96,26 +95,18 @@
         },
         columns7: [
           {
-            title: '公司编号',
-            sortable: true,
-            key: 'column1'
+            title: '公司编号', sortable: true, key: 'column1'
           },
 
           {
-            title: '公司名称',
-            sortable: true,
-            key: 'column2'
+            title: '公司名称', sortable: true, key: 'column2'
           },
           {
-            title: '保费',
-            sortable: true,
-            key: 'column3'
+            title: '保费', sortable: true, key: 'column3'
           },
 
           {
-            title: '人数',
-            sortable: true,
-            key: 'column4'
+            title: '人数', sortable: true, key: 'column4'
           }
         ],
         data6: [
@@ -165,48 +156,10 @@
       back() {
         this.$local.back();
       },
-      selectChange() {
-        this.formItem.disabled = false;
-        if (this.formItem.types == "computed" || this.formItem.types == "seniorComputed" || this.formItem.types == "fixed") {
-          this.onlyNum = true;
-        } else {
-          this.onlyNum = false;
-        }
-      },
-      passData() {
-        let data = this.$route.params.data;
-        if (data) {
-          this.editObj = data;
-          this.formItem.name = data.name;
-          this.formItem.code = data.code;
-          this.formItem.types = createLookMap("label", "value", this.salaryType)[data.types];
-          this.formItem.typeVal = createLookMap("label", "value", this.dataTypes)[data.typeVal];
-        } else {
-          data = ""
-        }
-      }
+
     },
-    watch: {
-      //监听路由变化 页面重载或路由跳转获取URL参数
-      $route() {
-        console.log("路由发生了变化");
-        this.passData();
-      }
-    },
-    created() {
-      this.passData();
-    },
+
   }
 
-  function createLookMap(key, value, jsonArr) {
-    let map = {}
-    for (let i = 0; i < jsonArr.length; i++) {
-      let item = jsonArr[i]
-      let mapKey = item[key]
-      let mapValue = item[value]
-      map[mapKey] = mapValue
-    }
-    return map
-  }
 
 </script>

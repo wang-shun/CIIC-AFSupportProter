@@ -26,7 +26,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="状态：" prop="state">
                   <Select v-model="comAccountSearch.state" style="width: 100%;" transfer>
-                    <Option v-for="item in comAccountSearch.stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="item in stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -133,14 +133,14 @@
           {title: '账户类型', key: 'ssAccountType', width: 100, fixed: 'left', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.ssAccountType),
+                h('span', this.$decode.accountType(params.row.ssAccountType)),
               ]);
             }
           },
           {title: '状态', key: 'state', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.state),
+                h('span', params.row.state=='0'?'初始':params.row.state=='1'?'有效':params.row.state=='2'?'终止':''),
               ]);
             }
           },

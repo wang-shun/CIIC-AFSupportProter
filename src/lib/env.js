@@ -8,7 +8,7 @@ env.localhost = "http://localhost";
 env.isJar = true;
 env.debug = true;
 
-if("production" === dev){
+if ("production" === dev) {
   env.localhost = "http://172.16.9.24";
   env.isJar = true;
   env.debug = false;

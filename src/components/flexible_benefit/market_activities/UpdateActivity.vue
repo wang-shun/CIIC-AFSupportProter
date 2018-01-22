@@ -2,18 +2,18 @@
   <div class="smList">
     <Card>
       <Form :model="formItem" ref="formItem" :rules="marketValidate" :label-width="120">
-        <row>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
+        <row class="mt20 mr10">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="活动主题：" prop="activityTitle">
             <Input v-model="formItem.activityTitle" placeholder="请输入"/>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="发布人：" prop="publisher">
             <Input v-model="formItem.publisher" placeholder="请输入"/>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="礼品形式：" prop="giftForm">
             <CheckboxGroup v-model="formItem.giftForm">
               <Checkbox label="1">实物</Checkbox>
@@ -22,7 +22,7 @@
             </CheckboxGroup>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="派送方式：" prop="sendWay">
             <CheckboxGroup v-model="formItem.sendWay">
               <Checkbox label="0">送至中心</Checkbox>
@@ -30,13 +30,13 @@
             </CheckboxGroup>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="活动时间：" prop="marketTime">
             <DatePicker v-model="formItem.marketTime" type="daterange" style="width: 100%;"
                         placeholder="选择日期"></DatePicker>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="状态：" prop="status">
             <Select v-model="formItem.status" style="width:200px">
               <Option value="0">进行中</Option>
@@ -44,7 +44,7 @@
             </Select>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="详细内容：" prop="content">
             <Input v-model="formItem.content" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
           </Form-item>
@@ -52,8 +52,8 @@
         </row>
         <row>
           <Col :xs="{ span: 6, offset: 8 }" :lg="{ span: 6, offset: 8 }">
-          <Button type="primary" @click="updateMarketActivity()">提交</Button>
           <Button type="warning" @click="back">返回</Button>
+          <Button type="primary" @click="updateMarketActivity()">提交</Button>
           </Col>
         </row>
       </Form>
@@ -121,10 +121,10 @@
             /*vue数据脱绑*/
             let params = JSON.parse(JSON.stringify(this.formItem));
             /*前台时间转化为字符串*/
-            params.beginTime = this.$utils.formatDate(this.formItem.marketTime[0], 'YYYY-MM-DD HH:mm:ss');
-            params.endTime = this.$utils.formatDate(this.formItem.marketTime[1], 'YYYY-MM-DD HH:mm:ss');
+            params.beginTime = this.formItem.marketTime[0];
+            params.endTime = this.formItem.marketTime[1];
             /*修改时间*/
-            params.modifiedTime = this.$utils.formatDate(new Date(), 'YYYY-MM-DD HH:mm:ss');
+            params.modifiedTime = new Date();
             params.giftForm = params.giftForm.join();
             params.sendWay = params.sendWay.join();
             this[EventTypes.MARKETUPDATETYPE]({

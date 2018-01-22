@@ -14,15 +14,21 @@ import Validator from '@/validator/flexible_benefit'
 import 'iview/dist/styles/iview.css';
 import '../static/css/style.css';   //修改全局樣式
 
+import Dic from './lib/dic.js'
+import moment from 'moment'
+
 import store from './store'
 
 Vue.config.productionTip = false
+
+window.moment = moment;
 
 Vue.use(Vuex)
 Vue.use(iView);
 Vue.use(commons);
 Vue.use(VueAxios,Axios);
 Vue.use(Validator);
+Vue.use(Dic);
 
 const app = new Vue({
     router,

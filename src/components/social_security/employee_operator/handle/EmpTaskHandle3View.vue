@@ -20,17 +20,17 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item :label="handleTitle + '缴费基数:'">
-                <label>18000</label>
+                <label>{{socialSecurityPayOperator.empBase}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item :label="handleTitle + '起始月份：'">
-                <label>{{taskChangeInfo.changeStartMonth}}</label>
+                <label>{{socialSecurityPayOperator.startMonth}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item :label="handleTitle + '截至月份：'">
-                <label>{{taskChangeInfo.changeEndMonth}}</label>
+                <label>{{socialSecurityPayOperator.endMonth}}</label>
               </Form-item>
               </Col>
             </Row>
@@ -107,11 +107,11 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'"  @click="instance('1','next')" v-if="showButton">转下月处理</Button>
       <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
-      <Button type="error" @click="instance('4')" v-if="showButton">批退</Button>
-      <Button type="primary" v-show="operatorType !== '2'" @click="instance('1')" v-if="showButton">暂存</Button>
-      <Button type="warning" @click="goBack">返回</Button>
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
+      <Button type="primary"  v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1')" v-if="showButton">暂存</Button>
+      <Button type="warning"  @click="goBack">返回</Button>
       </Col>
     </Row>
   </div>
@@ -168,8 +168,8 @@
                 props: {value: params.row.startMonth, type: 'month', disabled: Boolean(params.row.disabled)},
                 attrs: {placeholder: '选择年月'},
                 on: {
-                  'on-change': (value) => {
-                    this.setRow(params, 'startMonth', value);
+                  input: (event) => {
+                    this.setRow(params, 'startMonth', event);
                   }
                 }
               });
@@ -184,8 +184,8 @@
                 props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
                 attrs: {placeholder: '选择年月'},
                 on: {
-                  'on-change': (value) => {
-                    this.setRow(params, 'endMonth', value);
+                  input: (event) => {
+                    this.setRow(params, 'endMonth', event);
                   }
                 }
               });
@@ -206,42 +206,46 @@
               }, params.row.baseAmount);
             }
           },
-          {
-            title: '操作',
-            key: 'base',
-            align: 'center',
-            width: 130,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      params.row.disabled = false;
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      this.removeRow(params.index);
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
-                  on: {
-                    click: () => {
-                      this.insertRow(params.index);
-                    }
-                  }
-                })
-              ]);
-            }
-          }
+          /**@augments
+           * 不能删除  暂时屏蔽
+           * 现在只做一条时间段的需求
+           */
+          // {
+          //   title: '操作',
+          //   key: 'base',
+          //   align: 'center',
+          //   width: 130,
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             params.row.disabled = false;
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             this.removeRow(params.index);
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
+          //         on: {
+          //           click: () => {
+          //             this.insertRow(params.index);
+          //           }
+          //         }
+          //       })
+          //     ]);
+          //   }
+          // }
         ],
         operatorListData: [
           {remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false}
@@ -264,6 +268,7 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
+          empBase:''
         },
 
         // 任务单参考信息
@@ -315,11 +320,21 @@
           empTaskId: empTaskId,
           operatorType: 1,// 任务单费用段
         }).then(data => {
+          
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
+          }else{
+            this.operatorListData=[{
+                remitWay: '1', 
+                startMonth: data.data.startMonth, 
+                endMonth: data.data.endMonth, 
+                baseAmount: data.data.empBase, 
+                disabled: false
+               }]
           }
-          this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
+          this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
+          
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
@@ -339,7 +354,7 @@
         })
       },
       goBack() {
-        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo'});
+        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo'});
       },
       // yyyy-MM or date
       yyyyMM(date) {
@@ -426,8 +441,9 @@
               submitTime.setDate(nextDay);
               fromData.submitTime = this.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');
             }
-
+            
             fromData.empTaskPeriods = this.filterData();
+            
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success(content + "成功");

@@ -15,12 +15,12 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="companyTaskInfo.customerNumber" placeholder="请输入..."></Input>
+                  <input-company v-model="companyTaskInfo.customerNumber"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="companyTaskInfo.customerName"  placeholder="请输入..."></Input>
+                 <input-company-name v-model="companyTaskInfo.customerName" ></input-company-name>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -79,8 +79,10 @@
   import EventType from '../../../../store/event_types'
   import {Refused} from '../../../../api/social_security/company_task_list/company_task_list_tab/Refused'
   import Utils from '../../../../lib/utils'
+  import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
+  import InputCompany from '../../../common_control/form/input_company'
   export default {
-    components: {customerModal},
+    components: {customerModal,InputCompanyName,InputCompany},
     data() {
       return{
         taskData:[],//table 里的数据
@@ -121,16 +123,16 @@
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'openaccountinfo', query:{operatorType: '1',source:1,tid:params.row.tid}})
+                          this.$router.push({name: 'openAccountInfo', query:{operatorType: '1',source:1,tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'transfertnfo', query:{operatorType: '2',source:1,tid:params.row.tid}})
+                          this.$router.push({name: 'transferInfo', query:{operatorType: '2',source:1,tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'changeinfo', query:{operatorType: '3',source:1,tid:params.row.tid}})
+                          this.$router.push({name: 'changeInfo', query:{operatorType: '3',source:1,tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'endinfo', query:{operatorType: '4',source:1,tid:params.row.tid}})
+                          this.$router.push({name: 'endInfo', query:{operatorType: '4',source:1,tid:params.row.tid}})
                           break;
                         default:
                           break;
@@ -244,7 +246,7 @@
       },
       routerToCommcialOperator: function(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },

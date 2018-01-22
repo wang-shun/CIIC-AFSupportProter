@@ -42,14 +42,13 @@
               </Col>
             </Row>
           </Form>
-
         </div>
       </Panel>
     </Collapse>
 
-    <div class="floatRightBtns">
+    <div class="tr m10">
       <router-link to="/addPolicy">
-        <Button type="primary">新增保单缴费批次</Button>
+        <Button type="info">新增保单缴费批次</Button>
       </router-link>
     </div>
 
@@ -129,7 +128,7 @@
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'primary',
+                    type: 'success',
                     size: 'small'
                   },
                   on: {

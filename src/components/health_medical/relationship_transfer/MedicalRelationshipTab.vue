@@ -5,57 +5,59 @@
       <Panel name="1">
         医疗关系查询
         <div slot="content">
-          <Form v-model="transferItem" ref="transferItem" :label-width="100">
-            <row>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form-item label="雇员编号">
+          <Form ref="transferItem" :model="transferItem" :label-width="140">
+            <Row justify="start" class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员编号" prop="employeeId">
                 <Input v-model="transferItem.employeeId" placeholder="请输入"/>
               </Form-item>
               </Col>
-
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form-item label="雇员姓名">
-                <Input v-model="transferItem.name" placeholder="请输入"/>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员姓名" prop="employeeName">
+                <Input v-model="transferItem.employeeName" placeholder="请输入"/>
               </Form-item>
               </Col>
-
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form-item label="证件号码">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="证件号码" prop="code">
                 <Input v-model="transferItem.code" placeholder="请输入"/>
               </Form-item>
               </Col>
-            </row>
-            <row>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form-item label="公司编号">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公司编号" prop="companyCode">
                 <Input v-model="transferItem.companyCode" placeholder="请输入"/>
               </Form-item>
               </Col>
-
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form-item label="公司名称">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公司名称" prop="companyName">
                 <Input v-model="transferItem.companyName" placeholder="请输入"/>
               </Form-item>
               </Col>
             </row>
-
-            <row>
-              <Col :xs="{ span: 6, offset: 8 }" :lg="{ span: 6, offset: 8 }">
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 24}" class="tr">
               <Button type="primary" @click="queryTransfer" size="large">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('transferItem')">重置</Button>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
     </Collapse>
-    <div class="tr" style="margin: 20px auto;">
+    <div class="tr m20">
       <router-link to="/addMedicalRelationship">
-        <Button type="primary">新增医疗关系转移</Button>
+        <Button type="info">新增医疗关系转移</Button>
       </router-link>
-      <Button icon="ios-download-outline" type="primary" @click="exportDataTransfer(1)">导出数据</Button>
+      <Button icon="ios-download-outline" type="info" @click="exportDataTransfer(1)">导出数据</Button>
     </div>
-    <Table border :columns="transferColumns" :data="transferData" ref="transferTable"></Table>
-    <Page :total="transferTotal" show-sizer show-elevator @on-change="getTransferByPage"
+    <Table border
+           stripe
+           :columns="transferColumns"
+           :data="transferData"
+           ref="transferTable"></Table>
+    <Page :total="transferTotal"
+          show-sizer
+          show-elevator
+          @on-change="getTransferByPage"
           @on-page-size-change="pageSizeChangeTransfer" :current.sync="transferPage.pageNum"
           :page-size="transferPage.pageSize"></Page>
   </div>
@@ -72,7 +74,7 @@
         collapseInfo: [1, 2, 3], //展开栏
         transferItem: {
           employeeId: null,
-          name: null,
+          employeeName: null,
           code: null,
           companyCode: null,
           companyName: null,
@@ -119,10 +121,7 @@
             render: (h, params) => {
               return h("div", [
                 h("Button", {
-                  props: {
-                    type: "success",
-                    size: "small"
-                  },
+                  props: {type: "success", size: "small"},
                   style: {marginRight: "5px"},
                   on: {
                     click: () => {
@@ -151,7 +150,7 @@
     methods: {
       ...mapActions("TRANSFER", [EventTypes.TRANSFER_LIST]),
       queryTransfer() {
-        /*封装为后台可以接受的数据结构*/
+        /**封装为后台可以接受的数据结构*/
         let queryData = this.transferPage;
         queryData.params = this.transferItem;
         this[EventTypes.TRANSFER_LIST](queryData);
@@ -169,6 +168,9 @@
       pageSizeChangeTransfer(pageSize) {
         this.transferPage.pageSize = pageSize;
         this.queryTransfer()
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
       },
       // 导出csv
       exportDataTransfer(type) {
@@ -192,7 +194,3 @@
     }
   };
 </script>
-
-<style scoped>
-
-</style>

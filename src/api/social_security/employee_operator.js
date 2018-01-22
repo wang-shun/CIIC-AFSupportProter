@@ -67,7 +67,13 @@ export default {
   employeeDetailInfoQuery:async (params)=>{
     let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/employeeDetailInfoQuery', params);
     return await response.data;
+  },
+  //查询退账金额
+  queryRefundAmountByTaskId:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/ssEmpTask/queryRefundAmountByTaskId', params);
+    return await response.data;
   } 
+  
 
 }
 

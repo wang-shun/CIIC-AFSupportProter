@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账号：" prop="ssAccount">
-                  <Input v-model="searchCondition.ssAccount" placeholder="请输入..."></Input>
+                   <input-account v-model="searchCondition.ssAccount"></input-account>
                 </Form-item>
               </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -49,7 +49,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="companyId">
-                  <Input v-model="searchCondition.companyId" placeholder="请输入..."></Input>
+                  <input-company v-model="searchCondition.companyId"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -98,26 +98,6 @@
         :current="pageData.pageNum"
         show-sizer show-total></Page>
 
-
-    <!-- 客户名称 模态框 -->
-    <Modal
-      v-model="isShowCustomerName"
-      title="选择客户"
-      width="720"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <customer-modal :customerData="data.customerData"></customer-modal>
-    </Modal>
-
-    <!-- 企业社保账户分类 模态框 -->
-    <Modal
-      v-model="isShowAccountType"
-      title="企业社保账户分类"
-      width="720"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
-    </Modal>
   </div>
 
 
@@ -129,9 +109,10 @@
   import ICol from "../../../../node_modules/iview/src/components/grid/col";
   import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
-
+  import InputAccount from '../../common_control/form/input_account'
+  import InputCompany from '../../common_control/form/input_company'
   export default {
-    components: {ICol, customerModal, companyAccountSearchModal},
+    components: {ICol, customerModal, companyAccountSearchModal,InputAccount,InputCompany},
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
@@ -326,17 +307,14 @@
       }
     },
     mounted() {
-      this[EventTypes.EMPLOYEESOCIALSECURITYSEARCH]()
+      
       this.employeeQuery({})
 
     },
     computed: {
-      ...mapState('employeeSocialSecuritySearch',{
-          data: state => state.data
-      })
+    
     },
     methods: {
-      ...mapActions('employeeSocialSecuritySearch', [EventTypes.EMPLOYEESOCIALSECURITYSEARCH]),
       exportData() {
         this.$refs['employeeSocialSecurityData'].exportCsv({
           filename: '原始数据'
@@ -346,7 +324,7 @@
         this.$refs[name].resetFields()
       },
       showInfo (ind) {
-        this.$router.push({name:'employeesocialsecurityinfo', query: {empArchiveId: ind}});
+        this.$router.push({name:'employeeSocialSecurityInfo', query: {empArchiveId: ind}});
 
       },
       employeeQuery(params){

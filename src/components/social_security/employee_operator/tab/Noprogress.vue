@@ -287,7 +287,7 @@
       ...mapActions('thisMonthHandle', [EventType.THISMONTHHANDLETYPE]),
       routerToCommcialOperator(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },
@@ -397,8 +397,8 @@
           for (var row of rows) {
             empTaskIds.push(row.empTaskId);
           }
-
-          // 任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
+          
+          // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = rows[0].taskCategory;
           var name = 'empTaskHandleView';
           switch (taskCategory) {
@@ -413,6 +413,7 @@
               name = 'empTaskBatchHandle4View';
               break;
             case '5':
+            case '6':
               name = 'empTaskBatchHandle5View';
               break;
             default:
@@ -424,7 +425,8 @@
             query: {operatorType: taskCategory, empTaskIds: empTaskIds}
           });
         } else {
-          // 任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
+          
+          // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = data.taskCategory;
           var name = 'empTaskHandleView';
           switch (taskCategory) {
@@ -439,7 +441,11 @@
               name = 'empTaskHandle4View';
               break;
             case '5':
+            case '6':
               name = 'empTaskHandle5View';
+              break;
+              case '7':
+              name = 'empTaskHandle7View';
               break;
             default:
               name = 'empTaskHandleView'

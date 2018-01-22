@@ -1,48 +1,48 @@
 <template>
-  <div class="smList">
+  <div>
     <Card>
       <Form :model="formItem" ref="formItem" :rules="giftValidator" :label-width="140">
-        <row justify="start" type="flex">
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+        <row justify="start" type="flex" class="mt20 mr10">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="礼品名称：" prop="giftName">
             <Input v-model="formItem.giftName" placeholder="请输入"/>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="价格：" prop="price">
             <Input v-model="formItem.price" placeholder="请输入"/>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="适用人群：" prop="rightPerson">
             <Select v-model="formItem.rightPerson" placeholder="请选择">
               <Option v-for="item in rightpersonTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="礼品类型:" prop="giftType">
             <Select v-model="formItem.giftType" placeholder="请选择" transfer>
               <Option v-for="item in giftTypeProperties" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="颜色：" prop="color">
             <Input v-model="formItem.color" placeholder="白色，黑色，红色"/>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="礼品数量：" prop="number">
             <InputNumber :min="0" :precision="0" v-model="formItem.number" style="width: 100%"></InputNumber>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="最大申请数：" prop="applyMaxnum">
             <InputNumber :min="0" :precision="0" v-model="formItem.applyMaxnum" style="width: 100%"></InputNumber>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="礼品图片：" prop="pictureUrl">
             <Upload :before-upload="handleUpload" :format="['jpg','jpeg','png']" :max-size="2048"
                     action="//jsonplaceholder.typicode.com/posts/">
@@ -51,23 +51,25 @@
             <div v-if="file !== null">Upload file: {{file.name}}</div>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="是否New：" prop="isNew">
             <Checkbox v-model="formItem.isNew">是</Checkbox>
           </Form-item>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 1 }">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="礼品介绍：" prop="remarks">
             <Input v-model="formItem.remarks" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                    placeholder="礼品介绍不超过200个字"/>
           </Form-item>
           </Col>
         </row>
+        <Row class="tc mt20">
+          <Col :sm="{span: 24}" class="tr">
+          <Button type="warning" @click="back">返回</Button>
+          <Button type="primary" @click="addGift()">提交</Button>
+          </Col>
+        </Row>
       </Form>
-      <div class="tc">
-        <Button type="warning" @click="back">返回</Button>
-        <Button type="primary" @click="addGift()">提交</Button>
-      </div>
     </Card>
   </div>
 </template>
@@ -143,14 +145,14 @@
               this.$Message.error("请上传附件");
               return;
             }
-            /**传输文件的数据*/
-            let data = new FormData();
-            Object.keys(this.formItem).forEach(v => {
-              data.append(v, this.formItem[v])
-            });
-            data.append('file', this.file);
+            /**最大申请数量不能大于礼品数量*/
+            if (this.formItem.applyMaxnum > this.formItem.number) {
+              this.$Message.error("最大申请数量不能大于礼品数量");
+              return;
+            }
+            this.formItem.file = this.file;
             this[EventTypes.GIFTINSERTTYPE]({
-              data: data,
+              data: this.formItem,
               callback: (res) => {
                 if (res.data.code === 200) {
                   this.$router.push({path: '/giftApplicationManager'})

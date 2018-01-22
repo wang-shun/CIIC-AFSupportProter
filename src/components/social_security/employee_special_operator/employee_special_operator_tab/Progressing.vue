@@ -212,7 +212,7 @@
                   on: {
                     click: () => {
 
-                      this.$router.push({name: 'employeespecialprogresstwo',query:{taskStatus:params.row.handleStatus,empTaskId:params.row.empTaskId}})
+                      this.$router.push({name: 'employeeSpecialProgressTwo',query:{taskStatus:params.row.handleStatus,empTaskId:params.row.empTaskId}})
                     }
                   }
                 }, '办理'),
@@ -318,7 +318,7 @@
       },
       routerToCommcialOperator: function (name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },
@@ -440,7 +440,7 @@
           }
 
           this.$router.push({
-            name: 'employeecommcialoperator',
+            name: 'employeeCommcialOperator',
             query: {operatorType: name, sourceFrom: 'operator', taskIds: taskIds}
           });
         } else {

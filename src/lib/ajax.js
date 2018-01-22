@@ -267,6 +267,8 @@ AJAX.createAjax = createAjax;
 AJAX.createAjaxForName = createAjaxForName;
 AJAX.createProxyAjaxForName = createProxyAjaxForName;
 
+AJAX.ajaxFbq = createProxyAjaxForName('fb-q');
+AJAX.ajaxFbc = createProxyAjaxForName('fb-c');
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q');
 AJAX.ajaxSsc = createProxyAjaxForName('ss-c');
 AJAX.ajaxAlertJob = createProxyAjaxForName('AlertJob');

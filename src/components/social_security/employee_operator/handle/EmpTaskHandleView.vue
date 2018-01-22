@@ -199,10 +199,10 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
-      <Button type="primary" @click="instance('5')" v-if="showButton">不需处理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('5')" v-if="showButton">不需处理</Button>
       <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
-      <Button type="error" @click="instance('4')" v-if="showButton">批退</Button>
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
@@ -315,42 +315,46 @@
               }, params.row.baseAmount);
             }
           },
-          {
-            title: '操作',
-            key: 'base',
-            align: 'center',
-            width: 130,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      params.row.disabled = false;
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      this.removeRow(params.index);
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
-                  on: {
-                    click: () => {
-                      this.insertRow(params.index);
-                    }
-                  }
-                })
-              ]);
-            }
-          }
+          /**@augments
+           * 不能删除  暂时屏蔽
+           * 现在只做一条时间段的需求
+           */
+          // {
+          //   title: '操作',
+          //   key: 'base',
+          //   align: 'center',
+          //   width: 130,
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             params.row.disabled = false;
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             this.removeRow(params.index);
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
+          //         on: {
+          //           click: () => {
+          //             this.insertRow(params.index);
+          //           }
+          //         }
+          //       })
+          //     ]);
+          //   }
+          // }
         ],
         operatorListData: [
           {remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false}
@@ -463,7 +467,7 @@
         })
       },
       goBack() {
-        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo'});
+        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo'});
       },
       // yyyy-MM or date
       yyyyMM(date) {

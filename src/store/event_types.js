@@ -35,6 +35,11 @@ import SocialSecurityReconcilate from "./modules/social_security/social_security
 import Socialsecurityreport from './modules/social_security/social_security_report/event_types'
 
 
+//证件管理
+import CompanyDataMaintenance from './modules/credentials_management/company_data_maintenance/event_types'
+import EmpCredebtialsManagement from './modules/credentials_management/emp_credentials_deal/event_types'
+import OrgPolicyMaintenance from './modules/credentials_management/org_policy_maintenance/event_types'
+
 export default {
   LEFTNAVIGATION_SETLIST: "LEFTNAVIGATION_SETLIST",
   LEFTNAVIGATION_GETLIST: "LEFTNAVIGATION_GETLIST",
@@ -67,4 +72,9 @@ export default {
 
   ...SocialSecurityReconcilate,
   ...Socialsecurityreport,
+
+  //证件管理
+  ...CompanyDataMaintenance,
+  ...EmpCredebtialsManagement,
+  ...OrgPolicyMaintenance,
 };

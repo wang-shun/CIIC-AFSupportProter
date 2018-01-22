@@ -54,7 +54,11 @@ const leftNavigationList = params => Utils.promise({
         id: 4,
         key: "证件管理",
         icon: "card",
-        children: []
+        children: [
+          {cid: '4-1', ckey: '雇员证件办理', crouter: 'empList'},
+          {cid: '4-2', ckey: '客户数据维护', crouter: 'companyList'},
+          {cid: '4-3', ckey: '办理机构政策维护', crouter: 'orgPolicyList'}
+        ]
       },
       // {
       //   id: 3,
@@ -119,13 +123,14 @@ const leftNavigationList = params => Utils.promise({
         children: [
           {cid: "9-1", ckey: "待处理任务", crouter: "pendingTaskList"},
           {cid: "9-2", ckey: "已处理任务", crouter: "processedTaskList"},
-          {cid: "9-3", ckey: "补充医疗理赔", crouter: "acceptanceList"},
-          {cid: "9-4", ckey: "未投保审核", crouter: "uninsuredReview"},
-          {cid: "9-5", ckey: "医疗关系转移", crouter: "relationshipTransfer"},
-          {cid: "9-6", ckey: "在保管理", crouter: "insuredList"},
-          {cid: "9-7", ckey: "保单号管理", crouter: "policyNumManagement"},
-          {cid: "9-8", ckey: "保单管理", crouter: "policyManagement"},
-          {cid: "9-9", ckey: "代收代付", crouter: "collectionPayment"}
+          {cid: "9-3", ckey: "补充医疗理赔", crouter: "supplementaryMedicalList"},
+          {cid: "9-4", ckey: "受理单列表", crouter: "acceptanceList"},
+          {cid: "9-5", ckey: "未投保审核", crouter: "uninsuredReview"},
+          {cid: "9-6", ckey: "医疗关系转移", crouter: "relationshipTransfer"},
+          {cid: "9-7", ckey: "在保管理", crouter: "insuredList"},
+          {cid: "9-8", ckey: "保单号管理", crouter: "policyNumManagement"},
+          {cid: "9-9", ckey: "保单管理", crouter: "policyManagement"},
+          {cid: "9-10", ckey: "代收代付", crouter: "collectionPayment"}
         ]
       }
     ]

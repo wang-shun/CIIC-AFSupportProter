@@ -59,7 +59,7 @@ const pendingTaskList = r => require.ensure([], () => r(require('@/components/he
 const processedTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/ProcessedTaskList')), 'processedTaskList') //已处理任务单列表
 
 //补充医疗理赔
-const supplementaryMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/SupplementaryMedicalList')), 'supplementaryMedicalList') //审核受理单
+const supplementaryMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/SupplementaryMedicalList')), 'supplementaryMedicalList') //充医疗理赔
 const supplementaryMedicalBatchList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/SupplementaryMedicalBatchList')), 'supplementaryMedicalBatchList') //补充医疗理赔批量
 const invoiceList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/InvoiceList')), 'invoiceList') //发票列表
 
@@ -74,6 +74,22 @@ const auditNurseryFee = r => require.ensure([], () => r(require('@/components/he
 const insuredList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/InsuredList')), 'insuredList') //在保管理
 //保单管理
 const AddPayRate = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddPayRate')), 'AddPayRate') //新增付费比例
+
+/**
+ * 证件管理
+ * EmpList 雇员列表
+ * EmpAdd 新增单项雇员
+ * EmpCredentialsTask 雇员证件办理管理
+ * CompanyList 客户数据维护列表
+ * CompanyEdit 客户数据维护
+ * OrgPolicyList 办理机构政策维护列表
+ */
+const EmpList = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpList')),'empList')
+const EmpAdd = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpAdd')),'empAdd')
+const EmpCredentialsTask = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpCredentialsTask')),'empCredentialsTask')
+const CompanyList = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyList')),'companyList')
+const CompanyEdit = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyEdit')),'companyEdit')
+const OrgPolicyList = r => require.ensure([], () => r(require('@/components/credentials_management/org_policy_maintenance/OrgPolicyList')),'orgPolicyList')
 
 /**
  * 健康医疗
@@ -94,6 +110,7 @@ const addPolicyNum = r => require.ensure([], () => r(require('@/components/healt
 //未投保审核
 const uninsuredReview = r => require.ensure([], () => r(require('@/components/health_medical/uninsured/UninsuredReview')), 'uninsuredReview'); //新增保单号
 const uninsuredReviewDeal = r => require.ensure([], () => r(require('@/components/health_medical/uninsured/UninsuredReviewDeal')), 'uninsuredReviewDeal'); //新增保单号
+const LookAcceptanceUninsured = r => require.ensure([], () => r(require('@/components/health_medical/uninsured/LookAcceptanceUninsured')), 'LookAcceptanceUninsured'); //新增保单号
 //保单管理
 const policyManagement = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/PolicyManagement')), 'policyManagement'); //保单管理
 const addPolicy = r => require.ensure([], () => r(require('@/components/health_medical/policy_management/AddPolicy')), 'addPolicy'); //新增保单缴费
@@ -114,9 +131,7 @@ const addActivity = r => require.ensure([], () => r(require('@/components/flexib
 const updateActivity = r => require.ensure([], () => r(require('@/components/flexible_benefit/market_activities/UpdateActivity')), 'UpdateActivity'); //更新活动
 
 const grantManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GrantManager')), 'GrantManager'); //发放管理
-const giftExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GiftExamine')), 'GiftExamine'); //礼品审批
 const giftGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/GiftGrant')), 'GiftGrant'); //礼品发放
-const marketExamine = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketExamine')), 'MarketExamine'); //活动审批
 const marketGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketGrant')), 'MarketGrant'); //活动发放
 
 const reportFormManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/report_form/ReportFormManager')), 'ReportFormManager'); //报表查询
@@ -404,52 +419,52 @@ let router = new Router({
         ...EmployManageRouter,
         {
           path: '/addAcceptanceEmployeeList',
-          name:'addAcceptanceEmployeeList',
+          name: 'addAcceptanceEmployeeList',
           component: addAcceptanceEmployeeList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增受理单",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "新增受理单",
+            openNames: ['2']
           }
         },
         {
           path: '/pendingTaskList',
-          name:'pendingTaskList',
+          name: 'pendingTaskList',
           component: pendingTaskList,
-          meta:{
-            level1:'首页',
-            level2:"任务单管理",
-            level3:"待处理任务单列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "任务单管理",
+            level3: "待处理任务单列表",
+            openNames: ['2']
           }
         },
         {
           path: '/processedTaskList',
-          name:'processedTaskList',
+          name: 'processedTaskList',
           component: processedTaskList,
-          meta:{
-            level1:'首页',
-            level2:"任务单管理",
-            level3:"已处理任务单列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "任务单管理",
+            level3: "已处理任务单列表",
+            openNames: ['2']
           }
         },
         {
           path: '/addAcceptance',
-          name:'addAcceptance',
+          name: 'addAcceptance',
           component: addAcceptance,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增受理单",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "新增受理单",
+            openNames: ['2']
           }
         },
 
         {
           path: '/invoiceList',
-          name:'invoiceList',
+          name: 'invoiceList',
           component: invoiceList,
           meta: {
             level1: '首页',
@@ -469,7 +484,6 @@ let router = new Router({
             openNames: ['2']
           }
         },
-
         {
           path: '/uninsuredReviewDeal',
           name: 'uninsuredReviewDeal',
@@ -478,6 +492,17 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "未投保审核处理",
+            openNames: ['2']
+          }
+        },
+        {
+          path: '/LookAcceptanceUninsured',
+          name: 'LookAcceptanceUninsured',
+          component: LookAcceptanceUninsured,
+          meta: {
+            level1: '首页',
+            level2: "健康医疗",
+            level3: "查看受理单-投保审核信息",
             openNames: ['2']
           }
         },
@@ -527,13 +552,13 @@ let router = new Router({
         },
         {
           path: '/auditNurseryFee',
-          name:'auditNurseryFee',
+          name: 'auditNurseryFee',
           component: auditNurseryFee,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"托费报销受理",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "托费报销受理",
+            openNames: ['2']
           }
         },
         {
@@ -626,24 +651,24 @@ let router = new Router({
         },
         {
           path: '/supplementaryMedicalList',
-          name:'supplementaryMedicalList',
+          name: 'supplementaryMedicalList',
           component: supplementaryMedicalList,
-          meta:{
-            level1:'首页',
-            level2:"补充医疗理赔",
-            level3:"补充医疗理赔",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "补充医疗理赔",
+            level3: "补充医疗理赔",
+            openNames: ['2']
           }
         },
         {
           path: '/supplementaryMedicalBatchList',
-          name:'supplementaryMedicalBatchList',
+          name: 'supplementaryMedicalBatchList',
           component: supplementaryMedicalBatchList,
-          meta:{
-            level1:'首页',
-            level2:"补充医疗理赔",
-            level3:"补充医疗理赔批量",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "补充医疗理赔",
+            level3: "补充医疗理赔批量",
+            openNames: ['2']
           }
         },
         {
@@ -659,35 +684,35 @@ let router = new Router({
         },
         {
           path: '/acceptanceList',
-          name:'acceptanceList',
+          name: 'acceptanceList',
           component: acceptanceList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"受理单列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "受理单列表",
+            openNames: ['2']
           }
         },
         {
           path: '/checkMedicalList',
-          name:'checkMedicalList',
+          name: 'checkMedicalList',
           component: checkMedicalList,
-          meta:{
-            level1:'首页',
-            level2:"未投保医疗",
-            level3:"新增未投保列表",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "未投保医疗",
+            level3: "新增未投保列表",
+            openNames: ['2']
           }
         },
         {
           path: '/insuredList',
-          name:'insuredList',
+          name: 'insuredList',
           component: insuredList,
-          meta:{
-            level1:'首页',
-            level2:"在保管理",
-            level3:"在保管理",
-            openNames:['2']
+          meta: {
+            level1: '首页',
+            level2: "在保管理",
+            level3: "在保管理",
+            openNames: ['2']
           }
         },
         //弹性福利
@@ -769,17 +794,6 @@ let router = new Router({
           }
         },
         {
-          path: '/giftExamine',
-          name: 'giftExamine',
-          component: giftExamine,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "礼品审批",
-            openNames: ['2']
-          }
-        },
-        {
           path: '/giftGrant',
           name: 'giftGrant',
           component: giftGrant,
@@ -787,17 +801,6 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "礼品发放",
-            openNames: ['2']
-          }
-        },
-        {
-          path: '/marketExamine',
-          name: 'marketExamine',
-          component: marketExamine,
-          meta: {
-            level1: '首页',
-            level2: "弹性福利",
-            level3: "活动审批",
             openNames: ['2']
           }
         },
@@ -811,7 +814,8 @@ let router = new Router({
             level3: "活动发放",
             openNames: ['2']
           }
-        },{
+        },
+        {
           path: '/reportFormManager',
           name: 'reportFormManager',
           component: reportFormManager,
@@ -820,6 +824,75 @@ let router = new Router({
             level2: "弹性福利",
             level3: "报表查询",
             openNames: ['2']
+          }
+        },
+        /**
+         * 证件管理
+         */
+        {
+          path: '/emp_credentials_deal/emp_list',
+          name: 'empList',
+          component: EmpList,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '雇员证件办理',
+            openNames: ['4']
+          }
+        },
+        {
+          path: '/emp_credentials_deal/emp_add',
+          name: 'empAdd',
+          component: EmpAdd,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '新增雇员',
+            openNames: ['4']
+          }
+        },
+        {
+          path: '/emp_credentials_deal/emp_credentials_task',
+          name: 'empCredentialsTask',
+          component: EmpCredentialsTask,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '雇员证件管理',
+            openNames: ['4']
+          }
+        },
+        {
+          path: '/company_maintenance/company_list',
+          name: 'companyList',
+          component: CompanyList,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '客户数据维护',
+            openNames: ['4']
+          }
+        },
+        {
+          path: '/company_maintenance/company_edit',
+          name: 'companyEdit',
+          component: CompanyEdit,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '客户数据编辑',
+            openNames: ['4']
+          }
+        },
+        {
+          path: '/org_policy_maintenance/org_policy_list',
+          name: 'orgPolicyList',
+          component: OrgPolicyList,
+          meta: {
+            level1: '首页',
+            level2: '证件管理',
+            level3: '办理机构政策维护',
+            openNames: ['4']
           }
         }
       ]
@@ -837,7 +910,8 @@ router.beforeEach((to, from, next) => {
   localStorage.setItem("openNames", [to.meta.openNames]);
   next();
 });
-router.afterEach((to, from) => {});
+router.afterEach((to, from) => {
+});
 
 
 export default router;

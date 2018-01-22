@@ -6,7 +6,7 @@
     <div>
     <Card>
       <p slot="title" font-size="16px">{{title}}</p>
-      <Form ref="formItem" :model="formItem"  :label-width="120">
+      <Form ref="formItem" :model="formItem"  :label-width="120" >
         <h4>办理信息</h4>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
@@ -39,17 +39,17 @@
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="费用类型：" prop="chargeType">
               <Select v-model="formItem.chargeType" placeholder="请选择" transfer>
-                <Option value="免费">免费</Option>
-                <Option value="常规收费">常规收费</Option>
-                <Option value="特殊收费">特殊收费</Option>
+                <Option value=1>免费</Option>
+                <Option value=2>常规收费</Option>
+                <Option value=3>特殊收费</Option>
               </Select>
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="支付方式：" prop="payType">
               <Select v-model="formItem.payType" placeholder="请选择" transfer>
-                <Option value="台账">台账</Option>
-                <Option value="员工自付">员工自付</Option>
+                <Option value="1">台账</Option>
+                <Option value="2">员工自付</Option>
               </Select>
             </Form-item> 
           </i-col>
@@ -215,7 +215,6 @@ import Decode from '../../../lib/decode'
     methods: {
       find () {
         let companyCode = this.$route.params.data
-        console.log("companyCode:"+companyCode)
         axios.get(host + '/api/companyExt/find/'+companyCode).then(response => {
           let t = response.data.data
           let labs = [{lab:'积分办理',idx:1},{lab:'居住证B证',idx:2},{lab:'留学生落户',idx:3},{lab:'居转户',idx:4},{lab:'夫妻分居',idx:5},{lab:'人才引进',idx:6}]
@@ -225,7 +224,6 @@ import Decode from '../../../lib/decode'
                 labs[y] = t[x]
               }
             }
-            
           }
           this.data1 = labs
         })
@@ -238,7 +236,7 @@ import Decode from '../../../lib/decode'
         if (value !== null) {
           console.log(value)
           this.formItem = value
-          this.title = value.credentialsType
+          this.title = value.lab
         }
       }
     }

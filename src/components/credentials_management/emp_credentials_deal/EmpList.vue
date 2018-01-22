@@ -261,9 +261,7 @@
         this.$router.push({name: 'empAdd'})
       },
       credentialsDeal (v) {
-        console.log(v)
         this.$router.push({name: 'empCredentialsTask', params: {data: v}})
-        console.log(this.$router.params)
       },
       ok (value, data) {
         this.$refs[value].validate((valid) => {

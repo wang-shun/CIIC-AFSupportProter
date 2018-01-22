@@ -57,7 +57,7 @@
           </i-col>
         </Row>
         <Row type="flex" justify="start">
-           <i-col span="12">
+          <i-col span="12">
             <Form-item label="办理机构：" style="width:400px;" prop="name">
               <Select v-model="formItem.name" placeholder="请选择" style="width:260px" transfer>
                 <Option v-for="(value,key) in this.baseDic.DealOrg" :value="value" :key="key">{{ value }}</Option>
@@ -100,7 +100,7 @@ export default {
       pageSize: 5,
       total: null,
       queryItem: {
-        type: '',
+        type: '1',
         name: ''
       },
       formItem: {
@@ -169,8 +169,9 @@ export default {
                   click: () => {
                     this.formItem = params.row
                     console.log(params.row)
+                    this.formItem.type = params.row.type.toString()
+                    console.log(this.formItem)
                     this.modal1 = true
-                    
                   }
                 }
               }, '编辑'),
@@ -189,7 +190,6 @@ export default {
                       content: '您真的要删除吗？',
                       okText: '删除',
                       onOk: () => {
-                        console.log(params.row.orgPoilcyId)
                         this.del(params.row.orgPoilcyId)
                       }
                     })
@@ -230,7 +230,6 @@ export default {
       this.$refs[value].validate((valid) => {
         if (valid) {
           axios.post(host + '/api/orgPolicy/saveOrUpdate',this.formItem).then((response) => {
-            console.log(response.data.errCode)
             if (response.data.errCode === '0'){
                this.$Notice.success({
                   title: '保存成功',

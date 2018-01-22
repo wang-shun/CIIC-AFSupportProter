@@ -167,18 +167,49 @@ export default {
   // 证件类型
   sel_type: (type)=>{
     switch(type){
+    case 1:
+      return '积分办理'
+    case 2:
+      return '居住证B证'
+    case 3:
+      return '留学生落户'
+    case 4:
+      return '居转户'    
+    case 5:
+      return '夫妻分居' 
+    case 6:
+      return '人才引进'  
+    }
+  },
+  // 操作方式
+  operateType: (type)=>{
+    switch(type){
       case 1:
-        return '积分办理'
+        return '待审代交'
       case 2:
-        return '居住证B证'
+        return '待审不代交'
       case 3:
-        return '留学生落户'
-      case 4:
-        return '居转户'    
-      case 5:
-        return '夫妻分居' 
-      case 6:
-        return '人才引进'     
+        return '不待审代交'    
+    }
+  },
+  // 费用类型
+  operateType: (type)=>{
+    switch(type){
+      case 1:
+        return '免费'
+      case 2:
+        return '常规收费'
+      case 3:
+        return '特殊收费'    
+    }
+  },
+  // 支付方式
+  operateType: (type)=>{
+    switch(type){
+      case 1:
+        return '台账'
+      case 2:
+        return '员工自付'
     }
   }
 };

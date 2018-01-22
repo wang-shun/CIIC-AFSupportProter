@@ -123,6 +123,11 @@
 
 <script>
   import CredentialsMaterial from './CredentialsMaterial'
+  import axios from 'axios'
+  import Tools from '../../../../lib/tools'
+  import Decode from '../../../../lib/decode'
+
+  const host = process.env.SITE_HOST
   export default {
     components: {CredentialsMaterial},
     props: {
@@ -155,7 +160,8 @@
           specialMaterialRemark: '',
           followDescription:'',
           colums2: '',
-          data2: ''
+          data2: '',
+          taskId: ''
         },
         colums1: [
           {
@@ -235,9 +241,8 @@
                   },
                   on: {
                     click: () => {
-                      this.formItem.colums2 = this.colums2
-                      this.formItem.data2 = this.data2
-                      this.taskFollow = true
+                      this.taskFollowShow(params.row.taskId);
+                     
                     }
                   }
                 }, '跟进')
@@ -282,7 +287,28 @@
           console.log(value)
           this.formItem = value
         }
+      },
+      taskFollowShow(taskId) {
+        // if( taskId!== "") {
+           axios.get(host + '/api/empCredentialsDeal/find/taskFollow/1').then((response) =>{
+             if (response.data.errCode == "0"){
+               this.data2 = response.data.data
+               this.taskFollow = true
+             } else {
+              this.$Notice.error({
+                title: '查询失败',
+                desc: ''
+              })
+            }
+          }).catch((error) => {
+            this.$Notice.error({
+              title: '查询失败',
+              desc: ''
+            })
+          })
+        // }
       }
+      
     }
   }
 </script>

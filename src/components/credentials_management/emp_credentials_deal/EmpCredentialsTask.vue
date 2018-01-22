@@ -197,10 +197,12 @@
 
 <script>
   import CredentialsDealInfo from './common/CredentialsDealTask'
+  import Tools from '../../../lib/tools'
   export default {
     components: {CredentialsDealInfo},
     data () {
       return {
+        
         value1: ['2', '3'],
         companyCode: '',
         companyName: '',
@@ -241,8 +243,8 @@
       }
     },
     mounted () {
-      let data = this.$router.params.data
-      console.log(data)
+      let data = this.$route.params.data
+      Tools.copy(data,this)
     },
     created () {
     },

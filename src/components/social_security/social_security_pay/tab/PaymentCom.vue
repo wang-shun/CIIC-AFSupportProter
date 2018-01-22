@@ -7,7 +7,7 @@
           <Form ref="payComSearchData" :model="payComSearchData" :label-width=150>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户分类：" prop="ssAccountType">
+                <Form-item label="社保账户类型：" prop="ssAccountType">
                   <Select v-model="payComSearchData.ssAccountType" clearable style="width: 100%;" transfer>
                     <Option v-for="item in staticPayComSearchData.ssAccountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -331,7 +331,7 @@
                 ]);
               }
             },
-            {title: '账户类型', key: 'accountType', width: 200, align: 'center',
+            {title: '社保账户类型', key: 'accountType', width: 200, align: 'center',
               render: (h, params) => {
                 let accountType = params.row.accountType;
                 let accountTypeName = "";
@@ -427,7 +427,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'ssAccountType', width: 120, align: 'center',
+          {title: '社保账户类型', key: 'ssAccountType', width: 120, align: 'center',
             render: (h, params) => {
               let ssAccountType = params.row.accountType;
               let accountTypeName = "";
@@ -787,7 +787,7 @@
           }
         });
         if(isManyAccountType){
-            alert("选中列中企业社保账户分类不同");
+            alert("选中列中社保账户类型不同");
             return;
         }
 

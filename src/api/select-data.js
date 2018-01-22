@@ -1,5 +1,5 @@
 export default {
-  // 账户类型
+  // 社保账户类型
   accountType: async (params) => {
     let data = [
       {

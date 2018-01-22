@@ -7,7 +7,7 @@
           <Form ref="payBatchSearchData" :model="payBatchSearchData" :label-width=150>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountType">
+                <Form-item label="社保账户类型：" prop="accountType">
                   <Select v-model="payBatchSearchData.accountType" clearable style="width: 100%;" transfer>
                     <Option v-for="item in staticPayBatchSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -281,7 +281,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'accountType', width: 120, align: 'center',
+          {title: '社保账户类型', key: 'accountType', width: 120, align: 'center',
             render: (h, params) => {
               let accountType = params.row.accountType;
               let accountTypeName = "";

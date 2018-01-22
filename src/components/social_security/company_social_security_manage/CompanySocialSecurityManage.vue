@@ -12,7 +12,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="ssAccountType">
+                <Form-item label="社保账户类型：" prop="ssAccountType">
                   <Select v-model="comAccountSearch.ssAccountType" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -130,7 +130,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'ssAccountType', width: 100, fixed: 'left', align: 'center',
+          {title: '社保账户类型', key: 'ssAccountType', width: 100, fixed: 'left', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.accountType(params.row.ssAccountType)),

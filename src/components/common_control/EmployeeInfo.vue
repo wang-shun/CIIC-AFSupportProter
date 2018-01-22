@@ -34,7 +34,7 @@
       </Col>
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="账户类型：">
+        <Form-item label="社保账户类型：">
           <label>{{emp.ssAccountType}}</label>
         </Form-item>
       </Col>
@@ -43,8 +43,8 @@
           <label>{{emp.empClassify}}</label>
         </Form-item>
       </Col>
-      
-      
+
+
       <!-- 调整和转出 -->
       <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="企业社保账号：">
@@ -90,7 +90,7 @@
     computed: {
       emp(){
         var emp = this.employee;
-        
+
         emp.empClassify = this.$decode.empClassify(emp.empClassify)
         return emp;
       }

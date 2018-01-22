@@ -146,7 +146,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'ssAccountType', width: 120, align: 'center',
+          {title: '社保账户类型', key: 'ssAccountType', width: 120, align: 'center',
             render: (h, params) => {
               let ssAccountType = params.row.accountType;
               let accountTypeName = "";

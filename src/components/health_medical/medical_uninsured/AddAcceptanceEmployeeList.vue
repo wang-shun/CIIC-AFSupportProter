@@ -58,6 +58,8 @@
   </div>
 </template>
 <script>
+  import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
+
   export default {
     data() {
       return {
@@ -88,7 +90,10 @@
             title: '公司名称', sortable: true, key: 'companyName'
           },
           {
-            title: '是否中止', sortable: true, key: 'isLeave'
+            title: '是否中止', sortable: true, key: 'isLeave',
+            render: (h, params) => {
+              return admissibility.employeeStatusProperties(params.row.isLeave);
+            }
           },
           {
             title: '操作', key: 'action', width: 150, align: 'center',
@@ -113,14 +118,14 @@
             employeeName: '戴敏',
             companyId: '13684',
             companyName: '苹果公司',
-            isLeave: '是'
+            isLeave: 2
           },
           {
             employeeId: '11L2674',
             employeeName: '戴敏',
             companyId: '13684',
             companyName: '苹果公司',
-            isLeave: '是'
+            isLeave: 3
           }
         ],
       }

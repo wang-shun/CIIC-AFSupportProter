@@ -278,6 +278,28 @@ const uninsuredReviewDealRules = {
 };
 
 /**
+ * 雇员状态
+ * @param status
+ * @returns {*}
+ */
+function employeeStatusProperties(status) {
+  switch (status) {
+    case 0:
+      return "预录用";
+      break;
+    case 1:
+      return "雇员信息确认中";
+      break;
+    case 2:
+      return "在职";
+      break;
+    case 3:
+      return "离职";
+      break;
+  }
+}
+
+/**
  * 健康医疗公共数据
  * 下拉框
  */
@@ -294,4 +316,5 @@ export default {
   payTypes,
   payTypeToChina,
   uninsuredReviewDealRules,
+  employeeStatusProperties,
 }

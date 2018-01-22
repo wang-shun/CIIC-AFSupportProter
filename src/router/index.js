@@ -7,6 +7,7 @@ const main = r => require.ensure([], () => r(require('@/components/main')), 'mai
 const login = r => require.ensure([], () => r(require('@/components/login')), 'login') //登录
 const charts = r => require.ensure([], () => r(require('@/components/charts')), 'charts') //报表
 const demo = r => require.ensure([], () => r(require('@/components/demo')), 'demo') // 演示
+const welcome = r => require.ensure([], () => r(require('@/components/Welcome')), 'Welcome') // 欢迎页
 
 const approvalStep2 = r => require.ensure([], () => r(require('@/components/common_control/ApprovalStep2')), 'approvalStep2') //审核步骤2
 
@@ -127,12 +128,14 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      component: main
-
-    },
-    {
-      path: '/demo',
-      component: demo
+      component: main,
+      children: [
+        {
+          path: '',
+          name: '/main',
+          component: welcome
+        }
+      ]
     },
     {
       path: '/main',
@@ -144,7 +147,7 @@ let router = new Router({
           name: 'employeeFundSearch',
           component: employeeFundSearch,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "雇员公积金查询",
             openNames: ['1']
@@ -155,7 +158,7 @@ let router = new Router({
           name: 'employeeFundHistory',
           component: employeeFundHistory,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "查看导入历史",
             openNames: ['1']
@@ -166,7 +169,7 @@ let router = new Router({
           name: 'employeeFundBasicInfo',
           component: employeeFundBasicInfo,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "雇员公积金详情",
             openNames: ['1'],
@@ -178,7 +181,7 @@ let router = new Router({
           name: 'employeeFundHistoryDetail',
           component: employeeFundHistoryDetail,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "雇员公积金历史任务单详情",
             openNames: ['1']
@@ -189,7 +192,7 @@ let router = new Router({
           name: 'employeeFundCommonOperator',
           component: employeeFundCommonOperator,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "雇员日常操作",
             openNames: ['1']
@@ -200,7 +203,7 @@ let router = new Router({
           name: 'employeeFundSpecialOperator',
           component: employeeFundSpecialOperator,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "雇员特殊操作",
             openNames: ['1']
@@ -211,7 +214,7 @@ let router = new Router({
           name: 'employeeFundSpecialProgressTwo',
           component: employeeFundSpecialProgressTwo,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "雇员特殊操作",
             openNames: ['1']
@@ -222,7 +225,7 @@ let router = new Router({
           name: 'employeeFundSpecialProgressThree',
           component: employeeFundSpecialProgressThree,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: '上海公积金',
             level3: '雇员特殊操作',
             openNames: ['1']
@@ -233,7 +236,7 @@ let router = new Router({
           name: 'employeeFundTransferOperator',
           component: employeeFundTransferOperator,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: '上海公积金',
             level3: '雇员转移操作',
             openNames: ['1']
@@ -244,7 +247,7 @@ let router = new Router({
           name: 'employeeFundTransferProgressTwo',
           component: employeeFundTransferProgressTwo,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: '上海公积金',
             level3: '雇员转移操作',
             openNames: ['1']
@@ -255,7 +258,7 @@ let router = new Router({
           name: 'companyFundTaskList',
           component: companyFundTaskList,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "企业任务单",
             openNames: ['1']
@@ -266,7 +269,7 @@ let router = new Router({
           name: 'companyFundTaskProgressTwo',
           component: companyFundTaskProgressTwo,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "企业任务单",
             openNames: ['1']
@@ -277,7 +280,7 @@ let router = new Router({
           name: 'companyFundTaskProgressThree',
           component: companyFundTaskProgressThree,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "企业任务单",
             openNames: ['1']
@@ -288,7 +291,7 @@ let router = new Router({
           name: 'companyFundAccountSearch',
           component: companyFundAccountSearch,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "企业公积金账户查询",
             openNames: ['1']
@@ -299,7 +302,7 @@ let router = new Router({
           name: 'companyFundAccountProgressTwo',
           component: companyFundAccountProgressTwo,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "企业公积金账户查询",
             openNames: ['1']
@@ -310,7 +313,7 @@ let router = new Router({
           name: 'fundReconciliation',
           component: fundReconciliation,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "公积金对账",
             openNames: ['1']
@@ -321,7 +324,7 @@ let router = new Router({
           name: 'fundPay',
           component: fundPay,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "公积金汇缴支付",
             openNames: ['1']
@@ -332,7 +335,7 @@ let router = new Router({
           name: 'makePayList',
           component: makePayList,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "公积金汇缴支付",
             openNames: ['1']
@@ -343,7 +346,7 @@ let router = new Router({
           name: 'fundReport',
           component: fundReport,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "公积金报表",
             openNames: ['1']
@@ -354,7 +357,7 @@ let router = new Router({
           name: 'fundYearAdjust',
           component: fundYearAdjust,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "公积金年调",
             openNames: ['1']
@@ -365,7 +368,7 @@ let router = new Router({
           name: 'fundYearAdjustMaintain',
           component: fundYearAdjustMaintain,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "公积金年调",
             openNames: ['1'],
@@ -377,7 +380,7 @@ let router = new Router({
           name: 'fundYearAdjustStatus',
           component: fundYearAdjustStatus,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "数据收集状态",
             openNames: ['1'],
@@ -389,7 +392,7 @@ let router = new Router({
           name: 'fundYearAdjustViewDifference',
           component: fundYearAdjustViewDifference,
           meta: {
-            level1: '全国公积金',
+            level1: '首页',
             level2: "上海公积金",
             level3: "查看差异对比",
             openNames: ['1'],

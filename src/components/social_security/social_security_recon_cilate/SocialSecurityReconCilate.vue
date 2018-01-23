@@ -85,10 +85,10 @@
       </Col>
     </Row>
 
-    <!-- 企业社保账户分类 模态框 -->
+    <!-- 社保账户类型 模态框 -->
     <Modal
       v-model="staticSearchData.isShowAccountType"
-      title="企业社保账户分类"
+      title="社保账户类型"
       @on-ok="ok"
       @on-cancel="cancel">
       <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>

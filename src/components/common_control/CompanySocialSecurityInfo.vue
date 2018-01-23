@@ -27,7 +27,7 @@
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="账户类型：" class="">
+        <Form-item label="社保账户类型：" class="">
           <label>{{company.accountType}}</label>
         </Form-item>
       </Col>

@@ -33,7 +33,7 @@
           <employee-fund-operator-transfer :fundOperatorInfo="data.fundOperatorTransfer" v-else></employee-fund-operator-transfer>
         </div>
       </Panel>
-      <Panel name="5">
+      <Panel name="5" v-if="currentTaskType == 1 || currentTaskType == 2 || currentTaskType == 3">
         任务单备注
         <div slot="content">
           <Table border :columns="taskListNotesColumns" :data="data.taskListNotesChangeData"></Table>
@@ -42,10 +42,10 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary">已处理</Button>
-        <Button type="primary" class="ml10">不需处理</Button>
+        <Button type="primary" v-show="currentTaskType != 4">已处理</Button>
+        <Button type="primary" class="ml10" v-show="currentTaskType == 4">不需处理</Button>
         <Button type="primary" class="ml10" v-show="currentTaskType != 4">转下月处理</Button>
-        <Button type="error" class="ml10">批退</Button>
+        <Button type="error" class="ml10" v-show="currentTaskType != 4">批退</Button>
         <Button type="primary" class="ml10" @click="isShowPrint = true" v-show="currentTaskType == 0">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="isShowPrint = true" v-show="currentTaskType == 4">打印转移单</Button>
         <Button type="primary" class="ml10">保存</Button>
@@ -190,6 +190,7 @@
         data: state => state.data
       }),
       currentTaskType() {
+        console.log(this.$route.query.taskType)
         return this.$route.query.taskType;
       }
     },

@@ -3,7 +3,7 @@
   import Axios from 'axios'
   import utils from '../../../lib/ajax'
   let ajax = utils.ajaxSsc
-export class CompanyTaskList{  
+export class CompanyTaskList{
 
     constructor(){
 
@@ -12,7 +12,7 @@ export class CompanyTaskList{
     static getTableData(params,url){
         console.log(url)
         return new Promise(function(resolve,reject){
-          ajax.get(url, params) .then(function (response) {  
+          ajax.get(url, params) .then(function (response) {
                 let responseData = {
                   data:{
                     taskData:[],
@@ -52,13 +52,13 @@ export class CompanyTaskList{
             reject(error);
           });
         })
-     
+
     }
     //post request type
     static postTableData(params,url){
       return new Promise(function(resolve,reject){
-        ajax.post(url, params).then(function (response) {  
-              
+        ajax.post(url, params).then(function (response) {
+
               let responseData = {
                 data:{
                   taskData:[],
@@ -98,11 +98,11 @@ export class CompanyTaskList{
           reject(error);
         });
       })
-   
+
   }
 
 
-  //get customer name 
+  //get customer name
   static getCustomerData(params,url){
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
@@ -141,21 +141,21 @@ export class CompanyTaskList{
     let url =domainJson.getCompanyInfoAndMaterialUrl
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
-        
+
         let result = this.handleReturnData(response)
         if(!result.isError){
           let companyInfo = null
           let ssComAccountBO =result.data.ssComAccountBO
           //1 表示开户
           if(params.operatorType=='1'){
-         
+
             companyInfo = {
                           customerNumber:result.data.companyId,
                            customerName:result.data.companyName,
                            serviceManager:""
                           }
           }else{
-            
+
             companyInfo ={
               //企业社保账号
              companySocialSecurityAccount:ssComAccountBO.ssAccount,
@@ -167,7 +167,7 @@ export class CompanyTaskList{
              socialSecurityCenter:ssComAccountBO.settlementArea,
              //UKey密码
              uKey:ssComAccountBO.ssPwd,
-             //账户类型 1:中智大库 2中智外包 3独立户
+             //社保账户类型 1:中智大库 2中智外包 3独立户
              accountType:ssComAccountBO.ssAccountType=='1'?'中智大库':ssComAccountBO.ssAccountType=='2'?'中智外包':'独立户',
               //客服经理
              companyServicer:'',
@@ -182,7 +182,7 @@ export class CompanyTaskList{
             companyInfo:companyInfo==null?{}:companyInfo,
             operatorMaterialListData:this.getMaterial(result.data.materialList)
                      }
-                      
+
               resolve(data)
         }else reject(Error(result.message))
       })
@@ -193,8 +193,8 @@ export class CompanyTaskList{
     let url =domainJson.getCompanyInfoAndMaterialUrl
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
-        
-        let result = this.handleReturnData(response)  
+
+        let result = this.handleReturnData(response)
         if(!result.isError){
             let data =this.theLastStepGetDate(result,type)
               resolve(data)
@@ -242,15 +242,15 @@ export class CompanyTaskList{
       })
     })
   }
-  
+
   //最后一步获得数据 终止和转移 变更
   static theLastStepGetDate(result,type){
-    
+
     let resultData = result.data
     let ssComAccountBO =resultData.ssComAccountBO
     //材料信息
     let operatorMaterialListData = this.getMaterial(result.data.materialList)
-    
+
     let data = {
           companyTaskStatus:result.data.taskStatus,
           comAccountId:ssComAccountBO.comAccountId,
@@ -265,7 +265,7 @@ export class CompanyTaskList{
             socialSecurityCenter:ssComAccountBO.settlementArea,
             //UKey密码
             uKey:ssComAccountBO.ssPwd,
-            //账户类型 1:中智大库 2中智外包 3独立户
+            //社保账户类型 1:中智大库 2中智外包 3独立户
             accountType:ssComAccountBO.ssAccountType=='1'?'中智大库':ssComAccountBO.ssAccountType=='2'?'中智外包':'独立户',
               //客服经理
             companyServicer:'',
@@ -280,7 +280,7 @@ export class CompanyTaskList{
             submitRemark:resultData.submitRemark
           },
           operatorMaterialListData:operatorMaterialListData
-       }  
+       }
        let common ={
          taskStatus:resultData.taskStatus,
         acceptanceDate: resultData.startHandleDate, //受理日期startHandleDate,sendCheckDate,finishDate
@@ -325,7 +325,7 @@ export class CompanyTaskList{
               let res = JSON.parse(dynamicExtendRes)
               changeContentValue = res.changeContentValue
           if(changeContentValue=='1'){//工伤比例变更
-            
+
               belongsIndustry = res.belongsIndustry
               companyWorkInjuryPercentage =res.companyWorkInjuryPercentage
               changeStartMonth = res.startMonth
@@ -357,7 +357,7 @@ export class CompanyTaskList{
       ajax.post(url,params).then(response=>{
         //返回结果
         let result = this.handleReturnData(response)
-        if(!result.isError) resolve(result) 
+        if(!result.isError) resolve(result)
         else reject(Error(result.message))
       })
     })
@@ -368,9 +368,9 @@ export class CompanyTaskList{
     let url = domainJson.getComInfoAndPayWayUrl
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
-        
+
         let result = this.handleReturnData(response)
-        
+
         if(!result.isError){
           //获得前台显示数据
           let data = this.comInfoAndPayWayData(result.data)
@@ -415,7 +415,7 @@ export class CompanyTaskList{
   //处理返回值
   static handleReturnData(response){
     if(response.data.code=="200"){
-      return {data:response.data.data,message:"正常",isError:false}  
+      return {data:response.data.data,message:"正常",isError:false}
    }else return {message:"后台异常！",isError:true}
   }
 
@@ -441,7 +441,7 @@ export class CompanyTaskList{
       dispatchMaterial = JSON.parse(ssComAccountBO.dispatchMaterial)
     }
     //发出的材料
-    
+
     return {
       companyTaskStatus:result.taskStatus,
       comAccountId:isNull?'':ssComAccountBO.comAccountId,

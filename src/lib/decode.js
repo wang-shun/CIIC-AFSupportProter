@@ -36,7 +36,7 @@ export default {
         return ''
     }
   },
-  // 账户类型
+  // 社保账户类型
   accountType: (accountType) => {
     switch (accountType){
       case '1':
@@ -50,7 +50,7 @@ export default {
   },
   // 人员分类
   empClassify: (empClassify) => {
-    
+
     switch (empClassify){
       case '1':
         return '本地'
@@ -78,8 +78,8 @@ export default {
         return '复印件'
       case '3':
         return '扫描件'
-    
-      default: 
+
+      default:
         return ''
     }
   },
@@ -152,7 +152,7 @@ export default {
   },
   //日常操作的缴纳方式
   remitWay:(type)=>{
-    
+
     switch (type){
       case '1':
         return '正常'
@@ -174,11 +174,11 @@ export default {
       case 3:
         return '留学生落户'
       case 4:
-        return '居转户'    
+        return '居转户'
       case 5:
-        return '夫妻分居' 
+        return '夫妻分居'
       case 6:
-        return '人才引进'     
+        return '人才引进'
     }
   }
 };

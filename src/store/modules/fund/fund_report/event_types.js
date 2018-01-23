@@ -1,0 +1,8 @@
+/**
+ * Created by huangye on 2018/1/19.
+ */
+export default {
+  FUNDREPORT: 'FUNDREPORT',
+  CUSTOMERSEARCH: 'CUSTOMERSEARCH',
+  PERSONALSEARCH: 'PERSONALSEARCH'
+}

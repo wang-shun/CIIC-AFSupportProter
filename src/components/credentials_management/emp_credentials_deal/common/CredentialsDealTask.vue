@@ -1,54 +1,43 @@
 <template>
   <div>
-    <Table border :columns="colums1" :data="data1" @on-row-click="selectedRow"></Table>
+    <Table border :columns="colums1" :data="data1" highlight-row="true" @on-row-click="clickRow"></Table>
     <Card>
        <Form ref="formItem" :model="formItem"  :label-width="120">
         <h4>办理与收费信息</h4>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="办理机构：" prop="name">
-              <Select v-model="formItem.name" placeholder="请选择" transfer>
-                <Option v-for="(value,key) in this.baseDic.DealOrg" :value="value" :key="key">{{ value }}</Option>
-              </Select>
+              {{formItem.name}}
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="操作方式：" prop="operateType">
-              <Select v-model="formItem.operateType" placeholder="请选择" transfer>
-                <Option v-for="(value,key) in this.baseDic.operateType" :value="value" :key="key">{{ value }}</Option>
-              </Select>
+              {{formItem.operateType}}
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="支付方式：" prop="payType">
-              <Select v-model="formItem.payType" placeholder="请选择" transfer>
-                <Option value="台账">台账</Option>
-                <Option value="员工自付">员工自付</Option>
-              </Select>
+              {{formItem.payType}}
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="操作账号：" prop="operateAccount">
-              <Input v-model="formItem.operateAccount" placeholder="请输入"/>
+              {{formItem.operateAccount}}
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="操作密码：" prop="operatePwd">
-              <Input v-model="formItem.operatePwd" placeholder="请输入" />
+              {{formItem.operatePwd}}
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="费用类型：" prop="chargeType">
-              <Select v-model="formItem.chargeType" placeholder="请选择" transfer>
-                <Option value="免费">免费</Option>
-                <Option value="常规收费">常规收费</Option>
-                <Option value="特殊收费">特殊收费</Option>
-              </Select>
+              {{formItem.chargeType}}
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="特殊收费备注：" prop="specialChargeRemark" v-if="formItem.chargeType === '特殊收费'">
-              <Input v-model="formItem.specialChargeRemark" type="textarea" :autosize="{minRows: 3,maxRows: 6}" placeholder="请输入"/>
+              {{formItem.specialChargeRemark}}
             </Form-item> 
           </i-col>
         </Row>
@@ -56,7 +45,7 @@
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item >
-              <Checkbox v-model="formItem.introduceMail">介绍信</Checkbox>
+              <Checkbox v-model="formItem.introduceMail" disabled>介绍信</Checkbox>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -105,7 +94,7 @@
         <CredentialsMaterial></CredentialsMaterial>
        </Form>
     </Card>
-    <Modal v-model="taskFollow" title="任务跟进">
+    <Modal v-model="taskFollow" title="任务跟进" @on-ok="ok" @on-cancel="cancel">
       <Form ref="formItem" :model="formItem"  :label-width="120">
         <Row >
           <i-col span="12">
@@ -159,8 +148,6 @@
           businessRenameNotice: '',
           specialMaterialRemark: '',
           followDescription:'',
-          colums2: '',
-          data2: '',
           taskId: ''
         },
         colums1: [
@@ -251,21 +238,23 @@
           }
         ],
         data1: [{}],
-        columns2: [
-          {
-            title: '跟进人',
-            key: 'createdBy'
-          },
-          {
-            title: '跟进时间',
-            key: 'createdTime'
-          },
-          {
-            title: '跟进说明',
-            key: 'followDescription'
-          }
-        ],
-        data2: [{}]
+        formItem: {
+          columns2: [
+            {
+              title: '跟进人',
+              key: 'createdBy'
+            },
+            {
+              title: '跟进时间',
+              key: 'createdTime'
+            },
+            {
+              title: '跟进说明',
+              key: 'followDescription'
+            }
+          ],
+          data2: [{}]
+        }
       }
     },
     mounted () {
@@ -282,7 +271,7 @@
       back () {
         this.$router.go(-1)
       },
-      selectedRow (value) {
+      clickRow (value) {
         if (value !== null) {
           console.log(value)
           this.formItem = value
@@ -292,7 +281,7 @@
         // if( taskId!== "") {
            axios.get(host + '/api/empCredentialsDeal/find/taskFollow/1').then((response) =>{
              if (response.data.errCode == "0"){
-               this.data2 = response.data.data
+               this.formItem.data2 = response.data.data
                this.taskFollow = true
              } else {
               this.$Notice.error({
@@ -307,8 +296,9 @@
             })
           })
         // }
-      }
-      
+      },
+      ok () {},
+      cancle() {}
     }
   }
 </script>

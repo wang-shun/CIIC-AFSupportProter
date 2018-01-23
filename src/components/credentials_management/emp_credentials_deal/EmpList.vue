@@ -174,7 +174,7 @@
           },
           {
             title: '身份证号码',
-            key: 'IDNum'
+            key: 'IDCardNum'
           },
           {
             title: '客户编号',

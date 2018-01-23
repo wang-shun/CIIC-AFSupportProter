@@ -100,7 +100,7 @@ export default {
       pageSize: 5,
       total: null,
       queryItem: {
-        type: '1',
+        type: '',
         name: ''
       },
       formItem: {

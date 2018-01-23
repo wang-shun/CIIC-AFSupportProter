@@ -33,8 +33,8 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="人员分类：" prop="empClassify">
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+               <Form-item label="人员分类：" prop="empClassify">
                 <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="1" label="本地"></Option>
@@ -43,8 +43,8 @@
                   <Option value="4" label="外籍五险"></Option>
                   <Option value="5" label="延迟退休人员"></Option>
                 </Select>
-              </Form-item>
-              </Col>
+              </Form-item> 
+              </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户：" prop="ssAccount">
                 <input-account v-model="operatorSearchData.ssAccount"></input-account>
@@ -161,7 +161,7 @@
           employeeName: '',
           settlementArea: '',
           ssAccountType: '',
-          empClassify: '',
+          //empClassify: '',
           ssAccount: '',
           companyId: '',
           idNum: '',

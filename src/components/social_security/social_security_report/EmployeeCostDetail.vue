@@ -89,13 +89,13 @@
                 ]);
               }
             },
-            {title: '人员性质', key: 'empClassify', align: 'center', className: 'mw200', width: 120,
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'center'}}, [
-                  h('span', this.$decode.empClassify(params.row.empClassify)),
-                ]);
-              }
-            },
+            // {title: '人员性质', key: 'empClassify', align: 'center', className: 'mw200', width: 120,
+            //   render: (h, params) => {
+            //     return h('div', {style: {textAlign: 'center'}}, [
+            //       h('span', this.$decode.empClassify(params.row.empClassify)),
+            //     ]);
+            //   }
+            // },
             {title: '社保缴纳月份', key: 'ssMonth', align: 'center', className: 'mw200', width: 120,
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'center'}}, [

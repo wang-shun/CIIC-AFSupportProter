@@ -65,11 +65,11 @@
                   <label>{{employeeAndCustomer.ssAccount}}</label>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：">
                   <label>{{getEmpClassify(employeeAndCustomer.empClassify)}}</label>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="离职日期：">
                   <label>{{employeeAndCustomer.outDate}}</label>
@@ -132,7 +132,7 @@
           ssSerial:'',
           education:'',
           ssAccount:'',
-          empClassify:'',
+         // empClassify:'',
           outDate:''
         },//客户和雇员基本信息
         socialSecurityInfoListData:[],//基数变更详情
@@ -250,10 +250,10 @@
         
         this.$router.push({name: 'employeeSocialSecuritySearch'});
       },
-      getEmpClassify(val){
-        if(val==null || typeof(val)=='undefined')return ''
-        return this.$decode.empClassify(val)
-      }
+      // getEmpClassify(val){
+      //   if(val==null || typeof(val)=='undefined')return ''
+      //   return this.$decode.empClassify(val)
+      // }
     }
   }
 </script>

@@ -38,11 +38,11 @@
           <label>{{emp.ssAccountType}}</label>
         </Form-item>
       </Col>
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+      <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="人员分类：">
           <label>{{emp.empClassify}}</label>
         </Form-item>
-      </Col>
+      </Col> -->
 
 
       <!-- 调整和转出 -->
@@ -91,7 +91,7 @@
       emp(){
         var emp = this.employee;
 
-        emp.empClassify = this.$decode.empClassify(emp.empClassify)
+        //emp.empClassify = this.$decode.empClassify(emp.empClassify)
         return emp;
       }
     },

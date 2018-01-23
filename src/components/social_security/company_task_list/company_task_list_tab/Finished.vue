@@ -113,12 +113,14 @@
           isShowCustomerName: false,
           accountTypeValue: '',
           accountTypeList: [//1:中智大库 2中智外包 3独立户
+           {value: '', label: '全部'},
             {value: '1', label: '大库'},
             {value: '2', label: '外包'},
             {value: '3', label: '独立库'}
           ],
           regionValue: '',
           regionList: [
+             {value: '', label: '全部'},
             {value: '1', label: '徐汇'},
             {value: '2', label: '长宁'},
             {value: '3', label: '浦东'},
@@ -129,6 +131,7 @@
           taskNumber: '',
           taskTypeValue: '',
           taskTypeList: [
+             {value: '', label: '全部'},
             {value: '1', label: '开户'},
             {value: '2', label: '转移'},
             {value: '3', label: '变更'},

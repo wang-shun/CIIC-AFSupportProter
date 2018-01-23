@@ -62,13 +62,13 @@
                   <Input v-model="searchCondition.idNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：" prop="empClassify">
                   <Select v-model="searchCondition.empClassify" style="width: 100%;" transfer>
                     <Option v-for="item in personTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
-              </Col>
+              </Col> -->
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
@@ -133,7 +133,7 @@
           idNum: '', //身份证号
           ssAccount:'',//企业社保账号
           archiveTaskStatus: '',//社保状态
-          empClassify: '' //人员分类
+          //empClassify: '' //人员分类
         },
         employeeSocialSecurityData:[],//列表数据
         isShowCustomerName: false, //客户名称Modal
@@ -143,6 +143,7 @@
         orderStartTime: '', //任务开始时间
 
         regionList: [
+           {value: '', label: '全部'},
           {value: '1', label: '徐汇'},
           {value: '2', label: '长宁'},
           {value: '3', label: '浦东'},
@@ -152,6 +153,7 @@
         ],
 
         sSecurityStateList: [ //1-已办  2-已做 3-转出
+        {value: '', label: '全部'},
           {value: '1', label: '已办'},
           {value: '2', label: '已做'},
           {value: '3', label: '转出'},
@@ -161,6 +163,7 @@
         mCustomerNumber: '', //客户编号
         mCustomerName: '', //客户姓名
         accountTypeList: [
+            {value: '', label: '全部'},
             {value: '1', label: '中智大库'},
             {value: '2', label: '中智外包'},
             {value: '3', label: '独立户'}

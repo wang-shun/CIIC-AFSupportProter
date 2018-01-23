@@ -5,8 +5,11 @@
       :size="size"
       :id="elementId"
       :disabled="disabled"
-      :name="name">
-    <Button slot="append" :icon="icon" @click="handleClick"></Button>
+      :name="name"
+      :icon="icon"
+      placeholder="请点击右侧搜索按钮..."
+      @on-click="handleClick"
+    >
     </Input>
     <Modal
       v-model="visible"

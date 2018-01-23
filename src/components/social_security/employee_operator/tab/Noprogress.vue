@@ -24,7 +24,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="结算中心：" prop="settlementArea">
+              <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="徐汇" label="徐汇"></Option>
@@ -36,7 +36,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="账户类型：" prop="ssAccountType">
+              <Form-item label="社保账户类型：" prop="ssAccountType">
                 <Select v-model="operatorSearchData.ssAccountType" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="1" label="中智大库"></Option>
@@ -397,7 +397,7 @@
           for (var row of rows) {
             empTaskIds.push(row.empTaskId);
           }
-          
+
           // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = rows[0].taskCategory;
           var name = 'empTaskHandleView';
@@ -425,7 +425,7 @@
             query: {operatorType: taskCategory, empTaskIds: empTaskIds}
           });
         } else {
-          
+
           // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = data.taskCategory;
           var name = 'empTaskHandleView';

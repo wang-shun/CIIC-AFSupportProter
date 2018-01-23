@@ -1,5 +1,5 @@
 export default {
-  // 账户类型
+  // 社保账户类型
   accountType: async (params) => {
     let data = [
       {
@@ -99,7 +99,7 @@ export default {
     ];
     return await JSON.parse(JSON.stringify(data));
   },
-  // 结算中心
+  // 结算区县
   settlementArea: async (params) => {
     let data = [
       {

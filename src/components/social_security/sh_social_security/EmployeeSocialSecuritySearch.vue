@@ -29,7 +29,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="ssAccountType">
+                <Form-item label="社保账户类型：" prop="ssAccountType">
                   <Select v-model="searchCondition.ssAccountType" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -125,7 +125,7 @@
         searchCondition: {
           companyId: '', //客户编号
           title: '', //客户名称
-         // companyAccountType: '', //企业社保账户分类
+         // companyAccountType: '', //社保账户类型
           settlementArea: '', //结算区域
           ssAccountType: '',  //社保账户类型
           employeeId: '', //雇员编号
@@ -137,7 +137,7 @@
         },
         employeeSocialSecurityData:[],//列表数据
         isShowCustomerName: false, //客户名称Modal
-        isShowAccountType: false, //企业社保账户分类Modal
+        isShowAccountType: false, //社保账户类型Modal
 
         orderNumber: '', //任务单编号
         orderStartTime: '', //任务开始时间
@@ -164,7 +164,7 @@
             {value: '1', label: '中智大库'},
             {value: '2', label: '中智外包'},
             {value: '3', label: '独立户'}
-        ], //账户类型
+        ], //社保账户类型
 
         personTypeList: [
           {value: '1', label: '本地'},
@@ -238,7 +238,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'ssAccountType', align: 'center', width: 120,
+          {title: '社保账户类型', key: 'ssAccountType', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.accountType(params.row.ssAccountType)),
@@ -307,12 +307,12 @@
       }
     },
     mounted() {
-      
+
       this.employeeQuery({})
 
     },
     computed: {
-    
+
     },
     methods: {
       exportData() {

@@ -7,7 +7,7 @@
           <Form ref="payBatchSearchData" :model="payBatchSearchData" :label-width=150>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountType">
+                <Form-item label="社保账户类型：" prop="accountType">
                   <Select v-model="payBatchSearchData.accountType" clearable style="width: 100%;" transfer>
                     <Option v-for="item in staticPayBatchSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -145,7 +145,7 @@
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
-            <Form-item label="账户类型：" prop="accountTypeOfAdd">
+            <Form-item label="社保账户类型：" prop="accountTypeOfAdd">
               <Select v-model="addPaymentData.accountType" clearable style="width: 100%;" transfer>
                 <Option v-for="item in staticPayBatchSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
               </Select>
@@ -165,14 +165,11 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
-  import progressBar from '../../../common_control/progress/ProgressBar.vue'
   import EventType from '../../../../store/event_types'
   import payBatchApi from '../../../../api/social_security/payment_batch'
 
-  const progressStop = 33.3;
-
   export default {
-    components: {customerModal, progressBar},
+    components: {customerModal},
     data() {
       return{
         collapseInfo: [1], //展开栏
@@ -210,7 +207,6 @@
 
         isShowCustomerName: false,
         isShowProgress: false,
-        progressStop: progressStop,
 
         payBatchColumns: [
           {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',
@@ -282,7 +278,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'accountType', width: 180, align: 'center',
+          {title: '社保账户类型', key: 'accountType', width: 180, align: 'center',
             render: (h, params) => {
               let accountType = params.row.accountType;
               let accountTypeName = "";

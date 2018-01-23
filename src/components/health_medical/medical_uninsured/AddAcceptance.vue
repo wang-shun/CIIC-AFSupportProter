@@ -51,7 +51,8 @@
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="连带人：" prop="jointPersonName">
             <Select v-model="formItem.jointPersonName" placeholder="请输入" :clearable="true">
-              <Option v-for="item in jointPersonNameList" :value="item.value" :key="item.value">{{ item.label }}
+              <Option v-for="item in jointPersonNameList" :value="item.empMemberId" :key="item.empMemberId">
+                {{ item.name }}
               </Option>
             </Select>
           </Form-item>
@@ -92,6 +93,7 @@
 
 <script>
   import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
+  import apiAjax from "../../../data/health_medical/uninsured_medical/uninsured_application.js";
 
   export default {
     data() {
@@ -116,32 +118,37 @@
         moneyTypes: admissibility.moneyTypes,
         caseTypes: admissibility.caseTypes,
         /** 连带人后台加载*/
-        jointPersonNameList: [
-          {
-            value: '1',
-            label: '戴敏一'
-          },
-          {
-            value: '2',
-            label: '戴敏二'
-          },
-          {
-            value: '3',
-            label: '戴敏三'
-          }
-        ],
+        jointPersonNameList: [],
         acceptanceRules: admissibility.addAcceptanceRules,
       };
     },
     created() {
       //雇员数据
       this.employeeInfo = JSON.parse(sessionStorage.getItem('acceptanceEmployee'));
+      this.queryEmpMember();
     },
     methods: {
+      queryEmpMember() {
+        apiAjax.queryEmpMember(this.employeeInfo).then(response => {
+          this.jointPersonNameList = response.data.object;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
       addAcceptance() {
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
-            this.$router.push({name: "addAcceptanceEmployeeList"})
+            apiAjax.addAcceptance(this.employeeInfo).then(response => {
+              if (response.data.code === 200) {
+                this.$router.push({name: "addAcceptanceEmployeeList"})
+              } else {
+                this.$Message.error("服务器异常，请稍后再试:");
+              }
+            }).catch(e => {
+              console.info(e.message);
+              this.$Message.error("服务器异常，请稍后再试");
+            });
           }
         });
       },

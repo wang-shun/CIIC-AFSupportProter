@@ -20,14 +20,14 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="账户类型：" prop="accountTypeValue">
+          <Form-item label="社保账户类型：" prop="accountTypeValue">
             <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
               <Option v-for="item in operatorSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="企业社保账户分类：" prop="companyAccountType">
+          <Form-item label="社保账户类型：" prop="companyAccountType">
             <Input v-model="operatorSearchData.companyAccountType" @on-focus="operatorSearchData.isShowAccountType = true" placeholder="请输入..."></Input>
           </Form-item>
         </Col>
@@ -61,7 +61,7 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="结算中心：" prop="region">
+          <Form-item label="结算区县：" prop="region">
             <Select v-model="operatorSearchData.region" style="width: 100%;" transfer>
               <Option v-for="item in operatorSearchData.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
@@ -99,10 +99,10 @@
       <customer-modal :customerData="customerData"></customer-modal>
     </Modal>
 
-    <!-- 企业社保账户分类 模态框 -->
+    <!-- 社保账户类型 模态框 -->
     <Modal
       v-model="operatorSearchData.isShowAccountType"
-      title="企业社保账户分类"
+      title="社保账户类型"
       @on-ok="ok"
       @on-cancel="cancel">
       <company-account-search-modal :sSocialSecurityTypeData="sSocialSecurityTypeData"></company-account-search-modal>
@@ -144,8 +144,8 @@
             {value: '1', label: '独立户'},
             {value: '2', label: '大库'},
             {value: '3', label: '外包'}
-          ], //账户类型
-          companyAccountType: '', //企业社保账户分类
+          ], //社保账户类型
+          companyAccountType: '', //社保账户类型
           isShowAccountType: false, //客户名称显示模态框
           personTypeValue: '',
           personTypeList: [

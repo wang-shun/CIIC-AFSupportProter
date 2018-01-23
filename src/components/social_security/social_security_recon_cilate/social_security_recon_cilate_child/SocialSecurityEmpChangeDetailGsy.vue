@@ -63,7 +63,7 @@
         collapseInfo: [1], //展开栏
         empChangeData: {
           ssMonth:'',//社保月份
-          comAccountName: '', //企业社保账户分类
+          comAccountName: '', //社保账户类型
           computeUserId:'',
           lastComputeTime:'',
         },

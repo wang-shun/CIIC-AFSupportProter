@@ -199,7 +199,7 @@
             }
           },
           {
-            title: '企业社保账户分类', key: 'socialSecurityAccountType', align: 'center', width: 180,
+            title: '社保账户类型', key: 'socialSecurityAccountType', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', [
                   h('Select', {props: {value: ''}},

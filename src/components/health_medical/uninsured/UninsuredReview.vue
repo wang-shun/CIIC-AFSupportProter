@@ -110,7 +110,7 @@
           umAcceptanceId: null,
           moneyType: null,
           caseType: null,
-          status: null,
+          status: false,
           managementId: null,
           managementName: null,
           companyId: null,
@@ -153,7 +153,7 @@
             }
           },
           {
-            title: '报销金额', sortable: true, key: 'reimbursementMoney', align: 'center',
+            title: '审核金额', sortable: true, key: 'auditAmount', align: 'center',
           },
           {
             title: '审核人', sortable: true, key: 'auditor', align: 'center',
@@ -219,7 +219,7 @@
             jointPersonName: '段嘉晨',
             gender: '女',
             reimbursementYearMonth: '2016-02',
-            reimbursementMoney: '1500',
+            auditAmount: '1500',
             auditor: '王正微',
             auditDate: '2016-02-15',
             status: 1,
@@ -236,7 +236,7 @@
             jointPersonName: '段嘉晨',
             gender: '女',
             reimbursementYearMonth: '2016-02',
-            reimbursementMoney: '1500',
+            auditAmount: '1500',
             auditor: '王正微',
             auditDate: '2016-02-15',
             status: 1,
@@ -250,6 +250,7 @@
     },
     methods: {
       queryUninsuredList() {
+        console.info(this.formItem);
       },
       getByPage(val) {
         this.formItem.current = val;

@@ -551,7 +551,7 @@
               fromData.employeeId = self.employee.employeeId;
               fromData.employeeName = self.employee.employeeName;
               fromData.salary = salary;
-              fromData.empClassify = self.employee.employeeAttribute;
+              //fromData.empClassify = self.employee.employeeAttribute;
               fromData.inDate = self.employee.inDate;
             }
 

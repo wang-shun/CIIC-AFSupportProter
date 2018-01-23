@@ -102,6 +102,7 @@
           taskNumber: '',
           taskTypeValue: '',
           taskTypeList: [
+             {value: '', label: '全部'},
             {value: '1', label: '开户'},
             {value: '2', label: '转移'},
             {value: '3', label: '变更'},

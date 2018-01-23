@@ -11,7 +11,7 @@ const leftNavigationList = params => Utils.promise({
         children: [
           {cid: "1-1", ckey: "雇员社保查询", crouter: "employeeSocialSecuritySearch"},
           {cid: "1-2", ckey: "雇员日常操作", crouter: "employeeOperatorView"},
-          {cid: "1-3", ckey: "雇员特殊操作", crouter: "employeeSpecialOperatorView"},
+          // {cid: "1-3", ckey: "雇员特殊操作", crouter: "employeeSpecialOperatorView"},
           {cid: "1-4", ckey: "企业任务单", crouter: "companyTaskList"},
           {cid: "1-5", ckey: "企业社保账户管理", crouter: "companySocialSecurityManage"},
           {cid: "1-6", ckey: "社保对账", crouter: "socialSecurityReconcilate"},

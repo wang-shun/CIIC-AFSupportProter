@@ -66,7 +66,7 @@
       v-model="isShowBaseChange"
       title="基数调整"
     >
-      <Row v-for="Progress in Progresses" :key="Progress">
+      <Row ><!-- v-for="Progress in Progresses" -->
         <Col :sm="{span: 20, offset: 2}">
           <span>{{Progress.label}}</span>
           <Progress :percent="Progress.value" :status="Progress.status"></Progress>

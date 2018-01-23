@@ -126,12 +126,14 @@
           isShowCustomerName: false,
           accountTypeValue: '',
           accountTypeList: [
+             {value: '', label: '全部'},
             {value: '1', label: '独立库'},
             {value: '2', label: '大库'},
             {value: '3', label: '外包'}
           ],
           regionValue: '',
           regionList: [
+             {value: '', label: '全部'},
             {value: '1', label: '徐汇'},
             {value: '2', label: '长宁'},
             {value: '3', label: '浦东'},
@@ -141,6 +143,7 @@
           ],
           taskTypeValue: '',
           taskTypeList: [
+            {value: '', label: '全部'},
             {value: '1', label: '开户'},
             {value: '2', label: '转移'},
             {value: '3', label: '变更'},
@@ -149,6 +152,7 @@
           taskStartTime: '',
           handleStateValue: '',
           handleStateList: [
+             {value: '', label: '全部'},
             {value: '1', label: '已受理'},
             {value: '2', label: '已送审'}
           ],

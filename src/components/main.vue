@@ -108,6 +108,7 @@
               <span :class="{'layout-text':layoutOut}">{{item.key}}</span>
             </template>
             <Menu-item v-for="subitem in item.children" :name="subitem.cid" :key="subitem.cid">
+              
               <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}" @click.native="getMenu(subitem)">{{subitem.ckey}}</router-link>
             </Menu-item>
           </Submenu>
@@ -234,8 +235,9 @@
         }
       },
       getMenu(obj){
+        //社保账户管理 清除页面缓存
         if(obj.crouter=='companysocialsecuritymanage'){
-            //社保账户管理 清除页面缓存
+
             let sessionPageNum = sessionStorage.managerPageNum
             let sessionPageSize = sessionStorage.managerPageSize
           if(typeof(sessionPageNum)!='undefined'){
@@ -246,7 +248,7 @@
           }
         }
 
-        //任务单页面缓存清除
+        //企业任务单页面缓存清除
         if(obj.crouter=='companyTaskList'){
           let tab = sessionStorage.companyTaskTab
           let sessionPageNum = sessionStorage.taskFiPageNum
@@ -263,6 +265,16 @@
           }
         }
 
+        //雇员日常操作任务单页面缓存清除
+        if(obj.crouter=='employeeOperatorView'){
+          let tab = sessionStorage.employeeOperatorTab
+          let sessionPageNum = sessionStorage.taskFiPageNum
+          let sessionPageSize = sessionStorage.taskFiPageSize
+          if(typeof(tab)!='undefined'){
+            sessionStorage.removeItem("employeeOperatorTab")
+          }
+        }
+        debugger
       },
       onSelect(name) {
       },

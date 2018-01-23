@@ -36,7 +36,7 @@
                 <input-account v-model="operatorSearchData.ssAccount"></input-account>
               </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="人员分类：" prop="empClassify">
                 <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
@@ -47,7 +47,7 @@
                   <Option value="5" label="延迟退休人员"></Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单类型：" prop="taskCategory">
                 <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
@@ -87,11 +87,11 @@
               <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
-                  <Option value="徐汇区" label="徐汇区"></Option>
-                  <Option value="浦东新区" label="浦东新区"></Option>
-                  <Option value="闵行区" label="闵行区"></Option>
-                  <Option value="闸北区" label="闸北区"></Option>
-                  <Option value="黄浦区" label="黄浦区"></Option>
+                  <Option value="徐汇" label="徐汇"></Option>
+                  <Option value="浦东" label="浦东"></Option>
+                  <Option value="闵行" label="闵行"></Option>
+                  <Option value="闸北" label="闸北"></Option>
+                  <Option value="黄浦" label="黄浦"></Option>
                 </Select>
               </Form-item>
               </Col>
@@ -169,7 +169,7 @@
           employeeName: '',
           settlementArea: '',
           ssAccountType: '',
-          empClassify: '',
+         // empClassify: '',
           ssAccount: '',
           companyId: '',
           idNum: '',
@@ -271,12 +271,12 @@
               ]);
             }
           },
-          {
-            title: '雇员分类', key: 'empClassify', width: 100, align: 'center',
-            render: (h, params) => {
-              return this.$decode.empClassify(params.row.empClassify)
-            }
-          },
+          // {
+          //   title: '雇员分类', key: 'empClassify', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     return this.$decode.empClassify(params.row.empClassify)
+          //   }
+          // },
           {
             title: '社保账户类型', key: 'ssAccountType', width: 120, align: 'center',
             render: (h, params) => {

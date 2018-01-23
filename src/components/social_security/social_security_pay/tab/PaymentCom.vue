@@ -145,11 +145,11 @@
       width="640">
       <Table border :columns="changeInfo.changeColumns" :data="changeInfo.changeData"></Table>
       <Form :label-width=250>
-        <Row class="mt20">
-          <Col :sm="{span: 24}">
-            <Button type="primary" @click="changeInfo.isImport = true">导入调整明细</Button>
-          </Col>
-        </Row>
+        <!--<Row class="mt20">-->
+          <!--<Col :sm="{span: 24}">-->
+            <!--<Button type="primary" @click="changeInfo.isImport = true">导入调整明细</Button>-->
+          <!--</Col>-->
+        <!--</Row>-->
         <Row class="mt20" type="flex" justify="start">
           <Col :sm="{span: 24}">
             <Form-item label="额外金：">
@@ -490,19 +490,21 @@
                       this.isShowProgress = true;
                     }
                   }
-                }, '进度'),
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      let paymentComId = params.row.paymentComId;
-                      let comAccountId = params.row.comAccountId;
-                      let paymentMonth = params.row.paymentMonth;
-                      this.goPaymentNotice(paymentComId,comAccountId,paymentMonth);
-                    }
-                  }
-                }, '付款通知书')
+                }
+//                , '进度'),
+//                h('Button', {
+//                  props: {type: 'success', size: 'small'},
+//                  style: {margin: '0 auto 0 10px'},
+//                  on: {
+//                    click: () => {
+//                      let paymentComId = params.row.paymentComId;
+//                      let comAccountId = params.row.comAccountId;
+//                      let paymentMonth = params.row.paymentMonth;
+//                      this.goPaymentNotice(paymentComId,comAccountId,paymentMonth);
+//                    }
+//                  }
+//                }
+                , '付款通知书')
               ]);
             }
           },

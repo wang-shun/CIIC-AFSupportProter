@@ -311,6 +311,16 @@
     },
     methods: {
       ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
+      getYearMonth(date){
+        
+        if(date==null || date=="")return "";
+        let year = date.getFullYear(); 
+        let month = date.getMonth()+1;
+        if(month>=1 && month<=9){
+              month='0'+month
+        }
+          return year+'-'+month;
+      },
       initData(data) {
         this.empTaskId = data.empTaskId;
         this.operatorType = data.operatorType;
@@ -335,6 +345,13 @@
           }
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
+          let handleMonth = this.socialSecurityPayOperator.handleMonth;
+          if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
+            let date = new Date();
+            handleMonth=this.getYearMonth(date,'show');
+            debugger
+            this.socialSecurityPayOperator.handleMonth=handleMonth;
+          }
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {

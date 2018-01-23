@@ -271,6 +271,7 @@ AJAX.ajaxFbq = createProxyAjaxForName('fb-q');
 AJAX.ajaxFbc = createProxyAjaxForName('fb-c');
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q');
 AJAX.ajaxSsc = createProxyAjaxForName('ss-c');
+AJAX.ajaxHmc = createProxyAjaxForName('health-c');
 AJAX.ajaxAlertJob = createProxyAjaxForName('AlertJob');
 AJAX.ajaxAuthService = createProxyAjaxForName('AuthService');
 AJAX.ajaxBasicDataService = createProxyAjaxForName('BasicDataService');

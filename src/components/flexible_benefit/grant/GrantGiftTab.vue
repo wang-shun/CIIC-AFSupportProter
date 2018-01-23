@@ -39,7 +39,11 @@
         </div>
       </Panel>
     </Collapse>
-    <Table stripe border :columns="grantManagerColumns" :data="grantManagerData" ref="grantManagerTable"></Table>
+    <Table stripe
+           border
+           :columns="grantManagerColumns"
+           :data="grantManagerData"
+           ref="grantManagerTable"></Table>
     <Page show-sizer show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"

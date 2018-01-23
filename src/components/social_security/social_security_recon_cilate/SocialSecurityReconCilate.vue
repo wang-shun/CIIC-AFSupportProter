@@ -12,15 +12,15 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户：" prop="comAccountId">
-                  <Input v-model="operatorSearchData.comAccountId" @on-focus="staticSearchData.isShowAccountType = true" placeholder="请输入..."></Input>
+                <Form-item label="企业社保账号：" prop="comAccountId">
+                  <input-account v-model="operatorSearchData.comAccountId"></input-account>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Cascader :data="staticSearchData.serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer clearable></Cascader>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="变更汇总表类型：" prop="impFileType">
                   <Select v-model="operatorSearchData.impFileType" clearable style="width: 100%;" transfer>
@@ -136,9 +136,10 @@
   import companyAccountSearchModal from '../../common_control/CompanyAccountSearchModal.vue'
   import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/statement'
+   import InputAccount from '../../common_control/form/input_account'
 
   export default {
-    components: {customerModal, companyAccountSearchModal},
+    components: {customerModal, InputAccount},
     data() {
       return {
         isUpload:false,
@@ -155,7 +156,7 @@
           serviceCenterValue: [],
           minDiffSumByEmp: '',//最小差异数（按雇员）
           maxDiffSumByEmp: '',//最大差异数（按雇员）
-
+          
           ssMonth:'',//社保月份
           comAccountId: '', //企业社保账户
 
@@ -292,14 +293,14 @@
               ]);
             }
           },
-          {title: '对账操作人', key: 'statementUserId', width: 150, align: 'center',
+          {title: '对账操作人', key: 'statementUserId', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.statementUserId),
               ]);
             }
           },
-          {title: '最近对账时间', key: 'statementTime', width: 150, align: 'center',
+          {title: '最近对账时间', key: 'statementTime', width: 160, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.statementTime),

@@ -17,7 +17,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="企业社保账户：" prop="comAccountName">
+                <Form-item label="企业社保账户名称：" prop="comAccountName">
                   <label >{{statementData.comAccountName}}</label>
                 </Form-item>
               </Col>

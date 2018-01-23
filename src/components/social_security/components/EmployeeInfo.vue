@@ -65,11 +65,11 @@
       </Form-item>
       </Col>
       <!-- 仅新增 -->
-      <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
+      <!-- <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
       <Form-item label="雇员属性：">
         <label>{{emp.employeeAttribute}}</label>
       </Form-item>
-      </Col>
+      </Col> -->
     </row>
   </Form>
 </template>

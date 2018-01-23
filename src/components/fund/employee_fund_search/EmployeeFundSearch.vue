@@ -2,7 +2,7 @@
   <div class="smList">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        雇员社保查询
+        查询条件
         <div slot="content">
           <Form :label-width=150 ref="searchCondition" :model="searchCondition">
             <Row type="flex" justify="start">

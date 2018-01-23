@@ -172,10 +172,11 @@
                 return callback(new Error('不能为空.'))
             }
             let handleMonth = self.getYearMonth(self.socialSecurityPayOperator.handleMonth);
+            //获得上个月的月份
             let lastMonth = self.getLastYearMonth(self.socialSecurityPayOperator.handleMonth);
-            console.log(lastMonth)
+       
             let valueMonth = self.getYearMonth(self.socialSecurityPayOperator.endMonth);
-            
+  
             if(Number(valueMonth)!=Number(handleMonth) && Number(valueMonth)!=Number(lastMonth)){
               return callback(new Error('只能等于办理月份或者在办理月份前一月.'))
             }
@@ -241,15 +242,20 @@
     computed: {
     },
     methods: {
-      getYearMonth(date){
-        
+      getYearMonth(date,type){
+        debugger
         if(date==null || date=="")return "";
         let year = date.getFullYear(); 
         let month = date.getMonth()+1;
         if(month>=1 && month<=9){
               month='0'+month
         }
-        return Number(year+''+month);
+        if(type=='show'){
+          return year+'-'+month;
+        }else{
+          return Number(year+''+month);
+        }
+        
       },
       getLastYearMonth(date){
         
@@ -274,15 +280,13 @@
           operatorType: 1,// 任务单费用段
         }).then(data => {
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
-          
-          
+
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
           let handleMonth = this.socialSecurityPayOperator.handleMonth;
           
           if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
             let date = new Date();
-            
-            handleMonth=this.getYearMonth(date);
+            handleMonth=this.getYearMonth(date,'show');
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
         });

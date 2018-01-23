@@ -65,8 +65,8 @@
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码" prop="idCardType">
-                <Input v-model="formItem.idCardType" placeholder="请输入"/>
+              <Form-item label="证件号码" prop="idNum">
+                <Input v-model="formItem.idNum" placeholder="请输入"/>
               </Form-item>
               </Col>
             </Row>
@@ -142,7 +142,7 @@
           companyName: null,
           employeeId: null,
           employeeName: null,
-          idCardType: null,
+          idNum: null,
           handlerDateRange: [],
         },
         dealMeg: {

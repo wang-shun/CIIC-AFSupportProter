@@ -53,7 +53,16 @@
         <Col :sm="{span:24}">
           <Table border ref="selection" :columns="taskColumns" :data="taskData" :loading="loading"></Table>
 
-          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" :current="pageNum" show-sizer show-total  class="pageSize"  @on-change="getPage"></Page>
+          <Page
+          class="pageSize" 
+          :total="totalSize" 
+          :page-size="size" 
+          :page-size-opts="sizeArr" 
+          :current="pageNum" 
+          show-sizer 
+          show-total  
+          @on-change="getPage"
+           ></Page>
         </Col>
       </Row>
 

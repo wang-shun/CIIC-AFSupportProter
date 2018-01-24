@@ -250,7 +250,7 @@ export class CompanyTaskList{
     let ssComAccountBO =resultData.ssComAccountBO
     //材料信息
     let operatorMaterialListData = this.getMaterial(result.data.materialList)
-
+    
     let data = {
           companyTaskStatus:result.data.taskStatus,
           comAccountId:ssComAccountBO.comAccountId,
@@ -260,7 +260,7 @@ export class CompanyTaskList{
             //客户编号
             companyNumber:result.data.companyId,
             //参保户名称
-            companyName:result.data.companyName,
+            companyName:result.data.ssComAccountBO.comAccountName,
             //社保中心
             socialSecurityCenter:ssComAccountBO.settlementArea,
             //UKey密码
@@ -317,6 +317,7 @@ export class CompanyTaskList{
           //如果扩展字段有值显示扩展字段
           let changeContentValue =null//变更类型
           let payMethodValue = null//付款方式
+          let billReceiverValue=null //账单接收方
           let pensionMoneyUseCompanyName = null//养老金公司名称
           let belongsIndustry = null//所属行业
           let companyWorkInjuryPercentage = null//企业工伤比例
@@ -331,6 +332,8 @@ export class CompanyTaskList{
               changeStartMonth = res.startMonth
           }else if(changeContentValue=='2'){
               payMethodValue = res.paymentWay
+              billReceiverValue = res.billReceiver
+              
           }else if(changeContentValue=='3'){
               pensionMoneyUseCompanyName = res.comAccountName
             }
@@ -340,6 +343,7 @@ export class CompanyTaskList{
             ...common,
             changeContentValue,
             payMethodValue,
+            billReceiverValue,
             pensionMoneyUseCompanyName,
             belongsIndustry,
             companyWorkInjuryPercentage,
@@ -455,7 +459,8 @@ export class CompanyTaskList{
         //客户社保截止日
         customerSocialSecurityEndDate: taskFormContent==null|| taskFormContent==""?"":taskFormContent.expireDate,
         //支付方式
-        payMethodValue: taskFormContent==null|| taskFormContent==""?"":taskFormContent.paymentWay
+        payMethodValue: taskFormContent==null|| taskFormContent==""?"":taskFormContent.paymentWay,
+        billReceiverValue:taskFormContent==null|| taskFormContent==""?"":taskFormContent.billReceiver,
       },
       companyOpenAccountOperator: {
             taskValue: result.taskCategory,

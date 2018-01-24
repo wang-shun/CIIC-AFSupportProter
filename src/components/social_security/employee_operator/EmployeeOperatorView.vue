@@ -35,7 +35,7 @@
       }
     },
     mounted() {
-      debugger
+      
       if(typeof(sessionStorage.employeeOperatorTab)!="undefined"){
           this.tab = sessionStorage.employeeOperatorTab
       }

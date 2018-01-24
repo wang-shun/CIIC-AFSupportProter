@@ -180,5 +180,33 @@ export default {
       case 6:
         return '人才引进'
     }
+  },
+
+  //付款方式
+  payMethod:(type)=>{
+    
+    switch(type){
+      case "1":
+        return '我司代付款'
+      case "2":
+        return '客户自付'
+      case "3":
+        return '我司垫付'
+      default:
+        return ''
+    }
+  },
+  //账单接收方
+  billReceiver:(type)=>{
+    switch(type){
+      case "1":
+      case 1:
+        return '我司'
+      case "2":
+      case 2:
+        return '客户公司'
+      default:
+        return ''
+    }
   }
 };

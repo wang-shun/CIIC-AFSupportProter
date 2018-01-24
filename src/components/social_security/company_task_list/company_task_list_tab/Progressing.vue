@@ -176,17 +176,18 @@
                   on: {
                     click: () => {
                       switch(params.row.type) {
-                        case '开户':
-                          this.$router.push({name: 'companyTaskProgressTwo', query: {operatorType: '1',tid:params.row.tid}})
+                         case '开户':
+                        //companyTaskProgressTwo 材料页面  现再屏蔽材料页面
+                          this.$router.push({name: 'companyTaskProgressTypeInfo', query: {operatorType: '1',tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'companyTaskProgressTwo', query: {operatorType: '2',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressTransferInfo', query: {operatorType: '2',tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'companyTaskProgressTwo', query: {operatorType: '3',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressChangeInfo', query: {operatorType: '3',tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'companyTaskProgressTwo', query: {operatorType: '4',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressEndInfo', query: {operatorType: '4',tid:params.row.tid}})
                           break;
                         default:
                           break;

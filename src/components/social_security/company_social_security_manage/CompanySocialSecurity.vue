@@ -33,9 +33,15 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="付款方式：" class="">
-                  <label>{{companySocialSecurityInfo.paymentWay}}</label>
+                  <label>{{this.$decode.payMethod(companySocialSecurityInfo.paymentWay)}}</label>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="账单接收方：" class="">
+                  <label>{{this.$decode.billReceiver(companySocialSecurityInfo.billReceiver)}}</label>
+                </Form-item>
+              </Col>
+              
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="工行查询账号：" class="">
                   <label>{{companySocialSecurityInfo.queryAccount}}</label>
@@ -68,7 +74,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="来源地：" class="">
-                  <label>{{companySocialSecurityInfo.originPlace}}</label>
+                  <label>{{companySocialSecurityInfo.originPlace=='1'?'新开':companySocialSecurityInfo.originPlace=='2'?'AF转入':companySocialSecurityInfo.originPlace=='3'?'其他供应商转入':''}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -78,7 +84,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="交予方式：" class="">
-                  <label>{{companySocialSecurityInfo.deliverWay}}</label>
+                  <label>{{companySocialSecurityInfo.deliverWay=='1'?'交客服':companySocialSecurityInfo.deliverWay=='2'?'传真':companySocialSecurityInfo.deliverWay=='3'?'邮寄':''}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -212,6 +218,7 @@
           settlementArea: '',//结算区县
           paymentBank: '',//付款行
           paymentWay: '',//支付方式
+          billReceiver:'',//账单接收方
           queryAccount: '',//工行查询账号
           expireDate: '',//社保截止日
           ssUsername: '',//养老金用户名

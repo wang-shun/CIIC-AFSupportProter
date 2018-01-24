@@ -7,7 +7,7 @@
           <Form :label-width=150 ref="searchCondition" :model="searchCondition">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账号：" prop="ssAccount">
+                <Form-item label="企业社保账户：" prop="ssAccount">
                    <input-account v-model="searchCondition.ssAccount"></input-account>
                 </Form-item>
               </Col>
@@ -54,7 +54,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="title">
-                  <Input v-model="searchCondition.title"  placeholder="请输入..."></Input><!-- @on-focus="isShowCustomerName = true" -->
+                  <input-company-name v-model="searchCondition.title" ></input-company-name>
+                  <!-- <Input v-model="searchCondition.title"  placeholder="请输入..."></Input> -->
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -111,8 +112,9 @@
   import api from '../../../api/social_security/employee_operator'
   import InputAccount from '../../common_control/form/input_account'
   import InputCompany from '../../common_control/form/input_company'
+  import InputCompanyName from '../../common_control/form/input_company/InputCompanyName.vue'
   export default {
-    components: {ICol, customerModal, companyAccountSearchModal,InputAccount,InputCompany},
+    components: {ICol, customerModal, companyAccountSearchModal,InputAccount,InputCompany,InputCompanyName},
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏

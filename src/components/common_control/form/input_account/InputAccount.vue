@@ -24,7 +24,7 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 10}">
           <Form-item prop="ssAccount">
-            <Input v-model="queryForm.ssAccount" placeholder="请输入参保户登记码..."></Input>
+            <Input v-model="queryForm.ssAccount" placeholder="请输入企业社保账号..."></Input>
           </Form-item>
           </Col>
           <Col :sm="{span: 10}">
@@ -120,7 +120,7 @@
             }
           },
           {
-            title: '参保户登记码', key: 'ssAccount', align: 'center'
+            title: '企业社保账号', key: 'ssAccount', align: 'center'
           },
           {
             title: '养老金用公司名称', key: 'comAccountName', align: 'center'

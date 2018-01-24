@@ -66,6 +66,14 @@
                   </Select>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="payMethodShow">
+                <Form-item label="付款方式：" prop="billReceiverValue">
+                  <Select v-model="changeOperator.billReceiverValue" style="width: 100%;" transfer >
+                    <Option v-for="item in billReceiverList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="companyNameShow">
                 <Form-item label="养老金用公司名称：" prop="pensionMoneyUseCompanyName">
                   <Input v-model="changeOperator.pensionMoneyUseCompanyName" placeholder="请输入..."></Input>
@@ -213,6 +221,21 @@
               callback();
             }
       }
+      const validateBillReceiverValue=(rule, value, callback)=>{
+
+          let self= this;
+          let changeval = self.changeOperator.billReceiverValue;
+            if(changeval=='2'){
+              if (value==null || value==""){
+                  return callback(new Error('请选择账单接收方！'));
+                }else{
+                    return callback()
+                }
+            }else{
+              callback();
+            }
+      }
+      
       //企业名称变更名
       const validatePensionMoneyComName=(rule, value, callback)=>{
 
@@ -314,11 +337,13 @@
             {value: '3', label: '已完成',disabled:false},
           ],//任务状态类型
          payMethodList: [
-            {value: '1', label: '我司付款，账单到他司'},
-            {value: '2', label: '自己付款，账单到我司'},
-            {value: '3', label: '自己付款，账单到他司'},
-            {value: '4', label: '我司付款，账单到我司'},
-            {value: '5', label: '垫付'},
+            {value: '1', label: '我司代付款'},
+            {value: '2', label: '客户自付'},
+            {value: '3', label: '我司垫付'},
+          ],
+          billReceiverList:[
+             {value: '1', label: '我司'},
+             {value: '2', label: '客户公司'},
           ],
           changeContentList: [
             {value: '1', label: '行业比例'},
@@ -330,6 +355,7 @@
           taskStatus:'',
           changeContentValue: '1',
           payMethodValue:'',//付款方式
+          billReceiverValue:'',//账单接收方
           pensionMoneyUseCompanyName:'',//养老金公司名称
           belongsIndustry: '',//所属行业
           companyWorkInjuryPercentage: '',//企业工伤比例
@@ -358,6 +384,9 @@
                     ],
           payMethodValue:[
                     { required: true, type: 'string', validator:validatePayMethodValue, trigger: 'blur' }
+          ],
+          billReceiverValue:[
+                    { required: true, type: 'string', validator:validateBillReceiverValue, trigger: 'blur' }
           ],
           pensionMoneyUseCompanyName:[
                     { required: true, type: 'string', validator:validatePensionMoneyComName, trigger: 'blur' }
@@ -569,7 +598,7 @@
             handleRemark:formObj.handleReason,
             ...changeContext
            }
-
+            
            return ssComTaskDTO
       },
       //组装变更内容的JSON
@@ -586,6 +615,7 @@
 
         }else if(changeContentValue=='2'){//付款方式变更
             changeContext.paymentWay = changeOperator.payMethodValue
+            changeContext.billReceiver = changeOperator.billReceiverValue
 
         }else if(changeContentValue=='3'){//公司名称变更
           changeContext.comAccountName = changeOperator.pensionMoneyUseCompanyName

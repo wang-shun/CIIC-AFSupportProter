@@ -87,7 +87,7 @@
       </router-link>
       <Button type="info" ref="rmb" @click="modalButton(true)">受理</Button>
       <Button type="info" ref="rmb1" @click="modalButton(false)">拒赔</Button>
-      <Button type="info" icon="ios-download-outline" @click="exportData(1)">导出数据</Button>
+      <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
     </div>
 
     <Table border

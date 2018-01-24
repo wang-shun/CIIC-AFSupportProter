@@ -7,10 +7,12 @@ const queryEmployeeList = params => ajaxApi.postJSON("/uninsuredService/queryEmp
 const queryEmpMember = params => ajaxApi.postJSON("/uninsuredService/queryEmpMember", params);
 const addAcceptance = params => ajaxApi.postJSON("/uninsuredService/addAcceptance", params);
 const queryAcceptanceList = params => ajaxApi.postJSON("/uninsuredService/queryAcceptanceList", params);
+const queryAcceptanceAuditList = params => ajaxApi.postJSON("/uninsuredAuditService/queryAcceptanceList", params);
 
 export default {
   queryEmployeeList,
   queryEmpMember,
   addAcceptance,
   queryAcceptanceList,
+  queryAcceptanceAuditList,
 }

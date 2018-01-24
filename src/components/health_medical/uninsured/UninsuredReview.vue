@@ -99,6 +99,7 @@
 </template>
 <script>
   import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
+  import apiAjax from "../../../data/health_medical/uninsured_medical/uninsured_application.js";
 
   export default {
     data() {
@@ -250,7 +251,13 @@
     },
     methods: {
       queryUninsuredList() {
-        console.info(this.formItem);
+        apiAjax.queryAcceptanceAuditList(this.formItem).then(response => {
+          console.info(JSON.stringify(response.data.object.records));
+          this.formItem.total = response.data.object.total;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
       },
       getByPage(val) {
         this.formItem.current = val;

@@ -30,6 +30,14 @@
                   </Select>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="账单接收方：" prop="billReceiverValue">
+                  <Select v-model="beforeSendInfo.billReceiverValue" style="width: 100%;" transfer>
+                    <Option v-for="item in billReceiverList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              
             </Row>
           </Form>
         </div>
@@ -384,15 +392,18 @@
           serviceManager: ''
         },
          payMethodList: [
-            {value: '1', label: '我司付款，账单到他司'},
-            {value: '2', label: '自己付款，账单到我司'},
-            {value: '3', label: '自己付款，账单到他司'},
-            {value: '4', label: '我司付款，账单到我司'},
-            {value: '5', label: '垫付'},
+            {value: '1', label: '我司代付款'},
+            {value: '2', label: '客户自付'},
+            {value: '3', label: '我司垫付'},
+          ],
+          billReceiverList:[
+             {value: '1', label: '我司'},
+             {value: '2', label: '客户公司'},
           ],
         beforeSendInfo: {
           customerSocialSecurityEndDate: '',
-          payMethodValue: ''
+          payMethodValue: '',
+          billReceiverValue:'',
         },
         resourceList: [
             {value: '1', label: '新开'},
@@ -462,6 +473,9 @@
                     ],
                     payMethodValue:[
                         { required: true, message: '请选择付款方式！', trigger: 'change' }
+                    ],
+                    billReceiverValue:[
+                        { required: true, message: '请选择账单接收方！', trigger: 'change' }
                     ],
                     taskValue: [
                         { required: true, message: '请选择任务状态！', trigger: 'blur' }
@@ -691,6 +705,7 @@
               settlementArea: this.companyOpenAccountOperator.socialSecurityCenterValue,
               paymentBank: this.companyOpenAccountOperator.payBank,
               paymentWay: this.beforeSendInfo.payMethodValue,
+              billReceiver:this.beforeSendInfo.billReceiverValue,
               ssUsername: this.companyOpenAccountOperator.pensionMoneySingleUserName,
               ssPwd: this.companyOpenAccountOperator.pensionMoneySinglePassWord,
               initialBalance: this.companyOpenAccountOperator.originalSum,
@@ -710,7 +725,8 @@
           //到期时间和支付方式  前道传过来的数据
           let taskFormContent = {
             expireDate:this.beforeSendInfo.customerSocialSecurityEndDate,
-            paymentWay:this.beforeSendInfo.payMethodValue
+            paymentWay:this.beforeSendInfo.payMethodValue,
+            billReceiver:this.beforeSendInfo.billReceiverValue
           }
 
           //通过任务单的状态 添加受理或者送审或者完成时间

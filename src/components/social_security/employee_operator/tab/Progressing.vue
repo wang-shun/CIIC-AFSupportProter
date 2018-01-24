@@ -78,7 +78,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户名称：" prop="title">
-                <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input>
+                 <input-company-name v-model="operatorSearchData.title" ></input-company-name>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -159,9 +159,9 @@
 
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
-
+  import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   export default {
-    components: {InputAccount, InputCompany},
+    components: {InputAccount, InputCompany,InputCompanyName},
     data() {
       return {
         collapseInfo: [1], //展开栏

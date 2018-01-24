@@ -274,7 +274,7 @@
             sessionStorage.removeItem("employeeOperatorTab")
           }
         }
-        debugger
+        
       },
       onSelect(name) {
       },

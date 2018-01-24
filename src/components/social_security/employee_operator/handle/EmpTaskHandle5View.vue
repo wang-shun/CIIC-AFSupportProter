@@ -243,7 +243,7 @@
     },
     methods: {
       getYearMonth(date,type){
-        debugger
+        
         if(date==null || date=="")return "";
         let year = date.getFullYear(); 
         let month = date.getMonth()+1;

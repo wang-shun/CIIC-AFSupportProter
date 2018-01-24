@@ -59,7 +59,15 @@
               <Row v-if="payMethodShow || companyNameShow" class="mt20" type="flex" justify="start">
                 <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="payMethodShow">
                 <Form-item label="付款方式：">
-                    <label>{{changeOperator.payMethodValue}}</label>
+                    <label>{{this.$decode.payMethod(changeOperator.payMethodValue)}}</label>
+                  <!-- <Select v-model="changeOperator.payMethodValue" style="width: 100%;" transfer >
+                    <Option v-for="item in payMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select> -->
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="payMethodShow">
+                <Form-item label="账单接收方：">
+                    <label>{{this.$decode.billReceiver(changeOperator.billReceiverValue)}}</label>
                   <!-- <Select v-model="changeOperator.payMethodValue" style="width: 100%;" transfer >
                     <Option v-for="item in payMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select> -->
@@ -227,6 +235,7 @@
           taskStatus:'',
           changeContentValue: '1',
           payMethodValue:'',//付款方式
+          billReceiverValue:'',//账单接收方
           pensionMoneyUseCompanyName:'',//养老金公司名称
           belongsIndustry: '',//所属行业
           companyWorkInjuryPercentage: '',//企业工伤比例
@@ -267,6 +276,7 @@
         let self = this
         CompanyTaskList.getEndPageInfo(params,'change').then(result=>{
         self.operatorMaterialListData = result.operatorMaterialListData;
+        
         self.companyInfo = result.companyInfo
         self.historyRemark = result.historyRemark;
         self.changeOperator = result.changeOperator;

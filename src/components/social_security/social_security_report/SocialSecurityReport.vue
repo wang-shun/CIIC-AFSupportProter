@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
                  <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                  <Form-item label="报表年月：" prop="ssMonth">
-                   <Date-picker v-model="operatorSearchData.ssMonth" type="month"  placeholder="选择年月份" style="width: 100%;">
+                   <Date-picker v-model="operatorSearchData.ssMonth" type="month"  placeholder="选择年月份" style="width: 100%;" transfer>
                   </Date-picker>
                  
                 </Form-item>

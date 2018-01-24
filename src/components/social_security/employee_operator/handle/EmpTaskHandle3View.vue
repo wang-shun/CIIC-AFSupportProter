@@ -348,7 +348,7 @@
           if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
             let date = new Date();
             handleMonth=this.getYearMonth(date,'show');
-            debugger
+            
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
           

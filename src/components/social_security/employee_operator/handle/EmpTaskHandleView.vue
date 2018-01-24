@@ -424,7 +424,7 @@
           if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
             let date = new Date();
             handleMonth=this.getYearMonth(date,'show');
-            debugger
+            
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
            //{base: '18000', startMonth: '201712', endYear: ''}
@@ -434,7 +434,7 @@
             period.startMonth = this.socialSecurityPayOperator.startMonth
             period.endMonth=this.socialSecurityPayOperator.endMonth
             this.taskNewInfoData.push(period)
-            debugger
+            
 
         });
 

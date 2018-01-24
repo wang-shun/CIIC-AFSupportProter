@@ -20,7 +20,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账号：" prop="ssAccount">
-                  <Input v-model="comAccountSearch.ssAccount" placeholder="请输入..."></Input>
+                  <input-account v-model="comAccountSearch.ssAccount"></input-account>
+                  <!-- <Input v-model="comAccountSearch.ssAccount" placeholder="请输入..."></Input> -->
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -76,8 +77,9 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/event_types'
-
+import InputAccount from '../../common_control/form/input_account'
   export default {
+    components:{InputAccount},
     data() {
       return{
         collapseInfo: [1], //展开栏

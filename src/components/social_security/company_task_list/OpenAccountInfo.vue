@@ -30,6 +30,13 @@
                   </Select>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="付款方式：">
+                     <label>{{getBillReceiverValue()}}</label>
+                  </Select>
+                </Form-item>
+              </Col>
+              
             </Row>
           </Form>
         </div>
@@ -241,16 +248,20 @@
           serviceCenter: '',
           serviceManager: ''
         },
+     
          payMethodList: [
-            {value: '1', label: '我司付款，账单到他司'},
-            {value: '2', label: '自己付款，账单到我司'},
-            {value: '3', label: '自己付款，账单到他司'},
-            {value: '4', label: '我司付款，账单到我司'},
-            {value: '5', label: '垫付'},
+            {value: '1', label: '我司代付款'},
+            {value: '2', label: '客户自付'},
+            {value: '3', label: '我司垫付'},
+          ],
+          billReceiverList:[
+             {value: '1', label: '我司'},
+             {value: '2', label: '客户公司'},
           ],
         beforeSendInfo: {
           customerSocialSecurityEndDate: '',
-          payMethodValue: ''
+          payMethodValue: '',
+          billReceiverValue:''
         },
         resourceList: [
             {value: '1', label: '新开'},
@@ -457,6 +468,18 @@
                }
            }
            return payMethodStr
+      },
+      //账单接收方
+      getBillReceiverValue(){
+            let billReceiver = this.beforeSendInfo.billReceiverValue
+            let billReceiverStr = ''
+           for(let i of this.billReceiverList){
+               if(i.value==billReceiver){
+                    billReceiverStr=i.label
+                    break;
+               }
+           }
+           return billReceiverStr
       }
 
     }

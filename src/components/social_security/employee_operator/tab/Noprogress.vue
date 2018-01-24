@@ -90,7 +90,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户名称：" prop="title">
-                <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input>
+                <input-company-name v-model="operatorSearchData.title" ></input-company-name>
+                <!-- <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input> -->
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -109,8 +110,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
-                <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="right"
-                             placeholder="选择年月份" style="width: 100%;"></Date-picker>
+                <Date-picker v-model="operatorSearchData.startMonth" type="month" 
+                             placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
               </Form-item>
               </Col>
             </Row>
@@ -170,9 +171,9 @@
 
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
-
+  import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   export default {
-    components: {InputAccount, InputCompany},
+    components: {InputAccount, InputCompany,InputCompanyName},
     data() {
       return {
         collapseInfo: [1], //展开栏

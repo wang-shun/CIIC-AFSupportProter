@@ -185,7 +185,7 @@
           ],
           createColumns: [
             {title: '操作', fixed: 'left', width: 60, align: 'center', type: 'selection'},
-            {title: '公司编码', key: 'companyNumber', align: 'center', width: 150,
+            {title: '客户编号', key: 'companyNumber', align: 'center', width: 150,
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h('span', params.row.companyNumber),

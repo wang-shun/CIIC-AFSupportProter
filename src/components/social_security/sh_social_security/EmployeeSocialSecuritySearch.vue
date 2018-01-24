@@ -255,7 +255,7 @@
               ]);
             }
           },
-          {title: '公司编码', key: 'companyId', align: 'center', width: 100,
+          {title: '客户编号', key: 'companyId', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyId),

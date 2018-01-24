@@ -51,6 +51,7 @@
             </Col>
         </Row>
         <Row class="mt20">
+          <Button type="warning" @click="goBack">返回</Button>
         </Row>
         <Row class="mt20">
         </Row>
@@ -267,6 +268,9 @@
       ...mapActions('socialSecurityPay', [EventType.SOCIALSECURITYPAYTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
+      },
+      goBack() {
+        this.$router.push({name: 'paymentBatchReviewed'})
       },
       goPaymentNotice(paymentComId,comAccountId,paymentMonth) {
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)

@@ -19,7 +19,7 @@ const leftNavigationList = params => Utils.promise({
           {cid: "1-8", ckey: "社保支付审核", crouter: "paymentBatchReviewed"},
           {cid: "1-9", ckey: "社保报表", crouter: "socialSecurityReport"},
           {cid: "1-10", ckey: "年度基数申报", crouter: "yearBaseApplicate"},
-          {cid: "1-11", ckey: "系统管理", crouter: "systemManage"},
+          // {cid: "1-11", ckey: "系统管理", crouter: "systemManage"},
         ]
       },
       {

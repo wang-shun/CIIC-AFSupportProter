@@ -231,7 +231,7 @@
         }, //企业社保账号信息
 
         childCompanyColumns: [
-          {title: '公司编码', key: 'companyId', align: 'center', className: 'mw120',
+          {title: '客户编号', key: 'companyId', align: 'center', className: 'mw120',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.companyId),

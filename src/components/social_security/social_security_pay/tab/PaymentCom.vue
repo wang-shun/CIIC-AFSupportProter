@@ -482,28 +482,29 @@
                     }
                   }
                 }, '调整'),
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      this.isShowProgress = true;
-                    }
-                  }
-                }
-//                , '进度'),
-//                h('Button', {
-//                  props: {type: 'success', size: 'small'},
-//                  style: {margin: '0 auto 0 10px'},
-//                  on: {
-//                    click: () => {
-//                      let paymentComId = params.row.paymentComId;
-//                      let comAccountId = params.row.comAccountId;
-//                      let paymentMonth = params.row.paymentMonth;
-//                      this.goPaymentNotice(paymentComId,comAccountId,paymentMonth);
-//                    }
-//                  }
-//                }
+                // h('Button', {
+                //   props: {type: 'success', size: 'small'},
+                //   style: {margin: '0 auto 0 10px'},
+                //   on: {
+                //     click: () => {
+                //       this.isShowProgress = true;
+                //     }
+                //   }
+                // }
+                // , '进度'),
+               h('Button', {
+                 props: {type: 'success', size: 'small'},
+                 style: {margin: '0 auto 0 10px'},
+                 on: {
+                  // let self = this;
+                   click: () => {
+                     let paymentComId = params.row.paymentComId;
+                     let comAccountId = params.row.comAccountId;
+                     let paymentMonth = params.row.paymentMonth;
+                     this.goPaymentNotice(paymentComId,comAccountId,paymentMonth);
+                   }
+                 }
+               }
                 , '付款通知书')
               ]);
             }
@@ -601,10 +602,11 @@
         });
       },
       goPaymentNotice(paymentComId,comAccountId,paymentMonth) {
+      
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
         window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
         window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
-        this.$router.push({name: 'paymentnotice'})
+        this.$router.push({name: 'paymentNotice'})
       },
       ok () {
 

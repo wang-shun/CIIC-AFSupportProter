@@ -26,6 +26,7 @@
         :columns="noticeColumns"
         :data="noticeData">
     </Table>
+    <Button type="warning" @click="goBack">返回</Button>
   </div>
 </template>
 <script>

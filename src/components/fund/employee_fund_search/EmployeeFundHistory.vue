@@ -78,7 +78,7 @@
         ],
 
         inputDetailColumns: [
-          {title: '公司编码', key: 'companyNumber', align: 'center', width: 190,
+          {title: '客户编号', key: 'companyNumber', align: 'center', width: 190,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.companyNumber),

@@ -207,14 +207,14 @@
           },
           {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
+              return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentBatchNum),
               ]);
             }
           },
-          {title: '申请支付总金额', key: 'totalApplicationAmount', width: 120, align: 'center',
+          {title: '申请支付总金额', key: 'totalApplicationAmount', width: 130, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
+              return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.totalApplicationAmount),
               ]);
             }

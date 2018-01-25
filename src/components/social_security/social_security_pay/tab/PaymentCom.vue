@@ -214,12 +214,14 @@
         staticPayComSearchData: {
 
           ssAccountTypeList: [
+            {value: 'all', label: '全部'},
             {value: '1', label: '中智大库'},
             {value: '2', label: '中智外包'},
             {value: '3', label: '独立户'}
           ],
           paymentStateList: [
             //{value: '', label: '清空'},
+            {value: 'all', label: '全部'},
             {value: '1', label: '未到帐'},
             {value: '2', label: '无需支付'},
             {value: '3', label: '可付'},

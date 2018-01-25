@@ -7,7 +7,9 @@
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="办理机构：" prop="name">
-              {{formItem.name}}
+              <a href="#/org_policy_maintenance/org_policy_list">
+                {{formItem.name}}
+              </a>
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -132,6 +134,7 @@
         highlight: true,
         taskFollow: false,
         followDescription:'',
+        taskId: '',
         meterials: null,
         formItem: {
           name: '',
@@ -217,8 +220,8 @@
                   },
                   on: {
                     click: () => {
+                      this.taskId = params.row.taskId
                       this.taskFollowShow(params.row.taskId);
-                     
                     }
                   }
                 }, '跟进')
@@ -231,10 +234,12 @@
         columns2: [
           {
             title: '跟进人',
+            width:100,
             key: 'createdBy'
           },
           {
             title: '跟进时间',
+            width:150,
             key: 'createdTime'
           },
           {
@@ -271,9 +276,9 @@
           axios.get(host + '/api/empCredentialsDeal/find/taskFollow/'+taskId).then((response) =>{
             console.log(response.data)
             if (response.data.errCode == "0"){
-              this.formItem.data2 = response.data.data
+              this.data2 = response.data.data
               this.taskFollow = true
-              console.log(this.formItem.data2 )
+              console.log(this.data2 )
             } else {
               this.$Notice.error({
                 title: '查询失败',
@@ -294,12 +299,13 @@
         })
       },
       ok () {
+        // debugger
         if (this.followDescription != "" && this.followDescription != null) {
-          let params = {}
+          var params = {}
           params.followDescription = this.followDescription
+          params.taskId = this.taskId
           params.createdBy = 'gu'
-          console.log(params)
-          axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/taskFollow'+params).then(response => {
+          axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/taskFollow', params).then(response => {
             if (response.data.errCode === '0'){
               this.$Notice.success({
                 title: '保存成功',

@@ -49,7 +49,7 @@
     data() {
       return{
         ssMonth:this.$route.query.ssMonth,
-        comAccountId:this.$route.query.comAccountId,
+         ssAccount:this.$route.query.ssAccount,
         collapseInfo: [1], //展开栏
         loading:true,
         noticeInfo: {
@@ -242,7 +242,7 @@
       }
     },
     mounted() {
-      let params = {ssMonth:this.ssMonth,comAccountId:this.comAccountId}
+      let params = {ssMonth:this.ssMonth,ssAccount:this.ssAccount}
       api.queryEmlpyeeMonthFeeDetail(params).then(data=>{
           if(data.code==500){
             this.loading=false;

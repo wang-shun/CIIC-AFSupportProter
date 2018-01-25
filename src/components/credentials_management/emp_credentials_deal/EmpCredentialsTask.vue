@@ -71,7 +71,7 @@
       <Panel name="3">
         证件办理
          <div slot="content">
-          <CredentialsDealInfo></CredentialsDealInfo>
+          <CredentialsDealInfo :emp="empInfo" @backRow="callBack"> </CredentialsDealInfo>
         </div>
       </Panel>
       <Panel name="4">
@@ -198,11 +198,16 @@
 <script>
   import CredentialsDealInfo from './common/CredentialsDealTask'
   import Tools from '../../../lib/tools'
+  import axios from 'axios'
+  import Decode from '../../../lib/decode'
+
+  const host = process.env.SITE_HOST
   export default {
     components: {CredentialsDealInfo},
     data () {
       return {
         value1: ['2', '3'],
+        empInfo: [],
         companyCode: '',
         companyName: '',
         companyAddr: '',
@@ -246,13 +251,45 @@
       Tools.copy(data,this)
     },
     created () {
+      this.findAll(this.$route.params.data.empCode)
     },
     computed: {
     },
     methods: {
+      callBack(value){
+        this.formItem = value
+      },
       save () {},
       back () {
         this.$router.go(-1)
+      },
+      findAll(empCode) {
+        axios.get(host + '/api/empCredentialsDeal//find/task/' + empCode).then(response => {
+          if (response.data.errCode === "0") {
+            let data = response.data.data
+            for(let i in data) {
+              data[i].empCode = this.empCode
+              data[i].empName = this.empName
+              data[i].companyCode = this.companyCode
+              data[i].companyName = this.companyName
+            }
+            let temp ={}
+            if (this.$route.params.isDeal == true) {
+              let data = this.$route.params.data
+              temp.empCode = data.empCode
+              temp.empName = data.empName
+              temp.companyCode = data.companyCode
+              temp.companyName = data.companyName
+              temp.credentialsTypeN = this.$route.params.type
+              if (this.$route.params.dealType != "") {
+                temp.credentialsDealTypeN = this.$route.params.dealType
+              }
+              temp.action = "1"
+              response.data.data.splice(0,0,temp)
+            }
+            this.empInfo = data
+          }
+        })
       }
     }
   }

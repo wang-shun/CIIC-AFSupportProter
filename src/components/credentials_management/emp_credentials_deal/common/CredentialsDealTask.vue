@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Table border :columns="colums1" :data="data1" highlight-row="true" @on-row-click="clickRow"></Table>
+    <Table border :columns="colums1" :data="emp" @on-row-click="clickRow" :highlight-row="highlight"></Table>
     <Card>
        <Form ref="formItem" :model="formItem"  :label-width="120">
         <h4>办理与收费信息</h4>
@@ -12,12 +12,12 @@
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="操作方式：" prop="operateType">
-              {{formItem.operateType}}
+              {{formItem.operateTypeN}}
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="支付方式：" prop="payType">
-              {{formItem.payType}}
+              {{formItem.payTypeN}}
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -32,11 +32,11 @@
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="费用类型：" prop="chargeType">
-              {{formItem.chargeType}}
+              {{formItem.chargeTypeN}}
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="特殊收费备注：" prop="specialChargeRemark" v-if="formItem.chargeType === '特殊收费'">
+            <Form-item label="特殊收费备注：" prop="specialChargeRemark" v-if="formItem.chargeTypeN === '特殊收费'">
               {{formItem.specialChargeRemark}}
             </Form-item> 
           </i-col>
@@ -50,48 +50,48 @@
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item >
-              <Checkbox v-model="formItem.onlineContactIdCard">网上联系人身份证复印件</Checkbox>
+              <Checkbox v-model="formItem.onlineContactIdCard" disabled>网上联系人身份证复印件</Checkbox>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item >
-              <Checkbox v-model="formItem.onlineContactIsSecretariat">网上联系人是否秘书台人员</Checkbox>
+              <Checkbox v-model="formItem.onlineContactIsSecretariat" disabled>网上联系人是否秘书台人员</Checkbox>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="网上联系人：">
-              <Input v-model="formItem.onlineContact" placeholder="请输入"/>
+              <Input v-model="formItem.onlineContact" placeholder="请输入" disabled/>
             </Form-item>
           </i-col>
         </Row>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item >
-              <Checkbox v-model="formItem.businessLicence">营业执照复印件或三证合一复印件</Checkbox>
+              <Checkbox v-model="formItem.businessLicence" disabled>营业执照复印件或三证合一复印件</Checkbox>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item >
-              <Checkbox v-model="formItem.organizationCode">机构代码证复印件</Checkbox>
+              <Checkbox v-model="formItem.organizationCode" disabled>机构代码证复印件</Checkbox>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item >
-              <Checkbox v-model="formItem.foreignBusinessApprovalCertificate">外商企业批准证书复印件</Checkbox>
+              <Checkbox v-model="formItem.foreignBusinessApprovalCertificate" disabled>外商企业批准证书复印件</Checkbox>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item >
-              <Checkbox v-model="formItem.businessRenameNotice">工商局企业更名通知复印件</Checkbox>
+              <Checkbox v-model="formItem.businessRenameNotice" disabled>工商局企业更名通知复印件</Checkbox>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="特殊情况备注：">
-              <Input v-model="formItem.specialMaterialRemark" placeholder="请输入" type="textarea"/>
+              <Input v-model="formItem.specialMaterialRemark" placeholder="请输入" type="textarea" disabled/>
             </Form-item>
           </i-col>
         </Row>
-        <CredentialsMaterial></CredentialsMaterial>
+        <CredentialsMaterial :meterials="meterials"></CredentialsMaterial>
        </Form>
     </Card>
     <Modal v-model="taskFollow" title="任务跟进" @on-ok="ok" @on-cancel="cancel">
@@ -99,13 +99,13 @@
         <Row >
           <i-col span="12">
             <Form-item label="跟进说明：" prop="name"  style="width:400px;">
-              <Input v-model="formItem.followDescription" placeholder="请输入" type="textarea" :autosize="{minRows: 2,maxRows: 5}"/>
+              <Input v-model="followDescription" placeholder="请输入" type="textarea" :autosize="{minRows: 2,maxRows: 5}"/>
             </Form-item> 
           </i-col>
         </Row>
+        <h3>跟进历史</h3>
+        <Table border :columns="columns2" :data="data2"></Table>
       </Form>
-      <h3>跟进历史</h3>
-      <Table border :colums="formItem.columns2" :data="formItem.data2"></Table>
     </Modal>
   </div>
 </template>
@@ -120,8 +120,8 @@
   export default {
     components: {CredentialsMaterial},
     props: {
-      fundInfo: {
-        type: Object,
+      emp: {
+        type: Array,
         default() {
           return {}
         }
@@ -129,14 +129,17 @@
     },
     data () {
       return {
+        highlight: true,
         taskFollow: false,
+        followDescription:'',
+        meterials: null,
         formItem: {
           name: '',
-          operateType: '',
+          operateTypeN: '',
           operateAccount: '',
           operatePwd: '',
-          chargeType: '',
-          payType: '',
+          chargeTypeN: '',
+          payTypeN: '',
           specialChargeRemark: '',
           introduceMail: '',
           onlineContactIdCard: '',
@@ -147,7 +150,6 @@
           foreignBusinessApprovalCertificate: '',
           businessRenameNotice: '',
           specialMaterialRemark: '',
-          followDescription:'',
           taskId: ''
         },
         colums1: [
@@ -169,41 +171,28 @@
           },
           {
             title: '证件类型',
-            key: 'type'
+            key: 'credentialsTypeN'
           },
           {
             title: '证件办理类型',
-            key: 'dealType'
+            key: 'credentialsDealTypeN'
           },
           {
             title: '经办人',
-            key: 'modifiedBy'
+            key: 'createdBy'
           },
           {
             title: '办理时间',
-            key: 'modifiedTime'
+            key: 'createdTime'
           },
           {
             title: '操作',
             key: 'action',
-            width: '200',
+            width: '150',
             align: 'center',
             render: (h, params) => {
+              if (params.row.action == null || params.row.action == ""){
               return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      
-                    }
-                  }
-                }, '查看'),
                 h('Button', {
                   props: {
                     type: 'success',
@@ -236,35 +225,29 @@
               ])
             }
           }
+          }
         ],
-        data1: [{}],
-        formItem: {
-          columns2: [
-            {
-              title: '跟进人',
-              key: 'createdBy'
-            },
-            {
-              title: '跟进时间',
-              key: 'createdTime'
-            },
-            {
-              title: '跟进说明',
-              key: 'followDescription'
-            }
-          ],
-          data2: [{}]
-        }
+        data1: [],
+        columns2: [
+          {
+            title: '跟进人',
+            key: 'createdBy'
+          },
+          {
+            title: '跟进时间',
+            key: 'createdTime'
+          },
+          {
+            title: '跟进说明',
+            key: 'followDescription'
+          }
+        ],
+        data2: []
       }
     },
     mounted () {
     },
     created () {
-    },
-    computed: {
-      fund() {
-        return this.fundInfo
-      }
     },
     methods: {
       save () {},
@@ -273,17 +256,25 @@
       },
       clickRow (value) {
         if (value !== null) {
-          console.log(value)
-          this.formItem = value
+          this.$emit("backRow", value)
+          this.selectCompanyExt(value.credentialsType,value.companyId)
+          this.findMeterials(value.taskId.toString())
         }
       },
+      findMeterials(taskId) {
+        axios.get(host + '/api/empCredentialsDeal/find/meterials/' + taskId).then(response => {
+          this.meterials = response.data.data
+        })
+      },
       taskFollowShow(taskId) {
-        // if( taskId!== "") {
-           axios.get(host + '/api/empCredentialsDeal/find/taskFollow/1').then((response) =>{
-             if (response.data.errCode == "0"){
-               this.formItem.data2 = response.data.data
-               this.taskFollow = true
-             } else {
+        if( taskId != null) {
+          axios.get(host + '/api/empCredentialsDeal/find/taskFollow/'+taskId).then((response) =>{
+            console.log(response.data)
+            if (response.data.errCode == "0"){
+              this.formItem.data2 = response.data.data
+              this.taskFollow = true
+              console.log(this.formItem.data2 )
+            } else {
               this.$Notice.error({
                 title: '查询失败',
                 desc: ''
@@ -295,10 +286,44 @@
               desc: ''
             })
           })
-        // }
+        }
       },
-      ok () {},
-      cancle() {}
+      selectCompanyExt (credentialsType,companyId) {
+        axios.get(host + '/api/empCredentialsDeal/find/companyExt/'+companyId+'/'+credentialsType).then(response => {
+          this.formItem = response.data.data
+        })
+      },
+      ok () {
+        if (this.followDescription != "" && this.followDescription != null) {
+          let params = {}
+          params.followDescription = this.followDescription
+          params.createdBy = 'gu'
+          console.log(params)
+          axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/taskFollow'+params).then(response => {
+            if (response.data.errCode === '0'){
+              this.$Notice.success({
+                title: '保存成功',
+                desc: ''
+              })
+              this.modal1 = false
+            } else {
+              this.$Notice.error({
+                title: '保存失败',
+                desc: ''
+              })
+            }
+          }).catch((error) => {
+            this.$Notice.error({
+              title: '保存失败',
+              desc: ''
+            })
+          })
+        }
+      },
+      cancel() {} 
+    },
+    watch: {
+
     }
   }
 </script>

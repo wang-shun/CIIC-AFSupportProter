@@ -224,7 +224,7 @@
                 },
                 on: {
                   click: () => {
-                    this.credentialsDeal(params.row)
+                    this.lookInfo(params.row)
                   }
                 }
               }, '查看'))
@@ -260,13 +260,29 @@
       add () {
         this.$router.push({name: 'empAdd'})
       },
-      credentialsDeal (v) {
-        this.$router.push({name: 'empCredentialsTask', params: {data: v}})
+      lookInfo (v) {
+        this.$router.push({
+          name: 'empCredentialsTask', 
+          params: {
+            data: v,
+            type: '',
+            dealType: '', 
+            isDeal: false
+          }
+        })
       },
       ok (value, data) {
         this.$refs[value].validate((valid) => {
           if (valid) {
-            this.$router.push({name: 'empCredentialsTask', params: {data: data}})
+            this.$router.push({
+              name: 'empCredentialsTask', 
+              params: {
+                data: data,
+                type: this.formItem.type,
+                dealType: this.formItem.dealType, 
+                isDeal: true
+              }
+            })
             this.modal1 = false
           } else {
             this.$Message.error('请选择办证类型!')

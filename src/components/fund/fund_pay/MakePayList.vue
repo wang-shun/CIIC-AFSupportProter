@@ -44,7 +44,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="汇缴年月：" prop="payDate">
-                  <DatePicker v-model="operatorSearchData.payDate" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-model="operatorSearchData.payDate" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
             </Row>
@@ -117,10 +117,12 @@
           payDate: ""
         },
         settleBankList: [
+           {label: "全部", value: ''},
           {label: "徐汇支行", value: 0},
           {label: "浦东支行", value: 1},
         ],
         companyFundAccountList: [
+          {label: "全部", value: ''},
           {label: "中智大库", value: 0},
           {label: "中智外包", value: 1},
           {label: "独立户", value: 2}
@@ -132,7 +134,7 @@
           {value: 4, label: '浦东'}
         ],
         payStatusList: [
-          {label: "全部", value: 0},
+          {label: "全部", value: ''},
           {label: "可付", value: 1},
           {label: "未到账", value: 2},
           {label: "无需支付", value: 3},

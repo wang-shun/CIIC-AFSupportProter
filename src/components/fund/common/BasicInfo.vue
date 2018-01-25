@@ -32,11 +32,6 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="离职日期：">
-          <label>{{basic.leaveDate}}</label>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="个人基本公积金账号：">
           <label>{{basic.personalBasicFundAccount}}</label>
         </Form-item>
@@ -44,6 +39,11 @@
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="个人基本公积金状态：">
           <label>{{basic.personalBasicFundStatus}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="离职日期：">
+          <label>{{basic.leaveDate}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

@@ -8,14 +8,12 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金月份：" prop="fundMonth">
-                  <Input v-model="operatorSearchData.fundMonth" placeholder="请输入..."></Input>
+                  <DatePicker v-model="operatorSearchData.customerPayDate" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金企业账户分类：" prop="fundCompanyAccountCategoryValue">
-                  <Select v-model="operatorSearchData.fundCompanyAccountCategoryValue" style="width: 100%;" transfer>
-                    <Option v-for="item in fundCompanyAccountCategoryList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
+                <Form-item label="公积金企业账户：" prop="fundCompanyAccountCategoryValue">
+                    <InputAccount v-model="operatorSearchData.fundAccountValue"></InputAccount>
                 </Form-item>
               </Col>
             </Row>
@@ -118,8 +116,10 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/event_types'
+  import InputAccount from "../common/input_account"
 
   export default {
+    components: {InputAccount},
     data() {
       return {
         collapseInfo: [1],

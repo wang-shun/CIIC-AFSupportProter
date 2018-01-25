@@ -45,7 +45,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保账户类型：" prop="accountTypeValue">
+                <Form-item label="账户类型：" prop="accountTypeValue">
                   <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>

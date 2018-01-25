@@ -9,6 +9,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="customerNumber">
                   <Input v-model="operatorSearchData.customerNumber" placeholder="请输入..."></Input>
+                  
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -24,7 +25,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保账户类型：" prop="accountTypeValue">
+                <Form-item label="账户类型：" prop="accountTypeValue">
                   <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -37,7 +38,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="汇缴年月：" prop="payDate">
-                  <DatePicker v-model="operatorSearchData.payDate" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-model="operatorSearchData.payDate" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
             </Row>
@@ -198,9 +199,11 @@
   import addFundPayChangeList from '../common/AddFundPayChangeList.vue'
   import fundPayRepairList from '../common/FundPayRepairList.vue'
   import addFundPayRepairList from '../common/AddFundPayRepairList.vue'
+  import InputComapny from "../common/input_company"
+  
 
   export default {
-    components: {progressBar, fundPayChangeList, addFundPayChangeList, fundPayRepairList, addFundPayRepairList},
+    components: {progressBar, fundPayChangeList, addFundPayChangeList, fundPayRepairList, addFundPayRepairList,InputComapny},
     data() {
       return {
         collapseInfo: [1],
@@ -213,12 +216,14 @@
           payDate: ""
         },
         payStatusList: [
+          {label: "全部", value: ''},
           {label: "初始", value: 0},
           {label: "申请中", value: 1},
           {label: "支付成功", value: 2},
           {label: "批退", value: 3}
         ],
         accountTypeList: [
+          {label: "全部", value: ''},
           {label: "中智大库", value: 0},
           {label: "中智外包", value: 1},
           {label: "独立户", value: 2},
@@ -288,7 +293,7 @@
               ]);
             }
           },
-          {title: '社保账户类型', key: 'accountType', align: 'center', width: 159,
+          {title: '账户类型', key: 'accountType', align: 'center', width: 159,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.accountType),

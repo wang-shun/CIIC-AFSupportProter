@@ -8,7 +8,7 @@
     </Steps>
     <Collapse v-model="collapseInfo" class="mt20">
       <Panel name="1">
-        企业社保账户信息
+        企业账户信息
         <div slot="content">
           <company-social-security-info :company="data.company"></company-social-security-info>
         </div>

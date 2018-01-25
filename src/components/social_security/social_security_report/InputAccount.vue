@@ -5,7 +5,11 @@
       :size="size"
       :id="elementId"
       :disabled="disabled"
-      :name="name" @on-focus="handleClick" placeholder="请输入...">
+      :name="name"
+      :icon="icon"
+      placeholder="请点击右侧搜索按钮..."
+      @on-click="handleClick"
+    >
     </Input>
     <Modal
       v-model="visible"
@@ -141,7 +145,7 @@
           row = this.data[this.currentIndex];
           this.currentValue = this.renderFormat(row);
         }
-        this.$emit('listenToChildEvent', row.comAccountId);
+        // this.$emit('listenToChildEvent', row.comAccountId);
       },
       cancel() {
         this.$emit('on-cancel');

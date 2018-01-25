@@ -30,7 +30,7 @@ import api from '../../../api/social_security/social_security_report'
         reportYearAndMonth:'201701',//社保年月
         collapseInfo: [1], //展开栏
         ssMonth:this.$route.query.ssMonth,
-        comAccountId:this.$route.query.comAccountId,
+        ssAccount:this.$route.query.ssAccount,
         noticeInfo: {
           noticeColumns: [
             {title: '客户编号', key: 'companyId', align: 'center', width: 100, className: 'mw100',
@@ -124,7 +124,7 @@ import api from '../../../api/social_security/social_security_report'
     },
     mounted() {
      
-      let params = {ssMonth:this.ssMonth,comAccountId:this.comAccountId}
+      let params = {ssMonth:this.ssMonth,ssAccount:this.ssAccount}
       api.queryRefundDetails(params).then(data=>{
           if(data.code==500){
             this.$Message.error(data.message);

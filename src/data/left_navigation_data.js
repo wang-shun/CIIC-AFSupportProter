@@ -29,14 +29,14 @@ const leftNavigationList = params => Utils.promise({
         children: [
           {cid: "2-1", ckey: "雇员公积金查询", crouter: "employeeFundSearch"},
           {cid: "2-2", ckey: "雇员日常操作", crouter: "employeeFundCommonOperator"},
-          {cid: "2-3", ckey: "雇员特殊操作", crouter: "employeeFundSpecialOperator"},
+          // {cid: "2-3", ckey: "雇员特殊操作", crouter: "employeeFundSpecialOperator"},
           {cid: "2-4", ckey: "雇员转移操作", crouter: "employeeFundTransferOperator"},
           {cid: "2-5", ckey: "企业任务单", crouter: "companyFundTaskList"},
           {cid: "2-6", ckey: "企业公积金账户查询", crouter: "companyFundAccountSearch"},
           {cid: "2-7", ckey: "公积金对账", crouter: "fundReconciliation"},
           {cid: "2-8", ckey: "公积金汇缴支付", crouter: "fundPay"},
           {cid: "2-9", ckey: "公积金报表", crouter: "fundReport"},
-          {cid: "2-10", ckey: "公积金年调", crouter: "fundYearAdjust"},
+          // {cid: "2-10", ckey: "公积金年调", crouter: "fundYearAdjust"},
         ]
       },
       {

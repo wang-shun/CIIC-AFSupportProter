@@ -48,16 +48,12 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="付款方式：">
-          <Select v-model="companyFundAccount.payMethodValue" style="width:200px">
-            <Option v-for="payMethod in payMethodList" :value="payMethod.value" :key="payMethod.value">{{payMethod.label}}</Option>
-          </Select>
+          <label>{{companyFundAccount.payMethodValue}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="公积金企业U盾：">
-          <Select v-model="companyFundAccount.UKeyValue" style="width:200px">
-            <Option v-for="UKey in UKeyList" :value="UKey.value" :key="UKey.value">{{UKey.label}}</Option>
-          </Select>
+          <label>{{companyFundAccount.UKeyValue}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -71,7 +67,7 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="社保账户类型：">
+        <Form-item label="账户类型：">
           <label>{{companyFundAccount.accountType}}</label>
         </Form-item>
       </Col>

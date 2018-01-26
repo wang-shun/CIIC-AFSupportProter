@@ -18,7 +18,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户汇缴月份：" prop="taskStartTime">
-                  <DatePicker v-model="operatorSearchData.customerPayDate" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-model="operatorSearchData.customerPayDate" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -30,12 +30,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金账号：" prop="fundAccountValue">
-                  <Input v-model="operatorSearchData.fundAccountValue" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="" prop="onlyShowEffectivePayMonth">
-                  <Checkbox v-model="operatorSearchData.onlyShowEffectivePayMonth">仅显示有效汇缴月</Checkbox>
+                  <!-- <Input v-model="operatorSearchData.fundAccountValue" placeholder="请输入..."></Input> -->
+                  <InputAccount v-model="operatorSearchData.fundAccountValue"></InputAccount>
                 </Form-item>
               </Col>
             </Row>
@@ -81,12 +77,12 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/event_types'
-
   import InputCompany from "../../common_control/form/input_company"
   import companyBindAndUnbind from "../common/CompanyBindAndUnbind.vue"
+  import InputAccount from "../common/input_account"
 
   export default {
-    components: {InputCompany, companyBindAndUnbind},
+    components: {InputCompany, companyBindAndUnbind,InputAccount},
     data() {
       return {
         collapseInfo: [1],
@@ -99,6 +95,7 @@
           onlyShowEffectivePayMonth: false
         },
         fundTypeList: [
+          {label: "全部", value: ''},
           {label: "基本公积金", value: 0},
           {label: "补充公积金", value: 1},
         ],

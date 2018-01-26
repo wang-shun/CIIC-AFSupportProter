@@ -18,11 +18,12 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户公积金账户：" prop="customerFundAccount">
-                  <Input v-model="searchCondition.customerFundAccount" @on-focus="isShowCompanyFoundAccountList = true" placeholder="请输入..."></Input>
+                  <InputAccount v-model="searchCondition.customerFundAccount" ></InputAccount>
+                  <!-- <Input v-model="searchCondition.customerFundAccount" @on-focus="isShowCompanyFoundAccountList = true" placeholder="请输入..."></Input> -->
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保账户类型：" prop="accountTypeValue">
+                <Form-item label="账户类型：" prop="accountTypeValue">
                   <Select v-model="searchCondition.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -157,9 +158,11 @@
   import companyFundAccountSearchModal from '../common/CompanyFundAccountSearchModal.vue'
   import companyModal from '../../common_control/CompanyModal.vue'
   import EventTypes from '../../../store/event_types'
+  import InputAccount from '../common/input_account'
+  import InputCompany from '../common/input_company'
 
   export default {
-    components: {companyFundAccountSearchModal, companyModal},
+    components: {companyFundAccountSearchModal, companyModal,InputAccount,InputCompany},
     data() {
       return {
         collapseInfo: [1], //展开栏
@@ -182,13 +185,15 @@
           {value: 4, label: '浦东'}
         ], //客服中心
         accountTypeList: [
-          {value: 0, label: '独立户'},
+          {value: '', label: '全部'},
+          {value: 3, label: '独立户'},
           {value: 1, label: '大库'},
           {value: 2, label: '外包'}
         ],
         isShowCompanyFoundAccountList: false, //显示企业公积金账户列表
         isShowCompanyName: false, //显示公司名称
         payBankList: [
+          {value: '', label: '全部'},
           {value: 0, label: '徐汇支行'},
           {value: 1, label: '卢湾支行'},
           {value: 2, label: '西郊支行'},
@@ -196,10 +201,12 @@
           {value: 4, label: '其他'}
         ],
         workStatusList: [
+          {value: '', label: '全部'},
           {value: 0, label: '在职'},
           {value: 1, label: '离职'}
         ],
         operatorTipsList: [
+          {value: '', label: '全部'},
           {value: 0, label: '要做'},
           {value: 1, label: '中心'},
           {value: 2, label: '中智'},
@@ -224,14 +231,14 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'customerNumber', align: 'center', width: 150,
+          {title: '客户编号', key: 'customerNumber', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.customerNumber),
               ]);
             }
           },
-          {title: '客户名称', key: 'customerName', align: 'center', width: 350,
+          {title: '客户名称', key: 'customerName', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.customerName),
@@ -245,14 +252,14 @@
               ]);
             }
           },
-          {title: '雇员编码', key: 'employeeNumber', align: 'center', width: 150,
+          {title: '雇员编码', key: 'employeeNumber', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.employeeNumber),
               ]);
             }
           },
-          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 150,
+          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 130,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeName),
@@ -329,7 +336,7 @@
               ]);
             }
           },
-          {title: '操作提示日期', key: 'notes', align: 'center', width: 150,
+          {title: '备注', key: 'notes', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.notes),

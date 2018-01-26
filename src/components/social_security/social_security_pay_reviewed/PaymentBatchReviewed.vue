@@ -151,13 +151,13 @@
         staticPayBatchSearchData: {
 
           accountTypeList: [
-            {value: 'all', label: '全部'},
+            {value: '', label: '全部'},
             {value: '1', label: '中智大库'},
             {value: '2', label: '中智外包'},
             {value: '3', label: '独立户'}
           ],
           paymentStateList: [
-            {value: 'all', label: '全部'},
+            {value: '', label: '全部'},
             {value: '4', label: '申请中'},
             {value: '6', label: '已申请到财务部'},
             {value: '8', label: '财务部支付成功'},

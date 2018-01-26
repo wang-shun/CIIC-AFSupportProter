@@ -21,7 +21,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保账号分类：" prop="SSAccountCategoryValue">
+                <Form-item label="账号分类：" prop="SSAccountCategoryValue">
                   <Select v-model="operatorSearchData.SSAccountCategoryValue" style="width: 100%;" transfer>
                     <Option v-for="item in SSAccountCategoryList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -35,7 +35,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保序号：" prop="SSIndex">
+                <Form-item label="序号：" prop="SSIndex">
                   <Input v-model="operatorSearchData.SSIndex" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -145,7 +145,7 @@
               ]);
             }
           },
-          {title: '社保账户类型', key: 'companySSAccountCategory', align: 'center', width: 150,
+          {title: '账户类型', key: 'companySSAccountCategory', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('Select', {
@@ -177,7 +177,7 @@
               ]);
             }
           },
-          {title: '社保序号', key: 'SSIndex', align: 'center', width: 150,
+          {title: '序号', key: 'SSIndex', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'task'}}, [
                 h('Input', {
@@ -199,7 +199,7 @@
               ]);
             }
           },
-          {title: '社保起始月份', key: 'SSStartMonth', align: 'center', width: 150,
+          {title: '起始月份', key: 'SSStartMonth', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'task'}}, [
                 h('DatePicker', {
@@ -210,7 +210,7 @@
               ]);
             }
           },
-          {title: '社保截止月份', key: 'SSEndMonth', align: 'center', width: 150,
+          {title: '截止月份', key: 'SSEndMonth', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'task'}}, [
                 h('DatePicker', {

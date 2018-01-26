@@ -8,7 +8,7 @@
     </Steps>
     <Collapse v-model="collapseInfo" class="mt20">
       <Panel name="1">
-        企业社保账户信息
+        企业账户信息
         <div slot="content">
           <company-social-security-info :company="data.company"></company-social-security-info>
         </div>
@@ -30,7 +30,7 @@
           <Form :label-width=150>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保中心(结算区县)：" class="">
+                <Form-item label="中心(结算区县)：" class="">
                   <Select v-model="transferOperator.regionValue" style="width: 100%;">
                     <Option v-for="item in transferOperator.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>

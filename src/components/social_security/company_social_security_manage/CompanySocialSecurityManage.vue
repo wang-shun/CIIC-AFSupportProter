@@ -91,13 +91,13 @@ import InputAccount from '../../common_control/form/input_account'
           state: '',
         },
         accountTypeList: [
-            {value: 'all', label: '全部'},
+            {value: '', label: '全部'},
             {value: '1', label: '中智大库'},
             {value: '2', label: '中智独立库'},
             {value: '3', label: '独立户'},
         ],
         stateList: [
-            {value: 'all', label: '全部'},
+            {value: '', label: '全部'},
             {value: '1', label: '有效'},
             {value: '2', label: '封存'},
             {value: '3', label: '终止'},

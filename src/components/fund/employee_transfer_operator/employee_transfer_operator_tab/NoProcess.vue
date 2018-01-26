@@ -56,7 +56,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保账户类型：" prop="accountTypeValue">
+                <Form-item label="账户类型：" prop="accountTypeValue">
                   <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -180,6 +180,7 @@
           customerName: '',
           workStatueValue: '',
           workStatueList: [
+            {label: '全部', value: ''},
             {label: '在职', value: 0},
             {label: '离职', value: 1}
           ],
@@ -248,7 +249,7 @@
                 ]);
               }
             },
-            {title: '社保账户类型', key: 'accountType', align: 'center', width: 150,
+            {title: '账户类型', key: 'accountType', align: 'center', width: 150,
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h('span', params.row.accountType),
@@ -279,6 +280,7 @@
           {value: 4, label: '浦东'}
         ], //客服中心
         payBankList: [
+          {label: '全部', value: ''},
           {value: 0, label: '徐汇'},
           {value: 1, label: '长宁'},
           {value: 2, label: '浦东'},
@@ -287,10 +289,12 @@
           {value: 5, label: '黄浦'},
         ],
         fundTypeList: [
+          {label: '全部', value: ''},
           {value: 0, label: '基本公积金'},
           {value: 1, label: '补充公积金'}
         ],
         accountTypeList: [
+          {label: '全部', value: ''},
           {value: 0, label: '独立户'},
           {value: 1, label: '大库'},
           {value: 2, label: '外包'},

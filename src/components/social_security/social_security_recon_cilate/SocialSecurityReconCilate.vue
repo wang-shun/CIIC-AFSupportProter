@@ -177,7 +177,7 @@
           changeTableTypeDefaultVal: 'YYS',
           //变更汇总表类型
           changeTableTypeValueList: [
-            {value: 'all',label:'全部',isSelect: true},
+            {value: '',label:'全部',isSelect: true},
             {value: 'YYS',label:'YYS(养医失)',isSelect: true},
             {value: 'GSY', label: 'GSY(工生育)',isSelect: false}
           ],

@@ -80,9 +80,7 @@
           <Row type="flex" justify="start">
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="学历：" prop="">
-                <Select v-model="formItem.education" placeholder="请选择" transfer>
-                  <Option v-for="(value,key) in this.baseDic.educations" :value="key" :key="key">{{ value }}</Option>
-                </Select>
+                <Input v-model="formItem.education" placeholder="请输入"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -117,9 +115,7 @@
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="人才退回原因：" prop="">
-                <Select v-model="formItem.talentBackReason" placeholder="请选择" transfer>
-                  <Option v-for="(value,key) in this.baseDic.talentBackReason" :value="key" :key="key">{{ value }}</Option>
-                </Select>
+                <Input v-model="formItem.talentBackReason" placeholder="请输入"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -160,10 +156,10 @@
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="付款方式：" prop="payType" >
                 <Select v-model="formItem.payType" transfer>
-                  <Option value="台账">台账</Option>
-                  <Option value="现金">现金</Option>
-                  <Option value="转账">转账</Option>
-                  <Option value="POS机">POS机</Option>
+                  <Option value="1">台账</Option>
+                  <Option value="2">现金</Option>
+                  <Option value="3">转账</Option>
+                  <Option value="4">POS机</Option>
                 </Select>
               </Form-item>
             </i-col>
@@ -259,7 +255,41 @@
       callBack(value){
         this.formItem = value
       },
-      save () {},
+      save () {
+        let params = {}
+        params = {...this.formItem}
+        params.materialBackTime = Tools.formatDate(params.materialBackTime,"YYYY-MM-DD hh:mm")
+        params.callsTime = Tools.formatDate(params.callsTime,"YYYY-MM-DD hh:mm")
+        params.applyTime = Tools.formatDate(params.applyTime,"YYYY-MM-DD hh:mm")
+        params.shiftLetterSendTime = Tools.formatDate(params.shiftLetterSendTime,"YYYY-MM-DD hh:mm")
+        params.talentBackTime = Tools.formatDate(params.talentBackTime,"YYYY-MM-DD hh:mm")
+        params.dealTime = Tools.formatDate(params.dealTime,"YYYY-MM-DD hh:mm")
+        params.chargeTime = Tools.formatDate(params.chargeTime,"YYYY-MM-DD hh:mm")
+        params.receiveFileTime = Tools.formatDate(params.receiveFileTime,"YYYY-MM-DD hh:mm")
+        params.originalBackTime = Tools.formatDate(params.originalBackTime,"YYYY-MM-DD hh:mm")
+        params.integralBillPrintTime = Tools.formatDate(params.integralBillPrintTime,"YYYY-MM-DD hh:mm")
+        //把收缴材料id拼成字符串 params.materialIds = 
+        params.materialIds = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,"
+        axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
+          if (response.data.errCode === '0'){
+               this.$Notice.success({
+                  title: '保存成功',
+                  desc: ''
+                })
+                this.findAll()
+            } else {
+              this.$Notice.error({
+                title: '保存失败',
+                desc: ''
+              })
+            }
+          }).catch((error) => {
+            this.$Notice.error({
+              title: '保存失败',
+              desc: ''
+            })
+        })
+      },
       back () {
         this.$router.go(-1)
       },
@@ -280,13 +310,16 @@
               temp.empName = data.empName
               temp.companyCode = data.companyCode
               temp.companyName = data.companyName
-              temp.credentialsTypeN = this.$route.params.type
+              temp.credentialsTypeN = this.$route.params.typeN
+              temp.credentialsType = this.$route.params.type
               if (this.$route.params.dealType != "") {
-                temp.credentialsDealTypeN = this.$route.params.dealType
+                temp.credentialsDealType = this.$route.params.dealType
+                temp.credentialsDealTypeN = this.$route.params.dealTypeN
               }
               temp.action = "1"
               response.data.data.splice(0,0,temp)
             }
+            console.log(data)
             this.empInfo = data
           }
         })

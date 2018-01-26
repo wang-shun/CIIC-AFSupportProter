@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-    <Table border :columns="colums1" :data="data1" @on-row-click="selectedRow"></Table>
+    <Table border :columns="colums1" :data="data1" @on-row-click="selectedRow" :highlight-row="highlight"></Table>
     </div>
     <div>
     <Card>
@@ -19,7 +19,7 @@
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="操作方式：" prop="operateType">
               <Select v-model="formItem.operateType" placeholder="请选择" transfer>
-                <Option v-for="(value,key) in this.baseDic.operateType" :value="value" :key="key">{{ value }}</Option>
+                <Option v-for="(value,key) in this.baseDic.operateType" :value="key" :key="key">{{ value }}</Option>
               </Select>
             </Form-item> 
           </i-col>
@@ -39,9 +39,9 @@
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="费用类型：" prop="chargeType">
               <Select v-model="formItem.chargeType" placeholder="请选择" transfer>
-                <Option value=1>免费</Option>
-                <Option value=2>常规收费</Option>
-                <Option value=3>特殊收费</Option>
+                <Option value="1">免费</Option>
+                <Option value="2">常规收费</Option>
+                <Option value="3">特殊收费</Option>
               </Select>
             </Form-item> 
           </i-col>
@@ -54,7 +54,7 @@
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
-            <Form-item label="特殊收费备注：" prop="specialChargeRemark" v-if="formItem.chargeType === '特殊收费'">
+            <Form-item label="特殊收费备注：" prop="specialChargeRemark" v-if="formItem.chargeType === '3'">
               <Input v-model="formItem.specialChargeRemark" type="textarea" :autosize="{minRows: 3,maxRows: 6}" placeholder="请输入"/>
             </Form-item> 
           </i-col>
@@ -131,16 +131,19 @@ import Decode from '../../../lib/decode'
     data () {
       return {
         title: '',
+        highlight: true,
+        companyId: '',
+        credentialsType: '',
         formItem: {
           companyExtId: '',
           companyId: '',
-          credentialsType: '',
+          credentialsType: null,
           name: '',
-          operateType: '',
+          operateType: null,
           operateAccount: '',
           operatePwd: '',
-          chargeType: '',
-          payType: '',
+          chargeType: null,
+          payType: null,
           specialChargeRemark: '',
           introduceMail: '',
           onlineContactIdCard: '',
@@ -217,10 +220,17 @@ import Decode from '../../../lib/decode'
         let companyCode = this.$route.params.data
         axios.get(host + '/api/companyExt/find/'+companyCode).then(response => {
           let t = response.data.data
-          let labs = [{lab:'积分办理',idx:1},{lab:'居住证B证',idx:2},{lab:'留学生落户',idx:3},{lab:'居转户',idx:4},{lab:'夫妻分居',idx:5},{lab:'人才引进',idx:6}]
+          let labs = [
+            {lab:'积分办理',credentialsType:1,companyId:companyCode},
+            {lab:'居住证B证',credentialsType:2,companyId:companyCode},
+            {lab:'留学生落户',credentialsType:3,companyId:companyCode},
+            {lab:'居转户',credentialsType:4,companyId:companyCode},
+            {lab:'夫妻分居',credentialsType:5,companyId:companyCode},
+            {lab:'人才引进',credentialsType:6,companyId:companyCode}
+          ]
           for (let x in t){
             for (let y in labs){
-              if (t[x].credentialsType === labs[y].idx) {
+              if (t[x].credentialsType === labs[y].credentialsType) {
                 labs[y] = t[x]
               }
             }
@@ -228,7 +238,37 @@ import Decode from '../../../lib/decode'
           this.data1 = labs
         })
       },
-      save () {},
+      save () {
+        this.formItem.companyId = this.companyId
+        this.formItem.credentialsType = this.credentialsType
+        if(this.formItem.credentialsType != null && this.formItem.credentialsType != "") {
+          axios.post(host + '/api/companyExt/saveOrUpdate', this.formItem).then(response => {
+            if (response.data.errCode === '0'){
+               this.$Notice.success({
+                  title: '保存成功',
+                  desc: ''
+                })
+                this.modal1 = false
+                this.find()
+            } else {
+              this.$Notice.error({
+                title: '保存失败',
+                desc: ''
+              })
+            }
+          }).catch((error) => {
+            this.$Notice.error({
+              title: '保存失败',
+              desc: ''
+            })
+          })
+        } else {
+          this.$Notice.error({
+            title: '请先选择证件类型',
+            desc: ''
+          })
+        }
+      },
       back () {
         this.$router.go(-1)
       },
@@ -236,7 +276,10 @@ import Decode from '../../../lib/decode'
         if (value !== null) {
           console.log(value)
           this.formItem = value
+          this.credentialsType = value.credentialsType
+          this.companyId = value.companyId
           this.title = value.lab
+          console.log(this.formItem)
         }
       }
     }

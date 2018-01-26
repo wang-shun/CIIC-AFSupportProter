@@ -134,11 +134,12 @@
           isEmergencyValue: -1
         },
         processStatusList: [
-          {value: 0, label: '全部'},
+          {value: '', label: '全部'},
           {value: 1, label: '本月处理'},
           {value: 2, label: '下月处理'}
         ],
         taskTypeList: [
+          {value: '', label: '全部'},
           {value: 0, label: '新增(新开)'},
           {value: 1, label: '新增(转入)'},
           {value: 2, label: '新增(启封)'},
@@ -147,6 +148,7 @@
           {value: 5, label: '离职'}
         ],
         payBankList: [
+          {value: '', label: '全部'},
           {value: 0, label: '徐汇'},
           {value: 1, label: '长宁'},
           {value: 2, label: '浦东'},
@@ -155,10 +157,12 @@
           {value: 5, label: '黄浦'},
         ],
         fundTypeList: [
+          {value: '', label: '全部'},
           {value: 0, label: '基本公积金'},
           {value: 1, label: '补充公积金'}
         ],
         accountTypeList: [
+          {value: '', label: '全部'},
           {value: 0, label: '独立户'},
           {value: 1, label: '大库'},
           {value: 2, label: '外包'},

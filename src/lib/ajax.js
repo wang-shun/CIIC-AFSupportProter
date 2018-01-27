@@ -4,6 +4,7 @@ import qs from "qs";
 const config = require('./config')
 const DEBUG = config.env.debug;
 const BASE_PATHS = config.basePaths;
+console.log('====='+BASE_PATHS);
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 
 const AJAX = {
@@ -272,6 +273,7 @@ AJAX.ajaxFbc = createProxyAjaxForName('fb-c');
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q');
 AJAX.ajaxSsc = createProxyAjaxForName('ss-c');
 AJAX.ajaxHmc = createProxyAjaxForName('health-c');
+AJAX.ajaxHfc = createProxyAjaxForName('hf-c');
 AJAX.ajaxAlertJob = createProxyAjaxForName('AlertJob');
 AJAX.ajaxAuthService = createProxyAjaxForName('AuthService');
 AJAX.ajaxBasicDataService = createProxyAjaxForName('BasicDataService');

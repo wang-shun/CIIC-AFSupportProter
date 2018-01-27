@@ -17,7 +17,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
+                <Form-item label="企业账户类型：" prop="accountTypeValue">
                   <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -213,9 +213,10 @@
         ],
         accountTypeList: [
           {value: '', label: '全部'},
-          {value: 0, label: '独立户'},
-          {value: 1, label: '大库'},
-          {value: 2, label: '外包'},
+         
+          {value: 1, label: '中智大库'},
+          {value: 2, label: '中智外包'},
+          {value: 3, label: '独立户'},
         ],
         noProcessColumns: [
           {title: '操作', width: 100, align: 'center',

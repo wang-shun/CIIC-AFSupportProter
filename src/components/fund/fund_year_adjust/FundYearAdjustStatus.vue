@@ -145,7 +145,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'companySSAccountCategory', align: 'center', width: 150,
+          {title: '企业账户类型', key: 'companySSAccountCategory', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('Select', {

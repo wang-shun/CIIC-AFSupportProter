@@ -15,6 +15,7 @@ export default {
   },
   // 任务单类型
   taskCategory: (taskCategory) => {
+
     switch (taskCategory) {
       case '1':
         return '新进'
@@ -50,7 +51,6 @@ export default {
   },
   // 人员分类
   empClassify: (empClassify) => {
-
     switch (empClassify) {
       case '1':
         return '本地'
@@ -151,9 +151,9 @@ export default {
     }
   },
   //日常操作的缴纳方式
-  remitWay: (type) => {
+  remitWay:(type)=>{
 
-    switch (type) {
+    switch (type){
       case '1':
         return '正常'
       case '2':
@@ -200,6 +200,7 @@ export default {
       case 2:
         return '常规收费'
       case 3:
+ 
         return '特殊收费'
     }
   },
@@ -214,9 +215,7 @@ export default {
   },
 
   //付款方式
-  payMethod: (type) => {
 
-    switch (type) {
       case "1":
         return '我司代付款'
       case "2":
@@ -238,6 +237,26 @@ export default {
         return '客户公司'
       default:
         return ''
+    }
+  },
+  accountStatus: (type)=> {
+    switch (type){
+      case '1':
+        return '一般人员信息'
+      case '2':
+        return '转出人员信息'
+      default:
+        return '无'
+    }
+  },
+  matchStatus: (type)=> {
+    switch (type){
+      case '0':
+        return '未匹配'
+      case '1':
+        return '已匹配'
+      default:
+        return '无'
     }
   },
   //雇员入离职状态

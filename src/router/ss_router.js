@@ -132,10 +132,18 @@ const employeeCostDetail = r => require.ensure([], () => r(require('@/components
 const refundDetails = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/RefundDetails')), 'RefundDetails')
 
 /*
+ * annualadjustemployee            --- 年调雇员工资收集表下载
+ * annualadjustcompany             --- 年调客户列表
+ * annualadjustcompanyemp          --- 年调客户雇员信息维护
+ * annualadjustaccount             --- 导出申报表及执行年调
  * yearBaseApplicate               --- 年度基数申报
  */
 
-const yearBaseApplicate = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/YearBaseApplicate')), 'YearBaseApplicate')
+const annualadjustemployee = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustEmployee')), 'annualadjustemployee')
+const annualadjustcompany = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompany')), 'annualadjustcompany')
+const annualadjustcompanyemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompanyEmp')), 'annualadjustcompanyemp')
+const annualadjustaccount = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccount')), 'annualadjustaccount')
+const annualadjustaccountemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccountEmp')), 'annualadjustaccountemp')
 
 
 /*
@@ -312,7 +320,7 @@ export default [
       openNames:['1']
     }
   },
-  
+
   // 雇员任务批量办理
   {
     path: '/emp_task_batch_handle_view',
@@ -678,14 +686,59 @@ export default [
       openNames:['1']
     }
   },
-  
+
   {
-    path: '/year_base_applicate',
-    name: 'yearBaseApplicate',
-    component: yearBaseApplicate,
+    path: '/annual_adjust_employee',
+    name: 'annualadjustemployee',
+    component: annualadjustemployee,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
+      level3:"年调雇员工资收集表下载",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/annual_adjust_company',
+    name: 'annualadjustcompany',
+    component: annualadjustcompany,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"年调客户列表",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/annual_adjust_company_emp',
+    name: 'annualadjustcompanyemp',
+    component: annualadjustcompanyemp,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"年调客户雇员信息维护",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/annual_adjust_account',
+    name: 'annualadjustaccount',
+    component: annualadjustaccount,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"导出申报表",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/annual_adjust_account_emp',
+    name: 'annualadjustaccountemp',
+    component: annualadjustaccountemp,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"年调社保账户雇员信息维护",
       level3:"年度基数申报",
       openNames:['1']
     }

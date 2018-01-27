@@ -136,6 +136,7 @@ const refundDetails = r => require.ensure([], () => r(require('@/components/soci
  * annualadjustcompany             --- 年调客户列表
  * annualadjustcompanyemp          --- 年调客户雇员信息维护
  * annualadjustaccount             --- 导出申报表及执行年调
+ * yearBaseApplicate               --- 年度基数申报
  */
 
 const annualadjustemployee = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustEmployee')), 'annualadjustemployee')
@@ -143,6 +144,8 @@ const annualadjustcompany = r => require.ensure([], () => r(require('@/component
 const annualadjustcompanyemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompanyEmp')), 'annualadjustcompanyemp')
 const annualadjustaccount = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccount')), 'annualadjustaccount')
 const annualadjustaccountemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccountEmp')), 'annualadjustaccountemp')
+const yearBaseApplicate = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/YearBaseApplicate')), 'YearBaseApplicate')
+
 
 /*
  * systemManage                    --- 系统管理
@@ -689,6 +692,9 @@ export default [
     path: '/annual_adjust_employee',
     name: 'annualadjustemployee',
     component: annualadjustemployee,
+    path: '/year_base_applicate',
+    name: 'yearBaseApplicate',
+    component: yearBaseApplicate,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -725,7 +731,7 @@ export default [
     meta:{
       level1:'全国社保',
       level2:"上海社保",
-      level3:"导出申报表及执行年调",
+      level3:"导出申报表",
       openNames:['1']
     }
   },
@@ -737,6 +743,7 @@ export default [
       level1:'全国社保',
       level2:"上海社保",
       level3:"年调社保账户雇员信息维护",
+      level3:"年度基数申报",
       openNames:['1']
     }
   },

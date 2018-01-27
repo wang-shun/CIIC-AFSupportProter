@@ -7,5 +7,10 @@ export default {
   annualAdjustEmployeeQuery: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssAnnualAdjustEmployee/annualAdjustEmployeeQuery', params);
     return await response.data;
+  },
+
+  annualAdjustEmployeeExport: (params) => {
+    AJAX.download('/api/soccommandservice/ssAnnualAdjustEmployee/annualAdjustEmployeeExport', params);
   }
+
 }

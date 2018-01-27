@@ -2,20 +2,20 @@
   <div class="smList">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        年调雇员工资信息管理
+        导出申报表及执行年调
         <div slot="content">
-          <Form :label-width=150 ref="companySearchData" :model="companySearchData">
+          <Form :label-width=150 ref="accountSearchData" :model="accountSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="调整年份：" prop="adjustYear">
                 <Col span="5">
-                <Input v-model="companySearchData.adjustYear" readonly></Input>
+                <Input v-model="accountSearchData.adjustYear" readonly></Input>
                 </Col>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户类型：" prop="ssAccountType">
-                <Select v-model="companySearchData.ssAccountType" style="width: 100%;" transfer>
+                <Select v-model="accountSearchData.ssAccountType" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="1" label="中智大库"></Option>
                   <Option value="2" label="中智外包"></Option>
@@ -27,47 +27,41 @@
             <Row>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="账户编号：" prop="comAccountId">
-                <input-account v-model="companySearchData.comAccountId"></input-account>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户编号：" prop="companyId">
-                <input-company v-model="companySearchData.companyId"></input-company>
+                <input-account v-model="accountSearchData.comAccountId"></input-account>
               </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
               <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
-              <Button type="warning" @click="$refs['companySearchData'].resetFields()">重置</Button>
+              <Button type="warning" @click="$refs['accountSearchData'].resetFields()">重置</Button>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
-
     </Collapse>
 
     <Row class="mt20">
       <Col :sm="{span: 24}">
-      <Button type="info" @click="importExcel">上传客户采集名单</Button>
+      <Button type="info" @click="importExcel">批量导入社保年平均工资申报表</Button>
       </Col>
     </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Table border ref="companyResultData"
-             :columns="companyResultColumns"
-             :data="companyResultData"
-             ></Table>
+      <Table border ref="accountResultData"
+             :columns="accountResultColumns"
+             :data="accountResultData"
+      ></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
         @on-page-size-change="handlePageSize"
-        :total="companyResultPageData.total"
-        :page-size="companyResultPageData.pageSize"
-        :page-size-opts="companyResultPageData.pageSizeOpts"
-        :current="companyResultPageData.pageNum"
+        :total="accountResultPageData.total"
+        :page-size="accountResultPageData.pageSize"
+        :page-size-opts="accountResultPageData.pageSizeOpts"
+        :current="accountResultPageData.pageNum"
         show-sizer show-total></Page>
       </Col>
     </Row>
@@ -83,8 +77,8 @@
         <Form :label-width=100 ref="uploadData" :model="uploadData" style="width: 500px">
           <Row type="flex" justify="start">
             <Col :sm="{span:15}">
-            <Form-item label="客户编号：" prop="companyId">
-              <input-company v-model="uploadData.companyId" :styles="inputCompanyStyle"></input-company>
+            <Form-item label="账户编号：" prop="comAccountId">
+              <input-account v-model="uploadData.ssAccount" :styles="inputAccountStyle"></input-account>
             </Form-item>
             </Col>
           </Row>
@@ -127,7 +121,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/EventTypes'
-  import api from '../../../api/social_security/year_base_applicate/annual_adjust_company'
+  import api from '../../../api/social_security/year_base_applicate/annual_adjust_account'
   import InputAccount from '../../commoncontrol/form/input-account'
   import InputCompany from '../../commoncontrol/form/input-company'
 
@@ -137,23 +131,22 @@
     data() {
       return {
         collapseInfo: [1], //展开栏
-        companySearchData: {
+        accountSearchData: {
           adjustYear: (new Date()).getFullYear(),
           ssAccountType: '',
           comAccountId: '',
-          companyId: '',
         },
-        inputCompanyStyle: {
+        inputAccountStyle: {
           'z-index': 99
         },
         isUpload: false,
         isSubmit: false,
         uploadData: {
-          companyId: '',
-          annualAdjustCompanyId: '',
+          ssAccount: '',
+          annualAdjustAccountId: '',
         },
         uploadAttr: {
-          actionUrl: '/api/soccommandservice/ssAnnualAdjustCompany/annualAdjustCompanyEmpUpload',
+          actionUrl: '/api/soccommandservice/ssAnnualAdjustAccount/annualAdjustAccountEmpUpload',
           acceptFileExtension: '.xls,.xlsx',
         },
         importResultData: [],
@@ -165,111 +158,123 @@
         },
         importResultColumns: [
           {
-            title: '雇员编号', key: 'employeeId', width: 100, align: 'left'
+            title: '社保序号', key: 'ssSerial', width: 120, align: 'left'
           },
           {
-            title: '雇员姓名', key: 'employeeName', width: 100, align: 'left'
+            title: '姓名', key: 'employeeName', width: 100, align: 'left'
           },
           {
-            title: '社保序号', key: 'ssSerial', width: 100, align: 'left'
+            title: '身份证号', key: 'idNum', width: 180, align: 'left'
           },
           {
-            title: '工资', key: 'salary', width: 100, align: 'left'
+            title: '本单位缴费月数', key: 'paymentMonths', width: 100, align: 'left'
           },
           {
-            title: '身份证号', key: 'idNum', width: 200, align: 'left'
-          },
-          {
-            title: '社保状态', key: 'archiveStatus', width: 80, align: 'left'
-          },
-          {
-            title: '账户类型', key: 'ssAccountType', width: 100, align: 'left'
-          },
-          {
-            title: '人员属性', key: 'empClassify', width: 80, align: 'left'
-          },
-          {
-            title: '社保基数', key: 'baseAmount', width: 100, align: 'left'
-          },
-          {
-            title: '结算区县', key: 'settlementArea', width: 80, align: 'left'
-          },
-          {
-            title: '企业社保账户', key: 'ssAccount', width: 100, align: 'left'
-          },
-          {
-            title: '养老金独立开户用户名', key: 'ssUsername', width: 100, align: 'left'
-          },
-          {
-            title: '养老金独立开户密码', key: 'ssPwd', width: 100, align: 'left'
-          },
-          {
-            title: '客户编号', key: 'companyId', width: 120, align: 'left'
+            title: '人员分类', key: 'accountStatus', width: 120, align: 'left',
+            render: (h, params) => {
+              return this.$decode.accountStatus(params.row.accountStatus)
+            }
           },
           {
             title: '错误信息', key: 'errorMsg', width: 300, align: 'left'
           },
         ],
-        companyResultData: [],
-        companyResultPageData: {
+        accountResultData: [],
+        accountResultPageData: {
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.DEFAULT_PAGE_SIZE,
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
-        companyResultColumns: [
+        accountResultColumns: [
           {
-            title: '雇员数据维护', key: '', width: 120, align: 'center',
+            title: '操作', key: '', width: 80, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('a', {
                   props: {},
                   on: {
                     click: () => {
-                      this.editEmpInfo(params.row.annualAdjustCompanyId, params.row.companyId, params.row.companyName)
+                      this.annualAdjustAccountDelete(params.row.annualAdjustAccountId);
                     }
                   }
-                }, '维护')
+                }, '删除')
               ])
             }
           },
           {
-            title: '调整年份', key: 'adjustYear', width: 100, align: 'center'
+            title: '企业社保账户', key: 'ssAccount', width: 120, align: 'center'
           },
           {
-            title: '客户编号', key: 'companyId', width: 150, align: 'center'
+            title: '企业账户名称', key: 'comAccountName', width: 220, align: 'center'
           },
           {
-            title: '客户姓名', key: 'companyName', width: 150, align: 'center'
+            title: '查看差异', key: '', width: 100, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('a', {
+                  props: {},
+                  on: {
+                    click: () => {
+                      this.matchEmpInfo(params.row.annualAdjustAccountId, params.row.ssAccount, params.row.comAccountName)
+                    }
+                  }
+                }, '查看差异')
+              ])
+            }
           },
           {
-            title: '数据收集完成时间', key: 'dataCollectTime', width: 150, align: 'center'
-          }
+            title: '导出', key: '', width: 100, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('a', {
+                  props: {},
+                  on: {
+                    click: () => {
+                      this.exportExcel(params.row.annualAdjustAccountId);
+                    }
+                  }
+                }, '导出申报')
+              ])
+            }
+          },
+          {
+            title: '前道导入雇员总数', key: 'afImportTotal', width: 150, align: 'center'
+          },
+          {
+            title: '社保申报表雇员总数（转入/转出）', key: 'ssImportTotal', width: 150, align: 'center'
+          },
+          {
+            title: '匹配成功总数', key: 'matchTotal', width: 120, align: 'center'
+          },
+          {
+            title: '未匹配总数', key: 'unMatchTotal', width: 120, align: 'center'
+          },
         ]
       }
     },
     mounted() {
-      let local_companySearchData = localStorage.getItem('annualAdjustCompany.companySearchData');
-      let local_companyResultPageData = localStorage.getItem('annualAdjustCompany.companyResultPageData');
-      if (local_companySearchData) {
-        this.companySearchData = JSON.parse(local_companySearchData);
-        localStorage.removeItem('annualAdjustCompany.companySearchData');
+      let local_accountSearchData = localStorage.getItem('annualAdjustAccount.accountSearchData');
+      let local_accountResultPageData = localStorage.getItem('annualAdjustAccount.accountResultPageData');
+      if (local_accountSearchData) {
+        this.accountSearchData = JSON.parse(local_accountSearchData);
+        localStorage.removeItem('annualAdjustAccount.accountSearchData');
       }
-      if (local_companyResultPageData) {
-        this.companyResultPageData = JSON.parse(local_companyResultPageData);
-        localStorage.removeItem('annualAdjustCompany.companyResultPageData')
+      if (local_accountResultPageData) {
+        this.accountResultPageData = JSON.parse(local_accountResultPageData);
+        localStorage.removeItem('annualAdjustAccount.accountResultPageData')
       }
-      this.annualAdjustCompanyQuery();
+      this.annualAdjustAccountQuery();
     },
     methods: {
-      editEmpInfo(aacid,compid,compnm) {
-        localStorage.setItem('annualAdjustCompany.companySearchData', JSON.stringify(this.companySearchData));
-        localStorage.setItem('annualAdjustCompany.companyResultPageData', JSON.stringify(this.companyResultPageData));
-        this.$router.push({name:'annualadjustcompanyemp', query: {annualAdjustCompanyId: aacid,companyId: compid,companyName: compnm}});
+      matchEmpInfo(aaaid,ssaccount,comaccountname) {
+        localStorage.setItem('annualAdjustAccount.accountSearchData', JSON.stringify(this.accountSearchData));
+        localStorage.setItem('annualAdjustAccount.accountResultPageData', JSON.stringify(this.accountResultPageData));
+        this.$router.push({name:'annualadjustaccountemp', query: {annualAdjustAccountId: aaaid,ssAccount: ssaccount,comAccountName: comaccountname}});
       },
       beforeUpload(file) {
-        if (!this.uploadData.companyId || this.uploadData.companyId == '') {
-          this.$Message.error("请选择客户");
+        if (!this.uploadData.ssAccount || this.uploadData.ssAccount == '') {
+          this.$Message.error("请选择社保账户");
           return false;
         }
         this.$refs['upload'].clearFiles();
@@ -277,8 +282,8 @@
       onSuccess(response, file, fileList) {
         var data = response;
         if (data.code == 0) {
-          this.uploadData.annualAdjustCompanyId = data.object['annual_adjust_company_id'];
-          this.annualAdjustCompanyEmpTempQuery();
+          this.uploadData.annualAdjustAccountId = data.object['annual_adjust_account_id'];
+          this.annualAdjustAccountEmpTempQuery();
           this.isSubmit = false;
         } else {
           this.$Message.error(data.message);
@@ -288,9 +293,9 @@
         if (this.importResultData && this.importResultData.length > 0) {
           var rtn = confirm("是否导入以下正确的行？")
           if (rtn) {
-            api.annualAdjustCompanyEmpInsert({
+            api.annualAdjustAccountEmpInsert({
               params: {
-                annualAdjustCompanyId: this.uploadData.annualAdjustCompanyId
+                annualAdjustAccountId: this.uploadData.annualAdjustAccountId
               },
             }).then(data => {
               if (data.code == 200) {
@@ -303,12 +308,12 @@
           this.$Message.error("请先上传文件")
         }
       },
-      annualAdjustCompanyEmpTempQuery() {
-        api.annualAdjustCompanyEmpTempQuery( {
+      annualAdjustAccountEmpTempQuery() {
+        api.annualAdjustAccountEmpTempQuery( {
           pageSize: this.importResultPageData.pageSize,
           pageNum: this.importResultPageData.pageNum,
           params: {
-            annualAdjustCompanyId: this.uploadData.annualAdjustCompanyId
+            annualAdjustAccountId: this.uploadData.annualAdjustAccountId
           },
         }).then(data => {
           if (data.code == 200) {
@@ -319,18 +324,18 @@
       },
       importResultHandlePageNum(val) {
         this.importResultPageData.pageNum = val;
-        this.annualAdjustCompanyEmpTempQuery();
+        this.annualAdjustAccountEmpTempQuery();
       },
       importResultHandlePageSize(val) {
         this.importResultPageData.pageSize = val;
-        this.annualAdjustCompanyEmpTempQuery();
+        this.annualAdjustAccountEmpTempQuery();
       },
-      annualAdjustCompanyQuery() {
+      annualAdjustAccountQuery() {
         // 处理参数
         var params = {};
         {
           // 清除 '[全部]'
-          params = this.$utils.clear(this.companySearchData);
+          params = this.$utils.clear(this.accountSearchData);
           // 清除空字符串
           params = this.$utils.clear(params, '');
           // 处理
@@ -341,26 +346,26 @@
 //          }
         }
 
-        api.annualAdjustCompanyQuery(
+        api.annualAdjustAccountQuery(
           {
-            pageSize: this.companyResultPageData.pageSize,
-            pageNum: this.companyResultPageData.pageNum,
+            pageSize: this.accountResultPageData.pageSize,
+            pageNum: this.accountResultPageData.pageNum,
             params: params,
           }
         ).then(data => {
           if (data.code == 200) {
-            this.companyResultData = data.data.rows;
-            this.companyResultPageData.total = Number(data.data.total);
+            this.accountResultData = data.data.rows;
+            this.accountResultPageData.total = Number(data.data.total);
           }
         })
       },
       handlePageNum(val) {
-        this.companyResultPageData.pageNum = val;
-        this.annualAdjustCompanyQuery();
+        this.accountResultPageData.pageNum = val;
+        this.annualAdjustAccountQuery();
       },
       handlePageSize(val) {
-        this.companyResultPageData.pageSize = val;
-        this.annualAdjustCompanyQuery();
+        this.accountResultPageData.pageSize = val;
+        this.annualAdjustAccountQuery();
       },
       importExcel() {
         this.isUpload = true;
@@ -381,8 +386,21 @@
         this.isUpload = false;
         this.isSubmit = false;
         this.$refs['upload'].clearFiles();
-        this.uploadData.companyId = '';
-
+        this.uploadData.accountId = '';
+      },
+      exportExcel(annualAdjustAccountId) {
+        api.accountEmpAvgMonthSalaryExport({
+          params: {
+            annualAdjustAccountId: annualAdjustAccountId
+          }
+        });
+      },
+      annualAdjustAccountDelete(annualAdjustAccountId) {
+        api.annualAdjustAccountDelete({
+          params: {
+            annualAdjustAccountId: annualAdjustAccountId
+          }
+        });
       }
     }
   }

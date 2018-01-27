@@ -135,7 +135,8 @@ const monthlypaymentnotice = r => require.ensure([], () => r(require('@/componen
 const annualadjustemployee = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustEmployee')), 'annualadjustemployee')
 const annualadjustcompany = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompany')), 'annualadjustcompany')
 const annualadjustcompanyemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompanyEmp')), 'annualadjustcompanyemp')
-//const annualadjustaccount = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccount')), 'annualadjustaccount')
+const annualadjustaccount = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccount')), 'annualadjustaccount')
+const annualadjustaccountemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccountEmp')), 'annualadjustaccountemp')
 
 /*
  * systemmanage                    --- 系统管理
@@ -677,18 +678,28 @@ export default [
       openNames:['1']
     }
   },
-  /*
   {
-    path: '/account_employee_annual_adjust',
-    name: 'accountemployeeannualadjust',
-    component: accountemployeeannualadjust,
+    path: '/annual_adjust_account',
+    name: 'annualadjustaccount',
+    component: annualadjustaccount,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
       level3:"导出申报表及执行年调",
       openNames:['1']
     }
-  },*/
+  },
+  {
+    path: '/annual_adjust_account_emp',
+    name: 'annualadjustaccountemp',
+    component: annualadjustaccountemp,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"年调社保账户雇员信息维护",
+      openNames:['1']
+    }
+  },
 
   {
     path: '/system_manage',

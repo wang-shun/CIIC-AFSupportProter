@@ -62,7 +62,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}">
-      <Button type="info" @click="exprotExcel">导出</Button>
+      <Button type="info" @click="exportExcel">导出</Button>
       </Col>
     </Row>
 
@@ -88,6 +88,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/EventTypes'
+  import axios from "axios"
   import api from '../../../api/social_security/year_base_applicate/annual_adjust_employee'
   import InputCompany from '../../commoncontrol/form/input-company'
 
@@ -153,7 +154,7 @@
             title: '结算区县', key: 'settlementArea', width: 80, align: 'center'
           },
           {
-            title: '参保户登记码', key: 'ssAccount', width: 100, align: 'center'
+            title: '企业社保账户', key: 'ssAccount', width: 100, align: 'center'
           },
           {
             title: '养老金独立开户用户名', key: 'ssUsername', width: 120, align: 'center'
@@ -215,7 +216,19 @@
         this.employeeResultPageData.pageSize = val;
         this.annualAdjustEmployeeQuery();
       },
-      exprotExcel() {
+      exportExcel() {
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.exportSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+          if (!params.companyId || params.companyId == "") {
+            this.$Message.error("请选择客户");
+            return false;
+          }
+        }
+        api.annualAdjustEmployeeExport({ params: params });
       }
     }
   }

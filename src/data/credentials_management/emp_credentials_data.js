@@ -24,6 +24,24 @@ mock.onGet('/getEmployeeList').reply(200, {
       companyAddr: '上海市宜山路1009号创新大楼3层',
       companyTel: '400-820-6998',
       status: '在职'
+    },
+    {
+      empCode: 'YY123456',
+      empName: '雇员2',
+      IDCardNum: '3206231449011152XX',
+      education: '本科',
+      marriage: '已婚',
+      sex: '男',
+      birthday: '1978-03-26',
+      address: '上海市天山西路138号1楼35室',
+      firstInTime: '1999-05-26',
+      contractStartTime: '1999-05-26',
+      contractEndTime: '2002-05-26',
+      companyCode: 'KH1712345',
+      companyName: '客户2',
+      companyAddr: '上海市宜山路1009号创新大楼3层',
+      companyTel: '400-820-6998',
+      status: '在职'
     }
   ]
 })

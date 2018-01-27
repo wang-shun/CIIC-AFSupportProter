@@ -274,11 +274,10 @@
       taskFollowShow(taskId) {
         if( taskId != null) {
           axios.get(host + '/api/empCredentialsDeal/find/taskFollow/'+taskId).then((response) =>{
-            console.log(response.data)
             if (response.data.errCode == "0"){
               this.data2 = response.data.data
+              this.followDescription = ""
               this.taskFollow = true
-              console.log(this.data2 )
             } else {
               this.$Notice.error({
                 title: '查询失败',
@@ -299,7 +298,6 @@
         })
       },
       ok () {
-        // debugger
         if (this.followDescription != "" && this.followDescription != null) {
           var params = {}
           params.followDescription = this.followDescription

@@ -302,7 +302,7 @@
           {title: '基本公积金状态', key: 'archiveTaskStatus', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.archiveTaskStatus),
+                h('span', this.$decode.hfTaskStatus(params.row.archiveTaskStatus)),
               ]);
             }
           },
@@ -316,7 +316,7 @@
           {title: '补充公积金状态', key: 'archiveTaskStatusBc', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.archiveTaskStatusBc),
+                h('span', this.$decode.hfTaskStatus(params.row.archiveTaskStatusBc)),
               ]);
             }
           },

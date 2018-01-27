@@ -215,7 +215,9 @@ export default {
   },
 
   //付款方式
+  payMethod:(type)=>{
 
+    switch(type){
       case "1":
         return '我司代付款'
       case "2":

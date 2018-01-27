@@ -121,9 +121,8 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/EventTypes'
   import api from '../../../api/social_security/year_base_applicate/annual_adjust_account_emp'
-  import InputCompany from '../../commoncontrol/form/input-company'
+  import InputCompany from '../../common_control/form/input_company'
 
   export default {
     components: {InputCompany},

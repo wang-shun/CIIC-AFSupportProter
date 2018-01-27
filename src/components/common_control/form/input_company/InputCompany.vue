@@ -17,6 +17,8 @@
       :closable="closable"
       :mask-closable="maskClosable"
       :title="title"
+      :class-name="className"
+      :styles="styles"
       @on-ok="ok"
       @on-cancel="cancel">
       <!-- 客户名称 模态框内容 -->
@@ -91,7 +93,12 @@
         default (item) {
           return item.companyId;
         }
-      }
+      },
+      className: {
+        type: String,
+        default: 'vertical-center-modal'
+      },
+      styles: Object,
     },
     data() {
       return {

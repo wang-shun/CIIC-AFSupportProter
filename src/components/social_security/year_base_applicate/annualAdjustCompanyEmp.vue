@@ -219,7 +219,6 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/EventTypes'
   import api from '../../../api/social_security/year_base_applicate/annual_adjust_company_emp'
 
   export default {

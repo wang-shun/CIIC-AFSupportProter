@@ -144,7 +144,6 @@ const annualadjustcompany = r => require.ensure([], () => r(require('@/component
 const annualadjustcompanyemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompanyEmp')), 'annualadjustcompanyemp')
 const annualadjustaccount = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccount')), 'annualadjustaccount')
 const annualadjustaccountemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccountEmp')), 'annualadjustaccountemp')
-const yearBaseApplicate = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/YearBaseApplicate')), 'YearBaseApplicate')
 
 
 /*
@@ -692,9 +691,6 @@ export default [
     path: '/annual_adjust_employee',
     name: 'annualadjustemployee',
     component: annualadjustemployee,
-    path: '/year_base_applicate',
-    name: 'yearBaseApplicate',
-    component: yearBaseApplicate,
     meta:{
       level1:'全国社保',
       level2:"上海社保",

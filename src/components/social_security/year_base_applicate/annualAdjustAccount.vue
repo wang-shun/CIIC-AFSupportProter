@@ -120,10 +120,9 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/EventTypes'
   import api from '../../../api/social_security/year_base_applicate/annual_adjust_account'
-  import InputAccount from '../../commoncontrol/form/input-account'
-  import InputCompany from '../../commoncontrol/form/input-company'
+  import InputAccount from '../../common_control/form/input_account'
+  import InputCompany from '../../common_control/form/input_company'
 
   export default {
     components: {InputAccount, InputCompany},

@@ -17,20 +17,21 @@
                 </Form-item>
               </Col>
             </Row>
-            
+
           </Form>
         </div>
       </Panel>
     </Collapse>
-    <Table 
-        :columns="noticeColumns" 
+    <Table
+        :columns="noticeColumns"
         :data="noticeData">
     </Table>
+    <Button type="warning" @click="goBack">返回</Button>
   </div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/EventTypes'
+  import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/payment_notice'
 
   export default {
@@ -89,7 +90,7 @@
           },
         ],
         noticeData:[],
-        
+
         paymentComData: {
           comAccountName: '',
           comAccountId: '',

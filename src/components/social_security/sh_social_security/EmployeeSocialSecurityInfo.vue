@@ -65,11 +65,11 @@
                   <label>{{employeeAndCustomer.ssAccount}}</label>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：">
                   <label>{{getEmpClassify(employeeAndCustomer.empClassify)}}</label>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="离职日期：">
                   <label>{{employeeAndCustomer.outDate}}</label>
@@ -113,14 +113,14 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../../../store/EventTypes'
+  import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
   export default {
     data() {
       return {
         collapseInfo: [1, 2, 3, 4], //展开栏
         customer:{
-          
+
         },
         employeeAndCustomer:{
           companyId:'',
@@ -132,7 +132,7 @@
           ssSerial:'',
           education:'',
           ssAccount:'',
-          empClassify:'',
+         // empClassify:'',
           outDate:''
         },//客户和雇员基本信息
         socialSecurityInfoListData:[],//基数变更详情
@@ -181,7 +181,7 @@
                   on: {
                     click: () => {
                       this.$router.push({
-                        name: 'employeesocialsecuritytaskinfo',
+                        name: 'employeeSocialSecurityTaskInfo',
                         query: {operatorType: params.row.taskCategory, sourceFrom: 'search',empTaskId:params.row.empTaskId,empArchiveId:this.$route.query.empArchiveId}
                       });
                     }
@@ -234,30 +234,26 @@
       }
     },
     async mounted() {
-      await this[EventTypes.EMPLOYEESOCIALSECURITYINFO]()
       let params = {empArchiveId:this.$route.query.empArchiveId}
-      
+
       api.employeeDetailInfoQuery(params).then(data=>{
-        console.log(data)
           this.employeeAndCustomer=data.data.ssEmpArchive
           this.socialSecurityInfoListData=data.data.empBasePeriod
           this.changeListData = data.data.ssEmpTasks
       })
     },
     computed: {
-      ...mapState('employeeSocialSecurityInfo', {
-        data: state => state.data,
-      })
+
     },
     methods: {
-      ...mapActions('employeeSocialSecurityInfo', [EventTypes.EMPLOYEESOCIALSECURITYINFO]),
       goBack() {
-        this.$router.push({name: 'employeesocialsecuritysearch'});
+        
+        this.$router.push({name: 'employeeSocialSecuritySearch'});
       },
-      getEmpClassify(val){
-        if(val==null || typeof(val)=='undefined')return ''
-        return this.$decode.empClassify(val)
-      }
+      // getEmpClassify(val){
+      //   if(val==null || typeof(val)=='undefined')return ''
+      //   return this.$decode.empClassify(val)
+      // }
     }
   }
 </script>

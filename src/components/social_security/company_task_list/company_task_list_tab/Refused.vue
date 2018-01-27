@@ -15,12 +15,12 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="companyTaskInfo.customerNumber" placeholder="请输入..."></Input>
+                  <input-company v-model="companyTaskInfo.customerNumber"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="companyTaskInfo.customerName"  placeholder="请输入..."></Input>
+                 <input-company-name v-model="companyTaskInfo.customerName" ></input-company-name>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -75,12 +75,14 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import EventType from '../../../../store/EventTypes'
+  import customerModal from '../../../common_control/CustomerModal.vue'
+  import EventType from '../../../../store/event_types'
   import {Refused} from '../../../../api/social_security/company_task_list/company_task_list_tab/Refused'
   import Utils from '../../../../lib/utils'
+  import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
+  import InputCompany from '../../../common_control/form/input_company'
   export default {
-    components: {customerModal},
+    components: {customerModal,InputCompanyName,InputCompany},
     data() {
       return{
         taskData:[],//table 里的数据
@@ -100,6 +102,7 @@
           taskNumber: '',
           taskTypeValue: '',
           taskTypeList: [
+             {value: '', label: '全部'},
             {value: '1', label: '开户'},
             {value: '2', label: '转移'},
             {value: '3', label: '变更'},
@@ -121,16 +124,16 @@
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'openaccountinfo', query:{operatorType: '1',source:1,tid:params.row.tid}})
+                          this.$router.push({name: 'openAccountInfo', query:{operatorType: '1',source:1,tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'transfertnfo', query:{operatorType: '2',source:1,tid:params.row.tid}})
+                          this.$router.push({name: 'transferInfo', query:{operatorType: '2',source:1,tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'changeinfo', query:{operatorType: '3',source:1,tid:params.row.tid}})
+                          this.$router.push({name: 'changeInfo', query:{operatorType: '3',source:1,tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'endinfo', query:{operatorType: '4',source:1,tid:params.row.tid}})
+                          this.$router.push({name: 'endInfo', query:{operatorType: '4',source:1,tid:params.row.tid}})
                           break;
                         default:
                           break;
@@ -201,16 +204,16 @@
       }
     },
     mounted() {
-      
+
       let sessionPageNum = sessionStorage.taskRePageNum
       let sessionPageSize = sessionStorage.taskRePageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.pageNum = Number(sessionPageNum)
          this.size = Number(sessionPageSize)
-        //  sessionStorage.removeItem("taskRePageNum") 
-        //  sessionStorage.removeItem("taskRePageSize") 
+        //  sessionStorage.removeItem("taskRePageNum")
+        //  sessionStorage.removeItem("taskRePageSize")
       }
-      
+
       let params = {
           pageSize:this.size,
           pageNum:1,
@@ -228,7 +231,7 @@
     computed: {
       ...mapState('cRefused',{
           data:state =>state.data
-      }) 
+      })
     },
     methods: {
       ...mapActions('cRefused',[EventType.CREFUSEDTYPE]),
@@ -244,13 +247,13 @@
       },
       routerToCommcialOperator: function(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },
       //页面 上 ，下一页操作
       getPage(page){
-        
+
          this.pageNum = page
           sessionStorage.taskRePageNum=page
           sessionStorage.taskRePageSize = this.size
@@ -264,7 +267,7 @@
             console.log(error);
           })
       },
-      //关闭查询loding 
+      //关闭查询loding
       closeLoading(){
           this.loading=false;
       },
@@ -278,7 +281,7 @@
       },
       //导表
       exportExcel(){
-       
+
       },
       //点击查询按钮
       clickQuery(){

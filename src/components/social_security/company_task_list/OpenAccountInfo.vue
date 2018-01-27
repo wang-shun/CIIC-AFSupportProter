@@ -30,6 +30,13 @@
                   </Select>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="付款方式：">
+                     <label>{{getBillReceiverValue()}}</label>
+                  </Select>
+                </Form-item>
+              </Col>
+              
             </Row>
           </Form>
         </div>
@@ -222,8 +229,8 @@
   </Form>
 </template>
 <script>
-  import chat from '../../../components/commoncontrol/chathistory/chat.vue'
-  import companyInfo from '../../../components/commoncontrol/companyinfo.vue'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import companyInfo from '../../common_control/CompanyInfo.vue'
   import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
@@ -241,16 +248,20 @@
           serviceCenter: '',
           serviceManager: ''
         },
+     
          payMethodList: [
-            {value: '1', label: '我司付款，账单到他司'},
-            {value: '2', label: '自己付款，账单到我司'},
-            {value: '3', label: '自己付款，账单到他司'},
-            {value: '4', label: '我司付款，账单到我司'},
-            {value: '5', label: '垫付'},
+            {value: '1', label: '我司代付款'},
+            {value: '2', label: '客户自付'},
+            {value: '3', label: '我司垫付'},
+          ],
+          billReceiverList:[
+             {value: '1', label: '我司'},
+             {value: '2', label: '客户公司'},
           ],
         beforeSendInfo: {
           customerSocialSecurityEndDate: '',
-          payMethodValue: ''
+          payMethodValue: '',
+          billReceiverValue:''
         },
         resourceList: [
             {value: '1', label: '新开'},
@@ -378,11 +389,11 @@
     methods: {
       goBack() {
         window.history.go(-1)
-       // this.$router.push({name: 'companytasklist'});
+       // this.$router.push({name: 'companyTaskList'});
       },
       //查询页面公司信息和前道传递信息
       queryPageInfo(){
-        
+
         let isComplete = ''
         //代表已完成查看
         if(this.source=='0'){
@@ -398,11 +409,11 @@
         }
         let self = this
         CompanyTaskList.getCompanyInfoAndMaterial(params).then(result=>{
-          
+
             //获得材料
          self.operatorMaterialListData = result.operatorMaterialListData;
       })
-      
+
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
          //获得公司信息
         self.companyInfo = result.companyInfo
@@ -457,8 +468,20 @@
                }
            }
            return payMethodStr
+      },
+      //账单接收方
+      getBillReceiverValue(){
+            let billReceiver = this.beforeSendInfo.billReceiverValue
+            let billReceiverStr = ''
+           for(let i of this.billReceiverList){
+               if(i.value==billReceiver){
+                    billReceiverStr=i.label
+                    break;
+               }
+           }
+           return billReceiverStr
       }
-     
+
     }
   }
 </script>

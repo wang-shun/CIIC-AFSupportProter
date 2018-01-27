@@ -25,22 +25,22 @@
                 <Form-item label="最近计算人：" prop="computeUserId">
                   <label>{{empChangeData.computeUserId}}</label>
                 </Form-item>
-              </Col> 
+              </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="最近计算时间：" prop="lastComputeTime">
                   <label >{{empChangeData.lastComputeTime}}</label>
                 </Form-item>
               </Col>
             </Row>
-          </Form> 
+          </Form>
         </div>
       </Panel>
     </Collapse>
-    <Table 
-        :columns="empChangeDetailDataColumns" 
+    <Table
+        :columns="empChangeDetailDataColumns"
         :data="empChangeDetailData">
     </Table>
-     
+
     <Row class="mt20">
       <Col :sm="{span: 24}">
         <Button type="info" @click="ok">导出</Button>
@@ -51,9 +51,9 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import companyAccountSearchModal from '../../../commoncontrol/companyaccountsearchmodal.vue'
-  import EventType from '../../../../store/EventTypes'
+  import customerModal from '../../../common_control/CustomerModal.vue'
+  import companyAccountSearchModal from '../../../common_control/CompanyAccountSearchModal.vue'
+  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/month_emp_change'
 
   export default {
@@ -63,18 +63,18 @@
         collapseInfo: [1], //展开栏
         empChangeData: {
           ssMonth:'',//社保月份
-          comAccountName: '', //企业社保账户分类 
+          comAccountName: '', //社保账户类型
           computeUserId:'',
           lastComputeTime:'',
         },
         empChangeDetailData: [],
         empChangeDetailDataColumns: [
-           
+
           {title: '雇员编号', key: 'employeeId',  align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.employeeId),
-                
+
               ]);
             }
           },
@@ -111,7 +111,7 @@
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empAmountPension),
               ]);
-              
+
             }
           },
           {title: '养老单位补缴', key: 'comCompensatedAmountPension', align: 'center',
@@ -147,7 +147,7 @@
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empAmountMedical),
               ]);
-              
+
             }
           },
           {title: '医疗单位补缴', key: 'comCompensatedAmountMedical', align: 'center',
@@ -176,7 +176,7 @@
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empAmountUnemployment),
               ]);
-              
+
             }
           },
           {title: '失业单位补缴', key: 'comCompensatedAmountUnemployment', align: 'center',
@@ -207,10 +207,10 @@
       //       statementId : window.sessionStorage.getItem("statementId")
       //     };
       //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
-      //this.doAlert(pagParam.statementId); 
+      //this.doAlert(pagParam.statementId);
       this.serachMonthEmpChange(window.sessionStorage.getItem("statementId"));
       this.showMonthEmpChangeDetail(window.sessionStorage.getItem("statementId"));
-      
+
     },
     computed: {
       ...mapState('socialSecurityReconcilateDetail',{
@@ -223,7 +223,7 @@
         this.$refs[name].resetFields()
       },
       ok () {
-        
+
       },
       cancel () {
 
@@ -251,4 +251,3 @@
     }
   }
 </script>
-  

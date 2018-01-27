@@ -7,7 +7,7 @@
           <Form ref="companyTaskInfo" :model="companyTaskInfo" :label-width=150>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
+                <Form-item label="社保账户类型：" prop="accountTypeValue">
                   <Select v-model="companyTaskInfo.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in companyTaskInfo.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -15,12 +15,12 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="companyTaskInfo.customerNumber" placeholder="请输入..."></Input>
+                  <input-company v-model="companyTaskInfo.customerNumber"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="companyTaskInfo.customerName" placeholder="请输入..."></Input>
+                   <input-company-name v-model="companyTaskInfo.customerName" ></input-company-name>
                 </Form-item>
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -63,7 +63,7 @@
 
     <Form>
       <Row class="mt20">
-        <Col :sm="{span:24}">
+        <Col :sm="{span:24}" class="tr">
           <Button type="error" @click="getModal">批退</Button>
           <Button type="info" @click="">导出</Button>
         </Col>
@@ -103,12 +103,14 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import EventType from '../../../../store/EventTypes'
+  import customerModal from '../../../common_control/CustomerModal.vue'
+  import EventType from '../../../../store/event_types'
   import {Progressing} from '../../../../api/social_security/company_task_list/company_task_list_tab/Progressing'
-    import Utils from '../../../../lib/utils'
+  import Utils from '../../../../lib/utils'
+  import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
+  import InputCompany from '../../../common_control/form/input_company'
   export default {
-    components: {customerModal},
+    components: {customerModal,InputCompanyName,InputCompany},
     data() {
       return{
         taskData:[],//table 里的数据
@@ -124,12 +126,14 @@
           isShowCustomerName: false,
           accountTypeValue: '',
           accountTypeList: [
+             {value: '', label: '全部'},
             {value: '1', label: '独立库'},
             {value: '2', label: '大库'},
             {value: '3', label: '外包'}
           ],
           regionValue: '',
           regionList: [
+             {value: '', label: '全部'},
             {value: '1', label: '徐汇'},
             {value: '2', label: '长宁'},
             {value: '3', label: '浦东'},
@@ -139,6 +143,7 @@
           ],
           taskTypeValue: '',
           taskTypeList: [
+            {value: '', label: '全部'},
             {value: '1', label: '开户'},
             {value: '2', label: '转移'},
             {value: '3', label: '变更'},
@@ -147,6 +152,7 @@
           taskStartTime: '',
           handleStateValue: '',
           handleStateList: [
+             {value: '', label: '全部'},
             {value: '1', label: '已受理'},
             {value: '2', label: '已送审'}
           ],
@@ -170,17 +176,18 @@
                   on: {
                     click: () => {
                       switch(params.row.type) {
-                        case '开户':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '1',tid:params.row.tid}})
+                         case '开户':
+                        //companyTaskProgressTwo 材料页面  现再屏蔽材料页面
+                          this.$router.push({name: 'companyTaskProgressTypeInfo', query: {operatorType: '1',tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '2',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressTransferInfo', query: {operatorType: '2',tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '3',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressChangeInfo', query: {operatorType: '3',tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'companytaskprogress2', query: {operatorType: '4',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressEndInfo', query: {operatorType: '4',tid:params.row.tid}})
                           break;
                         default:
                           break;
@@ -251,14 +258,14 @@
       }
     },
     mounted() {
-      
+
       let sessionPageNum = sessionStorage.taskPageNum
       let sessionPageSize = sessionStorage.taskPageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.pageNum = Number(sessionPageNum)
          this.size = Number(sessionPageSize)
-         sessionStorage.removeItem("taskPageNum") 
-         sessionStorage.removeItem("taskPageSize") 
+         sessionStorage.removeItem("taskPageNum")
+         sessionStorage.removeItem("taskPageSize")
       }
      let self= this
       let params = {
@@ -286,7 +293,7 @@
       // getCustomerName:function(){
       //   return this.$store.state.cThisMonthHandle.customerName
       // }
-      
+
     },
     methods: {
       ...mapActions('cNextMonthHandle',[EventType.CNEXTMONTHHANDLETYPE]),
@@ -295,7 +302,7 @@
       },
       routerToCommcialOperator: function(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },
@@ -311,7 +318,7 @@
             console.log(error);
           })
       },
-       //关闭查询loding 
+       //关闭查询loding
       closeLoading(){
           this.loading=false;
       },
@@ -325,7 +332,7 @@
       },
       //导表
       exportExcel(){
-       
+
       },
       //点击查询按钮
       clickQuery(){
@@ -334,7 +341,7 @@
       let params = this.getParams(1)
       let self = this
         Progressing.postTableData(params).then(data=>{
-            
+
            self.refreash(data)
 
         }).catch(error=>{
@@ -351,7 +358,7 @@
               companyId:this.companyTaskInfo.customerNumber==''?'':this.companyTaskInfo.customerNumber,//客户编号
               companyName:this.companyTaskInfo.customerName==''?'':this.companyTaskInfo.customerName,//客户姓名
               taskCategory:this.companyTaskInfo.taskTypeValue==''?'':this.companyTaskInfo.taskTypeValue,//任务类型
-              accountType:this.companyTaskInfo.accountTypeValue==""?'':this.companyTaskInfo.accountTypeValue,//账户类型
+              accountType:this.companyTaskInfo.accountTypeValue==""?'':this.companyTaskInfo.accountTypeValue,//社保账户类型
               regionValue:this.companyTaskInfo.regionValue==''?'':this.companyTaskInfo.regionValue,//结算区县
               taskStatus:this.companyTaskInfo.handleStateValue==''?'':this.companyTaskInfo.handleStateValue,//处理状态
               submitTimeStart:this.companyTaskInfo.taskStartTime=='' || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
@@ -386,7 +393,7 @@
                     taskIdStr:taskIdStr,
                       refuseReason:this.refuseReason
                       }
-                 
+
         let self = this
         Progressing.refusingTask(params).then(result=>{
           if(result){
@@ -396,7 +403,7 @@
           }else{
               //this.refuseLoading = true
           }
-          
+
         })
       },
       cancel () {

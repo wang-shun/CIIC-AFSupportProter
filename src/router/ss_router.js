@@ -1,42 +1,45 @@
 /* ================== 本地社保 ================== */
 /*
- * employeesocialsecuritysearch      --- 雇员社保查询
-   employeesocialsecurityinfo        --- 基本信息
-   companysocialsecuritynew          --- 基本信息
-   EmployeeSocialSecurityTaskInfo    --- 雇员任务详情
+ * employeeSocialSecuritySearch      --- 雇员社保查询
+   employeeSocialSecurityInfo        --- 基本信息
+   companySocialSecurityNew          --- 基本信息
+   employeeSocialSecurityTaskInfo    --- 雇员任务详情
  */
 
-const employeesocialsecuritysearch = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecuritySearch')), 'employeesocialsecuritysearch')
-const employeesocialsecurityinfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityInfo')), 'employeesocialsecurityinfo')
-const companysocialsecuritynew = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/CompanySocialSecurityNew')), 'companysocialsecuritynew')
-const employeesocialsecuritytaskinfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityTaskInfo')), 'employeesocialsecuritytaskinfo')
+const employeeSocialSecuritySearch = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecuritySearch')), 'EmployeeSocialSecuritySearch')
+const employeeSocialSecurityInfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityInfo')), 'EmployeeSocialSecurityInfo')
+const companySocialSecurityNew = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/CompanySocialSecurityNew')), 'CompanySocialSecurityNew')
+const employeeSocialSecurityTaskInfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityTaskInfo')), 'EmployeeSocialSecurityTaskInfo')
 
 /*
- * employeeoperatorview              --- 雇员日常操作
- * employeecommcialoperator          --- 雇员日常操作、办理
+ * employeeOperatorView              --- 雇员日常操作
+ * employeeCommcialOperator          --- 雇员日常操作、办理
  */
 
-const employeeoperatorview = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeOperatorView')), 'employeeoperatorview')
-const employeecommcialoperator = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeCommcialOperator')), 'employeecommcialoperator')
+const employeeOperatorView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeOperatorView')), 'EmployeeOperatorView')
+const employeeCommcialOperator = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeCommcialOperator')), 'EmployeeCommcialOperator')
 
 
 /*
- * employeespecialoperatorview       --- 雇员特殊操作
-   employeespecialprogressTwo          --- 雇员特殊操作、办理(步骤2)
-   employeespecialprogressThree          --- 雇员特殊操作、办理(步骤3)
-   empSpecialtaskdetail                 ---特殊任务单查看详情页
+ * employeeSpecialOperatorView       --- 雇员特殊操作
+   employeeSpecialProgressTwo        --- 雇员特殊操作、办理(步骤2)
+   employeeSpecialProgressThree      --- 雇员特殊操作、办理(步骤3)
+   empSpecialTaskDetail              ---特殊任务单查看详情页
  */
 
-const employeespecialoperatorview = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialOperatorView')), 'employeespecialoperatorview')
-const employeespecialprogresstwo = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialProgressTwo')), 'employeespecialprogresstwo')
-const employeespecialprogressthree = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialProgressThree')), 'employeespecialprogressthree')
-const empspecialtaskdetail = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmpSpecialTaskDetail')), 'empspecialtaskdetail')
+const employeeSpecialOperatorView = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialOperatorView')), 'EmployeeSpecialOperatorView')
+const employeeSpecialProgressTwo = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialProgressTwo')), 'EmployeeSpecialProgressTwo')
+const employeeSpecialProgressThree = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmployeeSpecialProgressThree')), 'EmployeeSpecialProgressThree')
+const empSpecialTaskDetail = r => require.ensure([], () => r(require('@/components/social_security/employee_special_operator/EmpSpecialTaskDetail')), 'EmpSpecialTaskDetail')
 
 // 雇员任务办理
-const empTaskHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandleView')), 'empTaskHandleView')
-const empTaskHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle3View')), 'empTaskHandle3View')
-const empTaskHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle4View')), 'empTaskHandle4View')
-const empTaskHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle5View')), 'empTaskHandle5View')
+const empTaskHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandleView')), 'EmpTaskHandleView')
+const empTaskHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle3View')), 'EmpTaskHandle3View')
+const empTaskHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle4View')), 'EmpTaskHandle4View')
+const empTaskHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle5View')), 'EmpTaskHandle5View')
+const empTaskHandle7View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/EmpTaskHandle7View')), 'EmpTaskHandle7View')
+
+
 // 雇员任务批量办理
 const empTaskBatchHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandleView')), 'empTaskBatchHandleView')
 const empTaskBatchHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle3View')), 'empTaskBatchHandle3View')
@@ -45,85 +48,88 @@ const empTaskBatchHandle5View = r => require.ensure([], () => r(require('@/compo
 
 
 /*
- * companytasklist                   --- 企业任务单
-   companytaskprogress2              --- 企业任务单、办理(步骤2)
-   companytaskprogresstypeinfo       --- 企业任务单、办理(输入)
-   companytaskprogresstransferinfo   --- 企业任务单、办理(转移)
-   companytaskprogresschangeinfo     --- 企业任务单、办理(变更)
-   companytaskprogressendinfo        --- 企业任务单、办理(终止)
-   openaccountinfo                   --- 开户信息查看
+ * companyTaskList                   --- 企业任务单
+   companyTaskProgress2              --- 企业任务单、办理(步骤2)
+   companyTaskProgressTypeInfo       --- 企业任务单、办理(输入)
+   companyTaskProgressTransferInfo   --- 企业任务单、办理(转移)
+   companyTaskProgressChangeInfo     --- 企业任务单、办理(变更)
+   companyTaskProgressEndInfo        --- 企业任务单、办理(终止)
+   openAccountInfo                   --- 开户信息查看
    transferinfo                      --- 转移信息查看
    changeinfo                        --- 变更信息查看
    endinfo                           --- 终止信息查看
    refresh                           --- 刷新跳转页面
  */
 
-const companytasklist = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskList')), 'companytasklist')
-const companytaskprogress2 = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTwo')), 'companytaskprogress2')
-const companytaskprogresstypeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTypeInfo')), 'companytaskprogresstypeinfo')
-const companytaskprogresstransferinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTransferInfo')), 'companytaskprogresstransferinfo')
-const companytaskprogresschangeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressChangeInfo')), 'companytaskprogresschangeinfo')
-const companytaskprogressendinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressEndInfo')), 'companytaskprogressendinfo')
-const openaccountinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/OpenAccountInfo')), 'openaccountinfo')
-const transferinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/TransferInfo')), 'transferinfo')
-const changeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/ChangeInfo')), 'changeinfo')
-const endinfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/EndInfo')), 'endinfo')
-const refresh = r=> require.ensure([], () => r(require('@/components/social_security/company_task_list/company_task_list_tab/ReFresh')), 'refresh')
+const companyTaskList = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskList')), 'CompanyTaskList')
+const companyTaskProgressTwo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTwo')), 'CompanyTaskProgressTwo')
+const companyTaskProgressTypeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTypeInfo')), 'companyTaskProgressTypeInfo')
+const companyTaskProgressTransferInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressTransferInfo')), 'CompanyTaskProgressTransferInfo')
+const companyTaskProgressChangeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressChangeInfo')), 'CompanyTaskProgressChangeInfo')
+const companyTaskProgressEndInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/CompanyTaskProgressEndInfo')), 'CompanyTaskProgressEndInfo')
+const openAccountInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/OpenAccountInfo')), 'OpenAccountInfo')
+const transferInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/TransferInfo')), 'Transferinfo')
+const changeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/ChangeInfo')), 'ChangeInfo')
+const endInfo = r => require.ensure([], () => r(require('@/components/social_security/company_task_list/EndInfo')), 'EndInfo')
+const refresh = r=> require.ensure([], () => r(require('@/components/social_security/company_task_list/company_task_list_tab/ReFresh')), 'Refresh')
 
 /*
- * companysocialsecuritymanage       --- 企业社保账户管理
-   companysocialsecurity             --- 企业社保账户信息
-   companysocialsecurityprogress2    --- 企业社保账户信息2
-   companysocialsecuritytypeinfo     --- 企业社保账户信息(输入)
-   companysocialsecuritychangeinfo   --- 企业社保账户信息(变更)
-   companysocialsecurityendinfo      --- 企业社保账户信息(终止)
+ * companySocialSecurityManage       --- 企业社保账户管理
+   companySocialSecurity             --- 企业社保账户信息
+   companySocialSecurityProgress2    --- 企业社保账户信息2
+   companySocialSecurityTypeInfo     --- 企业社保账户信息(输入)
+   companySocialSecurityChangeInfo   --- 企业社保账户信息(变更)
+   companySocialSecurityEndInfo      --- 企业社保账户信息(终止)
  */
 
-const companysocialsecuritymanage = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityManage')), 'companysocialsecuritymanage')
-const companysocialsecurity = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurity')), 'companysocialsecurity')
-const companysocialsecurityprogress2 = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityProgressTwo')), 'companysocialsecurityprogress2')
-const companysocialsecuritytypeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityTypeInfo')), 'companysocialsecuritytypeinfo')
-const companysocialsecuritychangeinfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityChangeInfo')), 'companysocialsecuritychangeinfo')
-const companysocialsecurityendinfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialsecurityEndInfo')), 'companysocialsecurityendinfo')
+const companySocialSecurityManage = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityManage')), 'CompanySocialSecurityManage')
+const companySocialSecurity = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurity')), 'CompanySocialSecurity')
+const companySocialSecurityProgress2 = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityProgressTwo')), 'CompanySocialSecurityProgress2')
+const companySocialSecurityTypeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityTypeInfo')), 'CompanySocialSecurityTypeInfo')
+const companySocialSecurityChangeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityChangeInfo')), 'CompanySocialSecurityChangeInfo')
+const companySocialSecurityEndInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialsecurityEndInfo')), 'CompanySocialSecurityEndInfo')
 
 /*
- * socialsecurityreconcilate       --- 社保对账
- * socialsecurityreconcilatedetail ---社保对账查看页面
- */
-
-
-const socialsecurityreconcilate = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/socialsecurityreconcilate')), 'socialsecurityreconcilate')
-const socialsecurityreconcilatedetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityReconCilateDetail')), 'socialsecurityreconcilatedetail')
-const SocialSecurityEmpChangeDetailYys = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailYys')), 'SocialSecurityEmpChangeDetailYys')
-const SocialSecurityEmpChangeDetailGsy = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailGsy')), 'SocialSecurityEmpChangeDetailGsy')
-
-/*
- * socialsecuritypay               --- 社保支付
- * paymentnotice                   --- 查看付款通知书
+ * socialSecurityReconcilate       --- 社保对账
+ * socialSecurityReconcilateDetail ---社保对账查看页面
  */
 
 
-const socialSecurityPay = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/SocialSecurityPay')), 'socialSecurityPay')
-const paymentnotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/Paymentnotice')), 'paymentnotice')
+const socialSecurityReconcilate = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/SocialSecurityReconcilate')), 'SocialSecurityReconcilate')
+const socialSecurityReconcilateDetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityReconCilateDetail')), 'SocialSecurityReconcilateDetail')
+const socialSecurityEmpChangeDetailYys = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailYys')), 'SocialSecurityEmpChangeDetailYys')
+const socialSecurityEmpChangeDetailGsy = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailGsy')), 'SocialSecurityEmpChangeDetailGsy')
 
 /*
- * socialsecuritypay               --- 社保支付批次审核
- * paymentnotice                   --- 查看批次明细
+ * socialSecurityPay               --- 社保支付
+ * paymentNotice                   --- 查看付款通知书
  */
 
 
-const paymentBatchReviewed = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay_reviewed/PaymentBatchReviewed')), 'paymentBatchReviewed')
-const paymentComReviewed = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay_reviewed/PaymentComReviewed')), 'paymentComReviewed')
+const socialSecurityPay = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/SocialSecurityPay')), 'SocialSecurityPay')
+const paymentNotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/PaymentNotice')), 'PaymentNotice')
 
 /*
- * socialsecurityreport               --- 社保报表
- * monthlypaymentnotice            --- 月缴费通知
+ * socialSecurityPay               --- 社保支付批次审核
+ * paymentNotice                   --- 查看批次明细
  */
 
 
-const socialsecurityreport = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/socialsecurityreport')), 'socialsecurityreport')
-const monthlypaymentnotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/monthlyPaymentNotice')), 'socialsecurityreport')
+const paymentBatchReviewed = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay_reviewed/PaymentBatchReviewed')), 'PaymentBatchReviewed')
+const paymentComReviewed = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay_reviewed/PaymentComReviewed')), 'PaymentComReviewed')
 
+/*
+ * socialSecurityReport               --- 社保报表
+ * monthlyPaymentNotice            --- 月缴费通知
+ * EmployeeCostDetail              --- 雇员缴费明细
+ * RefundDetails                   --- 退费明细
+ */
+
+
+const socialSecurityReport = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/SocialSecurityReport')), 'SocialSecurityReport')
+const monthlyPaymentNotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/MonthlyPaymentNotice')), 'MonthlyPaymentNotice')
+const employeeCostDetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/EmployeeCostDetail')), 'EmployeeCostDetail')
+const refundDetails = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/RefundDetails')), 'RefundDetails')
 
 /*
  * annualadjustemployee            --- 年调雇员工资收集表下载
@@ -139,16 +145,16 @@ const annualadjustaccount = r => require.ensure([], () => r(require('@/component
 const annualadjustaccountemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccountEmp')), 'annualadjustaccountemp')
 
 /*
- * systemmanage                    --- 系统管理
+ * systemManage                    --- 系统管理
  */
 
-const systemmanage = r => require.ensure([], () => r(require('@/components/social_security/system_manage/systemmanage')), 'systemmanage')
+const systemManage = r => require.ensure([], () => r(require('@/components/social_security/system_manage/SystemManage')), 'SystemManage')
 
 export default [
   {
     path: '/employee_social_security_search',
-    name:'employeesocialsecuritysearch',
-    component: employeesocialsecuritysearch,
+    name:'employeeSocialSecuritySearch',
+    component: employeeSocialSecuritySearch,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -158,8 +164,8 @@ export default [
   },
   {
     path: '/employee_social_security_info',
-    name:'employeesocialsecurityinfo',
-    component: employeesocialsecurityinfo,
+    name:'employeeSocialSecurityInfo',
+    component: employeeSocialSecurityInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -169,8 +175,8 @@ export default [
   },
   {
     path: '/company_social_security_new',
-    name:'companysocialsecuritynew',
-    component: companysocialsecuritynew,
+    name:'companySocialSecurityNew',
+    component: companySocialSecurityNew,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -180,8 +186,8 @@ export default [
   },
   {
     path: '/employee_social_security_task_info',
-    name:'employeesocialsecuritytaskinfo',
-    component: employeesocialsecuritytaskinfo,
+    name:'employeeSocialSecurityTaskInfo',
+    component: employeeSocialSecurityTaskInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -192,8 +198,8 @@ export default [
 
   {
     path: '/employee_operator_view',
-    name:'employeeoperatorview',
-    component: employeeoperatorview,
+    name:'employeeOperatorView',
+    component: employeeOperatorView,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -202,9 +208,9 @@ export default [
     }
   },
   {
-    path: '/employee_comm_cial_operator',
-    name:'employeecommcialoperator',
-    component: employeecommcialoperator,
+    path: '/employee_commcial_operator',
+    name:'employeeCommcialOperator',
+    component: employeeCommcialOperator,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -215,8 +221,8 @@ export default [
 
   {
     path: '/employee_special_operator_view',
-    name: 'employeespecialoperatorview',
-    component: employeespecialoperatorview,
+    name: 'employeeSpecialOperatorView',
+    component: employeeSpecialOperatorView,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -226,8 +232,8 @@ export default [
   },
   {
     path: '/employee_special_progress_two',
-    name: 'employeespecialprogresstwo',
-    component: employeespecialprogresstwo,
+    name: 'employeeSpecialProgressTwo',
+    component: employeeSpecialProgressTwo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -237,8 +243,8 @@ export default [
   },
   {
     path: '/employee_special_progress_three',
-    name: 'employeespecialprogressthree',
-    component: employeespecialprogressthree,
+    name: 'employeeSpecialProgressThree',
+    component: employeeSpecialProgressThree,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -249,8 +255,8 @@ export default [
 
   {
     path: '/emp_special_task_detail',
-    name: 'empspecialtaskdetail',
-    component: empspecialtaskdetail,
+    name: 'empSpecialTaskDetail',
+    component: empSpecialTaskDetail,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -294,6 +300,17 @@ export default [
     path: '/emp_task_handle5_view',
     name: 'empTaskHandle5View',
     component: empTaskHandle5View,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"雇员操作转出",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/emp_task_handle7_view',
+    name: 'empTaskHandle7View',
+    component: empTaskHandle7View,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -348,8 +365,8 @@ export default [
 
   {
     path: '/company_task_list',
-    name: 'companytasklist',
-    component: companytasklist,
+    name: 'companyTaskList',
+    component: companyTaskList,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -358,9 +375,9 @@ export default [
     },
   },
   {
-    path: '/company_task_progress2',
-    name: 'companytaskprogress2',
-    component: companytaskprogress2,
+    path: '/company_task_progress_two',
+    name: 'companyTaskProgressTwo',
+    component: companyTaskProgressTwo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -370,8 +387,8 @@ export default [
   },
   {
     path: '/company_task_progress_type_info',
-    name: 'companytaskprogresstypeinfo',
-    component: companytaskprogresstypeinfo,
+    name: 'companyTaskProgressTypeInfo',
+    component: companyTaskProgressTypeInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -381,8 +398,8 @@ export default [
   },
   {
     path: '/company_task_progress_transfer_info',
-    name: 'companytaskprogresstransferinfo',
-    component: companytaskprogresstransferinfo,
+    name: 'companyTaskProgressTransferInfo',
+    component: companyTaskProgressTransferInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -392,8 +409,8 @@ export default [
   },
   {
     path: '/company_task_progress_change_info',
-    name: 'companytaskprogresschangeinfo',
-    component: companytaskprogresschangeinfo,
+    name: 'companyTaskProgressChangeInfo',
+    component: companyTaskProgressChangeInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -414,8 +431,8 @@ export default [
   },
   {
     path: '/company_task_progres_send_info',
-    name: 'companytaskprogressendinfo',
-    component: companytaskprogressendinfo,
+    name: 'companyTaskProgressEndInfo',
+    component: companyTaskProgressEndInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -425,8 +442,8 @@ export default [
   },
   {
     path: '/open_account_info',
-    name: 'openaccountinfo',
-    component: openaccountinfo,
+    name: 'openAccountInfo',
+    component: openAccountInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -436,8 +453,8 @@ export default [
   },
   {
     path: '/transfer_info',
-    name: 'transfertnfo',
-    component: transferinfo,
+    name: 'transferInfo',
+    component: transferInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -447,8 +464,8 @@ export default [
   },
   {
     path: '/change_info',
-    name: 'changeinfo',
-    component: changeinfo,
+    name: 'changeInfo',
+    component: changeInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -458,8 +475,8 @@ export default [
   },
   {
     path: '/end_info',
-    name: 'endinfo',
-    component: endinfo,
+    name: 'endInfo',
+    component: endInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -469,8 +486,8 @@ export default [
   },
   {
     path: '/company_social_security_manage',
-    name: 'companysocialsecuritymanage',
-    component: companysocialsecuritymanage,
+    name: 'companySocialSecurityManage',
+    component: companySocialSecurityManage,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -480,8 +497,8 @@ export default [
   },
   {
     path: '/company_social_security',
-    name: 'companysocialsecurity',
-    component: companysocialsecurity,
+    name: 'companySocialSecurity',
+    component: companySocialSecurity,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -491,8 +508,8 @@ export default [
   },
   {
     path: '/company_social_security_progress2',
-    name: 'companysocialsecurityprogress2',
-    component: companysocialsecurityprogress2,
+    name: 'companySocialSecurityProgress2',
+    component: companySocialSecurityProgress2,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -502,8 +519,8 @@ export default [
   },
   {
     path: '/company_social_security_type_info',
-    name: 'companysocialsecuritytypeinfo',
-    component: companysocialsecuritytypeinfo,
+    name: 'companySocialSecurityTypeInfo',
+    component: companySocialSecurityTypeInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -513,8 +530,8 @@ export default [
   },
   {
     path: '/company_social_security_change_info',
-    name: 'companysocialsecuritychangeinfo',
-    component: companysocialsecuritychangeinfo,
+    name: 'companySocialSecurityChangeInfo',
+    component: companySocialSecurityChangeInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -524,8 +541,8 @@ export default [
   },
   {
     path: '/company_social_security_end_info',
-    name: 'companysocialsecurityendinfo',
-    component: companysocialsecurityendinfo,
+    name: 'companySocialSecurityEndInfo',
+    component: companySocialSecurityEndInfo,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -536,8 +553,8 @@ export default [
 
   {
     path: '/social_security_recon_cilate',
-    name: 'socialsecurityreconcilate',
-    component: socialsecurityreconcilate,
+    name: 'socialSecurityReconcilate',
+    component: socialSecurityReconcilate,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -547,8 +564,8 @@ export default [
   },
   {
     path: '/social_security_recon_cilate_detail',
-    name: 'socialsecurityreconcilatedetail',
-    component: socialsecurityreconcilatedetail,
+    name: 'socialSecurityReconcilateDetail',
+    component: socialSecurityReconcilateDetail,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -558,8 +575,8 @@ export default [
   },
   {
     path: '/social_security_emp_change_detail_yys',
-    name: 'SocialSecurityEmpChangeDetailYys',
-    component: SocialSecurityEmpChangeDetailYys,
+    name: 'socialSecurityEmpChangeDetailYys',
+    component: socialSecurityEmpChangeDetailYys,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -569,8 +586,8 @@ export default [
   },
   {
     path: '/social_security_emp_change_detail_gsy',
-    name: 'SocialSecurityEmpChangeDetailGsy',
-    component: SocialSecurityEmpChangeDetailGsy,
+    name: 'socialSecurityEmpChangeDetailGsy',
+    component: socialSecurityEmpChangeDetailGsy,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -591,8 +608,8 @@ export default [
   },
   {
     path: '/payment_notice',
-    name: 'paymentnotice',
-    component: paymentnotice,
+    name: 'paymentNotice',
+    component: paymentNotice,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -625,8 +642,8 @@ export default [
 
   {
     path: '/social_security_report',
-    name: 'socialsecurityreport',
-    component: socialsecurityreport,
+    name: 'socialSecurityReport',
+    component: socialSecurityReport,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -636,8 +653,8 @@ export default [
   },
   {
     path: '/monthly_payment_notice',
-    name: 'monthlypaymentnotice',
-    component: monthlypaymentnotice,
+    name: 'monthlyPaymentNotice',
+    component: monthlyPaymentNotice,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -645,6 +662,29 @@ export default [
       openNames:['1']
     }
   },
+  {
+    path: '/employee_cost_detail',
+    name: 'employeeCostDetail',
+    component: employeeCostDetail,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"社保报表",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/refund_details',
+    name: 'refundDetails',
+    component: refundDetails,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"社保报表",
+      openNames:['1']
+    }
+  },
+
   {
     path: '/annual_adjust_employee',
     name: 'annualadjustemployee',
@@ -703,8 +743,8 @@ export default [
 
   {
     path: '/system_manage',
-    name: 'systemmanage',
-    component: systemmanage,
+    name: 'systemManage',
+    component: systemManage,
     meta:{
       level1:'全国社保',
       level2:"上海社保",

@@ -98,7 +98,7 @@
             <Col span="16">
             <Form-item label="批退备注：" prop="rejectionRemark">
                 <label>{{socialSecurityPayOperator.rejectionRemark}}</label>
-                
+
             </Form-item>
             </Col>
             <Col span="4">
@@ -129,8 +129,8 @@
   import employeeInfo from '../components/EmployeeInfo.vue'
 
   import taskRefrenceInfo from './taskRefrenceInfo.vue'
-  import socialSecurityOperator from '../../commoncontrol/socialsecurityoperator.vue'
-  import EventTypes from '../../../store/EventTypes'
+  import socialSecurityOperator from '../../common_control/SocialSecurityOperator.vue'
+  import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
 
   export default {
@@ -162,9 +162,9 @@
           {
             title: '', key: 'remitWay', align: 'center', width: 100,
             render: (h, params) => {
-                
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.remitWay=='1'?'正常':params.row.remitWay=='2'?'补缴':''),
+
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', this.$decode.remitWay(params.row.remitWay)),
               ]);
             }
           },
@@ -173,21 +173,21 @@
             key: 'startMonth',
             align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}},[
+              return h('div', {style: {textAlign: 'center'}},[
                   h('span', params.row.startMonth)
                   ]);
             }
           },
           {title: '截止月份', key: 'endMonth',align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.endMonth),
               ]);
             }
           },
           {title: '基数',key: 'baseAmount',align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                   h('span',params.row.baseAmount)
                   ]);
             }
@@ -228,7 +228,7 @@
     },
     methods: {
       ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
-      initData(data) { 
+      initData(data) {
         this.empTaskId = data.empTaskId;
         this.operatorType = data.operatorType;
         this.sourceFrom = data.sourceFrom;
@@ -252,7 +252,7 @@
         })
       },
       goBack() {
-        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo',query:{empArchiveId:this.empArchiveId}});
+        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo',query:{empArchiveId:this.empArchiveId}});
       },
       getChangeType(val){
           if(val==null || typeof(val)=='undefined'){

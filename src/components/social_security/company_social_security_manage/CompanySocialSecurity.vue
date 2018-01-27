@@ -33,9 +33,15 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="付款方式：" class="">
-                  <label>{{companySocialSecurityInfo.paymentWay}}</label>
+                  <label>{{this.$decode.payMethod(companySocialSecurityInfo.paymentWay)}}</label>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="账单接收方：" class="">
+                  <label>{{this.$decode.billReceiver(companySocialSecurityInfo.billReceiver)}}</label>
+                </Form-item>
+              </Col>
+              
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="工行查询账号：" class="">
                   <label>{{companySocialSecurityInfo.queryAccount}}</label>
@@ -68,7 +74,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="来源地：" class="">
-                  <label>{{companySocialSecurityInfo.originPlace}}</label>
+                  <label>{{companySocialSecurityInfo.originPlace=='1'?'新开':companySocialSecurityInfo.originPlace=='2'?'AF转入':companySocialSecurityInfo.originPlace=='3'?'其他供应商转入':''}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -78,7 +84,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="交予方式：" class="">
-                  <label>{{companySocialSecurityInfo.deliverWay}}</label>
+                  <label>{{companySocialSecurityInfo.deliverWay=='1'?'交客服':companySocialSecurityInfo.deliverWay=='2'?'传真':companySocialSecurityInfo.deliverWay=='3'?'邮寄':''}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -176,7 +182,7 @@
       @on-cancel="cancel">
       <ul>
         <li v-for="chatItem in chatList">
-            
+
             <div class="content">
               <p class="info">
                 <span>{{chatItem.name}}</span>
@@ -192,8 +198,8 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
-  import EventType from '../../../store/EventTypes'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/company_social_security_manage/company_social_security_manage'
   export default {
     components: {chat},
@@ -212,9 +218,10 @@
           settlementArea: '',//结算区县
           paymentBank: '',//付款行
           paymentWay: '',//支付方式
+          billReceiver:'',//账单接收方
           queryAccount: '',//工行查询账号
           expireDate: '',//社保截止日
-          ssUsername: '',//养老金用户名 
+          ssUsername: '',//养老金用户名
           ssPwd: '',//养老金密码
           initialBalance: '',//初期余额
           initialDebt: '',//初期欠费
@@ -231,7 +238,7 @@
         }, //企业社保账号信息
 
         childCompanyColumns: [
-          {title: '公司编码', key: 'companyId', align: 'center', className: 'mw120',
+          {title: '客户编号', key: 'companyId', align: 'center', className: 'mw120',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.companyId),
@@ -272,10 +279,10 @@
                      let taskStatus = params.row.taskStatus
                      let pageInfo = ""
                      let source = ""
-                     if(taskType=='1')pageInfo='openaccountinfo'
-                     else if(taskType=='2')pageInfo='transferinfo'
-                      else if(taskType=='3')pageInfo='changeinfo'
-                       else if(taskType=='4')pageInfo='endinfo'
+                     if(taskType=='1')pageInfo='openAccountInfo'
+                     else if(taskType=='2')pageInfo='transferInfo'
+                      else if(taskType=='3')pageInfo='changeInfo'
+                       else if(taskType=='4')pageInfo='endInfo'
 
                       if(taskStatus=='3')source='0'
                        else if(taskStatus=='4')source='1'
@@ -340,17 +347,17 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      
+
                       this.chatList =  [
                         {
                           name:params.row.submitterName,
-                          date: params.row.submitTime, 
+                          date: params.row.submitTime,
                           content: params.row.submitRemark
                         }
                       ]
-                        
+
                       this.isShowNotes = true
-                      
+
                     }
                   }
                 }, '查看'),
@@ -394,22 +401,22 @@
       }
     },
     mounted() {
-      let comAccountId = this.comAccountId 
+      let comAccountId = this.comAccountId
       api.companySocialSecurityQuery({comAccountId:comAccountId}).then(result=>{
         this.companySocialSecurityInfo = result.data.account
         this.childCompanyData = result.data.ssAccountComRelation
-        
+
         this.historyTaskData = result.data.ssComTask
         this.workInjuryData = result.data.ssAccountRatio
       })
     },
     computed: {
-     
+
     },
     methods: {
-      
+
       goBack() {
-        this.$router.push({name: 'companysocialsecuritymanage'})
+        this.$router.push({name: 'companySocialSecurityManage'})
       },
       ok () {
 
@@ -422,7 +429,7 @@
 </script>
 <style scoped>
   li {clear: both; margin-top: 10px;}
-  
+
   .content {
     width: 352px;
     float: left;
@@ -434,15 +441,15 @@
   .content .text {
     color: #333;
     padding-top: 10px;
-    
+
   }
   .date{
     padding-left: 20px;
   }
 ul {
-  list-style: none; 
-  width: 400px; 
-  height: 116px; 
+  list-style: none;
+  width: 400px;
+  height: 116px;
   overflow-y: auto;
   padding-top: 30px;
   padding-left: 20px;

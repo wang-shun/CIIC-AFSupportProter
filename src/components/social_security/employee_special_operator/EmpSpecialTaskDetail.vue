@@ -39,7 +39,7 @@
                         <label>{{getHandleWay(socialSecuritySpecialOperator.handleWay)}}</label>
                     </Form-item>
                   </Col>
-                
+
                   <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                     <Form-item label="受理日期：" class="" prop="startHandleDate">
                       <label>{{socialSecuritySpecialOperator.startHandleDate}}</label>
@@ -80,10 +80,10 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
+  import chat from '../../common_control/chat_history/Chat.vue'
   import CompanyInfo from '../components/CompanyInfo.vue'
-  import employeeInfo from '../../commoncontrol/employeeinfo.vue'
-  import EventType from '../../../store/EventTypes'
+  import employeeInfo from '../../common_control/EmployeeInfo.vue'
+  import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
   import Utils from '../../../lib/utils'
   export default {
@@ -195,7 +195,7 @@
           handleRemark: '',
           rejectionRemark: ''
         },
-      
+
       }
     },
     mounted() {
@@ -211,12 +211,12 @@
       accAndEmpDetailQuery(){
         //处理参数
         api.specialTaskQuery({empTaskId:this.empTaskId}).then(data => {
-          
+
           if(data.data!=null){
             this.socialSecuritySpecialOperator = data.data;
           this.taskInitialStatus = data.data.handleStatus;
           }
-          
+
         })
        //6表示特殊操作 查询雇员信息
         api.queryEmpArchiveByEmpTaskId({empTaskId:this.empTaskId,operatorType:'6'}).then((data) => {
@@ -232,14 +232,14 @@
           if(data.data!=null){
              this.companyInfo = data.data;
           }
-         
+
         })
       },
       goBack() {
-        this.$router.push({name:'employeespecialoperatorview'});
+        this.$router.push({name:'employeeSpecialOperatorView'});
       },
       getChangeValue(val){
-        
+
         if(typeof(val)=='undefined' ||  val==null || val.trim()==''){
           return ''
         }else{
@@ -251,7 +251,7 @@
         if(typeof(val)=='undefined' ||  val==null || val.trim()==''){
           return ''
         }else{
-          
+
           let index = Number(val)-1
         return this.doMethodList[index].label;
         }
@@ -260,7 +260,7 @@
         if(typeof(val)=='undefined' ||  val==null || val.trim()==''){
           return ''
         }else{
-          
+
           let index = Number(val)-1
         return this.taskTypeList[index].label;
         }

@@ -113,7 +113,7 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/EventTypes'
+  import EventType from '../../../store/event_types'
 
   export default {
     data() {
@@ -199,7 +199,7 @@
             }
           },
           {
-            title: '企业社保账户分类', key: 'socialSecurityAccountType', align: 'center', width: 180,
+            title: '社保账户类型', key: 'socialSecurityAccountType', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', [
                   h('Select', {props: {value: ''}},
@@ -646,7 +646,7 @@
     methods: {
       ...mapActions('employeeCommcialOperator', [EventType.EMPLOYEECOMMCIALOPERATOR]),
       goback () {
-        this.$router.push({name: 'employeeoperatorview'});
+        this.$router.push({name: 'employeeOperatorView'});
       }
     }
   }

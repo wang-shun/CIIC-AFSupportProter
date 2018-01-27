@@ -1,13 +1,15 @@
-import Utils from "../../../lib/utils";
-
-const ajaxq = Utils.ajaxFbq;
-const ajaxc = Utils.ajaxFbc;
+import ajax from "../../../lib/ajax";
 
 //query服务
-const marketData = params => ajaxq.post("/marketQueryService/marketList", params);
+const ajaxQuery = ajax.ajaxFbq;
 //command服务
-const marketInsert = params => ajaxc.post("/marketCommandService/marketActivityAdd", params);
-const marketUpdate = params => ajaxc.post("/marketCommandService/marketActivityUpdate", params);
+const ajaxCommand = ajax.ajaxFbc;
+
+//query服务
+const marketData = params => ajaxQuery.postJSON("/marketQueryService/marketList", params);
+//command服务
+const marketInsert = params => ajaxCommand.postJSON("/marketCommandService/marketActivityAdd", params);
+const marketUpdate = params => ajaxCommand.postJSON("/marketCommandService/marketActivityUpdate", params);
 
 export default {
   marketData,

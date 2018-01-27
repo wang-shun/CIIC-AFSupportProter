@@ -59,7 +59,15 @@
               <Row v-if="payMethodShow || companyNameShow" class="mt20" type="flex" justify="start">
                 <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="payMethodShow">
                 <Form-item label="付款方式：">
-                    <label>{{changeOperator.payMethodValue}}</label>
+                    <label>{{this.$decode.payMethod(changeOperator.payMethodValue)}}</label>
+                  <!-- <Select v-model="changeOperator.payMethodValue" style="width: 100%;" transfer >
+                    <Option v-for="item in payMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select> -->
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="payMethodShow">
+                <Form-item label="账单接收方：">
+                    <label>{{this.$decode.billReceiver(changeOperator.billReceiverValue)}}</label>
                   <!-- <Select v-model="changeOperator.payMethodValue" style="width: 100%;" transfer >
                     <Option v-for="item in payMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select> -->
@@ -69,7 +77,7 @@
                 <Form-item label="养老金用公司名称：">
                      <label>{{changeOperator.pensionMoneyUseCompanyName}}</label>
                 </Form-item>
-              </Col> 
+              </Col>
               </Row>
               <Row class="mt20" type="flex" justify="start">
                 <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="industryRatioShow">
@@ -86,7 +94,7 @@
                 <Form-item label="变更开始月份：">
                     <label>{{changeOperator.changeStartMonth}}</label>
                 </Form-item>
-              </Col>     
+              </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="受理日期：">
                     <label>{{changeOperator.acceptanceDate}}</label>
@@ -127,9 +135,9 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
-  import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
-  import EventType from '../../../store/EventTypes'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import companySocialSecurityInfo from '../../common_control/CompanySocialSecurityInfo.vue'
+  import EventType from '../../../store/event_types'
   import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
@@ -227,6 +235,7 @@
           taskStatus:'',
           changeContentValue: '1',
           payMethodValue:'',//付款方式
+          billReceiverValue:'',//账单接收方
           pensionMoneyUseCompanyName:'',//养老金公司名称
           belongsIndustry: '',//所属行业
           companyWorkInjuryPercentage: '',//企业工伤比例
@@ -243,12 +252,12 @@
        this.queryPageInfo()
     },
     computed: {
-     
+
     },
     methods: {
       goBack() {
         window.history.go(-1)
-        //this.$router.push({name: 'companytasklist'})
+        //this.$router.push({name: 'companyTaskList'})
       },
       //查询页面信息
       queryPageInfo(){
@@ -267,6 +276,7 @@
         let self = this
         CompanyTaskList.getEndPageInfo(params,'change').then(result=>{
         self.operatorMaterialListData = result.operatorMaterialListData;
+        
         self.companyInfo = result.companyInfo
         self.historyRemark = result.historyRemark;
         self.changeOperator = result.changeOperator;
@@ -307,7 +317,7 @@
         }else{
             return ''
         }
-        
+
       },
       ok () {
 

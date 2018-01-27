@@ -12,7 +12,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="ssAccountType">
+                <Form-item label="社保账户类型：" prop="ssAccountType">
                   <Select v-model="comAccountSearch.ssAccountType" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -20,13 +20,14 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账号：" prop="ssAccount">
-                  <Input v-model="comAccountSearch.ssAccount" placeholder="请输入..."></Input>
+                  <input-account v-model="comAccountSearch.ssAccount"></input-account>
+                  <!-- <Input v-model="comAccountSearch.ssAccount" placeholder="请输入..."></Input> -->
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="状态：" prop="state">
                   <Select v-model="comAccountSearch.state" style="width: 100%;" transfer>
-                    <Option v-for="item in comAccountSearch.stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="item in stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -48,7 +49,7 @@
 
     <Form>
       <Row class="mt20">
-        <Col :sm="{span:24}">
+        <Col :sm="{span:24}" class="tr">
           <Form-item class="ml10">
             <Button type="info" @click="">导出</Button>
           </Form-item>
@@ -58,7 +59,7 @@
       <Row>
         <Col :sm="{span: 24}">
           <Table border :columns="accountManageColumns" :data="accountManageData"></Table>
- 
+
             <Page
             class="pageSize"
             @on-change="handlePageNum"
@@ -75,9 +76,10 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/EventTypes'
-  
+  import EventType from '../../../store/event_types'
+import InputAccount from '../../common_control/form/input_account'
   export default {
+    components:{InputAccount},
     data() {
       return{
         collapseInfo: [1], //展开栏
@@ -89,11 +91,13 @@
           state: '',
         },
         accountTypeList: [
+            {value: '', label: '全部'},
             {value: '1', label: '中智大库'},
             {value: '2', label: '中智独立库'},
             {value: '3', label: '独立户'},
         ],
         stateList: [
+            {value: '', label: '全部'},
             {value: '1', label: '有效'},
             {value: '2', label: '封存'},
             {value: '3', label: '终止'},
@@ -116,7 +120,7 @@
                     click: () => {
                       sessionStorage.managerPageNum = this.resultPageData.pageNum
                       sessionStorage.managerPageSize = this.resultPageData.pageSize
-                      this.$router.push({name: 'companysocialsecurity',query:{comAccountId:params.row.comAccountId}})
+                      this.$router.push({name: 'companySocialSecurity',query:{comAccountId:params.row.comAccountId}})
                     }
                   }
                 }, '查看'),
@@ -130,17 +134,17 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'ssAccountType', width: 100, fixed: 'left', align: 'center',
+          {title: '社保账户类型', key: 'ssAccountType', width: 100, fixed: 'left', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.ssAccountType),
+                h('span', this.$decode.accountType(params.row.ssAccountType)),
               ]);
             }
           },
           {title: '状态', key: 'state', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.state),
+                h('span', params.row.state=='0'?'初始':params.row.state=='1'?'有效':params.row.state=='2'?'终止':''),
               ]);
             }
           },
@@ -188,18 +192,18 @@
     },
     methods: {
       ...mapActions('companySocialSecurityManage', [EventType.COMPANYSOCIALSECURITYMANAGETYPE]),
-       
+
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      queryAccount() { 
+      queryAccount() {
       let sessionPageNum = sessionStorage.managerPageNum
       let sessionPageSize = sessionStorage.managerPageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.resultPageData.pageNum = Number(sessionPageNum)
          this.resultPageData.pageSize = Number(sessionPageSize)
-         sessionStorage.removeItem("managerPageNum") 
-         sessionStorage.removeItem("managerPageSize") 
+         sessionStorage.removeItem("managerPageNum")
+         sessionStorage.removeItem("managerPageSize")
       }
         var params = {
           pageNum: typeof(sessionPageNum)=="undefined"?this.resultPageData.pageNum:Number(sessionPageNum),
@@ -227,7 +231,7 @@
 
       },
       cancel () {
- 
+
       }
     }
   }

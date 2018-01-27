@@ -168,7 +168,7 @@
     <div class="create">
       <Row :gutter="16">
         <i-col span="6">
-          <Button type="primary"  size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出数据</Button>
+          <Button type="info"  size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出数据</Button>
         </i-col >
       </Row>
     </div>

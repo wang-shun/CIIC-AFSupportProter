@@ -3,7 +3,7 @@
     <div class="layout-ceiling layoutMenuLeft">
       <Row type="flex" class="topFlex">
         <i-col :span="spanLeft" class="layout-menu-left">
-          <div data-v-3413f463="" style="padding-left: 20px;padding-top: 10px;color: #fff;font-size: 20px;">GT1 支持中心</div>
+          <div data-v-3413f463="" class="layout-menu-left ivu-col ivu-col-span-4"></div>
         </i-col>
         <i-col :span="spanRight">
           <i-button type="text" @click="toggleClick">
@@ -19,9 +19,9 @@
             </Button>
             <DropdownMenu slot="list">
               <DropdownItem name="http://172.16.9.25:8100/#/">销售中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8103/#/">外企客服中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8103/#/">客服中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8109/#/">代理中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8101/">外企雇员中心</DropdownItem>
+              <DropdownItem name="http://172.16.9.25:8101/">雇员中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8104/#/">服务外包业务中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8108/#/main/">外企支持中心</DropdownItem>
               <DropdownItem name="http://172.16.9.25:8112/#/">财务咨询业务中心</DropdownItem>
@@ -108,6 +108,7 @@
               <span :class="{'layout-text':layoutOut}">{{item.key}}</span>
             </template>
             <Menu-item v-for="subitem in item.children" :name="subitem.cid" :key="subitem.cid">
+              
               <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}" @click.native="getMenu(subitem)">{{subitem.ckey}}</router-link>
             </Menu-item>
           </Submenu>
@@ -153,7 +154,7 @@
 <script>
 
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../store/EventTypes'
+  import EventTypes from '../store/event_types'
 
   export default {
     data() {
@@ -234,32 +235,43 @@
         }
       },
       getMenu(obj){
+        //社保账户管理 清除页面缓存
         if(obj.crouter=='companysocialsecuritymanage'){
-            //社保账户管理 清除页面缓存
+
             let sessionPageNum = sessionStorage.managerPageNum
             let sessionPageSize = sessionStorage.managerPageSize
           if(typeof(sessionPageNum)!='undefined'){
-            sessionStorage.removeItem("managerPageNum") 
+            sessionStorage.removeItem("managerPageNum")
           }
           if(typeof(sessionPageSize)!="undefined"){
-            sessionStorage.removeItem("managerPageSize") 
+            sessionStorage.removeItem("managerPageSize")
           }
         }
 
-        //任务单页面缓存清除
-        if(obj.crouter=='companytasklist'){
+        //企业任务单页面缓存清除
+        if(obj.crouter=='companyTaskList'){
           let tab = sessionStorage.companyTaskTab
           let sessionPageNum = sessionStorage.taskFiPageNum
           let sessionPageSize = sessionStorage.taskFiPageSize
           if(typeof(tab)!='undefined'){
-            sessionStorage.removeItem("companyTaskTab") 
+            sessionStorage.removeItem("companyTaskTab")
           }
 
           if(typeof(sessionPageNum)!="undefined"){
-            sessionStorage.removeItem("taskFiPageNum") 
+            sessionStorage.removeItem("taskFiPageNum")
           }
           if(typeof(sessionPageSize)!="undefined"){
-            sessionStorage.removeItem("taskFiPageSize") 
+            sessionStorage.removeItem("taskFiPageSize")
+          }
+        }
+
+        //雇员日常操作任务单页面缓存清除
+        if(obj.crouter=='employeeOperatorView'){
+          let tab = sessionStorage.employeeOperatorTab
+          let sessionPageNum = sessionStorage.taskFiPageNum
+          let sessionPageSize = sessionStorage.taskFiPageSize
+          if(typeof(tab)!='undefined'){
+            sessionStorage.removeItem("employeeOperatorTab")
           }
         }
         
@@ -345,7 +357,6 @@
 </script>
 <style scoped>
   .layout {
-    border: 1px solid #d7dde4;
     background: #f5f7f9;
     position: relative;
     border-radius: 4px;
@@ -451,6 +462,12 @@
     transition: width .2s ease-in-out;
   }
 
+  .ivu-col-span-4 {
+    float: left;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto
+  }
+
   .ivu-menu-dark {
     background: #222d32;
     border-left: 2px solid #222d32;
@@ -484,7 +501,7 @@
   }
 
   .layoutMenuLeft .layout-menu-left {
-    background: #367fa9;
+    background: #367fa9 url(/static/img/support_center.jpg) no-repeat 100%
   }
 
   .ivu-badge {

@@ -7,7 +7,7 @@
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="账户类型：" prop="ssAccountType">
+              <Form-item label="社保账户类型：" prop="ssAccountType">
                 <Select v-model="operatorSearchData.ssAccountType" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="1" label="中智大库"></Option>
@@ -36,7 +36,7 @@
                 <input-account v-model="operatorSearchData.ssAccount"></input-account>
               </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="人员分类：" prop="empClassify">
                 <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
@@ -47,7 +47,7 @@
                   <Option value="5" label="延迟退休人员"></Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单类型：" prop="taskCategory">
                 <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
@@ -84,14 +84,14 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="结算中心：" prop="settlementArea">
+              <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
-                  <Option value="徐汇区" label="徐汇区"></Option>
-                  <Option value="浦东新区" label="浦东新区"></Option>
-                  <Option value="闵行区" label="闵行区"></Option>
-                  <Option value="闸北区" label="闸北区"></Option>
-                  <Option value="黄浦区" label="黄浦区"></Option>
+                  <Option value="徐汇" label="徐汇"></Option>
+                  <Option value="浦东" label="浦东"></Option>
+                  <Option value="闵行" label="闵行"></Option>
+                  <Option value="闸北" label="闸北"></Option>
+                  <Option value="黄浦" label="黄浦"></Option>
                 </Select>
               </Form-item>
               </Col>
@@ -136,11 +136,11 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/EventTypes'
+  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
-  import InputAccount from '../../../commoncontrol/form/input-account'
-  import InputCompany from '../../../commoncontrol/form/input-company'
+  import InputAccount from '../../../common_control/form/input_account'
+  import InputCompany from '../../../common_control/form/input_company'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -153,7 +153,7 @@
           employeeName: '',
           settlementArea: '',
           ssAccountType: '',
-          empClassify: '',
+         // empClassify: '',
           ssAccount: '',
           companyId: '',
           idNum: '',
@@ -186,7 +186,8 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'empspecialtaskdetail',query:{empTaskId:params.row.empTaskId}})
+
+                      this.$router.push({name: 'empSpecialTaskDetail',query:{empTaskId:params.row.empTaskId}})
                     }
                   }
                 }, '查看'),
@@ -245,14 +246,14 @@
               ]);
             }
           },
+          // {
+          //   title: '雇员分类', key: 'empClassify', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     return this.$decode.empClassify(params.row.empClassify)
+          //   }
+          // },
           {
-            title: '雇员分类', key: 'empClassify', width: 100, align: 'center',
-            render: (h, params) => {
-              return this.$decode.empClassify(params.row.empClassify)
-            }
-          },
-          {
-            title: '账户类型', key: 'ssAccountType', width: 120, align: 'center',
+            title: '社保账户类型', key: 'ssAccountType', width: 120, align: 'center',
             render: (h, params) => {
               return this.$decode.accountType(params.row.ssAccountType)
             }
@@ -292,7 +293,7 @@
       },
       routerToCommcialOperator: function (name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },
@@ -339,7 +340,7 @@
         this.employeeResultPageData.pageSize = val;
         this.employeeOperatorQuery();
       },
-  
+
       // 选中项发生变化时就会触发
       selectionChange(selection) {
         this.selectEmployeeResultData = selection;

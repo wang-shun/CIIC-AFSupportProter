@@ -7,8 +7,8 @@
           <Form :label-width=150 ref="searchCondition" :model="searchCondition">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账号：" prop="ssAccount">
-                  <Input v-model="searchCondition.ssAccount" placeholder="请输入..."></Input>
+                <Form-item label="企业社保账户：" prop="ssAccount">
+                   <input-account v-model="searchCondition.ssAccount"></input-account>
                 </Form-item>
               </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -29,7 +29,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="ssAccountType">
+                <Form-item label="社保账户类型：" prop="ssAccountType">
                   <Select v-model="searchCondition.ssAccountType" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -49,12 +49,13 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="companyId">
-                  <Input v-model="searchCondition.companyId" placeholder="请输入..."></Input>
+                  <input-company v-model="searchCondition.companyId"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="title">
-                  <Input v-model="searchCondition.title"  placeholder="请输入..."></Input><!-- @on-focus="isShowCustomerName = true" -->
+                  <input-company-name v-model="searchCondition.title" ></input-company-name>
+                  <!-- <Input v-model="searchCondition.title"  placeholder="请输入..."></Input> -->
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -62,13 +63,13 @@
                   <Input v-model="searchCondition.idNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：" prop="empClassify">
                   <Select v-model="searchCondition.empClassify" style="width: 100%;" transfer>
                     <Option v-for="item in personTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
-              </Col>
+              </Col> -->
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
@@ -82,7 +83,7 @@
     </Collapse>
 
     <Row style="margin: 10px 0;">
-      <Col :sm="{span: 24}">
+      <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="exportData">导出</Button>
       </Col>
     </Row>
@@ -98,40 +99,22 @@
         :current="pageData.pageNum"
         show-sizer show-total></Page>
 
-
-    <!-- 客户名称 模态框 -->
-    <Modal
-      v-model="isShowCustomerName"
-      title="选择客户"
-      width="720"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <customer-modal :customerData="data.customerData"></customer-modal>
-    </Modal>
-
-    <!-- 企业社保账户分类 模态框 -->
-    <Modal
-      v-model="isShowAccountType"
-      title="企业社保账户分类"
-      width="720"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
-    </Modal>
   </div>
 
 
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from "../../commoncontrol/customermodal.vue"
-  import companyAccountSearchModal from "../../commoncontrol/companyaccountsearchmodal.vue"
+  import customerModal from "../../common_control/CustomerModal.vue"
+  import companyAccountSearchModal from "../../common_control/CompanyAccountSearchModal.vue"
   import ICol from "../../../../node_modules/iview/src/components/grid/col";
-  import EventTypes from '../../../store/EventTypes'
+  import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
-
+  import InputAccount from '../../common_control/form/input_account'
+  import InputCompany from '../../common_control/form/input_company'
+  import InputCompanyName from '../../common_control/form/input_company/InputCompanyName.vue'
   export default {
-    components: {ICol, customerModal, companyAccountSearchModal},
+    components: {ICol, customerModal, companyAccountSearchModal,InputAccount,InputCompany,InputCompanyName},
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
@@ -144,7 +127,7 @@
         searchCondition: {
           companyId: '', //客户编号
           title: '', //客户名称
-         // companyAccountType: '', //企业社保账户分类
+         // companyAccountType: '', //社保账户类型
           settlementArea: '', //结算区域
           ssAccountType: '',  //社保账户类型
           employeeId: '', //雇员编号
@@ -152,16 +135,17 @@
           idNum: '', //身份证号
           ssAccount:'',//企业社保账号
           archiveTaskStatus: '',//社保状态
-          empClassify: '' //人员分类
+          //empClassify: '' //人员分类
         },
         employeeSocialSecurityData:[],//列表数据
         isShowCustomerName: false, //客户名称Modal
-        isShowAccountType: false, //企业社保账户分类Modal
+        isShowAccountType: false, //社保账户类型Modal
 
         orderNumber: '', //任务单编号
         orderStartTime: '', //任务开始时间
 
         regionList: [
+           {value: '', label: '全部'},
           {value: '1', label: '徐汇'},
           {value: '2', label: '长宁'},
           {value: '3', label: '浦东'},
@@ -171,6 +155,7 @@
         ],
 
         sSecurityStateList: [ //1-已办  2-已做 3-转出
+        {value: '', label: '全部'},
           {value: '1', label: '已办'},
           {value: '2', label: '已做'},
           {value: '3', label: '转出'},
@@ -180,10 +165,11 @@
         mCustomerNumber: '', //客户编号
         mCustomerName: '', //客户姓名
         accountTypeList: [
+            {value: '', label: '全部'},
             {value: '1', label: '中智大库'},
             {value: '2', label: '中智外包'},
             {value: '3', label: '独立户'}
-        ], //账户类型
+        ], //社保账户类型
 
         personTypeList: [
           {value: '1', label: '本地'},
@@ -191,7 +177,7 @@
           {value: '3', label: '外籍三险'},
           {value: '4', label: '外籍五险'},
           {value: '5', label: '延迟退休人员'}
-  
+
         ], //人员分类
 
         employeeSocialSecurityColumns: [
@@ -207,7 +193,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      
+
                       this.showInfo(params.row.empArchiveId)
                     }
                   }
@@ -257,7 +243,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'ssAccountType', align: 'center', width: 120,
+          {title: '社保账户类型', key: 'ssAccountType', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.accountType(params.row.ssAccountType)),
@@ -271,7 +257,7 @@
               ]);
             }
           },
-          {title: '公司编码', key: 'companyId', align: 'center', width: 100,
+          {title: '客户编号', key: 'companyId', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyId),
@@ -321,22 +307,19 @@
             }
           }
 
-          
+
         ]
       }
     },
     mounted() {
-      this[EventTypes.EMPLOYEESOCIALSECURITYSEARCH]()
+
       this.employeeQuery({})
 
     },
     computed: {
-      ...mapState('employeeSocialSecuritySearch',{
-          data: state => state.data
-      })
+
     },
     methods: {
-      ...mapActions('employeeSocialSecuritySearch', [EventTypes.EMPLOYEESOCIALSECURITYSEARCH]),
       exportData() {
         this.$refs['employeeSocialSecurityData'].exportCsv({
           filename: '原始数据'
@@ -346,18 +329,18 @@
         this.$refs[name].resetFields()
       },
       showInfo (ind) {
-        this.$router.push({name:'employeesocialsecurityinfo', query: {empArchiveId: ind}});
-        
+        this.$router.push({name:'employeeSocialSecurityInfo', query: {empArchiveId: ind}});
+
       },
       employeeQuery(params){
-        
+
         let self =this
         api.employeeQuery({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
           params: params,
         }).then(data => {
-          
+
           self.employeeSocialSecurityData = data.data.rows;
           self.pageData.total = Number(data.data.total);
         })

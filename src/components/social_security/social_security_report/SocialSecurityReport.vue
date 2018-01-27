@@ -4,16 +4,19 @@
       <Panel name='1'>
         下载Excel报表
         <div slot="content">
-           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData"> 
+           <Form ref="operatorSearchData" :model="operatorSearchData" :label-width='150' :rules="ruleValidate">
             <Row type="flex" justify="start">
                  <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                 <Form-item label="报表年月：" prop="reportYearAndMonth">
-                  <Input v-model="operatorSearchData.reportYearAndMonth" placeholder="请输入..."></Input>
+                 <Form-item label="报表年月：" prop="ssMonth">
+                   <Date-picker v-model="operatorSearchData.ssMonth" type="month"  placeholder="选择年月份" style="width: 100%;" transfer>
+                  </Date-picker>
+                 
                 </Form-item>
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户：" prop="companyAccountType">
-                  <Input v-model="operatorSearchData.companyAccountType" @on-focus="operatorSearchData.isShowAccountType = true" placeholder="请输入..."></Input>
+                <Form-item label="企业社保账户：" prop="ssAccount">
+                  <input-account v-model="operatorSearchData.ssAccount" ></input-account>
+                   <!-- v-on:listenToChildEvent="listentChild" -->
                 </Form-item>
               </Col>
             </Row>
@@ -21,51 +24,39 @@
             <br/>
             <Row type="flex" justify="start">
               <Col :sm="{span: 12}" offset='7'>
-                  <Button type="info" @click="">雇员缴费明细</Button>
-                  <Button type="info" @click="">退费明细</Button>
+                  <Button type="info" @click="employeeCostDetail">雇员缴费明细</Button>
+                  <Button type="info" @click="refundDetails">退费明细</Button>
                    <Button type="info" @click="monthlypaymentnotice">月缴费通知书</Button>
               </Col>
             </Row>
-          </Form> 
+          </Form>
         </div>
       </Panel>
     </Collapse>
-   
-    <!-- 企业社保账户分类 模态框 -->
-    <Modal
-      v-model="operatorSearchData.isShowAccountType"
-      title="企业社保账户分类"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
-    </Modal>
-
 
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../commoncontrol/customermodal.vue'
-  import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
-  import EventType from '../../../store/EventTypes'
-
+  import customerModal from '../../common_control/CustomerModal.vue'
+  import companyAccountSearchModal from '../../common_control/CompanyAccountSearchModal.vue'
+  import EventType from '../../../store/event_types'
+import InputAccount from './InputAccount.vue'
   export default {
-    components: {customerModal, companyAccountSearchModal},
+    components: {customerModal, companyAccountSearchModal,InputAccount},
     data() {
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
-          reportYearAndMonth:'',//报表年月
-          companyAccountType:'',//企业社保账户
-          isShowAccountType: false, //社保账户模糊块的显示      
+          ssMonth:'',//报表年月
+          ssAccount:'',//企业社保账户
+          isShowAccountType: false, //社保账户模糊块的显示
         },
-
         employeeResultColumns: [
-           
+
           {title: '雇员编号', key: 'employeeNumber',  align: 'center',
             render: (h, params) => {
               return h('div',{style:{textAlign:'center'}}, [
-                
+
               ]);
             }
           },
@@ -95,7 +86,7 @@
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.project),
               ]);
-              
+
             }
           },
           {title: '导入金额', key: 'importAmount', align: 'center',
@@ -119,19 +110,25 @@
               ]);
             }
           }
-        ]
+        ],
+        ruleValidate:{
+          ssMonth:[    
+            {required:true,type:'date',message: '选择报表日期.',trigger:'change'},
+          ],
+           ssAccount:[
+            {required:true,type:'string',message: '选择企业账户.',trigger:'change'},
+            ]
+        }
       }
+      
     },
     mounted() {
-      this[EventType.SOCIALSECURITYRECONCILATEDETAIL]()
+     
     },
     computed: {
-      ...mapState('socialSecurityReconcilateDetail',{
-          data:state => state.data
-      })
+     
     },
     methods: {
-      ...mapActions('socialSecurityReconcilateDetail',[EventType.SOCIALSECURITYRECONCILATEDETAIL]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -145,7 +142,26 @@
         history.go(-1);
       },
       monthlypaymentnotice(){
-        this.$router.push({name: 'monthlypaymentnotice'})
+        this.$router.push({name: 'monthlyPaymentNotice'})
+      },
+      employeeCostDetail(){
+        let result = this.validCondition();
+        if(!result)return;
+        let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMMDD')
+        this.$router.push({name: 'employeeCostDetail',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount}})
+      },
+      refundDetails(){
+        let result = this.validCondition();
+        if(!result)return;
+         let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMMDD')
+         this.$router.push({name: 'refundDetails',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount}})
+      },
+      validCondition(){
+        let result = false;
+        this.$refs['operatorSearchData'].validate((valid) => {
+                    if (valid)result=true;
+        })
+        return result
       }
     }
   }

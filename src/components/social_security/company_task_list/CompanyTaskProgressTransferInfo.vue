@@ -97,7 +97,7 @@
                 </Form-item>
               </Col>
             </Row>
-            
+
           </Form>
         </div>
       </Panel>
@@ -115,9 +115,9 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
-  import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
-  import EventType from "../../../store/EventTypes"
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import companySocialSecurityInfo from '../../common_control/CompanySocialSecurityInfo.vue'
+  import EventType from "../../../store/event_types"
   import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
@@ -125,7 +125,7 @@
     data() {
        //受审日期
        const validateAcceptanceDate=(rule, value, callback)=>{
-            
+
             let self= this
             if(self.transferOperator.taskStatus=='0'){
                callback();
@@ -134,8 +134,7 @@
                 if(value==null){
                  self.transferOperator.acceptanceDate=''
                 }
-                // return callback(new Error('请选择受理时间.'));
-               return callback(new Error(''));
+                return callback(new Error('请选择受理时间.'));
               }else{
                 callback();
               }
@@ -151,22 +150,20 @@
                 if(value==null){
                  self.transferOperator.sendCheckDate=''
                 }
-                //return callback(new Error('请选择送审时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择送审时间.'));
               }else{
                 callback();
               }
             }
        };
-        //完成日期 
+        //完成日期
        const validateFinishedDate=(rule, value, callback)=>{
             let self= this
             if(self.transferOperator.taskStatus=='0'|| self.transferOperator.taskStatus=='1'|| self.transferOperator.taskStatus=='2'){
                callback();
             }else{
               if(value==null || value==''){
-                //return callback(new Error('请选择完成时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择完成时间.'));
               }else{
                 callback();
               }
@@ -179,8 +176,7 @@
                callback();
             }else{
               if(value==null || value==''){
-                //return callback(new Error('请选择转移时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择转移时间.'));
               }else{
                 callback();
               }
@@ -193,14 +189,14 @@
         comAccountId:'',//社保账户表ID
         currentStep: 2,
         companyInfo:{},
-        handDateControl:false,//受理日期 是否可编辑 
+        handDateControl:false,//受理日期 是否可编辑
          sendDateControl:false,//送审日期 是否可编辑
          finishDateControl:false,//完成日期  是否可编辑
          transferDateControl:false,//转移日期 是否可编辑
 
          handDateIsDateOrLabel:false,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-         sendDateIsDateOrLabel:false,//送审日期 
-         finishDateIsDateOrLabel:false,//完成日期  
+         sendDateIsDateOrLabel:false,//送审日期
+         finishDateIsDateOrLabel:false,//完成日期
          transferDateIsDateOrLabel:false,
            regionList: [
             {value: '1', label: '徐汇'},
@@ -257,8 +253,8 @@
           handleReason:[
                   { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
           ],
-          
-          
+
+
         }
       }
     },
@@ -266,14 +262,14 @@
       this.queryPageInfo()
     },
     computed: {
-  
+
     },
     methods: {
       goBack() {
-        this.$router.push({name: 'companytasklist'})
+        this.$router.push({name: 'companyTaskList'})
       },
       queryPageInfo(){
-        
+
         let params = {
           comTaskId:this.$route.query.tid,
           operatorType:this.operatorType,
@@ -365,7 +361,7 @@
                 //loading:true,
                 onOk:function(){
                    let params = self.getParams()
-                   
+
                    CompanyTaskList.updateOrTransferTask(params).then(result=>{
                     if(result){
                        self.$Message.success('办理成功!');
@@ -445,7 +441,7 @@
       },
       //撤销任务单 状态(将任务单状态往回走一步)
       revoke(){
-        
+
 
         if(this.currentStep=='0'){
           this.$Notice.warning({
@@ -481,11 +477,11 @@
                    self.$Modal.remove();
                }
             });
-           
+
       },
       refresh(){
-        //companytaskprogresschangeinfo
-        this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companytaskprogresstransferinfo'}})
+        //CompanyTaskProgressChangeInfo
+        this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companyTaskProgressTransferInfo'}})
       },
       ok () {
 

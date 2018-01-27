@@ -91,9 +91,9 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
-  import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
-  import EventType from '../../../store/EventTypes'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import companySocialSecurityInfo from '../../common_control/CompanySocialSecurityInfo.vue'
+  import EventType from '../../../store/event_types'
   import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
@@ -186,16 +186,16 @@
       this.queryPageInfo()
     },
     computed: {
-     
+
     },
     methods: {
       goBack() {
         window.history.go(-1)
-        //this.$router.push({name: 'companytasklist'})
+        //this.$router.push({name: 'companyTaskList'})
       },
       //查询页面信息
       queryPageInfo(){
-      
+
         let isComplete = ''
         //代表已完成查看
         if(this.source=='0'){
@@ -233,7 +233,7 @@
         }else{
             return ''
         }
-        
+
       },
       ok () {
 

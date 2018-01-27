@@ -27,8 +27,8 @@
       </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-      <Form-item label="账户类型：">
-        <label>{{company.ssAccountType}}</label>
+      <Form-item label="社保账户类型：">
+        <label>{{$decode.accountType(company.ssAccountType)}}</label>
       </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

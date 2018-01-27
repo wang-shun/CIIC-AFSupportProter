@@ -20,17 +20,17 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item :label="handleTitle + '缴费基数:'">
-                <label>18000</label>
+                <label>{{socialSecurityPayOperator.empBase}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item :label="handleTitle + '起始月份：'">
-                <label>{{taskChangeInfo.changeStartMonth}}</label>
+                <label>{{socialSecurityPayOperator.startMonth}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item :label="handleTitle + '截至月份：'">
-                <label>{{taskChangeInfo.changeEndMonth}}</label>
+                <label>{{socialSecurityPayOperator.endMonth}}</label>
               </Form-item>
               </Col>
             </Row>
@@ -107,10 +107,10 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
       <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
-      <Button type="error" @click="instance('4')" v-if="showButton">批退</Button>
-      <Button type="primary" v-show="operatorType !== '2'" @click="instance('1')" v-if="showButton">暂存</Button>
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -121,7 +121,7 @@
   import companyInfo from '../../components/CompanyInfo'
   import employeeInfo from '../../components/EmployeeInfo'
 
-  import EventTypes from '../../../../store/EventTypes'
+  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
   const HANDLE_TITLE = "补缴";
@@ -154,8 +154,8 @@
           {
             title: '', key: 'remitWay', align: 'center', width: 100,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.remitWay),
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', this.$decode.remitWay(params.row.remitWay)),
               ]);
             }
           },
@@ -168,7 +168,7 @@
                 props: {value: params.row.startMonth, type: 'month', disabled: Boolean(params.row.disabled)},
                 attrs: {placeholder: '选择年月'},
                 on: {
-                  'on-change': (value) => {
+                  input: (value) => {
                     this.setRow(params, 'startMonth', value);
                   }
                 }
@@ -184,7 +184,7 @@
                 props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
                 attrs: {placeholder: '选择年月'},
                 on: {
-                  'on-change': (value) => {
+                  input: (value) => {
                     this.setRow(params, 'endMonth', value);
                   }
                 }
@@ -206,42 +206,47 @@
               }, params.row.baseAmount);
             }
           },
-          {
-            title: '操作',
-            key: 'base',
-            align: 'center',
-            width: 130,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      params.row.disabled = false;
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      this.removeRow(params.index);
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
-                  on: {
-                    click: () => {
-                      this.insertRow(params.index);
-                    }
-                  }
-                })
-              ]);
-            }
-          }
+          /**
+           * @augments
+           * 不能删除  暂时屏蔽
+           * 现在只做一条时间段的需求
+           */
+          // {
+          //   title: '操作',
+          //   key: 'base',
+          //   align: 'center',
+          //   width: 130,
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small'},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             params.row.disabled = false;
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small'},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             this.removeRow(params.index);
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small'},
+          //         on: {
+          //           click: () => {
+          //             this.insertRow(params.index);
+          //           }
+          //         }
+          //       })
+          //     ]);
+          //   }
+          // }
         ],
         operatorListData: [
           {remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false}
@@ -253,10 +258,10 @@
           empSsSerial: '',
           startMonth: '',
           endMonth: '',
-          rejectionRemark: '',
           handleRemark: '',
           handleRemarkMan: '',
           handleRemarkDate: '',
+
           rejectionRemark: '',
           rejectionRemarkMan: '',
           rejectionRemarkDate: '',
@@ -264,6 +269,7 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
+          empBase:''
         },
 
         // 任务单参考信息
@@ -305,6 +311,16 @@
     },
     methods: {
       ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
+      getYearMonth(date){
+        
+        if(date==null || date=="")return "";
+        let year = date.getFullYear(); 
+        let month = date.getMonth()+1;
+        if(month>=1 && month<=9){
+              month='0'+month
+        }
+          return year+'-'+month;
+      },
       initData(data) {
         this.empTaskId = data.empTaskId;
         this.operatorType = data.operatorType;
@@ -318,20 +334,42 @@
         }).then(data => {
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
+          }else{
+            this.operatorListData=[{
+                remitWay: '2', 
+                startMonth: data.data.startMonth, 
+                endMonth: data.data.endMonth, 
+                baseAmount: data.data.empBase, 
+                disabled: false
+               }]
           }
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
+          let handleMonth = this.socialSecurityPayOperator.handleMonth;
+          if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
+            let date = new Date();
+            handleMonth=this.getYearMonth(date,'show');
+            
+            this.socialSecurityPayOperator.handleMonth=handleMonth;
+          }
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          this.employee = data.data;
+          
+          if(data.data!=null){
+             this.employee = data.data;
+          }
+         
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
+          
+          if(data.data!=null){
           this.company = data.data;
+          }
         })
       },
       goBack() {
-        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeoperatorview'}) : this.$router.push({name: 'employeesocialsecurityinfo'});
+        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo'});
       },
       // yyyy-MM or date
       yyyyMM(date) {
@@ -388,13 +426,15 @@
         }
       },
       instance(taskStatus, type) {
+        
         var fromData = this.$utils.clear(this.socialSecurityPayOperator,'');
-
+        console.log(fromData)
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
         if ('4' == taskStatus) {
           content = "批退办理";
         }
+        
         this.$Modal.confirm({
           title: "确认办理吗？",
           content: content,
@@ -409,8 +449,6 @@
               fromData.rejectionRemarkDate = null;
               fromData.taskStatus = taskStatus;
             }
-
-
             // 转下月处理
             if(type && type == 'next'){
               var nextDay = parseInt(this.company.expireDate) + 1;
@@ -420,13 +458,21 @@
             }
 
             fromData.empTaskPeriods = this.filterData();
+            
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success(content + "成功");
                 // 返回任务列表页面
                 history.go(-1);
               } else {
-                this.$Message.error(content + "失败！" + data.message);
+                this.$Message.error({
+                  top:100,
+                  duration: 5,
+                  content:content + "失败！" + data.message,
+                  closable:true
+                }
+                  
+                  );
               }
             })
           }

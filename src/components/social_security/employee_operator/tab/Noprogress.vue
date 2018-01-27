@@ -24,7 +24,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="结算中心：" prop="settlementArea">
+              <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="徐汇" label="徐汇"></Option>
@@ -36,7 +36,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="账户类型：" prop="ssAccountType">
+              <Form-item label="社保账户类型：" prop="ssAccountType">
                 <Select v-model="operatorSearchData.ssAccountType" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="1" label="中智大库"></Option>
@@ -45,7 +45,7 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="人员分类：" prop="empClassify">
                 <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
@@ -56,7 +56,7 @@
                   <Option value="5" label="延迟退休人员"></Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户：" prop="ssAccount">
                 <input-account v-model="operatorSearchData.ssAccount"></input-account>
@@ -90,7 +90,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户名称：" prop="title">
-                <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input>
+                <input-company-name v-model="operatorSearchData.title" ></input-company-name>
+                <!-- <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input> -->
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -109,8 +110,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
-                <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="right"
-                             placeholder="选择年月份" style="width: 100%;"></Date-picker>
+                <Date-picker v-model="operatorSearchData.startMonth" type="month" 
+                             placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
               </Form-item>
               </Col>
             </Row>
@@ -126,7 +127,7 @@
     </Collapse>
 
     <Row class="mt20">
-      <Col :sm="{span: 24}">
+      <Col :sm="{span: 24}" class="tr">
       <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
       <Button type="error" @click="showRefuseReason">批退</Button>
       <Button type="info" @click="exprotExcel">导出</Button>
@@ -165,23 +166,23 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/EventTypes'
+  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
-  import InputAccount from '../../../commoncontrol/form/input-account'
-  import InputCompany from '../../../commoncontrol/form/input-company'
-
+  import InputAccount from '../../../common_control/form/input_account'
+  import InputCompany from '../../../common_control/form/input_company'
+  import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   export default {
-    components: {InputAccount, InputCompany},
+    components: {InputAccount, InputCompany,InputCompanyName},
     data() {
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
-          taskStatus: '',
+          taskStatus: '-1',
           employeeName: '',
           settlementArea: '',
           ssAccountType: '',
-          empClassify: '',
+          //empClassify: '',
           ssAccount: '',
           companyId: '',
           idNum: '',
@@ -287,7 +288,7 @@
       ...mapActions('thisMonthHandle', [EventType.THISMONTHHANDLETYPE]),
       routerToCommcialOperator(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },
@@ -398,7 +399,7 @@
             empTaskIds.push(row.empTaskId);
           }
 
-          // 任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
+          // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = rows[0].taskCategory;
           var name = 'empTaskHandleView';
           switch (taskCategory) {
@@ -413,6 +414,7 @@
               name = 'empTaskBatchHandle4View';
               break;
             case '5':
+            case '6':
               name = 'empTaskBatchHandle5View';
               break;
             default:
@@ -424,7 +426,8 @@
             query: {operatorType: taskCategory, empTaskIds: empTaskIds}
           });
         } else {
-          // 任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
+
+          // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = data.taskCategory;
           var name = 'empTaskHandleView';
           switch (taskCategory) {
@@ -439,7 +442,11 @@
               name = 'empTaskHandle4View';
               break;
             case '5':
+            case '6':
               name = 'empTaskHandle5View';
+              break;
+              case '7':
+              name = 'empTaskHandle7View';
               break;
             default:
               name = 'empTaskHandleView'

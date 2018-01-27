@@ -1,200 +1,148 @@
 <template>
-  <div class="addAcceptanceEmployeeList">
-    <Collapse v-model="value1" accordion>
+  <div>
+    <Collapse v-model="value1">
       <Panel name="1">
+        查询雇员
         <div slot="content">
-          <Row>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-            <Form :model="formItem" :label-width="100">
-              <Form-item label="雇员编号">
-                <Input v-model="formItem.code" placeholder="请输入"></Input>
+          <Form ref="formItem" :model="formItem" :label-width="140">
+            <Row justify="start" class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员编号" prop="employeeId">
+                <Input v-model="formItem.employeeId" placeholder="请输入"/>
               </Form-item>
-            </Form>
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-            <Form :model="formItem" :label-width="100">
-              <Form-item label="雇员姓名">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员姓名" prop="employeeName">
+                <Input v-model="formItem.employeeName" placeholder="请输入"/>
               </Form-item>
-            </Form>
-
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-            <Form :model="formItem" :label-width="100">
-              <Form-item label="公司编号">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公司编号" prop="companyId">
+                <Input v-model="formItem.companyId" placeholder="请输入"/>
               </Form-item>
-            </Form>
-
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-            <Form :model="formItem" :label-width="100">
-              <Form-item label="公司名称">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公司名称" prop="companyName">
+                <Input v-model="formItem.companyName" placeholder="请输入"/>
               </Form-item>
-            </Form>
-
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-            <Form :model="formItem" :label-width="100">
-              <Form-item label="证件号码">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="证件号码" prop="idNum">
+                <Input v-model="formItem.idNum" placeholder="请输入"/>
               </Form-item>
-            </Form>
-
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-            <Form :model="formItem" :label-width="100">
-              <Form-item label="连带人">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="连带人" prop="jointPersonName">
+                <Input v-model="formItem.jointPersonName" placeholder="请输入"/>
               </Form-item>
-            </Form>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 24}" class="tr">
+              <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Panel>
     </Collapse>
-    <div class="create">
+
+    <div class="tr m20">
       <router-link to="/acceptanceList">
-        <Button type="primary">返回受理单列表</Button>
+        <Button type="warning">返回受理单列表</Button>
       </router-link>
-      <row>
-        <Col>
-        <Form :model="formItem" :label-width="100">
-          <Form-item label="">
-            <Table width="1000" offset="8" :columns="columns7" :data="data6"></Table>
-            <Page :total="100" show-sizer show-elevator l></Page>
-          </Form-item>
-        </Form>
-        </Col>
-
-      </Row>
-
     </div>
-
+    <Table stripe
+           border
+           :columns="addAcceptanceColumns"
+           :data="addAcceptanceData"></Table>
+    <Page show-sizer show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :total="formItem.total"
+          :current="formItem.current"
+          :page-size="formItem.size"></Page>
   </div>
 </template>
 <script>
+  import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
+  import apiAjax from "../../../data/health_medical/uninsured_medical/uninsured_application.js";
+
   export default {
     data() {
       return {
         value1: '1',
         formItem: {
-          input: '',
-          select: '',
-          select1: '',
-          radio: 'male',
-          checkbox: [],
-          switch: true,
-          date: '',
-          time: '',
-          slider: [20, 50],
-          textarea: ''
+          total: 0,
+          current: 1,
+          size: 10,
+          employeeId: null,
+          employeeName: null,
+          companyId: null,
+          companyName: null,
+          idNum: null,
+          jointPersonName: null,
         },
-        columns7: [
+        addAcceptanceColumns: [
           {
-            title: '是否中止',
-            sortable: true,
-            key: 'IsLeave'
+            title: '雇员编号', sortable: true, key: 'employeeId'
           },
           {
-            title: '雇员编号',
-            sortable: true,
-            key: 'employeeId'
+            title: '雇员姓名', sortable: true, key: 'employeeName'
           },
           {
-            title: '雇员姓名',
-            sortable: true,
-            key: 'employeeName'
+            title: '公司编号', sortable: true, key: 'companyId'
           },
           {
-            title: '公司编号',
-            sortable: true,
-            key: 'companyId'
+            title: '公司名称', sortable: true, key: 'companyName'
           },
           {
-            title: '公司名称',
-            sortable: true,
-            key: 'companyName'
+            title: '雇员状态', sortable: true, key: 'status',
+            render: (h, params) => {
+              return admissibility.employeeStatusProperties(params.row.status);
+            }
           },
           {
-            title: '操作',
-            key: 'action',
-            width: 150,
-            align: 'center',
+            title: '操作', key: 'action', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
+                  props: {type: 'success', size: 'small'},
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: 'addAcceptance',
-                        params: {
-                          data: params.row
-                        }
-                      });
+                      sessionStorage.setItem('acceptanceEmployee', JSON.stringify(params.row));
+                      this.$router.push({name: 'addAcceptance'});
                     }
                   }
-                }, '新增受理')
+                }, '新增受理单')
               ]);
             }
           }
         ],
-        data6: [
-          {
-            IsLeave: '是',
-            employeeId: '11L2674',
-            employeeName: '戴敏',
-            companyId: '13684',
-            companyName: '苹果公司'
-
-          },
-          {
-            IsLeave: '是',
-            employeeId: '11L2674',
-            employeeName: '戴敏',
-            companyId: '13684',
-            companyName: '苹果公司'
-          }
-        ],
-        money: [
-          {
-            label: '人民币-CNY',
-            value: 'CNY'
-          },
-          {
-            label: '美元-USD',
-            value: 'USD'
-          },
-          {
-            label: '欧元-EUR',
-            value: 'EUR'
-          },
-          {
-            label: '日元-JPY',
-            value: 'JPY'
-          },
-          {
-            label: '港币-HKD',
-            value: 'HKD'
-          },
-          {
-            label: '加拿大元-CAD',
-            value: 'CAD'
-          },
-        ]
+        addAcceptanceData: [],
       }
     },
     methods: {
-      show(index) {
-        this.$Modal.info({
-          title: '用户信息',
-          content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-        })
+      selectEmployeeList() {
+        apiAjax.queryEmployeeList(this.formItem).then(response => {
+          this.addAcceptanceData = response.data.object.records;
+          this.formItem.total = response.data.object.total;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      getByPage(val) {
+        this.formItem.current = val;
+        this.selectEmployeeList()
+      },
+      pageSizeChange(size) {
+        this.formItem.size = size;
+        this.selectEmployeeList()
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
       },
       remove(index) {
         this.data6.splice(index, 1);

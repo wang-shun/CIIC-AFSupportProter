@@ -12,7 +12,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="结算中心：" prop="settlementArea">
+              <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="徐汇区" label="徐汇区"></Option>
@@ -24,7 +24,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="账户类型：" prop="ssAccountType">
+              <Form-item label="社保账户类型：" prop="ssAccountType">
                 <Select v-model="operatorSearchData.ssAccountType" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="1" label="中智大库"></Option>
@@ -33,8 +33,8 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="人员分类：" prop="empClassify">
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+               <Form-item label="人员分类：" prop="empClassify">
                 <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="1" label="本地"></Option>
@@ -43,8 +43,8 @@
                   <Option value="4" label="外籍五险"></Option>
                   <Option value="5" label="延迟退休人员"></Option>
                 </Select>
-              </Form-item>
-              </Col>
+              </Form-item> 
+              </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户：" prop="ssAccount">
                 <input-account v-model="operatorSearchData.ssAccount"></input-account>
@@ -78,7 +78,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户名称：" prop="title">
-                <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input>
+                 <input-company-name v-model="operatorSearchData.title" ></input-company-name>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -145,14 +145,14 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/EventTypes'
+  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
-  import InputAccount from '../../../commoncontrol/form/input-account'
-  import InputCompany from '../../../commoncontrol/form/input-company'
-
+  import InputAccount from '../../../common_control/form/input_account'
+  import InputCompany from '../../../common_control/form/input_company'
+  import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   export default {
-    components: {InputAccount, InputCompany},
+    components: {InputAccount, InputCompany,InputCompanyName},
     data() {
       return {
         collapseInfo: [1], //展开栏
@@ -161,7 +161,7 @@
           employeeName: '',
           settlementArea: '',
           ssAccountType: '',
-          empClassify: '',
+          //empClassify: '',
           ssAccount: '',
           companyId: '',
           idNum: '',
@@ -228,7 +228,7 @@
             title: '雇员证件号', key: 'idNum', width: 200, align: 'center'
           },
           {
-            title: '企业社保账号', key: 'comAccountId', width: 200, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center'
           },
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
@@ -267,7 +267,7 @@
       ...mapActions('thisMonthHandle', [EventType.THISMONTHHANDLETYPE]),
       routerToCommcialOperator(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },
@@ -404,9 +404,10 @@
             query: {operatorType: taskCategory, empTaskIds: empTaskIds}
           });
         } else {
-          // 任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
+          // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = data.taskCategory;
           var name = 'empTaskHandleView';
+          let type={}
           switch (taskCategory) {
             case '1':
             case '2':
@@ -419,16 +420,22 @@
               name = 'empTaskHandle4View';
               break;
             case '5':
+            case '6':
               name = 'empTaskHandle5View';
+              break;
+              case '7':
+              type={type:3}
+              name = 'empTaskHandle7View';
               break;
             default:
               name = 'empTaskHandleView'
           }
 
+
           // 根据任务类型跳转
           this.$router.push({
             name: name,
-            query: {taskCategory: taskCategory, empTaskId: data.empTaskId}
+            query: {operatorType: taskCategory,...type,empTaskId: data.empTaskId}
           });
         }
       },

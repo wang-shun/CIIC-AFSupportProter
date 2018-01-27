@@ -3,9 +3,9 @@
     <Collapse v-model="value1" accordion>
       <Panel name="1">
         <div slot="content">
-          <Form :model="collectionPaymentItem" :label-width="100">
-            <Row>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+          <Form ref="collectionPaymentItem" :model="collectionPaymentItem" :label-width="140">
+            <Row justify="start" class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保险公司">
                 <Select v-model="collectionPaymentItem.input" placeholder="选择保险公司">
                   <Option value="0">全部</Option>
@@ -15,7 +15,7 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保单名称">
                 <Select v-model="collectionPaymentItem.select" placeholder="选择保单">
                   <Option value="0">全部</Option>
@@ -26,14 +26,17 @@
               </Form-item>
               </Col>
             </Row>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 24}" class="tr">
+              <Button type="primary" @click="query()" icon="ios-search">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('collectionPaymentItem')">重置</Button>
+              </Col>
+            </Row>
           </Form>
-          <div class="tc">
-            <Button type="primary" @click="query()" icon="ios-search">查询</Button>
-          </div>
         </div>
       </Panel>
     </Collapse>
-    <div class="floatRightBtns">
+    <div class="tr m10">
       <router-link to="/addCollectionPayment">
         <Button type="primary">新增代收代付</Button>
       </router-link>
@@ -74,7 +77,7 @@
             render: (h, params) => {
               return h('div', [
                 h('Button', {
-                  props: {type: 'primary', size: 'small'},
+                  props: {type: 'success', size: 'small'},
                   on: {
                     click: () => {
                       this.$router.push({name: 'addCollectionPayment', params: {data: params.row}});
@@ -114,11 +117,8 @@
       }
     },
     methods: {
-      show(index) {
-        this.$Modal.info({
-          title: '用户信息',
-          content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-        })
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
       },
       remove(index) {
         this.data6.splice(index, 1);

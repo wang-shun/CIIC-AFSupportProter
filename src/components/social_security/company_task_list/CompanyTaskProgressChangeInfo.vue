@@ -66,11 +66,19 @@
                   </Select>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="payMethodShow">
+                <Form-item label="付款方式：" prop="billReceiverValue">
+                  <Select v-model="changeOperator.billReceiverValue" style="width: 100%;" transfer >
+                    <Option v-for="item in billReceiverList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="companyNameShow">
                 <Form-item label="养老金用公司名称：" prop="pensionMoneyUseCompanyName">
                   <Input v-model="changeOperator.pensionMoneyUseCompanyName" placeholder="请输入..."></Input>
                 </Form-item>
-              </Col> 
+              </Col>
               </Row>
               <Row class="mt20" type="flex" justify="start">
                 <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="industryRatioShow">
@@ -87,7 +95,7 @@
                 <Form-item label="变更开始月份：" prop="changeStartMonth">
                   <DatePicker v-model="changeOperator.changeStartMonth" type="month" format="yyyyMM" placement="bottom-end" placeholder="选择日期"  style="width: 100%; "></DatePicker>
                 </Form-item>
-              </Col>     
+              </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="受理日期：" prop="acceptanceDate">
                   <DatePicker v-if="handDateIsDateOrLabel" v-model="changeOperator.acceptanceDate" :disabled="handDateControl" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
@@ -134,30 +142,27 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import chat from '../../commoncontrol/chathistory/chat.vue'
-  import companySocialSecurityInfo from '../../commoncontrol/companysocialsecurityinfo.vue'
-  import EventType from '../../../store/EventTypes'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import companySocialSecurityInfo from '../../common_control/CompanySocialSecurityInfo.vue'
+  import EventType from '../../../store/event_types'
   import {CompanyTaskList} from '../../..//api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
     components: {chat, companySocialSecurityInfo},
     data() {
-          
+
         //所属行业
         const validateBelongsIndustry=(rule, value, callback)=>{
-          
+
           let self= this;
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='1'){
               if(value==null || value.trim()==''){
-                //return callback(new Error('该项不能为空！'))
-                return callback(new Error(''))
+                return callback(new Error('该项不能为空！'))
               }else if(value.length>10){
-                //return callback(new Error('不能超过十位.'))
-                return callback(new Error(''))
+                return callback(new Error('不能超过十位.'))
               }else if(value.trim()!=value){
-                // return callback(new Error('格式不正确.'))
-                return callback(new Error(''))
+                return callback(new Error('格式不正确.'))
               }else{
                 callback()
               }
@@ -167,22 +172,19 @@
        };
        //工伤比例
       const validateComWorkInjuryPercentage=(rule, value, callback)=>{
-        
+
           let self= this;
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='1'){
                 if (value==null || value.trim()=='') {
-                  //return callback(new Error('该项不能为空！'));
-                    return callback(new Error(''));
-                } 
+                  return callback(new Error('该项不能为空！'));
+                }
                var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
                 if(!rex.test(value)) {
-                  // callback(new Error('请输入正确的格式.'));
-                    callback(new Error(''));
+                  callback(new Error('请输入正确的格式.'));
                 }else{
                     if (value.length > 20) {
-                          //callback(new Error('长度不能超过20个.'));
-                          callback(new Error(''));
+                          callback(new Error('长度不能超过20个.'));
                     } else {
                          callback();
                     }
@@ -197,8 +199,7 @@
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='1'){
               if (value==null || value==""){
-                //return callback(new Error('该项不能为空！'));
-                    return callback(new Error(''));
+                return callback(new Error('该项不能为空！'));
                 }else{
                    return callback();
                 }
@@ -207,13 +208,12 @@
             }
        };
       const validatePayMethodValue=(rule, value, callback)=>{
-        
+
           let self= this;
           let changeval = self.changeOperator.changeContentValue;
             if(changeval=='2'){
               if (value==null || value==""){
-                  //return callback(new Error('请选择付款方式！'));
-                    return callback(new Error(''));
+                  return callback(new Error('请选择付款方式！'));
                 }else{
                     return callback()
                 }
@@ -221,24 +221,39 @@
               callback();
             }
       }
+      const validateBillReceiverValue=(rule, value, callback)=>{
+
+          let self= this;
+          let changeval = self.changeOperator.billReceiverValue;
+            if(changeval=='2'){
+              if (value==null || value==""){
+                  return callback(new Error('请选择账单接收方！'));
+                }else{
+                    return callback()
+                }
+            }else{
+              callback();
+            }
+      }
+      
       //企业名称变更名
       const validatePensionMoneyComName=(rule, value, callback)=>{
-        
+
           let self= this;
           let changeval = self.changeOperator.changeContentValue;
-          
+
             if(changeval=='3'){
               if (value==null || value.trim()==""){
                      //callback(new Error('该项不能为空！'));
                      callback(new Error(''));
-                     return 
+                     return
                 }else if(value.length>20){
                   // callback(new Error('最多不超过20个.'));
                     callback(new Error(''));
                     return
                 }else{
                   callback()
-                  return 
+                  return
                 }
 
             }else{
@@ -247,7 +262,7 @@
       }
        //受审日期
        const validateAcceptanceDate=(rule, value, callback)=>{
-            
+
             if(this.changeOperator.taskStatus=='0'){
                callback();
             }else{
@@ -255,8 +270,7 @@
                 if(value==null){
                  this.changeOperator.acceptanceDate=''
                 }
-                //return callback(new Error('请选择受理时间.'));
-               return callback(new Error(''));
+                return callback(new Error('请选择受理时间.'));
               }else{
                 callback();
               }
@@ -264,7 +278,7 @@
        };
        //送审日期
        const validateSendCheckDate=(rule, value, callback)=>{
-            
+
             let self= this
             if(self.changeOperator.taskStatus=='0'|| self.changeOperator.taskStatus=='1'){
                callback();
@@ -280,37 +294,36 @@
               }
             }
        };
-        //完成日期 
+        //完成日期
        const validateFinishedDate=(rule, value, callback)=>{
-            
+
             if(this.changeOperator.taskStatus=='0'|| this.changeOperator.taskStatus=='1'|| this.changeOperator.taskStatus=='2'){
                callback();
             }else{
               if(value==null || value==''){
-                //return callback(new Error('请选择完成时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择完成时间.'));
               }else{
                 callback();
               }
             }
        };
-      
+
       return {
         collapseInfo: [1, 2, 3], //展开栏
         currentStep: 2,
-        industryRatioShow:true, 
+        industryRatioShow:true,
         payMethodShow:false,//控制付款方式input
         companyNameShow:false,//控制养老金公司名称 input
         operatorType: this.$route.query.operatorType,
          tid:this.$route.query.tid,
          comAccountId:'',//社保账户表ID
-          handDateControl:false,//受理日期 是否可编辑 
+          handDateControl:false,//受理日期 是否可编辑
          sendDateControl:false,//送审日期 是否可编辑
          finishDateControl:false,//完成日期  是否可编辑
          getTaskInitialStatus:'0',//任务的初始状态
          handDateIsDateOrLabel:true,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-         sendDateIsDateOrLabel:true,//送审日期 
-         finishDateIsDateOrLabel:true,//完成日期  
+         sendDateIsDateOrLabel:true,//送审日期
+         finishDateIsDateOrLabel:true,//完成日期
          companyInfo:{},
          historyRemark:{
           submitName:'',
@@ -324,11 +337,13 @@
             {value: '3', label: '已完成',disabled:false},
           ],//任务状态类型
          payMethodList: [
-            {value: '1', label: '我司付款，账单到他司'},
-            {value: '2', label: '自己付款，账单到我司'},
-            {value: '3', label: '自己付款，账单到他司'},
-            {value: '4', label: '我司付款，账单到我司'},
-            {value: '5', label: '垫付'},
+            {value: '1', label: '我司代付款'},
+            {value: '2', label: '客户自付'},
+            {value: '3', label: '我司垫付'},
+          ],
+          billReceiverList:[
+             {value: '1', label: '我司'},
+             {value: '2', label: '客户公司'},
           ],
           changeContentList: [
             {value: '1', label: '行业比例'},
@@ -340,6 +355,7 @@
           taskStatus:'',
           changeContentValue: '1',
           payMethodValue:'',//付款方式
+          billReceiverValue:'',//账单接收方
           pensionMoneyUseCompanyName:'',//养老金公司名称
           belongsIndustry: '',//所属行业
           companyWorkInjuryPercentage: '',//企业工伤比例
@@ -369,6 +385,9 @@
           payMethodValue:[
                     { required: true, type: 'string', validator:validatePayMethodValue, trigger: 'blur' }
           ],
+          billReceiverValue:[
+                    { required: true, type: 'string', validator:validateBillReceiverValue, trigger: 'blur' }
+          ],
           pensionMoneyUseCompanyName:[
                     { required: true, type: 'string', validator:validatePensionMoneyComName, trigger: 'blur' }
           ],
@@ -386,7 +405,7 @@
                        ],
           handleReason:[
                        { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
-                       ] 
+                       ]
         }
       }
     },
@@ -394,12 +413,12 @@
        this.queryPageInfo()
     },
     computed: {
-     
+
     },
     methods: {
       goBack() {
-        
-        this.$router.push({name: 'companytasklist'})
+
+        this.$router.push({name: 'companyTaskList'})
       },
       //查询页面信息
       queryPageInfo(){
@@ -419,7 +438,7 @@
                         case '0':
                               self.handDateControl = true;
                               self.sendDateControl=true;
-                              self.finishDateControl=true; 
+                              self.finishDateControl=true;
                           break;
                         case '1':
                           self.taskTypeList[0].disabled = true;
@@ -433,8 +452,8 @@
                            self.handDateControl = true;
                            self.finishDateControl=true;
                            self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-                           self.sendDateIsDateOrLabel=false//送审日期 
-                           
+                           self.sendDateIsDateOrLabel=false//送审日期
+
                           break;
                         case '3':
                            self.taskTypeList[0].disabled = true;
@@ -443,8 +462,8 @@
                            self.handDateControl = true;
                            self.sendDateControl=true;
                            self.handDateIsDateOrLabel=false//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-                           self.sendDateIsDateOrLabel=false//送审日期 
-                           self.finishDateIsDateOrLabel=false//完成日期 
+                           self.sendDateIsDateOrLabel=false//送审日期
+                           self.finishDateIsDateOrLabel=false//完成日期
                           break;
                         default:
                           break;
@@ -500,11 +519,11 @@
             this.finishDateControl=false;
         }
       },
-      
+
       //办理
       confirm(){
         let beforeValid = false;
-        
+
         this.$refs['changeOperator'].validate((valid) => {
                     if (valid) {
                         beforeValid = true;
@@ -521,7 +540,7 @@
                 //loading:true,
                 onOk:function(){
                    let params = self.getParams()
-                   
+
                    CompanyTaskList.updateOrChangeTask(params).then(result=>{
                     if(result){
                        self.$Message.success('办理成功!');
@@ -546,7 +565,7 @@
         }else{
            return (str==null || str.trim()=='')
         }
-       
+
       },
       getParams(){
         //通过任务单的状态 添加受理或者送审或者完成时间
@@ -579,16 +598,16 @@
             handleRemark:formObj.handleReason,
             ...changeContext
            }
-
+            
            return ssComTaskDTO
       },
-      //组装变更内容的JSON 
+      //组装变更内容的JSON
       getChangeContext(){
         let changeOperator =  this.changeOperator;
         let changeContentValue = changeOperator.changeContentValue
         let changeContext ={}
         changeContext.changeContentValue = changeContentValue;
-        
+
         if(changeContentValue=='1'){ //行业变更
             changeContext.belongsIndustry = changeOperator.belongsIndustry
             changeContext.companyWorkInjuryPercentage = changeOperator.companyWorkInjuryPercentage
@@ -596,11 +615,12 @@
 
         }else if(changeContentValue=='2'){//付款方式变更
             changeContext.paymentWay = changeOperator.payMethodValue
-           
+            changeContext.billReceiver = changeOperator.billReceiverValue
+
         }else if(changeContentValue=='3'){//公司名称变更
           changeContext.comAccountName = changeOperator.pensionMoneyUseCompanyName
         }
-        
+
         return changeContext
       },
        //批退任务
@@ -632,7 +652,7 @@
       },
       //撤销任务单 状态(将任务单状态往回走一步)
       revoke(){
-        
+
 
         if(this.currentStep=='0'){
           this.$Notice.error({
@@ -668,12 +688,12 @@
                    self.$Modal.remove();
                }
             });
-           
+
       }
       ,
       refresh(){
-        //companytaskprogresschangeinfo
-        this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companytaskprogresschangeinfo'}})
+        //CompanyTaskProgressChangeInfo
+        this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'CompanyTaskProgressChangeInfo'}})
       },
       ok () {
 

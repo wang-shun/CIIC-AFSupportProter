@@ -7,7 +7,7 @@
           <Form ref="companyTaskInfo" :model="companyTaskInfo" :label-width=150>
              <Row type="flex" justify="start">
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
+                <Form-item label="社保账户类型：" prop="accountTypeValue">
                   <Select v-model="companyTaskInfo.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in companyTaskInfo.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -15,12 +15,12 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="companyTaskInfo.customerNumber" placeholder="请输入..."></Input>
+                 <input-company v-model="companyTaskInfo.customerNumber"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="companyTaskInfo.customerName" placeholder="请输入..."></Input>
+                  <input-company-name v-model="companyTaskInfo.customerName" ></input-company-name>
                 </Form-item>
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -36,7 +36,7 @@
                     <Option v-for="item in companyTaskInfo.regionList" :value="item.label" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
-              </Col> 
+              </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务发起时间：" prop="taskStartTime">
                   <DatePicker v-model="companyTaskInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%" transfer></DatePicker>
@@ -89,12 +89,14 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../commoncontrol/customermodal.vue'
-  import EventType from '../../../../store/EventTypes'
+  import customerModal from '../../../common_control/CustomerModal.vue'
+  import EventType from '../../../../store/event_types'
   import {Finished} from '../../../../api/social_security/company_task_list/company_task_list_tab/Finished'
   import Utils from '../../../../lib/utils'
+  import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
+  import InputCompany from '../../../common_control/form/input_company'
   export default {
-    components: {customerModal},
+    components: {customerModal,InputCompanyName,InputCompany},
     data() {
       return{
         collapseInfo: [1], //展开栏
@@ -111,12 +113,14 @@
           isShowCustomerName: false,
           accountTypeValue: '',
           accountTypeList: [//1:中智大库 2中智外包 3独立户
+           {value: '', label: '全部'},
             {value: '1', label: '大库'},
             {value: '2', label: '外包'},
             {value: '3', label: '独立库'}
           ],
           regionValue: '',
           regionList: [
+             {value: '', label: '全部'},
             {value: '1', label: '徐汇'},
             {value: '2', label: '长宁'},
             {value: '3', label: '浦东'},
@@ -127,6 +131,7 @@
           taskNumber: '',
           taskTypeValue: '',
           taskTypeList: [
+             {value: '', label: '全部'},
             {value: '1', label: '开户'},
             {value: '2', label: '转移'},
             {value: '3', label: '变更'},
@@ -148,16 +153,16 @@
                     click: () => {
                       switch(params.row.type) {
                         case '开户':
-                          this.$router.push({name: 'openaccountinfo', query:{operatorType: '1',source:0,tid:params.row.tid}})
+                          this.$router.push({name: 'openAccountInfo', query:{operatorType: '1',source:0,tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'transfertnfo', query:{operatorType: '2',source:0,tid:params.row.tid}})
+                          this.$router.push({name: 'transferInfo', query:{operatorType: '2',source:0,tid:params.row.tid}})
                           break;
                         case '变更':
-                          this.$router.push({name: 'changeinfo', query:{operatorType: '3',source:0,tid:params.row.tid}})
+                          this.$router.push({name: 'changeInfo', query:{operatorType: '3',source:0,tid:params.row.tid}})
                           break;
                         case '终止':
-                          this.$router.push({name: 'endinfo', query:{operatorType: '4',source:0,tid:params.row.tid}})
+                          this.$router.push({name: 'endInfo', query:{operatorType: '4',source:0,tid:params.row.tid}})
                           break;
                         default:
                           break;
@@ -228,14 +233,14 @@
       }
     },
     mounted() {
-      
+
       let sessionPageNum = sessionStorage.taskFiPageNum
       let sessionPageSize = sessionStorage.taskFiPageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.pageNum = Number(sessionPageNum)
          this.size = Number(sessionPageSize)
-        //  sessionStorage.removeItem("taskFiPageNum") 
-        //  sessionStorage.removeItem("taskFiPageSize") 
+        //  sessionStorage.removeItem("taskFiPageNum")
+        //  sessionStorage.removeItem("taskFiPageSize")
       }
 
       let params = {
@@ -247,7 +252,7 @@
       Finished.postTableData(params).then(data=>{
           self.loading=true;
            self.refreash(data)
-           
+
         }
       ).catch(error=>{
         console.log(error);
@@ -265,13 +270,13 @@
       },
       routerToCommcialOperator: function(name) {
         this.$router.push({
-          name: 'employeecommcialoperator',
+          name: 'employeeCommcialOperator',
           query: {operatorType: name}
         });
       },
          //页面 上 ，下一页操作
       getPage(page){
-        
+
           this.pageNum = page
           sessionStorage.taskFiPageNum=page
           sessionStorage.taskFiPageSize = this.size
@@ -286,7 +291,7 @@
             console.log(error);
           })
       },
-      //关闭查询loding 
+      //关闭查询loding
       closeLoading(){
           this.loading=false;
       },
@@ -299,7 +304,7 @@
       },
       //导表
       exportExcel(){
-       
+
       },
        //点击查询按钮
       clickQuery(){
@@ -308,7 +313,7 @@
       let params = this.getParams(1)
       let self = this
         Finished.postTableData(params).then(data=>{
-            
+
            self.refreash(data)
 
         }).catch(error=>{
@@ -325,7 +330,7 @@
               companyId:this.companyTaskInfo.customerNumber==''?'':this.companyTaskInfo.customerNumber,//客户编号
               companyName:this.companyTaskInfo.customerName==''?'':this.companyTaskInfo.customerName,//客户姓名
               taskCategory:this.companyTaskInfo.taskTypeValue==''?'':this.companyTaskInfo.taskTypeValue,//任务类型
-              accountType:this.companyTaskInfo.accountTypeValue==""?'':this.companyTaskInfo.accountTypeValue,//账户类型
+              accountType:this.companyTaskInfo.accountTypeValue==""?'':this.companyTaskInfo.accountTypeValue,//社保账户类型
               regionValue:this.companyTaskInfo.regionValue==''?'':this.companyTaskInfo.regionValue,//结算区县
               submitTimeStart:this.companyTaskInfo.taskStartTime==""?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
               submitTimeEnd:this.companyTaskInfo.taskStartTime==""?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')

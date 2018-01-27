@@ -35,14 +35,14 @@
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
       <Form-item label="社保账号分类：">
-        <label>{{emp.ssAccountType}}</label>
+        <label>{{$decode.accountType(emp.ssAccountType)}}</label>
       </Form-item>
       </Col>
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
+      <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
       <Form-item label="人员分类：">
         <label>{{emp.empClassify}}</label>
       </Form-item>
-      </Col>
+      </Col> -->
     </Row>
     <row>
       <!-- 仅新增 -->
@@ -65,11 +65,11 @@
       </Form-item>
       </Col>
       <!-- 仅新增 -->
-      <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
+      <!-- <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
       <Form-item label="雇员属性：">
         <label>{{emp.employeeAttribute}}</label>
       </Form-item>
-      </Col>
+      </Col> -->
     </row>
   </Form>
 </template>
@@ -97,7 +97,7 @@
     computed: {
       emp(){
         var emp = this.employee;
-        emp.empClassify = this.$decode.empClassify(emp.empClassify)
+        //emp.empClassify = this.$decode.empClassify(emp.empClassify)
         return emp;
       }
     },

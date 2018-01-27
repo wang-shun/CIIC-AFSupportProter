@@ -32,7 +32,7 @@ export const giftValidator = {
   remarks: [
     {
       validator(rule, val, callback) {
-        if (val.length >= 200) {
+        if (val !==null && val.length >= 200) {
           callback(new Error('不超过200字'))
         } else {
           callback()

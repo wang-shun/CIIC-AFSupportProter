@@ -30,6 +30,14 @@
                   </Select>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="账单接收方：" prop="billReceiverValue">
+                  <Select v-model="beforeSendInfo.billReceiverValue" style="width: 100%;" transfer>
+                    <Option v-for="item in billReceiverList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              
             </Row>
           </Form>
         </div>
@@ -240,8 +248,8 @@
   </Form>
 </template>
 <script>
-  import chat from '../../../components/commoncontrol/chathistory/chat.vue'
-  import companyInfo from '../../../components/commoncontrol/companyinfo.vue'
+  import chat from '../../common_control/chat_history/Chat.vue'
+  import companyInfo from '../../common_control/CompanyInfo.vue'
   import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'
   import Utils from '../../../lib/utils'
   export default {
@@ -250,20 +258,16 @@
     data() {
        const validateBankCardNumber = (rule, value, callback) => {
                 if (!value.trim()) {
-                   // return callback(new Error('该项不能为空！'));
-                    return callback(new Error(''));
+                   return callback(new Error('该项不能为空！'));
                 }
                 let rex = /^\d*$/
                   if(!rex.test(value)) {
-                        //callback(new Error('请输入纯数字.'));
-                        callback(new Error(''));
+                        callback(new Error('请输入纯数字.'));
                     }else if(value.trim()!=value){
-                        //callback(new Error('请输入纯数字.'));
-                         callback(new Error(''));
+                        callback(new Error('请输入纯数字.'));
                    } else {
                         if (value.length > 20) {
-                          //callback(new Error('长度不能超过20位.'));
-                            callback(new Error(''));
+                        callback(new Error('长度不能超过20位.'));
                         } else {
                             callback();
                         }
@@ -271,39 +275,34 @@
             };
             //用户名和密码
        const validateUserNameAndPsw=(rule, value, callback)=>{
-              
+
                 if (!value.trim()) {
-                  //return callback(new Error('该项不能为空！'));
-                    return callback(new Error(''));
+                  return callback(new Error('该项不能为空！'));
                 }
                 let regex=/^[0-9A-Za-z_]{1,50}$/ //数字、字母、下划线
                 if (!regex.test(value)) {
-                  //return callback(new Error('只能包含数字,字母或下划线.'));
-                    return callback(new Error(''));
+                  return callback(new Error('只能包含数字,字母或下划线.'));
                 }
                 if(value.length>20){
-                  //return callback(new Error('长度不能超过20位.'));
-                   return callback(new Error(''));
+                  return callback(new Error('长度不能超过20位.'));
                 }
-                
-                
+
+
                  callback();
        };
-       //初始余额和欠费 
+       //初始余额和欠费
        const validateUserMoney=(rule, value, callback)=>{
-              
+
                var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
               if(value==null || value.trim()==""){
                 callback();
                 return;
               }
               if(!rex.test(value)){
-                  //callback(new Error('请输入正确的金钱格式.'));
-                    callback(new Error(''));
+                  callback(new Error('请输入正确的金钱格式.'));
                 }else{
                     if(value.length > 20){
-                       // callback(new Error('长度不能超过20位.'));
-                          callback(new Error(''));
+                        callback(new Error('长度不能超过20位.'));
                     }else{
                          callback();
                     }
@@ -314,15 +313,12 @@
 
                var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
                if (value==null || value.trim()=="") {
-                     //callback(new Error('该项不能为空！'));
-                       callback(new Error(''));
+                     callback(new Error('该项不能为空！'));
                 }else if(!rex.test(value)){
-                    //callback(new Error('请输入正确的格式.'));
-                      callback(new Error(''));
+                    callback(new Error('请输入正确的格式.'));
                 }else{
                     if(value.length > 20){
-                      //  callback(new Error('长度不能超过20位.'));
-                          callback(new Error(''));
+                       callback(new Error('长度不能超过20位.'));
                     }else{
                          callback();
                     }
@@ -330,7 +326,7 @@
        };
         //受审日期
        const validateAcceptanceDate=(rule, value, callback)=>{
-            
+
             if(this.companyOpenAccountOperator.taskTypeValue=='0'){
                callback();
             }else{
@@ -338,9 +334,8 @@
                 if(value==null){
                  this.companyOpenAccountOperator.acceptanceDate=''
                 }
-                //return callback(new Error('请选择受理时间.'));
-               return callback(new Error(''));
-               
+                return callback(new Error('请选择受理时间.'));
+
               }else{
                 callback();
               }
@@ -348,7 +343,7 @@
        };
        //送审日期
        const validateSendCheckDate=(rule, value, callback)=>{
-            
+
             let self= this
             if(self.companyOpenAccountOperator.taskTypeValue=='0'|| self.companyOpenAccountOperator.taskTypeValue=='1'){
                callback();
@@ -357,28 +352,26 @@
                 if(value==null){
                  self.companyOpenAccountOperator.sendCheckDate=''
                 }
-                //return callback(new Error('请选择送审时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择送审时间.'));
               }else{
                 callback();
               }
             }
        };
-        //完成日期 
+        //完成日期
        const validateFinishedDate=(rule, value, callback)=>{
-            
+
             if(this.companyOpenAccountOperator.taskTypeValue=='0'|| this.companyOpenAccountOperator.taskTypeValue=='1'|| this.companyOpenAccountOperator.taskTypeValue=='2'){
                callback();
             }else{
               if(value==null || value==''){
-                //return callback(new Error('请选择完成时间.'));
-                return callback(new Error(''));
+                return callback(new Error('请选择完成时间.'));
               }else{
                 callback();
               }
             }
        };
-       
+
       return {
         collapseInfo: [1, 2, 3], //展开栏
         currentStep: 0,
@@ -387,10 +380,10 @@
          handDateControl:false,//受理日期 是否可编辑 更换状态时判断
          sendDateControl:false,//送审日期 是否可编辑 更换状态时判断
          finishDateControl:false,//完成日期  是否可编辑 更换状态时判断
-         
+
          handDateIsDateOrLabel:false,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
-         sendDateIsDateOrLabel:false,//送审日期 
-         finishDateIsDateOrLabel:false,//完成日期  
+         sendDateIsDateOrLabel:false,//送审日期
+         finishDateIsDateOrLabel:false,//完成日期
 
         companyInfo: {
           customerNumber: '',
@@ -399,15 +392,18 @@
           serviceManager: ''
         },
          payMethodList: [
-            {value: '1', label: '我司付款，账单到他司'},
-            {value: '2', label: '自己付款，账单到我司'},
-            {value: '3', label: '自己付款，账单到他司'},
-            {value: '4', label: '我司付款，账单到我司'},
-            {value: '5', label: '垫付'},
+            {value: '1', label: '我司代付款'},
+            {value: '2', label: '客户自付'},
+            {value: '3', label: '我司垫付'},
+          ],
+          billReceiverList:[
+             {value: '1', label: '我司'},
+             {value: '2', label: '客户公司'},
           ],
         beforeSendInfo: {
           customerSocialSecurityEndDate: '',
-          payMethodValue: ''
+          payMethodValue: '',
+          billReceiverValue:'',
         },
         resourceList: [
             {value: '1', label: '新开'},
@@ -478,6 +474,9 @@
                     payMethodValue:[
                         { required: true, message: '请选择付款方式！', trigger: 'change' }
                     ],
+                    billReceiverValue:[
+                        { required: true, message: '请选择账单接收方！', trigger: 'change' }
+                    ],
                     taskValue: [
                         { required: true, message: '请选择任务状态！', trigger: 'blur' }
                     ],
@@ -487,7 +486,7 @@
                     ],
                      bankCardNumber: [
                         { required: true,validator: validateBankCardNumber, trigger: 'blur' }
-                        
+
                     ],
                     pensionMoneyUseCompanyName: [
                         { required: true, message: '该项不能为空!', trigger: 'blur' },
@@ -508,11 +507,11 @@
                     ],
                     pensionMoneySingleUserName: [
                         { required: true, validator: validateUserNameAndPsw, trigger: 'blur' },
-                       
+
                     ],
                     pensionMoneySinglePassWord: [
                         { required: true, validator: validateUserNameAndPsw, trigger: 'blur' },
-                       
+
                     ],
                     originalSum:[
                       {validator: validateUserMoney, trigger: 'blur'}
@@ -559,7 +558,7 @@
                        ],
                        handleReason:[
                          { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
-                       ] 
+                       ]
                 },
       }
     },
@@ -571,12 +570,12 @@
     },
     methods: {
       goBack() {
-        this.$router.push({name: 'companytasklist'});
+        this.$router.push({name: 'companyTaskList'});
       },
       //办理
       confirm(){
         let beforeValid = false;
-        
+
         this.$refs['beforeSendInfo'].validate((valid) => {
                     if (valid) {
                         beforeValid = true;
@@ -598,7 +597,7 @@
                 //loading:true,
                 onOk:function(){
                    let params = self.getParams()
-                   
+
                    CompanyTaskList.addOrUpdate(params).then(result=>{
                     if(result){
                        self.$Message.success('办理成功!');
@@ -606,11 +605,11 @@
                     }else{
                       self.$Message.error('办理失败!');
                     }
-                    
+
                    }).catch(error=>{
                      console.log(error)
                    })
-                   
+
                 },
                  error:function(error){
                    self.$Message.error('办理失败!');
@@ -662,7 +661,7 @@
                         case '0':
                            self.handDateIsDateOrLabel = true;
                            self.sendDateIsDateOrLabel=true;
-                           self.finishDateIsDateOrLabel=true; 
+                           self.finishDateIsDateOrLabel=true;
                           break;
                         case '1':
                           self.taskTypeList[0].disabled = true;
@@ -670,23 +669,23 @@
                            self.finishDateIsDateOrLabel=true;
                           break;
                         case '2':
-                           
+
                            self.taskTypeList[0].disabled = true;
                            self.taskTypeList[1].disabled = true;
-                           self.finishDateIsDateOrLabel=true; 
-  
+                           self.finishDateIsDateOrLabel=true;
+
                           break;
                         case '3':
-                        
+
                            self.taskTypeList[0].disabled = true;
                            self.taskTypeList[1].disabled = true;
                            self.taskTypeList[2].disabled = true;
-                           
+
                           break;
                         default:
                           break;
                       }
-        
+
       })
       },
       //获得办理参数
@@ -706,6 +705,7 @@
               settlementArea: this.companyOpenAccountOperator.socialSecurityCenterValue,
               paymentBank: this.companyOpenAccountOperator.payBank,
               paymentWay: this.beforeSendInfo.payMethodValue,
+              billReceiver:this.beforeSendInfo.billReceiverValue,
               ssUsername: this.companyOpenAccountOperator.pensionMoneySingleUserName,
               ssPwd: this.companyOpenAccountOperator.pensionMoneySinglePassWord,
               initialBalance: this.companyOpenAccountOperator.originalSum,
@@ -725,7 +725,8 @@
           //到期时间和支付方式  前道传过来的数据
           let taskFormContent = {
             expireDate:this.beforeSendInfo.customerSocialSecurityEndDate,
-            paymentWay:this.beforeSendInfo.payMethodValue
+            paymentWay:this.beforeSendInfo.payMethodValue,
+            billReceiver:this.beforeSendInfo.billReceiverValue
           }
 
           //通过任务单的状态 添加受理或者送审或者完成时间
@@ -759,7 +760,7 @@
       },
       //任务类型发生变化
       taskTypeChange(){
-        
+
         let taskState = this.companyOpenAccountOperator.taskTypeValue
          //acceptanceDate sendCheckDate finishedDate
          let formObj = this.companyOpenAccountOperator
@@ -789,7 +790,7 @@
       },
       //撤销任务单 状态(将任务单状态往回走一步)
       revoke(){
- 
+
         if(this.currentStep=='0'){
           this.$Notice.warning({
                     title: '操作失败',
@@ -824,11 +825,11 @@
                    self.$Modal.remove();
                }
             });
-           
+
       },
       refresh(){
-        //companytaskprogresschangeinfo
-        this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companytaskprogresstypeinfo'}})
+        //CompanyTaskProgressChangeInfo
+        this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companyTaskProgressTypeInfo'}})
       }
     }
   }

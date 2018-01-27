@@ -12,15 +12,15 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户：" prop="comAccountId">
-                  <Input v-model="operatorSearchData.comAccountId" @on-focus="staticSearchData.isShowAccountType = true" placeholder="请输入..."></Input>
+                <Form-item label="企业社保账号：" prop="comAccountId">
+                  <input-account v-model="operatorSearchData.comAccountId"></input-account>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Cascader :data="staticSearchData.serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer clearable></Cascader>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="变更汇总表类型：" prop="impFileType">
                   <Select v-model="operatorSearchData.impFileType" clearable style="width: 100%;" transfer>
@@ -44,7 +44,7 @@
                     </Col>
                   </Row>
                 </Form-item>
-              </Col> 
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -59,7 +59,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}">
-        <Button type="info" @click="batchUpload">批量导入社保变更汇总表</Button>
+        <!-- <Button type="info" @click="batchUpload">批量导入社保变更汇总表</Button> -->
         <Button type="info" >导出</Button>
       </Col>
     </Row>
@@ -68,16 +68,16 @@
       <Col :sm="{span:24}">
         <Table stripe
           border ref="selection"
-            :columns="statementColumns" 
+            :columns="statementColumns"
             :data="statementData"
             @on-selection-change="selectionChange">
         </Table>
-        <Page 
+        <Page
           class="pageSize"
           @on-change="handlePageNum"
           @on-page-size-change="handlePageSite"
-          :total="statementPageData.total" 
-          :page-size="statementPageData.pageSize" 
+          :total="statementPageData.total"
+          :page-size="statementPageData.pageSize"
           :page-size-opts="statementPageData.pageSizeOpts"
           :current="statementPageData.pageNum"
           show-sizer show-total>
@@ -85,10 +85,10 @@
       </Col>
     </Row>
 
-    <!-- 企业社保账户分类 模态框 -->
+    <!-- 社保账户类型 模态框 -->
     <Modal
       v-model="staticSearchData.isShowAccountType"
-      title="企业社保账户分类"
+      title="社保账户类型"
       @on-ok="ok"
       @on-cancel="cancel">
       <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
@@ -132,19 +132,21 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../commoncontrol/customermodal.vue'
-  import companyAccountSearchModal from '../../commoncontrol/companyaccountsearchmodal.vue'
-  import EventType from '../../../store/EventTypes'
+  import customerModal from '../../common_control/CustomerModal.vue'
+  import companyAccountSearchModal from '../../common_control/CompanyAccountSearchModal.vue'
+  import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/statement'
+   import InputAccount from '../../common_control/form/input_account'
 
   export default {
-    components: {customerModal, companyAccountSearchModal},
+    components: {customerModal, InputAccount},
     data() {
       return {
         isUpload:false,
         socialsecuritymonthOfUpload:'',//批量上传模块社保月份
         changeTableTypeDefaultValOfUpload: 'YYS',//变更汇总类型下拉默认选项
            changeTableTypeValueListOfUpload: [
+             {value: '全部',label:'全部',isSelect: true},
              {value: 'YYS',label:'YYY(养医失)',isSelect: true},
              {value: 'GSY', label: 'GGY(工生育)',isSelect: false}
            ],//变更汇总表类型
@@ -155,10 +157,10 @@
           serviceCenterValue: [],
           minDiffSumByEmp: '',//最小差异数（按雇员）
           maxDiffSumByEmp: '',//最大差异数（按雇员）
-
+          
           ssMonth:'',//社保月份
           comAccountId: '', //企业社保账户
-            
+
         },
         //默认静态参数
         staticSearchData:{
@@ -175,16 +177,16 @@
           changeTableTypeDefaultVal: 'YYS',
           //变更汇总表类型
           changeTableTypeValueList: [
-            //{value: null,label:'',isSelect: true},
+            {value: '',label:'全部',isSelect: true},
             {value: 'YYS',label:'YYS(养医失)',isSelect: true},
             {value: 'GSY', label: 'GSY(工生育)',isSelect: false}
           ],
-          isShowAccountType: false, //社保账户模糊块的显示    
+          isShowAccountType: false, //社保账户模糊块的显示
         },
         upLoadData: {
         },
         statementColumns: [
-           
+
           {title: '查看结果', key: 'getResult',  width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -192,7 +194,7 @@
                   on: {
                     click: () => {
                       window.sessionStorage.setItem("statementId", params.row.statementId)
-                      this.$router.push({name:'socialsecurityreconcilatedetail'});
+                      this.$router.push({name:'socialSecurityReconcilateDetail'});
 
                       //window.sessionStorage.getItem("")
                     }
@@ -207,7 +209,7 @@
                 h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      
+                        this.batchUpload();
                     }
                   }
                 }, '导入'),
@@ -253,7 +255,7 @@
                         on: {
                           click: () => {
                               window.sessionStorage.setItem("statementId", params.row.statementId)
-                              this.$router.push({name:'SocialSecurityEmpChangeDetailYys'});
+                              this.$router.push({name:'socialSecurityEmpChangeDetailYys'});
                           }
                         }
                       },'下载养医失'
@@ -265,13 +267,13 @@
                           on: {
                             click: () => {
                               window.sessionStorage.setItem("statementId", params.row.statementId)
-                              this.$router.push({name:'SocialSecurityEmpChangeDetailGsy'});
+                              this.$router.push({name:'socialSecurityEmpChangeDetailGsy'});
                             }
                           }
                            },'下载工生育'),
                 ])
               }
-              
+
             }
           },
           {title: '变更汇总表类型', key: 'impFileName', width: 150, align: 'center',
@@ -292,14 +294,14 @@
               ]);
             }
           },
-          {title: '对账操作人', key: 'statementUserId', width: 150, align: 'center',
+          {title: '对账操作人', key: 'statementUserId', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.statementUserId),
               ]);
             }
           },
-          {title: '最近对账时间', key: 'statementTime', width: 150, align: 'center',
+          {title: '最近对账时间', key: 'statementTime', width: 160, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.statementTime),
@@ -386,7 +388,7 @@
         // api.statementQuery(params).then(data => {
         //   this.statementData = data.data;
         //   this.statementPageData.total = data.total;
-          
+
         // })
       }
 

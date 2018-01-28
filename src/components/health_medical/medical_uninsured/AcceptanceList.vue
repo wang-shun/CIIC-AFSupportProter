@@ -2,6 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
+        受理单查询
         <div slot="content">
           <Form ref="formItem" :model="formItem" :label-width="140">
             <Row justify="start" class="mt20 mr10">

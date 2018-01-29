@@ -37,7 +37,7 @@
       </i-col>
     </Row>
 
-    <Table border :columns="colums1" :data="data1" ></Table>
+    <Table border :columns="colums1" :data="data1" :disabled-hover="disablehover"></Table>
      <Page @on-change="handleCurrentChange"
               :current="pageNum"
               :page-size="pageSize"
@@ -76,7 +76,7 @@
       <div slot="footer">
         <Row type="flex" justify="start" class="tr">  
           <i-col :sm="{span: 24}">
-            <Button type="primary" @click="ok('formItem')" class="ml10">确定</Button>
+            <Button type="primary" @click="ok('formItem')" class="ml10">保存</Button>
             <Button type="warning" @click="$refs['formItem'].resetFields();modal1 = false" class="ml10">取消</Button>
           </i-col>
         </Row> 
@@ -96,6 +96,7 @@ export default {
     return {
       value1: '1',
       modal1: false,
+      disablehover: true,
       pageNum: 1,
       pageSize: 5,
       total: null,
@@ -145,7 +146,30 @@ export default {
           title: '政策内容',
           width: '400',
           key: 'policyDescription',
-          ellipsis: true
+          ellipsis: true,
+          // render: (h, params) => {
+          //   return h('Poptip', {
+          //     props: {
+          //       trigger: 'hover',
+          //       title: '',
+          //       placement: 'bottom'
+          //     }
+          //   },[
+          //     h('div',params.row.policyDescription),
+          //     h('div',{
+          //       slot: 'content'
+          //     },[
+          //       h('div',{
+          //         // props: {
+          //         //   type: 'textarea'
+          //         // }
+          //         // style: {
+          //         //   width: '300'
+          //         // },
+          //       },params.row.policyDescription)
+          //     ])
+          //   ])
+          // }
         },
         {
           title: '操作',

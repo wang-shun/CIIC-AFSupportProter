@@ -179,6 +179,44 @@ export default {
         return '夫妻分居'
       case 6:
         return '人才引进'
+      default:
+        return ''
+    }
+  },
+  //积分办理
+  deal_type1: (type) => {
+    switch (type) {
+      case 1:
+        return '积分申请'
+      case 2:
+        return '积分确认'
+      case 3:
+        return '信息变更'
+      case 4:
+        return '随员'
+      case 5:
+        return '密码重置'
+      default:
+        return ''
+    }
+  },
+  //B证办理
+  deal_type2: (type) => {
+    switch (type) {
+      case 1:
+        return '新办'
+      case 2:
+        return '继办'
+      case 3:
+        return '随员'
+      case 4:
+        return '个人信息修改'
+      case 5:
+        return '挂失'
+      case 6:
+        return '补办'
+      default:
+        return ''
     }
   },
   // 操作方式

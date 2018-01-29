@@ -1,7 +1,7 @@
 <template>
   <div>
     <h3>材料收缴</h3>
-    <!-- <Card v-for="(lv,index) in meterials" :key="index">
+    <Card v-for="(lv,index) in meterials" :key="index">
       <Form :label-width="120">
       <Row v-if="index == 1" v-for="meterial in lv" :key="meterial.materialTypeRelationId">
         <i-col >
@@ -10,8 +10,10 @@
           </Form-item>
         </i-col>
       </Row>
+      
       </Form>
-    </Card> -->
+    </Card>
+    
   </div>
 </template>
 

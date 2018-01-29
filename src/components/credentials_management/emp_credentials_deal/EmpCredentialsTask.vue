@@ -314,6 +314,7 @@
               temp.companyName = data.companyName
               temp.credentialsTypeN = this.$route.params.typeN
               temp.credentialsType = this.$route.params.type
+              temp.companyId = this.$route.params.companyId
               if (this.$route.params.dealType != "") {
                 temp.credentialsDealType = this.$route.params.dealType
                 temp.credentialsDealTypeN = this.$route.params.dealTypeN

@@ -114,13 +114,13 @@
           </Row>
           <Row class="tr">
             <Col :sm="{span: 24}">
-            <Button type="info" @click="checkEmployee">验证雇员是否存在</Button>
+            <Button type="info" @click="checkExistsEmployee">验证雇员是否存在</Button>
             </Col>
           </Row>
         </Form>
+        <span id="check_result" style="color: red">{{checkResult}}</span>
       </div>
       <div id="emp_info" style="display:none">
-        <span id="check_result" style="color: red">{{checkResult}}</span>
         <Form :label-width=150 ref="empInputData" :model="empInputData">
          <Row>
            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -142,7 +142,12 @@
           <Row>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="工资：" prop="salary">
-              <Input v-model="empInputData.salary"></Input>
+              <Label>{{empInputData.salary}}</Label>
+            </Form-item>
+            </Col>
+            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="待调工资：" prop="salary">
+              <Input v-model="empInputData.chgSalary"></Input>
             </Form-item>
             </Col>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -150,13 +155,13 @@
               <Label>{{empInputData.idNum}}</Label>
             </Form-item>
             </Col>
+          </Row>
+          <Row>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="社保状态：" prop="archiveStatus">
               <Label>{{this.$decode.archiveStatus(empInputData.archiveStatus)}}</Label>
             </Form-item>
             </Col>
-          </Row>
-          <Row>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="社保基数：" prop="baseAmount">
               <Label>{{empInputData.baseAmount}}</Label>
@@ -167,13 +172,13 @@
               <Label>{{this.$decode.accountType(empInputData.ssAccountType)}}</Label>
             </Form-item>
             </Col>
+          </Row>
+          <Row>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="人员分类：" prop="empClassify">
               <Label>{{this.$decode.empClassify(empInputData.empClassify)}}</Label>
             </Form-item>
             </Col>
-          </Row>
-          <Row>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="结束区县：" prop="settlementArea">
               <Label>{{empInputData.settlementArea}}</Label>
@@ -184,25 +189,27 @@
               <Label>{{empInputData.ssAccount}}</Label>
             </Form-item>
             </Col>
+          </Row>
+          <Row>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="养老金独立开户用户名：" prop="ssUsername">
               <Label>{{empInputData.ssUsername}}</Label>
             </Form-item>
             </Col>
-          </Row>
-          <Row>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="养老金独立开户密码：" prop="ssPwd">
               <Label>{{empInputData.ssPwd}}</Label>
             </Form-item>
             </Col>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="所属小组：" prop="ssPwd">
+            <Form-item label="客户经理：" prop="lowDepartmentName">
               <Label>{{empInputData.lowDepartmentName}}</Label>
             </Form-item>
             </Col>
+          </Row>
+          <Row>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="所属大组：" prop="ssPwd">
+            <Form-item label="客户总监：" prop="highDepartmentName">
               <Label>{{empInputData.highDepartmentName}}</Label>
             </Form-item>
             </Col>
@@ -252,6 +259,7 @@
           employeeName: '',
           ss_serial: '',
           salary: '',
+          chgSalary: '',
           idNum: '',
           archiveStatus: '',
           baseAmount: '',
@@ -292,7 +300,10 @@
             title: '社保账号', key: 'ssSerial', width: 120, align: 'center'
           },
           {
-            title: '工资', key: 'salary', width: 120, align: 'center',
+            title: '工资', key: 'salary', width: 120, align: 'center'
+          },
+          {
+            title: '待调工资', key: 'chgSalary', width: 120, align: 'center',
             render: (h,params) => {
               return h('div', [
                 h('Input', {
@@ -301,8 +312,8 @@
                       width: '84px',
                     },
                     attrs: {
-                      name: 'salary',
-                      value: params.row.salary
+                      name: 'chgSalary',
+                      value: params.row.chgSalary
                     },
                     on: {
                       'on-change': (event) => {
@@ -352,10 +363,10 @@
             title: '养老金独立开户密码', key: 'ssPwd', width: 120, align: 'center'
           },
           {
-            title: '所属小组', key: 'lowDepartmentName', width: 120, align: 'center'
+            title: '客户经理', key: 'lowDepartmentName', width: 120, align: 'center'
           },
           {
-            title: '所属大组', key: 'highDepartmentName', width: 120, align: 'center'
+            title: '客户总监', key: 'highDepartmentName', width: 120, align: 'center'
           }
         ]
       }
@@ -382,6 +393,10 @@
         this.addEmployee = true;
       },
       checkExistsEmployee() {
+        if (this.empSearchData.employeeId == '' && this.empSearchData.idNum == '' && this.empSearchData.ssSerial == '') {
+          this.$Message.error("请输入查询条件");
+          return;
+        }
         api.checkExistsEmployee({
             params: this.empSearchData,
           }
@@ -395,26 +410,25 @@
             } else {
               this.checkResult = '请添加该雇员信息';
             }
+            document.getElementById("emp_info").style.display="inline";
           } else {
-            this.$Message.error(data.message);
+            this.checkResult = data.message;
+            this.employeeResultData.length = 0;
+            this.employeeResultPageData.total = 0;
+            document.getElementById("emp_info").style.display="none";
           }
         })
       },
-      checkEmployee() {
-        document.getElementById("emp_info").style.display="inline";
-        //this.empInput = true;
-        this.checkExistsEmployee();
-      },
       ok() {
         if (this.empInputData.employeeId != '') {
-          if (this.empInputData.salary != '') {
+          if (this.empInputData.chgSalary != '') {
             var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
-            if (!reg.test(this.empInputData.salary)) {
-              this.$Message.error("工资项输入格式有误");
+            if (!reg.test(this.empInputData.chgSalary)) {
+              this.$Message.error("待调工资项输入格式有误");
               return false;
             }
           } else {
-            this.$Message.error("工资为必填项");
+            this.$Message.error("待调工资为必填项");
             return false;
           }
         } else {
@@ -461,11 +475,11 @@
           if (this.modifiedResultData.find((x) => {
             var rtn = x.annualAdjustCompanyEmpId == aaceid;
             if (rtn) {
-              x.salary = value;
+              x.chgSalary = value;
             }
             return rtn;
           }) == undefined) {
-             this.modifiedResultData.push({annualAdjustCompanyEmpId: aaceid, salary: value});
+             this.modifiedResultData.push({annualAdjustCompanyEmpId: aaceid, chgSalary: value});
           }
         }
       },
@@ -476,8 +490,8 @@
         for(var i=0; i<this.modifiedResultData.length; i++) {
           if (this.modifiedResultData[i]) {
             var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
-            if (!reg.test(this.modifiedResultData[i].salary)) {
-              this.$Message.error("工资项输入内容[" + this.modifiedResultData[i].salary + "]格式有误");
+            if (!reg.test(this.modifiedResultData[i].chgSalary)) {
+              this.$Message.error("工资项输入内容[" + this.modifiedResultData[i].chgSalary + "]格式有误");
               return false;
             }
           }

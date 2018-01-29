@@ -378,6 +378,8 @@
             this.importResultPageData.pageNum = 1;
             this.importResultPageData.pageSize = this.$utils.DEFAULT_PAGE_SIZE;
             this.importResultPageData.pageSizeOpts = this.$utils.DEFAULT_PAGE_SIZE_OPTS;
+            this.accountResultPageData.pageNum = 1;
+            this.annualAdjustAccountQuery();
           } else {
             return false;
           }

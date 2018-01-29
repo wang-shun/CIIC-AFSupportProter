@@ -176,13 +176,19 @@
             title: '工资', key: 'salary', width: 100, align: 'left'
           },
           {
+            title: '待调工资', key: 'chgSalary', width: 100, align: 'left'
+          },
+          {
             title: '身份证号', key: 'idNum', width: 200, align: 'left'
           },
           {
             title: '社保状态', key: 'archiveStatus', width: 80, align: 'left'
           },
           {
-            title: '账户类型', key: 'ssAccountType', width: 100, align: 'left'
+            title: '账户类型', key: 'ssAccountType', width: 100, align: 'left',
+            render: (h, params) => {
+              return this.$decode.accountType(params.row.ssAccountType)
+            }
           },
           {
             title: '人员属性', key: 'empClassify', width: 80, align: 'left'
@@ -276,6 +282,7 @@
       onSuccess(response, file, fileList) {
         var data = response;
         if (data.code == 0) {
+          this.importResultPageData.pageNum = 1;
           this.uploadData.annualAdjustCompanyId = data.object['annual_adjust_company_id'];
           this.annualAdjustCompanyEmpTempQuery();
           this.isSubmit = false;
@@ -358,6 +365,7 @@
         this.annualAdjustCompanyQuery();
       },
       handlePageSize(val) {
+        this.companyResultPageData.pageNum = 1;
         this.companyResultPageData.pageSize = val;
         this.annualAdjustCompanyQuery();
       },
@@ -365,6 +373,20 @@
         this.isUpload = true;
       },
       importClose() {
+        if (this.isSubmit && this.importResultData && this.importResultData.length > 0) {
+          this.importResultData.length = 0;
+          this.importResultPageData.total = 0;
+          this.importResultPageData.pageNum = 1;
+          this.importResultPageData.pageSize = this.$utils.DEFAULT_PAGE_SIZE;
+          this.importResultPageData.pageSizeOpts = this.$utils.DEFAULT_PAGE_SIZE_OPTS;
+          this.isUpload = false;
+          this.isSubmit = false;
+          this.$refs['upload'].clearFiles();
+          this.uploadData.companyId = '';
+          this.companyResultPageData.pageNum = 1;
+          this.annualAdjustCompanyQuery();
+          return true;
+        }
         if (!this.isSubmit && this.importResultData && this.importResultData.length > 0) {
           var rtn = confirm("尚未导入，是否取消？")
           if (rtn) {
@@ -381,7 +403,6 @@
         this.isSubmit = false;
         this.$refs['upload'].clearFiles();
         this.uploadData.companyId = '';
-
       }
     }
   }

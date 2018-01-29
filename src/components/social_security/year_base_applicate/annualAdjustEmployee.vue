@@ -126,6 +126,9 @@
             title: '工资', key: 'salary', width: 120, align: 'center'
           },
           {
+            title: '待调工资', key: 'chgSalary', width: 120, align: 'center'
+          },
+          {
             title: '身份证号', key: 'idNum', width: 160, align: 'center'
           },
           {
@@ -150,7 +153,10 @@
             title: '社保基数', key: 'baseAmount', width: 120, align: 'center'
           },
           {
-            title: '结算区县', key: 'settlementArea', width: 80, align: 'center'
+            title: '结算区县', key: 'settlementArea', width: 80, align: 'center',
+            render: (h, params) => {
+              return this.$decode.district(params.row.settlementArea)
+            }
           },
           {
             title: '企业社保账户', key: 'ssAccount', width: 100, align: 'center'

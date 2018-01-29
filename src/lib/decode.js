@@ -124,12 +124,14 @@ export default {
 
   archiveStatus:(type)=>{
     switch (type){
+      case '0':
+        return '初始'
       case '1':
-        return '已办'
+        return '有效'
       case '2':
-        return '已做'
+        return '终止'
       case '3':
-        return '转出'
+        return '封存'
       default: // 默认 0
         return '无'
     }
@@ -256,6 +258,24 @@ export default {
         return '未匹配'
       case '1':
         return '已匹配'
+      default:
+        return '无'
+    }
+  },
+  district: (type)=> {
+    switch (type){
+      case '1':
+        return '徐汇'
+      case '2':
+        return '长宁'
+      case '3':
+        return '浦东'
+      case '4':
+        return '卢湾'
+      case '5':
+        return '静安'
+      case '6':
+        return '黄浦'
       default:
         return '无'
     }

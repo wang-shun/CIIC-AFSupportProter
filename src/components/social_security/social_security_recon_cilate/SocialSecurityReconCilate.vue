@@ -59,7 +59,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}">
-        <Button type="info" @click="batchUpload">批量导入社保变更汇总表</Button>
+        <!-- <Button type="info" @click="batchUpload">批量导入社保变更汇总表</Button> -->
         <Button type="info" >导出</Button>
       </Col>
     </Row>
@@ -146,6 +146,7 @@
         socialsecuritymonthOfUpload:'',//批量上传模块社保月份
         changeTableTypeDefaultValOfUpload: 'YYS',//变更汇总类型下拉默认选项
            changeTableTypeValueListOfUpload: [
+             {value: '全部',label:'全部',isSelect: true},
              {value: 'YYS',label:'YYY(养医失)',isSelect: true},
              {value: 'GSY', label: 'GGY(工生育)',isSelect: false}
            ],//变更汇总表类型
@@ -176,7 +177,7 @@
           changeTableTypeDefaultVal: 'YYS',
           //变更汇总表类型
           changeTableTypeValueList: [
-            //{value: null,label:'',isSelect: true},
+            {value: 'all',label:'全部',isSelect: true},
             {value: 'YYS',label:'YYS(养医失)',isSelect: true},
             {value: 'GSY', label: 'GSY(工生育)',isSelect: false}
           ],
@@ -208,7 +209,7 @@
                 h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-
+                        this.batchUpload();
                     }
                   }
                 }, '导入'),

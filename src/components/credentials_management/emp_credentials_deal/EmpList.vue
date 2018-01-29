@@ -89,7 +89,7 @@
         <Row type="flex" justify="start">
           <i-col span="12">
             <Form-item label="证件类型：" style="width:400px;" prop="type">
-              <Select v-model="formItem.type" placeholder="请选择" style="width:260px" transfer>
+              <Select v-model="formItem.type" placeholder="请选择" style="width:260px" :label-in-value="labelinvalue" transfer>
                 <Option v-for="(value,key) in this.baseDic.credentialsType" :value="key" :key="key">{{ value }}</Option>
               </Select>
             </Form-item>    
@@ -97,13 +97,13 @@
         </Row>
         <Row type="flex" justify="start">
            <i-col span="12">
-            <Form-item label="证件办理类型：" style="width:400px;" prop="dealType" v-if="formItem.type === '积分办理'">
-              <Select v-model="formItem.dealType" placeholder="请选择" style="width:260px" transfer>
+            <Form-item label="证件办理类型：" style="width:400px;" prop="dealType" v-if="formItem.type === '1'">
+              <Select v-model="formItem.dealType" placeholder="请选择" style="width:260px" :label-in-value="labelinvalue" transfer>
                 <Option v-for="(value,key) in this.baseDic.scoreDealType" :value="key" :key="key">{{ value }}</Option>
               </Select>
             </Form-item>
-            <Form-item label="证件办理类型：" style="width:400px;" prop="dealType" v-if="formItem.type === '居住证B证'">
-              <Select v-model="formItem.dealType" placeholder="请选择" style="width:260px" transfer>
+            <Form-item label="证件办理类型：" style="width:400px;" prop="dealType" v-if="formItem.type === '2'">
+              <Select v-model="formItem.dealType" placeholder="请选择" style="width:260px" :label-in-value="labelinvalue" transfer>
                 <Option v-for="(value,key) in this.baseDic.BCardDealType" :value="key" :key="key">{{ value }}</Option>
               </Select>
             </Form-item>    
@@ -131,6 +131,7 @@
       return {
         value1: '1',
         modal1: false,
+        labelinvalue: true,
         queryItem: {
           empCode: '',
           empName: '',
@@ -227,7 +228,7 @@
                     this.lookInfo(params.row)
                   }
                 }
-              }, '查看'))
+              }, '编辑'))
             // }
               return h('div', renderDiv)
             }
@@ -274,17 +275,33 @@
       ok (value, data) {
         this.$refs[value].validate((valid) => {
           if (valid) {
-            this.$router.push({
-              name: 'empCredentialsTask', 
-              params: {
-                data: data,
-                type: this.formItem.type,
-                typeN: this.formItem.type.label,
-                dealType: this.formItem.dealType,
-                dealTypeN: this.formItem.dealType.label, 
-                isDeal: true
-              }
-            })
+            if (this.formItem.type === '1'){
+              this.$router.push({
+                name: 'empCredentialsTask', 
+                params: {
+                  data: data,
+                  type: this.formItem.type,
+                  typeN: this.$decode.sel_type(parseInt(this.formItem.type)),
+                  dealType: this.formItem.dealType,
+                  dealTypeN: this.$decode.deal_type1(parseInt(this.formItem.dealType)), 
+                  companyId: data.companyCode,
+                  isDeal: true
+                }
+              })
+            }else{
+              this.$router.push({
+                name: 'empCredentialsTask', 
+                params: {
+                  data: data,
+                  type: parseInt(this.formItem.type),
+                  typeN: this.$decode.sel_type(parseInt(this.formItem.type)),
+                  dealType: parseInt(this.formItem.dealType),
+                  dealTypeN: this.$decode.deal_type2(parseInt(this.formItem.dealType)), 
+                  companyId: data.companyCode,
+                  isDeal: true
+                }
+              })
+            }
             this.modal1 = false
           } else {
             this.$Message.error('请选择办证类型!')

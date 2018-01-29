@@ -66,6 +66,7 @@
   import employmentNotes from "./common/EmploymentNotes.vue"
   import employmentMaterialsHandle from "./common/EmploymentMaterialsHandle.vue"
   import employmentDataManagementTaskList from "./common/EmployeeHistoryTaskList.vue"
+  import api from '../../api/employ_manage/hire_operator'
 
   export default {
     components: {customerInfo, employeeCompleteInfo, employmentMaterialsSign, employmentHandle, employmentNotes, employmentMaterialsHandle, employmentDataManagementTaskList},
@@ -114,11 +115,7 @@
         employmentMaterial: {
           materialCommiter: "XXX",
           extNumber: "7894",
-          materialsData: [
-            {materialName: "材料1", beforeCommitDate: "2017-7-3 12:33:33", afterSignDate: "2017-7-5 12:33:33"},
-            {materialName: "材料2", beforeCommitDate: "2017-7-3 12:33:33", afterSignDate: ""},
-            {materialName: "材料4", beforeCommitDate: "2017-7-3 12:33:33", afterSignDate: "2017-7-5 12:33:33"},
-          ],
+          materialsData: [],
           reasonValue: "",
           reasonList: []
         },
@@ -158,9 +155,25 @@
         ]
       }
     },
+    async mounted() {
+          
+          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId}
+
+          api.employeeDetailInfoQuery(params).then(data=>{
+              
+              this.employeeInfo=data.data.amEmploymentBO;
+              
+              this.employmentMaterial.materialsData = data.data.materialList.rows;
+
+              
+          })
+    },
     methods: {
       goBack() {
         this.$router.go(-1);
+      },
+       instance() {
+      alert('sdfdd');return;
       }
     }
   }

@@ -1,7 +1,7 @@
 let env = {};
 
 let dev = 'development';
-
+//dev = 'production';
 // development
 
 env.localhost = "http://localhost";

@@ -165,7 +165,7 @@
               ]);
             }
           },
-          {title: '公积金账户类型', key: 'fundAccountType', align: 'center',
+          {title: '企业账户类型', key: 'fundAccountType', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.fundAccountType),

@@ -25,7 +25,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
+                <Form-item label="企业账户类型：" prop="accountTypeValue">
                   <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -293,7 +293,7 @@
               ]);
             }
           },
-          {title: '账户类型', key: 'accountType', align: 'center', width: 159,
+          {title: '企业账户类型', key: 'accountType', align: 'center', width: 159,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.accountType),

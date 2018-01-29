@@ -413,6 +413,7 @@
           operatorType: 1,// 任务单费用段
           isNeedSerial:1
         }).then(data => {
+          
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
           }

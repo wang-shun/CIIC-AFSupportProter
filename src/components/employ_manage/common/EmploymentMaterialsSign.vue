@@ -45,22 +45,22 @@
         materialsColumns: [
           {title: '材料名称', key: 'materialName', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.materialName),
               ]);
             }
           },
           {title: '前道提交时间', key: 'beforeCommitDate', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.beforeCommitDate),
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.submitDate),
               ]);
             }
           },
-          {title: '前道提交时间', key: 'afterSignDate', align: 'center',
+          {title: '后道收到时间', key: 'afterSignDate', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.afterSignDate),
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.receiveDate),
               ]);
             }
           },

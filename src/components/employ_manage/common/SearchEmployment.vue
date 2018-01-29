@@ -19,7 +19,11 @@
         </Col>
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
-            <Input v-model="searchForm.searchContent" placeholder="请输入"/>
+            
+            <Input v-model="searchForm.searchContent" placeholder="请输入" v-if="searchForm.isDate !== 1" />
+            <Date-picker  v-model="searchForm.searchContent"  type="date"  placement="right"
+                             placeholder="选择年月份" style="width: 100%;" v-else></Date-picker> 
+                         
           </Form-item>
         </Col>
       </Row>
@@ -37,6 +41,7 @@
     <Row justify="start">
       <Col :sm="{span: 24}" class="mt20 tr">
         <Button type="primary" icon="ios-search" :disabled="searchConditions.length === 0" @click="searchEmploiees">查询</Button>
+        
         <Button type="warning" @click="resetForm('searchForm')">重置</Button>
       </Col>
     </Row>
@@ -59,18 +64,28 @@
           chooseField: em_chooseField,
           relationshipValue: "",
           relationship: em_relationship,
-          searchContent: ""
+          searchContent: "",
+          isDate:0
         },
         searchConditions: [],
         currentField: {},
         currentShip: {},
         currentSelectIndex: -1,
+     
+
       }
     },
     methods: {
       // 选择字段或关系
       setOption(content, type){
         if(type === chooseType.field) {
+         
+          if(content.value.indexOf("date")>0){
+            this.searchForm.isDate=1;
+          }else{
+            this.searchForm.isDate=0;
+          }
+          this.searchForm.searchContent ="";
           this.currentField = content;
         } else {
           this.currentShip = content;
@@ -81,12 +96,23 @@
           this.$Message.error("请选择字段、关系并输入查询内容");
           return;
         } else {
+          if(this.searchForm.isDate==1){
+             var d = new Date(this.searchForm.searchContent);  
+             this.searchForm.searchContent=d.getFullYear() + '-' + (d.getMonth() + 1)+'-'+d.getDate();
+          }
+
+          if(this.currentShip.value=='like'){
+              this.searchForm.searchContent = '%'+this.searchForm.searchContent+'%';
+          }
+
           const searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContent}`;
-          const searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ${this.searchForm.searchContent}`;
+          const searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${this.searchForm.searchContent}'`;
+
           const searchCondition = {
             desc: searchConditionDesc,
             exec: searchConditionExec
           };
+          // const searchCondition = searchConditionExec;
           // 防止输入重复项
           let hasRepeatObj = -1;
           if(this.searchConditions.length > 0) {

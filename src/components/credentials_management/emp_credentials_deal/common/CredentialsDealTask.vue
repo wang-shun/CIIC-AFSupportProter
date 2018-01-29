@@ -255,10 +255,6 @@
     created () {
     },
     methods: {
-      save () {},
-      back () {
-        this.$router.go(-1)
-      },
       clickRow (value) {
         if (value !== null) {
           this.$emit("backRow", value)

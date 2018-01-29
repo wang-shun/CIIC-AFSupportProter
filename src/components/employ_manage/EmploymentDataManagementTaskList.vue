@@ -13,7 +13,6 @@
     <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="goHandle">办理</Button>
-        <Dropdown>
           <Button type="primary">
             打印
             <Icon type="arrow-down-b"></Icon>
@@ -27,8 +26,17 @@
         <Button type="primary" @click="sendToFileMangement">递交档案处</Button>
       </Col>
     </Row>
-    <Table border :columns="employmentColumns" :data="employmentData" class="mt20"></Table>
-    <Table border :columns="searchResultColumns" :data="searchResultData" class="mt20"></Table>
+    <Table border :columns="employmentColumns" :data="employmentData" ref="employmentData" class="mt20"></Table>
+    <Page
+        class="pageSize"
+        @on-change="handlePageNum"
+        @on-page-size-change="handlePageSize"
+        :total="pageData.total"
+        :page-size="pageData.pageSize"
+        :page-size-opts="pageData.pageSizeOpts"
+        :current="pageData.pageNum"
+        show-sizer show-total></Page>
+    <Table  border :columns="searchResultColumns" :data="searchResultData" ref="searchResultData" class="mt20"></Table>
 
     <Modal
       v-model="isShowStockTitle"
@@ -42,24 +50,57 @@
   </div>
 </template>
 <script>
+import {mapState, mapGetters, mapActions} from 'vuex'
   import {em_print, customerInfo} from "../../assets/js/employ_manage/common_filed"
   import searchEmployment from "./common/SearchEmployment.vue"
   import employeeInfo from "./common/EmployeeInfo.vue"
+  import api from '../../api/employ_manage/hire_operator'
 
   export default {
     components: {employeeInfo, searchEmployment},
     data() {
       return {
+        pageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+        },
         collapseInfo: [1],
+        searchConditions:[],
+        searchCondition: {
+          params: '',
+          taskStatus:0
+        },
         // 当中按钮操作
         printList: em_print,
         // 下半部分
         employmentColumns: [
           {title: '', type: 'selection', width: 60},
+             {
+              title: '操作',
+              key: 'action',
+              align: 'center',
+              width: 120,
+              render: (h, params) => {
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        this.showInfoT(params.row.employeeId,params.row.companyId)
+                      }
+                    }
+                  }, '办理'),
+                ]);
+              }
+            },
+        
           {title: '用工方式', key: 'employMethods', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employMethods),
+                h('span', params.row.employWay),
               ]);
             }
           },
@@ -77,24 +118,24 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'companyNumber', align: 'center', width: 150,
+          {title: '公司编码', key: 'licenseCode', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyNumber),
+                h('span', params.row.licenseCode),
               ]);
             }
           },
           {title: '公司名称', key: 'companyName', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
+                h('span', params.row.title),
               ]);
             }
           },
           {title: '雇员编码', key: 'employeeNumber', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.employeeNumber),
+                h('span', params.row.employeeId),
               ]);
             }
           },
@@ -108,7 +149,7 @@
           {title: '证件号', key: 'IdNumber', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.IdNumber),
+                h('span', params.row.idNum),
               ]);
             }
           },
@@ -136,102 +177,149 @@
           {title: '档案编号', key: 'fileNumber', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fileNumber),
+                h('span', params.row.docNum),
               ]);
             }
           },
           {title: '预留档案编号', key: 'reservedFileNumber', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.reservedFileNumber),
+                h('span', params.row.yuliuDocNum),
               ]);
             }
           },
-          {title: '用工反馈操作日期', key: 'feedbackOperationDate', align: 'center', width: 150,
+          {title: '用工反馈操作日期', key: 'employFeedbackOptDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.feedbackOperationDate),
+                h('span', params.row.employFeedbackOptDate),
               ]);
             }
           },
-          {title: '调档反馈', key: 'investigationFileFeedback', align: 'center', width: 150,
+          {title: '调档反馈', key: 'diaodangFeedback', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.investigationFileFeedback),
+                h('span', params.row.diaodangFeedback),
               ]);
             }
           },
-          {title: '调档反馈操作日期', key: 'investigationFileFeedbackDate', align: 'center', width: 150,
+          {title: '调档反馈操作日期', key: 'diaodangFeedbackOptDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.investigationFileFeedbackDate),
+                h('span', params.row.diaodangFeedbackOptDate),
               ]);
             }
           },
         ],
-        employmentData: [
-          {employMethods: '', employProperty: '', index: '', companyNumber: '101', companyName: '客户1', employeeNumber: '10001', employeeName: '雇员1', IdNumber: '', serviceManager: '', serviceCenter: '大客户', companySpecialCase: '', fileNumber: '', reservedFileNumber: '', feedbackOperationDate: '', investigationFileFeedback: '', investigationFileFeedbackDate: ''},
-          {employMethods: '', employProperty: '', index: '', companyNumber: '102', companyName: '客户2', employeeNumber: '10002', employeeName: '雇员2', IdNumber: '', serviceManager: '', serviceCenter: '日本', companySpecialCase: '', fileNumber: '', reservedFileNumber: '', feedbackOperationDate: '', investigationFileFeedback: '', investigationFileFeedbackDate: ''},
-          {employMethods: '', employProperty: '', index: '', companyNumber: '101', companyName: '客户1', employeeNumber: '10003', employeeName: '雇员3', IdNumber: '', serviceManager: '', serviceCenter: '虹桥', companySpecialCase: '', fileNumber: '', reservedFileNumber: '', feedbackOperationDate: '', investigationFileFeedback: '', investigationFileFeedbackDate: ''},
-          {employMethods: '', employProperty: '', index: '', companyNumber: '101', companyName: '客户1', employeeNumber: '10004', employeeName: '雇员4', IdNumber: '', serviceManager: '', serviceCenter: '浦东', companySpecialCase: '', fileNumber: '', reservedFileNumber: '', feedbackOperationDate: '', investigationFileFeedback: '', investigationFileFeedbackDate: ''},
-          {employMethods: '', employProperty: '', index: '', companyNumber: '102', companyName: '客户2', employeeNumber: '10005', employeeName: '雇员5', IdNumber: '', serviceManager: '', serviceCenter: '浦东', companySpecialCase: '', fileNumber: '', reservedFileNumber: '', feedbackOperationDate: '', investigationFileFeedback: '', investigationFileFeedbackDate: ''},
-          {employMethods: '', employProperty: '', index: '', companyNumber: '102', companyName: '客户2', employeeNumber: '10005', employeeName: '雇员5', IdNumber: '', serviceManager: '', serviceCenter: '浦东', companySpecialCase: '', fileNumber: '', reservedFileNumber: '', feedbackOperationDate: '', investigationFileFeedback: '', investigationFileFeedbackDate: ''},
-        ],
+        employmentData: [],//列表数据
 
         searchResultColumns: [
           {title: '用工材料未签收', key: 'noSign', align: 'center', width: 220,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.noSign),
-              ]);
+             render: (h, params) => {
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(1)
+                  }
+                }
+              }, params.row.noSign);
             }
           },
-          {title: '已开F单未完成', key: 'FFinished', align: 'center', width: 220,
+          {title: '已开F单未完成', key: 'finished', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.FFinished),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(2)
+                  }
+                }
+              }, params.row.finished);
             }
           },
           {title: '用工成功', key: 'employSuccess', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.employSuccess),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(3)
+                  }
+                }
+              }, params.row.employSuccess);
             }
           },
           {title: '用工失败', key: 'employFailed', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.employFailed),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(4)
+                  }
+                }
+              }, params.row.employFailed);
             }
           },
           {title: '前道要求撤消用工', key: 'employCancel', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.employCancel),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(5)
+                  }
+                }
+              }, params.row.employCancel);
             }
           },
           {title: '其他', key: 'other', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.other),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(6)
+                  }
+                }
+              }, params.row.other);
             }
           },
           {title: '总计', key: 'amount', align: 'center', width: 231,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.amount),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                click:()=>{
+                    this.showInfoTws(0)
+                }
+               }
+            }, params.row.amount);
             }
           }
         ],
-        searchResultData: [
-          {noSign: '6', FFinished: '77', employSuccess: '69', employFailed: '4', employCancel: '6', other: '76', amount: '550'},
-        ],
+        searchResultData: [],
 
         // 弹出框
         isShowStockTitle: false,
@@ -239,14 +327,36 @@
       }
     },
     mounted() {
-
+      this.employeeQuery({}),
+      this.employeeCollectionQuery({})
     },
     methods: {
-      searchEmploiees(conditions) {
+     searchEmploiees(conditions) {
+            this.searchConditions =[];
+            for(var i=0;i<conditions.length;i++)
+                  this.searchConditions.push(conditions[i].exec);
+        
+           this.searchCondition.params = this.searchConditions.toString();
+           this.employeeQuery(this.searchCondition);
+           this.employeeCollectionQuery(this.searchCondition);
+      }, goHandle() {
+        this.$router.push({name: "employHandleEmployment"});
+      },
+      showInfoT (employeeId,companyId) {
+        this.$router.push({name:'employHandleEmployment', query: {employeeId:employeeId,companyId:companyId}});
 
       },
-      goHandle() {
-        this.$router.push({name: "employHandleEmployment"});
+      showInfoTw (ind) {  
+           this.searchCondition.params = this.searchConditions.toString();
+           this.searchCondition.taskStatus = ind;
+           this.employeeQuery(this.searchCondition);
+
+      },
+      showInfoTws (ind) {
+           this.searchCondition.params = this.searchConditions.toString();
+           this.searchCondition.taskStatus = ind;
+           this.employeeQuery(this.searchCondition);
+
       },
       exportXLS() {
 
@@ -256,7 +366,54 @@
       },
       sendToFileMangement() {
 
-      }
+      },
+      exportData() {
+        this.$refs['employmentData'].exportCsv({
+          filename: '原始数据'
+        });
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
+      },
+      showInfo (ind) {
+        this.$router.push({name:'employeeSocialSecurityInfo', query: {empArchiveId: ind}});
+
+      },
+      employeeQuery(params){
+
+        let self =this
+        api.employeeQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params,
+        }).then(data => {
+          self.employmentData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+        })
+      },
+       employeeCollectionQuery(params){
+
+        let self =this
+        api.employeeCollectionQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params,
+        }).then(data => {
+         
+          self.searchResultData = data.data.row;
+         
+        })
+      },
+      handlePageNum(val) {
+        this.pageData.pageNum = val;
+        let params = this.searchCondition
+        this.employeeQuery(params);
+      },
+      handlePageSize(val) {
+        this.pageData.pageSize = val;
+        let params = this.searchCondition
+        this.employeeQuery(params);
+      },
     },
     computed: {
 

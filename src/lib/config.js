@@ -23,6 +23,8 @@ let basePaths = {};
     basePaths['ss-c'] = localhost + ':6003';
     // 公积金 command 服务
     basePaths['hf-c'] = localhost + ':6007'; 
+	//雇佣管理
+    basePaths['gy-c'] = localhost + ':6011';
    
   } else {
     // war

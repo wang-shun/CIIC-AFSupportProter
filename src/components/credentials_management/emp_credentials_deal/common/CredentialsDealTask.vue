@@ -261,7 +261,7 @@
       },
       clickRow (value) {
         if (value !== null) {
-          this.$emit("backRow", value)
+          
           this.selectCompanyExt(value.credentialsType,value.companyId)
           this.findMeterials(value.taskId.toString())
         }
@@ -295,6 +295,7 @@
       selectCompanyExt (credentialsType,companyId) {
         axios.get(host + '/api/empCredentialsDeal/find/companyExt/'+companyId+'/'+credentialsType).then(response => {
           this.formItem = response.data.data
+          this.$emit("backRow", response.data.data)
         })
       },
       ok () {

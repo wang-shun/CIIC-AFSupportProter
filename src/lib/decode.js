@@ -15,7 +15,8 @@ export default {
   },
   // 任务单类型
   taskCategory: (taskCategory) => {
-    switch (taskCategory){
+
+    switch (taskCategory) {
       case '1':
         return '新进'
       case '2':
@@ -38,7 +39,7 @@ export default {
   },
   // 社保账户类型
   accountType: (accountType) => {
-    switch (accountType){
+    switch (accountType) {
       case '1':
         return '中智大库'
       case '2':
@@ -50,8 +51,7 @@ export default {
   },
   // 人员分类
   empClassify: (empClassify) => {
-
-    switch (empClassify){
+    switch (empClassify) {
       case '1':
         return '本地'
       case '2':
@@ -71,7 +71,7 @@ export default {
   // 材料类型
   materialType: (type) => {
     //1 原件、2  复印件、3 扫描件
-    switch (type){
+    switch (type) {
       case '1':
         return '原件'
       case '2':
@@ -84,8 +84,8 @@ export default {
     }
   },
   //特殊任务单类型
-  specialOperatorType:(type)=>{
-    switch (type){
+  specialOperatorType: (type) => {
+    switch (type) {
       case '1':
         return '死亡终止'
       case '2':
@@ -96,7 +96,7 @@ export default {
         return '特殊工种认定'
       case '5':
         return '账户合并'
-        case '6':
+      case '6':
         return '遗属'
       case '7':
         return '退休'
@@ -106,7 +106,7 @@ export default {
         return '特殊工种提前退休'
       case '10':
         return '退休高级专家增资'
-        case '11':
+      case '11':
         return '退休军转增资'
       case '12':
         return '外国人终止提取'
@@ -122,8 +122,8 @@ export default {
 
   },
 
-  archiveStatus:(type)=>{
-    switch (type){
+  archiveStatus: (type) => {
+    switch (type) {
       case '1':
         return '已办'
       case '2':
@@ -134,8 +134,8 @@ export default {
         return '无'
     }
   },
-  empTaskStatus:(type)=>{
-    switch (type){
+  empTaskStatus: (type) => {
+    switch (type) {
       case '1':
         return '未处理'
       case '2':
@@ -165,47 +165,48 @@ export default {
     }
   },
   // 证件类型
-  sel_type: (type)=>{
-    switch(type){
-    case 1:
-      return '积分办理'
-    case 2:
-      return '居住证B证'
-    case 3:
-      return '留学生落户'
-    case 4:
-      return '居转户'    
-    case 5:
-      return '夫妻分居' 
-    case 6:
-      return '人才引进'  
+  sel_type: (type) => {
+    switch (type) {
+      case 1:
+        return '积分办理'
+      case 2:
+        return '居住证B证'
+      case 3:
+        return '留学生落户'
+      case 4:
+        return '居转户'
+      case 5:
+        return '夫妻分居'
+      case 6:
+        return '人才引进'
     }
   },
   // 操作方式
-  operateType: (type)=>{
-    switch(type){
+  operateType: (type) => {
+    switch (type) {
       case 1:
         return '待审代交'
       case 2:
         return '待审不代交'
       case 3:
-        return '不待审代交'    
+        return '不待审代交'
     }
   },
   // 费用类型
-  operateType: (type)=>{
-    switch(type){
+  operateType: (type) => {
+    switch (type) {
       case 1:
         return '免费'
       case 2:
         return '常规收费'
       case 3:
-        return '特殊收费'    
+ 
+        return '特殊收费'
     }
   },
   // 支付方式
-  operateType: (type)=>{
-    switch(type){
+  operateType: (type) => {
+    switch (type) {
       case 1:
         return '台账'
       case 2:
@@ -215,7 +216,7 @@ export default {
 
   //付款方式
   payMethod:(type)=>{
-    
+
     switch(type){
       case "1":
         return '我司代付款'
@@ -228,8 +229,8 @@ export default {
     }
   },
   //账单接收方
-  billReceiver:(type)=>{
-    switch(type){
+  billReceiver: (type) => {
+    switch (type) {
       case "1":
       case 1:
         return '我司'
@@ -239,5 +240,95 @@ export default {
       default:
         return ''
     }
-  }
+  },
+  accountStatus: (type)=> {
+    switch (type){
+      case '1':
+        return '一般人员信息'
+      case '2':
+        return '转出人员信息'
+      default:
+        return '无'
+    }
+  },
+  matchStatus: (type)=> {
+    switch (type){
+      case '0':
+        return '未匹配'
+      case '1':
+        return '已匹配'
+      default:
+        return '无'
+    }
+  },
+  //雇员入离职状态
+  empStatus: (type) => {
+    switch (type) {
+      case "1":
+      case 1:
+        return '雇员信息确认中'
+      case "2":
+      case 2:
+        return '在职'
+      case "3":
+      case 3:
+        return '离职'
+      default:
+        return ''
+    }
+  },
+  //公积金类型
+  hfType: (type) => {
+    switch (type) {
+      case "1":
+      case 1:
+        return '基本公积金'
+      case "2":
+      case 2:
+        return '补充公积金'
+      default:
+        return ''
+    }
+  },
+  //公积金操作提示 1要做、2 中心、3 中智、4 原单位、5 其他独立开户公司、6 外包 
+  hfOperationRemind: (type) => {
+    switch (type) {
+      case "1":
+      case 1:
+        return '要做'
+      case "2":
+      case 2:
+        return '中心'
+      case "3":
+      case 3:
+        return '中智'
+      case "4":
+      case 4:
+        return '原单位'
+      case "5":
+      case 5:
+        return '其他独立开户公司'
+      case "6":
+      case 6:
+        return '外包'
+      default:
+        return ''
+    }
+  },
+  //公积金任务状态 1-已办  2-已做 3-封存
+  hfTaskStatus: (type) => {
+    switch (type) {
+      case "1":
+      case 1:
+        return '已办'
+      case "2":
+      case 2:
+        return '已做'
+        case "3":
+      case 3:
+        return '封存'
+      default:
+        return ''
+    }
+  },
 };

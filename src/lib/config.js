@@ -21,6 +21,9 @@ let basePaths = {};
     basePaths['ss-q'] = localhost + ':6001';
     // 社保 command 服务
     basePaths['ss-c'] = localhost + ':6003';
+    // 公积金 command 服务
+    basePaths['hf-c'] = localhost + ':6007'; 
+   
   } else {
     // war
     basePaths['AlertJob'] = localhost + '/AlertJob-Host';
@@ -41,6 +44,7 @@ let apiProxyTable = (name) => {
 let proxyTable = {
   '/api/soccommandservice': apiProxyTable('ss-c'),
   '/api/socqueryservice': apiProxyTable('ss-q'),
+  '/api/fundcommandservice': apiProxyTable('hf-c'),
 }
 
 module.exports = {

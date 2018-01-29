@@ -67,7 +67,7 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="账户类型：">
+        <Form-item label="企业账户类型：">
           <label>{{companyFundAccount.accountType}}</label>
         </Form-item>
       </Col>

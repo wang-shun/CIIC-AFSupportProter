@@ -12,19 +12,18 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
-                  <Input v-model="searchCondition.employeeNumber" placeholder="请输入..."></Input>
+                <Form-item label="雇员编号：" prop="employeeId">
+                  <Input v-model="searchCondition.employeeId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户公积金账户：" prop="customerFundAccount">
-                  <InputAccount v-model="searchCondition.customerFundAccount" ></InputAccount>
-                  <!-- <Input v-model="searchCondition.customerFundAccount" @on-focus="isShowCompanyFoundAccountList = true" placeholder="请输入..."></Input> -->
+                <Form-item label="客户公积金账户：" prop="hfComAccount">
+                  <InputAccount v-model="searchCondition.hfComAccount" ></InputAccount>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="searchCondition.accountTypeValue" style="width: 100%;" transfer>
+                <Form-item label="账户类型：" prop="hfAccountType">
+                  <Select v-model="searchCondition.hfAccountType" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
               </Form-item>
@@ -35,8 +34,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴费银行：" prop="payBankValue">
-                  <Select v-model="searchCondition.payBankValue" style="width: 100%;" transfer>
+                <Form-item label="缴费银行：" prop="paymentBank">
+                  <Select v-model="searchCondition.paymentBank" style="width: 100%;" transfer>
                     <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -47,20 +46,20 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="身份证号：" prop="idNumber">
-                  <Input v-model="searchCondition.idNumber" placeholder="请输入..."></Input>
+                <Form-item label="身份证号：" prop="idNum">
+                  <Input v-model="searchCondition.idNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="上下岗状态：" prop="workStatusValue">
-                  <Select v-model="searchCondition.workStatusValue" style="width: 100%;" transfer>
+                  <Select v-model="searchCondition.empStatus" style="width: 100%;" transfer>
                     <Option v-for="item in workStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="提示操作：" prop="tipsOperatorValue">
-                <Select v-model="searchCondition.tipsOperatorValue" style="width: 100%;" transfer>
+              <Form-item label="提示操作：" prop="operationRemind">
+                <Select v-model="searchCondition.operationRemind" style="width: 100%;" transfer>
                   <Option v-for="item in operatorTipsList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
@@ -68,7 +67,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('searchCondition')" class="ml10">重置</Button>
               </Col>
             </Row>
@@ -82,8 +81,17 @@
         <Button type="info" class="ml10" @click="isShowImportFundAccount = true;">批量导入公积金账号</Button>
       </Col>
     </Row>
-    <Table border class="mt20" :row-class-name="rowClassName" :columns="employeeFundColumns" :data="data.employeeFundData"></Table>
-    <Page :total="100" show-sizer show-elevator></Page>
+    <Table border class="mt20" :row-class-name="rowClassName" :columns="employeeFundColumns" :data="employeeFundData"></Table>
+   
+    <Page
+        class="pageSize"
+        @on-change="handlePageNum"
+        @on-page-size-change="handlePageSize"
+        :total="pageData.total"
+        :page-size="pageData.pageSize"
+        :page-size-opts="pageData.pageSizeOpts"
+        :current="pageData.pageNum"
+        show-sizer show-total></Page>
 
     <!-- 企业公积金账户分类 模态框 -->
     <Modal
@@ -92,7 +100,7 @@
       width="720"
       @on-ok="ok"
       @on-cancel="cancel">
-      <company-fund-account-search-modal :companyFundAccountData="data.companyFundAccountList"></company-fund-account-search-modal>
+      <company-fund-account-search-modal :companyFundAccountData="companyFundAccountList"></company-fund-account-search-modal>
     </Modal>
 
     <!-- 公司名称 模态框 -->
@@ -102,7 +110,7 @@
       width="720"
       @on-ok="ok"
       @on-cancel="cancel">
-      <company-modal :companyData="data.companyData"></company-modal>
+      <company-modal :companyData="companyData"></company-modal>
     </Modal>
 
     <!-- 批量导入公积金账号 模态框 -->
@@ -146,7 +154,7 @@
       v-model="isShowHistoryImported"
       title="历史导入"
       width="720">
-      <Table border class="mt20" :columns="historyImportedColumns" :data="data.importFailedData"></Table>
+      <Table border class="mt20" :columns="historyImportedColumns" :data="importFailedData"></Table>
       <div slot="footer">
         <Button type="warning" @click="isShowHistoryImported = false">返回</Button>
       </div>
@@ -158,26 +166,37 @@
   import companyFundAccountSearchModal from '../common/CompanyFundAccountSearchModal.vue'
   import companyModal from '../../common_control/CompanyModal.vue'
   import EventTypes from '../../../store/event_types'
+  import api from '../../../api/house_fund/employee_operator'
   import InputAccount from '../common/input_account'
   import InputCompany from '../common/input_company'
+ 
 
   export default {
     components: {companyFundAccountSearchModal, companyModal,InputAccount,InputCompany},
     data() {
       return {
         collapseInfo: [1], //展开栏
-        searchCondition: {
-          serviceCenterValue: "",
-          employeeNumber: "",
-          customerFundAccount: "",
-          accountTypeValue: "",
-          employeeName: "",
-          payBankValue: "",
-          serviceManager: "",
-          idNumber: "",
-          workStatusValue: "",
-          tipsOperatorValue: ""
+        pageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
+        searchCondition: {
+          employeeId: "",
+          hfComAccount: "",
+          hfAccountType: "",
+          employeeName: "",
+          paymentBank: "",
+          serviceManager: "",
+          idNum: "",
+          empStatus: "",
+          operationRemind: ""
+        },
+        employeeFundData:[],
+        companyFundAccountList:[],
+        companyData:[],
+        importFailedData:[],
         serviceCenterData: [
           {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
           {value: 2, label: '日本客户'},
@@ -186,9 +205,9 @@
         ], //客服中心
         accountTypeList: [
           {value: '', label: '全部'},
-          {value: 3, label: '独立户'},
-          {value: 1, label: '大库'},
-          {value: 2, label: '外包'}
+          {value: 1, label: '中智大库'},
+          {value: 2, label: '中智外包'},
+          {value: 3, label: '独立户'}
         ],
         isShowCompanyFoundAccountList: false, //显示企业公积金账户列表
         isShowCompanyName: false, //显示公司名称
@@ -202,17 +221,17 @@
         ],
         workStatusList: [
           {value: '', label: '全部'},
-          {value: 0, label: '在职'},
-          {value: 1, label: '离职'}
+          {value: 2, label: '在职'},
+          {value: 3, label: '离职'}
         ],
         operatorTipsList: [
           {value: '', label: '全部'},
-          {value: 0, label: '要做'},
-          {value: 1, label: '中心'},
-          {value: 2, label: '中智'},
-          {value: 3, label: '原单位'},
-          {value: 4, label: '其他独立开户公司'},
-          {value: 5, label: '外包'}
+          {value: 1, label: '要做'},
+          {value: 2, label: '中心'},
+          {value: 3, label: '中智'},
+          {value: 4, label: '原单位'},
+          {value: 5, label: '其他独立开户公司'},
+          {value: 6, label: '外包'}
         ],
         isShowImportFundAccount: false,
         employeeFundColumns: [
@@ -231,31 +250,31 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'customerNumber', align: 'center', width: 120,
+          {title: '客户编号', key: 'companyId', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.customerNumber),
+                h('span', params.row.companyId),
               ]);
             }
           },
           {title: '客户名称', key: 'customerName', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerName),
+                h('span', params.row.title),
               ]);
             }
           },
-          {title: '企业账户类型', key: 'companyAccountType', align: 'center', width: 150,
+          {title: '企业账户类型', key: 'hfAccountType', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyAccountType),
+                h('span', this.$decode.accountType(params.row.hfAccountType)),
               ]);
             }
           },
-          {title: '雇员编码', key: 'employeeNumber', align: 'center', width: 120,
+          {title: '雇员编码', key: 'employeeId', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.employeeNumber),
+                h('span', params.row.employeeId),
               ]);
             }
           },
@@ -266,45 +285,46 @@
               ]);
             }
           },
-          {title: '证件号', key: 'idNumber', align: 'center', width: 200,
+          {title: '证件号', key: 'idNum', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.idNumber),
+                h('span', params.row.idNum),
               ]);
             }
           },
-          {title: '基本公积金账号', key: 'basicFundAccount', align: 'center', width: 150,
+          {title: '基本公积金账号', key: 'hfEmpAccount', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.basicFundAccount),
+                h('span', params.row.hfEmpAccount),
               ]);
             }
           },
-          {title: '基本公积金状态', key: 'basicFundStatus', align: 'center', width: 150,
+          {title: '基本公积金状态', key: 'archiveTaskStatus', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.basicFundStatus),
+                h('span', this.$decode.hfTaskStatus(params.row.archiveTaskStatus)),
               ]);
             }
           },
-          {title: '补充公积金账号', key: 'addFundAccount', align: 'center', width: 150,
+          {title: '补充公积金账号', key: 'hfEmpAccountBc', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.addFundAccount),
+                h('span', params.row.hfEmpAccountBc),
               ]);
             }
           },
-          {title: '补充公积金状态', key: 'addFundStatus', align: 'center', width: 150,
+          {title: '补充公积金状态', key: 'archiveTaskStatusBc', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.addFundStatus),
+                h('span', this.$decode.hfTaskStatus(params.row.archiveTaskStatusBc)),
               ]);
             }
           },
-          {title: '上下岗状态', key: 'workStatus', align: 'center', width: 150,
+          {title: '上下岗状态', key: 'empStatus', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', {style: {color: params.row.workStatus === '离职' ? 'red' : '#495060'}}, params.row.workStatus),
+                h('span', {style: {color: params.row.empStatus === '离职' ? 'red' : '#495060'}}, 
+                this.$decode.empStatus(params.row.empStatus)),
               ]);
             }
           },
@@ -322,42 +342,43 @@
               ]);
             }
           },
-          {title: '操作提示', key: 'operatorTips', align: 'center', width: 200,
+          {title: '操作提示', key: 'operationRemind', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.operatorTips),
+                h('span', this.$decode.hfOperationRemind(params.row.operationRemind)),
               ]);
             }
           },
-          {title: '操作提示日期', key: 'operatorTipDate', align: 'center', width: 150,
+          {title: '操作提示日期', key: 'operationRemindDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.operatorTipDate),
-              ]);
-            }
-          },
-          {title: '备注', key: 'notes', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.notes),
+                h('span', params.row.operationRemindDate),
               ]);
             }
           }
+          // ,
+          // {title: '备注', key: 'notes', align: 'center', width: 150,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'left'}}, [
+          //       h('span', params.row.notes),
+          //     ]);
+          //   }
+          // }
         ],
         isImported: false,
         isShowHistoryImported: false,
         historyImportedColumns: [
-          {title: '客户编号', key: 'companyNumber', align: 'center', width: 150,
+          {title: '客户编号', key: 'companyId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyNumber),
+                h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '公司名称', key: 'companyName', align: 'center', width: 350,
+          {title: '客户名称', key: 'title', align: 'center', width: 350,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
+                h('span', params.row.title),
               ]);
             }
           },
@@ -400,12 +421,13 @@
       }
     },
     mounted() {
-      this[EventTypes.EMPLOYEEFUNDSEARCHTYPE]()
+      //this[EventTypes.EMPLOYEEFUNDSEARCHTYPE]()
+      this.employeeQuery({})
     },
     computed: {
-      ...mapState('employeeFundSearch', {
-        data: state => state.data
-      })
+      // ...mapState('employeeFundSearch', {
+      //   data: state => state.data
+      // })
     },
     methods: {
       ...mapActions('employeeFundSearch', [EventTypes.EMPLOYEEFUNDSEARCHTYPE]),
@@ -425,6 +447,30 @@
         } else {
           return ""
         }
+      },
+      employeeQuery(params){
+        
+        let self =this
+
+        api.employeeQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params,
+        }).then(data => {
+
+          self.employeeFundData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+        })
+      },
+      handlePageNum(val) {
+        this.pageData.pageNum = val;
+        let params = this.searchCondition
+        this.employeeQuery(params);
+      },
+      handlePageSize(val) {
+        this.pageData.pageSize = val;
+        let params = this.searchCondition
+        this.employeeQuery(params);
       },
       ok() {
 

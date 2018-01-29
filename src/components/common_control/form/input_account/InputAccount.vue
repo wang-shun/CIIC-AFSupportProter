@@ -7,6 +7,8 @@
       :disabled="disabled"
       :name="name"
       :icon="icon"
+      :class-name="className"
+      :styles="styles"
       placeholder="请点击右侧搜索按钮..."
       @on-click="handleClick"
     >
@@ -91,7 +93,12 @@
         default (item) {
           return item.ssAccount;
         }
-      }
+      },
+      className: {
+        type: String,
+        default: 'vertical-center-modal'
+      },
+      styles: Object,
     },
     data() {
       return {

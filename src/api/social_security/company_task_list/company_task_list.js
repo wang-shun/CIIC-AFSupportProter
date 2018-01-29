@@ -250,7 +250,7 @@ export class CompanyTaskList{
     let ssComAccountBO =resultData.ssComAccountBO
     //材料信息
     let operatorMaterialListData = this.getMaterial(result.data.materialList)
-    
+
     let data = {
           companyTaskStatus:result.data.taskStatus,
           comAccountId:ssComAccountBO.comAccountId,
@@ -333,7 +333,7 @@ export class CompanyTaskList{
           }else if(changeContentValue=='2'){
               payMethodValue = res.paymentWay
               billReceiverValue = res.billReceiver
-              
+
           }else if(changeContentValue=='3'){
               pensionMoneyUseCompanyName = res.comAccountName
             }

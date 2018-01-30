@@ -66,15 +66,19 @@ export default {
   },
   //查询雇员详细信息
   employeeDetailInfoQuery:async (params)=>{
-    let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/employeeDetailInfoQuery', params);
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpArchive/viewEmpArchiveInfo', params);
     return await response.data;
   },
+  //雇员公积金查询-- 查看明细 -- 保存动作
+  saveEmpAccount: async (params) => {
+    return AJAX.post('/api/fundcommandservice/hfEmpArchive/saveEmpAccount', params);
+  },
+
   //查询退账金额
   queryRefundAmountByTaskId:async (params)=>{
     let response = await AJAX.post('/api/soccommandservice/ssEmpTask/queryRefundAmountByTaskId', params);
     return await response.data;
-  } 
-  
+  }
 
 }
 

@@ -4,7 +4,7 @@
       <Panel name="1">
         企业任务单
         <div slot="content">
-          <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
+          <Form :label-width='150' ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客服中心：" prop="serviceCenterValue">

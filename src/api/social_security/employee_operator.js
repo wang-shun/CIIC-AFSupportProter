@@ -75,7 +75,7 @@ export default {
   },
   //批量任务单查询
   queryBatchEmpArchiveByEmpTaskIds:async (params)=>{
-    
+
     let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/queryBatchEmpArchiveByEmpTaskIds', params);
     return await response.data;
   },
@@ -85,6 +85,8 @@ export default {
     return await response.data;
   },
 
-
+  employeeDailyOperatorDiskExport: (params) => {
+    AJAX.download('/api/soccommandservice/ssEmpTask/employeeDailyOperatorDiskExport', params);
+  }
 }
 

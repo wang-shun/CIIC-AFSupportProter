@@ -265,6 +265,7 @@
       findMeterials(taskId) {
         axios.get(host + '/api/empCredentialsDeal/find/meterials/' + taskId).then(response => {
           this.meterials = response.data.data
+          console.log(this.meterials)
         })
       },
       taskFollowShow(taskId) {

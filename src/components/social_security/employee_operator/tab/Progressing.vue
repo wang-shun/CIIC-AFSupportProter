@@ -117,8 +117,8 @@
       <Col :sm="{span: 24}" class="tr">
       <Button type="error" @click="showRefuseReason">批退</Button>
       <Button type="info" @click="exprotExcel">导出</Button>
-      <Button type="info" @click="">转入盘片</Button>
-      <Button type="info" @click="">转出盘片</Button>
+      <Button type="info" @click="employeeDailyOperatorDiskExport(2)">转入盘片</Button>
+      <Button type="info" @click="employeeDailyOperatorDiskExport(5)">转出盘片</Button>
       </Col>
     </Row>
 
@@ -446,6 +446,12 @@
       },
       exprotExcel() {
       },
+      employeeDailyOperatorDiskExport(val) {
+        api.employeeDailyOperatorDiskExport({params: {
+          taskCategory: val,
+          taskStatus: 2
+        }})
+      }
     }
   }
 </script>

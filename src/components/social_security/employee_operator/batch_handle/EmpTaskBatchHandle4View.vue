@@ -8,12 +8,10 @@
       </Col>
     </Row>
 
-    <Table class="mt20" border :columns="operatorTableNewColumns" :data="data.operatorTableNewData" ref="employeeSocialSecurityData" v-if="operatorType === '1'"></Table>
-    <Table class="mt20" border :columns="operatorTableRepairColumns" :data="data.operatorTableRepairData" ref="employeeSocialSecurityData" v-else-if="operatorType === '2'"></Table>
-    <Table class="mt20" border :columns="operatorTableChangeColumns" :data="data.operatorTableChangeData" ref="employeeSocialSecurityData" v-else-if="operatorType === '3'"></Table>
-    <Table class="mt20" width="1271" border :columns="operatorTableOutColumns" :data="data.operatorTableOutData" ref="employeeSocialSecurityData" v-else></Table>
+  
+    <Table class="mt20" border :columns="operatorTableOutColumns" :data="operatorTableNewData" ref="employeeSocialSecurityData"></Table>
 
-    <Row class="mt20" type="flex" justify="start">
+    <!-- <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="办理方式：">
         <Select v-model="handleValue" style="width: 100%;" transfer>
@@ -95,17 +93,17 @@
         <DatePicker v-model="socialSecurityEndMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
       </Form-item>
       </Col>
-    </Row>
+    </Row> 
     <Row>
       <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 24}">
       <Form-item label="批退原因：">
         <Input v-model="refuseReason" type="textarea" :rows=4 placeholder="请输入..."></Input>
       </Form-item>
       </Col>
-    </Row>
+    </Row>-->
     <Row>
-      <Col :sm="{span:24}" class="tr">
-      <Button type="primary" >批量提交</Button>
+      <Col :sm="{span:24}" class="tr"  style="margin-top:20px;">
+      <Button type="primary"  @click="comfirm">批量提交</Button>
       <Button type="warning" @click="goback">返回</Button>
       </Col>
     </Row>
@@ -114,418 +112,26 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../../store/event_types'
-
+ import api from '../../../../api/social_security/employee_operator'
   export default {
     data() {
       return {
         operatorType: this.$route.query.operatorType,
-        operatorTableNewColumns: [
-          {type: 'selection', align: 'center', width: 60, fixed: 'left'},
-          {
-            title: '操作', key: 'action', align: 'center', width: 80, fixed: 'left',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('a', {
-                  props: {},
-                  on: {
-                    click: () => {
-
-                    }
-                  }
-                }, '移出')
-              ])
-            }
-          },
-          {
-            title: '任务单编号', key: 'tid', align: 'center', width: 150, fixed: 'left',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.tid),
-              ]);
-            }
-          },
-          {
-            title: '客户编号', width: 120, key: 'customerNumber', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.customerNumber),
-              ]);
-            }
-          },
-          {
-            title: '客户名称', width: 120, key: 'customerName', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerName),
-              ]);
-            }
-          },
-          {
-            title: '雇员姓名', width: 120, key: 'employeeName', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeName),
-              ]);
-            }
-          },
-          {
-            title: '入职日期', width: 120, key: 'checkDate', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.checkDate),
-              ]);
-            }
-          },
-          {
-            title: '人员分类', width: 120, key: 'personType', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.personType),
-              ]);
-            }
-          },
-          {
-            title: '处理方式', key: 'handleMethod', align: 'center', width: 180,
-            render: (h, params) => {
-              return h('div', [
-                  h('Select', {props: {value: ''}},
-                    [
-                      h('Option', {props: {value: '1'}}, '网上申报'),
-                      h('Option', {props: {value: '2'}}, '柜面办理'),
-                    ]
-                  )
-                ]
-              );
-            }
-          },
-          {
-            title: '社保账户类型', key: 'socialSecurityAccountType', align: 'center', width: 180,
-            render: (h, params) => {
-              return h('div', [
-                  h('Select', {props: {value: ''}},
-                    [
-                      h('Option', {props: {value: '1'}}, '中智大库1'),
-                      h('Option', {props: {value: '2'}}, '中智大库2'),
-                      h('Option', {props: {value: '3'}}, '独立户客户1'),
-                      h('Option', {props: {value: '4'}}, '独立户客户2'),
-                    ]
-                  )
-                ]
-              );
-            }
-          },
-          {
-            title: '任务', key: 'task', align: 'center', width: 180,
-            render: (h, params) => {
-              return h('div', [
-                  h('Select', {props: {value: ''}},
-                    [
-                      h('Option', {props: {value: '1'}}, '新进'),
-                      h('Option', {props: {value: '2'}}, '转入'),
-                      h('Option', {props: {value: '3'}}, '新进转出'),
-                      h('Option', {props: {value: '4'}}, '转入转出'),
-                    ]
-                  )
-                ]
-              );
-            }
-          },
-          {
-            title: '社保序号', key: 'socialSecurityIndex', align: 'center', width: 180, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('i-input', {props: {value: params.row.socialSecurityIndex}})
-              ]);
-            }
-          },
-          {
-            title: '基数', key: 'base', align: 'center', width: 180, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('i-input', {props: {value: params.row.base}})
-              ]);
-            }
-          },
-          {
-            title: '社保起始月份', key: 'socialSecurityStartMonth', align: 'center', width: 180, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('DatePicker', {props: {value: params.row.socialSecurityStartMonth}})
-              ]);
-            }
-          },
-          {
-            title: '社保截止月份', key: 'socialSecurityEndMonth', align: 'center', width: 180, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('DatePicker', {props: {value: params.row.socialSecurityEndMonth}})
-              ]);
-            }
-          },
-          {
-            title: '备注', key: 'notes', align: 'center', width: 260, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('i-input', {props: {value: params.row.notes}})
-              ]);
-            }
-          }
-        ],
-
-        operatorTableRepairColumns: [
-          {type: 'selection', align: 'center', width: 60, fixed: 'left'},
-          {
-            title: '操作', key: 'action', align: 'center', width: 80, fixed: 'left',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('a', {
-                  props: {},
-                  on: {
-                    click: () => {
-
-                    }
-                  }
-                }, '移出')
-              ])
-            }
-          },
-          {
-            title: '任务单编号', key: 'tid', width: 150, align: 'center', fixed: 'left',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.tid),
-              ]);
-            }
-          },
-          {
-            title: '客户编号', width: 120, key: 'customerNumber', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.customerNumber),
-              ]);
-            }
-          },
-          {
-            title: '客户名称', width: 120, key: 'customerName', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerName),
-              ]);
-            }
-          },
-          {
-            title: '雇员姓名', width: 120, key: 'employeeName', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeName),
-              ]);
-            }
-          },
-          {
-            title: '入职日期', width: 120, key: 'checkDate', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.checkDate),
-              ]);
-            }
-          },
-          {
-            title: '人员分类', width: 120, key: 'personType', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.personType),
-              ]);
-            }
-          },
-          {
-            title: '处理方式', key: 'handleMethod', align: 'center', width: 180,
-            render: (h, params) => {
-              return h('div', [
-                  h('Select', {props: {value: ''}},
-                    [
-                      h('Option', {props: {value: '1'}}, '网上申报'),
-                      h('Option', {props: {value: '2'}}, '柜面办理'),
-                    ]
-                  )
-                ]
-              );
-            }
-          },
-          {
-            title: '补缴办理月份', key: 'repairDoMonth', align: 'center', width: 180,
-            render: (h, params) => {
-              return h('div', [
-                h('DatePicker', {props: {value: params.row.repairDoMonth}})
-              ]);
-            }
-          },
-          {
-            title: '补缴基数', key: 'repairBase', align: 'center', width: 180,
-            ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('i-input', {props: {value: params.row.repairBase}})
-              ]);
-            }
-          },
-          {
-            title: '补缴起始月份', key: 'repairStartMonth', align: 'center', width: 180, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('DatePicker', {props: {value: params.row.repairStartMonth}})
-              ]);
-            }
-          },
-          {
-            title: '补缴截止月份', key: 'repairEndMonth', align: 'center', width: 180, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('DatePicker', {props: {value: params.row.repairEndMonth}})
-              ]);
-            }
-          },
-          {
-            title: '备注', key: 'notes', align: 'center', width: 260, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('i-input', {props: {value: params.row.notes}})
-              ]);
-            }
-          }
-        ],
-
-        operatorTableChangeColumns: [
-          {type: 'selection', align: 'center', width: 60, fixed: 'left'},
-          {
-            title: '操作', key: 'action', align: 'center', width: 80, fixed: 'left',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('a', {
-                  props: {},
-                  on: {
-                    click: () => {
-
-                    }
-                  }
-                }, '移出')
-              ])
-            }
-          },
-          {
-            title: '任务单编号', key: 'tid', width: 150, align: 'center', fixed: 'left',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.tid),
-              ]);
-            }
-          },
-          {
-            title: '客户编号', width: 120, key: 'customerNumber', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.customerNumber),
-              ]);
-            }
-          },
-          {
-            title: '客户名称', width: 120, key: 'customerName', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerName),
-              ]);
-            }
-          },
-          {
-            title: '雇员姓名', width: 120, key: 'employeeName', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeName),
-              ]);
-            }
-          },
-          {
-            title: '入职日期', width: 120, key: 'checkDate', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.checkDate),
-              ]);
-            }
-          },
-          {
-            title: '人员分类', width: 120, key: 'personType', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.personType),
-              ]);
-            }
-          },
-          {
-            title: '处理方式', key: 'handleMethod', align: 'center', width: 180,
-            render: (h, params) => {
-              return h('div', [
-                  h('Select', {props: {value: ''}},
-                    [
-                      h('Option', {props: {value: '1'}}, '网上申报'),
-                      h('Option', {props: {value: '2'}}, '柜面办理'),
-                    ]
-                  )
-                ]
-              );
-            }
-          },
-          {
-            title: '调整办理月份', key: 'changeMonth', align: 'center', width: 180,
-            render: (h, params) => {
-              return h('div', [
-                h('DatePicker', {props: {value: params.row.changeMonth}})
-              ]);
-            }
-          },
-          {
-            title: '新基数', key: 'changeBase', align: 'center', width: 180, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('i-input', {props: {value: params.row.changeMonth}})
-              ]);
-            }
-          },
-          {
-            title: '调整起始月份', key: 'changeStartMonth', align: 'center', width: 180, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('DatePicker', {props: {value: params.row.changeStartMonth}})
-              ]);
-            }
-          },
-          {
-            title: '调整截止月份', key: 'changeEndMonth', align: 'center', width: 180, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('DatePicker', {props: {value: params.row.changeEndMonth}})
-              ]);
-            }
-          },
-          {
-            title: '备注', key: 'notes', align: 'center', width: 260, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                h('i-input', {props: {value: params.row.notes}})
-              ]);
-            }
-          }
-        ],
-
+        empTaskIds: this.$route.query.empTaskIds,
+        operatorTableNewData:[],
+        updateOperatorTableNewData:[],
         operatorTableOutColumns: [
-          {type: 'selection', align: 'center', width: 60},
           {
-            title: '操作', key: 'action', align: 'center', width: 80,
+            title: '操作', key: 'action', align: 'center', width: 80, fixed: 'left',
             render: (h, params) => {
+              let self = this
               return h('div', {style: {textAlign: 'left'}}, [
                 h('a', {
                   props: {},
                   on: {
                     click: () => {
-
+                      self.operatorTableNewData.splice(params.index,1);
+                      self.updateOperatorTableNewData.splice(params.index,1);
                     }
                   }
                 }, '移出')
@@ -533,110 +139,124 @@
             }
           },
           {
-            title: '任务单编号', key: 'tid', width: 150, align: 'center',
+            title: '客户编号', width: 120, key: 'customerId', align: 'center',fixed: 'left',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.customerId),
+              ]);
+            }
+          },
+          {
+            title: '客户名称', width: 120, key: 'title', align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.tid),
+                h('span', params.row.title),
               ]);
             }
           },
           {
-            title: '公司名称', width: 120, key: 'companyName', align: 'center',
+            title: '雇员姓名', width: 120, key: 'employeeName', align: 'center',fixed: 'left',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyName),
-              ]);
-            }
-          },
-          {
-            title: '雇员姓名', width: 120, key: 'employeeName', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
+              return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeName),
               ]);
             }
           },
           {
-            title: '离职日期', width: 120, key: 'checkOutDate', align: 'center',
+            title: '入职日期', width: 120, key: 'inDate', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.checkOutDate),
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.inDate),
               ]);
             }
           },
           {
-            title: '处理方式', key: 'handleMethod', align: 'center', width: 180,
+            title: '处理方式', key: 'handleWay', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', [
-                  h('Select', {props: {value: ''}},
-                    [
-                      h('Option', {props: {value: '1'}}, '网上申报'),
-                      h('Option', {props: {value: '2'}}, '柜面办理'),
-                    ]
-                  )
+                h('span', params.row.handleWay=='1'||params.row.handleWay=="" || typeof(params.row.handleWay)=='undefined'?'网上申报': '柜面办理'),
+                  // h('Select', {props: {value: ''}},
+                  //   [
+                  //     h('Option', {props: {value: '1'}}, '网上申报'),
+                  //     h('Option', {props: {value: '2'}}, '柜面办理'),
+                  //   ]
+                  // )
                 ]
               );
             }
           },
           {
-            title: '截止月份', key: 'endMonth', align: 'center', width: 180, ellipsis: true,
+            title: '任务类型', width: 120, key: 'taskCategory', align: 'center',ellipsis: true,
             render: (h, params) => {
               return h('div', [
-                h('DatePicker', {props: {value: params.row.changeEndMonth}})
+                 h('span', '补缴'),
+                  // h('Select', {props: {value: params.row.taskCategory=="" || typeof(params.row.taskCategory)=='undefined'?'1': params.row.taskCategory}},
+                  //   [
+                  //     h('Option', {props: {value: '1'}}, '新进'),
+                  //     h('Option', {props: {value: '2'}}, '转入'),
+                  //   ]
+                  // )
+                ]
+              );
+            }
+          },
+          {
+            title: '新基数', key: 'empBase', align: 'center', width: 180, ellipsis: true,
+            render: (h, params) => {
+              return h('div', [
+                 h('span',  params.row.empBase)
+                // h('i-input', {props: {value: params.row.changeMonth}})
               ]);
             }
           },
           {
-            title: '备注', key: 'notes', align: 'center', width: 260, ellipsis: true,
+            title: '补缴起始月份', key: 'startMonth', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', [
-                h('i-input', {props: {value: params.row.notes}})
+                 h('span',  params.row.startMonth)
+                // h('DatePicker', {props: {value: params.row.changeMonth}})
+              ]);
+            }
+          },
+          {
+            title: '补缴截止月份', key: 'changeEndMonth', align: 'center', width: 180, ellipsis: true,
+            render: (h, params) => {
+              return h('div', [
+                 h('span',  params.row.endMonth)
+                // h('DatePicker', {props: {value: params.row.changeEndMonth}})
+              ]);
+            }
+          },
+          {
+            title: '办理备注', key: 'handleRemark', align: 'center', width: 260, ellipsis: true,
+            render: (h, params) => {
+              let self = this
+              return h('div', [
+                h('i-input', {
+                  props: {value: params.row.handleRemark},
+                  on:{
+                    input:(event)=>{
+                        self.updateOperatorTableNewData[params.index].handleRemark = event;
+                    }
+                  }
+                }
+                
+                )
               ]);
             }
           }
         ],
-
-
-        handleValue: '',
-        handleList: [
-          {value: '1', label: '网上申报'},
-          {value: '2', label: '柜面办理'}
-        ], //办理方式
-
-        socialSecurityAccountTypeValue: '',
-        socialSecurityAccountTypeList: [
-          {value: '1', label: '中智大库1'},
-          {value: '2', label: '中智大库2'},
-          {value: '3', label: '独立户客户1'},
-          {value: '4', label: '独立户客户2'},
-        ], //办理方式
-
-        taskValue: '',
-        taskList: [
-          {value: '1', label: '新进'},
-          {value: '2', label: '转入'},
-          {value: '3', label: '新进转出'},
-          {value: '4', label: '转入转出'},
-        ], //办理方式
-        socialSecurityIndex: '', //社保序号
-        socialSecurityStartMonth: '', //社保起缴月份
-        socialSecurityEndMonth: '', //社保截止月份
-
-        socialSecurityRepairBase: '', //补缴基数
-        socialSecurityRepairStartMonth: '', //补缴起始月份
-        socialSecurityRepairEndMonth: '', //补缴截止月份
-        socialSecurityRepairDoMonth: '', //补缴办理月份
-
-        socialSecurityChangeBase: '', //调整后的新基数
-        socialSecurityChangeStartMonth: '', //调整起始月份
-        socialSecurityChangeEndMonth: '', //调整截止月份
-        socialSecurityChangeDoMonth: '', //调整办理月份
-
-        refuseReason: '' //批退原因
       }
     },
     mounted() {
-      this[EventType.EMPLOYEECOMMCIALOPERATOR]()
+      let empTaskIdsArr = this.empTaskIds.split(",");
+      let params ={operatorType:this.operatorType,empTaskIdList:empTaskIdsArr};
+      api.queryBatchEmpArchiveByEmpTaskIds(params).then(data=>{
+        if(data.data!=null){
+          this.operatorTableNewData = data.data;
+          this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+        }
+      })
     },
     computed: {
       ...mapState('employeeCommcialOperator', {
@@ -644,9 +264,30 @@
       })
     },
     methods: {
-      ...mapActions('employeeCommcialOperator', [EventType.EMPLOYEECOMMCIALOPERATOR]),
       goback () {
         this.$router.push({name: 'employeeOperatorView'});
+      },
+      comfirm(){
+        let param =this.updateOperatorTableNewData;
+        if(param.length==0){
+          this.$Message.error("任务单为空");
+        }else{
+          let params ={}
+          params.ssEmpTaskBOList = param;
+          api.handleBatchEmpTask(params).then(data=>{
+            if(data!=null){
+              if(data.data){
+                this.$Message.success("办理成功");
+                 this.goback();
+              }else{
+                this.$Message.error(data.message);
+              }
+            }else{
+              this.$Message.error("网络异常");
+            }
+          })
+            
+        }
       }
     }
   }

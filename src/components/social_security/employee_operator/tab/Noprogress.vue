@@ -276,16 +276,13 @@
       }
     },
     async mounted() {
-      this[EventType.THISMONTHHANDLETYPE]()
+      
       this.employeeOperatorQuery();
     },
     computed: {
-      ...mapState('thisMonthHandle', {
-        data: state => state.data
-      }),
+    
     },
     methods: {
-      ...mapActions('thisMonthHandle', [EventType.THISMONTHHANDLETYPE]),
       routerToCommcialOperator(name) {
         this.$router.push({
           name: 'employeeCommcialOperator',
@@ -393,10 +390,15 @@
       batchHandle(data, isBatch = false) {
         if (isBatch) {
           // 组织任务 ID
-          var empTaskIds = [];
+          var empTaskIds = "";
           var rows = data;
-          for (var row of rows) {
-            empTaskIds.push(row.empTaskId);
+          
+          for (let i=0;i<rows.length;i++) {
+              if(i==rows.length-1){
+                empTaskIds+=rows[i].empTaskId;
+              }else{
+                empTaskIds+=rows[i].empTaskId+",";
+              }
           }
 
           // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
@@ -416,6 +418,9 @@
             case '5':
             case '6':
               name = 'empTaskBatchHandle5View';
+              break;
+              case '7':
+              name = 'empTaskBatchHandle7View';
               break;
             default:
               name = 'empTaskBatchHandleView'

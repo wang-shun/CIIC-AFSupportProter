@@ -72,8 +72,21 @@ export default {
   queryRefundAmountByTaskId:async (params)=>{
     let response = await AJAX.post('/api/soccommandservice/ssEmpTask/queryRefundAmountByTaskId', params);
     return await response.data;
+  },
+  //批量任务单查询
+  queryBatchEmpArchiveByEmpTaskIds:async (params)=>{
+
+    let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/queryBatchEmpArchiveByEmpTaskIds', params);
+    return await response.data;
+  },
+  //批量任务处理
+  handleBatchEmpTask: async (params) => {
+    let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/handleBatchTask', params);
+    return await response.data;
+  },
+
+  employeeDailyOperatorDiskExport: (params) => {
+    AJAX.download('/api/soccommandservice/ssEmpTask/employeeDailyOperatorDiskExport', params);
   }
-
-
 }
 

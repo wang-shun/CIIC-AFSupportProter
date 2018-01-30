@@ -50,17 +50,17 @@
             <Row>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保序号：" prop="ssSerial">
-                <Input v-model="employeeSearchData.ssSerial"></Input>
+                <Input v-model="employeeSearchData.ssSerial" maxlength="10"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员编号：" prop="employeeId">
-                <Input v-model="employeeSearchData.employeeId"></Input>
+                <Input v-model="employeeSearchData.employeeId" maxlength="15"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员姓名：" prop="employeeName">
-                <Input v-model="employeeSearchData.employeeName"></Input>
+                <Input v-model="employeeSearchData.employeeName" maxlength="100"></Input>
               </Form-item>
               </Col>
             </Row>
@@ -69,13 +69,13 @@
               <Form-item label="月平均工资：">
                 <Col span="10">
                 <Form-item prop="avgMonthSalaryStart">
-                  <Input v-model="employeeSearchData.avgMonthSalaryStart"></Input>
+                  <Input v-model="employeeSearchData.avgMonthSalaryStart" maxlength="10"></Input>
                 </Form-item>
                 </Col>
                 <Col span="2" offset="2">-</Col>
                 <Col span="10">
                 <Form-item prop="avgMonthSalaryEnd">
-                  <Input v-model="employeeSearchData.avgMonthSalaryEnd"></Input>
+                  <Input v-model="employeeSearchData.avgMonthSalaryEnd" maxlength="10"></Input>
                 </Form-item>
                 </Col>
               </Form-item>

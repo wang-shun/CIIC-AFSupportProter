@@ -16,10 +16,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户类型：" prop="ssAccountType">
                 <Select v-model="accountSearchData.ssAccountType" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="1" label="中智大库"></Option>
-                  <Option value="2" label="中智外包"></Option>
-                  <Option value="3" label="独立户"></Option>
+                  <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
@@ -135,6 +132,12 @@
           ssAccountType: '',
           comAccountId: '',
         },
+        accountTypeList: [
+          {value: '', label: '全部'},
+          {value: '1', label: '中智大库'},
+          {value: '2', label: '中智独立库'},
+          {value: '3', label: '独立户'},
+        ],
         inputAccountStyle: {
           'z-index': 99
         },
@@ -378,6 +381,8 @@
             this.importResultPageData.pageNum = 1;
             this.importResultPageData.pageSize = this.$utils.DEFAULT_PAGE_SIZE;
             this.importResultPageData.pageSizeOpts = this.$utils.DEFAULT_PAGE_SIZE_OPTS;
+            this.accountResultPageData.pageNum = 1;
+            this.annualAdjustAccountQuery();
           } else {
             return false;
           }

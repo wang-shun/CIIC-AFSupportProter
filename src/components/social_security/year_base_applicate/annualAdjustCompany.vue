@@ -16,10 +16,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户类型：" prop="ssAccountType">
                 <Select v-model="companySearchData.ssAccountType" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="1" label="中智大库"></Option>
-                  <Option value="2" label="中智外包"></Option>
-                  <Option value="3" label="独立户"></Option>
+                  <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
@@ -142,6 +139,12 @@
           comAccountId: '',
           companyId: '',
         },
+        accountTypeList: [
+          {value: '', label: '全部'},
+          {value: '1', label: '中智大库'},
+          {value: '2', label: '中智独立库'},
+          {value: '3', label: '独立户'},
+        ],
         inputCompanyStyle: {
           'z-index': 99
         },
@@ -176,22 +179,37 @@
             title: '工资', key: 'salary', width: 100, align: 'left'
           },
           {
+            title: '待调工资', key: 'chgSalary', width: 100, align: 'left'
+          },
+          {
             title: '身份证号', key: 'idNum', width: 200, align: 'left'
           },
           {
-            title: '社保状态', key: 'archiveStatus', width: 80, align: 'left'
+            title: '社保状态', key: 'archiveStatus', width: 80, align: 'left',
+            render: (h, params) => {
+              return this.$decode.archiveStatus(params.row.archiveStatus, true)
+            }
           },
           {
-            title: '账户类型', key: 'ssAccountType', width: 100, align: 'left'
+            title: '账户类型', key: 'ssAccountType', width: 100, align: 'left',
+            render: (h, params) => {
+              return this.$decode.accountType(params.row.ssAccountType, true)
+            }
           },
           {
-            title: '人员属性', key: 'empClassify', width: 80, align: 'left'
+            title: '人员属性', key: 'empClassify', width: 80, align: 'left',
+            render: (h, params) => {
+              return this.$decode.empClassify(params.row.empClassify, true)
+            }
           },
           {
             title: '社保基数', key: 'baseAmount', width: 100, align: 'left'
           },
           {
-            title: '结算区县', key: 'settlementArea', width: 80, align: 'left'
+            title: '结算区县', key: 'settlementArea', width: 80, align: 'left',
+            render: (h, params) => {
+              return this.$decode.district(params.row.settlementArea, true)
+            }
           },
           {
             title: '企业社保账户', key: 'ssAccount', width: 100, align: 'left'
@@ -276,6 +294,7 @@
       onSuccess(response, file, fileList) {
         var data = response;
         if (data.code == 0) {
+          this.importResultPageData.pageNum = 1;
           this.uploadData.annualAdjustCompanyId = data.object['annual_adjust_company_id'];
           this.annualAdjustCompanyEmpTempQuery();
           this.isSubmit = false;
@@ -358,6 +377,7 @@
         this.annualAdjustCompanyQuery();
       },
       handlePageSize(val) {
+        this.companyResultPageData.pageNum = 1;
         this.companyResultPageData.pageSize = val;
         this.annualAdjustCompanyQuery();
       },
@@ -365,6 +385,20 @@
         this.isUpload = true;
       },
       importClose() {
+        if (this.isSubmit && this.importResultData && this.importResultData.length > 0) {
+          this.importResultData.length = 0;
+          this.importResultPageData.total = 0;
+          this.importResultPageData.pageNum = 1;
+          this.importResultPageData.pageSize = this.$utils.DEFAULT_PAGE_SIZE;
+          this.importResultPageData.pageSizeOpts = this.$utils.DEFAULT_PAGE_SIZE_OPTS;
+          this.isUpload = false;
+          this.isSubmit = false;
+          this.$refs['upload'].clearFiles();
+          this.uploadData.companyId = '';
+          this.companyResultPageData.pageNum = 1;
+          this.annualAdjustCompanyQuery();
+          return true;
+        }
         if (!this.isSubmit && this.importResultData && this.importResultData.length > 0) {
           var rtn = confirm("尚未导入，是否取消？")
           if (rtn) {
@@ -381,7 +415,6 @@
         this.isSubmit = false;
         this.$refs['upload'].clearFiles();
         this.uploadData.companyId = '';
-
       }
     }
   }

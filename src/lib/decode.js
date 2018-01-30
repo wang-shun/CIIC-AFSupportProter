@@ -38,19 +38,21 @@ export default {
     }
   },
   // 社保账户类型
-  accountType: (accountType) => {
+  accountType: (accountType, self = false) => {
     switch (accountType) {
       case '1':
         return '中智大库'
       case '2':
         return '中智外包'
       case '3':
-      default: // 默认 1
+        return '独立户'
+      default:
+        if (self) return accountType;
         return '独立户'
     }
   },
   // 人员分类
-  empClassify: (empClassify) => {
+  empClassify: (empClassify, self = false) => {
     switch (empClassify) {
       case '1':
         return '本地'
@@ -65,6 +67,7 @@ export default {
       case undefined:
         return ''
       default: // 默认 1
+        if (self) return empClassify;
         return '本地'
     }
   },
@@ -122,15 +125,18 @@ export default {
 
   },
 
-  archiveStatus: (type) => {
-    switch (type) {
+  archiveStatus:(type, self = false)=>{
+    switch (type){
+      case '0':
+        return '初始'
       case '1':
-        return '已办'
+        return '有效'
       case '2':
-        return '已做'
+        return '终止'
       case '3':
-        return '转出'
+        return '封存'
       default: // 默认 0
+        if (self) return type;
         return '无'
     }
   },
@@ -238,7 +244,7 @@ export default {
       case 2:
         return '常规收费'
       case 3:
- 
+
         return '特殊收费'
     }
   },
@@ -299,6 +305,25 @@ export default {
         return '无'
     }
   },
+  district: (type, self=false)=> {
+    switch (type){
+      case '1':
+        return '徐汇'
+      case '2':
+        return '长宁'
+      case '3':
+        return '浦东'
+      case '4':
+        return '卢湾'
+      case '5':
+        return '静安'
+      case '6':
+        return '黄浦'
+      default:
+        if (self) return type;
+        return '无'
+    }
+  },
   //雇员入离职状态
   empStatus: (type) => {
     switch (type) {
@@ -328,7 +353,7 @@ export default {
         return ''
     }
   },
-  //公积金操作提示 1要做、2 中心、3 中智、4 原单位、5 其他独立开户公司、6 外包 
+  //公积金操作提示 1要做、2 中心、3 中智、4 原单位、5 其他独立开户公司、6 外包
   hfOperationRemind: (type) => {
     switch (type) {
       case "1":

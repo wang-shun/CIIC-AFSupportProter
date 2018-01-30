@@ -9,10 +9,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户类型：" prop="ssAccountType">
                 <Select v-model="exportSearchData.ssAccountType" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="1" label="中智大库"></Option>
-                  <Option value="2" label="中智外包"></Option>
-                  <Option value="3" label="独立户"></Option>
+                  <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
@@ -23,25 +20,6 @@
               </Col>
             </Row>
             <Row>
-              <!--
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="离职人员的离职日期：">
-                  <Col span="10">
-                  <Form-item prop="startOutDate">
-                    <Date-picker v-model="exportSearchData.startOutDate" type="date"
-                                 placeholder="选择年月日" style="width: 100%;"></Date-picker>
-                  </Form-item>
-                  </Col>
-                  <Col span="2" offset="2">-</Col>
-                  <Col span="10">
-                  <Form-item prop="endOutDate">
-                    <Date-picker v-model="exportSearchData.endOutDate" type="date"
-                                 placeholder="选择年月日" style="width: 100%;"></Date-picker>
-                  </Form-item>
-                  </Col>
-                </Form-item>
-              </Col>
-              -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="仅未采集人员：" prop="noCollection">
                 <Checkbox v-model="exportSearchData.noCollection"></Checkbox>
@@ -104,7 +82,12 @@
           //endOutDate: '',
           noCollection: 0,
         },
-
+        accountTypeList: [
+          {value: '', label: '全部'},
+          {value: '1', label: '中智大库'},
+          {value: '2', label: '中智独立库'},
+          {value: '3', label: '独立户'},
+        ],
         employeeResultData: [],
         employeeResultPageData: {
           total: 0,
@@ -124,6 +107,9 @@
           },
           {
             title: '工资', key: 'salary', width: 120, align: 'center'
+          },
+          {
+            title: '待调工资', key: 'chgSalary', width: 120, align: 'center'
           },
           {
             title: '身份证号', key: 'idNum', width: 160, align: 'center'
@@ -150,7 +136,10 @@
             title: '社保基数', key: 'baseAmount', width: 120, align: 'center'
           },
           {
-            title: '结算区县', key: 'settlementArea', width: 80, align: 'center'
+            title: '结算区县', key: 'settlementArea', width: 80, align: 'center',
+            render: (h, params) => {
+              return this.$decode.district(params.row.settlementArea)
+            }
           },
           {
             title: '企业社保账户', key: 'ssAccount', width: 100, align: 'center'

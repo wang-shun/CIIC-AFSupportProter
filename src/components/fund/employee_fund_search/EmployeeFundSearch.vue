@@ -243,7 +243,8 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'employeeFundBasicInfo'})
+                      this.showInfo(params.row.empArchiveId,params.row.companyId)
+                      
                     }
                   }
                 }, '查看/修改'),
@@ -434,6 +435,10 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
+      showInfo (empArchiveId,companyId) {
+        this.$router.push({name:'employeeFundBasicInfo', query: {empArchiveId: empArchiveId,companyId:companyId}});
+      },
+      
       gotoHistoryList() {
         this.$router.push({name: 'employeeFundHistory'})
       },

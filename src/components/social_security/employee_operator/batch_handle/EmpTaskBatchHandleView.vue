@@ -137,14 +137,14 @@
           {
             title: '操作', key: 'action', align: 'center', width: 80, fixed: 'left',
             render: (h, params) => {
-              let selt = this
+              let self = this
               return h('div', {style: {textAlign: 'left'}}, [
                 h('a', {
                   props: {},
                   on: {
                     click: () => {
-                      selt.operatorTableNewData.splice(params.index,1);
-                      selt.updateOperatorTableNewData.splice(params.index,1);
+                      self.operatorTableNewData.splice(params.index,1);
+                      self.updateOperatorTableNewData.splice(params.index,1);
                     }
                   }
                 }, '移出')
@@ -250,7 +250,7 @@
             }
           },
           {
-            title: '办理备注', key: 'notes', align: 'center', width: 260, ellipsis: true,
+            title: '办理备注', key: 'handleRemark', align: 'center', width: 260, ellipsis: true,
             render: (h, params) => {
               let self = this
               return h('div', [
@@ -292,7 +292,6 @@
         this.$router.push({name: 'employeeOperatorView'});
       },
       comfirm(){
-        
         let param =this.updateOperatorTableNewData;
         if(param.length==0){
           this.$Message.error("任务单为空");

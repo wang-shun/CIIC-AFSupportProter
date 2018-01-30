@@ -9,7 +9,7 @@
     </Row>
 
 
-    <Table class="mt20" width="1330" border :columns="operatorTableOutColumns" :data="operatorTableNewData" ref="employeeSocialSecurityData"></Table>
+    <Table class="mt20"  border :columns="operatorTableOutColumns" :data="operatorTableNewData" ref="employeeSocialSecurityData"></Table>
 
     <!-- <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -102,7 +102,7 @@
       </Col>
     </Row> -->
     <Row>
-      <Col :sm="{span:20}" class="tr" style="margin-top:20px;margin-left:30px;">
+      <Col :sm="{span:23}" class="tr" style="margin-top:20px;margin-left:25px;">
       <Button type="primary" @click="comfirm">批量提交</Button>
       <Button type="warning" @click="goback">返回</Button>
       </Col>
@@ -189,7 +189,7 @@
             title: '任务类型', width: 120, key: 'taskCategory', align: 'center',ellipsis: true,
             render: (h, params) => {
               return h('div', [
-                 h('span', params.row.taskCategory=="5"?"转出":"封存"),
+                 h('span', "退账"),
                   // h('Select', {props: {value: params.row.taskCategory=="" || typeof(params.row.taskCategory)=='undefined'?'1': params.row.taskCategory}},
                   //   [
                   //     h('Option', {props: {value: '1'}}, '新进'),
@@ -201,11 +201,38 @@
             }
           },
           {
-            title: '截止月份', key: 'endMonth', align: 'center', width: 180, ellipsis: true,
+            title: '退账起始月份', key: 'startMonth', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', [
-                h('span',params.row.endMonth)
-                // h('DatePicker', {props: {value: params.row.endMonth}})
+                 h('span',  params.row.startMonth)
+                // h('DatePicker', {props: {value: params.row.changeMonth}})
+              ]);
+            }
+          },
+          {
+            title: '退账截止月份', key: 'endMonth', align: 'center', width: 180, ellipsis: true,
+            render: (h, params) => {
+              return h('div', [
+                 h('span',  params.row.endMonth)
+                // h('DatePicker', {props: {value: params.row.changeEndMonth}})
+              ]);
+            }
+          },
+          {
+            title: '退账金额', key: 'refundAmount', align: 'center', width: 180, ellipsis: true,
+            render: (h, params) => {
+                let self = this
+              return h('div', [
+                 h('i-input',  {
+                     props:{value:params.row.refundAmount},
+                     on:{
+                    input:(event)=>{
+                        self.updateOperatorTableNewData[params.index].refundAmount = event;
+                    }
+                  }
+                 })
+
+                // h('DatePicker', {props: {value: params.row.changeEndMonth}})
               ]);
             }
           },

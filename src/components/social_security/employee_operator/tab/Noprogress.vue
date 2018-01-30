@@ -419,6 +419,9 @@
             case '6':
               name = 'empTaskBatchHandle5View';
               break;
+              case '7':
+              name = 'empTaskBatchHandle7View';
+              break;
             default:
               name = 'empTaskBatchHandleView'
           }

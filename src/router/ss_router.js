@@ -45,7 +45,7 @@ const empTaskBatchHandleView = r => require.ensure([], () => r(require('@/compon
 const empTaskBatchHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle3View')), 'empTaskBatchHandle3View')
 const empTaskBatchHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle4View')), 'empTaskBatchHandle4View')
 const empTaskBatchHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle5View')), 'empTaskBatchHandle5View')
-
+const empTaskBatchHandle7View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle7View')), 'empTaskBatchHandle7View')
 
 /*
  * companyTaskList                   --- 企业任务单
@@ -363,8 +363,17 @@ export default [
       openNames:['1']
     }
   },
-
-
+  {
+    path: '/emp_task_batch_handle7_view',
+    name: 'empTaskBatchHandle7View',
+    component: empTaskBatchHandle7View,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"雇员批量操作转出",
+      openNames:['1']
+    }
+  },
   {
     path: '/company_task_list',
     name: 'companyTaskList',

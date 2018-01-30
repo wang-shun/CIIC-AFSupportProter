@@ -38,19 +38,21 @@ export default {
     }
   },
   // 社保账户类型
-  accountType: (accountType) => {
+  accountType: (accountType, self = false) => {
     switch (accountType) {
       case '1':
         return '中智大库'
       case '2':
         return '中智外包'
       case '3':
-      default: // 默认 1
+        return '独立户'
+      default:
+        if (self) return accountType;
         return '独立户'
     }
   },
   // 人员分类
-  empClassify: (empClassify) => {
+  empClassify: (empClassify, self = false) => {
     switch (empClassify) {
       case '1':
         return '本地'
@@ -65,6 +67,7 @@ export default {
       case undefined:
         return ''
       default: // 默认 1
+        if (self) return empClassify;
         return '本地'
     }
   },
@@ -122,7 +125,7 @@ export default {
 
   },
 
-  archiveStatus:(type)=>{
+  archiveStatus:(type, self = false)=>{
     switch (type){
       case '0':
         return '初始'
@@ -133,6 +136,7 @@ export default {
       case '3':
         return '封存'
       default: // 默认 0
+        if (self) return type;
         return '无'
     }
   },
@@ -301,7 +305,7 @@ export default {
         return '无'
     }
   },
-  district: (type)=> {
+  district: (type, self=false)=> {
     switch (type){
       case '1':
         return '徐汇'
@@ -316,6 +320,7 @@ export default {
       case '6':
         return '黄浦'
       default:
+        if (self) return type;
         return '无'
     }
   },

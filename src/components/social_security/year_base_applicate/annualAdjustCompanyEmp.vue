@@ -422,7 +422,7 @@
       ok() {
         if (this.empInputData.employeeId != '') {
           if (this.empInputData.chgSalary != '') {
-            var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+            var reg = /(^[1-9]([0-9]{1,7})?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
             if (!reg.test(this.empInputData.chgSalary)) {
               this.$Message.error("待调工资项输入格式有误");
               return false;
@@ -489,7 +489,7 @@
       updateSelected() {
         for(var i=0; i<this.modifiedResultData.length; i++) {
           if (this.modifiedResultData[i]) {
-            var reg = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+            var reg = /(^[1-9]([0-9]{1,7})?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
             if (!reg.test(this.modifiedResultData[i].chgSalary)) {
               this.$Message.error("工资项输入内容[" + this.modifiedResultData[i].chgSalary + "]格式有误");
               return false;

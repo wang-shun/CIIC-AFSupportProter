@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Form :label-width="120">
+    <Form :model="formItem" :label-width="120">
       <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
           <span style="font-weight:bold;font-size:14px">主要材料</span>
@@ -24,13 +24,13 @@
       </Row>
       <Row style="margin: 10px 40px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <RadioGroup v-model="formItem.b">
+            <RadioGroup v-model="formItem.huStatus">
               <Radio label="调沪方情况"></Radio>
               <Radio label="在沪方情况"></Radio>
             </RadioGroup>
         </i-col>
       </Row>
-      <Row v-if="formItem.b === '调沪方情况'">
+      <Row v-if="formItem.huStatus === '调沪方情况'">
         <div v-for="item in meterials" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  v-if="item.level === '1-1'">
           <Form-item>
@@ -41,7 +41,7 @@
         </i-col>
         </div>
       </Row>
-      <Row v-if="formItem.b === '在沪方情况'" >
+      <Row v-if="formItem.huStatus === '在沪方情况'" >
         <div v-for="item in meterials" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item  v-if="item.level === '1-2'">
@@ -59,7 +59,7 @@
       </Row>
       <Row style="margin: 10px 40px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <RadioGroup v-model="formItem.e">
+            <RadioGroup v-model="formItem.marryStatus">
               <Radio label="已婚未育"></Radio>
               <Radio label="已婚已育"></Radio>
             </RadioGroup>
@@ -140,7 +140,17 @@ export default {
   },
   data () {
     return {
-      
+      meterials00: [],
+      meterials11: [],
+      meterials12: [],
+      meterials21: [],
+      meterials22: [],
+      meterials30: [],
+      meterials40: [],
+      formItem: {
+        huStatus: '调沪方情况',
+        marryStatus: '已婚已育'
+      }
     }
   },
   methods: {

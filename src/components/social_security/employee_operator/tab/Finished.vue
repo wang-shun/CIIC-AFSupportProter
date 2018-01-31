@@ -186,12 +186,6 @@
         },
         employeeResultColumns: [
           {
-            type: 'selection',
-            fixed: 'left',
-            width: 60,
-            align: 'center'
-          },
-          {
             title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
             render: (h, params) => {
               return h('div', [

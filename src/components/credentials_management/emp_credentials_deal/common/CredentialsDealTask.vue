@@ -93,7 +93,11 @@
             </Form-item>
           </i-col>
         </Row>
+        <div class="create"></div>
+        <h3>材料收缴</h3>
+        <div v-if="formItem.credentialsType == '5'">
         <CredentialsMaterial :meterials="meterials"></CredentialsMaterial>
+        </div>
        </Form>
     </Card>
     <Modal v-model="taskFollow" title="任务跟进" @on-ok="ok" @on-cancel="cancel">
@@ -234,12 +238,12 @@
         columns2: [
           {
             title: '跟进人',
-            width:100,
+            width: 100,
             key: 'createdBy'
           },
           {
             title: '跟进时间',
-            width:150,
+            width: 150,
             key: 'createdTime'
           },
           {
@@ -259,12 +263,19 @@
         if (value !== null) {
           this.$emit("backRow", value)
           this.selectCompanyExt(value.credentialsType,value.companyId)
-          this.findMeterials(value.taskId.toString())
+          if (value.credentialsDealType != null && value.credentialsDealType != ""){
+            this.createMeterialsMenu(value.credentialsType.toString(),value.credentialsDealType.toString())
+          } else {
+            this.createMeterialsMenu(value.credentialsType.toString(),"")
+          }
+          
         }
       },
-      findMeterials(taskId) {
-        axios.get(host + '/api/empCredentialsDeal/find/meterials/' + taskId).then(response => {
-          this.meterials = response.data.data
+      createMeterialsMenu(credentialsType,credentialsDealType) {
+        axios.get(host + '/api/empCredentialsDeal/find/meterialsMenu?credentialsType='+credentialsType+'&credentialsDealType='+credentialsDealType).then(response => {
+          if (response.data.errCode == '0') {
+            this.meterials = response.data.data
+          }
           console.log(this.meterials)
         })
       },

@@ -1,109 +1,124 @@
 <template>
   <div>
-    <h3>材料收缴</h3>
     <Form :label-width="120">
-      <Row v-for="item in meterials" :key="item.materialTypeRelationId">
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <Form-item v-if="item.level === '0-0'">
-              <Checkbox v-model="formItem.f">{{item.materialName}}</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
-       <Row >
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <Form-item>
-              <Checkbox v-model="formItem.a">调沪方情况</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
-       <Row >
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <Form-item>
-              <RadioGroup v-model="formItem.b">
-                <Radio label="调沪方情况（展开）"></Radio>
-                <Radio label="在沪方情况（展开）"></Radio>
-              </RadioGroup>
-            </Form-item>
-          </i-col>
-       </Row>
-       <Row v-if="formItem.b === '调沪方情况（展开）'" v-for="item in meterials" :key="item.materialTypeRelationId">
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <Form-item  v-if="item.level === '1-1'">
-              <Checkbox v-model="formItem.c">{{item.materialName}}</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
-       <Row v-if="formItem.b === '在沪方情况（展开）'">
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
-              <Checkbox v-model="formItem.c">户口本</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
-       <Row >
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <Form-item>
-              <Checkbox v-model="formItem.d">婚姻证明</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
-       <Row >
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <Form-item>
-              <RadioGroup v-model="formItem.e">
-                <Radio label="已婚未育"></Radio>
-                <Radio label="已婚已育"></Radio>
-              </RadioGroup>
-            </Form-item>
-          </i-col>
-       </Row>
-        <Row v-if="formItem.e === '已婚未育'">
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
-              <Checkbox v-model="formItem.c">结婚证</Checkbox>
-            </Form-item>
-          </i-col>
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
-              <Checkbox v-model="formItem.c">计生证明已婚未育</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
-       <Row v-if="formItem.e === '已婚已育'">
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
-              <Checkbox v-model="formItem.c">子女在读证明</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
-        <Row >
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <Form-item>
-              <Checkbox v-model="formItem.d">再婚情况</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
-        <Row >
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
-              <Checkbox v-model="formItem.c">离婚证</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
-       <Row >
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <Form-item>
-              <Checkbox v-model="formItem.d">在沪落户证明</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
-        <Row >
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
-              <Checkbox v-model="formItem.c">房产证</Checkbox>
-            </Form-item>
-          </i-col>
-       </Row>
+      <Row style="margin: 10px 20px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
+          <span style="font-weight:bold;font-size:14px">主要材料</span>
+        </i-col>
+      </Row>
+      <Row>
+        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
+          <Form-item v-if="item.level === '0-0'">
+            <CheckboxGroup v-model="meterials00">
+              <Checkbox>{{item.materialName}}</Checkbox>
+            </CheckboxGroup>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+      <Row style="margin: 10px 20px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <span style="font-weight:bold;font-size:14px">调沪方情况</span>
+        </i-col>
+      </Row>
+      <Row style="margin: 10px 40px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <RadioGroup v-model="formItem.b">
+              <Radio label="调沪方情况"></Radio>
+              <Radio label="在沪方情况"></Radio>
+            </RadioGroup>
+        </i-col>
+      </Row>
+      <Row v-if="formItem.b === '调沪方情况'">
+        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  v-if="item.level === '1-1'">
+          <Form-item>
+            <CheckboxGroup v-model="meterials11">
+              <Checkbox>{{item.materialName}}</Checkbox>
+            </CheckboxGroup>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+      <Row v-if="formItem.b === '在沪方情况'" >
+        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
+          <Form-item  v-if="item.level === '1-2'">
+            <CheckboxGroup v-model="meterials12">
+              <Checkbox>{{item.materialName}}</Checkbox>
+            </CheckboxGroup>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+      <Row style="margin: 10px 20px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
+          <span style="font-weight:bold;font-size:14px">婚姻证明</span>
+        </i-col>
+      </Row>
+      <Row style="margin: 10px 40px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <RadioGroup v-model="formItem.e">
+              <Radio label="已婚未育"></Radio>
+              <Radio label="已婚已育"></Radio>
+            </RadioGroup>
+        </i-col>
+      </Row>
+      <Row v-if="formItem.e === '已婚未育'">
+        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
+          <Form-item v-if="item.level === '2-1'">
+            <CheckboxGroup v-model="meterials21">
+              <Checkbox>{{item.materialName}}</Checkbox>
+            </CheckboxGroup>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+      <Row v-if="formItem.e === '已婚已育'">
+        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
+          <Form-item  v-if="item.level === '2-2'">
+            <CheckboxGroup v-model="meterials22">
+              <Checkbox>{{item.materialName}}</Checkbox>
+            </CheckboxGroup>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+      <Row style="margin: 10px 20px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
+            <span style="font-weight:bold;font-size:14px">再婚情况</span>
+        </i-col>
+      </Row>
+      <Row>
+        <div  v-for="item in meterials" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
+          <Form-item v-if="item.level === '3-0'">
+            <CheckboxGroup v-model="meterials30">
+              <Checkbox>{{item.materialName}}</Checkbox>
+            </CheckboxGroup>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+      <Row style="margin: 10px 20px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
+            <span style="font-weight:bold;font-size:14px">在沪落户证明</span>
+        </i-col>
+      </Row>
+      <Row>
+        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+          <Form-item v-if="item.level === '4-0'">
+            <CheckboxGroup v-model="meterials40">
+              <Checkbox>{{item.materialName}}</Checkbox>
+            </CheckboxGroup>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
     </Form>
   </div>
 </template>
@@ -125,9 +140,7 @@ export default {
   },
   data () {
     return {
-      formItem: {
-        a: ''
-      }
+      
     }
   },
   methods: {

@@ -5,7 +5,7 @@
     </div>
     <div>
     <Card>
-      <p slot="title" font-size="16px">{{title}}</p>
+      <p slot="title">{{title}}</p>
       <Form ref="formItem" :model="formItem"  :label-width="120" >
         <h4>办理信息</h4>
         <Row type="flex" justify="start">

@@ -67,6 +67,7 @@
           computeUserId:'',
           lastComputeTime:'',
         },
+        statementId:0,
         empChangeDetailData: [],
         empChangeDetailDataColumns: [
 
@@ -208,6 +209,7 @@
       //     };
       //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
       //this.doAlert(pagParam.statementId);
+      this.statementId = window.sessionStorage.getItem("statementId");
       this.serachMonthEmpChange(window.sessionStorage.getItem("statementId"));
       this.showMonthEmpChangeDetail(window.sessionStorage.getItem("statementId"));
 
@@ -223,7 +225,9 @@
         this.$refs[name].resetFields()
       },
       ok () {
-
+        api.yysExport({
+          statementId: this.statementId
+        });
       },
       cancel () {
 

@@ -22,7 +22,7 @@
         </div>
       </Panel>
       <Panel name="4">
-        <span v-if="operatorType === '0'">社保汇缴操作</span><span v-else-if="operatorType === '1'">社保调整操作</span><span v-else>社保转出操作</span>
+        <span>社保操作</span>
         <div slot="content">
           <Form :label-width=150 v-model="socialSecurityPayOperator" ref="handleWay">
             <Row class="mt20" type="flex" justify="start">
@@ -41,14 +41,19 @@
                 <label>{{getChangeType(socialSecurityPayOperator.taskCategory)}}</label>
             </Form-item>
             </Col>
+            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType=='5' || operatorType=='6'">
+              <Form-item label="缴费截止月份：" prop="endMonth">
+                 <label>{{socialSecurityPayOperator.endMonth}}</label>
+              </Form-item>
+              </Col>
             <!-- 仅新增 -->
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0'">
+            <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0'">
             <Form-item label="社保序号：" prop="empSsSerial">
                 <Input v-model="socialSecurityPayOperator.empSsSerial" placeholder="请输入..."></Input>
             </Form-item>
-            </Col>
+            </Col> -->
             <!-- 仅转出 -->
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '2'">
+            <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '2'">
             <Form-item label="特殊变更类型：" prop="taskCategorySpecial">
                 <Select v-model="socialSecurityPayOperator.taskCategorySpecial" style="width: 100%;" transfer>
                 <Option v-for="item in specialChangeType" :value="item.value" :key="item.value">
@@ -56,25 +61,27 @@
                 </Option>
                 </Select>
             </Form-item>
-            </Col>
+            </Col> -->
             <!-- 仅新增 -->
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0'">
+            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType!='5' && operatorType!='6'">
             <Form-item label="起缴月份：" prop="startMonth">
-                <DatePicker v-model="socialSecurityPayOperator.startMonth" type="month" placeholder="选择年月" style="width: 100%;"
-                            transfer></DatePicker>
+              <label>{{socialSecurityPayOperator.startMonth}}</label>
+                <!-- <DatePicker v-model="" type="month" placeholder="选择年月" style="width: 100%;"
+                            transfer></DatePicker> -->
             </Form-item>
             </Col>
             <!-- 仅转出 -->
             <!-- 仅新增 -->
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '0' || operatorType === '2'">
+            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType!='5' && operatorType!='6'">
             <Form-item label="截至月份：" prop="endMonth">
-                <DatePicker v-model="socialSecurityPayOperator.endMonth" type="month" placement="bottom-end" placeholder="选择日期"
-                            style="width: 100%;" transfer></DatePicker>
+              <label>{{socialSecurityPayOperator.endMonth}}</label>
+                <!-- <DatePicker v-model="socialSecurityPayOperator.endMonth" type="month" placement="bottom-end" placeholder="选择日期"
+                            style="width: 100%;" transfer></DatePicker> -->
             </Form-item>
             </Col>
             </Row>
-            <Row class="mt20">
-            <Col :sm="{span:24}" v-if="operatorType !== '2'">
+            <Row class="mt20" v-if="operatorType!='5' && operatorType!='6'">
+            <Col :sm="{span:24}">
             <Table border width="100%" :columns="operatorListColumns"
                     :data="operatorListData"></Table>
             </Col>
@@ -242,6 +249,7 @@
             this.operatorListData = data.data.empTaskPeriods;
           }
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
+         
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {
@@ -250,6 +258,7 @@
         api.queryComAccountByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {
           this.company = data.data;
         })
+        
       },
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo',query:{empArchiveId:this.empArchiveId}});

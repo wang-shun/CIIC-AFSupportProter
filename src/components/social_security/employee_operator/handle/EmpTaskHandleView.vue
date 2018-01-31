@@ -101,8 +101,8 @@
               <!-- 仅新增 -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="起缴月份：">
-                <DatePicker v-model="socialSecurityPayOperator.startMonth" type="month" placeholder="" disabled
-                            style="width: 100%;" readonly
+                <DatePicker v-model="socialSecurityPayOperator.startMonth" type="month" placeholder="请选择" 
+                            style="width: 100%;"
                             transfer></DatePicker>
               </Form-item>
               </Col>
@@ -110,11 +110,11 @@
               <!-- 仅新增 -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="截至月份：">
-                <DatePicker v-model="socialSecurityPayOperator.endMonth"  disabled
+                <DatePicker v-model="socialSecurityPayOperator.endMonth"  
                             type="month"
                             placement="bottom-end"
-                            placeholder=""
-                            style="width: 100%;" readonly transfer></DatePicker>
+                            placeholder="请选择"
+                            style="width: 100%;"  transfer></DatePicker>
               </Form-item>
               </Col>
             </Row>
@@ -235,8 +235,8 @@
             align: 'center',
             render: (h, params) => {
               return h('DatePicker', {
-                props: {value: params.row.startMonth, type: 'month', disabled:true},//Boolean(params.row.disabled)
-                attrs: {placeholder: ''},//选择年月
+                props: {value: params.row.startMonth, type: 'month', disabled:Boolean(params.row.disabled)},//Boolean(params.row.disabled)
+                attrs: {placeholder: '选择年月'},
                 on: {
                   input: (event) => {
                     this.setRow(params, 'startMonth', event);
@@ -253,7 +253,7 @@
             align: 'center',
             render: (h, params) => {
               return h('DatePicker', {
-                props: {value: params.row.endMonth, type: 'month', disabled:true},
+                props: {value: params.row.endMonth, type: 'month', disabled:false},
                 attrs: {placeholder: ''},//选择年月
                 on: {
                   input: (event) => {
@@ -269,7 +269,7 @@
             align: 'center',
             render: (h, params) => {
               return h('Input', {
-                props: {value: params.row.baseAmount, disabled:true},//disabled: true
+                props: {value: params.row.baseAmount, disabled:false},//disabled: true
                 on: {
                   'on-blur': (e) => {
                     this.setRow(params, 'baseAmount', e.target.value);

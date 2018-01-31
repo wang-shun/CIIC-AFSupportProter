@@ -60,7 +60,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}">
         <!-- <Button type="info" @click="batchUpload">批量导入社保变更汇总表</Button> -->
-        <Button type="info" >导出</Button>
+        <Button type="info" @click="exportInfo">导出</Button>
       </Col>
     </Row>
 
@@ -102,15 +102,15 @@
         <Form :label-width=150 ref="upLoadData" :model="upLoadData">
         <Row type="flex" justify="start">
                 <Col :sm="{span:15}">
-                  <Form-item label="社保月份：" prop="socialsecuritymonthOfUpload">
-                  <Input v-model="upLoadData.socialsecuritymonthOfUpload" placeholder="请输入..."></Input>
+                  <Form-item label="社保月份：" prop="ssMonth">
+                  <Input v-model="upLoadData.ssMonth" placeholder="请输入..."></Input>
                 </Form-item>
                 </Col>
           </Row>
           <Row type="flex" justify="start">
              <Col :sm="{span:15}" >
-                <Form-item label="变更汇总表类型：" prop="changeTableTypeValueOfUpload">
-                  <Select v-model="upLoadData.changeTableTypeDefaultValOfUpload" style="width: 100%;" transfer>
+                <Form-item label="变更汇总表类型：" prop="fileType">
+                  <Select v-model="upLoadData.fileType" style="width: 100%;" transfer>
                     <Option v-for="item in changeTableTypeValueListOfUpload" :value="item.value" :key="item.value" >{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -118,8 +118,17 @@
             </Row>
             <Row type="flex" justify="start">
             <Col :sm="{span:15}">
-             <Form-item label="批量上传：" prop="">
-              <Upload action="">
+             <Form-item label="文件上传：" prop="uploadFile">
+              <Upload ref="upload"
+                :show-upload-list="false"
+                :action="uploadAttr.actionUrl"
+                :data="upLoadData"
+                :accept="uploadAttr.acceptFileExtension"
+                :format="['xlsx','xls']"
+                :on-success="onSuccess"
+                :on-format-error="handleFormatError"
+                :on-error="handleError"
+                >
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
                </Form-item>
@@ -143,13 +152,11 @@
     data() {
       return {
         isUpload:false,
-        socialsecuritymonthOfUpload:'',//批量上传模块社保月份
-        changeTableTypeDefaultValOfUpload: 'YYS',//变更汇总类型下拉默认选项
-           changeTableTypeValueListOfUpload: [
-             {value: '全部',label:'全部',isSelect: true},
-             {value: 'YYS',label:'YYY(养医失)',isSelect: true},
-             {value: 'GSY', label: 'GGY(工生育)',isSelect: false}
-           ],//变更汇总表类型
+        changeTableTypeValueListOfUpload: [
+          {value: '全部',label:'全部',isSelect: true},
+          {value: 'YYS',label:'YYY(养医失)',isSelect: true},
+          {value: 'GSY', label: 'GGY(工生育)',isSelect: false}
+        ],//变更汇总表类型
         collapseInfo: [1], //展开栏
         //提交参数
         operatorSearchData: {
@@ -157,7 +164,7 @@
           serviceCenterValue: [],
           minDiffSumByEmp: '',//最小差异数（按雇员）
           maxDiffSumByEmp: '',//最大差异数（按雇员）
-          
+          impFileType:'',
           ssMonth:'',//社保月份
           comAccountId: '', //企业社保账户
 
@@ -184,6 +191,13 @@
           isShowAccountType: false, //社保账户模糊块的显示
         },
         upLoadData: {
+          ssMonth:'',//社保月份
+          fileType:'YYS', //文件类型
+          comAccountId: '', //企业社保账户
+        },
+        uploadAttr: {
+          actionUrl: '/api/soccommandservice/ssStatementImp/optImport',
+          acceptFileExtension: '.xls,.xlsx',
         },
         statementColumns: [
 
@@ -209,7 +223,7 @@
                 h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                        this.batchUpload();
+                        this.batchUpload(params.row);
                     }
                   }
                 }, '导入'),
@@ -339,9 +353,58 @@
       cancel () {
 
       },
-      batchUpload(){
-        this.isUpload=true
+      batchUpload(data){
+        let me = this;
+        me.isUpload=true
+        me.upLoadData.comAccountId = data.comAccountId;
+        me.upLoadData.fileType = data.impFileType;
+        me.upLoadData.ssMonth = data.ssMonth;
       },
+
+      beforeUpload(file) {
+        if (this.upLoadData.comAccountId == '' || this.upLoadData.ssMonth == '') {
+          this.$Message.error("请选择社保账户");
+          return false;
+        }
+        this.$refs['upload'].clearFiles();
+      },
+      onSuccess(response, file) {
+        var data = response;
+        if (data.code == 0) {
+          this.$Message.info(data.message);
+          this.isUpload=false;
+          this.statementQuery();
+        } else {
+          this.$Message.error(data.message);
+        }
+      },
+
+      handleError(error, file){
+        this.$Notice.warning({
+          title: '文件上传失败',
+          desc: '文件 ' + file.name + ' 上传失败！'
+        });
+      },
+
+      handleFormatError (file) {
+        this.$Notice.warning({
+          title: '文件格式不正确',
+          desc: '文件 ' + file.name + ' 格式不正确，请上传 xls 或 xlsx 格式的文档。'
+        });
+      },
+
+      exportInfo(){
+        let me = this;
+        let params = {
+          ssMonth:me.operatorSearchData.ssMonth,
+          comAccountId:me.operatorSearchData.comAccountId,
+          impFileType:me.operatorSearchData.impFileType,
+          minDiffSumByEmp:me.operatorSearchData.minDiffSumByEmp,
+          maxDiffSumByEmp:me.operatorSearchData.maxDiffSumByEmp
+        };
+        api.statementExport(params);
+      },
+
       handlePageNum(val) {
         this.statementPageData.pageNum = val;
         this.statementQuery();

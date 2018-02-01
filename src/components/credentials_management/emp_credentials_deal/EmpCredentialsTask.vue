@@ -238,7 +238,8 @@
           chargeAmount: '',
           perCompanyName: '',
           telephone: '',
-          remark: ''
+          remark: '',
+          materialIds: ''
         }
       }
     },
@@ -255,6 +256,7 @@
       callBack(value){
         if (value != null) {
           this.formItem = value
+          console.log(this.formItem)
         }
       },
       save () {
@@ -270,15 +272,14 @@
         params.receiveFileTime = Tools.formatDate(params.receiveFileTime,"YYYY-MM-DD hh:mm")
         params.originalBackTime = Tools.formatDate(params.originalBackTime,"YYYY-MM-DD hh:mm")
         params.integralBillPrintTime = Tools.formatDate(params.integralBillPrintTime,"YYYY-MM-DD hh:mm")
-        //把收缴材料id拼成字符串 模拟数据params.materialIds = 
-        params.materialIds = "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,"
+        params.materialIds = params.materialIds
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){
                this.$Notice.success({
                   title: '保存成功',
                   desc: ''
                 })
-                this.findAll()
+                this.findAll(this.empCode)
             } else {
               this.$Notice.error({
                 title: '保存失败',

@@ -82,8 +82,15 @@
           <Row type="flex" justify="start">
             <Col :sm="{span:15}">
             <Form-item label="批量上传：" prop="uploadFile">
+              <div id="loading" class="loading" style="position: absolute; z-index: 999; display: none">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
               <Upload ref="upload" :action="uploadAttr.actionUrl" :data="uploadData" :accept="uploadAttr.acceptFileExtension"
-                      :before-upload="beforeUpload" :on-success="onSuccess">
+                      :before-upload="beforeUpload">
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
             </Form-item>
@@ -278,19 +285,35 @@
         if (!this.uploadData.ssAccount || this.uploadData.ssAccount == '') {
           this.$Message.error("请选择社保账户");
           return false;
+        } else {
+          var loading = document.getElementById("loading");
+          loading.style.display = "inline-block";
+          this.uploadData.file = file;
+          api.annualAdjustAccountEmpUpload(this.uploadData).then(data => {
+            if (data.code == 0) {
+              this.importResultPageData.pageNum = 1;
+              this.uploadData.annualAdjustAccountId = data.object['annual_adjust_account_id'];
+              this.annualAdjustAccountEmpTempQuery();
+              this.isSubmit = false;
+            } else {
+              this.$Message.error(data.message);
+            }
+            loading.style.display = "none";
+          })
+          return false;
         }
         this.$refs['upload'].clearFiles();
       },
-      onSuccess(response, file, fileList) {
-        var data = response;
-        if (data.code == 0) {
-          this.uploadData.annualAdjustAccountId = data.object['annual_adjust_account_id'];
-          this.annualAdjustAccountEmpTempQuery();
-          this.isSubmit = false;
-        } else {
-          this.$Message.error(data.message);
-        }
-      },
+//      onSuccess(response, file, fileList) {
+//        var data = response;
+//        if (data.code == 0) {
+//          this.uploadData.annualAdjustAccountId = data.object['annual_adjust_account_id'];
+//          this.annualAdjustAccountEmpTempQuery();
+//          this.isSubmit = false;
+//        } else {
+//          this.$Message.error(data.message);
+//        }
+//      },
       submitData() {
         if (this.importResultData && this.importResultData.length > 0) {
           var rtn = confirm("是否导入以下正确的行？")

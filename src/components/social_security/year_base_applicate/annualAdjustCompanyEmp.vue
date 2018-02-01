@@ -25,25 +25,25 @@
             <Row>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员姓名：" prop="employeeName">
-                <Input v-model="employeeSearchData.employeeName" maxlength="100"></Input>
+                <Input v-model="employeeSearchData.employeeName"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员身份证号：" prop="idNum">
-                <Input v-model="employeeSearchData.idNum" maxlength="50"></Input>
+                <Input v-model="employeeSearchData.idNum"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保基数：">
                 <Col span="10">
                   <Form-item prop="baseAmountStart">
-                    <Input v-model="employeeSearchData.baseAmountStart" maxlength="8"></Input>
+                    <Input v-model="employeeSearchData.baseAmountStart"></Input>
                   </Form-item>
                 </Col>
                 <Col span="2" offset="2">-</Col>
                 <Col span="10">
                 <Form-item prop="baseAmountEnd">
-                  <Input v-model="employeeSearchData.baseAmountEnd" maxlength="8"></Input>
+                  <Input v-model="employeeSearchData.baseAmountEnd"></Input>
                 </Form-item>
                 </Col>
               </Form-item>
@@ -98,17 +98,17 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员编号：" prop="employeeId">
-                <Input v-model="empSearchData.employeeId" maxlength="15"></Input>
+                <Input v-model="empSearchData.employeeId"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员身份证号：" prop="idNum">
-                <Input v-model="empSearchData.idNum" maxlength="50"></Input>
+                <Input v-model="empSearchData.idNum"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保序号：" prop="ssSerial">
-                <Input v-model="empSearchData.ssSerial" maxlength="10"></Input>
+                <Input v-model="empSearchData.ssSerial"></Input>
               </Form-item>
               </Col>
           </Row>
@@ -147,7 +147,7 @@
             </Col>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="待调工资：" prop="salary">
-              <Input v-model="empInputData.chgSalary" maxlength="10"></Input>
+              <Input v-model="empInputData.chgSalary"></Input>
             </Form-item>
             </Col>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

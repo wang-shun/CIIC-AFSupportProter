@@ -17,5 +17,10 @@ export default {
   annualAdjustCompanyEmpInsert: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssAnnualAdjustCompanyEmp/annualAdjustCompanyEmpInsert', params);
     return await response.data;
+  },
+  annualAdjustCompanyEmpUpload: async(params) => {
+    let response = await AJAX.upload('/api/soccommandservice/ssAnnualAdjustCompany/annualAdjustCompanyEmpUpload', params);
+    return await response.data;
   }
+
 }

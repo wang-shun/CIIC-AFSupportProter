@@ -160,16 +160,30 @@ export default {
           //       slot: 'content'
           //     },[
           //       h('div',{
-          //         // props: {
-          //         //   type: 'textarea'
-          //         // }
-          //         // style: {
-          //         //   width: '300'
-          //         // },
+          //         style: {
+          //           width: '500px',
+          //           // height: '100px'
+          //         }
           //       },params.row.policyDescription)
           //     ])
           //   ])
           // }
+          render: (h,params) => {
+            return h('Tooltip', {
+              props: {
+                placement: 'bottom-start',
+                delay: 500,
+                transfer: true
+              }
+            },[
+              h('div',params.row.policyDescription),
+              h('div',{
+                slot: 'content'
+              },[
+                h('div',params.row.policyDescription)
+              ])
+            ])
+          }
         },
         {
           title: '操作',
@@ -190,7 +204,6 @@ export default {
                   click: () => {
                     this.formItem = {...params.row}
                     this.formItem.type = params.row.type.toString()
-                    console.log(this.formItem)
                     this.modal1 = true
                   }
                 }
@@ -279,7 +292,6 @@ export default {
             if (response.data.errCode === '0'){
               console.log("success")
               this.$Message.success('删除成功!')
-              //this.find()
             } else {
                console.log("error1")
               this.$Message.error('删除失败!')

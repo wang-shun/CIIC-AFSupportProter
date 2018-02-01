@@ -10,5 +10,9 @@ export default {
   },
   annualAdjustAccountEmpExport: (params) => {
     AJAX.download('/api/soccommandservice/ssAnnualAdjustAccountEmp/annualAdjustAccountEmpExport', params);
+  },
+  accountUnitAvgMonthSalaryQuery: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssAnnualAdjustAccountEmp/accountUnitAvgMonthSalaryQuery', params);
+    return await response.data;
   }
 }

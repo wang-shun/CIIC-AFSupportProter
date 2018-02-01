@@ -372,7 +372,6 @@
 //            return false;
 //          }
         }
-
         api.annualAdjustAccountQuery(
           {
             pageSize: this.accountResultPageData.pageSize,
@@ -391,6 +390,7 @@
         this.annualAdjustAccountQuery();
       },
       handlePageSize(val) {
+        this.accountResultPageData.pageNum = 1;
         this.accountResultPageData.pageSize = val;
         this.annualAdjustAccountQuery();
       },
@@ -425,11 +425,14 @@
         });
       },
       annualAdjustAccountDelete(annualAdjustAccountId) {
-        api.annualAdjustAccountDelete({
-          params: {
-            annualAdjustAccountId: annualAdjustAccountId
-          }
-        });
+        var rtn = confirm("确定删除？")
+        if (rtn) {
+          api.annualAdjustAccountDelete({
+            params: {
+              annualAdjustAccountId: annualAdjustAccountId
+            }
+          });
+        }
       }
     }
   }

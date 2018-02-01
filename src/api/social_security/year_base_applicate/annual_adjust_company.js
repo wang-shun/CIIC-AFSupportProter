@@ -21,6 +21,10 @@ export default {
   annualAdjustCompanyEmpUpload: async(params) => {
     let response = await AJAX.upload('/api/soccommandservice/ssAnnualAdjustCompany/annualAdjustCompanyEmpUpload', params);
     return await response.data;
-  }
-
+  },
+  // 修改当前页客户信息
+  annualAdjustCompanysUpdate: async (params) => {
+    let response = await AJAX.postJSON('/api/soccommandservice/ssAnnualAdjustCompany/annualAdjustCompanysUpdate', params);
+    return await response.data;
+  },
 }

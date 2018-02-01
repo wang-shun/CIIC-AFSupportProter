@@ -22,6 +22,23 @@
               </Form-item>
               </Col>
             </Row>
+            <Row type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="年度单位月平均工资：" prop="accountAvgMonthSalary">
+                <Label>{{employeeSearchData.accountAvgMonthSalary}}</Label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="年度全部职工工资总额：" prop="accountSalaryAmount">
+                <Label>{{employeeSearchData.accountSalaryAmount}}</Label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="年度全部职工平均人数：" prop="accountEmpCount">
+                <Label>{{employeeSearchData.accountEmpCount}}</Label>
+              </Form-item>
+              </Col>
+            </Row>
             <Row>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="匹配状态：" prop="matchStatus">
@@ -135,6 +152,9 @@
           annualAdjustAccountId: this.$route.query.annualAdjustAccountId,
           ssAccount: this.$route.query.ssAccount,
           comAccountName: this.$route.query.comAccountName,
+          accountAvgMonthSalary: '',
+          accountSalaryAmount: '',
+          accountEmpCount: '',
           matchStatus: '',
           accountStatus: '',
           companyId: '',
@@ -195,6 +215,18 @@
     },
     mounted() {
       let rparams = {annualAdjustAccountId: this.$route.query.annualAdjustAccountId};
+      api.accountUnitAvgMonthSalaryQuery({
+        params: rparams,
+      }).then(data => {
+        if (data.code == 200) {
+          var datas = data.data;
+          if (datas && datas.length == 1) {
+            this.employeeSearchData.accountAvgMonthSalary = datas[0].accountAvgMonthSalary;
+            this.employeeSearchData.accountSalaryAmount = datas[0].accountSalaryAmount;
+            this.employeeSearchData.accountEmpCount = datas[0].accountEmpCount;
+          }
+        }
+      })
       api.annualAdjustAccountEmpQuery(
         {
           pageSize: this.employeeResultPageData.pageSize,
@@ -244,6 +276,7 @@
         this.annualAdjustAccountEmpQuery();
       },
       handlePageSize(val) {
+        this.employeeResultPageData.pageNum = 1;
         this.employeeResultPageData.pageSize = val;
         this.annualAdjustAccountEmpQuery();
       },

@@ -90,7 +90,7 @@
                 <span></span>
               </div>
               <Upload ref="upload" :action="uploadAttr.actionUrl" :data="uploadData" :accept="uploadAttr.acceptFileExtension"
-                      :before-upload="beforeUpload">
+                      :before-upload="beforeUpload" :default-file-list="uploadFileList">
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
             </Form-item>
@@ -158,6 +158,7 @@
           actionUrl: '/api/soccommandservice/ssAnnualAdjustAccount/annualAdjustAccountEmpUpload',
           acceptFileExtension: '.xls,.xlsx',
         },
+        uploadFileList: [],
         importResultData: [],
         importResultPageData: {
           total: 0,
@@ -289,8 +290,10 @@
           var loading = document.getElementById("loading");
           loading.style.display = "inline-block";
           this.uploadData.file = file;
+          this.uploadFileList.length = 0;
           api.annualAdjustAccountEmpUpload(this.uploadData).then(data => {
             if (data.code == 0) {
+              this.uploadFileList.push({name: file.name, url: ''});
               this.importResultPageData.pageNum = 1;
               this.uploadData.annualAdjustAccountId = data.object['annual_adjust_account_id'];
               this.annualAdjustAccountEmpTempQuery();
@@ -302,7 +305,6 @@
           })
           return false;
         }
-        this.$refs['upload'].clearFiles();
       },
 //      onSuccess(response, file, fileList) {
 //        var data = response;

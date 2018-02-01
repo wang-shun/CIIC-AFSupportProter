@@ -10,9 +10,8 @@
         <div v-for="item in meterials" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
           <Form-item v-if="item.level === '0-0'">
-            <CheckboxGroup v-model="meterials00">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials00"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -34,9 +33,8 @@
         <div v-for="item in meterials" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  v-if="item.level === '1-1'">
           <Form-item>
-            <CheckboxGroup v-model="meterials11">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials11"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -45,9 +43,8 @@
         <div v-for="item in meterials" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item  v-if="item.level === '1-2'">
-            <CheckboxGroup v-model="meterials12">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials12"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -65,24 +62,22 @@
             </RadioGroup>
         </i-col>
       </Row>
-      <Row v-if="formItem.e === '已婚未育'">
+      <Row v-if="formItem.marryStatus === '已婚未育'">
         <div v-for="item in meterials" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item v-if="item.level === '2-1'">
-            <CheckboxGroup v-model="meterials21">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials21"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
       </Row>
-      <Row v-if="formItem.e === '已婚已育'">
+      <Row v-if="formItem.marryStatus === '已婚已育'">
         <div v-for="item in meterials" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item  v-if="item.level === '2-2'">
-            <CheckboxGroup v-model="meterials22">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials22"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -96,9 +91,8 @@
         <div  v-for="item in meterials" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item v-if="item.level === '3-0'">
-            <CheckboxGroup v-model="meterials30">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials30"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -112,9 +106,8 @@
         <div v-for="item in meterials" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
           <Form-item v-if="item.level === '4-0'">
-            <CheckboxGroup v-model="meterials40">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials40"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -149,7 +142,7 @@ export default {
       meterials40: [],
       formItem: {
         huStatus: '调沪方情况',
-        marryStatus: '已婚已育'
+        marryStatus: '已婚未育'
       }
     }
   },

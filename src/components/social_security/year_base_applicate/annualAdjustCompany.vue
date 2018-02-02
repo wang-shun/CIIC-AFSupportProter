@@ -48,6 +48,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}">
       <Button type="info" @click="importExcel">上传客户采集名单</Button>
+      <Button type="info" @click="updateSelected">修改社保账户单位月平均工资</Button>
       </Col>
     </Row>
 
@@ -88,8 +89,15 @@
           <Row type="flex" justify="start">
             <Col :sm="{span:15}">
             <Form-item label="批量上传：" prop="uploadFile">
+              <div id="loading" class="loading" style="position: absolute; z-index: 999; display: none">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
               <Upload ref="upload" :action="uploadAttr.actionUrl" :data="uploadData" :accept="uploadAttr.acceptFileExtension"
-                      :before-upload="beforeUpload" :on-success="onSuccess">
+                      :before-upload="beforeUpload" :default-file-list="uploadFileList">
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
             </Form-item>
@@ -153,11 +161,13 @@
         uploadData: {
           companyId: '',
           annualAdjustCompanyId: '',
+          file: ''
         },
         uploadAttr: {
           actionUrl: '/api/soccommandservice/ssAnnualAdjustCompany/annualAdjustCompanyEmpUpload',
           acceptFileExtension: '.xls,.xlsx',
         },
+        uploadFileList: [],
         importResultData: [],
         importResultPageData: {
           total: 0,
@@ -227,6 +237,7 @@
             title: '错误信息', key: 'errorMsg', width: 300, align: 'left'
           },
         ],
+        modifiedResultData: [],
         companyResultData: [],
         companyResultPageData: {
           total: 0,
@@ -257,11 +268,80 @@
             title: '客户编号', key: 'companyId', width: 150, align: 'center'
           },
           {
-            title: '客户姓名', key: 'companyName', width: 150, align: 'center'
+            title: '客户姓名', key: 'companyName', width: 180, align: 'center'
           },
           {
-            title: '数据收集完成时间', key: 'dataCollectTime', width: 150, align: 'center'
-          }
+            title: '社保账户年度单位月平均工资', key: 'accountAvgMonthSalary', width: 150, align: 'center',
+            render: (h,params) => {
+              return h('div', [
+                h('Input', {
+                    style: {
+                      border: '0px',
+                      width: '84px',
+                    },
+                    attrs: {
+                      name: 'accountAvgMonthSalary',
+                      value: params.row.accountAvgMonthSalary
+                    },
+                    on: {
+                      'on-change': (event) => {
+                        event.target.style.backgroundColor = 'pink';
+                        this.handleChange(params.row.comAccountId, event.target.name, event.target.value, params.row.accountSalaryAmount, params.row.accountEmpCount)
+                      }
+                    }
+                  }
+                )
+              ])
+            }
+          },
+          {
+            title: '社保账户年度全部职工工资总额', key: 'accountSalaryAmount', width: 150, align: 'center',
+            render: (h,params) => {
+              return h('div', [
+                h('Input', {
+                    style: {
+                      border: '0px',
+                      width: '84px',
+                    },
+                    attrs: {
+                      name: 'accountSalaryAmount',
+                      value: params.row.accountSalaryAmount
+                    },
+                    on: {
+                      'on-change': (event) => {
+                        event.target.style.backgroundColor = 'pink';
+                        this.handleChange(params.row.comAccountId, event.target.name, event.target.value, params.row.accountAvgMonthSalary, params.row.accountEmpCount)
+                      }
+                    }
+                  }
+                )
+              ])
+            }
+          },
+          {
+            title: '社保账户年度全部职工平均人数', key: 'accountEmpCount', width: 150, align: 'center',
+            render: (h,params) => {
+              return h('div', [
+                h('Input', {
+                    style: {
+                      border: '0px',
+                      width: '84px',
+                    },
+                    attrs: {
+                      name: 'accountEmpCount',
+                      value: params.row.accountEmpCount
+                    },
+                    on: {
+                      'on-change': (event) => {
+                        event.target.style.backgroundColor = 'pink';
+                        this.handleChange(params.row.comAccountId, event.target.name, event.target.value, params.row.accountAvgMonthSalary, params.row.accountSalaryAmount)
+                      }
+                    }
+                  }
+                )
+              ])
+            }
+          },
         ]
       }
     },
@@ -285,21 +365,80 @@
         this.$router.push({name:'annualadjustcompanyemp', query: {annualAdjustCompanyId: aacid,companyId: compid,companyName: compnm}});
       },
       beforeUpload(file) {
+        let loading = document.getElementById("loading");
+        loading.style.display = "none";
         if (!this.uploadData.companyId || this.uploadData.companyId == '') {
-          this.$Message.error("请选择客户");
+          this.$Message.error("请选择客户...");
+          return false;
+        } else {
+          loading.style.display = "inline-block";
+          this.uploadFileList.length = 0;
+          this.uploadData.file = file;
+          api.annualAdjustCompanyEmpUpload(this.uploadData).then(data => {
+            if (this.importResultData) {
+              this.importResultData.length = 0;
+            }
+            if (data.code == 0) {
+              this.uploadFileList.push({name: file.name, url: ''});
+              this.importResultPageData.pageNum = 1;
+              this.uploadData.annualAdjustCompanyId = data.object['annual_adjust_company_id'];
+              this.annualAdjustCompanyEmpTempQuery();
+              this.isSubmit = false;
+            } else {
+              this.$Message.error(data.message);
+            }
+            loading.style.display = "none";
+          })
           return false;
         }
-        this.$refs['upload'].clearFiles();
       },
-      onSuccess(response, file, fileList) {
-        var data = response;
-        if (data.code == 0) {
-          this.importResultPageData.pageNum = 1;
-          this.uploadData.annualAdjustCompanyId = data.object['annual_adjust_company_id'];
-          this.annualAdjustCompanyEmpTempQuery();
-          this.isSubmit = false;
-        } else {
-          this.$Message.error(data.message);
+//      onSuccess(response, file, fileList) {
+//        var data = response;
+//        if (data.code == 0) {
+//          this.importResultPageData.pageNum = 1;
+//          this.uploadData.annualAdjustCompanyId = data.object['annual_adjust_company_id'];
+//          this.annualAdjustCompanyEmpTempQuery();
+//          this.isSubmit = false;
+//        } else {
+//          this.$Message.error(data.message);
+//        }
+//      },
+      handleChange(accountid, key, value, m, n) {
+        if (this.modifiedResultData) {
+          if (this.modifiedResultData.find((x) => {
+              var rtn = x.comAccountId == accountid;
+              if (rtn) {
+                x[key] = value;
+              }
+              return rtn;
+          }) == undefined) {
+            if (value != null && value.trim() == '') {
+              value = null;
+            }
+            if (m != null && m.trim() == '') {
+              m = null;
+            }
+            if (n != null && n.trim() == '') {
+              n = null;
+            }
+            if (key == 'accountAvgMonthSalary') {
+              this.modifiedResultData.push({comAccountId: accountid, accountAvgMonthSalary: value, accountSalaryAmount: m, accountEmpCount: n});
+            } else if (key == 'accountSalaryAmount') {
+              this.modifiedResultData.push({comAccountId: accountid, accountAvgMonthSalary: m, accountSalaryAmount: value, accountEmpCount: n});
+            } else {
+              this.modifiedResultData.push({comAccountId: accountid, accountAvgMonthSalary: m, accountSalaryAmount: n, accountEmpCount: value});
+            }
+          }
+          this.syncInput(key, value, accountid);
+        }
+      },
+      syncInput(key, value, accountid) {
+        for (let i = 0; i < this.companyResultData.length; i++) {
+          if (this.companyResultData[i].comAccountId == accountid) {
+            let ele = document.getElementsByName(key)[i];
+            ele.style.backgroundColor = 'pink';
+            ele.value = value;
+          }
         }
       },
       submitData() {
@@ -320,6 +459,9 @@
         } else {
           this.$Message.error("请先上传文件")
         }
+      },
+      updateSelected() {
+        this.autoSubmitAndDiscard();
       },
       annualAdjustCompanyEmpTempQuery() {
         api.annualAdjustCompanyEmpTempQuery( {
@@ -372,14 +514,61 @@
           }
         })
       },
+      autoSubmitAndDiscard(type, val) {
+        if (this.modifiedResultData && this.modifiedResultData.length > 0) {
+          var rtn = confirm("是否保存已修改内容？")
+          if (rtn) {
+            for(var i=0; i<this.modifiedResultData.length; i++) {
+              if (this.modifiedResultData[i]) {
+                var reg = /(^[1-9]([0-9]{1,9})?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                if (this.modifiedResultData[i].accountAvgMonthSalary != null && !reg.test(this.modifiedResultData[i].accountAvgMonthSalary)) {
+                  this.$Message.error("输入年度单位月平均工资[" + this.modifiedResultData[i].accountAvgMonthSalary + "]格式有误");
+                  return false;
+                }
+                reg = /(^[1-9]([0-9]{1,15})?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                if (this.modifiedResultData[i].accountSalaryAmount != null && !reg.test(this.modifiedResultData[i].accountSalaryAmount)) {
+                  this.$Message.error("年度全部职工工资总额[" + this.modifiedResultData[i].accountSalaryAmount + "]格式有误");
+                  return false;
+                }
+                reg = /(^[1-9]([0-9]{1,7})?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                if (this.modifiedResultData[i].accountEmpCount != null && !reg.test(this.modifiedResultData[i].accountEmpCount)) {
+                  this.$Message.error("年度全部职工平均人数[" + this.modifiedResultData[i].accountEmpCount + "]格式有误");
+                  return false;
+                }
+              }
+            }
+            // submit update modifiedResultData
+            api.annualAdjustCompanysUpdate(this.modifiedResultData).then(data => {
+              if (data.code == 200) {
+                this.$Message.info("修改成功");
+                if (val) {
+                  this.companyResultPageData.pageNum = val;
+                }
+                this.annualAdjustCompanyQuery();
+              } else {
+                this.$Message.error(data.message);
+              }
+            })
+          } else {
+            console.log("no saved")
+          }
+        } else if (type && type == 1 && val) {
+          this.companyResultPageData.pageNum = val;
+          this.annualAdjustCompanyQuery();
+        } else if (type && type == 2 && val) {
+          this.companyResultPageData.pageSize = val;
+          this.annualAdjustCompanyQuery();
+        } else {
+          this.$Message.error("请先修改内容");
+          return false;
+        }
+      },
       handlePageNum(val) {
-        this.companyResultPageData.pageNum = val;
-        this.annualAdjustCompanyQuery();
+        this.autoSubmitAndDiscard(1, val);
       },
       handlePageSize(val) {
         this.companyResultPageData.pageNum = 1;
-        this.companyResultPageData.pageSize = val;
-        this.annualAdjustCompanyQuery();
+        this.autoSubmitAndDiscard(2, val);
       },
       importExcel() {
         this.isUpload = true;

@@ -201,6 +201,7 @@
         this.annualAdjustEmployeeQuery();
       },
       handlePageSize(val) {
+        this.employeeResultPageData.pageNum = 1;
         this.employeeResultPageData.pageSize = val;
         this.annualAdjustEmployeeQuery();
       },

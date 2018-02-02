@@ -25,25 +25,25 @@
             <Row>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员姓名：" prop="employeeName">
-                <Input v-model="employeeSearchData.employeeName" maxlength="100"></Input>
+                <Input v-model="employeeSearchData.employeeName"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员身份证号：" prop="idNum">
-                <Input v-model="employeeSearchData.idNum" maxlength="50"></Input>
+                <Input v-model="employeeSearchData.idNum"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保基数：">
                 <Col span="10">
                   <Form-item prop="baseAmountStart">
-                    <Input v-model="employeeSearchData.baseAmountStart" maxlength="8"></Input>
+                    <Input v-model="employeeSearchData.baseAmountStart"></Input>
                   </Form-item>
                 </Col>
                 <Col span="2" offset="2">-</Col>
                 <Col span="10">
                 <Form-item prop="baseAmountEnd">
-                  <Input v-model="employeeSearchData.baseAmountEnd" maxlength="8"></Input>
+                  <Input v-model="employeeSearchData.baseAmountEnd"></Input>
                 </Form-item>
                 </Col>
               </Form-item>
@@ -98,17 +98,17 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员编号：" prop="employeeId">
-                <Input v-model="empSearchData.employeeId" maxlength="15"></Input>
+                <Input v-model="empSearchData.employeeId"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员身份证号：" prop="idNum">
-                <Input v-model="empSearchData.idNum" maxlength="50"></Input>
+                <Input v-model="empSearchData.idNum"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保序号：" prop="ssSerial">
-                <Input v-model="empSearchData.ssSerial" maxlength="10"></Input>
+                <Input v-model="empSearchData.ssSerial"></Input>
               </Form-item>
               </Col>
           </Row>
@@ -147,7 +147,7 @@
             </Col>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="待调工资：" prop="salary">
-              <Input v-model="empInputData.chgSalary" maxlength="10"></Input>
+              <Input v-model="empInputData.chgSalary"></Input>
             </Form-item>
             </Col>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -487,27 +487,32 @@
         this.$router.push({name:'annualadjustcompany'});
       },
       updateSelected() {
-        for(var i=0; i<this.modifiedResultData.length; i++) {
-          if (this.modifiedResultData[i]) {
-            var reg = /(^[1-9]([0-9]{1,7})?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
-            if (!reg.test(this.modifiedResultData[i].chgSalary)) {
-              this.$Message.error("工资项输入内容[" + this.modifiedResultData[i].chgSalary + "]格式有误");
-              return false;
-            }
-          }
-        }
+//        for(var i=0; i<this.modifiedResultData.length; i++) {
+//          if (this.modifiedResultData[i]) {
+//            var reg = /(^[1-9]([0-9]{1,7})?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+//            if (!reg.test(this.modifiedResultData[i].chgSalary)) {
+//              this.$Message.error("工资项输入内容[" + this.modifiedResultData[i].chgSalary + "]格式有误");
+//              return false;
+//            }
+//          }
+//        }
         this.autoSubmitAndDiscard();
       },
       delSelected() {
         if (this.deletedResultData && this.deletedResultData.length > 0) {
-          api.annualAdjustCompanyEmpsDelete(this.modifiedResultData).then(data => {
-            if (data.code == 200) {
-              this.$Message.info("删除成功");
-              this.annualAdjustCompanyEmpQuery();
-            } else {
-              this.$Message.error(data.message);
-            }
-          })
+          var rtn = confirm("是否删除已选中的项？")
+          if (rtn) {
+            api.annualAdjustCompanyEmpsDelete(this.modifiedResultData).then(data => {
+              if (data.code == 200) {
+                this.$Message.info("删除成功");
+                this.annualAdjustCompanyEmpQuery();
+              } else {
+                this.$Message.error(data.message);
+              }
+            })
+          } else {
+            return false;
+          }
         } else {
           this.$Message.error("请先选中要删除的项");
           return false;
@@ -549,6 +554,19 @@
         if (this.modifiedResultData && this.modifiedResultData.length > 0) {
           var rtn = confirm("是否保存已修改内容？")
           if (rtn) {
+              for(var i=0; i<this.modifiedResultData.length; i++) {
+                if (this.modifiedResultData[i]) {
+                  if (this.modifiedResultData[i].chgSalary == null || this.modifiedResultData[i].chgSalary == '') {
+                    this.$Message.error("请输入待调工资项");
+                    return false;
+                  }
+                  var reg = /(^[1-9]([0-9]{1,7})?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                  if (!reg.test(this.modifiedResultData[i].chgSalary)) {
+                    this.$Message.error("待调工资项输入内容[" + this.modifiedResultData[i].chgSalary + "]格式有误");
+                    return false;
+                  }
+                }
+              }
               // submit update modifiedResultData
               api.annualAdjustCompanyEmpsUpdate(this.modifiedResultData).then(data => {
                 if (data.code == 200) {
@@ -579,6 +597,7 @@
         this.autoSubmitAndDiscard(1, val);
       },
       handlePageSize(val) {
+        this.employeeResultPageData.pageNum = 1;
         this.autoSubmitAndDiscard(2, val);
       }
     }

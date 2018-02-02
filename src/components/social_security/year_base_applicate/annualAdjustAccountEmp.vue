@@ -177,13 +177,13 @@
           {
             title: '匹配状态', key: 'matchStatus', width: 100, align: 'center',
             render: (h, params) => {
-              return this.$decode.matchStatus(params.row.matchStatus)
+              return this.matchStatus(params.row.matchStatus)
             }
           },
           {
             title: '人员类别', key: 'accountStatus', width: 120, align: 'center',
             render: (h, params) => {
-              return this.$decode.accountStatus(params.row.accountStatus)
+              return this.accountStatus(params.row.accountStatus)
             }
           },
           {
@@ -243,6 +243,26 @@
       })
     },
     methods: {
+      accountStatus: (type)=> {
+        switch (type){
+          case '1':
+            return '一般人员信息'
+          case '2':
+            return '转出人员信息'
+          default:
+            return '无'
+        }
+      },
+      matchStatus: (type)=> {
+        switch (type){
+          case '0':
+            return '未匹配'
+          case '1':
+            return '已匹配'
+          default:
+            return '无'
+        }
+      },
       goBack() {
         this.$router.push({name:'annualadjustaccount'});
       },

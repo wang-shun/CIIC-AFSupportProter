@@ -330,28 +330,19 @@
             title: '身份证号', key: 'idNum', width: 160, align: 'center'
           },
           {
-            title: '社保状态', key: 'archiveStatus', width: 80, align: 'center',
-            render: (h, params) => {
-              return this.$decode.archiveStatus(params.row.archiveStatus)
-            }
+            title: '社保状态', key: 'archiveStatusName', width: 80, align: 'center'
           },
           {
-            title: '社保类型', key: 'ssAccountType', width: 100, align: 'center',
-            render: (h, params) => {
-              return this.$decode.accountType(params.row.ssAccountType)
-            }
+            title: '社保类型', key: 'ssAccountTypeName', width: 100, align: 'center'
           },
           {
-            title: '人员分类', key: 'empClassify', width: 100, align: 'center',
-            render: (h, params) => {
-              return this.$decode.empClassify(params.row.empClassify)
-            }
+            title: '人员分类', key: 'empClassifyName', width: 100, align: 'center'
           },
           {
             title: '社保基数', key: 'baseAmount', width: 120, align: 'center'
           },
           {
-            title: '结算区县', key: 'settlementArea', width: 80, align: 'center'
+            title: '结算区县', key: 'settlementAreaName', width: 80, align: 'center'
           },
           {
             title: '企业社保账户', key: 'ssAccount', width: 100, align: 'center'

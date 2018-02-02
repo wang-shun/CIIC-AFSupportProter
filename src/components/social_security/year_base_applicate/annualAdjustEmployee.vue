@@ -9,7 +9,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户类型：" prop="ssAccountType">
                 <Select v-model="exportSearchData.ssAccountType" style="width: 100%;" transfer>
-                  <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
               </Form-item>
               </Col>
@@ -68,6 +69,7 @@
   import axios from "axios"
   import api from '../../../api/social_security/year_base_applicate/annual_adjust_employee'
   import InputCompany from '../../common_control/form/input_company'
+  import dict from '../../../api/dict_access/social_security_dict'
 
   export default {
     components: {InputCompany},
@@ -83,10 +85,6 @@
           noCollection: 0,
         },
         accountTypeList: [
-          {value: '', label: '全部'},
-          {value: '1', label: '中智大库'},
-          {value: '2', label: '中智独立库'},
-          {value: '3', label: '独立户'},
         ],
         employeeResultData: [],
         employeeResultPageData: {
@@ -155,6 +153,14 @@
           }
         ]
       }
+    },
+    SocialSecurityAccountType: {},
+    mounted() {
+      dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.accountTypeList = data.data.SocialSecurityAccountType;
+        }
+      })
     },
     methods: {
       annualAdjustEmployeeQuery() {

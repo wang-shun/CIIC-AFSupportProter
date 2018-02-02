@@ -10,6 +10,10 @@ mock.onGet('/getCompanyList').reply(200, {
     {
       companyCode: 'KH1701234',
       companyName: '客户1'
+    },
+    {
+      companyCode: 'KH1712345',
+      companyName: '客户2'
     }
   ]
 })

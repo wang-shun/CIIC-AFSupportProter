@@ -44,7 +44,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" @click="" >重新汇总</Button>
+                <Button type="primary" @click="calculate" >重新汇总</Button>
                 <Button type="warning" @click="goBack" >返回</Button>
               </Col>
             </Row>
@@ -57,10 +57,13 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/event_types'
+  import api from '../../../api/social_security/social_security_report'
 
   export default {
     data() {
       return{
+        ssMonth:this.$route.query.ssMonth,
+        ssAccount:this.$route.query.ssAccount,
         recentlyCalculatedPerson:'张三',//最近计算人
         reportYearAndMonth:'201701',//社保年月
         collapseInfo: [1], //展开栏
@@ -144,6 +147,20 @@
       },
       cancel () {
 
+      },
+      calculate(){
+        let params = {
+          comAccountId:this.ssAccount,
+          ssMonth:this.ssMonth
+        };
+        api.summaryCalculate(params).then(data=>{
+            console.log(data.code);
+            if(data.code==1){
+              this.$Message.error(data.message);
+            }
+        }).catch(error=>{
+          this.$Message.error('系统异常！');
+        })
       }
     }
   }

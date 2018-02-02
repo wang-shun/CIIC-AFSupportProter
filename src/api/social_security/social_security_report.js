@@ -11,6 +11,9 @@ export default {
     queryEmlpyeeMonthFeeDetail:async(params)=>{
         let response = await AJAX.post('/api/soccommandservice/ssMonthChargeItem/queryEmlpyeeMonthFeeDetail', params);
         return await response.data;
+    },
+    summaryCalculate:async(params)=>{
+       let response = await AJAX.post('/api/soccommandservice/ssMonthCharge/summarycalculate',params);
+       return await response.data;
     }
-
 }

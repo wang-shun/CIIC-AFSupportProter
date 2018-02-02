@@ -10,7 +10,7 @@
                  <Form-item label="报表年月：" prop="ssMonth">
                    <Date-picker v-model="operatorSearchData.ssMonth" type="month"  placeholder="选择年月份" style="width: 100%;" transfer>
                   </Date-picker>
-                 
+
                 </Form-item>
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -112,7 +112,7 @@ import InputAccount from './InputAccount.vue'
           }
         ],
         ruleValidate:{
-          ssMonth:[    
+          ssMonth:[
             {required:true,type:'date',message: '选择报表日期.',trigger:'change'},
           ],
            ssAccount:[
@@ -120,13 +120,13 @@ import InputAccount from './InputAccount.vue'
             ]
         }
       }
-      
+
     },
     mounted() {
-     
+
     },
     computed: {
-     
+
     },
     methods: {
       resetSearchCondition(name) {
@@ -142,7 +142,10 @@ import InputAccount from './InputAccount.vue'
         history.go(-1);
       },
       monthlypaymentnotice(){
-        this.$router.push({name: 'monthlyPaymentNotice'})
+        let result = this.validCondition();
+        if(!result)return;
+        let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMMDD')
+        this.$router.push({name: 'monthlyPaymentNotice',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount}})
       },
       employeeCostDetail(){
         let result = this.validCondition();

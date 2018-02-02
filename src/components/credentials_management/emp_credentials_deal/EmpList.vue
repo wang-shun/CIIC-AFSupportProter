@@ -144,7 +144,9 @@
         },
         formItem: {
           companyName: '',
+          companyCode: '',
           empName: '',
+          empCode: '',
           type: '',
           dealType: '',
           data: ''
@@ -207,7 +209,7 @@
                 },
                 on: {
                   click: () => {
-                    this.formItem.data = params.row
+                    this.formItem.data = {...params.row}
                     this.formItem.empName = params.row.empName
                     this.formItem.companyName = params.row.companyName
                     this.modal1 = true
@@ -302,6 +304,7 @@
                 }
               })
             }
+            console.log("传过来的信息："+this.$route.params.data.empCode)
             this.modal1 = false
           } else {
             this.$Message.error('请选择办证类型!')

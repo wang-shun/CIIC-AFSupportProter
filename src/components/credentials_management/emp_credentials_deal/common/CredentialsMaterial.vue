@@ -7,12 +7,11 @@
         </i-col>
       </Row>
       <Row>
-        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
           <Form-item v-if="item.level === '0-0'">
-            <CheckboxGroup v-model="meterials00">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.main" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -31,23 +30,21 @@
         </i-col>
       </Row>
       <Row v-if="formItem.huStatus === '调沪方情况'">
-        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  v-if="item.level === '1-1'">
           <Form-item>
-            <CheckboxGroup v-model="meterials11">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.dh" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
       </Row>
       <Row v-if="formItem.huStatus === '在沪方情况'" >
-        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item  v-if="item.level === '1-2'">
-            <CheckboxGroup v-model="meterials12">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.zh" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -65,24 +62,22 @@
             </RadioGroup>
         </i-col>
       </Row>
-      <Row v-if="formItem.e === '已婚未育'">
-        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+      <Row v-if="formItem.marryStatus === '已婚未育'">
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item v-if="item.level === '2-1'">
-            <CheckboxGroup v-model="meterials21">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.marryWithoutChild" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
       </Row>
-      <Row v-if="formItem.e === '已婚已育'">
-        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+      <Row v-if="formItem.marryStatus === '已婚已育'">
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item  v-if="item.level === '2-2'">
-            <CheckboxGroup v-model="meterials22">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.marryWithChild" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -93,12 +88,11 @@
         </i-col>
       </Row>
       <Row>
-        <div  v-for="item in meterials" :key="item.materialTypeRelationId">
+        <div  v-for="item in meterials.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item v-if="item.level === '3-0'">
-            <CheckboxGroup v-model="meterials30">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.remarry" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -109,12 +103,11 @@
         </i-col>
       </Row>
       <Row>
-        <div v-for="item in meterials" :key="item.materialTypeRelationId">
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
           <Form-item v-if="item.level === '4-0'">
-            <CheckboxGroup v-model="meterials40">
-              <Checkbox>{{item.materialName}}</Checkbox>
-            </CheckboxGroup>
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.settle" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
@@ -132,7 +125,7 @@ const host = process.env.SITE_HOST
 export default {
   props: {
     meterials: {
-      type: Array,
+      type: Object,
       default() {
         return {}
       }
@@ -140,22 +133,40 @@ export default {
   },
   data () {
     return {
-      meterials00: [],
-      meterials11: [],
-      meterials12: [],
-      meterials21: [],
-      meterials22: [],
-      meterials30: [],
-      meterials40: [],
       formItem: {
         huStatus: '调沪方情况',
-        marryStatus: '已婚已育'
+        marryStatus: '已婚未育'
       }
     }
   },
   methods: {
-    
-  }  
+    change (info) {
+      let materialsIds = ''
+      if (info.main.toString() != ''){
+        materialsIds = materialsIds + info.main.toString() + ','
+      }
+      if (info.dh.toString() != ''){
+        materialsIds = materialsIds + info.dh.toString() + ','
+      }
+      if (info.zh.toString() != ''){
+        materialsIds = materialsIds + info.zh.toString() + ','
+      }
+      if (info.marryWithoutChild.toString() != ''){
+        materialsIds = materialsIds + info.marryWithoutChild.toString() + ','
+      }
+      if (info.marryWithChild.toString() != ''){
+        materialsIds = materialsIds + info.marryWithChild.toString() + ','
+      }
+      if (info.remarry.toString() != ''){
+        materialsIds = materialsIds + info.remarry.toString() + ','
+      }
+      if (info.settle.toString() != ''){
+        materialsIds = materialsIds + info.settle.toString() + ','
+      } 
+      this.$emit("materialsIds", materialsIds)
+      console.log("材料ids："+materialsIds)
+   }
+  }
 }
 </script>
 

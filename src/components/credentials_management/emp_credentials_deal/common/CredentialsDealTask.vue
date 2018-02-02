@@ -263,7 +263,6 @@
       clickRow (value) {
         if (value !== null) {
           this.rowdata = {...value}
-
           this.$emit("backRow", this.rowdata)
           this.selectCompanyExt(value.credentialsType,value.companyId)
           if (value.credentialsDealType != null && value.credentialsDealType != ""){

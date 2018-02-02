@@ -141,11 +141,30 @@ export default {
   },
   methods: {
     change (info) {
-      console.log(info)
       let materialsIds = ''
-      materialsIds = info.main.toString()+','+info.dh.toString()+','+info.zh.toString()+','+info.marryWithoutChild.toString()+','+info.marryWithChild.toString()+','+info.remarry.toString()+','+info.settle.toString()+','
+      if (info.main.toString() != ''){
+        materialsIds = materialsIds + info.main.toString() + ','
+      }
+      if (info.dh.toString() != ''){
+        materialsIds = materialsIds + info.dh.toString() + ','
+      }
+      if (info.zh.toString() != ''){
+        materialsIds = materialsIds + info.zh.toString() + ','
+      }
+      if (info.marryWithoutChild.toString() != ''){
+        materialsIds = materialsIds + info.marryWithoutChild.toString() + ','
+      }
+      if (info.marryWithChild.toString() != ''){
+        materialsIds = materialsIds + info.marryWithChild.toString() + ','
+      }
+      if (info.remarry.toString() != ''){
+        materialsIds = materialsIds + info.remarry.toString() + ','
+      }
+      if (info.settle.toString() != ''){
+        materialsIds = materialsIds + info.settle.toString() + ','
+      } 
       this.$emit("materialsIds", materialsIds)
-      console.log(materialsIds)
+      console.log("材料ids："+materialsIds)
    }
   }
 }

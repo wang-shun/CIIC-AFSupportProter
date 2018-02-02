@@ -219,6 +219,8 @@
         firstInTime: '',
         contractStartTime: '',
         contractEndTime: '',
+        credentialsType: '',
+        credentialsDealType: '',
         formItem: {
           education: '',
           materialBackTime: '',
@@ -256,23 +258,47 @@
       callBack(value){
         if (value != null) {
           this.formItem = value
-          console.log(this.formItem)
+          console.log("点击任务单："+this.formItem.materialBackTime)
         }
       },
       save () {
         let params = {}
         params = {...this.formItem}
-        params.materialBackTime = Tools.formatDate(params.materialBackTime,"YYYY-MM-DD hh:mm")
-        params.callsTime = Tools.formatDate(params.callsTime,"YYYY-MM-DD hh:mm")
-        params.applyTime = Tools.formatDate(params.applyTime,"YYYY-MM-DD hh:mm")
-        params.shiftLetterSendTime = Tools.formatDate(params.shiftLetterSendTime,"YYYY-MM-DD hh:mm")
-        params.talentBackTime = Tools.formatDate(params.talentBackTime,"YYYY-MM-DD hh:mm")
-        params.dealTime = Tools.formatDate(params.dealTime,"YYYY-MM-DD hh:mm")
-        params.chargeTime = Tools.formatDate(params.chargeTime,"YYYY-MM-DD hh:mm")
-        params.receiveFileTime = Tools.formatDate(params.receiveFileTime,"YYYY-MM-DD hh:mm")
-        params.originalBackTime = Tools.formatDate(params.originalBackTime,"YYYY-MM-DD hh:mm")
-        params.integralBillPrintTime = Tools.formatDate(params.integralBillPrintTime,"YYYY-MM-DD hh:mm")
+        if (params.materialBackTime !== undefined && params.materialBackTime !== null) {
+          params.materialBackTime = Tools.formatDate(params.materialBackTime,"YYYY-MM-DD hh:mm")
+        }
+        if (params.callsTime !== undefined && params.callsTime !== null) {
+          params.callsTime = Tools.formatDate(params.callsTime,"YYYY-MM-DD hh:mm")
+        }
+        if (params.applyTime !== undefined && params.applyTime !== null){
+          params.applyTime = Tools.formatDate(params.applyTime,"YYYY-MM-DD hh:mm")
+        }
+        if (params.shiftLetterSendTime !== undefined && params.shiftLetterSendTime !== null){
+          params.shiftLetterSendTime = Tools.formatDate(params.shiftLetterSendTime,"YYYY-MM-DD hh:mm")
+        }
+        if (params.talentBackTime !== undefined && params.talentBackTime !== null){
+          params.talentBackTime = Tools.formatDate(params.talentBackTime,"YYYY-MM-DD hh:mm")
+        }
+        if (params.dealTime !== undefined && params.dealTime !== null){
+          params.dealTime = Tools.formatDate(params.dealTime,"YYYY-MM-DD hh:mm")
+        }
+        if (params.chargeTime !== undefined && params.chargeTime !== null){
+          params.chargeTime = Tools.formatDate(params.chargeTime,"YYYY-MM-DD hh:mm")
+        }
+        if (params.receiveFileTime !== undefined && params.receiveFileTime !== null){
+          params.receiveFileTime = Tools.formatDate(params.receiveFileTime,"YYYY-MM-DD hh:mm")
+        }
+        if (params.originalBackTime !== undefined && params.originalBackTime !== null){
+          params.originalBackTime = Tools.formatDate(params.originalBackTime,"YYYY-MM-DD hh:mm")
+        }
+        if (params.integralBillPrintTime !== undefined && params.integralBillPrintTime !== null){
+          params.integralBillPrintTime = Tools.formatDate(params.integralBillPrintTime,"YYYY-MM-DD hh:mm")
+        }
         params.materialIds = params.materialIds
+        params.employeeId = params.empCode
+        params.credentialsType = params.credentialsType
+        params.credentialsDealType = params.credentialsDealType
+        console.log("保存参数："+params.employeeId+","+params.credentialsType)
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){
                this.$Notice.success({

@@ -145,7 +145,7 @@
           row = this.data[this.currentIndex];
           this.currentValue = this.renderFormat(row);
         }
-        // this.$emit('listenToChildEvent', row.comAccountId);
+         this.$emit('listenToChildEvent', row.comAccountId);
       },
       cancel() {
         this.$emit('on-cancel');

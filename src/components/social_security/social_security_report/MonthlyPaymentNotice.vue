@@ -63,7 +63,7 @@
     data() {
       return{
         ssMonth:this.$route.query.ssMonth,
-        ssAccount:this.$route.query.ssAccount,
+        comAccountId:this.$route.query.ssAccountId,
         recentlyCalculatedPerson:'张三',//最近计算人
         reportYearAndMonth:'201701',//社保年月
         collapseInfo: [1], //展开栏
@@ -150,7 +150,7 @@
       },
       calculate(){
         let params = {
-          comAccountId:this.ssAccount,
+          comAccountId:this.comAccountId,
           ssMonth:this.ssMonth
         };
         api.summaryCalculate(params).then(data=>{

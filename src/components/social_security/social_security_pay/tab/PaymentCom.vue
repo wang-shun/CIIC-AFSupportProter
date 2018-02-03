@@ -130,14 +130,14 @@
     </Modal>
 
     <!-- 进度 -->
-    <Modal
+    <!-- <Modal
       v-model="isShowProgress"
       width="680"
       title="查看进度"
       @on-ok="ok"
       @on-cancel="cancel">
       <progress-bar :stepsInfo="steps"></progress-bar>
-    </Modal>
+    </Modal> -->
 
     <!-- 调整 -->
     <Modal
@@ -173,7 +173,7 @@
           </Col>
           <Col :sm="{span: 24}">
             <Form-item label="备注说明：">
-              <Input v-model="changeInfo.remark" type="textarea" :rows="5" maxlength=200 placeholder="请输入..."></Input>
+              <Input v-model="changeInfo.remark" type="textarea" :rows="5"  placeholder="请输入..."></Input>
             </Form-item>
           </Col>
         </Row>
@@ -188,14 +188,14 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
-  import progressBar from '../../../common_control/progress/ProgressBar.vue'
+ // import progressBar from '../../../common_control/progress/ProgressBar.vue'
   import EventType from '../../../../store/event_types'
   import payComApi from '../../../../api/social_security/payment_com'
 
   const progressStop = 33.3;
 
   export default {
-    components: {customerModal, progressBar},
+    components: {customerModal},
     data() {
       return{
         collapseInfo: [1], //展开栏

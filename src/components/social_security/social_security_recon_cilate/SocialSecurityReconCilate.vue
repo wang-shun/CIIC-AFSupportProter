@@ -149,7 +149,7 @@
   import InputAccount from '../../common_control/form/input_account'
 
   export default {
-    components: {customerModal, InputAccount},
+    components: {customerModal, InputAccount,companyAccountSearchModal},
     data() {
       return {
         isUpload:false,

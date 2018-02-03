@@ -50,6 +50,7 @@
       return{
         ssMonth:this.$route.query.ssMonth,
          ssAccount:this.$route.query.ssAccount,
+         comAccountId:this.$route.query.ssAccountId,
         collapseInfo: [1], //展开栏
         loading:true,
         noticeInfo: {
@@ -272,7 +273,7 @@
       },
       calculate(){
         let params = {
-          comAccountId:this.ssAccount,
+          comAccountId:this.comAccountId,  
           ssMonth:this.ssMonth
         };
         api.summaryCalculate(params).then(data=>{

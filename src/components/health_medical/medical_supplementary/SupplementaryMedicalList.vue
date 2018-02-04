@@ -123,6 +123,7 @@
       <Button type="info" ref="rmb" @click="modalButton(true)">审核通过</Button>
       <Button type="info" ref="rmb" @click="modalButton(false)">批退</Button>
       <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
+      <Button type="info" @click="exportData(1)" icon="ios-upload-outline">导入数据</Button>
     </div>
 
     <Table border
@@ -130,8 +131,12 @@
            :columns="supplementColumns"
            :data="supplementData"
            @on-selection-change="selectTableData"></Table>
-
-    <Page :total="100" show-sizer show-elevator></Page>
+    <Page show-sizer show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :total="formItem.total"
+          :current="formItem.current"
+          :page-size="formItem.size"></Page>
 
     <Modal
       v-model="modalAccept"
@@ -151,7 +156,7 @@
 
 <script>
   import supplementaryMedica from '../../../store/modules/health_medical/data_sources/supplementary_medica.js'
-  import apiAjax from "../../../data/health_medical/uninsured_medical/uninsured_application.js";
+  import apiAjax from "../../../data/health_medical/supplementary_medica.js";
 
   export default {
     data() {
@@ -177,6 +182,7 @@
           serialPeople: null,
         },
         selectData: [],
+        statisticsData: {},
         statusProperties: supplementaryMedica.statusProperties,
         supplementColumns: [
           {
@@ -251,7 +257,8 @@
                     },
                     on: {
                       click: () => {
-                        this.$router.push({name: 'invoiceList', params: {data: params.Row}});
+                        sessionStorage.setItem('acceptanceData', JSON.stringify(params.row));
+                        this.$router.push({name: 'InvoiceList'});
                       }
                     }
                   }, '发票明细')
@@ -262,39 +269,50 @@
         ],
         supplementData: [
           {
-            acceptanceId: '20151218583',
-            dossierNumber: 'CIICYBQ20160126002',
-            inputDate: '2016-01-06',
-            employeeId: '15C2446',
-            employeeName: '段嘉晨',
-            companyId: '13684',
-            companyName: '基伊埃热有限公司',
+            acceptanceId: 201801150415 - 2,
+            dossierNumber: 'CIICY201801241040',
+            inputDate: "2018-01-24 14:43:53",
             status: 0,
-            auditTime: '2018-01-06',
-            invoiceNumber: '3',
-            totalCompanyAmount: '300',
-            totalInsuranceCompanyMoney: '150'
+            employeeId: '17A0871',
+            employeeName: '陈娬斐',
+            companyId: 29209,
+            companyName: null,
+            invoiceNumber: 5,
+            totalCompanyAmount: 130.67,
+            totalInsuranceCompanyMoney: 130.67,
+            totalCsPaymentAmount: 0.00,
+            totalApplicationAmount: 261.33,
+            totalApprovedAmount: 261.33,
+            totalClaimAmount: 130.67,
+            type: 1,
+            insuredName: '陈佳音',
+            auditor: "",
+            auditTime: null
           },
           {
             _disabled: true,
-            acceptanceId: '20151218583',
-            dossierNumber: 'CIICYBQ20160126002',
-            inputDate: '2016-01-06',
-            employeeId: '15C2446',
-            employeeName: '段嘉晨',
-            companyId: '13684',
-            companyName: '基伊埃热有限公司',
-            status: 2,
-            auditTime: '2018-01-06',
-            invoiceNumber: '3',
-            totalCompanyAmount: '300',
-            totalInsuranceCompanyMoney: '150'
+            acceptanceId: '201801150415-2',
+            dossierNumber: 'CIICY201801241040',
+            inputDate: '2018-01-24 14:43:53',
+            status: 0,
+            employeeId: '17A0871',
+            employeeName: '陈娬斐',
+            companyId: '29209',
+            companyName: null,
+            invoiceNumber: '5',
+            totalCompanyAmount: '130.67',
+            totalInsuranceCompanyMoney: '130.67',
+            totalCsPaymentAmount: '0.00',
+            totalApplicationAmount: '261.33',
+            totalApprovedAmount: '261.33',
+            totalClaimAmount: '130.67',
+            type: 1,
+            insuredName: '陈佳音',
+            auditor: '',
+            auditTime: null
           }
         ],
         category: [
-          {
-            value: 'status3', label: '全部'
-          },
           {
             value: 'status4', label: '补充医疗'
           },
@@ -310,11 +328,22 @@
         ]
       }
     },
+    created() {
+      this.getByPage(1);
+    },
     methods: {
       querySupplementaryList() {
-        apiAjax.queryAcceptanceList(this.formItem).then(response => {
+        apiAjax.queryAcceptancePage(this.formItem).then(response => {
           console.info(JSON.stringify(response.data.object.records));
           this.formItem.total = response.data.object.total;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+
+        apiAjax.queryAcceptanceTotal(this.formItem).then(response => {
+          console.info(JSON.stringify(response.data.object));
+          this.statisticsData = response.data.object;
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");

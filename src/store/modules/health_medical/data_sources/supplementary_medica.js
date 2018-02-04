@@ -30,6 +30,11 @@ const statusProperties = [
   }
 ];
 
+/**
+ * 状态
+ * @param status
+ * @returns {string}
+ */
 function statusToChina(status) {
   switch (status) {
     case 0:
@@ -59,7 +64,40 @@ function statusToChina(status) {
   }
 }
 
+const acceptanceTypes = [
+  {
+    value: '1', label: '雇员'
+  },
+  {
+    value: '2', label: '子女'
+  },
+  {
+    value: '3', label: '配偶'
+  },
+];
+
+/**
+ * 状态
+ * @param status
+ * @returns {string}
+ */
+function typeToChina(status) {
+  switch (status) {
+    case 1:
+      return "雇员";
+      break;
+    case 2:
+      return "子女";
+      break;
+    case 3:
+      return "配偶";
+      break;
+  }
+}
+
 export default {
   statusProperties,
   statusToChina,
+  acceptanceTypes,
+  typeToChina,
 };

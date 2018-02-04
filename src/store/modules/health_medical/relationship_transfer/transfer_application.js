@@ -1,7 +1,7 @@
 /**
  * 医疗关系转移
  */
-import mock from "../../../../data/health_medical/relationship_transfer/transfer_application.js";
+import mock from "../../../../data/health_medical/transfer_application.js";
 import EventTypes from "../../../event_types";
 
 const state = {

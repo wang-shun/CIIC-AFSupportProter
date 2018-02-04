@@ -1,4 +1,4 @@
-import Utils from "../../../lib/utils";
+import Utils from "../../lib/utils";
 
 const ajaxq = Utils.ajaxhmq;
 const ajaxc = Utils.ajaxhmc;
@@ -12,6 +12,9 @@ const transferUpdate = params => ajaxc.post("/api/afsupportcenter/healthmedical/
 const reimbursementAdd = params => ajaxc.post("/api/afsupportcenter/healthmedical/commandservice/FragmentaryReimbursement/save", params);
 const reimbursementUpdate = params => ajaxc.post("/api/afsupportcenter/healthmedical/commandservice/FragmentaryReimbursement/edit", params);
 
+/**
+ * 医疗关系转移
+ */
 export default {
   transferList,
   reimbursementList,

@@ -55,12 +55,12 @@
             <file-notes-view :fileNotesViewData="fileNotesViewData"></file-notes-view>
           </div>
         </Panel>
-        <Panel name="8">
+        <!-- <Panel name="8">
           雇员历史任务单
           <div slot="content">
             <employment-data-management-task-list :historyTaskData="historyTaskData"></employment-data-management-task-list>
           </div>
-        </Panel>
+        </Panel> -->
       </Collapse>
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
@@ -80,6 +80,7 @@
   import materialsBorrowInfoView from "./common/MaterialsBorrowInfoView.vue"
   import fileNotesView from "./common/FileNotesView.vue"
   import employmentDataManagementTaskList from "./common/EmployeeHistoryTaskList.vue"
+  import api from '../../api/employ_manage/hire_operator'
 
   export default {
     components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, refuseNotes, employmentNotesView, materialsBorrowInfoView, fileNotesView, employmentDataManagementTaskList},
@@ -136,18 +137,18 @@
           employNotes: ""
         },
         refuseInfo: {
-          refuseDate: "2014-3-3",
+          resignDate: "2014-3-3",
           firstInDate: "2014-3-3",
           endTypeValue: "",
           printDate: "",
-          personPropertyValue: "",
+          empCharacter: "",
           refuseFileDirectionValue: "",
           refuseFileDate: "",
           transferMethodValue: "",
           transferNotesValue: "",
           transferNotesAdd: "",
           templatorStoreDate: "",
-          refuseReason: "读取前道",
+          resignReason: "读取前道",
           fileCustodyIntention: "读取前道",
           refuseHandleDate: "",
           refuseFeedbackValue: "",
@@ -171,9 +172,12 @@
           handleType: "读取",
           isNetworkHandle: false,
           intermediaryFeedbackDate: "",
-          refuseMaterialsDeliverDate: "",
+          resignMaterialDeliveryDate: "",
           LaborManualIsDeliverRefuserValue: "",
-          matchEmployIndex: ""
+          matchEmployIndex: "",
+          employeeId:this.$route.query.employeeId,
+          companyId:this.$route.query.companyId,
+          employmentId:this.$route.query.employmentId
         },
         refuseNotesData: [],
         employmentViewData: [],
@@ -186,6 +190,31 @@
           {customerNumber: "002", customerName: "客户2", employDate: "2010-01-02", refuseDate: "2010-01-02"}
         ]
       }
+    },
+    async mounted() {
+
+          
+         
+          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId}
+
+          api.queryAmResignDetail(params).then(data=>{
+            
+              this.refuseInfo=data.data.resignBO;
+              
+              // this.employmentMaterial.materialsData = data.data.materialList.rows;
+             
+              // this.handleInfo = data.data.amEmploymentBO;
+              
+              // this.notesData = data.data.amRemarkBo.rows;
+
+              // this.materialHandleInfo = data.data.amArchaiveBo;
+
+              // //this.historyTaskData =data.data.listHistory;
+
+              // this.customerInfo = data.data.company;
+
+               
+          })
     },
     methods: {
       goBack() {

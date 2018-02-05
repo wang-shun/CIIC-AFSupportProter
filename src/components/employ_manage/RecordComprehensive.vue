@@ -104,7 +104,7 @@
   import customerInfo from "./common/CustomerInfo.vue"
   import employeeCompleteInfo from "./common/EmployeeCompleteInfo.vue"
   import employmentInfo from "./common/EmploymentInfo.vue"
-  import refuseHandle from "./common/RefuseHandle.vue"
+  import refuseHandle from "./common/RefuseHandleArchive.vue"
   import fileHandle from "./common/FileHandle.vue"
   import modifyFileNumber from "./common/ModifyFileNumber.vue"
   import refuseMaterialsHandle from "./common/RefuseMaterialsHandle.vue"

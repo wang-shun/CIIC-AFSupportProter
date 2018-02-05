@@ -454,7 +454,7 @@
         this.deletedResultData.splice(0, this.deletedResultData.length);
         if(selection) {
           selection.forEach((element, index, array) => {
-            this.deletedResultData.push({annualAdjustCompanyEmpId: element.annualAdjustCompanyEmpId});
+            this.deletedResultData.push(element.annualAdjustCompanyEmpId);
           })
         }
       },

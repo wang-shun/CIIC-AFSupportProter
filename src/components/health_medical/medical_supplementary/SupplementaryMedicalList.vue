@@ -1,452 +1,388 @@
 <template>
-  <div class="supplementaryMedicalList">
-    <Collapse v-model="value1">
+  <div>
+    <Collapse v-model="collapseInfo">
       <Panel name="1">
+        补充医疗查询
         <div slot="content">
-          <row>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="状态">
-                  <Select placeholder="请选择">
-                    <Option value="1" v-for="item in taskStatus" :value="item.value" :key="item.value">{{item.label}}
-                    </Option>
-                  </Select>
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="分类">
-                  <Select placeholder="请选择">
-                    <Option value="1" v-for="item in category" :value="item.value" :key="item.value">{{item.label}}
-                    </Option>
-                  </Select>
-                </Form-item>
-              </Form>
-            </i-col>
-          </row>
-          <row>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="管理方编号">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="管理方名称">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-            </i-col>
-          </row>
-          <row>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="连带人">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="雇员编号">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="雇员姓名">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-            </i-col>
-          </row>
-          <row>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="案卷号">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="公司编号">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="公司名称">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-            </i-col>
-          </row>
-          <row>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="付款日期">
-                  <DatePicker type="date" style="width: 130px;" placeholder="选择日期"></DatePicker>
-                  <span style="width: 5px;">-</span>
-                  <DatePicker type="date" style="width: 135px;" placeholder="选择日期"></DatePicker>
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="保单号">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="受理编号">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-            </i-col>
-          </row>
-          <row>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="导入日期">
-                  <DatePicker type="date" style="width: 130px;" placeholder="选择日期"></DatePicker>
-                  <span style="width: 5px;">-</span>
-                  <DatePicker type="date" style="width: 135px;" placeholder="选择日期"></DatePicker>
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="审核日期">
-                  <DatePicker type="date" style="width: 130px;" placeholder="选择日期"></DatePicker>
-                  <span style="width: 5px;">-</span>
-                  <DatePicker type="date" style="width: 135px;" placeholder="选择日期"></DatePicker>
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="">
-
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="">
-                  <Button type="primary" size="large">查询</Button>
-                </Form-item>
-              </Form>
-            </i-col>
-          </row>
+          <Form ref="formItem" :model="formItem" :label-width="140">
+            <Row justify="start" class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="导入日期" prop="inputDateRange">
+                <DatePicker v-model="formItem.inputDateRange" type="daterange" placement="bottom-end"
+                            placeholder="选择日期" style="width: 100%"></DatePicker>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="审核日期" prop="auditTimeRange">
+                <DatePicker v-model="formItem.auditTimeRange" type="daterange" placement="bottom-end"
+                            placeholder="选择日期" style="width: 100%"></DatePicker>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="状态" prop="status">
+                <Select v-model="formItem.status" placeholder="请选择" :clearable="true">
+                  <Option value="1" v-for="item in statusProperties" :value="item.value" :key="item.value">
+                    {{item.label}}
+                  </Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="分类" prop="invoiceNumber">
+                <Select v-model="formItem.invoiceNumber" placeholder="请选择" :clearable="true">
+                  <Option value="1" v-for="item in category" :value="item.value" :key="item.value">{{item.label}}
+                  </Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="案卷号" prop="dossierNumber">
+                <Input v-model="formItem.dossierNumber" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="受理编号" prop="acceptanceId">
+                <Input v-model="formItem.acceptanceId" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员编号" prop="employeeId">
+                <Input v-model="formItem.employeeId" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员姓名" prop="employeeName">
+                <Input v-model="formItem.employeeName" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公司编号" prop="companyId">
+                <Input v-model="formItem.companyId" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公司名称" prop="companyName">
+                <Input v-model="formItem.companyName" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保单号">
+                <Input v-model="formItem.code" placeholder="请输入"/>
+              </Form-item>
+              </Col>-->
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="管理方编号" prop="managementId">
+                <Input v-model="formItem.managementId" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="管理方名称" prop="managementName">
+                <Input v-model="formItem.managementName" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="连带人" prop="serialPeople">
+                <Input v-model="formItem.serialPeople" placeholder="请输入"/>
+              </Form-item>
+              </Col>
+            </Row>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 24}" class="tr">
+              <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Panel>
     </Collapse>
-    <Collapse v-model="value2">
-      <Panel name="2">
-        <div slot="content">
-          <row>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 4, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="记录总数：">
-                  <span class="expand-value">2行</span>
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 4, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="120">
-                <Form-item label="公司理赔金额总计：">
-                  <span class="expand-value">180</span>
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 4, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="150">
-                <Form-item label="保险公司理赔金额总计：">
-                  <span class="expand-value">200</span>
-                </Form-item>
-              </Form>
-            </i-col>
-            <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 4, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="发票张数：">
-                  <span class="expand-value">200</span>
-                </Form-item>
-              </Form>
-            </i-col>
-          </row>
-          <row>
-            <i-col span="2" style="margin-left: 30px;">
-              <Button type="info" ref="rmb" @click="modal1 = true">审核通过</Button>
-              <Modal
-                v-model="modal1"
-                title="审核操作对话框"
-                @on-ok="ok">
-                <Input v-model="formItem.code" placeholder="备注："></Input>
-              </Modal>
-            </i-col>
-            <i-col span="17">
-              <Button type="info" ref="rmb" @click="modal1 = true">批退</Button>
-              <Modal
-                v-model="modal1"
-                title="批退操作对话框"
-                @on-ok="ok">
-                <Input v-model="formItem.code" placeholder="备注："></Input>
-              </Modal>
-            </i-col>
-            <i-col span="1">
-              <Button type="info" @click="exportData(1)">
-                <Icon type="ios-download-outline"></Icon>
-                导出数据
-              </Button>
-            </i-col>
-          </row>
-        </div>
-      </Panel>
-    </Collapse>
-    <Table border :columns="columns7" :data="data6" ref="table"></Table>
-    <Page :total="100" show-sizer show-elevator></Page>
+
+    <Card :bordered="true" class="mt15">
+      <p slot="title">统计信息</p>
+      <Row justify="start" class="m15">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
+        <span>记录总数:</span>
+        <span>2行</span>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
+        <span>公司理赔金额总计:</span>
+        <span>180</span>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
+        <span>保险公司理赔金额总计:</span>
+        <span>200</span>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
+        <span>发票张数:</span>
+        <span>200</span>
+        </Col>
+      </Row>
+    </Card>
+
+    <div class="tr m20">
+      <Button type="info" ref="rmb" @click="modalButton(true)">审核通过</Button>
+      <Button type="info" ref="rmb" @click="modalButton(false)">批退</Button>
+      <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
+      <Button type="info" @click="exportData(1)" icon="ios-upload-outline">导入数据</Button>
+    </div>
+
+    <Table border
+           stripe
+           :columns="supplementColumns"
+           :data="supplementData"
+           @on-selection-change="selectTableData"></Table>
+    <Page show-sizer show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :total="formItem.total"
+          :current="formItem.current"
+          :page-size="formItem.size"></Page>
+
+    <Modal
+      v-model="modalAccept"
+      title="审核操作对话框"
+      @on-ok="updateSupplementaryList(1)">
+      <Input v-model="formItem.code" placeholder="备注："/>
+    </Modal>
+
+    <Modal
+      v-model="modalRefuse"
+      title="批退操作对话框"
+      @on-ok="updateSupplementaryList(2)">
+      <Input v-model="formItem.code" placeholder="备注："/>
+    </Modal>
   </div>
 </template>
 
 <script>
+  import supplementaryMedica from '../../../store/modules/health_medical/data_sources/supplementary_medica.js'
+  import apiAjax from "../../../data/health_medical/supplementary_medica.js";
+
   export default {
     data() {
       return {
-        modal1: false,
-        value1: '1',
-        value2: '2',
+        collapseInfo: [1, 2, 3], //展开栏
+        modalAccept: false,
+        modalRefuse: false,
         formItem: {
-          input: '',
-          select: '',
-          select1: '',
-          radio: 'male',
-          checkbox: [],
-          switch: true,
-          date: '',
-          time: '',
-          slider: [20, 50],
-          textarea: ''
+          total: 0,
+          current: 1,
+          size: 10,
+          inputDateRange: [],
+          auditTimeRange: [],
+          status: null,
+          dossierNumber: null,
+          acceptanceId: null,
+          employeeId: null,
+          employeeName: null,
+          companyId: null,
+          companyName: null,
+          managementId: null,
+          managementName: null,
+          serialPeople: null,
         },
-        columns7: [
+        selectData: [],
+        statisticsData: {},
+        statusProperties: supplementaryMedica.statusProperties,
+        supplementColumns: [
           {
-            type: 'selection',
-            width: 60,
-            align: 'center'
+            type: 'selection', width: 60, align: 'center'
           },
           {
-            title: '受理编号',
-            sortable: true,
-            key: 'acceptanceId'
+            title: '受理编号', sortable: true, key: 'acceptanceId'
           },
           {
-            title: '案卷号',
-            sortable: true,
-            key: 'employeeId'
+            title: '案卷号', sortable: true, key: 'dossierNumber'
           },
           {
-            title: '导入日期',
-            sortable: true,
-            key: 'employeeName'
+            title: '导入日期', sortable: true, key: 'inputDate'
           },
           {
-            title: '雇员编号',
-            sortable: true,
-            key: 'companyId'
+            title: '雇员编号', sortable: true, key: 'employeeId'
           },
           {
-            title: '雇员姓名',
-            sortable: true,
-            key: 'Type'
+            title: '雇员姓名', sortable: true, key: 'employeeName'
           },
           {
-            title: '公司编号',
-            sortable: true,
-            key: 'MoneyType'
+            title: '公司编号', sortable: true, key: 'companyId'
           },
           {
-            title: '公司名称',
-            sortable: true,
-            key: 'jointandseveralPeople'
+            title: '公司名称', sortable: true, key: 'companyName'
           },
           {
-            title: '状态',
-            sortable: true,
-            key: 'status'
-          },
-          {
-            title: '处理日期',
-            sortable: true,
-            key: 'handletime'
-          },
-          {
-            title: '发票合计',
-            sortable: true,
-            key: 'acceptancePeople'
-          },
-          {
-            title: '公司理赔金额',
-            sortable: true,
-            key: 'acceptanceDate'
-          },
-          {
-            title: '保险公司理赔金额',
-            sortable: true,
-            key: 'acceptanceMoney'
-          },
-          {
-            title: '操作',
-            key: 'action',
-            width: 240,
-            align: 'center',
+            title: '状态', sortable: true, key: 'status',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.$Modal.info({
-                        title: '补充医疗理赔受理',
-                        content: `审核通过`
-                      });
+              return supplementaryMedica.statusToChina(params.row.status);
+            }
+          },
+          {
+            title: '处理日期', sortable: true, key: 'auditTime'
+          },
+          {
+            title: '发票合计', sortable: true, key: 'invoiceNumber'
+          },
+          {
+            title: '公司理赔金额', sortable: true, key: 'totalCompanyAmount'
+          },
+          {
+            title: '保险公司理赔金额', sortable: true, key: 'totalInsuranceCompanyMoney'
+          },
+          {
+            title: '操作', key: 'action', width: 240, align: 'center',
+            render: (h, params) => {
+              if (params.row.status === 0) {
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {marginRight: '5px'},
+                    on: {
+                      click: () => {
+                        // this.updateSupplementary(1);
+                        this.$Modal.success({title: '补充医疗理赔受理', content: `审核通过`});
+                      }
                     }
-                  }
-                }, '审核通过'),
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.$Modal.info({
-                        title: '补充医疗理赔受理',
-                        content: `审核通过`
-                      });
+                  }, '审核通过'),
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {marginRight: '5px'},
+                    on: {
+                      click: () => {
+                        this.$Modal.info({title: '补充医疗理赔受理', content: `批退完成`});
+                      }
                     }
-                  }
-                }, '批退'),
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({
-                        name: 'invoiceList',
-                        params: {
-                          data: params.row
-                        }
-                      });
+                  }, '批退'),
+                  h('Button', {
+                    props: {
+                      type: 'success', size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        sessionStorage.setItem('acceptanceData', JSON.stringify(params.row));
+                        this.$router.push({name: 'InvoiceList'});
+                      }
                     }
-                  }
-                }, '发票明细')
-              ]);
+                  }, '发票明细')
+                ]);
+              }
             }
           }
         ],
-        data6: [
+        supplementData: [
           {
-            acceptanceId: '20151218583',
-            employeeId: 'CIICYBQ20160126002',
-            employeeName: '2016-01-06',
-            companyId: '15C2446',
-            Type: '段嘉晨',
-            MoneyType: '13684',
-            jointandseveralPeople: '基伊埃热有限公司',
-            status: '未审核',
-            handletime: '',
-            acceptancePeople: '3',
-            acceptanceDate: '300',
-            acceptanceMoney: '150'
+            acceptanceId: 201801150415 - 2,
+            dossierNumber: 'CIICY201801241040',
+            inputDate: "2018-01-24 14:43:53",
+            status: 0,
+            employeeId: '17A0871',
+            employeeName: '陈娬斐',
+            companyId: 29209,
+            companyName: null,
+            invoiceNumber: 5,
+            totalCompanyAmount: 130.67,
+            totalInsuranceCompanyMoney: 130.67,
+            totalCsPaymentAmount: 0.00,
+            totalApplicationAmount: 261.33,
+            totalApprovedAmount: 261.33,
+            totalClaimAmount: 130.67,
+            type: 1,
+            insuredName: '陈佳音',
+            auditor: "",
+            auditTime: null
           },
           {
-            acceptanceId: '20151218584',
-            employeeId: 'CIICYBQ20160126002',
-            employeeName: '2016-01-06',
-            companyId: '15C2446',
-            Type: '段嘉晨',
-            MoneyType: '13684',
-            jointandseveralPeople: '基伊埃热有限公司',
-            status: '已审核',
-            handletime: '2017-09-17',
-            acceptancePeople: '3',
-            acceptanceDate: '300',
-            acceptanceMoney: '150'
-          }
-        ],
-        taskStatus: [
-          {
-            value: 'status3',
-            label: '全部'
-          },
-          {
-            value: 'status0',
-            label: '未审核'
-          },
-          {
-            value: 'status1',
-            label: '已审核未付'
-          },
-          {
-            value: 'status2',
-            label: '已审核已付'
-          },
-          {
-            value: 'status4',
-            label: '已批退'
+            _disabled: true,
+            acceptanceId: '201801150415-2',
+            dossierNumber: 'CIICY201801241040',
+            inputDate: '2018-01-24 14:43:53',
+            status: 0,
+            employeeId: '17A0871',
+            employeeName: '陈娬斐',
+            companyId: '29209',
+            companyName: null,
+            invoiceNumber: '5',
+            totalCompanyAmount: '130.67',
+            totalInsuranceCompanyMoney: '130.67',
+            totalCsPaymentAmount: '0.00',
+            totalApplicationAmount: '261.33',
+            totalApprovedAmount: '261.33',
+            totalClaimAmount: '130.67',
+            type: 1,
+            insuredName: '陈佳音',
+            auditor: '',
+            auditTime: null
           }
         ],
         category: [
           {
-            value: 'status3',
-            label: '全部'
+            value: 'status4', label: '补充医疗'
           },
           {
-            value: 'status4',
-            label: '补充医疗'
+            value: 'status0', label: '保前保后'
           },
           {
-            value: 'status0',
-            label: '保前保后'
+            value: 'status1', label: '特需'
           },
           {
-            value: 'status1',
-            label: '特需'
-          },
-          {
-            value: 'status2',
-            label: '本部特需'
+            value: 'status2', label: '本部特需'
           }
         ]
       }
     },
+    created() {
+      this.getByPage(1);
+    },
     methods: {
-      show(index) {
-        this.$Modal.info({
-          title: '用户信息',
-          content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-        })
+      querySupplementaryList() {
+        apiAjax.queryAcceptancePage(this.formItem).then(response => {
+          console.info(JSON.stringify(response.data.object.records));
+          this.formItem.total = response.data.object.total;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+
+        apiAjax.queryAcceptanceTotal(this.formItem).then(response => {
+          console.info(JSON.stringify(response.data.object));
+          this.statisticsData = response.data.object;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      updateSupplementaryList(val) {
+        this.dealMeg.status = val;
+
+        this.getByPage(1);
+      },
+      updateSupplementary(val) {
+        this.dealMeg.status = val;
+
+        this.getByPage(1);
+      },
+      modalButton(val) {
+        if (this.selectData.length === 0) {
+          this.$Message.error("请选择受理单");
+          return;
+        }
+        if (val) {
+          this.modalAccept = true;
+        } else {
+          this.modalRefuse = true;
+        }
+      },
+      selectTableData(rows) {
+        this.selectData = rows;
+      },
+      getByPage(val) {
+        this.formItem.current = val;
+        this.querySupplementaryList()
+      },
+      pageSizeChange(size) {
+        this.formItem.size = size;
+        this.querySupplementaryList()
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
       },
       remove(index) {
         this.data6.splice(index, 1);
@@ -471,5 +407,4 @@
       }
     }
   }
-
 </script>

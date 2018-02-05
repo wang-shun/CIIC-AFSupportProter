@@ -12,12 +12,21 @@
     </div>
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="goHandle">办理</Button>
+        <!-- <Button type="primary" @click="goHandle">办理</Button> -->
         <Button type="primary" @click="batchOperating">批量操作</Button>
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
     </Row>
     <Table border :columns="dismissalColumns" :data="dismissalData" class="mt20"></Table>
+       <Page
+        class="pageSize"
+        @on-change="handlePageNum"
+        @on-page-size-change="handlePageSize"
+        :total="pageData.total"
+        :page-size="pageData.pageSize"
+        :page-size-opts="pageData.pageSizeOpts"
+        :current="pageData.pageNum"
+        show-sizer show-total></Page>
     <Table border :columns="searchResultColumns" :data="searchResultData" class="mt20"></Table>
   </div>
 </template>
@@ -25,14 +34,45 @@
   import {em_print, customerInfo, batchOperate} from "../../assets/js/employ_manage/common_filed"
   import searchEmployment from "./common/SearchEmployment.vue"
   import employeeInfo from "./common/EmployeeInfo.vue"
+  import api from '../../api/employ_manage/hire_operator'
 
   export default {
     components: {searchEmployment},
     data() {
       return {
+         pageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+        },
+        searchConditions:[],
+        searchCondition: {
+          params: '',
+          taskStatus:0
+        },
         collapseInfo: [1],
         dismissalColumns: [
-          {title: '', type: 'selection'},
+          {title: '', type: 'selection', width: 60},
+          {
+            title: '操作',
+            key: 'action',
+            align: 'center',
+            width: 120,
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {type: 'success', size: 'small'},
+                  style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+                      this.showInfoT(params.row.employeeId,params.row.companyId,params.row.employmentId)
+                    }
+                  }
+                }, '办理'),
+              ]);
+            }
+          },
           {title: '序号', key: 'index', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
@@ -82,10 +122,10 @@
               ]);
             }
           },
-          {title: '身份证号码', key: 'IdNumber', align: 'center', width: 150,
+          {title: '身份证号码', key: 'idNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.IdNumber),
+                h('span', params.row.idNum),
               ]);
             }
           },
@@ -96,10 +136,10 @@
               ]);
             }
           },
-          {title: '公司名称', key: 'companyName', align: 'center', width: 250,
+          {title: '公司名称', key: 'title', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
+                h('span', params.row.title),
               ]);
             }
           },
@@ -117,31 +157,31 @@
               ]);
             }
           },
-          {title: '档案编号', key: 'fileNumber', align: 'center', width: 150,
+          {title: '档案编号', key: 'docNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fileNumber),
+                h('span', params.row.docNum),
               ]);
             }
           },
-          {title: '预留档案编号', key: 'resveredFileNumber', align: 'center', width: 150,
+          {title: '预留档案编号', key: 'yuliuDocNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.resveredFileNumber),
+                h('span', params.row.yuliuDocNum),
               ]);
             }
           },
-          {title: '存档地', key: 'place', align: 'center', width: 150,
+          {title: '存档地', key: 'archivePlace', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.place),
+                h('span', params.row.archivePlace),
               ]);
             }
           },
-          {title: '实际录用日期', key: 'actEmployDate', align: 'center', width: 150,
+          {title: '实际录用日期', key: 'employDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.actEmployDate),
+                h('span', params.row.employDate),
               ]);
             }
           },
@@ -152,10 +192,10 @@
               ]);
             }
           },
-          {title: '出库日期', key: 'outStockDate', align: 'center', width: 150,
+          {title: '出库日期', key: 'storageOutDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.outStockDate),
+                h('span', params.row.storageOutDate),
               ]);
             }
           },
@@ -195,18 +235,8 @@
             }
           }
         ],
-        dismissalData: [
-          {index: "", intermediaryFeedbackDate: "", refuseReason: "", employProperty: "", handleType: "", employeeNumber: "10001", employeeName: "雇员1", IdNumber: "", companyNumber: "101", companyName: "客户1", serviceManager: "", serviceCenter: "大客户", fileNumber: "", resveredFileNumber: "", place: "", actEmployDate: "", refuseDate: "", outStockDate: "", refuseFeedback: "", refuseFeedback2: "", employHandleEnd: "", comprehensiveInsuranceRefuseDate: "", companySpecialCase: ""},
-          {index: "", intermediaryFeedbackDate: "", refuseReason: "", employProperty: "", handleType: "", employeeNumber: "10002", employeeName: "雇员2", IdNumber: "", companyNumber: "102", companyName: "客户2", serviceManager: "", serviceCenter: "日本", fileNumber: "", resveredFileNumber: "", place: "", actEmployDate: "", refuseDate: "", outStockDate: "", refuseFeedback: "", refuseFeedback2: "", employHandleEnd: "", comprehensiveInsuranceRefuseDate: "", companySpecialCase: ""},
-          {index: "", intermediaryFeedbackDate: "", refuseReason: "", employProperty: "", handleType: "", employeeNumber: "10003", employeeName: "雇员3", IdNumber: "", companyNumber: "101", companyName: "客户1", serviceManager: "", serviceCenter: "虹桥", fileNumber: "", resveredFileNumber: "", place: "", actEmployDate: "", refuseDate: "", outStockDate: "", refuseFeedback: "", refuseFeedback2: "", employHandleEnd: "", comprehensiveInsuranceRefuseDate: "", companySpecialCase: ""},
-          {index: "", intermediaryFeedbackDate: "", refuseReason: "", employProperty: "", handleType: "", employeeNumber: "10004", employeeName: "雇员4", IdNumber: "", companyNumber: "101", companyName: "客户1", serviceManager: "", serviceCenter: "浦东", fileNumber: "", resveredFileNumber: "", place: "", actEmployDate: "", refuseDate: "", outStockDate: "", refuseFeedback: "", refuseFeedback2: "", employHandleEnd: "", comprehensiveInsuranceRefuseDate: "", companySpecialCase: ""},
-          {index: "", intermediaryFeedbackDate: "", refuseReason: "", employProperty: "", handleType: "", employeeNumber: "10005", employeeName: "雇员5", IdNumber: "", companyNumber: "102", companyName: "客户2", serviceManager: "", serviceCenter: "浦东", fileNumber: "", resveredFileNumber: "", place: "", actEmployDate: "", refuseDate: "", outStockDate: "", refuseFeedback: "", refuseFeedback2: "", employHandleEnd: "", comprehensiveInsuranceRefuseDate: "", companySpecialCase: ""},
-          {index: "", intermediaryFeedbackDate: "", refuseReason: "", employProperty: "", handleType: "", employeeNumber: "10006", employeeName: "雇员6", IdNumber: "", companyNumber: "102", companyName: "客户2", serviceManager: "", serviceCenter: "浦东", fileNumber: "", resveredFileNumber: "", place: "", actEmployDate: "", refuseDate: "", outStockDate: "", refuseFeedback: "", refuseFeedback2: "", employHandleEnd: "", comprehensiveInsuranceRefuseDate: "", companySpecialCase: ""},
-          {index: "", intermediaryFeedbackDate: "", refuseReason: "", employProperty: "", handleType: "", employeeNumber: "10007", employeeName: "雇员7", IdNumber: "", companyNumber: "102", companyName: "客户2", serviceManager: "", serviceCenter: "徐汇", fileNumber: "", resveredFileNumber: "", place: "", actEmployDate: "", refuseDate: "", outStockDate: "", refuseFeedback: "", refuseFeedback2: "", employHandleEnd: "", comprehensiveInsuranceRefuseDate: "", companySpecialCase: ""},
-          {index: "", intermediaryFeedbackDate: "", refuseReason: "", employProperty: "", handleType: "", employeeNumber: "10008", employeeName: "雇员8", IdNumber: "", companyNumber: "102", companyName: "客户2", serviceManager: "", serviceCenter: "徐汇", fileNumber: "", resveredFileNumber: "", place: "", actEmployDate: "", refuseDate: "", outStockDate: "", refuseFeedback: "", refuseFeedback2: "", employHandleEnd: "", comprehensiveInsuranceRefuseDate: "", companySpecialCase: ""},
-        ],
-
-        searchResultColumns: [
+        dismissalData: [],
+         searchResultColumns: [
           {title: '未反馈', key: 'noFeedback', align: 'center', width: 220,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
@@ -264,14 +294,24 @@
             }
           }
         ],
-        searchResultData: [
-          {noFeedback: '6', refuseFinished: '69', refuseBeforeWithFile: '4', refuseTicketStampNoReturn: '6', refuseFailed: '76', beforeBatchNeedRefuse: '5', other: '40', amount: '550'},
-        ],
+        searchResultData: [],
       }
     },
+    mounted() {
+      this.queryAmResign({}),
+      this.queryResignTaskCount({})
+    },
     methods: {
-      searchEmploiees() {
-
+      searchEmploiees(conditions) {
+          
+            this.searchConditions =[];
+            for(var i=0;i<conditions.length;i++)
+                  this.searchConditions.push(conditions[i].exec);
+        
+           this.searchCondition.params = this.searchConditions.toString();
+           
+           this.queryAmResign(this.searchCondition);
+           this.queryResignTaskCount(this.searchCondition);
       },
       goHandle() {
         this.$router.push({name: "dismissalHandleEmployment"});
@@ -281,6 +321,44 @@
       },
       exportXLS() {
 
+      },queryAmResign(params){
+        let self =this
+        api.queryAmResign({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params,
+        }).then(data => {
+          self.dismissalData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+        })
+      },
+      queryResignTaskCount(params){
+
+        let self =this
+        api.queryResignTaskCount({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params,
+        }).then(data => {
+         
+          self.searchResultData = data.data.row;
+         
+        })
+      },
+      showInfoT (employeeId,companyId,employmentId) {
+       
+        this.$router.push({name:'dismissalHandleEmployment', query: {employeeId:employeeId,companyId:companyId,employmentId:employmentId}});
+
+      },
+      handlePageNum(val) {
+        this.pageData.pageNum = val;
+        let params = this.searchCondition
+        this.employeeQuery(params);
+      },
+      handlePageSize(val) {
+        this.pageData.pageSize = val;
+        let params = this.searchCondition
+        this.employeeQuery(params);
       }
     }
   }

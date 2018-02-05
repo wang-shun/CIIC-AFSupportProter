@@ -1,310 +1,312 @@
-
 <template>
-    <div class="invoiceList">
+  <div>
+    <Card class="mt15">
+      <p slot="title">雇员信息</p>
+      <Form ref="employeeInfo" :model="employeeInfo" :label-width="140">
+        <Row justify="start" class="m15">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="雇员编号：">{{employeeInfo.employeeId}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="雇员姓名：">{{employeeInfo.employeeName}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="公司编号：">{{employeeInfo.companyId}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="公司名称：">{{employeeInfo.companyName}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="终止日期：">{{employeeInfo.endDate}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="退保日期：">{{employeeInfo.endConfirmDate}}</Form-item>
+          </Col>
+        </Row>
+      </Form>
+    </Card>
 
-      <Collapse v-model="value2" accordion>
-        <Panel name="2">
-          <div slot="content">
-            <Form>
-              <Row>
-                <Col span="8">
-                <FormItem label="医疗报销汇总信息：">
-                  <span class="expand-value">医疗报销汇总详情</span>
-                </FormItem>
-                </Col>
-                <Col span="8">
-                <FormItem label="疾病名称：">
-                  <span class="expand-value">急性扁桃体炎</span>
-                </FormItem>
-                </Col>
-                <Col span="8">
-                <FormItem label="就诊日期：">
-                  <span class="expand-value">2015-12-13</span>
-                </FormItem>
-                </Col>
-              </Row>
+    <Card class="mt15">
+      <p slot="title">受理单信息</p>
+      <Form ref="acceptanceData" :model="acceptanceData" :label-width="140">
+        <Row justify="start" class="m15">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="案卷号：">{{acceptanceData.dossierNumber}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="发票合计：">{{acceptanceData.invoiceNumber}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="导入日期：">{{acceptanceData.inputDate}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="受理编号：">{{acceptanceData.acceptanceId}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="累计免赔额："></Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="申请金额：">{{acceptanceData.totalApplicationAmount}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="核准金额：">{{acceptanceData.totalApprovedAmount}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="索赔金额：">{{acceptanceData.totalClaimAmount}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="类别：">{{typeToChina(acceptanceData.type)}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="保险理赔金额：">{{acceptanceData.totalInsuranceCompanyMoney}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="公司理赔金额：">{{acceptanceData.totalCompanyAmount}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="分类自付金额：">{{acceptanceData.totalCsPaymentAmount}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="连带被保险人：">{{acceptanceData.insuredName}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="审核人：">{{acceptanceData.auditor}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="审核日期：">{{acceptanceData.auditTime}}</Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="付款日期："></Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="付款方式："></Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="银行："></Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="卡号："></Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="雇员付款记录："></Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="受理单备注："></Form-item>
+          </Col>
+        </Row>
+      </Form>
+    </Card>
 
-            </Form>
-          </div>
-        </Panel>
-      </Collapse>
+    <div class="tr m20">
+      <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出</Button>
+    </div>
 
-        <br>
-        <Button type="primary" size="large" @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出</Button>
-        <Modal
-        v-model="modal1"
-        title="审核通过对话框"
-        @on-ok="ok"
-        ok-text="确定">
-        </Modal>
-        <br><br>
-        <Table border :columns="columns7" :data="data6" ref="table"></Table>
-        <br>
-        <Collapse v-model="value1" accordion>
-           <Panel name="1">
-             <div slot="content">
-              <Form>
-
-              <Row>
-                <Col span="8">
-                <FormItem label="就诊机构：">
-                  <span class="expand-value">浦东新区公利医院</span>
-                </FormItem>
-                </Col>
-                <Col span="8">
-                <FormItem label="疾病名称：">
-                  <span class="expand-value">急性扁桃体炎</span>
-                </FormItem>
-                </Col>
-                <Col span="8">
-                <FormItem label="就诊日期：">
-                  <span class="expand-value">2015-12-13</span>
-                </FormItem>
-                </Col>
-              </Row>
-              <Row >
-                <Col span="8">
-                <FormItem label="自付金额：">
-                  <span class="expand-value">50.00</span>
-                </FormItem>
-                </Col>
-                <Col span="8">
-                <FormItem label="统筹金额：">
-                  <span class="expand-value">0.00</span>
-                </FormItem>
-                </Col>
-                <Col span="8">
-                <FormItem label="附加金额：">
-                  <span class="expand-value">0.00</span>
-                </FormItem>
-                </Col>
-              </Row>
-              <Row >
-                <Col span="6">
-                <FormItem label="自费金额：">
-                  <span class="expand-value">0.00</span>
-                </FormItem>
-                </Col>
-                <Col span="6">
-                <FormItem label="账户金额：">
-                  <span class="expand-value">0.00</span>
-                </FormItem>
-                </Col>
-                <Col span="6">
-                <FormItem label="申请金额：">
-                  <span class="expand-value">0.00</span>
-                </FormItem>
-                </Col>
-                <Col span="6">
-                <FormItem label="赔付金额：">
-                  <span class="expand-value">0.00</span>
-                </FormItem>
-                </Col>
-              </Row>
-
-              <Row >
-                <Col span="6">
-                <FormItem label="核准金额：">
-                  <span class="expand-value">0.00</span>
-                </FormItem>
-                </Col>
-                <Col span="6">
-                <FormItem label="分类自付金额：">
-                  <span class="expand-value">0.00</span>
-                </FormItem>
-                </Col>
-                <Col span="6">
-                <FormItem label="公司理赔金额：">
-                  <Input type="text" style="width: 190px" value="0.00"></Input>
-                </FormItem>
-                </Col>
-                <Col span="6">
-                <FormItem label="保险理赔金额：">
-                  <span class="expand-value">0.00</span>
-                </FormItem>
-                </Col>
-              </Row>
-              <Row >
-                <Col span="9">
-                <FormItem label="结案状态：">
-                  <span class="expand-value">已结</span>
-                </FormItem>
-                </Col>
-                <Col span="9">
-                <FormItem label="结案备注：">
-                  <span class="expand-value"></span>
-                </FormItem>
-                </Col>
-                <Col span="2">
-                <FormItem label="   ">
-                  <br>
-                  <Button type="primary" style="margin-left:35px;">保存修改</Button>
-                </FormItem>
-                </Col>
-              </Row>
-            </Form>
-             </div>
-           </Panel>
-        </Collapse>
+    <Table border :columns="invoiceColumns" :data="invoiceData" ref="table"></Table>
   </div>
-
 </template>
 
 <script>
-    import expandRow from './ExpandRow.vue';
-    export default {
-      data() {
-        return {
-          modal1: false,
-          value1: '1',
-          value2: '2',
-          formItem: {
-            input: '',
-            select: '',
-            select1: '',
-            radio: 'male',
-            checkbox: [],
-            switch: true,
-            date: '',
-            time: '',
-            slider: [20, 50],
-            textarea: ''
+  import invoiceExpend from './InvoiceExpend.vue';
+  import apiAjax from "../../../data/health_medical/supplementary_medica.js";
+  import supplementaryMedica from '../../../store/modules/health_medical/data_sources/supplementary_medica.js'
+
+  export default {
+    components: {invoiceExpend},
+    data() {
+      return {
+        collapseInfo: [1, 2, 3], //展开栏
+        value1: '1',
+        employeeInfo: {
+          employeeId: '17B0703',
+          employeeName: '林荫',
+          companyId: '32624',
+          companyName: '17B0703',
+          startDate: "2018-2-2 15:48:42",
+          startConfirmDate: "2018-2-2 15:48:42",
+          endDate: "2018-2-2 15:48:42",
+          endConfirmDate: "2018-2-2 15:48:42"
+        },
+        acceptanceData: {},
+        invoiceColumns: [
+          {
+            type: 'expand', width: 50,
+            render: (h, params) => {
+              return h(invoiceExpend, {
+                props: {
+                  row: params.row
+                }
+              })
+            }
           },
-          columns7: [
-            {
-              title: '雇员编号',
-              sortable: true,
-              key: 'column1'
-            },
-            {
-              title: '雇员姓名',
-              sortable: true,
-              key: 'column2'
-            },
-            {
-              title: '连带被保险人',
-              sortable: true,
-              key: 'column3'
-            },
-            {
-              title: '所属保单',
-              sortable: true,
-              key: 'column12'
-            },
-            {
-              title: '申请金额',
-              sortable: true,
-              key: 'column4'
-            },
-            {
-              title: '核准金额',
-              sortable: true,
-              key: 'column5'
-            },
-            {
-              title: '疾病名称',
-              sortable: true,
-              key: 'column6'
-            },
-            {
-              title: '投保日期',
-              sortable: true,
-              key: 'column7'
-            },
-            {
-              title: '退保日期',
-              sortable: true,
-              key: 'column8'
-            },
-            {
-              title: '受理日期',
-              sortable: true,
-              key: 'column9'
-            },
-            {
-              title: '发票类型',
-              sortable: true,
-              key: 'column10'
+          {
+            title: '雇员编号', sortable: true, key: 'employeeId',
+            render: (h, params) => {
+              return params.row.employeeId = this.acceptanceData.employeeId;
             }
-          ],
-          data6: [
-            {
-              column1: '10E2143',
-              column2: '张若',
-              column3: '张维',
-              column4: '59',
-              column5: '59',
-              column6: '急性扁桃体',
-              column7: '2016-01-06',
-              column8: '',
-              column9: '2017-08-06',
-              column10: '无医保',
-              column12: '意外伤害2017'
-            },
-            {
-              column1: '10E2143',
-              column2: '张若',
-              column3: '张维',
-              column4: '59',
-              column5: '59',
-              column6: '急性扁桃体',
-              column7: '2016-01-06',
-              column8: '',
-              column9: '2017-08-06',
-              column10: '无医保',
-              column12: '意外伤害2017'
+          },
+          {
+            title: '雇员姓名', sortable: true, key: 'employeeName',
+            render: (h, params) => {
+              return params.row.employeeName = this.acceptanceData.employeeName;
             }
-          ],
-
-          taskStatus: [
-            {
-              value: 'status1',
-              label: '未审核'
-            },
-            {
-              value: 'status2',
-              label: '已审核未付款'
-            },
-            {
-              value: 'status3',
-              label: '已完成'
+          },
+          {
+            title: '连带被保险人', sortable: true, key: 'insuredName',
+            render: (h, params) => {
+              return params.row.insuredName = this.acceptanceData.insuredName;
             }
-          ]
-        }
-      },
-      methods: {
-        show(index) {
-          this.$Modal.info({
-            title: '用户信息',
-            content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-          })
-        },
-        ok () {
-          this.$Message.info('已审核通过');
-        },
-        remove(index) {
-          this.data6.splice(index, 1);
-        },
-        // 导出csv
-        exportData (type) {
-          if (type === 1) {
-            this.$refs.table.exportCsv({
-              filename: '原始数据'
-            });
-          } else if (type === 2) {
-            this.$refs.table.exportCsv({
-              filename: '排序和过滤后的数据',
-              original: false
-            });
-          } else if (type === 3) {
-            this.$refs.table.exportCsv({
-              filename: '自定义数据',
-              columns: this.columns8.filter((col, index) => index < 4),
-              data: this.data7.filter((data, index) => index < 4)
-            });
+          },
+          {
+            title: '所属保单', sortable: true, key: 'column12'
+          },
+          {
+            title: '申请金额', sortable: true, key: 'applicationAmount'
+          },
+          {
+            title: '核准金额', sortable: true, key: 'approvedAmount'
+          },
+          {
+            title: '疾病名称', sortable: true, key: 'diseaseName'
+          },
+          {
+            title: '投保日期', sortable: true, key: 'startConfirmDate',
+            render: (h, params) => {
+              return params.row.startConfirmDate = this.employeeInfo.startConfirmDate;
+            }
+          },
+          {
+            title: '退保日期', sortable: true, key: 'endConfirmDate',
+            render: (h, params) => {
+              return params.row.endConfirmDate = this.employeeInfo.endConfirmDate;
+            }
+          },
+          {
+            title: '受理日期', sortable: true, key: 'auditTime',
+            render: (h, params) => {
+              return params.row.auditTime = this.acceptanceData.auditTime;
+            }
+          },
+          {
+            title: '发票类型', sortable: true, key: 'column10'
           }
-        }
+        ],
+        invoiceData: [
+          {
+            "acceptanceId": "201801150281-2",
+            "accountAmount": 0.00,
+            "active": true,
+            "applicationAmount": 197.95,
+            "approvedAmount": 197.95,
+            "attachAmount": 0.00,
+            "claimAmount": 98.97,
+            "clinicDate": 1515168000000,
+            "closedStatus": "赔付",
+            "companyMoney": 98.98,
+            "createdBy": "",
+            "createdTime": 1517300741000,
+            "csPaymentAmount": 0.00,
+            "diseaseName": "咳嗽",
+            "insuranceCompanyMoney": 98.98,
+            "invoiceId": 3,
+            "medicalInstitution": "成都市第一人民医院",
+            "modifiedBy": "",
+            "modifiedTime": 1517307886000,
+            "ownExpenseAmount": 0.00,
+            "selfPayAmount": 197.95,
+            "wholePlanAmount": 0.00
+          },
+          {
+            "acceptanceId": "201801150281-2",
+            "accountAmount": 0.00,
+            "active": true,
+            "applicationAmount": 0.00,
+            "approvedAmount": 0.00,
+            "attachAmount": 0.00,
+            "claimAmount": 0.00,
+            "clinicDate": 1514995200000,
+            "closedRemark": "孟鲁司特钠咀嚼片 86.58(自费金额) ",
+            "closedStatus": "赔付",
+            "companyMoney": 0.00,
+            "createdBy": "",
+            "createdTime": 1517300741000,
+            "csPaymentAmount": 0.00,
+            "diseaseName": "咳嗽",
+            "insuranceCompanyMoney": 0.00,
+            "invoiceId": 4,
+            "medicalInstitution": "成都市第一人民医院",
+            "modifiedBy": "",
+            "modifiedTime": 1517307886000,
+            "ownExpenseAmount": 86.58,
+            "selfPayAmount": 86.58,
+            "wholePlanAmount": 0.00
+          },
+          {
+            "acceptanceId": "201801150281-2",
+            "accountAmount": 0.00,
+            "active": true,
+            "applicationAmount": 96.81,
+            "approvedAmount": 96.81,
+            "attachAmount": 0.00,
+            "claimAmount": 48.41,
+            "clinicDate": 1514995200000,
+            "closedRemark": "其他 4.00(自费金额) ",
+            "closedStatus": "赔付",
+            "companyMoney": 48.41,
+            "createdBy": "",
+            "createdTime": 1517300741000,
+            "csPaymentAmount": 0.00,
+            "diseaseName": "咳嗽",
+            "insuranceCompanyMoney": 48.41,
+            "invoiceId": 5,
+            "medicalInstitution": "成都市第一人民医院",
+            "modifiedBy": "",
+            "modifiedTime": 1517307886000,
+            "ownExpenseAmount": 4.00,
+            "selfPayAmount": 100.81,
+            "wholePlanAmount": 0.00
+          },
+          {
+            "acceptanceId": "201801150281-2",
+            "accountAmount": 0.00,
+            "active": true,
+            "applicationAmount": 96.87,
+            "approvedAmount": 96.87,
+            "attachAmount": 0.00,
+            "claimAmount": 48.44,
+            "clinicDate": 1514822400000,
+            "closedRemark": "其他 4.00(自费金额) ",
+            "closedStatus": "赔付",
+            "companyMoney": 48.44,
+            "createdBy": "",
+            "createdTime": 1517300741000,
+            "csPaymentAmount": 0.00,
+            "diseaseName": "咳嗽",
+            "insuranceCompanyMoney": 48.44,
+            "invoiceId": 6,
+            "medicalInstitution": "成都市第一人民医院",
+            "modifiedBy": "",
+            "modifiedTime": 1517307886000,
+            "ownExpenseAmount": 4.00,
+            "selfPayAmount": 100.87,
+            "wholePlanAmount": 0.00
+          }
+        ],
+      };
+    },
+    created() {
+      this.acceptanceData = JSON.parse(sessionStorage.getItem('acceptanceData'));
+      this.queryDetailInfo(this.acceptanceData.acceptanceId)
+    },
+    methods: {
+      queryDetailInfo(val) {
+        apiAjax.queryMedicalInvoiceDetail(val).then(response => {
+          // this.employeeInfo = response.data.object.employee;
+          // this.invoiceData = response.data.object.supplyMedicalInvoices;
+        });
+      },
+      typeToChina(val) {
+        return supplementaryMedica.typeToChina(val);
       }
-    }
-
+    },
+  }
 </script>

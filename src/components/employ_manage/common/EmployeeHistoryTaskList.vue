@@ -12,17 +12,17 @@
     data() {
       return {
         historyTaskColumns: [
-          {title: '客户编号', key: 'customerNumber', align: 'center',
+          {title: '客户编号', key: 'companyId', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.customerNumber),
+                h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '客户名称', key: 'customerName', align: 'center',
+          {title: '客户名称', key: 'title', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerName),
+                h('span', params.row.title),
               ]);
             }
           },

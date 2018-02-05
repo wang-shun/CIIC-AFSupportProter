@@ -14,57 +14,47 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="终止类型：">
-            <Select v-model="refuse.endType" transfer>
-              <Option v-for="item in endTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
+             {{refuse.endType}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="打印日期：">
-            <DatePicker v-model="refuse.printDate" type="date" placeholder="" transfer></DatePicker>
+             {{refuse.printDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="人员性质：">
-            <Select v-model="refuse.empCharacter" transfer>
-              <Option v-for="item in personPropertyList" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
+             {{refuse.empCharacter}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退档方向：">
-            <Select v-model="refuse.returnDocDirect" transfer>
-              <Option v-for="item in refuseFileDirectionList" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
+             {{refuse.returnDocDirect}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退档日期：">
-            <DatePicker v-model="refuse.returnDocDate" type="date" placeholder="" transfer></DatePicker>
+             {{refuse.returnDocDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="转移方式：">
-            <Select v-model="refuse.transferWay" transfer>
-              <Option v-for="item in transferMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
+             {{refuse.transferWay}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="转移备注：">
-            <Select v-model="refuse.transferRemark" transfer>
-              <Option v-for="item in transferNotesList" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
+             {{refuse.transferRemark}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="转移备注补充：">
-            <Input v-model="refuse.transferRemark1" placeholder="请输入"/>
+            {{refuse.transferRemark1}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="暂存日期：">
-            <DatePicker v-model="refuse.cacheDate" type="date" placeholder="" transfer></DatePicker>
+            {{refuse.cacheDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -79,83 +69,69 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工送办日期：">
-            <DatePicker v-model="refuse.resignHandleDate" type="date" placeholder="" transfer></DatePicker>
+            {{refuse.resignHandleDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈：">
-            <Select v-model="refuse.resignFeedback1" transfer>
-              <Option v-for="item in refuseFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
+            {{refuse.resignFeedback1}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈日期：">
-            <DatePicker v-model="refuse.resignFeedbackDate1" type="date" placeholder="" transfer></DatePicker>
+            {{refuse.resignFeedbackDate1}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈2：">
-            <Select v-model="refuse.resignFeedback2" transfer>
-              <Option v-for="item in refuseFeedbackList2" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
+            {{refuse.resignFeedback2}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈2日期：">
-            <DatePicker v-model="refuse.resignFeedbackDate2" type="date" placeholder="" transfer></DatePicker>
+            {{refuse.resignFeedbackDate2}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工操作员：">
-            <Input v-model="refuse.resignOperateMan" placeholder="请输入"/>
+            {{refuse.resignOperateMan}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="UKey外借日期：">
-            <DatePicker v-model="refuse.ukeyBorrowDate" type="date" placeholder="" transfer></DatePicker>
-          </Form-item>
+          {{refuse.ukeyBorrowDate}}
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="UKey返回日期：">
-            <DatePicker v-model="refuse.ukeyReturnDate" type="date" placeholder="" transfer></DatePicker>
-          </Form-item>
+          {{refuse.ukeyReturnDate}}
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="档案编号：">
-            <Input v-model="refuse.docNum" placeholder="请输入"/>
-          </Form-item>
+          {{refuse.docNum}}
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="存档地：">
-            <Input v-model="refuse.archivePlace" placeholder="请输入"/>
-          </Form-item>
+          {{refuse.archivePlace}}
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="入库日期：">
-            <DatePicker v-model="refuse.storageDate" type="date" placeholder="" transfer></DatePicker>
+            {{refuse.storageDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="调档反馈：">
-            <Input v-model="refuse.diaodangFeedback" placeholder="请输入"/>
+            {{refuse.diaodangFeedback}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工成功：">
-            <Input v-model="refuse.employSuccess" placeholder="请输入"/>
+            {{refuse.employSuccess}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="反馈备注：">
-            <Input v-model="refuse.feedbackNotes" placeholder="请输入"/>
+            {{refuse.feedbackNotes}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="公司集体转出方向：">
-            <Select v-model="refuse.comGroupOutDirect" transfer>
-              <Option v-for="item in companyGroupTransferDirectionList" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
+            {{refuse.comGroupOutDirect}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -190,36 +166,26 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="职介反馈日期：">
-            <DatePicker v-model="refuse.jobCentreFeedbackDate" type="date" placeholder="" transfer></DatePicker>
+            {{refuse.jobCentreFeedbackDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工材料交付日期：">
-            <DatePicker v-model="refuse.resignMaterialDeliveryDate" type="date" placeholder="" transfer></DatePicker>
+           {{refuse.resignMaterialDeliveryDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="劳动手册是否交被退人员：">
-            <Select v-model="refuse.ifLaborManualReturn" transfer>
-              <Option v-for="item in LaborManualIsDeliverRefuserList" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
+            {{refuse.ifLaborManualReturn}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="对应用工序号：">
-            <Input v-model="refuse.matchEmployIndex" placeholder="请输入"/>
-            <input type="text" v-model="refuse.companyId" hidden>
-            <input type="text" v-model="refuse.employeeId" hidden>
-            <input type="text" v-model="refuse.employmentId" hidden>
+            {{refuse.matchEmployIndex}}
           </Form-item>
         </Col>
       </Row>
-      <Row type="flex" justify="start">
-        <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="instance()">保存</Button>
-          <Button type="primary">绑定</Button>
-        </Col>
-      </Row>
+      
     </Form>
   </div>
 </template>

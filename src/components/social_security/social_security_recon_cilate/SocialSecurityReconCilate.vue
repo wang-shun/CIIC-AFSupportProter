@@ -335,7 +335,7 @@
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYRECONCILATE]();
+      //this[EventType.SOCIALSECURITYRECONCILATE]();
       this.handlePageNum(1);
     },
     computed: {

@@ -150,38 +150,38 @@
               ]);
             }
           },
-          {title: '操作', key: '', align: 'center', width: 130,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small', disabled: this.disabled},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      params.row.disabled = false;
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small', disabled: this.disabled},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      this.remove(params.index);
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small', disabled: this.disabled},
-                  on: {
-                    click: () => {
-                      this.insert(params.index);
-                    }
-                  }
-                })
-              ]);
-            }
-          }
+          // {title: '操作', key: '', align: 'center', width: 130,
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small', disabled: this.disabled},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             params.row.disabled = false;
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small', disabled: this.disabled},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             this.remove(params.index);
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small', disabled: this.disabled},
+          //         on: {
+          //           click: () => {
+          //             this.insert(params.index);
+          //           }
+          //         }
+          //       })
+          //     ]);
+          //   }
+          // }
         ],
       }
     },

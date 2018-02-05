@@ -66,7 +66,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="isCreateTaskTicket = true">新建任务单</Button>
+        <!-- <Button type="primary" @click="isCreateTaskTicket = true">新建任务单</Button> -->
         <Button type="info" @click="">导出</Button>
       </Col>
     </Row>
@@ -225,7 +225,7 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'companyFundTaskProgressTwo'});
+                      this.$router.push({name: 'companyFundTaskProgressThree'});
                     }
                   }
                 }, '办理'),

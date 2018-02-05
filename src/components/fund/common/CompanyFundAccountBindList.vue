@@ -13,14 +13,14 @@
     data() {
       return {
         accountBindCompanyColumns: [
-          {title: '公司编号', key: 'companyNumber', align: 'center',
+          {title: '客户编号', key: 'companyNumber', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyNumber),
               ]);
             }
           },
-          {title: '公司名称', key: 'companyName', align: 'center',
+          {title: '客户名称', key: 'companyName', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyName),

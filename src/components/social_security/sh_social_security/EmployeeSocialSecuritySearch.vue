@@ -107,7 +107,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from "../../common_control/CustomerModal.vue"
   import companyAccountSearchModal from "../../common_control/CompanyAccountSearchModal.vue"
-  import ICol from "../../../../node_modules/iview/src/components/grid/col";
+  import ICol from "../../../../node_modules/iview/src/components/grid/col"
   import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
   import InputAccount from '../../common_control/form/input_account'

@@ -24,7 +24,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
                 <Form-item label="企业社保账户：">
-                  <label>{{accountName}}</label>
+                  <label>{{account}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -55,7 +55,8 @@
   </div>
 </template>
 <script>
-  import api from '../../../api/social_security/social_security_report'
+  import api from '../../../api/social_security/social_security_report';
+  import tools from "../../../lib/tools";
 
   export default {
     data() {
@@ -64,6 +65,7 @@
         comAccountId:this.$route.query.ssAccountId,
         companyName:'',
         accountName:'',
+        account:'',
         payAmount:'',
         totalPayAmount:'',
         //recentlyCalculatedPerson:'张三',//最近计算人
@@ -157,8 +159,10 @@
           if(response != null){
             let obj = response.filter(x=>x.paymentItemName == '缴纳合计')[0];
             if(obj != null){
-              console.log(obj);
               this.payAmount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
+              if(this.payAmount != null){
+                this.totalPayAmount = tools.dx(this.payAmount);
+              }
             }
           }
         })
@@ -168,9 +172,9 @@
         api.getAccountRelationByAccountId({
           comAccountId: this.comAccountId
         }).then(data=>{
-          console.log("公司名称："+data);
-          this.companyName = data.data.companyName
-          this.accountName = data.data.comAccountName
+          this.companyName = data.data.companyName;
+          this.accountName = data.data.comAccountName;
+          this.account = data.data.ssAccount;
         })
       },
 

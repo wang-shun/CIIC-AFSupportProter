@@ -203,7 +203,7 @@
           {
             title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
-              return this.$decode.taskCategory(params.row.taskCategory)
+               return params.row.isChange=='1'?this.$decode.taskCategory(params.row.taskCategory)+'(更正)':this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {

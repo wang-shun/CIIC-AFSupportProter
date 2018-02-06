@@ -428,7 +428,12 @@ export class CompanyTaskList{
    */
   static comInfoAndPayWayData(result){
     //前道传过来的社保截止和支付方式的json
-    let taskFormContent =  JSON.parse(result.taskFormContent)
+    
+    let taskFormContent = null;
+    if(typeof(result.taskFormContent)!='undefined'){
+      taskFormContent =  JSON.parse(result.taskFormContent);
+    }
+
     //账户信息
     let ssComAccountBO =  result.ssComAccountBO
     //判断账户信息是否为空

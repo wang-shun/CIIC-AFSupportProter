@@ -7,7 +7,7 @@
       :disabled="disabled"
       :name="name"
       :icon="icon"
-      maxlength="15"
+     
       placeholder="请点击右侧搜索按钮..."
       @on-click="handleClick"
     >
@@ -27,12 +27,12 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 10}">
           <Form-item prop="companyId">
-            <Input v-model="queryForm.companyId" placeholder="请输入客户编号..." maxlength="15"></Input>
+            <Input v-model="queryForm.companyId" placeholder="请输入客户编号..." ></Input>
           </Form-item>
           </Col>
           <Col :sm="{span: 10}">
           <Form-item prop="title">
-            <Input v-model="queryForm.title" placeholder="请输入客户名称..." maxlength="100"></Input>
+            <Input v-model="queryForm.title" placeholder="请输入客户名称..." ></Input>
           </Form-item>
           </Col>
           <Col :sm="{span: 4}" class="tr">

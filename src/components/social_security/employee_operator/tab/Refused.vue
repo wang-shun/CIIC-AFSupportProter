@@ -209,7 +209,7 @@
           {
             title: '是否加急', key: 'urgent', width: 100, align: 'center',
             render: (h, params) => {
-              return this.$decode.urgent(params.row.urgent)
+               return params.row.isChange=='1'?this.$decode.taskCategory(params.row.taskCategory)+'(更正)':this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {

@@ -9,7 +9,7 @@
       :icon="icon"
       :class-name="className"
       :styles="styles"
-      maxlength="20"
+      :maxlength=20
       placeholder="请点击右侧搜索按钮..."
       @on-click="handleClick"
     >
@@ -27,12 +27,12 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 10}">
           <Form-item prop="ssAccount">
-            <Input v-model="queryForm.ssAccount" placeholder="请输入企业社保账号..." maxlength="20"></Input>
+            <Input v-model="queryForm.ssAccount" placeholder="请输入企业社保账号..." :maxlength=20></Input>
           </Form-item>
           </Col>
           <Col :sm="{span: 10}">
           <Form-item prop="comAccountName">
-            <Input v-model="queryForm.comAccountName" placeholder="请输入养老金用公司名称..." maxlength="50"></Input>
+            <Input v-model="queryForm.comAccountName" placeholder="请输入养老金用公司名称..." :maxlength=50></Input>
           </Form-item>
           </Col>
           <Col :sm="{span: 4}" class="tr">

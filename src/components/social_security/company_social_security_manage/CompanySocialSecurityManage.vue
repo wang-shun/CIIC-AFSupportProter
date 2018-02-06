@@ -4,7 +4,7 @@
       <Panel name="1">
         企业社保账户管理
         <div slot="content">
-          <Form ref="comAccountSearch" :model="comAccountSearch" :label-width=150>
+          <Form ref="comAccountSearch" :model="comAccountSearch" :label-width='150'>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="养老金用公司名称：" prop="comAccountName">

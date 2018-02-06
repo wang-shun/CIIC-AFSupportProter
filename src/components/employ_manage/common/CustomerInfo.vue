@@ -9,17 +9,17 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="客户编号：">
-            {{customer.customerNumber}}
+            {{customer.companyId}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="客户名称：">
-            {{customer.customerName}}
+            {{customer.title}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="客服专员：">
-            {{customer.servicer}}
+            {{customer.custom}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

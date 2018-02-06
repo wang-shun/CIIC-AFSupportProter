@@ -585,7 +585,7 @@
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYPAYTYPE]();
+      //this[EventType.SOCIALSECURITYPAYTYPE]();
       this.payComHandlePageNum(1);
     },
     computed: {

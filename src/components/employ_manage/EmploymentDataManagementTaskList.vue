@@ -12,7 +12,7 @@
     </div>
     <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="goHandle">办理</Button>
+        <!--<Button type="primary" @click="goHandle">办理</Button>-->
           <Button type="primary">
             打印
             <Icon type="arrow-down-b"></Icon>
@@ -21,7 +21,7 @@
             <DropdownItem v-for="(print, index) in printList" :key="index">{{print}}</DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <Button type="info" @click="exportXLS">导出XLS</Button>
+        <Button type="info" @click="exportData">导出XLS</Button>
         <Button type="primary" @click="isShowStockTitle = true">生成入库贴头</Button>
         <Button type="primary" @click="sendToFileMangement">递交档案处</Button>
       </Col>
@@ -77,26 +77,25 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         // 下半部分
         employmentColumns: [
           {title: '', type: 'selection', width: 60},
-             {
-              title: '操作',
-              key: 'action',
-              align: 'center',
-              width: 120,
-              render: (h, params) => {
-                return h('div', [
-                  h('Button', {
-                    props: {type: 'success', size: 'small'},
-                    style: {margin: '0 auto'},
-                    on: {
-                      click: () => {
-                        this.showInfoT(params.row.employeeId,params.row.companyId)
-                      }
+          {
+            title: '操作',
+            key: 'action',
+            align: 'center',
+            width: 120,
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {type: 'success', size: 'small'},
+                  style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+                      this.showInfoT(params.row.employeeId,params.row.companyId)
                     }
-                  }, '办理'),
-                ]);
-              }
-            },
-        
+                  }
+                }, '办理'),
+              ]);
+            }
+          },
           {title: '用工方式', key: 'employMethods', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -320,7 +319,6 @@ import {mapState, mapGetters, mapActions} from 'vuex'
           }
         ],
         searchResultData: [],
-
         // 弹出框
         isShowStockTitle: false,
         customerInfos: [customerInfo, customerInfo, customerInfo]
@@ -356,9 +354,6 @@ import {mapState, mapGetters, mapActions} from 'vuex'
            this.searchCondition.params = this.searchConditions.toString();
            this.searchCondition.taskStatus = ind;
            this.employeeQuery(this.searchCondition);
-
-      },
-      exportXLS() {
 
       },
       generateInStock() {

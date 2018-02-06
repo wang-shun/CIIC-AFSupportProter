@@ -154,7 +154,7 @@
         ]
       }
     },
-    SocialSecurityAccountType: {},
+//    SocialSecurityAccountType: {},
     mounted() {
       dict.getDictData().then(data => {
         if (data.code == 200) {

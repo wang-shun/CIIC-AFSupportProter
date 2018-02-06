@@ -6,38 +6,38 @@
         <div slot="content">
           <Form :label-width=200>
             <Row type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
+              <!-- <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
                 <Form-item label="最近计算人：">
                   <label>{{data.recentlyCalculatedPerson}}</label>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
                 <Form-item label="社保年月：">
-                  <label>{{data.reportYearAndMonth}}</label>
+                  <label>{{ssMonth}}</label>
                 </Form-item>
               </Col>
 
               <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
                 <Form-item label="公司名称：">
-                  <label>{{data.companyName}}</label>
+                  <label>{{companyName}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
                 <Form-item label="企业社保账户：">
-                  <label>{{data.companySocialSecurityAccount}}</label>
+                  <label>{{account}}</label>
                 </Form-item>
               </Col>
             </Row>
-            <Table border :columns="noticeInfo.noticeColumns" :data="data.noticeData"></Table>
+            <Table border :columns="noticeInfo.noticeColumns" :data="noticeData"></Table>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="应缴纳合计（小写）：">
-                  <label>{{data.shouldPayAmount}}</label>
+                  <label>{{payAmount}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="应缴纳合计（大写）：">
-                  <label>{{data.shouldPayAmountCapital}}</label>
+                  <label>{{totalPayAmount}}</label>
                 </Form-item>
               </Col>
 
@@ -55,73 +55,77 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/event_types'
-  import api from '../../../api/social_security/social_security_report'
+  import api from '../../../api/social_security/social_security_report';
+  import tools from "../../../lib/tools";
 
   export default {
     data() {
       return{
         ssMonth:this.$route.query.ssMonth,
         comAccountId:this.$route.query.ssAccountId,
-        recentlyCalculatedPerson:'张三',//最近计算人
-        reportYearAndMonth:'201701',//社保年月
+        companyName:'',
+        accountName:'',
+        account:'',
+        payAmount:'',
+        totalPayAmount:'',
+        //recentlyCalculatedPerson:'张三',//最近计算人
         collapseInfo: [1], //展开栏
+        noticeData:[],
         noticeInfo: {
           noticeColumns: [
-            {title: '序号', key: 'index', align: 'center', width: 100, className: 'mw100',
+            {title: '序号', key: 'seq', align: 'center', width: 100, className: 'mw100',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.index),
+                  h('span', params.row.seq),
                 ]);
               }
             },
-            {title: '项目', key: 'project', align: 'center', width: 240, className: 'mw240',
+            {title: '项目', key: 'paymentItem', align: 'center', width: 240, className: 'mw240',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.project),
+                  h('span', params.row.paymentItemName),
                 ]);
               }
             },
-            {title: '基本养老保险', key: 'basePensionInsurance', align: 'center', className: 'mw200',
+            {title: '基本养老保险', key: 'basePensionAmount', align: 'center', className: 'mw200',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.basePensionInsurance),
+                  h('span', params.row.basePensionAmount),
                 ]);
               }
             },
-            {title: '基本医疗保险', key: 'baseMedicalInsurance', align: 'center', className: 'mw200',
+            {title: '基本医疗保险', key: 'baseMedicalAmount', align: 'center', className: 'mw200',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.baseMedicalInsurance),
+                  h('span', params.row.baseMedicalAmount),
                 ]);
               }
             },
-            {title: '地方附加医疗保险', key: 'areaAddMedicalInsurance', align: 'center', className: 'mw200',
+            {title: '地方附加医疗保险', key: 'addMedicalAmount', align: 'center', className: 'mw200',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.areaAddMedicalInsurance),
+                  h('span', params.row.addMedicalAmount),
                 ]);
               }
             },
-            {title: '失业保险', key: 'unemploymentInsurance', align: 'center', className: 'mw200',
+            {title: '失业保险', key: 'unemploymentAmount', align: 'center', className: 'mw200',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.unemploymentInsurance),
+                  h('span', params.row.unemploymentAmount),
                 ]);
               }
             },
-            {title: '工伤保险', key: 'injuryInsurance', align: 'center', className: 'mw200',
+            {title: '工伤保险', key: 'accidentAmount', align: 'center', className: 'mw200',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.injuryInsurance),
+                  h('span', params.row.accidentAmount),
                 ]);
               }
             },
-            {title: '生育保险', key: 'fertilityInsurance', align: 'center', className: 'mw200',
+            {title: '生育保险', key: 'maternityAmount', align: 'center', className: 'mw200',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.fertilityInsurance),
+                  h('span', params.row.maternityAmount),
                 ]);
               }
             },
@@ -130,15 +134,12 @@
       }
     },
     mounted() {
-      this[EventType.MONTHLYPAYMENTNOTICE]()
+      this.getAccountCompanay();
+      this.paymentDetailQuery();
     },
     computed: {
-      ...mapState('socialsecurityreport', {
-          data:state => state.data
-      })
     },
     methods: {
-      ...mapActions('socialsecurityreport', [EventType.MONTHLYPAYMENTNOTICE]),
       goBack() {
         this.$router.push({name: 'socialSecurityReport'})
       },
@@ -148,6 +149,35 @@
       cancel () {
 
       },
+      paymentDetailQuery(){
+        api.getPaymentDetail({
+          comAccountId: this.comAccountId,
+          paymentMonth: this.ssMonth
+        }).then(data => {
+          this.noticeData = data.data;
+          let response = data.data;
+          if(response != null){
+            let obj = response.filter(x=>x.paymentItemName == '缴纳合计')[0];
+            if(obj != null){
+              this.payAmount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
+              if(this.payAmount != null){
+                this.totalPayAmount = tools.dx(this.payAmount);
+              }
+            }
+          }
+        })
+      },
+
+      getAccountCompanay(){
+        api.getAccountRelationByAccountId({
+          comAccountId: this.comAccountId
+        }).then(data=>{
+          this.companyName = data.data.companyName;
+          this.accountName = data.data.comAccountName;
+          this.account = data.data.ssAccount;
+        })
+      },
+
       calculate(){
         let params = {
           comAccountId:this.comAccountId,

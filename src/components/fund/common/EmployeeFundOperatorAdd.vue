@@ -82,18 +82,18 @@
           {label: '其他独立开户公司', value: 7},
         ],
         operatorListColumns: [
-          {title: '汇缴类型', key: 'payType', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('Select', {props: {value: params.row.payType, disabled: this.disabled}},
-                  [
-                    h('Option', {props: {value: 0}},'正常汇缴'),
-                    h('Option', {props: {value: 1}},'补缴'),
-                  ]
-                )]
-              );
-            }
-          },
+          // {title: '汇缴类型', key: 'payType', align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'left'}}, [
+          //       h('Select', {props: {value: params.row.payType, disabled: this.disabled}},
+          //         [
+          //           h('Option', {props: {value: 0}},'正常汇缴'),
+          //           h('Option', {props: {value: 1}},'补缴'),
+          //         ]
+          //       )]
+          //     );
+          //   }
+          // },
           {title: '起缴月份', key: 'startMonth', align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -165,38 +165,38 @@
               ]);
             }
           },
-          {title: '操作', key: 'base', align: 'center', width: 130,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small', disabled: this.disabled},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      params.row.disabled = false;
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small', disabled: this.disabled},
-                  style: {marginRight: '5px'},
-                  on: {
-                    click: () => {
-                      this.remove(params.index);
-                    }
-                  }
-                }),
-                h('Button', {
-                  props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small', disabled: this.disabled},
-                  on: {
-                    click: () => {
-                      this.insert(params.index);
-                    }
-                  }
-                })
-              ]);
-            }
-          }
+          // {title: '操作', key: 'base', align: 'center', width: 130,
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'edit', size: 'small', disabled: this.disabled},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             params.row.disabled = false;
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'minus', size: 'small', disabled: this.disabled},
+          //         style: {marginRight: '5px'},
+          //         on: {
+          //           click: () => {
+          //             this.remove(params.index);
+          //           }
+          //         }
+          //       }),
+          //       h('Button', {
+          //         props: {type: 'default', shape: 'circle', icon: 'plus', size: 'small', disabled: this.disabled},
+          //         on: {
+          //           click: () => {
+          //             this.insert(params.index);
+          //           }
+          //         }
+          //       })
+          //     ]);
+          //   }
+          // }
         ],
       }
     },

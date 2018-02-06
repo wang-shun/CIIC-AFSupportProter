@@ -291,26 +291,6 @@ export default {
         return ''
     }
   },
-  accountStatus: (type)=> {
-    switch (type){
-      case '1':
-        return '一般人员信息'
-      case '2':
-        return '转出人员信息'
-      default:
-        return '无'
-    }
-  },
-  matchStatus: (type)=> {
-    switch (type){
-      case '0':
-        return '未匹配'
-      case '1':
-        return '已匹配'
-      default:
-        return '无'
-    }
-  },
   district: (type, self=false)=> {
     switch (type){
       case '1':

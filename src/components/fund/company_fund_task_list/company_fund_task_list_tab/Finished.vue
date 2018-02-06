@@ -133,7 +133,7 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'companyFundTaskProgressTwo'});
+                      this.$router.push({name: 'companyFundTaskProgressThree'});
                     }
                   }
                 }, params.index === 2 || params.index === 3 || params.index === 4 ? '修改' : '查看'),

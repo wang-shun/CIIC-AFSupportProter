@@ -12,6 +12,11 @@ export default {
 
   statementExport: (params) => {
     AJAX.download('/api/soccommandservice/ssStatement/statementExport', params);
-  }
+  },
+
+  statementBeforeUpload: async(params) => {
+    let response = await AJAX.upload('/api/soccommandservice/ssStatementImp/optImport', params);
+    return await response.data;
+  },
 }
 

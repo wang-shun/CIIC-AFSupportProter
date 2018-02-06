@@ -113,7 +113,7 @@
         <Row class="mt20" type="flex" justify="start">
           <Col :sm="{span: 24}">
             <Form-item label="">
-              <Input v-model="rejectionData.rejectionRemark" type="textarea" :rows="5"  maxlength=200 placeholder="请填写批退备注"></Input>
+              <Input v-model="rejectionData.rejectionRemark" type="textarea" :rows="5"   placeholder="请填写批退备注"></Input>
             </Form-item>
           </Col>
         </Row>
@@ -325,7 +325,7 @@
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYPAYTYPE]();
+      //this[EventType.SOCIALSECURITYPAYTYPE]();
       this.payBatchHandlePageNum(1);
     },
     computed: {

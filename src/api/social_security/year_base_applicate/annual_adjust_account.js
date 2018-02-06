@@ -24,5 +24,9 @@ export default {
   annualAdjustAccountDelete: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssAnnualAdjustAccount/annualAdjustAccountDelete', params);
     return await response.data;
+  },
+  annualAdjustAccountEmpUpload: async(params) => {
+    let response = await AJAX.upload('/api/soccommandservice/ssAnnualAdjustAccount/annualAdjustAccountEmpUpload', params);
+    return await response.data;
   }
 }

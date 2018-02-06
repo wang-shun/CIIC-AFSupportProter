@@ -119,7 +119,8 @@
     methods: {
       ...mapActions('paymentNotice', [EventType.PAYMENTNOTICETYPE]),
       goBack() {
-        this.$router.push({name: 'socialSecurityPay'})
+        //this.$router.push({name: 'socialSecurityPay'})
+        this.$router.go(-1);
       },
       ok () {
 

@@ -4,97 +4,98 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="预留档案编号：" prop="yuliuDocNum">
-             <Input v-model="handleMaterial.yuliuDocNum" placeholder="请输入"/>
+             <Input v-model="handleInfo.yuliuDocNum" placeholder="请输入"/>
+             <input type="text" v-model="handleInfo.archiveId" hidden>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案编号：" prop="docNum" transfer>
-            <Input v-model="handleMaterial.docNum" placeholder="请输入"/>
+            <Input v-model="handleInfo.docNum" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地：" prop="archivePlace">
-            <Select v-model="handleMaterial.archivePlace" transfer>
+            <Select v-model="handleInfo.archivePlace" transfer>
               <Option v-for="item in filePlaceList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地补充：" prop="archivePlaceAdditional">
-            <Input v-model="handleMaterial.archivePlaceAdditional" placeholder="请输入"/>
+            <Input v-model="handleInfo.archivePlaceAdditional" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档卡状态：" prop="archiveCardState">
-            <Select v-model="handleMaterial.archiveCardState" transfer>
+            <Select v-model="handleInfo.archiveCardState" transfer>
               <Option v-for="item in placeStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案号：" prop="docCode">
-            <Input v-model="handleMaterial.docCode" placeholder="请输入"/>
+            <Input v-model="handleInfo.docCode" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案来源：" prop="docFrom">
-            <Select v-model="handleMaterial.docFrom" transfer>
+            <Select v-model="handleInfo.docFrom" transfer>
               <Option v-for="item in fileOriginList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工反馈：" prop="employFeedback">
-            <Select v-model="handleMaterial.employFeedback" transfer>
+            <Select v-model="handleInfo.employFeedback" transfer>
               <Option v-for="item in employFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
-            <DatePicker type="date" v-model="handleMaterial.employFeedbackOptDate" transfer></DatePicker>
+            <DatePicker type="date" v-model="handleInfo.employFeedbackOptDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="调档反馈：" prop="diaodangFeedback">
-            <Select v-model="handleMaterial.diaodangFeedback" transfer>
+            <Select v-model="handleInfo.diaodangFeedback" transfer>
               <Option v-for="item in transferFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="调档反馈操作日期：" prop="diaodangFeedbackOptDate">
-            <DatePicker type="date" v-model="handleMaterial.diaodangFeedbackOptDate" transfer></DatePicker>
+            <DatePicker type="date" v-model="handleInfo.diaodangFeedbackOptDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey外借日期：" prop="ukeyBorrowDate">
-            <DatePicker type="date" v-model="handleMaterial.ukeyBorrowDate" transfer></DatePicker>
+            <DatePicker type="date" v-model="handleInfo.ukeyBorrowDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
-            <DatePicker type="date" v-model="handleMaterial.ukeyReturnDate" transfer></DatePicker>
+            <DatePicker type="date" v-model="handleInfo.ukeyReturnDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="户口号：" prop="hukouCode">
-            <Input v-model="handleMaterial.hukouCode" placeholder="请输入"/>
+            <Input v-model="handleInfo.hukouCode" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工档案缴费至：" prop="employDocPaymentTo">
-            <DatePicker type="date" v-model="handleMaterial.employDocPaymentTo" transfer></DatePicker>
+            <DatePicker type="date" v-model="handleInfo.employDocPaymentTo" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="入库日期：" prop="storageDate">
-            <DatePicker type="date" v-model="handleMaterial.storageDate" transfer></DatePicker>
+            <DatePicker type="date" v-model="handleInfo.storageDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="" prop="luyongHandleEnd">
-            <Checkbox v-model="handleMaterial.luyongHandleEnd">录用处理结束</Checkbox>
+            <Checkbox v-model="handleInfo.luyongHandleEnd" true-value="1" false-value="0">录用处理结束</Checkbox>
           </Form-item>
         </Col>
       </Row>
@@ -210,43 +211,20 @@ import api from '../../../api/employ_manage/hire_operator'
           {value:'徐汇职介代管',label:'徐汇职介代管'},
           {value:'档在高招办',label:'档在高招办'}
 
-        ],
-        handleMaterial: {
-          yuliuDocNum: '',
-          docNum: '',
-          archivePlace: '',
-          archivePlaceAdditional: '',
-          archiveCardState: '',
-          docCode:'',
-          docFrom:'',
-          employFeedback:'',
-          employFeedbackOptDate:'',
-          diaodangFeedback:'',
-          diaodangFeedbackOptDate:'',
-          ukeyBorrowDate:'',
-          ukeyReturnDate:'',
-          hukouCode:'',
-          employDocPaymentTo:'',
-          storageDate:'',
-          employWay: '',
-          employOperateMan: '',
-          employeeId:this.$route.query.employeeId,
-          companyId:this.$route.query.companyId
-        }
+        ]
       }
     },
     methods: {
       resetForm(form) {
         this.$refs[form].resetFields();
       },instance() {
-        alert('sdf');
-        var fromData = this.$utils.clear(this.handleMaterial,'');
-        fromData.employFeedbackOptDate = this.$utils.formatDate(this.handleMaterial.employFeedbackOptDate, 'YYYY-MM-DD');
-        fromData.diaodangFeedbackOptDate = this.$utils.formatDate(this.handleMaterial.diaodangFeedbackOptDate, 'YYYY-MM-DD');
-        fromData.ukeyBorrowDate = this.$utils.formatDate(this.handleMaterial.ukeyBorrowDate, 'YYYY-MM-DD');
-        fromData.ukeyReturnDate = this.$utils.formatDate(this.handleMaterial.ukeyReturnDate, 'YYYY-MM-DD');
-        fromData.employDocPaymentTo = this.$utils.formatDate(this.handleMaterial.employDocPaymentTo, 'YYYY-MM-DD');
-        fromData.storageDate = this.$utils.formatDate(this.handleMaterial.storageDate, 'YYYY-MM-DD');
+        var fromData = this.$utils.clear(this.handleInfo,'');
+        fromData.employFeedbackOptDate = this.$utils.formatDate(this.handleInfo.employFeedbackOptDate, 'YYYY-MM-DD');
+        fromData.diaodangFeedbackOptDate = this.$utils.formatDate(this.handleInfo.diaodangFeedbackOptDate, 'YYYY-MM-DD');
+        fromData.ukeyBorrowDate = this.$utils.formatDate(this.handleInfo.ukeyBorrowDate, 'YYYY-MM-DD');
+        fromData.ukeyReturnDate = this.$utils.formatDate(this.handleInfo.ukeyReturnDate, 'YYYY-MM-DD');
+        fromData.employDocPaymentTo = this.$utils.formatDate(this.handleInfo.employDocPaymentTo, 'YYYY-MM-DD');
+        fromData.storageDate = this.$utils.formatDate(this.handleInfo.storageDate, 'YYYY-MM-DD');
        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {

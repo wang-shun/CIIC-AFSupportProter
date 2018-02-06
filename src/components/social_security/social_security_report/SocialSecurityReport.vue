@@ -10,12 +10,13 @@
                  <Form-item label="报表年月：" prop="ssMonth">
                    <Date-picker v-model="operatorSearchData.ssMonth" type="month"  placeholder="选择年月份" style="width: 100%;" transfer>
                   </Date-picker>
-                 
+
                 </Form-item>
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账户：" prop="ssAccount">
-                  <input-account v-model="operatorSearchData.ssAccount" ></input-account>
+                  <input-account v-model="operatorSearchData.ssAccount" @listenToChildEvent="listentChild"></input-account>
+
                    <!-- v-on:listenToChildEvent="listentChild" -->
                 </Form-item>
               </Col>
@@ -50,6 +51,7 @@ import InputAccount from './InputAccount.vue'
           ssMonth:'',//报表年月
           ssAccount:'',//企业社保账户
           isShowAccountType: false, //社保账户模糊块的显示
+          ssAccountId:'',
         },
         employeeResultColumns: [
 
@@ -112,7 +114,7 @@ import InputAccount from './InputAccount.vue'
           }
         ],
         ruleValidate:{
-          ssMonth:[    
+          ssMonth:[
             {required:true,type:'date',message: '选择报表日期.',trigger:'change'},
           ],
            ssAccount:[
@@ -120,17 +122,23 @@ import InputAccount from './InputAccount.vue'
             ]
         }
       }
-      
+
     },
     mounted() {
-     
+
     },
     computed: {
-     
+
     },
     methods: {
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
+      },
+      listentChild(value){
+        if (value != null) {
+          this.operatorSearchData.ssAccountId=value;
+          console.log("点击任务单："+value)
+        }
       },
       ok () {
 
@@ -142,19 +150,26 @@ import InputAccount from './InputAccount.vue'
         history.go(-1);
       },
       monthlypaymentnotice(){
-        this.$router.push({name: 'monthlyPaymentNotice'})
+        let result = this.validCondition();
+        if(!result)return;
+        let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMM')
+        //this.$router.push({name: 'payment_notice',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount}})
+       // window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
+        // this.$router.push({name: 'paymentNotice',query:{ssMonth:ssMonth,ssAccountId:this.operatorSearchData.ssAccountId}})
+
+        this.$router.push({name: 'monthlyPaymentNotice',query:{ssMonth:ssMonth,ssAccountId:this.operatorSearchData.ssAccountId}})
       },
       employeeCostDetail(){
         let result = this.validCondition();
         if(!result)return;
-        let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMMDD')
-        this.$router.push({name: 'employeeCostDetail',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount}})
+        let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMM')
+        this.$router.push({name: 'employeeCostDetail',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount,ssAccountId:this.operatorSearchData.ssAccountId}})
       },
       refundDetails(){
         let result = this.validCondition();
         if(!result)return;
-         let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMMDD')
-         this.$router.push({name: 'refundDetails',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount}})
+         let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMM')
+         this.$router.push({name: 'refundDetails',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount,ssAccountId:this.operatorSearchData.ssAccountId}})
       },
       validCondition(){
         let result = false;

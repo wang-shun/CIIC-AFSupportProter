@@ -16,7 +16,7 @@
         <Button type="primary">批量操作</Button>
         <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
-        <Button type="primary" @click="isShowStockTitle = true">生成入库贴头</Button>
+        <!--<Button type="primary" @click="isShowStockTitle = true">生成入库贴头</Button>-->
         <Dropdown>
           <Button type="primary">
             退工单打印

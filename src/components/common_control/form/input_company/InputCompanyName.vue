@@ -10,6 +10,7 @@
       :maxlength=15
       placeholder="请点击右侧搜索按钮..."
       @on-click="handleClick"
+      :maxlength="maxlength"
     >
     </Input>
     <Modal
@@ -92,7 +93,11 @@
         default (item) {
           return item.title;
         }
-      }
+      },
+      maxlength: {
+        type: Number,
+        default: 15
+      },
     },
     data() {
       return {

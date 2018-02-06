@@ -52,6 +52,13 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="任务状态：" prop="taskStatus">
+                  <Select v-model="changeOperator.taskStatus" style="width: 100%;" transfer @on-change="taskTypeChange"	>
+                    <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="受理日期：">
                   <DatePicker v-model="changeOperator.accpetDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
                 </Form-item>
@@ -106,6 +113,12 @@
             {value: '3', label: '企业法人'},
             {value: '4', label: '公司名称'}
           ],
+          taskTypeList:[
+            {value: '0',label: '初始(材料收缴)',disabled:false},
+            {value: '1', label: '受理中',disabled:false},
+            {value: '2', label: '送审中',disabled:false},
+            {value: '3', label: '已完成',disabled:false},
+          ],//任务状态类型
           belongsIndustry: '',
           companyWorkInjuryPercentage: '',
           changeStartMonth: '',

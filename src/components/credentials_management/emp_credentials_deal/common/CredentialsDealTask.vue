@@ -96,7 +96,7 @@
         <div class="create"></div>
         <h3>材料收缴</h3>
         <div v-if="formItem.credentialsType == '5'">
-        <CredentialsMaterial :meterials="meterials"></CredentialsMaterial>
+        <CredentialsMaterial :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial>
         </div>
        </Form>
     </Card>
@@ -139,7 +139,12 @@
         taskFollow: false,
         followDescription:'',
         taskId: '',
-        meterials: null,
+        materialsIds: '',
+        meterials: {
+          info: {},
+          menu: null
+        },
+        rowdata: {},
         formItem: {
           name: '',
           operateTypeN: '',
@@ -254,29 +259,33 @@
         data2: []
       }
     },
-    mounted () {
-    },
-    created () {
-    },
     methods: {
       clickRow (value) {
         if (value !== null) {
-          this.$emit("backRow", value)
+          this.rowdata = {...value}
+          this.$emit("backRow", this.rowdata)
           this.selectCompanyExt(value.credentialsType,value.companyId)
           if (value.credentialsDealType != null && value.credentialsDealType != ""){
             this.createMeterialsMenu(value.credentialsType.toString(),value.credentialsDealType.toString())
           } else {
             this.createMeterialsMenu(value.credentialsType.toString(),"")
           }
-          
+          this.findMaterials(value.taskId)
         }
+      },
+      findMaterials(taskId) {
+        axios.get(host + '/api/empCredentialsDeal/find/meterials/'+taskId).then(response => {
+          if (response.data.errCode == '0') {
+            this.meterials.info = response.data.data
+          }
+          console.log("meterials："+this.meterials.info)
+        })
       },
       createMeterialsMenu(credentialsType,credentialsDealType) {
         axios.get(host + '/api/empCredentialsDeal/find/meterialsMenu?credentialsType='+credentialsType+'&credentialsDealType='+credentialsDealType).then(response => {
           if (response.data.errCode == '0') {
-            this.meterials = response.data.data
+            this.meterials.menu = response.data.data
           }
-          console.log(this.meterials)
         })
       },
       taskFollowShow(taskId) {
@@ -332,7 +341,13 @@
           })
         }
       },
-      cancel() {} 
+      cancel() {},
+      childBack (ids) {
+        this.materialsIds = ids
+        console.log(this.materialsIds)
+        this.rowdata.materialIds = this.materialsIds
+        this.$emit("backRow", this.rowdata)        
+      }
     },
     watch: {
 

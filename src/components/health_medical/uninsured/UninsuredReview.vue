@@ -99,6 +99,7 @@
 </template>
 <script>
   import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
+  import apiAjax from "../../../data/health_medical/uninsured_application.js";
 
   export default {
     data() {
@@ -110,7 +111,7 @@
           umAcceptanceId: null,
           moneyType: null,
           caseType: null,
-          status: null,
+          status: false,
           managementId: null,
           managementName: null,
           companyId: null,
@@ -153,7 +154,7 @@
             }
           },
           {
-            title: '报销金额', sortable: true, key: 'reimbursementMoney', align: 'center',
+            title: '审核金额', sortable: true, key: 'auditAmount', align: 'center',
           },
           {
             title: '审核人', sortable: true, key: 'auditor', align: 'center',
@@ -219,7 +220,7 @@
             jointPersonName: '段嘉晨',
             gender: '女',
             reimbursementYearMonth: '2016-02',
-            reimbursementMoney: '1500',
+            auditAmount: '1500',
             auditor: '王正微',
             auditDate: '2016-02-15',
             status: 1,
@@ -236,7 +237,7 @@
             jointPersonName: '段嘉晨',
             gender: '女',
             reimbursementYearMonth: '2016-02',
-            reimbursementMoney: '1500',
+            auditAmount: '1500',
             auditor: '王正微',
             auditDate: '2016-02-15',
             status: 1,
@@ -250,6 +251,13 @@
     },
     methods: {
       queryUninsuredList() {
+        apiAjax.queryAcceptanceAuditList(this.formItem).then(response => {
+          console.info(JSON.stringify(response.data.object.records));
+          this.formItem.total = response.data.object.total;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
       },
       getByPage(val) {
         this.formItem.current = val;

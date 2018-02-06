@@ -123,9 +123,9 @@
                 :show-upload-list="false"
                 :action="uploadAttr.actionUrl"
                 :data="upLoadData"
+                :before-upload="beforeUpload"
                 :accept="uploadAttr.acceptFileExtension"
                 :format="['xlsx','xls']"
-                :on-success="onSuccess"
                 :on-format-error="handleFormatError"
                 :on-error="handleError"
                 >
@@ -145,17 +145,17 @@
   import companyAccountSearchModal from '../../common_control/CompanyAccountSearchModal.vue'
   import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/statement'
-   import InputAccount from '../../common_control/form/input_account'
+  import InputAccount from '../../common_control/form/input_account'
 
   export default {
-    components: {customerModal, InputAccount},
+    components: {customerModal, InputAccount,companyAccountSearchModal},
     data() {
       return {
         isUpload:false,
         changeTableTypeValueListOfUpload: [
           {value: '全部',label:'全部',isSelect: true},
-          {value: 'YYS',label:'YYY(养医失)',isSelect: true},
-          {value: 'GSY', label: 'GGY(工生育)',isSelect: false}
+          {value: 'YYS',label:'YYS(养医失)',isSelect: true},
+          {value: 'GSY', label: 'GSY(工生育)',isSelect: false}
         ],//变更汇总表类型
         collapseInfo: [1], //展开栏
         //提交参数
@@ -194,6 +194,7 @@
           ssMonth:'',//社保月份
           fileType:'YYS', //文件类型
           comAccountId: '', //企业社保账户
+          file:''
         },
         uploadAttr: {
           actionUrl: '/api/soccommandservice/ssStatementImp/optImport',
@@ -333,7 +334,7 @@
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYRECONCILATE]();
+      //this[EventType.SOCIALSECURITYRECONCILATE]();
       this.handlePageNum(1);
     },
     computed: {
@@ -364,20 +365,35 @@
       beforeUpload(file) {
         if (this.upLoadData.comAccountId == '' || this.upLoadData.ssMonth == '') {
           this.$Message.error("请选择社保账户");
-          return false;
         }
-        this.$refs['upload'].clearFiles();
-      },
-      onSuccess(response, file) {
-        var data = response;
-        if (data.code == 0) {
-          this.$Message.info(data.message);
-          this.isUpload=false;
-          this.statementQuery();
-        } else {
-          this.$Message.error(data.message);
+        else{
+          this.upLoadData.file = file;
+          api.statementBeforeUpload(this.upLoadData).then(data=>{
+              if (data.code == 0) {
+                this.$Message.info(data.message);
+                this.isUpload=false;
+                this.statementQuery();
+              }
+              else {
+                this.$Message.error(data.message);
+              }
+          }).catch(error=>{
+            this.$Message.error('系统异常！');
+          });
+          this.$refs['upload'].clearFiles();
         }
+        return false;
       },
+      // onSuccess(response, file) {
+      //   var data = response;
+      //   if (data.code == 0) {
+      //     this.$Message.info(data.message);
+      //     this.isUpload=false;
+      //     this.statementQuery();
+      //   } else {
+      //     this.$Message.error(data.message);
+      //   }
+      // },
 
       handleError(error, file){
         this.$Notice.warning({

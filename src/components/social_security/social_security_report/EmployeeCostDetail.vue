@@ -31,7 +31,7 @@
             </Form> -->
             <Row>
               <Col :sm="{span: 24}"  style="padding-bottom:10px">
-                <Button type="primary" @click="" >重新汇总</Button>
+                <Button type="primary" @click="calculate">重新汇总</Button>
                 <Button type="warning" @click="goBack" >返回</Button>
               </Col>
             </Row>
@@ -50,6 +50,7 @@
       return{
         ssMonth:this.$route.query.ssMonth,
          ssAccount:this.$route.query.ssAccount,
+         comAccountId:this.$route.query.ssAccountId,
         collapseInfo: [1], //展开栏
         loading:true,
         noticeInfo: {
@@ -258,7 +259,7 @@
       })
     },
     computed: {
-     
+
     },
     methods: {
       goBack() {
@@ -269,6 +270,20 @@
       },
       cancel () {
 
+      },
+      calculate(){
+        let params = {
+          comAccountId:this.comAccountId,  
+          ssMonth:this.ssMonth
+        };
+        api.summaryCalculate(params).then(data=>{
+            console.log(data.code);
+            if(data.code==1){
+              this.$Message.error(data.message);
+            }
+        }).catch(error=>{
+          this.$Message.error('系统异常！');
+        })
       }
     }
   }

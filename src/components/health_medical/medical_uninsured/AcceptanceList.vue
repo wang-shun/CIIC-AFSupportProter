@@ -2,6 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
+        受理单查询
         <div slot="content">
           <Form ref="formItem" :model="formItem" :label-width="140">
             <Row justify="start" class="mt20 mr10">
@@ -87,7 +88,7 @@
       </router-link>
       <Button type="info" ref="rmb" @click="modalButton(true)">受理</Button>
       <Button type="info" ref="rmb1" @click="modalButton(false)">拒赔</Button>
-      <Button type="info" icon="ios-download-outline" @click="exportData(1)">导出数据</Button>
+      <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
     </div>
 
     <Table border
@@ -96,9 +97,12 @@
            :columns="acceptanceColumns"
            :data="acceptanceData"
            @on-selection-change="selectTableData"></Table>
-    <Page :total="100"
-          show-sizer
-          show-elevator></Page>
+    <Page show-sizer show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :total="formItem.total"
+          :current="formItem.current"
+          :page-size="formItem.size"></Page>
 
     <Modal v-model="modalAccept"
            title="受理对话框"
@@ -123,6 +127,7 @@
 </template>
 <script>
   import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
+  import apiAjax from "../../../data/health_medical/uninsured_application.js";
 
   export default {
     data() {
@@ -131,6 +136,7 @@
         modalAccept: false,
         modalRefuse: false,
         formItem: {
+          total: 0,
           current: 1,
           size: 10,
           moneyType: null,
@@ -285,7 +291,13 @@
     },
     methods: {
       queryAcceptanceList() {
-
+        apiAjax.queryAcceptanceList(this.formItem).then(response => {
+          console.info(JSON.stringify(response.data.object.records));
+          this.formItem.total = response.data.object.total;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
       },
       modalButton(val) {
         if (this.selectData.length === 0) {

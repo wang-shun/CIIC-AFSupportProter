@@ -16,7 +16,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账户类型：" prop="ssAccountType">
                 <Select v-model="accountSearchData.ssAccountType" style="width: 100%;" transfer>
-                  <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
               </Form-item>
               </Col>
@@ -82,8 +83,15 @@
           <Row type="flex" justify="start">
             <Col :sm="{span:15}">
             <Form-item label="批量上传：" prop="uploadFile">
+              <div id="loading" class="loading" style="position: absolute; z-index: 999; display: none">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
               <Upload ref="upload" :action="uploadAttr.actionUrl" :data="uploadData" :accept="uploadAttr.acceptFileExtension"
-                      :before-upload="beforeUpload" :on-success="onSuccess">
+                      :before-upload="beforeUpload" :default-file-list="uploadFileList">
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
             </Form-item>
@@ -120,6 +128,7 @@
   import api from '../../../api/social_security/year_base_applicate/annual_adjust_account'
   import InputAccount from '../../common_control/form/input_account'
   import InputCompany from '../../common_control/form/input_company'
+  import dict from '../../../api/dict_access/social_security_dict'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -132,12 +141,7 @@
           ssAccountType: '',
           comAccountId: '',
         },
-        accountTypeList: [
-          {value: '', label: '全部'},
-          {value: '1', label: '中智大库'},
-          {value: '2', label: '中智独立库'},
-          {value: '3', label: '独立户'},
-        ],
+        accountTypeList: [],
         inputAccountStyle: {
           'z-index': 99
         },
@@ -151,6 +155,7 @@
           actionUrl: '/api/soccommandservice/ssAnnualAdjustAccount/annualAdjustAccountEmpUpload',
           acceptFileExtension: '.xls,.xlsx',
         },
+        uploadFileList: [],
         importResultData: [],
         importResultPageData: {
           total: 0,
@@ -256,6 +261,11 @@
       }
     },
     mounted() {
+      dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.accountTypeList = data.data.SocialSecurityAccountType;
+        }
+      });
       let local_accountSearchData = localStorage.getItem('annualAdjustAccount.accountSearchData');
       let local_accountResultPageData = localStorage.getItem('annualAdjustAccount.accountResultPageData');
       if (local_accountSearchData) {
@@ -278,19 +288,36 @@
         if (!this.uploadData.ssAccount || this.uploadData.ssAccount == '') {
           this.$Message.error("请选择社保账户");
           return false;
-        }
-        this.$refs['upload'].clearFiles();
-      },
-      onSuccess(response, file, fileList) {
-        var data = response;
-        if (data.code == 0) {
-          this.uploadData.annualAdjustAccountId = data.object['annual_adjust_account_id'];
-          this.annualAdjustAccountEmpTempQuery();
-          this.isSubmit = false;
         } else {
-          this.$Message.error(data.message);
+          var loading = document.getElementById("loading");
+          loading.style.display = "inline-block";
+          this.uploadData.file = file;
+          this.uploadFileList.length = 0;
+          api.annualAdjustAccountEmpUpload(this.uploadData).then(data => {
+            if (data.code == 0) {
+              this.uploadFileList.push({name: file.name, url: ''});
+              this.importResultPageData.pageNum = 1;
+              this.uploadData.annualAdjustAccountId = data.object['annual_adjust_account_id'];
+              this.annualAdjustAccountEmpTempQuery();
+              this.isSubmit = false;
+            } else {
+              this.$Message.error(data.message);
+            }
+            loading.style.display = "none";
+          })
+          return false;
         }
       },
+//      onSuccess(response, file, fileList) {
+//        var data = response;
+//        if (data.code == 0) {
+//          this.uploadData.annualAdjustAccountId = data.object['annual_adjust_account_id'];
+//          this.annualAdjustAccountEmpTempQuery();
+//          this.isSubmit = false;
+//        } else {
+//          this.$Message.error(data.message);
+//        }
+//      },
       submitData() {
         if (this.importResultData && this.importResultData.length > 0) {
           var rtn = confirm("是否导入以下正确的行？")
@@ -347,7 +374,6 @@
 //            return false;
 //          }
         }
-
         api.annualAdjustAccountQuery(
           {
             pageSize: this.accountResultPageData.pageSize,
@@ -366,6 +392,7 @@
         this.annualAdjustAccountQuery();
       },
       handlePageSize(val) {
+        this.accountResultPageData.pageNum = 1;
         this.accountResultPageData.pageSize = val;
         this.annualAdjustAccountQuery();
       },
@@ -400,11 +427,14 @@
         });
       },
       annualAdjustAccountDelete(annualAdjustAccountId) {
-        api.annualAdjustAccountDelete({
-          params: {
-            annualAdjustAccountId: annualAdjustAccountId
-          }
-        });
+        var rtn = confirm("确定删除？")
+        if (rtn) {
+          api.annualAdjustAccountDelete({
+            params: {
+              annualAdjustAccountId: annualAdjustAccountId
+            }
+          });
+        }
       }
     }
   }

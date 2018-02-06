@@ -49,8 +49,8 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="info">导出</Button>
-        <Button type="primary" @click="nextStep">编辑</Button>
-        <Button type="primary" @click="isShowBindAndUnbind = true;">公司绑定\解绑</Button>
+        <!-- <Button type="primary" @click="nextStep">编辑</Button> -->
+        <!-- <Button type="primary" @click="isShowBindAndUnbind = true;">公司绑定\解绑</Button> -->
       </Col>
     </Row>
 
@@ -101,7 +101,7 @@
         ],
         isShowBindAndUnbind: false,
         companyFundAccountSearchColumns: [
-          {title: '操作', align: 'center', width: 100,
+          {title: '操作', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('Button', {props: {type: 'success', size: 'small'},
@@ -110,28 +110,21 @@
                       this.nextStep();
                     }
                   }
-                }, '查看')
+                }, '查看'),
+                h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
+                  on: {
+                    click: () => {
+                      this.nextStep();
+                    }
+                  }
+                }, '编辑')
               ])
-            }
-          },
-          {title: '客户编号', key: 'customerNumber', align: 'center', width: 220,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.customerNumber),
-              ]);
             }
           },
           {title: '企业公积金名称', key: 'companyFundName', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyFundName),
-              ]);
-            }
-          },
-          {title: '客户汇缴月份', key: 'customerPayDate', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerPayDate),
               ]);
             }
           },
@@ -149,38 +142,11 @@
               ]);
             }
           },
-          {title: '支付进度', key: 'payProgress', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.payProgress),
-              ]);
-            }
-          },
-          {title: '支付申请日期', key: 'payApplyDate', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.payApplyDate),
-              ]);
-            }
-          },
+          
           {title: 'U盾', key: 'UKey', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.UKey),
-              ]);
-            }
-          },
-          {title: '客服经理', key: 'serviceManager', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.serviceManager),
-              ]);
-            }
-          },
-          {title: '服务中心', key: 'serviceCenter', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.serviceCenter),
               ]);
             }
           },

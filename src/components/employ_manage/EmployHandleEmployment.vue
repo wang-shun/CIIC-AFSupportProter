@@ -43,12 +43,12 @@
             <employment-materials-handle :handleInfo="materialHandleInfo"></employment-materials-handle>
           </div>
         </Panel>
-        <Panel name="7">
+        <!-- <Panel name="7">
           雇员历史任务单
           <div slot="content">
             <employment-data-management-task-list :historyTaskData="historyTaskData"></employment-data-management-task-list>
           </div>
-        </Panel>
+        </Panel> -->
       </Collapse>
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
@@ -120,39 +120,40 @@
           reasonList: []
         },
         handleInfo: {
-          actEmployDate: "",
-          FDate: "",
-          employmentFormValue: "",
-          handleTypeValue: "",
-          employmentPropertyValue: "",
-          employmentMethodValue: "",
-          employmentCommissioner: ""
+          employDate: '',
+          openAfDate: '',
+          employStyle: '',
+          handleType: '',
+          employProperty: '',
+          employWay: '',
+          employOperateMan: '',
+          employeeId:this.$route.query.employeeId,
+          companyId:this.$route.query.companyId
         },
         notesData: [],
         materialHandleInfo: {
-          reservedFileNumberValue: "",
-          fileNumberValue: "",
-          filePlaceValue: "",
-          filePlaceAddValue: "",
-          placeStateValue: "",
-          fileNumber: "",
-          fileOriginValue: "",
-          employFeedbackValue: "",
-          employFeedbackDate: "",
-          transferFeedbackValue: "",
-          transferFeedbackDate: "",
-          UKeyBorrowDate: "",
-          UKeyFeedbackDate: "",
-          accountNumber: "",
-          employFilePayDate: "",
-          inStockDate: "",
-          employHandleEnd: false
+          yuliuDocNum: '',
+          docNum: '',
+          archivePlace: '',
+          archivePlaceAdditional: '',
+          archiveCardState: '',
+          docCode:'',
+          docFrom:'',
+          employFeedback:'',
+          employFeedbackOptDate:'',
+          diaodangFeedback:'',
+          diaodangFeedbackOptDate:'',
+          ukeyBorrowDate:'',
+          ukeyReturnDate:'',
+          hukouCode:'',
+          employDocPaymentTo:'',
+          storageDate:'',
+          employWay: '',
+          employOperateMan: '',
+          employeeId:this.$route.query.employeeId,
+          companyId:this.$route.query.companyId
         },
-        historyTaskData: [
-          {customerNumber: "001", customerName: "客户1", employDate: "2010-01-01", refuseDate: "2010-01-01"},
-          {customerNumber: "001", customerName: "客户1", employDate: "2010-01-01", refuseDate: "2010-01-01"},
-          {customerNumber: "002", customerName: "客户2", employDate: "2010-01-02", refuseDate: "2010-01-02"}
-        ]
+        historyTaskData: []
       }
     },
     async mounted() {
@@ -161,11 +162,21 @@
 
           api.employeeDetailInfoQuery(params).then(data=>{
               
-              this.employeeInfo=data.data.amEmploymentBO;
+              this.employeeInfo=data.data.amEmpTaskBO;
               
               this.employmentMaterial.materialsData = data.data.materialList.rows;
-
+             
+              this.handleInfo = data.data.amEmploymentBO;
               
+              this.notesData = data.data.amRemarkBo.rows;
+
+              this.materialHandleInfo = data.data.amArchaiveBo;
+
+              //this.historyTaskData =data.data.listHistory;
+
+              this.customerInfo = data.data.company;
+
+               
           })
     },
     methods: {

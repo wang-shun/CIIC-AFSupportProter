@@ -9,7 +9,6 @@
       :icon="icon"
       :class-name="className"
       :styles="styles"
-      :maxlength=20
       placeholder="请点击右侧搜索按钮..."
       @on-click="handleClick"
       :maxlength="maxlength"

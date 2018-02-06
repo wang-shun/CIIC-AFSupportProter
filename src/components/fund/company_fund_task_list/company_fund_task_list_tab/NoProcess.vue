@@ -21,6 +21,9 @@
                   <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
+                  <!--<Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>-->
+                    <!--<Option v-for="(value,key) in this.baseDic.companyHFAccountType" :value="key" :key="key">{{ value }}</Option>-->
+                  <!--</Select>-->
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -32,7 +35,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业公积金账户：" prop="companyFundAccount">
-                  <input-company v-model="operatorSearchData.companyFundAccount"></input-company>
+                  <input-account v-model="operatorSearchData.companyFundAccount"></input-account>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -73,61 +76,18 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="noProcessColumns" :data="data.lNoProcessData"></Table>
+        <Table border :columns="noProcessColumns" :data="lNoProcessData"></Table>
         <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
       </Col>
     </Row>
-
-    <!-- 新建任务单 -->
-    <Modal
-      v-model="isCreateTaskTicket"
-      width="720"
-    >
-      <Form :label-width="100">
-        <Row>
-          <Col :sm="{span: 12}">
-            <Form-item label="客户编号：">
-              <Input v-model="createTaskTicket.customerNumber" placeholder="请输入..."></Input>
-            </Form-item>
-          </Col>
-          <Col :sm="{span: 12}">
-            <Form-item label="客户名称：">
-              <Input v-model="createTaskTicket.customerName" placeholder="请输入..."></Input>
-            </Form-item>
-          </Col>
-          <Col :sm="{span: 12}">
-            <Form-item label="任务单类型：">
-              <Select v-model="createTaskTicket.ticketTypeValue" style="width: 100%;" transfer>
-                <Option v-for="item in createTaskTicket.ticketTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-              </Select>
-            </Form-item>
-          </Col>
-          <Col :sm="{span: 12}">
-            <Form-item label="任务类型：">
-              <Select v-model="createTaskTicket.taskValue" style="width: 100%;" transfer>
-                <Option v-for="item in createTaskTicket.taskList" :value="item.value" :key="item.value">{{item.label}}</Option>
-              </Select>
-            </Form-item>
-          </Col>
-        </Row>
-        <Row>
-          <Col :sm="{span: 24}" class="tr">
-            <Button type="primary" icon="ios-search">查询</Button>
-            <Button type="warning" @click="isCreateTaskTicket = false;">关闭</Button>
-          </Col>
-        </Row>
-      </Form>
-      <Table border class="mt10" :columns="createTaskTicket.createColumns" :data="data.createData"></Table>
-      <div slot="footer"></div>
-    </Modal>
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/event_types'
-
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
+
+  import axios from 'axios'
+  const host = process.env.SITE_HOST
 
   export default {
     components: {InputAccount, InputCompany},
@@ -144,53 +104,6 @@
           serviceManager: '',
           taskStartTime: ''
         },
-        isCreateTaskTicket: false,
-        createTaskTicket: {
-          customerNumber: '',
-          customerName: '',
-          ticketTypeValue: '',
-          ticketTypeList: [
-            {value: '', label: '全部'},
-            {label: '企业基本公积金开户', value: 0},
-            {label: '企业补充公积金开户', value: 1},
-            {label: '企业账户变更', value: 2},
-            {label: '企业账户转移', value: 3},
-            {label: '企业账户终止', value: 4},
-            {label: '企业账户销户', value: 5}
-          ],
-          taskValue: '',
-          taskList: [
-            {value: '', label: '全部'},
-            {label: '开户', value: 0},
-            {label: '转入', value: 1},
-            {label: '变更', value: 2},
-            {label: '终止', value: 3},
-          ],
-          createColumns: [
-            {title: '操作', align: 'center',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'left'}}, [
-                  h('a', '选择'),
-                ]);
-              }
-            },
-            {title: '客户编码', key: 'customerNumber', align: 'center',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'left'}}, [
-                  h('span', params.row.customerNumber),
-                ]);
-              }
-            },
-            {title: '客户名称', key: 'customerName', align: 'center',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'left'}}, [
-                  h('span', params.row.customerName),
-                ]);
-              }
-            }
-          ]
-        },
-
         serviceCenterData: [
           {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
           {value: 2, label: '日本客户'},
@@ -213,10 +126,19 @@
         ],
         accountTypeList: [
           {value: '', label: '全部'},
-         
           {value: 1, label: '中智大库'},
           {value: 2, label: '中智外包'},
           {value: 3, label: '独立户'},
+        ],
+        lNoProcessData: [
+          {taskType: "开户", fundType: "基本公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
+          {taskType: "转入", fundType: "补充公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
+          {taskType: "转入", fundType: "基本公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
+          {taskType: "转入", fundType: "补充公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
+          {taskType: "变更", fundType: "基本公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
+          {taskType: "变更", fundType: "补充公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
+          {taskType: "终止", fundType: "基本公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
+          {taskType: "销户", fundType: "补充公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"}
         ],
         noProcessColumns: [
           {title: '操作', width: 100, align: 'center',
@@ -313,15 +235,10 @@
       }
     },
     mounted() {
-      this[EventType.LNOPROCESS]()
     },
     computed: {
-      ...mapState('lNoProcess',{
-        data:state => state.data
-      })
     },
     methods: {
-      ...mapActions('lNoProcess',[EventType.LNOPROCESS]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

@@ -40,7 +40,6 @@ const employeeFundSpecialProgressThree = r => require.ensure([], () => r(require
 const employeeFundTransferOperator = r => require.ensure([], () => r(require('@/components/fund/employee_transfer_operator/EmployeeFundTransferOperator')), 'EmployeeFundTransferOperator')
 const employeeFundTransferProgressTwo = r => require.ensure([], () => r(require('@/components/fund/employee_transfer_operator/EmployeeFundTransferProgressTwo')), 'EmployeeFundTransferProgressTwo')
 const companyFundTaskList = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskList')), 'CompanyFundTaskList')
-const companyFundTaskProgressTwo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskProgressTwo')), 'CompanyFundTaskProgressTwo')
 const companyFundTaskProgressThree = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskProgressThree')), 'CompanyFundTaskProgressThree')
 const companyFundAccountSearch = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountSearch')), 'CompanyFundAccountSearch')
 const companyFundAccountProgressTwo = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountProgressTwo')), 'CompanyFundAccountProgressTwo')
@@ -272,17 +271,6 @@ let router = new Router({
           path: '/company_fund_task_list',
           name: 'companyFundTaskList',
           component: companyFundTaskList,
-          meta: {
-            level1: '首页',
-            level2: "上海公积金",
-            level3: "企业任务单",
-            openNames: ['1']
-          }
-        },
-        {
-          path: '/company_fund_task_progress_two',
-          name: 'companyFundTaskProgressTwo',
-          component: companyFundTaskProgressTwo,
           meta: {
             level1: '首页',
             level2: "上海公积金",

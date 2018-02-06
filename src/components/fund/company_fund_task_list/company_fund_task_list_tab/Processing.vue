@@ -32,7 +32,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业公积金账户：" prop="companyFundAccount">
-                  <input-company v-model="operatorSearchData.companyFundAccount"></input-company>
+                  <input-account v-model="operatorSearchData.companyFundAccount"></input-account>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

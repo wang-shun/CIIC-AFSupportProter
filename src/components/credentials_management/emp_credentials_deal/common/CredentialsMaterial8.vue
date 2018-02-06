@@ -1,7 +1,58 @@
+<!-- 随员 -->
 <template>
   <div>
     <Form :model="formItem" :label-width="120">
       <Row style="margin: 10px 20px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
+          <span style="font-weight:bold;font-size:14px">常规材料</span>
+        </i-col>
+      </Row>
+      <Row>
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
+          <Form-item v-if="item.level === '0-0'">
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev00" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+
+      <Row style="margin: 10px 20px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <span style="font-weight:bold;font-size:14px">公司资料</span>
+        </i-col>
+      </Row>
+      <Row style="margin: 10px 40px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <RadioGroup v-model="formItem.comp">
+            <Radio label="上海公司"></Radio>
+            <Radio label="上海分公司"></Radio>
+          </RadioGroup>
+        </i-col>
+      </Row>
+      <Row v-if="formItem.comp === '上海公司'">
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  v-if="item.level === '1-1'">
+          <Form-item>
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev11" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+      <Row v-if="formItem.comp === '上海分公司'" >
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
+          <Form-item  v-if="item.level === '1-2'">
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev12" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+      
+     <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
           <span style="font-weight:bold;font-size:14px">主要材料</span>
         </i-col>
@@ -9,109 +60,76 @@
       <Row>
         <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
-          <Form-item v-if="item.level === '0-0'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.main" @change="change(meterials.info)"/>
+          <Form-item v-if="item.level === '2-0'">
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev20" @change="change(meterials.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
       </Row>
+
+
       <Row style="margin: 10px 20px">
-        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span style="font-weight:bold;font-size:14px">调沪方情况</span>
-        </i-col>
-      </Row>
-      <Row style="margin: 10px 40px">
-        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <RadioGroup v-model="formItem.huStatus">
-              <Radio label="调沪方情况"></Radio>
-              <Radio label="在沪方情况"></Radio>
-            </RadioGroup>
-        </i-col>
-      </Row>
-      <Row v-if="formItem.huStatus === '调沪方情况'">
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  v-if="item.level === '1-1'">
-          <Form-item>
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.dh" @change="change(meterials.info)"/>
-            <label>{{item.materialName}}</label>
-          </Form-item>
-        </i-col>
-        </div>
-      </Row>
-      <Row v-if="formItem.huStatus === '在沪方情况'" >
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
-          <Form-item  v-if="item.level === '1-2'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.zh" @change="change(meterials.info)"/>
-            <label>{{item.materialName}}</label>
-          </Form-item>
-        </i-col>
-        </div>
-      </Row>
-      <Row style="margin: 10px 20px">
-        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-          <span style="font-weight:bold;font-size:14px">婚姻证明</span>
-        </i-col>
-      </Row>
-      <Row style="margin: 10px 40px">
-        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <RadioGroup v-model="formItem.marryStatus">
-              <Radio label="已婚未育"></Radio>
-              <Radio label="已婚已育"></Radio>
-            </RadioGroup>
-        </i-col>
-      </Row>
-      <Row v-if="formItem.marryStatus === '已婚未育'">
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
-          <Form-item v-if="item.level === '2-1'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.marryWithoutChild" @change="change(meterials.info)"/>
-            <label>{{item.materialName}}</label>
-          </Form-item>
-        </i-col>
-        </div>
-      </Row>
-      <Row v-if="formItem.marryStatus === '已婚已育'">
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
-          <Form-item  v-if="item.level === '2-2'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.marryWithChild" @change="change(meterials.info)"/>
-            <label>{{item.materialName}}</label>
-          </Form-item>
-        </i-col>
-        </div>
-      </Row>
-      <Row style="margin: 10px 20px">
-        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <span style="font-weight:bold;font-size:14px">再婚情况</span>
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
+          <span style="font-weight:bold;font-size:14px">身份证明</span>
         </i-col>
       </Row>
       <Row>
-        <div  v-for="item in meterials.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
           <Form-item v-if="item.level === '3-0'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.remarry" @change="change(meterials.info)"/>
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev30" @change="change(meterials.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
       </Row>
+
       <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <span style="font-weight:bold;font-size:14px">在沪落户证明</span>
+          <span style="font-weight:bold;font-size:14px">随员</span>
         </i-col>
       </Row>
-      <Row>
+      <Row style="margin: 10px 40px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <RadioGroup v-model="formItem.follower">
+              <Radio label="随员情况"></Radio>
+              <Radio label="随员身份证明"></Radio>
+              <Radio label="随员其他材料"></Radio>
+            </RadioGroup>
+        </i-col>
+      </Row>
+      <Row v-if="formItem.follower === '随员情况'">
         <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
-          <Form-item v-if="item.level === '4-0'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.settle" @change="change(meterials.info)"/>
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
+          <Form-item v-if="item.level === '4-1'">
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev41" @change="change(meterials.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
       </Row>
+       <Row v-if="formItem.follower === '随员身份证明'">
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
+          <Form-item v-if="item.level === '4-2'">
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev42" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+      <Row v-if="formItem.follower === '随员其他材料'">
+        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
+          <Form-item v-if="item.level === '4-3'">
+            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev43" @change="change(meterials.info)"/>
+            <label>{{item.materialName}}</label>
+          </Form-item>
+        </i-col>
+        </div>
+      </Row>
+      
     </Form>
   </div>
 </template>
@@ -134,8 +152,7 @@ export default {
   data () {
     return {
       formItem: {
-        huStatus: '调沪方情况',
-        marryStatus: '已婚未育'
+        
       }
     }
   },

@@ -307,5 +307,8 @@ export default {
 </script>
 
 <style scoped>
-
+.ivu-tooltip-inner {
+  color: #211f1f;
+  background-color: #e9eaec;
+}
 </style>

@@ -258,7 +258,6 @@
       callBack(value){
         if (value != null) {
           this.formItem = value
-          console.log("点击任务单："+this.formItem.materialBackTime)
         }
       },
       save () {
@@ -298,7 +297,6 @@
         params.employeeId = params.empCode
         params.credentialsType = params.credentialsType
         params.credentialsDealType = params.credentialsDealType
-        console.log("保存参数："+params.employeeId+","+params.credentialsType)
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){
                this.$Notice.success({
@@ -349,7 +347,6 @@
               temp.action = "1"
               response.data.data.splice(0,0,temp)
             }
-            console.log(data)
             this.empInfo = data
           }
         })

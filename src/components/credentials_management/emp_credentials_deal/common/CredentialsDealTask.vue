@@ -95,8 +95,47 @@
         </Row>
         <div class="create"></div>
         <h3>材料收缴</h3>
-        <div v-if="formItem.credentialsType == '5'">
-        <CredentialsMaterial :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial>
+        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 1">
+          <CredentialsMaterial1 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial1>
+        </div>
+        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 2">
+          <CredentialsMaterial2 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial2>
+        </div>
+        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 3">
+          <CredentialsMaterial3 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial3>
+        </div>
+        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 4">
+          <CredentialsMaterial4 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial4>
+        </div>
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 1">
+          <CredentialsMaterial5 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial5>
+        </div>
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 2">
+          <CredentialsMaterial6 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial6>
+        </div>
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 3">
+          <CredentialsMaterial7 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial7>
+        </div>
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 4">
+          <CredentialsMaterial8 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial8>
+        </div>
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 5">
+          <CredentialsMaterial9 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial9>
+        </div>
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 6">
+          <CredentialsMaterial10 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial10>
+        </div>
+        <div v-if="formItem.credentialsType === 3">
+          <CredentialsMaterial11 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial11>
+        </div>
+        <div v-if="formItem.credentialsType === 4">
+          <CredentialsMaterial12 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial12>
+        </div>
+        <div v-if="formItem.credentialsType === 5">
+          <CredentialsMaterial13 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial13>
+        </div>
+        <div v-if="formItem.credentialsType === 6">
+          <CredentialsMaterial14 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial14>
         </div>
        </Form>
     </Card>
@@ -117,14 +156,40 @@
 </template>
 
 <script>
-  import CredentialsMaterial from './CredentialsMaterial'
+  import CredentialsMaterial1 from './CredentialsMaterial1'
+  import CredentialsMaterial2 from './CredentialsMaterial2'
+  import CredentialsMaterial3 from './CredentialsMaterial3'
+  import CredentialsMaterial4 from './CredentialsMaterial4'
+  import CredentialsMaterial5 from './CredentialsMaterial5'
+  import CredentialsMaterial6 from './CredentialsMaterial6'
+  import CredentialsMaterial7 from './CredentialsMaterial7'
+  import CredentialsMaterial8 from './CredentialsMaterial8'
+  import CredentialsMaterial9 from './CredentialsMaterial9'
+  import CredentialsMaterial10 from './CredentialsMaterial10'
+  import CredentialsMaterial11 from './CredentialsMaterial11'
+  import CredentialsMaterial12 from './CredentialsMaterial12'
+  import CredentialsMaterial13 from './CredentialsMaterial13'
+  import CredentialsMaterial14 from './CredentialsMaterial14'
   import axios from 'axios'
-  import Tools from '../../../../lib/tools'
-  import Decode from '../../../../lib/decode'
 
   const host = process.env.SITE_HOST
   export default {
-    components: {CredentialsMaterial},
+    components: {
+      CredentialsMaterial1,
+      CredentialsMaterial2,
+      CredentialsMaterial3,
+      CredentialsMaterial4,
+      CredentialsMaterial5,
+      CredentialsMaterial6,
+      CredentialsMaterial7,
+      CredentialsMaterial8,
+      CredentialsMaterial9,
+      CredentialsMaterial10,
+      CredentialsMaterial11,
+      CredentialsMaterial12,
+      CredentialsMaterial13,
+      CredentialsMaterial14
+    },
     props: {
       emp: {
         type: Array,
@@ -146,6 +211,8 @@
         },
         rowdata: {},
         formItem: {
+          credentialsType: '',
+          credentialsDealType: '',
           name: '',
           operateTypeN: '',
           operateAccount: '',
@@ -262,6 +329,9 @@
     methods: {
       clickRow (value) {
         if (value !== null) {
+          console.log("行数据："+value.credentialsDealType)
+          this.formItem.credentialsType = value.credentialsType
+          this.formItem.credentialsDealType = value.credentialsDealType
           this.rowdata = {...value}
           this.$emit("backRow", this.rowdata)
           this.selectCompanyExt(value.credentialsType,value.companyId)
@@ -274,7 +344,7 @@
         }
       },
       findMaterials(taskId) {
-        axios.get(host + '/api/empCredentialsDeal/find/meterials/'+taskId).then(response => {
+        axios.get(host + '/api/materials/find/'+taskId).then(response => {
           if (response.data.errCode == '0') {
             this.meterials.info = response.data.data
           }
@@ -282,7 +352,7 @@
         })
       },
       createMeterialsMenu(credentialsType,credentialsDealType) {
-        axios.get(host + '/api/empCredentialsDeal/find/meterialsMenu?credentialsType='+credentialsType+'&credentialsDealType='+credentialsDealType).then(response => {
+        axios.get(host + '/api/materials/create?credentialsType='+credentialsType+'&credentialsDealType='+credentialsDealType).then(response => {
           if (response.data.errCode == '0') {
             this.meterials.menu = response.data.data
           }
@@ -344,13 +414,9 @@
       cancel() {},
       childBack (ids) {
         this.materialsIds = ids
-        console.log(this.materialsIds)
         this.rowdata.materialIds = this.materialsIds
         this.$emit("backRow", this.rowdata)        
       }
-    },
-    watch: {
-
     }
   }
 </script>

@@ -51,7 +51,7 @@
       <Row class="mt20">
         <Col :sm="{span:24}" class="tr">
           <Form-item class="ml10">
-            <Button type="info" @click="">导出</Button>
+            <Button type="info" @click="accExport">导出</Button>
           </Form-item>
         </Col>
       </Row>
@@ -77,7 +77,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/event_types'
-import InputAccount from '../../common_control/form/input_account'
+  import InputAccount from '../../common_control/form/input_account'
   export default {
     components:{InputAccount},
     data() {
@@ -223,6 +223,12 @@ import InputAccount from '../../common_control/form/input_account'
         this.resultPageData.pageSize = val;
         this.queryAccount();
       },
+
+      accExport(){
+        let params = this.comAccountSearch;
+        this.ajax.download('/api/soccommandservice/ssComAccount/accountExport', params);
+      },
+
       async operatorQuery (params) {
         let response = await this.ajax.post('/api/soccommandservice/ssComAccount/accountQuery', params);
         return await response.data;

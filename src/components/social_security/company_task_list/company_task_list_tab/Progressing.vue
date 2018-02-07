@@ -65,7 +65,7 @@
       <Row class="mt20">
         <Col :sm="{span:24}" class="tr">
           <Button type="error" @click="getModal">批退</Button>
-          <Button type="info" @click="">导出</Button>
+          <Button type="info" @click="exportExcel">导出</Button>
         </Col>
       </Row>
 
@@ -332,8 +332,21 @@
       },
       //导表
       exportExcel(){
-
+        // let params ={
+        //   companyId:this.companyTaskInfo.customerNumber==''?'':this.companyTaskInfo.customerNumber,//客户编号
+        //   companyName:this.companyTaskInfo.customerName==''?'':this.companyTaskInfo.customerName,//客户姓名
+        //   taskCategory:this.companyTaskInfo.taskTypeValue==''?'':this.companyTaskInfo.taskTypeValue,//任务类型
+        //   accountType:this.companyTaskInfo.accountTypeValue==""?'':this.companyTaskInfo.accountTypeValue,//社保账户类型
+        //   regionValue:this.companyTaskInfo.regionValue==''?'':this.companyTaskInfo.regionValue,//结算区县
+        //   taskStatus:this.companyTaskInfo.handleStateValue==''?'':this.companyTaskInfo.handleStateValue,//处理状态
+        //   submitTimeStart:this.companyTaskInfo.taskStartTime=='' || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
+        //   submitTimeEnd:this.companyTaskInfo.taskStartTime==''||this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null ?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
+        // };
+        let params = this.getParams(1);
+        Progressing.expExcel(params);
       },
+
+
       //点击查询按钮
       clickQuery(){
          this.loading=true;

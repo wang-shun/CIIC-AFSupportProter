@@ -16,4 +16,8 @@ export class Progressing extends CompanyTaskList{
          return super.postTableData(params,url)
      }
 
+     static expExcel(params){
+      super.excelExport('/api/soccommandservice/ssComTask/progressingTaskExport',params);
+    }
+
 }

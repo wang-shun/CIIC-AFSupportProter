@@ -54,13 +54,13 @@
           <Table border ref="selection" :columns="taskColumns" :data="taskData" :loading="loading"></Table>
 
           <Page
-          class="pageSize" 
-          :total="totalSize" 
-          :page-size="size" 
-          :page-size-opts="sizeArr" 
-          :current="pageNum" 
-          show-sizer 
-          show-total  
+          class="pageSize"
+          :total="totalSize"
+          :page-size="size"
+          :page-size-opts="sizeArr"
+          :current="pageNum"
+          show-sizer
+          show-total
           @on-change="getPage"
            ></Page>
         </Col>
@@ -300,7 +300,15 @@
       },
       //导表
       exportExcel(){
-
+        // let params ={
+        //   companyId:this.companyTaskInfo.customerNumber,//客户编号
+        //   companyName:this.companyTaskInfo.customerName,//客户姓名
+        //   taskCategory:this.companyTaskInfo.taskTypeValue,//任务类型
+        //   submitTimeStart:this.companyTaskInfo.taskStartTime=="" || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
+        //   submitTimeEnd:this.companyTaskInfo.taskStartTime==""||this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null ?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
+        // };
+        let params = this.getParams(1)
+        NoProgress.expExcel(params);
       },
       //点击查询按钮
       clickQuery(){

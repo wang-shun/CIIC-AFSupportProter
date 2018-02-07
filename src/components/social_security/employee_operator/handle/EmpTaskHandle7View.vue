@@ -247,7 +247,11 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
-          empBase:''
+          empBase:'',
+           isChange:'',
+           isHaveSameTask:'',
+            employeeId:'',
+           comAccountId:'',
         },
 
         // 任务单参考信息
@@ -325,6 +329,17 @@
           }
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
+
+           this.$Notice.config({
+                top:80
+              })
+            if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
+                this.$Notice.warning({
+                    title: '温馨提示',
+                    desc: '该雇员存在相同类型的未办任务.',
+                    duration: 0
+                });
+            }
           
         });
         
@@ -340,6 +355,7 @@
 
           if(data.data!=null){
             this.company = data.data;
+             this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
           }
 
         })

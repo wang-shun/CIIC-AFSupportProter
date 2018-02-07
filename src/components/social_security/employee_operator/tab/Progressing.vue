@@ -218,7 +218,7 @@
           {
             title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
-              return this.$decode.taskCategory(params.row.taskCategory)
+              return params.row.isChange=='1'?this.$decode.taskCategory(params.row.taskCategory)+'(更正)':this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {
@@ -445,6 +445,22 @@
         }
       },
       exprotExcel() {
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.operatorSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+          // 处理 社保起缴月份
+          if (params.startMonth) {
+            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
+          }
+        }
+        api.employeeOperatorQueryExport({
+          pageSize: 999999,
+          pageNum: 0,
+          params: params,
+        });
       },
       employeeDailyOperatorDiskExport(val) {
         api.employeeDailyOperatorDiskExport({params: {

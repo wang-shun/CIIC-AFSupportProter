@@ -28,7 +28,7 @@
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
                   <Option value="徐汇" label="徐汇"></Option>
-                  <Option value="浦东新" label="浦东"></Option>
+                  <Option value="浦东" label="浦东"></Option>
                   <Option value="闵行" label="闵行"></Option>
                   <Option value="闸北" label="闸北"></Option>
                   <Option value="黄浦" label="黄浦"></Option>
@@ -230,7 +230,8 @@
           {
             title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
-              return this.$decode.taskCategory(params.row.taskCategory)
+              
+              return params.row.isChange=='1'?this.$decode.taskCategory(params.row.taskCategory)+'(更正)':this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {
@@ -309,10 +310,29 @@
           params: params,
         }).then(data => {
           if (data.code == 200) {
+            
             this.employeeResultData = data.data;
             this.employeeResultPageData.total = data.total;
           }
         })
+      },
+      exprotExcel() {
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.operatorSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+          // 处理 社保起缴月份
+          if (params.startMonth) {
+            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
+          }
+        }
+        api.employeeOperatorQueryExport({
+          pageSize: 999999,
+          pageNum: 0,
+          params: params,
+        });
       },
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
@@ -464,8 +484,7 @@
           });
         }
       },
-      exprotExcel() {
-      },
+      
     }
   }
 </script>

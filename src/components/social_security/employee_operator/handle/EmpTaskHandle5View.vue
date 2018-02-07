@@ -171,14 +171,14 @@
             if(value==null || typeof(value)=='undefined' || value==""){
                 return callback(new Error('不能为空.'))
             }
-            let handleMonth = self.getYearMonth(self.socialSecurityPayOperator.handleMonth);
+            //let handleMonth = self.getYearMonth(self.socialSecurityPayOperator.handleMonth);
             //获得上个月的月份
             let lastMonth = self.getLastYearMonth(self.socialSecurityPayOperator.handleMonth);
        
             let valueMonth = self.getYearMonth(self.socialSecurityPayOperator.endMonth);
   
-            if(Number(valueMonth)!=Number(handleMonth) && Number(valueMonth)!=Number(lastMonth)){
-              return callback(new Error('只能等于办理月份或者在办理月份前一月.'))
+            if(Number(valueMonth)!=Number(lastMonth)){
+              return callback(new Error('只能在办理月份前一月.'))
             }
             callback()
     }
@@ -217,6 +217,10 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
+           isChange:'',
+           isHaveSameTask:'',
+            employeeId:'',
+           comAccountId:'',
         },
         showButton: true,
         ruleValidate:{
@@ -289,6 +293,17 @@
             handleMonth=this.getYearMonth(date,'show');
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
+
+           this.$Notice.config({
+                top:80
+              })
+            if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
+                this.$Notice.warning({
+                    title: '温馨提示',
+                    desc: '该雇员存在相同类型的未办任务.',
+                    duration: 0
+                });
+            }
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
@@ -296,6 +311,7 @@
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
           this.company = data.data;
+          this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
         })
        
       },

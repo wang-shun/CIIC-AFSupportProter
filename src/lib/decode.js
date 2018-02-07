@@ -15,7 +15,7 @@ export default {
   },
   // 任务单类型
   taskCategory: (taskCategory) => {
-
+    //1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作  10 集体转入   11 集体转出 12 翻牌
     switch (taskCategory) {
       case '1':
         return '新进'
@@ -33,6 +33,12 @@ export default {
         return '退账'
       case '9':
         return '特殊操作'
+      case '10':
+        return '集体转入'
+      case '11':
+        return '集体转出'
+      case '12':
+        return '翻牌'
       default: // 默认 1
         return ''
     }

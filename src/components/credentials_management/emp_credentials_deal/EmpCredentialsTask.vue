@@ -202,7 +202,7 @@
     components: {CredentialsDealInfo},
     data () {
       return {
-        value1: ['2', '3'],
+        value1: ['2','3'],
         empInfo: [],
         companyCode: '',
         companyName: '',

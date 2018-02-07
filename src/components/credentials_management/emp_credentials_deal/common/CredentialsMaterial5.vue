@@ -150,34 +150,38 @@ export default {
   data () {
     return {
       formItem: {
-        
+        comp: '上海公司',
+        follower: '随员情况'
       }
     }
   },
   methods: {
     change (info) {
       let materialsIds = ''
-      if (info.main.toString() != ''){
-        materialsIds = materialsIds + info.main.toString() + ','
+      if (info.lev00.toString() != ''){
+        materialsIds = materialsIds + info.lev00.toString() + ','
       }
-      if (info.dh.toString() != ''){
-        materialsIds = materialsIds + info.dh.toString() + ','
+      if (info.lev11.toString() != ''){
+        materialsIds = materialsIds + info.lev11.toString() + ','
       }
-      if (info.zh.toString() != ''){
-        materialsIds = materialsIds + info.zh.toString() + ','
+      if (info.lev12.toString() != ''){
+        materialsIds = materialsIds + info.lev12.toString() + ','
       }
-      if (info.marryWithoutChild.toString() != ''){
-        materialsIds = materialsIds + info.marryWithoutChild.toString() + ','
+      if (info.lev20.toString() != ''){
+        materialsIds = materialsIds + info.lev20.toString() + ','
       }
-      if (info.marryWithChild.toString() != ''){
-        materialsIds = materialsIds + info.marryWithChild.toString() + ','
+      if (info.lev30.toString() != ''){
+        materialsIds = materialsIds + info.lev30.toString() + ','
       }
-      if (info.remarry.toString() != ''){
-        materialsIds = materialsIds + info.remarry.toString() + ','
+      if (info.lev41.toString() != ''){
+        materialsIds = materialsIds + info.lev41.toString() + ','
       }
-      if (info.settle.toString() != ''){
-        materialsIds = materialsIds + info.settle.toString() + ','
-      } 
+      if (info.lev42.toString() != ''){
+        materialsIds = materialsIds + info.lev42.toString() + ','
+      }
+      if (info.lev43.toString() != ''){
+        materialsIds = materialsIds + info.lev43.toString() + ','
+      }
       this.$emit("materialsIds", materialsIds)
       console.log("材料ids："+materialsIds)
    }

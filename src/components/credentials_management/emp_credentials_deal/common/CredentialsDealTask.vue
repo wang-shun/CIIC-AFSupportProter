@@ -95,7 +95,7 @@
         </Row>
         <div class="create"></div>
         <h3>材料收缴</h3>
-        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 1">
+        <div v-if="formItem.credentialsType === 1">
           <CredentialsMaterial1 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial1>
         </div>
         <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 2">
@@ -282,7 +282,6 @@
                   },
                   on: {
                     click: () => {
-                      
                     }
                   }
                 }, '编辑'),
@@ -329,9 +328,10 @@
     methods: {
       clickRow (value) {
         if (value !== null) {
-          console.log("行数据："+value.credentialsDealType)
+          console.log("行数据：证件办理类型-"+this.formItem.credentialsDealType+"证件类型-"+this.formItem.credentialsType)
           this.formItem.credentialsType = value.credentialsType
           this.formItem.credentialsDealType = value.credentialsDealType
+          console.log("行数据：证件办理类型-"+this.formItem.credentialsDealType+"证件类型-"+this.formItem.credentialsType)
           this.rowdata = {...value}
           this.$emit("backRow", this.rowdata)
           this.selectCompanyExt(value.credentialsType,value.companyId)

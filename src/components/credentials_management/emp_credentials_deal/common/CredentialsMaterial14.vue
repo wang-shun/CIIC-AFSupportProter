@@ -427,34 +427,97 @@ export default {
   data () {
     return {
       formItem: {
-        
+        comp: '上海公司',
+        isgooder: '是',
+        marryStatus: '未婚',
+        hasfollower: '是',
+        followmaterials: '子女',
+        notfollowmaterials: '已是上海户籍',
+        addr: '社区公共户'
       }
     }
   },
   methods: {
     change (info) {
       let materialsIds = ''
-      if (info.main.toString() != ''){
-        materialsIds = materialsIds + info.main.toString() + ','
+      if (info.lev00.toString() != ''){
+        materialsIds = materialsIds + info.lev00.toString() + ','
       }
-      if (info.dh.toString() != ''){
-        materialsIds = materialsIds + info.dh.toString() + ','
+      if (info.lev11.toString() != ''){
+        materialsIds = materialsIds + info.lev11.toString() + ','
       }
-      if (info.zh.toString() != ''){
-        materialsIds = materialsIds + info.zh.toString() + ','
+      if (info.lev12.toString() != ''){
+        materialsIds = materialsIds + info.lev12.toString() + ','
       }
-      if (info.marryWithoutChild.toString() != ''){
-        materialsIds = materialsIds + info.marryWithoutChild.toString() + ','
+      if (info.lev20.toString() != ''){
+        materialsIds = materialsIds + info.lev20.toString() + ','
       }
-      if (info.marryWithChild.toString() != ''){
-        materialsIds = materialsIds + info.marryWithChild.toString() + ','
+      if (info.lev31.toString() != ''){
+        materialsIds = materialsIds + info.lev31.toString() + ','
       }
-      if (info.remarry.toString() != ''){
-        materialsIds = materialsIds + info.remarry.toString() + ','
-      }
-      if (info.settle.toString() != ''){
-        materialsIds = materialsIds + info.settle.toString() + ','
+      if (info.lev32.toString() != ''){
+        materialsIds = materialsIds + info.lev32.toString() + ','
       } 
+      if (info.lev41.toString() != ''){
+        materialsIds = materialsIds + info.lev41.toString() + ','
+      }
+      if (info.lev42.toString() != ''){
+        materialsIds = materialsIds + info.lev42.toString() + ','
+      }
+      if (info.lev43.toString() != ''){
+        materialsIds = materialsIds + info.lev43.toString() + ','
+      }
+      if (info.lev44.toString() != ''){
+        materialsIds = materialsIds + info.lev44.toString() + ','
+      }
+      if (info.lev50.toString() != ''){
+        materialsIds = materialsIds + info.lev50.toString() + ','
+      } 
+      if (info.lev61.toString() != ''){
+        materialsIds = materialsIds + info.lev61.toString() + ','
+      }
+      if (info.lev62.toString() != ''){
+        materialsIds = materialsIds + info.lev62.toString() + ','
+      }
+      if (info.lev63.toString() != ''){
+        materialsIds = materialsIds + info.lev63.toString() + ','
+      }
+      if (info.lev64.toString() != ''){
+        materialsIds = materialsIds + info.lev64.toString() + ','
+      }
+      if (info.lev71.toString() != ''){
+        materialsIds = materialsIds + info.lev71.toString() + ','
+      }
+      if (info.lev72.toString() != ''){
+        materialsIds = materialsIds + info.lev72.toString() + ','
+      }
+      if (info.lev81.toString() != ''){
+        materialsIds = materialsIds + info.lev81.toString() + ','
+      }
+      if (info.lev82.toString() != ''){
+        materialsIds = materialsIds + info.lev82.toString() + ','
+      }
+      if (info.lev83.toString() != ''){
+        materialsIds = materialsIds + info.lev83.toString() + ','
+      }
+      if (info.lev91.toString() != ''){
+        materialsIds = materialsIds + info.lev91.toString() + ','
+      }
+      if (info.lev92.toString() != ''){
+        materialsIds = materialsIds + info.lev92.toString() + ','
+      }
+      if (info.lev93.toString() != ''){
+        materialsIds = materialsIds + info.lev93.toString() + ','
+      }
+      if (info.lev94.toString() != ''){
+        materialsIds = materialsIds + info.lev94.toString() + ','
+      }
+      if (info.lev101.toString() != ''){
+        materialsIds = materialsIds + info.lev101.toString() + ','
+      }
+      if (info.lev102.toString() != ''){
+        materialsIds = materialsIds + info.lev102.toString() + ','
+      }
       this.$emit("materialsIds", materialsIds)
       console.log("材料ids："+materialsIds)
    }

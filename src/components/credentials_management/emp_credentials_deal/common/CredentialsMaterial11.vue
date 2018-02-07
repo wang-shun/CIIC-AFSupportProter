@@ -68,7 +68,6 @@
         </div>
       </Row>
 
-
       <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
           <span style="font-weight:bold;font-size:14px">婚姻状态</span>
@@ -294,34 +293,68 @@ export default {
   data () {
     return {
       formItem: {
-        
+        comp: '上海公司',
+        marryStatus: '未婚',
+        huStatus: '是',
+        follower: '子女',
+        addr: '社区公共户'
       }
     }
   },
   methods: {
     change (info) {
       let materialsIds = ''
-      if (info.main.toString() != ''){
-        materialsIds = materialsIds + info.main.toString() + ','
+      if (info.lev00.toString() != ''){
+        materialsIds = materialsIds + info.lev00.toString() + ','
       }
-      if (info.dh.toString() != ''){
-        materialsIds = materialsIds + info.dh.toString() + ','
+      if (info.lev11.toString() != ''){
+        materialsIds = materialsIds + info.lev11.toString() + ','
       }
-      if (info.zh.toString() != ''){
-        materialsIds = materialsIds + info.zh.toString() + ','
+      if (info.lev12.toString() != ''){
+        materialsIds = materialsIds + info.lev12.toString() + ','
       }
-      if (info.marryWithoutChild.toString() != ''){
-        materialsIds = materialsIds + info.marryWithoutChild.toString() + ','
+      if (info.lev20.toString() != ''){
+        materialsIds = materialsIds + info.lev20.toString() + ','
       }
-      if (info.marryWithChild.toString() != ''){
-        materialsIds = materialsIds + info.marryWithChild.toString() + ','
+      if (info.lev31.toString() != ''){
+        materialsIds = materialsIds + info.lev31.toString() + ','
       }
-      if (info.remarry.toString() != ''){
-        materialsIds = materialsIds + info.remarry.toString() + ','
+      if (info.lev32.toString() != ''){
+        materialsIds = materialsIds + info.lev32.toString() + ','
       }
-      if (info.settle.toString() != ''){
-        materialsIds = materialsIds + info.settle.toString() + ','
-      } 
+      if (info.lev33.toString() != ''){
+        materialsIds = materialsIds + info.lev33.toString() + ','
+      }
+      if (info.lev34.toString() != ''){
+        materialsIds = materialsIds + info.lev34.toString() + ','
+      }
+      if (info.lev41.toString() != ''){
+        materialsIds = materialsIds + info.lev41.toString() + ','
+      }
+      if (info.lev42.toString() != ''){
+        materialsIds = materialsIds + info.lev42.toString() + ','
+      }
+      if (info.lev51.toString() != ''){
+        materialsIds = materialsIds + info.lev51.toString() + ','
+      }
+      if (info.lev52.toString() != ''){
+        materialsIds = materialsIds + info.lev52.toString() + ','
+      }
+      if (info.lev53.toString() != ''){
+        materialsIds = materialsIds + info.lev53.toString() + ','
+      }
+      if (info.lev61.toString() != ''){
+        materialsIds = materialsIds + info.lev61.toString() + ','
+      }
+      if (info.lev62.toString() != ''){
+        materialsIds = materialsIds + info.lev62.toString() + ','
+      }
+      if (info.lev70.toString() != ''){
+        materialsIds = materialsIds + info.lev70.toString() + ','
+      }
+      if (info.lev80.toString() != ''){
+        materialsIds = materialsIds + info.lev80.toString() + ','
+      }  
       this.$emit("materialsIds", materialsIds)
       console.log("材料ids："+materialsIds)
    }

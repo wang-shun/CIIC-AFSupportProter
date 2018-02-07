@@ -142,7 +142,10 @@
     <!-- 调整 -->
     <Modal
       v-model="changeInfo.isShowChange"
-      width="640">
+      width="640"
+      @on-ok="ok"
+      @on-cancel="cancel"
+      >
       <Table border :columns="changeInfo.changeColumns" :data="changeInfo.changeData"></Table>
       <Form :label-width=250>
         <!--<Row class="mt20">-->
@@ -333,9 +336,9 @@
                 ]);
               }
             },
-            {title: '社保账户类型', key: 'accountType', width: 200, align: 'center',
+            {title: '社保账户类型', key: 'ssAccountType', width: 200, align: 'center',
               render: (h, params) => {
-                let accountType = params.row.accountType;
+                let accountType = params.row.ssAccountType;
                 let accountTypeName = "";
                 if(accountType == 1){
                     accountTypeName = "中智大库"
@@ -431,8 +434,9 @@
           },
           {title: '社保账户类型', key: 'ssAccountType', width: 120, align: 'center',
             render: (h, params) => {
-              let ssAccountType = params.row.accountType;
+              let ssAccountType = params.row.ssAccountType;
               let accountTypeName = "";
+              
               if(ssAccountType == 1){
                   accountTypeName = "中智大库"
               }else if(ssAccountType == 2){

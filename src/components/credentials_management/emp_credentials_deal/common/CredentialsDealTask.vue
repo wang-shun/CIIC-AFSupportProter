@@ -95,7 +95,7 @@
         </Row>
         <div class="create"></div>
         <h3>材料收缴</h3>
-        <div v-if="formItem.credentialsType === 1">
+        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 1">
           <CredentialsMaterial1 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial1>
         </div>
         <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 2">
@@ -328,7 +328,6 @@
     methods: {
       clickRow (value) {
         if (value !== null) {
-          console.log("行数据：证件办理类型-"+this.formItem.credentialsDealType+"证件类型-"+this.formItem.credentialsType)
           this.formItem.credentialsType = value.credentialsType
           this.formItem.credentialsDealType = value.credentialsDealType
           console.log("行数据：证件办理类型-"+this.formItem.credentialsDealType+"证件类型-"+this.formItem.credentialsType)
@@ -381,7 +380,7 @@
       },
       selectCompanyExt (credentialsType,companyId) {
         axios.get(host + '/api/empCredentialsDeal/find/companyExt/'+companyId+'/'+credentialsType).then(response => {
-          this.formItem = response.data.data
+          Object.assign(this.formItem, response.data.data);
         })
       },
       ok () {

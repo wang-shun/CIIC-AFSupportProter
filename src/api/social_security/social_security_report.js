@@ -27,5 +27,10 @@ export default {
     summaryCalculate:async(params)=>{
        let response = await AJAX.post('/api/soccommandservice/ssMonthCharge/summarycalculate',params);
        return await response.data;
+    },
+
+    getAccountById:async(params)=>{
+      let response = await AJAX.post('/api/soccommandservice/ssComAccount/getAccountByAccountId',params);
+      return await response.data;
     }
 }

@@ -18,8 +18,8 @@
               </Col>
 
               <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
-                <Form-item label="公司名称：">
-                  <label>{{companyName}}</label>
+                <Form-item label="企业社保账户名称：">
+                  <label>{{accountName}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
@@ -32,12 +32,12 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="应缴纳合计（小写）：">
-                  <label>{{payAmount}}</label>
+                  <label>{{lowerTotalAmount}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="应缴纳合计（大写）：">
-                  <label>{{totalPayAmount}}</label>
+                  <label>{{capitalTotalAmount}}</label>
                 </Form-item>
               </Col>
 
@@ -63,11 +63,10 @@
       return{
         ssMonth:this.$route.query.ssMonth,
         comAccountId:this.$route.query.ssAccountId,
-        companyName:'',
         accountName:'',
         account:'',
-        payAmount:'',
-        totalPayAmount:'',
+        lowerTotalAmount:'',
+        capitalTotalAmount:'',
         //recentlyCalculatedPerson:'张三',//最近计算人
         collapseInfo: [1], //展开栏
         noticeData:[],
@@ -159,9 +158,9 @@
           if(response != null){
             let obj = response.filter(x=>x.paymentItemName == '缴纳合计')[0];
             if(obj != null){
-              this.payAmount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
-              if(this.payAmount != null){
-                this.totalPayAmount = tools.dx(this.payAmount);
+              this.lowerTotalAmount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
+              if(this.lowerTotalAmount != null){
+                this.capitalTotalAmount = tools.dx(this.lowerTotalAmount);
               }
             }
           }
@@ -169,10 +168,9 @@
       },
 
       getAccountCompanay(){
-        api.getAccountRelationByAccountId({
+        api.getAccountById({
           comAccountId: this.comAccountId
         }).then(data=>{
-          this.companyName = data.data.companyName;
           this.accountName = data.data.comAccountName;
           this.account = data.data.ssAccount;
         })

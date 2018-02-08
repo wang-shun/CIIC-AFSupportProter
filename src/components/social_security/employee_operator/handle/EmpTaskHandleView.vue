@@ -343,8 +343,8 @@
           empArchiveId: '',
           isChange:'',
           isHaveSameTask:'',
-           employeeId:'',
-           comAccountId:'',
+          employeeId:'',
+          comAccountId:'',
         },
 
         // 任务单参考信息
@@ -423,7 +423,19 @@
           isNeedSerial:1
         }).then(data => {
           if (data.data.empTaskPeriods.length > 0) {
+            
             this.operatorListData = data.data.empTaskPeriods;
+          }else{
+            
+            let operatorListData =[]
+            //remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false
+            let periodObj ={}
+             periodObj.remitWay='1';
+             periodObj.startMonth=data.data.startMonth;
+             periodObj.endMonth=data.data.endMonth;
+             periodObj.baseAmount = data.data.empBase
+             operatorListData.push(periodObj)
+             this.operatorListData = operatorListData
           }
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
 
@@ -486,7 +498,7 @@
             newRows.push({
               empTaskId: empTaskId,
               startMonth: this.yyyyMM(row.startMonth),
-              endMonth: this.yyyyMM(row.endMonth),
+              endMonth: typeof(row.endMonth)!='undefined'&& row.endMonth!=''?this.yyyyMM(row.endMonth):"",
               baseAmount: row.baseAmount,
               remitWay: row.remitWay,
             });
@@ -504,6 +516,7 @@
         };
       },
       getRows() {
+        
         return this.operatorListData;
       },
       setRow(params, name, value) {
@@ -552,11 +565,6 @@
           }
           return;
         }
-      //    <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
-      // <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('5','noProgress')" v-if="showButton">不需处理</Button>
-      // <Button type="primary" @click="instance('2','handle')" v-if="showButton">办理</Button>
-      // <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton">批退</Button>
-      // <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','save')" v-if="showButton">暂存</Button>
         let self= this;
         this.$Modal.confirm({
           title: "操作确认",
@@ -597,7 +605,7 @@
             }
 
             fromData.empTaskPeriods = self.filterData();
-
+            
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 self.$Message.success(content + "成功");

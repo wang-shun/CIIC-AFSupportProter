@@ -4,7 +4,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 12}">
           <Form-item label="客户编号：">
-            {{employee.customerNumber}}
+            {{customer.customerNumber}}
           </Form-item>
         </Col>
         <Col :sm="{span: 12}">

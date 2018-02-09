@@ -141,14 +141,14 @@
             <Input v-model="refuse.diaodangFeedback" placeholder="请输入"/>
           </Form-item>
         </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工成功：">
             <Input v-model="refuse.employSuccess" placeholder="请输入"/>
           </Form-item>
-        </Col>
+        </Col> -->
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="反馈备注：">
-            <Input v-model="refuse.feedbackNotes" placeholder="请输入"/>
+            <Input v-model="refuse.employFeedback" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

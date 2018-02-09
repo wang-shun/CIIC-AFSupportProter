@@ -158,24 +158,35 @@
     },
     async mounted() {
           
-          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId}
+          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,remarkType:'1'}
 
           api.employeeDetailInfoQuery(params).then(data=>{
+
               
-              this.employeeInfo=data.data.amEmpTaskBO;
+
+              if(data.data.amEmpTaskBO){
+                   this.employeeInfo=data.data.amEmpTaskBO;
+              }
               
-              this.employmentMaterial.materialsData = data.data.materialList.rows;
+              if(data.data.materialList){
+                  this.employmentMaterial.materialsData = data.data.materialList.rows;
+              }
              
-              this.handleInfo = data.data.amEmploymentBO;
-              
-              this.notesData = data.data.amRemarkBo.rows;
+              if(data.data.amEmploymentBO){
+                  this.handleInfo = data.data.amEmploymentBO;
+              }
+             
+              if(data.data.amRemarkBo){
+                   this.notesData = data.data.amRemarkBo.rows;
+              }
 
-              this.materialHandleInfo = data.data.amArchaiveBo;
+              if(data.data.amArchaiveBo){
+                 this.materialHandleInfo = data.data.amArchaiveBo;
+              }
 
-              //this.historyTaskData =data.data.listHistory;
-
-              this.customerInfo = data.data.company;
-
+              if(data.data.company){
+                 this.customerInfo = data.data.company;
+              }
                
           })
     },

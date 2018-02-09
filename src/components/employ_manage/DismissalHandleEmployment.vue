@@ -43,12 +43,12 @@
             <employment-notes-view :employmentViewData="employmentViewData"></employment-notes-view>
           </div>
         </Panel>
-        <Panel name="7">
+        <!-- <Panel name="7">
           材料借出信息查看
           <div slot="content">
             <materials-borrow-info-view :MaterialsBorrowData="MaterialsBorrowData"></materials-borrow-info-view>
           </div>
-        </Panel>
+        </Panel> -->
         <Panel name="8">
           档案备注查看
           <div slot="content">
@@ -195,15 +195,25 @@
 
           
          
-          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId}
+          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId,remarkType:'3'}
 
           api.queryAmResignDetail(params).then(data=>{
+
+            this.customerInfo = data.data.company;//客户信息
+
+            this.employeeInfo=data.data.amEmpTaskBO;//雇员信息
             
-              this.refuseInfo=data.data.resignBO;
+            this.refuseInfo=data.data.resignBO;//退工信息
+
+            this.refuseNotesData = data.data.amRemarkBo.rows;//退工备注
+            
+            this.employmentViewData = data.data.amRemarkBo1.rows;//用工备注
+
+            this.fileNotesViewData = data.data.amRemarkBo2.rows;//档案备注
               
               // this.employmentMaterial.materialsData = data.data.materialList.rows;
              
-              // this.handleInfo = data.data.amEmploymentBO;
+               this.employmentInfo = data.data.amEmploymentBO;
               
               // this.notesData = data.data.amRemarkBo.rows;
 
@@ -211,7 +221,7 @@
 
               // //this.historyTaskData =data.data.listHistory;
 
-              // this.customerInfo = data.data.company;
+              
 
                
           })

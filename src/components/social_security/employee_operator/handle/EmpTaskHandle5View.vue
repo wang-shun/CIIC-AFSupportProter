@@ -126,7 +126,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button> 
-      <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2')" v-if="showButton">办理</Button>
       <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
@@ -221,6 +221,8 @@
            isHaveSameTask:'',
             employeeId:'',
            comAccountId:'',
+           taskId:'',
+           businessInterfaceId:''
         },
         showButton: true,
         ruleValidate:{

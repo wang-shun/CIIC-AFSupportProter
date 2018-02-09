@@ -17,21 +17,21 @@
           {title: '操作员', key: 'operator', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.operator),
+                h('span', params.row.remarkMan),
               ]);
             }
           },
           {title: '操作日期', key: 'operateDate', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.operateDate),
+                h('span', params.row.remarkDate),
               ]);
             }
           },
           {title: '备注', key: 'notes', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.notes),
+                h('span', params.row.remarkContent),
               ]);
             }
           },

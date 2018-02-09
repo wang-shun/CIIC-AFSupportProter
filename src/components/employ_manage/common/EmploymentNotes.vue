@@ -102,7 +102,8 @@
            remarkContent: '',
            remarkMan: '',
            remarkDate:'',
-           employeeId:''
+           employeeId:'',
+           remarkType:'1'
         }
       }
     },
@@ -122,19 +123,18 @@
                this.notesData.push(fromData);
             },
             cancel () {
-                this.$Message.info('Clicked cancel');
+                // this.$Message.info('Clicked cancel');
             },instance() {
         
-        api.saveAmRemark(this.notesData).then(data => {
-              if (data.data.data == true) {
-                this.$Message.success("保存成功");
-                 history.go(-1);
-              } else {
-                this.$Message.error("保存失败！");
-              }
-        })
-       
-         
+            api.saveAmRemark(this.notesData).then(data => {
+                  if (data.data.data == true) {
+                    this.$Message.success("保存成功");
+                    history.go(-1);
+                  } else {
+                    this.$Message.error("保存失败！");
+                  }
+            })
+          
        },show (index) {
                 this.$Modal.info({
                     title: 'User Info',
@@ -172,13 +172,13 @@
                     alert("没有选中的列");
                     return;
                   }
-                  alert(selection.length);
+                 
                   selection.some(item => {
                        var ff = item;
-                      alert(item.remarkDate);
+                     
                   });
             },clickRow (index) {
-               alert(index);
+              
             }
         
     }

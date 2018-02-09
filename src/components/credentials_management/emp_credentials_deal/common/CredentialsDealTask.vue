@@ -412,7 +412,7 @@
       },
       cancel() {},
       childBack (ids) {
-        this.materialsIds = ids
+        this.materialsIds = idscnpm
         this.rowdata.materialIds = this.materialsIds
         this.$emit("backRow", this.rowdata)        
       }

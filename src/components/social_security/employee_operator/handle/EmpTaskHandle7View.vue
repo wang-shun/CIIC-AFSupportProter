@@ -380,7 +380,7 @@
             newRows.push({
               empTaskId: empTaskId,
               startMonth: this.yyyyMM(row.startMonth),
-              endMonth: this.yyyyMM(row.endMonth),
+              endMonth: typeof(row.endMonth)!='undefined'&& row.endMonth!=''?this.yyyyMM(row.endMonth):"",
               refundAmount: row.refundAmount,
               remitWay: row.remitWay,
             });

@@ -205,9 +205,7 @@ export default {
       case 3:
         return '信息变更'
       case 4:
-        return '随员'
-      case 5:
-        return '密码重置'
+        return '单添随员'
       default:
         return ''
     }
@@ -215,18 +213,18 @@ export default {
   //B证办理
   deal_type2: (type) => {
     switch (type) {
-      case 1:
-        return '新办'
-      case 2:
-        return '继办'
-      case 3:
-        return '随员'
-      case 4:
-        return '个人信息修改'
       case 5:
-        return '挂失'
+        return '新办'
       case 6:
-        return '补办'
+        return '继办'
+      case 7:
+        return '单位信息变更'
+      case 8:
+        return '随员'
+      case 9:
+        return '个人信息修改'
+      case 10:
+        return '挂失和补办'
       default:
         return ''
     }

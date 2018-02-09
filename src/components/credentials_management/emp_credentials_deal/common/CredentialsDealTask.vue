@@ -107,22 +107,22 @@
         <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 4">
           <CredentialsMaterial4 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial4>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 1">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 5">
           <CredentialsMaterial5 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial5>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 2">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 6">
           <CredentialsMaterial6 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial6>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 3">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 7">
           <CredentialsMaterial7 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial7>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 4">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 8">
           <CredentialsMaterial8 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial8>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 5">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 9">
           <CredentialsMaterial9 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial9>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 6">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 10">
           <CredentialsMaterial10 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial10>
         </div>
         <div v-if="formItem.credentialsType === 3">

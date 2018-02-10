@@ -94,6 +94,9 @@ export default {
   employeeDailyOperatorDiskExport: (params) => {
     AJAX.download('/api/soccommandservice/ssEmpTask/employeeDailyOperatorDiskExport', params);
   },
- 
+ // 保存社保序号
+ saveEmpSerial: (params) => {
+    return AJAX.post('/api/soccommandservice/ssEmpArchive/saveEmpSerial', params);
+  },
 }
 

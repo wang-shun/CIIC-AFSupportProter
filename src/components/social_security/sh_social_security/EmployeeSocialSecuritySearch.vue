@@ -197,7 +197,7 @@
                       this.showInfo(params.row.empArchiveId)
                     }
                   }
-                }, '查看'),
+                }, '查看 / 编辑'),
               ]);
             }
           },

@@ -227,9 +227,9 @@
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
           },
-          {
-            title: '执行日期', key: 'doDate', width: 150, align: 'center'
-          },
+          // {
+          //   title: '执行日期', key: 'doDate', width: 150, align: 'center'
+          // },
           {
             title: '客户编号', key: 'companyId', width: 100, align: 'center'
           },

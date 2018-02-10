@@ -63,7 +63,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单类型：" prop="taskCategory">
                 <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="" label="全部"></Option>
                   <Option value="1" label="新进"></Option>
                   <Option value="2" label="转入"></Option>
                   <Option value="3" label="调整"></Option>
@@ -242,9 +242,9 @@
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
           },
-          {
-            title: '执行日期', key: 'doDate', width: 150, align: 'center'
-          },
+          // {
+          //   title: '执行日期', key: 'doDate', width: 150, align: 'center'
+          // },
           {
             title: '客户编号', key: 'companyId', width: 100, align: 'center'
           },

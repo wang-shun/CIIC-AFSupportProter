@@ -120,10 +120,10 @@
     </Card>
 
     <div class="tr m20">
-      <Button type="info" ref="rmb" @click="modalButton(true)">审核通过</Button>
-      <Button type="info" ref="rmb" @click="modalButton(false)">批退</Button>
+      <Button type="info" @click="modalButton(true)">审核通过</Button>
+      <Button type="info" @click="modalButton(false)">批退</Button>
       <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
-      <Button type="info" @click="exportData(1)" icon="ios-upload-outline">导入数据</Button>
+      <Button type="info" @click="modalInput = true" icon="ios-upload-outline">导入数据</Button>
     </div>
 
     <Table border
@@ -151,6 +151,19 @@
       @on-ok="updateSupplementaryList(2)">
       <Input v-model="formItem.code" placeholder="备注："/>
     </Modal>
+
+    <Modal
+      v-model="modalInput"
+      title="上传数据">
+      <Upload
+        :before-upload="handleUpload"
+        action="">
+        <Button type="ghost" icon="ios-cloud-upload-outline">选择要上传的Excel文件</Button>
+      </Upload>
+      <div v-if="file !== null">待上传文件：{{ file.name }}
+        <Button type="text" @click="upload">点击上传</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -164,6 +177,8 @@
         collapseInfo: [1, 2, 3], //展开栏
         modalAccept: false,
         modalRefuse: false,
+        modalInput: false,
+        file: null,
         formItem: {
           total: 0,
           current: 1,
@@ -332,6 +347,23 @@
       this.getByPage(1);
     },
     methods: {
+      handleUpload(file) {
+        this.file = file;
+        return false;
+      },
+      upload() {
+        console.info(this.file);
+        apiAjax.importAcceptanceXls(this.file).then(response => {
+          if (response.data.code === 200) {
+            this.$Message.success("上传成功");
+          } else {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
       querySupplementaryList() {
         apiAjax.queryAcceptancePage(this.formItem).then(response => {
           console.info(JSON.stringify(response.data.object.records));

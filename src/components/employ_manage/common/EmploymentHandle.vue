@@ -4,45 +4,46 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际录用日期：">
-            <DatePicker v-model="handle.employDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="handleInfo.employDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="开F单日期：">
-            <DatePicker v-model="handle.openAfDate" type="date"  placeholder="" transfer></DatePicker>
+            <DatePicker v-model="handleInfo.openAfDate" type="date"  placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工形式：">
-            <Select v-model="handle.employStyle" transfer>
+            <Select v-model="handleInfo.employStyle" transfer>
               <Option v-for="item in employmentFormList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="办理类型：">
-            <Select v-model="handle.handleType" transfer>
+            <Select v-model="handleInfo.handleType" transfer>
               <Option v-for="item in handleTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工属性：">
-            <Select v-model="handle.employProperty" transfer>
+            <Select v-model="handleInfo.employProperty" transfer>
               <Option v-for="item in employmentPropertyList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工方式：">
-            <Select v-model="handle.employWay" transfer>
+            <Select v-model="handleInfo.employWay" transfer>
               <Option v-for="item in employmentMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工操作专员：">
-            <Input v-model="handle.employOperateMan" placeholder="请输入"/>
+            <Input v-model="handleInfo.employOperateMan" placeholder="请输入"/>
+            <input type="text" v-model="handleInfo.employmentId" hidden>
           </Form-item>
         </Col>
       </Row>
@@ -111,17 +112,7 @@ import api from '../../../api/employ_manage/hire_operator'
            {value: '修改信息', label: '修改信息'},
            {value: '外来新进', label: '外来新进'},
            {value: '外来转入', label: '外来转入'}
-        ],handle: {
-          employDate: '',
-          openAfDate: '',
-          employStyle: '',
-          handleType: '',
-          employProperty: '',
-          employWay: '',
-          employOperateMan: '',
-          employeeId:this.$route.query.employeeId,
-          companyId:this.$route.query.companyId
-        },
+        ]
       }
     },
     computed: {
@@ -132,9 +123,9 @@ import api from '../../../api/employ_manage/hire_operator'
     methods: {
 
        instance() {
-        var fromData = this.$utils.clear(this.handle,'');
-        fromData.employDate = this.$utils.formatDate(this.handle.employDate, 'YYYY-MM-DD');
-        fromData.openAfDate = this.$utils.formatDate(this.handle.openAfDate, 'YYYY-MM-DD');
+        var fromData = this.$utils.clear(this.handleInfo,'');
+        fromData.employDate = this.$utils.formatDate(this.handleInfo.employDate, 'YYYY-MM-DD');
+        fromData.openAfDate = this.$utils.formatDate(this.handleInfo.openAfDate, 'YYYY-MM-DD');
        
         api.saveEmployee(fromData).then(data => {
               if (data.code == 200) {

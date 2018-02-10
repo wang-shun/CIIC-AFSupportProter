@@ -63,7 +63,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单类型：" prop="taskCategory">
                 <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="" label="全部"></Option>
                   <Option value="1" label="新进"></Option>
                   <Option value="2" label="转入"></Option>
                   <Option value="3" label="调整"></Option>
@@ -218,7 +218,7 @@
           {
             title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
-              return this.$decode.taskCategory(params.row.taskCategory)
+              return params.row.isChange=='1'?this.$decode.taskCategory(params.row.taskCategory)+'(更正)':this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {
@@ -242,9 +242,9 @@
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
           },
-          {
-            title: '执行日期', key: 'doDate', width: 150, align: 'center'
-          },
+          // {
+          //   title: '执行日期', key: 'doDate', width: 150, align: 'center'
+          // },
           {
             title: '客户编号', key: 'companyId', width: 100, align: 'center'
           },
@@ -445,6 +445,22 @@
         }
       },
       exprotExcel() {
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.operatorSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+          // 处理 社保起缴月份
+          if (params.startMonth) {
+            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
+          }
+        }
+        api.employeeOperatorQueryExport({
+          pageSize: 999999,
+          pageNum: 0,
+          params: params,
+        });
       },
       employeeDailyOperatorDiskExport(val) {
         api.employeeDailyOperatorDiskExport({params: {

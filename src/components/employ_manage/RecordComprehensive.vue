@@ -37,18 +37,6 @@
             <file-handle :fileInfo1="fileInfo1" :fileInfo2="fileInfo2"></file-handle>
           </div>
         </Panel>
-        <Panel name="6">
-          修改档案编号
-          <div slot="content">
-            <modify-file-number :modifyFileNumberInfo="modifyFileNumberInfo"></modify-file-number>
-          </div>
-        </Panel>
-        <Panel name="7">
-          退工材料办理
-          <div slot="content">
-            <refuse-materials-handle :refuseMaterialsInfo="refuseMaterialsInfo"></refuse-materials-handle>
-          </div>
-        </Panel>
         <Panel name="8">
           档案备注
           <div slot="content">
@@ -79,16 +67,16 @@
             <refuse-return-materials-sign :refuseReturnMaterialsSignInfo="refuseReturnMaterialsSignInfo"></refuse-return-materials-sign>
           </div>
         </Panel>
-        <Panel name="13">
+        <!-- <Panel name="13">
           公司名称变更材料打印
           <div slot="content">
             <company-name-change-matrials-print></company-name-change-matrials-print>
           </div>
-        </Panel>
+        </Panel> -->
         <Panel name="14">
           工伤申报管理
           <div slot="content">
-            <injury-report-manage :injuryReportManageInfo="injuryReportManageInfo"></injury-report-manage>
+            <injury-report-manage :injuryReportManageInfo="injuryReportManageInfo" :fileInfo1="fileInfo1"></injury-report-manage>
           </div>
         </Panel>
       </Collapse>
@@ -104,7 +92,7 @@
   import customerInfo from "./common/CustomerInfo.vue"
   import employeeCompleteInfo from "./common/EmployeeCompleteInfo.vue"
   import employmentInfo from "./common/EmploymentInfo.vue"
-  import refuseHandle from "./common/RefuseHandle.vue"
+  import refuseHandle from "./common/RefuseHandleArchive.vue"
   import fileHandle from "./common/FileHandle.vue"
   import modifyFileNumber from "./common/ModifyFileNumber.vue"
   import refuseMaterialsHandle from "./common/RefuseMaterialsHandle.vue"
@@ -115,6 +103,7 @@
   import refuseReturnMaterialsSign from "./common/RefuseReturnMaterialsSign.vue"
   import companyNameChangeMatrialsPrint from "./common/CompanyNameChangeMatrialsPrint.vue"
   import injuryReportManage from "./common/InjuryReportManage.vue"
+  import api from '../../api/employ_manage/hire_operator'
 
   export default {
     components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, fileHandle, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage},
@@ -211,6 +200,7 @@
           matchEmployIndex: ""
         },
         fileInfo1: {
+          archiveId:'',
           reservedFileNumberValue: "",
           fileNumberValue: "",
           placeValue: "",
@@ -222,7 +212,11 @@
           employFilePayTo: "",
           inStockDate: "",
           inFileDate: "",
-          isEmployHandleEnd: false
+          isEmployHandleEnd: false,
+          docFrom:"",
+          employeeId:this.$route.query.employeeId,
+          companyId:this.$route.query.companyId,
+          employmentId:this.$route.query.employmentId
         },
         fileInfo2: {
           isFileHalfwayOut: false,
@@ -237,7 +231,10 @@
           sendFileFeedbacker: "",
           sendFileFeedbackDate: "",
           stockProver: "",
-          stockProveDate: ""
+          stockProveDate: "",
+          employeeId:this.$route.query.employeeId,
+          companyId:this.$route.query.companyId,
+          employmentId:this.$route.query.employmentId
         },
         modifyFileNumberInfo: {
           originFileNumber: "",
@@ -279,6 +276,43 @@
         companyNameChangeMatrialsPrintInfo: [],
         injuryReportManageInfo: []
       }
+    },
+     async mounted() {
+          
+          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId,remarkType:'2'}
+
+          // alert(params.employeeId);
+
+          api.archiveDetailInfoQuery(params).then(data=>{
+              
+              // this.employmentInfo=data.data.amEmpTaskBO;
+              
+              // this.employmentMaterial.materialsData = data.data.materialList.rows;
+             
+              this.employmentInfo = data.data.amEmploymentBO;
+
+              this.refuseReturnMaterialsSignInfo = data.data.materialList.rows;
+           
+              this.fileNotesViewData = data.data.amRemarkBo.rows;
+
+              this.fileInfo1 = data.data.amArchaiveBo;
+
+              this.fileInfo2 = data.data.amArchaiveBo;
+
+              this.fileSettleInfo = data.data.amArchaiveBo;
+
+              this.stockAndMailInfo = data.data.amArchaiveBo;
+
+              this.makeUpFileInfo  = data.data.amArchaiveBo;
+
+              this.injuryReportManageInfo = data.data.amInjuryPageRows.rows;
+
+              //this.historyTaskData =data.data.listHistory;
+
+              // this.customerInfo = data.data.company;
+
+               
+          })
     },
     methods: {
       goBack() {

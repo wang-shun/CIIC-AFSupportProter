@@ -129,8 +129,8 @@
     </Modal>
 
     <!-- 增加批次 -->
-    <Modal v-model="addPaymentData.isShow" width="540">
-      <Form :label-width=80>
+    <Modal v-model="addPaymentData.isShow" width="650">
+      <Form :label-width=120>
         <Row class="mt20">
           <Col :sm="{span: 12}">
             <Form-item label="支付年月：" prop="paymentMonthOfAdd">
@@ -280,9 +280,9 @@
               ]);
             }
           },
-          {title: '社保账户类型', key: 'accountType', width: 180, align: 'center',
+          {title: '社保账户类型', key: 'ssAccountType', width: 180, align: 'center',
             render: (h, params) => {
-              let accountType = params.row.accountType;
+              let accountType = params.row.ssAccountType;
               let accountTypeName = "";
               if(accountType == 1){
                   accountTypeName = "中智大库"
@@ -356,7 +356,7 @@
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYPAYTYPE]();
+      //this[EventType.SOCIALSECURITYPAYTYPE]();
       this.payBatchHandlePageNum(1);
     },
     computed: {

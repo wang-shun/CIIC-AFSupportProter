@@ -45,9 +45,16 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="专业操作起始年月：">
+        <Form-item label="专员操作起始年月：">
           <DatePicker v-model="openAccount.professionalOperateStartDate" placement="bottom-end" placeholder="选择日期" :disabled="disabled" style="width: 100%;" transfer></DatePicker>
         </Form-item>
+      </Col>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="任务状态：" prop="taskStatus">
+            <Select  style="width: 100%;" transfer @on-change="taskTypeChange"	>
+              <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
+            </Select>
+          </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="受理日期：">
@@ -99,6 +106,12 @@
           {label: "我司付款(客户预付)", value: 1},
           {label: "垫付", value: 2},
         ],
+        taskTypeList:[
+          {value: '0',label: '初始(材料收缴)',disabled:false},
+          {value: '1', label: '受理中',disabled:false},
+          {value: '2', label: '送审中',disabled:false},
+          {value: '3', label: '已完成',disabled:false},
+        ],//任务状态类型
         UKeyList: [
           {label: "有(中智代办)", value: 0},
           {label: "有(客户自办)", value: 1},

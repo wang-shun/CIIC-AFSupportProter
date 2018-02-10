@@ -110,11 +110,13 @@
               <!-- 仅新增 -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="截至月份：">
-                <DatePicker v-model="socialSecurityPayOperator.endMonth"  
+
+                <label>{{socialSecurityPayOperator.endMonth}}</label>
+                <!-- <DatePicker v-model="socialSecurityPayOperator.endMonth"  
                             type="month"
                             placement="bottom-end"
                             placeholder="请选择"
-                            style="width: 100%;"  transfer></DatePicker>
+                            style="width: 100%;"  transfer></DatePicker> -->
               </Form-item>
               </Col>
             </Row>
@@ -164,7 +166,7 @@
       <Col :sm="{span: 24}" class="tr">
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('5','noProgress')" v-if="showButton">不需处理</Button>
-      <Button type="primary" @click="instance('2','handle')" v-if="showButton">办理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton">办理</Button>
       <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton">批退</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','save')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
@@ -212,8 +214,8 @@
         taskCategoryType: [
           {value: '1', label: '新进'},
           {value: '2', label: '转入'},
-          {value: '3', label: '新进转出'},
-          {value: '4', label: '转入转出'},
+          // {value: '3', label: '新进转出'},
+          // {value: '4', label: '转入转出'},
         ], //变更方式
         specialChangeType: [
           {value: 1, label: '退休'},
@@ -252,15 +254,16 @@
             key: 'endMonth',
             align: 'center',
             render: (h, params) => {
-              return h('DatePicker', {
-                props: {value: params.row.endMonth, type: 'month', disabled:false},
-                attrs: {placeholder: ''},//选择年月
-                on: {
-                  input: (event) => {
-                    this.setRow(params, 'endMonth', event);
-                  }
-                }
-              });
+               return h('span',params.row.endMonth)
+              // return h('DatePicker', {
+              //   props: {value: params.row.endMonth, type: 'month', disabled:true},
+              //   attrs: {placeholder: ''},//选择年月
+              //   on: {
+              //     input: (event) => {
+              //       this.setRow(params, 'endMonth', event);
+              //     }
+              //   }
+              // });
             }
           },
           {
@@ -268,14 +271,16 @@
             key: 'baseAmount',
             align: 'center',
             render: (h, params) => {
-              return h('Input', {
-                props: {value: params.row.baseAmount, disabled:false},//disabled: true
-                on: {
-                  'on-blur': (e) => {
-                    this.setRow(params, 'baseAmount', e.target.value);
-                  }
-                }
-              }, params.row.baseAmount);
+
+              return h('span',params.row.baseAmount)
+              // return h('Input', {
+              //   props: {value: params.row.baseAmount, disabled:true},//disabled: true
+              //   on: {
+              //     'on-blur': (e) => {
+              //       this.setRow(params, 'baseAmount', e.target.value);
+              //     }
+              //   }
+              // }, params.row.baseAmount);
             }
           },
           // {
@@ -336,6 +341,12 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
+          isChange:'',
+          isHaveSameTask:'',
+          employeeId:'',
+          comAccountId:'',
+          taskId:'',
+          businessInterfaceId:''
         },
 
         // 任务单参考信息
@@ -355,7 +366,6 @@
                 h('span', params.row.startMonth,{
                   on: {
                   input: (event) => {
-
                     self.taskNewInfoData[params.index].row.startMonth = event
                   }
                 }
@@ -384,6 +394,7 @@
       }
     },
     mounted() {
+      
       this.initData(this.$route.query)
 
     },
@@ -413,9 +424,20 @@
           operatorType: 1,// 任务单费用段
           isNeedSerial:1
         }).then(data => {
-          
           if (data.data.empTaskPeriods.length > 0) {
+            
             this.operatorListData = data.data.empTaskPeriods;
+          }else{
+            
+            let operatorListData =[]
+            //remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false
+            let periodObj ={}
+             periodObj.remitWay='1';
+             periodObj.startMonth=data.data.startMonth;
+             periodObj.endMonth=data.data.endMonth;
+             periodObj.baseAmount = data.data.empBase
+             operatorListData.push(periodObj)
+             this.operatorListData = operatorListData
           }
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
 
@@ -435,7 +457,13 @@
             period.startMonth = this.socialSecurityPayOperator.startMonth
             period.endMonth=this.socialSecurityPayOperator.endMonth
             this.taskNewInfoData.push(period)
-            
+            if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
+                this.$Notice.warning({
+                    title: '温馨提示',
+                    desc: '该雇员存在相同类型的未办任务.',
+                    duration: 0
+                });
+            }
 
         });
 
@@ -447,7 +475,9 @@
 
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
+          
           this.company = data.data;
+          this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
         })
       },
       goBack() {
@@ -470,7 +500,7 @@
             newRows.push({
               empTaskId: empTaskId,
               startMonth: this.yyyyMM(row.startMonth),
-              endMonth: this.yyyyMM(row.endMonth),
+              endMonth: typeof(row.endMonth)!='undefined'&& row.endMonth!=''?this.yyyyMM(row.endMonth):"",
               baseAmount: row.baseAmount,
               remitWay: row.remitWay,
             });
@@ -488,6 +518,7 @@
         };
       },
       getRows() {
+        
         return this.operatorListData;
       },
       setRow(params, name, value) {
@@ -524,7 +555,18 @@
         }else if('handle'==type){
           content = "办理";
         }
-
+        let handleType = 'handle'==type || 'save'==type;
+        let startMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == this.yyyyMM(this.socialSecurityPayOperator.handleMonth)
+        let handleMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == this.yyyyMM(this.operatorListData[0].startMonth)
+        
+        if(handleType && (!startMonthIsEqual || !handleMonthIsEqual)){
+          if(!handleMonthIsEqual){
+               this.$Message.error("两个起缴月份必须相等.");
+          }else if(!startMonthIsEqual){
+                this.$Message.error("办理月份和起缴月份必须相等.");
+          }
+          return;
+        }
         let self= this;
         this.$Modal.confirm({
           title: "操作确认",
@@ -565,7 +607,7 @@
             }
 
             fromData.empTaskPeriods = self.filterData();
-
+            
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 self.$Message.success(content + "成功");

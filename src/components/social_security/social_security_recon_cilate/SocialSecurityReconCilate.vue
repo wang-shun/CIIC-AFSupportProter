@@ -126,10 +126,10 @@
                 :before-upload="beforeUpload"
                 :accept="uploadAttr.acceptFileExtension"
                 :format="['xlsx','xls']"
-                :on-success="onSuccess"
                 :on-format-error="handleFormatError"
                 :on-error="handleError"
                 >
+                
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
                </Form-item>
@@ -335,7 +335,7 @@
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYRECONCILATE]();
+      //this[EventType.SOCIALSECURITYRECONCILATE]();
       this.handlePageNum(1);
     },
     computed: {
@@ -366,24 +366,35 @@
       beforeUpload(file) {
         if (this.upLoadData.comAccountId == '' || this.upLoadData.ssMonth == '') {
           this.$Message.error("请选择社保账户");
-          return false;
         }
         else{
           this.upLoadData.file = file;
-          api.statementBeforeUpload(this.upLoadData);
+          api.statementBeforeUpload(this.upLoadData).then(data=>{
+              if (data.code == 0) {
+                this.$Message.info(data.message);
+                this.isUpload=false;
+                this.statementQuery();
+              }
+              else {
+                this.$Message.error(data.message);
+              }
+          }).catch(error=>{
+            this.$Message.error('系统异常！');
+          });
+          this.$refs['upload'].clearFiles();
         }
-        this.$refs['upload'].clearFiles();
+        return false;
       },
-      onSuccess(response, file) {
-        var data = response;
-        if (data.code == 0) {
-          this.$Message.info(data.message);
-          this.isUpload=false;
-          this.statementQuery();
-        } else {
-          this.$Message.error(data.message);
-        }
-      },
+      // onSuccess(response, file) {
+      //   var data = response;
+      //   if (data.code == 0) {
+      //     this.$Message.info(data.message);
+      //     this.isUpload=false;
+      //     this.statementQuery();
+      //   } else {
+      //     this.$Message.error(data.message);
+      //   }
+      // },
 
       handleError(error, file){
         this.$Notice.warning({

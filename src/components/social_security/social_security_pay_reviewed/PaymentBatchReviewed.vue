@@ -325,7 +325,7 @@
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYPAYTYPE]();
+      //this[EventType.SOCIALSECURITYPAYTYPE]();
       this.payBatchHandlePageNum(1);
     },
     computed: {

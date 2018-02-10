@@ -16,7 +16,7 @@
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账户：" prop="ssAccount">
                   <input-account v-model="operatorSearchData.ssAccount" @listenToChildEvent="listentChild"></input-account>
-                  
+
                    <!-- v-on:listenToChildEvent="listentChild" -->
                 </Form-item>
               </Col>
@@ -155,8 +155,9 @@ import InputAccount from './InputAccount.vue'
         let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMM')
         //this.$router.push({name: 'payment_notice',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount}})
        // window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
-        
-        this.$router.push({name: 'paymentNotice',query:{ssMonth:ssMonth,ssAccountId:this.operatorSearchData.ssAccountId}})
+        // this.$router.push({name: 'paymentNotice',query:{ssMonth:ssMonth,ssAccountId:this.operatorSearchData.ssAccountId}})
+
+        this.$router.push({name: 'monthlyPaymentNotice',query:{ssMonth:ssMonth,ssAccountId:this.operatorSearchData.ssAccountId}})
       },
       employeeCostDetail(){
         let result = this.validCondition();

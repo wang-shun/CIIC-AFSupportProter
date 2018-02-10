@@ -1,16 +1,45 @@
 <template>
   <div>
-    <Table border :columns="fileNotesViewColumns" :data="fileNotesView" class="mt20"></Table>
+    <Table border :columns="fileNotesViewColumns" :width="700" :data="fileNotesView" class="mt20"></Table>
     <Row type="flex" justify="start" class="mt20">
-      <Col class="tr">
-        <Button type="primary">新增</Button>
-        <Button type="error">删除</Button>
-        <Button type="primary">提交</Button>
+      <Col :sm="{span: 24}" class="tr">
+        <Button type="primary" @click="modal1 = true">新增</Button>
+        <Button type="primary"  @click="instance()">提交</Button>
       </Col>
     </Row>
+    <Modal
+        v-model="modal1"
+        title="新增档案备注"
+        @on-ok="ok"
+        @on-cancel="cancel">
+      <Form :model="handleInfo" ref="handleInfo" :label-width="150">
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+          <Form-item label="操作员：" prop="remarkManw">
+             <Input v-model="handleInfo.remarkManw" placeholder="请输入"/>
+          </Form-item>
+        </Col>
+       </Row>
+       <Row type="flex" justify="start">
+         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+          <Form-item label="操作日期：" prop="remarkDatew">
+            <DatePicker type="date" v-model="handleInfo.remarkDatew" transfer></DatePicker>
+          </Form-item>
+         </Col>
+      </Row>
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+          <Form-item label="备注：" prop="remarkContentw" transfer>
+            <Input v-model="handleInfo.remarkContentw" placeholder="请输入"/>
+          </Form-item>
+        </Col>
+       </Row>
+    </Form>
+    </Modal>
   </div>
 </template>
 <script>
+  import api from '../../../api/employ_manage/hire_operator'
   export default {
     props: {
       fileNotesViewData: {
@@ -20,35 +49,138 @@
     },
     data() {
       return {
+        modal1: false,
         fileNotesViewColumns: [
-          {title: '操作员', key: 'operator', align: 'center',
+          {title: '操作员', key: 'remarkMan', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.operator),
+                h('span', params.row.remarkMan),
               ]);
             }
           },
-          {title: '操作日期', key: 'operateDate', align: 'center',
+          {title: '操作日期', key: 'remarkDate', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.operateDate),
+                h('span', params.row.remarkDate),
               ]);
             }
           },
-          {title: '备注', key: 'notes', align: 'center',
+          {title: '备注', key: 'remarkContent', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.notes),
+                h('span', params.row.remarkContent),
               ]);
-            }
+          }
           },
-        ]
+          {
+            title: '操作',
+            key: 'action',
+            width: 100,
+            align: 'center',
+            render: (h, params) => {
+                return h('div', [
+                    h('Button', {
+                        props: {
+                            type: 'error',
+                            size: 'small'
+                        },
+                        on: {
+                            click: () => {
+                                this.remove(params.index,params.row.injuryId)
+                            }
+                        }
+                    }, '删除')
+                ]);
+            }
+         }
+        ],handleInfo: {
+          remarkContentw: '',
+          remarkManw: '',
+          remarkDatew:''
+        },realHandInfo:{
+           remarkContent: '',
+           remarkMan: '',
+           remarkDate:'',
+           employeeId:'',
+           remarkType:'2'
+        }
       }
     },
     computed: {
       fileNotesView() {
         return this.fileNotesViewData;
       }
+    },
+    methods: {
+            ok () {
+              var fromData = this.$utils.clear(this.realHandInfo,'');
+               fromData.remarkDate = this.$utils.formatDate(this.handleInfo.remarkDatew, 'YYYY-MM-DD');
+               fromData.remarkContent = this.handleInfo.remarkContentw;
+               fromData.remarkMan = this.handleInfo.remarkManw;
+             
+               fromData.employeeId = this.$route.query.employeeId;
+               
+               this.fileNotesView.push(fromData);
+            },
+            cancel () {
+               
+            },instance() {
+        
+            api.saveAmRemark(this.fileNotesView).then(data => {
+                  if (data.data.data == true) {
+                    this.$Message.success("保存成功");
+                    history.go(-1);
+                  } else {
+                    this.$Message.error("保存失败！");
+                  }
+            })
+          
+       },show (index) {
+                this.$Modal.info({
+                    title: 'User Info',
+                    content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`
+                })
+            },
+            remove (index,remarkId) {
+                if(!remarkId){
+                  this.fileNotesView.splice(index, 1);
+              
+                }else{
+                     this.$Modal.confirm({
+                      title: '',
+                      content: '确认删除吗?',
+                      onOk:function(){
+
+                        let params = {amRemarkId:remarkId}
+
+                        api.deleteAmRemark(params).then(data=>{
+                              history.go(-1);
+                      })
+                       
+                      },
+                      error:function(error){
+                        self.$Modal.remove();
+                    }
+                    });
+                }
+                
+            },del(){
+                 let selection = this.$refs.payComSelection.getSelection();
+                  //判断条件
+                  //是否有选中列
+                  if(selection.length == 0){
+                    alert("没有选中的列");
+                    return;
+                  }
+                 
+                  selection.some(item => {
+                       var ff = item;
+            
+                  });
+            },clickRow (index) {
+              
+            }
+        
     }
   }
 </script>

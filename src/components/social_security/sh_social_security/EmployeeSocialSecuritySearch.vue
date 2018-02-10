@@ -107,7 +107,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from "../../common_control/CustomerModal.vue"
   import companyAccountSearchModal from "../../common_control/CompanyAccountSearchModal.vue"
-  import ICol from "../../../../node_modules/iview/src/components/grid/col";
+  import ICol from "../../../../node_modules/iview/src/components/grid/col"
   import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
   import InputAccount from '../../common_control/form/input_account'
@@ -197,7 +197,7 @@
                       this.showInfo(params.row.empArchiveId)
                     }
                   }
-                }, '查看'),
+                }, '查看 / 编辑'),
               ]);
             }
           },
@@ -321,9 +321,11 @@
     },
     methods: {
       exportData() {
-        this.$refs['employeeSocialSecurityData'].exportCsv({
-          filename: '原始数据'
-        });
+        // this.$refs['employeeSocialSecurityData'].exportCsv({
+        //   filename: '原始数据'
+        // });
+        let params = this.searchCondition
+        api.empSSSearchExport(params);
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()

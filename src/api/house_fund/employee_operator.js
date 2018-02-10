@@ -78,7 +78,12 @@ export default {
   queryRefundAmountByTaskId:async (params)=>{
     let response = await AJAX.post('/api/soccommandservice/ssEmpTask/queryRefundAmountByTaskId', params);
     return await response.data;
-  }
+  },
+
+  impEmpAccountBeforeUpload: async(params) => {
+    let response = await AJAX.upload('/api/fundcommandservice/hfEmpArchive/xlsImportEmpAccount', params);
+    return await response.data;
+  },
 
 }
 

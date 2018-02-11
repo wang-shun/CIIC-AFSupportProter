@@ -73,6 +73,9 @@ import api from '../../../api/employ_manage/hire_operator'
 
         fromData.storageOutDate = this.$utils.formatDate(this.stockAndMail.storageOutDate, 'YYYY-MM-DD');
         fromData.postLetterDate = this.$utils.formatDate(this.stockAndMail.postLetterDate, 'YYYY-MM-DD');
+
+        fromData.budiaoDocDate1 = this.$utils.formatDate(this.stockAndMail.budiaoDocDate1, 'YYYY-MM-DD');
+        fromData.budiaoDocDate2 = this.$utils.formatDate(this.stockAndMail.budiaoDocDate2, 'YYYY-MM-DD');
        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {

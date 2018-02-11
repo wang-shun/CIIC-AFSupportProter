@@ -197,7 +197,7 @@
                       this.showInfo(params.row.empArchiveId)
                     }
                   }
-                }, '查看'),
+                }, '查看 / 编辑'),
               ]);
             }
           },
@@ -321,9 +321,11 @@
     },
     methods: {
       exportData() {
-        this.$refs['employeeSocialSecurityData'].exportCsv({
-          filename: '原始数据'
-        });
+        // this.$refs['employeeSocialSecurityData'].exportCsv({
+        //   filename: '原始数据'
+        // });
+        let params = this.searchCondition
+        api.empSSSearchExport(params);
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()

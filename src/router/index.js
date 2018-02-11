@@ -59,8 +59,8 @@ const fundYearAdjustViewDifference = r => require.ensure([], () => r(require('@/
 
 
 //任务单管理
-const pendingTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/PendingTaskList')), 'pendingTaskList') //待处理任务单列表
-const processedTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/ProcessedTaskList')), 'processedTaskList') //已处理任务单列表
+const PendingTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/PendingTaskList')), 'PendingTaskList') //待处理任务单列表
+const ProcessedTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/ProcessedTaskList')), 'ProcessedTaskList') //已处理任务单列表
 
 //补充医疗理赔
 const supplementaryMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/SupplementaryMedicalList')), 'supplementaryMedicalList') //充医疗理赔
@@ -466,9 +466,9 @@ let router = new Router({
           }
         },
         {
-          path: '/pendingTaskList',
-          name: 'pendingTaskList',
-          component: pendingTaskList,
+          path: '/PendingTaskList',
+          name: 'PendingTaskList',
+          component: PendingTaskList,
           meta: {
             level1: '首页',
             level2: "任务单管理",
@@ -477,9 +477,9 @@ let router = new Router({
           }
         },
         {
-          path: '/processedTaskList',
-          name: 'processedTaskList',
-          component: processedTaskList,
+          path: '/ProcessedTaskList',
+          name: 'ProcessedTaskList',
+          component: ProcessedTaskList,
           meta: {
             level1: '首页',
             level2: "任务单管理",

@@ -54,6 +54,15 @@ export class CompanyTaskList{
         })
 
     }
+
+    static excelExport(url,params){
+      console.log("url:"+url);
+
+      return new Promise(function(resolve,reject){
+        ajax.download(url, params);
+      });
+    }
+
     //post request type
     static postTableData(params,url){
       return new Promise(function(resolve,reject){
@@ -416,6 +425,7 @@ export class CompanyTaskList{
   }
 
 
+
   //处理返回值
   static handleReturnData(response){
     if(response.data.code=="200"){
@@ -428,7 +438,12 @@ export class CompanyTaskList{
    */
   static comInfoAndPayWayData(result){
     //前道传过来的社保截止和支付方式的json
-    let taskFormContent =  JSON.parse(result.taskFormContent)
+    
+    let taskFormContent = null;
+    if(typeof(result.taskFormContent)!='undefined'){
+      taskFormContent =  JSON.parse(result.taskFormContent);
+    }
+
     //账户信息
     let ssComAccountBO =  result.ssComAccountBO
     //判断账户信息是否为空
@@ -515,5 +530,6 @@ export class CompanyTaskList{
     }
     return operatorMaterialListData
   }
+
 }
 

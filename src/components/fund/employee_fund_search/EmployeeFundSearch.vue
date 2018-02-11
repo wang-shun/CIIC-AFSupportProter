@@ -92,27 +92,8 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-
-    <!-- 企业公积金账户分类 模态框 -->
-    <Modal
-      v-model="isShowCompanyFoundAccountList"
-      title="企业公积金账户分类"
-      width="720"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <company-fund-account-search-modal :companyFundAccountData="companyFundAccountList"></company-fund-account-search-modal>
-    </Modal>
-
-    <!-- 公司名称 模态框 -->
-    <Modal
-      v-model="isShowCompanyName"
-      title="公司名称"
-      width="720"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <company-modal :companyData="companyData"></company-modal>
-    </Modal>
-
+        
+<!-- :action="uploadAttr.actionUrl" -->
     <!-- 批量导入公积金账号 模态框 -->
     <Modal
       v-model="isShowImportFundAccount"
@@ -121,31 +102,38 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 12, offset: 6}" class="tc">
             <Form-item label="上传Excel：">
-              <Upload action="">
+              <Upload ref="upload"
+                :show-upload-list="true"
+                :data="upLoadData"
+                :action="uploadAttr.actionUrl"
+                :before-upload="beforeUpload"
+                :accept="uploadAttr.acceptFileExtension"
+                :format="['xlsx','xls']"
+                :on-format-error="handleFormatError"
+                :default-file-list="uploadFileList"
+                :on-error="handleError">
                 <Button type="ghost" icon="ios-cloud-upload-outline">选择文件上传</Button>
               </Upload>
             </Form-item>
           </Col>
         </Row>
-        <Alert type="error" closable show-icon v-show="isImported">导入文件格式验证失败！</Alert>
+        <!-- <Alert type="error" closable show-icon v-show="isImported">导入文件格式验证失败！</Alert> -->
         <Alert type="warning" closable show-icon v-show="isImported">
           请注意导入结果反馈
-          <template slot="desc">
-          导入总数：213<br/>
-          导入成功：200<br/>
-          失败总数：<span class="tred">13</span><br/>
-          <a href="javascript:;" @click="isShowImportFundAccount = false; isShowHistoryImported = true;">查看失败详细</a> | <a href="javascript:;" @click="isShowImportFundAccount = false;">结束操作</a>
+          <template slot="desc"  >
+              <div >{{retStr}}</div>
+          <!-- <a href="javascript:;" @click="isShowImportFundAccount = false; isShowHistoryImported = true;">查看失败详细</a> | <a href="javascript:;" @click="isShowImportFundAccount = false;">结束操作</a> -->
         </template>
         </Alert>
         <Row>
           <Col :sm="{span: 22, offset: 1}" class="tr">
-            <Button type="info" @click="isImported = true;">导入数据</Button>
-            <Button type="primary" @click="gotoHistoryList">查看历史导入</Button>
+            <Button type="info" @click="impOk">导入数据</Button>
+            <!-- <Button type="primary" @click="gotoHistoryList">查看历史导入</Button> -->
           </Col>
         </Row>
       </Form>
       <div slot="footer">
-        <Button type="warning" @click="isShowImportFundAccount = false">返回</Button>
+        <!-- <Button type="warning" @click="isShowImportFundAccount = false">返回</Button> -->
       </div>
     </Modal>
 
@@ -193,6 +181,13 @@
           empStatus: "",
           operationRemind: ""
         },
+        upLoadData: {
+          file:''
+        },
+        uploadAttr: {
+          actionUrl: '',
+          acceptFileExtension: '.xls,.xlsx',
+        },
         employeeFundData:[],
         companyFundAccountList:[],
         companyData:[],
@@ -233,6 +228,7 @@
           {value: 5, label: '其他独立开户公司'},
           {value: 6, label: '外包'}
         ],
+        uploadFileList:[],
         isShowImportFundAccount: false,
         employeeFundColumns: [
           {title: '操作', align: 'center', width: 120,
@@ -367,6 +363,7 @@
           // }
         ],
         isImported: false,
+        retStr:'',
         isShowHistoryImported: false,
         historyImportedColumns: [
           {title: '客户编号', key: 'companyId', align: 'center', width: 150,
@@ -422,7 +419,7 @@
       }
     },
     mounted() {
-      //this[EventTypes.EMPLOYEEFUNDSEARCHTYPE]()
+
       this.employeeQuery({})
     },
     computed: {
@@ -477,11 +474,37 @@
         let params = this.searchCondition
         this.employeeQuery(params);
       },
-      ok() {
+      impOk() {
+       api.impEmpAccountBeforeUpload(this.upLoadData).then(data=>{
+                this.uploadFileList=[];
+                this.isImported=true;
+                this.retStr=data.message;
+                this.isUpload=false;
+          }).catch(error=>{
+            this.$Message.error('系统异常！');
+          });
 
       },
       cancel() {
 
+      },
+      beforeUpload(file) {
+          this.upLoadData.file = file;
+          this.uploadFileList.push({name: file.name, url: ''});
+          //this.$refs['upload'].clearFiles();
+        return false;
+      },
+      handleError(error, file){
+        this.$Notice.warning({
+          title: '文件上传失败',
+          desc: '文件 ' + file.name + ' 上传失败！'
+        });
+      },
+      handleFormatError (file) {
+        this.$Notice.warning({
+          title: '文件格式不正确',
+          desc: '文件 ' + file.name + ' 格式不正确，请上传 xls 或 xlsx 格式的文档。'
+        });
       }
     }
   }

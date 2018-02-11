@@ -87,7 +87,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" @click="instance('3')" v-if="showButton">办理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('3')" v-if="showButton">办理</Button>
       <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>  
       <Button type="warning"  @click="goBack">返回</Button>
       </Col>
@@ -247,7 +247,13 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
-          empBase:''
+          empBase:'',
+           isChange:'',
+           isHaveSameTask:'',
+            employeeId:'',
+           comAccountId:'',
+           taskId:'',
+           businessInterfaceId:''
         },
 
         // 任务单参考信息
@@ -325,6 +331,17 @@
           }
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
+
+           this.$Notice.config({
+                top:80
+              })
+            if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
+                this.$Notice.warning({
+                    title: '温馨提示',
+                    desc: '该雇员存在相同类型的未办任务.',
+                    duration: 0
+                });
+            }
           
         });
         
@@ -340,6 +357,7 @@
 
           if(data.data!=null){
             this.company = data.data;
+             this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
           }
 
         })
@@ -364,7 +382,7 @@
             newRows.push({
               empTaskId: empTaskId,
               startMonth: this.yyyyMM(row.startMonth),
-              endMonth: this.yyyyMM(row.endMonth),
+              endMonth: typeof(row.endMonth)!='undefined'&& row.endMonth!=''?this.yyyyMM(row.endMonth):"",
               refundAmount: row.refundAmount,
               remitWay: row.remitWay,
             });

@@ -13,17 +13,17 @@
     <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span: 24}" class="tr">
         <!--<Button type="primary" @click="goHandle">办理</Button>-->
-          <Button type="primary">
+          <!-- <Button type="primary">
             打印
             <Icon type="arrow-down-b"></Icon>
-          </Button>
+          </Button> -->
           <DropdownMenu slot="list">
             <DropdownItem v-for="(print, index) in printList" :key="index">{{print}}</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
-        <Button type="primary" @click="isShowStockTitle = true">生成入库贴头</Button>
-        <Button type="primary" @click="sendToFileMangement">递交档案处</Button>
+        <!-- <Button type="primary" @click="isShowStockTitle = true">生成入库贴头</Button>
+        <Button type="primary" @click="sendToFileMangement">递交档案处</Button> -->
       </Col>
     </Row>
     <Table border :columns="employmentColumns" :data="employmentData" ref="employmentData" class="mt20"></Table>
@@ -76,7 +76,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         printList: em_print,
         // 下半部分
         employmentColumns: [
-          {title: '', type: 'selection', width: 60},
+          // {title: '', type: 'selection', width: 60},
           {
             title: '操作',
             key: 'action',
@@ -110,13 +110,13 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '序号', key: 'index', align: 'center', width: 100,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.index),
-              ]);
-            }
-          },
+          // {title: '序号', key: 'index', align: 'center', width: 100,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'right'}}, [
+          //       h('span', params.row.index),
+          //     ]);
+          //   }
+          // },
           {title: '公司编码', key: 'licenseCode', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
@@ -342,7 +342,6 @@ import {mapState, mapGetters, mapActions} from 'vuex'
       },
       showInfoT (employeeId,companyId) {
         this.$router.push({name:'employHandleEmployment', query: {employeeId:employeeId,companyId:companyId}});
-
       },
       showInfoTw (ind) {  
            this.searchCondition.params = this.searchConditions.toString();

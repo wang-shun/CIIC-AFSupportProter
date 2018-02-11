@@ -15,7 +15,7 @@ export default {
   },
   // 任务单类型
   taskCategory: (taskCategory) => {
-
+    //1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作  10 集体转入   11 集体转出 12 翻牌
     switch (taskCategory) {
       case '1':
         return '新进'
@@ -33,6 +33,12 @@ export default {
         return '退账'
       case '9':
         return '特殊操作'
+      case '10':
+        return '集体转入'
+      case '11':
+        return '集体转出'
+      case '12':
+        return '翻牌'
       default: // 默认 1
         return ''
     }
@@ -199,9 +205,7 @@ export default {
       case 3:
         return '信息变更'
       case 4:
-        return '随员'
-      case 5:
-        return '密码重置'
+        return '单添随员'
       default:
         return ''
     }
@@ -209,18 +213,18 @@ export default {
   //B证办理
   deal_type2: (type) => {
     switch (type) {
-      case 1:
-        return '新办'
-      case 2:
-        return '继办'
-      case 3:
-        return '随员'
-      case 4:
-        return '个人信息修改'
       case 5:
-        return '挂失'
+        return '新办'
       case 6:
-        return '补办'
+        return '继办'
+      case 7:
+        return '单位信息变更'
+      case 8:
+        return '随员'
+      case 9:
+        return '个人信息修改'
+      case 10:
+        return '挂失和补办'
       default:
         return ''
     }

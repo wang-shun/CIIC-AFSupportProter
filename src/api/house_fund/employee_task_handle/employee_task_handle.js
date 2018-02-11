@@ -12,5 +12,10 @@ export default {
   empTaskHandleDataSave: async (params) => {
     let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTaskHandle/empTaskHandleDataSave', params);
     return await response.data;
+  },
+
+  empTaskHandle: async (params) => {
+    let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTaskHandle/empTaskHandle', params);
+    return await response.data;
   }
 }

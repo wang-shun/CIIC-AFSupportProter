@@ -250,9 +250,9 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="handleTask">已处理</Button>
-        <Button type="primary" class="ml10">不需处理</Button>
-        <Button type="primary" class="ml10">转下月处理</Button>
-        <Button type="error" class="ml10">批退</Button>
+        <Button type="primary" class="ml10" @click="handleTaskCancel">不需处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay">转下月处理</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject">批退</Button>
         <Button type="primary" class="ml10" @click="isShowPrint = true">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask">保存</Button>
         <Button type="warning" class="ml10" @click="back">返回</Button>
@@ -333,16 +333,20 @@
           basicEndMonth: '',
           addedEndMonth: '',
           paymentWayName: '',
-          comanyId: '',
+          companyId: '',
           companyName: '',
           hfAccountTypeName: '',
+          comAccountId: '',
           comAccountName: '',
+          basicComAccountClassId: '',
+          addedComAccountClassId: '',
           comTaskStatusName: '',
 
           employeeId: '',
           employeeName: '',
           idNum: '',
           inDate: '',
+          basicEmpArchiveId: '',
           basicHfEmpAccount: '',
           basicEmpTaskStatusName: '',
           basicEmpStartMonth: '',
@@ -517,7 +521,14 @@
         },
         inputData: {
           empTaskId: 0,
+          taskStatus: 1,
           taskCategory: 0,
+          companyId: '',
+          employeeId: '',
+          comAccountId: '',
+          basicComAccountClassId: '',
+          addedComAccountClassId: '',
+          belongEmpArchiveId: '',
           hfEmpAccount: '',
           startMonth: '',
           operationRemind: '',
@@ -535,7 +546,8 @@
       let taskCategory = localStorage.getItem('employeeFundCommonOperatorNoProcess.taskCategory');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
-        hfType: hfType
+        hfType: hfType,
+        taskStatus: 1
       }).then(data => {
         if (data.code = 200) {
           this.displayVO = data.data;
@@ -603,13 +615,44 @@
         this.$router.go(-1)
       },
       handleTask() {
-        console.log(this.operationRemindDate);
-        debugger
+        this.setInputData();
+        this.inputData.companyId = this.displayVO.companyId;
+        this.inputData.employeeId = this.displayVO.employeeId;
+        this.inputData.comAccountId = this.displayVO.comAccountId;
+        this.inputData.basicComAccountClassId = this.displayVO.basicComAccountClassId;
+        this.inputData.addedComAccountClassId = this.displayVO.basicComAccountClassId;
+        this.inputData.belongEmpArchiveId = this.displayVO.basicEmpArchiveId;
+
+        // 处理参数
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.inputData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+
+        api.empTaskHandle(params).then(data => {
+          if (data.code = 200) {
+            this.$Message.info("处理成功");
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      },
+      handleTaskCancel() {
+
+      },
+      handleTaskDelay() {
+
+      },
+      handleTaskReject() {
+
       },
       filterMethod(value, option) {
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
       },
-      saveTask () {
+      setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
         this.inputData.taskCategory = this.displayVO.taskCategory;
         this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
@@ -623,6 +666,9 @@
         this.inputData.handleRemark = this.displayVO.handleRemark;
         this.inputData.rejectionRemark = this.displayVO.rejectionRemark;
         this.inputData.operatorListData = this.operatorListData;
+      },
+      saveTask () {
+        this.setInputData();
 
         // 处理参数
         var params = {};
@@ -635,7 +681,7 @@
 
         api.empTaskHandleDataSave(params).then(data => {
           if (data.code = 200) {
-
+            this.$Message.info("保存成功");
           } else {
             this.$Message.error(data.message);
           }

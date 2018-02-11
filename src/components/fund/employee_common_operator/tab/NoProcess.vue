@@ -299,7 +299,9 @@
       beforeSubmit() {
         if (this.operatorSearchData.submitTime) {
           for (let i = 0; i < this.operatorSearchData.submitTime.length; i++) {
-            this.operatorSearchData.submitTime[i] = utils.formatDate(this.operatorSearchData.submitTime[i], 'YYYY-MM-DD');
+            if (this.operatorSearchData.submitTime[i]) {
+              this.operatorSearchData.submitTime[i] = utils.formatDate(this.operatorSearchData.submitTime[i], 'YYYY-MM-DD');
+            }
           }
         }
       },

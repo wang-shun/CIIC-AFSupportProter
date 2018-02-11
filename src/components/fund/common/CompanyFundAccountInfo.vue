@@ -3,12 +3,12 @@
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户基本公积金账号：">
-          <label>{{companyFundAccount.customerBasicFundAccount}}</label>
+          <label>{{companyFundAccount.hfComBasicAccount}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户补充公积金账号：">
-          <label>{{companyFundAccount.customerAddFundAccount}}</label>
+          <label>{{companyFundAccount.hfComAddedAccount}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -18,17 +18,22 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="缴费区县：">
-          <label>{{companyFundAccount.payRegion}}</label>
+          <label>{{companyFundAccount.paymentBankName}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="企业公积金账户状态：">
-          <label>{{companyFundAccount.companyFundAccountStatus}}</label>
+          <label>{{companyFundAccount.comAccountStatus}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="末次汇缴月：">
-          <label>{{companyFundAccount.lastPayMonth}}</label>
+        <Form-item label="末次汇缴月（基本）：">
+          <label>{{companyFundAccount.comHfMonthBasic}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="末次汇缴月（补充）：">
+          <label>{{companyFundAccount.comHfMonthAdded}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -42,33 +47,45 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="截单年月：">
-          <label>{{companyFundAccount.endDate}}</label>
+        <Form-item label="截单年月（基本）：">
+          <label>{{companyFundAccount.endMonthBasic}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="截单年月（补充）：">
+          <label>{{companyFundAccount.endMonthAdded}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="付款方式：">
-          <label>{{companyFundAccount.payMethodValue}}</label>
+          <label>{{companyFundAccount.paymentWayName}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="公积金企业U盾：">
-          <label>{{companyFundAccount.UKeyValue}}</label>
+          <label>{{companyFundAccount.ukeyStoreName}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户编号：">
-          <label>{{companyFundAccount.customerNumber}}</label>
+          <label>{{companyFundAccount.comanyId}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户名称：">
-          <label>{{companyFundAccount.customerName}}</label>
+          <label>{{companyFundAccount.companyName}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="企业账户类型：">
-          <label>{{companyFundAccount.accountType}}</label>
+          <label>{{companyFundAccount.hfAccountTypeName}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="企业公积金账号名称：">
+          <label>{{companyFundAccount.comAccountName}}
+            <span style="color: red">{{companyFundAccount.comTaskCategory}}</span>
+          </label>
         </Form-item>
       </Col>
     </Row>
@@ -86,12 +103,7 @@
     },
     data() {
       return {
-        payMethodList: [
-          {label: "自付", value: "0"}
-        ],
-        UKeyList: [
-          {label: "有(中智代办)", value: "0"}
-        ]
+
       }
     },
     computed: {

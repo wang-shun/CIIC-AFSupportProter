@@ -17,10 +17,10 @@
   </div>
 </template>
 <script>
-  import noprocess from './employee_common_operator_tab/NoProcess'//雇员日常操作 -- 未处理
-  import processing from './employee_common_operator_tab/Processing'//雇员日常操作 -- 处理中
-  import finished from './employee_common_operator_tab/Finished'//雇员日常操作 -- 已完成
-  import refused from './employee_common_operator_tab/Refused'//雇员日常操作 --批退
+  import noprocess from './tab/NoProcess'//雇员日常操作 -- 未处理
+  import processing from './tab/Processing'//雇员日常操作 -- 处理中
+  import finished from './tab/Finished'//雇员日常操作 -- 已完成
+  import refused from './tab/Refused'//雇员日常操作 --批退
 
   export default {
     components: {noprocess, processing, finished, refused},

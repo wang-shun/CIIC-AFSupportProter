@@ -138,6 +138,7 @@
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import utils from '../../../../lib/utils'
 
   export default {
     components: {InputCompany},
@@ -183,7 +184,10 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'employeeFundHistoryDetail', query: {taskType: params.row.taskCategory}})
+                      localStorage.setItem('employeeFundCommonOperatorNoProcess.empTaskId', params.row.empTaskId);
+                      localStorage.setItem('employeeFundCommonOperatorNoProcess.hfType', params.row.hfType);
+                      localStorage.setItem('employeeFundCommonOperatorNoProcess.taskCategory', params.row.taskCategory);
+                      this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
                     }
                   }
                 }, '办理'),
@@ -209,7 +213,8 @@
         if (data.code == 200) {
           this.accountTypeList = data.data.SocialSecurityAccountType;
           this.processStatusList = data.data.ProcessPeriod;
-          this.taskTypeList = data.data.SOCLocalTaskCategory;
+          this.taskTypeList = data.data.HFLocalTaskCategory;
+          this.taskTypeList.splice(8, 1);
           this.payBankList = data.data.PayBank;
           this.fundTypeList = data.data.FundType;
         }
@@ -226,6 +231,7 @@
       hfEmpTaskQuery() {
         var params = {};
         {
+          this.beforeSubmit();
           // 清除 '[全部]'
           params = this.$utils.clear(this.operatorSearchData);
           // 清除空字符串
@@ -290,9 +296,17 @@
           }
         })
       },
+      beforeSubmit() {
+        if (this.operatorSearchData.submitTime) {
+          for (let i = 0; i < this.operatorSearchData.submitTime.length; i++) {
+            this.operatorSearchData.submitTime[i] = utils.formatDate(this.operatorSearchData.submitTime[i], 'YYYY-MM-DD');
+          }
+        }
+      },
       excelExport() {
         var params = {};
         {
+          this.beforeSubmit();
           // 清除 '[全部]'
           params = this.$utils.clear(this.operatorSearchData);
           // 清除空字符串

@@ -352,8 +352,8 @@
         return false;
       },
       upload() {
-        console.info(this.file);
-        apiAjax.importAcceptanceXls(this.file).then(response => {
+        let data = {file: this.file};
+        apiAjax.importAcceptanceXls(data).then(response => {
           if (response.data.code === 200) {
             this.$Message.success("上传成功");
           } else {

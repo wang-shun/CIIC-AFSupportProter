@@ -38,7 +38,7 @@
           {title: '雇员编号',key: ''},
           {title: '雇员姓名',key: ''},
           {title: '出生日期',key: ''},
-          {title: '资深雇员编号',key: ''},
+          {title: '资深雇员编号',key: '',width:110},
           {title: '性别',key: ''},
           {title: '手机号码',key: ''},
           {title: '电子邮件',key: ''},

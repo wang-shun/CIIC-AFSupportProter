@@ -16,8 +16,8 @@
             </Row>
             <Row type="flex" justify="start" v-if="queryItem.formTitle === '1'">
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="截止日期：" prop="companyId">
-                  <Input v-model="queryItem.companyId" placeholder="请输入"/>
+                <Form-item label="截止日期：">
+                  <DatePicker type="date" placeholder="请选择" transfer></DatePicker>
                 </Form-item>
               </i-col>
             </Row>
@@ -39,7 +39,7 @@
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员出生日期：" prop="manager">
-                  <Input v-model="queryItem.birthday" placeholder="请输入"/>
+                  <DatePicker type="date" placeholder="请选择" transfer></DatePicker>
                 </Form-item>
               </i-col>
             </Row>
@@ -188,7 +188,7 @@
         collapseInfo: [1],
         queryParam: {},
         queryItem: {
-          formTitle: '4',
+          formTitle: '1',
           companyId: '',
           majordomo: '',
           manager: '',

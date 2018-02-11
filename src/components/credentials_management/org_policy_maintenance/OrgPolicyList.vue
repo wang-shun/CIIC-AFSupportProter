@@ -269,7 +269,9 @@ export default {
                   desc: ''
                 })
                 this.modal1 = false
+                // location.reload()
                 this.find()
+                this.$refs['formItem'].resetFields()
             } else {
               this.$Notice.error({
                 title: '保存失败',
@@ -290,14 +292,12 @@ export default {
         axios.delete(host + '/api/orgPolicy/delete/'+val).then((response) => {
           console.log(response.data.errCode===0)
             if (response.data.errCode === '0'){
-              console.log("success")
+              this.find()
               this.$Message.success('删除成功!')
             } else {
-               console.log("error1")
               this.$Message.error('删除失败!')
             }
           }).catch((error) => {
-             console.log("error2")
             this.$Message.error('删除失败!')
           })
       }

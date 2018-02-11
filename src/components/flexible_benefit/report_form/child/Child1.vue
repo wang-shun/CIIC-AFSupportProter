@@ -30,8 +30,8 @@
         total: null,
         colums1: [
           {title: '雇员姓名', key: ''},
-          {title: '资深雇员编号',key: '',width:100},
-          {title: '性别',key: ''},
+          {title: '资深雇员编号',key: ''},
+          {title: '性别',key: '',width:70},
           {title: '公司编号',key: ''},
           {title: '公司名称',key: ''},
           {title: '联系地址',key: ''},
@@ -42,11 +42,11 @@
           {title: '服务中心',key: ''},
           {title: '雇员职位',key: ''},
           {title: '雇员生日',key: ''},
-          {title: '首次进入中智日期',key: '',width:110},
+          {title: '首次进入中智日期',key: ''},
           {title: '输入日期',key: ''},
-          {title: '身份证号码',key: ''},
+          {title: '身份证号码',key: '',width:100},
           {title: '所在城市',key: ''},
-          {title: '有无活动费',key: ''}
+          {title: '有无活动费',key: '',width:100}
         ],
         data1: []
       }

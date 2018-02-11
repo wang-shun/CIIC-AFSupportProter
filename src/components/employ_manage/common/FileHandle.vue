@@ -232,6 +232,16 @@ import api from '../../../api/employ_manage/hire_operator'
         fromData.mailDocReturnDate = this.$utils.formatDate(this.file1.mailDocReturnDate, 'YYYY-MM-DD');
         fromData.openDocProofDate = this.$utils.formatDate(this.file1.openDocProofDate, 'YYYY-MM-DD');
 
+        fromData.closeFeeDate = this.$utils.formatDate(this.file1.closeFeeDate, 'YYYY-MM-DD');
+        fromData.closeFeeStartDate = this.$utils.formatDate(this.file1.closeFeeStartDate, 'YYYY-MM-DD');
+        fromData.resignDocDate = this.$utils.formatDate(this.file1.resignDocDate, 'YYYY-MM-DD');
+
+        fromData.storageOutDate = this.$utils.formatDate(this.file1.storageOutDate, 'YYYY-MM-DD');
+        fromData.postLetterDate = this.$utils.formatDate(this.file1.postLetterDate, 'YYYY-MM-DD');
+
+        fromData.budiaoDocDate1 = this.$utils.formatDate(this.file1.budiaoDocDate1, 'YYYY-MM-DD');
+        fromData.budiaoDocDate2 = this.$utils.formatDate(this.file1.budiaoDocDate2, 'YYYY-MM-DD');
+
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success("保存成功");
@@ -257,6 +267,16 @@ import api from '../../../api/employ_manage/hire_operator'
         fromData.employDocPaymentTo = this.$utils.formatDate(this.file2.employDocPaymentTo, 'YYYY-MM-DD');
         fromData.storageDate = this.$utils.formatDate(this.file2.storageDate, 'YYYY-MM-DD');
         fromData.inFileDate = this.$utils.formatDate(this.file2.inFileDate, 'YYYY-MM-DD');
+
+        fromData.closeFeeDate = this.$utils.formatDate(this.file2.closeFeeDate, 'YYYY-MM-DD');
+        fromData.closeFeeStartDate = this.$utils.formatDate(this.file2.closeFeeStartDate, 'YYYY-MM-DD');
+        fromData.resignDocDate = this.$utils.formatDate(this.file2.resignDocDate, 'YYYY-MM-DD');
+
+        fromData.storageOutDate = this.$utils.formatDate(this.file2.storageOutDate, 'YYYY-MM-DD');
+        fromData.postLetterDate = this.$utils.formatDate(this.file2.postLetterDate, 'YYYY-MM-DD');
+
+        fromData.budiaoDocDate1 = this.$utils.formatDate(this.file2.budiaoDocDate1, 'YYYY-MM-DD');
+        fromData.budiaoDocDate2 = this.$utils.formatDate(this.file2.budiaoDocDate2, 'YYYY-MM-DD');
        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {

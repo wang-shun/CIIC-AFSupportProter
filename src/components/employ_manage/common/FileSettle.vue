@@ -54,7 +54,7 @@ import api from '../../../api/employ_manage/hire_operator'
     methods: {
       resetForm(form) {
         this.$refs[form].resetFields();
-      },instance() { alert('ddd');
+      },instance() { 
         var fromData = this.$utils.clear(this.fileSettle,'');
        
         fromData.closeFeeDate = this.$utils.formatDate(this.fileSettle.closeFeeDate, 'YYYY-MM-DD');
@@ -68,14 +68,15 @@ import api from '../../../api/employ_manage/hire_operator'
         fromData.mailDocReturnDate = this.$utils.formatDate(this.fileSettle.mailDocReturnDate, 'YYYY-MM-DD');
         fromData.openDocProofDate = this.$utils.formatDate(this.fileSettle.openDocProofDate, 'YYYY-MM-DD');
        
-
-        
         fromData.employDocPaymentTo = this.$utils.formatDate(this.fileSettle.employDocPaymentTo, 'YYYY-MM-DD');
         fromData.storageDate = this.$utils.formatDate(this.fileSettle.storageDate, 'YYYY-MM-DD');
         fromData.inFileDate = this.$utils.formatDate(this.fileSettle.inFileDate, 'YYYY-MM-DD');
 
         fromData.storageOutDate = this.$utils.formatDate(this.fileSettle.storageOutDate, 'YYYY-MM-DD');
         fromData.postLetterDate = this.$utils.formatDate(this.fileSettle.postLetterDate, 'YYYY-MM-DD');
+
+        fromData.budiaoDocDate1 = this.$utils.formatDate(this.fileSettle.budiaoDocDate1, 'YYYY-MM-DD');
+        fromData.budiaoDocDate2 = this.$utils.formatDate(this.fileSettle.budiaoDocDate2, 'YYYY-MM-DD');
        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {

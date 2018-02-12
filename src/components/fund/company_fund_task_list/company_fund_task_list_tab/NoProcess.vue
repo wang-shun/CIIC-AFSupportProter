@@ -12,24 +12,21 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称：" prop="title">
-                  <input-company v-model="operatorSearchData.customerName"></input-company>
+                <Form-item label="客户编号：" prop="title">
+                  <input-company v-model="operatorSearchData.companyId"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业账户类型：" prop="accountTypeValue">
                   <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="(value,key) in this.baseDic.companyHFAccountType" :value="key" :key="key">{{ value }}</Option>
                   </Select>
-                  <!--<Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>-->
-                    <!--<Option v-for="(value,key) in this.baseDic.companyHFAccountType" :value="key" :key="key">{{ value }}</Option>-->
-                  <!--</Select>-->
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费银行：" prop="payBankValue">
                   <Select v-model="operatorSearchData.payBankValue" style="width: 100%;" transfer>
-                    <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="(value,key) in this.baseDic.payBankList" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -39,9 +36,9 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金类型：" prop="fundTypeValue">
-                  <Select v-model="operatorSearchData.fundTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="公积金类型：" prop="hfTypeName">
+                  <Select v-model="operatorSearchData.hfTypeName" style="width: 100%;" transfer>
+                    <Option v-for="(value,key) in this.baseDic.hfTypeNameList" :value="value" :key="value">{{ value }}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -58,7 +55,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="primary" icon="ios-search" @click="clickQuery">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -69,38 +66,48 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <!-- <Button type="primary" @click="isCreateTaskTicket = true">新建任务单</Button> -->
         <Button type="info" @click="">导出</Button>
       </Col>
     </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="noProcessColumns" :data="lNoProcessData"></Table>
-        <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
+        <Table border :columns="taskColumns" :data="taskData" :loading="loading"></Table>
+        <Page
+          class="pageSize"
+          :total="totalSize"
+          :page-size="size"
+          :page-size-opts="sizeArr"
+          :current="pageNum"
+          show-sizer
+          show-total
+          @on-change="getPage"></Page>
       </Col>
     </Row>
+
   </div>
 </template>
 <script>
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
-
-  import axios from 'axios'
-  const host = process.env.SITE_HOST
+  import {NoProcess} from '../../../../api/house_fund/company_task_list/company_task_list_tab/no_process'
 
   export default {
     components: {InputAccount, InputCompany},
     data() {
       return {
+        taskData:[],//table 里的数据
+        totalSize:0,//后台传过来的分页总数
         collapseInfo: [1], //展开栏
+        size:10,//默认单页记录数
+        pageNum:1,
         operatorSearchData: {
           serviceCenterValue: '',
-          customerName: '',
+          companyId: '',
           accountTypeValue: '',
           payBankValue: '',
           companyFundAccount: '',
-          fundTypeValue: '',
+          hfTypeName: '',
           serviceManager: '',
           taskStartTime: ''
         },
@@ -110,37 +117,7 @@
           {value: 3, label: '虹桥'},
           {value: 4, label: '浦东'}
         ], //客服中心
-        payBankList: [
-          {value: '', label: '全部'},
-          {value: 0, label: '徐汇'},
-          {value: 1, label: '长宁'},
-          {value: 2, label: '浦东'},
-          {value: 3, label: '卢湾'},
-          {value: 4, label: '静安'},
-          {value: 5, label: '黄浦'},
-        ],
-        fundTypeList: [
-          {value: '', label: '全部'},
-          {value: 0, label: '基本公积金'},
-          {value: 1, label: '补充公积金'}
-        ],
-        accountTypeList: [
-          {value: '', label: '全部'},
-          {value: 1, label: '中智大库'},
-          {value: 2, label: '中智外包'},
-          {value: 3, label: '独立户'},
-        ],
-        lNoProcessData: [
-          {taskType: "开户", fundType: "基本公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
-          {taskType: "转入", fundType: "补充公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
-          {taskType: "转入", fundType: "基本公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
-          {taskType: "转入", fundType: "补充公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
-          {taskType: "变更", fundType: "基本公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
-          {taskType: "变更", fundType: "补充公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
-          {taskType: "终止", fundType: "基本公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"},
-          {taskType: "销户", fundType: "补充公积金", customerNumber: "26318", customerName: "欧莱雅", managers: "王莺", customerPayStartDate: "", payMethod: "", UKey: "", serviceManager: "", initiator: "金翔云", sponsorTime: "2017/06/01 10:05:29"}
-        ],
-        noProcessColumns: [
+        taskColumns: [
           {title: '操作', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -154,38 +131,38 @@
               ]);
             }
           },
-          {title: '任务类型', key: 'taskType', width: 150, align: 'center',
+          {title: '任务类型', key: 'taskCategoryName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.taskType),
+                h('span', params.row.taskCategoryName),
               ]);
             }
           },
-          {title: '公积金类型', key: 'fundType', width: 150, align: 'center',
+          {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.fundType),
+                h('span', params.row.hfTypeName),
               ]);
             }
           },
-          {title: '客户编号', key: 'customerNumber', width: 150, align: 'center',
+          {title: '客户编号', key: 'companyId', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerNumber),
+                h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '客户名称', key: 'customerName', width: 150, align: 'center',
+          {title: '客户名称', key: 'companyName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerName),
+                h('span', params.row.companyName),
               ]);
             }
           },
-          {title: '经办人', key: 'managers', width: 150, align: 'center',
+          {title: '经办人', key: 'manager', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.managers),
+                h('span', params.row.manager),
               ]);
             }
           },
@@ -196,10 +173,10 @@
               ]);
             }
           },
-          {title: '付款方式', key: 'payMethod', width: 150, align: 'center',
+          {title: '付款方式', key: 'comTaskPaymentWayName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.payMethod),
+                h('span', params.row.comTaskPaymentWayName),
               ]);
             }
           },
@@ -235,6 +212,30 @@
       }
     },
     mounted() {
+      let sessionPageNum = sessionStorage.taskPageNum
+      let sessionPageSize = sessionStorage.taskPageSize
+
+      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+        this.pageNum = Number(sessionPageNum)
+        this.size = Number(sessionPageSize)
+        sessionStorage.removeItem("taskPageNum")
+        sessionStorage.removeItem("taskPageSize")
+      }
+      let params = {
+        pageSize:this.size,
+        pageNum:this.pageNum,
+        params:{}
+      }
+
+      let self= this
+      NoProcess.postTableData(params).then(data=>{
+          self.loading=true;
+          self.refresh(data)
+        }
+      ).catch(error=>{
+        console.log(error);
+      })
+
     },
     computed: {
     },
@@ -243,11 +244,69 @@
         this.$refs[name].resetFields()
       },
       ok () {
-
       },
       cancel () {
+      },
+      getPage(page){
+        this.pageNum = page
+        this.setSessionNumAndSize()
+        this.loading=true;
+        let self= this
+        let params =this.getParams(page)
+        NoProcess.postTableData(params).then(data=>{
+            self.refresh(data)
+          }
+        ).catch(error=>{
+          console.log(error);
+        })
+      },
+      setSessionNumAndSize(){
+        sessionStorage.taskPageNum=this.pageNum
+        sessionStorage.taskPageSize = this.size
+      },
+      //关闭查询loding
+      closeLoading(){
+        this.loading=false;
+      },
+      //将后台查询的数据赋到页面
+      refresh(data){
+        this.taskData = data.data.taskData
+        // this.customerData = data.data.customerData;
+        debugger
+        if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
+        else this.totalSize  =Number(data.data.totalSize)
+        this.closeLoading();
+      },
+      //导表
+      exportExcel(){
 
-      }
+      },
+      //点击查询按钮
+      clickQuery(){
+        this.loading=true;
+        //获得页面条件参数
+        let params = this.getParams(1)
+        let self = this
+        NoProcess.postTableData(params).then(data=>{
+          self.refresh(data)
+        }).catch(error=>{
+          console.log(error)
+        })
+      },
+      //获得列表请求请求参数
+      getParams(page){
+        debugger
+        return {
+          pageSize:this.size,
+          pageNum:page,
+          params:{
+            companyId:this.operatorSearchData.companyId,//客户编号
+            hfTypeName:(this.operatorSearchData.hfTypeName=="" || this.operatorSearchData.taskStartTime==null || this.operatorSearchData.hfTypeName=='全部') ? null : this.operatorSearchData.hfTypeName //公积金账户类型
+            // submitTimeStart:this.operatorSearchData.taskStartTime=="" || this.operatorSearchData.taskStartTime==null||this.operatorSearchData.taskStartTime[0]==null?null:Utils.formatDate(this.operatorSearchData.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
+            // submitTimeEnd:this.operatorSearchData.taskStartTime==""||this.operatorSearchData.taskStartTime==null||this.operatorSearchData.taskStartTime[0]==null ?null:Utils.formatDate(this.operatorSearchData.taskStartTime[1],'YYYY-MM-DD')
+          }
+        }
+      },
     }
   }
 </script>

@@ -193,37 +193,38 @@
     },
     async mounted() {
 
-          
-         
           let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId,remarkType:'3'}
 
           api.queryAmResignDetail(params).then(data=>{
 
-            this.customerInfo = data.data.company;//客户信息
+            if(data.data.company){
+                this.customerInfo = data.data.company;//客户信息
+            }
 
-            this.employeeInfo=data.data.amEmpTaskBO;//雇员信息
+            if(data.data.amEmpTaskBO){
+                this.employeeInfo=data.data.amEmpTaskBO;//雇员信息
+            }
+
+            if(data.data.resignBO){
+                this.refuseInfo=data.data.resignBO;//退工信息
+            }
             
-            this.refuseInfo=data.data.resignBO;//退工信息
+            if(data.data.amRemarkBo){
+               this.refuseNotesData = data.data.amRemarkBo.rows;//退工备注
+            } 
 
-            this.refuseNotesData = data.data.amRemarkBo.rows;//退工备注
+            if(data.data.amRemarkBo1){
+                this.employmentViewData = data.data.amRemarkBo1.rows;//用工备注
+            }
             
-            this.employmentViewData = data.data.amRemarkBo1.rows;//用工备注
+            if(data.data.amRemarkBo2){
+                 this.fileNotesViewData = data.data.amRemarkBo2.rows;//档案备注
+            }
+            
+            if(data.data.amEmploymentBO){
+                 this.employmentInfo = data.data.amEmploymentBO;
+            }
 
-            this.fileNotesViewData = data.data.amRemarkBo2.rows;//档案备注
-              
-              // this.employmentMaterial.materialsData = data.data.materialList.rows;
-             
-               this.employmentInfo = data.data.amEmploymentBO;
-              
-              // this.notesData = data.data.amRemarkBo.rows;
-
-              // this.materialHandleInfo = data.data.amArchaiveBo;
-
-              // //this.historyTaskData =data.data.listHistory;
-
-              
-
-               
           })
     },
     methods: {

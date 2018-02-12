@@ -72,28 +72,29 @@
                 h('span', params.row.remarkContent),
               ]);
           }
-          },{
-                        title: '操作',
-                        key: 'action',
-                        width: 100,
-                        align: 'center',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'error',
-                                        size: 'small'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.remove(params.index,params.row.remarkId)
-                                        }
-                                    }
-                                }, '删除')
-                            ]);
+          },
+          {
+            title: '操作',
+            key: 'action',
+            width: 100,
+            align: 'center',
+            render: (h, params) => {
+                return h('div', [
+                    h('Button', {
+                        props: {
+                            type: 'error',
+                            size: 'small'
+                        },
+                        on: {
+                            click: () => {
+                                this.remove(params.index,params.row.remarkId)
+                            }
                         }
-                    }
-        ],notesData: [],//列表数据
+                    }, '删除')
+                ]);
+            }
+          }
+        ],
         handleInfo: {
           remarkContentw: '',
           remarkManw: '',

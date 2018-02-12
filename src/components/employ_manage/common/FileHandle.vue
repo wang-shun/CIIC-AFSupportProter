@@ -221,27 +221,56 @@ import api from '../../../api/employ_manage/hire_operator'
         
       
         var fromData = this.$utils.clear(this.file1,'');
-        fromData.employDocPaymentTo = this.$utils.formatDate(this.file1.employDocPaymentTo, 'YYYY-MM-DD');
-        fromData.storageDate = this.$utils.formatDate(this.file1.storageDate, 'YYYY-MM-DD');
-        fromData.inFileDate = this.$utils.formatDate(this.file1.inFileDate, 'YYYY-MM-DD');
-
-        fromData.docHalfwayOutDate = this.$utils.formatDate(this.file1.docHalfwayOutDate, 'YYYY-MM-DD');
-        fromData.manualStorageDate = this.$utils.formatDate(this.file1.manualStorageDate, 'YYYY-MM-DD');
-        fromData.afterEmployManualReceiveDate = this.$utils.formatDate(this.file1.afterEmployManualReceiveDate, 'YYYY-MM-DD');
-        fromData.recoverEmployManualStorageDate = this.$utils.formatDate(this.file1.recoverEmployManualStorageDate, 'YYYY-MM-DD');
-        fromData.mailDocReturnDate = this.$utils.formatDate(this.file1.mailDocReturnDate, 'YYYY-MM-DD');
-        fromData.openDocProofDate = this.$utils.formatDate(this.file1.openDocProofDate, 'YYYY-MM-DD');
-
-        fromData.closeFeeDate = this.$utils.formatDate(this.file1.closeFeeDate, 'YYYY-MM-DD');
-        fromData.closeFeeStartDate = this.$utils.formatDate(this.file1.closeFeeStartDate, 'YYYY-MM-DD');
-        fromData.resignDocDate = this.$utils.formatDate(this.file1.resignDocDate, 'YYYY-MM-DD');
-
-        fromData.storageOutDate = this.$utils.formatDate(this.file1.storageOutDate, 'YYYY-MM-DD');
-        fromData.postLetterDate = this.$utils.formatDate(this.file1.postLetterDate, 'YYYY-MM-DD');
-
-        fromData.budiaoDocDate1 = this.$utils.formatDate(this.file1.budiaoDocDate1, 'YYYY-MM-DD');
-        fromData.budiaoDocDate2 = this.$utils.formatDate(this.file1.budiaoDocDate2, 'YYYY-MM-DD');
-
+        if(this.file1.employDocPaymentTo){
+             fromData.employDocPaymentTo = this.$utils.formatDate(this.file1.employDocPaymentTo, 'YYYY-MM-DD');
+        }
+        if(this.file1.storageDate){
+             fromData.storageDate = this.$utils.formatDate(this.file1.storageDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.inFileDate){
+             fromData.inFileDate = this.$utils.formatDate(this.file1.inFileDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.docHalfwayOutDate){
+            fromData.docHalfwayOutDate = this.$utils.formatDate(this.file1.docHalfwayOutDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.manualStorageDate){
+             fromData.manualStorageDate = this.$utils.formatDate(this.file1.manualStorageDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.afterEmployManualReceiveDate){
+            fromData.afterEmployManualReceiveDate = this.$utils.formatDate(this.file1.afterEmployManualReceiveDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.recoverEmployManualStorageDate){
+              fromData.recoverEmployManualStorageDate = this.$utils.formatDate(this.file1.recoverEmployManualStorageDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.mailDocReturnDate){
+               fromData.mailDocReturnDate = this.$utils.formatDate(this.file1.mailDocReturnDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.openDocProofDate){
+             fromData.openDocProofDate = this.$utils.formatDate(this.file1.openDocProofDate, 'YYYY-MM-DD');
+        }
+       if(this.file1.closeFeeDate){
+             fromData.closeFeeDate = this.$utils.formatDate(this.file1.closeFeeDate, 'YYYY-MM-DD');
+       }
+        if(this.file1.closeFeeStartDate){
+             fromData.closeFeeStartDate = this.$utils.formatDate(this.file1.closeFeeStartDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.resignDocDate){
+             fromData.resignDocDate = this.$utils.formatDate(this.file1.resignDocDate, 'YYYY-MM-DD');
+        }
+       if(this.file1.storageOutDate){
+            fromData.storageOutDate = this.$utils.formatDate(this.file1.storageOutDate, 'YYYY-MM-DD');
+       }
+       if(this.file1.postLetterDate){
+           fromData.postLetterDate = this.$utils.formatDate(this.file1.postLetterDate, 'YYYY-MM-DD');
+       }
+        
+       if(this.file1.budiaoDocDate1){
+            fromData.budiaoDocDate1 = this.$utils.formatDate(this.file1.budiaoDocDate1, 'YYYY-MM-DD');
+       }
+       if(this.file1.budiaoDocDate2){
+            fromData.budiaoDocDate2 = this.$utils.formatDate(this.file1.budiaoDocDate2, 'YYYY-MM-DD');
+       }
+        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success("保存成功");
@@ -257,26 +286,56 @@ import api from '../../../api/employ_manage/hire_operator'
        
         var fromData = this.$utils.clear(this.file2,'');
         
-        fromData.docHalfwayOutDate = this.$utils.formatDate(this.file2.docHalfwayOutDate, 'YYYY-MM-DD');
-        fromData.manualStorageDate = this.$utils.formatDate(this.file2.manualStorageDate, 'YYYY-MM-DD');
-        fromData.afterEmployManualReceiveDate = this.$utils.formatDate(this.file2.afterEmployManualReceiveDate, 'YYYY-MM-DD');
-        fromData.recoverEmployManualStorageDate = this.$utils.formatDate(this.file2.recoverEmployManualStorageDate, 'YYYY-MM-DD');
-        fromData.mailDocReturnDate = this.$utils.formatDate(this.file2.mailDocReturnDate, 'YYYY-MM-DD');
-        fromData.openDocProofDate = this.$utils.formatDate(this.file2.openDocProofDate, 'YYYY-MM-DD');
+        if(this.file2.employDocPaymentTo){
+             fromData.employDocPaymentTo = this.$utils.formatDate(this.file2.employDocPaymentTo, 'YYYY-MM-DD');
+        }
+        if(this.file2.storageDate){
+             fromData.storageDate = this.$utils.formatDate(this.file2.storageDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.inFileDate){
+             fromData.inFileDate = this.$utils.formatDate(this.file2.inFileDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.docHalfwayOutDate){
+            fromData.docHalfwayOutDate = this.$utils.formatDate(this.file2.docHalfwayOutDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.manualStorageDate){
+             fromData.manualStorageDate = this.$utils.formatDate(this.file2.manualStorageDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.afterEmployManualReceiveDate){
+            fromData.afterEmployManualReceiveDate = this.$utils.formatDate(this.file2.afterEmployManualReceiveDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.recoverEmployManualStorageDate){
+              fromData.recoverEmployManualStorageDate = this.$utils.formatDate(this.file2.recoverEmployManualStorageDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.mailDocReturnDate){
+               fromData.mailDocReturnDate = this.$utils.formatDate(this.file2.mailDocReturnDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.openDocProofDate){
+             fromData.openDocProofDate = this.$utils.formatDate(this.file2.openDocProofDate, 'YYYY-MM-DD');
+        }
+       if(this.file2.closeFeeDate){
+             fromData.closeFeeDate = this.$utils.formatDate(this.file2.closeFeeDate, 'YYYY-MM-DD');
+       }
+        if(this.file2.closeFeeStartDate){
+             fromData.closeFeeStartDate = this.$utils.formatDate(this.file2.closeFeeStartDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.resignDocDate){
+             fromData.resignDocDate = this.$utils.formatDate(this.file2.resignDocDate, 'YYYY-MM-DD');
+        }
+       if(this.file2.storageOutDate){
+            fromData.storageOutDate = this.$utils.formatDate(this.file2.storageOutDate, 'YYYY-MM-DD');
+       }
+       if(this.file2.postLetterDate){
+           fromData.postLetterDate = this.$utils.formatDate(this.file2.postLetterDate, 'YYYY-MM-DD');
+       }
+        
+       if(this.file2.budiaoDocDate1){
+            fromData.budiaoDocDate1 = this.$utils.formatDate(this.file2.budiaoDocDate1, 'YYYY-MM-DD');
+       }
+       if(this.file2.budiaoDocDate2){
+            fromData.budiaoDocDate2 = this.$utils.formatDate(this.file2.budiaoDocDate2, 'YYYY-MM-DD');
+       }
 
-        fromData.employDocPaymentTo = this.$utils.formatDate(this.file2.employDocPaymentTo, 'YYYY-MM-DD');
-        fromData.storageDate = this.$utils.formatDate(this.file2.storageDate, 'YYYY-MM-DD');
-        fromData.inFileDate = this.$utils.formatDate(this.file2.inFileDate, 'YYYY-MM-DD');
-
-        fromData.closeFeeDate = this.$utils.formatDate(this.file2.closeFeeDate, 'YYYY-MM-DD');
-        fromData.closeFeeStartDate = this.$utils.formatDate(this.file2.closeFeeStartDate, 'YYYY-MM-DD');
-        fromData.resignDocDate = this.$utils.formatDate(this.file2.resignDocDate, 'YYYY-MM-DD');
-
-        fromData.storageOutDate = this.$utils.formatDate(this.file2.storageOutDate, 'YYYY-MM-DD');
-        fromData.postLetterDate = this.$utils.formatDate(this.file2.postLetterDate, 'YYYY-MM-DD');
-
-        fromData.budiaoDocDate1 = this.$utils.formatDate(this.file2.budiaoDocDate1, 'YYYY-MM-DD');
-        fromData.budiaoDocDate2 = this.$utils.formatDate(this.file2.budiaoDocDate2, 'YYYY-MM-DD');
        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {

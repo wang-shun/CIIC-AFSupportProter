@@ -151,7 +151,8 @@
           employWay: '',
           employOperateMan: '',
           employeeId:this.$route.query.employeeId,
-          companyId:this.$route.query.companyId
+          companyId:this.$route.query.companyId,
+         
         },
         historyTaskData: []
       }
@@ -161,8 +162,6 @@
           let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,remarkType:'1'}
 
           api.employeeDetailInfoQuery(params).then(data=>{
-
-              
 
               if(data.data.amEmpTaskBO){
                    this.employeeInfo=data.data.amEmpTaskBO;
@@ -182,11 +181,17 @@
 
               if(data.data.amArchaiveBo){
                  this.materialHandleInfo = data.data.amArchaiveBo;
+                 
               }
 
               if(data.data.company){
                  this.customerInfo = data.data.company;
               }
+
+              if(data.data.amEmploymentBO){
+                  this.materialHandleInfo.employmentId=data.data.amEmploymentBO.employmentId;
+              }
+                 
                
           })
     },

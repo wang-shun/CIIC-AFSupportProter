@@ -281,35 +281,42 @@
           
           let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId,remarkType:'2'}
 
-          // alert(params.employeeId);
 
           api.archiveDetailInfoQuery(params).then(data=>{
               
-              // this.employmentInfo=data.data.amEmpTaskBO;
-              
-              // this.employmentMaterial.materialsData = data.data.materialList.rows;
-             
               this.employmentInfo = data.data.amEmploymentBO;
 
-              this.refuseReturnMaterialsSignInfo = data.data.materialList.rows;
+              if(data.data.materialList){
+                this.refuseReturnMaterialsSignInfo = data.data.materialList.rows;
+              }
+
+              if(this.fileNotesViewData){
+                  this.fileNotesViewData = data.data.amRemarkBo.rows;
+              }
            
-              this.fileNotesViewData = data.data.amRemarkBo.rows;
+              if(data.data.amArchaiveBo){
+                this.fileInfo1 = data.data.amArchaiveBo;
+              }
 
-              this.fileInfo1 = data.data.amArchaiveBo;
+              if(data.data.amArchaiveBo){
+                  this.fileInfo2 = data.data.amArchaiveBo;
+              }
+              
+              if(data.data.amArchaiveBo){
+                 this.fileSettleInfo = data.data.amArchaiveBo;
+              }
 
-              this.fileInfo2 = data.data.amArchaiveBo;
+              if(data.data.amArchaiveBo){
+                  this.stockAndMailInfo = data.data.amArchaiveBo;
+              }
 
-              this.fileSettleInfo = data.data.amArchaiveBo;
+              if(data.data.amArchaiveBo){
+                  this.makeUpFileInfo  = data.data.amArchaiveBo;
+              }
 
-              this.stockAndMailInfo = data.data.amArchaiveBo;
-
-              this.makeUpFileInfo  = data.data.amArchaiveBo;
-
-              this.injuryReportManageInfo = data.data.amInjuryPageRows.rows;
-
-              //this.historyTaskData =data.data.listHistory;
-
-              // this.customerInfo = data.data.company;
+              if(data.data.amInjuryPageRows){
+                  this.injuryReportManageInfo = data.data.amInjuryPageRows.rows;
+              }
 
                
           })

@@ -124,8 +124,12 @@ import api from '../../../api/employ_manage/hire_operator'
 
        instance() {
         var fromData = this.$utils.clear(this.handleInfo,'');
-        fromData.employDate = this.$utils.formatDate(this.handleInfo.employDate, 'YYYY-MM-DD');
-        fromData.openAfDate = this.$utils.formatDate(this.handleInfo.openAfDate, 'YYYY-MM-DD');
+        if(employDate){
+           fromData.employDate = this.$utils.formatDate(this.handleInfo.employDate, 'YYYY-MM-DD');
+        }
+        if(fromData.openAfDate){
+           fromData.openAfDate = this.$utils.formatDate(this.handleInfo.openAfDate, 'YYYY-MM-DD');
+        }
        
         api.saveEmployee(fromData).then(data => {
               if (data.code == 200) {

@@ -3,7 +3,7 @@
     <Card dis-hover>
       <p solt="title">雇员信息录入</p>
       <Form ref="empAddForm" :model="formItem" :rules="ruleValidate" :label-width="120">
-        <Row type="flex" justify="start">
+        <Row justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="客户：" prop="company">
               <Select v-model="formItem.company" placeholder="请选择" transfer>
@@ -12,7 +12,7 @@
             </Form-item>    
           </i-col>
         </Row>
-        <Row type="flex" justify="start">
+        <Row justify="start" style="margin-top:10px">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="雇员姓名：" prop="name">
               <Input v-model="formItem.name" placeholder="请输入"/>
@@ -33,40 +33,40 @@
               </Select>
             </Form-item>    
           </i-col>
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
             <Form-item label="证件类型：" prop="IDCardType">
               <Select v-model="formItem.IDCardType" placeholder="请选择" transfer>
                 <Option v-for="(value,key) in this.baseDic.idCardType" :value="key" :key="key">{{ value }}</Option>
               </Select>
             </Form-item>    
           </i-col>
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
             <Form-item label="证件号码：" prop="IDCardNum">
               <Input v-model="formItem.IDCardNum" placeholder="请输入"/>
             </Form-item>    
           </i-col>
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
             <Form-item label="出生日期：" prop="birthday">
              <DatePicker type="date" v-model="formItem.birthday" placeholder="请输入" style="width: 57%" transfer/>
-            </Form-item>    
+            </Form-item> 
           </i-col>
         </Row>
-        <Row type="flex" justify="start">
+        <Row justify="start" style="margin-top:10px">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="备注：" prop="remark">
               <Input v-model="formItem.remark" type="textarea" :autosize="{minRows: 3,maxRows: 6}" placeholder="请输入"/>
-            </Form-item>    
+            </Form-item>
           </i-col>
         </Row>
-        <Row type="flex" justify="start" class="tr">  
+        <Row justify="start" class="tr">
           <i-col :sm="{span: 24}">
             <Button type="primary" @click="submit('empAddForm')" class="ml10" >保存</Button>
             <Button type="warning" @click="back" class="ml10">取消</Button>
           </i-col>
         </Row>
       </Form>
-    </Card>  
-  </div>  
+    </Card>
+  </div>
 </template>
 
 <script>

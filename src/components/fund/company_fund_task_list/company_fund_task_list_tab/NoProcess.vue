@@ -77,7 +77,6 @@
           class="pageSize"
           :total="totalSize"
           :page-size="size"
-          :page-size-opts="sizeArr"
           :current="pageNum"
           show-sizer
           show-total
@@ -124,7 +123,7 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'companyFundTaskProgressThree'});
+                      this.$router.push({name: 'companyFundTaskCommit'});
                     }
                   }
                 }, '办理'),
@@ -272,7 +271,6 @@
       refresh(data){
         this.taskData = data.data.taskData
         // this.customerData = data.data.customerData;
-        debugger
         if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
         else this.totalSize  =Number(data.data.totalSize)
         this.closeLoading();
@@ -295,7 +293,6 @@
       },
       //获得列表请求请求参数
       getParams(page){
-        debugger
         return {
           pageSize:this.size,
           pageNum:page,

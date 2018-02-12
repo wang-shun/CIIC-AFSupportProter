@@ -1,6 +1,5 @@
 
   import {domainJson} from '../../../api/house_fund/domain_info'
-  // import Axios from 'axios'
   import utils from '../../../lib/ajax'
   let ajax = utils.ajaxHfc
 export class CompanyTaskListHF{
@@ -66,7 +65,6 @@ export class CompanyTaskListHF{
                   message:""
                 }
               }
-              debugger
               if(response.data.code=="200"){
                   for(let i of response.data.data){
                     let obj ={}

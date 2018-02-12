@@ -1,7 +1,7 @@
 let env = {};
 
 let dev = 'dev';
-// let dev = 'fat';
+// let dev = 'sit';
 //let dev = 'uat';
 // let dev = 'prod';
 
@@ -10,7 +10,7 @@ if("dev" === dev){
   env.isJar = true;
   env.debug = true;
 }
-else if ("fat" === dev) {
+else if ("sit" === dev) {
   env.localhost = "http://172.16.9.24";
   env.isJar = true;
   env.debug = false;
@@ -25,5 +25,6 @@ else{
   env.isJar = true;
   env.debug = false;
 }
+env.dev = dev
 
 module.exports = env;

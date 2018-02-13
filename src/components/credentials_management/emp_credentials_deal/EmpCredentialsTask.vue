@@ -248,9 +248,12 @@
     mounted () {
       let data = this.$route.params.data
       Tools.copy(data,this)
+      this.companyCode = data.companyId
+      this.empCode = data.employeeId
+      this.empName = data.employeeName
     },
     created () {
-      this.findAll(this.$route.params.data.empCode)
+      this.findAll(this.$route.params.data.employeeId)
     },
     computed: {
     },
@@ -295,8 +298,10 @@
         }
         params.materialIds = params.materialIds
         params.employeeId = params.empCode
+        params.companyId = params.companyCode
         params.credentialsType = params.credentialsType
         params.credentialsDealType = params.credentialsDealType
+        console.log(params.companyId)
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){
                this.$Notice.success({
@@ -332,11 +337,12 @@
             }
             let temp ={}
             if (this.$route.params.isDeal == true) {
-              let data = this.$route.params.data
-              temp.empCode = data.empCode
-              temp.empName = data.empName
-              temp.companyCode = data.companyCode
-              temp.companyName = data.companyName
+              let data1 = this.$route.params.data
+              console.log("data1:"+data1)
+              temp.empCode = data1.employeeId
+              temp.empName = data1.employeeName
+              temp.companyCode = data1.companyId
+              temp.companyName = data1.companyName
               temp.credentialsTypeN = this.$route.params.typeN
               temp.credentialsType = this.$route.params.type
               temp.companyId = this.$route.params.companyId
@@ -348,6 +354,7 @@
               response.data.data.splice(0,0,temp)
             }
             this.empInfo = data
+            console.log("empInfo:"+this.empInfo)
           }
         })
       }

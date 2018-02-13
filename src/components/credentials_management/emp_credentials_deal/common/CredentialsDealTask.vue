@@ -333,7 +333,7 @@
           console.log("行数据：证件办理类型-"+this.formItem.credentialsDealType+"证件类型-"+this.formItem.credentialsType)
           this.rowdata = {...value}
           this.$emit("backRow", this.rowdata)
-          this.selectCompanyExt(value.credentialsType,value.companyId)
+          this.selectCompanyExt(value.credentialsType,value.companyCode)
           if (value.credentialsDealType != null && value.credentialsDealType != ""){
             this.createMeterialsMenu(value.credentialsType.toString(),value.credentialsDealType.toString())
           } else {
@@ -343,12 +343,14 @@
         }
       },
       findMaterials(taskId) {
-        axios.get(host + '/api/materials/find/'+taskId).then(response => {
-          if (response.data.errCode == '0') {
+          axios.get(host + '/api/materials/find/'+taskId).then(response => {
+            if (response.data.errCode == '0') {
+              this.meterials.info = response.data.data
+            }
+            console.log("meterials："+this.meterials.info)
+          }).catch((error) => {
             this.meterials.info = response.data.data
-          }
-          console.log("meterials："+this.meterials.info)
-        })
+          })
       },
       createMeterialsMenu(credentialsType,credentialsDealType) {
         axios.get(host + '/api/materials/create?credentialsType='+credentialsType+'&credentialsDealType='+credentialsDealType).then(response => {
@@ -412,7 +414,7 @@
       },
       cancel() {},
       childBack (ids) {
-        this.materialsIds = idscnpm
+        this.materialsIds = ids
         this.rowdata.materialIds = this.materialsIds
         this.$emit("backRow", this.rowdata)        
       }

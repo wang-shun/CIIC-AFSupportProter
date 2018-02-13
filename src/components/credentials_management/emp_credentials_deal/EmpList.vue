@@ -51,7 +51,7 @@
           </Form>  
           <Row type="flex" justify="start" class="tr">  
             <i-col :sm="{span: 24}">
-              <Button type="primary" @click="query" class="ml10" icon="ios-search">查询</Button>
+              <Button type="primary" @click="handleCurrentChange(1)" class="ml10" icon="ios-search">查询</Button>
               <Button type="warning" @click="reset('queryItem')" class="ml10">重置</Button>
             </i-col>
           </Row>                               
@@ -66,7 +66,10 @@
     </Row>
 
     <Table border :columns="colums1" :data="employeePage" ></Table>
-    <Page :current="1" :total="100" show-total show-sizer show-elevator></Page>
+    <Page @on-change="handleCurrentChange"
+    :current="pageNum"
+    :page-size="pageSize"
+    :total="total" show-elevator show-total></Page>
 
     <Modal
       v-model="modal1"
@@ -123,8 +126,10 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import eventType from '../../../store/event_types'
+  import axios from 'axios'
+  import Tools from '../../../lib/tools'
+
+  const host = process.env.SITE_HOST
 
   export default {
     data () {
@@ -132,6 +137,9 @@
         value1: '1',
         modal1: false,
         labelinvalue: true,
+        pageNum: 1,
+        pageSize: 5,
+        total: null,    
         queryItem: {
           empCode: '',
           empName: '',
@@ -168,20 +176,20 @@
         colums1: [
           {
             title: '雇员编号',
-            key: 'empCode',
+            key: 'employeeId',
             sortable: true
           },
           {
             title: '雇员姓名',
-            key: 'empName'
+            key: 'employeeName'
           },
           {
             title: '身份证号码',
-            key: 'IDCardNum'
+            key: 'idNum'
           },
           {
             title: '客户编号',
-            key: 'companyCode',
+            key: 'companyId',
             sortable: true
           },
           {
@@ -210,7 +218,7 @@
                 on: {
                   click: () => {
                     this.formItem.data = {...params.row}
-                    this.formItem.empName = params.row.empName
+                    this.formItem.empName = params.row.employeeName
                     this.formItem.companyName = params.row.companyName
                     this.modal1 = true
                   }
@@ -235,28 +243,33 @@
               return h('div', renderDiv)
             }
           }
-        ]
+        ],
+        employeePage:[]
       }
-    },
-    mounted () {
     },
     created () {
       this.find()
     },
-    computed: {
-      ...mapGetters({
-        employeePage: eventType.EMPLOYEE_PAGE_GET
-      })
-    },
     methods: {
-      ...mapActions({
-        getEmployeePage: eventType.EMPLOYEE_PAGE_SET
-      }),
       find () {
-        var param = {}
-        this.getEmployeePage(param)
+        var params = {}
+        params.params = {}
+        params.params.pageNum = this.pageNum
+        params.params.pageSize = this.pageSize
+        params.params.employeeId = this.queryItem.empCode
+        params.params.employeeName = this.queryItem.empName
+        params.params.idNum = this.queryItem.IDNum
+        params.params.companyId = this.queryItem.companyCode
+        params.params.status = this.queryItem.status
+        axios.get(host + '/api/emp/find', params).then(response => {
+          this.employeePage = response.data.data.records
+          this.total = response.data.data.total
+        })
       },
-      query () {},
+      handleCurrentChange(val) {
+        this.pageNum = val
+        this.find()
+      },
       reset (value) {
         this.$refs[value].resetFields()
       },
@@ -304,7 +317,7 @@
                 }
               })
             }
-            console.log("传过来的信息："+this.$route.params.data.empCode)
+            console.log("传过来的信息："+this.$route.params.data.employeeId)
             this.modal1 = false
           } else {
             this.$Message.error('请选择办证类型!')

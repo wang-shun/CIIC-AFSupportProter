@@ -6,9 +6,7 @@
         <Row justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="客户：" prop="company">
-              <Select v-model="formItem.company" placeholder="请选择" transfer>
-                <Option v-for="item in companyList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
+              <input-company-name v-model="formItem.company"></input-company-name>
             </Form-item>    
           </i-col>
         </Row>
@@ -21,10 +19,10 @@
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="性别：" prop="sex">
               <Select v-model="formItem.sex" placeholder="请选择" transfer>
-                <Option value="male">男</Option>
-                <Option value="female">女</Option>
+                <Option value="1">男</Option>
+                <Option value="0">女</Option>
               </Select>
-            </Form-item>    
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="国籍：" prop="country">
@@ -70,7 +68,10 @@
 </template>
 
 <script>
+import InputCompanyName from '../../common_control/form/input_company/InputCompanyName.vue'
+
 export default {
+  components:{InputCompanyName},
   data () {
     return {
       formItem: {
@@ -100,28 +101,8 @@ export default {
         IDCardType: [{ required: true, message: '请选择证件类型', trigger: 'change' }],
         IDCardNum: [{ required: true, message: '证件号码不能为空', trigger: 'blur' }],
         birthday: [{ required: true, type: 'date', message: '请选择出生日期', trigger: 'change' }]
-      },
-      companyList: [
-        {
-          value: '0',
-          label: '单项客户1'
-        },
-        {
-          value: '1',
-          label: '单项客户2'
-        },
-        {
-          value: '2',
-          label: '单项客户3'
-        }
-      ]
+      }
     }
-  },
-  mounted () {
-  },
-  created () {
-  },
-  computed: {
   },
   methods: {
     submit (value) {

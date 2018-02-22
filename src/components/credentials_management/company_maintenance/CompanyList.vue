@@ -18,7 +18,7 @@
             </Row>   
             <Row type="flex" justify="start" class="tr">  
               <i-col :sm="{span: 24}">
-                <Button type="primary" @click="query" class="ml10" icon="ios-search">查询</Button>
+                <Button type="primary" @click="handleCurrentChange(1)" class="ml10" icon="ios-search">查询</Button>
                 <Button type="warning" @click="$refs['queryItem'].resetFields()" class="ml10">重置</Button>
               </i-col>
             </Row>                                  
@@ -30,19 +30,26 @@
     <div class="create"></div>
 
     <Table border :columns="colums1" :data="companyPage" ></Table>
-    <Page :current="1" :total="100" show-total show-sizer show-elevator></Page>
+    <Page @on-change="handleCurrentChange"
+        :current="pageNum"
+        :page-size="pageSize"
+        :total="total" show-elevator show-total></Page>
 
   </div>
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
-import eventType from '../../../store/event_types'
+import axios from 'axios'
+import Tools from '../../../lib/tools'
 
+const host = process.env.SITE_HOST
 export default {
   data () {
     return {
       value1: '1',
+      pageNum: 1,
+      pageSize: 5,
+      total: null,
       queryItem: {
         companyCode: '',
         companyName: ''
@@ -50,7 +57,7 @@ export default {
       colums1: [
         {
           title: '客户编号',
-          key: 'companyCode',
+          key: 'companyId',
           sortable: true
         },
         {
@@ -74,35 +81,37 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({name: 'companyEdit', params:{data: params.row.companyCode}})
+                    this.$router.push({name: 'companyEdit', params:{data: params.row.companyId}})
                   }
                 }
               }, '编辑')
             ])
           }
         }
-      ]
+      ],
+      companyPage:[]
     }
-  },
-  mounted () {
   },
   created () {
     this.find()
   },
-  computed: {
-    ...mapGetters({
-      companyPage: eventType.COMPANY_PAGE_GET
-    })
-  },
   methods: {
-    ...mapActions({
-      getCompanyPage: eventType.COMPANY_PAGE_SET
-    }),
     find () {
-      var param = {}
-      this.getCompanyPage(param)
+      var params = {}
+      params.params = {}
+      params.params.pageNum = this.pageNum
+      params.params.pageSize = this.pageSize
+      params.params.companyName = this.queryItem.companyName
+      params.params.companyId = this.queryItem.companyCode
+      axios.get(host + '/api/company/get', params).then(response => {
+        this.companyPage = response.data.data.records
+        this.total = response.data.data.total
+      })
     },
-    query () {}
+    handleCurrentChange(val) {
+      this.pageNum = val
+      this.find()
+    },
   }
 }
 </script>

@@ -192,7 +192,6 @@ import api from '../../../api/employ_manage/hire_operator'
           {value:'用工失败',label:'用工失败'},
           {value:'Ukey外借',label:'Ukey外借'},
           {value:'前道要求撤销用工',label:'前道要求撤销用工'},
-          {value:'用工成功',label:'用工成功'},
           {value:'重复任务单',label:'重复任务单'},
           {value:'用工已办',label:'用工已办'},
           {value:'前道已中止',label:'前道已中止'}
@@ -218,14 +217,32 @@ import api from '../../../api/employ_manage/hire_operator'
       resetForm(form) {
         this.$refs[form].resetFields();
       },instance() {
+        
+        if(!this.handleInfo.employmentId)
+        {
+            this.$Message.success("请先保存用工信息");
+            return;
+        }
         var fromData = this.$utils.clear(this.handleInfo,'');
-        fromData.employFeedbackOptDate = this.$utils.formatDate(this.handleInfo.employFeedbackOptDate, 'YYYY-MM-DD');
-        fromData.diaodangFeedbackOptDate = this.$utils.formatDate(this.handleInfo.diaodangFeedbackOptDate, 'YYYY-MM-DD');
-        fromData.ukeyBorrowDate = this.$utils.formatDate(this.handleInfo.ukeyBorrowDate, 'YYYY-MM-DD');
-        fromData.ukeyReturnDate = this.$utils.formatDate(this.handleInfo.ukeyReturnDate, 'YYYY-MM-DD');
-        fromData.employDocPaymentTo = this.$utils.formatDate(this.handleInfo.employDocPaymentTo, 'YYYY-MM-DD');
-        fromData.storageDate = this.$utils.formatDate(this.handleInfo.storageDate, 'YYYY-MM-DD');
-       
+        if(this.handleInfo.employFeedbackOptDate){
+         fromData.employFeedbackOptDate = this.$utils.formatDate(this.handleInfo.employFeedbackOptDate, 'YYYY-MM-DD');
+        }
+        if(this.handleInfo.diaodangFeedbackOptDate){
+           fromData.diaodangFeedbackOptDate = this.$utils.formatDate(this.handleInfo.diaodangFeedbackOptDate, 'YYYY-MM-DD');
+        }
+        if(this.handleInfo.ukeyBorrowDate){
+            fromData.ukeyBorrowDate = this.$utils.formatDate(this.handleInfo.ukeyBorrowDate, 'YYYY-MM-DD');
+        }
+        if(this.handleInfo.ukeyReturnDate){
+             fromData.ukeyReturnDate = this.$utils.formatDate(this.handleInfo.ukeyReturnDate, 'YYYY-MM-DD');
+        }
+        if(this.handleInfo.employDocPaymentTo){
+            fromData.employDocPaymentTo = this.$utils.formatDate(this.handleInfo.employDocPaymentTo, 'YYYY-MM-DD');
+        }
+        if(this.handleInfo.storageDate){
+             fromData.storageDate = this.$utils.formatDate(this.handleInfo.storageDate, 'YYYY-MM-DD');
+        }
+        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success("保存成功");

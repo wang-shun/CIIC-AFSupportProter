@@ -17,27 +17,14 @@
               快速导航
               <Icon type="arrow-down-b"></Icon>
             </Button>
-            <DropdownMenu slot="list">
-              <DropdownItem name="http://172.16.9.25:8100/#/">销售中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8103/#/">客服中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8109/#/">代理中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8101/">雇员中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8104/#/">服务外包业务中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8108/#/main/">外企支持中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8112/#/">财务咨询业务中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8110/#/">账单中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8111/#/">结算中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8070/#/">财务咨询报表中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8106/#/">产品中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8105/#/">供应商管理中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8107/dic_list">外企内控中心</DropdownItem>
-              <DropdownItem name="http://172.16.9.25:8113/#/">财务咨询运营中心</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+              <DropdownMenu slot="list">
+                <DropdownItem :name="drop.url" v-for="(drop, index) in drops" :key="index">{{drop.label}}</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           <div class="layout-ceiling-main Badge">
             <ul>
               <li>
-                <a href="http://172.16.9.25:8100/#/pending_approves">
+                <a :href="`${ipPrefix}:8100/#/pending_approves`">
                   <Badge dot>
                     <Tooltip content="" placement="bottom" transfer>
                       <Icon type="ios-compose-outline" :size="size"></Icon>
@@ -55,7 +42,7 @@
                     <div slot="content">
                       <a class="inPoptip" href="javascript:;" @click="isActive = !isActive">我的任务单 {{isActive ? "▲" : "▼"}}</a>
                       <div :class="[isActive ? 'changeToH' : 'changeToZ', 'myTaskList']">
-                        <a :href="task.url" v-for="(task, index) in taskList" :key="index">{{task.label}}</a>
+                        <a :href="task.url" v-for="(task, index) in tasks" :key="index">{{task.label}}</a>
                       </div>
                     </div>
                   </Poptip>
@@ -108,7 +95,6 @@
               <span :class="{'layout-text':layoutOut}">{{item.key}}</span>
             </template>
             <Menu-item v-for="subitem in item.children" :name="subitem.cid" :key="subitem.cid">
-              
               <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}" @click.native="getMenu(subitem)">{{subitem.ckey}}</router-link>
             </Menu-item>
           </Submenu>
@@ -155,6 +141,7 @@
 
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventTypes from '../store/event_types'
+  import env from '../lib/env'
 
   export default {
     data() {
@@ -173,26 +160,7 @@
         breadCrumbBoolean3: false,
         openNames: ["1"],
         userName: '',
-
-        taskList: [
-          {label: "雇员预录用-预增", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员预录用-发放offer", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员预录用-入职体检", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员预录用-背景调查", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员新进-新入职", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员新进-集体转入,无需用工", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员变更-外地社保转上海", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员变更-上海社保转外地", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员变更-翻牌（更改用工单位）", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员变更-上海基数调整", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员变更-外地基数调整", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员变更-暂停缴费", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员变更-恢复缴费", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员终止-离职", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员终止-集体转出，无需退工", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员变更-人员性质转换", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"},
-          {label: "雇员变更-修改用退工信息", url: "http://172.16.9.25:8101/workOrder/main/preEmploy"}
-        ],
+        ipPrefix: '',
         isActive: false,
       }
     },
@@ -202,13 +170,61 @@
     watch: {
       $route() {
         this.getBreadCrumb();
-      }
+      },
     },
     mounted() {
+      const envAddress = {
+        dev: 'http://localhost',
+        sit: 'http://172.16.9.25',
+        uat: 'http://172.16.9.60',
+        prod: ''
+      }
+      this.ipPrefix = envAddress[env.dev]
       this.getBreadCrumb();
       this[EventTypes.LEFTNAVIGATION_SETLIST]();
     },
     computed: {
+      drops() {
+        const dropList = [
+          {label: '销售中心', url: `${this.ipPrefix}:8100/#/`},
+          {label: '客服中心', url: `${this.ipPrefix}:8103/#/`},
+          {label: '代理中心', url: `${this.ipPrefix}:8109/#/`},
+          {label: '雇员中心', url: `${this.ipPrefix}:8101/`},
+          {label: '服务外包业务中心', url: `${this.ipPrefix}:8104/#/`},
+          {label: '外企支持中心', url: `${this.ipPrefix}:8108/#/main/`},
+          {label: '财务咨询业务中心', url: `${this.ipPrefix}:8112/#/`},
+          {label: '账单中心', url: `${this.ipPrefix}:8110/#/`},
+          {label: '结算中心', url: `${this.ipPrefix}:8111/#/`},
+          {label: '财务咨询报表中心', url: `${this.ipPrefix}:8070/#/`},
+          {label: '产品中心', url: `${this.ipPrefix}:8106/#/`},
+          {label: '供应商管理中心', url: `${this.ipPrefix}:8105/#/`},
+          {label: '外企内控中心', url: `${this.ipPrefix}:8107/dic_list`},
+          {label: '财务咨询运营中心', url: `${this.ipPrefix}:8113/#/`}
+        ]
+        return dropList;
+      },
+      tasks() {
+        const letters = [
+          {label: "雇员预录用-预增", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员预录用-发放offer", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员预录用-入职体检", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员预录用-背景调查", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员新进-新入职", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员新进-集体转入,无需用工", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员变更-外地社保转上海", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员变更-上海社保转外地", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员变更-翻牌（更改用工单位）", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员变更-上海基数调整", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员变更-外地基数调整", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员变更-暂停缴费", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员变更-恢复缴费", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员终止-离职", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员终止-集体转出，无需退工", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员变更-人员性质转换", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
+          {label: "雇员变更-修改用退工信息", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`}
+        ]
+        return letters;
+      },
       key() {
         return this.$route.path.replace(/\//g, '_')
       },
@@ -274,7 +290,7 @@
             sessionStorage.removeItem("employeeOperatorTab")
           }
         }
-        
+
       },
       onSelect(name) {
       },
@@ -327,9 +343,10 @@
         });
       },
       backToHome() {
-          window.location.href = "http://172.16.9.25:8070/#/menu";
+          window.location.href = `${this.ipPrefix}:8070/#/menu`;
       },
       routerToCenter: function(name) {
+        console.log(name)
         if(name === '0')
           return;
         window.location.href = name;

@@ -148,7 +148,7 @@
         </Col> -->
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="反馈备注：">
-            <Input v-model="refuse.employFeedback" placeholder="请输入"/>
+             {{refuse.employFeedback}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -217,7 +217,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="primary" @click="instance()">保存</Button>
-          <Button type="primary">绑定</Button>
+          <Button type="primary" @click="binding">绑定</Button>
         </Col>
       </Row>
     </Form>
@@ -325,29 +325,91 @@
 
        instance() {
         var fromData = this.$utils.clear(this.refuseInfo,'');
-        fromData.employDate = this.$utils.formatDate(this.refuseInfo.resignMaterialDeliveryDate, 'YYYY-MM-DD');
-        fromData.printDate = this.$utils.formatDate(this.refuseInfo.printDate, 'YYYY-MM-DD');
-        fromData.returnDocDate = this.$utils.formatDate(this.refuseInfo.returnDocDate, 'YYYY-MM-DD');
-        fromData.cacheDate = this.$utils.formatDate(this.refuseInfo.cacheDate, 'YYYY-MM-DD');
-        fromData.resignHandleDate = this.$utils.formatDate(this.refuseInfo.resignHandleDate, 'YYYY-MM-DD');
-        fromData.resignFeedbackDate1 = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate1, 'YYYY-MM-DD');
-        fromData.resignFeedbackDate2 = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate2, 'YYYY-MM-DD');
-        fromData.ukeyBorrowDate = this.$utils.formatDate(this.refuseInfo.ukeyBorrowDate, 'YYYY-MM-DD');
-        fromData.ukeyReturnDate = this.$utils.formatDate(this.refuseInfo.ukeyReturnDate, 'YYYY-MM-DD');
-        fromData.storageDate = this.$utils.formatDate(this.refuseInfo.storageDate, 'YYYY-MM-DD');
-        fromData.intermediaryFeedbackDate = this.$utils.formatDate(this.refuseInfo.intermediaryFeedbackDate, 'YYYY-MM-DD');
-        fromData.resignMaterialDeliveryDate = this.$utils.formatDate(this.refuseInfo.resignMaterialDeliveryDate, 'YYYY-MM-DD');
-        fromData.jobCentreFeedbackDate = this.$utils.formatDate(this.refuseInfo.jobCentreFeedbackDate, 'YYYY-MM-DD');
+        if(this.refuseInfo.resignMaterialDeliveryDate){
+            fromData.employDate = this.$utils.formatDate(this.refuseInfo.resignMaterialDeliveryDate, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.printDate){
+            fromData.printDate = this.$utils.formatDate(this.refuseInfo.printDate, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.returnDocDate){
+            fromData.returnDocDate = this.$utils.formatDate(this.refuseInfo.returnDocDate, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.cacheDate){
+           fromData.cacheDate = this.$utils.formatDate(this.refuseInfo.cacheDate, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.resignHandleDate){
+            fromData.resignHandleDate = this.$utils.formatDate(this.refuseInfo.resignHandleDate, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.resignFeedbackDate1){
+            fromData.resignFeedbackDate1 = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate1, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.resignFeedbackDate2){
+           fromData.resignFeedbackDate2 = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate2, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.ukeyBorrowDate){
+            fromData.ukeyBorrowDate = this.$utils.formatDate(this.refuseInfo.ukeyBorrowDate, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.ukeyReturnDate){
+            fromData.ukeyReturnDate = this.$utils.formatDate(this.refuseInfo.ukeyReturnDate, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.storageDate){
+            fromData.storageDate = this.$utils.formatDate(this.refuseInfo.storageDate, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.intermediaryFeedbackDate){
+            fromData.intermediaryFeedbackDate = this.$utils.formatDate(this.refuseInfo.intermediaryFeedbackDate, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.resignMaterialDeliveryDate){
+            fromData.resignMaterialDeliveryDate = this.$utils.formatDate(this.refuseInfo.resignMaterialDeliveryDate, 'YYYY-MM-DD');
+        }
+        if(this.refuseInfo.jobCentreFeedbackDate){
+             fromData.jobCentreFeedbackDate = this.$utils.formatDate(this.refuseInfo.jobCentreFeedbackDate, 'YYYY-MM-DD');
+        }
        
         api.saveAmResign(fromData).then(data => {
               if (data.code == 200) {
-                this.$Message.success("保存成功");
-                 history.go(-1);
-              } else {
-                this.$Message.error("保存失败！" + data.message);
-              }
+                  this.$Message.success("保存成功");
+                  history.go(-1);
+                } else {
+                  this.$Message.error("保存失败！" + data.message);
+                }
         })
          
+       },binding(){
+
+          if(this.refuseInfo.employmentId!=''){
+            this.$Message.success("重在用工序号");
+              return;
+          }
+
+          if(this.refuseInfo.matchEmployIndex==''){
+              this.$Message.success("对应用工序号为空");
+              return;
+          }
+
+          var fromData = this.$utils.clear(this.refuseInfo,'');
+          fromData.employDate = this.$utils.formatDate(this.refuseInfo.resignMaterialDeliveryDate, 'YYYY-MM-DD');
+          fromData.printDate = this.$utils.formatDate(this.refuseInfo.printDate, 'YYYY-MM-DD');
+          fromData.returnDocDate = this.$utils.formatDate(this.refuseInfo.returnDocDate, 'YYYY-MM-DD');
+          fromData.cacheDate = this.$utils.formatDate(this.refuseInfo.cacheDate, 'YYYY-MM-DD');
+          fromData.resignHandleDate = this.$utils.formatDate(this.refuseInfo.resignHandleDate, 'YYYY-MM-DD');
+          fromData.resignFeedbackDate1 = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate1, 'YYYY-MM-DD');
+          fromData.resignFeedbackDate2 = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate2, 'YYYY-MM-DD');
+          fromData.ukeyBorrowDate = this.$utils.formatDate(this.refuseInfo.ukeyBorrowDate, 'YYYY-MM-DD');
+          fromData.ukeyReturnDate = this.$utils.formatDate(this.refuseInfo.ukeyReturnDate, 'YYYY-MM-DD');
+          fromData.storageDate = this.$utils.formatDate(this.refuseInfo.storageDate, 'YYYY-MM-DD');
+          fromData.intermediaryFeedbackDate = this.$utils.formatDate(this.refuseInfo.intermediaryFeedbackDate, 'YYYY-MM-DD');
+          fromData.resignMaterialDeliveryDate = this.$utils.formatDate(this.refuseInfo.resignMaterialDeliveryDate, 'YYYY-MM-DD');
+          fromData.jobCentreFeedbackDate = this.$utils.formatDate(this.refuseInfo.jobCentreFeedbackDate, 'YYYY-MM-DD');
+        
+          api.saveAmResign(fromData).then(data => {
+              if (data.code == 200) {
+                this.$Message.success("绑定成功");
+                 history.go(-1);
+              } else {
+                this.$Message.error("绑定失败！" + data.message);
+              }
+          })
+
        }
        
     }

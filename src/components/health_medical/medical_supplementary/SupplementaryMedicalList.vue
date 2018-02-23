@@ -102,19 +102,19 @@
       <Row justify="start" class="m15">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <span>记录总数:</span>
-        <span>2行</span>
+        <span>{{statisticsData.total}}</span>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <span>公司理赔金额总计:</span>
-        <span>180</span>
+        <span>{{statisticsData.totalCompanyMoney}}</span>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <span>保险公司理赔金额总计:</span>
-        <span>200</span>
+        <span>{{statisticsData.totalInsuranceCompanyMoney}}</span>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <span>发票张数:</span>
-        <span>200</span>
+        <span>{{statisticsData.invoiceTotal}}</span>
         </Col>
       </Row>
     </Card>
@@ -282,51 +282,7 @@
             }
           }
         ],
-        supplementData: [
-          {
-            acceptanceId: 201801150415 - 2,
-            dossierNumber: 'CIICY201801241040',
-            inputDate: "2018-01-24 14:43:53",
-            status: 0,
-            employeeId: '17A0871',
-            employeeName: '陈娬斐',
-            companyId: 29209,
-            companyName: null,
-            invoiceNumber: 5,
-            totalCompanyAmount: 130.67,
-            totalInsuranceCompanyMoney: 130.67,
-            totalCsPaymentAmount: 0.00,
-            totalApplicationAmount: 261.33,
-            totalApprovedAmount: 261.33,
-            totalClaimAmount: 130.67,
-            type: 1,
-            insuredName: '陈佳音',
-            auditor: "",
-            auditTime: null
-          },
-          {
-            _disabled: true,
-            acceptanceId: '201801150415-2',
-            dossierNumber: 'CIICY201801241040',
-            inputDate: '2018-01-24 14:43:53',
-            status: 0,
-            employeeId: '17A0871',
-            employeeName: '陈娬斐',
-            companyId: '29209',
-            companyName: null,
-            invoiceNumber: '5',
-            totalCompanyAmount: '130.67',
-            totalInsuranceCompanyMoney: '130.67',
-            totalCsPaymentAmount: '0.00',
-            totalApplicationAmount: '261.33',
-            totalApprovedAmount: '261.33',
-            totalClaimAmount: '130.67',
-            type: 1,
-            insuredName: '陈佳音',
-            auditor: '',
-            auditTime: null
-          }
-        ],
+        supplementData: [],
         category: [
           {
             value: 'status4', label: '补充医疗'
@@ -366,7 +322,13 @@
       },
       querySupplementaryList() {
         apiAjax.queryAcceptancePage(this.formItem).then(response => {
-          console.info(JSON.stringify(response.data.object.records));
+          this.supplementData = response.data.object.records;
+          // 已经审核的屏蔽复选框
+          this.supplementData.forEach(item => {
+            if (item.status !== 0) {
+              item._disabled = true;
+            }
+          });
           this.formItem.total = response.data.object.total;
         }).catch(e => {
           console.info(e.message);
@@ -374,7 +336,6 @@
         });
 
         apiAjax.queryAcceptanceTotal(this.formItem).then(response => {
-          console.info(JSON.stringify(response.data.object));
           this.statisticsData = response.data.object;
         }).catch(e => {
           console.info(e.message);

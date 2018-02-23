@@ -208,42 +208,7 @@
             }
           }
         ],
-        uninsuredData: [
-          {
-            umAcceptanceId: '20160215072',
-            employeeId: '11L2674',
-            employeeName: '戴敏',
-            companyId: '13684',
-            companyName: '苹果科技公司',
-            caseType: 1,
-            moneyType: 2,
-            jointPersonName: '段嘉晨',
-            gender: '女',
-            reimbursementYearMonth: '2016-02',
-            auditAmount: '1500',
-            auditor: '王正微',
-            auditDate: '2016-02-15',
-            status: 1,
-            payID: '1983865'
-          },
-          {
-            umAcceptanceId: '20160215072',
-            employeeId: '11L2674',
-            employeeName: '戴敏',
-            companyId: '13684',
-            companyName: '苹果科技公司',
-            caseType: 2,
-            moneyType: 4,
-            jointPersonName: '段嘉晨',
-            gender: '女',
-            reimbursementYearMonth: '2016-02',
-            auditAmount: '1500',
-            auditor: '王正微',
-            auditDate: '2016-02-15',
-            status: 1,
-            payID: '1983865'
-          }
-        ],
+        uninsuredData: [],
         moneyTypes: admissibility.moneyTypes,
         caseTypes: admissibility.caseTypes,
         statusProperties: admissibility.statusProperties,
@@ -252,7 +217,7 @@
     methods: {
       queryUninsuredList() {
         apiAjax.queryAcceptanceAuditList(this.formItem).then(response => {
-          console.info(JSON.stringify(response.data.object.records));
+          this.uninsuredReview = response.data.object.records;
           this.formItem.total = response.data.object.total;
         }).catch(e => {
           console.info(e.message);

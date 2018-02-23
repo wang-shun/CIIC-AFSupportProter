@@ -64,7 +64,7 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span:24}" class="tr">
-          <Button type="error" @click="getModal">批退</Button>
+          <!-- <Button type="error" @click="getModal">批退</Button> -->
           <Button type="info" @click="exportExcel">导出</Button>
         </Col>
       </Row>
@@ -79,8 +79,8 @@
       <!-- 批退理由 -->
       <Modal
         v-model="isRefuseReason"
-        @on-ok="asyncOK"
-        @on-cancel="cancel">
+        :loading="refuseLoading"
+        :mask-closable="false">
         <Form>
           <p>
             <Form-item>
@@ -88,6 +88,10 @@
             </Form-item>
           </p>
         </Form>
+        <div slot="footer">
+            <Button  size="large"  @click="cancel">取消</Button>
+            <Button  size="large"  @click="asyncOK">确定</Button>
+        </div>
       </Modal>
 
       <!-- 客户名称 模态框 -->
@@ -247,7 +251,7 @@
               ]);
             }
           },
-          {title: '备注', key: 'notes', align: 'center',
+          {title: '备注', key: 'notes',width: 426, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.notes),
@@ -402,25 +406,31 @@
          for(let obj of getRows){
                taskIdStr+=obj.tid+","
              }
+
+
         let params = {
                     taskIdStr:taskIdStr,
                       refuseReason:this.refuseReason
                       }
+        if(this.refuseReason===null || this.refuseReason.trim()==''){
+           alert("请填写批退原因！");
+      
+        }else{
+          let self = this
+          Progressing.refusingTask(params).then(result=>{
+            if(result){
+              self.$Message.success("批退成功！")
+              self.isRefuseReason = false
+              this.clickQuery()
+            }else{
+                //this.refuseLoading = true
+            }
 
-        let self = this
-        Progressing.refusingTask(params).then(result=>{
-          if(result){
-            self.$Message.success("批退成功！")
-             self.isRefuseReason = false
-             this.clickQuery()
-          }else{
-              //this.refuseLoading = true
-          }
-
-        })
+          })
+        }
       },
       cancel () {
-
+          this.isRefuseReason = false;
       }
     }
   }

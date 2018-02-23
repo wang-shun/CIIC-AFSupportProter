@@ -51,7 +51,7 @@
 
       <Row class="mt20">
         <Col :sm="{span:24}">
-          <Table border ref="selection" :columns="taskColumns" :data="taskData" :loading="loading"></Table>
+          <Table  border ref="selection" :columns="taskColumns" :data="taskData" :loading="loading"></Table>
 
           <Page
           class="pageSize"
@@ -70,9 +70,7 @@
       <Modal
         v-model="isRefuseReason"
         :loading="refuseLoading"
-        :mask-closable="false"
-        @on-ok="asyncOK"
-        @on-cancel="cancel">
+        :mask-closable="false">
         <Form>
           <p>
             <Form-item>
@@ -80,15 +78,18 @@
             </Form-item>
           </p>
         </Form>
+         <div slot="footer">
+            <Button  size="large"  @click="cancel">取消</Button>
+            <Button  size="large"  @click="asyncOK">确定</Button>
+        </div>
       </Modal>
 
       <!-- 客户名称 模态框 -->
       <Modal
         v-model="companyTaskInfo.isShowCustomerName"
-        title="选择客户"
-
         @on-ok="asyncOK"
-        @on-cancel="cancel" width='800'>
+        @on-cancel="cancel"
+        title="选择客户" width='800'>
         <customer-modal :customerData="customerData"></customer-modal>
       </Modal>
     </Form>
@@ -176,7 +177,7 @@
               ]);
             }
           },
-          {title: '任务单类型', key: 'type', width: 120, align: 'center',
+          {title: '任务单类型', key: 'type', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.type),
@@ -190,7 +191,7 @@
               ]);
             }
           },
-          {title: '企业客户', key: 'companyCustomer', width: 250, align: 'center',
+          {title: '企业客户', key: 'companyCustomer', width: 300, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.companyCustomer),
@@ -218,7 +219,7 @@
               ]);
             }
           },
-          {title: '备注', key: 'notes', align: 'center',
+          {title: '备注', key: 'notes',width: 426,align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.notes),
@@ -363,24 +364,31 @@
          for(let obj of getRows){
                taskIdStr+=obj.tid+","
              }
-        let params = {
-                    taskIdStr:taskIdStr,
-                      refuseReason:this.refuseReason
-                      }
-        let self = this
-        NoProgress.refusingTask(params).then(result=>{
-          if(result){
-            self.$Message.success("批退成功！")
-             self.isRefuseReason = false
-             this.clickQuery()
-          }else{
-              //this.refuseLoading = true
-          }
+            
+         if(this.refuseReason===null || this.refuseReason.trim()==''){
+           alert("请填写批退原因！");
+      
+         }else{
+            this.isRefuseReason = false;
+            let params = {
+                        taskIdStr:taskIdStr,
+                        refuseReason:this.refuseReason
+                          }
+            let self = this
+            NoProgress.refusingTask(params).then(result=>{
+              if(result){
+                self.$Message.success("批退成功！")
+                self.isRefuseReason = false
+                this.clickQuery()
+              }else{
+                  //this.refuseLoading = true
+              }
 
-        })
+            })
+         }
       },
       cancel () {
-
+         this.isRefuseReason = false;
       }
     }
   }

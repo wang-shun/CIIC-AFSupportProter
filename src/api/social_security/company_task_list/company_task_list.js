@@ -506,8 +506,8 @@ export class CompanyTaskList{
             acceptanceDate: isNull || result.startHandleDate==null?'':result.startHandleDate, //受理日期 startHandleDate,sendCheckDate,finishDate
             sendCheckDate: isNull || result.sendCheckDate==null?'':result.sendCheckDate, //送审日期
             finishedDate: isNull || result.finishDate==null?'':result.finishDate, //完成日期
-            handleReason:isNull || result.handleRemark==null?'':result.handleRemark,//办理原因
-            refuseReason: '' //批退原因
+            rejectionRemark:isNull || result.handleRemark==null?'':result.handleRemark,//办理原因
+            rejectionRemark: isNull || result.rejectionRemark==null?'':result.rejectionRemark //批退原因
           }
     }
   }

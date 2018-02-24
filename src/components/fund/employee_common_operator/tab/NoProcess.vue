@@ -127,18 +127,17 @@
       </Form>
       <div slot="footer">
         <Button type="primary" @click="batchReject()">确认批退</Button>
-
+        <Button type="warning" @click="isShowRejectBatch = false">取消</Button>
       </div>
     </Modal>
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/event_types'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import EventType from '../../../../store/event_types'
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
-  import utils from '../../../../lib/utils'
 
   export default {
     components: {InputCompany},
@@ -146,7 +145,8 @@
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
-          processStatus: 0,
+          taskStatus: 1,
+          processStatus: '',
           employeeId: '',
           taskCategory: 0,
           paymentBank: 0,
@@ -184,9 +184,9 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      localStorage.setItem('employeeFundCommonOperatorNoProcess.empTaskId', params.row.empTaskId);
-                      localStorage.setItem('employeeFundCommonOperatorNoProcess.hfType', params.row.hfType);
-                      localStorage.setItem('employeeFundCommonOperatorNoProcess.taskCategory', params.row.taskCategory);
+                      localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
+                      localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
+                      localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
                       this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
                     }
                   }
@@ -214,7 +214,7 @@
           this.accountTypeList = data.data.SocialSecurityAccountType;
           this.processStatusList = data.data.ProcessPeriod;
           this.taskTypeList = data.data.HFLocalTaskCategory;
-          this.taskTypeList.splice(8, 1);
+          this.taskTypeList.splice(8, 2); // 去除转移任务和特殊任务
           this.payBankList = data.data.PayBank;
           this.fundTypeList = data.data.FundType;
         }
@@ -257,12 +257,8 @@
         this.noProcessPageData.pageSize = val;
         this.hfEmpTaskQuery();
       },
-      ok () {
-
-      },
-      cancel () {
-
-      },
+      ok() {},
+      cancel() {},
       resetSelectedData(selection) {
         this.selectedData.length = 0;
         if(selection) {
@@ -300,7 +296,7 @@
         if (this.operatorSearchData.submitTime) {
           for (let i = 0; i < this.operatorSearchData.submitTime.length; i++) {
             if (this.operatorSearchData.submitTime[i]) {
-              this.operatorSearchData.submitTime[i] = utils.formatDate(this.operatorSearchData.submitTime[i], 'YYYY-MM-DD');
+              this.operatorSearchData.submitTime[i] = this.$utils.formatDate(this.operatorSearchData.submitTime[i], 'YYYY-MM-DD');
             }
           }
         }

@@ -249,12 +249,12 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="handleTask">已处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskCancel">不需处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskDelay">转下月处理</Button>
-        <Button type="error" class="ml10" @click="handleTaskReject">批退</Button>
-        <Button type="primary" class="ml10" @click="isShowPrint = true">打印转移通知书</Button>
-        <Button type="primary" class="ml10" @click="saveTask">保存</Button>
+        <Button type="primary" :disabled="buttonDisabled" @click="handleTask">已处理</Button>
+        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="notHandleTask">不需处理</Button>
+        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="handleTaskDelay">转下月处理</Button>
+        <Button type="error" :disabled="buttonDisabled" class="ml10" @click="handleTaskReject">批退</Button>
+        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="isShowPrint = true">打印转移通知书</Button>
+        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="saveTask">保存</Button>
         <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
     </Row>
@@ -306,8 +306,8 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../../../../store/event_types'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import dict from '../../../../api/dict_access/house_fund_dict'
   import utils from '../../../../lib/utils';
@@ -316,6 +316,7 @@
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
+        buttonDisabled: false,
         isShowPrint: false,
         displayVO: {
           empTaskId: 0,
@@ -373,6 +374,7 @@
 
           operationRemind: '',
           operationRemindDate: '',
+          canHandle: false
         },
         fundColumns: [
           {title: '起缴年月', key: 'startMonth', align: 'left'},
@@ -541,9 +543,9 @@
     },
     mounted() {
 //      this[EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]()
-      let empTaskId = localStorage.getItem('employeeFundCommonOperatorNoProcess.empTaskId');
-      let hfType = localStorage.getItem('employeeFundCommonOperatorNoProcess.hfType');
-      let taskCategory = localStorage.getItem('employeeFundCommonOperatorNoProcess.taskCategory');
+      let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
+      let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
+      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
         hfType: hfType,
@@ -564,6 +566,8 @@
           this.addedFundData = data.data.addedArchiveBasePeriods;
           this.operatorListData = data.data.empTaskPeriods;
           this.taskListNotesChangeData = data.data.empTaskRemarks;
+
+          this.buttonDisabled = !this.displayVO.canHandle;
         } else {
           this.$Message.error(data.message);
         }
@@ -633,21 +637,50 @@
         }
 
         api.empTaskHandle(params).then(data => {
-          if (data.code = 200) {
-            this.$Message.info("处理成功");
+          if (data.code == 200) {
+            this.$Message.info("办理成功");
+            this.buttonDisabled = true;
           } else {
             this.$Message.error(data.message);
           }
         })
       },
-      handleTaskCancel() {
-
+      notHandleTask() {
+        api.empTaskNotHandle({
+          empTaskId: this.displayVO.empTaskId
+        }).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("不需处理操作成功");
+            this.buttonDisabled = true;
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
       },
       handleTaskDelay() {
-
+        api.empTaskHandleDelay({
+          empTaskId: this.displayVO.empTaskId
+        }).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("转下月处理操作成功");
+            this.buttonDisabled = true;
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
       },
       handleTaskReject() {
-
+        api.empTaskHandleReject({
+          rejectionRemark: this.displayVO.rejectionRemark,
+          selectedData: [this.displayVO.empTaskId]
+        }).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("批退成功");
+            this.buttonDisabled = true;
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
       },
       filterMethod(value, option) {
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
@@ -680,7 +713,7 @@
         }
 
         api.empTaskHandleDataSave(params).then(data => {
-          if (data.code = 200) {
+          if (data.code == 200) {
             this.$Message.info("保存成功");
           } else {
             this.$Message.error(data.message);

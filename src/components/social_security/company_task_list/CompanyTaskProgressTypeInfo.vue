@@ -608,11 +608,15 @@
                 //loading:true,
                 onOk:function(){
                    let params = self.getParams()
-
                    CompanyTaskList.addOrUpdate(params).then(result=>{
-                    if(result){
-                       self.$Message.success('办理成功!');
-                       self.goBack()
+                    if(result.result){
+                       if(result.message=='正常'){
+                          self.$Message.success('办理成功!');
+                          self.goBack()
+                       }else{
+                         alert(result.message);
+                       }
+                        
                     }else{
                       self.$Message.error('办理失败!');
                     }

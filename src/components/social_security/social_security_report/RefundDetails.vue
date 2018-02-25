@@ -68,7 +68,7 @@ import api from '../../../api/social_security/social_security_report'
                 ]);
               }
             },
-            {title: '身份证号', key: 'idNum', align: 'center', width: 240,className: 'mw200',
+            {title: '证件号', key: 'idNum', align: 'center', width: 240,className: 'mw200',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'center'}}, [
                   h('span', params.row.idNum),

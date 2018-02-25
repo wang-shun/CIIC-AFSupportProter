@@ -68,7 +68,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="身份证号：" prop="idNum">
+              <Form-item label="证件号：" prop="idNum">
                 <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
               </Form-item>
               </Col>

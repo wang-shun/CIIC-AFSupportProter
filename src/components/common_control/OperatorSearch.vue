@@ -49,7 +49,7 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="身份证号：" prop="idNumber">
+          <Form-item label="证件号：" prop="idNumber">
             <Input v-model="operatorSearchData.idNumber" placeholder="请输入..."></Input>
           </Form-item>
         </Col>
@@ -156,7 +156,7 @@
           ], //人员分类
           employeeNumber: '', //雇员编号
           employeeName: '', //雇员姓名
-          idNumber: '', //身份证号
+          idNumber: '', //证件号
           taskTypeValue: '',
           taskTypeList: [
             {value: '1', label: '新开转入'},

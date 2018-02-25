@@ -20,7 +20,7 @@
         <td class="w2">序号</td>
         <td class="w4">变更类型</td>
         <td class="w7">姓名</td>
-        <td class="w15" colspan="2">身份证号</td>
+        <td class="w15" colspan="2">证件号</td>
         <td class="w10">公积金账号</td>
         <td class="w15">每月应缴额</td>
         <td class="w15">工资收入</td>

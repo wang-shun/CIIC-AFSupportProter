@@ -13,7 +13,7 @@
         <td class="w4" rowspan="2">序号</td>
         <td class="w9" rowspan="2">职工账号</td>
         <td class="w6" rowspan="2">姓名</td>
-        <td class="w14" rowspan="2">身份证号</td>
+        <td class="w14" rowspan="2">证件号</td>
         <td class="w5" rowspan="2">补缴原因</td>
         <td colspan="8">补缴时间</td>
         <td class="w10" rowspan="2">补缴金额合计</td>

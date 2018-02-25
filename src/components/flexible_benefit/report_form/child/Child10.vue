@@ -33,7 +33,7 @@
           {title: '出生日期',key: '',width:100},
           {title: '性别',key: '',width:100},
           {title: '婚姻状况',key: '',width:100},
-          {title: '身份证号码',key: '',width:100},
+          {title: '证件号码',key: '',width:100},
           {title: '学历',key: '',width:100},
           {title: '手机号码',key: '',width:100},
           {title: '电子邮件',key: '',width:100},

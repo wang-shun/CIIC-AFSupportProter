@@ -189,7 +189,7 @@
             title: '待调工资', key: 'chgSalary', width: 100, align: 'left'
           },
           {
-            title: '身份证号', key: 'idNum', width: 200, align: 'left'
+            title: '证件号', key: 'idNum', width: 200, align: 'left'
           },
           {
             title: '社保状态', key: 'archiveStatusName', width: 80, align: 'left'

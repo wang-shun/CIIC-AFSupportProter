@@ -414,6 +414,10 @@
       },
        //批退任务
       refuseTask(){
+         if(this.transferOperator.refuseReason=='' || typeof(this.transferOperator.refuseReason)=='undefined'){
+          this.$Message.warning('请输入批退原因！')
+          return
+        }
              let params = {
                     taskIdStr:this.tid,
                     refuseReason:this.transferOperator.refuseReason

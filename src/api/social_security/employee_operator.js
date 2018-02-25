@@ -98,5 +98,9 @@ export default {
  saveEmpSerial: (params) => {
     return AJAX.post('/api/soccommandservice/ssEmpArchive/saveEmpSerial', params);
   },
+  //雇员新进任务 获得用退工信息
+  queryReworkInfo:(params)=>{
+     let res = AJAX.post('/api/soccommandservice/amEmpTask/queryReworkInfo', params);
+  }
 }
 

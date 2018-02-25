@@ -208,12 +208,12 @@
 
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                 <Form-item label="办理备注：">
-                      <label>{{companyOpenAccountOperator.handleReason==''?'无':companyOpenAccountOperator.handleReason}}</label>
+                      <label>{{companyOpenAccountOperator.handleRemark==''?'无':companyOpenAccountOperator.handleRemark}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                 <Form-item label="批退备注：">
-                     <label>{{companyOpenAccountOperator.refuseReason==''?'无':companyOpenAccountOperator.refuseReason}}</label>
+                     <label>{{companyOpenAccountOperator.rejectionRemark==''?'无':companyOpenAccountOperator.rejectionRemark}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -321,8 +321,8 @@
           acceptanceDate: '', //受理日期
           sendCheckDate: '', //送审日期
           finishedDate: '', //完成日期
-          handleReason:'',//办理原因
-          refuseReason: '' //批退原因
+          handleRemark:'',//办理原因
+          rejectionRemark: '' //批退原因
         },
         operatorMaterialListData:[],
         operatorMaterials: {
@@ -419,6 +419,8 @@
         self.companyInfo = result.companyInfo
         self.beforeSendInfo = result.beforeSendInfo
         self.companyOpenAccountOperator  =result.companyOpenAccountOperator
+
+        console.log(self.companyOpenAccountOperator)
          })
       },
       //来源地

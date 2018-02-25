@@ -3,7 +3,7 @@
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="雇员编号：">
-          <label>{{employeeFundAccountInfo.employeeNumber}}</label>
+          <label>{{employeeFundAccountInfo.employeeId}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -13,7 +13,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="证件号码：">
-          <label>{{employeeFundAccountInfo.IdNumber}}</label>
+          <label>{{employeeFundAccountInfo.idNum}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -21,21 +21,16 @@
           <label>{{employeeFundAccountInfo.checkInDate}}</label>
         </Form-item>
       </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="企业公积金账号分类：">
-          <label>{{employeeFundAccountInfo.companyFundAccountType}}</label>
-        </Form-item>
-      </Col>
     </Row>
     <Row>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="基本公积金账号：">
-          <label>{{employeeFundAccountInfo.basicFundAccount}}</label>
+          <label>{{employeeFundAccountInfo.hfEmpAccountBasic}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="基本公积金状态：">
-          <label>{{employeeFundAccountInfo.basicFundStatus}}</label>
+          <label>{{employeeFundAccountInfo.archiveStatusBasic}}</label>
         </Form-item>
       </Col>
     </Row>
@@ -47,18 +42,18 @@
     <Row class="mt20">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="补充公积金账号：">
-          <label>{{employeeFundAccountInfo.addFundAccount}}</label>
+          <label>{{employeeFundAccountInfo.hfEmpAccountAdded}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="补充公积金状态：">
-          <label>{{employeeFundAccountInfo.addFundStatus}}</label>
+          <label>{{employeeFundAccountInfo.archiveStatusAdded}}</label>
         </Form-item>
       </Col>
     </Row>
     <Row>
       <Col :sm="{span: 24}">
-        <Table border :columns="fundColumns" :data="employeeFundAccountInfo.addFundData"></Table>
+        <Table border :columns="fundColumns" :data="employeeFundAccountInfo.addedFundData"></Table>
       </Col>
     </Row>
   </Form>
@@ -76,21 +71,9 @@
     data() {
       return {
         fundColumns: [
-          {title: '起缴年月', key: 'startPayDate', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.startPayDate),
-              ]);
-            }
-          },
-          {title: '截至年月', key: 'endPayDate', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.endPayDate),
-              ]);
-            }
-          },
-          {title: '客户汇缴年月', key: 'customerPayDate', align: 'center',
+          {title: '起缴年月', key: 'startMonth', align: 'center'},
+          {title: '截至年月', key: 'endMonth', align: 'center'},
+          {title: '客户汇缴年月', key: 'comStartMonth', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.customerPayDate),

@@ -37,6 +37,10 @@ const employeeFundBasicInfo = r => require.ensure([], () => r(require('@/compone
 const employeeFundHistoryDetail = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundHistoryDetail')), 'EmployeeFundHistoryDetail')
 
 const employeeFundCommonOperator = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/EmployeeFundCommonOperator')), 'employeeFundCommonOperator')
+const employeeFundCommonOperatorInTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/InTaskHandle')), 'employeeFundCommonOperatorInTaskHandle')
+const employeeFundCommonOperatorOutTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/OutTaskHandle')), 'employeeFundCommonOperatorOutTaskHandle')
+const employeeFundCommonOperatorRepairTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/RepairTaskHandle')), 'employeeFundCommonOperatorRepairTaskHandle')
+
 const employeeFundSpecialOperator = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialOperator')), 'EmployeeFundSpecialOperator')
 const employeeFundSpecialProgressTwo = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialProgressTwo')), 'EmployeeFundSpecialProgressTwo')
 const employeeFundSpecialProgressThree = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialProgressThree')), 'EmployeeFundSpecialProgressThree')
@@ -213,6 +217,39 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员日常操作",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employee_fund_common_operator_in_task_handle',
+          name: 'employeeFundCommonOperatorInTaskHandle',
+          component: employeeFundCommonOperatorInTaskHandle,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "雇员公积金日常操作",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employee_fund_common_operator_out_task_handle',
+          name: 'employeeFundCommonOperatorOutTaskHandle',
+          component: employeeFundCommonOperatorOutTaskHandle,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "雇员公积金日常操作",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employee_fund_common_operator_repair_task_handle',
+          name: 'employeeFundCommonOperatorRepairTaskHandle',
+          component: employeeFundCommonOperatorRepairTaskHandle,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "雇员公积金日常操作",
             openNames: ['1']
           }
         },

@@ -468,17 +468,17 @@
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-
           if(data.data!=null){
             this.employee = data.data;
           }
-
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
           
           this.company = data.data;
           this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
         })
+        //获取用退工信息
+
       },
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo'});

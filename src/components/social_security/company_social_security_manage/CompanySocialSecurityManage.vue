@@ -93,7 +93,7 @@
         accountTypeList: [
             {value: '', label: '全部'},
             {value: '1', label: '中智大库'},
-            {value: '2', label: '中智独立库'},
+            {value: '2', label: '中智外包'},
             {value: '3', label: '独立户'},
         ],
         stateList: [
@@ -144,7 +144,7 @@
           {title: '状态', key: 'state', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.state=='0'?'初始':params.row.state=='1'?'有效':params.row.state=='2'?'终止':''),
+                h('span', params.row.state=='0'?'初始':params.row.state=='1'?'有效':params.row.state=='2'?'终止':'封存'),
               ]);
             }
           },

@@ -14,7 +14,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="" label="全部"></Option>
                   <Option value="徐汇区" label="徐汇区"></Option>
                   <Option value="浦东新区" label="浦东新区"></Option>
                   <Option value="闵行区" label="闵行区"></Option>

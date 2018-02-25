@@ -30,7 +30,7 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="分类" prop="invoiceNumber">
                 <Select v-model="formItem.invoiceNumber" placeholder="请选择" :clearable="true">
-                  <Option value="1" v-for="item in category" :value="item.value" :key="item.value">{{item.label}}
+                  <Option v-for="item in category" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
               </Form-item>

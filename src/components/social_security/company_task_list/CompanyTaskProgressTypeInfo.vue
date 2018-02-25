@@ -630,10 +630,14 @@
       },
       //批退任务
       refuseTask(){
-             let params = {
-                    taskIdStr:this.tid,
-                    refuseReason:this.companyOpenAccountOperator.refuseReason
-                      }
+        if(this.companyOpenAccountOperator.refuseReason=='' || typeof(this.companyOpenAccountOperator.refuseReason)=='undefined'){
+          this.$Message.warning('请输入批退原因！')
+          return
+        }
+         let params = {
+            taskIdStr:this.tid,
+            refuseReason:this.companyOpenAccountOperator.refuseReason
+          }
             let self = this
             self.$Modal.confirm({
                 title: '',

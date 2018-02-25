@@ -43,12 +43,12 @@
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="企业社保账户状态：">
-        <label>{{company.state ? '有效' : '终止' }}</label>
+        <label>{{company.state=='0' ?'初始':company.state=='1'?'有效':company.state=='2'?'终止':''}}</label>
       </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="客户社保截至日：">
-        <label>本月{{company.expireDate}}日</label>
+        <label>{{company.expireDate}}</label>
       </Form-item>
       </Col>
     </Row>

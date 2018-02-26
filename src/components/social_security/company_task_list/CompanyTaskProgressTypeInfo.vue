@@ -504,8 +504,8 @@
                         { max:20, message: '最多不超过20个.', trigger: 'blur' }
                     ],
                     socialSecurityCenterValue: [
-                        { required: true, message: '请选择社保中心!', trigger: 'blur' },
-                         { required: true, message: '请选择社保中心!', trigger: 'change' }
+                        { required: true, message: '请选择结算区县!', trigger: 'blur' },
+                         { required: true, message: '请选择结算区县!', trigger: 'change' }
                     ],
                     icbcSearchAccount: [
                         { required: true, message: '该项不能为空!', trigger: 'blur' },

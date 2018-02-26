@@ -30,8 +30,20 @@
                   <Option value="徐汇" label="徐汇"></Option>
                   <Option value="浦东" label="浦东"></Option>
                   <Option value="闵行" label="闵行"></Option>
-                  <Option value="闸北" label="闸北"></Option>
+                  <Option value="卢湾" label="卢湾"></Option>
                   <Option value="黄浦" label="黄浦"></Option>
+                  <Option value="长宁" label="长宁"></Option>
+                  <Option value="杨浦" label="杨浦"></Option>
+                  <Option value="普陀" label="普陀"></Option>
+                  <Option value="宝山" label="宝山"></Option>
+                  <Option value="虹口" label="虹口"></Option>
+                  <Option value="闵行" label="闵行"></Option>
+                  <Option value="松江" label="松江"></Option>
+                  <Option value="嘉定" label="嘉定"></Option>
+                  <Option value="青浦" label="青浦"></Option>
+                  <Option value="奉贤" label="奉贤"></Option>
+                  <Option value="崇明" label="崇明"></Option>
+                  <Option value="金山" label="金山"></Option>
                 </Select>
               </Form-item>
               </Col>

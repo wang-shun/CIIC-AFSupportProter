@@ -145,13 +145,23 @@
         orderStartTime: '', //任务开始时间
 
         regionList: [
-           {value: '', label: '全部'},
-          {value: '1', label: '徐汇'},
-          {value: '2', label: '长宁'},
-          {value: '3', label: '浦东'},
-          {value: '4', label: '卢湾'},
-          {value: '5', label: '静安'},
-          {value: '6', label: '黄浦'}
+            {value: '1', label: '徐汇'},
+            {value: '2', label: '长宁'},
+            {value: '3', label: '浦东'},
+            {value: '4', label: '卢湾'},
+            {value: '5', label: '静安'},
+            {value: '6', label: '黄浦'},
+            {value: '', label: '杨浦'},
+            {value: '', label: '普陀'},
+            {value: '', label: '宝山'},
+            {value: '', label: '虹口'},
+            {value: '', label: '闵行'},
+            {value: '', label: '松江'},
+            {value: '', label: '嘉定'},
+            {value: '', label: '青浦'},
+            {value: '', label: '奉贤'},
+            {value: '', label: '崇明'},
+            {value: '', label: '金山'},
         ],
 
         sSecurityStateList: [ //1-已办  2-已做 3-转出
@@ -229,10 +239,10 @@
               ]);
             }
           },
-          {title: '状态', key: 'archiveTaskStatus', align: 'center', width: 120,
+          {title: '社保状态', key: 'archiveTaskStatus', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', this.$decode.archiveStatus(params.row.archiveTaskStatus)),
+                h('span', this.$decode.ssArchiveTaskStatus(params.row.archiveTaskStatus)),
               ]);
             }
           },

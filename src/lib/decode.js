@@ -363,6 +363,22 @@ export default {
     }
   },
   //公积金任务状态 1-已办  2-已做 3-封存
+  ssArchiveTaskStatus: (type) => {
+    switch (type) {
+      case "1":
+      case 1:
+        return '已办'
+      case "2":
+      case 2:
+        return '已做'
+        case "3":
+      case 3:
+        return '转出'
+      default:
+        return ''
+    }
+  },
+  //公积金任务状态 1-已办  2-已做 3-封存
   hfTaskStatus: (type) => {
     switch (type) {
       case "1":

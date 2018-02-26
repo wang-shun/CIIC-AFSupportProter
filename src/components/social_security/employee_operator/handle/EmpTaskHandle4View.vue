@@ -468,10 +468,10 @@
         if(handleType){
           let handleMonth = this.socialSecurityPayOperator.handleMonth;
           let currentMounth = this.yyyyMM(new Date());
-            if(Number(this.yyyyMM(handleMonth))<Number(currentMounth)){
-               this.$Message.error("办理月份不能小于当前月份.");
-               return;
-            }  
+          if(Number(this.yyyyMM(handleMonth))<Number(currentMounth)){
+              this.$Message.error("办理月份不能小于当前月份.");
+              return;
+          }  
           let empArchiveId =this.socialSecurityPayOperator.empArchiveId
           if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
              this.$Message.error("雇员未做新进或者转入，不能办理.");

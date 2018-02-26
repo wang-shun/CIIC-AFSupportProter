@@ -1,6 +1,6 @@
 let env = {};
 
-let dev = 'sit';
+let dev = 'dev';
 //let dev = 'sit';
 //let dev = 'uat';
 // let dev = 'prod';

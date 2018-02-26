@@ -217,12 +217,14 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
-           isChange:'',
-           isHaveSameTask:'',
-            employeeId:'',
-           comAccountId:'',
-           taskId:'',
-           businessInterfaceId:''
+          isChange:'',
+          isHaveSameTask:'',
+          employeeId:'',
+          comAccountId:'',
+          taskId:'',
+          businessInterfaceId:'',
+          policyDetailId:'',
+          welfareUnit:''
         },
         showButton: true,
         ruleValidate:{
@@ -343,6 +345,12 @@
           }
           content = "批退办理";
         }else{
+          let empArchiveId =this.socialSecurityPayOperator.empArchiveId
+          if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
+             this.$Message.error("雇员未做新进或者转入,不能办理.");
+            return;
+          }
+
            let validResult = false;
           //校验表单
         this.$refs['socialSecurityPayOperator'].validate((valid) => {

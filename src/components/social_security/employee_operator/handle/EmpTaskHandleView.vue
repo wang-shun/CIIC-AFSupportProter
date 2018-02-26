@@ -36,7 +36,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="用工状态：">
-                <label>{{reworkInfo.taskStatus}}</label>
+                <label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskStatus)}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -348,7 +348,9 @@
           employeeId:'',
           comAccountId:'',
           taskId:'',
-          businessInterfaceId:''
+          businessInterfaceId:'',
+          policyDetailId:'',
+          welfareUnit:''
         },
 
         // 任务单参考信息

@@ -195,6 +195,7 @@
     components: {InputAccount, InputCompany,InputCompanyName},
     data() {
       return {
+        refuseLoading:false,
         collapseInfo: [1], //展开栏
         operatorSearchData: {
           taskStatus: '-1',

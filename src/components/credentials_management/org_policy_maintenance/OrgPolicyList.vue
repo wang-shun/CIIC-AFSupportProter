@@ -248,7 +248,6 @@ export default {
                   desc: ''
                 })
                 this.modal1 = false
-                // location.reload()
                 this.find()
                 this.$refs['formItem'].resetFields()
             } else {

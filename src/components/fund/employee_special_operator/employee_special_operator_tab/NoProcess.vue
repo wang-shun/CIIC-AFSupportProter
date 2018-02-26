@@ -46,7 +46,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="身份证号：" prop="IdNumber">
+                <Form-item label="证件号：" prop="IdNumber">
                   <Input v-model="operatorSearchData.IdNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -135,7 +135,7 @@
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
-            <Form-item label="身份证号：">
+            <Form-item label="证件号：">
               <Input v-model="createTaskTicket.employeeName" placeholder="请输入..."></Input>
             </Form-item>
           </Col>

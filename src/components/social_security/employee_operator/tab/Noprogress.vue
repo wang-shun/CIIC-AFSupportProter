@@ -26,7 +26,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="" label="全部"></Option>
                   <Option value="徐汇" label="徐汇"></Option>
                   <Option value="浦东" label="浦东"></Option>
                   <Option value="闵行" label="闵行"></Option>
@@ -68,7 +68,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="身份证号：" prop="idNum">
+              <Form-item label="证件号：" prop="idNum">
                 <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
@@ -153,7 +153,7 @@
     </Row>
 
     <!-- 批退理由 -->
-    <Modal
+    <!-- <Modal
       v-model="isRefuseReason"
       :mask-closable="false"
       :closable="false"
@@ -161,7 +161,26 @@
       <p>
         <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
       </p>
-    </Modal>
+    </Modal> -->
+
+
+    <!-- 批退理由 -->
+      <Modal
+        v-model="isRefuseReason"
+        :loading="refuseLoading"
+        :mask-closable="false">
+        <Form>
+          <p>
+            <Form-item>
+              <Input v-model="rejectionRemark" type="textarea" :rows=4  placeholder="请填写批退备注..."></Input>
+            </Form-item>
+          </p>
+        </Form>
+         <div slot="footer">
+            <Button  size="large"  @click="cancel">取消</Button>
+            <Button  size="large"  @click="handleRefuseReason">确定</Button>
+        </div>
+      </Modal>
   </div>
 </template>
 <script>
@@ -353,6 +372,9 @@
         }
         return true;
       },
+      cancel () {
+         this.isRefuseReason = false;
+      },
       // 批退
       showRefuseReason() {
         if (this.checkSelectEmployeeResultData()) {
@@ -360,24 +382,29 @@
         }
       },
       handleRefuseReason() {
+        let remark= this.rejectionRemark;
+        if(remark==""){
+          this.$Message.warning('请填写批退原因！');
+          return;
+        }
         var ids = [];
         for (var d of this.selectEmployeeResultData) {
           ids.push(d.empTaskId);
         }
-
         var ajax = api.refuseReason({
-          remark: this.rejectionRemark,
+          remark:remark,
           ids: ids
         })
-
         this.$ajax.handle({
           vm: this,
           ajax: ajax,
           title: '任务批退',
           callback: (data) => {
+            this.isRefuseReason = false;
             this.employeeOperatorQuery();
           }
         })
+         
       },
       // 选中项发生变化时就会触发
       selectionChange(selection) {

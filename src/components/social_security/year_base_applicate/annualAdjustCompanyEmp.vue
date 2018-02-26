@@ -29,7 +29,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员身份证号：" prop="idNum">
+              <Form-item label="雇员证件号：" prop="idNum">
                 <Input v-model="employeeSearchData.idNum"></Input>
               </Form-item>
               </Col>
@@ -102,7 +102,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员身份证号：" prop="idNum">
+              <Form-item label="雇员证件号：" prop="idNum">
                 <Input v-model="empSearchData.idNum"></Input>
               </Form-item>
               </Col>
@@ -151,7 +151,7 @@
             </Form-item>
             </Col>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="身份证号：" prop="idNum">
+            <Form-item label="证件号：" prop="idNum">
               <Label>{{empInputData.idNum}}</Label>
             </Form-item>
             </Col>
@@ -327,7 +327,7 @@
             }
           },
           {
-            title: '身份证号', key: 'idNum', width: 160, align: 'center'
+            title: '证件号', key: 'idNum', width: 160, align: 'center'
           },
           {
             title: '社保状态', key: 'archiveStatusName', width: 80, align: 'center'

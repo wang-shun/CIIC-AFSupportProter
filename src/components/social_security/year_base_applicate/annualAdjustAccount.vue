@@ -171,7 +171,7 @@
             title: '姓名', key: 'employeeName', width: 100, align: 'left'
           },
           {
-            title: '身份证号', key: 'idNum', width: 180, align: 'left'
+            title: '证件号', key: 'idNum', width: 180, align: 'left'
           },
           {
             title: '本单位缴费月数', key: 'paymentMonths', width: 100, align: 'left'

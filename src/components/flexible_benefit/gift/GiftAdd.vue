@@ -154,7 +154,7 @@
             this[EventTypes.GIFTINSERTTYPE]({
               data: this.formItem,
               callback: (res) => {
-                if (res.data.code === 200) {
+                if (res.data.code === 0) {
                   this.$router.push({path: '/giftApplicationManager'})
                 } else {
                   this.$Message.error("服务器异常，请稍后再试");

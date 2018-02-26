@@ -400,15 +400,18 @@ export class CompanyTaskList{
     let url =domainJson.addOrUpdateCompanyTaskUrl
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
-        let result = this.handleReturnData(response)
+        let result = this.handleReturnDataNew(response)
         if(!result.isError){
           //获得前台显示数据
-          resolve(true)
+          resolve({result:true,message:result.message})
         }else reject(Error(result.message))
     })
   })
   }
-
+  //处理返回值
+  static handleReturnDataNew(response){
+     return {message:response.data.message,isError:false}
+  }
 
   //任务单的撤销
   static taskRevocation(params){

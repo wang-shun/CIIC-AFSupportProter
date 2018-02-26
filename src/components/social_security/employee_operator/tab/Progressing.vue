@@ -56,7 +56,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="身份证号：" prop="idNum">
+              <Form-item label="证件号：" prop="idNum">
                 <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
@@ -115,7 +115,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="error" @click="showRefuseReason">批退</Button>
+      <!-- <Button type="error" @click="showRefuseReason">批退</Button> -->
       <Button type="info" @click="exprotExcel">导出</Button>
       <Button type="info" @click="employeeDailyOperatorDiskExport(2)">转入盘片</Button>
       <Button type="info" @click="employeeDailyOperatorDiskExport(5)">转出盘片</Button>

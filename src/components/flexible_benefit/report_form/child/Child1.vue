@@ -44,7 +44,7 @@
           {title: '雇员生日',key: ''},
           {title: '首次进入中智日期',key: ''},
           {title: '输入日期',key: ''},
-          {title: '身份证号码',key: '',width:100},
+          {title: '证件号码',key: '',width:100},
           {title: '所在城市',key: ''},
           {title: '有无活动费',key: '',width:100}
         ],

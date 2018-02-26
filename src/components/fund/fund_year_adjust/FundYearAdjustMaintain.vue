@@ -27,7 +27,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员身份证号：" prop="employeeIdNumber">
+                <Form-item label="雇员证件号：" prop="employeeIdNumber">
                   <Input v-model="operatorSearchData.employeeIdNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -140,7 +140,7 @@
               ]);
             }
           },
-          {title: '身份证号', key: 'IdNumber', align: 'center', width: 249,
+          {title: '证件号', key: 'IdNumber', align: 'center', width: 249,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.IdNumber),

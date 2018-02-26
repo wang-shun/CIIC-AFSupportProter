@@ -59,7 +59,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="身份证号：" prop="idNum">
+                <Form-item label="证件号：" prop="idNum">
                   <Input v-model="searchCondition.idNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -132,7 +132,7 @@
           ssAccountType: '',  //社保账户类型
           employeeId: '', //雇员编号
           employeeName: '', //雇员姓名
-          idNum: '', //身份证号
+          idNum: '', //证件号
           ssAccount:'',//企业社保账号
           archiveTaskStatus: '',//社保状态
           //empClassify: '' //人员分类

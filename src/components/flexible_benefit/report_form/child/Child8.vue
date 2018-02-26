@@ -39,7 +39,7 @@
           {title: '雇员姓名',key: '',width:100},
           {title: '输入日期',key: '',width:100},
           {title: '首次进入中智时间',key: '',width:100},
-          {title: '身份证号码',key: '',width:100},
+          {title: '证件号码',key: '',width:100},
           {title: '中止',key: '',width:100},
           {title: '职务职位',key: '',width:100},
           {title: '服务中心',key: '',width:100},

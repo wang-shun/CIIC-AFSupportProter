@@ -1,6 +1,6 @@
 let env = {};
 
-let dev = 'dev';
+let dev = 'sit';
 //let dev = 'sit';
 //let dev = 'uat';
 // let dev = 'prod';
@@ -11,7 +11,7 @@ if("dev" === dev){
   env.debug = true;
 }
 else if ("sit" === dev) {
-  env.localhost = "http://172.16.9.24";
+  env.localhost = "http://172.16.9.29";
   env.isJar = true;
   env.debug = false;
 }

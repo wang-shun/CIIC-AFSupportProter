@@ -21,7 +21,7 @@
                 </Form-item>
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">   
-                <Form-item label="身份证号码：" prop="IDNum">
+                <Form-item label="证件号码：" prop="IDNum">
                   <Input v-model="queryItem.IDNum" placeholder="请输入"/>                               
                 </Form-item>                           
               </i-col>
@@ -220,7 +220,7 @@
             key: 'employeeName'
           },
           {
-            title: '身份证号码',
+            title: '证件号码',
             key: 'idNum'
           },
           {

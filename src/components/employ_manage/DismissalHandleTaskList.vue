@@ -122,7 +122,7 @@
               ]);
             }
           },
-          {title: '身份证号码', key: 'idNum', align: 'center', width: 150,
+          {title: '证件号码', key: 'idNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.idNum),

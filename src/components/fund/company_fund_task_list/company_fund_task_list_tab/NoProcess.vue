@@ -140,21 +140,21 @@
                           });
                           break;
                         case '变更':
-                          this.$router.push({name: 'companyTaskProgressChangeInfo', params: {
+                          this.$router.push({name: 'companyFundTaskProgressChangeInfo', params: {
                               comTaskId: params.row.comTaskId,
                               companyInfo: params.row.companyInfo,
                               openAccountInfo: params.row.openAccountInfo}
                           });
                           break;
                         case '终止':
-                          this.$router.push({name: 'companyTaskProgressEndInfo', params: {
+                          this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
                               comTaskId: params.row.comTaskId,
                               companyInfo: params.row.companyInfo,
                               openAccountInfo: params.row.openAccountInfo}
                           });
                           break;
                         case '销户':
-                          this.$router.push({name: 'companyTaskProgressEndInfo', params: {
+                          this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
                               comTaskId: params.row.comTaskId,
                               companyInfo: params.row.companyInfo,
                               openAccountInfo: params.row.openAccountInfo}

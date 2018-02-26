@@ -1,16 +1,10 @@
 <template>
   <Form :label-width=150>
-    <Steps :current="currentStep">
-      <Step title="材料收集"></Step>
-      <Step title="已受理"></Step>
-      <Step title="送审中"></Step>
-      <Step title="完成"></Step>
-    </Steps>
     <Collapse v-model="collapseInfo" class="mt20">
       <Panel name="1">
         企业账户信息
         <div slot="content">
-          <company-social-security-info :company="data.company"></company-social-security-info>
+          <company-social-security-info :company="company"></company-social-security-info>
         </div>
       </Panel>
       <Panel name="2">
@@ -18,8 +12,8 @@
         <div slot="content">
           <Row>
             <Col :sm="{span: 23, offset: 1}">
-              <label>共{{data.chatList.length}}条历史备注</label>
-              <chat :chatList="data.chatList" class="mt20"></chat>
+              <label>共{{chatList.length}}条历史备注</label>
+              <chat :chatList="chatList" class="mt20"></chat>
             </Col>
           </Row>
         </div>
@@ -94,17 +88,14 @@
   </Form>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
   import chat from '../../common_control/chat_history/Chat.vue'
   import companySocialSecurityInfo from '../../common_control/CompanySocialSecurityInfo.vue'
-  import EventType from '../../../store/event_types'
 
   export default {
     components: {chat, companySocialSecurityInfo},
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
-        currentStep: 2,
         changeOperator: {
           changeContentValue: '',
           changeContentList: [
@@ -126,21 +117,36 @@
           approvalDate: '',
           finishDate: '',
           refuseReason: ''
-        }
+        },
+        company: {
+          companySocialSecurityAccount: '12123235',
+          companyNumber: 'GS170001',
+          companyName: '普思埃商业（上海）有限公司',
+          socialSecurityCenter: '徐汇',
+          uKey: '152243',
+          accountType: '独立户',
+          companySocialSecurityState: '有效\\封存\\终止',
+          companySocialSecurityEndData: '本月18日',
+          companyServicer: '金翔云',
+          serviceCenter: '大客户2'
+        }, //企业社保账户信息
+        chatList: [
+          {
+            icon: '#',
+            name: '客服',
+            date: '2017-03-02 14:14:32',
+            content: '【发起】该客户要求本月所有员工都缴纳社保。'
+          },
+        ],
       }
     },
     mounted() {
-      this[EventType.COMPANYTASKPROGRESSCHANGEINFOTYPE]()
     },
     computed: {
-      ...mapState('companyTaskProgressChangeInfo',{
-          data:state => state.data
-      })
     },
     methods: {
-      ...mapActions('companyTaskProgressChangeInfo', [EventType.COMPANYTASKPROGRESSCHANGEINFOTYPE]),
       goBack() {
-        this.$router.push({name: 'companyTaskList'})
+        this.$router.push({name: "companyFundTaskList"});
       },
       ok () {
 

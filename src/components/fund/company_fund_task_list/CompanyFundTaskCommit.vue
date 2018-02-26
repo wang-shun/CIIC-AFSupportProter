@@ -33,10 +33,8 @@
   export default {
     components: {companyInfo:customerInfo, fundOpenAccount},
     data() {
-      debugger
       return {
-        collapseInfo: [1, 2],
-        code:200,
+        collapseInfo: [1, 2]
       }
     },
     mounted() {

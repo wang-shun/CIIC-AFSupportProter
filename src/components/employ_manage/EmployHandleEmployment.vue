@@ -128,7 +128,8 @@
           employWay: '',
           employOperateMan: '',
           employeeId:this.$route.query.employeeId,
-          companyId:this.$route.query.companyId
+          companyId:this.$route.query.companyId,
+          empTaskId:this.$route.query.empTaskId
         },
         notesData: [],
         materialHandleInfo: {
@@ -158,8 +159,8 @@
       }
     },
     async mounted() {
-          
-          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,remarkType:'1'}
+         
+          let params = {idNum:this.$route.query.idNum,idCardType:this.$route.query.idCardType,empTaskId:this.$route.query.empTaskId,employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,remarkType:'1'}
 
           api.employeeDetailInfoQuery(params).then(data=>{
 
@@ -200,7 +201,7 @@
         this.$router.go(-1);
       },
        instance() {
-      alert('sdfdd');return;
+        return;
       }
     }
   }

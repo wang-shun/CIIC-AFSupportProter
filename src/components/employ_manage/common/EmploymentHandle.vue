@@ -44,6 +44,7 @@
           <Form-item label="用工操作专员：">
             <Input v-model="handleInfo.employOperateMan" placeholder="请输入"/>
             <input type="text" v-model="handleInfo.employmentId" hidden>
+            <input type="text" v-model="handleInfo.empTaskId" hidden>
           </Form-item>
         </Col>
       </Row>
@@ -124,7 +125,9 @@ import api from '../../../api/employ_manage/hire_operator'
 
        instance() {
         var fromData = this.$utils.clear(this.handleInfo,'');
-        if(employDate){
+        alert(this.handleInfo.empTaskId);
+        return;
+        if(fromData.employDate){
            fromData.employDate = this.$utils.formatDate(this.handleInfo.employDate, 'YYYY-MM-DD');
         }
         if(fromData.openAfDate){

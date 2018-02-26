@@ -217,12 +217,14 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
-           isChange:'',
-           isHaveSameTask:'',
-            employeeId:'',
-           comAccountId:'',
-           taskId:'',
-           businessInterfaceId:''
+          isChange:'',
+          isHaveSameTask:'',
+          employeeId:'',
+          comAccountId:'',
+          taskId:'',
+          businessInterfaceId:'',
+          policyDetailId:'',
+          welfareUnit:''
         },
         showButton: true,
         ruleValidate:{
@@ -309,13 +311,16 @@
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          this.employee = data.data;
+           if(data.data!=null){
+            this.employee = data.data;
+           }
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          this.company = data.data;
-          this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
+          if(data.data!=null){
+            this.company = data.data;
+            this.socialSecurityPayOperator.comAccountId = data.data.comAccountId;
+          }
         })
-       
       },
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo'});
@@ -334,8 +339,18 @@
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
         if ('4' == taskStatus) {
+          if(this.socialSecurityPayOperator.rejectionRemark==''){
+            this.$Message.warning('请输入批退原因。');
+            return;
+          }
           content = "批退办理";
         }else{
+          let empArchiveId =this.socialSecurityPayOperator.empArchiveId
+          if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
+             this.$Message.error("雇员未做新进或者转入,不能办理.");
+            return;
+          }
+
            let validResult = false;
           //校验表单
         this.$refs['socialSecurityPayOperator'].validate((valid) => {

@@ -843,6 +843,7 @@
             this.paymentComQuery()
 
           }else{
+            console.log(data);
             alert(data.message);
           }
         })

@@ -5,22 +5,22 @@ let dev = 'dev';
 //let dev = 'uat';
 // let dev = 'prod';
 
-if("dev" === dev){
+if ("dev" === dev) {
   env.localhost = "http://localhost";
   env.isJar = true;
   env.debug = true;
 }
 else if ("sit" === dev) {
-  env.localhost = "http://172.16.9.24";
+  env.localhost = "http://172.16.9.29";
   env.isJar = true;
   env.debug = false;
 }
-else if("uat" === dev){
+else if ("uat" === dev) {
   env.localhost = "http://172.16.9.61";
   env.isJar = true;
   env.debug = false;
 }
-else{
+else {
   env.localhost = "";
   env.isJar = true;
   env.debug = false;

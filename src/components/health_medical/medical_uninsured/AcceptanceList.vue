@@ -256,43 +256,14 @@
             }
           }
         ],
-        acceptanceData: [
-          {
-            acceptanceId: '20160215072',
-            employeeId: '11L2674',
-            employeeName: '戴敏',
-            companyId: '13684',
-            companyName: '苹果科技公司',
-            caseType: 1,
-            moneyType: 1,
-            jointPersonName: '段嘉晨',
-            handler: '胡艳',
-            status: 0,
-            handlerDate: '2016-02-16',
-            caseMoney: '150'
-          },
-          {
-            acceptanceId: '20160215071',
-            employeeId: '11L2674',
-            employeeName: '戴敏',
-            companyId: '13684',
-            companyName: '苹果科技公司',
-            caseType: 2,
-            moneyType: 3,
-            jointPersonName: '段嘉晨',
-            handler: '胡艳',
-            status: 1,
-            handlerDate: '2016-02-16',
-            caseMoney: '100'
-          }
-        ]
+        acceptanceData: []
 
       }
     },
     methods: {
       queryAcceptanceList() {
         apiAjax.queryAcceptanceList(this.formItem).then(response => {
-          console.info(JSON.stringify(response.data.object.records));
+          this.acceptanceData = response.data.object.records;
           this.formItem.total = response.data.object.total;
         }).catch(e => {
           console.info(e.message);

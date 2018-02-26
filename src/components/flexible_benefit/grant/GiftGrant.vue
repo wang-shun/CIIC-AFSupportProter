@@ -203,7 +203,7 @@
         this.applyRecordDetail.sendStatus = val;
         this.applyRecordDetail.sendTime = new Date();
         apiAjax.giftGrantUpdate(this.applyRecordDetail).then(response => {
-          if (response.data.code === 200) {
+          if (response.data.code === 0) {
             this.$router.push({name: "grantManager"});
           } else {
             this.$Message.error("服务器异常，请稍后再试");

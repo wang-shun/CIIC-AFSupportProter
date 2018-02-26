@@ -551,7 +551,7 @@
         hfType: hfType,
         taskStatus: 1
       }).then(data => {
-        if (data.code = 200) {
+        if (data.code == 200) {
           this.displayVO = data.data;
           this.taskReferenceInfoData.push({
             empBase: this.displayVO.empBase,
@@ -584,27 +584,27 @@
             this.taskCategoryList.splice(2, this.taskCategoryList.length - 2);
           }
 
-          if (taskCategory == 6) { // 补缴
-            this.operatorListColumns.push(
-              {title: '补缴原因', key: 'repairReason', align: 'left',
-                render: (h, params) => {
-                  return h('div', [
-                    h('Select', {props: {value: params.row.repairReason},
-                        on: {
-                          'on-change': (event) => {
-                            this.operatorListData[params.index].repairReason = event
-                          }
-                        }
-                      },
-                      [
-                        data.data.RepairReason.map((item) => h('Option', {props: {value: item.key}}, item.value))
-                      ]
-                    )
-                  ]);
-                }
-              }
-            )
-          }
+//          if (taskCategory == 6) { // 补缴
+//            this.operatorListColumns.push(
+//              {title: '补缴原因', key: 'repairReason', align: 'left',
+//                render: (h, params) => {
+//                  return h('div', [
+//                    h('Select', {props: {value: params.row.repairReason},
+//                        on: {
+//                          'on-change': (event) => {
+//                            this.operatorListData[params.index].repairReason = event
+//                          }
+//                        }
+//                      },
+//                      [
+//                        data.data.RepairReason.map((item) => h('Option', {props: {value: item.key}}, item.value))
+//                      ]
+//                    )
+//                  ]);
+//                }
+//              }
+//            )
+//          }
         }
       })
     },
@@ -624,7 +624,7 @@
         this.inputData.employeeId = this.displayVO.employeeId;
         this.inputData.comAccountId = this.displayVO.comAccountId;
         this.inputData.basicComAccountClassId = this.displayVO.basicComAccountClassId;
-        this.inputData.addedComAccountClassId = this.displayVO.basicComAccountClassId;
+        this.inputData.addedComAccountClassId = this.displayVO.addedComAccountClassId;
         this.inputData.belongEmpArchiveId = this.displayVO.basicEmpArchiveId;
 
         // 处理参数

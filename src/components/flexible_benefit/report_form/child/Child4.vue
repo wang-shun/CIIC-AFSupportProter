@@ -14,6 +14,9 @@
   </div>
 </template>
 <script>
+  import axios from 'axios'
+
+  const host = process.env.SITE_HOST_REPORT_FORM
   export default {
     props: {
       queryParam: {
@@ -52,7 +55,16 @@
     },
     methods: {
       find () {
-
+        var params = {}
+        params.params = {}
+        params.params.pageNum = this.pageNum
+        params.params.pageSize = this.pageSize
+        params.params.companyId = this.queryParam.companyId
+        
+        axios.get(host + '/api/reportform', params).then(response => {
+          this.data1 = response.data.data.records
+          this.total = response.data.data.total
+        })
       },
       handleCurrentChange (val) {
         this.pageNum = val

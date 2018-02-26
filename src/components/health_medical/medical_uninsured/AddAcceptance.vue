@@ -139,7 +139,13 @@
       addAcceptance() {
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
-            apiAjax.addAcceptance(this.employeeInfo).then(response => {
+            let addData = this.formItem;
+            addData.employeeId = this.employeeInfo.employeeId;
+            addData.employeeName = this.employeeInfo.employeeName;
+            addData.companyId = this.employeeInfo.companyId;
+            addData.companyName = this.employeeInfo.companyName;
+            apiAjax.addAcceptance(addData).then(response => {
+              console.info(response);
               if (response.data.code === 200) {
                 this.$router.push({name: "addAcceptanceEmployeeList"})
               } else {

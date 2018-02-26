@@ -12,6 +12,7 @@ let basePaths = {};
     basePaths['fb-q'] = localhost + ':6017';
     // 弹性福利 command 服务
     basePaths['fb-c'] = localhost + ':6019';
+    basePaths['userInfo'] = localhost + ':9703';
 
     //健康医疗
     basePaths['health-q'] = localhost + ':6013';
@@ -22,10 +23,10 @@ let basePaths = {};
     // 社保 command 服务
     basePaths['ss-c'] = localhost + ':6003';
     // 公积金 command 服务
-    basePaths['hf-c'] = localhost + ':6007'; 
+    basePaths['hf-c'] = localhost + ':6007';
 	//雇佣管理
     basePaths['gy-c'] = localhost + ':6011';
-   
+
   } else {
     // war
     basePaths['AlertJob'] = localhost + '/AlertJob-Host';

@@ -90,7 +90,7 @@
             this[EventTypes.MARKETINSERTTYPE]({
               data: params,
               callback: (res) => {
-                if (res.data.code === 200) {
+                if (res.data.code === 0) {
                   this.$router.push({path: '/marketActivitiesManager'})
                 } else {
                   this.$Message.error("服务器异常，请稍后再试");

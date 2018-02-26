@@ -162,7 +162,7 @@
           item.sendRemark = this.sendRemark;
         });
         apiAjax.marketGrantUpdate(this.recordDetailList).then(response => {
-          if (response.data.code === 200) {
+          if (response.data.code === 0) {
             this.$router.push({name: "grantManager"});
           } else {
             this.$Message.error("服务器异常，请稍后再试");

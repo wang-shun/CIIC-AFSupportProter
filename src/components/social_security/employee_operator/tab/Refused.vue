@@ -14,12 +14,24 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="徐汇区" label="徐汇区"></Option>
-                  <Option value="浦东新区" label="浦东新区"></Option>
-                  <Option value="闵行区" label="闵行区"></Option>
-                  <Option value="闸北区" label="闸北区"></Option>
-                  <Option value="黄浦区" label="黄浦区"></Option>
+                  <Option value="" label="全部"></Option>
+                  <Option value="徐汇" label="徐汇"></Option>
+                  <Option value="浦东" label="浦东"></Option>
+                  <Option value="闵行" label="闵行"></Option>
+                  <Option value="卢湾" label="卢湾"></Option>
+                  <Option value="黄浦" label="黄浦"></Option>
+                  <Option value="长宁" label="长宁"></Option>
+                  <Option value="杨浦" label="杨浦"></Option>
+                  <Option value="普陀" label="普陀"></Option>
+                  <Option value="宝山" label="宝山"></Option>
+                  <Option value="虹口" label="虹口"></Option>
+                  <Option value="闵行" label="闵行"></Option>
+                  <Option value="松江" label="松江"></Option>
+                  <Option value="嘉定" label="嘉定"></Option>
+                  <Option value="青浦" label="青浦"></Option>
+                  <Option value="奉贤" label="奉贤"></Option>
+                  <Option value="崇明" label="崇明"></Option>
+                  <Option value="金山" label="金山"></Option>
                 </Select>
               </Form-item>
               </Col>
@@ -56,7 +68,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="身份证号：" prop="idNum">
+              <Form-item label="证件号：" prop="idNum">
                 <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
               </Form-item>
               </Col>

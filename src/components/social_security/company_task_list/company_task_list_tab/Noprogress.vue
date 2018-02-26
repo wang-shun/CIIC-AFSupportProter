@@ -366,8 +366,7 @@
              }
             
          if(this.refuseReason===null || this.refuseReason.trim()==''){
-           alert("请填写批退原因！");
-      
+           this.$Message.warning('请填写批退原因！');
          }else{
             this.isRefuseReason = false;
             let params = {
@@ -387,7 +386,7 @@
             })
          }
       },
-      cancel () {
+      cancel() {
          this.isRefuseReason = false;
       }
     }

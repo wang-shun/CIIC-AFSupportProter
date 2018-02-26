@@ -21,27 +21,27 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="开AF单日期：">
-                <label>{{taskNewInfo.afDate}}</label>
+                <label>{{reworkInfo.openAfDate}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="存档地：">
-                <label>{{taskNewInfo.storePlace}}</label>
+                <label>{{reworkInfo.archivePlace}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="工资：">
-                <label>{{taskNewInfo.salary}}</label>
+                <label>{{reworkInfo.salary}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="用工状态：">
-                <label>{{taskNewInfo.jobState}}</label>
+                <label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskStatus)}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="用工日期：">
-                <label>{{taskNewInfo.jobDate}}</label>
+                <label>{{reworkInfo.employFeedbackOptDate}}</label>
               </Form-item>
               </Col>
             </Row>
@@ -176,7 +176,7 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
-  import companyInfo from '../../components/CompanyInfo'
+  import companyInfo from '../../components/CompanyInfo.vue'
   import employeeInfo from '../../components/EmployeeInfo.vue'
 
   import EventTypes from '../../../../store/event_types'
@@ -203,6 +203,8 @@
          employeeAttribute:''
         },
         company: {},
+        //用退工信息
+        reworkInfo:{},
         taskNewInfo: {
         afDate: '2017-12-01',
         storePlace: '外来从业人员',
@@ -334,7 +336,7 @@
           handleRemark: '',
           handleRemarkMan: '',
           handleRemarkDate: '',
-          rejectionRemark: '',
+
           rejectionRemarkMan: '',
           rejectionRemarkDate: '',
           empBase:'',
@@ -346,7 +348,9 @@
           employeeId:'',
           comAccountId:'',
           taskId:'',
-          businessInterfaceId:''
+          businessInterfaceId:'',
+          policyDetailId:'',
+          welfareUnit:''
         },
 
         // 任务单参考信息
@@ -464,20 +468,20 @@
                     duration: 0
                 });
             }
-
+             //获取用退工信息
+            this.reworkInfo = data.data.amEmpTaskDTO
+            this.reworkInfo.salary = data.data.salary
         });
-
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-
           if(data.data!=null){
             this.employee = data.data;
           }
-
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          
+          if(data.data!=null){
           this.company = data.data;
           this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
+          }
         })
       },
       goBack() {
@@ -545,6 +549,10 @@
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务操作";
         if ('refuse' == type) {
+          if(this.socialSecurityPayOperator.rejectionRemark==''){
+            this.$Message.warning('请输入批退原因。');
+            return;
+          }
           content = "批退";
         }else if('next'==type){
           content = "转下月处理";
@@ -556,9 +564,18 @@
           content = "办理";
         }
         let handleType = 'handle'==type || 'save'==type;
-        let startMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == this.yyyyMM(this.socialSecurityPayOperator.handleMonth)
+        let handleMonth = this.yyyyMM(this.socialSecurityPayOperator.handleMonth)
+        let startMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == handleMonth
         let handleMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == this.yyyyMM(this.operatorListData[0].startMonth)
         
+        if(handleType){
+            let currentMounth = this.yyyyMM(new Date());
+            if(Number(handleMonth)<Number(currentMounth)){
+               this.$Message.error("办理月份不能小于当前月份.");
+               return;
+            }  
+        }
+
         if(handleType && (!startMonthIsEqual || !handleMonthIsEqual)){
           if(!handleMonthIsEqual){
                this.$Message.error("两个起缴月份必须相等.");

@@ -273,6 +273,7 @@ AJAX.ajaxFbc = createProxyAjaxForName('fb-c');
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q');
 AJAX.ajaxSsc = createProxyAjaxForName('ss-c');
 AJAX.ajaxHmc = createProxyAjaxForName('health-c');
+AJAX.userInfo = createProxyAjaxForName('userInfo');
 AJAX.ajaxHfc = createProxyAjaxForName('hf-c');
 AJAX.ajaxGyg = createProxyAjaxForName('gy-c');
 AJAX.ajaxAlertJob = createProxyAjaxForName('AlertJob');

@@ -420,7 +420,18 @@
             {value: '3', label: '浦东'},
             {value: '4', label: '卢湾'},
             {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
+            {value: '6', label: '黄浦'},
+            {value: '', label: '杨浦'},
+            {value: '', label: '普陀'},
+            {value: '', label: '宝山'},
+            {value: '', label: '虹口'},
+            {value: '', label: '闵行'},
+            {value: '', label: '松江'},
+            {value: '', label: '嘉定'},
+            {value: '', label: '青浦'},
+            {value: '', label: '奉贤'},
+            {value: '', label: '崇明'},
+            {value: '', label: '金山'},
           ], //社保中心
            giveMethodList: [
             {value: '1', label: '交客服'},
@@ -493,8 +504,8 @@
                         { max:20, message: '最多不超过20个.', trigger: 'blur' }
                     ],
                     socialSecurityCenterValue: [
-                        { required: true, message: '请选择社保中心!', trigger: 'blur' },
-                         { required: true, message: '请选择社保中心!', trigger: 'change' }
+                        { required: true, message: '请选择结算区县!', trigger: 'blur' },
+                         { required: true, message: '请选择结算区县!', trigger: 'change' }
                     ],
                     icbcSearchAccount: [
                         { required: true, message: '该项不能为空!', trigger: 'blur' },
@@ -597,11 +608,15 @@
                 //loading:true,
                 onOk:function(){
                    let params = self.getParams()
-
                    CompanyTaskList.addOrUpdate(params).then(result=>{
-                    if(result){
-                       self.$Message.success('办理成功!');
-                       self.goBack()
+                    if(result.result){
+                       if(result.message=='正常'){
+                          self.$Message.success('办理成功!');
+                          self.goBack()
+                       }else{
+                         alert(result.message);
+                       }
+                        
                     }else{
                       self.$Message.error('办理失败!');
                     }
@@ -619,10 +634,14 @@
       },
       //批退任务
       refuseTask(){
-             let params = {
-                    taskIdStr:this.tid,
-                    refuseReason:this.companyOpenAccountOperator.refuseReason
-                      }
+        if(this.companyOpenAccountOperator.refuseReason=='' || typeof(this.companyOpenAccountOperator.refuseReason)=='undefined'){
+          this.$Message.warning('请输入批退原因！')
+          return
+        }
+         let params = {
+            taskIdStr:this.tid,
+            refuseReason:this.companyOpenAccountOperator.refuseReason
+          }
             let self = this
             self.$Modal.confirm({
                 title: '',

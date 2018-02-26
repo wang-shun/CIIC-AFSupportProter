@@ -277,7 +277,9 @@
            employeeId:'',
            comAccountId:'',
            taskId:'',
-           businessInterfaceId:''
+           businessInterfaceId:'',
+          policyDetailId:'',
+          welfareUnit:''
         },
 
         // 任务单参考信息
@@ -356,10 +358,8 @@
           if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
             let date = new Date();
             handleMonth=this.getYearMonth(date,'show');
-            
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
-
            this.$Notice.config({
                 top:80
               })
@@ -374,20 +374,16 @@
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-
            if(data.data!=null){
             this.employee = data.data;
           }
-
         })
 
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-
           if(data.data!=null){
             this.company = data.data;
             this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
           }
-
         })
       },
       goBack() {
@@ -453,6 +449,10 @@
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务操作";
         if ('refuse' == type) {
+          if(this.socialSecurityPayOperator.rejectionRemark==''){
+            this.$Message.warning('请输入批退原因。');
+            return;
+          }
           content = "批退";
         }else if('next'==type){
           content = "转下月处理";
@@ -463,14 +463,24 @@
         }
         let handleType = 'handle'==type || 'save'==type;
         if(handleType){
+            let handleMonth = this.socialSecurityPayOperator.handleMonth;
+            
+            let currentMounth = this.yyyyMM(new Date());
+            if(Number(this.yyyyMM(handleMonth))<Number(currentMounth)){
+               this.$Message.error("办理月份不能小于当前月份.");
+               return;
+            }  
+
+          if('refuse'!= type){
           let empArchiveId =this.socialSecurityPayOperator.empArchiveId
           if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
              this.$Message.error("雇员未做新进或者转入,不能办理.");
             return;
           }
+        }
           let startMonth = this.operatorListData[0].startMonth;
           let endMonth = this.operatorListData[0].endMonth;
-          let handleMonth = this.socialSecurityPayOperator.handleMonth;
+          
           if(startMonth==null || startMonth==""){
             this.$Message.error("起缴月份不能为空.");
             return;

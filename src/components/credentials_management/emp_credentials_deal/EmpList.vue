@@ -21,32 +21,15 @@
                 </Form-item>
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">   
-                <Form-item label="身份证号码：" prop="IDNum">
+                <Form-item label="证件号码：" prop="IDNum">
                   <Input v-model="queryItem.IDNum" placeholder="请输入"/>                               
                 </Form-item>                           
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="入离职状态：" prop="status">
-                  <Select v-model="queryItem.status" placeholder="请选择" transfer>
-                    <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  <Cascader v-model="queryItem.status" :data="statusList" trigger="hover" style="width: 57%;hight:100px" transfer></Cascader>
                 </Form-item>    
               </i-col>
-              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                                       
-                <Form-item label="办理日期：" prop="dealTime">
-                  <DatePicker type="date" v-model="queryItem.dealTime" placeholder="请输入" style="width: 57%" transfer/>
-                </Form-item>                                                
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                                       
-                <Form-item label="申报日期：" prop="applyTime">
-                  <DatePicker type="date" v-model="queryItem.applyTime" placeholder="请输入" style="width: 57%" transfer/>
-                </Form-item>                                                
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                                       
-                <Form-item label="材料退回日期：" prop="materialBackTime">
-                  <DatePicker type="date" v-model="queryItem.materialBackTime" placeholder="请输入" style="width: 57%" transfer/>
-                </Form-item>                                                
-              </i-col>                                       -->
             </Row>   
           </Form>  
           <Row type="flex" justify="start" class="tr">  
@@ -127,10 +110,8 @@
 
 <script>
   import axios from 'axios'
-  import Tools from '../../../lib/tools'
 
   const host = process.env.SITE_HOST
-
   export default {
     data () {
       return {
@@ -144,11 +125,8 @@
           empCode: '',
           empName: '',
           IDNum: '',
-          status: '',
-          companyCode: '',
-          dealTime: '',
-          applyTime: '',
-          materialBackTime: ''
+          status: ['',''],
+          companyCode: ''
         },
         formItem: {
           companyName: '',
@@ -165,12 +143,70 @@
         },
         statusList: [
           {
-            value: '0',
-            label: '在职'
+            value: '1',
+            label: 'af',
+            children: [
+              {
+                value: '0',
+                label: '预录用'
+              },
+              {
+                value: '1',
+                label: '雇员信息确认中'
+              },
+              {
+                value: '2',
+                label: '在职'
+              },
+              {
+                value: '3',
+                label: '离职'
+              },
+              {
+                value: '4',
+                label: '取消入职'
+              }
+            ]
           },
           {
-            value: '1',
-            label: '离职'
+            value: '2',
+            label: 'bpo',
+            children: [
+              {
+                value: '0',
+                label: '预增'
+              },
+              {
+                value: '1',
+                label: '报入职'
+              },
+              {
+                value: '2',
+                label: '在职'
+              },
+              {
+                value: '3',
+                label: '报离职'
+              },
+              {
+                value: '4',
+                label: '离职'
+              }
+            ]
+          },
+          {
+            value: '3',
+            label: 'fc',
+            children: [
+              {
+                value: '0',
+                label: '离职'
+              },
+              {
+                value: '1',
+                label: '在职'
+              }
+            ]
           }
         ],
         colums1: [
@@ -184,7 +220,7 @@
             key: 'employeeName'
           },
           {
-            title: '身份证号码',
+            title: '证件号码',
             key: 'idNum'
           },
           {
@@ -198,7 +234,7 @@
           },
           {
             title: '入离职状态',
-            key: 'status'
+            key: 'statusUI'
           },
           {
             title: '操作',
@@ -238,7 +274,7 @@
                     this.lookInfo(params.row)
                   }
                 }
-              }, '编辑'))
+              }, '查看'))
             // }
               return h('div', renderDiv)
             }
@@ -260,7 +296,8 @@
         params.params.employeeName = this.queryItem.empName
         params.params.idNum = this.queryItem.IDNum
         params.params.companyId = this.queryItem.companyCode
-        params.params.status = this.queryItem.status
+        params.params.type = this.queryItem.status[0]
+        params.params.status = this.queryItem.status[1]
         axios.get(host + '/api/emp/find', params).then(response => {
           this.employeePage = response.data.data.records
           this.total = response.data.data.total

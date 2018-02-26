@@ -253,7 +253,9 @@
             employeeId:'',
            comAccountId:'',
            taskId:'',
-           businessInterfaceId:''
+           businessInterfaceId:'',
+          policyDetailId:'',
+          welfareUnit:''
         },
 
         // 任务单参考信息
@@ -425,8 +427,19 @@
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
         if ('4' == taskStatus) {
+          if(this.socialSecurityPayOperator.rejectionRemark==''){
+            this.$Message.warning('请输入批退原因。');
+            return;
+          }
           content = "批退办理";
+        }else{
+          let empArchiveId =this.socialSecurityPayOperator.empArchiveId
+          if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
+             this.$Message.error("雇员未做新进或者转入,不能办理.");
+            return;
+          }
         }
+    
         let self= this
         this.$Modal.confirm({
           title: "确认办理吗？",

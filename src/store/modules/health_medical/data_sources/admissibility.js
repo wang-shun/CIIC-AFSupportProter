@@ -170,24 +170,24 @@ const rejectTypes = [
  * 新增受理单表单校验
  */
 const addAcceptanceRules = {
-  surrenderDate: [
-    {required: true, type: 'date', message: '请选择退保日期', trigger: 'change'}
-  ],
-  dimissionDate: [
-    {required: true, type: 'date', message: '请选择中止日期', trigger: 'change'}
-  ],
-  jointPersonBirthDate: [
-    {required: true, type: 'date', message: '请选择连带人出生日期', trigger: 'change'}
-  ],
+  // surrenderDate: [
+  //   {required: true, type: 'date', message: '请选择退保日期', trigger: 'change'}
+  // ],
+  // dimissionDate: [
+  //   {required: true, type: 'date', message: '请选择中止日期', trigger: 'change'}
+  // ],
+  // jointPersonBirthDate: [
+  //   {required: true, type: 'date', message: '请选择连带人出生日期', trigger: 'change'}
+  // ],
   moneyType: [
     {required: true, message: '请选择款项类型', trigger: 'change'}
   ],
   caseType: [
     {required: true, message: '请选择受理类型', trigger: 'change'}
   ],
-  jointPersonName: [
-    {required: true, message: '请选择连带人', trigger: 'change'}
-  ],
+  // jointPersonName: [
+  //   {required: true, message: '请选择连带人', trigger: 'change'}
+  // ],
   caseMoney: [
     {required: true, type: 'number', message: '请输入受理金额', trigger: 'change'}
   ],

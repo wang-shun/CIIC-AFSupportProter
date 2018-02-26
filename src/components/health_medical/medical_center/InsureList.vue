@@ -37,7 +37,7 @@
                         </Col>
                         <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
                                 <Form :model="formItem" :label-width="100">
-                                    <Form-item label="身份证号码">
+                                    <Form-item label="证件号码">
                                     <Input v-model="formItem.code" placeholder="请输入"></Input>
                                 </Form-item>
                             </Form>

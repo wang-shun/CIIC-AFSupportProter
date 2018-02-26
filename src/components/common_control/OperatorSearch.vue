@@ -49,7 +49,7 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="身份证号：" prop="idNumber">
+          <Form-item label="证件号：" prop="idNumber">
             <Input v-model="operatorSearchData.idNumber" placeholder="请输入..."></Input>
           </Form-item>
         </Col>
@@ -156,7 +156,7 @@
           ], //人员分类
           employeeNumber: '', //雇员编号
           employeeName: '', //雇员姓名
-          idNumber: '', //身份证号
+          idNumber: '', //证件号
           taskTypeValue: '',
           taskTypeList: [
             {value: '1', label: '新开转入'},
@@ -170,7 +170,18 @@
             {value: '3', label: '浦东'},
             {value: '4', label: '卢湾'},
             {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
+            {value: '6', label: '黄浦'},
+            {value: '', label: '杨浦'},
+            {value: '', label: '普陀'},
+            {value: '', label: '宝山'},
+            {value: '', label: '虹口'},
+            {value: '', label: '闵行'},
+            {value: '', label: '松江'},
+            {value: '', label: '嘉定'},
+            {value: '', label: '青浦'},
+            {value: '', label: '奉贤'},
+            {value: '', label: '崇明'},
+            {value: '', label: '金山'},
           ],
           region: '', //结算区域
           emergency: '',

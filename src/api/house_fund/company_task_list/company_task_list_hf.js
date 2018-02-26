@@ -5,55 +5,9 @@
 export class CompanyTaskListHF{
 
     constructor(){
-
     }
-    //get request type
-    static getTableData(params,url){
-        console.log(url)
-        return new Promise(function(resolve,reject){
-          ajax.get(url, params) .then(function (response) {
-                let responseData = {
-                  data:{
-                    taskData:[],
-                    code:"",
-                    totalSize:"",
-                    message:""
-                  }
-                }
-                if(response.data.code=="200"){
-                    for(let i of response.data.data){
-                      let obj ={}
-                      obj.action=""
-                      obj.tid = i.comTaskId
-                      if(i.taskCategory==1) obj.type='开户'
-                      //1:开户：2：转移 3：变更 4：终止
-                      else if (i.taskCategory==2) obj.type='转移'
-                      else if (i.taskCategory==3) obj.type='变更'
-                      else if(i.taskCategory==4)  obj.type='终止'
-                      obj.customerId = i.companyId
-                      obj.companyCustomer = i.companyName
-                      obj.sponsorTime = i.submitTime
-                      obj.notes = i.submitRemark
-                      obj.finishDate=i.expireDate
-                      obj.initiator=i.submitterId
-                      responseData.data.taskData.push(obj)
-                  }
-                  responseData.data.totalSize=response.data.total
-                  responseData.data.code=response.data.code
-                  responseData.data.message= response.data.message
-                  resolve(responseData)
-                }else{
-                    reject(Error('后台异常！'))
-                }
-          })
-          .catch(function (error) {
-            console.log(error);
-            reject(error);
-          });
-        })
 
-    }
-    //post request type
+    //post no_process company task
     static postTableData(params,url){
       return new Promise(function(resolve,reject){
         ajax.post(url, params).then(function (response) {
@@ -68,15 +22,44 @@ export class CompanyTaskListHF{
               if(response.data.code=="200"){
                   for(let i of response.data.data){
                     let obj ={}
+                    let companyInfo ={}
+                    let openAccountInfo ={}
                     obj.action=""
-                    obj.tid = i.comTaskId
+                    obj.comTaskId = i.comTaskId
                     obj.companyId = i.companyId
                     obj.companyName = i.companyName
                     obj.taskCategoryName = i.taskCategoryName
                     obj.hfTypeName = i.hfTypeName
                     obj.comTaskPaymentWayName = i.comTaskPaymentWayName
+
+                    //构建companyInfo传参
+                    companyInfo.customerNumber = i.companyId
+                    companyInfo.customerName = i.companyName
+                    companyInfo.serviceManager = ""
+                    companyInfo.customerFundEndDate = ""
+                    companyInfo.initiater = ""
+                    companyInfo.sponsorTime = ""
+                    companyInfo.initiaterNotes = ""
+                    obj.companyInfo = companyInfo
+
+                    //openAccountInfo传参
+                    openAccountInfo.changeTypeValue = ""
+                    openAccountInfo.paymentBankValue = ""
+                    openAccountInfo.payMethodValue = ""
+                    openAccountInfo.companyFundAccount = ""
+                    openAccountInfo.UKeyValue = ""
+                    openAccountInfo.customerPayStartDate = ""
+                    openAccountInfo.closeAccountEveryMonth = ""
+                    openAccountInfo.professionalOperateStartDate = ""
+                    openAccountInfo.acceptDate = ""
+                    openAccountInfo.deliveredDate = ""
+                    openAccountInfo.finishDate = ""
+                    openAccountInfo.notes = ""
+                    obj.openAccountInfo = openAccountInfo
+
                     responseData.data.taskData.push(obj)
                 }
+                debugger
                 responseData.data.totalSize=response.data.total
                 responseData.data.code=response.data.code
                 responseData.data.message= response.data.message
@@ -90,9 +73,20 @@ export class CompanyTaskListHF{
           reject(error);
         });
       })
-
   }
 
+  //更新企业任务单
+  static updateCompanyTask(params, url){
+    return new Promise((resolve,reject)=>{
+      ajax.post(url,params).then(response=>{
+        let result = this.handleReturnData(response)
+        if(!result.isError){
+          //获得前台显示数据
+          resolve(true)
+        }else reject(Error(result.message))
+      })
+    })
+  }
 
   //get customer name
   static getCustomerData(params,url){

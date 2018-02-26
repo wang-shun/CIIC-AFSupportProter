@@ -123,7 +123,46 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'companyFundTaskCommit'});
+                      this.setSessionNumAndSize()
+                      switch(params.row.taskCategoryName) {
+                        case '开户':
+                          this.$router.push({name: 'companyFundTaskCommit', params: {
+                              comTaskId: params.row.comTaskId,
+                              companyInfo: params.row.companyInfo,
+                              openAccountInfo: params.row.openAccountInfo}
+                          });
+                          break;
+                        case '转入':
+                          this.$router.push({name: 'companyFundTaskCommit', params: {
+                              comTaskId: params.row.comTaskId,
+                              companyInfo: params.row.companyInfo,
+                              openAccountInfo: params.row.openAccountInfo}
+                          });
+                          break;
+                        case '变更':
+                          this.$router.push({name: 'companyTaskProgressChangeInfo', params: {
+                              comTaskId: params.row.comTaskId,
+                              companyInfo: params.row.companyInfo,
+                              openAccountInfo: params.row.openAccountInfo}
+                          });
+                          break;
+                        case '终止':
+                          this.$router.push({name: 'companyTaskProgressEndInfo', params: {
+                              comTaskId: params.row.comTaskId,
+                              companyInfo: params.row.companyInfo,
+                              openAccountInfo: params.row.openAccountInfo}
+                          });
+                          break;
+                        case '销户':
+                          this.$router.push({name: 'companyTaskProgressEndInfo', params: {
+                              comTaskId: params.row.comTaskId,
+                              companyInfo: params.row.companyInfo,
+                              openAccountInfo: params.row.openAccountInfo}
+                          });
+                          break;
+                        default:
+                          break;
+                      }
                     }
                   }
                 }, '办理'),
@@ -260,7 +299,7 @@
         })
       },
       setSessionNumAndSize(){
-        sessionStorage.taskPageNum=this.pageNum
+        sessionStorage.taskPageNum = this.pageNum
         sessionStorage.taskPageSize = this.size
       },
       //关闭查询loding
@@ -269,10 +308,10 @@
       },
       //将后台查询的数据赋到页面
       refresh(data){
-        this.taskData = data.data.taskData
-        // this.customerData = data.data.customerData;
-        if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
-        else this.totalSize  =Number(data.data.totalSize)
+        this.taskData = data.data.taskData;
+debugger
+        if(typeof(data.data.totalSize)=='undefined') this.totalSize = 0
+        else this.totalSize = Number(data.data.totalSize)
         this.closeLoading();
       },
       //导表
@@ -291,7 +330,7 @@
           console.log(error)
         })
       },
-      //获得列表请求请求参数
+      //获得列表请求参数
       getParams(page){
         return {
           pageSize:this.size,

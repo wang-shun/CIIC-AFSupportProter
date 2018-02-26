@@ -8,6 +8,12 @@ let domainJson = {
     //获得企业任务单 未处理
     "getNoProcessCompanyTask":"/api/fundcommandservice/hfComTask/postNoProcessTask",
 
+    //企业任务单提交或修改
+    "updateCompanyTask":"/api/fundcommandservice/hfComTask/updateCompanyTask",
+
+
+
+
     //处理中
     "getProgressingCompanyTask":"/api/fundcommandservice/hfComTask/postProgressingTask",
 
@@ -31,9 +37,6 @@ let domainJson = {
 
     //查询企业信息和前道传过来的JSON（包含社保截止和付款方式）
     "getComInfoAndPayWayUrl":"/api/fundcommandservice/hfComTask/getComInfoAndPayWay",
-
-    //企业任务单开户办理页面 添加或者修改（修改是有可能填完数据 然后暂存起来）
-    "addOrUpdateCompanyTaskUrl":"/api/fundcommandservice/hfComTask/addOrUpdateCompanyTask",
 
     //修改任务单状态（因为操作时不一定直接办理完成） 或者终止任务的完成
     "updateOrEndingTaskUrl":"/api/fundcommandservice/hfComTask/updateOrEndingTask",

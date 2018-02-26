@@ -23,8 +23,27 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="企业公积金账户：">
-          <Input v-model="openAccount.companyFundAccount" placeholder="请输入..." :disabled="disabled"></Input>
+      <Form-item label="终止类型：">
+        <Select v-model="openAccount.endTypeValue" style="width: 100%;" :disabled="disabled" transfer>
+          <Option v-for="item in endTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+        </Select>
+      </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+      <Form-item label="是否账户暂管：">
+        <Select v-model="openAccount.accountTempStoreTypeValue" style="width: 100%;" :disabled="disabled" transfer>
+          <Option v-for="item in accountTempStoreTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+        </Select>
+      </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+      <Form-item label="企业公积金账户名称：">
+        <Input v-model="openAccount.companyFundAccountName" placeholder="请输入..." :disabled="disabled"></Input>
+      </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="企业公积金账户编号：">
+          <Input v-model="openAccount.companyFundAccountNum" placeholder="请输入..." :disabled="disabled"></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -58,7 +77,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="受理日期：">
-          <DatePicker v-model="openAccount.accpetDate" placement="bottom-end" placeholder="选择日期" :disabled="disabled" style="width: 100%;" transfer></DatePicker>
+          <DatePicker v-model="openAccount.acceptDate" placement="bottom-end" placeholder="选择日期" :disabled="disabled" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -106,16 +125,25 @@
           {label: "我司付款(客户预付)", value: 1},
           {label: "垫付", value: 2},
         ],
+        endTypeList: [
+          {label: "销户", value: 1},
+          {label: "公司自做", value: 2},
+          {label: "转其他代理商", value: 3}
+        ],
         taskTypeList:[
           {value: '0',label: '初始(材料收缴)',disabled:false},
           {value: '1', label: '受理中',disabled:false},
           {value: '2', label: '送审中',disabled:false},
           {value: '3', label: '已完成',disabled:false},
-        ],//任务状态类型
+        ],
         UKeyList: [
-          {label: "有(中智代办)", value: 0},
+          {label: "有(中智代办)", value: 2},
           {label: "有(客户自办)", value: 1},
-          {label: "没有", value: 2},
+          {label: "没有", value: 0},
+        ],
+        accountTempStoreTypeList: [
+          {label: "是", value: 1},
+          {label: "否", value: 0}
         ]
       }
     },

@@ -41,6 +41,9 @@ const employeeFundTransferOperator = r => require.ensure([], () => r(require('@/
 const employeeFundTransferProgressTwo = r => require.ensure([], () => r(require('@/components/fund/employee_transfer_operator/EmployeeFundTransferProgressTwo')), 'EmployeeFundTransferProgressTwo')
 const companyFundTaskList = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskList')), 'CompanyFundTaskList')
 const companyFundTaskCommit = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/companyFundTaskCommit')), 'companyFundTaskCommit')
+const companyFundTaskProgressChangeInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/companyFundTaskProgressChangeInfo')), 'companyFundTaskProgressChangeInfo')
+const companyFundTaskProgressEndInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/companyFundTaskProgressEndInfo')), 'companyFundTaskProgressEndInfo')
+
 const companyFundAccountSearch = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountSearch')), 'CompanyFundAccountSearch')
 const companyFundAccountProgressTwo = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountProgressTwo')), 'CompanyFundAccountProgressTwo')
 const fundReconciliation = r => require.ensure([], () => r(require('@/components/fund/fund_reconciliation/FundReconciliation')), 'FundReconciliation')
@@ -282,6 +285,28 @@ let router = new Router({
           path: '/company_fund_task_commit',
           name: 'companyFundTaskCommit',
           component: companyFundTaskCommit,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "企业任务单",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/company_fund_task_progress_change_info',
+          name: 'companyFundTaskProgressChangeInfo',
+          component: companyFundTaskProgressChangeInfo,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "企业任务单",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/company_fund_task_progress_end_info',
+          name: 'companyFundTaskProgressEndInfo',
+          component: companyFundTaskProgressEndInfo,
           meta: {
             level1: '首页',
             level2: "上海公积金",

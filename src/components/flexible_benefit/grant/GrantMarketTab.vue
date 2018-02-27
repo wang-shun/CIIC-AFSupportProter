@@ -136,34 +136,25 @@
 
         examineList: [
           {
-            value: '2', label: '同意'
+            value: '0', label: '审批中'
           },
           {
-            value: '3', label: '不同意'
+            value: '1', label: '同意'
           },
           {
-            value: '4', label: '部分同意'
-          }
+            value: '2', label: '不同意'
+          },
         ],
 
         grantStateList: [
           {
-            value: '1', label: '未发放'
+            value: '1', label: '未处理'
           },
           {
             value: '2', label: '已发放'
           },
           {
             value: '3', label: '已批退'
-          }
-        ],
-
-        deptList: [
-          {
-            value: '0', label: '中智'
-          },
-          {
-            value: '1', label: '外企部门组织结构树'
           }
         ],
       }

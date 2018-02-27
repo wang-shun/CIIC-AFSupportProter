@@ -155,7 +155,7 @@
       })
     },
     created() {
-      this.query();
+      this.getByPage(1);
     },
     methods: {
       ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_LIST]),

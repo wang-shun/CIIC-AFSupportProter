@@ -214,6 +214,9 @@
         statusProperties: admissibility.statusProperties,
       }
     },
+    created() {
+      this.getByPage(1);
+    },
     methods: {
       queryUninsuredList() {
         apiAjax.queryAcceptanceAuditList(this.formItem).then(response => {

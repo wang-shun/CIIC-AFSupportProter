@@ -260,6 +260,9 @@
 
       }
     },
+    created() {
+      this.getByPage(1);
+    },
     methods: {
       queryAcceptanceList() {
         apiAjax.queryAcceptanceList(this.formItem).then(response => {
@@ -283,7 +286,16 @@
       },
       updateAcceptanceList(val) {
         this.dealMeg.status = val;
-
+        apiAjax.queryAcceptanceList(this.dealMeg).then(response => {
+          if (response.data.code === 200) {
+            this.getByPage(1);
+          } else {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
         this.getByPage(1);
       },
       selectTableData(rows) {

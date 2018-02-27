@@ -145,7 +145,7 @@
       }),
     },
     created() {
-      this.queryTransfer();
+      this.getTransferByPage(1);
     },
     methods: {
       ...mapActions("TRANSFER", [EventTypes.TRANSFER_LIST]),

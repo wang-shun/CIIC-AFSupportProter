@@ -109,7 +109,7 @@
       </Row>
       <Row style="margin: 10px 40px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <RadioGroup v-model="formItem.educate">
+            <RadioGroup v-model="formItem.educate" style="width:600px">
               <Radio label="学历学位证书（国内）"></Radio>
               <Radio label="学历学位证书（国外）"></Radio>
               <Radio label="国外学历学位成绩单"></Radio>

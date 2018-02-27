@@ -126,16 +126,16 @@
           <CredentialsMaterial10 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial10>
         </div>
         <div v-if="formItem.credentialsType === 3">
-          <CredentialsMaterial11 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial11>
+          <CredentialsMaterial14 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial14>
         </div>
         <div v-if="formItem.credentialsType === 4">
-          <CredentialsMaterial12 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial12>
+          <CredentialsMaterial11 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial11>
         </div>
         <div v-if="formItem.credentialsType === 5">
           <CredentialsMaterial13 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial13>
         </div>
         <div v-if="formItem.credentialsType === 6">
-          <CredentialsMaterial14 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial14>
+          <CredentialsMaterial12 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial12>
         </div>
        </Form>
     </Card>

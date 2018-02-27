@@ -20,7 +20,7 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="用工状态:">
-                <label></label>
+                <label>{{reworkInfo.taskStatus}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -126,9 +126,9 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button> 
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2')" v-if="showButton">办理</Button>
-      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1')" v-if="showButton">暂存</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton">办理</Button>
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton">批退</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','save')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -199,6 +199,7 @@
         //   {value: 1, label: '退休'},
         //   {value: 2, label: '终止'}
         // ], //特殊变更类型：
+        reworkInfo:{},
         socialSecurityPayOperator: {
           handleWay: '1',
           handleMonth: '',
@@ -297,7 +298,7 @@
             handleMonth=this.getYearMonth(date,'show');
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
-
+          this.reworkInfo = data.data.amEmpTaskDTO
            this.$Notice.config({
                 top:80
               })
@@ -345,12 +346,13 @@
           }
           content = "批退办理";
         }else{
-          let empArchiveId =this.socialSecurityPayOperator.empArchiveId
-          if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
-             this.$Message.error("雇员未做新进或者转入,不能办理.");
+          if('save' == type || 'handle'==type){
+          let comAccountId=this.socialSecurityPayOperator.comAccountId;
+          if(typeof(comAccountId)=='undefined' || comAccountId==''){
+             this.$Message.error("该雇员对应的企业没有开户,不能办理.");
             return;
           }
-
+        }
            let validResult = false;
           //校验表单
         this.$refs['socialSecurityPayOperator'].validate((valid) => {

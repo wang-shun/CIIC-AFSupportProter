@@ -10,7 +10,6 @@ export class CompanyTaskList{
     }
     //get request type
     static getTableData(params,url){
-        console.log(url)
         return new Promise(function(resolve,reject){
           ajax.get(url, params) .then(function (response) {
                 let responseData = {
@@ -48,7 +47,6 @@ export class CompanyTaskList{
                 }
           })
           .catch(function (error) {
-            console.log(error);
             reject(error);
           });
         })
@@ -56,8 +54,6 @@ export class CompanyTaskList{
     }
 
     static excelExport(url,params){
-      console.log("url:"+url);
-
       return new Promise(function(resolve,reject){
         ajax.download(url, params);
       });
@@ -103,7 +99,6 @@ export class CompanyTaskList{
               }
         })
         .catch(function (error) {
-          console.log(error);
           reject(error);
         });
       })
@@ -463,7 +458,6 @@ export class CompanyTaskList{
       dispatchMaterial = JSON.parse(ssComAccountBO.dispatchMaterial)
     }
     //发出的材料
-
     return {
       companyTaskStatus:result.taskStatus,
       comAccountId:isNull?'':ssComAccountBO.comAccountId,
@@ -506,11 +500,11 @@ export class CompanyTaskList{
             sufferedOnTheJobPercentage: industryInfo==null?'':industryInfo.comRatio, //企业工伤比例
             sufferedOnTheJobPercentageChangeStartMonth: industryInfo==null?'':industryInfo.startMonth, //企业工伤比例开始调整月份
             sendedMaterials: dispatchMaterial, //发出材料
-            acceptanceDate: isNull || result.startHandleDate==null?'':result.startHandleDate, //受理日期 startHandleDate,sendCheckDate,finishDate
-            sendCheckDate: isNull || result.sendCheckDate==null?'':result.sendCheckDate, //送审日期
-            finishedDate: isNull || result.finishDate==null?'':result.finishDate, //完成日期
-            rejectionRemark:isNull || result.handleRemark==null?'':result.handleRemark,//办理原因
-            rejectionRemark: isNull || result.rejectionRemark==null?'':result.rejectionRemark //批退原因
+            acceptanceDate:result.startHandleDate==null?'':result.startHandleDate, //受理日期 startHandleDate,sendCheckDate,finishDate
+            sendCheckDate:result.sendCheckDate==null?'':result.sendCheckDate, //送审日期
+            finishedDate:result.finishDate==null?'':result.finishDate, //完成日期
+            handleRemark:result.handleRemark==null?'':result.handleRemark,//办理原因
+            rejectionRemark:result.rejectionRemark==null?'':result.rejectionRemark //批退原因
           }
     }
   }

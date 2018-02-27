@@ -204,7 +204,6 @@
       }
     },
     mounted() {
-
       let sessionPageNum = sessionStorage.taskRePageNum
       let sessionPageSize = sessionStorage.taskRePageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
@@ -216,7 +215,7 @@
 
       let params = {
           pageSize:this.size,
-          pageNum:1,
+          pageNum:this.pageNum,
         params:{}
       }
       let self= this

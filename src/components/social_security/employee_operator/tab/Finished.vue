@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        雇员日常操作
+        查询条件
         <div slot="content">
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">

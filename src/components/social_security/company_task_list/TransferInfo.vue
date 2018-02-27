@@ -7,12 +7,12 @@
           <company-social-security-info :company="companyInfo"></company-social-security-info>
         </div>
       </Panel>
-      <Panel name="2">
+      <!-- <Panel name="2">
         办理所需材料清单
         <div slot="content">
           <Table class="mt20" border :columns="operatorMaterials.operatorMaterialListColumns" :data="operatorMaterialListData" ref="materialData"></Table>
         </div>
-      </Panel>
+      </Panel> -->
       <Panel name="3">
         前道传递信息
         <div slot="content">

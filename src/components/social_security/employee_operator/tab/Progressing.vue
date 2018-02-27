@@ -81,8 +81,8 @@
                   <Option value="3" label="调整"></Option>
                   <Option value="4" label="补缴"></Option>
                   <Option value="5" label="转出"></Option>
-                  <Option value="7" label="退账"></Option>
-                  <!--<Option value="6" label="终止"></Option>
+                  <Option value="6" label="封存"></Option>
+                  <!--<Option value="7" label="退账"></Option>
                   <Option value="8" label="提取"></Option>
                   <Option value="9" label="特殊操作"></Option>-->
                 </Select>

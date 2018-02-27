@@ -75,14 +75,16 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单类型：" prop="taskCategory">
                 <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="" label="全部"></Option>
                   <Option value="1" label="新进"></Option>
                   <Option value="2" label="转入"></Option>
                   <Option value="3" label="调整"></Option>
                   <Option value="4" label="补缴"></Option>
                   <Option value="5" label="转出"></Option>
-                  <Option value="7" label="退账"></Option>
-                  <!--<Option value="6" label="终止"></Option>
+                  <Option value="6" label="封存"></Option>
+                  
+                  <!--<Option value="7" label="退账"></Option>
+                    <Option value="6" label="封存"></Option>
                   <Option value="8" label="提取"></Option>
                   <Option value="9" label="特殊操作"></Option>-->
                 </Select>

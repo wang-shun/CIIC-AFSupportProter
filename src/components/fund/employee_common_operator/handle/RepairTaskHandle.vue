@@ -210,7 +210,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="任务：">
+              <Form-item label="任务类型：">
                 {{displayVO.taskCategoryName}}
               </Form-item>
               </Col>
@@ -218,7 +218,7 @@
             <Row>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="操作提示：">
-                <Select v-model="displayVO.operationRemind" style="width: 100%;" transfer>
+                <Select v-model="displayVO.operationRemind" style="width: 100%;" transfer :disabled="inputDisabled">
                   <Option value="" label="无"></Option>
                   <Option v-for="item in operationRemindList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
@@ -226,7 +226,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="操作提示日期：">
-                <DatePicker v-model="displayVO.operationRemindDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                <DatePicker v-model="displayVO.operationRemindDate" format="yyyy-MM-dd" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer :disabled="inputDisabled"></DatePicker>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -243,12 +243,12 @@
             <Row class="mt20">
               <Col :sm="{span: 24}">
               <FormItem label="办理备注：">
-                <Input v-model="displayVO.handleRemark" placeholder="请输入..."></Input>
+                <Input v-model="displayVO.handleRemark" placeholder="请输入..." :disabled="inputDisabled"></Input>
               </FormItem>
               </Col>
               <Col :sm="{span: 24}">
               <FormItem label="批退备注：">
-                <Input v-model="displayVO.rejectionRemark" placeholder="请输入..."></Input>
+                <Input v-model="displayVO.rejectionRemark" placeholder="请输入..." :disabled="inputDisabled"></Input>
               </FormItem>
               </Col>
             </Row>
@@ -264,72 +264,73 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" :disabled="buttonDisabled" @click="handleTask">已处理</Button>
-        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="notHandleTask">不需处理</Button>
-        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="handleTaskDelay">转下月处理</Button>
-        <Button type="error" :disabled="buttonDisabled" class="ml10" @click="handleTaskReject">批退</Button>
-        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="isShowPrint = true">打印转移通知书</Button>
-        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="saveTask">保存</Button>
+        <Button type="primary" @click="handleTask" v-if="showButton">已处理</Button>
+        <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
+        <!--<Button type="primary" class="ml10" @click="isShowPrint = true">打印转移通知书</Button>-->
+        <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
+        <Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>
         <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
     </Row>
 
-    <!-- 打印转移通知书 模态框 -->
-    <Modal
-      v-model="isShowPrint"
-      title="打印转移通知书"
-      width="720">
-      <Form :label-width=100 ref="transferNotice" :model="transferNotice">
-        <Row type="flex" justify="start">
-          <Col :sm="{span: 12}">
-          <FormItem label="转出单位">
-            <AutoComplete v-model="transferNotice.transferOutUnit" :data="transferOutUnitList" :filter-method="filterMethod" style="width: 100%;" transfer>
-            </AutoComplete>
-          </FormItem>
-          </Col>
-          <Col :sm="{span: 12}">
-          <FormItem label="转出单位账号">
-            <Input v-model="transferNotice.transferOutUnitAccount" placeholder="请输入..."></Input>
-          </FormItem>
-          </Col>
-          <Col :sm="{span: 12}">
-          <FormItem label="转入单位">
-            <Input v-model="transferNotice.transferInUnit" placeholder="请输入..."></Input>
-          </FormItem>
-          </Col>
-          <Col :sm="{span: 12}">
-          <FormItem label="转入单位账号">
-            <Input v-model="transferNotice.transferInUnitAccount" placeholder="请输入..."></Input>
-          </FormItem>
-          </Col>
-          <Col :sm="{span: 12}">
-          <FormItem label="转移日期">
-            <DatePicker v-model="transferNotice.transferDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-          </FormItem>
-          </Col>
-        </Row>
-      </Form>
-      <div slot="footer">
-        <Row>
-          <Col :sm="{span: 24}">
-          <Button type="primary" @click="isShowPrint = false">打印通知书</Button>
-          <Button type="warning" @click="isShowPrint = false">取消</Button>
-          </Col>
-        </Row>
-      </div>
-    </Modal>
+    <!--&lt;!&ndash; 打印转移通知书 模态框 &ndash;&gt;-->
+    <!--<Modal-->
+      <!--v-model="isShowPrint"-->
+      <!--title="打印转移通知书"-->
+      <!--width="720">-->
+      <!--<Form :label-width=100 ref="transferNotice" :model="transferNotice">-->
+        <!--<Row type="flex" justify="start">-->
+          <!--<Col :sm="{span: 12}">-->
+          <!--<FormItem label="转出单位">-->
+            <!--<AutoComplete v-model="transferNotice.transferOutUnit" :data="transferOutUnitList" :filter-method="filterMethod" style="width: 100%;" transfer>-->
+            <!--</AutoComplete>-->
+          <!--</FormItem>-->
+          <!--</Col>-->
+          <!--<Col :sm="{span: 12}">-->
+          <!--<FormItem label="转出单位账号">-->
+            <!--<Input v-model="transferNotice.transferOutUnitAccount" placeholder="请输入..."></Input>-->
+          <!--</FormItem>-->
+          <!--</Col>-->
+          <!--<Col :sm="{span: 12}">-->
+          <!--<FormItem label="转入单位">-->
+            <!--<Input v-model="transferNotice.transferInUnit" placeholder="请输入..."></Input>-->
+          <!--</FormItem>-->
+          <!--</Col>-->
+          <!--<Col :sm="{span: 12}">-->
+          <!--<FormItem label="转入单位账号">-->
+            <!--<Input v-model="transferNotice.transferInUnitAccount" placeholder="请输入..."></Input>-->
+          <!--</FormItem>-->
+          <!--</Col>-->
+          <!--<Col :sm="{span: 12}">-->
+          <!--<FormItem label="转移日期">-->
+            <!--<DatePicker v-model="transferNotice.transferDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>-->
+          <!--</FormItem>-->
+          <!--</Col>-->
+        <!--</Row>-->
+      <!--</Form>-->
+      <!--<div slot="footer">-->
+        <!--<Row>-->
+          <!--<Col :sm="{span: 24}">-->
+          <!--<Button type="primary" @click="isShowPrint = false">打印通知书</Button>-->
+          <!--<Button type="warning" @click="isShowPrint = false">取消</Button>-->
+          <!--</Col>-->
+        <!--</Row>-->
+      <!--</div>-->
+    <!--</Modal>-->
   </div>
 </template>
 <script>
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import dict from '../../../../api/dict_access/house_fund_dict'
-  import utils from '../../../../lib/utils';
 
   export default {
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
-        buttonDisabled: false,
+        showButton: true,
+        showCancel: false,
         isShowPrint: false,
         displayVO: {
           empTaskId: 0,
@@ -410,28 +411,28 @@
           {title: '补缴起始月份', key: 'startMonth', align: 'left',
             render: (h, params) => {
               return h('div', [
-                h('Input', {
-                  props: {value: params.row.startMonth},
+                h('DatePicker', {
+                  props: {value: params.row.startMonth, type: 'month', format: 'yyyyMM', placement: 'bottom-end', placeholder: '选择年月', style: 'width: 100%;', transfer: true},
                   on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].startMonth = event.target.value
+                    'on-change': (val) => {
+                      this.operatorListData[params.index].startMonth = val;
                     }
                   }
-                }, params.row.startMonth)
+                })
               ]);
             }
           },
           {title: '补缴截至月份', key: 'endMonth', align: 'left',
             render: (h, params) => {
               return h('div', [
-                h('Input', {
-                  props: {value: params.row.endMonth},
+                h('DatePicker', {
+                  props: {value: params.row.endMonth, type: 'month', format: 'yyyyMM', placement: 'bottom-end', placeholder: '选择年月', style: 'width: 100%;', transfer: true},
                   on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].endMonth = event.target.value
+                    'on-change': (val) => {
+                      this.operatorListData[params.index].endMonth = val;
                     }
                   }
-                }, params.row.endMonth)
+                })
               ]);
             }
           },
@@ -588,7 +589,18 @@
           this.operatorListData = data.data.empTaskPeriods;
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
-          this.buttonDisabled = !this.displayVO.canHandle;
+          this.showButton = this.displayVO.canHandle;
+
+          if (!this.displayVO.taskStatus || this.displayVO.taskStatus == 1) {
+            this.inputDisabled = false;
+          } else {
+            if (this.displayVO.taskStatus == 2) {
+              this.showCancel = true;
+            }
+            this.inputDisabled = true;
+            this.taskCategoryDisable = true;
+            this.showButton = false;
+          }
         } else {
           this.$Message.error(data.message);
         }
@@ -606,10 +618,10 @@
 //      ...mapState('employeeFundHistoryDetail', {
 //        data: state => state.data
 //      }),
-      currentTaskType() {
-        console.log(this.$route.query.taskCategory)
-        return this.$route.query.taskCategory;
-      }
+//      currentTaskType() {
+//        console.log(this.$route.query.taskCategory)
+//        return this.$route.query.taskCategory;
+//      }
     },
     methods: {
 //      ...mapActions('employeeFundHistoryDetail', [EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]),
@@ -637,7 +649,7 @@
         api.empTaskHandle(params).then(data => {
           if (data.code == 200) {
             this.$Message.info("办理成功");
-            this.buttonDisabled = true;
+            this.showButton = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -649,7 +661,7 @@
         }).then(data => {
           if (data.code == 200) {
             this.$Message.info("不需处理操作成功");
-            this.buttonDisabled = true;
+            this.showButton = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -661,7 +673,7 @@
         }).then(data => {
           if (data.code == 200) {
             this.$Message.info("转下月处理操作成功");
-            this.buttonDisabled = true;
+            this.showButton = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -674,11 +686,15 @@
         }).then(data => {
           if (data.code == 200) {
             this.$Message.info("批退成功");
-            this.buttonDisabled = true;
+            this.showButton = false;
           } else {
             this.$Message.error(data.message);
           }
         })
+      },
+      handleTaskCancel() {
+        this.$Message.info("撤销成功");
+        this.showCancel = false;
       },
       filterMethod(value, option) {
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
@@ -688,9 +704,7 @@
         this.inputData.taskCategory = this.displayVO.taskCategory;
         this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
         this.inputData.operationRemind = this.displayVO.operationRemind;
-        if (this.displayVO.operationRemindDate) {
-          this.inputData.operationRemindDate = utils.formatDate(this.displayVO.operationRemindDate,"YYYY-MM-DD");
-        }
+        this.inputData.operationRemindDate = this.displayVO.operationRemindDate;
         this.inputData.handleRemark = this.displayVO.handleRemark;
         this.inputData.rejectionRemark = this.displayVO.rejectionRemark;
         this.inputData.operatorListData = this.operatorListData;

@@ -142,8 +142,8 @@ export default {
     },
     getCountry() {
       axios.get(host + '/api/baseData/getCountry').then((response) => {
-        if (response.errCode == "0") {
-          this.countrys = response.data
+        if (response.data.errCode == "0") {
+          this.countrys = response.data.data
         }
       })
     }

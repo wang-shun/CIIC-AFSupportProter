@@ -164,15 +164,6 @@
         任务单参考信息
         <div slot="content">
           <Form :label-width=150>
-            <Row type="flex" justify="start">
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="变更类型">
-                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
-                  <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                </Select>
-              </FormItem>
-              </Col>
-            </Row>
             <Row>
               <Col :sm="{span: 24}">
               <Table border :columns="taskReferenceInfoColumns" :data="taskReferenceInfoData"></Table>
@@ -192,8 +183,15 @@
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="任务类型：">
+                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
+                  <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
+                </Select>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="基本/补充公积金账户：">
-                <Input v-model="displayVO.hfEmpAccount" placeholder="请输入..."></Input>
+                <Input v-model="displayVO.hfEmpAccount" placeholder="请输入..." :disabled="inputDisabled"></Input>
               </FormItem>
               </Col>
               <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">-->
@@ -201,14 +199,14 @@
                 <!--<Checkbox v-model="isCreateSealingTicket">创建封存任务单</Checkbox>-->
               <!--</FormItem>-->
               <!--</Col>-->
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员起缴月份">
-                <DatePicker type="month" v-model="displayVO.startMonth" format="yyyyMM" placement="bottom-end" placeholder="选择年月" style="width: 100%;" transfer></DatePicker>
-              </FormItem>
-              </Col>
+              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<FormItem label="雇员起缴月份">-->
+                <!--<DatePicker type="month" v-model="displayVO.startMonth" format="yyyyMM" placement="bottom-end" placeholder="选择年月" style="width: 100%;" transfer></DatePicker>-->
+              <!--</FormItem>-->
+              <!--</Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="操作提示：">
-                <Select v-model="displayVO.operationRemind" style="width: 100%;" transfer>
+                <Select v-model="displayVO.operationRemind" style="width: 100%;" transfer :disabled="inputDisabled">
                   <Option value="" label="无"></Option>
                   <Option v-for="item in operationRemindList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
@@ -216,7 +214,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="操作提示日期">
-                <DatePicker v-model="displayVO.operationRemindDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                <DatePicker v-model="displayVO.operationRemindDate" format="yyyy-MM-dd" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer :disabled="inputDisabled"></DatePicker>
               </FormItem>
               </Col>
             </Row>
@@ -228,12 +226,12 @@
             <Row class="mt20">
               <Col :sm="{span: 24}">
               <FormItem label="办理备注：">
-                <Input v-model="displayVO.handleRemark" placeholder="请输入..."></Input>
+                <Input v-model="displayVO.handleRemark" placeholder="请输入..." :disabled="inputDisabled"></Input>
               </FormItem>
               </Col>
               <Col :sm="{span: 24}">
               <FormItem label="批退备注：">
-                <Input v-model="displayVO.rejectionRemark" placeholder="请输入..."></Input>
+                <Input v-model="displayVO.rejectionRemark" placeholder="请输入..." :disabled="inputDisabled"></Input>
               </FormItem>
               </Col>
             </Row>
@@ -249,12 +247,13 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" :disabled="buttonDisabled" @click="handleTask">已处理</Button>
-        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="notHandleTask">不需处理</Button>
-        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="handleTaskDelay">转下月处理</Button>
-        <Button type="error" :disabled="buttonDisabled" class="ml10" @click="handleTaskReject">批退</Button>
-        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="isShowPrint = true">打印转移通知书</Button>
-        <Button type="primary" :disabled="buttonDisabled" class="ml10" @click="saveTask">保存</Button>
+        <Button type="primary" @click="handleTask" v-if="showButton">已处理</Button>
+        <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
+        <Button type="primary" class="ml10" @click="isShowPrint = true" v-if="showButton">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
+        <Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>
         <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
     </Row>
@@ -289,7 +288,7 @@
           </Col>
           <Col :sm="{span: 12}">
             <FormItem label="转移日期">
-              <DatePicker v-model="transferNotice.transferDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+              <DatePicker v-model="transferNotice.transferDate" format="yyyy-MM-dd" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
             </FormItem>
           </Col>
         </Row>
@@ -310,13 +309,14 @@
 //  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import dict from '../../../../api/dict_access/house_fund_dict'
-  import utils from '../../../../lib/utils';
 
   export default {
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
-        buttonDisabled: false,
+        showButton: true,
+        showCancel: false,
+        inputDisabled: false,
         isShowPrint: false,
         displayVO: {
           empTaskId: 0,
@@ -368,7 +368,7 @@
           hfTypeName: '',
           hfEmpAccount: '',
 //          isCreateSealingTicket: false,
-          startMonth: '',
+//          startMonth: '',
           handleRemark: '',
           rejectionRemark: '',
 
@@ -405,100 +405,166 @@
         operatorListColumns: [
           {title: '起缴月份', key: 'startMonth', align: 'left',
             render: (h, params) => {
-              return h('div', [
-                h('Input', {
-                  props: {value: params.row.startMonth},
-                  on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].startMonth = event.target.value
+              if (!this.inputDisabled) {
+                return h('div', [
+                  h('DatePicker', {
+                    props: {
+                      value: params.row.startMonth,
+                      type: 'month',
+                      format: 'yyyyMM',
+                      placement: 'bottom-end',
+                      placeholder: '选择年月',
+                      style: 'width: 100%;',
+                      transfer: true
+                    },
+                    on: {
+                      'on-change': (val) => {
+                        this.operatorListData[params.index].startMonth = val;
+                      }
                     }
-                  }
-                }, params.row.startMonth)
-              ]);
+                  })
+                ]);
+              } else {
+                return h('div', [
+                  h('span', params.row.startMonth)
+                ]);
+              }
             }
           },
           {title: '截止月份', key: 'endMonth', align: 'left',
             render: (h, params) => {
-              return h('div', [
-                h('Input', {
-                  props: {value: params.row.endMonth},
-                  on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].endMonth = event.target.value
+              if (!this.inputDisabled) {
+                return h('div', [
+                  h('DatePicker', {
+                    props: {
+                      value: params.row.endMonth,
+                      type: 'month',
+                      format: 'yyyyMM',
+                      placement: 'bottom-end',
+                      placeholder: '选择年月',
+                      style: 'width: 100%;',
+                      transfer: true
+                    },
+                    on: {
+                      'on-change': (val) => {
+                        this.operatorListData[params.index].endMonth = val;
+                      }
                     }
-                  }
-                }, params.row.endMonth)
-              ]);
+                  })
+                ]);
+              } else {
+                return h('div', [
+                  h('span', params.row.endMonth)
+                ]);
+              }
             }
           },
           {title: '客户汇缴月', key: 'hfMonth', align: 'left',
             render: (h, params) => {
-              return h('div', [
-                h('Input', {
-                  props: {value: params.row.hfMonth},
-                  on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].hfMonth = event.target.value
+              if (!this.inputDisabled) {
+                return h('div', [
+                  h('DatePicker', {
+                    props: {
+                      value: params.row.hfMonth,
+                      type: 'month',
+                      format: 'yyyyMM',
+                      placement: 'bottom-end',
+                      placeholder: '选择年月',
+                      style: 'width: 100%;',
+                      transfer: true
+                    },
+                    on: {
+                      'on-change': (val) => {
+                        this.operatorListData[params.index].hfMonth = val;
+                      }
                     }
-                  }
-                }, params.row.hfMonth)
-              ]);
+                  })
+                ]);
+              } else {
+                return h('div', [
+                  h('span', params.row.hfMonth)
+                ]);
+              }
             }
           },
           {title: '基数', key: 'baseAmount', align: 'left',
             render: (h, params) => {
-              return h('div', [
-                h('Input', {
-                  props: {value: params.row.baseAmount},
-                  on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].baseAmount = event.target.value
+              if (!this.inputDisabled) {
+                return h('div', [
+                  h('Input', {
+                    props: {value: params.row.baseAmount},
+                    on: {
+                      'on-blur': (event) => {
+                        this.operatorListData[params.index].baseAmount = event.target.value
+                      }
                     }
-                  }
-                }, params.row.baseAmount)
-              ]);
+                  }, params.row.baseAmount)
+                ]);
+              } else {
+                return h('div', [
+                  h('span', params.row.baseAmount)
+                ]);
+              }
             }
           },
           {title: '企业比例', key: 'ratioCom', align: 'left',
             render: (h, params) => {
-              return h('div', [
-                h('Input', {
-                  props: {value: params.row.ratioCom},
-                  on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].ratioCom = event.target.value
+              if (!this.inputDisabled) {
+                return h('div', [
+                  h('Input', {
+                    props: {value: params.row.ratioCom},
+                    on: {
+                      'on-blur': (event) => {
+                        this.operatorListData[params.index].ratioCom = event.target.value
+                      }
                     }
-                  }
-                }, params.row.ratioCom)
-              ]);
+                  }, params.row.ratioCom)
+                ]);
+              } else {
+                return h('div', [
+                  h('span', params.row.ratioCom)
+                ]);
+              }
             }
           },
           {title: '个人比例', key: 'ratioEmp', align: 'left',
             render: (h, params) => {
-              return h('div', [
-                h('Input', {
-                  props: {value: params.row.ratioEmp},
-                  on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].ratioEmp = event.target.value
+              if (!this.inputDisabled) {
+                return h('div', [
+                  h('Input', {
+                    props: {value: params.row.ratioEmp},
+                    on: {
+                      'on-blur': (event) => {
+                        this.operatorListData[params.index].ratioEmp = event.target.value
+                      }
                     }
-                  }
-                }, params.row.ratioEmp)
-              ]);
+                  }, params.row.ratioEmp)
+                ]);
+              } else {
+                return h('div', [
+                  h('span', params.row.ratioEmp)
+                ]);
+              }
             }
           },
           {title: '金额', key: 'amount', align: 'left',
             render: (h, params) => {
-              return h('div', [
-                h('Input', {
-                  props: {value: params.row.amount},
-                  on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].amount = event.target.value
+              if (!this.inputDisabled) {
+                return h('div', [
+                  h('Input', {
+                    props: {value: params.row.amount},
+                    on: {
+                      'on-blur': (event) => {
+                        this.operatorListData[params.index].amount = event.target.value
+                      }
                     }
-                  }
-                }, params.row.amount)
-              ]);
+                  }, params.row.amount)
+                ]);
+              } else {
+                return h('div', [
+                  h('span', params.row.amount)
+                ]);
+              }
             }
           },
         ],
@@ -532,7 +598,7 @@
           addedComAccountClassId: '',
           belongEmpArchiveId: '',
           hfEmpAccount: '',
-          startMonth: '',
+//          startMonth: '',
           operationRemind: '',
           operationRemindDate: '',
           operatorListData: [],
@@ -567,7 +633,18 @@
           this.operatorListData = data.data.empTaskPeriods;
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
-          this.buttonDisabled = !this.displayVO.canHandle;
+          this.showButton = this.displayVO.canHandle;
+
+          if (!this.displayVO.taskStatus || this.displayVO.taskStatus == 1) {
+            this.inputDisabled = false;
+          } else {
+            if (this.displayVO.taskStatus == 2) {
+              this.showCancel = true;
+            }
+            this.inputDisabled = true;
+            this.taskCategoryDisable = true;
+            this.showButton = false;
+          }
         } else {
           this.$Message.error(data.message);
         }
@@ -639,7 +716,7 @@
         api.empTaskHandle(params).then(data => {
           if (data.code == 200) {
             this.$Message.info("办理成功");
-            this.buttonDisabled = true;
+            this.showButton = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -651,7 +728,7 @@
         }).then(data => {
           if (data.code == 200) {
             this.$Message.info("不需处理操作成功");
-            this.buttonDisabled = true;
+            this.showButton = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -663,7 +740,7 @@
         }).then(data => {
           if (data.code == 200) {
             this.$Message.info("转下月处理操作成功");
-            this.buttonDisabled = true;
+            this.showButton = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -676,11 +753,15 @@
         }).then(data => {
           if (data.code == 200) {
             this.$Message.info("批退成功");
-            this.buttonDisabled = true;
+            this.showButton = false;
           } else {
             this.$Message.error(data.message);
           }
         })
+      },
+      handleTaskCancel() {
+        this.$Message.info("撤销成功");
+        this.showCancel = false;
       },
       filterMethod(value, option) {
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
@@ -689,13 +770,11 @@
         this.inputData.empTaskId = this.displayVO.empTaskId;
         this.inputData.taskCategory = this.displayVO.taskCategory;
         this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
-        if (this.displayVO.startMonth) {
-          this.inputData.startMonth = utils.formatDate(this.displayVO.startMonth,"YYYYMM");
-        }
+//        if (this.displayVO.startMonth) {
+//          this.inputData.startMonth = utils.formatDate(this.displayVO.startMonth,"YYYYMM");
+//        }
         this.inputData.operationRemind = this.displayVO.operationRemind;
-        if (this.displayVO.operationRemindDate) {
-          this.inputData.operationRemindDate = utils.formatDate(this.displayVO.operationRemindDate,"YYYY-MM-DD");
-        }
+        this.inputData.operationRemindDate = this.displayVO.operationRemindDate;
         this.inputData.handleRemark = this.displayVO.handleRemark;
         this.inputData.rejectionRemark = this.displayVO.rejectionRemark;
         this.inputData.operatorListData = this.operatorListData;

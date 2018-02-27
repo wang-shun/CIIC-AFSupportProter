@@ -277,8 +277,8 @@
            comAccountId:'',
            taskId:'',
            businessInterfaceId:'',
-          policyDetailId:'',
-          welfareUnit:''
+           policyDetailId:'',
+           welfareUnit:''
         },
 
         // 任务单参考信息
@@ -378,6 +378,7 @@
           
           if(data.data!=null){
              this.employee = data.data;
+             this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
           }
          
         })
@@ -450,7 +451,6 @@
       instance(taskStatus, type) {
         
         var fromData = this.$utils.clear(this.socialSecurityPayOperator,'');
-        console.log(fromData)
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务操作";
         if ('refuse' == type) {
@@ -479,13 +479,15 @@
         if(handleType){
           let handleMonth = this.socialSecurityPayOperator.handleMonth;
           let currentMounth = this.yyyyMM(new Date());
-          if(Number(this.yyyyMM(handleMonth))<Number(currentMounth)){
-              this.$Message.error("办理月份不能小于当前月份.");
-              return;
-          }  
+          
           let empArchiveId =this.socialSecurityPayOperator.empArchiveId
           if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
              this.$Message.error("雇员未做新进或者转入，不能办理.");
+            return;
+          }
+          let comAccountId=this.socialSecurityPayOperator.comAccountId;
+          if(typeof(comAccountId)=='undefined' || comAccountId==''){
+             this.$Message.error("该雇员对应的企业没有开户,不能办理.");
             return;
           }
           let startMonth = this.operatorListData[0].startMonth;
@@ -504,12 +506,15 @@
              this.$Message.error("截止月份不能为空.");
               return;
           }
+           if(Number(this.yyyyMM(handleMonth))<Number(currentMounth)){
+              this.$Message.error("办理月份不能小于当前月份.");
+              return;
+          } 
           if(Number(this.yyyyMM(startMonth))>Number(this.yyyyMM(endMonth))){
             this.$Message.error("起缴月份不能大于截止月份.");
              return;
           }
           
-         
         }
        
         

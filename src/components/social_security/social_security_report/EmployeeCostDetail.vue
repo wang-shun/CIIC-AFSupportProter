@@ -277,7 +277,6 @@
           ssMonth:this.ssMonth
         };
         api.summaryCalculate(params).then(data=>{
-            console.log(data.code);
             if(data.code==1){
               this.$Message.error(data.message);
             }

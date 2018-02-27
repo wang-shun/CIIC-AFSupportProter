@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        雇员日常操作
+        查询条件
         <div slot="content">
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
@@ -371,23 +371,22 @@
           for (var row of rows) {
             empTaskIds.push(row.empTaskId);
           }
-
           // 任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
           var taskCategory = rows[0].taskCategory;
-          var name = 'empTaskHandleView';
+          var name = 'empTaskHandleView'
           switch (taskCategory) {
             case '1':
             case '2':
-              name = 'empTaskBatchHandleView';
+              name = 'empTaskBatchHandleView'
               break;
             case '3':
-              name = 'empTaskBatchHandle3View';
+              name = 'empTaskBatchHandle3View'
               break;
             case '4':
-              name = 'empTaskBatchHandle4View';
+              name = 'empTaskBatchHandle4View'
               break;
             case '5':
-              name = 'empTaskBatchHandle5View';
+              name = 'empTaskBatchHandle5View'
               break;
             default:
               name = 'empTaskBatchHandleView'
@@ -400,24 +399,24 @@
         } else {
           // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = data.taskCategory;
-          var name = 'empTaskHandleView';
+          var name = 'empTaskHandleView'
           switch (taskCategory) {
             case '1':
             case '2':
-              name = 'empTaskHandleView';
+              name = 'empTaskHandleView'
               break;
             case '3':
-              name = 'empTaskHandle3View';
+              name = 'empTaskHandle3View'
               break;
             case '4':
-              name = 'empTaskHandle4View';
+              name = 'empTaskHandle4View'
               break;
             case '5':
             case '6':
-              name = 'empTaskHandle5View';
+              name = 'empTaskHandle5View'
               break;
               case '7':
-              name = 'empTaskHandle7View';
+              name = 'empTaskHandle7View'
               break;
             default:
               name = 'empTaskHandleView'
@@ -426,7 +425,7 @@
           // 根据任务类型跳转
           this.$router.push({
             name: name,
-            query: {taskCategory: taskCategory, empTaskId: data.empTaskId}
+            query: {operatorType: taskCategory, empTaskId: data.empTaskId}
           });
         }
       },

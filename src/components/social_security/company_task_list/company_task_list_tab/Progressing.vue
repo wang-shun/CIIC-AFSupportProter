@@ -117,6 +117,7 @@
     components: {customerModal,InputCompanyName,InputCompany},
     data() {
       return{
+        refuseLoading:false,
         taskData:[],//table 里的数据
         customerData:[],//客户信息
         totalSize:0,//后台传过来的总数

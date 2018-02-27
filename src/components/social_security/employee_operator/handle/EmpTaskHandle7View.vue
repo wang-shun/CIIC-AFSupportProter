@@ -253,7 +253,9 @@
             employeeId:'',
            comAccountId:'',
            taskId:'',
-           businessInterfaceId:''
+           businessInterfaceId:'',
+           policyDetailId:'',
+           welfareUnit:''
         },
 
         // 任务单参考信息
@@ -430,6 +432,28 @@
             return;
           }
           content = "批退办理";
+        }else{
+          let empArchiveId =this.socialSecurityPayOperator.empArchiveId
+          if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
+             this.$Message.error("雇员未做新进或者转入,不能办理.");
+            return;
+          }
+          let comAccountId=this.socialSecurityPayOperator.comAccountId;
+          if(typeof(comAccountId)=='undefined' || comAccountId==''){
+             this.$Message.error("该雇员对应的企业没有开户,不能办理.");
+            return;
+          }
+            let handleMonth = this.socialSecurityPayOperator.handleMonth;
+            
+            if(handleMonth==null || handleMonth==""){
+             this.$Message.error("办理月份不能为空.");
+             return;
+            }
+            let currentMounth = this.yyyyMM(new Date());
+          if(Number(this.yyyyMM(handleMonth))<Number(currentMounth)){
+               this.$Message.error("办理月份不能小于当前月份.");
+               return;
+            }
         }
         let self= this
         this.$Modal.confirm({

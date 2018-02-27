@@ -21,14 +21,9 @@
         <label>{{emp.inDate}}</label>
       </Form-item>
       </Col>
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-      <Form-item label="学历：">
-        <label>{{emp.education}}</label>
-      </Form-item>
-      </Col>
       <!-- 调整和转出 -->
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-      <Form-item label="社保序号：" v-if="operatorType !== '1' && operatorType !== '2'">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType !== '1' && operatorType !== '2'">
+      <Form-item label="社保序号：">
         <label>{{emp.ssSerial}}</label>
       </Form-item>
       </Col>
@@ -38,13 +33,6 @@
         <label>{{$decode.accountType(emp.ssAccountType)}}</label>
       </Form-item>
       </Col>
-      <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
-      <Form-item label="人员分类：">
-        <label>{{emp.empClassify}}</label>
-      </Form-item>
-      </Col> -->
-    </Row>
-    <row>
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
       <Form-item label="户口地址：">
@@ -56,15 +44,18 @@
         <label>{{emp.residenceAttribute}}</label>
       </Form-item>
       </Col>
-    </row>
-    <row>
-      <!-- 仅新增 -->
+        <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
       <Form-item label="联系地址：">
         <label>{{emp.contactAddress}}</label>
       </Form-item>
       </Col>
-      <!-- 仅新增 -->
+      <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
+      <Form-item label="人员分类：">
+        <label>{{emp.empClassify}}</label>
+      </Form-item>
+      </Col> -->
+        <!-- 仅新增 -->
       <!-- <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
       <Form-item label="雇员属性：">
         <label>{{emp.employeeAttribute}}</label>

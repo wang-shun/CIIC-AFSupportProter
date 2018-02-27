@@ -348,7 +348,9 @@
           employeeId:'',
           comAccountId:'',
           taskId:'',
-          businessInterfaceId:''
+          businessInterfaceId:'',
+          policyDetailId:'',
+          welfareUnit:''
         },
 
         // 任务单参考信息
@@ -424,13 +426,11 @@
         api.queryEmpTaskById({
           empTaskId: empTaskId,
           operatorType: 1,// 任务单费用段
-          isNeedSerial:1
+          isNeedSerial:1//是否需要社保序号
         }).then(data => {
           if (data.data.empTaskPeriods.length > 0) {
-            
             this.operatorListData = data.data.empTaskPeriods;
           }else{
-            
             let operatorListData =[]
             //remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false
             let periodObj ={}
@@ -442,7 +442,6 @@
              this.operatorListData = operatorListData
           }
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
-
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
           let handleMonth = this.socialSecurityPayOperator.handleMonth;
           
@@ -470,9 +469,9 @@
             this.reworkInfo = data.data.amEmpTaskDTO
             this.reworkInfo.salary = data.data.salary
         });
-        api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          if(data.data!=null){
-            this.employee = data.data;
+        api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((res) => {
+          if(res.data!=null){
+            this.employee = res.data;
           }
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
@@ -561,6 +560,14 @@
         }else if('handle'==type){
           content = "办理";
         }
+
+        if('save' == type || 'handle'==type){
+          let comAccountId=this.socialSecurityPayOperator.comAccountId;
+          if(typeof(comAccountId)=='undefined' || comAccountId==''){
+             this.$Message.error("该雇员对应的企业没有开户,不能办理.");
+            return;
+          }
+        }
         let handleType = 'handle'==type || 'save'==type;
         let handleMonth = this.yyyyMM(this.socialSecurityPayOperator.handleMonth)
         let startMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == handleMonth
@@ -581,7 +588,7 @@
                 this.$Message.error("办理月份和起缴月份必须相等.");
           }
           return;
-        }
+        }  
         let self= this;
         this.$Modal.confirm({
           title: "操作确认",
@@ -622,7 +629,6 @@
             }
 
             fromData.empTaskPeriods = self.filterData();
-            
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 self.$Message.success(content + "成功");

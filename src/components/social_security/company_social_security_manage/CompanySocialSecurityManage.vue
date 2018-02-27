@@ -99,8 +99,8 @@
         stateList: [
             {value: '', label: '全部'},
             {value: '1', label: '有效'},
-            {value: '2', label: '封存'},
-            {value: '3', label: '终止'},
+            {value: '2', label: '终止'},
+            {value: '3', label: '封存'},
         ],
         accountManageData: [],
         resultPageData: {

@@ -135,6 +135,7 @@
           ssAccount:'',
          // empClassify:'',
           outDate:'',
+          comAccountId:'',
         },//客户和雇员基本信息
         socialSecurityInfoListData:[],//基数变更详情
         changeListData:[],//变动历史
@@ -258,6 +259,7 @@
           var formData={
             ssSerial:'',
             empArchiveId:this.$route.query.empArchiveId,
+            comAccountId: this.employeeAndCustomer.comAccountId
           };
           let self=this;
           this.$Modal.confirm({

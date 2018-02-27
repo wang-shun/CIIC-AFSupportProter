@@ -302,7 +302,7 @@
             title: '发起时间', key: 'submitTime', width: 180, align: 'center'
           },
           {
-            title: '备注', key: 'handleRemark', width: 300, align: 'center'
+            title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
           }
         ]
       }

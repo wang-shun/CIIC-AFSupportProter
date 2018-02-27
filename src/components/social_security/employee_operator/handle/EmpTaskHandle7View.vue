@@ -351,6 +351,7 @@
 
            if(data.data!=null){
             this.employee = data.data;
+            this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
           }
 
         })

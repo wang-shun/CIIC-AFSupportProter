@@ -374,8 +374,10 @@
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
+          
            if(data.data!=null){
             this.employee = data.data;
+            this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
           }
         })
 
@@ -469,6 +471,7 @@
            
 
           if('refuse'!= type){
+            
           let empArchiveId =this.socialSecurityPayOperator.empArchiveId
           if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
              this.$Message.error("雇员未做新进或者转入,不能办理.");
@@ -496,6 +499,7 @@
                this.$Message.error("办理月份不能小于当前月份.");
                return;
             }  
+            
           if(Number(this.yyyyMM(startMonth))>Number(this.yyyyMM(endMonth)) && (endMonth!=null && endMonth!="")){
             this.$Message.error("起缴月份不能大于截止月份.");
              return;

@@ -314,6 +314,7 @@
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
            if(data.data!=null){
             this.employee = data.data;
+            this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
            }
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {

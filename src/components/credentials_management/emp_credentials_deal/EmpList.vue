@@ -120,7 +120,8 @@
         labelinvalue: true,
         pageNum: 1,
         pageSize: 5,
-        total: null,    
+        total: null, 
+        idCardType: '',   
         queryItem: {
           empCode: '',
           empName: '',
@@ -314,6 +315,7 @@
         this.$router.push({name: 'empAdd'})
       },
       lookInfo (v) {
+        console.log("v:"+v.idNum)
         this.$router.push({
           name: 'empCredentialsTask', 
           params: {

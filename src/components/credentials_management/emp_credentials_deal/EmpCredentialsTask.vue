@@ -254,6 +254,7 @@
     },
     created () {
       this.findAll(this.$route.params.data.employeeId)
+      this.findEmpDetial(this.$route.params.data)
     },
     computed: {
     },
@@ -262,6 +263,20 @@
         if (value != null) {
           this.formItem = value
         }
+      },
+      findEmpDetial(employee) {
+        let params = {}
+        params.params = {}
+        params.params.idNum = employee.idNum
+        params.params.idCardType = employee.idCardType
+        params.params.type = employee.type
+        console.log("参数："+params.params.idCardType )
+        axios.get(host+ '/api/emp/getItem',params).then((response) => {
+          if(response.data.errCode == "0"){
+            console.log("雇员详情："+response.data.data)
+            Tools.copy(response.data.data,this)
+          }
+        })
       },
       save () {
         let params = {}

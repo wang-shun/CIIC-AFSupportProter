@@ -277,7 +277,7 @@
             this.empName = item.employeeName
             this.idNum = item.idNum
             this.education = ""
-            this.marriage = ""
+            this.marriage = (item.marriageStatus == 1) ? "未婚" : (item.marriageStatus == 2) ? "已婚" : "离异"
             this.sex = (item.gender == 1) ? "男" : "女"
             this.birthday = item.birthday
             this.address = item.address

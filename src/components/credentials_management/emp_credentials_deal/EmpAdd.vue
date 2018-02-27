@@ -27,8 +27,7 @@
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="国籍：" prop="countryCode">
               <Select v-model="formItem.countryCode" placeholder="请选择" transfer>
-                <Option v-for="(value,key) in this.baseDic.country" :value="key" :key="key">{{ value }}</Option>
-                <!-- <Option v-for="item in countrys">{{}}</Option> -->
+                <Option v-for="item in countrys" :value="item.countryCode" :key="item.countryCode">{{item.countryName}}</Option>
               </Select>
             </Form-item>    
           </i-col>
@@ -47,7 +46,6 @@
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
             <Form-item label="出生日期：" prop="birthday">
              <DatePicker type="date" v-model="formItem.birthday" placeholder="请输入" style="width: 57%" transfer/>
-             <!-- <DatePicker :value="formItem.birthday" format="yyyy-MM-dd" type="date" placeholder="请选择日期" @on-change="formItem.birthday=$event"></DatePicker> -->
             </Form-item> 
           </i-col>
         </Row>

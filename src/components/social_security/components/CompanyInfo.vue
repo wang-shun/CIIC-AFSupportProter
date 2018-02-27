@@ -17,7 +17,7 @@
       </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-      <Form-item label="社保中心：">
+      <Form-item label="结算区县：">
         <label>{{company.settlementArea}}</label>
       </Form-item>
       </Col>

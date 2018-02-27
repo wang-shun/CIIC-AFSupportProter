@@ -39,7 +39,7 @@
               <Form-item label="雇员姓名：">{{empName}}</Form-item> 
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码：">{{IDCardNum}}</Form-item> 
+              <Form-item label="证件号码：">{{idNum}}</Form-item> 
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="学历：">{{education}}</Form-item> 
@@ -210,7 +210,7 @@
         companyTel: '',
         empCode: '',
         empName: '',
-        IDCardNum: '',
+        idNum: '',
         education: '',
         marriage: '',
         sex: '',
@@ -254,6 +254,7 @@
     },
     created () {
       this.findAll(this.$route.params.data.employeeId)
+      this.findEmpDetial(this.$route.params.data)
     },
     computed: {
     },
@@ -262,6 +263,29 @@
         if (value != null) {
           this.formItem = value
         }
+      },
+      findEmpDetial(employee) {
+        let params = {}
+        params.params = {}
+        params.params.idNum = employee.idNum
+        params.params.idCardType = employee.idCardType
+        params.params.type = employee.type
+        axios.get(host+ '/api/emp/getItem',params).then((response) => {
+          if(response.data.errCode == "0"){
+            let item = response.data.data
+            this.empCode = item.employeeId
+            this.empName = item.employeeName
+            this.idNum = item.idNum
+            this.education = ""
+            this.marriage = ""
+            this.sex = (item.gender == 1) ? "男" : "女"
+            this.birthday = item.birthday
+            this.address = item.address
+            this.firstInTime = ""
+            this.contractStartTime = ""
+            this.contractEndTime = ""
+          }
+        })
       },
       save () {
         let params = {}
@@ -301,7 +325,6 @@
         params.companyId = params.companyCode
         params.credentialsType = params.credentialsType
         params.credentialsDealType = params.credentialsDealType
-        console.log(params.companyId)
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){
                this.$Notice.success({
@@ -338,7 +361,6 @@
             let temp ={}
             if (this.$route.params.isDeal == true) {
               let data1 = this.$route.params.data
-              console.log("data1:"+data1)
               temp.empCode = data1.employeeId
               temp.empName = data1.employeeName
               temp.companyCode = data1.companyId
@@ -354,7 +376,6 @@
               response.data.data.splice(0,0,temp)
             }
             this.empInfo = data
-            console.log("empInfo:"+this.empInfo)
           }
         })
       }

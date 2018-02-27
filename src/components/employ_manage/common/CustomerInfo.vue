@@ -22,11 +22,11 @@
             {{customer.custom}}
           </Form-item>
         </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="中道专员：">
             {{customer.centerServicer}}
           </Form-item>
-        </Col>
+        </Col> -->
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="雇员服务专员：">
             {{customer.employeeServicer}}

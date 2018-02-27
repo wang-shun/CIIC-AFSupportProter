@@ -187,7 +187,27 @@
                       localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
                       localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
                       localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
-                      this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+                      switch (params.row.taskCategory) {
+                        case '1':
+                        case '2':
+                        case '3':
+                        case '5':
+                        case '11':
+                          this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+                          break;
+                        case '6':
+                          this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
+                          break;
+                        case '4':
+                        case '7':
+                        case '8':
+                        case '12':
+                          this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
+                          break;
+                        default:
+                          break;
+                      }
+
                     }
                   }
                 }, '办理'),

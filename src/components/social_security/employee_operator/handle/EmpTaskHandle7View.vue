@@ -253,7 +253,9 @@
             employeeId:'',
            comAccountId:'',
            taskId:'',
-           businessInterfaceId:''
+           businessInterfaceId:'',
+          policyDetailId:'',
+          welfareUnit:''
         },
 
         // 任务单参考信息
@@ -430,7 +432,14 @@
             return;
           }
           content = "批退办理";
+        }else{
+          let empArchiveId =this.socialSecurityPayOperator.empArchiveId
+          if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
+             this.$Message.error("雇员未做新进或者转入,不能办理.");
+            return;
+          }
         }
+    
         let self= this
         this.$Modal.confirm({
           title: "确认办理吗？",

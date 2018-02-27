@@ -89,7 +89,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.showInfoT(params.row.employeeId,params.row.companyId)
+                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employeeId,params.row.companyId)
                     }
                   }
                 }, '办理'),
@@ -340,8 +340,9 @@ import {mapState, mapGetters, mapActions} from 'vuex'
       }, goHandle() {
         this.$router.push({name: "employHandleEmployment"});
       },
-      showInfoT (employeeId,companyId) {
-        this.$router.push({name:'employHandleEmployment', query: {employeeId:employeeId,companyId:companyId}});
+      showInfoT (idNum,idCardType,empTaskId,employeeId,companyId) {
+       
+        this.$router.push({name:'employHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId}});
       },
       showInfoTw (ind) {  
            this.searchCondition.params = this.searchConditions.toString();

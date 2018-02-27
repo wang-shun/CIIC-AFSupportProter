@@ -277,7 +277,9 @@
            employeeId:'',
            comAccountId:'',
            taskId:'',
-           businessInterfaceId:''
+           businessInterfaceId:'',
+          policyDetailId:'',
+          welfareUnit:''
         },
 
         // 任务单参考信息
@@ -469,11 +471,13 @@
                return;
             }  
 
+          if('refuse'!= type){
           let empArchiveId =this.socialSecurityPayOperator.empArchiveId
           if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
              this.$Message.error("雇员未做新进或者转入,不能办理.");
             return;
           }
+        }
           let startMonth = this.operatorListData[0].startMonth;
           let endMonth = this.operatorListData[0].endMonth;
           

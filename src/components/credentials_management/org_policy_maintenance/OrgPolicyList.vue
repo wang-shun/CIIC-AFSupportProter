@@ -250,6 +250,7 @@ export default {
                 this.modal1 = false
                 this.find()
                 this.$refs['formItem'].resetFields()
+                this.formItem.orgPoilcyId = ''
             } else {
               this.$Notice.error({
                 title: '保存失败',

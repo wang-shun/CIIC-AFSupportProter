@@ -120,7 +120,8 @@
         labelinvalue: true,
         pageNum: 1,
         pageSize: 5,
-        total: null,    
+        total: null, 
+        idCardType: '',   
         queryItem: {
           empCode: '',
           empName: '',
@@ -314,6 +315,7 @@
         this.$router.push({name: 'empAdd'})
       },
       lookInfo (v) {
+        console.log("v:"+v.idNum)
         this.$router.push({
           name: 'empCredentialsTask', 
           params: {
@@ -332,9 +334,9 @@
                 name: 'empCredentialsTask', 
                 params: {
                   data: data,
-                  type: this.formItem.type,
+                  type: parseInt(this.formItem.type),
                   typeN: this.$decode.sel_type(parseInt(this.formItem.type)),
-                  dealType: this.formItem.dealType,
+                  dealType: parseInt(this.formItem.dealType),
                   dealTypeN: this.$decode.deal_type1(parseInt(this.formItem.dealType)), 
                   companyId: data.companyCode,
                   isDeal: true
@@ -354,7 +356,6 @@
                 }
               })
             }
-            console.log("传过来的信息："+this.$route.params.data.employeeId)
             this.modal1 = false
           } else {
             this.$Message.error('请选择办证类型!')

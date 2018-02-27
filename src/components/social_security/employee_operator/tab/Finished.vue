@@ -110,7 +110,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
                 <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="bottom"
-                             placeholder="选择年月份" style="width: 100%;"></Date-picker>
+                             placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
               </Form-item>
               </Col>
             </Row>
@@ -255,7 +255,7 @@
             title: '发起时间', key: 'submitTime', width: 180, align: 'center'
           },
           {
-            title: '备注', key: 'handleRemark', width: 300, align: 'center'
+            title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
           }
         ]
       }

@@ -8,14 +8,14 @@
           <Form ref="searchCondition" :model="searchCondition" :label-width=120>
             <Row class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="审批状态：">
+              <Form-item label="审批状态：" prop="recordApprovalReason">
                 <Select v-model="searchCondition.recordApprovalReason" :clearable="true">
                   <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="发放状态：">
+              <Form-item label="发放状态：" prop="sendStatus">
                 <Select v-model="searchCondition.sendStatus" :clearable="true">
                   <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>

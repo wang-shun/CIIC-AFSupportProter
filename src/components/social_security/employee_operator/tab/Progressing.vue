@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        雇员日常操作
+        查询条件
         <div slot="content">
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
@@ -81,8 +81,8 @@
                   <Option value="3" label="调整"></Option>
                   <Option value="4" label="补缴"></Option>
                   <Option value="5" label="转出"></Option>
-                  <Option value="7" label="退账"></Option>
-                  <!--<Option value="6" label="终止"></Option>
+                  <Option value="6" label="封存"></Option>
+                  <!--<Option value="7" label="退账"></Option>
                   <Option value="8" label="提取"></Option>
                   <Option value="9" label="特殊操作"></Option>-->
                 </Select>
@@ -109,8 +109,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
-                <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="bottom"
-                             placeholder="选择年月份" style="width: 100%;"></Date-picker>
+                <Date-picker v-model="operatorSearchData.startMonth" type="month" 
+                             placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
               </Form-item>
               </Col>
             </Row>
@@ -270,7 +270,7 @@
             title: '发起时间', key: 'submitTime', width: 180, align: 'center'
           },
           {
-            title: '备注', key: 'handleRemark', width: 300, align: 'center'
+            title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
           }
         ]
       }

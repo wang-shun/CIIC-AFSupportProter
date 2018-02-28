@@ -43,12 +43,12 @@
           <Form ref="transferOperator" :model="transferOperator" :rules="ruleValidate" :label-width=150>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保中心(结算区县)：" class="" prop="regionValue">
+                <Form-item label="结算区县：" class="" prop="regionValue">
                   <AutoComplete
                       v-model="transferOperator.regionValue"
                       placeholder="请选择">
                       <div class="demo-auto-complete-item">
-                          <Option v-for="option in regionList" :value="option.label" :key="option.label">
+                          <Option v-for="option in regionList" :value="option.value" :key="option.value">
                               <span class="demo-auto-complete-title">{{ option.label }}</span>
                           </Option>
                       </div>
@@ -199,12 +199,23 @@
          finishDateIsDateOrLabel:false,//完成日期
          transferDateIsDateOrLabel:false,
            regionList: [
-            {value: '1', label: '徐汇'},
-            {value: '2', label: '长宁'},
-            {value: '3', label: '浦东'},
-            {value: '4', label: '卢湾'},
-            {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
+            {value: '徐汇', label: '徐汇'},
+            {value: '长宁', label: '长宁'},
+            {value: '浦东', label: '浦东'},
+            {value: '卢湾', label: '卢湾'},
+            {value: '静安', label: '静安'},
+            {value: '黄浦', label: '黄浦'},
+            {value: '杨浦', label: '杨浦'},
+            {value: '普陀', label: '普陀'},
+            {value: '宝山', label: '宝山'},
+            {value: '虹口', label: '虹口'},
+            {value: '闵行', label: '闵行'},
+            {value: '松江', label: '松江'},
+            {value: '嘉定', label: '嘉定'},
+            {value: '青浦', label: '青浦'},
+            {value: '奉贤', label: '奉贤'},
+            {value: '崇明', label: '崇明'},
+            {value: '金山', label: '金山'},
           ],
           taskTypeList:[
             {value: '0',label: '初始(材料收缴)',disabled:false},

@@ -219,7 +219,7 @@
               ]);
             }
           },
-          {title: '备注', key: 'notes',width: 426,align: 'center',
+          {title: '发起人备注', key: 'notes',width: 426,align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.notes),
@@ -293,6 +293,7 @@
       },
       //将后台查询的数据赋到页面
       refreash(data){
+        console.log(data.data.taskData);
           this.taskData = data.data.taskData
           this.customerData = data.data.customerData;
           if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0

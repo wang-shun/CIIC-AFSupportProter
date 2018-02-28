@@ -210,7 +210,10 @@
             title: '案卷号', sortable: true, key: 'dossierNumber'
           },
           {
-            title: '导入日期', sortable: true, key: 'inputDate'
+            title: '导入日期', sortable: true, key: 'inputDate',
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.inputDate, 'YYYY-MM-DD HH:mm:ss');
+            }
           },
           {
             title: '雇员编号', sortable: true, key: 'employeeId'

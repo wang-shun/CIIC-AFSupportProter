@@ -7,6 +7,7 @@ const queryEmployeeList = params => ajaxApi.postJSON("/uninsuredService/queryEmp
 const queryEmpMember = params => ajaxApi.postJSON("/uninsuredService/queryEmpMember", params);
 const addAcceptance = params => ajaxApi.postJSON("/uninsuredService/addAcceptance", params);
 const queryAcceptanceList = params => ajaxApi.postJSON("/uninsuredService/queryAcceptanceList", params);
+const updateAcceptanceList = params => ajaxApi.postJSON("/uninsuredService/updateAcceptanceList", params);
 const queryAcceptanceAuditList = params => ajaxApi.postJSON("/uninsuredAuditService/queryAcceptanceList", params);
 
 /**
@@ -18,5 +19,6 @@ export default {
   queryEmpMember,
   addAcceptance,
   queryAcceptanceList,
+  updateAcceptanceList,
   queryAcceptanceAuditList,
 }

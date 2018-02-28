@@ -193,7 +193,7 @@
               ]);
             }
           },
-          {title: '备注', key: 'notes',width: 426, align: 'center',
+          {title: '发起人备注', key: 'notes',width: 426, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.notes),
@@ -204,7 +204,6 @@
       }
     },
     mounted() {
-
       let sessionPageNum = sessionStorage.taskRePageNum
       let sessionPageSize = sessionStorage.taskRePageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
@@ -216,7 +215,7 @@
 
       let params = {
           pageSize:this.size,
-          pageNum:1,
+          pageNum:this.pageNum,
         params:{}
       }
       let self= this

@@ -155,7 +155,7 @@
 
         grantStateList: [
           {
-            value: '1', label: '未发放'
+            value: '1', label: '未处理'
           },
           {
             value: '2', label: '已发放'

@@ -402,6 +402,7 @@
           belongEmpArchiveId: '',
           hfEmpAccount: '',
           endMonth: '',
+          hfMonth: '',
 //          startMonth: '',
 //          operationRemind: '',
 //          operationRemindDate: '',
@@ -423,14 +424,11 @@
       }).then(data => {
         if (data.code == 200) {
           this.displayVO = data.data;
-//          this.taskReferenceInfoData.push({
-//            empBase: this.displayVO.empBase,
-//            ratioCom: this.displayVO.ratioCom,
-//            ratioEmp: this.displayVO.ratioEmp,
-//            empStartMonth: this.displayVO.startMonth,
-//            empEndMonth: this.displayVO.endMonth,
-//            amount: this.displayVO.amount
-//          });
+          if (hfType == 1) {
+            this.displayVO.hfMonth = this.displayVO.basicComHfMonth;
+          } else {
+            this.displayVO.hfMonth = this.displayVO.addedComHfMonth;
+          }
 
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;
@@ -547,8 +545,17 @@
         })
       },
       handleTaskCancel() {
-        this.$Message.info("撤销成功");
-        this.showCancel = false;
+        api.empTaskHandleCancel(
+          [this.displayVO.empTaskId]
+        ).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("撤销成功");
+            this.showButton = false;
+            this.showCancel = false;
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
       },
       filterMethod(value, option) {
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
@@ -564,6 +571,7 @@
         this.inputData.handleRemark = this.displayVO.handleRemark;
         this.inputData.rejectionRemark = this.displayVO.rejectionRemark;
         this.inputData.endMonth = this.displayVO.endMonth;
+        this.inputData.hfMonth = this.displayVO.hfMonth;
 //        this.inputData.operatorListData = this.operatorListData;
       },
       saveTask () {

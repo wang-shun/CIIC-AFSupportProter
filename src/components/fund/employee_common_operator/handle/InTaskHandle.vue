@@ -760,8 +760,17 @@
         })
       },
       handleTaskCancel() {
-        this.$Message.info("撤销成功");
-        this.showCancel = false;
+        api.empTaskHandleCancel(
+          [this.displayVO.empTaskId]
+        ).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("撤销成功");
+            this.showButton = false;
+            this.showCancel = false;
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
       },
       filterMethod(value, option) {
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;

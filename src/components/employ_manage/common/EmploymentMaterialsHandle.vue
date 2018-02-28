@@ -103,7 +103,7 @@
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="resetForm('handleInfo')">重置</Button>
           <Button type="primary" @click="instance()">保存</Button>
-          <Button type="error">批退</Button>
+          <Button type="error" @click="updateTask()">批退</Button>
         </Col>
       </Row>
     </Form>
@@ -252,6 +252,23 @@ import api from '../../../api/employ_manage/hire_operator'
               }
         })
          
+       },updateTask(){
+         if(!this.handleInfo.employmentId)
+        {
+            this.$Message.success("请先保存用工信息");
+            return;
+        }
+
+        var param = {employmentId:this.handleInfo.employmentId};
+       
+        api.updateTaskStatus(param).then(data => {
+              if (data.code == 200) {
+                this.$Message.success("成功");
+                 history.go(-1);
+              } else {
+                this.$Message.error("失败！" + data.message);
+              }
+        })
        }
     },
     computed: {

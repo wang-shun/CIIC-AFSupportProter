@@ -5,8 +5,8 @@
       <Form ref="empAddForm" :model="formItem" :rules="ruleValidate" :label-width="120">
         <Row justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="客户：" prop="companyId">
-              <input-company-name v-model="formItem.companyId"></input-company-name>
+            <Form-item label="客户编号：" prop="companyId">
+              <input-company v-model="formItem.companyId"></input-company>
             </Form-item>    
           </i-col>
         </Row>
@@ -68,13 +68,13 @@
 </template>
 
 <script>
-import InputCompanyName from '../../common_control/form/input_company/InputCompanyName.vue'
+import InputCompany from '../../common_control/form/input_company/InputCompany.vue'
 import axios from 'axios'
 import Tools from '../../../lib/tools'
 
 const host = process.env.SITE_HOST
 export default {
-  components:{InputCompanyName},
+  components:{InputCompany},
   data () {
     return {
       countrys:{},

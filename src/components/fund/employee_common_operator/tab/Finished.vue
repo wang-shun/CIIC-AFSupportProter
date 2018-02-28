@@ -88,7 +88,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="excelExport()">导出</Button>
-        <Button type="info" @click="batchCancel()">导出开户文件</Button>
+        <Button type="info" @click="excelExportNew()">导出开户文件</Button>
       </Col>
     </Row>
 
@@ -187,7 +187,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
                       }
                     }
                   }
-                }, '办理'),
+                }, '查看'),
               ]);
             }
           },
@@ -278,7 +278,8 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           params = this.$utils.clear(params, '');
         }
         api.hfEmpTaskExport();
-      }
+      },
+      excelExportNew() {}
     }
   }
 </script>

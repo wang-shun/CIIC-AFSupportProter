@@ -125,6 +125,7 @@ export default {
                   desc: ''
                 })
                 this.find()
+                this.$router.push({name:"empList"})
             } else {
               this.$Notice.error({
                 title: '保存失败',

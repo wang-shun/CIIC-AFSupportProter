@@ -407,20 +407,20 @@ export default {
       case "3":
       case 3:
         return '封存'
-        case "4":
-        case 4:
+      case "4":
+      case 4:
          return '退工单盖章未返回'
-         case "5":
-         case 5:
-          return '退工失败'
-          case "6":
-          case 6:
-           return '前道要求批退'
-           case "7":
-           case 7:
-            return '其它'
+      case "5":
+      case 5:
+         return '退工失败'
+      case "6":
+      case 6:
+         return '前道要求批退'
+      case "7":
+      case 7:
+         return '其它'
       default:
-        return ''
+         return ''
     }
 
   }

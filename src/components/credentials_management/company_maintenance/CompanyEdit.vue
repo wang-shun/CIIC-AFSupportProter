@@ -11,8 +11,8 @@
         <Row type="flex" justify="start">
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="办理机构：" prop="name">
-              <Select v-model="formItem.name" placeholder="请选择" transfer>
-                <Option v-for="item in orgPolicys" :value="item.name" :key="item.name">{{ item.name }}</Option>
+              <Select v-model="formItem.orgPoilcyId" placeholder="请选择" label-in-value="true" @on-change="orgChange" transfer>
+                <Option v-for="item in orgPoilcys" :value="item.orgPoilcyId" :key="item.name" >{{ item.name }}</Option>
               </Select>
             </Form-item>
           </i-col>
@@ -134,7 +134,7 @@ import Decode from '../../../lib/decode'
         highlight: true,
         companyId: '',
         credentialsType: '',
-        orgPolicys: [{}],
+        orgPoilcys: [{}],
         formItem: {
           companyExtId: '',
           companyId: '',
@@ -154,7 +154,8 @@ import Decode from '../../../lib/decode'
           organizationCode: '',
           foreignBusinessApprovalCertificate: '',
           businessRenameNotice: '',
-          specialMaterialRemark: ''
+          specialMaterialRemark: '',
+          orgPolicyId: ''
         },
         colums1: [
           {
@@ -284,9 +285,12 @@ import Decode from '../../../lib/decode'
           params.params = {}
           params.params.type = value.credentialsType
           axios.get(host+'/api/orgPolicy/find', params).then(response => {
-            this.orgPolicys = response.data.data.records
+            this.orgPoilcys = response.data.data.records
           })
         }
+      },
+      orgChange(option) {
+        this.formItem.name = option.label
       }
     }
   }

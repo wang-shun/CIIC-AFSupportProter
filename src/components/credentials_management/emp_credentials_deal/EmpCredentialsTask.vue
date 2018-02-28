@@ -41,9 +41,9 @@
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="证件号码：">{{idNum}}</Form-item> 
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="学历：">{{education}}</Form-item> 
-            </i-col>
+            </i-col> -->
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="婚姻状况：">{{marriage}}</Form-item> 
             </i-col>
@@ -279,7 +279,7 @@
             this.education = ""
             this.marriage = (item.marriageStatus == 1) ? "未婚" : (item.marriageStatus == 2) ? "已婚" : "离异"
             this.sex = (item.gender == 1) ? "男" : "女"
-            this.birthday = item.birthday
+            this.birthday = (item.birthday == null) ? "" : Tools.formatDate(item.birthday,"YYYY年MM月DD日") 
             this.address = item.address
             this.firstInTime = ""
             this.contractStartTime = ""

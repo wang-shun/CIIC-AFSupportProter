@@ -10,6 +10,10 @@ const  saveAmEmpMaterial = params => AJAX.postJSON("/api/employcommandservice/am
 
 const  saveAmArchiveUse  = params => AJAX.postJSON("/api/employcommandservice/amArchiveTask/saveAmArchiveUse", params);
 
+const receiveMaterial = params => AJAX.postJSON("/api/employcommandservice/amEmpTask/receiveMaterial", params);
+
+const rejectMaterial = params => AJAX.postJSON("/api/employcommandservice/amEmpTask/rejectMaterial", params);
+
 
 export default {
 
@@ -100,7 +104,14 @@ export default {
   deleteAmArchiveUse:async (params)=>{
     let response = await AJAX.post('/api/employcommandservice/amArchiveTask/deleteAmArchiveUse', params);
     return await response.data;
+  },//用工材料签收
+  receiveMaterial,//用工材料批退
+  rejectMaterial,
+  updateTaskStatus:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amEmpTask/updateTaskStatus', params);
+    return await response.data;
   }
+
 
 }
 

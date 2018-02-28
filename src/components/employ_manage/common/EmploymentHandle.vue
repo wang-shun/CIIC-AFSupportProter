@@ -125,8 +125,7 @@ import api from '../../../api/employ_manage/hire_operator'
 
        instance() {
         var fromData = this.$utils.clear(this.handleInfo,'');
-        alert(this.handleInfo.empTaskId);
-        return;
+        
         if(fromData.employDate){
            fromData.employDate = this.$utils.formatDate(this.handleInfo.employDate, 'YYYY-MM-DD');
         }

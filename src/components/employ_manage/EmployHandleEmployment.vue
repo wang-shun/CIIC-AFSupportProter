@@ -43,12 +43,6 @@
             <employment-materials-handle :handleInfo="materialHandleInfo"></employment-materials-handle>
           </div>
         </Panel>
-        <!-- <Panel name="7">
-          雇员历史任务单
-          <div slot="content">
-            <employment-data-management-task-list :historyTaskData="historyTaskData"></employment-data-management-task-list>
-          </div>
-        </Panel> -->
       </Collapse>
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
@@ -167,9 +161,13 @@
               if(data.data.amEmpTaskBO){
                    this.employeeInfo=data.data.amEmpTaskBO;
               }
+
+              if(data.data.customerInfo){
+                this.customerInfo = data.data.customerInfo;
+              }
               
               if(data.data.materialList){
-                  this.employmentMaterial.materialsData = data.data.materialList.rows;
+                  this.employmentMaterial.materialsData = data.data.materialList;
               }
              
               if(data.data.amEmploymentBO){
@@ -193,7 +191,6 @@
                   this.materialHandleInfo.employmentId=data.data.amEmploymentBO.employmentId;
               }
                  
-               
           })
     },
     methods: {

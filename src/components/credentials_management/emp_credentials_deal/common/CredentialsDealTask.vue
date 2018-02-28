@@ -327,10 +327,25 @@
     },
     methods: {
       clickRow (value) {
+        this.formItem.name = ""
+        this.formItem.operateTypeN = ""
+        this.formItem.chargeTypeN = ""
+        this.formItem.operateAccount = ""
+        this.formItem.operatePwd = ""
+        this.formItem.payTypeN = ""
+        this.formItem.specialChargeRemark = ""
+        this.formItem.introduceMail = ""
+        this.formItem.onlineContactIdCard = ""
+        this.formItem.onlineContactIsSecretariat = ""
+        this.formItem.onlineContact = ""
+        this.formItem.businessLicence = ""
+        this.formItem.organizationCode = ""
+        this.formItem.foreignBusinessApprovalCertificate = ""
+        this.formItem.businessRenameNotice = ""
+        this.formItem.specialMaterialRemark = ""
         if (value !== null) {
           this.formItem.credentialsType = value.credentialsType
           this.formItem.credentialsDealType = value.credentialsDealType
-          console.log("行数据：证件办理类型-"+this.formItem.credentialsDealType+"证件类型-"+this.formItem.credentialsType)
           this.rowdata = {...value}
           this.$emit("backRow", this.rowdata)
           this.selectCompanyExt(value.credentialsType,value.companyCode)

@@ -272,12 +272,27 @@ export default {
           console.log(response.data.errCode===0)
             if (response.data.errCode === '0'){
               this.find()
-              this.$Message.success('删除成功!')
-            } else {
-              this.$Message.error('删除失败!')
+              this.$Notice.success({
+                  title: '删除成功',
+                  desc: ''
+                })
+            } else if (response.data.errCode === '1'){
+              this.$Notice.error({
+                title: '删除失败',
+                desc: response.data.message
+              })
+            } 
+            else {
+              this.$Notice.error({
+                title: '删除失败',
+                desc: ''
+              })
             }
           }).catch((error) => {
-            this.$Message.error('删除失败!')
+             this.$Notice.error({
+              title: '删除失败',
+              desc: ''
+            })
           })
       }
     }

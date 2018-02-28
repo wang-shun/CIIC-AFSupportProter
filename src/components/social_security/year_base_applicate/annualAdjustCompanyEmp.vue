@@ -493,7 +493,7 @@
         if (this.deletedResultData && this.deletedResultData.length > 0) {
           var rtn = confirm("是否删除已选中的项？")
           if (rtn) {
-            api.annualAdjustCompanyEmpsDelete(this.modifiedResultData).then(data => {
+            api.annualAdjustCompanyEmpsDelete(this.deletedResultData).then(data => {
               if (data.code == 200) {
                 this.$Message.info("删除成功");
                 this.annualAdjustCompanyEmpQuery();

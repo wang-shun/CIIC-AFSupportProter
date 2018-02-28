@@ -471,18 +471,20 @@
            
 
           if('refuse'!= type){
-            
+
+            let comAccountId=this.socialSecurityPayOperator.comAccountId;
+          if(typeof(comAccountId)=='undefined' || comAccountId==''){
+             this.$Message.error("该雇员对应的企业没有开户,不能办理.");
+            return;
+          }
           let empArchiveId =this.socialSecurityPayOperator.empArchiveId
           if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
              this.$Message.error("雇员未做新进或者转入,不能办理.");
             return;
           }
+        
         }
-          let comAccountId=this.socialSecurityPayOperator.comAccountId;
-          if(typeof(comAccountId)=='undefined' || comAccountId==''){
-             this.$Message.error("该雇员对应的企业没有开户,不能办理.");
-            return;
-          }
+          
 
           let startMonth = this.operatorListData[0].startMonth;
           let endMonth = this.operatorListData[0].endMonth;

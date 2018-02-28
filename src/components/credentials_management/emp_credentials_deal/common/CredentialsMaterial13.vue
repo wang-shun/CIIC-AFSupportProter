@@ -261,7 +261,7 @@ export default {
     return {
       formItem: {
         comp: '上海公司',
-        job: '申请方',
+        job: '',
         marryStatus: '已婚',
         married: '已婚未育',
         house: '社区公共户'

@@ -87,7 +87,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="error" @click="isShowRejectBatch = true">批量批退</Button>
+      <!--<Button type="error" @click="isShowRejectBatch = true">批量批退</Button>-->
       <Button type="info" @click="excelExport()">导出</Button>
       <Button type="error" @click="batchCancel()">撤销</Button>
       </Col>
@@ -276,9 +276,6 @@
       },
       ok() {},
       cancel() {},
-      batchCancel() {
-
-      },
       resetSelectedData(selection) {
         this.selectedData.length = 0;
         if(selection) {
@@ -290,21 +287,16 @@
       handleSelectChange(selection) {
         this.resetSelectedData(selection);
       },
-      batchReject() {
+      batchCancel() {
         if (this.selectedData.length == 0) {
-          this.$Message.error("请先勾选需要批退的任务");
+          this.$Message.error("请先勾选需要撤销的任务");
           return false;
         }
-        if (this.rejectionRemark == '') {
-          this.$Message.error("请填写批退备注");
-          return false;
-        }
-        api.hfEmpTaskBatchReject({
-          rejectionRemark: this.rejectionRemark,
-          selectedData: this.selectedData
-        }).then(data => {
+        api.empTaskHandleCancel(
+          this.selectedData
+        ).then(data => {
           if (data.code == 200) {
-            this.$Message.info("批退操作成功");
+            this.$Message.info("撤销操作成功");
             this.isShowRejectBatch = false;
             this.handlePageNum(1);
           } else {

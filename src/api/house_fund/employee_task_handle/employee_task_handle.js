@@ -30,4 +30,8 @@ export default {
     let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTaskHandle/empTaskHandleReject', params);
     return await response.data;
   },
+  empTaskHandleCancel: async (params) => {
+    let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTaskHandle/empTaskHandleCancel', params);
+    return await response.data;
+  }
 }

@@ -283,11 +283,15 @@ export default {
       if (info.lev20.toString() != ''){
         materialsIds = materialsIds + info.lev20.toString() + ','
       }
-      if (info.lev31.toString() != ''){
-        materialsIds = materialsIds + info.lev31.toString() + ','
+      if (this.formItem.job == '申请方') {
+        if (info.lev31.toString() != ''){
+          materialsIds = materialsIds + info.lev31.toString() + ','
+        }
       }
-      if (info.lev32.toString() != ''){
-        materialsIds = materialsIds + info.lev32.toString() + ','
+      if (this.formItem.job == '在沪方') {
+        if (info.lev32.toString() != ''){
+          materialsIds = materialsIds + info.lev32.toString() + ','
+        }
       }
       if (info.lev40.toString() != ''){
         materialsIds = materialsIds + info.lev40.toString() + ','

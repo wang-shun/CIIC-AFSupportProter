@@ -63,7 +63,8 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="结算区县：" prop="region">
             <Select v-model="operatorSearchData.region" style="width: 100%;" transfer>
-              <Option v-for="item in operatorSearchData.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
+              <Option >全部</Option>
+              <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
             </Select>
           </Form-item>
         </Col>
@@ -164,26 +165,6 @@
             {value: '3', label: '补缴'},
             {value: '4', label: '转出'}
           ], //人员分类
-          regionList: [
-            {value: '', label: '全部'},
-            {value: '徐汇', label: '徐汇'},
-            {value: '长宁', label: '长宁'},
-            {value: '浦东', label: '浦东'},
-            {value: '卢湾', label: '卢湾'},
-            {value: '静安', label: '静安'},
-            {value: '黄浦', label: '黄浦'},
-            {value: '杨浦', label: '杨浦'},
-            {value: '普陀', label: '普陀'},
-            {value: '宝山', label: '宝山'},
-            {value: '虹口', label: '虹口'},
-            {value: '闵行', label: '闵行'},
-            {value: '松江', label: '松江'},
-            {value: '嘉定', label: '嘉定'},
-            {value: '青浦', label: '青浦'},
-            {value: '奉贤', label: '奉贤'},
-            {value: '崇明', label: '崇明'},
-            {value: '金山', label: '金山'},
-          ],
           region: '', //结算区域
           emergency: '',
           emergencyList: [

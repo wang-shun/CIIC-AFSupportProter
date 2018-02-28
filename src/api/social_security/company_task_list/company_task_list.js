@@ -469,10 +469,10 @@ export class CompanyTaskList{
           },
       beforeSendInfo:{
         //客户社保截止日
-        customerSocialSecurityEndDate: taskFormContent==null|| taskFormContent==""?"":taskFormContent.expireDate,
+        customerSocialSecurityEndDate: taskFormContent==null|| taskFormContent==""?"":taskFormContent.expireDateFront,
         //支付方式
-        payMethodValue: taskFormContent==null|| taskFormContent==""?"":taskFormContent.paymentWay,
-        billReceiverValue:taskFormContent==null|| taskFormContent==""?"":taskFormContent.billReceiver,
+        payMethodValue: taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.paymentWay),
+        billReceiverValue:taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.billReceiver),
       },
       companyOpenAccountOperator: {
             taskValue: result.taskCategory,

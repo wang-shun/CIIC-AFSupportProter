@@ -586,6 +586,8 @@
       },
       //办理
       confirm(){
+        let res =this.accountIdIsNull()
+        if(res)return;
         let beforeValid = false;
 
         this.$refs['beforeSendInfo'].validate((valid) => {
@@ -672,6 +674,16 @@
         }
         let self = this
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
+          if(typeof(result.comAccountId)!='undefined' && !result.comAccountId!=null && result.comAccountId!=''){
+           this.$Notice.config({
+                top:80
+              })
+            this.$Notice.warning({
+                    title: '温馨提示',
+                    desc: '该企业已经做过新进或转入.',
+                    duration: 0
+            });
+          }
         self.comAccountId = result.comAccountId
         self.companyInfo = result.companyInfo
         self.beforeSendInfo = result.beforeSendInfo
@@ -810,7 +822,8 @@
       },
       //撤销任务单 状态(将任务单状态往回走一步)
       revoke(){
-
+        let res =this.accountIdIsNull()
+        if(res)return;
         if(this.currentStep=='0'){
           this.$Notice.warning({
                     title: '操作失败',
@@ -850,6 +863,20 @@
       refresh(){
         //CompanyTaskProgressChangeInfo
         this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companyTaskProgressTypeInfo'}})
+      },
+      //
+      accountIdIsNull(){
+        if(typeof(this.comAccountId)!='undefined' && !this.comAccountId!=null && this.comAccountId!=''){
+           this.$Notice.config({
+                top:80
+              })
+            this.$Notice.warning({
+                    title: '温馨提示',
+                    desc: '该企业已经做过新进或转入,不能操作.',
+                    duration: 4
+            });
+            return true;
+          }else return false;
       }
     }
   }

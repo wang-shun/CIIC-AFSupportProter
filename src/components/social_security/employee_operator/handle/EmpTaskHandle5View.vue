@@ -20,7 +20,7 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="用工状态:">
-                <label>{{reworkInfo.taskStatus}}</label>
+                <label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskStatus)}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -351,6 +351,11 @@
           let comAccountId=this.socialSecurityPayOperator.comAccountId;
           if(typeof(comAccountId)=='undefined' || comAccountId==''){
              this.$Message.error("该雇员对应的企业没有开户,不能办理.");
+            return;
+          }
+          let empArchiveId =this.socialSecurityPayOperator.empArchiveId
+          if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
+             this.$Message.error("雇员未做新进或者转入,不能办理.");
             return;
           }
         }

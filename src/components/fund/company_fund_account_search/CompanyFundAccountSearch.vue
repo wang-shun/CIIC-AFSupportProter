@@ -121,7 +121,7 @@
               ])
             }
           },
-          {title: '企业公积金名称', key: 'companyFundName', align: 'center', width: 250,
+          {title: '企业公积金名称', key: 'companyFundName', align: 'center', width: 300,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyFundName),
@@ -143,21 +143,21 @@
             }
           },
           
-          {title: 'U盾', key: 'UKey', align: 'center', width: 150,
+          {title: 'U盾代管情况', key: 'UKey', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.UKey),
               ]);
             }
           },
-          {title: '缴费银行', key: 'payBank', align: 'center', width: 150,
+          {title: '缴费银行', key: 'payBank', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.payBank),
               ]);
             }
           },
-          {title: '备注说明', key: 'notes', align: 'center', width: 150,
+          {title: '备注说明', key: 'notes', align: 'center', width: 465,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.notes),

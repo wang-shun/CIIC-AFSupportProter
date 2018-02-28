@@ -7,64 +7,22 @@
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="*未处理：" prop="processStatus">
-                  <Select v-model="operatorSearchData.processStatus" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in processStatusList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                  </Select>
-                </Form-item>
+              <Form-item label="服务中心：" prop="serviceCenter">
+                <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenter" trigger="hover" transfer></Cascader>
+              </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeId">
-                  <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
-                </Form-item>
+              <Form-item label="雇员编号：" prop="employeeId">
+                <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
+              </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务单类型：" prop="taskCategory">
-                  <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in taskTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴费银行：" prop="paymentBank">
-                  <Select v-model="operatorSearchData.paymentBank" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in payBankList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员姓名：" prop="employeeName">
-                  <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金类型：" prop="hfType">
-                  <Select v-model="operatorSearchData.hfType" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业账户类型：" prop="hfAccountType">
-                  <Select v-model="operatorSearchData.hfAccountType" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="证件号：" prop="idNum">
-                  <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务发起时间：" prop="submitTime">
-                  <DatePicker v-model="operatorSearchData.submitTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-                </Form-item>
+              <Form-item label="任务单类型：" prop="taskCategory">
+                <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="item in taskTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
+                </Select>
+              </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户编号：" prop="companyId">
@@ -72,15 +30,54 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="是否加急：" prop="urgent">
-                  <Checkbox v-model="operatorSearchData.urgent"></Checkbox>
-                </Form-item>
+              <Form-item label="雇员姓名：" prop="employeeName">
+                <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公积金类型：" prop="hfType">
+                <Select v-model="operatorSearchData.hfType" style="width: 100%;" transfer>
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="缴费银行：" prop="paymentBank">
+                <Select v-model="operatorSearchData.paymentBank" style="width: 100%;" transfer>
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="item in payBankList" :value="item.key" :key="item.key">{{item.value}}</Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="证件号：" prop="idNum">
+                <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="企业账户类型：" prop="hfAccountType">
+                <Select v-model="operatorSearchData.hfAccountType" style="width: 100%;" transfer>
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="企业公积金账号：" prop="hfComAccount">
+                <Input v-model="operatorSearchData.hfComAccount" placeholder="请输入..."></Input>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="任务发起时间：" prop="submitTime">
+                <DatePicker v-model="operatorSearchData.submitTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+              </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
-                <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
+              <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -90,51 +87,27 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="error" @click="isShowRejectBatch = true">批量批退</Button>
-        <Button type="info" @click="excelExport()">导出</Button>
+      <Button type="info" @click="excelExport()">导出</Button>
       </Col>
     </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border ref="noProcessData"
-               :columns="noProcessColumns"
-               :data="noProcessData"
-               @on-selection-change="handleSelectChange"></Table>
+      <Table border :columns="rejectedColumns" :data="rejectedData"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
         @on-page-size-change="handlePageSize"
-        :total="noProcessPageData.total"
-        :page-size="noProcessPageData.pageSize"
-        :page-size-opts="noProcessPageData.pageSizeOpts"
-        :current="noProcessPageData.pageNum"
+        :total="rejectedPageData.total"
+        :page-size="rejectedPageData.pageSize"
+        :page-size-opts="rejectedPageData.pageSizeOpts"
+        :current="rejectedPageData.pageNum"
         show-sizer show-total></Page>
       </Col>
     </Row>
-
-    <!-- 批退理由 -->
-    <Modal
-      v-model="isShowRejectBatch"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <Form>
-        <p>
-          <Form-item>
-            <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
-          </Form-item>
-        </p>
-      </Form>
-      <div slot="footer">
-        <Button type="primary" @click="batchReject()">确认批退</Button>
-        <Button type="warning" @click="isShowRejectBatch = false">取消</Button>
-      </div>
-    </Modal>
   </div>
 </template>
 <script>
-//  import {mapState, mapGetters, mapActions} from 'vuex'
-//  import EventType from '../../../../store/event_types'
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
@@ -145,8 +118,8 @@
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
-          taskStatus: 1,
-          processStatus: '',
+          serviceCenter: [],
+          taskStatus: 2,
           employeeId: '',
           taskCategory: 0,
           paymentBank: 0,
@@ -156,28 +129,30 @@
           idNum: '',
           submitTime: [],
           companyId: '',
-          urgent: 0
+          hfComAccount: ''
+//          urgent: 0
         },
-        processStatusList: [],
+
+        serviceCenterData: [
+          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
+          {value: 2, label: '日本客户'},
+          {value: 3, label: '虹桥'},
+          {value: 4, label: '浦东'}
+        ], //客服中心
         taskTypeList: [],
         payBankList: [],
         fundTypeList: [],
         accountTypeList: [],
-
         isShowRejectBatch: false,
         rejectionRemark: '',
-        selectedData: [],
-        noProcessData: [],
-        noProcessPageData: {
+        rejectedData: [],
+        rejectedPageData: {
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.DEFAULT_PAGE_SIZE,
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
-        noProcessColumns: [
-          {
-            type: 'selection', fixed: 'left', width: 60, align: 'center'
-          },
+        rejectedColumns: [
           {title: '操作', fixed: 'left', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -207,7 +182,6 @@
                         default:
                           break;
                       }
-
                     }
                   }
                 }, '查看'),
@@ -232,7 +206,6 @@
       dict.getDictData().then(data => {
         if (data.code == 200) {
           this.accountTypeList = data.data.SocialSecurityAccountType;
-          this.processStatusList = data.data.ProcessPeriod;
           this.taskTypeList = data.data.HFLocalTaskCategory;
           this.taskTypeList.splice(8, 2); // 去除转移任务和特殊任务
           this.payBankList = data.data.PayBank;
@@ -244,7 +217,6 @@
     computed: {
     },
     methods: {
-//      ...mapActions('noProcess',[EventType.NOPROCESS]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -258,60 +230,27 @@
           params = this.$utils.clear(params, '');
         }
         api.hfEmpTaskQuery({
-          pageSize: this.noProcessPageData.pageSize,
-          pageNum: this.noProcessPageData.pageNum,
+          pageSize: this.rejectedPageData.pageSize,
+          pageNum: this.rejectedPageData.pageNum,
           params: params,
         }).then(data => {
           if (data.code == 200) {
-            this.noProcessData = data.data.rows;
-            this.noProcessPageData.total = Number(data.data.total);
+            this.rejectedData = data.data.rows;
+            this.rejectedPageData.total = Number(data.data.total);
           }
         })
       },
       handlePageNum(val) {
-        this.noProcessPageData.pageNum = val;
+        this.rejectedPageData.pageNum = val;
         this.hfEmpTaskQuery();
       },
       handlePageSize(val) {
-        this.noProcessPageData.pageNum = 1;
-        this.noProcessPageData.pageSize = val;
+        this.rejectedPageData.pageNum = 1;
+        this.rejectedPageData.pageSize = val;
         this.hfEmpTaskQuery();
       },
-      ok() {},
-      cancel() {},
-      resetSelectedData(selection) {
-        this.selectedData.length = 0;
-        if(selection) {
-          selection.forEach((element, index, array) => {
-            this.selectedData.push(element.empTaskId);
-          })
-        }
-      },
-      handleSelectChange(selection) {
-        this.resetSelectedData(selection);
-      },
-      batchReject() {
-        if (this.selectedData.length == 0) {
-          this.$Message.error("请先勾选需要批退的任务");
-          return false;
-        }
-        if (this.rejectionRemark == '') {
-          this.$Message.error("请填写批退备注");
-          return false;
-        }
-        api.hfEmpTaskBatchReject({
-          rejectionRemark: this.rejectionRemark,
-          selectedData: this.selectedData
-        }).then(data => {
-          if (data.code == 200) {
-            this.$Message.info("批退操作成功");
-            this.isShowRejectBatch = false;
-            this.handlePageNum(1);
-          } else {
-            this.$Message.error(data.message)
-          }
-        })
-      },
+      ok () {},
+      cancel () {},
       beforeSubmit() {
         if (this.operatorSearchData.submitTime) {
           for (let i = 0; i < this.operatorSearchData.submitTime.length; i++) {
@@ -331,7 +270,8 @@
           params = this.$utils.clear(params, '');
         }
         api.hfEmpTaskExport();
-      }
+      },
+      excelExportNew() {}
     }
   }
 </script>

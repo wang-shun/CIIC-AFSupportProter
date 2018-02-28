@@ -10,8 +10,8 @@
       <TabPane label="已完成" name="finished">
         <finished v-if="isFinished"></finished>
       </TabPane>
-      <TabPane label="已批退" name="refused">
-        <refused v-if="isRefused"></refused>
+      <TabPane label="已批退" name="rejected">
+        <rejected v-if="isRejected"></rejected>
       </TabPane>
     </Tabs>
   </div>
@@ -20,17 +20,17 @@
   import noprocess from './tab/NoProcess'//雇员日常操作 -- 未处理
   import processing from './tab/Processing'//雇员日常操作 -- 处理中
   import finished from './tab/Finished'//雇员日常操作 -- 已完成
-  import refused from './tab/Refused'//雇员日常操作 --批退
+  import rejected from './tab/Rejected'//雇员日常操作 --批退
 
   export default {
-    components: {noprocess, processing, finished, refused},
+    components: {noprocess, processing, finished, rejected},
     data() {
       return {
         tab: 'noprocess',
         isNoProcess: true,
         isProcessing: false,
         isFinished: false,
-        isRefused: false,
+        isRejected: false,
 
       }
     },
@@ -56,7 +56,7 @@
         if(name=="noprocess"&&!this.isNoProcess) this.isNoprocess=true
         if(name=="processing"&&!this.isProcessing) this.isProcessing=true
         if(name=="finished" && !this.isFinished)this.isFinished=true
-        if(name=="refused" && !this.isRefused)this.isRefused=true
+        if(name=="rejected" && !this.isRejected)this.isRejected=true
       }
     }
   }

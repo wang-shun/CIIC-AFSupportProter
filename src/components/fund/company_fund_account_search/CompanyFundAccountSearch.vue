@@ -128,7 +128,7 @@
               ]);
             }
           },
-          {title: '公积金账号', key: 'fundAccount', align: 'center', width: 180,
+          {title: '基本\补充公积金账号', key: 'fundAccount', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.fundAccount),

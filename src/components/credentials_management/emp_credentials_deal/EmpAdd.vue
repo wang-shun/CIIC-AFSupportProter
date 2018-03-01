@@ -126,7 +126,13 @@ export default {
                 })
                 this.find()
                 this.$router.push({name:"empList"})
-            } else {
+            }else if (response.data.errCode === '1'){
+              this.$Notice.error({
+                title: '保存失败',
+                desc: response.data.message
+              })
+            }  
+            else {
               this.$Notice.error({
                 title: '保存失败',
                 desc: ''

@@ -400,7 +400,12 @@
     mounted() {
       
       this.initData(this.$route.query)
-
+      
+      if(this.operatorType=='12'||this.operatorType=='13'){
+        this.taskCategoryType=[{value: '12', label: '翻牌新进'},{value: '13', label: '翻牌转入'}]
+      }else{
+        this.taskCategoryType=[{value: '1', label: '新进'},{value: '2', label: '转入'}]
+      }
     },
     computed: {
 

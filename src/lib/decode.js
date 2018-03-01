@@ -38,7 +38,13 @@ export default {
       case '11':
         return '集体转出'
       case '12':
-        return '翻牌'
+        return '翻牌新进'
+      case '13':
+        return '翻牌转入'
+      case '14':
+        return '翻牌转出'
+      case '15':
+        return '翻牌封存'
       default: // 默认 1
         return ''
     }

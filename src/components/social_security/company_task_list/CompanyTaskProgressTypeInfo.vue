@@ -65,7 +65,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="养老金用公司名称：" prop="pensionMoneyUseCompanyName">
+                <Form-item label="企业社保账户名称：" prop="pensionMoneyUseCompanyName">
                   <Input v-model="companyOpenAccountOperator.pensionMoneyUseCompanyName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -311,7 +311,8 @@
       //工伤比例
        const validateSufferedOnTheJobPercentage=(rule, value, callback)=>{
 
-               var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+               //var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+               var rex=/^[0-9]+(.[0-9]{1,10})?$/;
                if (value==null || value.trim()=="") {
                      callback(new Error('该项不能为空！'));
                 }else if(!rex.test(value)){
@@ -419,7 +420,6 @@
             {value: '徐汇', label: '徐汇'},
             {value: '长宁', label: '长宁'},
             {value: '浦东', label: '浦东'},
-            {value: '卢湾', label: '卢湾'},
             {value: '静安', label: '静安'},
             {value: '黄浦', label: '黄浦'},
             {value: '杨浦', label: '杨浦'},
@@ -674,7 +674,7 @@
         }
         let self = this
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
-          if(typeof(result.comAccountId)!='undefined' && !result.comAccountId!=null && result.comAccountId!=''){
+          if(typeof(result.comAccountId)!='undefined' && !result.comAccountId!=null && result.comAccountId!='' &&result.companyTaskStatus==0){
            this.$Notice.config({
                 top:80
               })
@@ -756,7 +756,7 @@
           }
           //到期时间和支付方式  前道传过来的数据
           let taskFormContent = {
-            expireDate:this.beforeSendInfo.customerSocialSecurityEndDate,
+            expireDateFront:this.beforeSendInfo.customerSocialSecurityEndDate,
             paymentWay:this.beforeSendInfo.payMethodValue,
             billReceiver:this.beforeSendInfo.billReceiverValue
           }
@@ -866,7 +866,7 @@
       },
       //
       accountIdIsNull(){
-        if(typeof(this.comAccountId)!='undefined' && !this.comAccountId!=null && this.comAccountId!=''){
+        if(typeof(this.comAccountId)!='undefined' && !this.comAccountId!=null && this.comAccountId!='' && this.currentStep==0){
            this.$Notice.config({
                 top:80
               })

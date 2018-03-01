@@ -247,6 +247,11 @@
     },
     mounted() {
       this.initData(this.$route.query)
+      if(this.operatorType=='14'||this.operatorType=='15'){
+        this.taskCategoryType=[{value: '14', label: '翻牌转出'},{value: '15', label: '翻牌封存'}]
+      }else{
+        this.taskCategoryType=[{value: '5', label: '转出'},{value: '6', label: '封存'}]
+      }
     },
     computed: {
     },

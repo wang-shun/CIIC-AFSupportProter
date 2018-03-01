@@ -253,7 +253,7 @@
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
         <Button type="primary" class="ml10" @click="isShowPrint = true" v-if="showButton">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
-        <Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>
+        <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
     </Row>
@@ -612,10 +612,11 @@
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
       let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+      let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
         hfType: hfType,
-        taskStatus: 1
+        taskStatus: taskStatus
       }).then(data => {
         if (data.code == 200) {
           this.displayVO = data.data;
@@ -647,6 +648,9 @@
           }
         } else {
           this.$Message.error(data.message);
+          this.inputDisabled = true;
+          this.taskCategoryDisable = true;
+          this.showButton = false;
         }
       });
       dict.getDictData().then(data => {
@@ -682,6 +686,11 @@
 //              }
 //            )
 //          }
+        } else {
+          this.$Message.error(data.message);
+          this.inputDisabled = true;
+          this.taskCategoryDisable = true;
+          this.showButton = false;
         }
       })
     },
@@ -783,7 +792,9 @@
 //          this.inputData.startMonth = utils.formatDate(this.displayVO.startMonth,"YYYYMM");
 //        }
         this.inputData.operationRemind = this.displayVO.operationRemind;
-        this.inputData.operationRemindDate = this.displayVO.operationRemindDate;
+        if (this.displayVO.operationRemindDate) {
+          this.inputData.operationRemindDate = this.$utils.formatDate(this.displayVO.operationRemindDate, "YYYY-MM-DD");
+        }
         this.inputData.handleRemark = this.displayVO.handleRemark;
         this.inputData.rejectionRemark = this.displayVO.rejectionRemark;
         this.inputData.operatorListData = this.operatorListData;

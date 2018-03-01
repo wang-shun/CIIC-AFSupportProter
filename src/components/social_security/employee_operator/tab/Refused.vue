@@ -82,7 +82,10 @@
                   <Option value="4" label="补缴"></Option>
                   <Option value="5" label="转出"></Option>
                   <Option value="6" label="封存"></Option>
-                  
+                  <Option value="12" label="翻牌新进"></Option>
+                  <Option value="13" label="翻牌转入"></Option>
+                  <Option value="14" label="翻牌转出"></Option>
+                  <Option value="15" label="翻牌封存"></Option>
                   <!--<Option value="7" label="退账"></Option>
                   <Option value="8" label="提取"></Option>
                   <Option value="9" label="特殊操作"></Option>-->
@@ -390,6 +393,8 @@
           switch (taskCategory) {
             case '1':
             case '2':
+            case '12':
+            case '13':
               name = 'empTaskBatchHandleView'
               break;
             case '3':
@@ -399,6 +404,9 @@
               name = 'empTaskBatchHandle4View'
               break;
             case '5':
+            case '6':
+             case '14':
+            case '15':
               name = 'empTaskBatchHandle5View'
               break;
             default:
@@ -416,6 +424,8 @@
           switch (taskCategory) {
             case '1':
             case '2':
+            case '12':
+            case '13':
               name = 'empTaskHandleView'
               break;
             case '3':
@@ -426,6 +436,8 @@
               break;
             case '5':
             case '6':
+             case '14':
+            case '15':
               name = 'empTaskHandle5View'
               break;
               case '7':

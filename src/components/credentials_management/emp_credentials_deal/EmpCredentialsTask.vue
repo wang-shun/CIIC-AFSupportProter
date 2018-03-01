@@ -255,6 +255,7 @@
     created () {
       this.findAll(this.$route.params.data.employeeId)
       this.findEmpDetial(this.$route.params.data)
+      this.findCompanyDetial(this.$route.params.data.companyId)
     },
     computed: {
     },
@@ -264,13 +265,28 @@
           this.formItem = value
         }
       },
+      findCompanyDetial(companyId) {
+        let params = {}
+        params.params = {}
+        params.params.companyId = companyId
+        axios.get(host+'/api/emp/getCompanyInfo',params).then((response) => {
+          if(response.data.errCode=="0"){
+            this.companyCode = response.data.data.companyId
+            this.companyName = response.data.data.companyName
+            this.companyAddr = response.data.data.registeredAddress
+            this.companyTel = ""
+          }
+        })
+      },
       findEmpDetial(employee) {
         let params = {}
         params.params = {}
-        params.params.idNum = employee.idNum
+        params.params.companyId = employee.companyId
+        params.params.employeeId = employee.employeeId
         params.params.idCardType = employee.idCardType
+        params.params.idNum = employee.idNum
         params.params.type = employee.type
-        axios.get(host+ '/api/emp/getItem',params).then((response) => {
+        axios.get(host+ '/api/emp/getEmpInfo',params).then((response) => {
           if(response.data.errCode == "0"){
             let item = response.data.data
             this.empCode = item.employeeId
@@ -281,9 +297,9 @@
             this.sex = (item.gender == 1) ? "男" : "女"
             this.birthday = (item.birthday == null) ? "" : Tools.formatDate(item.birthday,"YYYY年MM月DD日") 
             this.address = item.address
-            this.firstInTime = ""
-            this.contractStartTime = ""
-            this.contractEndTime = ""
+            this.firstInTime = (item.firstInDate == null) ? "" : Tools.formatDate(item.firstInDate,"YYYY年MM月DD日")
+            this.contractStartTime = (item.laborStartDate == null) ? "" : Tools.formatDate(item.laborStartDate,"YYYY年MM月DD日")
+            this.contractEndTime = (item.laborEndDate == null) ? "" : Tools.formatDate(item.laborEndDate,"YYYY年MM月DD日")
           }
         })
       },

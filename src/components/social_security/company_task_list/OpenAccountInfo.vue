@@ -62,7 +62,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="养老金用公司名称：">
+                <Form-item label="企业社保账户名称：">
                     <label>{{companyOpenAccountOperator.pensionMoneyUseCompanyName}}</label>
                 </Form-item>
               </Col>
@@ -276,7 +276,6 @@
             {value: '1', label: '徐汇区'},
             {value: '2', label: '长宁区'},
             {value: '3', label: '浦东区'},
-            {value: '4', label: '卢湾区'},
             {value: '5', label: '静安区'},
             {value: '6', label: '黄浦区'}
           ], //社保中心

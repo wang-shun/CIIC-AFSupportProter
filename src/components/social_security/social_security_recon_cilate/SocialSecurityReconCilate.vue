@@ -243,7 +243,7 @@
 
 
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', ssMonth + "_" + comAccountId + "_" + ssMonth + ".xml"),
+                h('span', params.row.impFileName),
               ]);
             }
           },

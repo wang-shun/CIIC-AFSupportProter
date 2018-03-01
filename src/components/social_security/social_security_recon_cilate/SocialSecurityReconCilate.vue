@@ -271,6 +271,7 @@
                         on: {
                           click: () => {
                               window.sessionStorage.setItem("statementId", params.row.statementId)
+                              window.sessionStorage.setItem("monthEmpChangeId", params.row.monthEmpChangeId)
                               this.$router.push({name:'socialSecurityEmpChangeDetailYys'});
                           }
                         }
@@ -282,7 +283,8 @@
                         h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                           on: {
                             click: () => {
-                              window.sessionStorage.setItem("statementId", params.row.statementId)
+                               window.sessionStorage.setItem("statementId", params.row.statementId)
+                               window.sessionStorage.setItem("monthEmpChangeId", params.row.monthEmpChangeId)
                               this.$router.push({name:'socialSecurityEmpChangeDetailGsy'});
                             }
                           }

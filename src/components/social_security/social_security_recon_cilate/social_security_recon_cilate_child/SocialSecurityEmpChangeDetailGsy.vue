@@ -143,9 +143,9 @@
       //     };
       //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
       //this.doAlert(pagParam.statementId);
-      this.statementId = window.sessionStorage.getItem("statementId");
-      this.serachMonthEmpChange(window.sessionStorage.getItem("statementId"));
-      this.showMonthEmpChangeDetail(window.sessionStorage.getItem("statementId"));
+      this.statementId = window.sessionStorage.getItem("monthEmpChangeId");
+      this.serachMonthEmpChange(window.sessionStorage.getItem("monthEmpChangeId"));
+      this.showMonthEmpChangeDetail(window.sessionStorage.getItem("monthEmpChangeId"));
 
     },
     computed: {
@@ -174,14 +174,14 @@
       },
       serachMonthEmpChange(statementId){
         api.serachMonthEmpChange({
-          statementId: statementId
+          monthEmpChangeId: statementId
         }).then(data => {
           this.empChangeData = data.data;
         })
       },
       showMonthEmpChangeDetail(statementId){
         api.showMonthEmpChangeDetail({
-          statementId: statementId
+          monthEmpChangeId: statementId
         }).then(data => {
           this.empChangeDetailData = data.data;
         })

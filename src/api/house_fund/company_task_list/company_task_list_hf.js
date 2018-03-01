@@ -22,8 +22,13 @@ export class CompanyTaskListHF{
               if(response.data.code=="200"){
                   for(let i of response.data.data){
                     let obj ={}
-                    let companyInfo ={}
-                    let openAccountInfo ={}
+                    //开户页面参数
+                    let companyInfo={}
+                    let openAccountInfo={}
+                    //变更页面参数
+                    let companyFundAccountInfo={}
+                    let changeOperator={}
+
                     obj.action=""
                     obj.comTaskId = i.comTaskId
                     obj.companyId = i.companyId
@@ -32,24 +37,24 @@ export class CompanyTaskListHF{
                     obj.hfTypeName = i.hfTypeName
                     obj.comTaskPaymentWayName = i.comTaskPaymentWayName
 
-                    //构建companyInfo传参
+                    //开户-companyInfo传参
                     companyInfo.customerNumber = i.companyId
                     companyInfo.customerName = i.companyName
                     companyInfo.serviceManager = ""
-                    companyInfo.customerFundEndDate = ""
-                    companyInfo.initiater = ""
-                    companyInfo.sponsorTime = ""
-                    companyInfo.initiaterNotes = ""
+                    companyInfo.customerFundEndDate = i.closeDay
+                    companyInfo.initiater = i.submitterName
+                    companyInfo.sponsorTime = i.submitTime
+                    companyInfo.initiaterNotes = i.submitRemark
                     obj.companyInfo = companyInfo
-
-                    //openAccountInfo传参
+                    //开户-openAccountInfo传参
                     openAccountInfo.changeTypeValue = ""
                     openAccountInfo.paymentBankValue = ""
-                    openAccountInfo.payMethodValue = ""
-                    openAccountInfo.companyFundAccount = ""
+                    openAccountInfo.payMethodValue = i.paymentWay
+                    openAccountInfo.companyFundAccountName = i.comAccountName
+                    openAccountInfo.companyFundAccountNum = ""
                     openAccountInfo.UKeyValue = ""
                     openAccountInfo.customerPayStartDate = ""
-                    openAccountInfo.closeAccountEveryMonth = ""
+                    openAccountInfo.closeAccountEveryMonth = i.closeDay
                     openAccountInfo.professionalOperateStartDate = ""
                     openAccountInfo.acceptDate = ""
                     openAccountInfo.deliveredDate = ""
@@ -57,9 +62,32 @@ export class CompanyTaskListHF{
                     openAccountInfo.notes = ""
                     obj.openAccountInfo = openAccountInfo
 
+                    //变更-companyFundAccountInfo传参
+                    if(i.hfType=="1") {
+                      companyFundAccountInfo.customerBasicFundAccount = i.hfComAccount
+                      companyFundAccountInfo.lastPayMonth = i.endMonth //末次汇缴月只用基本公积金
+                    }
+                    if(i.hfType=="2"){
+                      companyFundAccountInfo.customerAddFundAccount = i.hfComAccount
+                    }
+                    companyFundAccountInfo.companyFundAccountStatus = i.comAccountStateValue
+                    companyFundAccountInfo.paymentBank = i.paymentBankValue
+                    companyFundAccountInfo.closeDay = i.closeDay
+                    companyFundAccountInfo.payMethodValue = i.comTaskPaymentWayName
+                    companyFundAccountInfo.UKeyValue = i.ukStoreValue
+                    companyFundAccountInfo.customerNumber = i.companyId
+                    companyFundAccountInfo.customerName = i.companyName
+                    companyFundAccountInfo.accountType = i.typeValue
+                    obj.companyFundAccountInfo = companyFundAccountInfo
+                    //变更-changeOperator传参
+                    changeOperator.comAccountName = i.comAccountName
+                    changeOperator.paymentTypeValue = i.paymentWay
+                    changeOperator.taskStatusValue = i.taskStatus
+
+                    obj.changeOperator = changeOperator
+
                     responseData.data.taskData.push(obj)
                 }
-                debugger
                 responseData.data.totalSize=response.data.total
                 responseData.data.code=response.data.code
                 responseData.data.message= response.data.message
@@ -88,19 +116,93 @@ export class CompanyTaskListHF{
     })
   }
 
+  //更新企业任务单（变更）
+  static updateCompanyTaskChangeInfo(params, url){
+    return new Promise((resolve,reject)=>{
+      ajax.post(url,params).then(response=>{
+        let result = this.handleReturnData(response)
+        if(!result.isError){
+          //获得前台显示数据
+          resolve(true)
+        }else reject(Error(result.message))
+      })
+    })
+  }
+
   //get customer name
   static getCustomerData(params,url){
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
-        if(response.data.code=="200"){
 
-        }else{
-          reject(Error('后台异常！'))
-        }
       }).catch(error=>{
         console.log(error)
       })
 
+    })
+  }
+
+  //获取企业任务单支付方式数据
+  static getCompanyTaskPaymentWayData(url){
+    return new Promise(function(resolve,reject){
+      ajax.get(url).then(function (response) {
+        let responseData = {
+          data:{
+            paymentTypeList:[],
+            code:"",
+            message:""
+          }
+        }
+        if(response.data.code=="200"){
+          for(let i of response.data.data){
+            let obj ={}
+            obj.value = i.paymentwayCode
+            obj.label = i.paymentwayValue
+            responseData.data.paymentTypeList.push(obj)
+          }
+          responseData.data.code=response.data.code
+          responseData.data.message= response.data.message
+          resolve(responseData)
+        }else{
+          reject(Error('后台异常！'))
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+        reject(error);
+      });
+    })
+  }
+
+  //获取企业任务单数据
+  static getCompanyTaskTaskStatusData(url){
+    return new Promise(function(resolve,reject){
+      ajax.get(url).then(function (response) {
+        let responseData = {
+          data:{
+            taskStatusList:[],
+            code:"",
+            message:""
+          }
+        }
+        if(response.data.code=="200"){
+          for(let i of response.data.data){
+            let obj ={}
+            obj.value = i.taskStatusCode
+            obj.label = i.taskStatusValue
+            obj.disabled = i.disabled
+            responseData.data.taskStatusList.push(obj)
+          }
+          responseData.data.code=response.data.code
+          responseData.data.message= response.data.message
+          resolve(responseData)
+        }else{
+          reject(Error('后台异常！'))
+        }
+      })
+        .catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
     })
   }
 

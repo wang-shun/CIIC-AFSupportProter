@@ -11,6 +11,15 @@ let domainJson = {
     //企业任务单提交或修改
     "updateCompanyTask":"/api/fundcommandservice/hfComTask/updateCompanyTask",
 
+    //企业任务单提交或修改（变更）
+    "updateCompanyTaskChangeInfo":"/api/fundcommandservice/hfComTask/updateCompanyTaskChangeInfo",
+
+    //获得企业任务单支付方式数据
+    "getCompanyTaskPaymentWayData":"/api/fundcommandservice/hfComTask/getCompanyTaskPaymentWayData",
+
+    //获得企业任务单数据
+    "getCompanyTaskTaskStatusData":"/api/fundcommandservice/hfComTask/getCompanyTaskTaskStatusData",
+
 
 
 

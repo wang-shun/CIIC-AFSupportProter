@@ -142,8 +142,8 @@
                         case '变更':
                           this.$router.push({name: 'companyFundTaskProgressChangeInfo', params: {
                               comTaskId: params.row.comTaskId,
-                              companyInfo: params.row.companyInfo,
-                              openAccountInfo: params.row.openAccountInfo}
+                              companyFundAccountInfo: params.row.companyFundAccountInfo,
+                              changeOperator: params.row.changeOperator}
                           });
                           break;
                         case '终止':
@@ -309,7 +309,6 @@
       //将后台查询的数据赋到页面
       refresh(data){
         this.taskData = data.data.taskData;
-debugger
         if(typeof(data.data.totalSize)=='undefined') this.totalSize = 0
         else this.totalSize = Number(data.data.totalSize)
         this.closeLoading();

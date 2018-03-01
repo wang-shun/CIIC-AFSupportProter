@@ -17,8 +17,8 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="缴费区县：">
-          <label>{{companyFundAccount.payRegion}}</label>
+        <Form-item label="缴费银行：">
+          <label>{{companyFundAccount.paymentBank}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -42,8 +42,8 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="截单年月：">
-          <label>{{companyFundAccount.endDate}}</label>
+        <Form-item label="每月关账日：">
+          <label>{{companyFundAccount.closeDay}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -82,16 +82,6 @@
         default() {
           return {}
         }
-      }
-    },
-    data() {
-      return {
-        payMethodList: [
-          {label: "自付", value: "0"}
-        ],
-        UKeyList: [
-          {label: "有(中智代办)", value: "0"}
-        ]
       }
     },
     computed: {

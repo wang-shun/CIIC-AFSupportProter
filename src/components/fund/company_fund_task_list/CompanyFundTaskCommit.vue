@@ -38,10 +38,6 @@
       }
     },
     mounted() {
-      //todo: clean up after dev complete
-      console.log(this.$route.params.comTaskId);
-      console.log(this.$route.params.companyInfo);
-      console.log(this.$route.params.openAccountInfo);
     },
     computed: {
     },

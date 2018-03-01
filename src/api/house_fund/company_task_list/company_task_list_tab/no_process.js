@@ -17,4 +17,22 @@ export class NoProcess extends CompanyTaskListHF{
       let url = domainJson.updateCompanyTask
       return super.updateCompanyTask(params,url)
     }
+
+    //更新企业任务单(变更)
+    static updateCompanyTaskChangeInfo(params){
+      let url = domainJson.updateCompanyTaskChangeInfo
+      return super.updateCompanyTaskChangeInfo(params,url)
+    }
+
+    //获取企业任务单支付方式数据
+    static getCompanyTaskPaymentWayData(){
+      let url = domainJson.getCompanyTaskPaymentWayData
+      return super.getCompanyTaskPaymentWayData(url)
+    }
+
+    //获取企业任务单数据
+    static getCompanyTaskTaskStatusData(){
+      let url = domainJson.getCompanyTaskTaskStatusData
+      return super.getCompanyTaskTaskStatusData(url)
+    }
 }

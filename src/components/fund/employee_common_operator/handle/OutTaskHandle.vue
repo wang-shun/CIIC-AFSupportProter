@@ -167,12 +167,12 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="离职日期：">
-                {{displayVO.outDate}}
+                {{(displayVO.outDate)?this.$utils.formatDate(displayVO.outDate, "YYYY-MM-DD"):""}}
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="汇缴截止月份：">
-                {{displayVO.endMonth}}
+                {{this.$utils.formatDate(displayVO.endMonth, "YYYYMM")}}
               </FormItem>
               </Col>
             </Row>
@@ -235,58 +235,12 @@
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
-        <!--<Button type="primary" :disabled="buttonDisabled" class="ml10" @click="isShowPrint = true">打印转移通知书</Button>-->
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
-        <Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>
+        <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
     </Row>
 
-    <!-- 打印转移通知书 模态框 -->
-    <!--<Modal-->
-      <!--v-model="isShowPrint"-->
-      <!--title="打印转移通知书"-->
-      <!--width="720">-->
-      <!--<Form label-width=100>-->
-        <!--<Row type="flex" justify="start">-->
-          <!--<Col :sm="{span: 12}">-->
-            <!--<Form-item label="转出单位">-->
-              <!--<Select v-model="outUnitValue" style="width: 100%;" transfer>-->
-                <!--<Option v-for="item in outUnitList" :value="item.key" :key="item.key">{{item.value}}</Option>-->
-              <!--</Select>-->
-            <!--</Form-item>-->
-          <!--</Col>-->
-          <!--<Col :sm="{span: 12}">-->
-            <!--<Form-item label="转出单位账号">-->
-              <!--<Input v-model="outUnitAccount" placeholder="请输入..."></Input>-->
-            <!--</Form-item>-->
-          <!--</Col>-->
-          <!--<Col :sm="{span: 12}">-->
-            <!--<Form-item label="转入单位">-->
-              <!--<Input v-model="inUnit" placeholder="请输入..."></Input>-->
-            <!--</Form-item>-->
-          <!--</Col>-->
-          <!--<Col :sm="{span: 12}">-->
-            <!--<Form-item label="转入单位账号">-->
-              <!--<Input v-model="inUnitAccount" placeholder="请输入..."></Input>-->
-            <!--</Form-item>-->
-          <!--</Col>-->
-          <!--<Col :sm="{span: 12}">-->
-            <!--<Form-item label="转移日期">-->
-              <!--<Input v-model="transferDate" placeholder="请输入..."></Input>-->
-            <!--</Form-item>-->
-          <!--</Col>-->
-        <!--</Row>-->
-      <!--</Form>-->
-      <!--<div slot="footer">-->
-        <!--<Row>-->
-          <!--<Col :sm="{span: 24}">-->
-            <!--<Button type="primary" @click="isShowPrint = false">打印通知书</Button>-->
-            <!--<Button type="warning" @click="isShowPrint = false">取消</Button>-->
-          <!--</Col>-->
-        <!--</Row>-->
-      <!--</div>-->
-    <!--</Modal>-->
   </div>
 </template>
 <script>
@@ -299,6 +253,7 @@
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
         showButton: true,
         showCancel: false,
+        inputDisabled: false,
         isShowPrint: false,
         displayVO: {
           empTaskId: 0,
@@ -381,7 +336,8 @@
           {title: '备注内容', key: 'submitterRemark', align: 'left'}
         ],
         taskListNotesChangeData: [],
-
+        taskCategoryDisable: false,
+        taskCategoryList: [],
         transferOutUnitList: [],
         transferNotice: {
           transferOutUnit: '',
@@ -417,10 +373,11 @@
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
       let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+      let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
         hfType: hfType,
-        taskStatus: 1
+        taskStatus: taskStatus
       }).then(data => {
         if (data.code == 200) {
           this.displayVO = data.data;
@@ -449,6 +406,9 @@
           }
         } else {
           this.$Message.error(data.message);
+          this.inputDisabled = true;
+          this.taskCategoryDisable = true;
+          this.showButton = false;
         }
       });
       dict.getDictData().then(data => {
@@ -463,6 +423,11 @@
             this.taskCategoryList.splice(0, 6);
             this.taskCategoryList.splice(8, this.taskCategoryList.length - 2);
           }
+        } else {
+          this.$Message.error(data.message);
+          this.inputDisabled = true;
+          this.taskCategoryDisable = true;
+          this.showButton = false;
         }
       })
     },
@@ -570,7 +535,9 @@
 //        }
         this.inputData.handleRemark = this.displayVO.handleRemark;
         this.inputData.rejectionRemark = this.displayVO.rejectionRemark;
-        this.inputData.endMonth = this.displayVO.endMonth;
+        if (this.displayVO.endMonth) {
+          this.inputData.endMonth = this.$utils.formatDate(this.displayVO.endMonth, "YYYYMM");
+        }
         this.inputData.hfMonth = this.displayVO.hfMonth;
 //        this.inputData.operatorListData = this.operatorListData;
       },

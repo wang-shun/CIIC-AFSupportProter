@@ -268,57 +268,11 @@
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
-        <!--<Button type="primary" class="ml10" @click="isShowPrint = true">打印转移通知书</Button>-->
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
-        <Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>
+        <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
     </Row>
-
-    <!--&lt;!&ndash; 打印转移通知书 模态框 &ndash;&gt;-->
-    <!--<Modal-->
-      <!--v-model="isShowPrint"-->
-      <!--title="打印转移通知书"-->
-      <!--width="720">-->
-      <!--<Form :label-width=100 ref="transferNotice" :model="transferNotice">-->
-        <!--<Row type="flex" justify="start">-->
-          <!--<Col :sm="{span: 12}">-->
-          <!--<FormItem label="转出单位">-->
-            <!--<AutoComplete v-model="transferNotice.transferOutUnit" :data="transferOutUnitList" :filter-method="filterMethod" style="width: 100%;" transfer>-->
-            <!--</AutoComplete>-->
-          <!--</FormItem>-->
-          <!--</Col>-->
-          <!--<Col :sm="{span: 12}">-->
-          <!--<FormItem label="转出单位账号">-->
-            <!--<Input v-model="transferNotice.transferOutUnitAccount" placeholder="请输入..."></Input>-->
-          <!--</FormItem>-->
-          <!--</Col>-->
-          <!--<Col :sm="{span: 12}">-->
-          <!--<FormItem label="转入单位">-->
-            <!--<Input v-model="transferNotice.transferInUnit" placeholder="请输入..."></Input>-->
-          <!--</FormItem>-->
-          <!--</Col>-->
-          <!--<Col :sm="{span: 12}">-->
-          <!--<FormItem label="转入单位账号">-->
-            <!--<Input v-model="transferNotice.transferInUnitAccount" placeholder="请输入..."></Input>-->
-          <!--</FormItem>-->
-          <!--</Col>-->
-          <!--<Col :sm="{span: 12}">-->
-          <!--<FormItem label="转移日期">-->
-            <!--<DatePicker v-model="transferNotice.transferDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>-->
-          <!--</FormItem>-->
-          <!--</Col>-->
-        <!--</Row>-->
-      <!--</Form>-->
-      <!--<div slot="footer">-->
-        <!--<Row>-->
-          <!--<Col :sm="{span: 24}">-->
-          <!--<Button type="primary" @click="isShowPrint = false">打印通知书</Button>-->
-          <!--<Button type="warning" @click="isShowPrint = false">取消</Button>-->
-          <!--</Col>-->
-        <!--</Row>-->
-      <!--</div>-->
-    <!--</Modal>-->
   </div>
 </template>
 <script>
@@ -331,6 +285,7 @@
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
         showButton: true,
         showCancel: false,
+        inputDisabled: false,
         isShowPrint: false,
         displayVO: {
           empTaskId: 0,
@@ -537,7 +492,8 @@
           {title: '备注内容', key: 'submitterRemark', align: 'left'}
         ],
         taskListNotesChangeData: [],
-
+        taskCategoryDisable: false,
+        taskCategoryList: [],
         transferOutUnitList: [],
         transferNotice: {
           transferOutUnit: '',
@@ -570,10 +526,11 @@
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
       let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+      let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
         hfType: hfType,
-        taskStatus: 1
+        taskStatus: taskStatus
       }).then(data => {
         if (data.code == 200) {
           this.displayVO = data.data;
@@ -603,6 +560,9 @@
           }
         } else {
           this.$Message.error(data.message);
+          this.inputDisabled = true;
+          this.taskCategoryDisable = true;
+          this.showButton = false;
         }
       });
       dict.getDictData().then(data => {
@@ -611,6 +571,11 @@
           this.operationRemindList = data.data.OperationRemind;
           this.transferOutUnitList = data.data.FundOutUnit;
           this.repairReason = data.data.RepairReason;
+        } else {
+          this.$Message.error(data.message);
+          this.inputDisabled = true;
+          this.taskCategoryDisable = true;
+          this.showButton = false;
         }
       })
     },
@@ -713,7 +678,9 @@
         this.inputData.taskCategory = this.displayVO.taskCategory;
         this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
         this.inputData.operationRemind = this.displayVO.operationRemind;
-        this.inputData.operationRemindDate = this.displayVO.operationRemindDate;
+        if (this.displayVO.operationRemindDate) {
+          this.inputData.operationRemindDate = this.$utils.formatDate(this.displayVO.operationRemindDate, "YYYY-MM-DD");
+        }
         this.inputData.handleRemark = this.displayVO.handleRemark;
         this.inputData.rejectionRemark = this.displayVO.rejectionRemark;
         this.inputData.operatorListData = this.operatorListData;

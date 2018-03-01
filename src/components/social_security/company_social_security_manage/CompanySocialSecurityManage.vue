@@ -7,7 +7,7 @@
           <Form ref="comAccountSearch" :model="comAccountSearch" :label-width='150'>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="养老金用公司名称：" prop="comAccountName">
+                <Form-item label="企业社保账户名称：" prop="comAccountName">
                   <Input v-model="comAccountSearch.comAccountName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -110,7 +110,7 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         accountManageColumns: [
-          {title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
+          {title: '操作', key: 'action', fixed: 'left', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
@@ -127,21 +127,21 @@
               ]);
             }
           },
-          {title: '养老金用公司名称', key: 'comAccountName', width: 250, fixed: 'left', align: 'center',
+          {title: '企业社保账户名称', key: 'comAccountName', width: 250, fixed: 'left', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.comAccountName),
               ]);
             }
           },
-          {title: '社保账户类型', key: 'ssAccountType', width: 100, fixed: 'left', align: 'center',
+          {title: '社保账户类型', key: 'ssAccountType', width: 200, fixed: 'left', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.accountType(params.row.ssAccountType)),
               ]);
             }
           },
-          {title: '状态', key: 'state', width: 120, align: 'center',
+          {title: '状态', key: 'state', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.state=='0'?'初始':params.row.state=='1'?'有效':params.row.state=='2'?'终止':'封存'),
@@ -155,14 +155,14 @@
               ]);
             }
           },
-          {title: '开户\\转入日期', key: 'intoDate', width: 120, align: 'center',
+          {title: '开户\\转入日期', key: 'intoDate', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.intoDate),
               ]);
             }
           },
-          {title: '终止日期', key: 'endDate', width: 120, align: 'center',
+          {title: '终止日期', key: 'endDate', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.endDate),

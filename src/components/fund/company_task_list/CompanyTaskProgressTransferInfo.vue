@@ -97,7 +97,6 @@
             {value: '徐汇', label: '徐汇'},
             {value: '长宁', label: '长宁'},
             {value: '浦东', label: '浦东'},
-            {value: '卢湾', label: '卢湾'},
             {value: '静安', label: '静安'},
             {value: '黄浦', label: '黄浦'},
             {value: '杨浦', label: '杨浦'},

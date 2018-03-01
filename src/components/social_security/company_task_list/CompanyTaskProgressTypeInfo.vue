@@ -65,7 +65,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="养老金用公司名称：" prop="pensionMoneyUseCompanyName">
+                <Form-item label="企业社保账户名称：" prop="pensionMoneyUseCompanyName">
                   <Input v-model="companyOpenAccountOperator.pensionMoneyUseCompanyName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -419,7 +419,6 @@
             {value: '徐汇', label: '徐汇'},
             {value: '长宁', label: '长宁'},
             {value: '浦东', label: '浦东'},
-            {value: '卢湾', label: '卢湾'},
             {value: '静安', label: '静安'},
             {value: '黄浦', label: '黄浦'},
             {value: '杨浦', label: '杨浦'},

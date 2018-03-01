@@ -123,7 +123,7 @@
             title: '企业社保账号', key: 'ssAccount', align: 'center'
           },
           {
-            title: '养老金用公司名称', key: 'comAccountName', align: 'center'
+            title: '企业社保账户名称', key: 'comAccountName', align: 'center'
           }
         ],
         data: [],

@@ -43,7 +43,7 @@
               ]);
             }
           },
-          {title: '养老金用公司名称', key: 'name', align: 'center',
+          {title: '企业社保账户名称', key: 'name', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.name),

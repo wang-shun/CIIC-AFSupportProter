@@ -13,7 +13,7 @@
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="参保户名称：">
-        <label>{{company.title}}</label>
+        <label>{{company.comAccountName}}</label>
       </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

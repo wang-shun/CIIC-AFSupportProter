@@ -311,7 +311,8 @@
       //工伤比例
        const validateSufferedOnTheJobPercentage=(rule, value, callback)=>{
 
-               var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+               //var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+               var rex=/^[0-9]+(.[0-9]{1,10})?$/;
                if (value==null || value.trim()=="") {
                      callback(new Error('该项不能为空！'));
                 }else if(!rex.test(value)){
@@ -673,7 +674,7 @@
         }
         let self = this
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
-          if(typeof(result.comAccountId)!='undefined' && !result.comAccountId!=null && result.comAccountId!=''){
+          if(typeof(result.comAccountId)!='undefined' && !result.comAccountId!=null && result.comAccountId!='' &&result.companyTaskStatus==0){
            this.$Notice.config({
                 top:80
               })
@@ -755,7 +756,7 @@
           }
           //到期时间和支付方式  前道传过来的数据
           let taskFormContent = {
-            expireDate:this.beforeSendInfo.customerSocialSecurityEndDate,
+            expireDateFront:this.beforeSendInfo.customerSocialSecurityEndDate,
             paymentWay:this.beforeSendInfo.payMethodValue,
             billReceiver:this.beforeSendInfo.billReceiverValue
           }
@@ -865,7 +866,7 @@
       },
       //
       accountIdIsNull(){
-        if(typeof(this.comAccountId)!='undefined' && !this.comAccountId!=null && this.comAccountId!=''){
+        if(typeof(this.comAccountId)!='undefined' && !this.comAccountId!=null && this.comAccountId!='' && this.currentStep==0){
            this.$Notice.config({
                 top:80
               })

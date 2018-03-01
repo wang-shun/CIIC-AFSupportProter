@@ -21,7 +21,7 @@
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="企业公积金账户：">
+        <Form-item label="企业基本公积金账户：">
           <Input v-model="companyFundAccount.companyFundAccount" placeholder="请输入..."></Input>
         </Form-item>
       </Col>
@@ -31,14 +31,14 @@
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="公积金企业UKey：">
+        <Form-item label="U盾代管情况：">
           <Select v-model="companyFundAccount.UKeyValue" style="width: 100%;" transfer>
             <Option v-for="item in UKeyList" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="关账日期：">
+        <Form-item label="每月关账日：">
           <DatePicker v-model="companyFundAccount.closeAccountDate" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>

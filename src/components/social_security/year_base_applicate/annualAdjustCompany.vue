@@ -151,7 +151,6 @@
         },
         accountTypeList: [],
         inputCompanyStyle: {
-          'position': 'inherit',
           'z-index': 995
         },
         isUpload: false,

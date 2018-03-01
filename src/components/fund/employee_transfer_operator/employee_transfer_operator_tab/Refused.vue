@@ -122,7 +122,7 @@
           {value: 0, label: '徐汇'},
           {value: 1, label: '长宁'},
           {value: 2, label: '浦东'},
-          {value: 3, label: '卢湾'},
+          
           {value: 4, label: '静安'},
           {value: 5, label: '黄浦'},
         ],

@@ -18,7 +18,6 @@
                   <Option value="徐汇" label="徐汇"></Option>
                   <Option value="浦东" label="浦东"></Option>
                   <Option value="闵行" label="闵行"></Option>
-                  <Option value="卢湾" label="卢湾"></Option>
                   <Option value="黄浦" label="黄浦"></Option>
                   <Option value="长宁" label="长宁"></Option>
                   <Option value="杨浦" label="杨浦"></Option>

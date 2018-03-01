@@ -75,7 +75,7 @@
               </Col>
               
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="companyNameShow">
-                <Form-item label="养老金用公司名称：" prop="pensionMoneyUseCompanyName">
+                <Form-item label="企业社保账户名称：" prop="pensionMoneyUseCompanyName">
                   <Input v-model="changeOperator.pensionMoneyUseCompanyName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>

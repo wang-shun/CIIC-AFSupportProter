@@ -74,7 +74,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="companyNameShow">
-                <Form-item label="养老金用公司名称：">
+                <Form-item label="企业社保账户名称：">
                      <label>{{changeOperator.pensionMoneyUseCompanyName}}</label>
                 </Form-item>
               </Col>

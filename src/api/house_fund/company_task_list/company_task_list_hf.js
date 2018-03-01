@@ -28,6 +28,8 @@ export class CompanyTaskListHF{
                     //变更页面参数
                     let companyFundAccountInfo={}
                     let changeOperator={}
+                    //终止页面参数
+                    let endOperator={}
 
                     obj.action=""
                     obj.comTaskId = i.comTaskId
@@ -83,8 +85,11 @@ export class CompanyTaskListHF{
                     changeOperator.comAccountName = i.comAccountName
                     changeOperator.paymentTypeValue = i.paymentWay
                     changeOperator.taskStatusValue = i.taskStatus
-
                     obj.changeOperator = changeOperator
+
+                    //终止-endOperator传参
+                    endOperator.endMonth = i.endMonth
+                    obj.endOperator = endOperator
 
                     responseData.data.taskData.push(obj)
                 }
@@ -129,15 +134,16 @@ export class CompanyTaskListHF{
     })
   }
 
-  //get customer name
-  static getCustomerData(params,url){
+  //更新企业任务单（终止）
+  static updateCompanyTaskEndInfo(params, url){
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
-
-      }).catch(error=>{
-        console.log(error)
+        let result = this.handleReturnData(response)
+        if(!result.isError){
+          //获得前台显示数据
+          resolve(true)
+        }else reject(Error(result.message))
       })
-
     })
   }
 
@@ -170,6 +176,38 @@ export class CompanyTaskListHF{
         console.log(error);
         reject(error);
       });
+    })
+  }
+
+  //获取企业任务单数据
+  static getCompanyTaskEndTypeData(url){
+    return new Promise(function(resolve,reject){
+      ajax.get(url).then(function (response) {
+        let responseData = {
+          data:{
+            endTypeList:[],
+            code:"",
+            message:""
+          }
+        }
+        if(response.data.code=="200"){
+          for(let i of response.data.data){
+            let obj ={}
+            obj.value = i.endTypeCode
+            obj.label = i.endTypeValue
+            responseData.data.endTypeList.push(obj)
+          }
+          responseData.data.code=response.data.code
+          responseData.data.message= response.data.message
+          resolve(responseData)
+        }else{
+          reject(Error('后台异常！'))
+        }
+      })
+        .catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
     })
   }
 

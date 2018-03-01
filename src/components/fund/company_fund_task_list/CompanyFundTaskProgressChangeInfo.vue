@@ -19,14 +19,14 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="付款方式：" prop="paymentType">
-                  <Select v-model="changeOperator.paymentType" style="width: 100%;" transfer @on-change="paymentTypeChange"	>
+                  <Select v-model="changeOperator.paymentType" style="width: 100%;" transfer>
                     <Option v-for="item in changeOperator.paymentTypeList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务状态：" prop="taskStatus">
-                  <Select v-model="changeOperator.taskStatus" style="width: 100%;" transfer @on-change="taskStatusChange"	>
+                  <Select v-model="changeOperator.taskStatus" style="width: 100%;" transfer>
                     <Option v-for="item in changeOperator.taskStatusList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -105,7 +105,7 @@
       commit(){
         let params = this.getParams()
         NoProcess.updateCompanyTaskChangeInfo(params).then(data=>{
-          console.log("企业任务单()更新成功. 后台返回代码：" + data.code)
+          console.log("企业任务单(更新)成功. 后台返回代码：" + data.code)
           this.$router.push({name: "companyFundTaskList"});
         }).catch(error=>{
           console.log(error)

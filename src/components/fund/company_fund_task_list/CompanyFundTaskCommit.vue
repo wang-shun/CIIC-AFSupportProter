@@ -78,6 +78,9 @@
           operateStartMonth: this.$refs.openAccount.openAccountInfo.professionalOperateStartDate,
           endType: this.$refs.openAccount.openAccountInfo.endTypeValue,
           accountTempStore: this.$refs.openAccount.openAccountInfo.endTypeValue,
+          acceptDate: this.$refs.openAccount.acceptDate,
+          approvalDate: this.$refs.openAccount.approvalDate,
+          finishDate: this.$refs.openAccount.finishDate,
           comAccountRemark: this.$refs.openAccount.openAccountInfo.notes
         }
       },

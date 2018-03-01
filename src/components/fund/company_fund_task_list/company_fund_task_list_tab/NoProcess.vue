@@ -149,15 +149,15 @@
                         case '终止':
                           this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
                               comTaskId: params.row.comTaskId,
-                              companyInfo: params.row.companyInfo,
-                              openAccountInfo: params.row.openAccountInfo}
+                              companyFundAccountInfo: params.row.companyFundAccountInfo,
+                              endOperator: params.row.endOperator}
                           });
                           break;
                         case '销户':
                           this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
                               comTaskId: params.row.comTaskId,
-                              companyInfo: params.row.companyInfo,
-                              openAccountInfo: params.row.openAccountInfo}
+                              companyFundAccountInfo: params.row.companyFundAccountInfo,
+                              endOperator: params.row.endOperator}
                           });
                           break;
                         default:
@@ -281,10 +281,6 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      ok () {
-      },
-      cancel () {
-      },
       getPage(page){
         this.pageNum = page
         this.setSessionNumAndSize()
@@ -313,10 +309,6 @@
         else this.totalSize = Number(data.data.totalSize)
         this.closeLoading();
       },
-      //导表
-      exportExcel(){
-
-      },
       //点击查询按钮
       clickQuery(){
         this.loading=true;
@@ -337,6 +329,7 @@
           params:{
             companyId:this.operatorSearchData.companyId,//客户编号
             hfTypeName:(this.operatorSearchData.hfTypeName=="" || this.operatorSearchData.taskStartTime==null || this.operatorSearchData.hfTypeName=='全部') ? null : this.operatorSearchData.hfTypeName //公积金账户类型
+            // todo: clean up after dev complete
             // submitTimeStart:this.operatorSearchData.taskStartTime=="" || this.operatorSearchData.taskStartTime==null||this.operatorSearchData.taskStartTime[0]==null?null:Utils.formatDate(this.operatorSearchData.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
             // submitTimeEnd:this.operatorSearchData.taskStartTime==""||this.operatorSearchData.taskStartTime==null||this.operatorSearchData.taskStartTime[0]==null ?null:Utils.formatDate(this.operatorSearchData.taskStartTime[1],'YYYY-MM-DD')
           }

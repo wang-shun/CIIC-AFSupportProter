@@ -169,11 +169,11 @@
               <label>{{changeInfo.totalPayAmount}}</label>
             </Form-item>
           </Col>
-          <Col :sm="{span: 24}">
+          <!-- <Col :sm="{span: 24}">
             <Form-item label="申请支付金额合计（大写）：">
               <label>{{changeInfo.totalPayAmountUpper}}</label>
             </Form-item>
-          </Col>
+          </Col> -->
           <Col :sm="{span: 24}">
             <Form-item label="备注说明：">
               <Input v-model="changeInfo.remark" type="textarea" :rows="5"  placeholder="请输入..."></Input>
@@ -710,11 +710,16 @@
         //计算合计
         let totalPayAmount = 0;
         if(ifDeductedIntoPay == 1){
-          totalPayAmount = Number(oughtAmount) + Number(refundDeducted) + Number(adjustDeducted) + Number(extraAmount);
+          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount) 
+                         + Number(typeof refundDeducted == 'undefined'?0:refundDeducted) 
+                         + Number(typeof adjustDeducted == 'undefined'?0:adjustDeducted) 
+                         + Number(typeof extraAmount=='undefined'?0:extraAmount );
         }
         else{
-          totalPayAmount = Number(oughtAmount) + Number(extraAmount);
+          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount) 
+                         + Number(typeof extraAmount  =='undefined'?0:extraAmount);
         }
+        
         //赋值
         this.changeInfo.totalPayAmount = totalPayAmount;
       },

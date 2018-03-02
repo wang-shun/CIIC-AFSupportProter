@@ -334,14 +334,14 @@
         this.formItem.operatePwd = ""
         this.formItem.payTypeN = ""
         this.formItem.specialChargeRemark = ""
-        this.formItem.introduceMail = ""
-        this.formItem.onlineContactIdCard = ""
-        this.formItem.onlineContactIsSecretariat = ""
+        this.formItem.introduceMail = false
+        this.formItem.onlineContactIdCard = false
+        this.formItem.onlineContactIsSecretariat = false
         this.formItem.onlineContact = ""
-        this.formItem.businessLicence = ""
-        this.formItem.organizationCode = ""
-        this.formItem.foreignBusinessApprovalCertificate = ""
-        this.formItem.businessRenameNotice = ""
+        this.formItem.businessLicence = false
+        this.formItem.organizationCode = false
+        this.formItem.foreignBusinessApprovalCertificate = false
+        this.formItem.businessRenameNotice = false
         this.formItem.specialMaterialRemark = ""
         if (value !== null) {
           this.formItem.credentialsType = value.credentialsType

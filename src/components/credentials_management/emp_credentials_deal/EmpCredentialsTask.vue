@@ -263,6 +263,7 @@
       callBack(value){
         if (value != null) {
           this.formItem = value
+          this.formItem.perCompanyName = value.companyName
         }
       },
       findCompanyDetial(companyId) {
@@ -392,6 +393,7 @@
               response.data.data.splice(0,0,temp)
             }
             this.empInfo = data
+            console.log("data:"+this.empInfo[1].companyName)
           }
         })
       }

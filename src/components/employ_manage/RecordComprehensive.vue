@@ -160,8 +160,8 @@
           employNotes: ""
         },
         refuseInfo: {
-          refuseDate: "2014-3-3",
-          firstInDate: "2014-3-3",
+          refuseDate: "",
+          firstInDate: "",
           endTypeValue: "",
           printDate: "",
           personPropertyValue: "",
@@ -283,6 +283,14 @@
 
 
           api.archiveDetailInfoQuery(params).then(data=>{
+
+             if(data.data.customerInfo){
+                this.customerInfo = data.data.customerInfo;//客户信息
+            }
+
+            if(data.data.amEmpTaskBO){
+                this.employeeInfo=data.data.amEmpTaskBO;//雇员信息
+            }
               
               this.employmentInfo = data.data.amEmploymentBO;
 

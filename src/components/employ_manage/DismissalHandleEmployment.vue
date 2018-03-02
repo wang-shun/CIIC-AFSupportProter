@@ -197,8 +197,8 @@
 
           api.queryAmResignDetail(params).then(data=>{
 
-            if(data.data.company){
-                this.customerInfo = data.data.company;//客户信息
+            if(data.data.customerInfo){
+                this.customerInfo = data.data.customerInfo;//客户信息
             }
 
             if(data.data.amEmpTaskBO){

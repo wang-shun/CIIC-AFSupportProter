@@ -7,13 +7,13 @@
           <Form :label-width=200>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公司名称：">
+                <Form-item label="企业社保账户名称：">
                   <label>{{paymentComData.comAccountName}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户：">
-                  <label>{{paymentComData.comAccountId}}</label>
+                <Form-item label="企业社保账号：">
+                  <label>{{paymentComData.ssAccount}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -94,6 +94,7 @@
         paymentComData: {
           comAccountName: '',
           comAccountId: '',
+          ssAccount:'',
           oughtAmount: '',
           companyName: '',
           changeAmount: '',

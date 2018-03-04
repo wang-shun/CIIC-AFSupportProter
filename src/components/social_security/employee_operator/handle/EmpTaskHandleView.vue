@@ -433,6 +433,7 @@
           operatorType: 1,// 任务单费用段
           isNeedSerial:1//是否需要社保序号
         }).then(data => {
+          if(data.data!=null){
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
           }else{
@@ -472,7 +473,10 @@
             }
              //获取用退工信息
             this.reworkInfo = data.data.amEmpTaskDTO
-            this.reworkInfo.salary = data.data.salary
+            this.reworkInfo.salary = data.data.salary              
+          }else{
+             this.$Message.error(data.message)
+          }
         });
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((res) => {
           if(res.data!=null){
@@ -574,9 +578,19 @@
           }
         }
         let handleType = 'handle'==type || 'save'==type;
+        
         let handleMonth = this.yyyyMM(this.socialSecurityPayOperator.handleMonth)
         let startMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == handleMonth
         let handleMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == this.yyyyMM(this.operatorListData[0].startMonth)
+
+        if(handleType || 'noProgress'==type){
+          let startMonth1IsNull = typeof(this.yyyyMM(this.socialSecurityPayOperator.startMonth))=='undefined' || this.yyyyMM(this.socialSecurityPayOperator.startMonth)==null || this.yyyyMM(this.socialSecurityPayOperator.startMonth)=='';
+          let startMonth2IsNull = typeof(this.yyyyMM(this.operatorListData[0].startMonth))=='undefined' || this.yyyyMM(this.yyyyMM(this.operatorListData[0].startMonth))==null || this.yyyyMM(this.yyyyMM(this.operatorListData[0].startMonth))=='';
+          if(startMonth1IsNull || startMonth2IsNull){
+               this.$Message.error("起缴月份不能为空.");
+               return;
+          }
+        }
         
         if(handleType){
             let currentMounth = this.yyyyMM(new Date());
@@ -589,10 +603,14 @@
         if(handleType && (!startMonthIsEqual || !handleMonthIsEqual)){
           if(!handleMonthIsEqual){
                this.$Message.error("两个起缴月份必须相等.");
+               return;
           }else if(!startMonthIsEqual){
-                this.$Message.error("办理月份和起缴月份必须相等.");
+              if(Number(this.yyyyMM(this.socialSecurityPayOperator.startMonth))>Number(handleMonth)){
+                  this.$Message.error("起缴月份必须小于办理月份.");
+                  return;
+              }
+                
           }
-          return;
         }  
         let self= this;
         this.$Modal.confirm({

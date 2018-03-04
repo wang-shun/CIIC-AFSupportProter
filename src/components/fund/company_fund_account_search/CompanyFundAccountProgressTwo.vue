@@ -44,7 +44,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费起始年月：">
-                  <DatePicker v-model="companyFundAccount.comStartMonth" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer :disabled="isCanEdit"></DatePicker>
+                  <DatePicker v-model="companyFundAccount.comStartMonth" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer :disabled="isCanEdit"></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

@@ -66,7 +66,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.showInfoT(params.row.employeeId,params.row.companyId,params.row.employmentId)
+                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employeeId,params.row.companyId,params.row.employmentId)
                     }
                   }
                 }, '办理'),
@@ -108,10 +108,10 @@
               ]);
             }
           },
-          {title: '雇员编号', key: 'employeeNumber', align: 'center', width: 150,
+          {title: '雇员编号', key: 'employeeId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.employeeNumber),
+                h('span', params.row.employeeId),
               ]);
             }
           },
@@ -129,10 +129,10 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'companyNumber', align: 'center', width: 150,
+          {title: '客户编号', key: 'companyId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyNumber),
+                h('span', params.row.companyId),
               ]);
             }
           },
@@ -367,7 +367,7 @@
     },
     methods: {
       searchEmploiees(conditions) {
-          
+           this.pageData.pageNum =1;
             this.searchConditions =[];
             for(var i=0;i<conditions.length;i++)
                   this.searchConditions.push(conditions[i].exec);
@@ -384,6 +384,8 @@
 
       },
       exportXLS() {
+        let params = this.searchConditions;
+        api.resignSearchExportOpt(params);
 
       },queryAmResign(params){
         let self =this
@@ -409,9 +411,9 @@
          
         })
       },
-      showInfoT (employeeId,companyId,employmentId) {
+      showInfoT (idNum,idCardType,empTaskId,employeeId,companyId,employmentId) {
        
-        this.$router.push({name:'dismissalHandleEmployment', query: {employeeId:employeeId,companyId:companyId,employmentId:employmentId}});
+        this.$router.push({name:'dismissalHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId,employmentId:employmentId}});
 
       },
       showInfoTw (ind) {  

@@ -110,6 +110,15 @@ export default {
   updateTaskStatus:async (params)=>{
     let response = await AJAX.post('/api/employcommandservice/amEmpTask/updateTaskStatus', params);
     return await response.data;
+  },
+  employSearchExportOpt:async (params) => {
+    AJAX.download('/api/employcommandservice/amEmpTask/employSearchExportOpt', params);
+  },
+  resignSearchExportOpt:async (params) => {
+    AJAX.download('/api/employcommandservice/amResignTask/resignSearchExportOpt', params);
+  },
+  archiveSearchExportOpt:async (params) => {
+    AJAX.download('/api/employcommandservice/amArchiveTask/archiveSearchExportOpt', params);
   }
 
 

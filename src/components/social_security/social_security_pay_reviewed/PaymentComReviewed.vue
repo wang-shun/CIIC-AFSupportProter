@@ -13,7 +13,7 @@
               </Col>
 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户：" prop="comAccountId">
+                <Form-item label="企业社保账号：" prop="comAccountId">
                   <Input v-model="payComSearchData.comAccountId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>

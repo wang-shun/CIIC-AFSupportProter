@@ -213,7 +213,7 @@
               ]);
             }
           },
-          {title: '企业社保账号', key: 'ssAccount', align: 'center', width: 200,
+          {title: '企业社保账号', key: 'ssAccount', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.ssAccount),
@@ -248,7 +248,7 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'companyId', align: 'center', width: 100,
+          {title: '客户编号', key: 'companyId', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyId),

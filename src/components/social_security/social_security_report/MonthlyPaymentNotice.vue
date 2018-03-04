@@ -23,7 +23,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
-                <Form-item label="企业社保账户：">
+                <Form-item label="企业社保账号：">
                   <label>{{account}}</label>
                 </Form-item>
               </Col>

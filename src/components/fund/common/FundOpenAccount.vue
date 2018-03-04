@@ -69,8 +69,8 @@
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="任务状态：" prop="taskStatus">
-            <Select  style="width: 100%;" transfer @on-change="taskTypeChange"	>
+          <Form-item label="任务状态：">
+            <Select v-model="openAccount.taskType" style="width: 100%;" transfer>
               <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -114,16 +114,16 @@
           {label: "转入", value: 1}
         ],
         paymentBankList: [
-          {label: "徐汇--X", value: 0},
-          {label: "西郊--C", value: 1},
-          {label: "东方路--P", value: 2},
-          {label: "卢湾--L", value: 3},
-          {label: "黄浦--H", value: 4},
+          {label: "徐汇--X", value: 1},
+          {label: "西郊--C", value: 2},
+          {label: "东方路--P", value: 3},
+          {label: "卢湾--L", value: 4},
+          {label: "黄浦--H", value: 5},
         ],
         payMethodList: [
-          {label: "客户自付", value: 0},
-          {label: "我司付款(客户预付)", value: 1},
-          {label: "垫付", value: 2},
+          {label: "客户自付", value: 1},
+          {label: "我司付款(客户预付)", value: 2},
+          {label: "垫付", value: 3},
         ],
         endTypeList: [
           {label: "销户", value: 1},

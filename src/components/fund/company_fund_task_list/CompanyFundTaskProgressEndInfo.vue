@@ -61,7 +61,7 @@
 </template>
 <script>
   import companyFundAccountInfo from '../common/CompanyFundAccountInfo.vue'
-  import {NoProcess} from '../../../api/house_fund/company_task_list/company_task_list_tab/no_process'
+  import {CompanyTaskListHF} from '../../../api/house_fund/company_task_list/company_task_list_hf'
 
   export default {
     components: {companyFundAccountInfo},
@@ -74,7 +74,7 @@
       }
     },
     mounted() {
-      NoProcess.getCompanyTaskEndTypeData().then(data=>{
+      CompanyTaskListHF.getCompanyTaskEndTypeData().then(data=>{
           this.refreshCompanyTaskEndTypeData(data)
         }
       ).catch(error=>{
@@ -90,7 +90,7 @@
       },
       commit(){
         let params = this.getParams()
-        NoProcess.updateCompanyTaskEndInfo(params).then(data=>{
+        CompanyTaskListHF.updateCompanyTaskEndInfo(params).then(data=>{
           console.log("企业任务单(终止)成功. 后台返回代码：" + data.code)
           this.$router.push({name: "companyFundTaskList"});
         }).catch(error=>{

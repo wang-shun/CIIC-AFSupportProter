@@ -1,7 +1,7 @@
 
 import {CompanyTaskListHF} from '../company_task_list_hf'
 import {domainJson} from '../../../../api/house_fund/domain_info'
-export class NoProcess extends CompanyTaskListHF{
+export class Processing extends CompanyTaskListHF{
     constructor(){
         super()
     }

@@ -68,7 +68,7 @@
 </template>
 <script>
   import companyFundAccountInfo from '../common/CompanyFundAccountInfo.vue'
-  import {NoProcess} from '../../../api/house_fund/company_task_list/company_task_list_tab/no_process'
+  import {CompanyTaskListHF} from '../../../api/house_fund/company_task_list/company_task_list_hf'
 
   export default {
     components: {companyFundAccountInfo},
@@ -82,13 +82,13 @@
       }
     },
     mounted() {
-      NoProcess.getCompanyTaskPaymentWayData().then(data=>{
+      CompanyTaskListHF.getCompanyTaskPaymentWayData().then(data=>{
           this.refreshCompanyTaskPaymentWayData(data)
         }
       ).catch(error=>{
         console.log(error);
       });
-      NoProcess.getCompanyTaskTaskStatusData().then(data=>{
+      CompanyTaskListHF.getCompanyTaskTaskStatusData().then(data=>{
           this.refreshCompanyTaskTaskStatusData(data)
         }
       ).catch(error=>{
@@ -104,7 +104,7 @@
       },
       commit(){
         let params = this.getParams()
-        NoProcess.updateCompanyTaskChangeInfo(params).then(data=>{
+        CompanyTaskListHF.updateCompanyTaskChangeInfo(params).then(data=>{
           console.log("企业任务单(更新)成功. 后台返回代码：" + data.code)
           this.$router.push({name: "companyFundTaskList"});
         }).catch(error=>{

@@ -5,8 +5,8 @@ let domainJson = {
 
   //todo: update with 公积金 urls
 
-    //获得企业任务单 未处理
-    "getNoProcessCompanyTask":"/api/fundcommandservice/hfComTask/postNoProcessTask",
+    //获得企业任务单
+    "getCompanyTasks":"/api/fundcommandservice/hfComTask/postComTasks",
 
     //企业任务单提交或修改
     "updateCompanyTask":"/api/fundcommandservice/hfComTask/updateCompanyTask",
@@ -30,14 +30,6 @@ let domainJson = {
 
 
 
-    //处理中
-    "getProgressingCompanyTask":"/api/fundcommandservice/hfComTask/postProgressingTask",
-
-    //已完成
-    "getFinshedCompanyTask":"/api/fundcommandservice/hfComTask/postFinishedTask",
-
-    //批退
-    "getRefusedCompanyTask":"/api/fundcommandservice/hfComTask/postRefusedTask",
 
     //获得客户名称
     "getCustomerName":"/api/fundcommandservice/cmyCompany/getCompanyName",

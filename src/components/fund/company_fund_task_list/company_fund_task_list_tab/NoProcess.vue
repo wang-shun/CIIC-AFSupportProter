@@ -262,9 +262,10 @@
       let params = {
         pageSize:this.size,
         pageNum:this.pageNum,
-        params:{}
+        params:{
+          taskStatusString: '0' //未处理
+        }
       }
-
       let self= this
       NoProcess.postTableData(params).then(data=>{
           self.loading=true;
@@ -327,11 +328,9 @@
           pageSize:this.size,
           pageNum:page,
           params:{
+            taskStatusString: '0', //未处理
             companyId:this.operatorSearchData.companyId,//客户编号
             hfTypeName:(this.operatorSearchData.hfTypeName=="" || this.operatorSearchData.taskStartTime==null || this.operatorSearchData.hfTypeName=='全部') ? null : this.operatorSearchData.hfTypeName //公积金账户类型
-            // todo: clean up after dev complete
-            // submitTimeStart:this.operatorSearchData.taskStartTime=="" || this.operatorSearchData.taskStartTime==null||this.operatorSearchData.taskStartTime[0]==null?null:Utils.formatDate(this.operatorSearchData.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
-            // submitTimeEnd:this.operatorSearchData.taskStartTime==""||this.operatorSearchData.taskStartTime==null||this.operatorSearchData.taskStartTime[0]==null ?null:Utils.formatDate(this.operatorSearchData.taskStartTime[1],'YYYY-MM-DD')
           }
         }
       },

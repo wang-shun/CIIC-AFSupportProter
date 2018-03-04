@@ -245,11 +245,14 @@
           empTaskId:  data.empTaskId,
           operatorType: 1,// 任务单费用段
         }).then(data => {
-          if (data.data.empTaskPeriods.length > 0) {
+          if(data.data!=null){
+                if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
           }
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
-         
+          }else{
+            this.$Message.error(data.message)
+          }   
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {

@@ -91,7 +91,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.showInfoT(params.row.employmentId,params.row.employeeId,params.row.companyId)
+                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employmentId,params.row.employeeId,params.row.companyId)
                     }
                   }
                 }, '办理'),
@@ -130,13 +130,6 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.refuseReason),
-              ]);
-            }
-          },
-          {title: '用工属性', key: 'employProperty', align: 'center', width: 100,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employProperty),
               ]);
             }
           },
@@ -535,6 +528,7 @@
     },
     methods: {
       searchEmploiees(conditions) {
+         this.pageData.pageNum =1;
            this.searchConditions =[];
             for(var i=0;i<conditions.length;i++)
                   this.searchConditions.push(conditions[i].exec);
@@ -570,7 +564,8 @@
         this.$router.push({name:'fileMatrialsUseAndBorrow', query: {archiveId:tempId,employeeId:tempId1}});
       },
       exportXLS() {
-
+        let params = this.searchConditions;
+        api.archiveSearchExportOpt(params);
       },
       generateInStock() {
 
@@ -628,8 +623,8 @@
            this.archiveQuery(this.searchCondition);
 
       },
-      showInfoT (employmentId,employeeId,companyId) {
-        this.$router.push({name:'recordComprehensive', query: {employmentId:employmentId,employeeId:employeeId,companyId:companyId}});
+      showInfoT (idNum,idCardType,empTaskId,employmentId,employeeId,companyId) {
+        this.$router.push({name:'recordComprehensive', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employmentId:employmentId,employeeId:employeeId,companyId:companyId}});
       },
       handlePageNum(val) {
         this.pageData.pageNum = val;

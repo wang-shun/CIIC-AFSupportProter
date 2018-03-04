@@ -33,5 +33,9 @@ export default {
   empTaskHandleCancel: async (params) => {
     let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTaskHandle/empTaskHandleCancel', params);
     return await response.data;
+  },
+  comAccountQuery: async (params) => {
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpTaskHandle/comAccountQuery', params);
+    return await response.data;
   }
 }

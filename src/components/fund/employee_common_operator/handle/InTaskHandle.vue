@@ -267,8 +267,16 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 12}">
             <FormItem label="转出单位">
-              <AutoComplete v-model="transferNotice.transferOutUnit" :data="transferOutUnitList" :filter-method="filterMethod" style="width: 100%;" transfer>
-              </AutoComplete>
+              <Select
+                v-model="transferNotice.transferOutUnit"
+                filterable
+                remote
+                :remote-method="handleTransferOutSearch"
+                @on-change="handleTransferOutChange"
+                :loading="loading"
+                style="width: 100%;" transfer>
+                <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
             </FormItem>
           </Col>
           <Col :sm="{span: 12}">
@@ -278,7 +286,16 @@
           </Col>
           <Col :sm="{span: 12}">
             <FormItem label="转入单位">
-              <Input v-model="transferNotice.transferInUnit" placeholder="请输入..."></Input>
+              <Select
+                v-model="transferNotice.transferInUnit"
+                filterable
+                remote
+                :remote-method="handleTransferInSearch"
+                @on-change="handleTransferInChange"
+                :loading="loading"
+                style="width: 100%;" transfer>
+                <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
             </FormItem>
           </Col>
           <Col :sm="{span: 12}">
@@ -309,6 +326,7 @@
 //  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import axios from "axios";
 
   export default {
     data() {
@@ -318,6 +336,7 @@
         showCancel: false,
         inputDisabled: false,
         isShowPrint: false,
+        loading: false,
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -580,6 +599,10 @@
         taskListNotesChangeData: [],
 
         transferOutUnitList: [],
+        transferInUnitList: [],
+        transferUnitDictList: [],
+        transferOutUnitAccountList: [],
+        transferInUnitAccountList: [],
         transferNotice: {
           transferOutUnit: '',
           transferOutUnitAccount: '',
@@ -657,7 +680,11 @@
         if (data.code == 200) {
           this.taskCategoryList = data.data.HFLocalTaskCategory;
           this.operationRemindList = data.data.OperationRemind;
-          this.transferOutUnitList = data.data.FundOutUnit;
+          this.transferUnitDictList = data.data.FundOutUnit;
+          this.transferUnitDictList.forEach((element, index, array) => {
+            this.transferOutUnitList.push(element);
+            this.transferInUnitList.push(element);
+          })
           if (taskCategory > 2) {
             this.taskCategoryDisable = true;
           } else {
@@ -695,12 +722,8 @@
       })
     },
     computed: {
-//      ...mapState('employeeFundHistoryDetail', {
-//        data: state => state.data
-//      }),
     },
     methods: {
-//      ...mapActions('employeeFundHistoryDetail', [EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]),
       back() {
         this.$router.go(-1)
       },
@@ -783,6 +806,79 @@
       },
       filterMethod(value, option) {
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
+      },
+      handleTransferInSearch(value) {
+        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList);
+//        if (this.transferNotice.transferInUnitAccount != '') {
+//          return true;
+//        }
+//        return false;
+      },
+      handleTransferOutSearch(value) {
+        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList);
+//        if (this.transferNotice.transferOutUnitAccount != '') {
+//          return true;
+//        }
+//        return false;
+      },
+      handleTransferOutChange(value) {
+        this.transferNotice.transferOutUnitAccount = '';
+        this.transferOutUnitList.forEach((element, index, array) => {
+            if (element == value) {
+              this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
+              return;
+            }
+          }
+        )
+      },
+      handleTransferInChange(value) {
+        this.transferNotice.transferInUnitAccount = '';
+        this.transferInUnitList.forEach((element, index, array) => {
+            if (element == value) {
+              this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
+              return;
+            }
+          }
+        )
+      },
+      doSearch(value, unitList, unitAccountList) {
+        let rtn = '';
+        this.loading = true;
+        unitList.length = 0;
+        unitAccountList.length = 0;
+        if (value == '') {
+          this.transferUnitDictList.forEach((element, index, array) => {
+            unitList.push(element);
+          })
+        } else {
+          api.comAccountQuery(
+            {
+              comAccountName: value,
+              hfType: this.displayVO.hfType,
+            }
+          ).then(
+            data => {
+              if (data.code == 200) {
+                if (data.data && data.data.length > 0) {
+                  data.data.forEach((element, index, array) => {
+                    unitList.push(element.comAccountName);
+                    unitAccountList.push(element.hfComAccount);
+                  })
+
+                  if (unitList.length == 1) {
+                     rtn = unitAccountList[0];
+                  }
+                } else {
+                  unitList.push(value);
+                }
+              } else {
+                this.$Message.error(data.message);
+              }
+            }
+          )
+        }
+        this.loading = false;
+        return rtn;
       },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;

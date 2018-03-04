@@ -160,10 +160,10 @@
           //   }
           // },
           {
-            title: '客户编号', width: 120, key: 'customerId', align: 'center', fixed: 'left',
+            title: '客户编号', width: 120, key: 'companyId', align: 'center', fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.customerId),
+                h('span', params.row.companyId),
               ]);
             }
           },

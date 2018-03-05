@@ -73,24 +73,17 @@
               ]);
             }
           },
-          // {title: '序号', key: 'index', align: 'center', width: 100,
-          //   render: (h, params) => {
-          //     return h('div', {style: {textAlign: 'right'}}, [
-          //       h('span', params.row.index),
-          //     ]);
-          //   }
-          // },
-          {title: '职介反馈日期', key: 'intermediaryFeedbackDate', align: 'center', width: 150,
+          {title: '职介反馈日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.intermediaryFeedbackDate),
+                h('span', params.row.jobCentreFeedbackDate),
               ]);
             }
           },
-          {title: '退工原因', key: 'refuseReason', align: 'center', width: 250,
+          {title: '退工原因', key: 'outReason', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.refuseReason),
+                h('span', params.row.outReason),
               ]);
             }
           },
@@ -185,10 +178,10 @@
               ]);
             }
           },
-          {title: '退工日期', key: 'refuseDate', align: 'center', width: 150,
+          {title: '退工日期', key: 'outDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.refuseDate),
+                h('span', params.row.outDate),
               ]);
             }
           },
@@ -202,7 +195,7 @@
           {title: '退工反馈', key: 'refuseFeedback', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.refuseFeedback),
+                h('span', params.row.resignFeedback1),
               ]);
             }
           },
@@ -213,10 +206,10 @@
               ]);
             }
           },
-          {title: '录用处理结束', key: 'employHandleEnd', align: 'center', width: 150,
+          {title: '录用处理结束', key: 'luyongHandleEnd', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employHandleEnd),
+                h('span', params.row.luyongHandleEnd),
               ]);
             }
           },
@@ -412,7 +405,7 @@
         })
       },
       showInfoT (idNum,idCardType,empTaskId,employeeId,companyId,employmentId) {
-       
+        
         this.$router.push({name:'dismissalHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId,employmentId:employmentId}});
 
       },

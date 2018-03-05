@@ -17,7 +17,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="企业社保账户：" prop="comAccountName">
+                <Form-item label="企业社保账号：" prop="comAccountName">
                   <label >{{empChangeData.comAccountName}}</label>
                 </Form-item>
               </Col>
@@ -160,7 +160,8 @@
       },
       ok () {
         api.gsyExport({
-          statementId: this.statementId
+          statementId: this.statementId,
+          monthEmpChangeId: this.statementId
         });
       },
       cancel () {

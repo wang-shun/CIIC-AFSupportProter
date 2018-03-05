@@ -210,7 +210,7 @@
             }
           },
           {
-            title: '企业社保账户', key: 'ssAccount', width: 120, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 120, align: 'center'
           },
           {
             title: '企业账户名称', key: 'comAccountName', width: 220, align: 'center'

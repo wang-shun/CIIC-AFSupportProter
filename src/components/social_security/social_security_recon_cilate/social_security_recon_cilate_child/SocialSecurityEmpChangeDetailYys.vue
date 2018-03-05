@@ -226,7 +226,8 @@
       },
       ok () {
         api.yysExport({
-          statementId: this.statementId
+          statementId: this.statementId,
+          monthEmpChangeId: this.statementId
         });
       },
       cancel () {

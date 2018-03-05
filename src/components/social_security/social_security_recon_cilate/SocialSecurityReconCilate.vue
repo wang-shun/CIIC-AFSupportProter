@@ -254,7 +254,7 @@
               ]);
             }
           },
-          {title: '企业社保账户', key: 'comAccountName', width: 250, align: 'center',
+          {title: '企业社保账号', key: 'comAccountName', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comAccountName),

@@ -1,5 +1,5 @@
 <template>
-  <div class="smList">
+  <div class="smList" style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         企业任务单

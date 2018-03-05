@@ -108,9 +108,9 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
-      <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
-      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1')" v-if="showButton">暂存</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton">办理</Button>
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton">批退</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','save')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -196,14 +196,15 @@
             key: 'baseAmount',
             align: 'center',
             render: (h, params) => {
-              return h('Input', {
-                props: {value: params.row.baseAmount, disabled: Boolean(params.row.disabled)},
-                on: {
-                  'on-blur': (e) => {
-                    this.setRow(params, 'baseAmount', e.target.value);
-                  }
-                }
-              }, params.row.baseAmount);
+              return h('span',params.row.baseAmount)
+              // return h('Input', {
+              //   props: {value: params.row.baseAmount, disabled: Boolean(params.row.disabled)},
+              //   on: {
+              //     'on-blur': (e) => {
+              //       this.setRow(params, 'baseAmount', e.target.value);
+              //     }
+              //   }
+              // }, params.row.baseAmount);
             }
           },
           /**
@@ -269,7 +270,15 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
-          empBase:''
+          empBase:'',
+           isChange:'',
+           isHaveSameTask:'',
+            employeeId:'',
+           comAccountId:'',
+           taskId:'',
+           businessInterfaceId:'',
+           policyDetailId:'',
+           welfareUnit:''
         },
 
         // 任务单参考信息
@@ -332,25 +341,40 @@
           empTaskId: empTaskId,
           operatorType: 1,// 任务单费用段
         }).then(data => {
-          if (data.data.empTaskPeriods.length > 0) {
-            this.operatorListData = data.data.empTaskPeriods;
-          }else{
-            this.operatorListData=[{
-                remitWay: '2', 
-                startMonth: data.data.startMonth, 
-                endMonth: data.data.endMonth, 
-                baseAmount: data.data.empBase, 
-                disabled: false
-               }]
-          }
-          this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
-          this.$utils.copy(data.data, this.socialSecurityPayOperator);
-          let handleMonth = this.socialSecurityPayOperator.handleMonth;
-          if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
-            let date = new Date();
-            handleMonth=this.getYearMonth(date,'show');
+          if(data.data!=null){
+            if (data.data.empTaskPeriods.length > 0) {
+              this.operatorListData = data.data.empTaskPeriods;
+            }else{
+              this.operatorListData=[{
+                  remitWay: '2', 
+                  startMonth: data.data.startMonth, 
+                  endMonth: data.data.endMonth, 
+                  baseAmount: data.data.empBase, 
+                  disabled: false
+                }]
+            }
+            this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
+            this.$utils.copy(data.data, this.socialSecurityPayOperator);
+            let handleMonth = this.socialSecurityPayOperator.handleMonth;
+            if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
+              let date = new Date();
+              handleMonth=this.getYearMonth(date,'show');
+              
+              this.socialSecurityPayOperator.handleMonth=handleMonth;
+            }
+
             
-            this.socialSecurityPayOperator.handleMonth=handleMonth;
+              if(this.socialSecurityPayOperator.isHaveSameTask=='1'){   
+                  this.$Notice.warning({
+                    
+                      title: '温馨提示',
+                      desc: '该雇员存在相同类型的未办任务.',
+                      duration: 0,
+                      
+                  });
+              }
+          }else{
+            this.$Message.error(data.message)
           }
         });
 
@@ -358,6 +382,7 @@
           
           if(data.data!=null){
              this.employee = data.data;
+             this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
           }
          
         })
@@ -365,6 +390,8 @@
           
           if(data.data!=null){
           this.company = data.data;
+          this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
+          
           }
         })
       },
@@ -388,7 +415,7 @@
             newRows.push({
               empTaskId: empTaskId,
               startMonth: this.yyyyMM(row.startMonth),
-              endMonth: this.yyyyMM(row.endMonth),
+              endMonth: typeof(row.endMonth)!='undefined'&& row.endMonth!=''?this.yyyyMM(row.endMonth):"",
               baseAmount: row.baseAmount,
               remitWay: row.remitWay,
             });
@@ -428,16 +455,69 @@
       instance(taskStatus, type) {
         
         var fromData = this.$utils.clear(this.socialSecurityPayOperator,'');
-        console.log(fromData)
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
-        var content = "任务办理";
-        if ('4' == taskStatus) {
-          content = "批退办理";
+        var content = "任务操作";
+        if ('refuse' == type) {
+          if(this.socialSecurityPayOperator.rejectionRemark==''){
+            this.$Message.warning('请输入批退原因。');
+            return;
+          }
+          content = "批退";
+        }else if('next'==type){
+          content = "转下月处理";
+        }else if('save'==type){
+          content = "暂存";
+        }else if('handle'==type){
+          content = "办理";
         }
         
+        let handleType = 'handle'==type || 'save'==type;
+        if(handleType){
+          let handleMonth = this.socialSecurityPayOperator.handleMonth;
+          let currentMounth = this.yyyyMM(new Date());
+          let comAccountId=this.socialSecurityPayOperator.comAccountId;
+          if(typeof(comAccountId)=='undefined' || comAccountId==''){
+             this.$Message.error("该雇员对应的企业没有开户,不能办理.");
+            return;
+          }
+          let empArchiveId =this.socialSecurityPayOperator.empArchiveId
+          if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
+             this.$Message.error("雇员未做新进或者转入，不能办理.");
+            return;
+          }
+        
+          let startMonth = this.operatorListData[0].startMonth;
+          let endMonth = this.operatorListData[0].endMonth;
+         
+          if(startMonth==null || startMonth==""){
+            this.$Message.error("起缴月份不能为空.");
+            return;
+          }
+          if(handleMonth==null || handleMonth==""){
+             this.$Message.error("办理月份不能为空.");
+             return;
+          }
+          
+          if(endMonth==null || endMonth==""){
+             this.$Message.error("截止月份不能为空.");
+              return;
+          }
+           if(Number(this.yyyyMM(handleMonth))<Number(currentMounth)){
+              this.$Message.error("办理月份不能小于当前月份.");
+              return;
+          } 
+          if(Number(this.yyyyMM(startMonth))>Number(this.yyyyMM(endMonth))){
+            this.$Message.error("起缴月份不能大于截止月份.");
+             return;
+          }
+          
+        }
+       
+        
+
         this.$Modal.confirm({
-          title: "确认办理吗？",
-          content: content,
+          title: "操作确认",
+          content: '你确定'+content+'吗?',
           okText: '确定',
           cancelText: '取消',
           onOk: () => {

@@ -11,10 +11,10 @@
         <Row type="flex" justify="start">
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="办理机构：" prop="name">
-              <Select v-model="formItem.name" placeholder="请选择" transfer>
-                <Option v-for="(value,key) in this.baseDic.DealOrg" :value="value" :key="key">{{ value }}</Option>
+              <Select v-model="formItem.orgPoilcyId" placeholder="请选择" label-in-value="true" @on-change="orgChange" transfer>
+                <Option v-for="item in orgPoilcys" :value="item.orgPoilcyId" :key="item.name" >{{ item.name }}</Option>
               </Select>
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="操作方式：" prop="operateType">
@@ -134,6 +134,7 @@ import Decode from '../../../lib/decode'
         highlight: true,
         companyId: '',
         credentialsType: '',
+        orgPoilcys: [{}],
         formItem: {
           companyExtId: '',
           companyId: '',
@@ -153,7 +154,8 @@ import Decode from '../../../lib/decode'
           organizationCode: '',
           foreignBusinessApprovalCertificate: '',
           businessRenameNotice: '',
-          specialMaterialRemark: ''
+          specialMaterialRemark: '',
+          orgPolicyId: ''
         },
         colums1: [
           {
@@ -274,13 +276,21 @@ import Decode from '../../../lib/decode'
       },
       selectedRow (value) {
         if (value !== null) {
-          console.log(value)
           this.formItem = value
           this.credentialsType = value.credentialsType
           this.companyId = value.companyId
           this.title = value.lab
-          console.log(this.formItem)
+          console.log(value)
+          var params = {}
+          params.params = {}
+          params.params.type = value.credentialsType
+          axios.get(host+'/api/orgPolicy/find', params).then(response => {
+            this.orgPoilcys = response.data.data.records
+          })
         }
+      },
+      orgChange(option) {
+        this.formItem.name = option.label
       }
     }
   }

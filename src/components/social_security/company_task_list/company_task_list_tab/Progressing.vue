@@ -1,5 +1,5 @@
 <template>
-  <div class="smList">
+  <div class="smList" style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         企业任务单
@@ -33,7 +33,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算区县：" prop="regionValue">
                   <Select v-model="companyTaskInfo.regionValue" style="width: 100%;" transfer>
-                    <Option v-for="item in companyTaskInfo.regionList" :value="item.label" :key="item.value">{{item.label}}</Option>
+                    <Option >全部</Option>
+                    <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -64,8 +65,8 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span:24}" class="tr">
-          <Button type="error" @click="getModal">批退</Button>
-          <Button type="info" @click="">导出</Button>
+          <!-- <Button type="error" @click="getModal">批退</Button> -->
+          <Button type="info" @click="exportExcel">导出</Button>
         </Col>
       </Row>
 
@@ -79,8 +80,8 @@
       <!-- 批退理由 -->
       <Modal
         v-model="isRefuseReason"
-        @on-ok="asyncOK"
-        @on-cancel="cancel">
+        :loading="refuseLoading"
+        :mask-closable="false">
         <Form>
           <p>
             <Form-item>
@@ -88,6 +89,10 @@
             </Form-item>
           </p>
         </Form>
+        <div slot="footer">
+            <Button  size="large"  @click="cancel">取消</Button>
+            <Button  size="large"  @click="asyncOK">确定</Button>
+        </div>
       </Modal>
 
       <!-- 客户名称 模态框 -->
@@ -113,13 +118,14 @@
     components: {customerModal,InputCompanyName,InputCompany},
     data() {
       return{
+        refuseLoading:false,
         taskData:[],//table 里的数据
         customerData:[],//客户信息
         totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
         size:5,//分页
         pageNum:1,
-        sizeArr:[5],
+        sizeArr:[5,10],
         companyTaskInfo: {
           customerNumber: '',
           customerName:"",
@@ -132,15 +138,6 @@
             {value: '3', label: '外包'}
           ],
           regionValue: '',
-          regionList: [
-             {value: '', label: '全部'},
-            {value: '1', label: '徐汇'},
-            {value: '2', label: '长宁'},
-            {value: '3', label: '浦东'},
-            {value: '4', label: '卢湾'},
-            {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
-          ],
           taskTypeValue: '',
           taskTypeList: [
             {value: '', label: '全部'},
@@ -247,7 +244,7 @@
               ]);
             }
           },
-          {title: '备注', key: 'notes', align: 'center',
+          {title: '发起人备注', key: 'notes',width: 426, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.notes),
@@ -332,8 +329,21 @@
       },
       //导表
       exportExcel(){
-
+        // let params ={
+        //   companyId:this.companyTaskInfo.customerNumber==''?'':this.companyTaskInfo.customerNumber,//客户编号
+        //   companyName:this.companyTaskInfo.customerName==''?'':this.companyTaskInfo.customerName,//客户姓名
+        //   taskCategory:this.companyTaskInfo.taskTypeValue==''?'':this.companyTaskInfo.taskTypeValue,//任务类型
+        //   accountType:this.companyTaskInfo.accountTypeValue==""?'':this.companyTaskInfo.accountTypeValue,//社保账户类型
+        //   regionValue:this.companyTaskInfo.regionValue==''?'':this.companyTaskInfo.regionValue,//结算区县
+        //   taskStatus:this.companyTaskInfo.handleStateValue==''?'':this.companyTaskInfo.handleStateValue,//处理状态
+        //   submitTimeStart:this.companyTaskInfo.taskStartTime=='' || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
+        //   submitTimeEnd:this.companyTaskInfo.taskStartTime==''||this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null ?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
+        // };
+        let params = this.getParams(1);
+        Progressing.expExcel(params);
       },
+
+
       //点击查询按钮
       clickQuery(){
          this.loading=true;
@@ -389,25 +399,31 @@
          for(let obj of getRows){
                taskIdStr+=obj.tid+","
              }
+
+
         let params = {
                     taskIdStr:taskIdStr,
                       refuseReason:this.refuseReason
                       }
+        if(this.refuseReason===null || this.refuseReason.trim()==''){
+           alert("请填写批退原因！");
+      
+        }else{
+          let self = this
+          Progressing.refusingTask(params).then(result=>{
+            if(result){
+              self.$Message.success("批退成功！")
+              self.isRefuseReason = false
+              this.clickQuery()
+            }else{
+                //this.refuseLoading = true
+            }
 
-        let self = this
-        Progressing.refusingTask(params).then(result=>{
-          if(result){
-            self.$Message.success("批退成功！")
-             self.isRefuseReason = false
-             this.clickQuery()
-          }else{
-              //this.refuseLoading = true
-          }
-
-        })
+          })
+        }
       },
       cancel () {
-
+          this.isRefuseReason = false;
       }
     }
   }

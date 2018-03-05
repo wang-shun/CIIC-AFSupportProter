@@ -65,7 +65,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="养老金用公司名称：" prop="pensionMoneyUseCompanyName">
+                <Form-item label="企业社保账户名称：" prop="pensionMoneyUseCompanyName">
                   <Input v-model="companyOpenAccountOperator.pensionMoneyUseCompanyName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -311,7 +311,8 @@
       //工伤比例
        const validateSufferedOnTheJobPercentage=(rule, value, callback)=>{
 
-               var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+               //var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+               var rex=/^[0-9]+(.[0-9]{1,10})?$/;
                if (value==null || value.trim()=="") {
                      callback(new Error('该项不能为空！'));
                 }else if(!rex.test(value)){
@@ -415,12 +416,23 @@
             {value: '2', label: '转入'},
           ], //任务
            socialSecurityCenterList: [
-            {value: '1', label: '徐汇'},
-            {value: '2', label: '长宁'},
-            {value: '3', label: '浦东'},
-            {value: '4', label: '卢湾'},
-            {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
+            
+            {value: '徐汇', label: '徐汇'},
+            {value: '长宁', label: '长宁'},
+            {value: '浦东', label: '浦东'},
+            {value: '静安', label: '静安'},
+            {value: '黄浦', label: '黄浦'},
+            {value: '杨浦', label: '杨浦'},
+            {value: '普陀', label: '普陀'},
+            {value: '宝山', label: '宝山'},
+            {value: '虹口', label: '虹口'},
+            {value: '闵行', label: '闵行'},
+            {value: '松江', label: '松江'},
+            {value: '嘉定', label: '嘉定'},
+            {value: '青浦', label: '青浦'},
+            {value: '奉贤', label: '奉贤'},
+            {value: '崇明', label: '崇明'},
+            {value: '金山', label: '金山'},
           ], //社保中心
            giveMethodList: [
             {value: '1', label: '交客服'},
@@ -493,8 +505,8 @@
                         { max:20, message: '最多不超过20个.', trigger: 'blur' }
                     ],
                     socialSecurityCenterValue: [
-                        { required: true, message: '请选择社保中心!', trigger: 'blur' },
-                         { required: true, message: '请选择社保中心!', trigger: 'change' }
+                        { required: true, message: '请选择结算区县!', trigger: 'blur' },
+                         { required: true, message: '请选择结算区县!', trigger: 'change' }
                     ],
                     icbcSearchAccount: [
                         { required: true, message: '该项不能为空!', trigger: 'blur' },
@@ -574,6 +586,8 @@
       },
       //办理
       confirm(){
+        let res =this.accountIdIsNull()
+        if(res)return;
         let beforeValid = false;
 
         this.$refs['beforeSendInfo'].validate((valid) => {
@@ -597,11 +611,15 @@
                 //loading:true,
                 onOk:function(){
                    let params = self.getParams()
-
                    CompanyTaskList.addOrUpdate(params).then(result=>{
-                    if(result){
-                       self.$Message.success('办理成功!');
-                       self.goBack()
+                    if(result.result){
+                       if(result.message=='正常'){
+                          self.$Message.success('办理成功!');
+                          self.goBack()
+                       }else{
+                         alert(result.message);
+                       }
+                        
                     }else{
                       self.$Message.error('办理失败!');
                     }
@@ -619,10 +637,14 @@
       },
       //批退任务
       refuseTask(){
-             let params = {
-                    taskIdStr:this.tid,
-                    refuseReason:this.companyOpenAccountOperator.refuseReason
-                      }
+        if(this.companyOpenAccountOperator.refuseReason=='' || typeof(this.companyOpenAccountOperator.refuseReason)=='undefined'){
+          this.$Message.warning('请输入批退原因！')
+          return
+        }
+         let params = {
+            taskIdStr:this.tid,
+            refuseReason:this.companyOpenAccountOperator.refuseReason
+          }
             let self = this
             self.$Modal.confirm({
                 title: '',
@@ -652,6 +674,16 @@
         }
         let self = this
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
+          if(typeof(result.comAccountId)!='undefined' && !result.comAccountId!=null && result.comAccountId!='' &&result.companyTaskStatus==0){
+           this.$Notice.config({
+                top:80
+              })
+            this.$Notice.warning({
+                    title: '温馨提示',
+                    desc: '该企业已经做过新进或转入.',
+                    duration: 0
+            });
+          }
         self.comAccountId = result.comAccountId
         self.companyInfo = result.companyInfo
         self.beforeSendInfo = result.beforeSendInfo
@@ -723,11 +755,11 @@
               expireDate:this.beforeSendInfo.customerSocialSecurityEndDate
           }
           //到期时间和支付方式  前道传过来的数据
-          let taskFormContent = {
-            expireDate:this.beforeSendInfo.customerSocialSecurityEndDate,
-            paymentWay:this.beforeSendInfo.payMethodValue,
-            billReceiver:this.beforeSendInfo.billReceiverValue
-          }
+          // let taskFormContent = {
+          //   expireDateFront:this.beforeSendInfo.customerSocialSecurityEndDate,
+          //   paymentWay:this.beforeSendInfo.payMethodValue,
+          //   billReceiver:this.beforeSendInfo.billReceiverValue
+          // }
 
           //通过任务单的状态 添加受理或者送审或者完成时间
           let taskStatus = this.companyOpenAccountOperator.taskTypeValue
@@ -748,7 +780,6 @@
           let ssComTaskDTO = {
             comTaskId: this.tid,
             taskCategory: this.companyOpenAccountOperator.taskValue,
-            taskFormContent: JSON.stringify(taskFormContent),
             taskStatus: taskStatus,
             startHandleDate: startHandleDate,
             sendCheckDate: sendCheckDate,
@@ -790,7 +821,8 @@
       },
       //撤销任务单 状态(将任务单状态往回走一步)
       revoke(){
-
+        let res =this.accountIdIsNull()
+        if(res)return;
         if(this.currentStep=='0'){
           this.$Notice.warning({
                     title: '操作失败',
@@ -830,6 +862,20 @@
       refresh(){
         //CompanyTaskProgressChangeInfo
         this.$router.push({name:'refresh',query:{operatorType:this.operatorType,tid:this.tid,name:'companyTaskProgressTypeInfo'}})
+      },
+      //
+      accountIdIsNull(){
+        if(typeof(this.comAccountId)!='undefined' && !this.comAccountId!=null && this.comAccountId!='' && this.currentStep==0){
+           this.$Notice.config({
+                top:80
+              })
+            this.$Notice.warning({
+                    title: '温馨提示',
+                    desc: '该企业已经做过新进或转入,不能操作.',
+                    duration: 4
+            });
+            return true;
+          }else return false;
       }
     }
   }

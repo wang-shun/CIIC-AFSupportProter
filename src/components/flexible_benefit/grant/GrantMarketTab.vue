@@ -8,14 +8,14 @@
           <Form ref="searchCondition" :model="searchCondition" :label-width=120>
             <Row class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="审批状态：">
+              <Form-item label="审批状态：" prop="recordApprovalReason">
                 <Select v-model="searchCondition.recordApprovalReason" :clearable="true">
                   <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="发放状态：">
+              <Form-item label="发放状态：" prop="sendStatus">
                 <Select v-model="searchCondition.sendStatus" :clearable="true">
                   <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
@@ -136,34 +136,25 @@
 
         examineList: [
           {
-            value: '2', label: '同意'
+            value: '0', label: '审批中'
           },
           {
-            value: '3', label: '不同意'
+            value: '1', label: '同意'
           },
           {
-            value: '4', label: '部分同意'
-          }
+            value: '2', label: '不同意'
+          },
         ],
 
         grantStateList: [
           {
-            value: '1', label: '未发放'
+            value: '1', label: '未处理'
           },
           {
             value: '2', label: '已发放'
           },
           {
             value: '3', label: '已批退'
-          }
-        ],
-
-        deptList: [
-          {
-            value: '0', label: '中智'
-          },
-          {
-            value: '1', label: '外企部门组织结构树'
           }
         ],
       }

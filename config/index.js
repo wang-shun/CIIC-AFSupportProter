@@ -1,12 +1,14 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
 var config = require('../src/lib/config')
-console.log(__dirname);
 let buildParam = process.argv.slice(2)  // 获取命令行参数
 let env
 if (buildParam) {
   let envParam = buildParam[0]
   switch (envParam) {
+    case 'dev':
+      env = require('./dev.env')
+      break;
     case 'sit':
       env = require('./sit.env')
       break;

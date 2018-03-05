@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="smList" style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        雇员日常操作
+        查询条件
         <div slot="content">
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
@@ -26,12 +26,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="徐汇" label="徐汇"></Option>
-                  <Option value="浦东新" label="浦东"></Option>
-                  <Option value="闵行" label="闵行"></Option>
-                  <Option value="闸北" label="闸北"></Option>
-                  <Option value="黄浦" label="黄浦"></Option>
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
                 </Select>
               </Form-item>
               </Col>
@@ -68,21 +64,25 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="身份证号：" prop="idNum">
+              <Form-item label="证件号：" prop="idNum">
                 <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单类型：" prop="taskCategory">
                 <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="" label="全部"></Option>
                   <Option value="1" label="新进"></Option>
                   <Option value="2" label="转入"></Option>
                   <Option value="3" label="调整"></Option>
                   <Option value="4" label="补缴"></Option>
                   <Option value="5" label="转出"></Option>
-                  <Option value="7" label="退账"></Option>
-                  <!--<Option value="6" label="终止"></Option>
+                  <Option value="6" label="封存"></Option>
+                  <Option value="12" label="翻牌新进"></Option>
+                  <Option value="13" label="翻牌转入"></Option>
+                  <Option value="14" label="翻牌转出"></Option>
+                  <Option value="15" label="翻牌封存"></Option>
+                  <!--<Option value="7" label="退账"></Option>
                   <Option value="8" label="提取"></Option>
                   <Option value="9" label="特殊操作"></Option>-->
                 </Select>
@@ -133,13 +133,7 @@
       <Button type="info" @click="exprotExcel">导出</Button>
       </Col>
     </Row>
-
-    <Row class="mt20">
-      <Col :sm="{span:24}">
-      <Table border ref="selection"
-             :columns="employeeResultColumns"
-             :data="employeeResultData"
-             @on-selection-change="selectionChange"></Table>
+      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -149,19 +143,24 @@
         :page-size-opts="employeeResultPageData.pageSizeOpts"
         :current="employeeResultPageData.pageNum"
         show-sizer show-total></Page>
-      </Col>
-    </Row>
 
     <!-- 批退理由 -->
-    <Modal
-      v-model="isRefuseReason"
-      :mask-closable="false"
-      :closable="false"
-      @on-ok="handleRefuseReason">
-      <p>
-        <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
-      </p>
-    </Modal>
+      <Modal
+        v-model="isRefuseReason"
+        :mask-closable="false">
+        <Form>
+          <p>
+            <Form-item>
+              <Input v-model="rejectionRemark" type="textarea" :rows=4  placeholder="请填写批退备注..."></Input>
+            </Form-item>
+          </p>
+        </Form>
+         <div slot="footer">
+            <Button  size="large"  @click="cancel">取消</Button>
+            <Button  size="large"  @click="handleRefuseReason">确定</Button>
+        </div>
+      </Modal>
+
   </div>
 </template>
 <script>
@@ -176,6 +175,7 @@
     components: {InputAccount, InputCompany,InputCompanyName},
     data() {
       return {
+        refuseLoading:false,
         collapseInfo: [1], //展开栏
         operatorSearchData: {
           taskStatus: '-1',
@@ -230,7 +230,8 @@
           {
             title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
-              return this.$decode.taskCategory(params.row.taskCategory)
+              
+              return params.row.isChange=='1'?this.$decode.taskCategory(params.row.taskCategory)+'(更正)':this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {
@@ -254,9 +255,9 @@
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
           },
-          {
-            title: '执行日期', key: 'doDate', width: 150, align: 'center'
-          },
+          // {
+          //   title: '执行日期', key: 'doDate', width: 150, align: 'center'
+          // },
           {
             title: '客户编号', key: 'companyId', width: 120, align: 'center'
           },
@@ -270,7 +271,7 @@
             title: '发起时间', key: 'submitTime', width: 180, align: 'center'
           },
           {
-            title: '备注', key: 'handleRemark', width: 300, align: 'center'
+            title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
           }
         ]
       }
@@ -309,10 +310,29 @@
           params: params,
         }).then(data => {
           if (data.code == 200) {
+            
             this.employeeResultData = data.data;
             this.employeeResultPageData.total = data.total;
           }
         })
+      },
+      exprotExcel() {
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.operatorSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+          // 处理 社保起缴月份
+          if (params.startMonth) {
+            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
+          }
+        }
+        api.employeeOperatorQueryExport({
+          pageSize: 999999,
+          pageNum: 0,
+          params: params,
+        });
       },
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
@@ -333,6 +353,9 @@
         }
         return true;
       },
+      cancel () {
+         this.isRefuseReason = false;
+      },
       // 批退
       showRefuseReason() {
         if (this.checkSelectEmployeeResultData()) {
@@ -340,24 +363,29 @@
         }
       },
       handleRefuseReason() {
+        let remark= this.rejectionRemark;
+        if(remark==""){
+          this.$Message.warning('请填写批退原因！');
+          return;
+        }
         var ids = [];
         for (var d of this.selectEmployeeResultData) {
           ids.push(d.empTaskId);
         }
-
         var ajax = api.refuseReason({
-          remark: this.rejectionRemark,
+          remark:remark,
           ids: ids
         })
-
         this.$ajax.handle({
           vm: this,
           ajax: ajax,
           title: '任务批退',
           callback: (data) => {
+            this.isRefuseReason = false;
             this.employeeOperatorQuery();
           }
         })
+         
       },
       // 选中项发生变化时就会触发
       selectionChange(selection) {
@@ -407,6 +435,8 @@
           switch (taskCategory) {
             case '1':
             case '2':
+            case '12':
+            case '13':
               name = 'empTaskBatchHandleView';
               break;
             case '3':
@@ -417,6 +447,8 @@
               break;
             case '5':
             case '6':
+            case '14':
+            case '15':
               name = 'empTaskBatchHandle5View';
               break;
               case '7':
@@ -438,6 +470,8 @@
           switch (taskCategory) {
             case '1':
             case '2':
+            case '12':
+            case '13':
               name = 'empTaskHandleView';
               break;
             case '3':
@@ -448,6 +482,8 @@
               break;
             case '5':
             case '6':
+            case '14':
+            case '15':
               name = 'empTaskHandle5View';
               break;
               case '7':
@@ -464,8 +500,7 @@
           });
         }
       },
-      exprotExcel() {
-      },
+      
     }
   }
 </script>

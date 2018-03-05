@@ -1,5 +1,5 @@
 <template>
-  <div class="smList">
+  <div class="smList" style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         企业任务单
@@ -33,7 +33,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算区县：" prop="regionValue">
                   <Select v-model="companyTaskInfo.regionValue" style="width: 100%;" transfer>
-                    <Option v-for="item in companyTaskInfo.regionList" :value="item.label" :key="item.value">{{item.label}}</Option>
+                    <Option >全部</Option>
+                    <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -102,7 +103,7 @@
         collapseInfo: [1], //展开栏
          size:5,//分页
          pageNum:1,
-        sizeArr:[5],
+        sizeArr:[5,10],
         totalSize:0,//后台传过来的总数
         taskData:[],//表格数据
         companyTaskInfo: {
@@ -119,15 +120,6 @@
             {value: '3', label: '独立库'}
           ],
           regionValue: '',
-          regionList: [
-             {value: '', label: '全部'},
-            {value: '1', label: '徐汇'},
-            {value: '2', label: '长宁'},
-            {value: '3', label: '浦东'},
-            {value: '4', label: '卢湾'},
-            {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
-          ],
           taskNumber: '',
           taskTypeValue: '',
           taskTypeList: [
@@ -222,7 +214,7 @@
               ]);
             }
           },
-          {title: '备注', key: 'notes', align: 'center',
+          {title: '发起人备注', key: 'notes',width: 426, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.notes),

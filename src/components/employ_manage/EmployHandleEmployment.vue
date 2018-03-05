@@ -43,12 +43,6 @@
             <employment-materials-handle :handleInfo="materialHandleInfo"></employment-materials-handle>
           </div>
         </Panel>
-        <!-- <Panel name="7">
-          雇员历史任务单
-          <div slot="content">
-            <employment-data-management-task-list :historyTaskData="historyTaskData"></employment-data-management-task-list>
-          </div>
-        </Panel> -->
       </Collapse>
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
@@ -128,7 +122,8 @@
           employWay: '',
           employOperateMan: '',
           employeeId:this.$route.query.employeeId,
-          companyId:this.$route.query.companyId
+          companyId:this.$route.query.companyId,
+          empTaskId:this.$route.query.empTaskId
         },
         notesData: [],
         materialHandleInfo: {
@@ -151,32 +146,51 @@
           employWay: '',
           employOperateMan: '',
           employeeId:this.$route.query.employeeId,
-          companyId:this.$route.query.companyId
+          companyId:this.$route.query.companyId,
+         
         },
         historyTaskData: []
       }
     },
     async mounted() {
-          
-          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId}
+         
+          let params = {idNum:this.$route.query.idNum,idCardType:this.$route.query.idCardType,empTaskId:this.$route.query.empTaskId,employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,remarkType:'1'}
 
           api.employeeDetailInfoQuery(params).then(data=>{
+
+              if(data.data.amEmpTaskBO){
+                   this.employeeInfo=data.data.amEmpTaskBO;
+              }
+
+              if(data.data.customerInfo){
+                this.customerInfo = data.data.customerInfo;
+              }
               
-              this.employeeInfo=data.data.amEmpTaskBO;
-              
-              this.employmentMaterial.materialsData = data.data.materialList.rows;
+              if(data.data.materialList){
+                  this.employmentMaterial.materialsData = data.data.materialList;
+              }
              
-              this.handleInfo = data.data.amEmploymentBO;
-              
-              this.notesData = data.data.amRemarkBo.rows;
+              if(data.data.amEmploymentBO){
+                  this.handleInfo = data.data.amEmploymentBO;
+              }
+             
+              if(data.data.amRemarkBo){
+                   this.notesData = data.data.amRemarkBo.rows;
+              }
 
-              this.materialHandleInfo = data.data.amArchaiveBo;
+              if(data.data.amArchaiveBo){
+                 this.materialHandleInfo = data.data.amArchaiveBo;
+                 
+              }
 
-              //this.historyTaskData =data.data.listHistory;
+              if(data.data.company){
+                 this.customerInfo = data.data.company;
+              }
 
-              this.customerInfo = data.data.company;
-
-               
+              if(data.data.amEmploymentBO){
+                  this.materialHandleInfo.employmentId=data.data.amEmploymentBO.employmentId;
+              }
+                 
           })
     },
     methods: {
@@ -184,7 +198,7 @@
         this.$router.go(-1);
       },
        instance() {
-      alert('sdfdd');return;
+        return;
       }
     }
   }

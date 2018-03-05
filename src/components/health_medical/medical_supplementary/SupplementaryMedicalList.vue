@@ -30,7 +30,7 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="分类" prop="invoiceNumber">
                 <Select v-model="formItem.invoiceNumber" placeholder="请选择" :clearable="true">
-                  <Option value="1" v-for="item in category" :value="item.value" :key="item.value">{{item.label}}
+                  <Option v-for="item in category" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
               </Form-item>
@@ -81,8 +81,8 @@
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="连带人" prop="serialPeople">
-                <Input v-model="formItem.serialPeople" placeholder="请输入"/>
+              <Form-item label="连带人" prop="insuredName">
+                <Input v-model="formItem.insuredName" placeholder="请输入"/>
               </Form-item>
               </Col>
             </Row>
@@ -102,28 +102,28 @@
       <Row justify="start" class="m15">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <span>记录总数:</span>
-        <span>2行</span>
+        <span>{{statisticsData.total}}</span>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <span>公司理赔金额总计:</span>
-        <span>180</span>
+        <span>{{statisticsData.totalCompanyMoney}}</span>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <span>保险公司理赔金额总计:</span>
-        <span>200</span>
+        <span>{{statisticsData.totalInsuranceCompanyMoney}}</span>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <span>发票张数:</span>
-        <span>200</span>
+        <span>{{statisticsData.invoiceTotal}}</span>
         </Col>
       </Row>
     </Card>
 
     <div class="tr m20">
-      <Button type="info" ref="rmb" @click="modalButton(true)">审核通过</Button>
-      <Button type="info" ref="rmb" @click="modalButton(false)">批退</Button>
+      <Button type="info" @click="modalButton(true)">审核通过</Button>
+      <Button type="info" @click="modalButton(false)">批退</Button>
       <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
-      <Button type="info" @click="exportData(1)" icon="ios-upload-outline">导入数据</Button>
+      <Button type="info" @click="modalInput = true" icon="ios-upload-outline">导入数据</Button>
     </div>
 
     <Table border
@@ -151,6 +151,19 @@
       @on-ok="updateSupplementaryList(2)">
       <Input v-model="formItem.code" placeholder="备注："/>
     </Modal>
+
+    <Modal
+      v-model="modalInput"
+      title="上传数据">
+      <Upload
+        :before-upload="handleUpload"
+        action="">
+        <Button type="ghost" icon="ios-cloud-upload-outline">选择要上传的Excel文件</Button>
+      </Upload>
+      <div v-if="file !== null">待上传文件：{{ file.name }}
+        <Button type="text" @click="upload">点击上传</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -164,6 +177,8 @@
         collapseInfo: [1, 2, 3], //展开栏
         modalAccept: false,
         modalRefuse: false,
+        modalInput: false,
+        file: null,
         formItem: {
           total: 0,
           current: 1,
@@ -179,7 +194,7 @@
           companyName: null,
           managementId: null,
           managementName: null,
-          serialPeople: null,
+          insuredName: null,
         },
         selectData: [],
         statisticsData: {},
@@ -195,7 +210,10 @@
             title: '案卷号', sortable: true, key: 'dossierNumber'
           },
           {
-            title: '导入日期', sortable: true, key: 'inputDate'
+            title: '导入日期', sortable: true, key: 'inputDate',
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.inputDate, 'YYYY-MM-DD HH:mm:ss');
+            }
           },
           {
             title: '雇员编号', sortable: true, key: 'employeeId'
@@ -263,55 +281,25 @@
                     }
                   }, '发票明细')
                 ]);
+              } else {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'success', size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        sessionStorage.setItem('acceptanceData', JSON.stringify(params.row));
+                        this.$router.push({name: 'InvoiceList'});
+                      }
+                    }
+                  }, '发票明细')
+                ]);
               }
             }
           }
         ],
-        supplementData: [
-          {
-            acceptanceId: 201801150415 - 2,
-            dossierNumber: 'CIICY201801241040',
-            inputDate: "2018-01-24 14:43:53",
-            status: 0,
-            employeeId: '17A0871',
-            employeeName: '陈娬斐',
-            companyId: 29209,
-            companyName: null,
-            invoiceNumber: 5,
-            totalCompanyAmount: 130.67,
-            totalInsuranceCompanyMoney: 130.67,
-            totalCsPaymentAmount: 0.00,
-            totalApplicationAmount: 261.33,
-            totalApprovedAmount: 261.33,
-            totalClaimAmount: 130.67,
-            type: 1,
-            insuredName: '陈佳音',
-            auditor: "",
-            auditTime: null
-          },
-          {
-            _disabled: true,
-            acceptanceId: '201801150415-2',
-            dossierNumber: 'CIICY201801241040',
-            inputDate: '2018-01-24 14:43:53',
-            status: 0,
-            employeeId: '17A0871',
-            employeeName: '陈娬斐',
-            companyId: '29209',
-            companyName: null,
-            invoiceNumber: '5',
-            totalCompanyAmount: '130.67',
-            totalInsuranceCompanyMoney: '130.67',
-            totalCsPaymentAmount: '0.00',
-            totalApplicationAmount: '261.33',
-            totalApprovedAmount: '261.33',
-            totalClaimAmount: '130.67',
-            type: 1,
-            insuredName: '陈佳音',
-            auditor: '',
-            auditTime: null
-          }
-        ],
+        supplementData: [],
         category: [
           {
             value: 'status4', label: '补充医疗'
@@ -332,9 +320,32 @@
       this.getByPage(1);
     },
     methods: {
+      handleUpload(file) {
+        this.file = file;
+        return false;
+      },
+      upload() {
+        let data = {file: this.file};
+        apiAjax.importAcceptanceXls(data).then(response => {
+          if (response.data.code === 200) {
+            this.$Message.success("上传成功");
+          } else {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
       querySupplementaryList() {
         apiAjax.queryAcceptancePage(this.formItem).then(response => {
-          console.info(JSON.stringify(response.data.object.records));
+          this.supplementData = response.data.object.records;
+          // 已经审核的屏蔽复选框
+          this.supplementData.forEach(item => {
+            if (item.status !== 0) {
+              item._disabled = true;
+            }
+          });
           this.formItem.total = response.data.object.total;
         }).catch(e => {
           console.info(e.message);
@@ -342,7 +353,6 @@
         });
 
         apiAjax.queryAcceptanceTotal(this.formItem).then(response => {
-          console.info(JSON.stringify(response.data.object));
           this.statisticsData = response.data.object;
         }).catch(e => {
           console.info(e.message);

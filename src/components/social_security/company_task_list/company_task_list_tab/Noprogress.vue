@@ -1,5 +1,5 @@
 <template>
-  <div class="smList">
+  <div class="smList" style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         企业任务单
@@ -51,16 +51,16 @@
 
       <Row class="mt20">
         <Col :sm="{span:24}">
-          <Table border ref="selection" :columns="taskColumns" :data="taskData" :loading="loading"></Table>
+          <Table  border ref="selection" :columns="taskColumns" :data="taskData" :loading="loading"></Table>
 
           <Page
-          class="pageSize" 
-          :total="totalSize" 
-          :page-size="size" 
-          :page-size-opts="sizeArr" 
-          :current="pageNum" 
-          show-sizer 
-          show-total  
+          class="pageSize"
+          :total="totalSize"
+          :page-size="size"
+          :page-size-opts="sizeArr"
+          :current="pageNum"
+          show-sizer
+          show-total
           @on-change="getPage"
            ></Page>
         </Col>
@@ -70,9 +70,7 @@
       <Modal
         v-model="isRefuseReason"
         :loading="refuseLoading"
-        :mask-closable="false"
-        @on-ok="asyncOK"
-        @on-cancel="cancel">
+        :mask-closable="false">
         <Form>
           <p>
             <Form-item>
@@ -80,15 +78,18 @@
             </Form-item>
           </p>
         </Form>
+         <div slot="footer">
+            <Button  size="large"  @click="cancel">取消</Button>
+            <Button  size="large"  @click="asyncOK">确定</Button>
+        </div>
       </Modal>
 
       <!-- 客户名称 模态框 -->
       <Modal
         v-model="companyTaskInfo.isShowCustomerName"
-        title="选择客户"
-
         @on-ok="asyncOK"
-        @on-cancel="cancel" width='800'>
+        @on-cancel="cancel"
+        title="选择客户" width='800'>
         <customer-modal :customerData="customerData"></customer-modal>
       </Modal>
     </Form>
@@ -112,7 +113,7 @@
         collapseInfo: [1], //展开栏
         size:5,//分页
         pageNum:1,
-        sizeArr:[5],
+        sizeArr:[5,10],
         refuseLoading:true,//批退模糊态的加载
         companyTaskInfo: {
           customerNumber: '',
@@ -176,7 +177,7 @@
               ]);
             }
           },
-          {title: '任务单类型', key: 'type', width: 120, align: 'center',
+          {title: '任务单类型', key: 'type', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.type),
@@ -190,7 +191,7 @@
               ]);
             }
           },
-          {title: '企业客户', key: 'companyCustomer', width: 250, align: 'center',
+          {title: '企业客户', key: 'companyCustomer', width: 300, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.companyCustomer),
@@ -218,7 +219,7 @@
               ]);
             }
           },
-          {title: '备注', key: 'notes', align: 'center',
+          {title: '发起人备注', key: 'notes',width: 426,align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.notes),
@@ -292,6 +293,7 @@
       },
       //将后台查询的数据赋到页面
       refreash(data){
+        console.log(data.data.taskData);
           this.taskData = data.data.taskData
           this.customerData = data.data.customerData;
           if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
@@ -300,7 +302,15 @@
       },
       //导表
       exportExcel(){
-
+        // let params ={
+        //   companyId:this.companyTaskInfo.customerNumber,//客户编号
+        //   companyName:this.companyTaskInfo.customerName,//客户姓名
+        //   taskCategory:this.companyTaskInfo.taskTypeValue,//任务类型
+        //   submitTimeStart:this.companyTaskInfo.taskStartTime=="" || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
+        //   submitTimeEnd:this.companyTaskInfo.taskStartTime==""||this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null ?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
+        // };
+        let params = this.getParams(1)
+        NoProgress.expExcel(params);
       },
       //点击查询按钮
       clickQuery(){
@@ -355,24 +365,30 @@
          for(let obj of getRows){
                taskIdStr+=obj.tid+","
              }
-        let params = {
-                    taskIdStr:taskIdStr,
-                      refuseReason:this.refuseReason
-                      }
-        let self = this
-        NoProgress.refusingTask(params).then(result=>{
-          if(result){
-            self.$Message.success("批退成功！")
-             self.isRefuseReason = false
-             this.clickQuery()
-          }else{
-              //this.refuseLoading = true
-          }
+            
+         if(this.refuseReason===null || this.refuseReason.trim()==''){
+           this.$Message.warning('请填写批退原因！');
+         }else{
+            this.isRefuseReason = false;
+            let params = {
+                        taskIdStr:taskIdStr,
+                        refuseReason:this.refuseReason
+                          }
+            let self = this
+            NoProgress.refusingTask(params).then(result=>{
+              if(result){
+                self.$Message.success("批退成功！")
+                self.isRefuseReason = false
+                this.clickQuery()
+              }else{
+                  //this.refuseLoading = true
+              }
 
-        })
+            })
+         }
       },
-      cancel () {
-
+      cancel() {
+         this.isRefuseReason = false;
       }
     }
   }

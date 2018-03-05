@@ -15,7 +15,7 @@ export default {
   },
   // 任务单类型
   taskCategory: (taskCategory) => {
-
+    //1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作  10 集体转入   11 集体转出 12 翻牌
     switch (taskCategory) {
       case '1':
         return '新进'
@@ -33,6 +33,18 @@ export default {
         return '退账'
       case '9':
         return '特殊操作'
+      case '10':
+        return '集体转入'
+      case '11':
+        return '集体转出'
+      case '12':
+        return '翻牌新进'
+      case '13':
+        return '翻牌转入'
+      case '14':
+        return '翻牌转出'
+      case '15':
+        return '翻牌封存'
       default: // 默认 1
         return ''
     }
@@ -48,7 +60,7 @@ export default {
         return '独立户'
       default:
         if (self) return accountType;
-        return '独立户'
+        return ''
     }
   },
   // 人员分类
@@ -199,9 +211,7 @@ export default {
       case 3:
         return '信息变更'
       case 4:
-        return '随员'
-      case 5:
-        return '密码重置'
+        return '单添随员'
       default:
         return ''
     }
@@ -209,18 +219,18 @@ export default {
   //B证办理
   deal_type2: (type) => {
     switch (type) {
-      case 1:
-        return '新办'
-      case 2:
-        return '继办'
-      case 3:
-        return '随员'
-      case 4:
-        return '个人信息修改'
       case 5:
-        return '挂失'
+        return '新办'
       case 6:
-        return '补办'
+        return '继办'
+      case 7:
+        return '单位信息变更'
+      case 8:
+        return '随员'
+      case 9:
+        return '个人信息修改'
+      case 10:
+        return '挂失和补办'
       default:
         return ''
     }
@@ -359,6 +369,22 @@ export default {
     }
   },
   //公积金任务状态 1-已办  2-已做 3-封存
+  ssArchiveTaskStatus: (type) => {
+    switch (type) {
+      case "1":
+      case 1:
+        return '已办'
+      case "2":
+      case 2:
+        return '已做'
+        case "3":
+      case 3:
+        return '转出'
+      default:
+        return ''
+    }
+  },
+  //公积金任务状态 1-已办  2-已做 3-封存
   hfTaskStatus: (type) => {
     switch (type) {
       case "1":
@@ -374,4 +400,35 @@ export default {
         return ''
     }
   },
+  //用工状态
+  recruitAndUseStatus:(type)=>{
+    //1未反馈  2退工成功  3档未到先退工  4退工单盖章未返回  5退工失败  6前道要求批退  7其它
+    switch (type) {
+      case "1":
+      case 1:
+        return '未反馈'
+      case "2":
+      case 2:
+        return '退工成功'
+      case "3":
+      case 3:
+        return '封存'
+      case "4":
+      case 4:
+         return '退工单盖章未返回'
+      case "5":
+      case 5:
+         return '退工失败'
+      case "6":
+      case 6:
+         return '前道要求批退'
+      case "7":
+      case 7:
+         return '其它'
+      default:
+         return ''
+    }
+
+  }
+  
 };

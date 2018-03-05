@@ -43,14 +43,15 @@
           <Form ref="transferOperator" :model="transferOperator" :rules="ruleValidate" :label-width=150>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保中心(结算区县)：" class="" prop="regionValue">
+                <Form-item label="结算区县：" class="" prop="regionValue">
                   <AutoComplete
                       v-model="transferOperator.regionValue"
                       placeholder="请选择">
                       <div class="demo-auto-complete-item">
-                          <Option v-for="option in regionList" :value="option.label" :key="option.label">
-                              <span class="demo-auto-complete-title">{{ option.label }}</span>
-                          </Option>
+                        <Option >全部</Option>
+                        <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}
+                          <span class="demo-auto-complete-title">{{ value }}</span>
+                        </Option>
                       </div>
                   </AutoComplete>
                 </Form-item>
@@ -198,14 +199,6 @@
          sendDateIsDateOrLabel:false,//送审日期
          finishDateIsDateOrLabel:false,//完成日期
          transferDateIsDateOrLabel:false,
-           regionList: [
-            {value: '1', label: '徐汇'},
-            {value: '2', label: '长宁'},
-            {value: '3', label: '浦东'},
-            {value: '4', label: '卢湾'},
-            {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
-          ],
           taskTypeList:[
             {value: '0',label: '初始(材料收缴)',disabled:false},
             {value: '1', label: '受理中',disabled:false},
@@ -414,6 +407,10 @@
       },
        //批退任务
       refuseTask(){
+         if(this.transferOperator.refuseReason=='' || typeof(this.transferOperator.refuseReason)=='undefined'){
+          this.$Message.warning('请输入批退原因！')
+          return
+        }
              let params = {
                     taskIdStr:this.tid,
                     refuseReason:this.transferOperator.refuseReason

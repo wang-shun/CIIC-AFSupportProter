@@ -49,7 +49,7 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="身份证号：" prop="idNumber">
+          <Form-item label="证件号：" prop="idNumber">
             <Input v-model="operatorSearchData.idNumber" placeholder="请输入..."></Input>
           </Form-item>
         </Col>
@@ -63,7 +63,8 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="结算区县：" prop="region">
             <Select v-model="operatorSearchData.region" style="width: 100%;" transfer>
-              <Option v-for="item in operatorSearchData.regionList" :value="item.value" :key="item.value">{{item.label}}</Option>
+              <Option >全部</Option>
+              <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
             </Select>
           </Form-item>
         </Col>
@@ -156,7 +157,7 @@
           ], //人员分类
           employeeNumber: '', //雇员编号
           employeeName: '', //雇员姓名
-          idNumber: '', //身份证号
+          idNumber: '', //证件号
           taskTypeValue: '',
           taskTypeList: [
             {value: '1', label: '新开转入'},
@@ -164,14 +165,6 @@
             {value: '3', label: '补缴'},
             {value: '4', label: '转出'}
           ], //人员分类
-          regionList: [
-            {value: '1', label: '徐汇'},
-            {value: '2', label: '长宁'},
-            {value: '3', label: '浦东'},
-            {value: '4', label: '卢湾'},
-            {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
-          ],
           region: '', //结算区域
           emergency: '',
           emergencyList: [

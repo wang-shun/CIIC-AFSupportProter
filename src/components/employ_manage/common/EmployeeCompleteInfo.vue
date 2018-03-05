@@ -24,7 +24,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="手机号：">
-            {{employee.phoneNumber}}
+            {{employee.mobile}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -34,22 +34,22 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="首次进中智日期：">
-            {{employee.firstInCiicDate}}
+            {{employee.firstInDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="合同起始日期：">
-            {{employee.contractStartDate}}
+            {{employee.laborStartDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="合同截至日期：">
-            {{employee.contractEndDate}}
+            {{employee.laborEndDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="首月合同生效日期：">
-            {{employee.firstContractEffectiveDate}}
+            {{employee.firstInCompanyDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -84,12 +84,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="人员性质：">
-            {{employee.personProperty}}
+            {{employee.employeeNature}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案方向：">
-            {{employee.fileDirection}}
+            {{employee.archiveDirection}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -109,22 +109,22 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="公司社保登记码：">
-            {{employee.companySSNumber}}
+            {{employee.ssAccount}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="组织机构代码：">
-            {{employee.orgenaizeNumber}}
+            {{employee.organizationCode}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey状态：">
-            {{employee.UKeyState}}
+            {{employee.ukey}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey编号：">
-            {{employee.UKeyNumber}}
+            {{employee.ukey}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -134,7 +134,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey密码(福利部)：">
-            {{employee.UKeyPasswordF}}
+            {{employee.ssPwd}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

@@ -29,7 +29,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员身份证号：" prop="idNum">
+              <Form-item label="雇员证件号：" prop="idNum">
                 <Input v-model="employeeSearchData.idNum"></Input>
               </Form-item>
               </Col>
@@ -102,7 +102,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员身份证号：" prop="idNum">
+              <Form-item label="雇员证件号：" prop="idNum">
                 <Input v-model="empSearchData.idNum"></Input>
               </Form-item>
               </Col>
@@ -151,7 +151,7 @@
             </Form-item>
             </Col>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="身份证号：" prop="idNum">
+            <Form-item label="证件号：" prop="idNum">
               <Label>{{empInputData.idNum}}</Label>
             </Form-item>
             </Col>
@@ -327,7 +327,7 @@
             }
           },
           {
-            title: '身份证号', key: 'idNum', width: 160, align: 'center'
+            title: '证件号', key: 'idNum', width: 160, align: 'center'
           },
           {
             title: '社保状态', key: 'archiveStatusName', width: 80, align: 'center'
@@ -345,7 +345,7 @@
             title: '结算区县', key: 'settlementAreaName', width: 80, align: 'center'
           },
           {
-            title: '企业社保账户', key: 'ssAccount', width: 100, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 100, align: 'center'
           },
           {
             title: '养老金独立开户用户名', key: 'ssUsername', width: 120, align: 'center'
@@ -454,7 +454,7 @@
         this.deletedResultData.splice(0, this.deletedResultData.length);
         if(selection) {
           selection.forEach((element, index, array) => {
-            this.deletedResultData.push({annualAdjustCompanyEmpId: element.annualAdjustCompanyEmpId});
+            this.deletedResultData.push(element.annualAdjustCompanyEmpId);
           })
         }
       },
@@ -493,7 +493,7 @@
         if (this.deletedResultData && this.deletedResultData.length > 0) {
           var rtn = confirm("是否删除已选中的项？")
           if (rtn) {
-            api.annualAdjustCompanyEmpsDelete(this.modifiedResultData).then(data => {
+            api.annualAdjustCompanyEmpsDelete(this.deletedResultData).then(data => {
               if (data.code == 200) {
                 this.$Message.info("删除成功");
                 this.annualAdjustCompanyEmpQuery();

@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="调整年份：" prop="adjustYear">
-                <Col span="5">
+                <Col span="10">
                 <Input v-model="accountSearchData.adjustYear" readonly></Input>
                 </Col>
               </Form-item>
@@ -70,7 +70,7 @@
       v-model="isUpload"
       :closable="false"
       :mask-closable="false"
-      style="position:absolute;z-index:90;">
+      style="position:relative;z-index:900;">
       <div style="text-align: center;">
         <Form :label-width=100 ref="uploadData" :model="uploadData" style="width: 500px">
           <Row type="flex" justify="start">
@@ -143,7 +143,7 @@
         },
         accountTypeList: [],
         inputAccountStyle: {
-          'z-index': 99
+          'z-index': 995
         },
         isUpload: false,
         isSubmit: false,
@@ -171,10 +171,10 @@
             title: '姓名', key: 'employeeName', width: 100, align: 'left'
           },
           {
-            title: '身份证号', key: 'idNum', width: 180, align: 'left'
+            title: '证件号', key: 'idNum', width: 180, align: 'left'
           },
           {
-            title: '本单位缴费月数', key: 'paymentMonths', width: 100, align: 'left'
+            title: '本单位缴费月数', key: 'paymentMonths', width: 130, align: 'left'
           },
           {
             title: '人员分类', key: 'accountStatus', width: 120, align: 'left',
@@ -210,7 +210,7 @@
             }
           },
           {
-            title: '企业社保账户', key: 'ssAccount', width: 120, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 120, align: 'center'
           },
           {
             title: '企业账户名称', key: 'comAccountName', width: 220, align: 'center'

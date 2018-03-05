@@ -57,12 +57,12 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="养老金用公司名称：">
+                <Form-item label="企业社保账户名称：">
                   <Input v-model="companyOpenAccountOperator.pensionMoneyUseCompanyName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="社保中心(结算区县)：">
+                <Form-item label="结算区县：">
                   <Select v-model="companyOpenAccountOperator.socialSecurityCenterValue" style="width: 100%;" transfer>
                     <Option v-for="item in companyOpenAccountOperator.socialSecurityCenterList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>

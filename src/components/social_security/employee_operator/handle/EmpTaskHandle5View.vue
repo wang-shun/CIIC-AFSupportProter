@@ -20,7 +20,7 @@
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="用工状态:">
-                <label></label>
+                <label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskStatus)}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -126,9 +126,9 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button> 
-      <Button type="primary" @click="instance('2')" v-if="showButton">办理</Button>
-      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1')" v-if="showButton">暂存</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton">办理</Button>
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton">批退</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','save')" v-if="showButton">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -171,14 +171,14 @@
             if(value==null || typeof(value)=='undefined' || value==""){
                 return callback(new Error('不能为空.'))
             }
-            let handleMonth = self.getYearMonth(self.socialSecurityPayOperator.handleMonth);
+            //let handleMonth = self.getYearMonth(self.socialSecurityPayOperator.handleMonth);
             //获得上个月的月份
             let lastMonth = self.getLastYearMonth(self.socialSecurityPayOperator.handleMonth);
        
             let valueMonth = self.getYearMonth(self.socialSecurityPayOperator.endMonth);
   
-            if(Number(valueMonth)!=Number(handleMonth) && Number(valueMonth)!=Number(lastMonth)){
-              return callback(new Error('只能等于办理月份或者在办理月份前一月.'))
+            if(Number(valueMonth)!=Number(lastMonth)){
+              return callback(new Error('只能在办理月份前一月.'))
             }
             callback()
     }
@@ -199,6 +199,7 @@
         //   {value: 1, label: '退休'},
         //   {value: 2, label: '终止'}
         // ], //特殊变更类型：
+        reworkInfo:{},
         socialSecurityPayOperator: {
           handleWay: '1',
           handleMonth: '',
@@ -217,6 +218,14 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
+          isChange:'',
+          isHaveSameTask:'',
+          employeeId:'',
+          comAccountId:'',
+          taskId:'',
+          businessInterfaceId:'',
+          policyDetailId:'',
+          welfareUnit:''
         },
         showButton: true,
         ruleValidate:{
@@ -238,6 +247,11 @@
     },
     mounted() {
       this.initData(this.$route.query)
+      if(this.operatorType=='14'||this.operatorType=='15'){
+        this.taskCategoryType=[{value: '14', label: '翻牌转出'},{value: '15', label: '翻牌封存'}]
+      }else{
+        this.taskCategoryType=[{value: '5', label: '转出'},{value: '6', label: '封存'}]
+      }
     },
     computed: {
     },
@@ -289,15 +303,31 @@
             handleMonth=this.getYearMonth(date,'show');
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
+          this.reworkInfo = data.data.amEmpTaskDTO
+           this.$Notice.config({
+                top:80
+              })
+            if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
+                this.$Notice.warning({
+                    title: '温馨提示',
+                    desc: '该雇员存在相同类型的未办任务.',
+                    duration: 0
+                });
+            }
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          this.employee = data.data;
+           if(data.data!=null){
+            this.employee = data.data;
+            this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
+           }
         })
         api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          this.company = data.data;
+          if(data.data!=null){
+            this.company = data.data;
+            this.socialSecurityPayOperator.comAccountId = data.data.comAccountId;
+          }
         })
-       
       },
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo'});
@@ -316,8 +346,24 @@
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
         if ('4' == taskStatus) {
+          if(this.socialSecurityPayOperator.rejectionRemark==''){
+            this.$Message.warning('请输入批退原因。');
+            return;
+          }
           content = "批退办理";
         }else{
+          if('save' == type || 'handle'==type){
+          let comAccountId=this.socialSecurityPayOperator.comAccountId;
+          if(typeof(comAccountId)=='undefined' || comAccountId==''){
+             this.$Message.error("该雇员对应的企业没有开户,不能办理.");
+            return;
+          }
+          let empArchiveId =this.socialSecurityPayOperator.empArchiveId
+          if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
+             this.$Message.error("雇员未做新进或者转入,不能办理.");
+            return;
+          }
+        }
            let validResult = false;
           //校验表单
         this.$refs['socialSecurityPayOperator'].validate((valid) => {

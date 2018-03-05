@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        雇员日常操作
+        查询条件
         <div slot="content">
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
@@ -14,12 +14,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="徐汇区" label="徐汇区"></Option>
-                  <Option value="浦东新区" label="浦东新区"></Option>
-                  <Option value="闵行区" label="闵行区"></Option>
-                  <Option value="闸北区" label="闸北区"></Option>
-                  <Option value="黄浦区" label="黄浦区"></Option>
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
                 </Select>
               </Form-item>
               </Col>
@@ -46,7 +42,7 @@
               </Form-item>
               </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="企业社保账户：" prop="ssAccount">
+              <Form-item label="企业社保账号：" prop="ssAccount">
                 <input-account v-model="operatorSearchData.ssAccount"></input-account>
               </Form-item>
               </Col>
@@ -56,21 +52,25 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="身份证号：" prop="idNum">
+              <Form-item label="证件号：" prop="idNum">
                 <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单类型：" prop="taskCategory">
                 <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="" label="全部"></Option>
                   <Option value="1" label="新进"></Option>
                   <Option value="2" label="转入"></Option>
                   <Option value="3" label="调整"></Option>
                   <Option value="4" label="补缴"></Option>
                   <Option value="5" label="转出"></Option>
-                  <Option value="7" label="退账"></Option>
-                  <!--<Option value="6" label="终止"></Option>
+                  <Option value="6" label="封存"></Option>
+                  <Option value="12" label="翻牌新进"></Option>
+                  <Option value="13" label="翻牌转入"></Option>
+                  <Option value="14" label="翻牌转出"></Option>
+                  <Option value="15" label="翻牌封存"></Option>
+                  <!--<Option value="7" label="退账"></Option>
                   <Option value="8" label="提取"></Option>
                   <Option value="9" label="特殊操作"></Option>-->
                 </Select>
@@ -98,7 +98,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
                 <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="bottom"
-                             placeholder="选择年月份" style="width: 100%;"></Date-picker>
+                             placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
               </Form-item>
               </Col>
             </Row>
@@ -209,7 +209,7 @@
           {
             title: '是否加急', key: 'urgent', width: 100, align: 'center',
             render: (h, params) => {
-              return this.$decode.urgent(params.row.urgent)
+               return params.row.isChange=='1'?this.$decode.taskCategory(params.row.taskCategory)+'(更正)':this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {
@@ -227,9 +227,9 @@
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
           },
-          {
-            title: '执行日期', key: 'doDate', width: 150, align: 'center'
-          },
+          // {
+          //   title: '执行日期', key: 'doDate', width: 150, align: 'center'
+          // },
           {
             title: '客户编号', key: 'companyId', width: 100, align: 'center'
           },
@@ -243,7 +243,7 @@
             title: '发起时间', key: 'submitTime', width: 180, align: 'center'
           },
           {
-            title: '备注', key: 'handleRemark', width: 300, align: 'center'
+            title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
           }
         ]
       }
@@ -371,23 +371,27 @@
           for (var row of rows) {
             empTaskIds.push(row.empTaskId);
           }
-
           // 任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
           var taskCategory = rows[0].taskCategory;
-          var name = 'empTaskHandleView';
+          var name = 'empTaskHandleView'
           switch (taskCategory) {
             case '1':
             case '2':
-              name = 'empTaskBatchHandleView';
+            case '12':
+            case '13':
+              name = 'empTaskBatchHandleView'
               break;
             case '3':
-              name = 'empTaskBatchHandle3View';
+              name = 'empTaskBatchHandle3View'
               break;
             case '4':
-              name = 'empTaskBatchHandle4View';
+              name = 'empTaskBatchHandle4View'
               break;
             case '5':
-              name = 'empTaskBatchHandle5View';
+            case '6':
+             case '14':
+            case '15':
+              name = 'empTaskBatchHandle5View'
               break;
             default:
               name = 'empTaskBatchHandleView'
@@ -400,24 +404,28 @@
         } else {
           // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = data.taskCategory;
-          var name = 'empTaskHandleView';
+          var name = 'empTaskHandleView'
           switch (taskCategory) {
             case '1':
             case '2':
-              name = 'empTaskHandleView';
+            case '12':
+            case '13':
+              name = 'empTaskHandleView'
               break;
             case '3':
-              name = 'empTaskHandle3View';
+              name = 'empTaskHandle3View'
               break;
             case '4':
-              name = 'empTaskHandle4View';
+              name = 'empTaskHandle4View'
               break;
             case '5':
             case '6':
-              name = 'empTaskHandle5View';
+             case '14':
+            case '15':
+              name = 'empTaskHandle5View'
               break;
               case '7':
-              name = 'empTaskHandle7View';
+              name = 'empTaskHandle7View'
               break;
             default:
               name = 'empTaskHandleView'
@@ -426,7 +434,7 @@
           // 根据任务类型跳转
           this.$router.push({
             name: name,
-            query: {taskCategory: taskCategory, empTaskId: data.empTaskId}
+            query: {operatorType: taskCategory, empTaskId: data.empTaskId}
           });
         }
       },

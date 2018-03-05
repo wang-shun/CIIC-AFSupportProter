@@ -52,7 +52,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保序号：">
-                  <label>{{employeeAndCustomer.ssSerial}}</label>
+                  <Input style="width: 200px" v-model="employeeAndCustomer.ssSerial" placeholder=""></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -61,7 +61,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户：">
+                <Form-item label="企业社保账号：">
                   <label>{{employeeAndCustomer.ssAccount}}</label>
                 </Form-item>
               </Col>
@@ -106,6 +106,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+        <Button type="primary" @click="saveEmpSerial">保存</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -133,7 +134,8 @@
           education:'',
           ssAccount:'',
          // empClassify:'',
-          outDate:''
+          outDate:'',
+          comAccountId:'',
         },//客户和雇员基本信息
         socialSecurityInfoListData:[],//基数变更详情
         changeListData:[],//变动历史
@@ -247,13 +249,40 @@
     },
     methods: {
       goBack() {
-        
         this.$router.push({name: 'employeeSocialSecuritySearch'});
       },
       // getEmpClassify(val){
       //   if(val==null || typeof(val)=='undefined')return ''
       //   return this.$decode.empClassify(val)
       // }
+      saveEmpSerial(){
+          var formData={
+            ssSerial:'',
+            empArchiveId:this.$route.query.empArchiveId,
+            comAccountId: this.employeeAndCustomer.comAccountId
+          };
+          let self=this;
+          this.$Modal.confirm({
+          title: "你确认保存信息吗？",
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () => {
+            {//收集数据
+              formData.ssSerial = self.employeeAndCustomer.ssSerial
+            }
+            api.saveEmpSerial(formData).then(data => {
+              data=data.data;
+              if (data.code == 200) {
+                this.$Message.success("信息保存成功");
+                // 返回任务列表页面
+                history.go(-1);
+              } else {
+                this.$Message.error("信息保存失败！" + data.message);
+              }
+            })
+           }
+        })
+      },
     }
   }
 </script>

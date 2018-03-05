@@ -110,7 +110,7 @@
             title: '待调工资', key: 'chgSalary', width: 120, align: 'center'
           },
           {
-            title: '身份证号', key: 'idNum', width: 160, align: 'center'
+            title: '证件号', key: 'idNum', width: 160, align: 'center'
           },
           {
             title: '社保状态', key: 'archiveStatus', width: 80, align: 'center',
@@ -140,7 +140,7 @@
             }
           },
           {
-            title: '企业社保账户', key: 'ssAccount', width: 100, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 100, align: 'center'
           },
           {
             title: '养老金独立开户用户名', key: 'ssUsername', width: 120, align: 'center'
@@ -154,7 +154,7 @@
         ]
       }
     },
-    SocialSecurityAccountType: {},
+//    SocialSecurityAccountType: {},
     mounted() {
       dict.getDictData().then(data => {
         if (data.code == 200) {

@@ -51,8 +51,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户：" prop="comAccountId">
-                  <Input v-model="payComSearchData.comAccountId" placeholder="请输入..."></Input>
+                <Form-item label="企业社保账号：" prop="comAccountId">
+                  <Input v-model="payComSearchData.ssAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
             </Row>
@@ -142,7 +142,10 @@
     <!-- 调整 -->
     <Modal
       v-model="changeInfo.isShowChange"
-      width="640">
+      width="640"
+      @on-ok="ok"
+      @on-cancel="cancel"
+      >
       <Table border :columns="changeInfo.changeColumns" :data="changeInfo.changeData"></Table>
       <Form :label-width=250>
         <!--<Row class="mt20">-->
@@ -166,11 +169,11 @@
               <label>{{changeInfo.totalPayAmount}}</label>
             </Form-item>
           </Col>
-          <Col :sm="{span: 24}">
+          <!-- <Col :sm="{span: 24}">
             <Form-item label="申请支付金额合计（大写）：">
               <label>{{changeInfo.totalPayAmountUpper}}</label>
             </Form-item>
-          </Col>
+          </Col> -->
           <Col :sm="{span: 24}">
             <Form-item label="备注说明：">
               <Input v-model="changeInfo.remark" type="textarea" :rows="5"  placeholder="请输入..."></Input>
@@ -209,6 +212,7 @@
           paymentMonthMaxShow: '',
           paymentState: '',
           comAccountId: '',
+          ssAccount:'',
           paymentBatchNum:''
         },
         staticPayComSearchData: {
@@ -333,9 +337,9 @@
                 ]);
               }
             },
-            {title: '社保账户类型', key: 'accountType', width: 200, align: 'center',
+            {title: '社保账户类型', key: 'ssAccountType', width: 200, align: 'center',
               render: (h, params) => {
-                let accountType = params.row.accountType;
+                let accountType = params.row.ssAccountType;
                 let accountTypeName = "";
                 if(accountType == 1){
                     accountTypeName = "中智大库"
@@ -422,17 +426,18 @@
               ]);
             }
           },
-          {title: '企业社保账户', key: 'comAccountId', width: 180, align: 'center',
+          {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.comAccountId),
+                h('span', params.row.ssAccount),
               ]);
             }
           },
           {title: '社保账户类型', key: 'ssAccountType', width: 120, align: 'center',
             render: (h, params) => {
-              let ssAccountType = params.row.accountType;
+              let ssAccountType = params.row.ssAccountType;
               let accountTypeName = "";
+              
               if(ssAccountType == 1){
                   accountTypeName = "中智大库"
               }else if(ssAccountType == 2){
@@ -705,11 +710,16 @@
         //计算合计
         let totalPayAmount = 0;
         if(ifDeductedIntoPay == 1){
-          totalPayAmount = Number(oughtAmount) + Number(refundDeducted) + Number(adjustDeducted) + Number(extraAmount);
+          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount) 
+                         + Number(typeof refundDeducted == 'undefined'?0:refundDeducted) 
+                         + Number(typeof adjustDeducted == 'undefined'?0:adjustDeducted) 
+                         + Number(typeof extraAmount=='undefined'?0:extraAmount );
         }
         else{
-          totalPayAmount = Number(oughtAmount) + Number(extraAmount);
+          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount) 
+                         + Number(typeof extraAmount  =='undefined'?0:extraAmount);
         }
+        
         //赋值
         this.changeInfo.totalPayAmount = totalPayAmount;
       },
@@ -839,6 +849,7 @@
             this.paymentComQuery()
 
           }else{
+            console.log(data);
             alert(data.message);
           }
         })

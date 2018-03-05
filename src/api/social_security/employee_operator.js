@@ -8,6 +8,9 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/ssEmpTask/employeeOperatorQuery', params);
     return await response.data;
   },
+  employeeOperatorQueryExport: async (params) => {
+   AJAX.download('/api/soccommandservice/ssEmpTask/employeeOperatorQueryExport', params);
+  },
   // 批退
   refuseReason: (params) => {
     return AJAX.post('/api/soccommandservice/ssEmpTask/rejection', params);
@@ -63,6 +66,9 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/employeeQuery', params);
     return await response.data;
   },
+  empSSSearchExport:async (params) => {
+    AJAX.download('/api/soccommandservice/ssEmpArchive/empSSSearchExport', params);
+  },
   //查询雇员详细信息
   employeeDetailInfoQuery:async (params)=>{
     let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/employeeDetailInfoQuery', params);
@@ -87,6 +93,14 @@ export default {
 
   employeeDailyOperatorDiskExport: (params) => {
     AJAX.download('/api/soccommandservice/ssEmpTask/employeeDailyOperatorDiskExport', params);
+  },
+ // 保存社保序号
+ saveEmpSerial: (params) => {
+    return AJAX.post('/api/soccommandservice/ssEmpArchive/saveEmpSerial', params);
+  },
+  //雇员新进任务 获得用退工信息
+  queryReworkInfo:(params)=>{
+     let res = AJAX.post('/api/soccommandservice/amEmpTask/queryReworkInfo', params);
   }
 }
 

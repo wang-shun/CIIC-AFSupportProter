@@ -3,7 +3,7 @@
     <Form :label-width="150">
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="服务中心：">
+          <Form-item label="客户中心：">
             {{customer.serviceCenter}}
           </Form-item>
         </Col>
@@ -14,22 +14,17 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="客户名称：">
-            {{customer.title}}
+            {{customer.companyName}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="客服专员：">
-            {{customer.custom}}
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="中道专员：">
-            {{customer.centerServicer}}
+            {{customer.customServiceOperator}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="雇员服务专员：">
-            {{customer.employeeServicer}}
+            {{customer.employeeCenterOperator}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

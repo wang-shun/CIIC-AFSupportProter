@@ -1,0 +1,566 @@
+<template>
+  <div class="smList">
+    <Collapse v-model="collapseInfo">
+      <Panel name="1">
+        企业公积金账户信息
+        <div slot="content">
+          <Form :label-width=150>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="客户基本公积金账号：">
+                <label>{{displayVO.basicHfComAccount}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="客户补充公积金账号：">
+                <label>{{displayVO.addedHfComAccount}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="客户中心：">
+                <label>{{displayVO.customerCenter}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="缴费区县：">
+                <label>{{displayVO.paymentBankName}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="企业公积金账户状态：">
+                <label>{{displayVO.stateName}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="末次汇缴月（基本）：">
+                <label>{{displayVO.basicComHfMonth}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="末次汇缴月（补充）：">
+                <label>{{displayVO.addedComHfMonth}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="客服经理：">
+                <label>{{displayVO.serviceManager}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="客户专员：">
+                <label>{{displayVO.customerServicer}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="截单年月（基本）：">
+                <label>{{displayVO.basicEndMonth}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="截单年月（补充）：">
+                <label>{{displayVO.addedEndMonth}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="付款方式：">
+                <label>{{displayVO.paymentWayName}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公积金企业U盾：">
+                <label>{{displayVO.ukeyStoreName}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="客户编号：">
+                <label>{{displayVO.companyId}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="客户名称：">
+                <label>{{displayVO.companyName}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="企业账户类型：">
+                <label>{{displayVO.hfAccountTypeName}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="企业公积金账号名称：">
+                <label>{{displayVO.comAccountName}}
+                  <span style="color: red">{{displayVO.comTaskStatusName}}</span>
+                </label>
+              </Form-item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="2">
+        雇员信息
+        <div slot="content">
+          <Form :label-width=150>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员编号：">
+                <label>{{displayVO.employeeId}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员姓名：">
+                <label>{{displayVO.employeeName}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="证件号码：">
+                <label>{{displayVO.idNum}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="入职日期：">
+                <label>{{displayVO.inDate}}</label>
+              </Form-item>
+              </Col>
+            </Row>
+            <Row>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="基本公积金账号：">
+                <label>{{displayVO.basicHfEmpAccount}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="基本公积金状态：">
+                <label>{{displayVO.basicArchiveStatusName}}</label>
+              </Form-item>
+              </Col>
+            </Row>
+            <Row>
+              <Col :sm="{span: 24}">
+              <Table border :columns="fundColumns" :data="basicFundData"></Table>
+              </Col>
+            </Row>
+            <Row class="mt20">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="补充公积金账号：">
+                <label>{{displayVO.addedHfEmpAccount}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="补充公积金状态：">
+                <label>{{displayVO.addedArchiveStatusName}}</label>
+              </Form-item>
+              </Col>
+            </Row>
+            <Row>
+              <Col :sm="{span: 24}">
+              <Table border :columns="fundColumns" :data="addedFundData"></Table>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="3">
+        任务单参考信息
+        <div slot="content">
+          <Form :label-width=150>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="离职日期：">
+                {{(displayVO.outDate)?this.$utils.formatDate(displayVO.outDate, "YYYY-MM-DD"):""}}
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="汇缴截止月份：">
+                {{this.$utils.formatDate(displayVO.endMonth, "YYYYMM")}}
+              </FormItem>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="4">
+        操作
+        <div slot="content">
+          <Form :label-width=150>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="公积金类型：">
+                {{displayVO.hfTypeName}}
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="任务类型：">
+                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
+                  <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
+                </Select>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="汇缴截止月份">
+                <DatePicker type="month" v-model="displayVO.endMonth" format="yyyyMM" placement="bottom-end" placeholder="选择年月" style="width: 100%;" transfer :disabled="inputDisabled"></DatePicker>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="客户汇缴月份：">
+                {{displayVO.hfMonth}}
+              </Form-item>
+              </Col>
+            </Row>
+            <Row class="mt20">
+              <Col :sm="{span: 24}">
+              <FormItem label="办理备注：">
+                <Input v-model="displayVO.handleRemark" placeholder="请输入..." :disabled="inputDisabled"></Input>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 24}">
+              <FormItem label="批退备注：">
+                <Input v-model="displayVO.rejectionRemark" placeholder="请输入..." :disabled="inputDisabled"></Input>
+              </FormItem>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="5">
+        任务单备注
+        <div slot="content">
+          <Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>
+        </div>
+      </Panel>
+    </Collapse>
+    <Row class="mt20">
+      <Col :sm="{span: 24}" class="tr">
+        <Button type="primary" @click="handleTask" v-if="showButton">已处理</Button>
+        <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
+        <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
+        <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
+        <Button type="warning" class="ml10" @click="back">返回</Button>
+      </Col>
+    </Row>
+
+  </div>
+</template>
+<script>
+  import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
+  import dict from '../../../../api/dict_access/house_fund_dict'
+
+  export default {
+    data() {
+      return {
+        collapseInfo: [1, 2, 3, 4, 5], //展开栏
+        showButton: true,
+        showCancel: false,
+        inputDisabled: false,
+        isShowPrint: false,
+        displayVO: {
+          empTaskId: 0,
+          taskCategory: 0,
+//          taskCategoryName: '补缴',
+          basicHfComAccount: '',
+          addedHfComAccount: '',
+          customerCenter: '',
+          paymentBankName: '',
+          ukeyStoreName: '',
+          stateName: '',
+          hfMonth: '',
+          basicComHfMonth: '',
+          addedComHfMonth: '',
+          serviceManager: '',
+          customerServicer: '',
+          basicEndMonth: '',
+          addedEndMonth: '',
+          paymentWayName: '',
+          companyId: '',
+          companyName: '',
+          hfAccountTypeName: '',
+          comAccountId: '',
+          comAccountName: '',
+          basicComAccountClassId: '',
+          addedComAccountClassId: '',
+          comTaskStatusName: '',
+
+          employeeId: '',
+          employeeName: '',
+          idNum: '',
+          inDate: '',
+          basicEmpArchiveId: '',
+          basicHfEmpAccount: '',
+          basicEmpTaskStatusName: '',
+          basicEmpStartMonth: '',
+          basicEmpEndMonth: '',
+          basicEmpAmount: '',
+          basicEmpBase: '',
+          basicRatioCom: '',
+          basicRatioEmp: '',
+          addedHfEmpAccount: '',
+          addedEmpTaskStatusName: '',
+          addedEmpStartMonth: '',
+          addedEmpEndMonth: '',
+          addedEmpAmount: '',
+          addedEmpBase: '',
+          addedRatioCom: '',
+          addedRatioEmp: '',
+
+          hfTypeName: '',
+          hfEmpAccount: '',
+//          isCreateSealingTicket: false,
+          startMonth: '',
+          endMonth: '',
+          handleRemark: '',
+          rejectionRemark: '',
+
+//          operationRemind: '',
+//          operationRemindDate: '',
+          canHandle: false
+        },
+        fundColumns: [
+          {title: '起缴年月', key: 'startMonth', align: 'left'},
+          {title: '截至年月', key: 'endMonth', align: 'left'},
+          {title: '客户汇缴年月', key: 'hfMonth', align: 'left'},
+          {title: '基数', key: 'baseAmount', align: 'left'},
+          {title: '企业比例', key: 'ratioCom', align: 'left'},
+          {title: '个人比例', key: 'ratioEmp', align: 'left'},
+          {title: '金额', key: 'amount', align: 'left'}
+        ],
+        basicFundData: [],
+        addedFundData: [],
+        taskListNotesColumns: [
+          {title: '公积金类型', key: 'hfTypeName', align: 'left'},
+          {title: '任务类型', key: 'taskCategoryName', align: 'left'},
+          {title: '办理/批退', key: 'handleStatusName', align: 'left'},
+          {title: '备注人', key: 'submitterId', align: 'left'},
+          {title: '备注时间', key: 'submitTime', align: 'left'},
+          {title: '备注内容', key: 'submitterRemark', align: 'left'}
+        ],
+        taskListNotesChangeData: [],
+        taskCategoryDisable: false,
+        taskCategoryList: [],
+        transferOutUnitList: [],
+        transferNotice: {
+          transferOutUnit: '',
+          transferOutUnitAccount: '',
+          transferInUnit: '',
+          transferInUnitAccount: '',
+          transferDate: '',
+        },
+        inputData: {
+          empTaskId: 0,
+          taskStatus: 1,
+          taskCategory: 0,
+          companyId: '',
+          employeeId: '',
+          comAccountId: '',
+          basicComAccountClassId: '',
+          addedComAccountClassId: '',
+          belongEmpArchiveId: '',
+          hfEmpAccount: '',
+          endMonth: '',
+          hfMonth: '',
+//          startMonth: '',
+//          operationRemind: '',
+//          operationRemindDate: '',
+//          operatorListData: [],
+          handleRemark: '',
+          rejectionRemark: ''
+        },
+      }
+    },
+    mounted() {
+//      this[EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]()
+      let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
+      let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
+      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+      let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
+      api.empTaskHandleDataQuery({
+        empTaskId: empTaskId,
+        hfType: hfType,
+        taskStatus: taskStatus
+      }).then(data => {
+        if (data.code == 200) {
+          this.displayVO = data.data;
+          if (hfType == 1) {
+            this.displayVO.hfMonth = this.displayVO.basicComHfMonth;
+          } else {
+            this.displayVO.hfMonth = this.displayVO.addedComHfMonth;
+          }
+
+          this.basicFundData = data.data.basicArchiveBasePeriods;
+          this.addedFundData = data.data.addedArchiveBasePeriods;
+//          this.operatorListData = data.data.empTaskPeriods;
+          this.taskListNotesChangeData = data.data.empTaskRemarks;
+
+          this.showButton = this.displayVO.canHandle;
+
+          if (!this.displayVO.taskStatus || this.displayVO.taskStatus == 1) {
+            this.inputDisabled = false;
+          } else {
+            if (this.displayVO.taskStatus == 2) {
+              this.showCancel = true;
+            }
+            this.inputDisabled = true;
+            this.taskCategoryDisable = true;
+            this.showButton = false;
+          }
+        } else {
+          this.$Message.error(data.message);
+          this.inputDisabled = true;
+          this.taskCategoryDisable = true;
+          this.showButton = false;
+        }
+      });
+      dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.taskCategoryList = data.data.HFLocalTaskCategory;
+//          this.operationRemindList = data.data.OperationRemind;
+//          this.transferOutUnitList = data.data.FundOutUnit;
+          if (taskCategory < 7) {
+            this.taskCategoryDisable = true;
+          } else {
+            this.taskCategoryDisable = false;
+            this.taskCategoryList.splice(0, 6);
+            this.taskCategoryList.splice(8, this.taskCategoryList.length - 2);
+          }
+        } else {
+          this.$Message.error(data.message);
+          this.inputDisabled = true;
+          this.taskCategoryDisable = true;
+          this.showButton = false;
+        }
+      })
+    },
+    computed: {
+//      ...mapState('employeeFundHistoryDetail', {
+//        data: state => state.data
+//      }),
+//      currentTaskType() {
+//        console.log(this.$route.query.taskCategory)
+//        return this.$route.query.taskCategory;
+//      }
+    },
+    methods: {
+//      ...mapActions('employeeFundHistoryDetail', [EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]),
+      back() {
+        this.$router.go(-1)
+      },
+      handleTask() {
+        this.setInputData();
+        this.inputData.companyId = this.displayVO.companyId;
+        this.inputData.employeeId = this.displayVO.employeeId;
+        this.inputData.comAccountId = this.displayVO.comAccountId;
+        this.inputData.basicComAccountClassId = this.displayVO.basicComAccountClassId;
+        this.inputData.addedComAccountClassId = this.displayVO.addedComAccountClassId;
+        this.inputData.belongEmpArchiveId = this.displayVO.basicEmpArchiveId;
+
+        // 处理参数
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.inputData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+
+        api.empTaskHandle(params).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("办理成功");
+            this.showButton = false;
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      },
+      notHandleTask() {
+        api.empTaskNotHandle({
+          empTaskId: this.displayVO.empTaskId
+        }).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("不需处理操作成功");
+            this.showButton = false;
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      },
+      handleTaskDelay() {
+        api.empTaskHandleDelay({
+          empTaskId: this.displayVO.empTaskId
+        }).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("转下月处理操作成功");
+            this.showButton = false;
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      },
+      handleTaskReject() {
+        api.empTaskHandleReject({
+          rejectionRemark: this.displayVO.rejectionRemark,
+          selectedData: [this.displayVO.empTaskId]
+        }).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("批退成功");
+            this.showButton = false;
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      },
+      handleTaskCancel() {
+        api.empTaskHandleCancel(
+          [this.displayVO.empTaskId]
+        ).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("撤销成功");
+            this.showButton = false;
+            this.showCancel = false;
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      },
+      filterMethod(value, option) {
+        return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
+      },
+      setInputData() {
+        this.inputData.empTaskId = this.displayVO.empTaskId;
+        this.inputData.taskCategory = this.displayVO.taskCategory;
+//        this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
+//        this.inputData.operationRemind = this.displayVO.operationRemind;
+//        if (this.displayVO.operationRemindDate) {
+//          this.inputData.operationRemindDate = utils.formatDate(this.displayVO.operationRemindDate,"YYYY-MM-DD");
+//        }
+        this.inputData.handleRemark = this.displayVO.handleRemark;
+        this.inputData.rejectionRemark = this.displayVO.rejectionRemark;
+        if (this.displayVO.endMonth) {
+          this.inputData.endMonth = this.$utils.formatDate(this.displayVO.endMonth, "YYYYMM");
+        }
+        this.inputData.hfMonth = this.displayVO.hfMonth;
+//        this.inputData.operatorListData = this.operatorListData;
+      },
+      saveTask () {
+        this.setInputData();
+
+        // 处理参数
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.inputData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+
+        api.empTaskHandleDataSave(params).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("保存成功");
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      }
+    }
+  }
+</script>

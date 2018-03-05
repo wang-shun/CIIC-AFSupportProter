@@ -26,9 +26,9 @@
           <div slot="content">
             <Row class="mt20">
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary">新增</Button>
+                <Button type="primary" @click="add">新增</Button>
                 <Button type="error">删除</Button>
-                <Button type="primary">提交</Button>
+                <Button type="primary" @click="instance">提交</Button>
               </Col>
             </Row>
             <Table border :columns="matrialsUseColumns" :data="matrialsUseData" class="mt20"></Table>
@@ -44,7 +44,7 @@
                 <Button type="primary">提交</Button>
               </Col>
             </Row>
-            <Table border :columns="matrialsUseColumns" :data="matrialsUseData" class="mt20"></Table>
+            <Table border :columns="matrialsUseColumns" :data="matrialsBorrowData" class="mt20"></Table>
           </div>
         </Panel>
       </Collapse>
@@ -57,6 +57,7 @@
   </div>
 </template>
 <script>
+import api from '../../api/employ_manage/hire_operator'
   export default {
     data() {
       return {
@@ -66,28 +67,39 @@
           employeeName: "林子晖"
         },
         matrialsUseColumns: [
-          {title: '使用材料', key: 'useMatrials', align: 'center',
+          {title: '使用材料', key: 'material', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('Select', [
-                  h('Option', {props: {value: 0}}, '')
-                ], params.row.useMatrials),
+                      h('Option', {props: {value: '档案'}},'档案'),
+                      h('Option', {props: {value: '党员材料'}},'党员材料'),
+                      h('Option', {props: {value: '学籍资料'}},'学籍资料'),
+                      h('Option', {props: {value: '职工登记表'}},'职工登记表'),
+                      h('Option', {props: {value: '劳动力登记表'}},'劳动力登记表'),
+                      h('Option', {props: {value: '学生登记表'}},'学生登记表'),
+                      h('Option', {props: {value: '职称评定表'}},'职称评定表'),
+                      h('Option', {props: {value: '上家退工单'}},'上家退工单'),
+                ], params.row.material),
               ]);
             }
           },
-          {title: '用途', key: 'useful', align: 'center',
+          {title: '用途', key: 'purpose', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('Select', [
-                  h('Option', {props: {value: 0}}, '')
-                ], params.row.useful),
+                  h('Option', {props: {value: '归档材料'}}, '归档材料'),
+                  h('Option', {props: {value: '政审'}}, '政审'),
+                  h('Option', {props: {value: '档案借阅'}}, '档案借阅'),
+                  h('Option', {props: {value: '认定工龄'}}, '认定工龄')
+                  
+                ], params.row.purpose),
               ]);
             }
           },
-          {title: '使用材料人', key: 'matrialsUser', align: 'center',
+          {title: '使用材料人', key: 'useMan', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.matrialsUser),
+                 h('i-input', {props: {value: params.row.useMan}}),
               ]);
             }
           },
@@ -98,31 +110,53 @@
               ]);
             }
           },
-          {title: '材料使用经办人', key: 'matrialsManager', align: 'center',
+          {title: '材料使用经办人', key: 'handleMan', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.matrialsManager),
+                h('i-input', {props: {value: params.row.handleMan}}),
               ]);
             }
           },
-          {title: '备注', key: 'notes', align: 'center',
+          {title: '备注', key: 'remark', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('Input', {props: {value: params.row.notes}}),
+                h('Input', {props: {value: params.row.remark}}),
               ]);
             }
           },
+          {
+            title: '操作',
+            key: 'action',
+            width: 100,
+            align: 'center',
+            render: (h, params) => {
+                return h('div', [
+                    h('Button', {
+                        props: {
+                            type: 'error',
+                            size: 'small'
+                        },
+                        on: {
+                            click: () => {
+            
+                                this.remove(params.index,params.row.archiveUseId)
+                            }
+                        }
+                    }, '删除')
+                ]);
+            }
+         }
         ],
-        matrialsUseData: [
-          {useMatrials: 0, useful: 0, matrialsUser: "", useDate: "", matrialsManager: "", notes: ""}
-        ],
+        matrialsUseData: [ ],
 
         matrialsBorrowColumns: [
           {title: '借出材料', key: 'borrowMatrials', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('Select', [
-                  h('Option', {props: {value: 0}}, '')
+                   h('Option', {props: {value: '1'}},'材料不齐全'),
+                      h('Option', {props: {value: '2'}},'未签收'),
+                      h('Option', {props: {value: '3'}},'已签收'),
                 ], params.row.borrowMatrials),
               ]);
             }
@@ -165,15 +199,60 @@
             }
           },
         ],
-        matrialsBorrowData: [
-          {borrowMatrials: 0, useful: 0, matrialsBorrower: "", borrowDate: "", borrowManager: "", notes: ""}
-        ],
+        matrialsBorrowData: [],
+        handleInfo: {
+          material: '',
+          remarkManw: '',
+          remarkDatew:'',
+          materialw:''
+        }
       }
     },
     methods: {
       goBack() {
         this.$router.go(-1);
-      }
+        },add(){
+            var fromData = this.$utils.clear(this.handleInfo,'');
+            this. matrialsUseData.push(fromData);
+        },remove (index,archiveUseId) {
+                if(!archiveUseId){
+                  this.matrialsUseData.splice(index, 1);
+              
+                }else{
+                     this.$Modal.confirm({
+                      title: '',
+                      content: '确认删除吗?',
+                      onOk:function(){
+
+                        let params = {archiveUseId:archiveUseId}
+
+                        api.deleteAmArchiveUse(params).then(data=>{
+                              history.go(-1);
+                      })
+                       
+                      },
+                      error:function(error){
+                        self.$Modal.remove();
+                    }
+                    });
+                }
+                
+       },instance() {
+            var fu = this.matrialsUseData;
+           
+            alert(this.matrialsUseData[0].material);
+            return ;
+        
+            api.saveAmArchiveUse(this.matrialsUseData).then(data => {
+                  if (data.data.data == true) {
+                    this.$Message.success("保存成功");
+                    history.go(-1);
+                  } else {
+                    this.$Message.error("保存失败！");
+                  }
+            })
+          
+       }
     }
   }
 </script>

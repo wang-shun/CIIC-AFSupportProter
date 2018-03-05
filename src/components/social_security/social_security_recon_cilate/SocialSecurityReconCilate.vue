@@ -129,6 +129,7 @@
                 :on-format-error="handleFormatError"
                 :on-error="handleError"
                 >
+                
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
                </Form-item>
@@ -242,7 +243,7 @@
 
 
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', ssMonth + "_" + comAccountId + "_" + ssMonth + ".xml"),
+                h('span', params.row.impFileName),
               ]);
             }
           },
@@ -253,7 +254,7 @@
               ]);
             }
           },
-          {title: '企业社保账户', key: 'comAccountName', width: 250, align: 'center',
+          {title: '企业社保账号', key: 'comAccountName', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comAccountName),
@@ -270,6 +271,7 @@
                         on: {
                           click: () => {
                               window.sessionStorage.setItem("statementId", params.row.statementId)
+                              window.sessionStorage.setItem("monthEmpChangeId", params.row.monthEmpChangeId)
                               this.$router.push({name:'socialSecurityEmpChangeDetailYys'});
                           }
                         }
@@ -281,7 +283,8 @@
                         h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                           on: {
                             click: () => {
-                              window.sessionStorage.setItem("statementId", params.row.statementId)
+                               window.sessionStorage.setItem("statementId", params.row.statementId)
+                               window.sessionStorage.setItem("monthEmpChangeId", params.row.monthEmpChangeId)
                               this.$router.push({name:'socialSecurityEmpChangeDetailGsy'});
                             }
                           }

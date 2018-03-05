@@ -13,7 +13,7 @@
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <!-- <Button type="primary" @click="goHandle">办理</Button> -->
-        <Button type="primary" @click="batchOperating">批量操作</Button>
+        <!-- <Button type="primary" @click="batchOperating">批量操作</Button> -->
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
     </Row>
@@ -53,7 +53,7 @@
         },
         collapseInfo: [1],
         dismissalColumns: [
-          {title: '', type: 'selection', width: 60},
+          // {title: '', type: 'selection', width: 60},
           {
             title: '操作',
             key: 'action',
@@ -66,20 +66,20 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.showInfoT(params.row.employeeId,params.row.companyId,params.row.employmentId)
+                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employeeId,params.row.companyId,params.row.employmentId)
                     }
                   }
                 }, '办理'),
               ]);
             }
           },
-          {title: '序号', key: 'index', align: 'center', width: 100,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.index),
-              ]);
-            }
-          },
+          // {title: '序号', key: 'index', align: 'center', width: 100,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'right'}}, [
+          //       h('span', params.row.index),
+          //     ]);
+          //   }
+          // },
           {title: '职介反馈日期', key: 'intermediaryFeedbackDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -108,10 +108,10 @@
               ]);
             }
           },
-          {title: '雇员编号', key: 'employeeNumber', align: 'center', width: 150,
+          {title: '雇员编号', key: 'employeeId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.employeeNumber),
+                h('span', params.row.employeeId),
               ]);
             }
           },
@@ -122,17 +122,17 @@
               ]);
             }
           },
-          {title: '身份证号码', key: 'idNum', align: 'center', width: 150,
+          {title: '证件号码', key: 'idNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.idNum),
               ]);
             }
           },
-          {title: '客户编号', key: 'companyNumber', align: 'center', width: 150,
+          {title: '客户编号', key: 'companyId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyNumber),
+                h('span', params.row.companyId),
               ]);
             }
           },
@@ -237,60 +237,124 @@
         ],
         dismissalData: [],
          searchResultColumns: [
-          {title: '未反馈', key: 'noFeedback', align: 'center', width: 220,
+           {title: '未反馈', key: 'noFeedback', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.noFeedback),
-              ]);
+               return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(1)
+                  }
+                }
+              }, params.row.noFeedback);
             }
           },
           {title: '退工成功', key: 'refuseFinished', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.refuseFinished),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(2)
+                  }
+                }
+              }, params.row.refuseFinished);
             }
           },
           {title: '档未到先退工', key: 'refuseBeforeWithFile', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.refuseBeforeWithFile),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(3)
+                  }
+                }
+              }, params.row.refuseBeforeWithFile);
             }
           },
           {title: '退工单盖章未返回', key: 'refuseTicketStampNoReturn', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.refuseTicketStampNoReturn),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(4)
+                  }
+                }
+              }, params.row.refuseTicketStampNoReturn);
             }
           },
           {title: '退工失败', key: 'refuseFailed', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.refuseFailed),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(5)
+                  }
+                }
+              }, params.row.refuseFailed);
             }
           },
           {title: '前道要求批退', key: 'beforeBatchNeedRefuse', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.beforeBatchNeedRefuse),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(6)
+                  }
+                }
+              }, params.row.beforeBatchNeedRefuse);
             }
           },
           {title: '其他', key: 'other', align: 'center', width: 220,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.other),
-              ]);
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(7)
+                  }
+                }
+              }, params.row.other);
             }
           },
           {title: '总计', key: 'amount', align: 'center', width: 231,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.amount),
-              ]);
+                return h('a', {
+                    attrs:{
+                    'href': params.row.dataDownload
+                    },
+                    style: {textAlign: 'right'},
+                    on:{
+                    click:()=>{
+                        this.showInfoTws(0)
+                    }
+                  }
+                }, params.row.amount);
             }
           }
         ],
@@ -303,7 +367,7 @@
     },
     methods: {
       searchEmploiees(conditions) {
-          
+           this.pageData.pageNum =1;
             this.searchConditions =[];
             for(var i=0;i<conditions.length;i++)
                   this.searchConditions.push(conditions[i].exec);
@@ -320,6 +384,8 @@
 
       },
       exportXLS() {
+        let params = this.searchConditions;
+        api.resignSearchExportOpt(params);
 
       },queryAmResign(params){
         let self =this
@@ -345,20 +411,32 @@
          
         })
       },
-      showInfoT (employeeId,companyId,employmentId) {
+      showInfoT (idNum,idCardType,empTaskId,employeeId,companyId,employmentId) {
        
-        this.$router.push({name:'dismissalHandleEmployment', query: {employeeId:employeeId,companyId:companyId,employmentId:employmentId}});
+        this.$router.push({name:'dismissalHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId,employmentId:employmentId}});
+
+      },
+      showInfoTw (ind) {  
+           this.searchCondition.params = this.searchConditions.toString();
+           this.searchCondition.taskStatus = ind;
+           this.queryAmResign(this.searchCondition);
+
+      },
+      showInfoTws (ind) {
+           this.searchCondition.params = this.searchConditions.toString();
+           this.searchCondition.taskStatus = ind;
+           this.queryAmResign(this.searchCondition);
 
       },
       handlePageNum(val) {
         this.pageData.pageNum = val;
         let params = this.searchCondition
-        this.employeeQuery(params);
+        this.queryAmResign(params);
       },
       handlePageSize(val) {
         this.pageData.pageSize = val;
         let params = this.searchCondition
-        this.employeeQuery(params);
+        this.queryAmResign(params);
       }
     }
   }

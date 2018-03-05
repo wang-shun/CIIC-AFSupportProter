@@ -27,12 +27,12 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 10}">
           <Form-item prop="ssAccount">
-            <Input v-model="queryForm.ssAccount" placeholder="请输入企业社保账号..."></Input>
+            <Input v-model="queryForm.ssAccount" placeholder="请输入企业社保账号..." :maxlength=20></Input>
           </Form-item>
           </Col>
           <Col :sm="{span: 10}">
           <Form-item prop="comAccountName">
-            <Input v-model="queryForm.comAccountName" placeholder="请输入养老金用公司名称..."></Input>
+            <Input v-model="queryForm.comAccountName" placeholder="请输入企业社保账户名称..." :maxlength=50></Input>
           </Form-item>
           </Col>
           <Col :sm="{span: 4}" class="tr">
@@ -135,7 +135,7 @@
             title: '企业社保账号', key: 'ssAccount', align: 'center'
           },
           {
-            title: '养老金用公司名称', key: 'comAccountName', align: 'center'
+            title: '企业社保账户名称', key: 'comAccountName', align: 'center'
           }
         ],
         data: [],
@@ -155,6 +155,7 @@
         var row = {};
         if (this.currentIndex >= 0) {
           row = this.data[this.currentIndex];
+          console.log(row);
           this.currentValue = this.renderFormat(row);
         }
         this.$emit('on-ok', row);

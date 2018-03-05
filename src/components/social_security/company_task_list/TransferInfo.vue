@@ -7,12 +7,12 @@
           <company-social-security-info :company="companyInfo"></company-social-security-info>
         </div>
       </Panel>
-      <Panel name="2">
+      <!-- <Panel name="2">
         办理所需材料清单
         <div slot="content">
           <Table class="mt20" border :columns="operatorMaterials.operatorMaterialListColumns" :data="operatorMaterialListData" ref="materialData"></Table>
         </div>
-      </Panel>
+      </Panel> -->
       <Panel name="3">
         前道传递信息
         <div slot="content">
@@ -111,14 +111,6 @@
          source:this.$route.query.source,
         collapseInfo: [1, 2, 3,4], //展开栏
         companyInfo:{},
-           regionList: [
-            {value: '1', label: '徐汇'},
-            {value: '2', label: '长宁'},
-            {value: '3', label: '浦东'},
-            {value: '4', label: '卢湾'},
-            {value: '5', label: '静安'},
-            {value: '6', label: '黄浦'}
-          ],
           taskTypeList:[
             {value: '0',label: '初始(材料收缴)',disabled:false},
             {value: '1', label: '受理中',disabled:false},

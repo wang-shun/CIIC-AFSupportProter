@@ -7,12 +7,12 @@
           <company-info :companyInfo="companyInfo"></company-info>
         </div>
       </Panel>
-      <Panel name="2">
+      <!-- <Panel name="2">
         办理所需材料清单
         <div slot="content">
           <Table class="mt20" border :columns="operatorMaterials.operatorMaterialListColumns" :data="operatorMaterialListData" ref="materialData"></Table>
         </div>
-      </Panel>
+      </Panel> -->
       <Panel name="3">
         前道传递信息
         <div slot="content">
@@ -62,7 +62,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="养老金用公司名称：">
+                <Form-item label="企业社保账户名称：">
                     <label>{{companyOpenAccountOperator.pensionMoneyUseCompanyName}}</label>
                 </Form-item>
               </Col>
@@ -208,12 +208,12 @@
 
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                 <Form-item label="办理备注：">
-                      <label>{{companyOpenAccountOperator.handleReason==''?'无':companyOpenAccountOperator.handleReason}}</label>
+                      <label>{{companyOpenAccountOperator.handleRemark==''?'无':companyOpenAccountOperator.handleRemark}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                 <Form-item label="批退备注：">
-                     <label>{{companyOpenAccountOperator.refuseReason==''?'无':companyOpenAccountOperator.refuseReason}}</label>
+                     <label>{{companyOpenAccountOperator.rejectionRemark==''?'无':companyOpenAccountOperator.rejectionRemark}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -276,7 +276,6 @@
             {value: '1', label: '徐汇区'},
             {value: '2', label: '长宁区'},
             {value: '3', label: '浦东区'},
-            {value: '4', label: '卢湾区'},
             {value: '5', label: '静安区'},
             {value: '6', label: '黄浦区'}
           ], //社保中心
@@ -321,8 +320,8 @@
           acceptanceDate: '', //受理日期
           sendCheckDate: '', //送审日期
           finishedDate: '', //完成日期
-          handleReason:'',//办理原因
-          refuseReason: '' //批退原因
+          handleRemark:'',//办理原因
+          rejectionRemark: '' //批退原因
         },
         operatorMaterialListData:[],
         operatorMaterials: {

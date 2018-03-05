@@ -17,7 +17,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="企业社保账户：" prop="comAccountName">
+                <Form-item label="企业社保账号：" prop="comAccountName">
                   <label >{{empChangeData.comAccountName}}</label>
                 </Form-item>
               </Col>
@@ -143,9 +143,9 @@
       //     };
       //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
       //this.doAlert(pagParam.statementId);
-      this.statementId = window.sessionStorage.getItem("statementId");
-      this.serachMonthEmpChange(window.sessionStorage.getItem("statementId"));
-      this.showMonthEmpChangeDetail(window.sessionStorage.getItem("statementId"));
+      this.statementId = window.sessionStorage.getItem("monthEmpChangeId");
+      this.serachMonthEmpChange(window.sessionStorage.getItem("monthEmpChangeId"));
+      this.showMonthEmpChangeDetail(window.sessionStorage.getItem("monthEmpChangeId"));
 
     },
     computed: {
@@ -160,7 +160,8 @@
       },
       ok () {
         api.gsyExport({
-          statementId: this.statementId
+          statementId: this.statementId,
+          monthEmpChangeId: this.statementId
         });
       },
       cancel () {
@@ -174,14 +175,14 @@
       },
       serachMonthEmpChange(statementId){
         api.serachMonthEmpChange({
-          statementId: statementId
+          monthEmpChangeId: statementId
         }).then(data => {
           this.empChangeData = data.data;
         })
       },
       showMonthEmpChangeDetail(statementId){
         api.showMonthEmpChangeDetail({
-          statementId: statementId
+          monthEmpChangeId: statementId
         }).then(data => {
           this.empChangeDetailData = data.data;
         })

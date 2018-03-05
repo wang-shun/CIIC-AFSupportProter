@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import SsRouter from './ss_router'
 import EmployManageRouter from './employ_manage_router'
+import {CrossStorageClient} from 'cross-storage'
+import userInfoApi from '../store/modules/health_medical/data_sources/supplementary_medica.js'
+
 
 const main = r => require.ensure([], () => r(require('@/components/main')), 'main') //首页
 const login = r => require.ensure([], () => r(require('@/components/login')), 'login') //登录
@@ -34,6 +37,10 @@ const employeeFundBasicInfo = r => require.ensure([], () => r(require('@/compone
 const employeeFundHistoryDetail = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundHistoryDetail')), 'EmployeeFundHistoryDetail')
 
 const employeeFundCommonOperator = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/EmployeeFundCommonOperator')), 'employeeFundCommonOperator')
+const employeeFundCommonOperatorInTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/InTaskHandle')), 'employeeFundCommonOperatorInTaskHandle')
+const employeeFundCommonOperatorOutTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/OutTaskHandle')), 'employeeFundCommonOperatorOutTaskHandle')
+const employeeFundCommonOperatorRepairTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/RepairTaskHandle')), 'employeeFundCommonOperatorRepairTaskHandle')
+
 const employeeFundSpecialOperator = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialOperator')), 'EmployeeFundSpecialOperator')
 const employeeFundSpecialProgressTwo = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialProgressTwo')), 'EmployeeFundSpecialProgressTwo')
 const employeeFundSpecialProgressThree = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialProgressThree')), 'EmployeeFundSpecialProgressThree')
@@ -59,8 +66,8 @@ const fundYearAdjustViewDifference = r => require.ensure([], () => r(require('@/
 
 
 //任务单管理
-const pendingTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/PendingTaskList')), 'pendingTaskList') //待处理任务单列表
-const processedTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/ProcessedTaskList')), 'processedTaskList') //已处理任务单列表
+const PendingTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/PendingTaskList')), 'PendingTaskList') //待处理任务单列表
+const ProcessedTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/ProcessedTaskList')), 'ProcessedTaskList') //已处理任务单列表
 
 //补充医疗理赔
 const supplementaryMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/SupplementaryMedicalList')), 'supplementaryMedicalList') //充医疗理赔
@@ -88,12 +95,12 @@ const AddPayRate = r => require.ensure([], () => r(require('@/components/health_
  * CompanyEdit 客户数据维护
  * OrgPolicyList 办理机构政策维护列表
  */
-const EmpList = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpList')),'empList')
-const EmpAdd = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpAdd')),'empAdd')
-const EmpCredentialsTask = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpCredentialsTask')),'empCredentialsTask')
-const CompanyList = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyList')),'companyList')
-const CompanyEdit = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyEdit')),'companyEdit')
-const OrgPolicyList = r => require.ensure([], () => r(require('@/components/credentials_management/org_policy_maintenance/OrgPolicyList')),'orgPolicyList')
+const EmpList = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpList')), 'empList')
+const EmpAdd = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpAdd')), 'empAdd')
+const EmpCredentialsTask = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpCredentialsTask')), 'empCredentialsTask')
+const CompanyList = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyList')), 'companyList')
+const CompanyEdit = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyEdit')), 'companyEdit')
+const OrgPolicyList = r => require.ensure([], () => r(require('@/components/credentials_management/org_policy_maintenance/OrgPolicyList')), 'orgPolicyList')
 
 /**
  * 健康医疗
@@ -214,6 +221,39 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员日常操作",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employee_fund_common_operator_in_task_handle',
+          name: 'employeeFundCommonOperatorInTaskHandle',
+          component: employeeFundCommonOperatorInTaskHandle,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "雇员公积金日常操作",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employee_fund_common_operator_out_task_handle',
+          name: 'employeeFundCommonOperatorOutTaskHandle',
+          component: employeeFundCommonOperatorOutTaskHandle,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "雇员公积金日常操作",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/employee_fund_common_operator_repair_task_handle',
+          name: 'employeeFundCommonOperatorRepairTaskHandle',
+          component: employeeFundCommonOperatorRepairTaskHandle,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "雇员公积金日常操作",
             openNames: ['1']
           }
         },
@@ -455,9 +495,9 @@ let router = new Router({
           }
         },
         {
-          path: '/pendingTaskList',
-          name: 'pendingTaskList',
-          component: pendingTaskList,
+          path: '/PendingTaskList',
+          name: 'PendingTaskList',
+          component: PendingTaskList,
           meta: {
             level1: '首页',
             level2: "任务单管理",
@@ -466,9 +506,9 @@ let router = new Router({
           }
         },
         {
-          path: '/processedTaskList',
-          name: 'processedTaskList',
-          component: processedTaskList,
+          path: '/ProcessedTaskList',
+          name: 'ProcessedTaskList',
+          component: ProcessedTaskList,
           meta: {
             level1: '首页',
             level2: "任务单管理",
@@ -686,17 +726,17 @@ let router = new Router({
             openNames: ['2']
           }
         },
-       /* {
-          path: '/supplementaryMedicalBatchList',
-          name: 'supplementaryMedicalBatchList',
-          component: supplementaryMedicalBatchList,
-          meta: {
-            level1: '首页',
-            level2: "补充医疗理赔",
-            level3: "补充医疗理赔批量",
-            openNames: ['2']
-          }
-        },*/
+        /* {
+           path: '/supplementaryMedicalBatchList',
+           name: 'supplementaryMedicalBatchList',
+           component: supplementaryMedicalBatchList,
+           meta: {
+             level1: '首页',
+             level2: "补充医疗理赔",
+             level3: "补充医疗理赔批量",
+             openNames: ['2']
+           }
+         },*/
         {
           path: '/uninsuredReview',
           name: 'uninsuredReview',
@@ -934,10 +974,37 @@ router.beforeEach((to, from, next) => {
   localStorage.setItem('level3', to.meta.level3);
   localStorage.setItem('level4', to.meta.level4);
   localStorage.setItem("openNames", [to.meta.openNames]);
+
+  /*let storage = new CrossStorageClient(`{变量}:8070/#/menu`);  //此处{}中变量替换为相应环境的大首页地址
+  storage.onConnect().then(function () {
+    return storage.get('token')
+  }).then(function (res) {
+    // token字符串
+    let userInfo = res;
+    if (userInfo) {
+      localStorage.setItem('userInfo', userInfoData);
+    } else {
+      console.log('跨域token为空')
+    }
+  }).catch(function (err) {
+    console.log(err)
+  });*/
+
   next();
 });
 router.afterEach((to, from) => {
 });
 
+async function validToken(token) {
+  console.log('in token = ' + JSON.stringify(token));
+  const res = await userInfoApi.queryUserInfo(token || -1);
+  let userInfoData = res.data.object;
+  if (userInfoData && userInfoData.token) {
+    localStorage.setItem('userInfo', userInfoData);
+    next();
+  } else {
+    console.log('跨域token校验失败');
+  }
+}
 
 export default router;

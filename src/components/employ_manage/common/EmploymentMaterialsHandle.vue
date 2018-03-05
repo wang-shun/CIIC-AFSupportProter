@@ -103,7 +103,7 @@
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="resetForm('handleInfo')">重置</Button>
           <Button type="primary" @click="instance()">保存</Button>
-          <Button type="error">批退</Button>
+          <Button type="error" @click="updateTask()">批退</Button>
         </Col>
       </Row>
     </Form>
@@ -186,16 +186,16 @@ import api from '../../../api/employ_manage/hire_operator'
            {value:'其他',label:'其他'}
         ],
         employFeedbackList: [
-          {value:'空',label:'空'},
-          {value:'用工成功',label:'用工成功'},
-          {value:'用工已办查无档',label:'用工已办查无档'},
-          {value:'用工失败',label:'用工失败'},
-          {value:'Ukey外借',label:'Ukey外借'},
-          {value:'前道要求撤销用工',label:'前道要求撤销用工'},
-          {value:'用工成功',label:'用工成功'},
-          {value:'重复任务单',label:'重复任务单'},
-          {value:'用工已办',label:'用工已办'},
-          {value:'前道已中止',label:'前道已中止'}
+          {value:'',label:''},
+          {value:'2',label:'已开F单未完成'},
+          {value:'3',label:'用工成功'},
+          {value:'4',label:'用工失败'},
+          {value:'5',label:'前道要求撤销用工'},
+          {value:'6',label:'用工已办查无档'},
+          {value:'7',label:'Ukey外借'},
+          {value:'8',label:'重复任务单'},
+          {value:'9',label:'用工已办'},
+          {value:'10',label:'前道已中止'}
         ],
         transferFeedbackList: [
           {value:'空',label:'空'},
@@ -218,14 +218,32 @@ import api from '../../../api/employ_manage/hire_operator'
       resetForm(form) {
         this.$refs[form].resetFields();
       },instance() {
+        
+        if(!this.handleInfo.employmentId)
+        {
+            this.$Message.success("请先保存用工信息");
+            return;
+        }
         var fromData = this.$utils.clear(this.handleInfo,'');
-        fromData.employFeedbackOptDate = this.$utils.formatDate(this.handleInfo.employFeedbackOptDate, 'YYYY-MM-DD');
-        fromData.diaodangFeedbackOptDate = this.$utils.formatDate(this.handleInfo.diaodangFeedbackOptDate, 'YYYY-MM-DD');
-        fromData.ukeyBorrowDate = this.$utils.formatDate(this.handleInfo.ukeyBorrowDate, 'YYYY-MM-DD');
-        fromData.ukeyReturnDate = this.$utils.formatDate(this.handleInfo.ukeyReturnDate, 'YYYY-MM-DD');
-        fromData.employDocPaymentTo = this.$utils.formatDate(this.handleInfo.employDocPaymentTo, 'YYYY-MM-DD');
-        fromData.storageDate = this.$utils.formatDate(this.handleInfo.storageDate, 'YYYY-MM-DD');
-       
+        if(this.handleInfo.employFeedbackOptDate){
+         fromData.employFeedbackOptDate = this.$utils.formatDate(this.handleInfo.employFeedbackOptDate, 'YYYY-MM-DD');
+        }
+        if(this.handleInfo.diaodangFeedbackOptDate){
+           fromData.diaodangFeedbackOptDate = this.$utils.formatDate(this.handleInfo.diaodangFeedbackOptDate, 'YYYY-MM-DD');
+        }
+        if(this.handleInfo.ukeyBorrowDate){
+            fromData.ukeyBorrowDate = this.$utils.formatDate(this.handleInfo.ukeyBorrowDate, 'YYYY-MM-DD');
+        }
+        if(this.handleInfo.ukeyReturnDate){
+             fromData.ukeyReturnDate = this.$utils.formatDate(this.handleInfo.ukeyReturnDate, 'YYYY-MM-DD');
+        }
+        if(this.handleInfo.employDocPaymentTo){
+            fromData.employDocPaymentTo = this.$utils.formatDate(this.handleInfo.employDocPaymentTo, 'YYYY-MM-DD');
+        }
+        if(this.handleInfo.storageDate){
+             fromData.storageDate = this.$utils.formatDate(this.handleInfo.storageDate, 'YYYY-MM-DD');
+        }
+        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success("保存成功");
@@ -235,6 +253,23 @@ import api from '../../../api/employ_manage/hire_operator'
               }
         })
          
+       },updateTask(){
+         if(!this.handleInfo.employmentId)
+        {
+            this.$Message.success("请先保存用工信息");
+            return;
+        }
+
+        var param = {employmentId:this.handleInfo.employmentId};
+       
+        api.updateTaskStatus(param).then(data => {
+              if (data.code == 200) {
+                this.$Message.success("成功");
+                 history.go(-1);
+              } else {
+                this.$Message.error("失败！" + data.message);
+              }
+        })
        }
     },
     computed: {

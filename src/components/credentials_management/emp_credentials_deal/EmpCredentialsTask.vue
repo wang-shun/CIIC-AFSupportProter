@@ -39,11 +39,11 @@
               <Form-item label="雇员姓名：">{{empName}}</Form-item> 
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码：">{{IDCardNum}}</Form-item> 
+              <Form-item label="证件号码：">{{idNum}}</Form-item> 
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="学历：">{{education}}</Form-item> 
-            </i-col>
+            </i-col> -->
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="婚姻状况：">{{marriage}}</Form-item> 
             </i-col>
@@ -202,7 +202,7 @@
     components: {CredentialsDealInfo},
     data () {
       return {
-        value1: ['2', '3'],
+        value1: ['2','3'],
         empInfo: [],
         companyCode: '',
         companyName: '',
@@ -210,7 +210,7 @@
         companyTel: '',
         empCode: '',
         empName: '',
-        IDCardNum: '',
+        idNum: '',
         education: '',
         marriage: '',
         sex: '',
@@ -248,9 +248,14 @@
     mounted () {
       let data = this.$route.params.data
       Tools.copy(data,this)
+      this.companyCode = data.companyId
+      this.empCode = data.employeeId
+      this.empName = data.employeeName
     },
     created () {
-      this.findAll(this.$route.params.data.empCode)
+      this.findAll(this.$route.params.data.employeeId)
+      this.findEmpDetial(this.$route.params.data)
+      this.findCompanyDetial(this.$route.params.data.companyId)
     },
     computed: {
     },
@@ -258,8 +263,46 @@
       callBack(value){
         if (value != null) {
           this.formItem = value
-          console.log("点击任务单："+this.formItem.materialBackTime)
+          this.formItem.perCompanyName = value.companyName
         }
+      },
+      findCompanyDetial(companyId) {
+        let params = {}
+        params.params = {}
+        params.params.companyId = companyId
+        axios.get(host+'/api/emp/getCompanyInfo',params).then((response) => {
+          if(response.data.errCode=="0"){
+            this.companyCode = response.data.data.companyId
+            this.companyName = response.data.data.companyName
+            this.companyAddr = response.data.data.registeredAddress
+            this.companyTel = ""
+          }
+        })
+      },
+      findEmpDetial(employee) {
+        let params = {}
+        params.params = {}
+        params.params.companyId = employee.companyId
+        params.params.employeeId = employee.employeeId
+        params.params.idCardType = employee.idCardType
+        params.params.idNum = employee.idNum
+        params.params.type = employee.type
+        axios.get(host+ '/api/emp/getEmpInfo',params).then((response) => {
+          if(response.data.errCode == "0"){
+            let item = response.data.data
+            this.empCode = item.employeeId
+            this.empName = item.employeeName
+            this.idNum = item.idNum
+            this.education = ""
+            this.marriage = (item.marriageStatus == 1) ? "未婚" : (item.marriageStatus == 2) ? "已婚" : "离异"
+            this.sex = (item.gender == 1) ? "男" : "女"
+            this.birthday = (item.birthday == null) ? "" : Tools.formatDate(item.birthday,"YYYY年MM月DD日") 
+            this.address = item.address
+            this.firstInTime = (item.firstInDate == null) ? "" : Tools.formatDate(item.firstInDate,"YYYY年MM月DD日")
+            this.contractStartTime = (item.laborStartDate == null) ? "" : Tools.formatDate(item.laborStartDate,"YYYY年MM月DD日")
+            this.contractEndTime = (item.laborEndDate == null) ? "" : Tools.formatDate(item.laborEndDate,"YYYY年MM月DD日")
+          }
+        })
       },
       save () {
         let params = {}
@@ -296,9 +339,9 @@
         }
         params.materialIds = params.materialIds
         params.employeeId = params.empCode
+        params.companyId = params.companyCode
         params.credentialsType = params.credentialsType
         params.credentialsDealType = params.credentialsDealType
-        console.log("保存参数："+params.employeeId+","+params.credentialsType)
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){
                this.$Notice.success({
@@ -334,11 +377,11 @@
             }
             let temp ={}
             if (this.$route.params.isDeal == true) {
-              let data = this.$route.params.data
-              temp.empCode = data.empCode
-              temp.empName = data.empName
-              temp.companyCode = data.companyCode
-              temp.companyName = data.companyName
+              let data1 = this.$route.params.data
+              temp.empCode = data1.employeeId
+              temp.empName = data1.employeeName
+              temp.companyCode = data1.companyId
+              temp.companyName = data1.companyName
               temp.credentialsTypeN = this.$route.params.typeN
               temp.credentialsType = this.$route.params.type
               temp.companyId = this.$route.params.companyId
@@ -349,8 +392,8 @@
               temp.action = "1"
               response.data.data.splice(0,0,temp)
             }
-            console.log(data)
             this.empInfo = data
+            console.log("data:"+this.empInfo[1].companyName)
           }
         })
       }

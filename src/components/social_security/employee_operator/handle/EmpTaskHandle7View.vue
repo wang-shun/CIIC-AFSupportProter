@@ -87,7 +87,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" @click="instance('3')" v-if="showButton">办理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('3')" v-if="showButton">办理</Button>
       <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>  
       <Button type="warning"  @click="goBack">返回</Button>
       </Col>
@@ -247,7 +247,15 @@
           taskStatus: '',
           empTaskId: '',
           empArchiveId: '',
-          empBase:''
+          empBase:'',
+           isChange:'',
+           isHaveSameTask:'',
+            employeeId:'',
+           comAccountId:'',
+           taskId:'',
+           businessInterfaceId:'',
+           policyDetailId:'',
+           welfareUnit:''
         },
 
         // 任务单参考信息
@@ -311,27 +319,39 @@
           empTaskId: empTaskId,
           operatorType: 1,// 任务单费用段
         }).then(data => {
-          
-          if (data.data.empTaskPeriods.length > 0) {
-            this.operatorListData = data.data.empTaskPeriods;
-          }else{
-            this.operatorListData=[{
-                remitWay: '1', 
-                startMonth: data.data.startMonth, 
-                endMonth: data.data.endMonth, 
-                refundAmount:refundAmount,
-                disabled: disabled
-               }]
+          if(data.data!=null){
+            if (data.data.empTaskPeriods.length > 0) {
+              this.operatorListData = data.data.empTaskPeriods;
+            }else{
+              this.operatorListData=[{
+                  remitWay: '1', 
+                  startMonth: data.data.startMonth, 
+                  endMonth: data.data.endMonth, 
+                  refundAmount:refundAmount,
+                  disabled: disabled
+                }]
+            }
+            this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
+            this.$utils.copy(data.data, this.socialSecurityPayOperator);
+
+            this.$Notice.config({
+                  top:80
+                })
+              if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
+                  this.$Notice.warning({
+                      title: '温馨提示',
+                      desc: '该雇员存在相同类型的未办任务.',
+                      duration: 0
+                  });
+              }
           }
-          this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
-          this.$utils.copy(data.data, this.socialSecurityPayOperator);
-          
         });
         
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
 
            if(data.data!=null){
             this.employee = data.data;
+            this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
           }
 
         })
@@ -340,6 +360,7 @@
 
           if(data.data!=null){
             this.company = data.data;
+             this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
           }
 
         })
@@ -364,7 +385,7 @@
             newRows.push({
               empTaskId: empTaskId,
               startMonth: this.yyyyMM(row.startMonth),
-              endMonth: this.yyyyMM(row.endMonth),
+              endMonth: typeof(row.endMonth)!='undefined'&& row.endMonth!=''?this.yyyyMM(row.endMonth):"",
               refundAmount: row.refundAmount,
               remitWay: row.remitWay,
             });
@@ -407,8 +428,35 @@
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
         if ('4' == taskStatus) {
+          if(this.socialSecurityPayOperator.rejectionRemark==''){
+            this.$Message.warning('请输入批退原因。');
+            return;
+          }
           content = "批退办理";
+        }else{
+          let comAccountId=this.socialSecurityPayOperator.comAccountId;
+          if(typeof(comAccountId)=='undefined' || comAccountId==''){
+             this.$Message.error("该雇员对应的企业没有开户,不能办理.");
+            return;
+          }
+          let empArchiveId =this.socialSecurityPayOperator.empArchiveId
+          if(typeof(empArchiveId)=='undefined' || empArchiveId==''){
+             this.$Message.error("雇员未做新进或者转入,不能办理.");
+            return;
+          }
+            let handleMonth = this.socialSecurityPayOperator.handleMonth;
+            
+            if(handleMonth==null || handleMonth==""){
+             this.$Message.error("办理月份不能为空.");
+             return;
+            }
+            let currentMounth = this.yyyyMM(new Date());
+          if(Number(this.yyyyMM(handleMonth))<Number(currentMounth)){
+               this.$Message.error("办理月份不能小于当前月份.");
+               return;
+            }
         }
+    
         let self= this
         this.$Modal.confirm({
           title: "确认办理吗？",

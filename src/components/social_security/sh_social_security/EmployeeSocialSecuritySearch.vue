@@ -24,7 +24,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算区县：" prop="settlementArea">
                   <Select v-model="searchCondition.settlementArea" transfer>
-                    <Option v-for="item in regionList" :value="item.label" :key="item.value">{{item.label}}</Option>
+                     <Option >全部</Option>
+                    <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -59,7 +60,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="身份证号：" prop="idNum">
+                <Form-item label="证件号：" prop="idNum">
                   <Input v-model="searchCondition.idNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -132,7 +133,7 @@
           ssAccountType: '',  //社保账户类型
           employeeId: '', //雇员编号
           employeeName: '', //雇员姓名
-          idNum: '', //身份证号
+          idNum: '', //证件号
           ssAccount:'',//企业社保账号
           archiveTaskStatus: '',//社保状态
           //empClassify: '' //人员分类
@@ -143,16 +144,6 @@
 
         orderNumber: '', //任务单编号
         orderStartTime: '', //任务开始时间
-
-        regionList: [
-           {value: '', label: '全部'},
-          {value: '1', label: '徐汇'},
-          {value: '2', label: '长宁'},
-          {value: '3', label: '浦东'},
-          {value: '4', label: '卢湾'},
-          {value: '5', label: '静安'},
-          {value: '6', label: '黄浦'}
-        ],
 
         sSecurityStateList: [ //1-已办  2-已做 3-转出
         {value: '', label: '全部'},
@@ -197,7 +188,7 @@
                       this.showInfo(params.row.empArchiveId)
                     }
                   }
-                }, '查看'),
+                }, '查看 / 编辑'),
               ]);
             }
           },
@@ -222,17 +213,17 @@
               ]);
             }
           },
-          {title: '企业社保账号', key: 'ssAccount', align: 'center', width: 200,
+          {title: '企业社保账号', key: 'ssAccount', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.ssAccount),
               ]);
             }
           },
-          {title: '状态', key: 'archiveTaskStatus', align: 'center', width: 120,
+          {title: '社保状态', key: 'archiveTaskStatus', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', this.$decode.archiveStatus(params.row.archiveTaskStatus)),
+                h('span', this.$decode.ssArchiveTaskStatus(params.row.archiveTaskStatus)),
               ]);
             }
           },
@@ -257,7 +248,7 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'companyId', align: 'center', width: 100,
+          {title: '客户编号', key: 'companyId', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyId),
@@ -321,9 +312,11 @@
     },
     methods: {
       exportData() {
-        this.$refs['employeeSocialSecurityData'].exportCsv({
-          filename: '原始数据'
-        });
+        // this.$refs['employeeSocialSecurityData'].exportCsv({
+        //   filename: '原始数据'
+        // });
+        let params = this.searchCondition
+        api.empSSSearchExport(params);
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()

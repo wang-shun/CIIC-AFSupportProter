@@ -21,37 +21,20 @@
                 </Form-item>
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">   
-                <Form-item label="身份证号码：" prop="IDNum">
+                <Form-item label="证件号码：" prop="IDNum">
                   <Input v-model="queryItem.IDNum" placeholder="请输入"/>                               
                 </Form-item>                           
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="入离职状态：" prop="status">
-                  <Select v-model="queryItem.status" placeholder="请选择" transfer>
-                    <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                  </Select>
+                  <Cascader v-model="queryItem.status" :data="statusList" trigger="hover" style="width: 57%;hight:100px" transfer></Cascader>
                 </Form-item>    
               </i-col>
-              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                                       
-                <Form-item label="办理日期：" prop="dealTime">
-                  <DatePicker type="date" v-model="queryItem.dealTime" placeholder="请输入" style="width: 57%" transfer/>
-                </Form-item>                                                
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                                       
-                <Form-item label="申报日期：" prop="applyTime">
-                  <DatePicker type="date" v-model="queryItem.applyTime" placeholder="请输入" style="width: 57%" transfer/>
-                </Form-item>                                                
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                                       
-                <Form-item label="材料退回日期：" prop="materialBackTime">
-                  <DatePicker type="date" v-model="queryItem.materialBackTime" placeholder="请输入" style="width: 57%" transfer/>
-                </Form-item>                                                
-              </i-col>                                       -->
             </Row>   
           </Form>  
           <Row type="flex" justify="start" class="tr">  
             <i-col :sm="{span: 24}">
-              <Button type="primary" @click="query" class="ml10" icon="ios-search">查询</Button>
+              <Button type="primary" @click="handleCurrentChange(1)" class="ml10" icon="ios-search">查询</Button>
               <Button type="warning" @click="reset('queryItem')" class="ml10">重置</Button>
             </i-col>
           </Row>                               
@@ -66,7 +49,10 @@
     </Row>
 
     <Table border :columns="colums1" :data="employeePage" ></Table>
-    <Page :current="1" :total="100" show-total show-sizer show-elevator></Page>
+    <Page @on-change="handleCurrentChange"
+    :current="pageNum"
+    :page-size="pageSize"
+    :total="total" show-elevator show-total></Page>
 
     <Modal
       v-model="modal1"
@@ -123,24 +109,25 @@
 </template>
 
 <script>
-  import {mapGetters, mapActions} from 'vuex'
-  import eventType from '../../../store/event_types'
+  import axios from 'axios'
 
+  const host = process.env.SITE_HOST
   export default {
     data () {
       return {
         value1: '1',
         modal1: false,
         labelinvalue: true,
+        pageNum: 1,
+        pageSize: 5,
+        total: null, 
+        idCardType: '',   
         queryItem: {
           empCode: '',
           empName: '',
           IDNum: '',
-          status: '',
-          companyCode: '',
-          dealTime: '',
-          applyTime: '',
-          materialBackTime: ''
+          status: ['',''],
+          companyCode: ''
         },
         formItem: {
           companyName: '',
@@ -157,31 +144,89 @@
         },
         statusList: [
           {
-            value: '0',
-            label: '在职'
+            value: '1',
+            label: 'af',
+            children: [
+              {
+                value: '0',
+                label: '预录用'
+              },
+              {
+                value: '1',
+                label: '雇员信息确认中'
+              },
+              {
+                value: '2',
+                label: '在职'
+              },
+              {
+                value: '3',
+                label: '离职'
+              },
+              {
+                value: '4',
+                label: '取消入职'
+              }
+            ]
           },
           {
-            value: '1',
-            label: '离职'
+            value: '2',
+            label: 'bpo',
+            children: [
+              {
+                value: '0',
+                label: '预增'
+              },
+              {
+                value: '1',
+                label: '报入职'
+              },
+              {
+                value: '2',
+                label: '在职'
+              },
+              {
+                value: '3',
+                label: '报离职'
+              },
+              {
+                value: '4',
+                label: '离职'
+              }
+            ]
+          },
+          {
+            value: '3',
+            label: 'fc',
+            children: [
+              {
+                value: '0',
+                label: '离职'
+              },
+              {
+                value: '1',
+                label: '在职'
+              }
+            ]
           }
         ],
         colums1: [
           {
             title: '雇员编号',
-            key: 'empCode',
+            key: 'employeeId',
             sortable: true
           },
           {
             title: '雇员姓名',
-            key: 'empName'
+            key: 'employeeName'
           },
           {
-            title: '身份证号码',
-            key: 'IDCardNum'
+            title: '证件号码',
+            key: 'idNum'
           },
           {
             title: '客户编号',
-            key: 'companyCode',
+            key: 'companyId',
             sortable: true
           },
           {
@@ -190,7 +235,7 @@
           },
           {
             title: '入离职状态',
-            key: 'status'
+            key: 'statusUI'
           },
           {
             title: '操作',
@@ -210,7 +255,7 @@
                 on: {
                   click: () => {
                     this.formItem.data = {...params.row}
-                    this.formItem.empName = params.row.empName
+                    this.formItem.empName = params.row.employeeName
                     this.formItem.companyName = params.row.companyName
                     this.modal1 = true
                   }
@@ -230,33 +275,39 @@
                     this.lookInfo(params.row)
                   }
                 }
-              }, '编辑'))
+              }, '查看'))
             // }
               return h('div', renderDiv)
             }
           }
-        ]
+        ],
+        employeePage:[]
       }
-    },
-    mounted () {
     },
     created () {
       this.find()
     },
-    computed: {
-      ...mapGetters({
-        employeePage: eventType.EMPLOYEE_PAGE_GET
-      })
-    },
     methods: {
-      ...mapActions({
-        getEmployeePage: eventType.EMPLOYEE_PAGE_SET
-      }),
       find () {
-        var param = {}
-        this.getEmployeePage(param)
+        var params = {}
+        params.params = {}
+        params.params.pageNum = this.pageNum
+        params.params.pageSize = this.pageSize
+        params.params.employeeId = this.queryItem.empCode
+        params.params.employeeName = this.queryItem.empName
+        params.params.idNum = this.queryItem.IDNum
+        params.params.companyId = this.queryItem.companyCode
+        params.params.type = this.queryItem.status[0]
+        params.params.status = this.queryItem.status[1]
+        axios.get(host + '/api/emp/find', params).then(response => {
+          this.employeePage = response.data.data.records
+          this.total = response.data.data.total
+        })
       },
-      query () {},
+      handleCurrentChange(val) {
+        this.pageNum = val
+        this.find()
+      },
       reset (value) {
         this.$refs[value].resetFields()
       },
@@ -264,6 +315,7 @@
         this.$router.push({name: 'empAdd'})
       },
       lookInfo (v) {
+        console.log("v:"+v.idNum)
         this.$router.push({
           name: 'empCredentialsTask', 
           params: {
@@ -282,9 +334,9 @@
                 name: 'empCredentialsTask', 
                 params: {
                   data: data,
-                  type: this.formItem.type,
+                  type: parseInt(this.formItem.type),
                   typeN: this.$decode.sel_type(parseInt(this.formItem.type)),
-                  dealType: this.formItem.dealType,
+                  dealType: parseInt(this.formItem.dealType),
                   dealTypeN: this.$decode.deal_type1(parseInt(this.formItem.dealType)), 
                   companyId: data.companyCode,
                   isDeal: true
@@ -304,7 +356,6 @@
                 }
               })
             }
-            console.log("传过来的信息："+this.$route.params.data.empCode)
             this.modal1 = false
           } else {
             this.$Message.error('请选择办证类型!')

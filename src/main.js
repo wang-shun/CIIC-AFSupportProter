@@ -29,11 +29,12 @@ Vue.use(commons);
 Vue.use(VueAxios,Axios);
 Vue.use(Validator);
 Vue.use(Dic);
-
 const app = new Vue({
     router,
     store,
     render: h => h(App)
 })
-
+app.$Notice.config({
+    top:80
+  })
 app.$mount('#app');

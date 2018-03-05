@@ -4,64 +4,59 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="预留档案编号：">
-            <Select v-model="file1.reservedFileNumberValue" transfer>
-              <Option v-for="(reservedFileNumber, index) in reservedFileNumberList" :key="index">{{reservedFileNumber}}</Option>
-            </Select>
+             <Input v-model="file1.yuliuDocNum" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案编号：">
-            <Select v-model="file1.fileNumberValue" transfer>
-              <Option v-for="(fileNumber, index) in fileNumberList" :key="index">{{fileNumber}}</Option>
-            </Select>
+            <Input v-model="file1.docNum" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="存档地：">
-            <Select v-model="file1.placeValue" transfer>
-              <Option v-for="(place, index) in placeList" :key="index">{{place}}</Option>
+          <Form-item label="存档地：" prop="archivePlace">
+            <Select v-model="file1.archivePlace" transfer>
+              <Option v-for="item in filePlaceList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地补充：">
-            <Select v-model="file1.placeAddValue" transfer>
-              <Option v-for="(placeAdd, index) in placeAddList" :key="index">{{placeAdd}}</Option>
-            </Select>
+            <Input v-model="file1.archivePlaceAdditional" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地状态：">
-            <Select v-model="file1.placeStateValue" transfer>
-              <Option v-for="(placeState, index) in placeStateList" :key="index">{{placeState}}</Option>
+             <Select v-model="file1.archiveCardState" transfer>
+              <Option v-for="item in placeStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案号：">
-            <Input v-model="file1.fileNumber" placeholder="请输入"/>
+            <Input v-model="file1.docCode" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="档案来源：">
-            <Select v-model="file1.fileOriginValue" transfer>
-              <Option v-for="(fileOrigin, index) in fileOriginList" :key="index">{{fileOrigin}}</Option>
+          <Form-item label="档案来源：" prop="docFrom">
+            <Select v-model="file1.docFrom" transfer>
+              <Option v-for="item in fileOriginList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="户口号：">
-            <Input v-model="file1.accountNumber" placeholder="请输入"/>
+          <Form-item label="户口号：" prop="hukouCode">
+            <Input v-model="file1.hukouCode" placeholder="请输入"/>
+            <input type="text" v-model="file1.archiveId" hidden>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="用工档案缴费至：">
-            <Input v-model="file1.employFilePayTo" placeholder="请输入"/>
+          <Form-item label="用工档案缴费至：" prop="employDocPaymentTo">
+            <DatePicker type="date" v-model="file1.employDocPaymentTo" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="入库日期：">
-            <DatePicker v-model="file1.inStockDate" type="date" placeholder="" transfer></DatePicker>
+          <Form-item label="入库日期：" prop="storageDate">
+            <DatePicker type="date" v-model="file1.storageDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -77,7 +72,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-          <Button type="primary">保存</Button>
+          <Button type="primary" @click="instance()">保存</Button>
         </Col>
       </Row>
     </Form>
@@ -85,22 +80,22 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="">
-            <Checkbox v-model="file2.isFileHalfwayOut">档案中途转出</Checkbox>
+            <Checkbox v-model="file2.docHalfwayOut" true-value="1" false-value="0">档案中途转出</Checkbox>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案中途转出时间：">
-            <DatePicker v-model="file2.fileHalfwayOutDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="file2.docHalfwayOutDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案中途转出方向：">
-            <Input v-model="file2.fileHalfwayOutDirection" placeholder="请输入"/>
+            <Input v-model="file2.docHalfwayOutDirect" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="手册入库日期：">
-            <DatePicker v-model="file2.bookInStockDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="file2.manualStorageDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -110,54 +105,56 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工后收到手册入库人：">
-            <Input v-model="file2.emploiedAccpetBookInStocker" placeholder="请输入"/>
+            <Input v-model="file2.afterEmployManualStorageMan" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工后收到手册日期：">
-            <Input v-model="file2.emploiedAccpetBookDate" placeholder="请输入"/>
+            <DatePicker v-model="file2.afterEmployManualReceiveDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="恢复用工手册入库人：">
-            <Input v-model="file2.recoveryEmployBookInStocker" placeholder="请输入"/>
+            <Input v-model="file2.recoverEmployManualStorageMan" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="恢复用工手册入库日期：">
-            <DatePicker v-model="file2.recoveryEmployBookInStockDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="file2.recoverEmployManualStorageDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="寄档案回执人：">
-            <Input v-model="file2.sendFileFeedbacker" placeholder="请输入"/>
+            <Input v-model="file2.mailDocReturnMan" placeholder="请输入"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="寄档案回执日期：">
-            <DatePicker v-model="file2.sendFileFeedbackDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="file2.mailDocReturnDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="开存档证明人：">
-            <Input v-model="file2.stockProver" placeholder="请输入"/>
+            <Input v-model="file2.openDocProofMan" placeholder="请输入"/>
+            <input type="text" v-model="file2.archiveId" hidden>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="开存档证明日期：">
-            <DatePicker v-model="file2.stockProveDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="file2.openDocProofDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-          <Button type="primary">保存</Button>
+          <Button type="primary" @click="instance1()">保存</Button>
         </Col>
       </Row>
     </Form>
   </div>
 </template>
 <script>
+import api from '../../../api/employ_manage/hire_operator'
   export default {
     props: {
       fileInfo1: {
@@ -173,9 +170,183 @@
         fileNumberList: [],
         placeList: [],
         placeAddList: [],
-        placeStateList: [],
-        fileOriginList: [],
+        placeStateList: [
+          {value:'空',label:'空'},
+          {value:'无',label:'无'},
+          {value:'卡为复印件',label:'卡为复印件'}
+        ],
+        fileOriginList: [
+          {value:'空',label:'空'},
+          {value:'户口所在地调入',label:'户口所在地调入'},
+          {value:'市区人才调入',label:'市区人才调入'},
+          {value:'单位转出（包括邮寄）',label:'单位转出（包括邮寄）'},
+          {value:'中智取',label:'中智取'},
+          {value:'农业户口',label:'农业户口'},
+          {value:'其他',label:'其他'}
+        ],
+        filePlaceList: [
+          {value:'空',label:'空'},
+          {value:'外来从业人员',label:'外来从业人员'},
+          {value:'居住证',label:'居住证'},
+          {value:'属地管理',label:'属地管理'},
+          {value:'中智',label:'中智'},
+          {value:'徐汇职介',label:'徐汇职介'},
+          {value:'市人才',label:'市人才'},
+          {value:'梅园路',label:'梅园路'},
+          {value:'商城路',label:'商城路'},
+          {value:'漕虹分部',label:'漕虹分部'},
+          {value:'浦东大道',label:'浦东大道'},
+          {value:'大柏树工作站',label:'大柏树工作站'},
+          {value:'国际航运中心',label:'国际航运中心'},
+          {value:'区人才',label:'区人才'},
+          {value:'就业指导中心',label:'就业指导中心'},
+          {value:'经营者人才',label:'经营者人才'},
+          {value:'厂长经理人才',label:'厂长经理人才'},
+          {value:'农村富裕劳动力',label:'农村富裕劳动力'},
+          {value:'退休',label:'退休'},
+          {value:'协保',label:'协保'},
+          {value:'其他',label:'其他'},
+          {value:'公司自行保理',label:'公司自行保理'},
+          {value:'退工不调',label:'退工不调'},
+          {value:'用工不调',label:'用工不调'},
+          {value:'非全日制',label:'非全日制'},
+          {value:'翻牌转下一条任务单',label:'翻牌转下一条任务单'}
+        ]
       }
+    },
+    methods: {
+      resetForm(form) {
+        this.$refs[form].resetFields();
+      },instance() { 
+        
+      
+        var fromData = this.$utils.clear(this.file1,'');
+        if(this.file1.employDocPaymentTo){
+             fromData.employDocPaymentTo = this.$utils.formatDate(this.file1.employDocPaymentTo, 'YYYY-MM-DD');
+        }
+        if(this.file1.storageDate){
+             fromData.storageDate = this.$utils.formatDate(this.file1.storageDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.inFileDate){
+             fromData.inFileDate = this.$utils.formatDate(this.file1.inFileDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.docHalfwayOutDate){
+            fromData.docHalfwayOutDate = this.$utils.formatDate(this.file1.docHalfwayOutDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.manualStorageDate){
+             fromData.manualStorageDate = this.$utils.formatDate(this.file1.manualStorageDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.afterEmployManualReceiveDate){
+            fromData.afterEmployManualReceiveDate = this.$utils.formatDate(this.file1.afterEmployManualReceiveDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.recoverEmployManualStorageDate){
+              fromData.recoverEmployManualStorageDate = this.$utils.formatDate(this.file1.recoverEmployManualStorageDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.mailDocReturnDate){
+               fromData.mailDocReturnDate = this.$utils.formatDate(this.file1.mailDocReturnDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.openDocProofDate){
+             fromData.openDocProofDate = this.$utils.formatDate(this.file1.openDocProofDate, 'YYYY-MM-DD');
+        }
+       if(this.file1.closeFeeDate){
+             fromData.closeFeeDate = this.$utils.formatDate(this.file1.closeFeeDate, 'YYYY-MM-DD');
+       }
+        if(this.file1.closeFeeStartDate){
+             fromData.closeFeeStartDate = this.$utils.formatDate(this.file1.closeFeeStartDate, 'YYYY-MM-DD');
+        }
+        if(this.file1.resignDocDate){
+             fromData.resignDocDate = this.$utils.formatDate(this.file1.resignDocDate, 'YYYY-MM-DD');
+        }
+       if(this.file1.storageOutDate){
+            fromData.storageOutDate = this.$utils.formatDate(this.file1.storageOutDate, 'YYYY-MM-DD');
+       }
+       if(this.file1.postLetterDate){
+           fromData.postLetterDate = this.$utils.formatDate(this.file1.postLetterDate, 'YYYY-MM-DD');
+       }
+        
+       if(this.file1.budiaoDocDate1){
+            fromData.budiaoDocDate1 = this.$utils.formatDate(this.file1.budiaoDocDate1, 'YYYY-MM-DD');
+       }
+       if(this.file1.budiaoDocDate2){
+            fromData.budiaoDocDate2 = this.$utils.formatDate(this.file1.budiaoDocDate2, 'YYYY-MM-DD');
+       }
+        
+        api.saveAmArchive(fromData).then(data => {
+              if (data.code == 200) {
+                this.$Message.success("保存成功");
+                 history.go(-1);
+              } else {
+                this.$Message.error("保存失败！" + data.message);
+              }
+        })
+         
+       },
+       instance1() { 
+        this.$utils.copy(this.file2, this.file1);
+       
+        var fromData = this.$utils.clear(this.file2,'');
+        
+        if(this.file2.employDocPaymentTo){
+             fromData.employDocPaymentTo = this.$utils.formatDate(this.file2.employDocPaymentTo, 'YYYY-MM-DD');
+        }
+        if(this.file2.storageDate){
+             fromData.storageDate = this.$utils.formatDate(this.file2.storageDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.inFileDate){
+             fromData.inFileDate = this.$utils.formatDate(this.file2.inFileDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.docHalfwayOutDate){
+            fromData.docHalfwayOutDate = this.$utils.formatDate(this.file2.docHalfwayOutDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.manualStorageDate){
+             fromData.manualStorageDate = this.$utils.formatDate(this.file2.manualStorageDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.afterEmployManualReceiveDate){
+            fromData.afterEmployManualReceiveDate = this.$utils.formatDate(this.file2.afterEmployManualReceiveDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.recoverEmployManualStorageDate){
+              fromData.recoverEmployManualStorageDate = this.$utils.formatDate(this.file2.recoverEmployManualStorageDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.mailDocReturnDate){
+               fromData.mailDocReturnDate = this.$utils.formatDate(this.file2.mailDocReturnDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.openDocProofDate){
+             fromData.openDocProofDate = this.$utils.formatDate(this.file2.openDocProofDate, 'YYYY-MM-DD');
+        }
+       if(this.file2.closeFeeDate){
+             fromData.closeFeeDate = this.$utils.formatDate(this.file2.closeFeeDate, 'YYYY-MM-DD');
+       }
+        if(this.file2.closeFeeStartDate){
+             fromData.closeFeeStartDate = this.$utils.formatDate(this.file2.closeFeeStartDate, 'YYYY-MM-DD');
+        }
+        if(this.file2.resignDocDate){
+             fromData.resignDocDate = this.$utils.formatDate(this.file2.resignDocDate, 'YYYY-MM-DD');
+        }
+       if(this.file2.storageOutDate){
+            fromData.storageOutDate = this.$utils.formatDate(this.file2.storageOutDate, 'YYYY-MM-DD');
+       }
+       if(this.file2.postLetterDate){
+           fromData.postLetterDate = this.$utils.formatDate(this.file2.postLetterDate, 'YYYY-MM-DD');
+       }
+        
+       if(this.file2.budiaoDocDate1){
+            fromData.budiaoDocDate1 = this.$utils.formatDate(this.file2.budiaoDocDate1, 'YYYY-MM-DD');
+       }
+       if(this.file2.budiaoDocDate2){
+            fromData.budiaoDocDate2 = this.$utils.formatDate(this.file2.budiaoDocDate2, 'YYYY-MM-DD');
+       }
+
+       
+        api.saveAmArchive(fromData).then(data => {
+              if (data.code == 200) {
+                this.$Message.success("保存成功");
+                 history.go(-1);
+              } else {
+                this.$Message.error("保存失败！" + data.message);
+              }
+        })
+         
+       }
     },
     computed: {
       file1() {

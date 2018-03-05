@@ -42,8 +42,8 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="每月关账日：">
-          <label>{{companyFundAccount.closeDay}}</label>
+        <Form-item label="截单年月：">
+          <label>{{companyFundAccount.endDate}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

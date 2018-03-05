@@ -10,7 +10,6 @@ export class CompanyTaskList{
     }
     //get request type
     static getTableData(params,url){
-        console.log(url)
         return new Promise(function(resolve,reject){
           ajax.get(url, params) .then(function (response) {
                 let responseData = {
@@ -48,12 +47,18 @@ export class CompanyTaskList{
                 }
           })
           .catch(function (error) {
-            console.log(error);
             reject(error);
           });
         })
 
     }
+
+    static excelExport(url,params){
+      return new Promise(function(resolve,reject){
+        ajax.download(url, params);
+      });
+    }
+
     //post request type
     static postTableData(params,url){
       return new Promise(function(resolve,reject){
@@ -94,7 +99,6 @@ export class CompanyTaskList{
               }
         })
         .catch(function (error) {
-          console.log(error);
           reject(error);
         });
       })
@@ -391,15 +395,18 @@ export class CompanyTaskList{
     let url =domainJson.addOrUpdateCompanyTaskUrl
     return new Promise((resolve,reject)=>{
       ajax.post(url,params).then(response=>{
-        let result = this.handleReturnData(response)
+        let result = this.handleReturnDataNew(response)
         if(!result.isError){
           //获得前台显示数据
-          resolve(true)
+          resolve({result:true,message:result.message})
         }else reject(Error(result.message))
     })
   })
   }
-
+  //处理返回值
+  static handleReturnDataNew(response){
+     return {message:response.data.message,isError:false}
+  }
 
   //任务单的撤销
   static taskRevocation(params){
@@ -416,6 +423,7 @@ export class CompanyTaskList{
   }
 
 
+
   //处理返回值
   static handleReturnData(response){
     if(response.data.code=="200"){
@@ -428,11 +436,28 @@ export class CompanyTaskList{
    */
   static comInfoAndPayWayData(result){
     //前道传过来的社保截止和支付方式的json
-    let taskFormContent =  JSON.parse(result.taskFormContent)
+    let taskFormContent = null;
+    if(typeof(result.taskFormContent)!='undefined'){
+      taskFormContent =  JSON.parse(result.taskFormContent);
+    }
+
     //账户信息
     let ssComAccountBO =  result.ssComAccountBO
     //判断账户信息是否为空
     let isNull = ssComAccountBO==null || ssComAccountBO==""
+
+    let expireDateFront = "";
+    let paymentWay = "";
+    let billReceiver = "";
+    if(isNull){
+      expireDateFront =taskFormContent==null|| taskFormContent==""?"":taskFormContent.expireDateFront;
+      paymentWay = taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.paymentWay);
+      billReceiver = taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.billReceiver);
+    }else{
+      expireDateFront = ssComAccountBO.expireDate
+      paymentWay = ssComAccountBO.paymentWay
+      billReceiver = ssComAccountBO.billReceiver
+    }
 
     //行业表里信息
     let industryInfo = null
@@ -445,7 +470,6 @@ export class CompanyTaskList{
       dispatchMaterial = JSON.parse(ssComAccountBO.dispatchMaterial)
     }
     //发出的材料
-
     return {
       companyTaskStatus:result.taskStatus,
       comAccountId:isNull?'':ssComAccountBO.comAccountId,
@@ -457,10 +481,10 @@ export class CompanyTaskList{
           },
       beforeSendInfo:{
         //客户社保截止日
-        customerSocialSecurityEndDate: taskFormContent==null|| taskFormContent==""?"":taskFormContent.expireDate,
+        customerSocialSecurityEndDate: expireDateFront,
         //支付方式
-        payMethodValue: taskFormContent==null|| taskFormContent==""?"":taskFormContent.paymentWay,
-        billReceiverValue:taskFormContent==null|| taskFormContent==""?"":taskFormContent.billReceiver,
+        payMethodValue: String(paymentWay),
+        billReceiverValue:String(billReceiver),
       },
       companyOpenAccountOperator: {
             taskValue: result.taskCategory,
@@ -488,11 +512,11 @@ export class CompanyTaskList{
             sufferedOnTheJobPercentage: industryInfo==null?'':industryInfo.comRatio, //企业工伤比例
             sufferedOnTheJobPercentageChangeStartMonth: industryInfo==null?'':industryInfo.startMonth, //企业工伤比例开始调整月份
             sendedMaterials: dispatchMaterial, //发出材料
-            acceptanceDate: isNull || result.startHandleDate==null?'':result.startHandleDate, //受理日期 startHandleDate,sendCheckDate,finishDate
-            sendCheckDate: isNull || result.sendCheckDate==null?'':result.sendCheckDate, //送审日期
-            finishedDate: isNull || result.finishDate==null?'':result.finishDate, //完成日期
-            handleReason:isNull || result.handleRemark==null?'':result.handleRemark,//办理原因
-            refuseReason: '' //批退原因
+            acceptanceDate:result.startHandleDate==null?'':result.startHandleDate, //受理日期 startHandleDate,sendCheckDate,finishDate
+            sendCheckDate:result.sendCheckDate==null?'':result.sendCheckDate, //送审日期
+            finishedDate:result.finishDate==null?'':result.finishDate, //完成日期
+            handleRemark:result.handleRemark==null?'':result.handleRemark,//办理原因
+            rejectionRemark:result.rejectionRemark==null?'':result.rejectionRemark //批退原因
           }
     }
   }
@@ -515,5 +539,6 @@ export class CompanyTaskList{
     }
     return operatorMaterialListData
   }
+
 }
 

@@ -4,10 +4,10 @@
       <Panel name="1">
         企业社保账户管理
         <div slot="content">
-          <Form ref="comAccountSearch" :model="comAccountSearch" :label-width=150>
+          <Form ref="comAccountSearch" :model="comAccountSearch" :label-width='150'>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="养老金用公司名称：" prop="comAccountName">
+                <Form-item label="企业社保账户名称：" prop="comAccountName">
                   <Input v-model="comAccountSearch.comAccountName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -51,7 +51,7 @@
       <Row class="mt20">
         <Col :sm="{span:24}" class="tr">
           <Form-item class="ml10">
-            <Button type="info" @click="">导出</Button>
+            <Button type="info" @click="accExport">导出</Button>
           </Form-item>
         </Col>
       </Row>
@@ -77,7 +77,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/event_types'
-import InputAccount from '../../common_control/form/input_account'
+  import InputAccount from '../../common_control/form/input_account'
   export default {
     components:{InputAccount},
     data() {
@@ -93,14 +93,14 @@ import InputAccount from '../../common_control/form/input_account'
         accountTypeList: [
             {value: '', label: '全部'},
             {value: '1', label: '中智大库'},
-            {value: '2', label: '中智独立库'},
+            {value: '2', label: '中智外包'},
             {value: '3', label: '独立户'},
         ],
         stateList: [
             {value: '', label: '全部'},
             {value: '1', label: '有效'},
-            {value: '2', label: '封存'},
-            {value: '3', label: '终止'},
+            {value: '2', label: '终止'},
+            {value: '3', label: '封存'},
         ],
         accountManageData: [],
         resultPageData: {
@@ -110,7 +110,7 @@ import InputAccount from '../../common_control/form/input_account'
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         accountManageColumns: [
-          {title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
+          {title: '操作', key: 'action', fixed: 'left', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
@@ -127,24 +127,24 @@ import InputAccount from '../../common_control/form/input_account'
               ]);
             }
           },
-          {title: '养老金用公司名称', key: 'comAccountName', width: 250, fixed: 'left', align: 'center',
+          {title: '企业社保账户名称', key: 'comAccountName', width: 250, fixed: 'left', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.comAccountName),
               ]);
             }
           },
-          {title: '社保账户类型', key: 'ssAccountType', width: 100, fixed: 'left', align: 'center',
+          {title: '社保账户类型', key: 'ssAccountType', width: 200, fixed: 'left', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.accountType(params.row.ssAccountType)),
               ]);
             }
           },
-          {title: '状态', key: 'state', width: 120, align: 'center',
+          {title: '状态', key: 'state', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.state=='0'?'初始':params.row.state=='1'?'有效':params.row.state=='2'?'终止':''),
+                h('span', params.row.state=='0'?'初始':params.row.state=='1'?'有效':params.row.state=='2'?'终止':'封存'),
               ]);
             }
           },
@@ -155,14 +155,14 @@ import InputAccount from '../../common_control/form/input_account'
               ]);
             }
           },
-          {title: '开户\\转入日期', key: 'intoDate', width: 120, align: 'center',
+          {title: '开户\\转入日期', key: 'intoDate', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.intoDate),
               ]);
             }
           },
-          {title: '终止日期', key: 'endDate', width: 120, align: 'center',
+          {title: '终止日期', key: 'endDate', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.endDate),
@@ -223,6 +223,12 @@ import InputAccount from '../../common_control/form/input_account'
         this.resultPageData.pageSize = val;
         this.queryAccount();
       },
+
+      accExport(){
+        let params = this.comAccountSearch;
+        this.ajax.download('/api/soccommandservice/ssComAccount/accountExport', params);
+      },
+
       async operatorQuery (params) {
         let response = await this.ajax.post('/api/soccommandservice/ssComAccount/accountQuery', params);
         return await response.data;

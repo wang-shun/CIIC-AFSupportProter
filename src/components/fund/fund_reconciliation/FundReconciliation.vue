@@ -29,54 +29,15 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="isShowReconciliation = true;">新建对账</Button>
+       
+        <Button type="primary" @click="isShowUpload = true">新建对账</Button>
       </Col>
     </Row>
 
     <Table border class="mt20" :columns="reconciliationColumns" :data="data.reconciliationData"></Table>
     <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
 
-    <Modal
-      v-model="isShowReconciliation"
-      title="新建对账"
-      width="720"
-    >
-      <Form :label-width=150>
-        <Row type="flex" justify="start">
-          <Col :sm="{span:12}">
-            <Form-item label="公积金月份：">
-              <Input v-model="newReconciliation.fundMonth" placeholder="请输入..."></Input>
-            </Form-item>
-          </Col>
-          <Col :sm="{span:12}">
-            <Form-item label="公积金企业账户：">
-              <Select v-model="newReconciliation.fundCompanyAccountValue" style="width: 100%;" transfer>
-                <Option v-for="item in fundCompanyAccountCategoryList" :value="item.value" :key="item.value">{{item.label}}</Option>
-              </Select>
-            </Form-item>
-          </Col>
-          <Col :sm="{span:12}">
-            <Form-item label="公积金类型：">
-              <Select v-model="newReconciliation.fundTypeValue" style="width: 100%;" transfer>
-                <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-              </Select>
-            </Form-item>
-          </Col>
-          <Col :sm="{span:12}">
-            <Form-item label="选择对账文件：">
-              <Upload action="//jsonplaceholder.typicode.com/posts/">
-                <Button type="ghost" icon="ios-cloud-upload-outline">上传文件(支持xlsx,xls格式)</Button>
-              </Upload>
-            </Form-item>
-          </Col>
-        </Row>
-      </Form>
-      <div slot="footer">
-        <Button type="warning" @click="isShowReconciliation = false;">关闭</Button>
-      </div>
-    </Modal>
-
-    <Modal
+   <Modal
       v-model="isShowReconciliation"
       title="查看对账"
       width="720"
@@ -111,6 +72,48 @@
         <Button type="warning" @click="isShowReconciliation = false;">返回</Button>
       </div>
     </Modal>
+     
+ <Modal
+      v-model="isShowUpload"
+      title="新建对账"
+      width="720"
+    >
+      <Form :label-width=150>
+        <Row type="flex" justify="start">
+          <Col :sm="{span:24}">
+            <Form-item label="公积金月份：">
+              <Input v-model="newReconciliation.fundMonth" placeholder="请输入..."></Input>
+            </Form-item>
+          </Col>
+          <Col :sm="{span:24}">
+            <Form-item label="公积金企业账户：">
+              <Select v-model="newReconciliation.fundCompanyAccountValue" style="width: 100%;" transfer>
+                <Option v-for="item in fundCompanyAccountCategoryList" :value="item.value" :key="item.value">{{item.label}}</Option>
+              </Select>
+            </Form-item>
+          </Col>
+          <Col :sm="{span:24}">
+            <Form-item label="公积金类型：">
+              <Select v-model="newReconciliation.fundTypeValue" style="width: 100%;" transfer>
+                <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+              </Select>
+            </Form-item>
+          </Col>
+          <Col :sm="{span:24}">
+            <Form-item label="选择对账文件：">
+              <Upload action="//jsonplaceholder.typicode.com/posts/">
+                <Button type="ghost" icon="ios-cloud-upload-outline">上传文件(支持xlsx,xls格式)</Button>
+              </Upload>
+            </Form-item>
+          </Col>
+        </Row>
+      </Form>
+      <div slot="footer">
+        <Button type="warning" @click="isShowUpload = false;">关闭</Button>
+      </div>
+    </Modal>
+
+
   </div>
 </template>
 <script>
@@ -134,6 +137,7 @@
           {label: "独立户客户2", value: 3},
         ],
         isShowReconciliation: false,
+        isShowUpload:false,
         newReconciliation: {
           fundMonth: "",
           fundCompanyAccountValue: 0,

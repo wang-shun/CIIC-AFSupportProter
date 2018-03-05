@@ -32,7 +32,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="企业社保账户：" prop="ssAccount">
+              <Form-item label="企业社保账号：" prop="ssAccount">
                 <input-account v-model="operatorSearchData.ssAccount"></input-account>
               </Form-item>
               </Col>
@@ -70,7 +70,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="身份证号：" prop="idNum">
+              <Form-item label="证件号：" prop="idNum">
                 <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
@@ -86,7 +86,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
+                  <Option value="" label="全部"></Option>
                   <Option value="徐汇" label="徐汇"></Option>
                   <Option value="浦东" label="浦东"></Option>
                   <Option value="闵行" label="闵行"></Option>

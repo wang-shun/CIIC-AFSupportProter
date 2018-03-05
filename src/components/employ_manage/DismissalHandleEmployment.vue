@@ -43,12 +43,12 @@
             <employment-notes-view :employmentViewData="employmentViewData"></employment-notes-view>
           </div>
         </Panel>
-        <Panel name="7">
+        <!-- <Panel name="7">
           材料借出信息查看
           <div slot="content">
             <materials-borrow-info-view :MaterialsBorrowData="MaterialsBorrowData"></materials-borrow-info-view>
           </div>
-        </Panel>
+        </Panel> -->
         <Panel name="8">
           档案备注查看
           <div slot="content">
@@ -193,27 +193,38 @@
     },
     async mounted() {
 
-          
-         
-          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId}
+          let params = {idNum:this.$route.query.idNum,idCardType:this.$route.query.idCardType,empTaskId:this.$route.query.empTaskId,employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId,remarkType:'3'}
 
           api.queryAmResignDetail(params).then(data=>{
+
+            if(data.data.customerInfo){
+                this.customerInfo = data.data.customerInfo;//客户信息
+            }
+
+            if(data.data.amEmpTaskBO){
+                this.employeeInfo=data.data.amEmpTaskBO;//雇员信息
+            }
+
+            if(data.data.resignBO){
+                this.refuseInfo=data.data.resignBO;//退工信息
+            }
             
-              this.refuseInfo=data.data.resignBO;
-              
-              // this.employmentMaterial.materialsData = data.data.materialList.rows;
-             
-              // this.handleInfo = data.data.amEmploymentBO;
-              
-              // this.notesData = data.data.amRemarkBo.rows;
+            if(data.data.amRemarkBo){
+               this.refuseNotesData = data.data.amRemarkBo.rows;//退工备注
+            } 
 
-              // this.materialHandleInfo = data.data.amArchaiveBo;
+            if(data.data.amRemarkBo1){
+                this.employmentViewData = data.data.amRemarkBo1.rows;//用工备注
+            }
+            
+            if(data.data.amRemarkBo2){
+                 this.fileNotesViewData = data.data.amRemarkBo2.rows;//档案备注
+            }
+            
+            if(data.data.amEmploymentBO){
+                 this.employmentInfo = data.data.amEmploymentBO;
+            }
 
-              // //this.historyTaskData =data.data.listHistory;
-
-              // this.customerInfo = data.data.company;
-
-               
           })
     },
     methods: {

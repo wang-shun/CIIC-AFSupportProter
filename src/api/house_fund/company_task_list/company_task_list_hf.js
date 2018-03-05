@@ -166,6 +166,13 @@ export class CompanyTaskListHF{
     })
   }
 
+  //处理返回值
+  static handleReturnData(response){
+    if(response.data.code=="200"){
+      return {data:response.data.data,message:"正常",isError:false}
+    }else return {message:"后台异常！",isError:true}
+  }
+
   //获取企业任务单支付方式数据
   static getCompanyTaskPaymentWayData(){
     let url = domainJson.getCompanyTaskPaymentWayData

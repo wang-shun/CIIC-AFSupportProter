@@ -38,7 +38,10 @@ export default {
     let response = await AJAX.post('/api/fundcommandservice/hfEmpTaskHandle/comAccountQuery', params);
     return await response.data;
   },
-
+  transEmpTaskQuery: async (params) => {
+    let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTaskHandle/transEmpTaskQuery', params);
+    return await response.data;
+  },
   createTransEmpTask: async (params) => {
     let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTaskHandle/createTransEmpTask', params);
     return await response.data;

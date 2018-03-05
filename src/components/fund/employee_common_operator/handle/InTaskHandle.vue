@@ -251,7 +251,7 @@
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
-        <Button type="primary" class="ml10" @click="isShowPrint = true" v-if="showButton">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="showButton">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
@@ -1036,6 +1036,24 @@
         }
         return true;
       },
+      transEmpTaskQuery() {
+        api.transEmpTaskQuery({
+          companyId: this.displayVO.companyId,
+          employeeId: this.displayVO.employeeId,
+          hfType: this.displayVO.hfType,
+        }).then(data => {
+          if (data.code == 200) {
+            if (!data.data || data.data.length == 0) {
+              this.isShowPrint = true;
+            } else {
+              // TODO show print page
+              console.log(data.data);
+            }
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      },
       ok () {
         this.transferNotice.empTaskId = this.displayVO.empTaskId;
         this.transferNotice.companyId = this.displayVO.companyId;
@@ -1062,8 +1080,8 @@
             this.transferNotice.transferDate = '';
 
             // TODO show print page
-            console.log(data.data);
             this.isShowPrint = false;
+            console.log(data.data);
           } else {
             this.$Message.error(data.message);
           }

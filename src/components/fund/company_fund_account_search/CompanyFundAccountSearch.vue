@@ -7,37 +7,36 @@
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="operatorSearchData.customerNumber" placeholder="请输入..."></Input>
+                <Form-item label="客户编号：" prop="companyId">
+                  <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称：" prop="customerName">
-                  <input-company v-model="operatorSearchData.customerName"></input-company>
+                <Form-item label="客户名称：" prop="companyName">
+                  <input-company v-model="operatorSearchData.companyName"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户汇缴月份：" prop="taskStartTime">
-                  <DatePicker v-model="operatorSearchData.customerPayDate" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                <Form-item label="客户汇缴月份：" prop="comHfMonth">
+                  <DatePicker type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer @on-change="getComHfMonth"></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金类型：" prop="fundTypeValue">
-                  <Select v-model="operatorSearchData.fundTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="公积金类型：" prop="hfType">
+                  <Select v-model="operatorSearchData.hfType" style="width: 100%;" transfer>
+                    <Option v-for="item in hfTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金账号：" prop="fundAccountValue">
-                  <!-- <Input v-model="operatorSearchData.fundAccountValue" placeholder="请输入..."></Input> -->
-                  <InputAccount v-model="operatorSearchData.fundAccountValue"></InputAccount>
+                <Form-item label="公积金账号：" prop="accountNumber">
+                  <InputAccount v-model="operatorSearchData.accountNumber"></InputAccount>
                 </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="primary" icon="ios-search" @click="fundAccountSearch">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -49,34 +48,40 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="info">导出</Button>
-        <!-- <Button type="primary" @click="nextStep">编辑</Button> -->
-        <!-- <Button type="primary" @click="isShowBindAndUnbind = true;">公司绑定\解绑</Button> -->
       </Col>
     </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="companyFundAccountSearchColumns" :data="data.companyFundAccountSearchData"></Table>
-        <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
+        <Table border :columns="companyFundAccountSearchColumns" :data="fundAccountData"></Table>
+        <Page
+          class="pageSize"
+          @on-change="handlePageNum"
+          @on-page-size-change="handlePageSize"
+          :total="fundAccountPageData.total"
+          :page-size="fundAccountPageData.pageSize"
+          :page-size-opts="fundAccountPageData.pageSizeOpts"
+          :current="fundAccountPageData.pageNum"
+          show-sizer show-total>
+        </Page>
       </Col>
     </Row>
 
-    <Modal
-      v-model="isShowBindAndUnbind"
-      title="公司绑定\解绑"
-      width="720"
-    >
-      <company-bind-and-unbind :companyFundAccountInfo="data.companyFundAccountInfo" :bindAndUnbindCompanyData="data.bindAndUnbindCompanyData"></company-bind-and-unbind>
-      <div slot="footer">
-        <Button type="primary">保存</Button>
-        <Button type="warning">关闭</Button>
-      </div>
-    </Modal>
+    <!--<Modal-->
+      <!--v-model="isShowBindAndUnbind"-->
+      <!--title="公司绑定\解绑"-->
+      <!--width="720"-->
+    <!--&gt;-->
+      <!--<company-bind-and-unbind :companyFundAccountInfo="data.companyFundAccountInfo" :bindAndUnbindCompanyData="data.bindAndUnbindCompanyData"></company-bind-and-unbind>-->
+      <!--<div slot="footer">-->
+        <!--<Button type="primary">保存</Button>-->
+        <!--<Button type="warning">关闭</Button>-->
+      <!--</div>-->
+    <!--</Modal>-->
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/event_types'
+  import api from '../../../api/house_fund/company_fund_account_search/company_fund_account_search'
   import InputCompany from "../../common_control/form/input_company"
   import companyBindAndUnbind from "../common/CompanyBindAndUnbind.vue"
   import InputAccount from "../common/input_account"
@@ -87,97 +92,165 @@
       return {
         collapseInfo: [1],
         operatorSearchData: {
-          customerNumber: "",
-          customerName: "",
-          customerPayDate: "",
-          fundTypeValue: "",
-          fundAccountValue: "",
-          onlyShowEffectivePayMonth: false
+          companyId: "",
+          companyName: "",
+          comHfMonth: "",
+          hfType: "",
+          accountNumber: ""
         },
-        fundTypeList: [
+        hfTypeList: [
           {label: "全部", value: ''},
-          {label: "基本公积金", value: 0},
-          {label: "补充公积金", value: 1},
+          {label: "基本公积金", value: 1},
+          {label: "补充公积金", value: 2},
         ],
         isShowBindAndUnbind: false,
+        fundAccountData: [],
+        fundAccountPageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+        },
         companyFundAccountSearchColumns: [
+          {title: '企业公积金名称', key: 'comAccountName', align: 'center', width: 300,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.comAccountName),
+              ]);
+            }
+          },
+          {title: '公积金账号', key: 'comAccount', align: 'center', width: 180,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.comAccount),
+              ]);
+            }
+          },
+          {title: '公积金类型', key: 'hfType', align: 'center', width: 150,
+            render: (h, params) => {
+              let type = '';
+              switch (params.row.hfType) {
+                case '1':
+                  type = '基本公积金';
+                  break;
+                case '2':
+                  type = '补充公积金';
+                  break;
+              }
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', type),
+              ]);
+            }
+          },
+          {title: 'U盾代管情况', key: 'ukeyStore', align: 'center', width: 200,
+            render: (h, params) => {
+              let ukeyStore = '';
+              switch (params.row.ukeyStore) {
+                case '0':
+                  ukeyStore = '没有';
+                  break;
+                case '1':
+                  ukeyStore = '客户自办';
+                  break;
+                case '2':
+                  ukeyStore = '中智代办';
+                  break;
+              }
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', ukeyStore),
+              ]);
+            }
+          },
+          {title: '缴费银行', key: 'paymentBank', align: 'center', width: 250,
+            render: (h, params) => {
+              let paymentBank = '';
+              switch (params.row.paymentBank) {
+                case '1':
+                  paymentBank = '徐汇—X';
+                  break;
+                case '2':
+                  paymentBank = '西郊—C';
+                  break;
+                case '3':
+                  paymentBank = '东方路—P';
+                  break;
+                case '4':
+                  paymentBank = '卢湾—L';
+                  break;
+                case '5':
+                  paymentBank = '黄浦—H';
+                  break;
+              }
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', paymentBank),
+              ]);
+            }
+          },
+          {title: '备注说明', key: 'remark', align: 'center', width: 465,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          },
           {title: '操作', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('Button', {props: {type: 'success', size: 'small'},
                   on: {
                     click: () => {
-                      this.nextStep();
+                      this.nextStep(true, params.row);
                     }
                   }
                 }, '查看'),
                 h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
                   on: {
                     click: () => {
-                      this.nextStep();
+                      this.nextStep(false, params.row);
                     }
                   }
                 }, '编辑')
               ])
             }
           },
-          {title: '企业公积金名称', key: 'companyFundName', align: 'center', width: 300,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyFundName),
-              ]);
-            }
-          },
-          {title: '基本\补充公积金账号', key: 'fundAccount', align: 'center', width: 180,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fundAccount),
-              ]);
-            }
-          },
-          {title: '公积金类型', key: 'fundType', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.fundType),
-              ]);
-            }
-          },
-          
-          {title: 'U盾代管情况', key: 'UKey', align: 'center', width: 200,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.UKey),
-              ]);
-            }
-          },
-          {title: '缴费银行', key: 'payBank', align: 'center', width: 250,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.payBank),
-              ]);
-            }
-          },
-          {title: '备注说明', key: 'notes', align: 'center', width: 465,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.notes),
-              ]);
-            }
-          },
         ]
       }
     },
     mounted() {
-      this[EventType.COMPANYFUNDACCOUNTSEARCH]()
-    },
-    computed: {
-      ...mapState('companyFundAccountSearch',{
-        data:state => state.data
-      })
+      window.sessionStorage.removeItem('fundAccountInfo');
+      this.fundAccountSearch();
     },
     methods: {
-      ...mapActions('companyFundAccountSearch',[EventType.COMPANYFUNDACCOUNTSEARCH]),
-      nextStep() {
+      getComHfMonth(data) {
+        this.operatorSearchData.comHfMonth = data;
+      },
+      fundAccountSearch() {
+        var params = this.$utils.clear(this.operatorSearchData);
+        params = this.$utils.clear(params, '');
+        api.companyFundAccountSearch({
+          pageSize: this.fundAccountPageData.pageSize,
+          pageNum: this.fundAccountPageData.pageNum,
+          params: params,
+        }).then(data => {
+          if (data.code == 200) {
+            this.fundAccountData = data.data;
+            this.fundAccountPageData.total = Number(data.data.total);
+          }
+        })
+      },
+      handlePageNum(val) {
+        this.rejectedPageData.pageNum = val;
+        this.hfEmpTaskQuery();
+      },
+      handlePageSize(val) {
+        this.rejectedPageData.pageNum = 1;
+        this.rejectedPageData.pageSize = val;
+        this.hfEmpTaskQuery();
+      },
+      nextStep(isCanUpdate, fundAccountData) {
+        let fundAccountInfo = fundAccountData;
+        fundAccountInfo['isCanUpdate'] = isCanUpdate;
+        window.sessionStorage.setItem('fundAccountInfo', JSON.stringify(fundAccountInfo));
         this.$router.push({name: "companyFundAccountProgressTwo"});
       },
       resetSearchCondition(name) {

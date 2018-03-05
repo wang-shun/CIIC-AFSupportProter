@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="smList" style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
@@ -27,22 +27,7 @@
               <Form-item label="结算区县：" prop="settlementArea">
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
                   <Option value="" label="全部"></Option>
-                  <Option value="徐汇" label="徐汇"></Option>
-                  <Option value="浦东" label="浦东"></Option>
-                  <Option value="闵行" label="闵行"></Option>
-                  <Option value="黄浦" label="黄浦"></Option>
-                  <Option value="长宁" label="长宁"></Option>
-                  <Option value="杨浦" label="杨浦"></Option>
-                  <Option value="普陀" label="普陀"></Option>
-                  <Option value="宝山" label="宝山"></Option>
-                  <Option value="虹口" label="虹口"></Option>
-                  <Option value="闵行" label="闵行"></Option>
-                  <Option value="松江" label="松江"></Option>
-                  <Option value="嘉定" label="嘉定"></Option>
-                  <Option value="青浦" label="青浦"></Option>
-                  <Option value="奉贤" label="奉贤"></Option>
-                  <Option value="崇明" label="崇明"></Option>
-                  <Option value="金山" label="金山"></Option>
+                  <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
                 </Select>
               </Form-item>
               </Col>
@@ -148,13 +133,7 @@
       <Button type="info" @click="exprotExcel">导出</Button>
       </Col>
     </Row>
-
-    <Row class="mt20">
-      <Col :sm="{span:24}">
-      <Table border ref="selection"
-             :columns="employeeResultColumns"
-             :data="employeeResultData"
-             @on-selection-change="selectionChange"></Table>
+      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -164,20 +143,6 @@
         :page-size-opts="employeeResultPageData.pageSizeOpts"
         :current="employeeResultPageData.pageNum"
         show-sizer show-total></Page>
-      </Col>
-    </Row>
-
-    <!-- 批退理由 -->
-    <!-- <Modal
-      v-model="isRefuseReason"
-      :mask-closable="false"
-      :closable="false"
-      @on-ok="handleRefuseReason">
-      <p>
-        <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
-      </p>
-    </Modal> -->
-
 
     <!-- 批退理由 -->
       <Modal
@@ -195,6 +160,7 @@
             <Button  size="large"  @click="handleRefuseReason">确定</Button>
         </div>
       </Modal>
+
   </div>
 </template>
 <script>

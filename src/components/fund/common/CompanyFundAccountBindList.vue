@@ -13,10 +13,10 @@
     data() {
       return {
         accountBindCompanyColumns: [
-          {title: '客户编号', key: 'companyNumber', align: 'center',
+          {title: '客户编号', key: 'companyId', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyNumber),
+                h('span', params.row.companyId),
               ]);
             }
           },
@@ -27,17 +27,17 @@
               ]);
             }
           },
-          {title: '客服经理', key: 'serviceManager', align: 'center',
+          {title: '客服经理', key: 'accountManager', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.serviceManager),
+                h('span', params.row.accountManager),
               ]);
             }
           },
-          {title: '绑定时间', key: 'bindDate', align: 'center',
+          {title: '绑定时间', key: 'bindedTime', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.bindDate),
+                h('span', params.row.bindedTime),
               ]);
             }
           }

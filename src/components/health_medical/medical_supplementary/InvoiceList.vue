@@ -116,16 +116,7 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         value1: '1',
-        employeeInfo: {
-          employeeId: '17B0703',
-          employeeName: '林荫',
-          companyId: '32624',
-          companyName: '17B0703',
-          startDate: "2018-2-2 15:48:42",
-          startConfirmDate: "2018-2-2 15:48:42",
-          endDate: "2018-2-2 15:48:42",
-          endConfirmDate: "2018-2-2 15:48:42"
-        },
+        employeeInfo: {},
         acceptanceData: {},
         invoiceColumns: [
           {
@@ -190,107 +181,7 @@
             title: '发票类型', sortable: true, key: 'column10'
           }
         ],
-        invoiceData: [
-          {
-            "acceptanceId": "201801150281-2",
-            "accountAmount": 0.00,
-            "active": true,
-            "applicationAmount": 197.95,
-            "approvedAmount": 197.95,
-            "attachAmount": 0.00,
-            "claimAmount": 98.97,
-            "clinicDate": 1515168000000,
-            "closedStatus": "赔付",
-            "companyMoney": 98.98,
-            "createdBy": "",
-            "createdTime": 1517300741000,
-            "csPaymentAmount": 0.00,
-            "diseaseName": "咳嗽",
-            "insuranceCompanyMoney": 98.98,
-            "invoiceId": 3,
-            "medicalInstitution": "成都市第一人民医院",
-            "modifiedBy": "",
-            "modifiedTime": 1517307886000,
-            "ownExpenseAmount": 0.00,
-            "selfPayAmount": 197.95,
-            "wholePlanAmount": 0.00
-          },
-          {
-            "acceptanceId": "201801150281-2",
-            "accountAmount": 0.00,
-            "active": true,
-            "applicationAmount": 0.00,
-            "approvedAmount": 0.00,
-            "attachAmount": 0.00,
-            "claimAmount": 0.00,
-            "clinicDate": 1514995200000,
-            "closedRemark": "孟鲁司特钠咀嚼片 86.58(自费金额) ",
-            "closedStatus": "赔付",
-            "companyMoney": 0.00,
-            "createdBy": "",
-            "createdTime": 1517300741000,
-            "csPaymentAmount": 0.00,
-            "diseaseName": "咳嗽",
-            "insuranceCompanyMoney": 0.00,
-            "invoiceId": 4,
-            "medicalInstitution": "成都市第一人民医院",
-            "modifiedBy": "",
-            "modifiedTime": 1517307886000,
-            "ownExpenseAmount": 86.58,
-            "selfPayAmount": 86.58,
-            "wholePlanAmount": 0.00
-          },
-          {
-            "acceptanceId": "201801150281-2",
-            "accountAmount": 0.00,
-            "active": true,
-            "applicationAmount": 96.81,
-            "approvedAmount": 96.81,
-            "attachAmount": 0.00,
-            "claimAmount": 48.41,
-            "clinicDate": 1514995200000,
-            "closedRemark": "其他 4.00(自费金额) ",
-            "closedStatus": "赔付",
-            "companyMoney": 48.41,
-            "createdBy": "",
-            "createdTime": 1517300741000,
-            "csPaymentAmount": 0.00,
-            "diseaseName": "咳嗽",
-            "insuranceCompanyMoney": 48.41,
-            "invoiceId": 5,
-            "medicalInstitution": "成都市第一人民医院",
-            "modifiedBy": "",
-            "modifiedTime": 1517307886000,
-            "ownExpenseAmount": 4.00,
-            "selfPayAmount": 100.81,
-            "wholePlanAmount": 0.00
-          },
-          {
-            "acceptanceId": "201801150281-2",
-            "accountAmount": 0.00,
-            "active": true,
-            "applicationAmount": 96.87,
-            "approvedAmount": 96.87,
-            "attachAmount": 0.00,
-            "claimAmount": 48.44,
-            "clinicDate": 1514822400000,
-            "closedRemark": "其他 4.00(自费金额) ",
-            "closedStatus": "赔付",
-            "companyMoney": 48.44,
-            "createdBy": "",
-            "createdTime": 1517300741000,
-            "csPaymentAmount": 0.00,
-            "diseaseName": "咳嗽",
-            "insuranceCompanyMoney": 48.44,
-            "invoiceId": 6,
-            "medicalInstitution": "成都市第一人民医院",
-            "modifiedBy": "",
-            "modifiedTime": 1517307886000,
-            "ownExpenseAmount": 4.00,
-            "selfPayAmount": 100.87,
-            "wholePlanAmount": 0.00
-          }
-        ],
+        invoiceData: [],
       };
     },
     created() {
@@ -300,8 +191,8 @@
     methods: {
       queryDetailInfo(val) {
         apiAjax.queryMedicalInvoiceDetail(val).then(response => {
-          // this.employeeInfo = response.data.object.employee;
-          // this.invoiceData = response.data.object.supplyMedicalInvoices;
+          this.employeeInfo = response.data.object.supplyMedicalAcceptance;
+          this.invoiceData = response.data.object.supplyMedicalInvoices;
         });
       },
       typeToChina(val) {

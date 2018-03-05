@@ -119,7 +119,7 @@
         collapseInfo: [1], //展开栏
         operatorSearchData: {
           serviceCenter: [],
-          taskStatus: 2,
+          taskStatus: 4,
           employeeId: '',
           taskCategory: 0,
           paymentBank: 0,
@@ -199,7 +199,10 @@
           {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center'},
           {title: '公积金账号', key: 'hfEmpAccount', width: 200, align: 'center'},
           {title: '发起人', key: 'submitterId', width: 150, align: 'center'},
-          {title: '发起时间', key: 'submitTime', width: 200, align: 'center'}
+          {title: '发起时间', key: 'submitTime', width: 200, align: 'center'},
+          {title: '批退人', key: 'modifiedBy', width: 200, align: 'center'},
+          {title: '批退时间', key: 'modifiedTime', width: 200, align: 'center'},
+          {title: '批退备注', key: 'rejectionRemark', width: 300, align: 'center'}
         ]
       }
     },
@@ -213,7 +216,7 @@
           this.fundTypeList = data.data.FundType;
         }
       });
-      this.hfEmpTaskQuery();
+      this.hfEmpTaskRejectQuery();
     },
     computed: {
     },
@@ -221,7 +224,7 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      hfEmpTaskQuery() {
+      hfEmpTaskRejectQuery() {
         var params = {};
         {
           this.beforeSubmit();
@@ -230,7 +233,7 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskQuery({
+        api.hfEmpTaskRejectQuery({
           pageSize: this.rejectedPageData.pageSize,
           pageNum: this.rejectedPageData.pageNum,
           params: params,
@@ -243,12 +246,12 @@
       },
       handlePageNum(val) {
         this.rejectedPageData.pageNum = val;
-        this.hfEmpTaskQuery();
+        this.hfEmpTaskRejectQuery();
       },
       handlePageSize(val) {
         this.rejectedPageData.pageNum = 1;
         this.rejectedPageData.pageSize = val;
-        this.hfEmpTaskQuery();
+        this.hfEmpTaskRejectQuery();
       },
       ok () {},
       cancel () {},
@@ -270,7 +273,7 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskExport();
+        api.hfEmpTaskRejectExport();
       },
       excelExportNew() {}
     }

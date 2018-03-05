@@ -41,7 +41,7 @@
       </Col>
       <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
       <Form-item label="户口属性：">
-        <label>{{emp.residenceAttribute}}</label>
+        <label>{{emp.residenceAttribute=='1'?'城镇户口':'农村户口'}}</label>
       </Form-item>
       </Col>
         <!-- 仅新增 -->

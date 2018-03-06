@@ -110,12 +110,13 @@
         uninsuredReviewDealRules: admissibility.uninsuredReviewDealRules,
       }
     },
+    created() {
+      this.formItem.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
+    },
     methods: {
       addUninsuredReviewDeal() {
-        console.info("======");
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
-            console.info("======");
             apiAjax.addUninsuredAudit(this.formItem).then(response => {
               if (response.data.code === 200) {
                 this.$router.push({name: "uninsuredReview"})

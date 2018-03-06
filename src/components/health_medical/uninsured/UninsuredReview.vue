@@ -94,7 +94,12 @@
     </Collapse>
 
     <Table border stripe ref="uninsuredTable" :columns="uninsuredColumns" :data="uninsuredData"></Table>
-    <Page :total="100" show-sizer show-elevator></Page>
+    <Page :total="formItem.total"
+          show-sizer
+          show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange" :current.sync="formItem.current"
+          :page-size="formItem.size"></Page>
   </div>
 </template>
 <script>
@@ -106,6 +111,7 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         formItem: {
+          total: 0,
           current: 1,
           size: 10,
           umAcceptanceId: null,
@@ -178,7 +184,8 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        this.$router.push({name: 'uninsuredReviewDeal', params: {data: params.row}});
+                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        this.$router.push({name: 'uninsuredReviewDeal'});
                       }
                     }
                   }, '审核'),

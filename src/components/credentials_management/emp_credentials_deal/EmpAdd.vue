@@ -49,8 +49,12 @@
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
-            <Form-item label="户籍地址：" prop="idAddress">
-              <Input v-model="formItem.idAddress" placeholder="请输入"/>
+            <Form-item label="婚姻状况：" prop="marriageStatus">
+              <Select v-model="formItem.marriageStatus" placeholder="请选择" transfer>
+                <Option value="1">未婚</Option>
+                <Option value="2">已婚</Option>
+                <Option value="3">离异</Option>
+              </Select>
             </Form-item> 
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
@@ -96,7 +100,7 @@ export default {
         idCardType: '',
         idNum: '',
         birthday: '',
-        idAddress: '',
+        marriageStatus: '',
         address: '',
         remark: ''
       },
@@ -107,7 +111,7 @@ export default {
         countryCode: '',
         idCardType: '',
         idNum: '',
-        idAddress: '',
+        marriageStatus: '',
         address: '',
         birthday: ''
       },
@@ -119,7 +123,7 @@ export default {
         idCardType: [{ required: true, message: '请选择证件类型', trigger: 'change' }],
         idNum: [{ required: true, message: '证件号码不能为空', trigger: 'blur' }],
         birthday: [{ required: true, type: 'date', message: '请选择出生日期', trigger: 'change' }],
-        idAddress: [{ required: true, message: '户籍地址不能为空', trigger: 'blur' }],
+        marriageStatus: [{ required: true, message: '婚姻状况不能为空', trigger: 'change' }],
         address: [{ required: true, message: '联系地址不能为空', trigger: 'blur' }]
       }
     }

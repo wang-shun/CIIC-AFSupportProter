@@ -298,7 +298,7 @@
             this.marriage = (item.marriageStatus == 1) ? "未婚" : (item.marriageStatus == 2) ? "已婚" : (item.marriageStatus == 3) ? "离异" : ""
             this.sex = (item.gender == 1) ? "男" : "女"
             this.birthday = (item.birthday == null) ? "" : Tools.formatDate(item.birthday,"YYYY年MM月DD日") 
-            this.address = item.residenceAddress
+            this.address = item.address
             this.firstInTime = (item.firstInDate == null) ? "" : Tools.formatDate(item.firstInDate,"YYYY年MM月DD日")
             this.contractStartTime = (item.laborStartDate == null) ? "" : Tools.formatDate(item.laborStartDate,"YYYY年MM月DD日")
             this.contractEndTime = (item.laborEndDate == null) ? "" : Tools.formatDate(item.laborEndDate,"YYYY年MM月DD日")

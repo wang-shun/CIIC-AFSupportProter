@@ -35,7 +35,7 @@
             </row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" @click="query" size="large">查询</Button>
+              <Button type="primary" @click="getByPage(1)" size="large">查询</Button>
               <Button type="warning" @click="resetSearchCondition('reimbursementItem')">重置</Button>
               </Col>
             </Row>
@@ -56,8 +56,8 @@
           show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
-          :current.sync="page.pageNum"
-          :page-size="page.pageSize"></Page>
+          :current.sync="reimbursementItem.current"
+          :page-size="reimbursementItem.size"></Page>
   </div>
 </template>
 
@@ -71,15 +71,13 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         reimbursementItem: {
+          current: 1,
+          size: 10,
           employeeId: null,
           name: null,
           code: null,
           companyCode: null,
           companyName: null,
-        },
-        page: {
-          pageNum: 1,
-          pageSize: 10,
         },
         reimbursementColumns: [
           {
@@ -161,9 +159,7 @@
       ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_LIST]),
       query() {
         /*封装为后台可以接受的数据结构*/
-        let queryData = this.page;
-        queryData.params = this.reimbursementItem;
-        this[EventTypes.REIMBURSEMENT_LIST](queryData);
+        this[EventTypes.REIMBURSEMENT_LIST](this.reimbursementItem);
       },
       ok() {
         this.$Message.info('已审核通过');
@@ -172,11 +168,12 @@
         this.reimbursementData.splice(index, 1);
       },
       //分页方法
-      getByPage() {
+      getByPage(val) {
+        this.reimbursementItem.current = val;
         this.query()
       },
       pageSizeChange(pageSize) {
-        this.page.pageSize = pageSize;
+        this.reimbursementItem.size = pageSize;
         this.query()
       },
       resetSearchCondition(name) {

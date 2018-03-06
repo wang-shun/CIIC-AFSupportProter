@@ -35,7 +35,7 @@
             </row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" @click="queryTransfer" size="large">查询</Button>
+              <Button type="primary" @click="getTransferByPage(1)" size="large">查询</Button>
               <Button type="warning" @click="resetSearchCondition('transferItem')">重置</Button>
               </Col>
             </Row>
@@ -58,8 +58,8 @@
           show-sizer
           show-elevator
           @on-change="getTransferByPage"
-          @on-page-size-change="pageSizeChangeTransfer" :current.sync="transferPage.pageNum"
-          :page-size="transferPage.pageSize"></Page>
+          @on-page-size-change="pageSizeChangeTransfer" :current.sync="transferItem.pageNum"
+          :page-size="transferItem.pageSize"></Page>
   </div>
 </template>
 
@@ -73,15 +73,13 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         transferItem: {
+          current: 1,
+          size: 10,
           employeeId: null,
           employeeName: null,
           code: null,
           companyCode: null,
           companyName: null,
-        },
-        transferPage: {
-          pageNum: 1,
-          pageSize: 10,
         },
         transferColumns: [
           {
@@ -151,9 +149,7 @@
       ...mapActions("TRANSFER", [EventTypes.TRANSFER_LIST]),
       queryTransfer() {
         /**封装为后台可以接受的数据结构*/
-        let queryData = this.transferPage;
-        queryData.params = this.transferItem;
-        this[EventTypes.TRANSFER_LIST](queryData);
+        this[EventTypes.TRANSFER_LIST](this.transferItem);
       },
       ok() {
         this.$Message.info('已审核通过');
@@ -162,11 +158,12 @@
         this.transferData.splice(index, 1);
       },
       //分页方法
-      getTransferByPage() {
+      getTransferByPage(val) {
+        this.transferItem.current = val;
         this.queryTransfer()
       },
       pageSizeChangeTransfer(pageSize) {
-        this.transferPage.pageSize = pageSize;
+        this.transferItem.size = pageSize;
         this.queryTransfer()
       },
       resetSearchCondition(name) {

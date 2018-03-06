@@ -173,6 +173,13 @@ export class CompanyTaskListHF{
     }else return {message:"后台异常！",isError:true}
   }
 
+  static expExcel(params){
+    let url = domainJson.exportCompanyTasks
+    return new Promise(function(){
+      ajax.download(url, params);
+    });
+  }
+
   //获取企业任务单支付方式数据
   static getCompanyTaskPaymentWayData(){
     let url = domainJson.getCompanyTaskPaymentWayData

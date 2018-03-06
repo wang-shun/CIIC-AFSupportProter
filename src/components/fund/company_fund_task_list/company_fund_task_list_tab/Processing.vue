@@ -66,7 +66,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info">导出</Button>
+        <Button type="info" @click="exportExcel">导出</Button>
       </Col>
     </Row>
 
@@ -90,6 +90,7 @@
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
   import {Processing} from '../../../../api/house_fund/company_task_list/company_task_list_tab/processing'
+  import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -309,6 +310,10 @@
         if(typeof(data.data.totalSize)=='undefined') this.totalSize = 0
         else this.totalSize = Number(data.data.totalSize)
         this.closeLoading();
+      },
+      exportExcel(){
+        let params = this.getParams(1)
+        CompanyTaskListHF.expExcel(params);
       },
       //点击查询按钮
       clickQuery(){

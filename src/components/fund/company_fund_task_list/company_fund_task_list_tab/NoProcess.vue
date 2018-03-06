@@ -66,7 +66,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info" @click="">导出</Button>
+        <Button type="info" @click="exportExcel">导出</Button>
       </Col>
     </Row>
 
@@ -90,6 +90,7 @@
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
   import {NoProcess} from '../../../../api/house_fund/company_task_list/company_task_list_tab/no_process'
+  import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -310,6 +311,10 @@
         else this.totalSize = Number(data.data.totalSize)
         this.closeLoading();
       },
+      exportExcel(){
+        let params = this.getParams(1)
+        CompanyTaskListHF.expExcel(params);
+      },
       //点击查询按钮
       clickQuery(){
         this.loading=true;
@@ -329,6 +334,10 @@
           pageNum:page,
           params:{
             taskStatusString: '0', //未处理
+
+            // companyName:this.companyTaskInfo.customerName,//客户姓名
+            // taskCategory:this.companyTaskInfo.taskTypeValue,//任务类型
+
             companyId:this.operatorSearchData.companyId,//客户编号
             hfTypeName:(this.operatorSearchData.hfTypeName=="" || this.operatorSearchData.taskStartTime==null || this.operatorSearchData.hfTypeName=='全部') ? null : this.operatorSearchData.hfTypeName //公积金账户类型
           }

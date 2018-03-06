@@ -220,7 +220,7 @@
     methods: {
       queryUninsuredList() {
         apiAjax.queryAcceptanceAuditList(this.formItem).then(response => {
-          this.uninsuredReview = response.data.object.records;
+          this.uninsuredData = response.data.object.records;
           this.formItem.total = response.data.object.total;
         }).catch(e => {
           console.info(e.message);

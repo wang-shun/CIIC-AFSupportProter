@@ -160,8 +160,8 @@
           employNotes: ""
         },
         refuseInfo: {
-          refuseDate: "2014-3-3",
-          firstInDate: "2014-3-3",
+          refuseDate: "",
+          firstInDate: "",
           endTypeValue: "",
           printDate: "",
           personPropertyValue: "",
@@ -279,10 +279,18 @@
     },
      async mounted() {
           
-          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId,remarkType:'2'}
+          let params = {idNum:this.$route.query.idNum,idCardType:this.$route.query.idCardType,empTaskId:this.$route.query.empTaskId,employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId,remarkType:'2'}
 
 
           api.archiveDetailInfoQuery(params).then(data=>{
+
+             if(data.data.customerInfo){
+                this.customerInfo = data.data.customerInfo;//客户信息
+            }
+
+            if(data.data.amEmpTaskBO){
+                this.employeeInfo=data.data.amEmpTaskBO;//雇员信息
+            }
               
               this.employmentInfo = data.data.amEmploymentBO;
 

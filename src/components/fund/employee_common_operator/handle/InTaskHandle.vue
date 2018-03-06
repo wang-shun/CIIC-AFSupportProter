@@ -251,7 +251,7 @@
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
-        <Button type="primary" class="ml10" @click="isShowPrint = true" v-if="showButton">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="showButton">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
@@ -262,13 +262,22 @@
     <Modal
       v-model="isShowPrint"
       title="打印转移通知书"
-      width="720">
+      width="720"
+    >
       <Form :label-width=100 ref="transferNotice" :model="transferNotice">
         <Row type="flex" justify="start">
           <Col :sm="{span: 12}">
             <FormItem label="转出单位">
-              <AutoComplete v-model="transferNotice.transferOutUnit" :data="transferOutUnitList" :filter-method="filterMethod" style="width: 100%;" transfer>
-              </AutoComplete>
+              <Select
+                v-model="transferNotice.transferOutUnit"
+                filterable
+                remote
+                :remote-method="handleTransferOutSearch"
+                @on-change="handleTransferOutChange"
+                :loading="loading"
+                style="width: 100%;" transfer>
+                <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
             </FormItem>
           </Col>
           <Col :sm="{span: 12}">
@@ -278,7 +287,16 @@
           </Col>
           <Col :sm="{span: 12}">
             <FormItem label="转入单位">
-              <Input v-model="transferNotice.transferInUnit" placeholder="请输入..."></Input>
+              <Select
+                v-model="transferNotice.transferInUnit"
+                filterable
+                remote
+                :remote-method="handleTransferInSearch"
+                @on-change="handleTransferInChange"
+                :loading="loading"
+                style="width: 100%;" transfer>
+                <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
+              </Select>
             </FormItem>
           </Col>
           <Col :sm="{span: 12}">
@@ -296,8 +314,8 @@
       <div slot="footer">
         <Row>
           <Col :sm="{span: 24}">
-            <Button type="primary" @click="isShowPrint = false">打印通知书</Button>
-            <Button type="warning" @click="isShowPrint = false">取消</Button>
+            <Button type="primary" @click="ok">打印通知书</Button>
+            <Button type="warning" @click="cancel">取消</Button>
           </Col>
         </Row>
       </div>
@@ -309,6 +327,7 @@
 //  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import axios from "axios";
 
   export default {
     data() {
@@ -318,6 +337,7 @@
         showCancel: false,
         inputDisabled: false,
         isShowPrint: false,
+        loading: false,
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -495,7 +515,8 @@
                     props: {value: params.row.baseAmount},
                     on: {
                       'on-blur': (event) => {
-                        this.operatorListData[params.index].baseAmount = event.target.value
+                        this.operatorListData[params.index].baseAmount = event.target.value;
+                        this.operatorListDataCalculate(params.index, 1, event.target.value);
                       }
                     }
                   }, params.row.baseAmount)
@@ -515,7 +536,8 @@
                     props: {value: params.row.ratioCom},
                     on: {
                       'on-blur': (event) => {
-                        this.operatorListData[params.index].ratioCom = event.target.value
+                        this.operatorListData[params.index].ratioCom = event.target.value;
+                        this.operatorListDataCalculate(params.index, 2, event.target.value);
                       }
                     }
                   }, params.row.ratioCom)
@@ -535,7 +557,8 @@
                     props: {value: params.row.ratioEmp},
                     on: {
                       'on-blur': (event) => {
-                        this.operatorListData[params.index].ratioEmp = event.target.value
+                        this.operatorListData[params.index].ratioEmp = event.target.value;
+                        this.operatorListDataCalculate(params.index, 3, event.target.value);
                       }
                     }
                   }, params.row.ratioEmp)
@@ -555,7 +578,8 @@
                     props: {value: params.row.amount},
                     on: {
                       'on-blur': (event) => {
-                        this.operatorListData[params.index].amount = event.target.value
+                        this.operatorListData[params.index].amount = event.target.value;
+                        this.operatorListDataAmount(event.target.value);
                       }
                     }
                   }, params.row.amount)
@@ -580,12 +604,20 @@
         taskListNotesChangeData: [],
 
         transferOutUnitList: [],
+        transferInUnitList: [],
+        transferUnitDictList: [],
+        transferOutUnitAccountList: [],
+        transferInUnitAccountList: [],
         transferNotice: {
           transferOutUnit: '',
           transferOutUnitAccount: '',
           transferInUnit: '',
           transferInUnitAccount: '',
           transferDate: '',
+          empTaskId: '',
+          companyId: '',
+          employeeId: '',
+          hfType: '',
         },
         inputData: {
           empTaskId: 0,
@@ -657,35 +689,17 @@
         if (data.code == 200) {
           this.taskCategoryList = data.data.HFLocalTaskCategory;
           this.operationRemindList = data.data.OperationRemind;
-          this.transferOutUnitList = data.data.FundOutUnit;
+          this.transferUnitDictList = data.data.FundOutUnit;
+          this.transferUnitDictList.forEach((element, index, array) => {
+            this.transferOutUnitList.push(element);
+            this.transferInUnitList.push(element);
+          })
           if (taskCategory > 2) {
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;
             this.taskCategoryList.splice(2, this.taskCategoryList.length - 2);
           }
-
-//          if (taskCategory == 6) { // 补缴
-//            this.operatorListColumns.push(
-//              {title: '补缴原因', key: 'repairReason', align: 'left',
-//                render: (h, params) => {
-//                  return h('div', [
-//                    h('Select', {props: {value: params.row.repairReason},
-//                        on: {
-//                          'on-change': (event) => {
-//                            this.operatorListData[params.index].repairReason = event
-//                          }
-//                        }
-//                      },
-//                      [
-//                        data.data.RepairReason.map((item) => h('Option', {props: {value: item.key}}, item.value))
-//                      ]
-//                    )
-//                  ]);
-//                }
-//              }
-//            )
-//          }
         } else {
           this.$Message.error(data.message);
           this.inputDisabled = true;
@@ -695,12 +709,8 @@
       })
     },
     computed: {
-//      ...mapState('employeeFundHistoryDetail', {
-//        data: state => state.data
-//      }),
     },
     methods: {
-//      ...mapActions('employeeFundHistoryDetail', [EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]),
       back() {
         this.$router.go(-1)
       },
@@ -720,6 +730,10 @@
           params = this.$utils.clear(this.inputData);
           // 清除空字符串
           params = this.$utils.clear(params, '');
+        }
+
+        if (!this.inputDataCheck()) {
+          return false;
         }
 
         api.empTaskHandle(params).then(data => {
@@ -784,6 +798,81 @@
       filterMethod(value, option) {
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
       },
+      handleTransferInSearch(value) {
+        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+//        if (this.transferNotice.transferInUnitAccount != '') {
+//          return true;
+//        }
+//        return false;
+      },
+      handleTransferOutSearch(value) {
+        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+//        if (this.transferNotice.transferOutUnitAccount != '') {
+//          return true;
+//        }
+//        return false;
+      },
+      handleTransferOutChange(value) {
+        this.transferNotice.transferOutUnitAccount = '';
+        this.transferOutUnitList.forEach((element, index, array) => {
+            if (element == value) {
+              this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
+              return;
+            }
+          }
+        )
+      },
+      handleTransferInChange(value) {
+        this.transferNotice.transferInUnitAccount = '';
+        this.transferInUnitList.forEach((element, index, array) => {
+            if (element == value) {
+              this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
+              return;
+            }
+          }
+        )
+      },
+      doSearch(value, unitList, unitAccountList, type) {
+        this.loading = true;
+        unitList.length = 0;
+        unitAccountList.length = 0;
+        if (value == '') {
+          this.transferUnitDictList.forEach((element, index, array) => {
+            unitList.push(element);
+          })
+        } else {
+          api.comAccountQuery(
+            {
+              comAccountName: value,
+              hfType: this.displayVO.hfType,
+            }
+          ).then(
+            data => {
+              if (data.code == 200) {
+                if (data.data && data.data.length > 0) {
+                  data.data.forEach((element, index, array) => {
+                    unitList.push(element.comAccountName);
+                    unitAccountList.push(element.hfComAccount);
+                  })
+
+                  if (unitList.length == 1) {
+                    if (type == 1) {
+                      this.transferNotice.transferOutUnitAccount = unitAccountList[0];
+                    } else {
+                      this.transferNotice.transferInUnitAccount = unitAccountList[0];
+                    }
+                  }
+                } else {
+                  unitList.push(value);
+                }
+              } else {
+                this.$Message.error(data.message);
+              }
+            }
+          )
+        }
+        this.loading = false;
+      },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
         this.inputData.taskCategory = this.displayVO.taskCategory;
@@ -811,6 +900,10 @@
           params = this.$utils.clear(params, '');
         }
 
+        if (!this.inputDataCheck()) {
+          return false;
+        }
+
         api.empTaskHandleDataSave(params).then(data => {
           if (data.code == 200) {
             this.$Message.info("保存成功");
@@ -818,6 +911,193 @@
             this.$Message.error(data.message);
           }
         })
+      },
+      inputDataCheck() {
+        if (this.inputData.hfEmpAccount == '') {
+          this.$Message.error("公积金账户不能为空");
+          return false;
+        }
+        if (this.inputData.hfEmpAccount.length > 20) {
+          this.$Message.error("公积金账户长度不能超过20");
+          return false;
+        }
+        if (this.inputData.handleRemark.length > 200) {
+          this.$Message.error("办理备注长度不能超过200");
+          return false;
+        }
+        if (this.inputData.rejectionRemark.length > 200) {
+          this.$Message.error("批退备注长度不能超过200");
+          return false;
+        }
+        return this.operatorListDataCheck();
+      },
+      operatorListDataCalculate(index, type, val) {
+        let baseAmountReg = /(^[1-9]([0-9]{1,10})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;
+        let ratioReg = /(^(0){1}$)|(^[0-9].[0-9]([0-9]{1,3})?$)/;
+        if (type == 1 && val!='' && !baseAmountReg.test(val)) {
+          this.$Message.error("操作栏基数输入格式有误");
+          return false;
+        }
+        if (type == 2 && val!='' && !ratioReg.test(val)) {
+          this.$Message.error("操作栏企业比例输入格式有误");
+          return false;
+        }
+        if (type == 3 && val!='' && !ratioReg.test(val)) {
+          this.$Message.error("操作栏个人比例输入格式有误");
+          return false;
+        }
+
+        if (this.operatorListData[index].baseAmount && this.operatorListData[index].baseAmount != ''
+          && this.operatorListData[index].ratioCom && this.operatorListData[index].ratioCom != ''
+          && this.operatorListData[index].ratioEmp && this.operatorListData[index].ratioEmp != '') {
+          let baseAmountFloat = parseFloat(this.operatorListData[index].baseAmount);
+          let ratioComFloat = parseFloat(this.operatorListData[index].ratioCom);
+          let ratioEmpFloat = parseFloat(this.operatorListData[index].ratioEmp);
+          let amountFloat = baseAmountFloat*(ratioComFloat + ratioEmpFloat);
+          this.operatorListData[index].amount = amountFloat.toFixed(2);
+        }
+      },
+      operatorListDataAmount(val) {
+        let amountReg = /(^[1-9]([0-9]{1,6})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;
+        if (!amountReg.test(val)) {
+          this.$Message.error("操作栏金额输入格式有误");
+          return false;
+        }
+      },
+      operatorListDataCheck() {
+        let baseAmountReg = /(^[1-9]([0-9]{1,10})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;
+        let ratioReg = /(^(0){1}$)|(^[0-9].[0-9]([0-9]{1,3})?$)/;
+        let amountReg = /(^[1-9]([0-9]{1,6})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;
+
+        for (let i = 0; i < this.operatorListData.length; i++) {
+          if (this.operatorListData[i].startMonth == '') {
+            this.$Message.error("操作栏起缴月份不能为空");
+            return false;
+          }
+          if (this.operatorListData[i].startMonth != '') {
+            this.$Message.error("操作栏截止月份必须为空");
+            return false;
+          }
+          if (this.operatorListData[i].hfMonth == '') {
+            this.$Message.error("操作栏客户汇缴月不能为空");
+            return false;
+          }
+          if (this.operatorListData[i].baseAmount == '') {
+            this.$Message.error("操作栏基数不能为空");
+            return false;
+          }
+          if (this.operatorListData[i].ratioCom == '') {
+            this.$Message.error("操作栏企业比例不能为空");
+            return false;
+          }
+          if (this.operatorListData[i].ratioEmp == '') {
+            this.$Message.error("操作栏个人比例不能为空");
+            return false;
+          }
+          if (this.operatorListData[i].amount == '') {
+            this.$Message.error("操作栏金额不能为空");
+            return false;
+          }
+          if (!baseAmountReg.test(this.operatorListData[i].baseAmount)) {
+            this.$Message.error("操作栏基数输入格式有误");
+            return false;
+          }
+          if (!ratioReg.test(this.operatorListData[i].ratioCom)) {
+            this.$Message.error("操作栏企业比例输入格式有误");
+            return false;
+          }
+          if (!ratioReg.test(this.operatorListData[i].ratioEmp)) {
+            this.$Message.error("操作栏个人比例输入格式有误");
+            return false;
+          }
+          if (!amountReg.test(this.operatorListData[i].amount)) {
+            this.$Message.error("操作栏金额输入格式有误");
+            return false;
+          }
+        }
+        return true;
+      },
+      transferNoticeCheck() {
+        if (this.transferNotice.transferOutUnit.length > 20) {
+          this.$Message.error("转出单位长度不能超过20");
+          return false;
+        }
+        if (this.transferNotice.transferOutUnitAccount.length > 20) {
+          this.$Message.error("转出单位账号长度不能超过20");
+          return false;
+        }
+        if (this.transferNotice.transferInUnit.length > 20) {
+          this.$Message.error("转入单位长度不能超过20");
+          return false;
+        }
+        if (this.transferNotice.transferInUnitAccount.length > 20) {
+          this.$Message.error("转入单位账号长度不能超过20");
+          return false;
+        }
+        return true;
+      },
+      transEmpTaskQuery() {
+        api.transEmpTaskQuery({
+          companyId: this.displayVO.companyId,
+          employeeId: this.displayVO.employeeId,
+          hfType: this.displayVO.hfType,
+        }).then(data => {
+          if (data.code == 200) {
+            if (!data.data || data.data.length == 0) {
+              this.isShowPrint = true;
+            } else {
+              // TODO show print page
+              console.log(data.data);
+            }
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      },
+      ok () {
+        this.transferNotice.empTaskId = this.displayVO.empTaskId;
+        this.transferNotice.companyId = this.displayVO.companyId;
+        this.transferNotice.employeeId = this.displayVO.employeeId;
+        this.transferNotice.hfType = this.displayVO.hfType;
+        if (this.transferNotice.transferDate) {
+          this.transferNotice.transferDate = this.$utils.formatDate(this.transferNotice.transferDate, "YYYY-MM-DD");
+        }
+        if (!this.transferNoticeCheck()) {
+          return false;
+        }
+        api.createTransEmpTask(
+          this.transferNotice
+        ).then(data => {
+          if (data.code == 200) {
+            this.transferOutUnitList.length = 0;
+            this.transferInUnitList.length = 0;
+            this.transferOutUnitAccountList.length = 0;
+            this.transferInUnitAccountList.length = 0;
+            this.transferNotice.transferOutUnit = '';
+            this.transferNotice.transferOutUnitAccount = '';
+            this.transferNotice.transferInUnit = '';
+            this.transferNotice.transferInUnitAccount = '';
+            this.transferNotice.transferDate = '';
+
+            // TODO show print page
+            this.isShowPrint = false;
+            console.log(data.data);
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      },
+      cancel() {
+        this.transferOutUnitList.length = 0;
+        this.transferInUnitList.length = 0;
+        this.transferOutUnitAccountList.length = 0;
+        this.transferInUnitAccountList.length = 0;
+        this.transferNotice.transferOutUnit = '';
+        this.transferNotice.transferOutUnitAccount = '';
+        this.transferNotice.transferInUnit = '';
+        this.transferNotice.transferInUnitAccount = '';
+        this.transferNotice.transferDate = '';
+        this.isShowPrint = false;
       }
     }
   }

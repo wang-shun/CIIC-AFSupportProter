@@ -1,5 +1,5 @@
 <template>
-  <div class="smList">
+  <div class="smList" style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         企业任务单
@@ -33,6 +33,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算区县：" prop="regionValue">
                   <Select v-model="companyTaskInfo.regionValue" style="width: 100%;" transfer>
+                    <Option >全部</Option>
                     <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
@@ -51,7 +52,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务发起时间：" prop="taskStartTime">
-                  <DatePicker v-model="companyTaskInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%" transfer></DatePicker>
+                  <DatePicker v-model="companyTaskInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%"></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -64,7 +65,7 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" @click="" icon="ios-search">查询</Button>
+                <Button type="primary" icon="ios-search">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('companyTaskInfo')">重置</Button>
               </Col>
             </Row>
@@ -129,6 +130,7 @@
             {value: '3', label: '外包'}
           ],
           regionValue: '',
+          
           taskNumber: '',
           taskTypeValue: '',
           taskTypeList: [
@@ -175,7 +177,7 @@
                       }
                     }
                   }
-                }, params.row.emergency === '是' ? '查看' : '修改'),
+                }, '查看'),
               ]);
             }
           },
@@ -246,15 +248,15 @@
       }
     },
     mounted() {
-      this[EventType.CFINISHEDTYPE]()
+      this[EventType.CREFUSEDTYPE]()
     },
     computed: {
-      ...mapState('cFinished',{
-        data:state => state.data
-    })
+      ...mapState('cRefused',{
+          data:state =>state.data
+      })
     },
     methods: {
-      ...mapActions('cFinished',[EventType.CFINISHEDTYPE]),
+      ...mapActions('cRefused',[EventType.CREFUSEDTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

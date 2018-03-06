@@ -51,8 +51,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账户：" prop="comAccountId">
-                  <Input v-model="payComSearchData.comAccountId" placeholder="请输入..."></Input>
+                <Form-item label="企业社保账号：" prop="comAccountId">
+                  <Input v-model="payComSearchData.ssAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
             </Row>
@@ -169,11 +169,11 @@
               <label>{{changeInfo.totalPayAmount}}</label>
             </Form-item>
           </Col>
-          <Col :sm="{span: 24}">
+          <!-- <Col :sm="{span: 24}">
             <Form-item label="申请支付金额合计（大写）：">
               <label>{{changeInfo.totalPayAmountUpper}}</label>
             </Form-item>
-          </Col>
+          </Col> -->
           <Col :sm="{span: 24}">
             <Form-item label="备注说明：">
               <Input v-model="changeInfo.remark" type="textarea" :rows="5"  placeholder="请输入..."></Input>
@@ -212,6 +212,7 @@
           paymentMonthMaxShow: '',
           paymentState: '',
           comAccountId: '',
+          ssAccount:'',
           paymentBatchNum:''
         },
         staticPayComSearchData: {
@@ -425,7 +426,7 @@
               ]);
             }
           },
-          {title: '企业社保账户', key: 'ssAccount', width: 180, align: 'center',
+          {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.ssAccount),
@@ -709,11 +710,16 @@
         //计算合计
         let totalPayAmount = 0;
         if(ifDeductedIntoPay == 1){
-          totalPayAmount = Number(oughtAmount) + Number(refundDeducted) + Number(adjustDeducted) + Number(extraAmount);
+          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount) 
+                         + Number(typeof refundDeducted == 'undefined'?0:refundDeducted) 
+                         + Number(typeof adjustDeducted == 'undefined'?0:adjustDeducted) 
+                         + Number(typeof extraAmount=='undefined'?0:extraAmount );
         }
         else{
-          totalPayAmount = Number(oughtAmount) + Number(extraAmount);
+          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount) 
+                         + Number(typeof extraAmount  =='undefined'?0:extraAmount);
         }
+        
         //赋值
         this.changeInfo.totalPayAmount = totalPayAmount;
       },

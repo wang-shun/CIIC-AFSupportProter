@@ -12,11 +12,6 @@
     </div>
     <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span: 24}" class="tr">
-        <!--<Button type="primary" @click="goHandle">办理</Button>-->
-          <!-- <Button type="primary">
-            打印
-            <Icon type="arrow-down-b"></Icon>
-          </Button> -->
           <DropdownMenu slot="list">
             <DropdownItem v-for="(print, index) in printList" :key="index">{{print}}</DropdownItem>
           </DropdownMenu>
@@ -96,7 +91,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '用工方式', key: 'employMethods', align: 'center', width: 150,
+          {title: '用工方式', key: 'employWay', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employWay),
@@ -110,28 +105,21 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          // {title: '序号', key: 'index', align: 'center', width: 100,
-          //   render: (h, params) => {
-          //     return h('div', {style: {textAlign: 'right'}}, [
-          //       h('span', params.row.index),
-          //     ]);
-          //   }
-          // },
-          {title: '公司编码', key: 'licenseCode', align: 'center', width: 150,
+          {title: '公司编号', key: 'companyId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.licenseCode),
+                h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '公司名称', key: 'companyName', align: 'center', width: 250,
+          {title: '公司名称', key: 'title', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.title),
               ]);
             }
           },
-          {title: '雇员编码', key: 'employeeNumber', align: 'center', width: 150,
+          {title: '雇员编码', key: 'employeeId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.employeeId),
@@ -145,7 +133,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '证件号', key: 'IdNumber', align: 'center', width: 150,
+          {title: '证件号', key: 'idNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.idNum),
@@ -173,14 +161,14 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '档案编号', key: 'fileNumber', align: 'center', width: 150,
+          {title: '档案编号', key: 'docNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.docNum),
               ]);
             }
           },
-          {title: '预留档案编号', key: 'reservedFileNumber', align: 'center', width: 150,
+          {title: '预留档案编号', key: 'yuliuDocNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.yuliuDocNum),
@@ -330,6 +318,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
     },
     methods: {
      searchEmploiees(conditions) {
+        this.pageData.pageNum =1;
             this.searchConditions =[];
             for(var i=0;i<conditions.length;i++)
                   this.searchConditions.push(conditions[i].exec);
@@ -341,7 +330,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         this.$router.push({name: "employHandleEmployment"});
       },
       showInfoT (idNum,idCardType,empTaskId,employeeId,companyId) {
-       
+
         this.$router.push({name:'employHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId}});
       },
       showInfoTw (ind) {  
@@ -363,9 +352,8 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 
       },
       exportData() {
-        this.$refs['employmentData'].exportCsv({
-          filename: '原始数据'
-        });
+        let params = this.searchConditions;
+        api.employSearchExportOpt(params);
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
@@ -375,7 +363,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 
       },
       employeeQuery(params){
-
+       
         let self =this
         api.employeeQuery({
           pageSize: this.pageData.pageSize,
@@ -387,7 +375,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         })
       },
        employeeCollectionQuery(params){
-
+        
         let self =this
         api.employeeCollectionQuery({
           pageSize: this.pageData.pageSize,

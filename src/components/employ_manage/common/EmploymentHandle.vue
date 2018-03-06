@@ -50,7 +50,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-          <Button type="warning">默认</Button>
+          <!-- <Button type="warning">默认</Button> -->
           <Button type="primary" @click="instance()">保存</Button>
         </Col>
       </Row>

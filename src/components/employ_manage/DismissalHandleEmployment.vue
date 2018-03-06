@@ -43,24 +43,12 @@
             <employment-notes-view :employmentViewData="employmentViewData"></employment-notes-view>
           </div>
         </Panel>
-        <!-- <Panel name="7">
-          材料借出信息查看
-          <div slot="content">
-            <materials-borrow-info-view :MaterialsBorrowData="MaterialsBorrowData"></materials-borrow-info-view>
-          </div>
-        </Panel> -->
         <Panel name="8">
           档案备注查看
           <div slot="content">
             <file-notes-view :fileNotesViewData="fileNotesViewData"></file-notes-view>
           </div>
         </Panel>
-        <!-- <Panel name="8">
-          雇员历史任务单
-          <div slot="content">
-            <employment-data-management-task-list :historyTaskData="historyTaskData"></employment-data-management-task-list>
-          </div>
-        </Panel> -->
       </Collapse>
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
@@ -137,8 +125,8 @@
           employNotes: ""
         },
         refuseInfo: {
-          resignDate: "2014-3-3",
-          firstInDate: "2014-3-3",
+          resignDate: "",
+          firstInDate: "",
           endTypeValue: "",
           printDate: "",
           empCharacter: "",
@@ -177,7 +165,8 @@
           matchEmployIndex: "",
           employeeId:this.$route.query.employeeId,
           companyId:this.$route.query.companyId,
-          employmentId:this.$route.query.employmentId
+          employmentId:this.$route.query.employmentId,
+          empTaskId:this.$route.query.empTaskId
         },
         refuseNotesData: [],
         employmentViewData: [],
@@ -193,12 +182,12 @@
     },
     async mounted() {
 
-          let params = {employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId,remarkType:'3'}
+          let params = {idNum:this.$route.query.idNum,idCardType:this.$route.query.idCardType,empTaskId:this.$route.query.empTaskId,employeeId:this.$route.query.employeeId,companyId:this.$route.query.companyId,employmentId:this.$route.query.employmentId,remarkType:'3'}
 
           api.queryAmResignDetail(params).then(data=>{
 
-            if(data.data.company){
-                this.customerInfo = data.data.company;//客户信息
+            if(data.data.customerInfo){
+                this.customerInfo = data.data.customerInfo;//客户信息
             }
 
             if(data.data.amEmpTaskBO){
@@ -207,6 +196,9 @@
 
             if(data.data.resignBO){
                 this.refuseInfo=data.data.resignBO;//退工信息
+                this.refuseInfo.empTaskId = this.$route.query.empTaskId;
+            }else{
+               this.refuseInfo.empTaskId = this.$route.query.empTaskId;
             }
             
             if(data.data.amRemarkBo){

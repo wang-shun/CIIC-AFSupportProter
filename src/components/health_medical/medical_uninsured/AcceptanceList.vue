@@ -168,7 +168,7 @@
             type: 'selection', width: 60, align: 'center'
           },
           {
-            title: '受理编号', sortable: true, key: 'acceptanceId', align: 'center'
+            title: '受理编号', sortable: true, key: 'umAcceptanceId', align: 'center'
           },
           {
             title: '雇员编号', sortable: true, key: 'employeeId', align: 'center'
@@ -285,8 +285,12 @@
         }
       },
       updateAcceptanceList(val) {
-        this.dealMeg.status = val;
-        apiAjax.queryAcceptanceList(this.dealMeg).then(response => {
+        this.selectData.forEach(item => {
+          item.status = val;
+          item.remark = this.dealMeg.remark;
+          item.rejectType = this.dealMeg.rejectType;
+        });
+        apiAjax.updateAcceptanceList(this.selectData).then(response => {
           if (response.data.code === 200) {
             this.getByPage(1);
           } else {
@@ -296,7 +300,9 @@
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
-        this.getByPage(1);
+        // modal数据重置
+        this.dealMeg.remark = null;
+        this.dealMeg.rejectType = null;
       },
       selectTableData(rows) {
         this.selectData = rows;

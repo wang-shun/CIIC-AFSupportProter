@@ -680,7 +680,7 @@
               })
             this.$Notice.warning({
                     title: '温馨提示',
-                    desc: '该企业已经做过新进或转入.',
+                    desc: '该企业已经做过开户.',
                     duration: 0
             });
           }
@@ -871,7 +871,7 @@
               })
             this.$Notice.warning({
                     title: '温馨提示',
-                    desc: '该企业已经做过新进或转入,不能操作.',
+                    desc: '该企业已经做过开户,不能操作.',
                     duration: 4
             });
             return true;

@@ -369,7 +369,6 @@
       }
     },
     mounted() {
-//      this[EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]()
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
       let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
@@ -432,16 +431,8 @@
       })
     },
     computed: {
-//      ...mapState('employeeFundHistoryDetail', {
-//        data: state => state.data
-//      }),
-//      currentTaskType() {
-//        console.log(this.$route.query.taskCategory)
-//        return this.$route.query.taskCategory;
-//      }
     },
     methods: {
-//      ...mapActions('employeeFundHistoryDetail', [EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]),
       back() {
         this.$router.go(-1)
       },
@@ -461,6 +452,10 @@
           params = this.$utils.clear(this.inputData);
           // 清除空字符串
           params = this.$utils.clear(params, '');
+        }
+
+        if (!this.inputDataCheck()) {
+          return false;
         }
 
         api.empTaskHandle(params).then(data => {
@@ -528,7 +523,6 @@
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
         this.inputData.taskCategory = this.displayVO.taskCategory;
-//        this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
 //        this.inputData.operationRemind = this.displayVO.operationRemind;
 //        if (this.displayVO.operationRemindDate) {
 //          this.inputData.operationRemindDate = utils.formatDate(this.displayVO.operationRemindDate,"YYYY-MM-DD");
@@ -553,6 +547,10 @@
           params = this.$utils.clear(params, '');
         }
 
+        if (!this.inputDataCheck()) {
+          return false;
+        }
+
         api.empTaskHandleDataSave(params).then(data => {
           if (data.code == 200) {
             this.$Message.info("保存成功");
@@ -560,7 +558,22 @@
             this.$Message.error(data.message);
           }
         })
-      }
+      },
+      inputDataCheck() {
+        if (this.displayVO.endMonth == '') {
+          this.$Message.error("汇缴截止月份不能为空");
+          return false;
+        }
+        if (this.inputData.handleRemark.length > 200) {
+          this.$Message.error("办理备注长度不能超过200");
+          return false;
+        }
+        if (this.inputData.rejectionRemark.length > 200) {
+          this.$Message.error("批退备注长度不能超过200");
+          return false;
+        }
+        return true;
+      },
     }
   }
 </script>

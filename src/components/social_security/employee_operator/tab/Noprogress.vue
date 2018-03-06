@@ -166,19 +166,7 @@
         show-sizer show-total></Page>
       </Col>
     </Row>
-
-    <!-- 批退理由 -->
-    <!-- <Modal
-      v-model="isRefuseReason"
-      :mask-closable="false"
-      :closable="false"
-      @on-ok="handleRefuseReason">
-      <p>
-        <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
-      </p>
-    </Modal> -->
-
-
+    
     <!-- 批退理由 -->
       <Modal
         v-model="isRefuseReason"

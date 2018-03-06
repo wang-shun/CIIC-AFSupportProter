@@ -88,7 +88,7 @@
       <i-col :span="spanLeft" class="layout-menu-left">
         <Menu theme="dark" width="auto" class="menuSet" :class="{'removeArror': spanLeft < 3}" accordion
               :open-names="openNames"
-              @on-open-change="onOpenChange" @on-select="onSelect">
+              @on-open-change="onOpenChange" @on-select="onSelect" :active-name="$route.meta.activeName">
           <Submenu v-for="(item, index) in data" :name="item.id" :key="item.id">
             <template slot="title">
               <Icon :type="item.icon" :size="size"></Icon>

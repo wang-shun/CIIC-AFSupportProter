@@ -7,7 +7,7 @@
       :disabled="disabled"
       :name="name"
       :icon="icon"
-     
+
       placeholder="请点击右侧搜索按钮..."
       @on-click="handleClick"
       :maxlength="maxlength"
@@ -93,7 +93,7 @@
       renderFormat: {
         type: Function,
         default (item) {
-          return item.companyId;
+          return item.title;
         }
       },
       className: {

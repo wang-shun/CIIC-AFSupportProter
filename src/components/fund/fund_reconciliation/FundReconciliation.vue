@@ -8,12 +8,12 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金月份：" prop="fundMonth">
-                  <DatePicker v-model="operatorSearchData.customerPayDate" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                  <DatePicker type="month" placement="bottom" placeholder="选择日期" transfer @on-change="setSearchFundMonth"></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金企业账户：" prop="fundCompanyAccountCategoryValue">
-                    <InputAccount v-model="operatorSearchData.fundAccountValue"></InputAccount>
+                  <InputAccount v-model="operatorSearchData.fundCompanyAccountCategoryValue"></InputAccount>
                 </Form-item>
               </Col>
             </Row>
@@ -29,15 +29,13 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-       
         <Button type="primary" @click="isShowUpload = true">新建对账</Button>
       </Col>
     </Row>
-
     <Table border class="mt20" :columns="reconciliationColumns" :data="data.reconciliationData"></Table>
     <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
 
-   <Modal
+    <Modal
       v-model="isShowReconciliation"
       title="查看对账"
       width="720"
@@ -72,28 +70,28 @@
         <Button type="warning" @click="isShowReconciliation = false;">返回</Button>
       </div>
     </Modal>
-     
- <Modal
+
+    <Modal
       v-model="isShowUpload"
       title="新建对账"
       width="720"
     >
-      <Form :label-width=150>
+      <Form :label-width=150 ref="newReconciliation" :model="newReconciliation" :rules="newReconciliationValidate">
         <Row type="flex" justify="start">
           <Col :sm="{span:24}">
-            <Form-item label="公积金月份：">
-              <Input v-model="newReconciliation.fundMonth" placeholder="请输入..."></Input>
+            <Form-item label="公积金月份：" prop="fundMonth">
+              <DatePicker type="month" @on-change="setFundMonth(false)"></DatePicker>
             </Form-item>
           </Col>
           <Col :sm="{span:24}">
-            <Form-item label="公积金企业账户：">
+            <Form-item label="公积金企业账户：" prop="fundCompanyAccountValue">
               <Select v-model="newReconciliation.fundCompanyAccountValue" style="width: 100%;" transfer>
                 <Option v-for="item in fundCompanyAccountCategoryList" :value="item.value" :key="item.value">{{item.label}}</Option>
               </Select>
             </Form-item>
           </Col>
           <Col :sm="{span:24}">
-            <Form-item label="公积金类型：">
+            <Form-item label="公积金类型：" prop="fundTypeValue">
               <Select v-model="newReconciliation.fundTypeValue" style="width: 100%;" transfer>
                 <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
               </Select>
@@ -109,11 +107,10 @@
         </Row>
       </Form>
       <div slot="footer">
-        <Button type="warning" @click="isShowUpload = false;">关闭</Button>
+        <Button type="primary" @click="saveReconciliation">保存</Button>
+        <Button type="warning" @click="resetSearchCondition('newReconciliation'); isShowUpload = false;">关闭</Button>
       </div>
     </Modal>
-
-
   </div>
 </template>
 <script>
@@ -128,7 +125,7 @@
         collapseInfo: [1],
         operatorSearchData: {
           fundMonth: "",
-          fundCompanyAccountCategoryValue: 0
+          fundCompanyAccountCategoryValue: ''
         },
         fundCompanyAccountCategoryList: [
           {label: "中智大库", value: 0},
@@ -143,11 +140,22 @@
           fundCompanyAccountValue: 0,
           fundTypeValue: 0
         },
+        newReconciliationValidate: {
+          fundMonth: [
+            {required: true, type: 'date', message: '请选择月份', trigger: 'blur' }
+          ],
+          fundCompanyAccountValue: [
+            { required: true, message: '请选择公积金企业账户', trigger: 'change' }
+          ],
+          fundTypeValue: [
+            { required: true, message: '请选择公积金类型', trigger: 'change' }
+          ]
+        },
         viewReconciliation: {
           fundMonth: "",
-          fundCompanyAccount: "独立户客户1",
-          importRecords: "788",
-          differenceRecords: "66"
+          fundCompanyAccount: "",
+          importRecords: "",
+          differenceRecords: ""
         },
         viewReconciliationColumns: [
           {title: '导入公积金账号', key: 'importFundAccount', width: 200, align: 'center',
@@ -191,10 +199,17 @@
           {label: "补充公积金", value: 1}
         ],
         reconciliationColumns: [
-          {title: '操作', fixed: 'left', width: 200, align: 'center',
+          {title: '操作', fixed: 'left', width: 220, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('Button', {props: {type: 'success', size: 'small'},
+                  on: {
+                    click: () => {
+
+                    }
+                  }
+                }, '执行对账'),
+                h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
                   on: {
                     click: () => {
                       this.isShowReconciliation = true;
@@ -211,7 +226,7 @@
               ]);
             }
           },
-          {title: '公积金月份', key: 'fundMonth', width: 200, align: 'center',
+          {title: '公积金月份', key: 'fundMonth', width: 176, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.fundMonth),
@@ -266,8 +281,17 @@
     },
     methods: {
       ...mapActions('fundReconciliation', [EventType.FUNDRECONCILIATION]),
+      saveReconciliation() {
+
+      },
+      setSearchFundMonth(month) {
+        this.operatorSearchData.customerPayDate = month;
+      },
+      setFundMonth(month) {
+        this.newReconciliation.fundMonth = month;
+      },
       resetSearchCondition(name) {
-        this.$refs[name].resetFields()
+        this.$refs[name].resetFields();
       },
     }
   }

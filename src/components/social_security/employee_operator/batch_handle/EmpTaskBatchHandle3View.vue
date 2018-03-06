@@ -138,10 +138,10 @@
             }
           },
           {
-            title: '客户编号', width: 120, key: 'customerId', align: 'center',fixed: 'left',
+            title: '客户编号', width: 120, key: 'companyId', align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.customerId),
+                h('span', params.row.companyId),
               ]);
             }
           },
@@ -270,26 +270,35 @@
         this.$router.push({name: 'employeeOperatorView'});
       },
       comfirm(){
-        let param =this.updateOperatorTableNewData;
-        if(param.length==0){
-          this.$Message.error("任务单为空");
-        }else{
-          let params ={}
-          params.ssEmpTaskBOList = param;
-          api.handleBatchEmpTask(params).then(data=>{
-            if(data!=null){
-              if(data.data){
-                this.$Message.success("办理成功");
-                 this.goback();
-              }else{
-                this.$Message.error(data.message);
+
+          let self= this;
+          this.$Modal.confirm({
+              title: "操作确认",
+              content: '你确定批量操作吗?',
+              okText: '确定',
+              cancelText: '取消',
+              onOk: () => {
+                  let param =self.updateOperatorTableNewData;
+                  if(param.length==0){
+                    self.$Message.error("任务单为空");
+                  }else{
+                    let params ={}
+                    params.ssEmpTaskBOList = param;
+                    api.handleBatchEmpTask(params).then(data=>{
+                      if(data!=null){
+                        if(data.data){
+                          self.$Message.success("办理成功");
+                          self.goback();
+                        }else{
+                          self.$Message.error(data.message);
+                        }
+                      }else{
+                        self.$Message.error("网络异常");
+                      }
+                    }) 
+                  }
               }
-            }else{
-              this.$Message.error("网络异常");
-            }
-          })
-            
-        }
+          });
       }
     }
   }

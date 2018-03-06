@@ -1048,6 +1048,8 @@
         let baseAmountReg = /(^[1-9]([0-9]{1,10})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;
         let ratioReg = /(^(0){1}$)|(^[0-9].[0-9]([0-9]{1,3})?$)/;
         let amountReg = /(^[1-9]([0-9]{1,6})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;
+        let normalEndMonth;
+        let repairStartMonth;
 
         for (let i = 0; i < this.operatorListData.length; i++) {
           if (!this.operatorListData[i].startMonth || this.operatorListData[i].startMonth == '') {
@@ -1125,7 +1127,11 @@
             this.$Message.error("操作栏补缴状态费用段的补缴原因不能为空");
             return false;
           }
-
+          if (this.operatorListData[i].remitWay != 2) {
+            normalEndMonth = this.operatorListData[i].startMonth;
+          } else {
+            repairStartMonth = this.operatorListData[i].endMonth;
+          }
 //          if (!baseAmountReg.test(this.operatorListData[i].baseAmount)) {
 //            this.$Message.error("操作栏基数输入格式有误");
 //            return false;
@@ -1138,6 +1144,10 @@
 //            this.$Message.error("操作栏个人比例输入格式有误");
 //            return false;
 //          }
+        }
+        if (this.minusMonths(normalEndMonth, 1) != repairStartMonth) {
+          this.$Message.error("操作栏费用段的缴纳时间段必须连续");
+          return false;
         }
         return true;
       },

@@ -345,7 +345,7 @@
             title: '结算区县', key: 'settlementAreaName', width: 80, align: 'center'
           },
           {
-            title: '企业社保账户', key: 'ssAccount', width: 100, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 100, align: 'center'
           },
           {
             title: '养老金独立开户用户名', key: 'ssUsername', width: 120, align: 'center'

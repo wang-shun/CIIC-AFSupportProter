@@ -122,7 +122,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         collapseInfo: [1], //展开栏
         operatorSearchData: {
           serviceCenter: [],
-          taskStatus: 2,
+          taskStatus: 3,
           employeeId: '',
           taskCategory: 0,
           paymentBank: 0,

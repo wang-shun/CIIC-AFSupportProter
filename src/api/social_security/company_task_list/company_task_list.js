@@ -446,6 +446,19 @@ export class CompanyTaskList{
     //判断账户信息是否为空
     let isNull = ssComAccountBO==null || ssComAccountBO==""
 
+    let expireDateFront = "";
+    let paymentWay = "";
+    let billReceiver = "";
+    if(isNull){
+      expireDateFront =taskFormContent==null|| taskFormContent==""?"":taskFormContent.expireDateFront;
+      paymentWay = taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.paymentWay);
+      billReceiver = taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.billReceiver);
+    }else{
+      expireDateFront = ssComAccountBO.expireDate
+      paymentWay = ssComAccountBO.paymentWay
+      billReceiver = ssComAccountBO.billReceiver
+    }
+
     //行业表里信息
     let industryInfo = null
     if(!isNull && ssComAccountBO.ssAccountRatio!=null){
@@ -468,10 +481,10 @@ export class CompanyTaskList{
           },
       beforeSendInfo:{
         //客户社保截止日
-        customerSocialSecurityEndDate: taskFormContent==null|| taskFormContent==""?"":taskFormContent.expireDateFront,
+        customerSocialSecurityEndDate: expireDateFront,
         //支付方式
-        payMethodValue: taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.paymentWay),
-        billReceiverValue:taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.billReceiver),
+        payMethodValue: String(paymentWay),
+        billReceiverValue:String(billReceiver),
       },
       companyOpenAccountOperator: {
             taskValue: result.taskCategory,

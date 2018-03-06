@@ -89,7 +89,7 @@
       <Col :sm="{span: 24}" class="tr">
       <!--<Button type="error" @click="isShowRejectBatch = true">批量批退</Button>-->
       <Button type="info" @click="excelExport()">导出</Button>
-      <Button type="error" @click="batchCancel()">撤销</Button>
+      <!--<Button type="error" @click="batchCancel()">撤销</Button>-->
       </Col>
     </Row>
 
@@ -108,23 +108,23 @@
       </Col>
     </Row>
 
-    <!-- 批退理由 -->
-    <Modal
-      v-model="isShowRejectBatch"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <Form>
-        <p>
-          <Form-item>
-            <Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
-          </Form-item>
-        </p>
-      </Form>
-      <div slot="footer">
-        <Button type="primary" @click="batchReject()">确认批退</Button>
-        <Button type="warning" @click="isShowRejectBatch = false">取消</Button>
-      </div>
-    </Modal>
+    <!--&lt;!&ndash; 批退理由 &ndash;&gt;-->
+    <!--<Modal-->
+      <!--v-model="isShowRejectBatch"-->
+      <!--@on-ok="ok"-->
+      <!--@on-cancel="cancel">-->
+      <!--<Form>-->
+        <!--<p>-->
+          <!--<Form-item>-->
+            <!--<Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>-->
+          <!--</Form-item>-->
+        <!--</p>-->
+      <!--</Form>-->
+      <!--<div slot="footer">-->
+        <!--<Button type="primary" @click="batchReject()">确认批退</Button>-->
+        <!--<Button type="warning" @click="isShowRejectBatch = false">取消</Button>-->
+      <!--</div>-->
+    <!--</Modal>-->
   </div>
 </template>
 <script>

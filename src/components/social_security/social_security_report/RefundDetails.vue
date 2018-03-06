@@ -47,7 +47,7 @@ import api from '../../../api/social_security/social_security_report'
                 ]);
               }
             },
-            {title: '企业社保账户', key: 'ssAccount', align: 'center', className: 'mw200',
+            {title: '企业社保账号', key: 'ssAccount', align: 'center', className: 'mw200',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'center'}}, [
                   h('span', params.row.ssAccount),

@@ -91,17 +91,17 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.showInfoT(params.row.employmentId,params.row.employeeId,params.row.companyId)
+                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employmentId,params.row.employeeId,params.row.companyId)
                     }
                   }
                 }, '办理'),
               ]);
             }
           },
-          {title: '用工方式', key: 'employMethods', align: 'center', width: 150,
+          {title: '用工方式', key: 'employWay', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employMethods),
+                h('span', params.row.employWay),
               ]);
             }
           },
@@ -112,31 +112,17 @@
               ]);
             }
           },
-          // {title: '序号', key: 'index', align: 'center', width: 100,
-          //   render: (h, params) => {
-          //     return h('div', {style: {textAlign: 'right'}}, [
-          //       h('span', params.row.index),
-          //     ]);
-          //   }
-          // },
-          {title: '职介反馈日期', key: 'intermediaryFeedbackDate', align: 'center', width: 150,
+          {title: '职介反馈日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.intermediaryFeedbackDate),
+                h('span', params.row.jobCentreFeedbackDate),
               ]);
             }
           },
-          {title: '退工原因', key: 'refuseReason', align: 'center', width: 250,
+          {title: '退工原因', key: 'outReason', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.refuseReason),
-              ]);
-            }
-          },
-          {title: '用工属性', key: 'employProperty', align: 'center', width: 100,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employProperty),
+                h('span', params.row.outReason),
               ]);
             }
           },
@@ -147,10 +133,10 @@
               ]);
             }
           },
-          {title: '雇员编号', key: 'employeeNumber', align: 'center', width: 150,
+          {title: '雇员编号', key: 'employeeId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.employeeNumber),
+                h('span', params.row.employeeId),
               ]);
             }
           },
@@ -161,24 +147,24 @@
               ]);
             }
           },
-          {title: '证件号码', key: 'IdNumber', align: 'center', width: 150,
+          {title: '证件号码', key: 'idNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.IdNumber),
+                h('span', params.row.idNum),
               ]);
             }
           },
-          {title: '客户编号', key: 'companyNumber', align: 'center', width: 150,
+          {title: '客户编号', key: 'companyId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyNumber),
+                h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '公司名称', key: 'companyName', align: 'center', width: 250,
+          {title: '公司名称', key: 'title', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
+                h('span', params.row.title),
               ]);
             }
           },
@@ -196,45 +182,45 @@
               ]);
             }
           },
-          {title: '档案编号', key: 'fileNumber', align: 'center', width: 150,
+          {title: '档案编号', key: 'docNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fileNumber),
+                h('span', params.row.docNum),
               ]);
             }
           },
-          {title: '预留档案编号', key: 'resveredFileNumber', align: 'center', width: 150,
+          {title: '预留档案编号', key: 'yuliuDocNum', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.resveredFileNumber),
+                h('span', params.row.yuliuDocNum),
               ]);
             }
           },
-          {title: '存档地', key: 'place', align: 'center', width: 150,
+          {title: '存档地', key: 'archivePlace', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.place),
+                h('span', params.row.archivePlace),
               ]);
             }
           },
-          {title: '实际录用日期', key: 'actEmployDate', align: 'center', width: 150,
+          {title: '实际录用日期', key: 'employDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.actEmployDate),
+                h('span', params.row.employDate),
               ]);
             }
           },
-          {title: '退工日期', key: 'refuseDate', align: 'center', width: 150,
+          {title: '退工日期', key: 'outDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.refuseDate),
+                h('span', params.row.outDate),
               ]);
             }
           },
-          {title: '出库日期', key: 'outStockDate', align: 'center', width: 150,
+          {title: '出库日期', key: 'storageOutDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.outStockDate),
+                h('span', params.row.storageOutDate),
               ]);
             }
           },
@@ -535,6 +521,7 @@
     },
     methods: {
       searchEmploiees(conditions) {
+         this.pageData.pageNum =1;
            this.searchConditions =[];
             for(var i=0;i<conditions.length;i++)
                   this.searchConditions.push(conditions[i].exec);
@@ -570,7 +557,8 @@
         this.$router.push({name:'fileMatrialsUseAndBorrow', query: {archiveId:tempId,employeeId:tempId1}});
       },
       exportXLS() {
-
+        let params = this.searchConditions;
+        api.archiveSearchExportOpt(params);
       },
       generateInStock() {
 
@@ -628,8 +616,8 @@
            this.archiveQuery(this.searchCondition);
 
       },
-      showInfoT (employmentId,employeeId,companyId) {
-        this.$router.push({name:'recordComprehensive', query: {employmentId:employmentId,employeeId:employeeId,companyId:companyId}});
+      showInfoT (idNum,idCardType,empTaskId,employmentId,employeeId,companyId) {
+        this.$router.push({name:'recordComprehensive', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employmentId:employmentId,employeeId:employeeId,companyId:companyId}});
       },
       handlePageNum(val) {
         this.pageData.pageNum = val;

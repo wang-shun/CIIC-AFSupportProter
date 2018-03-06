@@ -680,7 +680,7 @@
               })
             this.$Notice.warning({
                     title: '温馨提示',
-                    desc: '该企业已经做过新进或转入.',
+                    desc: '该企业已经做过开户.',
                     duration: 0
             });
           }
@@ -755,11 +755,11 @@
               expireDate:this.beforeSendInfo.customerSocialSecurityEndDate
           }
           //到期时间和支付方式  前道传过来的数据
-          let taskFormContent = {
-            expireDateFront:this.beforeSendInfo.customerSocialSecurityEndDate,
-            paymentWay:this.beforeSendInfo.payMethodValue,
-            billReceiver:this.beforeSendInfo.billReceiverValue
-          }
+          // let taskFormContent = {
+          //   expireDateFront:this.beforeSendInfo.customerSocialSecurityEndDate,
+          //   paymentWay:this.beforeSendInfo.payMethodValue,
+          //   billReceiver:this.beforeSendInfo.billReceiverValue
+          // }
 
           //通过任务单的状态 添加受理或者送审或者完成时间
           let taskStatus = this.companyOpenAccountOperator.taskTypeValue
@@ -780,7 +780,6 @@
           let ssComTaskDTO = {
             comTaskId: this.tid,
             taskCategory: this.companyOpenAccountOperator.taskValue,
-            taskFormContent: JSON.stringify(taskFormContent),
             taskStatus: taskStatus,
             startHandleDate: startHandleDate,
             sendCheckDate: sendCheckDate,
@@ -872,7 +871,7 @@
               })
             this.$Notice.warning({
                     title: '温馨提示',
-                    desc: '该企业已经做过新进或转入,不能操作.',
+                    desc: '该企业已经做过开户,不能操作.',
                     duration: 4
             });
             return true;

@@ -4,7 +4,7 @@
       <Panel name="1">
         企业任务单
         <div slot="content">
-          <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
+          <Form :label-width='150' ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客服中心：" prop="serviceCenterValue">
@@ -12,33 +12,33 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称：" prop="title">
-                  <input-company v-model="operatorSearchData.customerName"></input-company>
+                <Form-item label="客户编号：" prop="title">
+                  <input-company v-model="operatorSearchData.companyId"></input-company>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业账户类型：" prop="accountTypeValue">
                   <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="(value,key) in this.baseDic.companyHFAccountType" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费银行：" prop="payBankValue">
                   <Select v-model="operatorSearchData.payBankValue" style="width: 100%;" transfer>
-                    <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="(value,key) in this.baseDic.payBankList" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业公积金账户：" prop="companyFundAccount">
-                  <input-company v-model="operatorSearchData.companyFundAccount"></input-company>
+                  <input-account v-model="operatorSearchData.companyFundAccount"></input-account>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金类型：" prop="fundTypeValue">
-                  <Select v-model="operatorSearchData.fundTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="公积金类型：" prop="hfTypeName">
+                  <Select v-model="operatorSearchData.hfTypeName" style="width: 100%;" transfer>
+                    <Option v-for="(value,key) in this.baseDic.hfTypeNameList" :value="value" :key="value">{{ value }}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -55,7 +55,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="primary" icon="ios-search" @click="clickQuery">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -66,37 +66,48 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info" @click="">导出</Button>
+        <Button type="info" @click="exportExcel">导出</Button>
       </Col>
     </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="refusedColumns" :data="data.lRefusedData"></Table>
-        <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
+        <Table border :columns="taskColumns" :data="taskData" :loading="loading"></Table>
+        <Page
+          class="pageSize"
+          :total="totalSize"
+          :page-size="size"
+          :current="pageNum"
+          show-sizer
+          show-total
+          @on-change="getPage"></Page>
       </Col>
     </Row>
+
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/event_types'
-
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
+  import {Refused} from '../../../../api/house_fund/company_task_list/company_task_list_tab/refused'
+  import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
 
   export default {
     components: {InputAccount, InputCompany},
     data() {
       return {
+        taskData:[],//table 里的数据
+        totalSize:0,//后台传过来的分页总数
         collapseInfo: [1], //展开栏
+        size:10,//默认单页记录数
+        pageNum:1,
         operatorSearchData: {
           serviceCenterValue: '',
-          customerName: '',
+          companyId: '',
           accountTypeValue: '',
           payBankValue: '',
           companyFundAccount: '',
-          fundTypeValue: '',
+          hfTypeName: '',
           serviceManager: '',
           taskStartTime: ''
         },
@@ -106,71 +117,57 @@
           {value: 3, label: '虹桥'},
           {value: 4, label: '浦东'}
         ], //客服中心
-        payBankList: [
-          {value: '', label: '全部'},
-          {value: 0, label: '徐汇'},
-          {value: 1, label: '长宁'},
-          {value: 2, label: '浦东'},
-          {value: 4, label: '静安'},
-          {value: 5, label: '黄浦'},
-        ],
-        fundTypeList: [
-          {value: '', label: '全部'},
-          {value: 0, label: '基本公积金'},
-          {value: 1, label: '补充公积金'}
-        ],
-        accountTypeList: [
-          {value: '', label: '全部'},
-          {value: 0, label: '独立户'},
-          {value: 1, label: '大库'},
-          {value: 2, label: '外包'},
-        ],
-        refusedColumns: [
+        taskColumns: [
           {title: '操作', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.$router.push({name: 'companyFundTaskProgressThree'});
+                      this.setSessionNumAndSize()
+                      this.$router.push({name: 'companyFundTaskInfo', params: {
+                          comTaskId: params.row.comTaskId,
+                          companyInfo: params.row.companyInfo,
+                          companyTaskInfo: params.row.companyTaskInfo}
+                      });
                     }
                   }
                 }, '查看'),
               ]);
             }
           },
-          {title: '任务类型', key: 'taskType', width: 150, align: 'center',
+          {title: '任务类型', key: 'taskCategoryName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.taskType),
+                h('span', params.row.taskCategoryName),
               ]);
             }
           },
-          {title: '公积金类型', key: 'fundType', width: 150, align: 'center',
+          {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.fundType),
+                h('span', params.row.hfTypeName),
               ]);
             }
           },
-          {title: '客户编号', key: 'customerNumber', width: 150, align: 'center',
+          {title: '客户编号', key: 'companyId', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerNumber),
+                h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '客户名称', key: 'customerName', width: 150, align: 'center',
+          {title: '客户名称', key: 'companyName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerName),
+                h('span', params.row.companyName),
               ]);
             }
           },
-          {title: '经办人', key: 'managers', width: 150, align: 'center',
+          {title: '经办人', key: 'manager', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.managers),
+                h('span', params.row.manager),
               ]);
             }
           },
@@ -181,10 +178,10 @@
               ]);
             }
           },
-          {title: '付款方式', key: 'payMethod', width: 150, align: 'center',
+          {title: '付款方式', key: 'comTaskPaymentWayName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.payMethod),
+                h('span', params.row.comTaskPaymentWayName),
               ]);
             }
           },
@@ -220,24 +217,94 @@
       }
     },
     mounted() {
-      this[EventType.LREFUSED]()
+      let sessionPageNum = sessionStorage.taskPageNum
+      let sessionPageSize = sessionStorage.taskPageSize
+
+      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+        this.pageNum = Number(sessionPageNum)
+        this.size = Number(sessionPageSize)
+        sessionStorage.removeItem("taskPageNum")
+        sessionStorage.removeItem("taskPageSize")
+      }
+      let params = {
+        pageSize:this.size,
+        pageNum:this.pageNum,
+        params:{
+          taskStatusString: '4', //已批退
+        }
+      }
+      let self= this
+      Refused.postTableData(params).then(data=>{
+          self.loading=true;
+          self.refresh(data)
+        }
+      ).catch(error=>{
+        console.log(error);
+      })
+
     },
     computed: {
-      ...mapState('lRefused',{
-        data:state => state.data
-      })
     },
     methods: {
-      ...mapActions('lRefused',[EventType.LREFUSED]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      ok () {
-
+      getPage(page){
+        this.pageNum = page
+        this.setSessionNumAndSize()
+        this.loading=true;
+        let self= this
+        let params =this.getParams(page)
+        Refused.postTableData(params).then(data=>{
+            self.refresh(data)
+          }
+        ).catch(error=>{
+          console.log(error);
+        })
       },
-      cancel () {
-
-      }
+      setSessionNumAndSize(){
+        sessionStorage.taskPageNum = this.pageNum
+        sessionStorage.taskPageSize = this.size
+      },
+      //关闭查询loding
+      closeLoading(){
+        this.loading=false;
+      },
+      //将后台查询的数据赋到页面
+      refresh(data){
+        this.taskData = data.data.taskData;
+        if(typeof(data.data.totalSize)=='undefined') this.totalSize = 0
+        else this.totalSize = Number(data.data.totalSize)
+        this.closeLoading();
+      },
+      exportExcel(){
+        let params = this.getParams(1)
+        CompanyTaskListHF.expExcel(params);
+      },
+      //点击查询按钮
+      clickQuery(){
+        this.loading=true;
+        //获得页面条件参数
+        let params = this.getParams(1)
+        let self = this
+        Refused.postTableData(params).then(data=>{
+          self.refresh(data)
+        }).catch(error=>{
+          console.log(error)
+        })
+      },
+      //获得列表请求参数
+      getParams(page){
+        return {
+          pageSize:this.size,
+          pageNum:page,
+          params:{
+            taskStatusString: '4', //已批退
+            companyId:this.operatorSearchData.companyId,//客户编号
+            hfTypeName:(this.operatorSearchData.hfTypeName=="" || this.operatorSearchData.taskStartTime==null || this.operatorSearchData.hfTypeName=='全部') ? null : this.operatorSearchData.hfTypeName //公积金账户类型
+          }
+        }
+      },
     }
   }
 </script>

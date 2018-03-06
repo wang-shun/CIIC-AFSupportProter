@@ -3,12 +3,12 @@
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户基本公积金账号：">
-          <label>{{companyFundAccount.hfComBasicAccount}}</label>
+          <label>{{companyFundAccount.customerBasicFundAccount}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户补充公积金账号：">
-          <label>{{companyFundAccount.hfComAddedAccount}}</label>
+          <label>{{companyFundAccount.customerAddFundAccount}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -17,23 +17,18 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="缴费区县：">
-          <label>{{companyFundAccount.paymentBankName}}</label>
+        <Form-item label="缴费银行：">
+          <label>{{companyFundAccount.paymentBank}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="企业公积金账户状态：">
-          <label>{{companyFundAccount.comAccountStatus}}</label>
+          <label>{{companyFundAccount.companyFundAccountStatus}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="末次汇缴月（基本）：">
-          <label>{{companyFundAccount.comHfMonthBasic}}</label>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="末次汇缴月（补充）：">
-          <label>{{companyFundAccount.comHfMonthAdded}}</label>
+        <Form-item label="末次汇缴月：">
+          <label>{{companyFundAccount.lastPayMonth}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -47,45 +42,33 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="截单年月（基本）：">
-          <label>{{companyFundAccount.endMonthBasic}}</label>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="截单年月（补充）：">
-          <label>{{companyFundAccount.endMonthAdded}}</label>
+        <Form-item label="截单年月：">
+          <label>{{companyFundAccount.endDate}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="付款方式：">
-          <label>{{companyFundAccount.paymentWayName}}</label>
+          <label>{{companyFundAccount.payMethodValue}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="公积金企业U盾：">
-          <label>{{companyFundAccount.ukeyStoreName}}</label>
+          <label>{{companyFundAccount.UKeyValue}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户编号：">
-          <label>{{companyFundAccount.comanyId}}</label>
+          <label>{{companyFundAccount.customerNumber}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户名称：">
-          <label>{{companyFundAccount.companyName}}</label>
+          <label>{{companyFundAccount.customerName}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="企业账户类型：">
-          <label>{{companyFundAccount.hfAccountTypeName}}</label>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="企业公积金账号名称：">
-          <label>{{companyFundAccount.comAccountName}}
-            <span style="color: red">{{companyFundAccount.comTaskCategory}}</span>
-          </label>
+          <label>{{companyFundAccount.accountType}}</label>
         </Form-item>
       </Col>
     </Row>
@@ -99,11 +82,6 @@
         default() {
           return {}
         }
-      }
-    },
-    data() {
-      return {
-
       }
     },
     computed: {

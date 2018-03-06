@@ -1,5 +1,5 @@
 <template>
-  <div class="smList">
+  <div class="smList"  style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         企业任务单
@@ -7,9 +7,9 @@
           <Form ref="companyTaskInfo" :model="companyTaskInfo" :label-width=150>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="companyTaskInfo.accountTypeValue" style="width: 100%;" transfer>
-                    <Option v-for="item in companyTaskInfo.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="服务中心：" prop="serviceCenterValue">
+                  <Select v-model="companyTaskInfo.serviceCenterValue" style="width: 100%;" disabled transfer>
+                    <Option v-for="item in companyTaskInfo.serviceCenterList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -23,7 +23,26 @@
                   <Input v-model="companyTaskInfo.customerName" @on-focus="companyTaskInfo.isShowCustomerName = true" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="账户类型：" prop="accountTypeValue">
+                  <Select v-model="companyTaskInfo.accountTypeValue" style="width: 100%;" transfer>
+                    <Option v-for="item in companyTaskInfo.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="结算区县：" prop="regionValue">
+                  <Select v-model="companyTaskInfo.regionValue" style="width: 100%;" transfer>
+                    <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="任务单编号：" prop="taskNumber">
+                  <Input v-model="companyTaskInfo.taskNumber" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务单类型：" prop="taskTypeValue">
                   <Select v-model="companyTaskInfo.taskTypeValue" style="width: 100%;" transfer>
                     <Option v-for="item in companyTaskInfo.taskTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -31,11 +50,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="结算区县：" prop="regionValue">
-                  <Select v-model="companyTaskInfo.regionValue" style="width: 100%;" transfer>
-                    <Option >全部</Option>
-                    <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
-                  </Select>
+                <Form-item label="任务发起时间：" prop="taskStartTime">
+                  <DatePicker v-model="companyTaskInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -45,20 +61,10 @@
                   </Select>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务发起时间：" prop="taskStartTime">
-                  <DatePicker v-model="companyTaskInfo.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%" transfer></DatePicker>
-                </Form-item>
-              </Col>
-              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务单编号：" prop="taskNumber">
-                  <Input v-model="companyTaskInfo.taskNumber" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col> -->
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="primary" @click="" icon="ios-search">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('companyTaskInfo')">重置</Button>
               </Col>
             </Row>
@@ -71,7 +77,7 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Button type="error" @click="isRefuseReason = true">批退</Button>
-          <Button type="info">导出</Button>
+          <Button type="info" @click="">导出</Button>
         </Col>
       </Row>
 
@@ -118,6 +124,8 @@
       return{
         collapseInfo: [1], //展开栏
         companyTaskInfo: {
+          serviceCenterValue: '',
+          serviceCenterList: [],
           customerNumber: '',
           customerName: '',
           isShowCustomerName: false,
@@ -128,6 +136,7 @@
             {value: '3', label: '外包'}
           ],
           regionValue: '',
+         
           taskNumber: '',
           taskTypeValue: '',
           taskTypeList: [
@@ -234,7 +243,7 @@
               ]);
             }
           },
-          {title: '备注', key: 'notes',width: 220, align: 'center',
+          {title: '备注', key: 'notes', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.notes),
@@ -245,15 +254,15 @@
       }
     },
     mounted() {
-      this[EventType.CTHISMONTHHANDLETYPE]()
+      this[EventType.CNEXTMONTHHANDLETYPE]()
     },
     computed: {
-      ...mapState('cThisMonthHandle',{
+      ...mapState('cNextMonthHandle',{
           data:state => state.data
       })
     },
     methods: {
-      ...mapActions('cThisMonthHandle',[EventType.CTHISMONTHHANDLETYPE]),
+      ...mapActions('cNextMonthHandle',[EventType.CNEXTMONTHHANDLETYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

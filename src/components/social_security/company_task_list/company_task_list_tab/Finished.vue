@@ -1,5 +1,5 @@
 <template>
-  <div class="smList">
+  <div class="smList" style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         企业任务单
@@ -103,7 +103,7 @@
         collapseInfo: [1], //展开栏
          size:5,//分页
          pageNum:1,
-        sizeArr:[5],
+        sizeArr:[5,10],
         totalSize:0,//后台传过来的总数
         taskData:[],//表格数据
         companyTaskInfo: {

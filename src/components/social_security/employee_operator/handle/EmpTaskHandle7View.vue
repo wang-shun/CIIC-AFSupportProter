@@ -319,32 +319,32 @@
           empTaskId: empTaskId,
           operatorType: 1,// 任务单费用段
         }).then(data => {
-          
-          if (data.data.empTaskPeriods.length > 0) {
-            this.operatorListData = data.data.empTaskPeriods;
-          }else{
-            this.operatorListData=[{
-                remitWay: '1', 
-                startMonth: data.data.startMonth, 
-                endMonth: data.data.endMonth, 
-                refundAmount:refundAmount,
-                disabled: disabled
-               }]
-          }
-          this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
-          this.$utils.copy(data.data, this.socialSecurityPayOperator);
-
-           this.$Notice.config({
-                top:80
-              })
-            if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
-                this.$Notice.warning({
-                    title: '温馨提示',
-                    desc: '该雇员存在相同类型的未办任务.',
-                    duration: 0
-                });
+          if(data.data!=null){
+            if (data.data.empTaskPeriods.length > 0) {
+              this.operatorListData = data.data.empTaskPeriods;
+            }else{
+              this.operatorListData=[{
+                  remitWay: '1', 
+                  startMonth: data.data.startMonth, 
+                  endMonth: data.data.endMonth, 
+                  refundAmount:refundAmount,
+                  disabled: disabled
+                }]
             }
-          
+            this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
+            this.$utils.copy(data.data, this.socialSecurityPayOperator);
+
+            this.$Notice.config({
+                  top:80
+                })
+              if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
+                  this.$Notice.warning({
+                      title: '温馨提示',
+                      desc: '该雇员存在相同类型的未办任务.',
+                      duration: 0
+                  });
+              }
+          }
         });
         
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {

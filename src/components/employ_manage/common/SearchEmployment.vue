@@ -40,7 +40,7 @@
     </Row>
     <Row justify="start">
       <Col :sm="{span: 24}" class="mt20 tr">
-        <Button type="primary" icon="ios-search" :disabled="searchConditions.length === 0" @click="searchEmploiees">查询</Button>
+        <Button type="primary" icon="ios-search" @click="searchEmploiees">查询</Button>
         
         <Button type="warning" @click="resetForm('searchForm')">重置</Button>
       </Col>

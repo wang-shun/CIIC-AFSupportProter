@@ -23,8 +23,27 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="企业公积金账户：">
-          <Input v-model="openAccount.companyFundAccount" placeholder="请输入..." :disabled="disabled"></Input>
+      <Form-item label="终止类型：">
+        <Select v-model="openAccount.endTypeValue" style="width: 100%;" :disabled="disabled" transfer>
+          <Option v-for="item in endTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+        </Select>
+      </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+      <Form-item label="是否账户暂管：">
+        <Select v-model="openAccount.accountTempStoreTypeValue" style="width: 100%;" :disabled="disabled" transfer>
+          <Option v-for="item in accountTempStoreTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+        </Select>
+      </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+      <Form-item label="企业公积金账户名称：">
+        <Input v-model="openAccount.companyFundAccountName" placeholder="请输入..." :disabled="disabled"></Input>
+      </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="企业公积金账户编号：">
+          <Input v-model="openAccount.companyFundAccountNum" placeholder="请输入..." :disabled="disabled"></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -50,15 +69,15 @@
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="任务状态：" prop="taskStatus">
-            <Select  style="width: 100%;" transfer @on-change="taskTypeChange"	>
+          <Form-item label="任务状态：">
+            <Select v-model="openAccount.taskType" style="width: 100%;" transfer>
               <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
             </Select>
           </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="受理日期：">
-          <DatePicker v-model="openAccount.accpetDate" placement="bottom-end" placeholder="选择日期" :disabled="disabled" style="width: 100%;" transfer></DatePicker>
+          <DatePicker v-model="openAccount.acceptDate" placement="bottom-end" placeholder="选择日期" :disabled="disabled" style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -95,27 +114,36 @@
           {label: "转入", value: 1}
         ],
         paymentBankList: [
-          {label: "徐汇--X", value: 0},
-          {label: "西郊--C", value: 1},
-          {label: "东方路--P", value: 2},
-          {label: "卢湾--L", value: 3},
-          {label: "黄浦--H", value: 4},
+          {label: "徐汇--X", value: 1},
+          {label: "西郊--C", value: 2},
+          {label: "东方路--P", value: 3},
+          {label: "卢湾--L", value: 4},
+          {label: "黄浦--H", value: 5},
         ],
         payMethodList: [
-          {label: "客户自付", value: 0},
-          {label: "我司付款(客户预付)", value: 1},
-          {label: "垫付", value: 2},
+          {label: "客户自付", value: 1},
+          {label: "我司付款(客户预付)", value: 2},
+          {label: "垫付", value: 3},
+        ],
+        endTypeList: [
+          {label: "销户", value: 1},
+          {label: "公司自做", value: 2},
+          {label: "转其他代理商", value: 3}
         ],
         taskTypeList:[
           {value: '0',label: '初始(材料收缴)',disabled:false},
           {value: '1', label: '受理中',disabled:false},
           {value: '2', label: '送审中',disabled:false},
           {value: '3', label: '已完成',disabled:false},
-        ],//任务状态类型
+        ],
         UKeyList: [
-          {label: "有(中智代办)", value: 0},
+          {label: "有(中智代办)", value: 2},
           {label: "有(客户自办)", value: 1},
-          {label: "没有", value: 2},
+          {label: "没有", value: 0},
+        ],
+        accountTempStoreTypeList: [
+          {label: "是", value: 1},
+          {label: "否", value: 0}
         ]
       }
     },

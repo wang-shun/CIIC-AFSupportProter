@@ -47,8 +47,12 @@ const employeeFundSpecialProgressThree = r => require.ensure([], () => r(require
 const employeeFundTransferOperator = r => require.ensure([], () => r(require('@/components/fund/employee_transfer_operator/EmployeeFundTransferOperator')), 'EmployeeFundTransferOperator')
 const employeeFundTransferProgressTwo = r => require.ensure([], () => r(require('@/components/fund/employee_transfer_operator/EmployeeFundTransferProgressTwo')), 'EmployeeFundTransferProgressTwo')
 const companyFundTaskList = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskList')), 'CompanyFundTaskList')
-const companyFundTaskProgressTwo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskProgressTwo')), 'CompanyFundTaskProgressTwo')
-const companyFundTaskProgressThree = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskProgressThree')), 'CompanyFundTaskProgressThree')
+const companyFundTaskCommit = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/companyFundTaskCommit')), 'companyFundTaskCommit')
+const companyFundTaskProgressChangeInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/companyFundTaskProgressChangeInfo')), 'companyFundTaskProgressChangeInfo')
+const companyFundTaskProgressEndInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/companyFundTaskProgressEndInfo')), 'companyFundTaskProgressEndInfo')
+const companyFundTaskInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/companyFundTaskInfo')), 'companyFundTaskInfo')
+
+
 const companyFundAccountSearch = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountSearch')), 'CompanyFundAccountSearch')
 const companyFundAccountProgressTwo = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountProgressTwo')), 'CompanyFundAccountProgressTwo')
 const fundReconciliation = r => require.ensure([], () => r(require('@/components/fund/fund_reconciliation/FundReconciliation')), 'FundReconciliation')
@@ -320,9 +324,9 @@ let router = new Router({
           }
         },
         {
-          path: '/company_fund_task_progress_two',
-          name: 'companyFundTaskProgressTwo',
-          component: companyFundTaskProgressTwo,
+          path: '/company_fund_task_commit',
+          name: 'companyFundTaskCommit',
+          component: companyFundTaskCommit,
           meta: {
             level1: '首页',
             level2: "上海公积金",
@@ -331,9 +335,31 @@ let router = new Router({
           }
         },
         {
-          path: '/company_fund_task_progress_three',
-          name: 'companyFundTaskProgressThree',
-          component: companyFundTaskProgressThree,
+          path: '/company_fund_task_progress_change_info',
+          name: 'companyFundTaskProgressChangeInfo',
+          component: companyFundTaskProgressChangeInfo,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "企业任务单",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/company_fund_task_progress_end_info',
+          name: 'companyFundTaskProgressEndInfo',
+          component: companyFundTaskProgressEndInfo,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "企业任务单",
+            openNames: ['1']
+          }
+        },
+        {
+          path: '/company_fund_task_info',
+          name: 'companyFundTaskInfo',
+          component: companyFundTaskInfo,
           meta: {
             level1: '首页',
             level2: "上海公积金",

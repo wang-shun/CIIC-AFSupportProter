@@ -81,8 +81,8 @@
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="连带人" prop="serialPeople">
-                <Input v-model="formItem.serialPeople" placeholder="请输入"/>
+              <Form-item label="连带人" prop="insuredName">
+                <Input v-model="formItem.insuredName" placeholder="请输入"/>
               </Form-item>
               </Col>
             </Row>
@@ -194,7 +194,7 @@
           companyName: null,
           managementId: null,
           managementName: null,
-          serialPeople: null,
+          insuredName: null,
         },
         selectData: [],
         statisticsData: {},
@@ -269,6 +269,20 @@
                       }
                     }
                   }, '批退'),
+                  h('Button', {
+                    props: {
+                      type: 'success', size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        sessionStorage.setItem('acceptanceData', JSON.stringify(params.row));
+                        this.$router.push({name: 'InvoiceList'});
+                      }
+                    }
+                  }, '发票明细')
+                ]);
+              } else {
+                return h('div', [
                   h('Button', {
                     props: {
                       type: 'success', size: 'small'

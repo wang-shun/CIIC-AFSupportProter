@@ -141,11 +141,6 @@
             <Input v-model="refuse.diaodangFeedback" placeholder="请输入"/>
           </Form-item>
         </Col>
-        <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="用工成功：">
-            <Input v-model="refuse.employSuccess" placeholder="请输入"/>
-          </Form-item>
-        </Col> -->
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="反馈备注：">
              {{refuse.employFeedback}}
@@ -211,6 +206,7 @@
             <input type="text" v-model="refuse.companyId" hidden>
             <input type="text" v-model="refuse.employeeId" hidden>
             <input type="text" v-model="refuse.employmentId" hidden>
+            <input type="text" v-model="refuse.empTaskId" hidden>
           </Form-item>
         </Col>
       </Row>
@@ -278,23 +274,23 @@
           {value: '自开退工单', label: '自开退工单'}
         ],
         refuseFeedbackList: [
-          {value: '退工成功', label: '退工成功'},
-          {value: '档案未退先退工', label: '档案未退先退工'},
-          {value: '退工盖章未返回', label: '退工盖章未返回'},
-          {value: '退工失败', label: '退工失败'},
-          {value: '前道要求批退', label: '前道要求批退'},
-          {value: '自开退工单', label: '自开退工单'},
-          {value: '未交', label: '未交'},
-          {value: '用工已办未反馈', label: '用工已办未反馈'},
-          {value: '等翻牌联系单', label: '等翻牌联系单'},
-          {value: 'Ukey外借', label: 'Ukey外借'},
-          {value: '单项服务', label: '单项服务'},
-          {value: '原退工成功', label: '原退工成功'},
-          {value: '转外地社保', label: '转外地社保'},
-          {value: '转人员性质无需退工', label: '转人员性质无需退工'},
-          {value: '改社保', label: '改社保'},
-          {value: '重复任务单', label: '重复任务单'},
-          {value: '等修改备案表', label: '等修改备案表'}
+          {value: '2', label: '退工成功'},
+          {value: '3', label: '档案未退先退工'},
+          {value: '4', label: '退工盖章未返回'},
+          {value: '5', label: '退工失败'},
+          {value: '6', label: '前道要求批退'},
+          {value: '7', label: '自开退工单'},
+          {value: '8', label: '未交'},
+          {value: '9', label: '用工已办未反馈'},
+          {value: '10', label: '等翻牌联系单'},
+          {value: '11', label: 'Ukey外借'},
+          {value: '12', label: '单项服务'},
+          {value: '13', label: '原退工成功'},
+          {value: '14', label: '转外地社保'},
+          {value: '15', label: '转人员性质无需退工'},
+          {value: '16', label: '改社保'},
+          {value: '17', label: '重复任务单'},
+          {value: '18', label: '等修改备案表'}
         ],
         refuseFeedbackList2: [
            {value: '前道要求批退', label: '前道要求批退'},
@@ -324,6 +320,7 @@
     methods: {
 
        instance() {
+        
         var fromData = this.$utils.clear(this.refuseInfo,'');
         if(this.refuseInfo.resignMaterialDeliveryDate){
             fromData.employDate = this.$utils.formatDate(this.refuseInfo.resignMaterialDeliveryDate, 'YYYY-MM-DD');

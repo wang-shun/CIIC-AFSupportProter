@@ -27,6 +27,8 @@ let basePaths = {};
 	//雇佣管理
     basePaths['gy-c'] = localhost + ':6011';
 
+    basePaths['soc'] = localhost + ':6029';
+
   } else {
     // war
     basePaths['AlertJob'] = localhost + '/AlertJob-Host';
@@ -46,6 +48,7 @@ let apiProxyTable = (name) => {
 
 let proxyTable = {
   '/api/soccommandservice': apiProxyTable('ss-c'),
+  '/soc/messageservice': apiProxyTable('soc'),
   '/api/socqueryservice': apiProxyTable('ss-q'),
   '/api/fundcommandservice': apiProxyTable('hf-c'),
 }

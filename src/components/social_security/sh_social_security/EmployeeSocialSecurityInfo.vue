@@ -55,11 +55,11 @@
                   <Input style="width: 200px" v-model="employeeAndCustomer.ssSerial" placeholder=""></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="学历：">
                   <label>{{employeeAndCustomer.education}}</label>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账号：">
                   <label>{{employeeAndCustomer.ssAccount}}</label>

@@ -1,17 +1,17 @@
 <!-- 继办 -->
 <template>
   <div>
-    <Form :model="formItem" :label-width="120">
+    <Form :label-width="120">
       <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
           <span style="font-weight:bold;font-size:14px">常规材料</span>
         </i-col>
       </Row>
       <Row>
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+        <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
           <Form-item v-if="item.level === '0-0'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev00" @change="change(meterials.info)"/>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev00" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
@@ -25,27 +25,27 @@
       </Row>
       <Row style="margin: 10px 40px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <RadioGroup v-model="formItem.comp">
+          <RadioGroup v-model="material.comp" @on-change="compChange">
             <Radio label="上海公司"></Radio>
             <Radio label="上海分公司"></Radio>
           </RadioGroup>
         </i-col>
       </Row>
-      <Row v-if="formItem.comp === '上海公司'">
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+      <Row v-if="material.comp === '上海公司'">
+        <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  v-if="item.level === '1-1'">
           <Form-item>
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev11" @change="change(meterials.info)"/>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev11" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
       </Row>
-      <Row v-if="formItem.comp === '上海分公司'" >
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+      <Row v-if="material.comp === '上海分公司'" >
+        <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item  v-if="item.level === '1-2'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev12" @change="change(meterials.info)"/>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev12" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
@@ -58,10 +58,10 @@
         </i-col>
       </Row>
       <Row>
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+        <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
           <Form-item v-if="item.level === '2-0'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev20" @change="change(meterials.info)"/>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev20" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
@@ -75,10 +75,10 @@
         </i-col>
       </Row>
       <Row>
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+        <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
           <Form-item v-if="item.level === '3-0'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev30" @change="change(meterials.info)"/>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev30" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
@@ -92,38 +92,38 @@
       </Row>
       <Row style="margin: 10px 40px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <RadioGroup v-model="formItem.follower">
+            <RadioGroup v-model="material.follower" @on-change="followerChange">
               <Radio label="随员情况"></Radio>
               <Radio label="随员身份证明"></Radio>
               <Radio label="随员其他材料"></Radio>
             </RadioGroup>
         </i-col>
       </Row>
-      <Row v-if="formItem.follower === '随员情况'">
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+      <Row v-if="material.follower === '随员情况'">
+        <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item v-if="item.level === '4-1'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev41" @change="change(meterials.info)"/>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev41" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
       </Row>
-       <Row v-if="formItem.follower === '随员身份证明'">
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+       <Row v-if="material.follower === '随员身份证明'">
+        <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item v-if="item.level === '4-2'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev42" @change="change(meterials.info)"/>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev42" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
         </div>
       </Row>
-      <Row v-if="formItem.follower === '随员其他材料'">
-        <div v-for="item in meterials.menu" :key="item.materialTypeRelationId">
+      <Row v-if="material.follower === '随员其他材料'">
+        <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
           <Form-item v-if="item.level === '4-3'">
-            <input type="checkbox" :value="item.materialId" v-model="meterials.info.lev43" @change="change(meterials.info)"/>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev43" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
           </Form-item>
         </i-col>
@@ -143,30 +143,57 @@ export default {
   props: {
     meterials: {
       type: Object,
-      default() {
-        return {}
-      }
+      default() {}
     }
   },
   data () {
     return {
-      formItem: {
-        comp: '上海公司',
-        follower: '随员情况'
+      material: {
+        menu: '',
+        info: {},
+        materialsIds: '',
+        comp:'',
+        marryStatus:'',
+        hasFollower:'',
+        familerMaterials:'',
+        applyAddrChange:'',
+        addr:'',
+        followerType:'',
+        follower:'',
+        hasChildFollow:'',
+        hasSpouseFollow:'',
+        married:'',
+        jobMaterials:'',
+        hasGooder:'',
+        educate:'',
+        followMaterials:'',
+        notFollowMaterials:''
       }
     }
   },
   methods: {
+    followerChange (val) {
+      this.material.follower = val
+      this.$emit("materialsInfo", this.material)
+    },
+    compChange (val) {
+      this.material.comp = val
+      this.$emit("materialsInfo", this.material)
+    },
     change (info) {
       let materialsIds = ''
       if (info.lev00.toString() != ''){
         materialsIds = materialsIds + info.lev00.toString() + ','
       }
-      if (info.lev11.toString() != ''){
-        materialsIds = materialsIds + info.lev11.toString() + ','
+      if (this.material.comp == '上海公司') {
+        if (info.lev11.toString() != ''){
+          materialsIds = materialsIds + info.lev11.toString() + ','
+        }
       }
-      if (info.lev12.toString() != ''){
-        materialsIds = materialsIds + info.lev12.toString() + ','
+      if (this.material.comp == '上海分公司') {
+        if (info.lev12.toString() != ''){
+          materialsIds = materialsIds + info.lev12.toString() + ','
+        }
       }
       if (info.lev20.toString() != ''){
         materialsIds = materialsIds + info.lev20.toString() + ','
@@ -174,18 +201,32 @@ export default {
       if (info.lev30.toString() != ''){
         materialsIds = materialsIds + info.lev30.toString() + ','
       }
-      if (info.lev41.toString() != ''){
-        materialsIds = materialsIds + info.lev41.toString() + ','
+      if (this.material.follower = '随员情况') {
+        if (info.lev41.toString() != ''){
+          materialsIds = materialsIds + info.lev41.toString() + ','
+        }
       }
-      if (info.lev42.toString() != ''){
-        materialsIds = materialsIds + info.lev42.toString() + ','
+      if (this.material.follower = '随员身份证明') {
+        if (info.lev42.toString() != ''){
+          materialsIds = materialsIds + info.lev42.toString() + ','
+        }
       }
-      if (info.lev43.toString() != ''){
-        materialsIds = materialsIds + info.lev43.toString() + ','
-      } 
-      this.$emit("materialsIds", materialsIds)
-      console.log("材料ids："+materialsIds)
+      if (this.material.follower = '随员其他材料') {
+        if (info.lev43.toString() != ''){
+          materialsIds = materialsIds + info.lev43.toString() + ','
+        }
+      }
+      this.material.materialsIds = materialsIds
+      this.$emit("materialsInfo", this.material)
    }
+  },
+  watch: {
+    meterials : {
+      handler: function(newV, oldV) {
+        this.material = this._.cloneDeep(newV)
+      },
+      deep: true
+    }
   }
 }
 </script>

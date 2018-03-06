@@ -49,7 +49,6 @@
       //点击提交按钮
       commit(){
         let params = this.getParams()
-        debugger
         CompanyTaskListHF.updateCompanyTask(params).then(data=>{
           console.log("企业任务单更新成功. 后台返回代码：" + data.code)
           this.$router.push({name: "companyFundTaskList"});

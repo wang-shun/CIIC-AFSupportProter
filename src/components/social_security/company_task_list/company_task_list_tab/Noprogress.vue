@@ -62,6 +62,7 @@
           show-sizer
           show-total
           @on-change="getPage"
+          @on-page-size-change="handlePageSite"
            ></Page>
         </Col>
       </Row>
@@ -389,6 +390,10 @@
       },
       cancel() {
          this.isRefuseReason = false;
+      },
+      handlePageSite(val){
+        this.size=val
+        this.clickQuery()
       }
     }
   }

@@ -777,7 +777,7 @@
       },
       addOperatorListData() {
         let startMonth = this.displayVO.startMonth;
-        let endMonth = this.minusMonths(this.operatorListData[0].hfMonth, 1);
+        let endMonth = this.minusMonths(this.operatorListData[0].startMonth, 1);
         if (startMonth > endMonth) {
           startMonth = '';
         }
@@ -850,6 +850,10 @@
         })
       },
       handleTaskReject() {
+        if (this.inputData.rejectionRemark && this.inputData.rejectionRemark.length > 200) {
+          this.$Message.error("批退备注长度不能超过200");
+          return false;
+        }
         api.empTaskHandleReject({
           rejectionRemark: this.displayVO.rejectionRemark,
           selectedData: [this.displayVO.empTaskId]
@@ -993,19 +997,19 @@
         })
       },
       inputDataCheck() {
-        if (this.inputData.hfEmpAccount == '') {
+        if (this.displayVO.taskCategory != 1 &&(!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
           this.$Message.error("公积金账户不能为空");
           return false;
         }
-        if (this.inputData.hfEmpAccount.length > 20) {
+        if (this.inputData.hfEmpAccount && this.inputData.hfEmpAccount.length > 20) {
           this.$Message.error("公积金账户长度不能超过20");
           return false;
         }
-        if (this.inputData.handleRemark.length > 200) {
+        if (this.inputData.handleRemark && this.inputData.handleRemark.length > 200) {
           this.$Message.error("办理备注长度不能超过200");
           return false;
         }
-        if (this.inputData.rejectionRemark.length > 200) {
+        if (this.inputData.rejectionRemark && this.inputData.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
@@ -1152,19 +1156,19 @@
         return true;
       },
       transferNoticeCheck() {
-        if (this.transferNotice.transferOutUnit.length > 20) {
+        if (this.transferNotice.transferOutUnit && this.transferNotice.transferOutUnit.length > 20) {
           this.$Message.error("转出单位长度不能超过20");
           return false;
         }
-        if (this.transferNotice.transferOutUnitAccount.length > 20) {
+        if (this.transferNotice.transferOutUnitAccount && this.transferNotice.transferOutUnitAccount.length > 20) {
           this.$Message.error("转出单位账号长度不能超过20");
           return false;
         }
-        if (this.transferNotice.transferInUnit.length > 20) {
+        if (this.transferNotice.transferInUnit && this.transferNotice.transferInUnit.length > 20) {
           this.$Message.error("转入单位长度不能超过20");
           return false;
         }
-        if (this.transferNotice.transferInUnitAccount.length > 20) {
+        if (this.transferNotice.transferInUnitAccount && this.transferNotice.transferInUnitAccount.length > 20) {
           this.$Message.error("转入单位账号长度不能超过20");
           return false;
         }

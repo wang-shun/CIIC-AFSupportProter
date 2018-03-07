@@ -463,11 +463,19 @@ export class CompanyTaskList{
     let industryInfo = null
     if(!isNull && ssComAccountBO.ssAccountRatio!=null){
       industryInfo = ssComAccountBO.ssAccountRatio
+    }else{
+      industryInfo={}
+      industryInfo.industryCategory=result.industryCategory
     }
 
     let dispatchMaterial = []
     if(!isNull && ssComAccountBO.dispatchMaterial!=null){
       dispatchMaterial = JSON.parse(ssComAccountBO.dispatchMaterial)
+    }else{
+      if(typeof(result.dispatchMaterial)!="undefined"){
+        dispatchMaterial = JSON.parse(result.dispatchMaterial)
+      }
+      
     }
     //发出的材料
     return {
@@ -481,7 +489,7 @@ export class CompanyTaskList{
           },
       beforeSendInfo:{
         //客户社保截止日
-        customerSocialSecurityEndDate: expireDateFront,
+        customerSocialSecurityEndDate: String(expireDateFront),
         //支付方式
         payMethodValue: String(paymentWay),
         billReceiverValue:String(billReceiver),
@@ -490,9 +498,9 @@ export class CompanyTaskList{
             taskValue: result.taskCategory,
             taskTypeValue:result.taskStatus,//任务状态值
             joinSafeguardRegister: isNull?'':ssComAccountBO.ssAccount, //参保户登记码
-            bankCardNumber: isNull?'':ssComAccountBO.bankAccount, //牡丹卡号
+            bankCardNumber: isNull?result.bankAccount:ssComAccountBO.bankAccount, //牡丹卡号
             pensionMoneyUseCompanyName: isNull?'':ssComAccountBO.comAccountName, //养老金用公司名称
-            socialSecurityCenterValue: isNull?'':ssComAccountBO.settlementArea,//社保中心(结算区县)
+            socialSecurityCenterValue: isNull?result.settlementArea:ssComAccountBO.settlementArea,//社保中心(结算区县)
             payBank: isNull?'':ssComAccountBO.paymentBank, //付款行
             icbcSearchAccount: isNull?'':ssComAccountBO.queryAccount, //工行查询账号
             pensionMoneySingleUserName: isNull?'':ssComAccountBO.ssUsername, //养老金独立开户用户名

@@ -257,6 +257,9 @@ html, body, .ivu-row-flex, .layout {
 .ivu-menu-submenu {
   border-bottom: 1px solid #1a2226;
 }
+.ivu-menu-item {
+  padding: 0!important;
+}
 
 .ivu-menu-item a {
   padding: 14px 0 14px 43px;
@@ -277,6 +280,11 @@ html, body, .ivu-row-flex, .layout {
 
 .layout-breadcrumb .is-active {
   background: none;
+}
+
+.ivu-menu, .ivu-menu-dark, .ivu-menu-vertical {
+  height: 99%;
+  overflow-y: auto;
 }
 
 .dot {

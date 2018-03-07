@@ -656,10 +656,10 @@
         taskListNotesColumns: [
           {title: '公积金类型', key: 'hfTypeName', align: 'left'},
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
-          {title: '办理/批退', key: 'handleStatusName', align: 'left'},
-          {title: '备注人', key: 'submitterId', align: 'left'},
-          {title: '备注时间', key: 'submitTime', align: 'left'},
-          {title: '备注内容', key: 'submitterRemark', align: 'left'}
+          {title: '办理/批退', key: 'taskStatusName', align: 'left'},
+          {title: '备注人', key: 'modifiedBy', align: 'left'},
+          {title: '备注时间', key: 'modifiedTime', align: 'left'},
+          {title: '备注内容', key: 'remark', align: 'left'}
         ],
         taskListNotesChangeData: [],
 
@@ -1005,6 +1005,10 @@
           this.$Message.error("公积金账户长度不能超过20");
           return false;
         }
+        if (this.displayVO.taskCategory == 1 && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {
+          this.$Message.error("新增（新开）类型公积金账户不存在");
+          return false;
+        }
         if (this.inputData.handleRemark && this.inputData.handleRemark.length > 200) {
           this.$Message.error("办理备注长度不能超过200");
           return false;
@@ -1149,7 +1153,7 @@
 //            return false;
 //          }
         }
-        if (this.minusMonths(normalEndMonth, 1) != repairStartMonth) {
+        if (this.operatorListData.length > 1 && this.minusMonths(normalEndMonth, 1) != repairStartMonth) {
           this.$Message.error("操作栏费用段的缴纳时间段必须连续");
           return false;
         }

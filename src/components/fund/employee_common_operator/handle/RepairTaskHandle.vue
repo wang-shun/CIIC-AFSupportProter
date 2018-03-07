@@ -685,6 +685,10 @@
         })
       },
       handleTaskReject() {
+        if (this.inputData.rejectionRemark && this.inputData.rejectionRemark.length > 200) {
+          this.$Message.error("批退备注长度不能超过200");
+          return false;
+        }
         api.empTaskHandleReject({
           rejectionRemark: this.displayVO.rejectionRemark,
           selectedData: [this.displayVO.empTaskId]
@@ -747,11 +751,11 @@
         })
       },
       inputDataCheck() {
-        if (this.inputData.handleRemark.length > 200) {
+        if (this.inputData.handleRemark && this.inputData.handleRemark.length > 200) {
           this.$Message.error("办理备注长度不能超过200");
           return false;
         }
-        if (this.inputData.rejectionRemark.length > 200) {
+        if (this.inputData.rejectionRemark && this.inputData.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }

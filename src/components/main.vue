@@ -315,7 +315,6 @@
         this.breadCrumbBoolean3 = false;
       },
       getBreadCrumb() {
-        console.log(this.$route)
         if (localStorage.getItem('level2') != "undefined" && localStorage.getItem('level3') != "undefined") {
           this.breadCrumb2 = localStorage.getItem('level2');
           if (!this.$local.edits) {

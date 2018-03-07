@@ -67,12 +67,6 @@
             <refuse-return-materials-sign :refuseReturnMaterialsSignInfo="refuseReturnMaterialsSignInfo"></refuse-return-materials-sign>
           </div>
         </Panel>
-        <!-- <Panel name="13">
-          公司名称变更材料打印
-          <div slot="content">
-            <company-name-change-matrials-print></company-name-change-matrials-print>
-          </div>
-        </Panel> -->
         <Panel name="14">
           工伤申报管理
           <div slot="content">
@@ -111,26 +105,26 @@
       return {
         collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
         customerInfo: {
-          serviceCenter: "浦东",
-          customerNumber: "340078",
-          customerName: "上海XX信息技术有限公司",
-          servicer: "李XX",
+          serviceCenter: "",
+          customerNumber: "",
+          customerName: "",
+          servicer: "",
           centerServicer: "李XX",
           employeeServicer: "李XX",
           serviceManager: "王XX"
         },
         employeeInfo: {
-          employeeNumber: "GY0001",
-          employeeName: "张三",
-          IdNumber: "35220219781124114",
-          sex: "男",
-          phoneNumber: "GY0001",
-          accountAddress: "XXX路X号xxx",
-          firstInCiicDate: "2014-3-3",
-          contractStartDate: "2014-3-3",
-          contractEndDate: "2014-3-3",
-          firstContractEffectiveDate: "2014-3-3",
-          position: "司机",
+          employeeNumber: "",
+          employeeName: "",
+          IdNumber: "",
+          sex: "",
+          phoneNumber: "",
+          accountAddress: "",
+          firstInCiicDate: "",
+          contractStartDate: "",
+          contractEndDate: "",
+          firstContractEffectiveDate: "",
+          position: "",
           isUnlimitedContract: "",
           unitProperty: "",
           sendCondemnationYears: "",

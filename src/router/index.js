@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import SsRouter from './ss_router'
 import EmployManageRouter from './employ_manage_router'
-import {CrossStorageClient} from 'cross-storage'
 import userInfoApi from '../store/modules/health_medical/data_sources/supplementary_medica.js'
 
 
@@ -176,7 +175,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员公积金查询",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-1'
           }
         },
@@ -188,7 +187,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "查看导入历史",
-            openNames: ['1']
+            openNames: ['2']
           }
         },
         {
@@ -199,7 +198,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员公积金详情",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-1'
           }
         },
@@ -211,7 +210,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员公积金历史任务单详情",
-            openNames: ['1']
+            openNames: ['2']
           }
         },
         {
@@ -222,7 +221,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员日常操作",
-            openNames: ['1']
+            openNames: ['2']
           }
         },
         {
@@ -233,7 +232,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员公积金日常操作",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-2'
           }
         },
@@ -245,7 +244,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员公积金日常操作",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-2'
           }
         },
@@ -257,7 +256,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员公积金日常操作",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-2'
           }
         },
@@ -269,7 +268,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员特殊操作",
-            openNames: ['1']
+            openNames: ['2']
           }
         },
         {
@@ -280,7 +279,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "雇员特殊操作",
-            openNames: ['1']
+            openNames: ['2']
           }
         },
         {
@@ -291,7 +290,7 @@ let router = new Router({
             level1: '首页',
             level2: '上海公积金',
             level3: '雇员特殊操作',
-            openNames: ['1']
+            openNames: ['2']
           }
         },
         {
@@ -302,7 +301,7 @@ let router = new Router({
             level1: '首页',
             level2: '上海公积金',
             level3: '雇员转移操作',
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-3'
           }
         },
@@ -314,7 +313,7 @@ let router = new Router({
             level1: '首页',
             level2: '上海公积金',
             level3: '雇员转移操作',
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-3'
           }
         },
@@ -326,7 +325,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "企业任务单",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-4'
           }
         },
@@ -338,7 +337,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "企业任务单",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-4'
           }
         },
@@ -350,7 +349,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "企业任务单",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-4'
           }
         },
@@ -362,7 +361,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "企业任务单",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-4'
           }
         },
@@ -374,7 +373,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "企业任务单",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-4'
           }
         },
@@ -386,7 +385,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "企业公积金账户查询",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-5'
           }
         },
@@ -398,7 +397,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "企业公积金账户查询",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-5'
           }
         },
@@ -410,7 +409,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "公积金对账",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-6'
           }
         },
@@ -422,7 +421,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "公积金汇缴支付",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-7'
           }
         },
@@ -434,7 +433,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "公积金汇缴支付",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-7'
           }
         },
@@ -446,7 +445,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "公积金报表",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-8'
           }
         },
@@ -458,7 +457,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "公积金年调",
-            openNames: ['1']
+            openNames: ['2']
           }
         },
         {
@@ -469,7 +468,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "公积金年调",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-10'
           }
         },
@@ -481,7 +480,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "数据收集状态",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-10'
           }
         },
@@ -493,7 +492,7 @@ let router = new Router({
             level1: '首页',
             level2: "上海公积金",
             level3: "查看差异对比",
-            openNames: ['1'],
+            openNames: ['2'],
             activeName: '2-10'
           }
         },
@@ -508,7 +507,7 @@ let router = new Router({
             level1: '首页',
             level2: "未投保医疗",
             level3: "新增受理单",
-            openNames: ['2'],
+            openNames: ['6'],
             activeName: '6-4'
           }
         },
@@ -520,7 +519,7 @@ let router = new Router({
             level1: '首页',
             level2: "任务单管理",
             level3: "待处理任务单列表",
-            openNames: ['2'],
+            openNames: ['6'],
             activeName: '6-1'
           }
         },
@@ -532,7 +531,7 @@ let router = new Router({
             level1: '首页',
             level2: "任务单管理",
             level3: "已处理任务单列表",
-            openNames: ['2'],
+            openNames: ['6'],
             activeName: '6-2'
           }
         },
@@ -544,7 +543,7 @@ let router = new Router({
             level1: '首页',
             level2: "未投保医疗",
             level3: "新增受理单",
-            openNames: ['2']
+            openNames: ['6']
           }
         },
 
@@ -556,7 +555,7 @@ let router = new Router({
             level1: '首页',
             level2: "未投保医疗",
             level3: "发票列表",
-            openNames: ['2'],
+            openNames: ['6'],
             activeName: '6-3'
           }
         },
@@ -568,8 +567,8 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "医疗关系转移",
-            openNames: ['2'],
-            activeName: '5-6'
+            openNames: ['6'],
+            activeName: '6-6'
           }
         },
         {
@@ -580,8 +579,8 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "未投保审核处理",
-            openNames: ['2'],
-            activeName: '5-5'
+            openNames: ['6'],
+            activeName: '6-5'
           }
         },
         {
@@ -592,7 +591,7 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "查看受理单-投保审核信息",
-            openNames: ['2'],
+            openNames: ['6'],
             activeName: '6-4'
           }
         },
@@ -604,7 +603,7 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "新增零星报销",
-            openNames: ['2']
+            openNames: ['6']
           }
         },
         {
@@ -615,7 +614,7 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "修改零星报销",
-            openNames: ['2']
+            openNames: ['6']
           }
         },
         {
@@ -626,8 +625,8 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "新增医疗关系转移",
-            openNames: ['2'],
-            activeName: '5-6'
+            openNames: ['6'],
+            activeName: '6-6'
           }
         },
         {
@@ -638,8 +637,8 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "修改医疗关系转移",
-            openNames: ['2'],
-            activeName: '5-6'
+            openNames: ['6'],
+            activeName: '6-6'
           }
         },
         {
@@ -650,7 +649,7 @@ let router = new Router({
             level1: '首页',
             level2: "未投保医疗",
             level3: "托费报销受理",
-            openNames: ['2']
+            openNames: ['6']
           }
         },
         {
@@ -661,8 +660,8 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "保单管理",
-            openNames: ['2'],
-            activeName: '5-9'
+            openNames: ['6'],
+            activeName: '6-9'
           }
         },
         {
@@ -673,8 +672,8 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "新增保单缴费",
-            openNames: ['2'],
-            activeName: '5-9'
+            openNames: ['6'],
+            activeName: '6-9'
           }
         },
         {
@@ -685,8 +684,8 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "保单费用确认",
-            openNames: ['2'],
-            activeName: '5-9'
+            openNames: ['6'],
+            activeName: '6-9'
           }
         },
         {
@@ -697,8 +696,8 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "保单号管理",
-            openNames: ['2'],
-            activeName: '5-8'
+            openNames: ['6'],
+            activeName: '6-8'
           }
         },
         {
@@ -709,8 +708,8 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "新增保单号",
-            openNames: ['2'],
-            activeName: '5-8'
+            openNames: ['6'],
+            activeName: '6-8'
           }
         },
         {
@@ -721,8 +720,8 @@ let router = new Router({
             level1: '首页',
             level2: "保单管理",
             level3: "新增付费比例",
-            openNames: ['2'],
-            activeName: '5-8'
+            openNames: ['6'],
+            activeName: '6-8'
           }
         },
         {
@@ -733,8 +732,8 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "代收代付",
-            openNames: ['2'],
-            activeName: '5-10'
+            openNames: ['6'],
+            activeName: '6-10'
           }
         },
         {
@@ -745,8 +744,8 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "新增代收代付",
-            openNames: ['2'],
-            activeName: '5-10'
+            openNames: ['6'],
+            activeName: '6-10'
           }
         },
         {
@@ -757,7 +756,7 @@ let router = new Router({
             level1: '首页',
             level2: "补充医疗理赔",
             level3: "补充医疗理赔",
-            openNames: ['2'],
+            openNames: ['6'],
             activeName: '6-3'
           }
         },
@@ -780,7 +779,7 @@ let router = new Router({
             level1: '首页',
             level2: "健康医疗",
             level3: "未投保审核",
-            openNames: ['2']
+            openNames: ['6']
           }
         },
         {
@@ -791,7 +790,7 @@ let router = new Router({
             level1: '首页',
             level2: "未投保医疗",
             level3: "受理单列表",
-            openNames: ['2'],
+            openNames: ['6'],
             activeName: '6-4'
           }
         },
@@ -803,7 +802,7 @@ let router = new Router({
             level1: '首页',
             level2: "未投保医疗",
             level3: "新增未投保列表",
-            openNames: ['2']
+            openNames: ['6']
           }
         },
         {
@@ -814,8 +813,8 @@ let router = new Router({
             level1: '首页',
             level2: "在保管理",
             level3: "在保管理",
-            openNames: ['2'],
-            activeName: '5-7'
+            openNames: ['6'],
+            activeName: '6-7'
           }
         },
         //弹性福利
@@ -827,7 +826,7 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "礼品管理",
-            openNames: ['2'],
+            openNames: ['5'],
             activeName: '5-1'
           }
         },
@@ -839,7 +838,7 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "新增礼品",
-            openNames: ['2'],
+            openNames: ['5'],
             activeName: '5-1'
           }
         },
@@ -851,7 +850,7 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "修改礼品",
-            openNames: ['2'],
+            openNames: ['5'],
             activeName: '5-1'
           }
         },
@@ -863,7 +862,7 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "市场活动管理",
-            openNames: ['2'],
+            openNames: ['5'],
             activeName: '5-2'
           }
         },
@@ -875,7 +874,7 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "新增市场活动",
-            openNames: ['2'],
+            openNames: ['5'],
             activeName: '5-2'
           }
         },
@@ -887,7 +886,7 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "新增市场活动",
-            openNames: ['2'],
+            openNames: ['5'],
             activeName: '5-2'
           }
         },
@@ -899,7 +898,7 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "发放管理",
-            openNames: ['2'],
+            openNames: ['5'],
             activeName: '5-3'
           }
         },
@@ -911,7 +910,7 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "礼品发放",
-            openNames: ['2'],
+            openNames: ['5'],
             activeName: '5-3'
           }
         },
@@ -923,7 +922,7 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "活动发放",
-            openNames: ['2']
+            openNames: ['5']
           }
         },
         {
@@ -934,7 +933,7 @@ let router = new Router({
             level1: '首页',
             level2: "弹性福利",
             level3: "报表查询",
-            openNames: ['2'],
+            openNames: ['5'],
             activeName: '5-4'
           }
         },
@@ -1014,47 +1013,81 @@ let router = new Router({
       ]
     }
   ]
-})
+});
+
+import axios from 'axios'
+import {CrossStorageClient} from 'cross-storage'
 
 router.beforeEach((to, from, next) => {
-  // console.log(router.app.$local);
+  let storage = new CrossStorageClient(`${getBasePath(process.env.env).basePath}:8070/#/menu`);
+  storage.onConnect().then(() => {
+    return storage.get('token');
+  }).then((res) => {
+    const userInfo = JSON.parse(res);
+    if (JSON.stringify(userInfo) !== '{}') {
+      validateToken(userInfo);
+    } else {
+      backToLogin();
+    }
+  }).catch(function (err) {
+    backToLogin();
+  });
+
   window.document.title = "社保中心";
   localStorage.setItem('level1', to.meta.level1);
   localStorage.setItem('level2', to.meta.level2);
   localStorage.setItem('level3', to.meta.level3);
   localStorage.setItem('level4', to.meta.level4);
   localStorage.setItem("openNames", [to.meta.openNames]);
-
-  /*let storage = new CrossStorageClient(`{变量}:8070/#/menu`);  //此处{}中变量替换为相应环境的大首页地址
-  storage.onConnect().then(function () {
-    return storage.get('token')
-  }).then(function (res) {
-    // token字符串
-    let userInfo = res;
-    if (userInfo) {
-      localStorage.setItem('userInfo', userInfoData);
-    } else {
-      console.log('跨域token为空')
-    }
-  }).catch(function (err) {
-    console.log(err)
-  });*/
-
   next();
 });
-router.afterEach((to, from) => {
-});
 
-async function validToken(token) {
-  console.log('in token = ' + JSON.stringify(token));
-  const res = await userInfoApi.queryUserInfo(token || -1);
-  let userInfoData = res.data.object;
-  if (userInfoData && userInfoData.token) {
-    localStorage.setItem('userInfo', userInfoData);
-    next();
-  } else {
-    console.log('跨域token校验失败');
+function validateToken(userInfo) {
+  let param = new URLSearchParams();
+  param.append("token", userInfo.token);
+  axios({
+    method: "POST",
+    url: `${getBasePath(process.env.env).serverPath}:9621/api/getUserInfoByToken`,
+    data: param,
+  }).then(response => {
+    if(response.data.code !== 0) {
+      backToLogin();
+    } else {
+      window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+    }
+  })
+}
+
+function backToLogin() {
+  window.location.href = `${getBasePath(process.env.env).basePath}:8070/#/`;
+}
+
+function getBasePath(env) {
+  let basePath = '';
+  let serverPath = '';
+  switch (env) {
+    case 'dev':
+      basePath = 'http://localhost';
+      serverPath = 'http://172.16.9.31';
+      break;
+    case 'sit':
+      basePath = 'http://172.16.9.25';
+      serverPath = 'http://172.16.9.24';
+      break;
+    case 'uat':
+      basePath = 'http://172.16.9.60';
+      serverPath = 'http://172.16.9.56';
+      break;
+    case 'prod':
+      basePath = 'http://172.16.9.60';
+      serverPath = 'http://172.16.9.60';
+      break;
+    default:
+      basePath = 'http://localhost';
+      serverPath = 'http://172.16.9.31';
+      break;
   }
+  return {basePath: basePath, serverPath: serverPath};
 }
 
 export default router;

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="smList" style="margin-bottom: 56px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员日常操作
@@ -73,7 +73,11 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="是否加急：" prop="urgent">
-                  <Checkbox v-model="operatorSearchData.urgent"></Checkbox>
+                  <Select v-model="operatorSearchData.urgent" style="width: 100%;" transfer>
+                    <Option value="" label="全部"></Option>
+                    <Option value="0" label="否"></Option>
+                    <Option value="1" label="是"></Option>
+                  </Select>
                 </Form-item>
               </Col>
             </Row>
@@ -96,7 +100,7 @@
     </Row>
 
     <Row class="mt20">
-      <Col :sm="{span:24}">
+      <Col :sm="{span:24}" >
         <Table border ref="noProcessData"
                :columns="noProcessColumns"
                :data="noProcessData"
@@ -148,15 +152,15 @@
           taskStatus: 1,
           processStatus: '',
           employeeId: '',
-          taskCategory: 0,
-          paymentBank: 0,
+          taskCategory: '',
+          paymentBank: '',
           employeeName: '',
-          hfType: 0,
-          hfAccountType: 0,
+          hfType: '',
+          hfAccountType: '',
           idNum: '',
           submitTime: [],
           companyId: '',
-          urgent: 0
+          urgent: ''
         },
         processStatusList: [],
         taskTypeList: [],
@@ -245,7 +249,6 @@
     computed: {
     },
     methods: {
-//      ...mapActions('noProcess',[EventType.NOPROCESS]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

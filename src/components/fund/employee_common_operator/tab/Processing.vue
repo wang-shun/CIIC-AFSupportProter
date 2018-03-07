@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="smList" style="margin-bottom: 56px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员日常操作
@@ -143,16 +143,15 @@
           serviceCenter: [],
           taskStatus: 2,
           employeeId: '',
-          taskCategory: 0,
-          paymentBank: 0,
+          taskCategory: '',
+          paymentBank: '',
           employeeName: '',
-          hfType: 0,
-          hfAccountType: 0,
+          hfType: '',
+          hfAccountType: '',
           idNum: '',
           submitTime: [],
           companyId: '',
           hfComAccount: ''
-//          urgent: 0
         },
 
         serviceCenterData: [

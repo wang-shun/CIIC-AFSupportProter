@@ -385,16 +385,7 @@
             if (menuTree[i].menuCode === tmpLevel2[j].parentMenuCode) {
               tmpLevel2[j]['cid'] = `${i + 1}-${j + 1}`;
               tmpLevel2[j]['ckey'] = tmpLevel2[j].menuName;
-              let linkUrl = tmpLevel2[j].linkUrl;
-              let tmpUrlArr = [];
-              let tmpUrlStr = '';
-              if ((linkUrl.indexOf('_') !== -1) && (linkUrl !== '')) {
-                tmpUrlArr = linkUrl.split('_');
-                tmpUrlArr.forEach((urlPart, index, parts) => {
-                  tmpUrlStr += index !== 0 ? `${urlPart.substr(0, 1).toUpperCase()}${urlPart.substring(1)}` : urlPart;
-                })
-              }
-              tmpLevel2[j]['crouter'] = tmpUrlStr;
+              tmpLevel2[j]['crouter'] = tmpLevel2[j].linkUrl;
               menuTree[i]['children'].push(tmpLevel2[j]);
             }
           }

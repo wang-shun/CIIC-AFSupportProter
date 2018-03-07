@@ -68,9 +68,8 @@
                 <Dropdown placement="bottom-start" @on-click="userCenterHandler" transfer>
                   <div class="user-panel user">
                     <div class="image">
-                      <!-- <Avatar src="static/img/user.jpg" size="large" /> -->
-                      <img src="static/img/user.jpg" alt="User Image" class="img-circle">
-                      <span>欢迎您，{{userName}}！</span>
+                      <img :src="(userInfo.headPortrait !== undefined && userInfo.headPortrait !== null) ? userInfo.headPortrait : ''" alt="User Image" class="img-circle">
+                      <span>{{userInfo.displayName}}</span>
                     </div>
                   </div>
                   <Dropdown-menu slot="list">
@@ -88,8 +87,8 @@
       <i-col :span="spanLeft" class="layout-menu-left">
         <Menu theme="dark" width="auto" class="menuSet" :class="{'removeArror': spanLeft < 3}" accordion
               :open-names="openNames"
-              @on-open-change="onOpenChange" @on-select="onSelect">
-          <Submenu v-for="(item, index) in data" :name="item.id" :key="item.id">
+              @on-open-change="onOpenChange" @on-select="onSelect" :active-name="$route.meta.activeName">
+          <Submenu v-for="(item, index) in leftNavigates" :name="item.id" :key="item.id">
             <template slot="title">
               <Icon :type="item.icon" :size="size"></Icon>
               <span :class="{'layout-text':layoutOut}">{{item.key}}</span>
@@ -138,10 +137,23 @@
   </div>
 </template>
 <script>
+  import {CrossStorageClient} from 'cross-storage'
+  import axios from 'axios'
 
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../store/event_types'
-  import env from '../lib/env'
+  import leftN from '../data/left_navigation_data'
+
+  const envAddress = {
+    dev: 'http://localhost',
+    sit: 'http://172.16.9.25',
+    uat: 'http://172.16.9.60',
+    prod: ''
+  };
+  const serverAddress = {
+    dev: 'http://172.16.9.31',
+    sit: 'http://172.16.9.24',
+    uat: 'http://172.16.9.60',
+    prod: ''
+  };
 
   export default {
     data() {
@@ -159,9 +171,12 @@
         breadCrumbBoolean2: false,
         breadCrumbBoolean3: false,
         openNames: ["1"],
+        activeName: '1-1',
         userName: '',
         ipPrefix: '',
         isActive: false,
+        leftNavigates: {},
+        userInfo: {}
       }
     },
     created() {
@@ -173,15 +188,12 @@
       },
     },
     mounted() {
-      const envAddress = {
-        dev: 'http://localhost',
-        sit: 'http://172.16.9.25',
-        uat: 'http://172.16.9.60',
-        prod: ''
-      }
-      this.ipPrefix = envAddress[env.dev]
+      this.ipPrefix = envAddress[process.env.env];
+      setTimeout(() => {
+        this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        this.getMenuAuth(this.userInfo.userId);
+      }, 1000);
       this.getBreadCrumb();
-      this[EventTypes.LEFTNAVIGATION_SETLIST]();
     },
     computed: {
       drops() {
@@ -200,7 +212,7 @@
           {label: '供应商管理中心', url: `${this.ipPrefix}:8105/#/`},
           {label: '外企内控中心', url: `${this.ipPrefix}:8107/dic_list`},
           {label: '财务咨询运营中心', url: `${this.ipPrefix}:8113/#/`}
-        ]
+        ];
         return dropList;
       },
       tasks() {
@@ -222,7 +234,7 @@
           {label: "雇员终止-集体转出，无需退工", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
           {label: "雇员变更-人员性质转换", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`},
           {label: "雇员变更-修改用退工信息", url: `${this.ipPrefix}:8101/workOrder/main/preEmploy`}
-        ]
+        ];
         return letters;
       },
       key() {
@@ -230,13 +242,9 @@
       },
       iconSize() {
         return this.spanLeft === 4 ? 24 : 24;
-      },
-      ...mapState('leftNaviModule', {
-        data: state => state.rows
-      }),
+      }
     },
     methods: {
-      ...mapActions('leftNaviModule', [EventTypes.LEFTNAVIGATION_SETLIST]),
       toggleClick() {
         if (this.spanLeft === 4) {
           this.spanLeft = 1;
@@ -253,7 +261,6 @@
       getMenu(obj){
         //社保账户管理 清除页面缓存
         if(obj.crouter=='companysocialsecuritymanage'){
-
             let sessionPageNum = sessionStorage.managerPageNum
             let sessionPageSize = sessionStorage.managerPageSize
           if(typeof(sessionPageNum)!='undefined'){
@@ -263,7 +270,6 @@
             sessionStorage.removeItem("managerPageSize")
           }
         }
-
         //企业任务单页面缓存清除
         if(obj.crouter=='companyTaskList'){
           let tab = sessionStorage.companyTaskTab
@@ -272,7 +278,6 @@
           if(typeof(tab)!='undefined'){
             sessionStorage.removeItem("companyTaskTab")
           }
-
           if(typeof(sessionPageNum)!="undefined"){
             sessionStorage.removeItem("taskFiPageNum")
           }
@@ -280,7 +285,6 @@
             sessionStorage.removeItem("taskFiPageSize")
           }
         }
-
         //雇员日常操作任务单页面缓存清除
         if(obj.crouter=='employeeOperatorView'){
           let tab = sessionStorage.employeeOperatorTab
@@ -290,7 +294,6 @@
             sessionStorage.removeItem("employeeOperatorTab")
           }
         }
-
       },
       onSelect(name) {
       },
@@ -301,7 +304,6 @@
           this.spanRight = 20;
           this.size = 16;
           this.layoutOut = false;
-
         } else {
           return false;
         }
@@ -351,6 +353,54 @@
           return;
         window.location.href = name;
       },
+      getMenuAuth(userId) {
+        axios({
+          method: "GET",
+          url: `${serverAddress[process.env.env]}:2003/api/authservice/auth/getMenuAuth/${userId}?platformId=6&hasElement=false`,
+        }).then(response => {
+          if(response.data.code !== 0) {
+            this.$Message.error('获取角色授权失败');
+          } else {
+            // this.leftNavigates = leftN; // 调试时可放开此句，获得全部菜单
+            this.leftNavigates = this.creatMenu(response.data.data);
+          }
+        })
+      },
+      // 此处将结构组织成满足iviewMenu的结构
+      creatMenu(allMenu) {
+        let menuTree = allMenu.filter(menu => {
+          return menu.menuLevel === 1;
+        });
+        let tmpLevel2 = allMenu.filter(menu => {
+          return menu.menuLevel === 2;
+        });
+        menuTree.forEach(level => {
+          level['children'] = [];
+        });
+        for (let i = 0, level1Length = menuTree.length; i < level1Length; i++) {
+          menuTree[i]['id'] = i + 1;
+          menuTree[i]['key'] = menuTree[i].menuName;
+          menuTree[i]['icon'] = menuTree[i].imageUrl;
+          for (let j = 0, level2Length = tmpLevel2.length; j < level2Length; j++) {
+            if (menuTree[i].menuCode === tmpLevel2[j].parentMenuCode) {
+              tmpLevel2[j]['cid'] = `${i + 1}-${j + 1}`;
+              tmpLevel2[j]['ckey'] = tmpLevel2[j].menuName;
+              let linkUrl = tmpLevel2[j].linkUrl;
+              let tmpUrlArr = [];
+              let tmpUrlStr = '';
+              if ((linkUrl.indexOf('_') !== -1) && (linkUrl !== '')) {
+                tmpUrlArr = linkUrl.split('_');
+                tmpUrlArr.forEach((urlPart, index, parts) => {
+                  tmpUrlStr += index !== 0 ? `${urlPart.substr(0, 1).toUpperCase()}${urlPart.substring(1)}` : urlPart;
+                })
+              }
+              tmpLevel2[j]['crouter'] = tmpUrlStr;
+              menuTree[i]['children'].push(tmpLevel2[j]);
+            }
+          }
+        }
+        return menuTree;
+      }
     },
     directives: {
       menuInner: {

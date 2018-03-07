@@ -96,46 +96,46 @@
         <div class="create"></div>
         <h3>材料收缴</h3>
         <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 1">
-          <CredentialsMaterial1 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial1>
+          <CredentialsMaterial1 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial1>
         </div>
         <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 2">
-          <CredentialsMaterial2 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial2>
+          <CredentialsMaterial2 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial2>
         </div>
         <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 3">
-          <CredentialsMaterial3 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial3>
+          <CredentialsMaterial3 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial3>
         </div>
         <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 4">
-          <CredentialsMaterial4 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial4>
+          <CredentialsMaterial4 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial4>
         </div>
         <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 5">
-          <CredentialsMaterial5 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial5>
+          <CredentialsMaterial5 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial5>
         </div>
         <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 6">
-          <CredentialsMaterial6 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial6>
+          <CredentialsMaterial6 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial6>
         </div>
         <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 7">
-          <CredentialsMaterial7 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial7>
+          <CredentialsMaterial7 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial7>
         </div>
         <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 8">
-          <CredentialsMaterial8 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial8>
+          <CredentialsMaterial8 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial8>
         </div>
         <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 9">
-          <CredentialsMaterial9 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial9>
+          <CredentialsMaterial9 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial9>
         </div>
         <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 10">
-          <CredentialsMaterial10 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial10>
+          <CredentialsMaterial10 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial10>
         </div>
         <div v-if="formItem.credentialsType === 3">
-          <CredentialsMaterial14 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial14>
+          <CredentialsMaterial14 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial14>
         </div>
         <div v-if="formItem.credentialsType === 4">
-          <CredentialsMaterial11 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial11>
+          <CredentialsMaterial11 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial11>
         </div>
         <div v-if="formItem.credentialsType === 5">
-          <CredentialsMaterial13 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial13>
+          <CredentialsMaterial13 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial13>
         </div>
         <div v-if="formItem.credentialsType === 6">
-          <CredentialsMaterial12 :meterials="meterials" @materialsIds="childBack" ></CredentialsMaterial12>
+          <CredentialsMaterial12 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial12>
         </div>
        </Form>
     </Card>
@@ -207,7 +207,8 @@
         materialsIds: '',
         meterials: {
           info: {},
-          menu: null
+          menu: null,
+          comp:''
         },
         rowdata: {},
         formItem: {
@@ -354,19 +355,46 @@
           } else {
             this.createMeterialsMenu(value.credentialsType.toString(),"")
           }
+          this.findMaterialMenu(value.taskId)
           this.findMaterials(value.taskId)
         }
+      },
+      findMaterialMenu(taskId) {
+        axios.get(host+'/api/materials/findMenu/'+taskId).then(response => {
+          if (response.data.errCode == '0') {
+              this.meterials.comp = response.data.data.comp
+              this.meterials.marryStatus = response.data.data.marryStatus
+              this.meterials.hasFollower = response.data.data.hasFollower
+              this.meterials.familerMaterials = response.data.data.familerMaterials
+              this.meterials.applyAddrChange = response.data.data.applyAddrChange
+              this.meterials.addr = response.data.data.addr
+              this.meterials.followerType = response.data.data.followerType
+              this.meterials.follower = response.data.data.follower
+              this.meterials.hasChildFollow = response.data.data.hasChildFollow
+              this.meterials.hasSpouseFollow = response.data.data.hasSpouseFollow
+              this.meterials.married = response.data.data.married
+              this.meterials.jobMaterials = response.data.data.jobMaterials
+              this.meterials.hasGooder = response.data.data.hasGooder
+              this.meterials.educate = response.data.data.educate
+              this.meterials.followMaterials = response.data.data.followMaterials
+              this.meterials.notFollowMaterials = response.data.data.notFollowMaterials
+            } 
+        })
       },
       findMaterials(taskId) {
           axios.get(host + '/api/materials/find/'+taskId).then(response => {
             if (response.data.errCode == '0') {
               this.meterials.info = response.data.data
+              console.log("lev00"+this.meterials.info.lev00)
+            } else {
+              this.meterials.info = ""
             }
             console.log("meterials："+this.meterials.info)
           }).catch((error) => {
             this.meterials.info = response.data.data
           })
       },
+
       createMeterialsMenu(credentialsType,credentialsDealType) {
         axios.get(host + '/api/materials/create?credentialsType='+credentialsType+'&credentialsDealType='+credentialsDealType).then(response => {
           if (response.data.errCode == '0') {
@@ -428,9 +456,25 @@
         }
       },
       cancel() {},
-      childBack (ids) {
-        this.materialsIds = ids
+      childBack (info) {
+        this.materialsIds = info.materialsIds
         this.rowdata.materialIds = this.materialsIds
+        this.rowdata.comp = info.comp
+        this.rowdata.marryStatus = info.marryStatus
+        this.rowdata.hasFollower = info.hasFollower
+        this.rowdata.familerMaterials = info.familerMaterials
+        this.rowdata.applyAddrChange = info.applyAddrChange
+        this.rowdata.addr = info.addr
+        this.rowdata.followerType = info.followerType
+        this.rowdata.follower = info.follower
+        this.rowdata.hasChildFollow = info.hasChildFollow
+        this.rowdata.hasSpouseFollow = info.hasSpouseFollow
+        this.rowdata.married = info.married
+        this.rowdata.jobMaterials = info.jobMaterials
+        this.rowdata.hasGooder = info.hasGooder
+        this.rowdata.educate = info.educate
+        this.rowdata.followMaterials = info.followMaterials
+        this.rowdata.notFollowMaterials = info.notFollowMaterials
         this.$emit("backRow", this.rowdata)        
       }
     }

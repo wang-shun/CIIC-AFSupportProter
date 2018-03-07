@@ -282,6 +282,6 @@ AJAX.ajaxBasicDataService = createProxyAjaxForName('BasicDataService');
 AJAX.ajaxSiteLetterService = createProxyAjaxForName('SiteLetterService');
 AJAX.ajaxSSPService = createProxyAjaxForName('SSPService');
 AJAX.ajaxSpecialOperationService = createProxyAjaxForName('SpecialOperationService');
-
+AJAX.ajaxSocMessage = createProxyAjaxForName('soc');
 
 export default AJAX;

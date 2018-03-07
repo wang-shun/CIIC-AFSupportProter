@@ -606,7 +606,7 @@
                return;
           }else if(!startMonthIsEqual){
               if(Number(this.yyyyMM(this.socialSecurityPayOperator.startMonth))>Number(handleMonth)){
-                  this.$Message.error("起缴月份必须小于办理月份.");
+                  this.$Message.error("起缴月份必须小于或者等于办理月份.");
                   return;
               }
                 

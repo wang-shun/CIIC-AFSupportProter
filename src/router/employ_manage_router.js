@@ -33,7 +33,8 @@ export default [
       level1:'首页',
       level2:"雇佣管理",
       level3:"用工资料管理任务单",
-      openNames:['3']
+      openNames:['3'],
+      activeName: '3-1'
     }
   },
   {
@@ -57,7 +58,8 @@ export default [
       level1:'首页',
       level2:"雇佣管理",
       level3:"退工办理任务单",
-      openNames:['3']
+      openNames:['3'],
+      activeName: '3-2'
     }
   },
   {
@@ -81,7 +83,8 @@ export default [
       level1:'首页',
       level2:"雇佣管理",
       level3:"档案综合办理",
-      openNames:['3']
+      openNames:['3'],
+      activeName: '3-3'
     }
   },
   {

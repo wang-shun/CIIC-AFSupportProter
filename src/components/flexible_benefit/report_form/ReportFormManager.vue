@@ -209,6 +209,18 @@
     },
     methods: {
       exportform(form){
+         if (this.formTitle == '2') {
+          window.location = host+'/api/reportform/get2?companyId=' + form.companyId +
+                                                  '&companyName=' + form.companyName +
+                                                  '&manager=' + form.manager +
+                                                  '&birthday=' + Tools.formatDate(form.birthday, "yyyy-MM-dd") 
+        }
+        if (this.formTitle == '3') {
+          window.location = host+'/api/reportform/get3?companyId=' + form.companyId +
+                                                  '&companyName=' + form.companyName +
+                                                  '&manager=' + form.manager +
+                                                  '&birthday=' + Tools.formatDate(form.birthday, "yyyy-MM-dd") 
+        }
         if (this.formTitle == '4') {
           window.location = host+'/api/reportform/get4?companyId=' + form.companyId +
                                                   '&companyName=' + form.companyName +
@@ -222,6 +234,11 @@
                                                   '&majordomo=' + form.majordomo +
                                                   '&manager=' + form.manager +
                                                   '&product=' + form.product
+        }
+        if (this.formTitle == '7') {
+          window.location = host+'/api/reportform/get7?companyId=' + form.companyId +
+                                                  '&companyName=' + form.companyName +
+                                                  '&employeeId=' + form.employeeId
         }
       }
     },

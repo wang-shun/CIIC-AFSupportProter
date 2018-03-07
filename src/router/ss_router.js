@@ -186,7 +186,6 @@ export default [
       level2:"上海社保",
       level3:"雇员社保办理",
       openNames:['1'],
-      activeName: '1-2'
     }
   },
   {
@@ -198,7 +197,6 @@ export default [
       level2:"上海社保",
       level3:"雇员社保查询",
       openNames:['1'],
-      activeName: '1-1'
     }
   },
 
@@ -223,7 +221,6 @@ export default [
       level2:"上海社保",
       level3:"雇员日常操作",
       openNames:['1'],
-      activeName: '1-2'
     }
   },
 
@@ -284,7 +281,6 @@ export default [
       level3:"雇员操作新进转入",
       openNames:['1'],
       activeName: '1-2'
-      
     }
   },{
     path: '/emp_task_handle3_view',
@@ -343,7 +339,6 @@ export default [
       level2:"上海社保",
       level3:"雇员批量操作新进转入",
       openNames:['1'],
-      activeName: '1-2'
     }
   },{
     path: '/emp_task_batch_handle3_view',
@@ -354,7 +349,6 @@ export default [
       level2:"上海社保",
       level3:"雇员任务批量操作调整",
       openNames:['1'],
-      activeName: '1-2'
     }
   },{
     path: '/emp_task_batch_handle4_view',
@@ -365,7 +359,6 @@ export default [
       level2:"上海社保",
       level3:"雇员批量操作补缴",
       openNames:['1'],
-      activeName: '1-2'
     }
   },{
     path: '/emp_task_batch_handle5_view',
@@ -376,7 +369,6 @@ export default [
       level2:"上海社保",
       level3:"雇员批量操作转出",
       openNames:['1'],
-      activeName: '1-2'
     }
   },
   {
@@ -388,7 +380,6 @@ export default [
       level2:"上海社保",
       level3:"雇员批量操作转出",
       openNames:['1'],
-      activeName: '1-2'
     }
   },
   {
@@ -423,6 +414,7 @@ export default [
       level2:"上海社保",
       level3:"企业任务单",
       openNames:['1'],
+      activeName: '1-3'
     }
   },
   {
@@ -434,7 +426,7 @@ export default [
       level2:"上海社保",
       level3:"企业任务单",
       openNames:['1'],
-      activeName:'1-3'
+      activeName: '1-3'
     }
   },
   {
@@ -445,7 +437,7 @@ export default [
       level1:'全国社保',
       level2:"上海社保",
       level3:"企业任务单",
-      openNames:['1']
+      openNames:['1'],
     }
   },
   {
@@ -479,6 +471,7 @@ export default [
       level2:"上海社保",
       level3:"查看",
       openNames:['1'],
+      activeName: '1-3'
     }
   },
   {
@@ -490,6 +483,7 @@ export default [
       level2:"上海社保",
       level3:"查看",
       openNames:['1'],
+      activeName: '1-3'
     }
   },
   {
@@ -501,6 +495,7 @@ export default [
       level2:"上海社保",
       level3:"查看",
       openNames:['1'],
+      activeName: '1-3'
     }
   },
   {
@@ -512,7 +507,7 @@ export default [
       level2:"上海社保",
       level3:"查看",
       openNames:['1'],
-      
+      activeName: '1-3'
     }
   },
   {
@@ -524,7 +519,6 @@ export default [
       level2:"上海社保",
       level3:"企业社保账户管理",
       openNames:['1'],
-      //activeName: '1-4'
     }
   },
   {
@@ -536,6 +530,7 @@ export default [
       level2:"上海社保",
       level3:"企业社保账户管理",
       openNames:['1'],
+      activeName: '1-4'
     }
   },
   {
@@ -580,7 +575,7 @@ export default [
       level2:"上海社保",
       level3:"企业社保账户管理",
       openNames:['1'],
-      
+
     }
   },
 
@@ -593,7 +588,6 @@ export default [
       level2:"上海社保",
       level3:"社保对账",
       openNames:['1'],
-      //activeName: '1-5'
     }
   },
   {
@@ -605,7 +599,7 @@ export default [
       level2:"上海社保",
       level3:"社保对账",
       openNames:['1'],
-     // activeName: '1-5'
+      activeName: '1-5'
     }
   },
   {
@@ -617,7 +611,6 @@ export default [
       level2:"上海社保",
       level3:"社保对账",
       openNames:['1'],
-     // activeName: '1-5'
     }
   },
   {
@@ -629,7 +622,6 @@ export default [
       level2:"上海社保",
       level3:"社保对账",
       openNames:['1'],
-     //activeName: '1-5'
     }
   },
   {
@@ -641,7 +633,6 @@ export default [
       level2:"上海社保",
       level3:"社保支付",
       openNames:['1'],
-      activeName: '1-6'
     }
   },
   {
@@ -653,7 +644,7 @@ export default [
       level2:"上海社保",
       level3:"社保支付",
       openNames:['1'],
-      //activeName: '1-6'
+      activeName: '1-6'
     }
   },
   {
@@ -665,7 +656,6 @@ export default [
       level2:"上海社保",
       level3:"社保支付审核",
       openNames:['1'],
-      activeName: '1-7'
     }
   },
   {
@@ -677,7 +667,7 @@ export default [
       level2:"上海社保",
       level3:"社保支付审核",
       openNames:['1'],
-      //activeName: '1-7'
+      activeName: '1-7'
     }
   },
 
@@ -690,7 +680,6 @@ export default [
       level2:"上海社保",
       level3:"社保报表",
       openNames:['1'],
-      activeName: '1-8'
     }
   },
   {
@@ -702,7 +691,7 @@ export default [
       level2:"上海社保",
       level3:"社保报表",
       openNames:['1'],
-     // activeName: '1-8'
+      activeName: '1-8'
     }
   },
   {
@@ -714,7 +703,7 @@ export default [
       level2:"上海社保",
       level3:"社保报表",
       openNames:['1'],
-     // activeName: '1-8'
+      activeName: '1-8'
     }
   },
   {
@@ -726,7 +715,7 @@ export default [
       level2:"上海社保",
       level3:"社保报表",
       openNames:['1'],
-     // activeName: '1-8'
+      activeName: '1-8'
     }
   },
 
@@ -739,7 +728,6 @@ export default [
       level2:"上海社保",
       level3:"年调雇员工资收集表下载",
       openNames:['1'],
-     // activeName: '1-9'
     }
   },
   {
@@ -751,7 +739,6 @@ export default [
       level2:"上海社保",
       level3:"年调客户列表",
       openNames:['1'],
-      //activeName: '1-9'
     }
   },
   {
@@ -763,7 +750,6 @@ export default [
       level2:"上海社保",
       level3:"年调客户雇员信息维护",
       openNames:['1'],
-      //activeName: '1-9'
     }
   },
   {
@@ -775,7 +761,6 @@ export default [
       level2:"上海社保",
       level3:"导出申报表",
       openNames:['1'],
-     // activeName: '1-11'
     }
   },
   {
@@ -788,7 +773,6 @@ export default [
       level3:"年调社保账户雇员信息维护",
       level3:"年度基数申报",
       openNames:['1'],
-      //activeName: '1-9'
     }
   },
 

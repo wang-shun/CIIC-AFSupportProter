@@ -84,6 +84,7 @@
 
 <script>
   import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
+  import apiAjax from "../../../data/health_medical/uninsured_application.js";
 
   export default {
     data() {
@@ -109,11 +110,23 @@
         uninsuredReviewDealRules: admissibility.uninsuredReviewDealRules,
       }
     },
+    created() {
+      this.formItem.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
+    },
     methods: {
       addUninsuredReviewDeal() {
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
-            this.$router.push({name: "uninsuredReview"})
+            apiAjax.addUninsuredAudit(this.formItem).then(response => {
+              if (response.data.code === 200) {
+                this.$router.push({name: "uninsuredReview"})
+              } else {
+                this.$Message.error("服务器异常，请稍后再试");
+              }
+            }).catch(e => {
+              console.info(e.message);
+              this.$Message.error("服务器异常，请稍后再试");
+            });
           }
         });
       },

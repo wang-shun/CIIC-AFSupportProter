@@ -407,6 +407,7 @@
         ],
         basicFundData: [],
         addedFundData: [],
+        repairReason: [],
         taskReferenceInfoColumns: [
           {title: '公积金基数', key: 'empBase', align: 'left'},
           {title: '企业比例', key: 'ratioCom', align: 'left'},
@@ -423,6 +424,7 @@
         operationRemindDate: '',
         operatorListData: [],
         operatorListColumns: [
+          {title: '汇缴类型', key: 'remitWayName', width: 90, align: 'left'},
           {title: '起缴月份', key: 'startMonth', align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
@@ -453,7 +455,7 @@
           },
           {title: '截止月份', key: 'endMonth', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled) {
+              if (!this.inputDisabled && this.operatorListData[params.index].remitWay == 2) {
                 return h('div', [
                   h('DatePicker', {
                     props: {
@@ -509,65 +511,65 @@
           },
           {title: '基数', key: 'baseAmount', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled) {
-                return h('div', [
-                  h('Input', {
-                    props: {value: params.row.baseAmount},
-                    on: {
-                      'on-blur': (event) => {
-                        this.operatorListData[params.index].baseAmount = event.target.value;
-                        this.operatorListDataCalculate(params.index, 1, event.target.value);
-                      }
-                    }
-                  }, params.row.baseAmount)
-                ]);
-              } else {
+//              if (!this.inputDisabled) {
+//                return h('div', [
+//                  h('Input', {
+//                    props: {value: params.row.baseAmount},
+//                    on: {
+//                      'on-blur': (event) => {
+//                        this.operatorListData[params.index].baseAmount = event.target.value;
+//                        this.operatorListDataCalculate(params.index, 1, event.target.value);
+//                      }
+//                    }
+//                  }, params.row.baseAmount)
+//                ]);
+//              } else {
                 return h('div', [
                   h('span', params.row.baseAmount)
                 ]);
-              }
+//              }
             }
           },
           {title: '企业比例', key: 'ratioCom', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled) {
-                return h('div', [
-                  h('Input', {
-                    props: {value: params.row.ratioCom},
-                    on: {
-                      'on-blur': (event) => {
-                        this.operatorListData[params.index].ratioCom = event.target.value;
-                        this.operatorListDataCalculate(params.index, 2, event.target.value);
-                      }
-                    }
-                  }, params.row.ratioCom)
-                ]);
-              } else {
+//              if (!this.inputDisabled) {
+//                return h('div', [
+//                  h('Input', {
+//                    props: {value: params.row.ratioCom},
+//                    on: {
+//                      'on-blur': (event) => {
+//                        this.operatorListData[params.index].ratioCom = event.target.value;
+//                        this.operatorListDataCalculate(params.index, 2, event.target.value);
+//                      }
+//                    }
+//                  }, params.row.ratioCom)
+//                ]);
+//              } else {
                 return h('div', [
                   h('span', params.row.ratioCom)
                 ]);
-              }
+//              }
             }
           },
           {title: '个人比例', key: 'ratioEmp', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled) {
-                return h('div', [
-                  h('Input', {
-                    props: {value: params.row.ratioEmp},
-                    on: {
-                      'on-blur': (event) => {
-                        this.operatorListData[params.index].ratioEmp = event.target.value;
-                        this.operatorListDataCalculate(params.index, 3, event.target.value);
-                      }
-                    }
-                  }, params.row.ratioEmp)
-                ]);
-              } else {
+//              if (!this.inputDisabled) {
+//                return h('div', [
+//                  h('Input', {
+//                    props: {value: params.row.ratioEmp},
+//                    on: {
+//                      'on-blur': (event) => {
+//                        this.operatorListData[params.index].ratioEmp = event.target.value;
+//                        this.operatorListDataCalculate(params.index, 3, event.target.value);
+//                      }
+//                    }
+//                  }, params.row.ratioEmp)
+//                ]);
+//              } else {
                 return h('div', [
                   h('span', params.row.ratioEmp)
                 ]);
-              }
+//              }
             }
           },
           {title: '金额', key: 'amount', align: 'left',
@@ -587,6 +589,64 @@
               } else {
                 return h('div', [
                   h('span', params.row.amount)
+                ]);
+              }
+            }
+          },
+          {
+            title: '补缴原因', key: 'repairReason', align: 'left',
+            render: (h, params) => {
+              if (this.operatorListData[params.index].remitWay == 2) {
+                return h('div', [
+                  h('Select', {
+                      props: {value: params.row.repairReason, disabled: this.inputDisabled},
+                      on: {
+                        'on-change': (event) => {
+                          this.operatorListData[params.index].repairReason = event
+                        }
+                      }
+                    },
+                    [
+                      this.repairReason.map((item) => h('Option', {props: {value: item.key}}, item.value))
+                    ]
+                  )
+                ]);
+              } else {
+                return h('div', [
+                  h('span', '')
+                ]);
+              }
+            }
+          },
+          {title: '操作', width: 65, align: 'left',
+            render: (h, params) => {
+              if (!this.inputDisabled && this.operatorListData.length == 1 && this.operatorListData[params.index].remitWay != 2) {
+                return h('div', [
+                  h('Button', {
+                    props: {size: 'small', shape: 'circle', icon: 'plus'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        this.addOperatorListData()
+                      }
+                    }
+                  })
+                ]);
+              } else if (!this.inputDisabled && this.operatorListData.length == 2 && this.operatorListData[params.index].remitWay == 2) {
+                return h('div', [
+                  h('Button', {
+                    props: {size: 'small', shape: 'circle', icon: 'minus'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        this.operatorListData.splice(1, 1)
+                      }
+                    }
+                  })
+                ]);
+              } else {
+                return h('div', [
+                  h('span', '')
                 ]);
               }
             }
@@ -690,6 +750,7 @@
           this.taskCategoryList = data.data.HFLocalTaskCategory;
           this.operationRemindList = data.data.OperationRemind;
           this.transferUnitDictList = data.data.FundOutUnit;
+          this.repairReason = data.data.RepairReason;
           this.transferUnitDictList.forEach((element, index, array) => {
             this.transferOutUnitList.push(element);
             this.transferInUnitList.push(element);
@@ -713,6 +774,25 @@
     methods: {
       back() {
         this.$router.go(-1)
+      },
+      addOperatorListData() {
+        let startMonth = this.displayVO.startMonth;
+        let endMonth = this.minusMonths(this.operatorListData[0].hfMonth, 1);
+        if (startMonth > endMonth) {
+          startMonth = '';
+        }
+        this.operatorListData.push({
+          remitWay: 2,
+          remitWayName: '补缴',
+          startMonth: startMonth,
+          endMonth: endMonth,
+          hfMonth: this.operatorListData[0].hfMonth,
+          baseAmount: this.operatorListData[0].baseAmount,
+          ratioCom: this.operatorListData[0].ratioCom,
+          ratioEmp: this.operatorListData[0].ratioEmp,
+          amount: this.operatorListData[0].amount,
+          repairReason: ''
+        })
       },
       handleTask() {
         this.setInputData();
@@ -968,33 +1048,62 @@
         let baseAmountReg = /(^[1-9]([0-9]{1,10})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;
         let ratioReg = /(^(0){1}$)|(^[0-9].[0-9]([0-9]{1,3})?$)/;
         let amountReg = /(^[1-9]([0-9]{1,6})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;
+        let normalEndMonth;
+        let repairStartMonth;
 
         for (let i = 0; i < this.operatorListData.length; i++) {
-          if (this.operatorListData[i].startMonth == '') {
+          if (!this.operatorListData[i].startMonth || this.operatorListData[i].startMonth == '') {
             this.$Message.error("操作栏起缴月份不能为空");
             return false;
           }
-          if (this.operatorListData[i].startMonth != '') {
-            this.$Message.error("操作栏截止月份必须为空");
+          if (this.operatorListData[i].remitWay != 2 && this.operatorListData[i].endMonth && this.operatorListData[i].endMonth != '') {
+            this.$Message.error("操作栏非补缴状态费用段的截止月份必须为空");
             return false;
           }
-          if (this.operatorListData[i].hfMonth == '') {
+          if (!this.operatorListData[i].hfMonth || this.operatorListData[i].hfMonth == '') {
             this.$Message.error("操作栏客户汇缴月不能为空");
             return false;
           }
-          if (this.operatorListData[i].baseAmount == '') {
+          if (this.operatorListData[i].remitWay != 2 && this.operatorListData[i].startMonth < this.operatorListData[i].hfMonth) {
+            this.$Message.error("操作栏非补缴状态费用段的起缴月份不能小于客户汇缴月");
+            return false;
+          }
+          if (this.operatorListData[i].remitWay == 2 && (!this.operatorListData[i].endMonth || this.operatorListData[i].endMonth == '')) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份不能为空");
+            return false;
+          }
+          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].startMonth > this.operatorListData[i].endMonth) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份不能小于起缴月份");
+            return false;
+          }
+          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月");
+            return false;
+          }
+          if (this.displayVO.hfType == 1) {
+            if (this.operatorListData[i].hfMonth < this.displayVO.basicComHfMonth) {
+              this.$Message.error("操作栏客户汇缴月不能晚于末次汇缴月（基本）");
+              return false;
+            }
+          } else {
+            if (this.operatorListData[i].hfMonth < this.displayVO.addedComHfMonth) {
+              this.$Message.error("操作栏客户汇缴月不能晚于末次汇缴月（补充）");
+              return false;
+            }
+          }
+          if (!this.operatorListData[i].baseAmount || this.operatorListData[i].baseAmount == '') {
             this.$Message.error("操作栏基数不能为空");
             return false;
           }
-          if (this.operatorListData[i].ratioCom == '') {
+          if (!this.operatorListData[i].ratioCom || this.operatorListData[i].ratioCom == '') {
             this.$Message.error("操作栏企业比例不能为空");
             return false;
           }
-          if (this.operatorListData[i].ratioEmp == '') {
+          if (!this.operatorListData[i].ratioEmp || this.operatorListData[i].ratioEmp == '') {
             this.$Message.error("操作栏个人比例不能为空");
             return false;
           }
-          if (this.operatorListData[i].amount == '') {
+          if (!this.operatorListData[i].amount || this.operatorListData[i].amount == '') {
             this.$Message.error("操作栏金额不能为空");
             return false;
           }
@@ -1014,6 +1123,31 @@
             this.$Message.error("操作栏金额输入格式有误");
             return false;
           }
+          if (this.operatorListData[i].remitWay == 2 && (!this.operatorListData[i].repairReason || this.operatorListData[i].repairReason == '')) {
+            this.$Message.error("操作栏补缴状态费用段的补缴原因不能为空");
+            return false;
+          }
+          if (this.operatorListData[i].remitWay != 2) {
+            normalEndMonth = this.operatorListData[i].startMonth;
+          } else {
+            repairStartMonth = this.operatorListData[i].endMonth;
+          }
+//          if (!baseAmountReg.test(this.operatorListData[i].baseAmount)) {
+//            this.$Message.error("操作栏基数输入格式有误");
+//            return false;
+//          }
+//          if (!ratioReg.test(this.operatorListData[i].ratioCom)) {
+//            this.$Message.error("操作栏企业比例输入格式有误");
+//            return false;
+//          }
+//          if (!ratioReg.test(this.operatorListData[i].ratioEmp)) {
+//            this.$Message.error("操作栏个人比例输入格式有误");
+//            return false;
+//          }
+        }
+        if (this.minusMonths(normalEndMonth, 1) != repairStartMonth) {
+          this.$Message.error("操作栏费用段的缴纳时间段必须连续");
+          return false;
         }
         return true;
       },
@@ -1098,6 +1232,32 @@
         this.transferNotice.transferInUnitAccount = '';
         this.transferNotice.transferDate = '';
         this.isShowPrint = false;
+      },
+      minusMonths(yearMonth, months) {
+        if (!yearMonth || yearMonth == '') {
+          return '';
+        }
+        let year = yearMonth.substr(0,4);
+        let month = yearMonth.substr(4,2);
+        let monthInt = parseInt(month);
+        let yearInt = parseInt(year);
+
+        let years = Math.floor(months / 12);
+        yearInt -= years;
+        months -= years * 12;
+
+        if (monthInt <= months) {
+          yearInt --;
+          monthInt = monthInt + 12 - months;
+        } else {
+          monthInt --;
+        }
+
+        if (monthInt < 10) {
+          return yearInt + '0' + monthInt;
+        } else {
+          return yearInt + '' + monthInt;
+        }
       }
     }
   }

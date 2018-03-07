@@ -48,6 +48,20 @@
              <DatePicker type="date" v-model="formItem.birthday" placeholder="请输入" style="width: 57%" transfer/>
             </Form-item> 
           </i-col>
+          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
+            <Form-item label="婚姻状况：" prop="marriageStatus">
+              <Select v-model="formItem.marriageStatus" placeholder="请选择" transfer>
+                <Option value="1">未婚</Option>
+                <Option value="2">已婚</Option>
+                <Option value="3">离异</Option>
+              </Select>
+            </Form-item> 
+          </i-col>
+          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
+            <Form-item label="联系地址：" prop="address">
+              <Input v-model="formItem.address" placeholder="请输入"/>
+            </Form-item> 
+          </i-col>
         </Row>
         <Row justify="start" style="margin-top:10px">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -86,6 +100,8 @@ export default {
         idCardType: '',
         idNum: '',
         birthday: '',
+        marriageStatus: '',
+        address: '',
         remark: ''
       },
       empAddForm: {
@@ -95,6 +111,8 @@ export default {
         countryCode: '',
         idCardType: '',
         idNum: '',
+        marriageStatus: '',
+        address: '',
         birthday: ''
       },
       ruleValidate: {
@@ -104,7 +122,9 @@ export default {
         countryCode: [{ required: true, message: '请选择国籍', trigger: 'change' }],
         idCardType: [{ required: true, message: '请选择证件类型', trigger: 'change' }],
         idNum: [{ required: true, message: '证件号码不能为空', trigger: 'blur' }],
-        birthday: [{ required: true, type: 'date', message: '请选择出生日期', trigger: 'change' }]
+        birthday: [{ required: true, type: 'date', message: '请选择出生日期', trigger: 'change' }],
+        marriageStatus: [{ required: true, message: '婚姻状况不能为空', trigger: 'change' }],
+        address: [{ required: true, message: '联系地址不能为空', trigger: 'blur' }]
       }
     }
   },

@@ -73,12 +73,12 @@ const actions = {
 
 const mutations = {
   [EventTypes.TRANSFER_LIST](state, data) {
-    state.data.transferData = data.data;
-    state.data.transferTotal = data.total;
+    state.data.transferData = data.object.records;
+    state.data.transferTotal = data.object.total;
   },
   [EventTypes.REIMBURSEMENT_LIST](state, data) {
-    state.data.reimbursementData = data.data;
-    state.data.reimbursementTotal = data.total;
+    state.data.reimbursementData = data.object.records;
+    state.data.reimbursementTotal = data.object.total;
   },
   [EventTypes.TRANSFER_INSERT](state, data) {
     state.data.addResult = data.code;

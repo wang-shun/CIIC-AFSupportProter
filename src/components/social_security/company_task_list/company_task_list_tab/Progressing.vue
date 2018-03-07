@@ -73,7 +73,7 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData" ref="selection"></Table>
-          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" :current="pageNum" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
+          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" :current="pageNum" show-sizer show-total  class="pageSize" @on-change="getPage" @on-page-size-change="handlePageSite"></Page>
         </Col>
       </Row>
 
@@ -424,6 +424,10 @@
       },
       cancel () {
           this.isRefuseReason = false;
+      },
+      handlePageSite(val){
+        this.size=val
+        this.clickQuery()
       }
     }
   }

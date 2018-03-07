@@ -721,7 +721,7 @@
         }
         
         //赋值
-        this.changeInfo.totalPayAmount = totalPayAmount;
+        this.changeInfo.totalPayAmount = parseFloat(totalPayAmount).toFixed(2);
       },
       //保存调整结果
       saveAdjustment(){

@@ -81,16 +81,16 @@ const mutations = {
     state.data.reimbursementTotal = data.object.total;
   },
   [EventTypes.TRANSFER_INSERT](state, data) {
-    state.data.addResult = data.code;
+    state.data.addResult = data.object.code;
   },
   [EventTypes.REIMBURSEMENT_INSERT](state, data) {
-    state.data.addResult = data.code;
+    state.data.addResult = data.object.code;
   },
   [EventTypes.TRANSFER_UPDATE](state, data) {
-    state.data.addResult = data.code;
+    state.data.addResult = data.object.code;
   },
   [EventTypes.REIMBURSEMENT_UPDATE](state, data) {
-    state.data.addResult = data.code;
+    state.data.addResult = data.object.code;
   },
 };
 

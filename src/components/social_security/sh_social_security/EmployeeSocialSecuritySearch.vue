@@ -24,7 +24,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算区县：" prop="settlementArea">
                   <Select v-model="searchCondition.settlementArea" transfer>
-                     <Option >全部</Option>
+                     <Option :value="''" :key="''">全部</Option>
                     <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>

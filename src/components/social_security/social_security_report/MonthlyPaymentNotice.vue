@@ -179,7 +179,8 @@
       calculate(){
         let params = {
           comAccountId:this.comAccountId,
-          ssMonth:this.ssMonth
+          ssMonth:this.ssMonth,
+          generalMethod:'generatePaymentDetailReport'
         };
         api.summaryCalculate(params).then(data=>{
             console.log(data.code);

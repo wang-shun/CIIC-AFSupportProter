@@ -1,5 +1,5 @@
 <template>
-  <div class="smList" style="height: 850px;">
+  <div class="smList" style="height: 1050px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件

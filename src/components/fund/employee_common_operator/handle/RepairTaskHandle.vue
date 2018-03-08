@@ -685,6 +685,10 @@
         })
       },
       handleTaskReject() {
+        if (!this.inputData.rejectionRemark || this.inputData.rejectionRemark == '') {
+          this.$Message.error("批退备注不能为空");
+          return false;
+        }
         if (this.inputData.rejectionRemark && this.inputData.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;

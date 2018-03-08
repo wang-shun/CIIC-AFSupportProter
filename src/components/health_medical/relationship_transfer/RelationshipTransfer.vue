@@ -35,7 +35,6 @@
     },
     methods: {
       changeTab(i) {
-        console.info(i);
         this.currentTab = i;
       }
     }

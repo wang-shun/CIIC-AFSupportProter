@@ -37,7 +37,8 @@
           <Form-item label="发票合计：">{{acceptanceData.invoiceNumber}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="导入日期：">{{acceptanceData.inputDate}}</Form-item>
+          <Form-item label="导入日期：">{{this.$utils.formatDate(acceptanceData.inputDate, 'YYYY-MM-DD HH:mm:ss')}}
+          </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="受理编号：">{{acceptanceData.acceptanceId}}</Form-item>
@@ -73,7 +74,8 @@
           <Form-item label="审核人：">{{acceptanceData.auditor}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="审核日期：">{{acceptanceData.auditTime}}</Form-item>
+          <Form-item label="审核日期：">{{this.$utils.formatDate(acceptanceData.auditTime, 'YYYY-MM-DD HH:mm:ss')}}
+          </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="付款日期："></Form-item>
@@ -162,19 +164,24 @@
           {
             title: '投保日期', sortable: true, key: 'startConfirmDate',
             render: (h, params) => {
-              return params.row.startConfirmDate = this.employeeInfo.startConfirmDate;
+              params.row.startConfirmDate = this.employeeInfo.startConfirmDate;
+              return this.$utils.formatDate(params.row.startConfirmDate, 'YYYY-MM-DD HH:mm:ss');
             }
           },
           {
             title: '退保日期', sortable: true, key: 'endConfirmDate',
             render: (h, params) => {
-              return params.row.endConfirmDate = this.employeeInfo.endConfirmDate;
+              params.row.endConfirmDate = this.employeeInfo.endConfirmDate;
+              return this.$utils.formatDate(params.row.endConfirmDate, 'YYYY-MM-DD HH:mm:ss');
             }
           },
           {
             title: '受理日期', sortable: true, key: 'auditTime',
             render: (h, params) => {
-              return params.row.auditTime = this.acceptanceData.auditTime;
+              params.row.auditTime = this.acceptanceData.auditTime;
+              if (params.row.auditTime !== null) {
+                return this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss');
+              }
             }
           },
           {

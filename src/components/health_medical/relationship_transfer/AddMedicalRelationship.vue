@@ -114,7 +114,22 @@
         })
       },
       queryEmployeeInfo() {
-        console.info("=====+++");
+        let params = {};
+        params.employeeId = this.transferItem.employeeId;
+        params.companyId = this.transferItem.companyId;
+        this[EventTypes.EMPLOYEEINFO]({
+          data: params,
+          callback: (res) => {
+            if (res.code === 200) {
+              this.$Message.error("查询人员信心成功");
+            } else {
+              this.$Message.error("服务器异常，请稍后再试");
+            }
+          },
+          errCallback: () => {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        });
       }
     },
   }

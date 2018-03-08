@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="smList" style="margin-bottom: 56px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员日常操作
@@ -143,16 +143,15 @@
           serviceCenter: [],
           taskStatus: 2,
           employeeId: '',
-          taskCategory: 0,
-          paymentBank: 0,
+          taskCategory: '',
+          paymentBank: '',
           employeeName: '',
-          hfType: 0,
-          hfAccountType: 0,
+          hfType: '',
+          hfAccountType: '',
           idNum: '',
           submitTime: [],
           companyId: '',
           hfComAccount: ''
-//          urgent: 0
         },
 
         serviceCenterData: [
@@ -215,7 +214,7 @@
             }
           },
           {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
-          {title: '加急', key: 'urgentName', width: 100, align: 'center'},
+          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center'},
           {title: '雇员证件号', key: 'idNum', width: 200, align: 'center'},

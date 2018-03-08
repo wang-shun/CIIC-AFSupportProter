@@ -2,6 +2,7 @@ import ajax from "../../lib/ajax";
 
 
 const AJAX = ajax.ajaxSsc;
+const AJAXSM=ajax.ajaxSocMessage;
 
 export default {
     queryRefundDetails:async (params)=>{
@@ -25,7 +26,8 @@ export default {
     },
 
     summaryCalculate:async(params)=>{
-       let response = await AJAX.post('/api/soccommandservice/ssMonthCharge/summarycalculate',params);
+      //let response = await AJAX.post('/soc/messageservice/summarycalculate',params);
+       let response = await AJAXSM.post('/soc/messageservice/summarycalculate',params);
        return await response.data;
     },
 

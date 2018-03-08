@@ -4,17 +4,17 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际录用日期：">
-            {{employmentInfo.actEmployDate}}
+            {{employmentInfo.employDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="开AF单日期：">
-            {{employmentInfo.AFDate}}
+            {{employmentInfo.openAfDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工形式：">
-            {{employmentInfo.employForm}}
+            {{employmentInfo.employStyle}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -29,12 +29,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工方式：">
-            {{employmentInfo.employMethod}}
+            {{employmentInfo.employWay}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工操作专员：">
-            {{employmentInfo.employCommissioner}}
+            {{employmentInfo.employOperateMan}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

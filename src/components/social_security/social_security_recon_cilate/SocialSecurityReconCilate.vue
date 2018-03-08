@@ -165,7 +165,7 @@
           serviceCenterValue: [],
           minDiffSumByEmp: '',//最小差异数（按雇员）
           maxDiffSumByEmp: '',//最大差异数（按雇员）
-          impFileType:'',
+          impFileType:'YYS',
           ssMonth:'',//社保月份
           comAccountId: '', //企业社保账户
 

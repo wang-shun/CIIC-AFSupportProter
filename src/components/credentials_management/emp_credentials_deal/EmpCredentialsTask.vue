@@ -262,6 +262,7 @@
     methods: {
       callBack(value){
         if (value != null) {
+          console.log(value)
           this.formItem = value
           this.formItem.perCompanyName = value.companyName
         }
@@ -294,7 +295,7 @@
             this.empName = item.employeeName
             this.idNum = item.idNum
             this.education = ""
-            this.marriage = (item.marriageStatus == 1) ? "未婚" : (item.marriageStatus == 2) ? "已婚" : "离异"
+            this.marriage = (item.marriageStatus == 1) ? "未婚" : (item.marriageStatus == 2) ? "已婚" : (item.marriageStatus == 3) ? "离异" : ""
             this.sex = (item.gender == 1) ? "男" : "女"
             this.birthday = (item.birthday == null) ? "" : Tools.formatDate(item.birthday,"YYYY年MM月DD日") 
             this.address = item.address
@@ -338,10 +339,12 @@
           params.integralBillPrintTime = Tools.formatDate(params.integralBillPrintTime,"YYYY-MM-DD hh:mm")
         }
         params.materialIds = params.materialIds
+        params.comp = params.comp
         params.employeeId = params.empCode
         params.companyId = params.companyCode
         params.credentialsType = params.credentialsType
         params.credentialsDealType = params.credentialsDealType
+        console.log(params.jobMaterials)
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){
                this.$Notice.success({
@@ -393,7 +396,6 @@
               response.data.data.splice(0,0,temp)
             }
             this.empInfo = data
-            console.log("data:"+this.empInfo[1].companyName)
           }
         })
       }

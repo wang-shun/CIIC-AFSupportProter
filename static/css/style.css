@@ -241,10 +241,6 @@ html, body, .ivu-row-flex, .layout {
   width: 100%;
 }
 
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active, .ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item-active:hover {
-  background: none !important;
-}
-
 .ivu-menu-vertical .ivu-menu-submenu .ivu-menu-item {
   padding-left: 0;
   width: 100%;
@@ -256,6 +252,9 @@ html, body, .ivu-row-flex, .layout {
 
 .ivu-menu-submenu {
   border-bottom: 1px solid #1a2226;
+}
+.ivu-menu-item {
+  padding: 0!important;
 }
 
 .ivu-menu-item a {
@@ -277,6 +276,11 @@ html, body, .ivu-row-flex, .layout {
 
 .layout-breadcrumb .is-active {
   background: none;
+}
+
+.ivu-menu, .ivu-menu-dark, .ivu-menu-vertical {
+  height: 99%;
+  overflow-y: auto;
 }
 
 .dot {

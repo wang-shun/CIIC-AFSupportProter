@@ -192,7 +192,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
             }
           },
           {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
-          {title: '加急', key: 'urgentName', width: 100, align: 'center'},
+          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center'},
           {title: '雇员证件号', key: 'idNum', width: 200, align: 'center'},

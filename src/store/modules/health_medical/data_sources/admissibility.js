@@ -208,9 +208,6 @@ const payTypes = [
   {
     value: '1', label: '打卡'
   },
-  {
-    value: '2', label: '现金'
-  },
 ];
 
 /**
@@ -221,8 +218,6 @@ const payTypes = [
 function payTypeToChina(status) {
   if (status === 1) {
     return "打卡";
-  } else if (status === 2) {
-    return "现金";
   }
 }
 

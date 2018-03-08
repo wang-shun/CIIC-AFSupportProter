@@ -72,8 +72,8 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="是否加急：" prop="urgent">
-                  <Select v-model="operatorSearchData.urgent" style="width: 100%;" transfer>
+                <Form-item label="是否更正：" prop="isChange">
+                  <Select v-model="operatorSearchData.isChange" style="width: 100%;" transfer>
                     <Option value="" label="全部"></Option>
                     <Option value="0" label="否"></Option>
                     <Option value="1" label="是"></Option>
@@ -160,7 +160,8 @@
           idNum: '',
           submitTime: [],
           companyId: '',
-          urgent: ''
+          isChange: ''
+//          urgent: ''
         },
         processStatusList: [],
         taskTypeList: [],
@@ -220,7 +221,7 @@
             }
           },
           {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
-          {title: '加急', key: 'urgentName', width: 100, align: 'center'},
+          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center'},
           {title: '雇员证件号', key: 'idNum', width: 200, align: 'center'},

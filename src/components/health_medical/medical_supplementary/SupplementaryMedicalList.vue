@@ -234,7 +234,12 @@
             }
           },
           {
-            title: '处理日期', sortable: true, key: 'auditTime'
+            title: '处理日期', sortable: true, key: 'auditTime',
+            render: (h, params) => {
+              if (params.row.auditTime !== null) {
+                return this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss');
+              }
+            }
           },
           {
             title: '发票合计', sortable: true, key: 'invoiceNumber'

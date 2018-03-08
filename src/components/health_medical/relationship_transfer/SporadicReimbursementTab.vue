@@ -6,31 +6,31 @@
         零星医疗查询
         <div slot="content">
           <Form ref="reimbursementItem" :model="reimbursementItem" :label-width="140">
-            <Row justify="start" class="mt20 mr10">
+            <Row type="flex" justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号">
+              <FormItem label="雇员编号">
                 <Input placeholder="请输入"/>
-              </Form-item>
+              </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名">
+              <FormItem label="雇员姓名">
                 <Input placeholder="请输入"/>
-              </Form-item>
+              </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码">
+              <FormItem label="证件号码">
                 <Input placeholder="请输入"/>
-              </Form-item>
+              </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司编号">
+              <FormItem label="公司编号">
                 <Input placeholder="请输入"/>
-              </Form-item>
+              </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司名称">
+              <FormItem label="公司名称">
                 <Input placeholder="请输入"/>
-              </Form-item>
+              </FormItem>
               </Col>
             </row>
             <Row type="flex" justify="start">
@@ -88,6 +88,9 @@
           },
           {
             title: '中止日期', sortable: true, key: 'column3', align: "center",
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.column3, 'YYYY-MM-DD HH:mm:ss');
+            }
           },
           {
             title: '证件号码', sortable: true, key: 'column4', align: "center",
@@ -121,7 +124,11 @@
           },
           {
             title: '转出时间', sortable: true, key: 'column14', align: "center",
-          }, {
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.column14, 'YYYY-MM-DD HH:mm:ss');
+            }
+          },
+          {
             title: "操作", sortable: true, align: "center",
             render: (h, params) => {
               return h("div", [

@@ -93,7 +93,7 @@
       renderFormat: {
         type: Function,
         default (item) {
-          return item.title;
+          return item.companyId;
         }
       },
       className: {

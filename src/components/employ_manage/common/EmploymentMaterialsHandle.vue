@@ -217,6 +217,7 @@ import api from '../../../api/employ_manage/hire_operator'
     methods: {
       resetForm(form) {
         this.$refs[form].resetFields();
+        this.handleInfo.luyongHandleEnd = '0';
       },instance() {
         
         if(!this.handleInfo.employmentId)

@@ -70,7 +70,6 @@ const ProcessedTaskList = r => require.ensure([], () => r(require('@/components/
 
 //补充医疗理赔
 const supplementaryMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/SupplementaryMedicalList')), 'supplementaryMedicalList') //充医疗理赔
-// const supplementaryMedicalBatchList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/SupplementaryMedicalBatchList')), 'supplementaryMedicalBatchList') //补充医疗理赔批量
 const InvoiceList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/InvoiceList')), 'InvoiceList') //发票列表
 
 //未投保医疗
@@ -760,17 +759,6 @@ let router = new Router({
             activeName: '6-3'
           }
         },
-        /* {
-           path: '/supplementaryMedicalBatchList',
-           name: 'supplementaryMedicalBatchList',
-           component: supplementaryMedicalBatchList,
-           meta: {
-             level1: '首页',
-             level2: "补充医疗理赔",
-             level3: "补充医疗理赔批量",
-             openNames: ['2']
-           }
-         },*/
         {
           path: '/uninsuredReview',
           name: 'uninsuredReview',

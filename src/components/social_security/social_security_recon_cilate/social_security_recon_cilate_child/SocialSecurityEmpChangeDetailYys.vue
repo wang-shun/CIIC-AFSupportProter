@@ -44,6 +44,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}">
         <Button type="info" @click="ok">导出</Button>
+        <Button type="primary" @click="calculate" >重新汇总</Button>
         <Button type="info" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -63,6 +64,7 @@
         collapseInfo: [1], //展开栏
         empChangeData: {
           ssMonth:'',//社保月份
+          comAccountId:'',
           comAccountName: '', //社保账户类型
           computeUserId:'',
           lastComputeTime:'',
@@ -202,7 +204,7 @@
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYRECONCILATEDETAIL]();
+     // this[EventType.SOCIALSECURITYRECONCILATEDETAIL]();
       // var pagParam= {
       //       //对账主表ID
       //       statementId : window.sessionStorage.getItem("statementId")
@@ -254,6 +256,21 @@
           this.empChangeDetailData = data.data;
         })
       },
+      calculate(){
+        let params = {
+          comAccountId:this.empChangeData.comAccountId,
+          ssMonth:this.empChangeData.ssMonth,
+          generalMethod:'generateMonthEmpChangeReport'
+        };
+        api.summaryCalculate(params).then(data=>{
+            console.log(data.code);
+            if(data.code==1){
+              this.$Message.error(data.message);
+            }
+        }).catch(error=>{
+          this.$Message.error('系统异常！');
+        })
+      }
     }
   }
 </script>

@@ -169,7 +169,7 @@
               ]);
             }
           },
-          {title: '备注说明', key: 'remark', align: 'center',
+          {title: '备注说明', key: 'remark', width: 596, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remark),

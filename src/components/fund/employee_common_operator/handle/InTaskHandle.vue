@@ -781,12 +781,22 @@
         if (startMonth > endMonth) {
           startMonth = '';
         }
+        let hfMonth;
+        if (this.displayVO.hfType == 1) {
+          hfMonth = this.displayVO.basicComHfMonth;
+        } else {
+          hfMonth = this.displayVO.addedComHfMonth;
+        }
+        if (this.displayVO.hfAccountType == 3) {
+          hfMonth = this.plusMonths(hfMonth, 1);
+        }
+
         this.operatorListData.push({
           remitWay: 2,
           remitWayName: '补缴',
           startMonth: startMonth,
           endMonth: endMonth,
-          hfMonth: this.operatorListData[0].hfMonth,
+          hfMonth: hfMonth,
           baseAmount: this.operatorListData[0].baseAmount,
           ratioCom: this.operatorListData[0].ratioCom,
           ratioEmp: this.operatorListData[0].ratioEmp,
@@ -850,7 +860,11 @@
         })
       },
       handleTaskReject() {
-        if (this.inputData.rejectionRemark && this.inputData.rejectionRemark.length > 200) {
+        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark == '') {
+          this.$Message.error("批退备注不能为空");
+          return false;
+        }
+        if (this.displayVO.rejectionRemark && this.displayVO.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
@@ -1084,8 +1098,12 @@
             this.$Message.error("操作栏补缴状态费用段的截止月份不能小于起缴月份");
             return false;
           }
-          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月");
+          if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType != 3 && this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月（非独立户时）");
+            return false;
+          }
+          if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType == 3 && this.operatorListData[i].endMonth >= this.minusMonths(this.operatorListData[i].hfMonth, 1)) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月的次月（独立户时）");
             return false;
           }
           if (this.displayVO.hfType == 1) {
@@ -1258,7 +1276,7 @@
           yearInt --;
           monthInt = monthInt + 12 - months;
         } else {
-          monthInt --;
+          monthInt -= months;
         }
 
         if (monthInt < 10) {
@@ -1266,7 +1284,33 @@
         } else {
           return yearInt + '' + monthInt;
         }
-      }
-    }
+      },
+      plusMonths(yearMonth, months) {
+        if (!yearMonth || yearMonth == '') {
+          return '';
+        }
+        let year = yearMonth.substr(0,4);
+        let month = yearMonth.substr(4,2);
+        let monthInt = parseInt(month);
+        let yearInt = parseInt(year);
+
+        let years = Math.floor(months / 12);
+        yearInt += years;
+        months -= years * 12;
+
+        if (monthInt + months > 12) {
+          yearInt ++;
+          monthInt = monthInt + months - 12;
+        } else {
+          monthInt += months;
+        }
+
+        if (monthInt < 10) {
+          return yearInt + '0' + monthInt;
+        } else {
+          return yearInt + '' + monthInt;
+        }
+      },
+    },
   }
 </script>

@@ -94,7 +94,7 @@
     </Form>
 
     <!-- 申请支付 -->
-    <Modal v-model="applyPayData.isShow" width="360">
+    <Modal v-model="applyPayData.isShow" width="560">
       <p slot="header" style="color:#f60;text-align:center">
         <Icon type="information-circled"></Icon>
         <span>申请确认</span>
@@ -195,8 +195,8 @@
           paymentStateList: [
             //{value: '', label: '清空'},
             {value: '', label: '全部'},
-            {value: '1', label: '未到帐'},
-            {value: '2', label: '无需支付'},
+            // {value: '1', label: '未到帐'},
+            // {value: '2', label: '无需支付'},
             {value: '3', label: '可付'},
             {value: '4', label: '申请中'},
             {value: '5', label: '内部审批批退'},

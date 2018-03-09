@@ -274,7 +274,8 @@
       calculate(){
         let params = {
           comAccountId:this.comAccountId,  
-          ssMonth:this.ssMonth
+          ssMonth:this.ssMonth,
+          generalMethod:'generateSocPaymentInfo'
         };
         api.summaryCalculate(params).then(data=>{
             if(data.code==1){

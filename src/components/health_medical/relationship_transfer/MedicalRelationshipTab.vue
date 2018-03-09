@@ -132,10 +132,8 @@
                   style: {marginRight: "5px"},
                   on: {
                     click: () => {
-                      let updateData = params.row;
-                      delete updateData._index;
-                      delete updateData._rowKey;
-                      this.$router.push({name: "updateMedicalRelationship", params: {data: updateData}});
+                      sessionStorage.setItem('transferFormItem', JSON.stringify(params.row));
+                      this.$router.push({name: "updateMedicalRelationship"});
                     }
                   }
                 }, "编辑"),

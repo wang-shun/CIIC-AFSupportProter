@@ -15,22 +15,17 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="雇员姓名：">
-            <span>戴敏</span>
-          </FormItem>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="证件号码：">
-            <span></span>
+            <span>{{reimbursementItem.employeeName}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="公司名称：">
-            <span>东莞瑞德丽邦基数咨询服务有限公司</span>
+            <span>{{reimbursementItem.companyName}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="客户经理：">
-            <span>张丽玲</span>
+          <FormItem label="证件号码：">
+            <span>{{reimbursementItem.idNum}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -56,8 +51,8 @@
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="医疗结算反馈：" prop="medicalCle1aringFeedBack">
-            <Input type="textarea" v-model="reimbursementItem.medicalCle1aringFeedBack"
+          <FormItem label="医疗结算反馈：" prop="medicalClearingFeedBack">
+            <Input type="textarea" v-model="reimbursementItem.medicalClearingFeedBack"
                    :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
           </FormItem>
           </Col>
@@ -81,18 +76,21 @@
       return {
         reimbursementItem: {
           employeeId: null,
+          employeeName: null,
           companyId: "",
+          companyName: null,
           caseMoney: null,
+          idNum: null,
           invoiceNumber: null,
           medicalRemark: null,
           medicalClearingMoney: null,
-          medicalCle1aringFeedBack: null,
+          medicalClearingFeedBack: null,
         },
         reimbursementValidator: this.$Validator.reimbursementValidator
       };
     },
     methods: {
-      ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_INSERT]),
+      ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_INSERT,EventTypes.EMPLOYEEINFO]),
 
       back() {
         this.$local.back();
@@ -117,7 +115,31 @@
         })
       },
       queryEmployeeInfo() {
-        console.info("=====");
+        if (this.reimbursementItem.employeeId === null || this.reimbursementItem.companyId === null) {
+          this.$Message.error("请完善雇员编号、公司编号");
+          return;
+        }
+        let params = {};
+        params.employeeId = this.reimbursementItem.employeeId;
+        params.companyId = this.reimbursementItem.companyId;
+        this[EventTypes.EMPLOYEEINFO]({
+          data: params,
+          callback: (res) => {
+            if (res.object.code === 0 && res.object.data !== null) {
+              this.reimbursementItem.employeeName = res.object.data.employeeName;
+              this.reimbursementItem.companyName = res.object.data.companyName;
+              this.reimbursementItem.idNum = res.object.data.idNum;
+              this.$Message.success("查询人员信息成功");
+            } else if (res.object.code === 0 && res.object.data === null) {
+              this.$Message.error("没有查询到人员信息");
+            } else {
+              this.$Message.error("服务器异常，请稍后再试");
+            }
+          },
+          errCallback: () => {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        });
       }
     },
   }

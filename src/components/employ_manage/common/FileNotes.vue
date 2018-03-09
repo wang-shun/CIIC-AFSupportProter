@@ -169,7 +169,7 @@
                         let params = {amRemarkId:remarkId}
 
                         api.deleteAmRemark(params).then(data=>{
-                              history.go(-1);
+                              window.location.reload();
                       })
                        
                       },

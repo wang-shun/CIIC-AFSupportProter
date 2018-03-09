@@ -316,8 +316,8 @@
                   this.makeUpFileInfo  = data.data.amArchaiveBo;
               }
 
-              if(data.data.amInjuryPageRows){
-                  this.injuryReportManageInfo = data.data.amInjuryPageRows.rows;
+              if(data.data.amInjuryBOList){
+                  this.injuryReportManageInfo = data.data.amInjuryBOList;
               }
 
               if(data.data.resignBO){

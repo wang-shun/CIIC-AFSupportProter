@@ -169,7 +169,7 @@ import api from '../../../api/employ_manage/hire_operator'
                         let params = {amRemarkId:remarkId}
 
                         api.deleteAmRemark(params).then(data=>{
-                              history.go(-1);
+                              window.location.reload();
                       })
                        
                       },

@@ -685,11 +685,11 @@
         })
       },
       handleTaskReject() {
-        if (!this.inputData.rejectionRemark || this.inputData.rejectionRemark == '') {
+        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark == '') {
           this.$Message.error("批退备注不能为空");
           return false;
         }
-        if (this.inputData.rejectionRemark && this.inputData.rejectionRemark.length > 200) {
+        if (this.displayVO.rejectionRemark && this.displayVO.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
@@ -828,6 +828,7 @@
             return false;
           }
         }
+        return true;
       },
       operatorListDataCalculate(index, type, val) {
         let baseAmountReg = /(^[1-9]([0-9]{1,10})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;

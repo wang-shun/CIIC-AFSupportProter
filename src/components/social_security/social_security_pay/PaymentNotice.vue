@@ -26,6 +26,7 @@
         :columns="noticeColumns"
         :data="noticeData">
     </Table>
+    <Button type="primary" @click="calculate" >重新汇总</Button>
     <Button type="warning" @click="goBack">返回</Button>
   </div>
 </template>
@@ -90,7 +91,8 @@
           },
         ],
         noticeData:[],
-
+        comAccountId :'',
+        paymentMonth :'',
         paymentComData: {
           comAccountName: '',
           comAccountId: '',
@@ -105,10 +107,11 @@
       }
     },
     mounted() {
-      this[EventType.PAYMENTNOTICETYPE]();
+      //this[EventType.PAYMENTNOTICETYPE]();
       let paymentComId = window.sessionStorage.getItem("paymentnotice_paymentComId");
-      let comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
-      let paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
+      this.comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
+      this.paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
+
       this.getPaymentComDtoByPaymentId(paymentComId);
       this.statementResultQuery(comAccountId,paymentMonth);
     },
@@ -144,6 +147,21 @@
           this.noticeData = data.data;
         })
       },
+      calculate(){
+        let params = {
+          comAccountId:this.comAccountId,
+          ssMonth:this.paymentMonth,
+          generalMethod:'generatePaymentDetailReport'
+        };
+        api.summaryCalculate(params).then(data=>{
+            console.log(data.code);
+            if(data.code==1){
+              this.$Message.error(data.message);
+            }
+        }).catch(error=>{
+          this.$Message.error('系统异常！');
+        })
+      }
     }
   }
 </script>

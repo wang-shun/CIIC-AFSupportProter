@@ -1,6 +1,7 @@
 import ajax from "../../lib/ajax";
 
 const AJAX = ajax.ajaxSsc;
+const AJAXMsg=ajax.ajaxSocMessage;
 
 export default {
 
@@ -23,5 +24,10 @@ export default {
   gsyExport: (params) => {
     AJAX.download('/api/soccommandservice/ssMonthEmpChangeDetail/gsyExport', params);
   },
+  
+  summaryCalculate:async(params)=>{
+    let response = await AJAXMsg.post('/soc/messageservice/summarycalculate',params);
+    return await response.data;
+ },
 }
 

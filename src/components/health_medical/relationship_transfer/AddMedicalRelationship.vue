@@ -84,7 +84,7 @@
       }
     },
     methods: {
-      ...mapActions("TRANSFER", [EventTypes.TRANSFER_INSERT]),
+      ...mapActions("TRANSFER", [EventTypes.TRANSFER_INSERT, EventTypes.EMPLOYEEINFO]),
 
       back() {
         this.$local.back();
@@ -114,7 +114,27 @@
         })
       },
       queryEmployeeInfo() {
-        console.info("=====+++");
+        if (this.transferItem.employeeId === "" || this.transferItem.companyId === "") {
+          this.$Message.error("请填写雇员编号");
+          return;
+        }
+        let params = {};
+        params.employeeId = this.transferItem.employeeId;
+        params.companyId = this.transferItem.companyId;
+        this[EventTypes.EMPLOYEEINFO]({
+          data: params,
+          callback: (res) => {
+            if (res.object.code === 0) {
+              console.info("====");
+              this.$Message.success("查询人员信息成功");
+            } else {
+              this.$Message.error("服务器异常，请稍后再试");
+            }
+          },
+          errCallback: () => {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        });
       }
     },
   }

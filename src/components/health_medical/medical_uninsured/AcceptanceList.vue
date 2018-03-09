@@ -267,6 +267,11 @@
       queryAcceptanceList() {
         apiAjax.queryAcceptanceList(this.formItem).then(response => {
           this.acceptanceData = response.data.object.records;
+          this.acceptanceData.forEach(item => {
+            if (item.status !== 0) {
+              item._disabled = true;
+            }
+          });
           this.formItem.total = response.data.object.total;
         }).catch(e => {
           console.info(e.message);

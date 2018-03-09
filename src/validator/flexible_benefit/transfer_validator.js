@@ -25,7 +25,7 @@ export const reimbursementValidator = {
     {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入雇员编号', trigger: 'blur'}
   ],
   companyId: [
-    {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入雇员编号', trigger: 'blur'}
+    {required: true, message: '请输入雇员编号', trigger: 'blur'}
   ],
   caseMoney: [
     {type: 'number', message: '请输入正确的金额', trigger: 'blur'}

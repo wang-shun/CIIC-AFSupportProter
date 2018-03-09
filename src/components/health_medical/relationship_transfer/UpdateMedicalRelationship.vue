@@ -5,32 +5,27 @@
         <Row type="flex" justify="start" class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="雇员编号：" prop="employeeId">
-            <Input v-model="transferItem.employeeId" placeholder="请输入"/>
+            <span>{{transferItem.employeeId}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="公司编号：">
-            <Input v-model="transferItem.companyId" placeholder="请输入"/>
+            <span>{{transferItem.companyId}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="雇员姓名：">
-            <span>戴敏</span>
-          </FormItem>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="证件号码：">
-            <span>3100011989070101568</span>
+            <span>{{transferItem.employeeName}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="公司名称：">
-            <span>东莞瑞德丽邦基数咨询服务有限公司</span>
+            <span>{{transferItem.companyName}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="客户经理：">
-            <span>张丽玲</span>
+          <FormItem label="证件号码：">
+            <span>{{transferItem.idNum}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

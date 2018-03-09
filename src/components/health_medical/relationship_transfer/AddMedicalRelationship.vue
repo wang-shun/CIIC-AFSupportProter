@@ -15,22 +15,17 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="雇员姓名：">
-            <span>戴敏</span>
-          </FormItem>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="证件号码：">
-            <span></span>
+            <span>{{transferItem.employeeName}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="公司名称：">
-            <span>东莞瑞德丽邦基数咨询服务有限公司</span>
+            <span>{{transferItem.companyName}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="客户经理：">
-            <span>张丽玲</span>
+          <FormItem label="证件号码：">
+            <span>{{transferItem.idNum}}</span>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -73,8 +68,11 @@
     data() {
       return {
         transferItem: {
-          employeeId: "",
-          companyId: "",
+          employeeId: null,
+          employeeName: null,
+          companyId: null,
+          companyName: null,
+          idNum: null,
           turnOutDate: null,
           turnOutAddress: null,
           turnBackDate: null,
@@ -114,8 +112,8 @@
         })
       },
       queryEmployeeInfo() {
-        if (this.transferItem.employeeId === "" || this.transferItem.companyId === "") {
-          this.$Message.error("请填写雇员编号");
+        if (this.transferItem.employeeId === null || this.transferItem.companyId === null) {
+          this.$Message.error("请完善雇员编号、公司编号");
           return;
         }
         let params = {};
@@ -124,9 +122,13 @@
         this[EventTypes.EMPLOYEEINFO]({
           data: params,
           callback: (res) => {
-            if (res.object.code === 0) {
-              console.info("====");
+            if (res.object.code === 0 && res.object.data !== null) {
+              this.transferItem.employeeName = res.object.data.employeeName;
+              this.transferItem.companyName = res.object.data.companyName;
+              this.transferItem.idNum = res.object.data.idNum;
               this.$Message.success("查询人员信息成功");
+            } else if (res.object.code === 0 && res.object.data === null) {
+              this.$Message.error("没有查询到人员信息");
             } else {
               this.$Message.error("服务器异常，请稍后再试");
             }

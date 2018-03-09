@@ -32,7 +32,7 @@
         <Button type="primary" @click="isShowUpload = true">新建对账</Button>
       </Col>
     </Row>
-    <Table border class="mt20" :columns="reconciliationColumns" :data="data.reconciliationData"></Table>
+    <Table border class="mt20" :columns="reconciliationColumns"></Table>
     <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
 
     <Modal
@@ -64,7 +64,7 @@
           </Col>
         </Row>
       </Form>
-      <Table border class="mt20" height="200" :columns="viewReconciliationColumns" :data="data.viewReconciliationData"></Table>
+      <Table border class="mt20" height="200" :columns="viewReconciliationColumns" :data="viewReconciliationData"></Table>
       <div slot="footer">
         <Button type="info">导出Excel</Button>
         <Button type="warning" @click="isShowReconciliation = false;">返回</Button>
@@ -114,8 +114,7 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/event_types'
+  import api from '../../../api/house_fund/fund_reconciliation/fund_reconciliation'
   import InputAccount from "../common/input_account"
 
   export default {
@@ -123,6 +122,12 @@
     data() {
       return {
         collapseInfo: [1],
+        pageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+        },
         operatorSearchData: {
           fundMonth: "",
           fundCompanyAccountCategoryValue: ''
@@ -194,6 +199,7 @@
             }
           }
         ],
+        viewReconciliationData: [],
         fundTypeList: [
           {label: "基本公积金", value: 0},
           {label: "补充公积金", value: 1}
@@ -226,45 +232,45 @@
               ]);
             }
           },
-          {title: '公积金月份', key: 'fundMonth', width: 176, align: 'center',
+          {title: '公积金月份', key: 'hfMonth', width: 176, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fundMonth),
+                h('span', params.row.hfMonth),
               ]);
             }
           },
-          {title: '公积金企业账户名称', key: 'fundCompanyAccountName', width: 350, align: 'center',
+          {title: '公积金企业账户名称', key: 'comAccountName', width: 350, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.fundCompanyAccountName),
+                h('span', params.row.comAccountName),
               ]);
             }
           },
-          {title: '公积金导入文件', key: 'fundImportFile', width: 200, align: 'center',
+          {title: '公积金导入文件', key: 'impPath', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.fundImportFile),
+                h('span', params.row.impPath),
               ]);
             }
           },
-          {title: '公积金类型', key: 'fundType', width: 200, align: 'center',
+          {title: '公积金类型', key: 'hfType', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.fundType),
+                h('span', params.row.hfType),
               ]);
             }
           },
-          {title: '对账人', key: 'reconciliater', width: 200, align: 'center',
+          {title: '对账人', key: 'compareMan', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.reconciliater),
+                h('span', params.row.compareMan),
               ]);
             }
           },
-          {title: '对账时间', key: 'reconciliateDate', width: 200, align: 'center',
+          {title: '对账时间', key: 'compareTime', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.reconciliateDate),
+                h('span', params.row.compareTime),
               ]);
             }
           },
@@ -272,15 +278,22 @@
       }
     },
     mounted() {
-      this[EventType.FUNDRECONCILIATION]()
-    },
-    computed: {
-      ...mapState('fundReconciliation',{
-        data:state => state.data
-      })
+      this.getStatement()
     },
     methods: {
-      ...mapActions('fundReconciliation', [EventType.FUNDRECONCILIATION]),
+      getStatement() {
+        var params = this.$utils.clear(this.operatorSearchData);
+        params = this.$utils.clear(params, '');
+        api.getStatements({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params,
+        }).then(data => {
+          if (data.code == 200) {
+            this.viewReconciliationData = data.data;
+          }
+        })
+      },
       saveReconciliation() {
 
       },

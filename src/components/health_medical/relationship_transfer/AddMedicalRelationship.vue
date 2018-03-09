@@ -30,12 +30,12 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="转出日期：" prop="turnOutDate">
-            <DatePicker v-model="transferItem.turnOutDate" placeholder="请输入"></DatePicker>
+            <DatePicker v-model="transferItem.turnOutDate" placeholder="请输入" transfer></DatePicker>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="转回日期：" prop="turnBackDate">
-            <DatePicker v-model="transferItem.turnBackDate" placeholder="请输入"></DatePicker>
+            <DatePicker v-model="transferItem.turnBackDate" placeholder="请输入" transfer></DatePicker>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

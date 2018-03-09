@@ -4,7 +4,7 @@
       <Form :model="transferItem" ref="transferItem" :rules="transferValidate" :label-width="120">
         <Row type="flex" justify="start" class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="雇员编号：" prop="employeeId">
+          <FormItem label="雇员编号：">
             <span>{{transferItem.employeeId}}</span>
           </FormItem>
           </Col>
@@ -30,12 +30,12 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="转出日期：" prop="turnOutDate">
-            <DatePicker v-model="transferItem.turnOutDate" placeholder="请输入"></DatePicker>
+            <DatePicker v-model="transferItem.turnOutDate" placeholder="请输入" transfer></DatePicker>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="转回日期：" prop="turnBackDate">
-            <DatePicker v-model="transferItem.turnBackDate" placeholder="请输入"></DatePicker>
+            <DatePicker v-model="transferItem.turnBackDate" placeholder="请输入" transfer></DatePicker>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -72,37 +72,20 @@
       }
     },
     created() {
-      this.transferItem = this.$route.params.data;
-      this.initData();
-    },
-    watch: {
-      formItem: function (val, oldval) {
-        if (this.transferItem) {
-          sessionStorage.setItem('transferFormItem', JSON.stringify(this.transferItem));
-        }
-      }
+      this.transferItem = JSON.parse(sessionStorage.getItem('transferFormItem'));
+      this.transferItem.turnBackDate = new Date(this.transferItem.turnBackDate);
+      this.transferItem.turnOutDate = new Date(this.transferItem.turnOutDate);
     },
     methods: {
-      ...mapActions("TRANSFER", [EventTypes.TRANSFER_INSERT]),
-      initData() {
-        if (!this.transferItem) {
-          this.transferItem = JSON.parse(sessionStorage.getItem('transferFormItem'));
-        }
-      },
+      ...mapActions("TRANSFER", [EventTypes.TRANSFER_UPDATE]),
       back() {
         this.$local.back();
       },
       updateTransfer() {
-        console.info(this.transferItem)
         this.$refs['transferItem'].validate((valid) => {
           if (valid) {
-            /*vue数据脱绑*/
-            let params = JSON.parse(JSON.stringify(this.transferItem));
-            /*前台时间转化为字符串*/
-            params.turnOutDate = this.$utils.formatDate(this.transferItem.turnOutDate, 'YYYY-MM-DD');
-            params.turnBackDate = this.$utils.formatDate(this.transferItem.turnBackDate, 'YYYY-MM-DD');
             this[EventTypes.TRANSFER_UPDATE]({
-              data: params,
+              data: this.transferItem,
               callback: (res) => {
                 if (res.code === 200) {
                   this.$router.push({path: '/relationshipTransfer'})

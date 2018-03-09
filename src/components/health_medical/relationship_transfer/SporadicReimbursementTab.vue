@@ -140,10 +140,8 @@
                   style: {marginRight: "5px"},
                   on: {
                     click: () => {
-                      let updateData = params.row;
-                      delete updateData._index;
-                      delete updateData._rowKey;
-                      this.$router.push({name: "updateReimbursement", params: {data: updateData}});
+                      sessionStorage.setItem('reimbursementFormItem', JSON.stringify(params.row));
+                      this.$router.push({name: "updateReimbursement"});
                     }
                   }
                 }, "编辑"),

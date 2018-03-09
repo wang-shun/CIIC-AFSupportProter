@@ -51,8 +51,8 @@
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="医疗结算反馈：" prop="medicalCle1aringFeedBack">
-            <Input type="textarea" v-model="reimbursementItem.medicalCle1aringFeedBack"
+          <FormItem label="医疗结算反馈：" prop="medicalClearingFeedBack">
+            <Input type="textarea" v-model="reimbursementItem.medicalClearingFeedBack"
                    :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
           </FormItem>
           </Col>
@@ -84,7 +84,7 @@
           invoiceNumber: null,
           medicalRemark: null,
           medicalClearingMoney: null,
-          medicalCle1aringFeedBack: null,
+          medicalClearingFeedBack: null,
         },
         reimbursementValidator: this.$Validator.reimbursementValidator
       };

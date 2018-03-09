@@ -4,7 +4,7 @@
       <Form :model="reimbursementItem" ref="reimbursementItem" :rules="reimbursementValidator" :label-width="120">
         <Row type="flex" justify="start" class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="雇员编号：" prop="employeeId">
+          <FormItem label="雇员编号：">
             <span>{{reimbursementItem.employeeId}}</span>
           </FormItem>
           </Col>
@@ -51,8 +51,8 @@
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="医疗结算反馈：" prop="medicalCle1aringFeedBack">
-            <Input type="textarea" v-model="reimbursementItem.medicalCle1aringFeedBack"
+          <FormItem label="医疗结算反馈：" prop="medicalClearingFeedBack">
+            <Input type="textarea" v-model="reimbursementItem.medicalClearingFeedBack"
                    :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
           </FormItem>
           </Col>
@@ -79,27 +79,15 @@
       };
     },
     created() {
-      this.reimbursementItem = this.$route.params.data;
-      this.initData();
-    },
-    watch: {
-      formItem: function (val, oldval) {
-        if (this.reimbursementItem) {
-          sessionStorage.setItem('reimbursementFormItem', JSON.stringify(this.reimbursementItem));
-        }
-      }
+      this.reimbursementItem = JSON.parse(sessionStorage.getItem('reimbursementFormItem'));
     },
     methods: {
-      ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_INSERT]),
-      initData() {
-        if (!this.reimbursementItem) {
-          this.reimbursementItem = JSON.parse(sessionStorage.getItem('reimbursementFormItem'));
-        }
-      },
+      ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_UPDATE]),
       back() {
         this.$local.back();
       },
       updateReimbursement() {
+        console.info("=====");
         this.$refs['reimbursementItem'].validate((valid) => {
           if (valid) {
             this[EventTypes.REIMBURSEMENT_UPDATE]({

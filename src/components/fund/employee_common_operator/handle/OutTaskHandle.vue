@@ -330,10 +330,10 @@
         taskListNotesColumns: [
           {title: '公积金类型', key: 'hfTypeName', align: 'left'},
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
-          {title: '办理/批退', key: 'handleStatusName', align: 'left'},
-          {title: '备注人', key: 'submitterId', align: 'left'},
-          {title: '备注时间', key: 'submitTime', align: 'left'},
-          {title: '备注内容', key: 'submitterRemark', align: 'left'}
+          {title: '办理/批退', key: 'taskStatusName', align: 'left'},
+          {title: '备注人', key: 'modifiedBy', align: 'left'},
+          {title: '备注时间', key: 'modifiedTime', align: 'left'},
+          {title: '备注内容', key: 'remark', align: 'left'}
         ],
         taskListNotesChangeData: [],
         taskCategoryDisable: false,
@@ -492,6 +492,14 @@
         })
       },
       handleTaskReject() {
+        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark == '') {
+          this.$Message.error("批退备注不能为空");
+          return false;
+        }
+        if (this.displayVO.rejectionRemark && this.displayVO.rejectionRemark.length > 200) {
+          this.$Message.error("批退备注长度不能超过200");
+          return false;
+        }
         api.empTaskHandleReject({
           rejectionRemark: this.displayVO.rejectionRemark,
           selectedData: [this.displayVO.empTaskId]
@@ -560,15 +568,15 @@
         })
       },
       inputDataCheck() {
-        if (this.displayVO.endMonth == '') {
+        if (!this.displayVO.endMonth || this.displayVO.endMonth == '') {
           this.$Message.error("汇缴截止月份不能为空");
           return false;
         }
-        if (this.inputData.handleRemark.length > 200) {
+        if (this.inputData.handleRemark && this.inputData.handleRemark.length > 200) {
           this.$Message.error("办理备注长度不能超过200");
           return false;
         }
-        if (this.inputData.rejectionRemark.length > 200) {
+        if (this.inputData.rejectionRemark && this.inputData.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }

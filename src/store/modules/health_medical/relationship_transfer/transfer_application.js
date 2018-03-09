@@ -13,6 +13,7 @@ const state = {
     //返回的总条数
     transferTotal: 1,
     reimbursementTotal: null,
+    employeeInfo: {},
   }
 };
 
@@ -68,6 +69,16 @@ const actions = {
       params.errCallback(error);
     })
   },
+  [EventTypes.EMPLOYEEINFO]({commit}, params) {
+    mock.getEmployeeInfo(params.data).then(response => {
+      commit(EventTypes.EMPLOYEEINFO, response.data.object);
+      params.callback(response.data);
+    }, error => {
+      params.errCallback(error);
+    }).catch(error => {
+      params.errCallback(error);
+    })
+  },
 
 };
 
@@ -81,17 +92,21 @@ const mutations = {
     state.data.reimbursementTotal = data.object.total;
   },
   [EventTypes.TRANSFER_INSERT](state, data) {
-    state.data.addResult = data.code;
+    state.data.addResult = data.object.code;
   },
   [EventTypes.REIMBURSEMENT_INSERT](state, data) {
-    state.data.addResult = data.code;
+    state.data.addResult = data.object.code;
   },
   [EventTypes.TRANSFER_UPDATE](state, data) {
-    state.data.addResult = data.code;
+    state.data.addResult = data.object.code;
   },
   [EventTypes.REIMBURSEMENT_UPDATE](state, data) {
-    state.data.addResult = data.code;
+    state.data.addResult = data.object.code;
   },
+  [EventTypes.EMPLOYEEINFO](state, data) {
+    state.data.employeeInfo = data.data;
+  },
+
 };
 
 const getters = {

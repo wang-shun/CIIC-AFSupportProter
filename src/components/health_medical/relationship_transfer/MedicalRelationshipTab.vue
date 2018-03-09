@@ -6,31 +6,31 @@
         医疗关系查询
         <div slot="content">
           <Form ref="transferItem" :model="transferItem" :label-width="140">
-            <Row justify="start" class="mt20 mr10">
+            <Row type="flex" justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号" prop="employeeId">
+              <FormItem label="雇员编号" prop="employeeId">
                 <Input v-model="transferItem.employeeId" placeholder="请输入"/>
-              </Form-item>
+              </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名" prop="employeeName">
+              <FormItem label="雇员姓名" prop="employeeName">
                 <Input v-model="transferItem.employeeName" placeholder="请输入"/>
-              </Form-item>
+              </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码" prop="code">
+              <FormItem label="证件号码" prop="code">
                 <Input v-model="transferItem.code" placeholder="请输入"/>
-              </Form-item>
+              </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司编号" prop="companyCode">
+              <FormItem label="公司编号" prop="companyCode">
                 <Input v-model="transferItem.companyCode" placeholder="请输入"/>
-              </Form-item>
+              </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司名称" prop="companyName">
+              <FormItem label="公司名称" prop="companyName">
                 <Input v-model="transferItem.companyName" placeholder="请输入"/>
-              </Form-item>
+              </FormItem>
               </Col>
             </row>
             <Row type="flex" justify="start">
@@ -90,6 +90,9 @@
           },
           {
             title: '中止日期', sortable: true, key: 'column3', align: "center",
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.column3, 'YYYY-MM-DD HH:mm:ss');
+            }
           },
           {
             title: '证件号码', sortable: true, key: 'column4', align: "center",
@@ -105,12 +108,18 @@
           },
           {
             title: '转出日期', sortable: true, key: 'turnOutDate', align: "center",
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.turnOutDate, 'YYYY-MM-DD HH:mm:ss');
+            }
           },
           {
             title: '转出地点', sortable: true, key: 'turnOutAddress', align: "center",
           },
           {
             title: '转回日期', sortable: true, key: 'turnBackDate', align: "center",
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.turnBackDate, 'YYYY-MM-DD HH:mm:ss');
+            }
           },
           {
             title: '备注', sortable: true, key: 'remark'
@@ -123,10 +132,8 @@
                   style: {marginRight: "5px"},
                   on: {
                     click: () => {
-                      let updateData = params.row;
-                      delete updateData._index;
-                      delete updateData._rowKey;
-                      this.$router.push({name: "updateMedicalRelationship", params: {data: updateData}});
+                      sessionStorage.setItem('transferFormItem', JSON.stringify(params.row));
+                      this.$router.push({name: "updateMedicalRelationship"});
                     }
                   }
                 }, "编辑"),

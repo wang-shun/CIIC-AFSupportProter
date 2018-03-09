@@ -14,7 +14,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="就诊日期：">
-          {{row.clinicDate}}
+          {{this.$utils.formatDate(row.clinicDate, 'YYYY-MM-DD HH:mm:ss')}}
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

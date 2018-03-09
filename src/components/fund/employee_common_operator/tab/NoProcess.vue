@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="smList" style="margin-bottom: 56px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员日常操作
@@ -72,8 +72,12 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="是否加急：" prop="urgent">
-                  <Checkbox v-model="operatorSearchData.urgent"></Checkbox>
+                <Form-item label="是否更正：" prop="isChange">
+                  <Select v-model="operatorSearchData.isChange" style="width: 100%;" transfer>
+                    <Option value="" label="全部"></Option>
+                    <Option value="0" label="否"></Option>
+                    <Option value="1" label="是"></Option>
+                  </Select>
                 </Form-item>
               </Col>
             </Row>
@@ -96,7 +100,7 @@
     </Row>
 
     <Row class="mt20">
-      <Col :sm="{span:24}">
+      <Col :sm="{span:24}" >
         <Table border ref="noProcessData"
                :columns="noProcessColumns"
                :data="noProcessData"
@@ -148,15 +152,16 @@
           taskStatus: 1,
           processStatus: '',
           employeeId: '',
-          taskCategory: 0,
-          paymentBank: 0,
+          taskCategory: '',
+          paymentBank: '',
           employeeName: '',
-          hfType: 0,
-          hfAccountType: 0,
+          hfType: '',
+          hfAccountType: '',
           idNum: '',
           submitTime: [],
           companyId: '',
-          urgent: 0
+          isChange: ''
+//          urgent: ''
         },
         processStatusList: [],
         taskTypeList: [],
@@ -216,7 +221,7 @@
             }
           },
           {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
-          {title: '加急', key: 'urgentName', width: 100, align: 'center'},
+          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center'},
           {title: '雇员证件号', key: 'idNum', width: 200, align: 'center'},
@@ -245,7 +250,6 @@
     computed: {
     },
     methods: {
-//      ...mapActions('noProcess',[EventType.NOPROCESS]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

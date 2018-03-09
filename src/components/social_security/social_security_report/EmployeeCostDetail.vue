@@ -35,7 +35,7 @@
                 <Button type="warning" @click="goBack" >返回</Button>
               </Col>
             </Row>
-            <Table  border :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData" :loading="loading"></Table>
+            <Table  :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData" :loading="loading"></Table>
         </div>
       </Panel>
     </Collapse>
@@ -274,7 +274,8 @@
       calculate(){
         let params = {
           comAccountId:this.comAccountId,  
-          ssMonth:this.ssMonth
+          ssMonth:this.ssMonth,
+          generalMethod:'generateSocPaymentInfo'
         };
         api.summaryCalculate(params).then(data=>{
             if(data.code==1){

@@ -656,10 +656,10 @@
         taskListNotesColumns: [
           {title: '公积金类型', key: 'hfTypeName', align: 'left'},
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
-          {title: '办理/批退', key: 'handleStatusName', align: 'left'},
-          {title: '备注人', key: 'submitterId', align: 'left'},
-          {title: '备注时间', key: 'submitTime', align: 'left'},
-          {title: '备注内容', key: 'submitterRemark', align: 'left'}
+          {title: '办理/批退', key: 'taskStatusName', align: 'left'},
+          {title: '备注人', key: 'modifiedBy', align: 'left'},
+          {title: '备注时间', key: 'modifiedTime', align: 'left'},
+          {title: '备注内容', key: 'remark', align: 'left'}
         ],
         taskListNotesChangeData: [],
 
@@ -777,16 +777,26 @@
       },
       addOperatorListData() {
         let startMonth = this.displayVO.startMonth;
-        let endMonth = this.minusMonths(this.operatorListData[0].hfMonth, 1);
+        let endMonth = this.minusMonths(this.operatorListData[0].startMonth, 1);
         if (startMonth > endMonth) {
           startMonth = '';
         }
+        let hfMonth;
+        if (this.displayVO.hfType == 1) {
+          hfMonth = this.displayVO.basicComHfMonth;
+        } else {
+          hfMonth = this.displayVO.addedComHfMonth;
+        }
+        if (this.displayVO.hfAccountType == 3) {
+          hfMonth = this.plusMonths(hfMonth, 1);
+        }
+
         this.operatorListData.push({
           remitWay: 2,
           remitWayName: '补缴',
           startMonth: startMonth,
           endMonth: endMonth,
-          hfMonth: this.operatorListData[0].hfMonth,
+          hfMonth: hfMonth,
           baseAmount: this.operatorListData[0].baseAmount,
           ratioCom: this.operatorListData[0].ratioCom,
           ratioEmp: this.operatorListData[0].ratioEmp,
@@ -850,6 +860,14 @@
         })
       },
       handleTaskReject() {
+        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark == '') {
+          this.$Message.error("批退备注不能为空");
+          return false;
+        }
+        if (this.displayVO.rejectionRemark && this.displayVO.rejectionRemark.length > 200) {
+          this.$Message.error("批退备注长度不能超过200");
+          return false;
+        }
         api.empTaskHandleReject({
           rejectionRemark: this.displayVO.rejectionRemark,
           selectedData: [this.displayVO.empTaskId]
@@ -993,19 +1011,23 @@
         })
       },
       inputDataCheck() {
-        if (this.inputData.hfEmpAccount == '') {
+        if (this.displayVO.taskCategory != 1 &&(!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
           this.$Message.error("公积金账户不能为空");
           return false;
         }
-        if (this.inputData.hfEmpAccount.length > 20) {
+        if (this.inputData.hfEmpAccount && this.inputData.hfEmpAccount.length > 20) {
           this.$Message.error("公积金账户长度不能超过20");
           return false;
         }
-        if (this.inputData.handleRemark.length > 200) {
+        if (this.displayVO.taskCategory == 1 && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {
+          this.$Message.error("新增（新开）类型公积金账户不存在");
+          return false;
+        }
+        if (this.inputData.handleRemark && this.inputData.handleRemark.length > 200) {
           this.$Message.error("办理备注长度不能超过200");
           return false;
         }
-        if (this.inputData.rejectionRemark.length > 200) {
+        if (this.inputData.rejectionRemark && this.inputData.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
@@ -1048,6 +1070,8 @@
         let baseAmountReg = /(^[1-9]([0-9]{1,10})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;
         let ratioReg = /(^(0){1}$)|(^[0-9].[0-9]([0-9]{1,3})?$)/;
         let amountReg = /(^[1-9]([0-9]{1,6})?(.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9].[0-9]([0-9])?$)/;
+        let normalEndMonth;
+        let repairStartMonth;
 
         for (let i = 0; i < this.operatorListData.length; i++) {
           if (!this.operatorListData[i].startMonth || this.operatorListData[i].startMonth == '') {
@@ -1074,8 +1098,12 @@
             this.$Message.error("操作栏补缴状态费用段的截止月份不能小于起缴月份");
             return false;
           }
-          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月");
+          if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType != 3 && this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月（非独立户时）");
+            return false;
+          }
+          if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType == 3 && this.operatorListData[i].endMonth >= this.minusMonths(this.operatorListData[i].hfMonth, 1)) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月的次月（独立户时）");
             return false;
           }
           if (this.displayVO.hfType == 1) {
@@ -1125,7 +1153,11 @@
             this.$Message.error("操作栏补缴状态费用段的补缴原因不能为空");
             return false;
           }
-
+          if (this.operatorListData[i].remitWay != 2) {
+            normalEndMonth = this.operatorListData[i].startMonth;
+          } else {
+            repairStartMonth = this.operatorListData[i].endMonth;
+          }
 //          if (!baseAmountReg.test(this.operatorListData[i].baseAmount)) {
 //            this.$Message.error("操作栏基数输入格式有误");
 //            return false;
@@ -1139,22 +1171,26 @@
 //            return false;
 //          }
         }
+        if (this.operatorListData.length > 1 && this.minusMonths(normalEndMonth, 1) != repairStartMonth) {
+          this.$Message.error("操作栏费用段的缴纳时间段必须连续");
+          return false;
+        }
         return true;
       },
       transferNoticeCheck() {
-        if (this.transferNotice.transferOutUnit.length > 20) {
+        if (this.transferNotice.transferOutUnit && this.transferNotice.transferOutUnit.length > 20) {
           this.$Message.error("转出单位长度不能超过20");
           return false;
         }
-        if (this.transferNotice.transferOutUnitAccount.length > 20) {
+        if (this.transferNotice.transferOutUnitAccount && this.transferNotice.transferOutUnitAccount.length > 20) {
           this.$Message.error("转出单位账号长度不能超过20");
           return false;
         }
-        if (this.transferNotice.transferInUnit.length > 20) {
+        if (this.transferNotice.transferInUnit && this.transferNotice.transferInUnit.length > 20) {
           this.$Message.error("转入单位长度不能超过20");
           return false;
         }
-        if (this.transferNotice.transferInUnitAccount.length > 20) {
+        if (this.transferNotice.transferInUnitAccount && this.transferNotice.transferInUnitAccount.length > 20) {
           this.$Message.error("转入单位账号长度不能超过20");
           return false;
         }
@@ -1240,7 +1276,7 @@
           yearInt --;
           monthInt = monthInt + 12 - months;
         } else {
-          monthInt --;
+          monthInt -= months;
         }
 
         if (monthInt < 10) {
@@ -1248,7 +1284,33 @@
         } else {
           return yearInt + '' + monthInt;
         }
-      }
-    }
+      },
+      plusMonths(yearMonth, months) {
+        if (!yearMonth || yearMonth == '') {
+          return '';
+        }
+        let year = yearMonth.substr(0,4);
+        let month = yearMonth.substr(4,2);
+        let monthInt = parseInt(month);
+        let yearInt = parseInt(year);
+
+        let years = Math.floor(months / 12);
+        yearInt += years;
+        months -= years * 12;
+
+        if (monthInt + months > 12) {
+          yearInt ++;
+          monthInt = monthInt + months - 12;
+        } else {
+          monthInt += months;
+        }
+
+        if (monthInt < 10) {
+          return yearInt + '0' + monthInt;
+        } else {
+          return yearInt + '' + monthInt;
+        }
+      },
+    },
   }
 </script>

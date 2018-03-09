@@ -2,65 +2,61 @@
   <div class="smList">
     <Card>
       <Form :model="transferItem" ref="transferItem" :rules="transferValidate" :label-width="120">
-        <row>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="雇员编号：" prop="employeeId">
+        <Row type="flex" justify="start" class="mt20 mr10">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="雇员编号：" prop="employeeId">
             <Input v-model="transferItem.employeeId" placeholder="请输入"/>
-          </Form-item>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="雇员姓名：">
-            <span class="expand-value">戴敏</span>
-          </Form-item>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="公司编号：">
+            <Input v-model="transferItem.companyId" placeholder="请输入" @on-blur="queryEmployeeInfo"/>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="证件号码：">
-            <span class="expand-value">3100011989070101568</span>
-          </Form-item>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="雇员姓名：">
+            <span>{{transferItem.employeeName}}</span>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="公司编号：">
-            <span class="expand-value">29198</span>
-          </Form-item>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="公司名称：">
+            <span>{{transferItem.companyName}}</span>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="公司名称：">
-            <span class="expand-value">东莞瑞德丽邦基数咨询服务有限公司</span>
-          </Form-item>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="证件号码：">
+            <span>{{transferItem.idNum}}</span>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="客户经理：">
-            <span class="expand-value">张丽玲</span>
-          </Form-item>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="转出日期：" prop="turnOutDate">
+            <DatePicker v-model="transferItem.turnOutDate" placeholder="请输入" transfer></DatePicker>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="转出日期：" prop="turnOutDate">
-            <DatePicker v-model="transferItem.turnOutDate" placeholder="请输入"></DatePicker>
-          </Form-item>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="转回日期：" prop="turnBackDate">
+            <DatePicker v-model="transferItem.turnBackDate" placeholder="请输入" transfer></DatePicker>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="转出地点：" prop="turnOutAddress">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="转出地点：" prop="turnOutAddress">
             <Input v-model="transferItem.turnOutAddress" placeholder="请输入"/>
-          </Form-item>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="转回日期：" prop="turnBackDate">
-            <DatePicker v-model="transferItem.turnBackDate" placeholder="请输入"></DatePicker>
-          </Form-item>
-          </Col>
-
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="备注：">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="备注：">
             <Input type="textarea" v-model="transferItem.remark" :autosize="{minRows: 2,maxRows: 5}"
                    placeholder="请输入..."/>
-          </Form-item>
+          </FormItem>
           </Col>
         </row>
+        <Row type="flex" justify="start">
+          <Col :sm="{span: 24}" class="tr">
+          <Button type="primary" @click="addTransfer">提交</Button>
+          <Button type="success" @click="back">返回</Button>
+          </Col>
+        </Row>
       </Form>
-      <div class="tc">
-        <Button type="primary" @click="addTransfer">提交</Button>
-        <Button type="success" @click="back">返回</Button>
-      </div>
     </Card>
   </div>
 </template>
@@ -72,7 +68,11 @@
     data() {
       return {
         transferItem: {
-          employeeId: "",
+          employeeId: null,
+          employeeName: null,
+          companyId: null,
+          companyName: null,
+          idNum: null,
           turnOutDate: null,
           turnOutAddress: null,
           turnBackDate: null,
@@ -82,7 +82,7 @@
       }
     },
     methods: {
-      ...mapActions("TRANSFER", [EventTypes.TRANSFER_INSERT]),
+      ...mapActions("TRANSFER", [EventTypes.TRANSFER_INSERT, EventTypes.EMPLOYEEINFO]),
 
       back() {
         this.$local.back();
@@ -111,6 +111,33 @@
           }
         })
       },
+      queryEmployeeInfo() {
+        if (this.transferItem.employeeId === null || this.transferItem.companyId === null) {
+          this.$Message.error("请完善雇员编号、公司编号");
+          return;
+        }
+        let params = {};
+        params.employeeId = this.transferItem.employeeId;
+        params.companyId = this.transferItem.companyId;
+        this[EventTypes.EMPLOYEEINFO]({
+          data: params,
+          callback: (res) => {
+            if (res.object.code === 0 && res.object.data !== null) {
+              this.transferItem.employeeName = res.object.data.employeeName;
+              this.transferItem.companyName = res.object.data.companyName;
+              this.transferItem.idNum = res.object.data.idNum;
+              this.$Message.success("查询人员信息成功");
+            } else if (res.object.code === 0 && res.object.data === null) {
+              this.$Message.error("没有查询到人员信息");
+            } else {
+              this.$Message.error("服务器异常，请稍后再试");
+            }
+          },
+          errCallback: () => {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        });
+      }
     },
   }
 

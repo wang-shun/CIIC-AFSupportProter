@@ -231,24 +231,17 @@
               ]);
             }
           },
-          {title: '退工反馈', key: 'refuseFeedback', align: 'center', width: 150,
+          {title: '退工反馈', key: 'resignFeedback1', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.refuseFeedback),
+                h('span', params.row.resignFeedback1),
               ]);
             }
           },
-          {title: '退工反馈2', key: 'refuseFeedback2', align: 'center', width: 150,
+          {title: '退工反馈2', key: 'resignFeedback2', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.refuseFeedback2),
-              ]);
-            }
-          },
-          {title: '用工反馈2', key: 'employFeedback2', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employFeedback2),
+                h('span', params.row.resignFeedback2),
               ]);
             }
           },

@@ -62,6 +62,7 @@
           show-sizer
           show-total
           @on-change="getPage"
+          @on-page-size-change="handlePageSite"
            ></Page>
         </Col>
       </Row>
@@ -293,7 +294,6 @@
       },
       //将后台查询的数据赋到页面
       refreash(data){
-        console.log(data.data.taskData);
           this.taskData = data.data.taskData
           this.customerData = data.data.customerData;
           if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
@@ -389,6 +389,10 @@
       },
       cancel() {
          this.isRefuseReason = false;
+      },
+      handlePageSite(val){
+        this.size=val
+        this.clickQuery()
       }
     }
   }

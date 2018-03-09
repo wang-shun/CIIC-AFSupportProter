@@ -20,8 +20,12 @@
             <Row class="mt20" type="flex" justify="start">
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="客户社保截至日：" prop="customerSocialSecurityEndDate">
-                  <Input v-model="beforeSendInfo.customerSocialSecurityEndDate" placeholder="每月18号"></Input>
+                  <Select v-model="beforeSendInfo.customerSocialSecurityEndDate" style="width: 100%;" transfer>
+                    <Option v-for="item in endDateExpireList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                  <!-- <Input v-model="beforeSendInfo.customerSocialSecurityEndDate" placeholder="每月18号"></Input> -->
                 </Form-item>
+                
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="付款方式：" prop="payMethodValue">
@@ -163,7 +167,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="企业工伤比例："  prop="sufferedOnTheJobPercentage">
-                  <Input v-model="companyOpenAccountOperator.sufferedOnTheJobPercentage" placeholder="请输入..."></Input>
+                  <Input v-model="companyOpenAccountOperator.sufferedOnTheJobPercentage"  placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
@@ -257,7 +261,7 @@
     components: {chat, companyInfo},
     data() {
        const validateBankCardNumber = (rule, value, callback) => {
-                if (!value.trim()) {
+                if (typeof(value)=='undefined' || !value.trim()) {
                    return callback(new Error('该项不能为空！'));
                 }
                 let rex = /^\d*$/
@@ -276,7 +280,7 @@
             //用户名和密码
        const validateUserNameAndPsw=(rule, value, callback)=>{
 
-                if (!value.trim()) {
+                if (typeof(value)=='undefined' || !value.trim()) {
                   return callback(new Error('该项不能为空！'));
                 }
                 let regex=/^[0-9A-Za-z_]{1,50}$/ //数字、字母、下划线
@@ -294,7 +298,7 @@
        const validateUserMoney=(rule, value, callback)=>{
 
                var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
-              if(value==null || value.trim()==""){
+              if(typeof(value)=='undefined' || value==null || value.trim()==""){
                 callback();
                 return;
               }
@@ -313,7 +317,7 @@
 
                //var rex = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
                var rex=/^[0-9]+(.[0-9]{1,10})?$/;
-               if (value==null || value.trim()=="") {
+               if (typeof(value)=='undefined' || value==null || value.trim()=="") {
                      callback(new Error('该项不能为空！'));
                 }else if(!rex.test(value)){
                     callback(new Error('请输入正确的格式.'));
@@ -331,7 +335,7 @@
             if(this.companyOpenAccountOperator.taskTypeValue=='0'){
                callback();
             }else{
-              if(value==null || value==''){
+              if(typeof(value)=='undefined' || value==null || value==''){
                 if(value==null){
                  this.companyOpenAccountOperator.acceptanceDate=''
                 }
@@ -385,7 +389,40 @@
          handDateIsDateOrLabel:false,//受理日期 查询时判断是否可编辑 不可编辑为label 否则为date标签
          sendDateIsDateOrLabel:false,//送审日期
          finishDateIsDateOrLabel:false,//完成日期
+        endDateExpireList:[
+             {value: '1', label: '1'},
+             {value: '2', label: '2'},
+             {value: '3', label: '3'},
+             {value: '4', label: '4'},
+             {value: '5', label: '5'},
+             {value: '6', label: '6'},
+             {value: '7', label: '7'},
+             {value: '8', label: '8'},
+             {value: '9', label: '9'},
+             {value: '10', label: '10'},
+             {value: '11', label: '11'},
+             {value: '12', label: '12'},
+             {value: '13', label: '13'},
+             {value: '14', label: '14'},
+             {value: '15', label: '15'},
+             {value: '16', label: '16'},
+             {value: '17', label: '17'},
+             {value: '18', label: '18'},
+             {value: '19', label: '19'},
+             {value: '20', label: '20'},
+             {value: '21', label: '21'},
+             {value: '22', label: '22'},
+             {value: '23', label: '23'},
+             {value: '24', label: '24'},
+             {value: '25', label: '25'},
+             {value: '26', label: '26'},
+             {value: '27', label: '27'},
+             {value: '28', label: '28'},
+             {value: '29', label: '29'},
+             {value: '30', label: '30'},
+             {value: '31', label: '31'},
 
+          ],
         companyInfo: {
           customerNumber: '',
           customerName: '',
@@ -481,7 +518,7 @@
         },
         ruleValidate: {
                     customerSocialSecurityEndDate:[
-                        { required: true, message: '请选择社保截止日期！', trigger: 'blur' }
+                        { required: true, message: '请输入社保截止日期！', trigger: 'change' }
                     ],
                     payMethodValue:[
                         { required: true, message: '请选择付款方式！', trigger: 'change' }

@@ -2,71 +2,68 @@
   <div class="addMedicalTransform">
     <Card>
       <Form :model="reimbursementItem" ref="reimbursementItem" :rules="reimbursementValidator" :label-width="120">
-        <row>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="雇员编号：" prop="employeeId">
+        <Row type="flex" justify="start" class="mt20 mr10">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="雇员编号：" prop="employeeId">
             <Input v-model="reimbursementItem.employeeId" placeholder="请输入"/>
-          </Form-item>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="雇员姓名：">
-            <span class="expand-value">戴敏</span>
-          </Form-item>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="公司编号：">
+            <Input v-model="reimbursementItem.companyId" placeholder="请输入" @on-blur="queryEmployeeInfo"/>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="证件号码：">
-            <span class="expand-value">3100011989070101568</span>
-          </Form-item>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="雇员姓名：">
+            <span>{{reimbursementItem.employeeName}}</span>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="公司编号：">
-            <span class="expand-value">29198</span>
-          </Form-item>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="公司名称：">
+            <span>{{reimbursementItem.companyName}}</span>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="公司名称：">
-            <span class="expand-value">东莞瑞德丽邦基数咨询服务有限公司</span>
-          </Form-item>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="证件号码：">
+            <span>{{reimbursementItem.idNum}}</span>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="客户经理：">
-            <span class="expand-value">张丽玲</span>
-          </Form-item>
-          </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="受理金额：" prop="caseMoney">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="受理金额：" prop="caseMoney">
             <InputNumber v-model="reimbursementItem.caseMoney" placeholder="请输入" style="width: 100%"></InputNumber>
-          </Form-item>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="发票数：" prop="invoiceNumber">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="发票数：" prop="invoiceNumber">
             <InputNumber v-model="reimbursementItem.invoiceNumber" placeholder="请输入" style="width: 100%"></InputNumber>
-          </Form-item>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="医保结算金额：" prop="medicalClearingMoney">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="医保结算金额：" prop="medicalClearingMoney">
             <InputNumber v-model="reimbursementItem.medicalClearingMoney" placeholder="请输入"
                          style="width: 100%"></InputNumber>
-          </Form-item>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="医疗备注：" prop="medicalRemark">
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="医疗备注：" prop="medicalRemark">
             <Input type="textarea" v-model="reimbursementItem.medicalRemark" :autosize="{minRows: 2,maxRows: 5}"
                    placeholder="请输入..."/>
-          </Form-item>
+          </FormItem>
           </Col>
-          <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-          <Form-item label="医疗结算反馈：" prop="medicalCle1aringFeedBack">
-            <Input type="textarea" v-model="reimbursementItem.medicalCle1aringFeedBack"
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="医疗结算反馈：" prop="medicalClearingFeedBack">
+            <Input type="textarea" v-model="reimbursementItem.medicalClearingFeedBack"
                    :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
-          </Form-item>
+          </FormItem>
           </Col>
         </row>
+        <Row type="flex" justify="start">
+          <Col :sm="{span: 24}" class="tr">
+          <Button type="primary" @click="addReimbursement">提交</Button>
+          <Button type="success" @click="back">返回</Button>
+          </Col>
+        </Row>
       </Form>
-      <div class="tc">
-        <Button type="primary" @click="addReimbursement">提交</Button>
-        <Button type="success" @click="back">返回</Button>
-      </div>
     </Card>
   </div>
 </template>
@@ -79,17 +76,21 @@
       return {
         reimbursementItem: {
           employeeId: null,
+          employeeName: null,
+          companyId: "",
+          companyName: null,
           caseMoney: null,
+          idNum: null,
           invoiceNumber: null,
           medicalRemark: null,
           medicalClearingMoney: null,
-          medicalCle1aringFeedBack: null,
+          medicalClearingFeedBack: null,
         },
         reimbursementValidator: this.$Validator.reimbursementValidator
       };
     },
     methods: {
-      ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_INSERT]),
+      ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_INSERT,EventTypes.EMPLOYEEINFO]),
 
       back() {
         this.$local.back();
@@ -113,6 +114,33 @@
           }
         })
       },
+      queryEmployeeInfo() {
+        if (this.reimbursementItem.employeeId === null || this.reimbursementItem.companyId === null) {
+          this.$Message.error("请完善雇员编号、公司编号");
+          return;
+        }
+        let params = {};
+        params.employeeId = this.reimbursementItem.employeeId;
+        params.companyId = this.reimbursementItem.companyId;
+        this[EventTypes.EMPLOYEEINFO]({
+          data: params,
+          callback: (res) => {
+            if (res.object.code === 0 && res.object.data !== null) {
+              this.reimbursementItem.employeeName = res.object.data.employeeName;
+              this.reimbursementItem.companyName = res.object.data.companyName;
+              this.reimbursementItem.idNum = res.object.data.idNum;
+              this.$Message.success("查询人员信息成功");
+            } else if (res.object.code === 0 && res.object.data === null) {
+              this.$Message.error("没有查询到人员信息");
+            } else {
+              this.$Message.error("服务器异常，请稍后再试");
+            }
+          },
+          errCallback: () => {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        });
+      }
     },
   }
 

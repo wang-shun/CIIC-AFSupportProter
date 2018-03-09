@@ -33,7 +33,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算区县：" prop="regionValue">
                   <Select v-model="companyTaskInfo.regionValue" style="width: 100%;" transfer>
-                    <Option >全部</Option>
+                    <Option :value="''" :key="''">全部</Option>
                     <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
@@ -59,7 +59,7 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData"></Table>
-          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr":current="pageNum" show-sizer show-total  class="pageSize" @on-change="getPage"></Page>
+          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr":current="pageNum" show-sizer show-total  class="pageSize" @on-change="getPage"  @on-page-size-change="handlePageSite"></Page>
         </Col>
       </Row>
 
@@ -334,6 +334,10 @@
       },
       cancel () {
 
+      },
+      handlePageSite(val){
+         this.size=val
+        this.clickQuery()
       }
     }
   }

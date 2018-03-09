@@ -320,6 +320,10 @@
                   this.injuryReportManageInfo = data.data.amInjuryPageRows.rows;
               }
 
+              if(data.data.resignBO){
+                this.refuseInfo = data.data.resignBO;
+              }
+
                
           })
     },

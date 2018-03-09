@@ -71,7 +71,7 @@ const actions = {
   },
   [EventTypes.EMPLOYEEINFO]({commit}, params) {
     mock.getEmployeeInfo(params.data).then(response => {
-      commit(EventTypes.EMPLOYEEINFO, response.data);
+      commit(EventTypes.EMPLOYEEINFO, response.data.object);
       params.callback(response.data);
     }, error => {
       params.errCallback(error);
@@ -104,7 +104,7 @@ const mutations = {
     state.data.addResult = data.object.code;
   },
   [EventTypes.EMPLOYEEINFO](state, data) {
-    state.data.employeeInfo = data.object.records;
+    state.data.employeeInfo = data.data;
   },
 
 };

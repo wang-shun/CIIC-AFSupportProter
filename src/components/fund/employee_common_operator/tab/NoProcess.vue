@@ -96,6 +96,7 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="error" @click="isShowRejectBatch = true">批量批退</Button>
         <Button type="info" @click="excelExport()">导出</Button>
+        <Button type="info" @click="excelExportNew()">导出开户文件</Button>
       </Col>
     </Row>
 
@@ -337,7 +338,10 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskExport();
+        api.hfEmpTaskExport(params);
+      },
+      excelExportNew() {
+
       }
     }
   }

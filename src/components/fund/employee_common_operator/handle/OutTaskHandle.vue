@@ -172,7 +172,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="汇缴截止月份：">
-                {{this.$utils.formatDate(displayVO.endMonth, "YYYYMM")}}
+                {{displayVO.endMonth}}
               </FormItem>
               </Col>
             </Row>
@@ -198,7 +198,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="汇缴截止月份">
-                <DatePicker type="month" v-model="displayVO.endMonth" format="yyyyMM" placement="bottom-end" placeholder="选择年月" style="width: 100%;" transfer :disabled="inputDisabled"></DatePicker>
+                <DatePicker type="month" v-model="inputData.endMonth" format="yyyyMM" placement="bottom-end" placeholder="选择年月" style="width: 100%;" transfer :disabled="inputDisabled"></DatePicker>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -403,6 +403,9 @@
             this.taskCategoryDisable = true;
             this.showButton = false;
           }
+          if (!this.inputData.endMonth || this.inputData.endMonth == '') {
+            this.inputData.endMonth = this.displayVO.endMonth;
+          }
         } else {
           this.$Message.error(data.message);
           this.inputDisabled = true;
@@ -419,8 +422,8 @@
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;
-            this.taskCategoryList.splice(0, 6);
             this.taskCategoryList.splice(8, this.taskCategoryList.length - 2);
+            this.taskCategoryList.splice(0, 6);
           }
         } else {
           this.$Message.error(data.message);
@@ -537,8 +540,8 @@
 //        }
         this.inputData.handleRemark = this.displayVO.handleRemark;
         this.inputData.rejectionRemark = this.displayVO.rejectionRemark;
-        if (this.displayVO.endMonth) {
-          this.inputData.endMonth = this.$utils.formatDate(this.displayVO.endMonth, "YYYYMM");
+        if (this.inputData.endMonth) {
+          this.inputData.endMonth = this.$utils.formatDate(this.inputData.endMonth, "YYYYMM");
         }
         this.inputData.hfMonth = this.displayVO.hfMonth;
 //        this.inputData.operatorListData = this.operatorListData;
@@ -568,8 +571,13 @@
         })
       },
       inputDataCheck() {
-        if (!this.displayVO.endMonth || this.displayVO.endMonth == '') {
+        if (!this.inputData.endMonth || this.inputData.endMonth == '') {
           this.$Message.error("汇缴截止月份不能为空");
+          return false;
+        }
+        if (this.inputData.endMonth && this.inputData.endMonth != api.minusMonths(this.displayVO.hfMonth, 1)) {
+          debugger
+          this.$Message.error("客户汇缴月非汇缴截止缴费月的次月");
           return false;
         }
         if (this.inputData.handleRemark && this.inputData.handleRemark.length > 200) {

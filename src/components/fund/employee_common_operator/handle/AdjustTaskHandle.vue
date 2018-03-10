@@ -191,7 +191,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="基本/补充公积金账户：">
-                <Input v-model="displayVO.hfEmpAccount" placeholder="请输入..." :disabled="inputDisabled"></Input>
+                {{displayVO.hfEmpAccount}}
               </FormItem>
               </Col>
               <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">-->
@@ -251,75 +251,11 @@
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
-        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="showButton">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
     </Row>
-
-    <!-- 打印转移通知书 模态框 -->
-    <Modal
-      v-model="isShowPrint"
-      title="打印转移通知书"
-      width="720"
-    >
-      <Form :label-width=100 ref="transferNotice" :model="transferNotice">
-        <Row type="flex" justify="start">
-          <Col :sm="{span: 12}">
-            <FormItem label="转出单位">
-              <Select
-                v-model="transferNotice.transferOutUnit"
-                filterable
-                remote
-                :remote-method="handleTransferOutSearch"
-                @on-change="handleTransferOutChange"
-                :loading="loading"
-                style="width: 100%;" transfer>
-                <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
-              </Select>
-            </FormItem>
-          </Col>
-          <Col :sm="{span: 12}">
-            <FormItem label="转出单位账号">
-              <Input v-model="transferNotice.transferOutUnitAccount" placeholder="请输入..."></Input>
-            </FormItem>
-          </Col>
-          <Col :sm="{span: 12}">
-            <FormItem label="转入单位">
-              <Select
-                v-model="transferNotice.transferInUnit"
-                filterable
-                remote
-                :remote-method="handleTransferInSearch"
-                @on-change="handleTransferInChange"
-                :loading="loading"
-                style="width: 100%;" transfer>
-                <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
-              </Select>
-            </FormItem>
-          </Col>
-          <Col :sm="{span: 12}">
-            <FormItem label="转入单位账号">
-              <Input v-model="transferNotice.transferInUnitAccount" placeholder="请输入..."></Input>
-            </FormItem>
-          </Col>
-          <Col :sm="{span: 12}">
-            <FormItem label="转移日期">
-              <DatePicker v-model="transferNotice.transferDate" format="yyyy-MM-dd" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-            </FormItem>
-          </Col>
-        </Row>
-      </Form>
-      <div slot="footer">
-        <Row>
-          <Col :sm="{span: 24}">
-            <Button type="primary" @click="ok">打印通知书</Button>
-            <Button type="warning" @click="cancel">取消</Button>
-          </Col>
-        </Row>
-      </div>
-    </Modal>
   </div>
 </template>
 <script>
@@ -481,30 +417,30 @@
           },
           {title: '客户汇缴月', key: 'hfMonth', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled) {
-                return h('div', [
-                  h('DatePicker', {
-                    props: {
-                      value: params.row.hfMonth,
-                      type: 'month',
-                      format: 'yyyyMM',
-                      placement: 'bottom-end',
-                      placeholder: '选择年月',
-                      style: 'width: 100%;',
-                      transfer: true
-                    },
-                    on: {
-                      'on-change': (val) => {
-                        this.operatorListData[params.index].hfMonth = val;
-                      }
-                    }
-                  })
-                ]);
-              } else {
+//              if (!this.inputDisabled) {
+//                return h('div', [
+//                  h('DatePicker', {
+//                    props: {
+//                      value: params.row.hfMonth,
+//                      type: 'month',
+//                      format: 'yyyyMM',
+//                      placement: 'bottom-end',
+//                      placeholder: '选择年月',
+//                      style: 'width: 100%;',
+//                      transfer: true
+//                    },
+//                    on: {
+//                      'on-change': (val) => {
+//                        this.operatorListData[params.index].hfMonth = val;
+//                      }
+//                    }
+//                  })
+//                ]);
+//              } else {
                 return h('div', [
                   h('span', params.row.hfMonth)
                 ]);
-              }
+//              }
             }
           },
           {title: '基数', key: 'baseAmount', align: 'left',
@@ -687,7 +623,7 @@
           basicComAccountClassId: '',
           addedComAccountClassId: '',
           belongEmpArchiveId: '',
-          hfEmpAccount: '',
+//          hfEmpAccount: '',
 //          startMonth: '',
           operationRemind: '',
           operationRemindDate: '',
@@ -698,7 +634,6 @@
       }
     },
     mounted() {
-//      this[EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]()
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
       let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
@@ -784,9 +719,6 @@
           hfMonth = this.displayVO.basicComHfMonth;
         } else {
           hfMonth = this.displayVO.addedComHfMonth;
-        }
-        if (this.displayVO.hfAccountType == 3) {
-          hfMonth = api.plusMonths(hfMonth, 1);
         }
 
         this.operatorListData.push({
@@ -891,88 +823,10 @@
           }
         })
       },
-      filterMethod(value, option) {
-        return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
-      },
-      handleTransferInSearch(value) {
-        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
-//        if (this.transferNotice.transferInUnitAccount != '') {
-//          return true;
-//        }
-//        return false;
-      },
-      handleTransferOutSearch(value) {
-        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
-//        if (this.transferNotice.transferOutUnitAccount != '') {
-//          return true;
-//        }
-//        return false;
-      },
-      handleTransferOutChange(value) {
-        this.transferNotice.transferOutUnitAccount = '';
-        this.transferOutUnitList.forEach((element, index, array) => {
-            if (element == value) {
-              this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
-              return;
-            }
-          }
-        )
-      },
-      handleTransferInChange(value) {
-        this.transferNotice.transferInUnitAccount = '';
-        this.transferInUnitList.forEach((element, index, array) => {
-            if (element == value) {
-              this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
-              return;
-            }
-          }
-        )
-      },
-      doSearch(value, unitList, unitAccountList, type) {
-        this.loading = true;
-        unitList.length = 0;
-        unitAccountList.length = 0;
-        if (value == '') {
-          this.transferUnitDictList.forEach((element, index, array) => {
-            unitList.push(element);
-          })
-        } else {
-          api.comAccountQuery(
-            {
-              comAccountName: value,
-              hfType: this.displayVO.hfType,
-            }
-          ).then(
-            data => {
-              if (data.code == 200) {
-                if (data.data && data.data.length > 0) {
-                  data.data.forEach((element, index, array) => {
-                    unitList.push(element.comAccountName);
-                    unitAccountList.push(element.hfComAccount);
-                  })
-
-                  if (unitList.length == 1) {
-                    if (type == 1) {
-                      this.transferNotice.transferOutUnitAccount = unitAccountList[0];
-                    } else {
-                      this.transferNotice.transferInUnitAccount = unitAccountList[0];
-                    }
-                  }
-                } else {
-                  unitList.push(value);
-                }
-              } else {
-                this.$Message.error(data.message);
-              }
-            }
-          )
-        }
-        this.loading = false;
-      },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
         this.inputData.taskCategory = this.displayVO.taskCategory;
-        this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
+//        this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
 //        if (this.displayVO.startMonth) {
 //          this.inputData.startMonth = utils.formatDate(this.displayVO.startMonth,"YYYYMM");
 //        }
@@ -1009,18 +863,18 @@
         })
       },
       inputDataCheck() {
-        if (this.displayVO.taskCategory != 1 &&(!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
+        if (this.displayVO.taskCategory != 1 &&(!this.displayVO.hfEmpAccount || this.displayVO.hfEmpAccount == '')) {
           this.$Message.error("公积金账户不能为空");
           return false;
         }
-        if (this.inputData.hfEmpAccount && this.inputData.hfEmpAccount.length > 20) {
-          this.$Message.error("公积金账户长度不能超过20");
-          return false;
-        }
-        if (this.displayVO.taskCategory == 1 && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {
-          this.$Message.error("新增（新开）类型公积金账户不存在，不需要输入");
-          return false;
-        }
+//        if (this.inputData.hfEmpAccount && this.inputData.hfEmpAccount.length > 20) {
+//          this.$Message.error("公积金账户长度不能超过20");
+//          return false;
+//        }
+//        if (this.displayVO.taskCategory == 1 && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {
+//          this.$Message.error("新增（新开）类型公积金账户不存在");
+//          return false;
+//        }
         if (this.inputData.handleRemark && this.inputData.handleRemark.length > 200) {
           this.$Message.error("办理备注长度不能超过200");
           return false;
@@ -1084,8 +938,8 @@
             this.$Message.error("操作栏客户汇缴月不能为空");
             return false;
           }
-          if (this.operatorListData[i].remitWay != 2 && this.operatorListData[i].startMonth < this.operatorListData[i].hfMonth) {
-            this.$Message.error("操作栏非补缴状态费用段的起缴月份不能小于客户汇缴月");
+          if (this.operatorListData[i].remitWay != 2 && this.operatorListData[i].startMonth != this.operatorListData[i].hfMonth) {
+            this.$Message.error("操作栏非补缴状态费用段的起缴月份必须等于客户汇缴月");
             return false;
           }
           if (this.operatorListData[i].remitWay == 2 && (!this.operatorListData[i].endMonth || this.operatorListData[i].endMonth == '')) {
@@ -1096,12 +950,8 @@
             this.$Message.error("操作栏补缴状态费用段的截止月份不能小于起缴月份");
             return false;
           }
-          if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType != 3 && this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月（非独立户时）");
-            return false;
-          }
-          if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType == 3 && this.operatorListData[i].endMonth >= api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月的次月（独立户时）");
+          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth != api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份的次月必须等于客户汇缴月");
             return false;
           }
           if (this.displayVO.hfType == 1) {

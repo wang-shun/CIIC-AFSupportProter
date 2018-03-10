@@ -169,7 +169,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
                         case '1':
                         case '2':
                         case '3':
-                        case '5':
+//                        case '5':
                         case '11':
                           this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
                           break;
@@ -177,6 +177,8 @@ import dict from '../../../../api/dict_access/house_fund_dict'
                           this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
                           break;
                         case '4':
+                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+                          break;
                         case '7':
                         case '8':
                         case '12':

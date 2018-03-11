@@ -33,7 +33,15 @@
       </Col>
     </Row>
     <Table border class="mt20" :columns="reconciliationColumns"></Table>
-    <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
+    <Page
+      class="pageSize"
+      @on-change="handlePageNum"
+      @on-page-size-change="handlePageSite"
+      :total="page.total"
+      :page-size="page.pageSize"
+      :page-size-opts="page.pageSizeOpts"
+      :current="page.pageNum"
+      show-sizer show-total></Page>
 
     <Modal
       v-model="isShowReconciliation"
@@ -122,7 +130,7 @@
     data() {
       return {
         collapseInfo: [1],
-        pageData: {
+        page: {
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.DEFAULT_PAGE_SIZE,
@@ -291,6 +299,7 @@
         }).then(data => {
           if (data.code == 200) {
             this.viewReconciliationData = data.data;
+            this.page.total = data.total;
           }
         })
       },
@@ -305,6 +314,14 @@
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields();
+      },
+      handlePageNum(val) {
+        this.page.pageNum = val;
+        this.query();
+      },
+      handlePageSite(val) {
+        this.page.pageSize = val;
+        this.query();
       },
     }
   }

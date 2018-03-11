@@ -171,6 +171,7 @@
         }).then(data => {
           if (data.code == 200) {
             this.data = data.data;
+            this.page.total = data.total;
           }
         })
       },

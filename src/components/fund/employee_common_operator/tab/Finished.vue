@@ -88,7 +88,6 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="excelExport()">导出</Button>
-        <Button type="info" @click="excelExportNew()">导出开户文件</Button>
       </Col>
     </Row>
 
@@ -169,7 +168,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
                         case '1':
                         case '2':
                         case '3':
-                        case '5':
+//                        case '5':
                         case '11':
                           this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
                           break;
@@ -177,6 +176,8 @@ import dict from '../../../../api/dict_access/house_fund_dict'
                           this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
                           break;
                         case '4':
+                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+                          break;
                         case '7':
                         case '8':
                         case '12':
@@ -277,9 +278,8 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskExport();
-      },
-      excelExportNew() {}
+        api.hfEmpTaskExport(params);
+      }
     }
   }
 </script>

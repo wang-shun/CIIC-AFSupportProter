@@ -372,6 +372,7 @@
               this.meterials.follower = response.data.data.follower
               this.meterials.hasChildFollow = response.data.data.hasChildFollow
               this.meterials.hasSpouseFollow = response.data.data.hasSpouseFollow
+              this.meterials.hasShPerson = response.data.data.hasShPerson
               this.meterials.married = response.data.data.married
               this.meterials.jobMaterials = response.data.data.jobMaterials
               this.meterials.hasGooder = response.data.data.hasGooder
@@ -472,6 +473,7 @@
         this.rowdata.married = info.married
         this.rowdata.jobMaterials = info.jobMaterials
         this.rowdata.hasGooder = info.hasGooder
+        this.rowdata.hasShPerson = info.hasShPerson
         this.rowdata.educate = info.educate
         this.rowdata.followMaterials = info.followMaterials
         this.rowdata.notFollowMaterials = info.notFollowMaterials

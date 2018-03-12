@@ -39,6 +39,7 @@ const employeeFundCommonOperator = r => require.ensure([], () => r(require('@/co
 const employeeFundCommonOperatorInTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/InTaskHandle')), 'employeeFundCommonOperatorInTaskHandle')
 const employeeFundCommonOperatorOutTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/OutTaskHandle')), 'employeeFundCommonOperatorOutTaskHandle')
 const employeeFundCommonOperatorRepairTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/RepairTaskHandle')), 'employeeFundCommonOperatorRepairTaskHandle')
+const employeeFundCommonOperatorAdjustTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/AdjustTaskHandle')), 'employeeFundCommonOperatorAdjustTaskHandle')
 
 const employeeFundSpecialOperator = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialOperator')), 'EmployeeFundSpecialOperator')
 const employeeFundSpecialProgressTwo = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialProgressTwo')), 'EmployeeFundSpecialProgressTwo')
@@ -251,6 +252,18 @@ let router = new Router({
           path: '/employee_fund_common_operator_repair_task_handle',
           name: 'employeeFundCommonOperatorRepairTaskHandle',
           component: employeeFundCommonOperatorRepairTaskHandle,
+          meta: {
+            level1: '首页',
+            level2: "上海公积金",
+            level3: "雇员公积金日常操作",
+            openNames: ['2'],
+            activeName: '2-2'
+          }
+        },
+        {
+          path: '/employee_fund_common_operator_adjust_task_handle',
+          name: 'employeeFundCommonOperatorAdjustTaskHandle',
+          component: employeeFundCommonOperatorAdjustTaskHandle,
           meta: {
             level1: '首页',
             level2: "上海公积金",

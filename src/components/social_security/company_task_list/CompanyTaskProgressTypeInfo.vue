@@ -167,7 +167,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="企业工伤比例："  prop="sufferedOnTheJobPercentage">
-                  <Input v-model="companyOpenAccountOperator.sufferedOnTheJobPercentage" number=true maxlength=5 placeholder="请输入..."></Input>
+                  <Input v-model="companyOpenAccountOperator.sufferedOnTheJobPercentage"  placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">

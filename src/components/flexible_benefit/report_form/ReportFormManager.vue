@@ -159,16 +159,16 @@
   </div>
 </template>
 <script>
-  import Child1 from './child/Child1'
-  import Child2 from './child/Child2'
-  import Child3 from './child/Child3'
-  import Child4 from './child/Child4'
-  import Child5 from './child/Child5'
-  import Child6 from './child/Child6'
-  import Child7 from './child/Child7'
-  import Child8 from './child/Child8'
-  import Child9 from './child/Child9'
-  import Child10 from './child/Child10'
+  // import Child1 from './child/Child1'
+  // import Child2 from './child/Child2'
+  // import Child3 from './child/Child3'
+  // import Child4 from './child/Child4'
+  // import Child5 from './child/Child5'
+  // import Child6 from './child/Child6'
+  // import Child7 from './child/Child7'
+  // import Child8 from './child/Child8'
+  // import Child9 from './child/Child9'
+  // import Child10 from './child/Child10'
 
   import axios from 'axios'
   import Tools from '../../../lib/tools'
@@ -176,18 +176,18 @@
 
   const host = process.env.SITE_HOST_REPORT_FORM
   export default {
-    components: {
-      Child1,
-      Child2,
-      Child3,
-      Child4,
-      Child5,
-      Child6,
-      Child7,
-      Child8,
-      Child9,
-      Child10
-    },
+    // components: {
+    //   Child1,
+    //   Child2,
+    //   Child3,
+    //   Child4,
+    //   Child5,
+    //   Child6,
+    //   Child7,
+    //   Child8,
+    //   Child9,
+    //   Child10
+    // },
     data() {
       return {
         collapseInfo: [1],

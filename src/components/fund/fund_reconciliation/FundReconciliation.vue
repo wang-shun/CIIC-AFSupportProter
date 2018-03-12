@@ -7,19 +7,19 @@
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金月份：" prop="fundMonth">
+                <Form-item label="公积金月份：" prop="hfMonth">
                   <DatePicker type="month" placement="bottom" placeholder="选择日期" @on-change="setSearchFundMonth" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金企业账户：" prop="fundCompanyAccountCategoryValue">
-                  <InputAccount v-model="operatorSearchData.fundCompanyAccountCategoryValue"></InputAccount>
+                <Form-item label="公积金企业账户：" prop="hfComAccount">
+                  <InputAccount v-model="operatorSearchData.hfComAccount"></InputAccount>
                 </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="primary" icon="ios-search" @click="getStatement">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -177,7 +177,7 @@
 </template>
 <script>
   const serverAddress = {
-    dev: 'http://172.16.9.31',
+    dev: 'http://localhost',
     sit: 'http://172.16.9.24',
     uat: 'http://172.16.9.60',
     prod: ''
@@ -433,7 +433,8 @@
           params: params,
         }).then(data => {
           this.isShowDeleteReconciliation = false;
-          if (data.code == 200) {
+          if (data.code == 0) {
+            this.getStatement();
             this.$Message.success('删除成功');
           }
         })
@@ -480,7 +481,8 @@
         formData.append('createdBy', JSON.parse(window.sessionStorage.getItem('userInfo')).userId);
         formData.append('file', that.reconciliateFile);
         this.$http.post(`${serverAddress[process.env.env]}:6007/api/fundcommandservice/statement/addStatement`, formData, config).then((response) =>{
-          if(response.data.success) {
+          this.isShowCreateReconciliation = false;
+          if(response.data.code == 0) {
             that.getStatement();
             that.reconciliateFile = null;
             this.loadingStatus = false;
@@ -493,7 +495,7 @@
         });
       },
       setSearchFundMonth(month) {
-        this.operatorSearchData.customerPayDate = month;
+        this.operatorSearchData.hfMonth = month.replace('-', '');
       },
       setFundMonth(month) {
         this.newReconciliation.hfMonth = month.replace('-', '');

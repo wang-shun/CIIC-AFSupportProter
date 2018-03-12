@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金月份：" prop="fundMonth">
-                  <DatePicker type="month" placement="bottom" placeholder="选择日期" transfer @on-change="setSearchFundMonth"></DatePicker>
+                  <DatePicker type="month" placement="bottom" placeholder="选择日期" @on-change="setSearchFundMonth" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -85,7 +85,7 @@
           </Col>
         </Row>
       </Form>
-      <Table border class="mt20" :columns="viewReconciliationColumns" :data="viewReconciliation.items"></Table>
+      <Table border class="mt20" height="201" :columns="viewReconciliationColumns" :data="viewReconciliation.items"></Table>
       <div slot="footer">
         <Button type="info">导出Excel</Button>
         <Button type="warning" @click="isShowReconciliation = false;">返回</Button>
@@ -101,7 +101,7 @@
         <Row type="flex" justify="start">
           <Col :sm="{span:24}">
             <Form-item label="公积金月份：" prop="hfMonth">
-              <DatePicker type="month" @on-change="setFundMonth(false)"></DatePicker>
+              <DatePicker type="month" @on-change="setFundMonth"></DatePicker>
             </Form-item>
           </Col>
           <Col :sm="{span:24}">
@@ -120,10 +120,18 @@
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
               <div v-if="reconciliateFile !== null">
-                文件名称: {{reconciliateFile.name}} <Button type="info" :loading="loadingStatus">{{loadingStatus ? '上传中' : '点击上传'}}</Button>
+                文件名称: {{reconciliateFile.name}} <span>{{loadingStatus ? '上传中' : ''}}</span>
               </div>
             </Form-item>
           </Col>
+          <Col :sm="{span:24}">
+            <Form-item label="公积金账户类型：" prop="hfAccountType">
+              <Select v-model="newReconciliation.hfAccountType" style="width: 100%;" transfer>
+                <Option v-for="item in hfAccountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+              </Select>
+            </Form-item>
+          </Col>
+
           <Col :sm="{span:24}">
             <Form-item label="公积金企业账户：" prop="fundComCurrentValue">
               <Input v-model="newReconciliation.fundComCurrentValue" icon="ios-search" placeholder="请点击右侧搜索按钮..." @on-click="showFundAccountSearch"></Input>
@@ -135,20 +143,14 @@
       <Form :label-width="150" ref="fundAccountQueryForm" v-model="fundAccountQueryForm" v-if="isShowFundAccountSearch">
         <Form-item prop="fundCompanyAccountCategoryValue">
           <Row type="flex" justify="start">
-            <Col :sm="{span: 10}">
-              <Form-item prop="hfAccountType">
-                <Select v-model="fundAccountQueryForm.hfAccountType" style="width: 100%;" transfer>
-                  <Option v-for="item in hfAccountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
-            </Col>
-            <Col :sm="{span: 10}">
-              <Form-item prop="comAccountName" class="ml10">
+            <Col :sm="{span: 18}">
+              <Form-item prop="comAccountName">
                 <Input v-model="fundAccountQueryForm.comAccountName" placeholder="请输入名称..."></Input>
               </Form-item>
             </Col>
-            <Col :sm="{span: 4}" class="tr">
+            <Col :sm="{span: 6}" class="tr">
               <Button type="primary" icon="ios-search" @click="handleFundAccountPageNum(1)">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('fundAccountQueryForm')">重置</Button>
             </Col>
           </Row>
           <Row>
@@ -174,6 +176,13 @@
   </div>
 </template>
 <script>
+  const serverAddress = {
+    dev: 'http://172.16.9.31',
+    sit: 'http://172.16.9.24',
+    uat: 'http://172.16.9.60',
+    prod: ''
+  };
+
   import api from '../../../api/house_fund/fund_reconciliation/fund_reconciliation'
   import commonApi from '../../../api/house_fund/common/common'
   import InputAccount from "../common/input_account"
@@ -273,19 +282,23 @@
         newReconciliation: {
           hfMonth: '',
           comAccountId: '',
-          hfAccountType: 0,
           hfType: '',
-          createdBy: JSON.parse(window.sessionStorage.getItem('userInfo')).userId
+          hfAccountType: '',
+          createdBy: '',
+          fundComCurrentValue: ''
         },
         newReconciliationValidate: {
-          fundMonth: [
-            {required: true, type: 'date', message: '请选择月份', trigger: 'blur' }
+          hfMonth: [
+            {required: true, type: 'date', message: '请选择月份', trigger: 'blur'}
           ],
-          fundCompanyAccountValue: [
-            { required: true, message: '请选择公积金企业账户', trigger: 'change' }
+          hfType: [
+            {required: true, message: '请选择公积金类型', trigger: 'blur'}
           ],
-          fundTypeValue: [
-            { required: true, message: '请选择公积金类型', trigger: 'change' }
+          hfAccountType: [
+            {required: true, message: '请选择公积金企业账户类型', trigger: 'blur'}
+          ],
+          fundComCurrentValue: [
+            {required: true, message: '请选择公积金企业账户', trigger: 'blur'}
           ]
         },
         viewReconciliation: {
@@ -334,8 +347,8 @@
         ],
         viewReconciliationData: [],
         fundTypeList: [
-          {label: "基本公积金", value: 0},
-          {label: "补充公积金", value: 1}
+          {label: "基本公积金", value: 1},
+          {label: "补充公积金", value: 2}
         ],
         // 新建对账中查找企业公积金账户
         fundAccountQueryForm: {
@@ -348,7 +361,7 @@
           {label: '外包', value: 2},
           {label: '独立户', value: 3}
         ],
-        currentAccountId: -1,
+        currentIndex: -1,
         isShowFundAccountSearch: false,
         fundAccountPage: {
           total: 0,
@@ -362,10 +375,11 @@
             render: (h, params) => {
               return h('Radio', {
                 props: {
-                  value: this.currentAccountId === params.row.comAccountId
+                  value: this.currentIndex === params.index
                 },
                 on: {
                   'on-change': (val) => {
+                    this.currentIndex = params.index;
                     this.newReconciliation.fundComCurrentValue = params.row.comAccountName;
                     this.newReconciliation.comAccountId = params.row.comAccountId;
                   }
@@ -414,14 +428,15 @@
         })
       },
       delStatement() {
-//        var params = this.currentStatementId;
-//        api.delStatement({
-//          params: params,
-//        }).then(data => {
-//          if (data.code == 200) {
-//            console.log(data.data);
-//          }
-//        })
+        var params = this.currentStatementId;
+        api.delStatement({
+          params: params,
+        }).then(data => {
+          this.isShowDeleteReconciliation = false;
+          if (data.code == 200) {
+            this.$Message.success('删除成功');
+          }
+        })
       },
       showFundAccountSearch() {
         this.isShowFundAccountSearch = !this.isShowFundAccountSearch;
@@ -449,6 +464,9 @@
         return false;
       },
       saveReconciliation() {
+        if (this.reconciliateFile == null) {
+          this.$Message.error('请选择对账文件');
+        }
         this.loadingStatus = true;
         let config = {
           headers: {'Content-Type': 'multipart/form-data'}
@@ -460,9 +478,10 @@
         formData.append('hfAccountType', that.newReconciliation.hfAccountType);
         formData.append('hfType', that.newReconciliation.hfType);
         formData.append('createdBy', JSON.parse(window.sessionStorage.getItem('userInfo')).userId);
-        formData.append('file', this.reconciliateFile);
-        this.$http.post("/addStatement", formData, config).then((response) =>{
+        formData.append('file', that.reconciliateFile);
+        this.$http.post(`${serverAddress[process.env.env]}:6007/api/fundcommandservice/statement/addStatement`, formData, config).then((response) =>{
           if(response.data.success) {
+            that.getStatement();
             that.reconciliateFile = null;
             this.loadingStatus = false;
             that.$Message.info('新增对账成功!');
@@ -477,7 +496,7 @@
         this.operatorSearchData.customerPayDate = month;
       },
       setFundMonth(month) {
-        this.newReconciliation.fundMonth = month;
+        this.newReconciliation.hfMonth = month.replace('-', '');
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields();

@@ -48,7 +48,7 @@
       <router-link to="/addReimbursement">
         <Button type="info">新增零星报销</Button>
       </router-link>
-      <Button icon="ios-download-outline" type="info" @click="exportData(2)">导出数据</Button>
+      <Button icon="ios-download-outline" type="info" @click="exportData()">导出数据</Button>
     </div>
     <Table border :columns="reimbursementColumns" :data="reimbursementData" ref="reimbursementTable"></Table>
     <Page :total="reimbursementTotal"
@@ -64,7 +64,9 @@
 <script>
   import {mapState, mapActions, mapGetters} from "vuex"
   import EventTypes from "../../../store/event_types"
+  import qs from "qs"
 
+const host = process.env.HOST_SUPPLEMENTMEDICAL
   export default {
     name: "sporadic-reimbursement-tab",
     data() {
@@ -176,18 +178,8 @@
         this.$refs[name].resetFields()
       },
       // 导出csv
-      exportData(type) {
-        if (type === 1) {
-          this.$refs.reimbursementTable.exportCsv({
-            filename: '原始数据'
-          });
-        } else if (type === 3) {
-          this.$refs.table.exportCsv({
-            filename: '自定义数据',
-            columns: this.reimbursementColumns.filter((col, index) => index < 4),
-            data: this.reimbursementData.filter((data, index) => index < 4)
-          });
-        }
+      exportData() {
+        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/api/afsupportcenter/healthmedical/FragmentaryReimbursement/export?' + qs.stringify(this.reimbursementItem)
       }
     }
   }

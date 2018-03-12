@@ -389,30 +389,30 @@
           },
           {title: '截止月份', key: 'endMonth', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled && this.operatorListData[params.index].remitWay == 2) {
-                return h('div', [
-                  h('DatePicker', {
-                    props: {
-                      value: params.row.endMonth,
-                      type: 'month',
-                      format: 'yyyyMM',
-                      placement: 'bottom-end',
-                      placeholder: '选择年月',
-                      style: 'width: 100%;',
-                      transfer: true
-                    },
-                    on: {
-                      'on-change': (val) => {
-                        this.operatorListData[params.index].endMonth = val;
-                      }
-                    }
-                  })
-                ]);
-              } else {
+//              if (!this.inputDisabled && this.operatorListData[params.index].remitWay == 2) {
+//                return h('div', [
+//                  h('DatePicker', {
+//                    props: {
+//                      value: params.row.endMonth,
+//                      type: 'month',
+//                      format: 'yyyyMM',
+//                      placement: 'bottom-end',
+//                      placeholder: '选择年月',
+//                      style: 'width: 100%;',
+//                      transfer: true
+//                    },
+//                    on: {
+//                      'on-change': (val) => {
+//                        this.operatorListData[params.index].endMonth = val;
+//                      }
+//                    }
+//                  })
+//                ]);
+//              } else {
                 return h('div', [
                   h('span', params.row.endMonth)
                 ]);
-              }
+//              }
             }
           },
           {title: '客户汇缴月', key: 'hfMonth', align: 'left',

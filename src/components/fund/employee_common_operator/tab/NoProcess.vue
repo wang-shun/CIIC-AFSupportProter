@@ -341,7 +341,9 @@
         api.hfEmpTaskExport(params);
       },
       excelExportNew() {
-
+        api.newEmpTaskTxtExport(
+          this.selectedData
+        );
       }
     }
   }

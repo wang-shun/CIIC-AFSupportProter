@@ -361,8 +361,8 @@
           if(response.data.code !== 0) {
             this.$Message.error('获取角色授权失败');
           } else {
-            // this.leftNavigates = leftN; // 调试时可放开此句，获得全部菜单
-            this.leftNavigates = this.creatMenu(response.data.data);
+             this.leftNavigates = leftN; // 调试时可放开此句，获得全部菜单
+//            this.leftNavigates = this.creatMenu(response.data.data);
           }
         })
       },

@@ -47,7 +47,7 @@
       <router-link to="/addMedicalRelationship">
         <Button type="info">新增医疗关系转移</Button>
       </router-link>
-      <Button icon="ios-download-outline" type="info" @click="exportDataTransfer(1)">导出数据</Button>
+      <Button icon="ios-download-outline" type="info" @click="exportDataTransfer()">导出数据</Button>
     </div>
     <Table border
            stripe
@@ -66,6 +66,7 @@
 <script>
   import {mapState, mapActions, mapGetters} from "vuex"
   import EventTypes from "../../../store/event_types"
+  import qs from "qs"
 
   export default {
     name: "medical-relationship",
@@ -86,7 +87,7 @@
             title: '雇员编号', sortable: true, key: 'employeeId', align: "center",
           },
           {
-            title: '雇员姓名', sortable: true, key: 'column2', align: "center",
+            title: '雇员姓名', sortable: true, key: 'employeeName', align: "center",
           },
           {
             title: '中止日期', sortable: true, key: 'column3', align: "center",
@@ -95,16 +96,13 @@
             }
           },
           {
-            title: '证件号码', sortable: true, key: 'column4', align: "center",
+            title: '证件号码', sortable: true, key: 'idNum', align: "center",
           },
           {
-            title: '公司编号', sortable: true, key: 'column5', align: "center",
+            title: '公司编号', sortable: true, key: 'companyId', align: "center",
           },
           {
-            title: '公司名称', sortable: true, key: 'column6', align: "center",
-          },
-          {
-            title: '客户经理', sortable: true, key: 'column7', align: "center",
+            title: '公司名称', sortable: true, key: 'companyName', align: "center",
           },
           {
             title: '转出日期', sortable: true, key: 'turnOutDate', align: "center",
@@ -177,23 +175,8 @@
         this.$refs[name].resetFields()
       },
       // 导出csv
-      exportDataTransfer(type) {
-        if (type === 1) {
-          this.$refs.transferTable.exportCsv({
-            filename: '原始数据'
-          });
-        } else if (type === 2) {
-          this.$refs.transferTable.exportCsv({
-            filename: '排序和过滤后的数据',
-            original: false
-          });
-        } else if (type === 3) {
-          this.$refs.table.exportCsv({
-            filename: '自定义数据',
-            columns: this.transferColumns.filter((col, index) => index < 4),
-            data: this.transferData.filter((data, index) => index < 4)
-          });
-        }
+      exportDataTransfer() {
+        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/api/afsupportcenter/healthmedical/MedicalRelationTransform/export?' + qs.stringify(this.transferItem)
       }
     }
   };

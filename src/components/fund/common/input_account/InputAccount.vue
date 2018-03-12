@@ -90,7 +90,7 @@
       renderFormat: {
         type: Function,
         default (item) {
-          return item.comAccountName;
+          return item.hfComAccount;
         }
       }
     },

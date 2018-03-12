@@ -32,7 +32,7 @@
         <Button type="primary" @click="isShowUpload = true">新建对账</Button>
       </Col>
     </Row>
-    <Table border class="mt20" :columns="reconciliationColumns"></Table>
+    <Table border class="mt20" :columns="reconciliationColumns" :data="viewReconciliationData"></Table>
     <Page
       class="pageSize"
       @on-change="handlePageNum"
@@ -42,6 +42,19 @@
       :page-size-opts="page.pageSizeOpts"
       :current="page.pageNum"
       show-sizer show-total></Page>
+
+    <Modal v-model="isShowDeleteReconciliation" width="360">
+      <p slot="header" style="color:#f60; text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>确认删除对账</span>
+      </p>
+      <div style="text-align:center">
+        <p>确认删除对账吗？</p>
+      </div>
+      <div slot="footer">
+        <Button type="error" size="large" long @click="delStatement">删除</Button>
+      </div>
+    </Modal>
 
     <Modal
       v-model="isShowReconciliation"
@@ -148,6 +161,81 @@
         ],
         isShowReconciliation: false,
         isShowUpload:false,
+        isShowDeleteReconciliation: false,
+        currentStatementId: '',
+        reconciliationColumns: [
+          {title: '操作', fixed: 'left', width: 220, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('Button', {props: {type: 'success', size: 'small'},
+                  on: {
+                    click: () => {
+
+                    }
+                  }
+                }, '执行对账'),
+                h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
+                  on: {
+                    click: () => {
+                      this.isShowReconciliation = true;
+                      this.getStatementDetail(params.row.statementCompareId);
+                    }
+                  }
+                }, '查看'),
+                h('Button', {props: {type: 'error', size: 'small'}, style: {marginLeft: '10px'},
+                  on: {
+                    click: () => {
+                      this.isShowDeleteReconciliation = true;
+                      this.currentStatementId = params.row.statementCompareId;
+                    }
+                  }
+                }, '删除'),
+              ]);
+            }
+          },
+          {title: '公积金月份', key: 'hfMonth', width: 176, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.hfMonth),
+              ]);
+            }
+          },
+          {title: '公积金企业账户名称', key: 'comAccountName', width: 350, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.comAccountName),
+              ]);
+            }
+          },
+          {title: '公积金导入文件', key: 'impPath', width: 200, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.impPath),
+              ]);
+            }
+          },
+          {title: '公积金类型', key: 'hfType', width: 200, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.hfType),
+              ]);
+            }
+          },
+          {title: '对账人', key: 'compareMan', width: 200, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.compareMan),
+              ]);
+            }
+          },
+          {title: '对账时间', key: 'compareTime', width: 200, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.compareTime),
+              ]);
+            }
+          },
+        ],
         newReconciliation: {
           fundMonth: "",
           fundCompanyAccountValue: 0,
@@ -211,77 +299,6 @@
         fundTypeList: [
           {label: "基本公积金", value: 0},
           {label: "补充公积金", value: 1}
-        ],
-        reconciliationColumns: [
-          {title: '操作', fixed: 'left', width: 220, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('Button', {props: {type: 'success', size: 'small'},
-                  on: {
-                    click: () => {
-
-                    }
-                  }
-                }, '执行对账'),
-                h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
-                  on: {
-                    click: () => {
-                      this.isShowReconciliation = true;
-                    }
-                  }
-                }, '查看'),
-                h('Button', {props: {type: 'error', size: 'small'}, style: {marginLeft: '10px'},
-                  on: {
-                    click: () => {
-
-                    }
-                  }
-                }, '删除'),
-              ]);
-            }
-          },
-          {title: '公积金月份', key: 'hfMonth', width: 176, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.hfMonth),
-              ]);
-            }
-          },
-          {title: '公积金企业账户名称', key: 'comAccountName', width: 350, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.comAccountName),
-              ]);
-            }
-          },
-          {title: '公积金导入文件', key: 'impPath', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.impPath),
-              ]);
-            }
-          },
-          {title: '公积金类型', key: 'hfType', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.hfType),
-              ]);
-            }
-          },
-          {title: '对账人', key: 'compareMan', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.compareMan),
-              ]);
-            }
-          },
-          {title: '对账时间', key: 'compareTime', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.compareTime),
-              ]);
-            }
-          },
         ]
       }
     },
@@ -293,13 +310,33 @@
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
         api.getStatements({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
+          pageSize: this.page.pageSize,
+          pageNum: this.page.pageNum,
           params: params,
         }).then(data => {
           if (data.code == 200) {
             this.viewReconciliationData = data.data;
             this.page.total = data.total;
+          }
+        })
+      },
+      getStatementDetail(statementId) {
+        var params = statementId;
+        api.getStatementDetail({
+          params: params,
+        }).then(data => {
+          if (data.code == 200) {
+            console.log(data.data);
+          }
+        })
+      },
+      delStatement() {
+        var params = this.currentStatementId;
+        api.delStatement({
+          params: params,
+        }).then(data => {
+          if (data.code == 200) {
+            console.log(data.data);
           }
         })
       },

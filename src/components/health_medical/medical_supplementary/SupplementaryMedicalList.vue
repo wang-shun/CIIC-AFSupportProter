@@ -281,7 +281,7 @@
                     },
                     on: {
                       click: () => {
-                        sessionStorage.setItem('acceptanceData', JSON.stringify(params.row));
+                        sessionStorage.setItem('acceptanceId', JSON.stringify(params.row.acceptanceId));
                         this.$router.push({name: 'InvoiceList'});
                       }
                     }
@@ -295,7 +295,7 @@
                     },
                     on: {
                       click: () => {
-                        sessionStorage.setItem('acceptanceData', JSON.stringify(params.row));
+                        sessionStorage.setItem('acceptanceId', JSON.stringify(params.row.acceptanceId));
                         this.$router.push({name: 'InvoiceList'});
                       }
                     }

@@ -266,7 +266,7 @@
         },
 
         fileNotesViewData: [],
-        refuseReturnMaterialsSignInfo: [],
+        refuseReturnMaterialsSignInfo:[],
         companyNameChangeMatrialsPrintInfo: [],
         injuryReportManageInfo: []
       }
@@ -289,7 +289,7 @@
               this.employmentInfo = data.data.amEmploymentBO;
 
               if(data.data.materialList){
-                this.refuseReturnMaterialsSignInfo = data.data.materialList.rows;
+                this.refuseReturnMaterialsSignInfo = data.data.materialList;
               }
 
               if(this.fileNotesViewData){

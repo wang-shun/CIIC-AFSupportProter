@@ -238,10 +238,6 @@ import api from '../../api/employ_manage/hire_operator'
                 }
                 
        },instance() {
-            var fu = this.matrialsUseData;
-           
-            alert(this.matrialsUseData[0].material);
-            return ;
         
             api.saveAmArchiveUse(this.matrialsUseData).then(data => {
                   if (data.data.data == true) {

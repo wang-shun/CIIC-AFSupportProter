@@ -113,7 +113,7 @@
       this.paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
 
       this.getPaymentComDtoByPaymentId(paymentComId);
-      this.statementResultQuery(comAccountId,paymentMonth);
+      this.statementResultQuery(this.comAccountId,this.paymentMonth);
     },
     computed: {
       ...mapState('paymentNotice', {

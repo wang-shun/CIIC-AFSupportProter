@@ -88,7 +88,6 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="excelExport()">导出</Button>
-        <Button type="info" @click="excelExportNew()">导出开户文件</Button>
       </Col>
     </Row>
 
@@ -279,9 +278,8 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskExport();
-      },
-      excelExportNew() {}
+        api.hfEmpTaskExport(params);
+      }
     }
   }
 </script>

@@ -274,7 +274,7 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskRejectExport();
+        api.hfEmpTaskRejectExport(params);
       },
       excelExportNew() {}
     }

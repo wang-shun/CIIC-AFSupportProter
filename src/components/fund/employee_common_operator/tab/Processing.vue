@@ -95,7 +95,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="processingColumns" :data="processingData" @on-selection-change="handleSelectChange"></Table>
+        <Table border :columns="processingColumns" :data="processingData"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -166,6 +166,7 @@
         accountTypeList: [],
         isShowRejectBatch: false,
         rejectionRemark: '',
+        selectedData: [],
         processingData: [],
         processingPageData: {
           total: 0,
@@ -174,9 +175,9 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         processingColumns: [
-          {
-            type: 'selection', fixed: 'left', width: 60, align: 'center'
-          },
+//          {
+//            type: 'selection', fixed: 'left', width: 60, align: 'center'
+//          },
           {title: '操作', fixed: 'left', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -324,7 +325,7 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskExport();
+        api.hfEmpTaskExport(params);
       }
     }
   }

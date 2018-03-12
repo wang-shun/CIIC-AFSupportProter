@@ -119,7 +119,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import companyInfo from '../../components/CompanyInfo'
-  import employeeInfo from '../../components/EmployeeInfo'
+  import employeeInfo from '../../components/EmployeeInfo.vue'
 
   import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'

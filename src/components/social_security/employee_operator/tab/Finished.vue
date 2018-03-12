@@ -87,7 +87,7 @@
                 <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="是否加急：" prop="urgent">
                 <Select v-model="operatorSearchData.urgent" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
@@ -95,7 +95,7 @@
                   <Option value="1" label="是"></Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
                 <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="bottom"
@@ -204,13 +204,14 @@
           {
             title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
-               return params.row.isChange=='1'?this.$decode.taskCategory(params.row.taskCategory)+'(更正)':this.$decode.taskCategory(params.row.taskCategory)
+               return this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {
-            title: '是否加急', key: 'urgent', width: 100, align: 'center',
+            title: '是否更正', key: 'isChange', width: 100, align: 'center',
             render: (h, params) => {
-              return this.$decode.urgent(params.row.urgent)
+
+              return params.row.isChange=='1'?"是":"否"
             }
           },
           {

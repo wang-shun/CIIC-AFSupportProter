@@ -99,7 +99,7 @@
                 <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="是否加急：" prop="urgent">
                 <Select v-model="operatorSearchData.urgent" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
@@ -107,7 +107,7 @@
                   <Option value="1" label="是"></Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
                 <Date-picker v-model="operatorSearchData.startMonth" type="month" 
@@ -128,6 +128,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+      <!-- <Button type="primary" style="width: 100px;" @click="batchAllHandle">批量全选</Button> -->
       <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
       <Button type="error" @click="showRefuseReason">批退</Button>
       <Button type="info" @click="exprotExcel">导出</Button>
@@ -238,13 +239,14 @@
             title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
               
-              return params.row.isChange=='1'?this.$decode.taskCategory(params.row.taskCategory)+'(更正)':this.$decode.taskCategory(params.row.taskCategory)
+              return this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {
-            title: '是否加急', key: 'urgent', width: 100, align: 'center',
+            title: '是否更正', key: 'isChange', width: 100, align: 'center',
             render: (h, params) => {
-              return this.$decode.urgent(params.row.urgent)
+
+              return params.row.isChange=='1'?"是":"否"
             }
           },
           {
@@ -420,6 +422,13 @@
           }
         }
         this.batchHandle(this.selectEmployeeResultData, true);
+      },
+      //批量全选
+      batchAllHandle(){
+        if(typeof(this.operatorSearchData.taskCategory)=='undefined'||this.operatorSearchData.taskCategory==null || this.operatorSearchData.taskCategory==''){
+          this.$Message.warning('请选择任务单类型。');
+          return;
+        }
       },
       // 批量办理
       batchHandle(data, isBatch = false) {

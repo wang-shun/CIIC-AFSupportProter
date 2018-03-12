@@ -139,9 +139,6 @@
             title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center'
           },
           {
-            title: '性别', sortable: true, key: 'gender', align: 'center',
-          },
-          {
             title: '公司编号', sortable: true, key: 'companyId', align: 'center'
           },
           {

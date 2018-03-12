@@ -192,13 +192,14 @@
       };
     },
     created() {
-      this.acceptanceData = JSON.parse(sessionStorage.getItem('acceptanceData'));
-      this.queryDetailInfo(this.acceptanceData.acceptanceId)
+      let acceptanceId = JSON.parse(sessionStorage.getItem('acceptanceId'));
+      this.queryDetailInfo(acceptanceId)
     },
     methods: {
       queryDetailInfo(val) {
         apiAjax.queryMedicalInvoiceDetail(val).then(response => {
           this.employeeInfo = response.data.object.supplyMedicalAcceptance;
+          this.acceptanceData = response.data.object.supplyMedicalAcceptance;
           this.invoiceData = response.data.object.supplyMedicalInvoices;
         });
       },

@@ -128,6 +128,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+      <!-- <Button type="primary" style="width: 100px;" @click="batchAllHandle">批量全选</Button> -->
       <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
       <Button type="error" @click="showRefuseReason">批退</Button>
       <Button type="info" @click="exprotExcel">导出</Button>
@@ -421,6 +422,13 @@
           }
         }
         this.batchHandle(this.selectEmployeeResultData, true);
+      },
+      //批量全选
+      batchAllHandle(){
+        if(typeof(this.operatorSearchData.taskCategory)=='undefined'||this.operatorSearchData.taskCategory==null || this.operatorSearchData.taskCategory==''){
+          this.$Message.warning('请选择任务单类型。');
+          return;
+        }
       },
       // 批量办理
       batchHandle(data, isBatch = false) {

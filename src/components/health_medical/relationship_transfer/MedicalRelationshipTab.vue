@@ -47,7 +47,7 @@
       <router-link to="/addMedicalRelationship">
         <Button type="info">新增医疗关系转移</Button>
       </router-link>
-      <Button icon="ios-download-outline" type="info" @click="exportDataTransfer(1)">导出数据</Button>
+      <Button icon="ios-download-outline" type="info" @click="exportDataTransfer()">导出数据</Button>
     </div>
     <Table border
            stripe
@@ -66,6 +66,7 @@
 <script>
   import {mapState, mapActions, mapGetters} from "vuex"
   import EventTypes from "../../../store/event_types"
+  import qs from "qs"
 
   export default {
     name: "medical-relationship",
@@ -177,23 +178,8 @@
         this.$refs[name].resetFields()
       },
       // 导出csv
-      exportDataTransfer(type) {
-        if (type === 1) {
-          this.$refs.transferTable.exportCsv({
-            filename: '原始数据'
-          });
-        } else if (type === 2) {
-          this.$refs.transferTable.exportCsv({
-            filename: '排序和过滤后的数据',
-            original: false
-          });
-        } else if (type === 3) {
-          this.$refs.table.exportCsv({
-            filename: '自定义数据',
-            columns: this.transferColumns.filter((col, index) => index < 4),
-            data: this.transferData.filter((data, index) => index < 4)
-          });
-        }
+      exportDataTransfer() {
+        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/api/afsupportcenter/healthmedical/MedicalRelationTransform/export?' + qs.stringify(this.transferItem)
       }
     }
   };

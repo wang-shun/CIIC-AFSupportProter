@@ -122,7 +122,7 @@
     <div class="tr m20">
       <Button type="info" @click="modalButton(true)">审核通过</Button>
       <Button type="info" @click="modalButton(false)">批退</Button>
-      <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
+      <Button type="info" @click="exportData()" icon="ios-download-outline">导出数据</Button>
       <Button type="info" @click="modalInput = true" icon="ios-upload-outline">导入数据</Button>
     </div>
 
@@ -170,6 +170,7 @@
 <script>
   import supplementaryMedica from '../../../store/modules/health_medical/data_sources/supplementary_medica.js'
   import apiAjax from "../../../data/health_medical/supplementary_medica.js";
+  import qs from "qs"
 
   export default {
     data() {
@@ -402,23 +403,8 @@
       remove(index) {
         this.data6.splice(index, 1);
       },
-      exportData(type) {
-        if (type === 1) {
-          this.$refs.table.exportCsv({
-            filename: '原始数据'
-          });
-        } else if (type === 2) {
-          this.$refs.table.exportCsv({
-            filename: '排序和过滤后的数据',
-            original: false
-          });
-        } else if (type === 3) {
-          this.$refs.table.exportCsv({
-            filename: '自定义数据',
-            columns: this.columns7.filter((col, index) => index < 4),
-            data: this.data6.filter((data, index) => index < 4)
-          });
-        }
+      exportData() {
+        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/supplyMedicalService/export?' + qs.stringify(this.formItem)
       }
     }
   }

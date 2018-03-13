@@ -153,7 +153,7 @@
           handlerDateRange: [],
         },
         dealMeg: {
-          handler: "xwz",
+          handler: "username",
           handlerDate: new Date(),
           status: null,
           rejectType: null,
@@ -202,7 +202,12 @@
             }
           },
           {
-            title: '受理日期', sortable: true, key: 'handlerDate', align: 'center'
+            title: '受理日期', sortable: true, key: 'handlerDate', align: 'center',
+            render: (h, params) => {
+              if (params.row.handlerDate !== null) {
+                return this.$utils.formatDate(params.row.handlerDate, 'YYYY-MM-DD HH:mm:ss');
+              }
+            }
           },
           {
             title: '受理金额', sortable: true, key: 'caseMoney', align: 'center'
@@ -295,6 +300,8 @@
           item.status = val;
           item.remark = this.dealMeg.remark;
           item.rejectType = this.dealMeg.rejectType;
+          item.handler = this.dealMeg.handler;
+          item.handlerDate = this.dealMeg.handlerDate;
         });
         apiAjax.updateAcceptanceList(this.selectData).then(response => {
           if (response.data.code === 200) {

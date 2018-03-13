@@ -389,30 +389,30 @@
           },
           {title: '截止月份', key: 'endMonth', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled && this.operatorListData[params.index].remitWay == 2) {
-                return h('div', [
-                  h('DatePicker', {
-                    props: {
-                      value: params.row.endMonth,
-                      type: 'month',
-                      format: 'yyyyMM',
-                      placement: 'bottom-end',
-                      placeholder: '选择年月',
-                      style: 'width: 100%;',
-                      transfer: true
-                    },
-                    on: {
-                      'on-change': (val) => {
-                        this.operatorListData[params.index].endMonth = val;
-                      }
-                    }
-                  })
-                ]);
-              } else {
+//              if (!this.inputDisabled && this.operatorListData[params.index].remitWay == 2) {
+//                return h('div', [
+//                  h('DatePicker', {
+//                    props: {
+//                      value: params.row.endMonth,
+//                      type: 'month',
+//                      format: 'yyyyMM',
+//                      placement: 'bottom-end',
+//                      placeholder: '选择年月',
+//                      style: 'width: 100%;',
+//                      transfer: true
+//                    },
+//                    on: {
+//                      'on-change': (val) => {
+//                        this.operatorListData[params.index].endMonth = val;
+//                      }
+//                    }
+//                  })
+//                ]);
+//              } else {
                 return h('div', [
                   h('span', params.row.endMonth)
                 ]);
-              }
+//              }
             }
           },
           {title: '客户汇缴月', key: 'hfMonth', align: 'left',
@@ -950,8 +950,8 @@
             this.$Message.error("操作栏补缴状态费用段的截止月份不能小于起缴月份");
             return false;
           }
-          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth != api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份的次月必须等于客户汇缴月");
+          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth > api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份的次月必须小于等于客户汇缴月");
             return false;
           }
           if (this.displayVO.hfType == 1) {

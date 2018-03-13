@@ -325,7 +325,7 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskExport(params);
+        api.hfEmpTaskExport({ params: params });
       }
     }
   }

@@ -105,7 +105,8 @@
         <Table border ref="noProcessData"
                :columns="noProcessColumns"
                :data="noProcessData"
-               @on-selection-change="handleSelectChange"></Table>
+               @on-selection-change="handleSelectChange"
+               ></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -338,10 +339,24 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskExport(params);
+        api.hfEmpTaskExport({ params: params });
       },
       excelExportNew() {
-
+        if (!this.selectedData || this.selectedData.length == 0) {
+          this.$Message.error("请先勾选需要导出开户文件的任务");
+          return false;
+        }
+        var params = {};
+        {
+          this.beforeSubmit();
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.selectedData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+        api.newEmpTaskTxtExport({
+          params: params
+        });
       }
     }
   }

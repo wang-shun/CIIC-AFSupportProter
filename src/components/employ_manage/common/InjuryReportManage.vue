@@ -29,7 +29,7 @@
       </Row>
        <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="工伤认定日期：" prop="affirmDate">
+          <Form-item label="工伤认定日期：" prop="affirmDatew">
             <DatePicker type="date" v-model="handleInfo.affirmDatew" transfer></DatePicker>
           </Form-item>
          </Col>
@@ -44,7 +44,7 @@
        <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="鉴定结论日期：" prop="remarkDatew">
-            <DatePicker type="date" v-model="handleInfo.evaluatioDatew" transfer></DatePicker>
+            <DatePicker type="date" v-model="handleInfo.evaluationDatew" transfer></DatePicker>
           </Form-item>
          </Col>
       </Row>
@@ -87,10 +87,10 @@ import api from '../../../api/employ_manage/hire_operator'
       return {
          modal1: false,
         injuryReportManageColumns: [
-          {title: '工伤认定日期', key: 'injuryComfirmDate', align: 'center',
+          {title: '工伤认定日期', key: 'affirmDate', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.injuryComfirmDate),
+                h('span', params.row.affirmDate),
               ]);
             }
           },
@@ -101,10 +101,10 @@ import api from '../../../api/employ_manage/hire_operator'
               ]);
             }
           },
-          {title: '鉴定结论日期', key: 'evaluatioDate', align: 'center',
+          {title: '鉴定结论日期', key: 'evaluationDate', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.evaluatioDate),
+                h('span', params.row.evaluationDate),
               ]);
             }
           },
@@ -115,10 +115,10 @@ import api from '../../../api/employ_manage/hire_operator'
               ]);
             }
           },
-          {title: '是否放弃鉴定', key: 'ifGiveupEvaluation', align: 'center',
+          {title: '是否放弃鉴定', key: 'ifGiveupEvaluationLabel', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.ifGiveupEvaluation),
+                h('span', params.row.ifGiveupEvaluationLabel),
               ]);
             }
           },
@@ -169,7 +169,7 @@ import api from '../../../api/employ_manage/hire_operator'
           operateDatew: '',
           affirmDatew:'',
           evaluationw:'',
-          evaluatioDatew:'',
+          evaluationDatew:'',
           declareUnitw:'',
           ifGiveupEvaluationw:'',
           ifCompletew:''
@@ -182,7 +182,8 @@ import api from '../../../api/employ_manage/hire_operator'
           declareUnit:'',
           ifGiveupEvaluation:'',
           ifComplete:'',
-          ifCompleteLabel:'否'
+          ifCompleteLabel:'',
+          ifGiveupEvaluationLabel:'',
         }
       }
     },
@@ -193,19 +194,46 @@ import api from '../../../api/employ_manage/hire_operator'
     },
     methods: {
             ok () {
+
+              if(this.handleInfo.operateManw==''){
+                 this.$Message.success("操作员为空");
+                 return;
+              }
+              if(this.handleInfo.operateDatew==''){
+                 this.$Message.success("操作日期为空");
+                 return;
+              }
+            
+              if(this.handleInfo.affirmDatew==''){
+                 this.$Message.success("工伤认定日期为空");
+                 return;
+              }
+              if(this.handleInfo.evaluationDatew==''){
+                 this.$Message.success("鉴定结论日期为空");
+                 return;
+              }
+              if(this.handleInfo.declareUnitw==''){
+                 this.$Message.success("申报单位为空");
+                 return;
+              }
+
              
               var fromData = this.$utils.clear(this.realHandInfo,'');
                fromData.operateDate = this.$utils.formatDate(this.handleInfo.operateDatew, 'YYYY-MM-DD');
                fromData.operateMan = this.handleInfo.operateManw;
-               fromData.evaluatioDate = this.$utils.formatDate(this.handleInfo.evaluatioDatew, 'YYYY-MM-DD');
+               fromData.evaluationDate = this.$utils.formatDate(this.handleInfo.evaluationDatew, 'YYYY-MM-DD');
                fromData.evaluation = this.handleInfo.evaluationw;
                fromData.injuryComfirmDate = this.$utils.formatDate(this.handleInfo.injuryComfirmDatew, 'YYYY-MM-DD');
+               fromData.affirmDate = this.$utils.formatDate(this.handleInfo.affirmDatew, 'YYYY-MM-DD');
                fromData.declareUnit = this.handleInfo.declareUnitw;
                fromData.ifGiveupEvaluation = this.handleInfo.ifGiveupEvaluationw;
                fromData.ifComplete = this.handleInfo.ifCompletew;
                fromData.archiveId = this.fileInfo1.archiveId;
                if(fromData.ifComplete==1){
                  fromData.ifCompleteLabel = '是';
+               }
+               if(fromData.ifGiveupEvaluation==1){
+                 fromData.ifGiveupEvaluationLabel = '是';
                }
                
                this.injuryReportManage.push(fromData);

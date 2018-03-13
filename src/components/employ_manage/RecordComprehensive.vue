@@ -266,7 +266,7 @@
         },
 
         fileNotesViewData: [],
-        refuseReturnMaterialsSignInfo: [],
+        refuseReturnMaterialsSignInfo:[],
         companyNameChangeMatrialsPrintInfo: [],
         injuryReportManageInfo: []
       }
@@ -289,7 +289,7 @@
               this.employmentInfo = data.data.amEmploymentBO;
 
               if(data.data.materialList){
-                this.refuseReturnMaterialsSignInfo = data.data.materialList.rows;
+                this.refuseReturnMaterialsSignInfo = data.data.materialList;
               }
 
               if(this.fileNotesViewData){
@@ -316,8 +316,12 @@
                   this.makeUpFileInfo  = data.data.amArchaiveBo;
               }
 
-              if(data.data.amInjuryPageRows){
-                  this.injuryReportManageInfo = data.data.amInjuryPageRows.rows;
+              if(data.data.amInjuryBOList){
+                  this.injuryReportManageInfo = data.data.amInjuryBOList;
+              }
+
+              if(data.data.resignBO){
+                this.refuseInfo = data.data.resignBO;
               }
 
                

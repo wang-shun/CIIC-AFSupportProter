@@ -12,7 +12,7 @@
     </div>
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="goHandle">档案办理</Button>
+        <!-- <Button type="primary" @click="goHandle">档案办理</Button> -->
         <!-- <Button type="primary">批量操作</Button> -->
         <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>

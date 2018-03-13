@@ -85,9 +85,9 @@
           </Col>
         </Row>
       </Form>
-      <Table border class="mt20" height="201" :columns="viewReconciliationColumns" :data="viewReconciliation.items"></Table>
+      <Table border class="mt20" height="201" ref="viewReconciliation" :columns="viewReconciliationColumns" :data="viewReconciliation.items"></Table>
       <div slot="footer">
-        <Button type="info">导出Excel</Button>
+        <Button type="info" @click="exportData">导出Excel</Button>
         <Button type="warning" @click="isShowReconciliation = false;">返回</Button>
       </div>
     </Modal>
@@ -214,7 +214,7 @@
                 h('Button', {props: {type: 'success', size: 'small'},
                   on: {
                     click: () => {
-
+                      this.execReconciliate(params.row.statementCompareId);
                     }
                   }
                 }, '执行对账'),
@@ -406,7 +406,7 @@
       this.getStatement()
     },
     methods: {
-      getStatement() {
+      getStatement() { // 对账列表
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
         api.getStatements({
@@ -420,7 +420,7 @@
           }
         })
       },
-      getStatementDetail(statementId) {
+      getStatementDetail(statementId) { // 对账详情
         var params = statementId;
         api.getStatementDetail({
           params: params,
@@ -430,7 +430,7 @@
           }
         })
       },
-      delStatement() {
+      delStatement() { // 删除对账
         var params = this.currentStatementId;
         api.delStatement({
           params: params,
@@ -442,7 +442,7 @@
           }
         })
       },
-      showFundAccountSearch() {
+      showFundAccountSearch() { // 显示查找公积金账户名条件
         if (this.newReconciliation.hfMonth === '') {
           this.$Message.error('请选择公积金月份');
           return;
@@ -454,7 +454,7 @@
         this.isShowFundAccountSearch = !this.isShowFundAccountSearch;
         this.getComFundAccountList();
       },
-      getComFundAccountList() {
+      getComFundAccountList() { // 查找公积金账户名
         if (!this.isShowFundAccountSearch) {
           return;
         }
@@ -477,7 +477,7 @@
         this.reconciliateFile = file;
         return false;
       },
-      saveReconciliation() {
+      saveReconciliation() { // 新建对账
         if (this.reconciliateFile == null) {
           this.$Message.error('请选择对账文件');
         }
@@ -510,6 +510,14 @@
           this.resetSearchCondition('newReconciliation');
           this.resetSearchCondition('fundAccountQueryForm');
           this.newReconciliation.fundComCurrentValue = this.newReconciliation.comAccountId = this.newReconciliation.hfComAccount = this.newReconciliation.hfAccountType = '';
+        });
+      },
+      execReconciliate(statementId) {
+        console.log(statementId);
+      },
+      exportData() {
+        this.$refs.viewReconciliation.exportCsv({
+          filename: '对账记录'
         });
       },
       setSearchFundMonth(month) {

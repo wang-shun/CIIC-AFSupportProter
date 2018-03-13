@@ -32,7 +32,7 @@
             </Row>
             <Modal
               v-model="modal1"
-              title="新增档案备注"
+              title="档案材料使用"
               @on-ok="ok"
               @on-cancel="cancel">
               <Form :model="handleInfo" ref="handleInfo" :label-width="150">
@@ -98,20 +98,20 @@
             </Row>
             <Modal
               v-model="modal2"
-              title="新增档案备注"
+              title="档案材料借出"
               @on-ok="ok1"
               @on-cancel="cancel1">
               <Form :model="handleInfo" ref="handleInfo" :label-width="150">
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-                    <Form-item label="材料使用经办人：" prop="handleManw">
+                    <Form-item label="材料借出经办人：" prop="handleManw">
                       <Input v-model="handleInfo.handleManw" placeholder="请输入"/>
                     </Form-item>
                   </Col>
                 </Row>
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-                    <Form-item label="使用日期：" prop="useDatew">
+                    <Form-item label="借出日期：" prop="useDatew">
                       <DatePicker type="date" v-model="handleInfo.useDatew" transfer></DatePicker>
                     </Form-item>
                   </Col>
@@ -125,14 +125,14 @@
                 </Row>
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-                    <Form-item label="使用借出材料人：" prop="useManw" transfer>
+                    <Form-item label="借出材料人：" prop="useManw" transfer>
                       <Input v-model="handleInfo.useManw" placeholder="请输入"/>
                     </Form-item>
                   </Col>
                 </Row>
                 <Row>
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-                  <Form-item label="使用材料：">
+                  <Form-item label="借出材料：">
                     <Select v-model="handleInfo.materialw" transfer>
                       <Option v-for="item in  handleTypeList2" :value="item.value" :key="item.value">{{item.label}}</Option>
                     </Select>
@@ -171,8 +171,8 @@ import api from '../../api/employ_manage/hire_operator'
          modal2: false,
         collapseInfo: [1, 2, 3],
         employeeInfo: {
-          employeeNumber: "10001",
-          employeeName: "林子晖"
+          employeeNumber: this.$route.query.employeeId,
+          employeeName: this.$route.query.employeeName
         },
         matrialsUseColumns: [
           {title: '使用材料', key: 'useMatrials', align: 'center',
@@ -243,7 +243,7 @@ import api from '../../api/employ_manage/hire_operator'
         matrialsUseData: [],
 
           matrialsBorrowColumns: [
-          {title: '使用材料', key: 'useMatrials', align: 'center',
+          {title: '借出材料', key: 'useMatrials', align: 'center',
             render: (h, params) => {
              return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.material),
@@ -257,21 +257,21 @@ import api from '../../api/employ_manage/hire_operator'
               ]);
             }
           },
-          {title: '使用材料人', key: 'matrialsUser', align: 'center',
+          {title: '借出材料人', key: 'matrialsUser', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.useMan),
               ]);
             }
           },
-          {title: '使用日期', key: 'useDate', align: 'center',
+          {title: '借出日期', key: 'useDate', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.useDate),
               ]);
             }
           },
-          {title: '材料使用经办人', key: 'matrialsManager', align: 'center',
+          {title: '借出经办人', key: 'matrialsManager', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.handleMan),
@@ -367,8 +367,6 @@ import api from '../../api/employ_manage/hire_operator'
           
           let params = {employeeId:this.$route.query.employeeId,archiveId:this.$route.query.archiveId}
 
-          // alert(params.employeeId);
-
           api.queryArchiveUse(params).then(data=>{
               
               if(data.data.amArchiveUsePageRows){
@@ -404,6 +402,16 @@ import api from '../../api/employ_manage/hire_operator'
         
         this.$router.push({name:'fileMatrialsUseAndBorrow', query: {archiveId:tempId,employeeId:tempId1}});
       },ok () {
+
+             if(this.handleInfo.materialw==''){
+                 this.$Message.info('使用材料不能为空');
+                  return;
+               }
+               if(this.handleInfo.useDatew==''){
+                  this.$Message.info('使用日期不能为空');
+                  return;
+               }
+                
               var fromData = this.$utils.clear(this.realHandInfo,'');
               
                fromData.useDate = this.$utils.formatDate(this.handleInfo.useDatew, 'YYYY-MM-DD');
@@ -416,11 +424,19 @@ import api from '../../api/employ_manage/hire_operator'
                fromData.employeeId = this.$route.query.employeeId;
                fromData.archiveId = this.$route.query.archiveId;
 
-               fromData.type = 0;
+               fromData.useBorrow = 0;
                
                this.matrialsUseData.push(fromData);
                
             },ok1 () {
+              if(this.handleInfo.materialw==''){
+                 this.$Message.info('借出材料不能为空');
+                  return;
+               }
+               if(this.handleInfo.useDatew==''){
+                  this.$Message.info('借出日期不能为空');
+                  return;
+               }
               var fromData = this.$utils.clear(this.realHandInfo,'');
               
                fromData.useDate = this.$utils.formatDate(this.handleInfo.useDatew, 'YYYY-MM-DD');
@@ -433,7 +449,7 @@ import api from '../../api/employ_manage/hire_operator'
                fromData.employeeId = this.$route.query.employeeId;
                fromData.archiveId = this.$route.query.archiveId;
 
-               fromData.type = 1;
+               fromData.useBorrow = 1;
                
                
                this.matrialsBorrowData.push(fromData);

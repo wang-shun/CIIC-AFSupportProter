@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金月份：" prop="hfMonth">
-                  <DatePicker type="month" placement="bottom" placeholder="选择日期" @on-change="setSearchFundMonth" transfer></DatePicker>
+                  <DatePicker type="month" placement="bottom" placeholder="选择日期" @on-change="operatorSearchData.hfMonth=$event" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -101,7 +101,7 @@
         <Row type="flex" justify="start">
           <Col :sm="{span:24}">
             <Form-item label="公积金月份：" prop="hfMonth">
-              <DatePicker type="month" @on-change="setFundMonth"></DatePicker>
+              <DatePicker type="month" @on-change="newReconciliation.hfMonth=$event"></DatePicker>
             </Form-item>
           </Col>
           <Col :sm="{span:24}">
@@ -200,7 +200,7 @@
         },
         operatorSearchData: {
           fundMonth: '',
-          fundCompanyAccountCategoryValue: ''
+          hfComAccount: ''
         },
         isShowReconciliation: false, // 查看详情
         isShowCreateReconciliation:false, // 新建对账
@@ -493,9 +493,6 @@
             that.$Message.info(response.data.message);
           }
         });
-      },
-      setSearchFundMonth(month) {
-        this.operatorSearchData.hfMonth = month.replace('-', '');
       },
       setFundMonth(month) {
         this.newReconciliation.hfMonth = month.replace('-', '');

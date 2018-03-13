@@ -74,7 +74,7 @@
           <Form-item label="审核人：">{{acceptanceData.auditor}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="审核日期：">{{this.$utils.formatDate(acceptanceData.auditTime, 'YYYY-MM-DD HH:mm:ss')}}
+          <Form-item label="审核日期：">{{dateToString(acceptanceData.auditTime)}}
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -205,6 +205,12 @@
       },
       typeToChina(val) {
         return supplementaryMedica.typeToChina(val);
+      },
+      dateToString(val) {
+        if (val !== null) {
+          return this.$utils.formatDate(val, 'YYYY-MM-DD HH:mm:ss');
+        }
+        return val;
       }
     },
   }

@@ -12,7 +12,7 @@ export default {
     return await response.data;
   },
   delStatement: async (params) => {
-    let response = await AJAX.postJSON(`/api/fundcommandservice/statement/delStatement/${params.params}`);
+    let response = await AJAX.get(`/api/fundcommandservice/statement/delStatement/${params.params}`);
     return await response.data;
   }
 }

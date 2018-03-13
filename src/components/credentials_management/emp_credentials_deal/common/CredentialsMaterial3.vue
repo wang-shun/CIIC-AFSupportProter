@@ -171,7 +171,7 @@ export default {
   },
   data () {
     return {
-      meterials: {
+       material: {
         menu: '',
         info: {},
         materialsIds: '',

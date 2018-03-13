@@ -22,7 +22,7 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="企业公积金账户编号：">
+        <Form-item label="企业公积金账户：">
           <label>{{companyTask.companyFundAccountNum}}</label>
         </Form-item>
       </Col>

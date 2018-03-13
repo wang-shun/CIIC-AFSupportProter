@@ -428,7 +428,30 @@ export default {
       default:
          return ''
     }
-
-  }
-  
+  },
+  costCategory: (costCategory) => {
+    //1标准 2 新进 3 转入  4 补缴 5 调整 （顺调)）6 转出 7封存 8 退账 9 调整（倒调）
+    switch (costCategory) {
+      case '1':
+        return '标准'
+      case '2':
+        return '新进'
+      case '3':
+        return '转入'
+      case '4':
+        return '补缴'
+      case '5':
+        return '调整 （顺调)'
+      case '6':
+        return '转出'
+      case '7':
+        return '封存'
+      case '8':
+        return '退账'
+      case '9':
+        return '调整（倒调）'
+      default: // 默认 1
+        return ''
+    }
+  },
 };

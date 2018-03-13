@@ -330,11 +330,11 @@
       },
       userCenterHandler(name) {
         switch (name) {
+          case 'modifyPassword':
+            this.modifyPassword();
+            break;
           case 'logout':
-            this.$router.push({
-              name: 'login'
-            });
-            this.$local.save('userName', '');
+            this.logout();
             break;
         }
       },
@@ -345,7 +345,10 @@
         });
       },
       backToHome() {
-          window.location.href = `${this.ipPrefix}:8070/#/menu`;
+        window.location.href = `${this.ipPrefix}:8070/#/menu`;
+      },
+      backToLogin() {
+        window.location.href = `${this.ipPrefix}:8070/#/`
       },
       routerToCenter: function(name) {
         console.log(name)
@@ -391,6 +394,20 @@
           }
         }
         return menuTree;
+      },
+      logout() {
+        window.sessionStorage.removeItem('userInfo');
+        let that = this;
+        let storage = new CrossStorageClient(`${this.ipPrefix}:8070/#/menu`);
+        storage.onConnect().then(() => {
+          that.backToLogin();
+          return storage.clear();
+        }).catch(function(err) {
+          console.log(err);
+        })
+      },
+      modifyPassword() {
+        window.location.href = `${this.ipPrefix}:8070/#/changePassword`;
       }
     },
     directives: {

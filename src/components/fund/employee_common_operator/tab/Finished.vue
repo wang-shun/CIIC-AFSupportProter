@@ -278,7 +278,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskExport(params);
+        api.hfEmpTaskExport({ params: params });
       }
     }
   }

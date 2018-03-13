@@ -1,7 +1,7 @@
 <!-- 单添随员 -->
 <template>
   <div>
-    <Form:label-width="120">
+    <Form :label-width="120">
       <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
           <span style="font-weight:bold;font-size:14px">常规材料</span>

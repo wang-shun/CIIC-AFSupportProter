@@ -88,7 +88,7 @@
       </router-link>
       <Button type="info" ref="rmb" @click="modalButton(true)">受理</Button>
       <Button type="info" ref="rmb1" @click="modalButton(false)">拒赔</Button>
-      <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
+      <Button type="info" @click="exportData()" icon="ios-download-outline">导出数据</Button>
     </div>
 
     <Table border
@@ -128,6 +128,7 @@
 <script>
   import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
   import apiAjax from "../../../data/health_medical/uninsured_application.js";
+  import qs from "qs"
 
   export default {
     data() {
@@ -324,23 +325,8 @@
         this.$refs[name].resetFields()
       },
       // 导出csv
-      exportData(type) {
-        if (type === 1) {
-          this.$refs.table.exportCsv({
-            filename: '原始数据'
-          });
-        } else if (type === 2) {
-          this.$refs.table.exportCsv({
-            filename: '排序和过滤后的数据',
-            original: false
-          });
-        } else if (type === 3) {
-          this.$refs.table.exportCsv({
-            filename: '自定义数据',
-            columns: this.columns7.filter((col, index) => index < 4),
-            data: this.data6.filter((data, index) => index < 4)
-          });
-        }
+      exportData() {
+        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/uninsuredService/export?' + qs.stringify(this.formItem)
       }
     }
   }

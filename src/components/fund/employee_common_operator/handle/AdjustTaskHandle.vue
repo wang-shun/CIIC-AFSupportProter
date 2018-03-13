@@ -950,8 +950,8 @@
             this.$Message.error("操作栏补缴状态费用段的截止月份不能小于起缴月份");
             return false;
           }
-          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth != api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份的次月必须等于客户汇缴月");
+          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth > api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份的次月必须小于等于客户汇缴月");
             return false;
           }
           if (this.displayVO.hfType == 1) {

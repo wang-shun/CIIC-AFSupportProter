@@ -123,17 +123,7 @@ import api from '../../../api/social_security/social_security_report'
       }
     },
     mounted() {
-     
-      let params = {ssMonth:this.ssMonth,ssAccount:this.ssAccount}
-      api.queryRefundDetails(params).then(data=>{
-          if(data.code==500){
-            this.$Message.error(data.message);
-          }else{
-            if(null!=data.data){
-               this.noticeInfo.noticeData=data.data;
-            }
-          }
-      })
+     this.queryRefundDetails();
     },
     computed: {
       
@@ -147,7 +137,19 @@ import api from '../../../api/social_security/social_security_report'
       },
       cancel () {
 
-      }
+      },
+      queryRefundDetails(){
+        let params = {ssMonth:this.ssMonth,ssAccount:this.ssAccount}
+        api.queryRefundDetails(params).then(data=>{
+            if(data.code==500){
+              this.$Message.error(data.message);
+            }else{
+              if(null!=data.data){
+                this.noticeInfo.noticeData=data.data;
+              }
+            }
+        })
+      },
     }
   }
 </script>

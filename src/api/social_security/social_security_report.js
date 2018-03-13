@@ -9,10 +9,13 @@ export default {
         let response = await AJAX.post('/api/soccommandservice/ssEmpRefund/queryRefundDetails', params);
         return await response.data;
     },
-    queryEmlpyeeMonthFeeDetail:async(params)=>{
+    queryEmlpyeeMonthFeeDetail:async(params)=>{ 
         let response = await AJAX.post('/api/soccommandservice/ssMonthChargeItem/queryEmlpyeeMonthFeeDetail', params);
         return await response.data;
     },
+    monthChargeExport:async(params)=>{ 
+      AJAX.download('/api/soccommandservice/ssMonthChargeItem/monthChargeExport', params);
+  },
 
     getAccountRelationByAccountId:async(params)=>{
       let response = await AJAX.post('/api/soccommandservice/ssAccountComRelation/getAccountCompanyRelationByAccountId', params);

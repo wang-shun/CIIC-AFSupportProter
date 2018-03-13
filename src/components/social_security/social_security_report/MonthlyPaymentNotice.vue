@@ -158,7 +158,8 @@
           if(response != null){
             let obj = response.filter(x=>x.paymentItemName == '缴纳合计')[0];
             if(obj != null){
-              this.lowerTotalAmount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
+              let amount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
+              this.lowerTotalAmount = amount.toFixed(1)
               if(this.lowerTotalAmount != null){
                 this.capitalTotalAmount = tools.dx(this.lowerTotalAmount);
               }
@@ -190,6 +191,7 @@
         }).catch(error=>{
           this.$Message.error('系统异常！');
         })
+         this.paymentDetailQuery();
       }
     }
   }

@@ -90,7 +90,7 @@
       renderFormat: {
         type: Function,
         default (item) {
-          return item.comAccountName;
+          return item.hfComAccount;
         }
       }
     },
@@ -163,7 +163,7 @@
         this.currentIndex = -1;
         // 处理参数
         var params = this.queryForm;
-        api.getComFundAccountNameList({
+        api.getComFundAccountClassNameList({
           pageSize: this.page.pageSize,
           pageNum: this.page.pageNum,
           orderBy: '',
@@ -171,6 +171,7 @@
         }).then(data => {
           if (data.code == 200) {
             this.data = data.data;
+            this.page.total = data.total;
           }
         })
       },

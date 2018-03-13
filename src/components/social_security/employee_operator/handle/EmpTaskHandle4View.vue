@@ -119,7 +119,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import companyInfo from '../../components/CompanyInfo'
-  import employeeInfo from '../../components/EmployeeInfo'
+  import employeeInfo from '../../components/EmployeeInfo.vue'
 
   import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
@@ -180,15 +180,16 @@
             key: 'endMonth',
             align: 'center',
             render: (h, params) => {
-              return h('DatePicker', {
-                props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
-                attrs: {placeholder: '选择年月'},
-                on: {
-                  input: (value) => {
-                    this.setRow(params, 'endMonth', value);
-                  }
-                }
-              });
+              return h('span',params.row.endMonth)
+              // return h('DatePicker', {
+              //   props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
+              //   attrs: {placeholder: '选择年月'},
+              //   on: {
+              //     input: (value) => {
+              //       this.setRow(params, 'endMonth', value);
+              //     }
+              //   }
+              // });
             }
           },
           {

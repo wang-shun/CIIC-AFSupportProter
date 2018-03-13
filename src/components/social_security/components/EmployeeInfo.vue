@@ -50,6 +50,12 @@
         <label>{{emp.contactAddress}}</label>
       </Form-item>
       </Col>
+      <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}">
+      <Form-item label="基数(使用中)：">
+        <label>{{emp.oldEmpBase}}</label>
+      </Form-item>
+      </Col>
+      
       <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
       <Form-item label="人员分类：">
         <label>{{emp.empClassify}}</label>

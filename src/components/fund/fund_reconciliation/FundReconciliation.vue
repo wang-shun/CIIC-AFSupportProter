@@ -513,7 +513,16 @@
         });
       },
       execReconciliate(statementId) {
-        console.log(statementId);
+        var params = {statementId: statementId, compareMan: JSON.parse(window.sessionStorage.getItem('userInfo')).loginName}
+        api.execStatement({
+          params: params,
+        }).then(data => {
+          if (data.code == 0) {
+            this.$Message.success(data.message);
+          } else {
+            this.$Message.success('对账失败');
+          }
+        });
       },
       exportData() {
         this.$refs.viewReconciliation.exportCsv({

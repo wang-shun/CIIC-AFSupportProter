@@ -418,7 +418,7 @@
           this.taskCategoryList = data.data.HFLocalTaskCategory;
 //          this.operationRemindList = data.data.OperationRemind;
 //          this.transferOutUnitList = data.data.FundOutUnit;
-          if (taskCategory < 6) {
+          if (taskCategory < 7) {
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;
@@ -576,7 +576,6 @@
           return false;
         }
         if (this.inputData.endMonth && this.inputData.endMonth != api.minusMonths(this.displayVO.hfMonth, 1)) {
-          debugger
           this.$Message.error("客户汇缴月非汇缴截止缴费月的次月");
           return false;
         }

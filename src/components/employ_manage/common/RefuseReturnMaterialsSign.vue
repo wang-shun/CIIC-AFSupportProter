@@ -9,7 +9,7 @@
     </Row>
      <Modal
         v-model="modal1"
-        title="新增档案备注"
+        title="归还材料签收"
         @on-ok="ok"
         @on-cancel="cancel">
       <Form :model="handleInfo" ref="handleInfo" :label-width="150">
@@ -93,10 +93,10 @@
               ]);
             }
           },
-          {title: '批退日期', key: 'receiveDate', align: 'center',
+          {title: '批退日期', key: 'rejectDate', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.receiveDate),
+                h('span', params.row.rejectDate),
               ]);
             }
           },

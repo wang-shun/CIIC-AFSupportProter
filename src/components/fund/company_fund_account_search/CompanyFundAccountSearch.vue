@@ -112,14 +112,14 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         companyFundAccountSearchColumns: [
-          {title: '企业公积金名称', key: 'comAccountName', align: 'center', width: 300,
+          {title: '企业公积金名称', key: 'comAccountName', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.comAccountName),
               ]);
             }
           },
-          {title: '公积金账号', key: 'comAccount', align: 'center', width: 180,
+          {title: '公积金账号', key: 'comAccount', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.comAccount),
@@ -161,7 +161,7 @@
               ]);
             }
           },
-          {title: '缴费银行', key: 'paymentBank', align: 'center', width: 250,
+          {title: '缴费银行', key: 'paymentBank', align: 'center', width: 200,
             render: (h, params) => {
               let paymentBank = '';
               switch (params.row.paymentBank) {
@@ -186,7 +186,7 @@
               ]);
             }
           },
-          {title: '备注说明', key: 'remark', align: 'center', width: 465,
+          {title: '备注说明', key: 'remark', align: 'center', width: 419,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remark),
@@ -234,7 +234,7 @@
         }).then(data => {
           if (data.code == 200) {
             this.fundAccountData = data.data;
-            this.fundAccountPageData.total = Number(data.data.total);
+            this.fundAccountPageData.total = data.total;
           }
         })
       },

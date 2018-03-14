@@ -418,12 +418,12 @@
           this.taskCategoryList = data.data.HFLocalTaskCategory;
 //          this.operationRemindList = data.data.OperationRemind;
 //          this.transferOutUnitList = data.data.FundOutUnit;
-          if (taskCategory < 7) {
+          if (taskCategory < 6) {
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;
-            this.taskCategoryList.splice(8, this.taskCategoryList.length - 2);
-            this.taskCategoryList.splice(0, 6);
+            this.taskCategoryList.splice(7, this.taskCategoryList.length - 2);
+            this.taskCategoryList.splice(0, 5);
           }
         } else {
           this.$Message.error(data.message);

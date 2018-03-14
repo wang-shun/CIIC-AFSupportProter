@@ -105,7 +105,8 @@
         <Table border ref="noProcessData"
                :columns="noProcessColumns"
                :data="noProcessData"
-               @on-selection-change="handleSelectChange"></Table>
+               @on-selection-change="handleSelectChange"
+               ></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -243,7 +244,7 @@
           this.accountTypeList = data.data.SocialSecurityAccountType;
           this.processStatusList = data.data.ProcessPeriod;
           this.taskTypeList = data.data.HFLocalTaskCategory;
-          this.taskTypeList.splice(8, 2); // 去除转移任务和特殊任务
+          this.taskTypeList.splice(7, 2); // 去除转移任务和特殊任务
           this.payBankList = data.data.PayBank;
           this.fundTypeList = data.data.FundType;
         }
@@ -338,10 +339,24 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskExport(params);
+        api.hfEmpTaskExport({ params: params });
       },
       excelExportNew() {
-
+        if (!this.selectedData || this.selectedData.length == 0) {
+          this.$Message.error("请先勾选需要导出开户文件的任务");
+          return false;
+        }
+        var params = {};
+        {
+          this.beforeSubmit();
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.selectedData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+        api.newEmpTaskTxtExport({
+          params: params
+        });
       }
     }
   }

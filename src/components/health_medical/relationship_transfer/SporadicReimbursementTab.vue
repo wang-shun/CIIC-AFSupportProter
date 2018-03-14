@@ -113,15 +113,6 @@ const host = process.env.HOST_SUPPLEMENTMEDICAL
             title: '医疗结算反馈', sortable: true, key: 'medicalClearingFeedBack', align: "center",
           },
           {
-            title: '转出地点', sortable: true, key: 'column13', align: "center",
-          },
-          {
-            title: '转出时间', sortable: true, key: 'column14', align: "center",
-            render: (h, params) => {
-              return this.$utils.formatDate(params.row.column14, 'YYYY-MM-DD HH:mm:ss');
-            }
-          },
-          {
             title: "操作", sortable: true, align: "center",
             render: (h, params) => {
               return h("div", [

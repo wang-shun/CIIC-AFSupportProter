@@ -164,6 +164,9 @@
           },
           {
             title: '审核日期', sortable: true, key: 'auditDate', align: 'center',
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.auditDate, 'YYYY-MM-DD HH:mm:ss');
+            }
           },
           {
             title: '付款记录', sortable: true, key: 'payID', align: 'center',

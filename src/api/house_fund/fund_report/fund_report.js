@@ -4,7 +4,10 @@ const AJAX = ajax.ajaxHfc;
 
 export default {
   hfMonthChargeQuery: async (params) => {
-    let response = await AJAX.postJSON('/api/fundcommandservice/hfMonthCharge/hfMonthChargeQuery', params);
+    let response = await AJAX.post('/api/fundcommandservice/hfMonthCharge/hfMonthChargeQuery', params);
     return await response.data;
+  },
+  hfMonthChargeExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfMonthCharge/hfMonthChargeExport', params);
   },
 }

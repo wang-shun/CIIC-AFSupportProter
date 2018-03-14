@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="smList" style="margin-bottom: 56px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         个人查询
@@ -60,9 +60,9 @@
       <!--</Col>-->
       <!--</Form>-->
     <!--</Row>-->
-    <Row>
+    <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="personalSearchColumns" :data="personalSearchData"></Table>
+        <Table border :columns="personalColumns" :data="personalData"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -84,22 +84,13 @@
       return {
         collapseInfo: [1],
         operatorSearchData: {
-          hfTypeName: '',
           employeeId: '',
           employeeName: '',
-          hfEmpAccount: '',
-          idNum: '',
-          hfMonth: '',
-          ssMonthBelong: '',
-          paymentTypeName: '',
-          base: '',
-          ratio: '',
-          amount: '',
-          companyId: '',
-          companyName: '',
-          hfComAccount: '',
+          basicHfEmpAccount: '',
+          addedHfEmpAccount: '',
         },
-        personalSearchColumns: [
+        personalData: [],
+        personalColumns: [
           {title: '公积金类型', key: 'hfTypeName', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -208,11 +199,7 @@
       }
     },
     mounted() {
-      dict.getDictData().then(data => {
-        if (data.code == 200) {
-          this.accountTypeList = data.data.SocialSecurityAccountType;
-        }
-      });
+
     },
     computed: {
 
@@ -223,12 +210,12 @@
       },
       handlePageNum(val) {
         this.personalSearchPageData.pageNum = val;
-        //this.hfMonthChargeQuery();
+        this.hfMonthChargeQuery();
       },
       handlePageSize(val) {
         this.personalSearchPageData.pageNum = 1;
         this.personalSearchPageData.pageSize = val;
-        //this.hfMonthChargeQuery();
+        this.hfMonthChargeQuery();
       },
       hfMonthChargeQuery() {
         var params = {};
@@ -244,13 +231,24 @@
           params: params,
         }).then(data => {
           if (data.code == 200) {
-            this.personalSearchPageData = data.data.rows;
+            this.personalData = data.data.rows;
             this.personalSearchPageData.total = Number(data.data.total);
           }
         })
       },
       excelExport() {
-
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.operatorSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+        api.hfMonthChargeExport({
+          pageSize: this.personalSearchPageData.pageSize,
+          pageNum: this.personalSearchPageData.pageNum,
+          params: params,
+        })
       }
     }
   }

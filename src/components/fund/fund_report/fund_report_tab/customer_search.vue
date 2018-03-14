@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="smList" style="margin-bottom: 56px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         客户查询
@@ -76,9 +76,9 @@
         <!--</Col>-->
       <!--</Form>-->
     <!--</Row>-->
-    <Row>
+    <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="customerSearchColumns" :data="customerSearchData"></Table>
+        <Table border :columns="customerColumns" :data="customerData"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -151,26 +151,20 @@ import dict from '../../../../api/dict_access/house_fund_dict'
       return {
         collapseInfo: [1],
         operatorSearchData: {
-          hfTypeName: '',
-          employeeId: '',
-          employeeName: '',
-          hfEmpAccount: '',
-          idNum: '',
-          hfMonth: '',
-          ssMonthBelong: '',
-          paymentTypeName: '',
-          base: '',
-          ratio: '',
-          amount: '',
           companyId: '',
           companyName: '',
-          hfComAccount: '',
+          hfAccountType: '',
+          hfMonth: '',
+          basicHfComAccount: '',
+          addedHfComAccount: '',
         },
+        accountTypeList: [],
+        customerData: [],
 //        isShowFundPayChangeList: false,
 //        isShowFundPayRepairList: false,
 //        isShowAddFundPayChangeList: false,
 //        isShowAddFundPayRepairList: false,
-        customerSearchColumns: [
+        customerColumns: [
           {title: '公积金类型', key: 'hfTypeName', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -279,9 +273,11 @@ import dict from '../../../../api/dict_access/house_fund_dict'
       }
     },
     mounted() {
-      if (data.code == 200) {
-        this.accountTypeList = data.data.SocialSecurityAccountType;
-      }
+      dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.accountTypeList = data.data.SocialSecurityAccountType;
+        }
+      });
     },
     computed: {
 
@@ -292,14 +288,17 @@ import dict from '../../../../api/dict_access/house_fund_dict'
       },
       handlePageNum(val) {
         this.customerSearchPageData.pageNum = val;
-        //this.hfMonthChargeQuery();
+        this.hfMonthChargeQuery();
       },
       handlePageSize(val) {
         this.customerSearchPageData.pageNum = 1;
         this.customerSearchPageData.pageSize = val;
-        //this.hfMonthChargeQuery();
+        this.hfMonthChargeQuery();
       },
       hfMonthChargeQuery() {
+        if (this.operatorSearchData.hfMonth) {
+          this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+        }
         var params = {};
         {
           // 清除 '[全部]'
@@ -313,13 +312,24 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           params: params,
         }).then(data => {
           if (data.code == 200) {
-            this.customerSearchPageData = data.data.rows;
+            this.customerData = data.data.rows;
             this.customerSearchPageData.total = Number(data.data.total);
           }
         })
       },
       excelExport() {
-
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.operatorSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+        api.hfMonthChargeExport({
+          pageSize: this.customerSearchPageData.pageSize,
+          pageNum: this.customerSearchPageData.pageNum,
+          params: params,
+        })
       }
     }
   }

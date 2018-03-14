@@ -105,6 +105,13 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
+          {title: '序号', key: 'employmentId', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.employmentId),
+              ]);
+            }
+          },
           {title: '公司编号', key: 'companyId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [

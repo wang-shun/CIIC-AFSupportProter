@@ -18,7 +18,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户汇缴月份：" prop="comHfMonth">
-                  <DatePicker type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer @on-change="getComHfMonth"></DatePicker>
+                  <DatePicker type="month" format="yyyyMM" placement="bottom"  placeholder="选择日期" style="width: 100%;" transfer @on-change="getComHfMonth"></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -158,6 +158,13 @@
               }
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', ukeyStore),
+              ]);
+            }
+          },
+          {title: '客户汇缴月', key: 'comHfMonth', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.comHfMonth),
               ]);
             }
           },

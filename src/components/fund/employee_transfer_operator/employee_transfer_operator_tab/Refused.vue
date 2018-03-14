@@ -76,11 +76,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info">导出</Button>
-        <Button type="primary" @click="nextStep">编辑</Button>
-        <Button type="info">打印转移通知书</Button>
-        <Button type="info">导出雇员转移TXT</Button>
-        <Button type="info">批量导入回单日期</Button>
+        <!-- <Button type="info">导出</Button> -->
       </Col>
     </Row>
 

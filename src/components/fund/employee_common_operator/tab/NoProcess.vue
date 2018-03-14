@@ -244,7 +244,7 @@
           this.accountTypeList = data.data.SocialSecurityAccountType;
           this.processStatusList = data.data.ProcessPeriod;
           this.taskTypeList = data.data.HFLocalTaskCategory;
-          this.taskTypeList.splice(8, 2); // 去除转移任务和特殊任务
+          this.taskTypeList.splice(7, 2); // 去除转移任务和特殊任务
           this.payBankList = data.data.PayBank;
           this.fundTypeList = data.data.FundType;
         }

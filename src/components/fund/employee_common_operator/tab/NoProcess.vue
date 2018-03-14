@@ -304,8 +304,13 @@
           this.$Message.error("请先勾选需要批退的任务");
           return false;
         }
-        if (this.rejectionRemark == '') {
+        if (!this.rejectionRemark || this.rejectionRemark.trim() == '') {
           this.$Message.error("请填写批退备注");
+          return false;
+        }
+        this.rejectionRemark = this.rejectionRemark.trim();
+        if (this.rejectionRemark.length > 200) {
+          this.$Message.error("批退备注长度不能超过200");
           return false;
         }
         api.hfEmpTaskBatchReject({

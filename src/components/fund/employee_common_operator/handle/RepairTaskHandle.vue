@@ -685,11 +685,12 @@
         })
       },
       handleTaskReject() {
-        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark == '') {
+        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark.trim() == '') {
           this.$Message.error("批退备注不能为空");
           return false;
         }
-        if (this.displayVO.rejectionRemark && this.displayVO.rejectionRemark.length > 200) {
+        this.displayVO.rejectionRemark = this.displayVO.rejectionRemark.trim();
+        if (this.displayVO.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }

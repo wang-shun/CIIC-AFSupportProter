@@ -118,6 +118,8 @@
       return {
         operatorType: this.$route.query.operatorType,
         empTaskIds: this.$route.query.empTaskIds,
+        isBatchAll:this.$route.query.isBatchAll,
+        operatorSearchData:{},
         operatorTableNewData:[],
         updateOperatorTableNewData:[],
         operatorTableOutColumns: [
@@ -231,15 +233,38 @@
 
       }
     },
-    mounted() {
-      let empTaskIdsArr = this.empTaskIds.split(",");
-      let params ={operatorType:this.operatorType,empTaskIdList:empTaskIdsArr};
-      api.queryBatchEmpArchiveByEmpTaskIds(params).then(data=>{
-        if(data.data!=null){
-          this.operatorTableNewData = data.data;
-          this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+    mounted() {  
+      
+       //选择
+      if(typeof(this.isBatchAll)!='undefined'){
+        let getParams = this.$route.params.operatorSearchData;
+        if(typeof(getParams)!='undefined'){
+          this.operatorSearchData = getParams;
+          sessionStorage.batchTurnOutData = JSON.stringify(getParams);
+        }else{
+          if(typeof(sessionStorage.batchTurnOutData)!='undefined'){
+              this.operatorSearchData = JSON.parse(sessionStorage.batchTurnOutData);
+          }
         }
-      })
+        let params = this.operatorSearchData
+        //通过tab 条件查询批量任务
+        api.queryBatchTaskByCondition(params).then(data=>{
+          if(data.data!=null){
+            
+            this.operatorTableNewData = data.data;
+            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+          }
+        })
+      }else{
+        let empTaskIdsArr = this.empTaskIds.split(",");
+        let params ={operatorType:this.operatorType,empTaskIdList:empTaskIdsArr};
+        api.queryBatchEmpArchiveByEmpTaskIds(params).then(data=>{
+          if(data.data!=null){
+            this.operatorTableNewData = data.data;
+            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+          }
+        })
+      }
     },
     computed: {
       

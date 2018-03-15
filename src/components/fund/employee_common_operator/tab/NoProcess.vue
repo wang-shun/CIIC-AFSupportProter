@@ -321,6 +321,7 @@
             this.$Message.info("批退操作成功");
             this.isShowRejectBatch = false;
             this.handlePageNum(1);
+            this.selectedData.length = 0;
           } else {
             this.$Message.error(data.message)
           }

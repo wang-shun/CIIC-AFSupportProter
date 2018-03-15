@@ -9,7 +9,7 @@
     </Row>
 
 
-    <Table class="mt20" width="1330" border :columns="operatorTableOutColumns" :data="operatorTableNewData" ref="employeeSocialSecurityData"></Table>
+    <Table class="mt20"  border :columns="operatorTableOutColumns" :data="operatorTableNewData" ref="employeeSocialSecurityData"></Table>
 
     <!-- <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

@@ -219,7 +219,7 @@
             title: '受理人', sortable: true, key: 'handler', align: 'center'
           },
           {
-            title: '操作', key: 'action', width: 120, align: 'center',
+            title: '操作', key: 'action', width: 125, align: 'center',
             render: (h, params) => {
               if (params.row.status === 0) {
                 return h('div', [
@@ -236,6 +236,9 @@
                   }, '受理'),
                   h('Button', {
                     props: {type: 'success', size: 'small'},
+                    style: {
+                      marginLeft: '5px'
+                    },
                     on: {
                       click: () => {
                         //auditNurseryFee

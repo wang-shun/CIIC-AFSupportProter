@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="smList" style="margin-bottom: 56px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         个人查询
@@ -7,8 +7,8 @@
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
-                  <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
+                <Form-item label="雇员编号：" prop="employeeId">
+                  <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -17,19 +17,19 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金账号：" prop="fundAccount">
-                  <Input v-model="operatorSearchData.fundAccount" placeholder="请输入..."></Input>
+                <Form-item label="公积金账号：" prop="basicHfEmpAccount">
+                  <Input v-model="operatorSearchData.basicHfEmpAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="补充公积金账号：" prop="fundAccount">
-                  <Input v-model="operatorSearchData.addFundAccount" placeholder="请输入..."></Input>
+                <Form-item label="补充公积金账号：" prop="addedHfEmpAccount">
+                  <Input v-model="operatorSearchData.addedHfEmpAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search">缴费明细</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">缴费明细</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -37,57 +37,71 @@
         </div>
       </Panel>
     </Collapse>
+
     <Row class="mt20">
-      <Form :label-width=150>
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="最近计算时间：">
-          {{data.lastCalculateDate}}
-        </Form-item>
+      <Col :sm="{span: 24}" class="tr">
+        <Button type="info" @click="excelExport()">导出</Button>
       </Col>
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="最近计算人：">
-          {{data.lastCalculater}}
-        </Form-item>
-      </Col>
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" class="tr">
-        <Button type="primary">重新汇总计算</Button>
-      </Col>
-      </Form>
     </Row>
-    <Row>
+    <!--<Row class="mt20">-->
+      <!--<Form :label-width=150>-->
+      <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+        <!--<Form-item label="最近计算时间：">-->
+          <!--{{data.lastCalculateDate}}-->
+        <!--</Form-item>-->
+      <!--</Col>-->
+      <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+        <!--<Form-item label="最近计算人：">-->
+          <!--{{data.lastCalculater}}-->
+        <!--</Form-item>-->
+      <!--</Col>-->
+      <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" class="tr">-->
+        <!--<Button type="primary">重新汇总计算</Button>-->
+      <!--</Col>-->
+      <!--</Form>-->
+    <!--</Row>-->
+    <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="personalSearchColumns" :data="data.personalSearchData"></Table>
-        <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
+        <Table border :columns="personalColumns" :data="personalData"></Table>
+        <Page
+          class="pageSize"
+          @on-change="handlePageNum"
+          @on-page-size-change="handlePageSize"
+          :total="personalSearchPageData.total"
+          :page-size="personalSearchPageData.pageSize"
+          :page-size-opts="personalSearchPageData.pageSizeOpts"
+          :current="personalSearchPageData.pageNum"
+          show-sizer show-total></Page>
       </Col>
     </Row>
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/event_types'
-
+  import api from '../../../../api/house_fund/fund_report/fund_report'
+  import dict from '../../../../api/dict_access/house_fund_dict'
   export default {
     data() {
       return {
         collapseInfo: [1],
         operatorSearchData: {
-          employeeNumber: "",
-          employeeName: "",
-          fundAccount: "",
-          addFundAccount: ""
+          employeeId: '',
+          employeeName: '',
+          basicHfEmpAccount: '',
+          addedHfEmpAccount: '',
         },
-        personalSearchColumns: [
-          {title: '公积金类型', key: 'fundType', width: 100, align: 'center',
+        personalData: [],
+        personalColumns: [
+          {title: '公积金类型', key: 'hfTypeName', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.fundType),
+                h('span', params.row.hfTypeName),
               ]);
             }
           },
-          {title: '雇员编号', key: 'employeeNumber', width: 120, align: 'center',
+          {title: '雇员编号', key: 'employeeId', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeNumber),
+                h('span', params.row.employeeId),
               ]);
             }
           },
@@ -98,66 +112,66 @@
               ]);
             }
           },
-          {title: '公积金账号', key: 'fundAccount', width: 120, align: 'center',
+          {title: '公积金账号', key: 'hfEmpAccount', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fundAccount),
+                h('span', params.row.hfEmpAccount),
               ]);
             }
           },
-          {title: '证件号码', key: 'IdNumber', width: 200, align: 'center',
+          {title: '证件号码', key: 'idNum', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.IdNumber),
+                h('span', params.row.idNum),
               ]);
             }
           },
-          {title: '缴费月份', key: 'payMonth', width: 120, align: 'center',
+          {title: '缴费月份', key: 'hfMonth', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.payMonth),
+                h('span', params.row.hfMonth),
               ]);
             }
           },
-          {title: '实际月份', key: 'actMonth', width: 120, align: 'center',
+          {title: '所属公积金月份', key: 'ssMonthBelong', width: 130, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.actMonth),
+                h('span', params.row.ssMonthBelong),
               ]);
             }
           },
-          {title: '缴费类型', key: 'payType', width: 120, align: 'center',
+          {title: '缴费类型', key: 'paymentTypeName', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.payType),
+                h('span', params.row.paymentTypeName),
               ]);
             }
           },
-          {title: '公积金基数', key: 'fundBase', width: 120, align: 'center',
+          {title: '公积金基数', key: 'base', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fundBase),
+                h('span', params.row.base),
               ]);
             }
           },
-          {title: '公积金比例', key: 'fundPercent', width: 120, align: 'center',
+          {title: '公积金比例', key: 'ratio', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fundPercent),
+                h('span', params.row.ratio),
               ]);
             }
           },
-          {title: '公积金金额', key: 'fundPrice', width: 120, align: 'center',
+          {title: '公积金金额', key: 'amount', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fundPrice),
+                h('span', params.row.amount),
               ]);
             }
           },
-          {title: '公司编号', key: 'companyNumber', width: 120, align: 'center',
+          {title: '公司编号', key: 'companyId', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fundPrice),
+                h('span', params.row.companyId),
               ]);
             }
           },
@@ -168,29 +182,74 @@
               ]);
             }
           },
-          {title: '公司公积金账号', key: 'companyFundAccount', width: 150, align: 'center',
+          {title: '公司公积金账号', key: 'hfComAccount', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyFundAccount),
+                h('span', params.row.hfComAccount),
               ]);
             }
           },
-        ]
+        ],
+        personalSearchPageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+        },
       }
     },
     mounted() {
-      this[EventType.PERSONALSEARCH]()
+
     },
     computed: {
-      ...mapState('personalSearch',{
-        data:state => state.data
-      })
+
     },
     methods: {
-      ...mapActions('personalSearch',[EventType.PERSONALSEARCH]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
+      handlePageNum(val) {
+        this.personalSearchPageData.pageNum = val;
+        this.hfMonthChargeQuery();
+      },
+      handlePageSize(val) {
+        this.personalSearchPageData.pageNum = 1;
+        this.personalSearchPageData.pageSize = val;
+        this.hfMonthChargeQuery();
+      },
+      hfMonthChargeQuery() {
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.operatorSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+        api.hfMonthChargeQuery({
+          pageSize: this.personalSearchPageData.pageSize,
+          pageNum: this.personalSearchPageData.pageNum,
+          params: params,
+        }).then(data => {
+          if (data.code == 200) {
+            this.personalData = data.data.rows;
+            this.personalSearchPageData.total = Number(data.data.total);
+          }
+        })
+      },
+      excelExport() {
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.operatorSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+        api.hfMonthChargeExport({
+          pageSize: this.personalSearchPageData.pageSize,
+          pageNum: this.personalSearchPageData.pageNum,
+          params: params,
+        })
+      }
     }
   }
 </script>

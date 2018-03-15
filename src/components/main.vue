@@ -23,47 +23,47 @@
             </Dropdown>
           <div class="layout-ceiling-main Badge">
             <ul>
-              <li>
-                <a :href="`${ipPrefix}:8100/#/pending_approves`">
-                  <Badge dot>
-                    <Tooltip content="" placement="bottom" transfer>
-                      <Icon type="ios-compose-outline" :size="size"></Icon>
-                      <div slot="content">
-                        <p>我的审批</p>
-                      </div>
-                    </Tooltip>
-                  </Badge>
-                </a>
-              </li>
-              <li>
-                <Badge dot>
-                  <Poptip trigger="hover" title="" placement="bottom" transfer>
-                    <Icon type="ios-list-outline" :size="size"></Icon>
-                    <div slot="content">
-                      <a class="inPoptip" href="javascript:;" @click="isActive = !isActive">我的任务单 {{isActive ? "▲" : "▼"}}</a>
-                      <div :class="[isActive ? 'changeToH' : 'changeToZ', 'myTaskList']">
-                        <a :href="task.url" v-for="(task, index) in tasks" :key="index">{{task.label}}</a>
-                      </div>
-                    </div>
-                  </Poptip>
-                </Badge>
-              </li>
-              <li>
-                <a href="javascript:;" @click="openMessageBox">
-                  <Badge count="3" overflow-count="99">
-                    <Tooltip trigger="hover" title="" content="站内信" placement="bottom" transfer>
-                      <Icon type="ios-email-outline" :size="size"></Icon>
-                    </Tooltip>
-                  </Badge>
-                </a>
-              </li>
-              <li>
-                <Badge>
-                  <Tooltip trigger="hover" title="" content="用户手册" placement="bottom" transfer>
-                    <Icon type="ios-help-outline" :size="size" @on-click="openMessageBox"></Icon>
-                  </Tooltip>
-                </Badge>
-              </li>
+              <!--<li>-->
+                <!--<a :href="`${ipPrefix}:8100/#/pending_approves`">-->
+                  <!--<Badge dot>-->
+                    <!--<Tooltip content="" placement="bottom" transfer>-->
+                      <!--<Icon type="ios-compose-outline" :size="size"></Icon>-->
+                      <!--<div slot="content">-->
+                        <!--<p>我的审批</p>-->
+                      <!--</div>-->
+                    <!--</Tooltip>-->
+                  <!--</Badge>-->
+                <!--</a>-->
+              <!--</li>-->
+              <!--<li>-->
+                <!--<Badge dot>-->
+                  <!--<Poptip trigger="hover" title="" placement="bottom" transfer>-->
+                    <!--<Icon type="ios-list-outline" :size="size"></Icon>-->
+                    <!--<div slot="content">-->
+                      <!--<a class="inPoptip" href="javascript:;" @click="isActive = !isActive">我的任务单 {{isActive ? "▲" : "▼"}}</a>-->
+                      <!--<div :class="[isActive ? 'changeToH' : 'changeToZ', 'myTaskList']">-->
+                        <!--<a :href="task.url" v-for="(task, index) in tasks" :key="index">{{task.label}}</a>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</Poptip>-->
+                <!--</Badge>-->
+              <!--</li>-->
+              <!--<li>-->
+                <!--<a href="javascript:;" @click="openMessageBox">-->
+                  <!--<Badge count="3" overflow-count="99">-->
+                    <!--<Tooltip trigger="hover" title="" content="站内信" placement="bottom" transfer>-->
+                      <!--<Icon type="ios-email-outline" :size="size"></Icon>-->
+                    <!--</Tooltip>-->
+                  <!--</Badge>-->
+                <!--</a>-->
+              <!--</li>-->
+              <!--<li>-->
+                <!--<Badge>-->
+                  <!--<Tooltip trigger="hover" title="" content="用户手册" placement="bottom" transfer>-->
+                    <!--<Icon type="ios-help-outline" :size="size" @on-click="openMessageBox"></Icon>-->
+                  <!--</Tooltip>-->
+                <!--</Badge>-->
+              <!--</li>-->
               <li class="userCenter">
                 <Dropdown placement="bottom-start" @on-click="userCenterHandler" transfer>
                   <div class="user-panel user">

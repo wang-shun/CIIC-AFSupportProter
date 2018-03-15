@@ -50,7 +50,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-          <!-- <Button type="warning">默认</Button> -->
+          <Button type="warning">默认</Button>
           <Button type="primary" @click="instance()">保存</Button>
         </Col>
       </Row>
@@ -81,6 +81,10 @@ import api from '../../../api/employ_manage/hire_operator'
           {value: '商城路', label: '商城路'},
           {value: '漕虹路', label: '漕虹路'},
           {value: '区人才', label: '区人才'},
+          {value: '属地管理', label: '属地管理'},
+          {value: '大柏树工作站', label: '大柏树工作站'},
+          {value: '农民工', label: '农民工'},
+          {value: '中智', label: '中智'},
           {value: '高校', label: '高校'},
           {value: '经营者', label: '经营者'},
           {value: '厂长经理人才', label: '厂长经理人才'},

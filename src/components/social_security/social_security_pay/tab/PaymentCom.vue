@@ -794,6 +794,7 @@
 
         //判断选中列是否都是同一个社保账户分类
         let ssAccountType = selection[0].ssAccountType;
+        let paymentMonth =selection[0].paymentMonth;
         let isManyAccountType = false;
         selection.some(item => {
           if(item.ssAccountType != ssAccountType){
@@ -823,7 +824,8 @@
         }
         //检索数据
         payComApi.showAddBatch({
-          accountType: ssAccountType
+          accountType: ssAccountType,
+          paymentMonth: paymentMonth,
         }).then(data => {
           this.addBatchData.payBatchData = data.data;
         })

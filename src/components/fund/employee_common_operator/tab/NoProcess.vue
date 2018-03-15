@@ -244,7 +244,7 @@
           this.accountTypeList = data.data.SocialSecurityAccountType;
           this.processStatusList = data.data.ProcessPeriod;
           this.taskTypeList = data.data.HFLocalTaskCategory;
-          this.taskTypeList.splice(8, 2); // 去除转移任务和特殊任务
+          this.taskTypeList.splice(7, 2); // 去除转移任务和特殊任务
           this.payBankList = data.data.PayBank;
           this.fundTypeList = data.data.FundType;
         }
@@ -304,8 +304,13 @@
           this.$Message.error("请先勾选需要批退的任务");
           return false;
         }
-        if (this.rejectionRemark == '') {
+        if (!this.rejectionRemark || this.rejectionRemark.trim() == '') {
           this.$Message.error("请填写批退备注");
+          return false;
+        }
+        this.rejectionRemark = this.rejectionRemark.trim();
+        if (this.rejectionRemark.length > 200) {
+          this.$Message.error("批退备注长度不能超过200");
           return false;
         }
         api.hfEmpTaskBatchReject({

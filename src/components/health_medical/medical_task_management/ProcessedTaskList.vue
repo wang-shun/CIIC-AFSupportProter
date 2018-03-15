@@ -135,8 +135,10 @@
   </div>
 </template>
 <script>
+  import taskExpend from './TaskExpend.vue';
 
   export default {
+    components: {taskExpend},
     data() {
       return {
         value1: '1',
@@ -152,6 +154,16 @@
         columns7: [
           {
             type: 'selection', width: 60, align: 'center'
+          },
+          {
+            type: 'expand', width: 50,
+            render: (h, params) => {
+              return h(taskExpend, {
+                props: {
+                  row: params.row
+                }
+              })
+            }
           },
           {
             title: '状态', sortable: true, key: 'column31'

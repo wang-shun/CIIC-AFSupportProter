@@ -422,8 +422,8 @@
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;
-            this.taskCategoryList.splice(8, this.taskCategoryList.length - 2);
-            this.taskCategoryList.splice(0, 6);
+            this.taskCategoryList.splice(7, this.taskCategoryList.length - 2);
+            this.taskCategoryList.splice(0, 5);
           }
         } else {
           this.$Message.error(data.message);
@@ -495,11 +495,12 @@
         })
       },
       handleTaskReject() {
-        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark == '') {
+        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark.trim() == '') {
           this.$Message.error("批退备注不能为空");
           return false;
         }
-        if (this.displayVO.rejectionRemark && this.displayVO.rejectionRemark.length > 200) {
+        this.displayVO.rejectionRemark = this.displayVO.rejectionRemark.trim();
+        if (this.displayVO.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
@@ -576,7 +577,6 @@
           return false;
         }
         if (this.inputData.endMonth && this.inputData.endMonth != api.minusMonths(this.displayVO.hfMonth, 1)) {
-          debugger
           this.$Message.error("客户汇缴月非汇缴截止缴费月的次月");
           return false;
         }

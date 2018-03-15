@@ -166,6 +166,10 @@ let router = new Router({
       path: '/main',
       component: main,
       children: [
+        {
+          path: '',
+          component: welcome
+        },
         ...SsRouter,
         {
           path: '/employee_fund_search',

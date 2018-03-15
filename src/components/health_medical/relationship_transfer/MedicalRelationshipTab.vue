@@ -90,12 +90,6 @@
             title: '雇员姓名', sortable: true, key: 'employeeName', align: "center",
           },
           {
-            title: '中止日期', sortable: true, key: 'column3', align: "center",
-            render: (h, params) => {
-              return this.$utils.formatDate(params.row.column3, 'YYYY-MM-DD HH:mm:ss');
-            }
-          },
-          {
             title: '证件号码', sortable: true, key: 'idNum', align: "center",
           },
           {

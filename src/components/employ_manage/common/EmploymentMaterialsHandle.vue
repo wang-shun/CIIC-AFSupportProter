@@ -103,7 +103,6 @@
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="resetForm('handleInfo')">重置</Button>
           <Button type="primary"  :disabled="handleInfo.isEnd == 0" @click="instance()">保存</Button>
-          <Button type="error" @click="updateTask()">批退</Button>
         </Col>
       </Row>
     </Form>
@@ -226,6 +225,7 @@ import api from '../../../api/employ_manage/hire_operator'
             return;
         }
         var fromData = this.$utils.clear(this.handleInfo,'');
+        fromData.isFrist='0';
         if(this.handleInfo.employFeedbackOptDate){
          fromData.employFeedbackOptDate = this.$utils.formatDate(this.handleInfo.employFeedbackOptDate, 'YYYY-MM-DD');
         }
@@ -244,7 +244,7 @@ import api from '../../../api/employ_manage/hire_operator'
         if(this.handleInfo.storageDate){
              fromData.storageDate = this.$utils.formatDate(this.handleInfo.storageDate, 'YYYY-MM-DD');
         }
-        
+       
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success("保存成功");

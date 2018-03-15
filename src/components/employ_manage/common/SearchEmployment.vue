@@ -101,12 +101,13 @@
              this.searchForm.searchContent=d.getFullYear() + '-' + (d.getMonth() + 1)+'-'+d.getDate();
           }
 
+          var temp_searchContent = this.searchForm.searchContent;
           if(this.currentShip.value=='like'){
-              this.searchForm.searchContent = '%'+this.searchForm.searchContent+'%';
+              temp_searchContent = '%'+this.searchForm.searchContent+'%';
           }
 
           const searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContent}`;
-          const searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${this.searchForm.searchContent}'`;
+          const searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${temp_searchContent}'`;
 
           const searchCondition = {
             desc: searchConditionDesc,

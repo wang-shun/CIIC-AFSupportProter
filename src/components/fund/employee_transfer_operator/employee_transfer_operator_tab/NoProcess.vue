@@ -154,8 +154,8 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../../store/event_types'
-  import api from '../../../../api/house_fund/employee_task/employee_transter'
-  
+  import api from '../../../../api/house_fund/employee_task/employee_transfer'
+
   export default {
     data() {
       return {
@@ -417,10 +417,21 @@
         this.$router.push({name: name})
       },
       queryTransfer(){
+        api.queryTransfer({
 
+        }).then(data => {
+          self.employeeFundData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+          })
       },
-      queryTransferNew(){
+      queryTransferForNewTask(){
 
+        api.queryTransferForNewTask({
+
+        }).then(data => {
+          self.employeeFundData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+          })
       },
       ok () {
 

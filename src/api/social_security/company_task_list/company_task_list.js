@@ -477,6 +477,8 @@ export class CompanyTaskList{
       }
       
     }
+    console.log("==="+ssComAccountBO);
+    console.log(ssComAccountBO);
     //发出的材料
     return {
       companyTaskStatus:result.taskStatus,
@@ -524,7 +526,8 @@ export class CompanyTaskList{
             sendCheckDate:result.sendCheckDate==null?'':result.sendCheckDate, //送审日期
             finishedDate:result.finishDate==null?'':result.finishDate, //完成日期
             handleRemark:result.handleRemark==null?'':result.handleRemark,//办理原因
-            rejectionRemark:result.rejectionRemark==null?'':result.rejectionRemark //批退原因
+            rejectionRemark:result.rejectionRemark==null?'':result.rejectionRemark, //批退原因
+            state : isNull || ssComAccountBO.state==null ?'':ssComAccountBO.state
           }
     }
   }

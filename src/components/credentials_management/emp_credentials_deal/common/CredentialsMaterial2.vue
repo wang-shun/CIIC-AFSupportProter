@@ -136,7 +136,7 @@
         </div>
       </Row>
 
-      <Row style="margin: 10px 20px">
+       <!-- <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
             <span style="font-weight:bold;font-size:14px">配偶户籍</span>
         </i-col>
@@ -150,6 +150,20 @@
           </Form-item>
         </i-col>
         </div>
+      </Row> -->
+
+      <Row style="margin: 10px 20px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <span style="font-weight:bold;font-size:14px">配偶是否上海户籍</span>
+        </i-col>
+      </Row>
+      <Row style="margin: 10px 40px">
+        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <RadioGroup v-model="material.hasShPerson" @on-change="hasShPersonChange">
+              <Radio label="是"></Radio>
+              <Radio label="否"></Radio>
+            </RadioGroup>
+        </i-col>
       </Row>
 
       <Row style="margin: 10px 20px">
@@ -259,6 +273,7 @@ export default {
         comp:'',
         marryStatus:'',
         hasFollower:'',
+        hasShPerson:'',
         familerMaterials:'',
         applyAddrChange:'',
         addr:'',
@@ -282,6 +297,10 @@ export default {
     },
     marryStatusChange (val) {
       this.material.marryStatus = val
+      this.$emit("materialsInfo", this.material)
+    },
+    hasShPersonChange (val) {
+      this.material.hasShPerson = val
       this.$emit("materialsInfo", this.material)
     },
     hasFollowerChange (val) {

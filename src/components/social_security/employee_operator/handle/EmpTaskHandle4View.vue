@@ -181,15 +181,16 @@
             key: 'endMonth',
             align: 'center',
             render: (h, params) => {
-              return h('DatePicker', {
-                props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
-                attrs: {placeholder: '选择年月'},
-                on: {
-                  input: (value) => {
-                    this.setRow(params, 'endMonth', value);
-                  }
-                }
-              });
+              return h('span',params.row.endMonth)
+              // return h('DatePicker', {
+              //   props: {value: params.row.endMonth, type: 'month', disabled: Boolean(params.row.disabled)},
+              //   attrs: {placeholder: '选择年月'},
+              //   on: {
+              //     input: (value) => {
+              //       this.setRow(params, 'endMonth', value);
+              //     }
+              //   }
+              // });
             }
           },
           {

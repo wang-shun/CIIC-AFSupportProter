@@ -38,8 +38,8 @@
                 </Form-item>
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员出生日期：" prop="manager">
-                  <DatePicker type="date" placeholder="请选择" transfer></DatePicker>
+                <Form-item label="雇员出生日期：" prop="birthday">
+                  <DatePicker type="date"  v-model="queryItem.birthday" placeholder="请选择" transfer></DatePicker>
                 </Form-item>
               </i-col>
             </Row>
@@ -72,8 +72,8 @@
             </Row>
             <Row type="flex" justify="start" v-if="formTitle === '6'">
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="服务产品" prop="companyId">
-                  <Input v-model="queryItem.product" placeholder="请输入"/>
+                <Form-item label="服务产品" prop="productName">
+                  <Input v-model="queryItem.productName" placeholder="请输入"/>
                 </Form-item>
               </i-col>
             </Row>
@@ -89,7 +89,7 @@
                 </Form-item>
               </i-col>
                <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="companyName">
+                <Form-item label="雇员编号：" prop="empId">
                   <Input v-model="queryItem.empId" placeholder="请输入"/>
                 </Form-item>
               </i-col>
@@ -159,16 +159,16 @@
   </div>
 </template>
 <script>
-  import Child1 from './child/Child1'
-  import Child2 from './child/Child2'
-  import Child3 from './child/Child3'
-  import Child4 from './child/Child4'
-  import Child5 from './child/Child5'
-  import Child6 from './child/Child6'
-  import Child7 from './child/Child7'
-  import Child8 from './child/Child8'
-  import Child9 from './child/Child9'
-  import Child10 from './child/Child10'
+  // import Child1 from './child/Child1'
+  // import Child2 from './child/Child2'
+  // import Child3 from './child/Child3'
+  // import Child4 from './child/Child4'
+  // import Child5 from './child/Child5'
+  // import Child6 from './child/Child6'
+  // import Child7 from './child/Child7'
+  // import Child8 from './child/Child8'
+  // import Child9 from './child/Child9'
+  // import Child10 from './child/Child10'
 
   import axios from 'axios'
   import Tools from '../../../lib/tools'
@@ -176,23 +176,23 @@
 
   const host = process.env.SITE_HOST_REPORT_FORM
   export default {
-    components: {
-      Child1,
-      Child2,
-      Child3,
-      Child4,
-      Child5,
-      Child6,
-      Child7,
-      Child8,
-      Child9,
-      Child10
-    },
+    // components: {
+    //   Child1,
+    //   Child2,
+    //   Child3,
+    //   Child4,
+    //   Child5,
+    //   Child6,
+    //   Child7,
+    //   Child8,
+    //   Child9,
+    //   Child10
+    // },
     data() {
       return {
         collapseInfo: [1],
         queryParam: {},
-        formTitle:'1',
+        formTitle:'2',
         queryItem: {
           companyId: '',
           majordomo: '',
@@ -210,16 +210,18 @@
     methods: {
       exportform(form){
          if (this.formTitle == '2') {
+          let bir = form.birthday != "" ? Tools.formatDate(form.birthday, "YYYY-MM-DD") : ""
           window.location = host+'/api/reportform/get2?companyId=' + form.companyId +
                                                   '&companyName=' + form.companyName +
                                                   '&manager=' + form.manager +
-                                                  '&birthday=' + Tools.formatDate(form.birthday, "yyyy-MM-dd") 
+                                                  '&birthday=' + bir
         }
         if (this.formTitle == '3') {
+          let bir = form.birthday != "" ? Tools.formatDate(form.birthday, "YYYY-MM-DD") : ""
           window.location = host+'/api/reportform/get3?companyId=' + form.companyId +
                                                   '&companyName=' + form.companyName +
                                                   '&manager=' + form.manager +
-                                                  '&birthday=' + Tools.formatDate(form.birthday, "yyyy-MM-dd") 
+                                                  '&birthday=' + bir
         }
         if (this.formTitle == '4') {
           window.location = host+'/api/reportform/get4?companyId=' + form.companyId +

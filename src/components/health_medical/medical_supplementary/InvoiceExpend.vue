@@ -14,7 +14,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="就诊日期：">
-          {{row.clinicDate}}
+          {{this.$utils.formatDate(row.clinicDate, 'YYYY-MM-DD HH:mm:ss')}}
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -102,14 +102,21 @@
     },
     methods: {
       updateInvoice() {
-        apiAjax.updateMedicalInvoice(this.row).then(response => {
-          if (response.data.code === 200) {
-            this.$Message.success("保存成功");
-          }
-        }).catch(e => {
-          console.info(e.message);
-          this.$Message.error("服务器异常，请稍后再试");
-        });
+        let test = /^(([0-9]+[\\.]?[0-9]{1,2})|[1-9])$/;
+        console.info(test.test(this.row.insuranceCompanyMoney));
+        if (test.test(this.row.insuranceCompanyMoney)) {
+          apiAjax.updateMedicalInvoice(this.row).then(response => {
+            if (response.data.code === 200) {
+              this.$Message.success("保存成功");
+              location.reload();
+            }
+          }).catch(e => {
+            console.info(e.message);
+            this.$Message.error("服务器异常，请稍后再试");
+          });
+        } else {
+          this.$Message.error("请输入正确的两位正数");
+        }
       },
     }
   }

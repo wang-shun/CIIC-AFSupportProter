@@ -11,7 +11,6 @@ const queryAcceptanceTotal = params => ajaxApi.postJSON("/supplyMedicalService/q
 const queryMedicalInvoiceDetail = params => ajaxApi.get("/supplyMedicalService/queryMedicalInvoiceDetail/" + params);
 const updateMedicalInvoice = params => ajaxApi.postJSON("/supplyMedicalService/updateMedicalInvoice", params);
 const importAcceptanceXls = params => ajaxApi.upload("/supplyMedicalService/importAcceptanceXls", params);
-// const queryUserInfo = params => userInfo.get("/api/common/getUserInfoByToken/" + params);
 const queryUserInfo = params => userInfo.get("/api/common/getUserInfoByToken/" + params);
 
 

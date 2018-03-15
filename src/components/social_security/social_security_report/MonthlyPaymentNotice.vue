@@ -191,6 +191,7 @@
         }).catch(error=>{
           this.$Message.error('系统异常！');
         })
+         this.paymentDetailQuery();
       }
     }
   }

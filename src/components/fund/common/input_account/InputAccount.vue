@@ -23,17 +23,17 @@
       <Form :label-width="20" ref="queryForm" v-model="queryForm">
         <Row type="flex" justify="start">
           <Col :sm="{span: 10}">
-          <Form-item prop="ssAccount">
-            <Input v-model="queryForm.ssAccount" placeholder="请输入企业账号..."></Input>
-          </Form-item>
+            <Form-item prop="hfComAccount">
+              <Input v-model="queryForm.hfComAccount" placeholder="请输入企业账号..."></Input>
+            </Form-item>
           </Col>
           <Col :sm="{span: 10}">
-          <Form-item prop="comAccountName">
-            <Input v-model="queryForm.comAccountName" placeholder="请输入名称..."></Input>
-          </Form-item>
+            <Form-item prop="comAccountName">
+              <Input v-model="queryForm.comAccountName" placeholder="请输入名称..."></Input>
+            </Form-item>
           </Col>
           <Col :sm="{span: 4}" class="tr">
-          <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
+            <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
           </Col>
         </Row>
         <Row>
@@ -53,6 +53,7 @@
   </div>
 </template>
 <script>
+  import api from '../../../../api/house_fund/common/common'
 
   export default {
     name: 'input-account',
@@ -89,7 +90,7 @@
       renderFormat: {
         type: Function,
         default (item) {
-          return item.ssAccount;
+          return item.hfComAccount;
         }
       }
     },
@@ -98,9 +99,16 @@
         visible: false,
         currentValue: this.value,
 
+        page: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+        },
+
         currentIndex: -1,
         queryForm: {
-          ssAccount: '',
+          hfComAccount: '',
           comAccountName: '',
         },
         columns: [
@@ -120,23 +128,17 @@
             }
           },
           {
-            title: '企业公积金账号', key: 'ssAccount', align: 'center'
+            title: '企业公积金账号', key: 'hfComAccount', align: 'center'
           },
           {
             title: '企业公积金账户名称', key: 'comAccountName', align: 'center'
           }
         ],
-        data: [],
-        page: {
-          total: 0,
-          pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
-        },
+        data: []
       }
     },
-    computed: {},
     mounted() {
+      this.query()
     },
     methods: {
       ok() {
@@ -150,30 +152,27 @@
       cancel() {
         this.$emit('on-cancel');
       },
-
       handleClick() {
         this.visible = true;
         if (this.data.length == 0) {
           this.query();
         }
       },
-      async accountQuery(params) {
-        var response = await this.$ajax.ajaxSsc.post('/api/soccommandservice/ssComAccount/accountQuery', params);
-        return response.data;
-      },
       query() {
         // 重置当前下标
         this.currentIndex = -1;
         // 处理参数
-        var params = {
+        var params = this.queryForm;
+        api.getComFundAccountClassNameList({
           pageSize: this.page.pageSize,
           pageNum: this.page.pageNum,
-          params: this.queryForm,
-        };
-
-        this.accountQuery(params).then(data => {
-          this.data = data.data;
-          this.page.total = data.total;
+          orderBy: '',
+          params: params,
+        }).then(data => {
+          if (data.code == 200) {
+            this.data = data.data;
+            this.page.total = data.total;
+          }
         })
       },
       handlePageNum(val) {
@@ -195,6 +194,3 @@
     }
   };
 </script>
-<style scoped>
-
-</style>

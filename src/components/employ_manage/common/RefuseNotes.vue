@@ -115,6 +115,18 @@ import api from '../../../api/employ_manage/hire_operator'
     methods: {
             ok () {
               var fromData = this.$utils.clear(this.realHandInfo,'');
+               if(this.handleInfo.remarkManw==''){
+                 this.$Message.info('操作员不能为空');
+                  return;
+               }
+               if(this.handleInfo.remarkDatew==''){
+                  this.$Message.info('操作日期不能为空');
+                  return;
+               }
+               if(this.handleInfo.remarkContentw==''){
+                 this.$Message.info('备注内容不能为空');
+                  return;
+               }
                fromData.remarkDate = this.$utils.formatDate(this.handleInfo.remarkDatew, 'YYYY-MM-DD');
                fromData.remarkContent = this.handleInfo.remarkContentw;
                fromData.remarkMan = this.handleInfo.remarkManw;
@@ -125,7 +137,10 @@ import api from '../../../api/employ_manage/hire_operator'
             cancel () {
                
             },instance() {
-        
+             if(this.refuseNotes.length==0){
+              this.$Message.success("没有提交的数据行，请新增");
+              return;
+            }
             api.saveAmRemark(this.refuseNotes).then(data => {
                   if (data.data.data == true) {
                     this.$Message.success("保存成功");
@@ -154,7 +169,7 @@ import api from '../../../api/employ_manage/hire_operator'
                         let params = {amRemarkId:remarkId}
 
                         api.deleteAmRemark(params).then(data=>{
-                              history.go(-1);
+                              window.location.reload();
                       })
                        
                       },

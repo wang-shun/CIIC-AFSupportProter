@@ -96,6 +96,7 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="error" @click="isShowRejectBatch = true">批量批退</Button>
         <Button type="info" @click="excelExport()">导出</Button>
+        <Button type="info" @click="excelExportNew()">导出开户文件</Button>
       </Col>
     </Row>
 
@@ -104,7 +105,8 @@
         <Table border ref="noProcessData"
                :columns="noProcessColumns"
                :data="noProcessData"
-               @on-selection-change="handleSelectChange"></Table>
+               @on-selection-change="handleSelectChange"
+               ></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -197,7 +199,7 @@
                         case '1':
                         case '2':
                         case '3':
-                        case '5':
+//                        case '5':
                         case '11':
                           this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
                           break;
@@ -205,6 +207,8 @@
                           this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
                           break;
                         case '4':
+                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+                          break;
                         case '7':
                         case '8':
                         case '12':
@@ -335,7 +339,24 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfEmpTaskExport();
+        api.hfEmpTaskExport({ params: params });
+      },
+      excelExportNew() {
+        if (!this.selectedData || this.selectedData.length == 0) {
+          this.$Message.error("请先勾选需要导出开户文件的任务");
+          return false;
+        }
+        var params = {};
+        {
+          this.beforeSubmit();
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.selectedData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+        api.newEmpTaskTxtExport({
+          params: params
+        });
       }
     }
   }

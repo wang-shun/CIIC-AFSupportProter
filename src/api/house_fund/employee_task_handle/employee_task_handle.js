@@ -45,5 +45,57 @@ export default {
   createTransEmpTask: async (params) => {
     let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTaskHandle/createTransEmpTask', params);
     return await response.data;
-  }
+  },
+  minusMonths(yearMonth, months) {
+    if (!yearMonth || yearMonth == '') {
+      return '';
+    }
+    let year = yearMonth.substr(0,4);
+    let month = yearMonth.substr(4,2);
+    let monthInt = parseInt(month);
+    let yearInt = parseInt(year);
+
+    let years = Math.floor(months / 12);
+    yearInt -= years;
+    months -= years * 12;
+
+    if (monthInt <= months) {
+      yearInt --;
+      monthInt = monthInt + 12 - months;
+    } else {
+      monthInt -= months;
+    }
+
+    if (monthInt < 10) {
+      return yearInt + '0' + monthInt;
+    } else {
+      return yearInt + '' + monthInt;
+    }
+  },
+  plusMonths(yearMonth, months) {
+    if (!yearMonth || yearMonth == '') {
+      return '';
+    }
+    let year = yearMonth.substr(0,4);
+    let month = yearMonth.substr(4,2);
+    let monthInt = parseInt(month);
+    let yearInt = parseInt(year);
+
+    let years = Math.floor(months / 12);
+    yearInt += years;
+    months -= years * 12;
+
+    if (monthInt + months > 12) {
+      yearInt ++;
+      monthInt = monthInt + months - 12;
+    } else {
+      monthInt += months;
+    }
+
+    if (monthInt < 10) {
+      return yearInt + '0' + monthInt;
+    } else {
+      return yearInt + '' + monthInt;
+    }
+  },
 }

@@ -31,11 +31,12 @@
             </Form> -->
             <Row>
               <Col :sm="{span: 24}"  style="padding-bottom:10px">
+                <Button type="info" @click="exp">导出</Button>
                 <Button type="primary" @click="calculate">重新汇总</Button>
                 <Button type="warning" @click="goBack" >返回</Button>
               </Col>
             </Row>
-            <Table  border :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData" :loading="loading"></Table>
+            <Table   :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData" :loading="loading" ></Table>
         </div>
       </Panel>
     </Collapse>
@@ -108,6 +109,13 @@
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'center'}}, [
                   h('span', params.row.ssMonthBelong),
+                ]);
+              }
+            },
+            {title: '费用种类', key: 'costCategory', align: 'center', className: 'mw200', width: 120,
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'center'}}, [
+                  h('span', this.$decode.costCategory(params.row.costCategory)),
                 ]);
               }
             },
@@ -243,20 +251,7 @@
       }
     },
     mounted() {
-      let params = {ssMonth:this.ssMonth,ssAccount:this.ssAccount}
-      api.queryEmlpyeeMonthFeeDetail(params).then(data=>{
-          if(data.code==500){
-            this.loading=false;
-            this.$Message.error(data.message);
-          }else{
-            if(null!=data.data){
-               this.noticeInfo.noticeData=data.data;
-            }
-            this.loading=false;
-          }
-      }).catch(error=>{
-        this.loading=false;
-      })
+      this.queryEmlpyeeMonthFeeDetail();
     },
     computed: {
 
@@ -267,6 +262,12 @@
       },
       ok () {
 
+      },
+      exp () {
+        api.monthChargeExport({
+          ssMonth:this.ssMonth,
+          ssAccount:this.ssAccount
+        });
       },
       cancel () {
 
@@ -284,7 +285,24 @@
         }).catch(error=>{
           this.$Message.error('系统异常！');
         })
-      }
+       this.queryEmlpyeeMonthFeeDetail();
+      },
+      queryEmlpyeeMonthFeeDetail(){
+        let params = {ssMonth:this.ssMonth,ssAccount:this.ssAccount}
+              api.queryEmlpyeeMonthFeeDetail(params).then(data=>{
+                  if(data.code==500){
+                    this.loading=false;
+                    this.$Message.error(data.message);
+                  }else{
+                    if(null!=data.data){
+                      this.noticeInfo.noticeData=data.data;
+                    }
+                    this.loading=false;
+                  }
+          }).catch(error=>{
+            this.loading=false;
+          })
+      },
     }
   }
 </script>

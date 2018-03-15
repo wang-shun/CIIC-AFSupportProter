@@ -29,7 +29,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="户口地址：">
-            {{employee.accountAddress}}
+            {{employee.residenceAddress}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

@@ -330,11 +330,11 @@
       },
       userCenterHandler(name) {
         switch (name) {
+          case 'modifyPassword':
+            this.modifyPassword();
+            break;
           case 'logout':
-            this.$router.push({
-              name: 'login'
-            });
-            this.$local.save('userName', '');
+            this.logout();
             break;
         }
       },
@@ -345,7 +345,10 @@
         });
       },
       backToHome() {
-          window.location.href = `${this.ipPrefix}:8070/#/menu`;
+        window.location.href = `${this.ipPrefix}:8070/#/menu`;
+      },
+      backToLogin() {
+        window.location.href = `${this.ipPrefix}:8070/#/`
       },
       routerToCenter: function(name) {
         console.log(name)
@@ -361,8 +364,8 @@
           if(response.data.code !== 0) {
             this.$Message.error('获取角色授权失败');
           } else {
-            // this.leftNavigates = leftN; // 调试时可放开此句，获得全部菜单
-            this.leftNavigates = this.creatMenu(response.data.data);
+             this.leftNavigates = leftN; // 调试时可放开此句，获得全部菜单
+//            this.leftNavigates = this.creatMenu(response.data.data);
           }
         })
       },
@@ -391,6 +394,20 @@
           }
         }
         return menuTree;
+      },
+      logout() {
+        window.sessionStorage.removeItem('userInfo');
+        let that = this;
+        let storage = new CrossStorageClient(`${this.ipPrefix}:8070/#/menu`);
+        storage.onConnect().then(() => {
+          that.backToLogin();
+          return storage.clear();
+        }).catch(function(err) {
+          console.log(err);
+        })
+      },
+      modifyPassword() {
+        window.location.href = `${this.ipPrefix}:8070/#/changePassword`;
       }
     },
     directives: {

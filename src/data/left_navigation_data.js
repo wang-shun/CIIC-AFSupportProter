@@ -81,9 +81,9 @@ const leftNavigation =
         {cid: "6-5", ckey: "未投保审核", crouter: "uninsuredReview"},
         {cid: "6-6", ckey: "医疗关系转移", crouter: "relationshipTransfer"},
         {cid: "6-7", ckey: "在保管理", crouter: "insuredList"},
-        {cid: "6-8", ckey: "保单号管理", crouter: "policyNumManagement"},
-        {cid: "6-9", ckey: "保单管理", crouter: "policyManagement"},
-        {cid: "6-10", ckey: "代收代付", crouter: "collectionPayment"}
+        // {cid: "6-8", ckey: "保单号管理", crouter: "policyNumManagement"},
+        // {cid: "6-9", ckey: "保单管理", crouter: "policyManagement"},
+        // {cid: "6-10", ckey: "代收代付", crouter: "collectionPayment"}
       ]
     },
     // {

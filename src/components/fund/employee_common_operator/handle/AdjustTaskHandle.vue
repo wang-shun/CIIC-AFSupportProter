@@ -790,11 +790,12 @@
         })
       },
       handleTaskReject() {
-        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark == '') {
+        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark.trim() == '') {
           this.$Message.error("批退备注不能为空");
           return false;
         }
-        if (this.displayVO.rejectionRemark && this.displayVO.rejectionRemark.length > 200) {
+        this.displayVO.rejectionRemark = this.displayVO.rejectionRemark.trim();
+        if (this.displayVO.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
@@ -1024,88 +1025,6 @@
           return false;
         }
         return true;
-      },
-      transferNoticeCheck() {
-        if (this.transferNotice.transferOutUnit && this.transferNotice.transferOutUnit.length > 20) {
-          this.$Message.error("转出单位长度不能超过20");
-          return false;
-        }
-        if (this.transferNotice.transferOutUnitAccount && this.transferNotice.transferOutUnitAccount.length > 20) {
-          this.$Message.error("转出单位账号长度不能超过20");
-          return false;
-        }
-        if (this.transferNotice.transferInUnit && this.transferNotice.transferInUnit.length > 20) {
-          this.$Message.error("转入单位长度不能超过20");
-          return false;
-        }
-        if (this.transferNotice.transferInUnitAccount && this.transferNotice.transferInUnitAccount.length > 20) {
-          this.$Message.error("转入单位账号长度不能超过20");
-          return false;
-        }
-        return true;
-      },
-      transEmpTaskQuery() {
-        api.transEmpTaskQuery({
-          companyId: this.displayVO.companyId,
-          employeeId: this.displayVO.employeeId,
-          hfType: this.displayVO.hfType,
-        }).then(data => {
-          if (data.code == 200) {
-            if (!data.data || data.data.length == 0) {
-              this.isShowPrint = true;
-            } else {
-              // TODO show print page
-              console.log(data.data);
-            }
-          } else {
-            this.$Message.error(data.message);
-          }
-        })
-      },
-      ok () {
-        this.transferNotice.empTaskId = this.displayVO.empTaskId;
-        this.transferNotice.companyId = this.displayVO.companyId;
-        this.transferNotice.employeeId = this.displayVO.employeeId;
-        this.transferNotice.hfType = this.displayVO.hfType;
-        if (this.transferNotice.transferDate) {
-          this.transferNotice.transferDate = this.$utils.formatDate(this.transferNotice.transferDate, "YYYY-MM-DD");
-        }
-        if (!this.transferNoticeCheck()) {
-          return false;
-        }
-        api.createTransEmpTask(
-          this.transferNotice
-        ).then(data => {
-          if (data.code == 200) {
-            this.transferOutUnitList.length = 0;
-            this.transferInUnitList.length = 0;
-            this.transferOutUnitAccountList.length = 0;
-            this.transferInUnitAccountList.length = 0;
-            this.transferNotice.transferOutUnit = '';
-            this.transferNotice.transferOutUnitAccount = '';
-            this.transferNotice.transferInUnit = '';
-            this.transferNotice.transferInUnitAccount = '';
-            this.transferNotice.transferDate = '';
-
-            // TODO show print page
-            this.isShowPrint = false;
-            console.log(data.data);
-          } else {
-            this.$Message.error(data.message);
-          }
-        })
-      },
-      cancel() {
-        this.transferOutUnitList.length = 0;
-        this.transferInUnitList.length = 0;
-        this.transferOutUnitAccountList.length = 0;
-        this.transferInUnitAccountList.length = 0;
-        this.transferNotice.transferOutUnit = '';
-        this.transferNotice.transferOutUnitAccount = '';
-        this.transferNotice.transferInUnit = '';
-        this.transferNotice.transferInUnitAccount = '';
-        this.transferNotice.transferDate = '';
-        this.isShowPrint = false;
       },
     },
   }

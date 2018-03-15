@@ -372,16 +372,12 @@
         })
          
        },binding(){
-
-          if(!this.refuseInfo.employmentId==undefined){
-            this.$Message.success("重在用工序号");
-              return;
-          }
          
-          if(this.refuseInfo.employmentId!=''){
+          if(!this.refuseInfo.employmentId==undefined&&this.refuseInfo.employmentId!=''){
             this.$Message.success("重在用工序号");
               return;
           }
+          
          
           if(this.refuseInfo.matchEmployIndex==undefined||this.refuseInfo.matchEmployIndex==''){
               this.$Message.success("对应用工序号为空");

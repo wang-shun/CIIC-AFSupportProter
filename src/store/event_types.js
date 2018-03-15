@@ -15,7 +15,6 @@ import EmployeeFundTransferOperator from "./modules/fund/employee_transfer_opera
 import CompanyFundTaskList from "./modules/fund/company_fund_task_list/event_types"
 import CompanyFundAccountSearch from "./modules/fund/company_fund_account_search/event_types"
 import FundReconciliation from "./modules/fund/fund_reconciliation/event_types"
-import FundPay from "./modules/fund/fund_pay/event_types"
 import FundReport from "./modules/fund/fund_report/event_types"
 import FundYearAdjust from "./modules/fund/fund_year_adjust/event_types"
 import FundYearAdjustViewDifference from "./modules/fund/fund_year_adjust/event_types"
@@ -58,7 +57,6 @@ export default {
   ...CompanyFundTaskList,
   ...CompanyFundAccountSearch,
   ...FundReconciliation,
-  ...FundPay,
   ...FundReport,
   ...FundYearAdjust,
   ...FundYearAdjustViewDifference,

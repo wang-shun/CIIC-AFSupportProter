@@ -4,7 +4,7 @@
       <Panel name="1">
         待处理任务单查询
         <div slot="content">
-          <Form ref="searchCondition" :model="searchCondition" :label-width="150">
+          <Form ref="formItem" :model="formItem" :label-width="150">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单状态">
@@ -25,7 +25,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保险公司">
                 <Select placeholder="请选择" transfer>
-                  <Option value="1" v-for="item in taskStatuscom" :value="item.value" :key="item.value">
+                  <Option value="1" v-for="item in taskStatusCom" :value="item.value" :key="item.value">
                     {{item.label}}
                   </Option>
                 </Select>
@@ -34,7 +34,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保险项目">
                 <Select v-model="model10" multiple placeholder="请选择" transfer>
-                  <Option value="1" v-for="item in taskTypeitem" :value="item.value" :key="item.value">{{item.label}}
+                  <Option value="1" v-for="item in taskTypeItem" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
               </Form-item>
@@ -42,7 +42,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="标的">
                 <Select placeholder="请选择" style="width: 80px;" transfer>
-                  <Option value="1" v-for="item in insureStatus1" :value="item.value" :key="item.value">{{item.label}}
+                  <Option value="1" v-for="item in insureStatus" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
                 <Input v-model="formItem.code" style="width: 90px;" placeholder="请输入"/>
@@ -100,8 +100,8 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="selectresult">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('searchCondition')" class="ml10">重置</Button>
+              <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('formItem')" class="ml10">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -161,13 +161,25 @@
       cancel-text="批退">
     </Modal>
 
-    <Table border :columns="columns7" :data="data6"></Table>
-    <Page :total="100" show-sizer show-elevator></Page>
+    <Table border
+           stripe
+           :columns="taskColumns"
+           :data="taskData"></Table>
+    <Page show-sizer show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :total="formItem.total"
+          :current="formItem.current"
+          :page-size="formItem.size"></Page>
   </div>
 </template>
 <script>
+  import taskExpend from './TaskExpend.vue';
+  import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
+  import apiAjax from "../../../data/health_medical/task_medica.js";
 
   export default {
+    components: {taskExpend},
     data() {
       return {
         modal1: false,
@@ -177,209 +189,111 @@
         modal5: false,
         modal6: false,
         modal10: false,
+        model10: [],
         value1: '1',
         formItem: {
-          input: '',
-          select: '',
-          select1: '',
-          radio: 'male',
-          checkbox: [],
-          switch: true,
-          date: '',
-          time: '',
-          slider: [20, 50],
-          textarea: ''
+          total: 0,
+          current: 1,
+          size: 10,
         },
-        columns7: [
+        taskColumns: [
           {
             type: 'selection', width: 60, align: 'center'
           },
           {
-            title: '投保项目', sortable: true, key: 'column1', fixed: 'fixed'
-          },
-          {
-            title: '雇员编号', sortable: true, key: 'column4'
-          },
-          {
-            title: '雇员姓名', sortable: true, key: 'column5'
-          },
-          {
-            title: '合同开始时间', sortable: true, key: 'column30'
-          },
-          {
-            title: '公司编号', sortable: true, key: 'column6'
-          },
-          {
-            title: '公司名称', sortable: true, key: 'column21'
-          },
-          {
-            title: '客户经理', sortable: true, key: 'column7'
-          },
-          {
-            title: '保险对象', sortable: true, key: 'column8'
-          },
-          {
-            title: '性别', sortable: true, key: 'column8'
-          },
-          {
-            title: '出生日期', sortable: true, key: 'column8'
-          },
-          {
-            title: '证件号码', sortable: true, key: 'column9'
-          },
-          {
-            title: '投保费用', sortable: true, key: 'column10'
-          },
-          {
-            title: '标的', sortable: true, key: 'column11'
-          },
-          {
-            title: '关系', sortable: true, key: 'column12'
-          },
-          {
-            title: '中止日期', sortable: true, key: 'column12'
-          },
-          {
-            title: '保险开始日期', sortable: true, key: 'column12'
-          },
-          {
-            title: '保险结束日期', sortable: true, key: 'column12'
-          },
-          {
-            title: '提交人', sortable: true, key: 'column12'
-          },
-          {
-            title: '提交时间', sortable: true, key: 'column12'
-          },
-          {
-            title: '操作', key: 'action', width: 70, align: 'center',
+            type: 'expand', width: 50,
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfo(params.index)
-                    }
-                  }
-                }, '查看'),
-              ]);
+              return h(taskExpend, {
+                props: {
+                  row: params.row
+                }
+              })
             }
-          }],
-        data6: [
-          {
-            column1: '中智公司-意外伤害',
-            column2: '否',
-            column3: '投保',
-            column4: '11L2674',
-            column5: '戴敏',
-            column6: '27376',
-            column21: '瑞德丽邦基数咨询服务有限公司',
-            column7: '段嘉晨',
-            column8: '戴敏',
-            column9: '150203199211161220',
-            column10: '150',
-            column11: '20万'
           },
           {
-            column1: '中盈保险-补充医疗',
-            column2: '否',
-            column3: '投保',
-            column4: '11L2674',
-            column5: '戴敏',
-            column6: '27376',
-            column21: '瑞德丽邦基数咨询服务有限公司',
-            column7: '段嘉晨',
-            column8: '戴敏',
-            column9: '150203199211161220',
-            column10: '200',
-            column11: '40万'
+            title: '雇员编号', sortable: true, key: 'employeeId', align: 'center'
+          },
+          {
+            title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center'
+          },
+          {
+            title: '保险对象', sortable: true, align: 'center',
+            render: (h, params) => {
+              if (params.row.type === 1) {
+                return params.row.employeeName;
+              } else {
+                return params.row.associatedInsurantName;
+              }
+            }
+          },
+          {
+            title: '性别', sortable: true, key: 'gender', align: 'center',
+            render: (h, params) => {
+              return task.genderToChina(params.row.gender);
+            }
+          },
+          {
+            title: '出生日期', sortable: true, key: 'birthDate', align: 'center',
+            render: (h, params) => {
+              if (params.row.birthDate !== null) {
+                return this.$utils.formatDate(params.row.birthDate, 'YYYY-MM-DD');
+              }
+            }
+          },
+          {
+            title: '投保费用', sortable: true, key: 'price', align: 'center'
+          },
+          {
+            title: '标的', sortable: true, key: 'keyType', align: 'center',
+            render: (h, params) => {
+              return task.keyTypeToChina(params.row.keyType);
+            }
+          },
+          {
+            title: '关系', sortable: true, key: 'type', align: 'center',
+            render: (h, params) => {
+              return task.typeToChina(params.row.type);
+            }
+          },
+          {
+            title: '中止日期', sortable: true, key: 'column12', align: 'center',
+            render: (h, params) => {
+              if (params.row.birthDate !== null) {
+                return this.$utils.formatDate(params.row.column12, 'YYYY-MM-DD HH:mm:ss');
+              }
+            }
           }
         ],
-        taskType: [
-          {
-            value: 'type1', label: '投保任务单'
-          },
-          {
-            value: 'type2', label: '退保任务单'
-          },
-          {
-            value: 'type3', label: '变更任务单'
-          }
-        ],
-        taskType: [
-          {
-            value: 'type1', label: '投保任务单'
-          },
-          {
-            value: 'type2', label: '退保任务单'
-          },
-          {
-            value: 'type3', label: '变更任务单'
-          }
-        ],
-        taskStatuscom: [
-          {
-            value: 'type2', label: '中智'
-          },
-          {
-            value: 'type3', label: '中国平安保险公司'
-          }
-        ],
-        taskTypeitem: [
-          {
-            value: 'type1', label: '意外伤害险'
-          },
-          {
-            value: 'type2', label: '环球医疗'
-          },
-          {
-            value: 'type3', label: '补充医疗'
-          },
-          {
-            value: 'type4', label: '重大疾病险'
-          }
-        ],
-        model10: [],
-        taskStatus: [
-          {
-            value: 'status1', label: '待审核'
-          },
-          {
-            value: 'status2', label: '已处理'
-          },
-          {
-            value: 'status3', label: '已暂缓'
-          },
-          {
-            value: 'status4', label: '处理失败'
-          },
-          {
-            value: 'status5', label: '处理成功'
-          }
-        ],
-        insureStatus1: [
-          {
-            label: '区间', value: 'p1'
-          },
-          {
-            label: '比例', value: 'p2'
-          }
-        ]
-      }
+        taskData: [],
+        taskType: task.taskType,
+        taskStatusCom: task.taskStatusCom,
+        taskTypeItem: task.taskTypeItem,
+        taskStatus: task.taskStatus,
+        insureStatus: task.insureStatus
+      };
+    },
+    created() {
+      this.getByPage(1);
     },
     methods: {
-      show(index) {
-        this.$Modal.info({
-          title: '用户信息',
-          content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-        })
-      },
-      remove(index) {
-        this.data6.splice(index, 1);
+      queryTaskPage() {
+        apiAjax.queryTaskPage(this.formItem).then(response => {
+          this.taskData = response.data.object.records;
+          this.formItem.total = response.data.object.total;
+        });
       },
 
+      getByPage(val) {
+        this.formItem.current = val;
+        this.queryTaskPage()
+      },
+      pageSizeChange(size) {
+        this.formItem.size = size;
+        this.queryTaskPage()
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
+      },
       ok() {
         this.$Message.info('已审核通过');
       },

@@ -78,9 +78,9 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="info">导出</Button>
         <Button type="primary" @click="nextStep">编辑</Button>
-        <Button type="info">打印转移通知书</Button>
+        <!-- <Button type="info">打印转移通知书</Button> -->
         <Button type="info">导出雇员转移TXT</Button>
-        <Button type="info">批量导入回单日期</Button>
+        <!-- <Button type="info">批量导入回单日期</Button> -->
       </Col>
     </Row>
 
@@ -122,7 +122,6 @@
           {value: 0, label: '徐汇'},
           {value: 1, label: '长宁'},
           {value: 2, label: '浦东'},
-          
           {value: 4, label: '静安'},
           {value: 5, label: '黄浦'},
         ],

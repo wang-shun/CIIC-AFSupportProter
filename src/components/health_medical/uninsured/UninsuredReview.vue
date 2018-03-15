@@ -175,7 +175,7 @@
             title: '连带人', sortable: true, key: 'jointPersonName', align: 'center'
           },
           {
-            title: '操作', key: 'action', width: 120, align: 'center',
+            title: '操作', key: 'action', width: 125, align: 'center',
             render: (h, params) => {
               /**已受理并且款项类型不是子女托费的显示审核按钮*/
               if (params.row.status === 1) {
@@ -191,6 +191,9 @@
                   }, '审核'),
                   h('Button', {
                     props: {type: 'success', size: 'small'},
+                    style: {
+                      marginLeft: '5px'
+                    },
                     on: {
                       click: () => {
                         sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));

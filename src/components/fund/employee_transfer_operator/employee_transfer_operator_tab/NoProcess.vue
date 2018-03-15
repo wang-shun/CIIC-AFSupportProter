@@ -13,17 +13,17 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号：" prop="employeeNumber">
-                  <Input v-model="operatorSearchData.employeeNumber" placeholder="请输入..."></Input>
+                  <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转入单位：" prop="customerName">
-                  <Input v-model="operatorSearchData.transferInCompany" placeholder="请输入..."></Input>
+                <Form-item label="转入单位：" prop="transferInUnit">
+                  <Input v-model="operatorSearchData.transferInUnit" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转出单位：" prop="taskStartTime">
-                  <Input v-model="operatorSearchData.transferOutCompany" placeholder="请输入..."></Input>
+                <Form-item label="转出单位：" prop="transferOutUnit">
+                  <Input v-model="operatorSearchData.transferOutUnit" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -32,8 +32,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金类型：" prop="fundTypeValue">
-                  <Select v-model="operatorSearchData.fundTypeValue" style="width: 100%;" transfer>
+                <Form-item label="公积金类型：" prop="hfType">
+                  <Select v-model="operatorSearchData.hfType" style="width: 100%;" transfer>
                     <Option v-for="item in fundTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -46,18 +46,18 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="证件号：" prop="IdNumber">
-                  <Input v-model="operatorSearchData.IdNumber" placeholder="请输入..."></Input>
+                <Form-item label="证件号：" prop="idNum">
+                  <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员公积金账号：" prop="companyFundAccount">
-                  <Input v-model="operatorSearchData.employeeFundAccount" placeholder="请输入..."></Input>
+                <Form-item label="雇员公积金账号：" prop="hfEmpAccount">
+                  <Input v-model="operatorSearchData.hfEmpAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账户类型：" prop="accountTypeValue">
-                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
+                <Form-item label="账户类型：" prop="hfAccountType">
+                  <Select v-model="operatorSearchData.hfAccountType" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -88,7 +88,7 @@
             <DropdownItem>导出雇员转移TXT</DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <Button type="primary" @click="">扫描校验</Button>
+        <!-- <Button type="primary" @click="">扫描校验</Button> -->
       </Col>
     </Row>
 
@@ -108,33 +108,33 @@
         <Row>
           <Col :sm="{span: 12}">
             <Form-item label="雇员编号：">
-              <Input v-model="createTaskTicket.employeeNumber" placeholder="请输入..."></Input>
+              <Input v-model="createTask.employeeId" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
             <Form-item label="雇员姓名：">
-              <Input v-model="createTaskTicket.employeeName" placeholder="请输入..."></Input>
+              <Input v-model="createTask.employeeName" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
             <Form-item label="证件号：">
-              <Input v-model="createTaskTicket.employeeName" placeholder="请输入..."></Input>
+              <Input v-model="createTask.idNum" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
             <Form-item label="客户编号：">
-              <Input v-model="createTaskTicket.customerNumber" placeholder="请输入..."></Input>
+              <Input v-model="createTask.companyId" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
             <Form-item label="客户名称：">
-              <Input v-model="createTaskTicket.customerName" placeholder="请输入..."></Input>
+              <Input v-model="createTask.companyName" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
             <Form-item label="上下岗状态：">
-              <Select v-model="createTaskTicket.workStatueValue" style="width: 100%;" transfer>
-                <Option v-for="item in createTaskTicket.workStatueList" :value="item.value" :key="item.value">{{item.label}}</Option>
+              <Select v-model="createTask.workStatueValue" style="width: 100%;" transfer>
+                <Option v-for="item in createTask.workStatueList" :value="item.value" :key="item.value">{{item.label}}</Option>
               </Select>
             </Form-item>
           </Col>
@@ -146,7 +146,7 @@
           </Col>
         </Row>
       </Form>
-      <Table border class="mt10" :columns="createTaskTicket.createColumns" :data="data.createData"></Table>
+      <Table border class="mt10" :columns="createTask.createColumns" :data="data.createData"></Table>
       <div slot="footer"></div>
     </Modal>
   </div>
@@ -154,6 +154,7 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../../store/event_types'
+  import api from '../../../../api/house_fund/employee_task/employee_transfer'
 
   export default {
     data() {
@@ -161,23 +162,23 @@
         collapseInfo: [1], //展开栏
         operatorSearchData: {
           serviceCenterValue: '',
-          employeeNumber: '',
-          transferInCompany: '',
-          transferOutCompany: '',
+          employeeId: '',
+          transferInUnit: '',
+          transferOutUnit: '',
           employeeName: '',
-          fundTypeValue: 0,
+          hfType: 0,
           payBankValue: 0,
-          IdNumber: '',
-          employeeFundAccount: '',
-          accountTypeValue: 0
+          idNum: '',
+          hfEmpAccount: '',
+          hfAccountType: 0
         },
         isCreateTaskTicket: false,
-        createTaskTicket: {
-          employeeNumber: '',
+        createTask: {
+          employeeId: '',
           employeeName: '',
-          IdNumber: '',
-          customerNumber: '',
-          customerName: '',
+          idNum: '',
+          companyId: '',
+          companyName: '',
           workStatueValue: '',
           workStatueList: [
             {label: '全部', value: ''},
@@ -214,10 +215,10 @@
                 ]);
               }
             },
-            {title: '证件号', key: 'IdNumber', align: 'center', width: 150,
+            {title: '证件号', key: 'IdNum', align: 'center', width: 150,
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
-                  h('span', params.row.IdNumber),
+                  h('span', params.row.IdNum),
                 ]);
               }
             },
@@ -284,7 +285,6 @@
           {value: 0, label: '徐汇'},
           {value: 1, label: '长宁'},
           {value: 2, label: '浦东'},
-          
           {value: 4, label: '静安'},
           {value: 5, label: '黄浦'},
         ],
@@ -348,10 +348,10 @@
               ]);
             }
           },
-          {title: '雇员证件号', key: 'employeeCardNumber', width: 200, align: 'center',
+          {title: '雇员证件号', key: 'idNum', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeCardNumber),
+                h('span', params.row.idNum),
               ]);
             }
           },
@@ -401,7 +401,7 @@
       }
     },
     mounted() {
-      this[EventType.TNOPROCESS]()
+      //this[EventType.TNOPROCESS]()
     },
     computed: {
       ...mapState('tNoProcess',{
@@ -416,12 +416,29 @@
       routerToFundCommonOperator(name) {
         this.$router.push({name: name})
       },
+      queryTransfer(){
+        api.queryTransfer({
+
+        }).then(data => {
+          self.employeeFundData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+          })
+      },
+      queryTransferForNewTask(){
+
+        api.queryTransferForNewTask({
+
+        }).then(data => {
+          self.employeeFundData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+          })
+      },
       ok () {
 
       },
       cancel () {
 
-      }
+      },
     }
   }
 </script>

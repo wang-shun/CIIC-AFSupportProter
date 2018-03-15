@@ -451,15 +451,12 @@
         }
       },
       employeeQuery(params){
-        
         let self =this
-
         api.employeeQuery({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
           params: params,
         }).then(data => {
-
           self.employeeFundData = data.data.rows;
           self.pageData.total = Number(data.data.total);
         })

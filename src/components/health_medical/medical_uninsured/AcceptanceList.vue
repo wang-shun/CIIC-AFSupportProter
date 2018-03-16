@@ -153,7 +153,7 @@
           handlerDateRange: [],
         },
         dealMeg: {
-          handler: "username",
+          handler: null,
           handlerDate: new Date(),
           status: null,
           rejectType: null,
@@ -205,7 +205,7 @@
             title: '受理日期', sortable: true, key: 'handlerDate', align: 'center',
             render: (h, params) => {
               if (params.row.handlerDate !== null) {
-                return this.$utils.formatDate(params.row.handlerDate, 'YYYY-MM-DD HH:mm:ss');
+                return this.$utils.formatDate(params.row.handlerDate, 'YYYY-MM-DD');
               }
             }
           },
@@ -270,6 +270,8 @@
       }
     },
     created() {
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      this.dealMeg.handler = this.userInfo.displayName;
       this.getByPage(1);
     },
     methods: {

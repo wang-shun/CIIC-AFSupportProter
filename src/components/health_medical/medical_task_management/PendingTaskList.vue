@@ -121,36 +121,36 @@
       <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
     </div>
 
-    <Modal
-      v-model="modal1"
-      title="审核"
-      @on-ok="updateTpaTaskList(4)"
-      ok-text="审核通过"
-      @on-cancel="updateTpaTaskList(6)"
-      cancel-text="退回">
+    <Modal class="warn-back"
+           v-model="modal1"
+           title="审核"
+           @on-ok="updateTpaTaskList(4)"
+           ok-text="审核通过"
+           @on-cancel="updateTpaTaskList(6)"
+           cancel-text="退回">
       <Input v-model="dealMsg.remark" placeholder="请输入操作说明："/>
     </Modal>
 
-    <Modal
-      v-model="modal2"
-      title="暂缓"
-      @on-ok="updateTpaTaskList(3)"
-      ok-text="暂缓">
+    <Modal v-model="modal2"
+           title="暂缓"
+           @on-ok="updateTpaTaskList(3)"
+           ok-text="暂缓">
       <Input v-model="dealMsg.remark" placeholder="请输入暂缓原因："/>
     </Modal>
 
-    <Modal
-      v-model="modal3"
-      title="恢复"
-      @on-ok="updateTpaTaskList(2)"
-      ok-text="确认恢复">
+    <Modal v-model="modal3"
+           title="恢复"
+           @on-ok="updateTpaTaskList(2)"
+           ok-text="确认恢复">
     </Modal>
 
-    <Modal
-      v-model="modal5"
-      title="更新在保库"
-      @on-ok="toubao"
-      ok-text="确认更新">
+    <Modal class="warn-back"
+           v-model="modal5"
+           title="更新在保库"
+           @on-ok="toubao"
+           ok-text="确认更新"
+           @on-cancel="updateTpaTaskList(6)"
+           cancel-text="退回">
     </Modal>
 
     <Table border
@@ -294,7 +294,7 @@
         apiAjax.queryTaskPage(this.formItem).then(response => {
           this.taskData = response.data.object.records;
           this.taskData.forEach(item => {
-            if (item.status === 6) {
+            if (item.status === 5 || item.status === 6) {
               item._disabled = true;
             }
           });
@@ -338,3 +338,16 @@
     }
   }
 </script>
+
+<style>
+  .warn-back .ivu-btn.ivu-btn-text.ivu-btn-large {
+    color: #fff;
+    background-color: #ed3f14;
+    border-color: #ed3f14;
+  }
+
+  .warn-back .ivu-btn.ivu-btn-text.ivu-btn-large:hover {
+    background-color: #f16543;
+    border-color: #f16543;
+  }
+</style>

@@ -8,28 +8,28 @@
           <Form ref="reimbursementItem" :model="reimbursementItem" :label-width="140">
             <Row type="flex" justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员编号">
-                <Input placeholder="请输入"/>
+              <FormItem label="雇员编号" prop="employeeId">
+                <Input v-model="reimbursementItem.employeeId" placeholder="请输入"/>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员姓名">
-                <Input placeholder="请输入"/>
+              <FormItem label="雇员姓名" prop="employeeName">
+                <Input v-model="reimbursementItem.employeeName" placeholder="请输入"/>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="证件号码">
-                <Input placeholder="请输入"/>
+              <FormItem label="证件号码" prop="idNum">
+                <Input v-model="reimbursementItem.idNum" placeholder="请输入"/>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="公司编号">
-                <Input placeholder="请输入"/>
+              <FormItem label="公司编号" prop="companyId">
+                <Input v-model="reimbursementItem.companyId" placeholder="请输入"/>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="公司名称">
-                <Input placeholder="请输入"/>
+              <FormItem label="公司名称" prop="companyName">
+                <Input v-model="reimbursementItem.companyName" placeholder="请输入"/>
               </FormItem>
               </Col>
             </row>
@@ -76,9 +76,9 @@ const host = process.env.HOST_SUPPLEMENTMEDICAL
           current: 1,
           size: 10,
           employeeId: null,
-          name: null,
-          code: null,
-          companyCode: null,
+          employeeName: null,
+          idNum: null,
+          companyId: null,
           companyName: null,
         },
         reimbursementColumns: [

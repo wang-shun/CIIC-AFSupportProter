@@ -102,7 +102,8 @@
     },
     methods: {
       updateInvoice() {
-        let test = /^(([0-9]+[\\.]?[0-9]{1,2})|[1-9])$/;
+        //let test = /^(([0-9]+[\\.]?[0-9]{1,2})|[1-9])$/;
+        let test = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
         console.info(test.test(this.row.insuranceCompanyMoney));
         if (test.test(this.row.insuranceCompanyMoney)) {
           apiAjax.updateMedicalInvoice(this.row).then(response => {
@@ -115,7 +116,7 @@
             this.$Message.error("服务器异常，请稍后再试");
           });
         } else {
-          this.$Message.error("请输入正确的两位正数");
+          this.$Message.error("请输入正确金额");
         }
       },
     }

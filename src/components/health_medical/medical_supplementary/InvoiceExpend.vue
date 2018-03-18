@@ -69,7 +69,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="保险理赔金额：" prop="inputDateRange">
-          <Input v-model="row.insuranceCompanyMoney" size="large" placeholder="large size"/>
+          <Input v-model="row.insuranceCompanyMoney" size="large" :disabled="status>2" placeholder="large size"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -85,7 +85,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="updateInvoice">保存修改</Button>
+        <Button type="primary" @click="updateInvoice" :disabled="status>2">保存修改</Button>
         </Col>
       </Row>
     </Form>
@@ -98,7 +98,8 @@
   export default {
     name: "invoice-expend",
     props: {
-      row: Object
+      row: Object,
+      status: Number
     },
     methods: {
       updateInvoice() {

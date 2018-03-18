@@ -127,7 +127,8 @@
             render: (h, params) => {
               return h(invoiceExpend, {
                 props: {
-                  row: params.row
+                  row: params.row,
+                  status: this.acceptanceData.status
                 }
               })
             }
@@ -199,6 +200,7 @@
     methods: {
       queryDetailInfo(val) {
         apiAjax.queryMedicalInvoiceDetail(val).then(response => {
+          console.log(JSON.stringify(response.data.object))
           this.employeeInfo = response.data.object.supplyMedicalAcceptance;
           this.acceptanceData = response.data.object.supplyMedicalAcceptance;
           this.invoiceData = response.data.object.supplyMedicalInvoices;

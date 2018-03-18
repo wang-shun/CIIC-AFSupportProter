@@ -159,7 +159,8 @@
             let obj = response.filter(x=>x.paymentItemName == '缴纳合计')[0];
             if(obj != null){
               let amount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
-              this.lowerTotalAmount = amount.toFixed(1)
+              this.lowerTotalAmount = amount.toFixed(2)
+              this.lowerTotalAmount = this.lowerTotalAmount*1;
               if(this.lowerTotalAmount != null){
                 this.capitalTotalAmount = tools.dx(this.lowerTotalAmount);
               }

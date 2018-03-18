@@ -52,9 +52,9 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="basicDetailListExport()">基本公积金汇缴变更清册</Button>
+        <Button type="primary" @click="chgDetailListExport(1)">基本公积金汇缴变更清册</Button>
         <Button type="primary" @click="">基本公积金补缴清册</Button>
-        <Button type="primary" @click="">补充公积金汇缴变更清册</Button>
+        <Button type="primary" @click="chgDetailListExport(2)">补充公积金汇缴变更清册</Button>
         <Button type="primary" @click="">补缴公积金补缴清册</Button>
         <Button type="info" @click="excelExport()">导出</Button>
       </Col>
@@ -157,6 +157,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           hfMonth: '',
           basicHfComAccount: '',
           addedHfComAccount: '',
+          hfType: 1,
         },
         accountTypeList: [],
         customerData: [],
@@ -334,12 +335,17 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           params: params,
         })
       },
-      basicDetailListExport() {
+      chgDetailListExport(hfType) {
         // TODO operatorSearchData logic check
 
-        if (this.operatorSearchData.hfMonth) {
+        if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth != '') {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+        } else {
+          this.$Message.info("导出清册时，缴费月份不能为空");
+          return false;
         }
+
+        this.operatorSearchData.hfType = hfType;
         var params = {};
         {
           // 清除 '[全部]'
@@ -347,7 +353,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.basicDetailListExport({
+        api.chgDetailListExport({
           pageSize: this.customerSearchPageData.pageSize,
           pageNum: this.customerSearchPageData.pageNum,
           params: params,

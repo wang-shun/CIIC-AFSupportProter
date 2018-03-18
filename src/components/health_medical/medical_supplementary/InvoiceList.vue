@@ -127,7 +127,8 @@
             render: (h, params) => {
               return h(invoiceExpend, {
                 props: {
-                  row: params.row
+                  row: params.row,
+                  status: this.acceptanceData.status
                 }
               })
             }

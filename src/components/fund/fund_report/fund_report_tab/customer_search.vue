@@ -52,7 +52,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="">基本公积金汇缴变更清册</Button>
+        <Button type="primary" @click="basicDetailListExport()">基本公积金汇缴变更清册</Button>
         <Button type="primary" @click="">基本公积金补缴清册</Button>
         <Button type="primary" @click="">补充公积金汇缴变更清册</Button>
         <Button type="primary" @click="">补缴公积金补缴清册</Button>
@@ -318,6 +318,9 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         })
       },
       excelExport() {
+        if (this.operatorSearchData.hfMonth) {
+          this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+        }
         var params = {};
         {
           // 清除 '[全部]'
@@ -330,7 +333,26 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           pageNum: this.customerSearchPageData.pageNum,
           params: params,
         })
-      }
+      },
+      basicDetailListExport() {
+        // TODO operatorSearchData logic check
+
+        if (this.operatorSearchData.hfMonth) {
+          this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+        }
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.operatorSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+        api.basicDetailListExport({
+          pageSize: this.customerSearchPageData.pageSize,
+          pageNum: this.customerSearchPageData.pageNum,
+          params: params,
+        })
+      },
     }
   }
 </script>

@@ -69,7 +69,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="保险理赔金额：" prop="inputDateRange">
-          <Input v-model="row.insuranceCompanyMoney" size="large" placeholder="large size"/>
+          <Input v-model="row.insuranceCompanyMoney" size="large" :disabled="status>2" placeholder="large size"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -85,7 +85,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="updateInvoice">保存修改</Button>
+        <Button type="primary" @click="updateInvoice" :disabled="status>2">保存修改</Button>
         </Col>
       </Row>
     </Form>
@@ -98,11 +98,13 @@
   export default {
     name: "invoice-expend",
     props: {
-      row: Object
+      row: Object,
+      status: Number
     },
     methods: {
       updateInvoice() {
-        let test = /^(([0-9]+[\\.]?[0-9]{1,2})|[1-9])$/;
+        //let test = /^(([0-9]+[\\.]?[0-9]{1,2})|[1-9])$/;
+        let test = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
         console.info(test.test(this.row.insuranceCompanyMoney));
         if (test.test(this.row.insuranceCompanyMoney)) {
           apiAjax.updateMedicalInvoice(this.row).then(response => {
@@ -115,7 +117,7 @@
             this.$Message.error("服务器异常，请稍后再试");
           });
         } else {
-          this.$Message.error("请输入正确的两位正数");
+          this.$Message.error("请输入正确金额");
         }
       },
     }

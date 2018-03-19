@@ -785,7 +785,7 @@
         } else {
           hfMonth = this.displayVO.addedComHfMonth;
         }
-        if (this.displayVO.hfAccountType == 3) {
+        if (this.displayVO.taskCategory == 1 && this.displayVO.hfAccountType == 3) {
           hfMonth = api.plusMonths(hfMonth, 1);
         }
 
@@ -1098,11 +1098,11 @@
             return false;
           }
           if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType != 3 && this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月（非独立户时）");
+            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月");
             return false;
           }
-          if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType == 3 && this.operatorListData[i].endMonth >= api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月的次月（独立户时）");
+          if (this.displayVO.taskCategory == 1 && this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType == 3 && this.operatorListData[i].endMonth >= api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
+            this.$Message.error("新开任务单，操作栏补缴状态费用段的截止月份必须小于客户汇缴月的次月（独立户时）");
             return false;
           }
           if (this.displayVO.hfType == 1) {

@@ -13,4 +13,7 @@ export default {
   chgDetailListExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfMonthCharge/chgDetailListExport', params);
   },
+  repairDetailListExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfMonthCharge/repairDetailListExport', params);
+  },
 }

@@ -55,12 +55,12 @@ const taskTypeItem = [
   }
 ];
 
-const insureStatus = [
+const keyTypeProperties = [
   {
-    label: '区间', value: 'p1'
+    label: '固定金额', value: '1'
   },
   {
-    label: '比例', value: 'p2'
+    label: '赔付比例', value: '2'
   }
 ];
 
@@ -128,7 +128,7 @@ export default {
   taskTypeProperties,
   taskStatusCom,
   taskTypeItem,
-  insureStatus,
+  keyTypeProperties,
   keyTypeToChina,
   typeToChina,
   genderToChina,

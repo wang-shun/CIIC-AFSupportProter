@@ -206,10 +206,10 @@
               ]);
             }
           },
-          {title: '发起人', key: 'initiator', width: 120, align: 'center',
+          {title: '发起人', key: 'submitterName', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.initiator),
+                h('span', params.row.submitterName),
               ]);
             }
           },
@@ -294,7 +294,7 @@
       },
       //将后台查询的数据赋到页面
       refreash(data){
-          this.taskData = data.data.taskData
+          this.taskData = data.data.taskData;
           this.customerData = data.data.customerData;
           if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
           else this.totalSize  =Number(data.data.totalSize)

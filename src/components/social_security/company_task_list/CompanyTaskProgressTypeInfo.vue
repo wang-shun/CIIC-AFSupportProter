@@ -905,7 +905,7 @@
       },
       //
       accountIdIsNull(){
-        if(typeof(this.comAccountId)!='undefined' && !this.comAccountId!=null && this.comAccountId!='' && this.currentStep==0){
+        if(typeof(this.comAccountId)!='undefined' && !this.comAccountId!=null && this.comAccountId!='' && this.companyOpenAccountOperator.state==1){
            this.$Notice.config({
                 top:80
               })

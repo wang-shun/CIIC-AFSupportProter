@@ -87,7 +87,7 @@ export class CompanyTaskList{
                     obj.sponsorTime = i.submitTime
                     obj.notes = i.submitRemark
                     obj.finishDate=i.expireDate
-                    obj.initiator=i.submitterId
+                    obj.submitterName=i.submitterName
                     responseData.data.taskData.push(obj)
                 }
                 responseData.data.totalSize=response.data.total
@@ -442,9 +442,9 @@ export class CompanyTaskList{
     }
 
     //账户信息
-    let ssComAccountBO =  result.ssComAccountBO
+    let ssComAccountBO =  result.ssComAccountBO;
     //判断账户信息是否为空
-    let isNull = ssComAccountBO==null || ssComAccountBO==""
+    let isNull = ssComAccountBO==null || ssComAccountBO=="";
 
     let expireDateFront = "";
     let paymentWay = "";
@@ -477,8 +477,6 @@ export class CompanyTaskList{
       }
       
     }
-    console.log("==="+ssComAccountBO);
-    console.log(ssComAccountBO);
     //发出的材料
     return {
       companyTaskStatus:result.taskStatus,

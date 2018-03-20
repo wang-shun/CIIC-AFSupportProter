@@ -9,8 +9,9 @@ export default {
     return await response.data;
   },
 
-  queryTransferNew: (params) => {
-    AJAX.post('/api/fundcommandservice/hfEmpTask/queryTransferNew', params);
+  queryTransferForNewTask: async (params) => {
+    AJAX.post('/api/fundcommandservice/hfEmpTask/queryTransferForNewTask', params);
+    return await response.data;
   },
 
   hfEmpTaskRejectQuery: async (params) => {

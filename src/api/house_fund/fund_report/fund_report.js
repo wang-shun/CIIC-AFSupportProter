@@ -10,4 +10,10 @@ export default {
   hfMonthChargeExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfMonthCharge/hfMonthChargeExport', params);
   },
+  chgDetailListExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfMonthCharge/chgDetailListExport', params);
+  },
+  repairDetailListExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfMonthCharge/repairDetailListExport', params);
+  },
 }

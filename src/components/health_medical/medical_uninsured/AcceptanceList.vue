@@ -153,7 +153,7 @@
           handlerDateRange: [],
         },
         dealMeg: {
-          handler: "username",
+          handler: null,
           handlerDate: new Date(),
           status: null,
           rejectType: null,
@@ -205,7 +205,7 @@
             title: '受理日期', sortable: true, key: 'handlerDate', align: 'center',
             render: (h, params) => {
               if (params.row.handlerDate !== null) {
-                return this.$utils.formatDate(params.row.handlerDate, 'YYYY-MM-DD HH:mm:ss');
+                return this.$utils.formatDate(params.row.handlerDate, 'YYYY-MM-DD');
               }
             }
           },
@@ -219,7 +219,7 @@
             title: '受理人', sortable: true, key: 'handler', align: 'center'
           },
           {
-            title: '操作', key: 'action', width: 120, align: 'center',
+            title: '操作', key: 'action', width: 125, align: 'center',
             render: (h, params) => {
               if (params.row.status === 0) {
                 return h('div', [
@@ -236,6 +236,9 @@
                   }, '受理'),
                   h('Button', {
                     props: {type: 'success', size: 'small'},
+                    style: {
+                      marginLeft: '5px'
+                    },
                     on: {
                       click: () => {
                         //auditNurseryFee
@@ -267,6 +270,8 @@
       }
     },
     created() {
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      this.dealMeg.handler = this.userInfo.displayName;
       this.getByPage(1);
     },
     methods: {

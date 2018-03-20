@@ -5,73 +5,152 @@
       <p slot="title">
         雇员信息
       </p>
-      <Row class="m15">
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>雇员编号:</span>
-        <span>{{this.employeeData.employeeId}}</span>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>雇员姓名:</span>
-        <span>{{this.employeeData.employeeName}}</span>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>公司编号:</span>
-        <span>{{this.employeeData.companyId}}</span>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>公司名称:</span>
-        <span>{{this.employeeData.companyName}}</span>
-        </Col>
-      </Row>
+      <Form :model="detail" :label-width="105">
+        <Row>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
+            <Form-item label="雇员编号">
+              <span>{{ detail.employeeId }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
+          <Form-item label="公司编号">
+            <span>{{ detail.companyId }}</span>
+          </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
+            <Form-item label="雇员姓名">
+              <span>{{ detail.employeeName }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
+            <Form-item label="公司名称">
+              <span>{{ detail.companyName }}</span>
+            </Form-item>
+          </Col>
+        </Row>
+      </Form>
     </Card>
 
-    <Card>
+    <Card class="mt10">
       <p slot="title">
         受理单信息
       </p>
-      <Row class="m15">
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>雇员编号:</span>
-        <span>{{this.employeeData.employeeId}}</span>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>雇员姓名:</span>
-        <span>{{this.employeeData.employeeName}}</span>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>公司编号:</span>
-        <span>{{this.employeeData.companyId}}</span>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>公司名称:</span>
-        <span>{{this.employeeData.companyName}}</span>
-        </Col>
-      </Row>
+      <Form :model="detail" :label-width="105">
+        <Row>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="受理单编号">
+              <span>{{ detail.acceptanceId }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="受理人">
+              <span>{{ detail.handler }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="受理类型">
+              <span>{{ this.getCaseType(detail.caseType) }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="受理单状态">
+              <span>{{ this.getAcceptanceStatus(detail.status) }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="连带人">
+              <span>{{ detail.jointPersonName }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="款项类型">
+              <span>{{ this.getMoneyType(detail.moneyType) }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="受理日期">
+              <span>{{ detail.handlerDate }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="受理金额">
+              <span>{{ detail.caseMoney }}</span>
+            </Form-item>
+          </Col>
+
+        </Row>
+      </Form>
     </Card>
-    <Card v-if="uninsuredData.length !==0">
+    <Card v-if="detail.status > 2" class="mt10">
       <p slot="title">
         未投保审核信息
       </p>
-      <Row class="m15">
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>雇员编号:</span>
-        <span>{{this.employeeData.employeeId}}</span>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>雇员姓名:</span>
-        <span>{{this.employeeData.employeeName}}</span>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>公司编号:</span>
-        <span>{{this.employeeData.companyId}}</span>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <span>公司名称:</span>
-        <span>{{this.employeeData.companyName}}</span>
-        </Col>
-      </Row>
+      <Form :model="detail" :label-width="105">
+        <Row>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="就诊医院">
+              <span>{{ detail.clinicHospital }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="受理金额">
+              <span>{{ detail.acceptAmount }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="付款方式">
+              <span>{{ this.getPayType(detail.payType) }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="诊断">
+              <span>{{ detail.diagnose }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="审核金额">
+              <span>{{ detail.auditAmount }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="就诊日期">
+              <span>{{ detail.diagnoseDate }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="住院天数">
+              <span>{{ detail.hospitalizationDays }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="住院开始日期">
+              <span>{{ detail.hospitalizationStartDate }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="住院结束日期">
+              <span>{{ detail.hospitalizationEndDate }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="审核人">
+              <span>{{ detail.auditor }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="审核日期">
+              <span>{{ detail.auditDate }}</span>
+            </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="备注">
+              <span>{{ detail.remark }}</span>
+            </Form-item>
+          </Col>
+        </Row>
+      </Form>
     </Card>
-    <Row type="flex" justify="start">
+    <Row class="mt10">
       <Col :sm="{span: 24}" class="tr">
       <Button type="warning" @click="back()">返回</Button>
       </Col>
@@ -80,51 +159,104 @@
 </template>
 
 <script>
+  import apiAjax from "../../../data/health_medical/uninsured_application.js";
   export default {
-    data() {
-      return {
-        umAcceptanceId: null,
-        employeeData: {
-          employeeId: '11L2674',
-          employeeName: '戴敏',
-          companyId: '13684',
-          companyName: '苹果科技公司',
-        },
-        acceptanceData: {
-          acceptanceId: '20160215072',
-          caseType: 1,
-          moneyType: 1,
-          jointPersonName: '段嘉晨',
-          handler: '胡艳',
-          status: 1,
-          handlerDate: '2016-02-16',
-          caseMoney: '150'
-        },
-        uninsuredData: {
-          umAcceptanceId: '20160215072',
-          caseType: 1,
-          moneyType: 2,
-          reimbursementYearMonth: '2016-02',
-          reimbursementMoney: '1500',
-          auditor: '王正微',
-          auditDate: '2016-02-15',
-          status: 1,
-          payID: '1983865'
-        },
-      }
-    },
     created() {
       this.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
       this.queryAcceptanceUninsured();
     },
     methods: {
       queryAcceptanceUninsured() {
-        let sdd = [];
-        console.info(sdd.length);
+        apiAjax.acceptanceDetail(this.umAcceptanceId).then(response => {
+          let data = response.data
+          if (data.code==200) {
+            this.detail = data.object
+          } else {
+            this.$Message.error("请重试");
+          }
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
       },
       back() {
-        this.$local.back();
+        this.$local.back()
       },
+      getCaseType (type) {
+        if (type === 1) {
+          return '雇员'
+        }
+        if (type === 2) {
+          return '子女'
+        }
+        if (type === 3) {
+          return '配偶'
+        }
+        return ''
+      },
+      getMoneyType (type) {
+        if (type === 1) {
+          return '医疗费'
+        }
+        if (type === 2) {
+          return '体检费用'
+        }
+        if (type === 3) {
+          return '住院补贴'
+        }
+        if (type === 4) {
+          return '大额理赔款'
+        }
+        if (type === 5) {
+          return '其他'
+        }
+        return ''
+      },
+      getAcceptanceStatus (status) {
+        if (status === 0) {
+          return '未受理'
+        }
+        if (status === 1) {
+          return '已受理'
+        }
+        if (status === 2) {
+          return '拒赔'
+        }
+        if (status === 3) {
+          return '已审核未同步'
+        }
+        if (status === 4) {
+          return '已同步未支付'
+        }
+        if (status === 5) {
+          return '财务退回'
+        }
+        if (status === 6) {
+          return '已同步已支付'
+        }
+        if (status === 7) {
+          return '已退票'
+        }
+        if (status === 8) {
+          return '已完成'
+        }
+        return ''
+      },
+      getPayType (type) {
+        if (type === 1) {
+          return '打卡'
+        }
+        if (type === 2) {
+          return '现金'
+        }
+        return ''
+      }
     },
+    data() {
+      return {
+        umAcceptanceId: '',
+        detail: {}
+      }
+    }
   }
 </script>

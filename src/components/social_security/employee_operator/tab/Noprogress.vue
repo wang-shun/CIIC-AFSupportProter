@@ -78,10 +78,10 @@
                   <Option value="4" label="补缴"></Option>
                   <Option value="5" label="转出"></Option>
                   <Option value="6" label="封存"></Option>
-                  <Option value="12" label="翻牌新进"></Option>
+                  <!-- <Option value="12" label="翻牌新进"></Option> -->
                   <Option value="13" label="翻牌转入"></Option>
                   <Option value="14" label="翻牌转出"></Option>
-                  <Option value="15" label="翻牌封存"></Option>
+                  <!-- <Option value="15" label="翻牌封存"></Option> -->
                   <!--<Option value="7" label="退账"></Option>
                   <Option value="8" label="提取"></Option>
                   <Option value="9" label="特殊操作"></Option>-->
@@ -277,7 +277,7 @@
             title: '发起人', key: 'submitterId', width: 100, align: 'center'
           },
           {
-            title: '发起时间', key: 'submitTime', width: 180, align: 'center'
+            title: '发起时间', key: 'createdTime', width: 180, align: 'center'
           },
           {
             title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
@@ -325,7 +325,7 @@
           }
         })
       },
-      exprotExcel() {
+      exprotExcel() { 
         var params = {};
         {
           // 清除 '[全部]'

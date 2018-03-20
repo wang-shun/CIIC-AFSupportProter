@@ -7,94 +7,105 @@
           <Form ref="formItem" :model="formItem" :label-width="150">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="任务单状态">
-                <Select placeholder="请选择">
-                  <Option value="1" v-for="item in taskStatus" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="任务单类型">
-                <Select placeholder="请选择">
-                  <Option value="1" v-for="item in taskType" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保险公司">
-                <Select placeholder="请选择" transfer>
-                  <Option value="1" v-for="item in taskStatusCom" :value="item.value" :key="item.value">
+              <Form-item label="任务单状态" prop="status">
+                <Select v-model="formItem.status" :clearable="true">
+                  <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
                     {{item.label}}
                   </Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保险项目">
-                <Select v-model="model10" multiple placeholder="请选择" transfer>
-                  <Option value="1" v-for="item in taskTypeItem" :value="item.value" :key="item.value">{{item.label}}
+              <Form-item label="任务单类型" prop="taskType">
+                <Select v-model="formItem.taskType" :clearable="true">
+                  <Option v-for="item in taskTypeProperties" :value="item.value" :key="item.value">
+                    {{item.label}}
+                  </Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保险公司" prop="">
+                <Select value="1" :clearable="true">
+                  <Option v-for="item in taskStatusCom" :value="item.value" :key="item.value">
+                    {{item.label}}
+                  </Option>
+                </Select>
+              </Form-item>
+              </Col>-->
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保险项目" prop="afProductId">
+                <Select v-model="formItem.afProductId" :clearable="true">
+                  <Option v-for="item in taskTypeItem" :value="item.value" :key="item.value">{{item.label}}
+                  </Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <Col v-if="formItem.taskType === '1'" :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="起始日期" prop="startConfirmDateRange">
+                <DatePicker v-model="formItem.startConfirmDateRange" type="daterange" placement="bottom"
+                            placeholder="选择日期" style="width: 100%;"
+                            transfer></DatePicker>
+              </Form-item>
+              </Col>
+              <Col v-if="formItem.taskType === '2'" :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="截止日期" prop="endConfirmDateRange">
+                <DatePicker v-model="formItem.endConfirmDateRange" type="daterange" placement="bottom"
+                            placeholder="选择日期" style="width: 100%;"
+                            transfer></DatePicker>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保额类型">
+                <Select v-model="formItem.keyType" :clearable="true">
+                  <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="标的">
-                <Select placeholder="请选择" style="width: 80px;" transfer>
-                  <Option value="1" v-for="item in insureStatus" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-                <Input v-model="formItem.code" style="width: 90px;" placeholder="请输入"/>
-                <span class="expand-value">-</span>
-                <Input v-model="formItem.code" style="width: 90px;" placeholder="请输入"/>
+              <Form-item label="大于" prop="keyValueLarge">
+                <InputNumber v-model="formItem.keyValueLarge" style="width: 100%"></InputNumber>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保险开始日期">
-                <DatePicker type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;"
-                            transfer></DatePicker>
+              <Form-item label="小于" prop="keyValueSmall">
+                <InputNumber v-model="formItem.keyValueSmall" style="width: 100%"></InputNumber>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保险结束日期">
-                <DatePicker type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;"
-                            transfer></DatePicker>
+              <Form-item label="管理方编号" prop="managementId">
+                <Input v-model="formItem.managementId" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="管理方编号">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              <Form-item label="管理方名称" prop="managementName">
+                <Input v-model="formItem.managementName" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="管理方名称">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              <Form-item label="雇员编号" prop="employeeId">
+                <Input v-model="formItem.employeeId" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              <Form-item label="雇员姓名" prop="employeeName">
+                <Input v-model="formItem.employeeName" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              <Form-item label="证件号码" prop="idNum">
+                <Input v-model="formItem.idNum" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              <Form-item label="公司编号" prop="companyId">
+                <Input v-model="formItem.companyId" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司编号">
-                <Input v-model="formItem.code" placeholder="请输入"/>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司名称">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              <Form-item label="公司名称" prop="companyName">
+                <Input v-model="formItem.companyName" placeholder="请输入"/>
               </Form-item>
               </Col>
             </Row>
@@ -114,57 +125,46 @@
       <Button type="info" @click="modal2 = true">暂缓</Button>
       <Button type="info" @click="modal3 = true">恢复</Button>
       <Button type="info" @click="modal5 = true">更新在保库</Button>
-      <Button type="info" @click="modal6 = true">退回</Button>
       <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
     </div>
 
-    <Modal
-      v-model="modal1"
-      title="审核对话框"
-      @on-ok="ok"
-      ok-text="审核通过"
-      @on-cancel="cancel"
-      cancel-text="批退">
-      <Input v-model="formItem.code" placeholder="请输入操作说明："/>
+    <Modal class="warn-back"
+           v-model="modal1"
+           title="审核"
+           @on-ok="updateTpaTaskList(4)"
+           ok-text="审核通过"
+           @on-cancel="updateTpaTaskList(6)"
+           cancel-text="退回">
+      <Input v-model="dealMsg.remark" placeholder="请输入操作说明："/>
     </Modal>
 
-    <Modal
-      v-model="modal2"
-      title="暂缓对话框"
-      @on-ok="delay"
-      ok-text="暂缓"
-      cancel-text="返回">
-      <Input v-model="formItem.code" placeholder="请输入暂缓原因："/>
+    <Modal v-model="modal2"
+           title="暂缓"
+           @on-ok="updateTpaTaskList(3)"
+           ok-text="暂缓">
+      <Input v-model="dealMsg.remark" placeholder="请输入暂缓原因："/>
     </Modal>
 
-    <Modal
-      v-model="modal3"
-      title="恢复对话框"
-      @on-ok="recovery"
-      ok-text="确认恢复"
-      cancel-text="返回">
+    <Modal v-model="modal3"
+           title="恢复"
+           @on-ok="updateTpaTaskList(2)"
+           ok-text="确认恢复">
     </Modal>
 
-    <Modal
-      v-model="modal5"
-      title="更新在保库对话框"
-      @on-ok="toubao"
-      ok-text="确认更新"
-      cancel-text="返回">
-    </Modal>
-
-    <Modal
-      v-model="modal6"
-      title="失败处理对话框"
-      @on-ok="toubao"
-      ok-text="更新为待投保"
-      cancel-text="批退">
+    <Modal class="warn-back"
+           v-model="modal5"
+           title="更新在保库"
+           @on-ok="toubao"
+           ok-text="确认更新"
+           @on-cancel="updateTpaTaskList(6)"
+           cancel-text="退回">
     </Modal>
 
     <Table border
            stripe
            :columns="taskColumns"
-           :data="taskData"></Table>
+           :data="taskData"
+           @on-selection-change="selectTableData"></Table>
     <Page show-sizer show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
@@ -189,12 +189,28 @@
         modal5: false,
         modal6: false,
         modal10: false,
-        model10: [],
         value1: '1',
         formItem: {
           total: 0,
           current: 1,
           size: 10,
+          status: null,
+          taskType: '1',
+          keyType: null,
+          keyValueLarge: null,
+          keyValueSmall: null,
+          afProductId: null,
+          startConfirmDateRange: [],
+          endConfirmDateRange: [],
+          employeeId: null,
+          employeeName: null,
+          companyId: null,
+          companyName: null,
+          managementId: null,
+          managementName: null,
+        },
+        dealMsg: {
+          remark: null
         },
         taskColumns: [
           {
@@ -256,6 +272,12 @@
             }
           },
           {
+            title: '状态', sortable: true, key: 'status', align: 'center',
+            render: (h, params) => {
+              return task.statusToChina(params.row.status);
+            }
+          },
+          {
             title: '中止日期', sortable: true, key: 'column12', align: 'center',
             render: (h, params) => {
               if (params.row.birthDate !== null) {
@@ -265,11 +287,12 @@
           }
         ],
         taskData: [],
-        taskType: task.taskType,
+        selectData: [],
+        taskTypeProperties: task.taskTypeProperties,
         taskStatusCom: task.taskStatusCom,
         taskTypeItem: task.taskTypeItem,
         taskStatus: task.taskStatus,
-        insureStatus: task.insureStatus
+        keyTypeProperties: task.keyTypeProperties
       };
     },
     created() {
@@ -279,10 +302,34 @@
       queryTaskPage() {
         apiAjax.queryTaskPage(this.formItem).then(response => {
           this.taskData = response.data.object.records;
+          this.taskData.forEach(item => {
+            if (item.status === 5 || item.status === 6) {
+              item._disabled = true;
+            }
+          });
           this.formItem.total = response.data.object.total;
         });
       },
-
+      updateTpaTaskList(val) {
+        if (this.selectData.length === 0) {
+          this.$Message.error('请选择数据');
+          return;
+        }
+        this.selectData.forEach(item => {
+          item.status = val;
+          item.remark = this.dealMsg.remark;
+        });
+        apiAjax.updateTpaTask(this.selectData).then(response => {
+          if (response.data.code === 200) {
+            this.getByPage(1);
+            this.dealMsg.remark = null;
+            this.$Message.success('更新成功');
+          }
+        });
+      },
+      selectTableData(rows) {
+        this.selectData = rows;
+      },
       getByPage(val) {
         this.formItem.current = val;
         this.queryTaskPage()
@@ -294,24 +341,22 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      ok() {
-        this.$Message.info('已审核通过');
-      },
-      cancel() {
-        this.$Message.info('已批退');
-      },
-      recovery() {
-        this.$Message.info('已恢复');
-      },
       toubao() {
         this.$Message.info('已投保');
       },
-      selectresult() {
-//            this.$refs.rmb.style.visibility='hidden';  隐藏按钮
-      },
-      delay() {
-        this.$Message.info('已暂缓');
-      }
     }
   }
 </script>
+
+<style>
+  .warn-back .ivu-btn.ivu-btn-text.ivu-btn-large {
+    color: #fff;
+    background-color: #ed3f14;
+    border-color: #ed3f14;
+  }
+
+  .warn-back .ivu-btn.ivu-btn-text.ivu-btn-large:hover {
+    background-color: #f16543;
+    border-color: #f16543;
+  }
+</style>

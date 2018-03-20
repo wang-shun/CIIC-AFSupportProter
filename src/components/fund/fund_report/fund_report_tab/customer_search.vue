@@ -157,7 +157,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           hfMonth: '',
           basicHfComAccount: '',
           addedHfComAccount: '',
-          hfType: 1,
+          hfType: '',
         },
         accountTypeList: [],
         customerData: [],
@@ -300,6 +300,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         if (this.operatorSearchData.hfMonth) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
+        this.operatorSearchData.hfType = '';
         var params = {};
         {
           // 清除 '[全部]'
@@ -322,6 +323,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         if (this.operatorSearchData.hfMonth) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
+        this.operatorSearchData.hfType = '';
         var params = {};
         {
           // 清除 '[全部]'

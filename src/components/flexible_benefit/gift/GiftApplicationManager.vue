@@ -31,7 +31,7 @@
     </Collapse>
     <div class="tr m20">
       <router-link to="/giftAdd">
-        <Button type="info">新增礼品</Button>
+        <Button type="primary">新增礼品</Button>
       </router-link>
     </div>
     <Table border :columns="giftManagerColumns" :data="giftManagerData" ref="giftManagerTable"></Table>

@@ -166,7 +166,9 @@
           employeeId:this.$route.query.employeeId,
           companyId:this.$route.query.companyId,
           employmentId:this.$route.query.employmentId,
-          empTaskId:this.$route.query.empTaskId
+          empTaskId:this.$route.query.empTaskId,
+          printDateR:false,
+          resignMaterialDeliveryDateR:false
         },
         refuseNotesData: [],
         employmentViewData: [],

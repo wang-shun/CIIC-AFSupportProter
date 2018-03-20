@@ -28,7 +28,7 @@
         <Panel name="4">
           用工办理
           <div slot="content">
-            <employment-handle :handleInfo="handleInfo"></employment-handle>
+            <employment-handle :handleInfo="handleInfo" :handleInfoMaterial="materialHandleInfo"></employment-handle>
           </div>
         </Panel>
         <Panel name="5">

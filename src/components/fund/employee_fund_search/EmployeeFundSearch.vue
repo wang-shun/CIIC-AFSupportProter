@@ -453,7 +453,7 @@
       employeeQuery(params){
         let self =this
         api.employeeQuery({
-          pageSize: this.pageData.pageSize,
+        pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
           params: params,
         }).then(data => {

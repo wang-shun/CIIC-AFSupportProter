@@ -24,7 +24,7 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保险公司" prop="">
                 <Select value="1" :clearable="true">
                   <Option v-for="item in taskStatusCom" :value="item.value" :key="item.value">
@@ -32,24 +32,13 @@
                   </Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保险项目" prop="afProductId">
                 <Select v-model="formItem.afProductId" :clearable="true">
                   <Option v-for="item in taskTypeItem" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="标的">
-                <Select value="1" style="width: 80px;">
-                  <Option v-for="item in insureStatus" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-                <Input v-model="formItem.code" style="width: 90px;" placeholder="请输入"/>
-                <span class="expand-value">-</span>
-                <Input v-model="formItem.code" style="width: 90px;" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col v-if="formItem.taskType === '1'" :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -64,6 +53,24 @@
                 <DatePicker v-model="formItem.endConfirmDateRange" type="daterange" placement="bottom"
                             placeholder="选择日期" style="width: 100%;"
                             transfer></DatePicker>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保额类型">
+                <Select v-model="formItem.keyType" :clearable="true">
+                  <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
+                  </Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="大于" prop="keyValueLarge">
+                <InputNumber v-model="formItem.keyValueLarge" style="width: 100%"></InputNumber>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="小于" prop="keyValueSmall">
+                <InputNumber v-model="formItem.keyValueSmall" style="width: 100%"></InputNumber>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -182,7 +189,6 @@
         modal5: false,
         modal6: false,
         modal10: false,
-        model10: [],
         value1: '1',
         formItem: {
           total: 0,
@@ -190,6 +196,9 @@
           size: 10,
           status: null,
           taskType: '1',
+          keyType: null,
+          keyValueLarge: null,
+          keyValueSmall: null,
           afProductId: null,
           startConfirmDateRange: [],
           endConfirmDateRange: [],
@@ -283,7 +292,7 @@
         taskStatusCom: task.taskStatusCom,
         taskTypeItem: task.taskTypeItem,
         taskStatus: task.taskStatus,
-        insureStatus: task.insureStatus
+        keyTypeProperties: task.keyTypeProperties
       };
     },
     created() {

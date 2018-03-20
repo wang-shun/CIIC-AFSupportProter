@@ -191,7 +191,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="任务类型：">
-                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
+                <Select v-model="displayVO.dictTaskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
                   <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
               </FormItem>
@@ -257,6 +257,7 @@
         isShowPrint: false,
         displayVO: {
           empTaskId: 0,
+          dictTaskCategory: 0,
           taskCategory: 0,
 //          taskCategoryName: '补缴',
           basicHfComAccount: '',
@@ -288,6 +289,7 @@
           inDate: '',
           basicEmpArchiveId: '',
           basicHfEmpAccount: '',
+          basicArchiveStatusName: '',
           basicEmpTaskStatusName: '',
           basicEmpStartMonth: '',
           basicEmpEndMonth: '',
@@ -296,6 +298,7 @@
           basicRatioCom: '',
           basicRatioEmp: '',
           addedHfEmpAccount: '',
+          addedArchiveStatusName: '',
           addedEmpTaskStatusName: '',
           addedEmpStartMonth: '',
           addedEmpEndMonth: '',
@@ -349,6 +352,7 @@
         inputData: {
           empTaskId: 0,
           taskStatus: 1,
+          dictTaskCategory: 0,
           taskCategory: 0,
           companyId: '',
           employeeId: '',
@@ -371,7 +375,7 @@
     mounted() {
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
-      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
       let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
@@ -418,12 +422,12 @@
           this.taskCategoryList = data.data.HFLocalTaskCategory;
 //          this.operationRemindList = data.data.OperationRemind;
 //          this.transferOutUnitList = data.data.FundOutUnit;
-          if (taskCategory < 7) {
+          if (dictTaskCategory < 5) {
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;
-            this.taskCategoryList.splice(7, this.taskCategoryList.length - 2);
-            this.taskCategoryList.splice(0, 5);
+            this.taskCategoryList.splice(5, this.taskCategoryList.length - 2);
+            this.taskCategoryList.splice(0, 3);
           }
         } else {
           this.$Message.error(data.message);
@@ -534,7 +538,7 @@
       },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
-        this.inputData.taskCategory = this.displayVO.taskCategory;
+        this.inputData.dictTaskCategory = this.displayVO.dictTaskCategory;
 //        this.inputData.operationRemind = this.displayVO.operationRemind;
 //        if (this.displayVO.operationRemindDate) {
 //          this.inputData.operationRemindDate = utils.formatDate(this.displayVO.operationRemindDate,"YYYY-MM-DD");

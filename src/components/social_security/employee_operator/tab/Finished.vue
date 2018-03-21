@@ -242,7 +242,7 @@
             title: '发起人', key: 'submitterId', width: 100, align: 'center'
           },
           {
-            title: '发起时间', key: 'submitTime', width: 180, align: 'center'
+            title: '发起时间', key: 'createdTime', width: 180, align: 'center'
           },
           {
             title: '办理备注', key: 'handleRemark', width: 300, align: 'center'

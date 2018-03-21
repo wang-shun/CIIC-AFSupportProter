@@ -119,6 +119,10 @@ export default {
   },
   archiveSearchExportOpt:async (params) => {
     AJAX.download('/api/employcommandservice/amArchiveTask/archiveSearchExportOpt', params);
+  },//查询雇员详细信息
+  getDefualtEmployBO:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amEmpTask/getDefualtEmployBO', params);
+    return await response.data;
   }
 
 

@@ -1,39 +1,42 @@
 const taskStatus = [
   {
-    value: 'status1', label: '待审核'
+    value: '1', label: '待审核'
   },
   {
-    value: 'status2', label: '已处理'
+    value: '2', label: '已处理'
   },
   {
-    value: 'status3', label: '已暂缓'
+    value: '3', label: '暂缓'
   },
   {
-    value: 'status4', label: '处理失败'
+    value: '4', label: '已审核'
   },
   {
-    value: 'status5', label: '处理成功'
+    value: '5', label: '已完成'
+  },
+  {
+    value: '6', label: '已批退'
   }
 ];
 
-const taskType = [
+const taskTypeProperties = [
   {
-    value: 'type1', label: '投保任务单'
+    value: '1', label: '投保任务单'
   },
   {
-    value: 'type2', label: '退保任务单'
+    value: '2', label: '退保任务单'
   },
   {
-    value: 'type3', label: '变更任务单'
+    value: '3', label: '变更保任务单'
   }
 ];
 
 const taskStatusCom = [
   {
-    value: 'type2', label: '中智'
+    value: '1', label: '中智'
   },
   {
-    value: 'type3', label: '中国平安保险公司'
+    value: '2', label: '中国平安保险公司'
   }
 ];
 
@@ -52,12 +55,12 @@ const taskTypeItem = [
   }
 ];
 
-const insureStatus = [
+const keyTypeProperties = [
   {
-    label: '区间', value: 'p1'
+    label: '固定金额', value: '1'
   },
   {
-    label: '比例', value: 'p2'
+    label: '赔付比例', value: '2'
   }
 ];
 
@@ -97,14 +100,37 @@ function genderToChina(status) {
   }
 }
 
+function statusToChina(status) {
+  switch (status) {
+    case 1:
+      return "信息待完善";
+      break;
+    case 2:
+      return "待处理";
+      break;
+    case 3:
+      return "暂缓";
+      break;
+    case 4:
+      return "已审核";
+      break;
+    case 5:
+      return "已完成";
+      break;
+    case 6:
+      return "已批退";
+      break;
+  }
+}
 
 export default {
   taskStatus,
-  taskType,
+  taskTypeProperties,
   taskStatusCom,
   taskTypeItem,
-  insureStatus,
+  keyTypeProperties,
   keyTypeToChina,
   typeToChina,
   genderToChina,
+  statusToChina,
 };

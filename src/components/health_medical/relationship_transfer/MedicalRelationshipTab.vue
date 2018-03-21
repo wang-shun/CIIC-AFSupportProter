@@ -18,8 +18,8 @@
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="证件号码" prop="code">
-                <Input v-model="transferItem.code" placeholder="请输入"/>
+              <FormItem label="证件号码" prop="idNum">
+                <Input v-model="transferItem.idNum" placeholder="请输入"/>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -78,7 +78,7 @@
           size: 10,
           employeeId: null,
           employeeName: null,
-          code: null,
+          idNum: null,
           companyCode: null,
           companyName: null,
         },
@@ -148,6 +148,7 @@
       ...mapActions("TRANSFER", [EventTypes.TRANSFER_LIST]),
       queryTransfer() {
         /**封装为后台可以接受的数据结构*/
+        this.transferItem.companyId = this.transferItem.companyCode
         this[EventTypes.TRANSFER_LIST](this.transferItem);
       },
       ok() {

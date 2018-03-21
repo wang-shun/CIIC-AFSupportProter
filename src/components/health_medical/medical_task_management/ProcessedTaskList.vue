@@ -1,124 +1,118 @@
 <template>
-  <div class="processedTaskList">
+  <div class="pendingTaskList">
     <Collapse v-model="value1" accordion>
       <Panel name="1">
+        待处理任务单查询
         <div slot="content">
-          <Form ref="formItem" :model="formItem" :label-width="140">
-            <Row justify="start" class="mt20 mr10">
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="任务单状态">
-                <Select placeholder="请选择">
-                  <Option value="1" v-for="item in taskStatus" :value="item.value" :key="item.value">{{item.label}}
+          <Form ref="formItem" :model="formItem" :label-width="150">
+            <Row type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="任务单状态" prop="status">
+                <Select v-model="formItem.status" :clearable="true">
+                  <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
+                    {{item.label}}
                   </Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="任务单类型">
-                <Select placeholder="请选择">
-                  <Option value="1" v-for="item in taskType" :value="item.value" :key="item.value">{{item.label}}
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="任务单类型" prop="taskType">
+                <Select v-model="formItem.taskType" :clearable="true">
+                  <Option v-for="item in taskTypeProperties" :value="item.value" :key="item.value">
+                    {{item.label}}
                   </Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保险公司">
-                <Select placeholder="请选择">
-                  <Option value="1" v-for="item in insurecompany" :value="item.value" :key="item.value">{{item.label}}
+             <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保险公司" prop="">
+                <Select value="1" :clearable="true">
+                  <Option v-for="item in taskStatusCom" :value="item.value" :key="item.value">
+                    {{item.label}}
+                  </Option>
+                </Select>
+              </Form-item>
+              </Col>-->
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保险项目" prop="afProductId">
+                <Select v-model="formItem.afProductId" :clearable="true">
+                  <Option v-for="item in taskTypeItem" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="保险项目">
-                <Select v-model="model10" placeholder="请选择">
-                  <Option value="1" v-for="item in insureproject" :value="item.value" :key="item.value">{{item.label}}
+              <Col v-if="formItem.taskType === '1'" :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="起始日期" prop="startConfirmDateRange">
+                <DatePicker v-model="formItem.startConfirmDateRange" type="daterange" placement="bottom"
+                            placeholder="选择日期" style="width: 100%;"
+                            transfer></DatePicker>
+              </Form-item>
+              </Col>
+              <Col v-if="formItem.taskType === '2'" :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="截止日期" prop="endConfirmDateRange">
+                <DatePicker v-model="formItem.endConfirmDateRange" type="daterange" placement="bottom"
+                            placeholder="选择日期" style="width: 100%;"
+                            transfer></DatePicker>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保额类型">
+                <Select v-model="formItem.keyType" :clearable="true">
+                  <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="操作">
-                <Select placeholder="请选择">
-                  <Option value="1">投保</Option>
-                  <Option value="2">退保</Option>
-                </Select>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="大于" prop="keyValueLarge">
+                <InputNumber v-model="formItem.keyValueLarge" style="width: 100%"></InputNumber>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="标的">
-                <Select placeholder="请选择" style="width: 80px;">
-                  <Option value="1" v-for="item in insureStatus1" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-                <Input v-model="formItem.code" style="width: 90px;" placeholder="请输入"/>
-                <span class="expand-value">-</span>
-                <Input v-model="formItem.code" style="width: 90px;" placeholder="请输入"/>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="小于" prop="keyValueSmall">
+                <InputNumber v-model="formItem.keyValueSmall" style="width: 100%"></InputNumber>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="保险开始日期">
-                <DatePicker v-model="formItem.handlerDateRange" type="daterange" placement="bottom-end"
-                            placeholder="选择日期" style="width: 100%"></DatePicker>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="管理方编号" prop="managementId">
+                <Input v-model="formItem.managementId" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="保险结束日期">
-                <DatePicker v-model="formItem.handlerDateRange" type="daterange" placement="bottom-end"
-                            placeholder="选择日期" style="width: 100%"></DatePicker>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="管理方名称" prop="managementName">
+                <Input v-model="formItem.managementName" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="投保/退保日期">
-                <DatePicker v-model="formItem.handlerDateRange" type="daterange" placement="bottom-end"
-                            placeholder="选择日期" style="width: 100%"></DatePicker>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员编号" prop="employeeId">
+                <Input v-model="formItem.employeeId" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="管理方编号">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="雇员姓名" prop="employeeName">
+                <Input v-model="formItem.employeeName" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="管理方名称">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="证件号码" prop="idNum">
+                <Input v-model="formItem.idNum" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="雇员编号">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公司编号" prop="companyId">
+                <Input v-model="formItem.companyId" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="雇员姓名">
-                <Input v-model="formItem.code" placeholder="请输入"/>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="证件号码">
-                <Input v-model="formItem.code" placeholder="请输入"/>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="公司编号">
-                <Input v-model="formItem.code" placeholder="请输入"/>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="公司名称">
-                <Input v-model="formItem.code" placeholder="请输入"/>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="保单名称">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="公司名称" prop="companyName">
+                <Input v-model="formItem.companyName" placeholder="请输入"/>
               </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="selectresult">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('searchCondition')" class="ml10">重置</Button>
+              <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('formItem')" class="ml10">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -130,31 +124,59 @@
       <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
     </div>
 
-    <Table border :columns="columns7" :data="data6"></Table>
-    <Page :total="100" show-sizer show-elevator></Page>
+    <Table border
+           stripe
+           :columns="taskColumns"
+           :data="taskData"
+           @on-selection-change="selectTableData"></Table>
+    <Page show-sizer show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :total="formItem.total"
+          :current="formItem.current"
+          :page-size="formItem.size"></Page>
   </div>
 </template>
 <script>
   import taskExpend from './TaskExpend.vue';
+  import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
+  import apiAjax from "../../../data/health_medical/task_medica.js";
 
   export default {
     components: {taskExpend},
     data() {
       return {
+        modal1: false,
+        modal2: false,
+        modal3: false,
+        modal4: false,
+        modal5: false,
+        modal6: false,
+        modal10: false,
         value1: '1',
         formItem: {
-          input: '',
-          select: '',
-          select1: '',
-          radio: 'male',
-          checkbox: [],
-          switch: true,
-          date: '',
+          total: 0,
+          current: 1,
+          size: 10,
+          status: null,
+          taskType: '1',
+          keyType: null,
+          keyValueLarge: null,
+          keyValueSmall: null,
+          afProductId: null,
+          startConfirmDateRange: [],
+          endConfirmDateRange: [],
+          employeeId: null,
+          employeeName: null,
+          companyId: null,
+          companyName: null,
+          managementId: null,
+          managementName: null,
         },
-        columns7: [
-          {
-            type: 'selection', width: 60, align: 'center'
-          },
+        dealMsg: {
+          remark: null
+        },
+        taskColumns: [
           {
             type: 'expand', width: 50,
             render: (h, params) => {
@@ -166,162 +188,100 @@
             }
           },
           {
-            title: '状态', sortable: true, key: 'column31'
+            title: '雇员编号', sortable: true, key: 'employeeId', align: 'center'
           },
           {
-            title: '投保项目', sortable: true, key: 'column1'
+            title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center'
           },
           {
-            title: '雇员编号', sortable: true, key: 'column4'
+            title: '保险对象', sortable: true, align: 'center',
+            render: (h, params) => {
+              if (params.row.type === 1) {
+                return params.row.employeeName;
+              } else {
+                return params.row.associatedInsurantName;
+              }
+            }
           },
           {
-            title: '雇员姓名', sortable: true, key: 'column5'
+            title: '性别', sortable: true, key: 'gender', align: 'center',
+            render: (h, params) => {
+              return task.genderToChina(params.row.gender);
+            }
           },
           {
-            title: '合同开始时间', sortable: true, key: 'column30'
+            title: '出生日期', sortable: true, key: 'birthDate', align: 'center',
+            render: (h, params) => {
+              if (params.row.birthDate !== null) {
+                return this.$utils.formatDate(params.row.birthDate, 'YYYY-MM-DD');
+              }
+            }
           },
           {
-            title: '公司编号', sortable: true, key: 'column6'
+            title: '投保费用', sortable: true, key: 'price', align: 'center'
           },
           {
-            title: '公司名称', sortable: true, key: 'column21'
+            title: '标的', sortable: true, key: 'keyType', align: 'center',
+            render: (h, params) => {
+              return task.keyTypeToChina(params.row.keyType);
+            }
           },
           {
-            title: '客户经理', sortable: true, key: 'column7'
+            title: '关系', sortable: true, key: 'type', align: 'center',
+            render: (h, params) => {
+              return task.typeToChina(params.row.type);
+            }
           },
           {
-            title: '保险对象', sortable: true, key: 'column8'
+            title: '状态', sortable: true, key: 'status', align: 'center',
+            render: (h, params) => {
+              return task.statusToChina(params.row.status);
+            }
           },
           {
-            title: '性别', sortable: true, key: 'column8'
-          },
-          {
-            title: '出生日期', sortable: true, key: 'column8'
-          },
-          {
-            title: '证件号码', sortable: true, key: 'column9'
-          },
-          {
-            title: '投保费用', sortable: true, key: 'column10'
-          },
-          {
-            title: '标的', sortable: true, key: 'column11'
-          },
-          {
-            title: '关系', sortable: true, key: 'column12'
-          },
-          {
-            title: '中止日期', sortable: true, key: 'column12'
-          },
-          {
-            title: '保险开始日期', sortable: true, key: 'column12'
-          },
-          {
-            title: '保险结束日期', sortable: true, key: 'column12'
-          },
-          {
-            title: '保单名称', sortable: true, key: 'column12'
-          },
-          {
-            title: '投保日期', sortable: true, key: 'column12'
-          },
-          {
-            title: '退保日期', sortable: true, key: 'column12'
-          },
-          {
-            title: '批退原因', sortable: true, key: 'column12'
-          },
-          {
-            title: '提交人', sortable: true, key: 'column12'
-          },
-          {
-            title: '提交时间', sortable: true, key: 'column12'
+            title: '中止日期', sortable: true, key: 'column12', align: 'center',
+            render: (h, params) => {
+              if (params.row.birthDate !== null) {
+                return this.$utils.formatDate(params.row.column12, 'YYYY-MM-DD HH:mm:ss');
+              }
+            }
           }
         ],
-        data6: [
-          {
-            column31: '已完成',
-            column1: '中智公司-意外伤害',
-            column2: '否',
-            column3: '投保',
-            column4: '11L2674',
-            column5: '戴敏',
-            column6: '27376',
-            column21: '瑞德丽邦基数咨询服务有限公司',
-            column7: '段嘉晨',
-            column8: '戴敏',
-            column9: '150203199211161220',
-            column10: '150',
-            column11: '20万'
-          },
-          {
-            column31: '已批退',
-            column1: '中盈保险-补充医疗',
-            column2: '否',
-            column3: '投保',
-            column4: '11L2674',
-            column5: '戴敏',
-            column6: '27376',
-            column21: '瑞德丽邦基数咨询服务有限公司',
-            column7: '段嘉晨',
-            column8: '戴敏',
-            column9: '150203199211161220',
-            column10: '200',
-            column11: '40万'
-          }
-        ],
-        taskType: [
-          {
-            value: 'type1', label: '投保任务单'
-          },
-          {
-            value: 'type2', label: '退保任务单'
-          },
-          {
-            value: 'type3', label: '变更任务单'
-          }
-        ],
-        taskStatus: [
-          {
-            value: 'status1', label: '已批退'
-          },
-          {
-            value: 'status2', label: '已投保'
-          },
-          {
-            value: 'status3', label: '已完成'
-          }
-        ],
-        insureproject: [
-          {
-            label: '家庭财产险', value: 'p1'
-          },
-          {
-            label: '二十种重大疾病险', value: 'p2'
-          },
-          {
-            label: '补充医疗险', value: 'p3'
-          },
-
-        ],
-        insurecompany: [
-          {
-            label: '中智', value: 'p1'
-          },
-          {
-            label: '中国平安保险', value: 'p2'
-          },
-          {
-            label: '中国大地保险', value: 'p3'
-          }
-        ]
-      }
+        taskData: [],
+        selectData: [],
+        taskTypeProperties: task.taskTypeProperties,
+        taskStatusCom: task.taskStatusCom,
+        taskTypeItem: task.taskTypeItem,
+        taskStatus: task.taskStatus,
+        keyTypeProperties: task.keyTypeProperties
+      };
+    },
+    created() {
+      this.getByPage(1);
     },
     methods: {
-      remove(index) {
-        this.data6.splice(index, 1);
-      }
+      queryTaskPage() {
+        apiAjax.queryTaskPage(this.formItem).then(response => {
+          this.taskData = response.data.object.records;
+          this.taskData.forEach(item => {
+            if (item.status === 6) {
+              item._disabled = true;
+            }
+          });
+          this.formItem.total = response.data.object.total;
+        });
+      },
+      getByPage(val) {
+        this.formItem.current = val;
+        this.queryTaskPage()
+      },
+      pageSizeChange(size) {
+        this.formItem.size = size;
+        this.queryTaskPage()
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
+      },
     }
   }
-
 </script>

@@ -25,7 +25,7 @@
                 <Input v-model="formItem.umAcceptanceId" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col v-if="formItem.status === true" :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="审核日期" prop="auditDateRange">
                 <DatePicker v-model="formItem.auditDateRange" type="daterange" placement="bottom-end"
                             placeholder="选择日期" style="width: 100%"></DatePicker>
@@ -69,8 +69,8 @@
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码" prop="idCardType">
-                <Input v-model="formItem.idCardType" placeholder="请输入"/>
+              <Form-item label="证件号码" prop="idNum">
+                <Input v-model="formItem.idNum" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -124,7 +124,7 @@
           companyName: null,
           employeeId: null,
           employeeName: null,
-          idCardType: null,
+          idNum: null,
           handlerDateRange: [],
           auditDateRange: [],
         },

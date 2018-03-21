@@ -289,6 +289,7 @@
         isShowPrint: false,
         displayVO: {
           empTaskId: 0,
+          dictTaskCategory: 6,
           taskCategory: 6,
           taskCategoryName: '补缴',
           basicHfComAccount: '',
@@ -320,6 +321,7 @@
           inDate: '',
           basicEmpArchiveId: '',
           basicHfEmpAccount: '',
+          basicArchiveStatusName: '',
           basicEmpTaskStatusName: '',
           basicEmpStartMonth: '',
           basicEmpEndMonth: '',
@@ -328,6 +330,7 @@
           basicRatioCom: '',
           basicRatioEmp: '',
           addedHfEmpAccount: '',
+          addedArchiveStatusName: '',
           addedEmpTaskStatusName: '',
           addedEmpStartMonth: '',
           addedEmpEndMonth: '',
@@ -546,6 +549,7 @@
         inputData: {
           empTaskId: 0,
           taskStatus: 1,
+          dictTaskCategory: 0,
           taskCategory: 0,
           companyId: '',
           employeeId: '',
@@ -566,7 +570,7 @@
     mounted() {
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
-      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
       let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
@@ -721,7 +725,7 @@
       },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
-        this.inputData.taskCategory = this.displayVO.taskCategory;
+        this.inputData.dictTaskCategory = this.displayVO.dictTaskCategory;
         this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
         this.inputData.operationRemind = this.displayVO.operationRemind;
         if (this.displayVO.operationRemindDate) {

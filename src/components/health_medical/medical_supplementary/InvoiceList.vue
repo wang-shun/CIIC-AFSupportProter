@@ -100,7 +100,7 @@
     </Card>
 
     <div class="tr m20">
-      <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出</Button>
+      <Button type="info" @click="exportData()" icon="ios-download-outline">导出</Button>
     </div>
 
     <Table border :columns="invoiceColumns" :data="invoiceData" ref="table"></Table>
@@ -111,6 +111,7 @@
   import invoiceExpend from './InvoiceExpend.vue';
   import apiAjax from "../../../data/health_medical/supplementary_medica.js";
   import supplementaryMedica from '../../../store/modules/health_medical/data_sources/supplementary_medica.js'
+  import qs from "qs"
 
   export default {
     components: {invoiceExpend},
@@ -126,7 +127,8 @@
             render: (h, params) => {
               return h(invoiceExpend, {
                 props: {
-                  row: params.row
+                  row: params.row,
+                  status: this.acceptanceData.status
                 }
               })
             }
@@ -211,6 +213,10 @@
           return this.$utils.formatDate(val, 'YYYY-MM-DD HH:mm:ss');
         }
         return val;
+      },
+      exportData () {
+        let acceptanceId = JSON.parse(sessionStorage.getItem('acceptanceId'));
+        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/supplyMedicalService/export/' + acceptanceId
       }
     },
   }

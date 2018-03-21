@@ -20,8 +20,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务单类型：" prop="taskCategory">
-                  <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
+                <Form-item label="任务单类型：" prop="dictTaskCategory">
+                  <Select v-model="operatorSearchData.dictTaskCategory" style="width: 100%;" transfer>
                     <Option value="" label="全部"></Option>
                     <Option v-for="item in taskTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
                   </Select>
@@ -139,8 +139,6 @@
   </div>
 </template>
 <script>
-//  import {mapState, mapGetters, mapActions} from 'vuex'
-//  import EventType from '../../../../store/event_types'
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
@@ -154,7 +152,7 @@
           taskStatus: 1,
           processStatus: '',
           employeeId: '',
-          taskCategory: '',
+          dictTaskCategory: '',
           paymentBank: '',
           employeeName: '',
           hfType: '',
@@ -193,26 +191,23 @@
                     click: () => {
                       localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
                       localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
-                      localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
+                      localStorage.setItem('employeeFundCommonOperator.dictTaskCategory', params.row.dictTaskCategory);
                       localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
                       switch (params.row.taskCategory) {
                         case '1':
                         case '2':
                         case '3':
-//                        case '5':
-                        case '11':
                           this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+                          break;
+                        case '4':
+                        case '5':
+                          this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
                           break;
                         case '6':
                           this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
                           break;
-                        case '4':
-                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
-                          break;
                         case '7':
-                        case '8':
-                        case '12':
-                          this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
+                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
                           break;
                         default:
                           break;
@@ -244,7 +239,7 @@
           this.accountTypeList = data.data.SocialSecurityAccountType;
           this.processStatusList = data.data.ProcessPeriod;
           this.taskTypeList = data.data.HFLocalTaskCategory;
-          this.taskTypeList.splice(7, 2); // 去除转移任务和特殊任务
+          this.taskTypeList.splice(7, 1); // 去除转移任务
           this.payBankList = data.data.PayBank;
           this.fundTypeList = data.data.FundType;
         }
@@ -321,6 +316,7 @@
             this.$Message.info("批退操作成功");
             this.isShowRejectBatch = false;
             this.handlePageNum(1);
+            this.selectedData.length = 0;
           } else {
             this.$Message.error(data.message)
           }

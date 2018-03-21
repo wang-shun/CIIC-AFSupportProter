@@ -184,7 +184,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="任务类型：">
-                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
+                <Select v-model="displayVO.dictTaskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
                   <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
               </FormItem>
@@ -338,6 +338,7 @@
         loading: false,
         displayVO: {
           empTaskId: 0,
+          dictTaskCategory: 0,
           taskCategory: 0,
           basicHfComAccount: '',
           addedHfComAccount: '',
@@ -367,6 +368,7 @@
           inDate: '',
           basicEmpArchiveId: '',
           basicHfEmpAccount: '',
+          basicArchiveStatusName: '',
           basicEmpTaskStatusName: '',
           basicEmpStartMonth: '',
           basicEmpEndMonth: '',
@@ -375,6 +377,7 @@
           basicRatioCom: '',
           basicRatioEmp: '',
           addedHfEmpAccount: '',
+          addedArchiveStatusName: '',
           addedEmpTaskStatusName: '',
           addedEmpStartMonth: '',
           addedEmpEndMonth: '',
@@ -680,6 +683,7 @@
         inputData: {
           empTaskId: 0,
           taskStatus: 1,
+          dictTaskCategory: 0,
           taskCategory: 0,
           companyId: '',
           employeeId: '',
@@ -698,10 +702,9 @@
       }
     },
     mounted() {
-//      this[EventTypes.EMPLOYEEFUNDHISTORYDETAILTYPE]()
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
-      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
       let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
@@ -753,11 +756,11 @@
             this.transferOutUnitList.push(element);
             this.transferInUnitList.push(element);
           })
-          if (taskCategory > 2) {
+          if (dictTaskCategory > 3) {
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;
-            this.taskCategoryList.splice(2, this.taskCategoryList.length - 2);
+            this.taskCategoryList.splice(3, this.taskCategoryList.length - 3);
           }
         } else {
           this.$Message.error(data.message);
@@ -785,7 +788,7 @@
         } else {
           hfMonth = this.displayVO.addedComHfMonth;
         }
-        if (this.displayVO.hfAccountType == 3) {
+        if (this.displayVO.dictTaskCategory == 1 && this.displayVO.hfAccountType == 3) {
           hfMonth = api.plusMonths(hfMonth, 1);
         }
 
@@ -972,7 +975,7 @@
       },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
-        this.inputData.taskCategory = this.displayVO.taskCategory;
+        this.inputData.dictTaskCategory = this.displayVO.dictTaskCategory;
         this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
 //        if (this.displayVO.startMonth) {
 //          this.inputData.startMonth = utils.formatDate(this.displayVO.startMonth,"YYYYMM");
@@ -1010,7 +1013,7 @@
         })
       },
       inputDataCheck() {
-        if (this.displayVO.taskCategory != 1 &&(!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
+        if (this.displayVO.dictTaskCategory != 1 &&(!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
           this.$Message.error("公积金账户不能为空");
           return false;
         }
@@ -1018,7 +1021,7 @@
           this.$Message.error("公积金账户长度不能超过20");
           return false;
         }
-        if (this.displayVO.taskCategory == 1 && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {
+        if (this.displayVO.dictTaskCategory == 1 && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {
           this.$Message.error("新增（新开）类型公积金账户不存在，不需要输入");
           return false;
         }
@@ -1098,11 +1101,11 @@
             return false;
           }
           if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType != 3 && this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月（非独立户时）");
+            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月");
             return false;
           }
-          if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType == 3 && this.operatorListData[i].endMonth >= api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月的次月（独立户时）");
+          if (this.displayVO.dictTaskCategory == 1 && this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType == 3 && this.operatorListData[i].endMonth >= api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
+            this.$Message.error("新开任务单，操作栏补缴状态费用段的截止月份必须小于客户汇缴月的次月（独立户时）");
             return false;
           }
           if (this.displayVO.hfType == 1) {

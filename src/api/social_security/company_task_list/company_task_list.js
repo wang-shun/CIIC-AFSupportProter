@@ -87,7 +87,7 @@ export class CompanyTaskList{
                     obj.sponsorTime = i.submitTime
                     obj.notes = i.submitRemark
                     obj.finishDate=i.expireDate
-                    obj.initiator=i.submitterId
+                    obj.submitterName=i.submitterName
                     responseData.data.taskData.push(obj)
                 }
                 responseData.data.totalSize=response.data.total
@@ -442,9 +442,9 @@ export class CompanyTaskList{
     }
 
     //账户信息
-    let ssComAccountBO =  result.ssComAccountBO
+    let ssComAccountBO =  result.ssComAccountBO;
     //判断账户信息是否为空
-    let isNull = ssComAccountBO==null || ssComAccountBO==""
+    let isNull = ssComAccountBO==null || ssComAccountBO=="";
 
     let expireDateFront = "";
     let paymentWay = "";
@@ -524,7 +524,8 @@ export class CompanyTaskList{
             sendCheckDate:result.sendCheckDate==null?'':result.sendCheckDate, //送审日期
             finishedDate:result.finishDate==null?'':result.finishDate, //完成日期
             handleRemark:result.handleRemark==null?'':result.handleRemark,//办理原因
-            rejectionRemark:result.rejectionRemark==null?'':result.rejectionRemark //批退原因
+            rejectionRemark:result.rejectionRemark==null?'':result.rejectionRemark, //批退原因
+            state : isNull || ssComAccountBO.state==null ?'':ssComAccountBO.state
           }
     }
   }

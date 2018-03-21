@@ -83,10 +83,18 @@
               </Col>
               <!-- 仅新增 -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="社保序号：">
-                <label >{{socialSecurityPayOperator.empSsSerial}}</label>
-                <!-- <Input v-model="socialSecurityPayOperator.empSsSerial" placeholder="请输入..."></Input> -->
-              </Form-item>
+                <Form-item label="社保序号：">
+                  <Row>
+                    <Col span="11">
+                      <Input v-model="socialSecurityPayOperator.empSsSerial" placeholder="请输入..."></Input>
+                    </Col>
+                    <!-- <Input v-model="socialSecurityPayOperator.empSsSerial" placeholder="请输入..."></Input> -->
+                    <Col span="11" class="ml20">
+                      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="getSerial" >获取序号</Button>
+                    </Col>
+                  </Row>
+                </Form-item>
+
               </Col>
               <!-- 仅转出 -->
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '2'">
@@ -422,6 +430,14 @@
         }
           return year+'-'+month;
       },
+      getSerial(){
+        api.getSerial({
+          comAccountId : this.socialSecurityPayOperator.comAccountId
+        }).then(data => {
+          console.log(data.data.data);
+          this.socialSecurityPayOperator.empSsSerial = data.data.data;
+        })
+      },
       initData(data) {
         this.empTaskId = data.empTaskId;
         this.operatorType = data.operatorType;
@@ -665,7 +681,7 @@
           }
         });
 
-      }
+      },
     }
   }
 </script>

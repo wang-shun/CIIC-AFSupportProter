@@ -1,0 +1,36 @@
+import ajax from "../../../lib/ajax";
+
+const AJAX = ajax.ajaxHfc;
+
+export default {
+
+  queryTransfer: async (params) => {
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpTask/queryEmpTaskTransfer', params);
+    return await response.data;
+  },
+
+  queryTransferForNewTask: async (params) => {
+    let response =await AJAX.post('/api/fundcommandservice/hfEmpTask/queryEmpTaskTransferNewTask', params);
+    return await response.data;
+  },
+
+  queryComEmpTransferForm: async (params) => {
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpTask/queryComEmpTransferForm', params);
+    return await response.data;
+  },
+  //提交转移任务单
+  submitTransferForm: async (params) => {
+    let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTask/submitTransferForm', params);
+    return await response.data;
+  },
+
+  hfEmpTaskRejectExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpTask/hfEmpTaskRejectExport', params);
+  },
+
+  
+
+  newEmpTaskTxtExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpTask/newEmpTaskTxtExport', params);
+  },
+}

@@ -144,7 +144,7 @@ const createAjax = config => {
       logInfo(config.method, config.url, config.data);
       let userInfo = sessionStorage.getItem('userInfo');
       if (userInfo) {
-        config.headers = {'token': JSON.parse(userInfo).token}
+        // config.headers = {'token': JSON.parse(userInfo).token}
       }
       return config;
     }

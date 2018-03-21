@@ -142,7 +142,10 @@ const createAjax = config => {
 
       // log
       logInfo(config.method, config.url, config.data);
-
+      let userInfo = sessionStorage.getItem('userInfo');
+      if (userInfo) {
+        config.headers = {'token': JSON.parse(userInfo).token}
+      }
       return config;
     }
     , error => {
@@ -164,6 +167,12 @@ const createAjax = config => {
           || response.status === 304
           || response.status === 500 // 后端业务处理返回的内部错误
         ) {
+          if (response.data && response.data.code === 2) {
+            sessionStorage.removeItem('userInfo')
+            window.location.href = `${getBasePath(process.env.env).basePath}:8070/#/`
+            return
+          }
+
           return response
         }
       } else {
@@ -189,6 +198,34 @@ const createAjax = config => {
     }
   )
   return ajax;
+}
+
+function getBasePath(env) {
+  let basePath = '';
+  let serverPath = '';
+  switch (env) {
+    case 'dev':
+      basePath = 'http://localhost';
+      serverPath = 'http://172.16.9.31';
+      break;
+    case 'sit':
+      basePath = 'http://172.16.9.25';
+      serverPath = 'http://172.16.9.24';
+      break;
+    case 'uat':
+      basePath = 'http://172.16.9.60';
+      serverPath = 'http://172.16.9.56';
+      break;
+    case 'prod':
+      basePath = 'http://172.16.9.60';
+      serverPath = 'http://172.16.9.60';
+      break;
+    default:
+      basePath = 'http://localhost';
+      serverPath = 'http://172.16.9.31';
+      break;
+  }
+  return {basePath: basePath, serverPath: serverPath};
 }
 
 const createAjaxForName = name => {

@@ -1023,6 +1023,7 @@ let router = new Router({
 import axios from 'axios'
 import {CrossStorageClient} from 'cross-storage'
 
+/**
 router.beforeEach((to, from, next) => {
   let storage = new CrossStorageClient(`${getBasePath(process.env.env).basePath}:8070/#/menu`);
   storage.onConnect().then(() => {
@@ -1047,6 +1048,7 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
+
 function validateToken(userInfo) {
   let param = new URLSearchParams();
   param.append("token", userInfo.token);
@@ -1066,6 +1068,33 @@ function validateToken(userInfo) {
 function backToLogin() {
   window.location.href = `${getBasePath(process.env.env).basePath}:8070/#/`;
 }
+ **/
+
+router.beforeEach((to, from, next) => {
+  window.document.title = '支持中心';
+  localStorage.setItem('level1', to.meta.level1);
+  localStorage.setItem('level2', to.meta.level1);
+  localStorage.setItem('level3', to.meta.level2);
+  localStorage.setItem('level4', to.meta.level3);
+  localStorage.setItem('openNames', [to.meta.openNames]);
+
+  let storage = new CrossStorageClient(`${getBasePath(process.env.env).basePath}:8070/#/menu`)
+  storage.onConnect().then(function () {
+    return storage.get('token')
+  }).then(function (res) {
+    let userInfo = JSON.parse(res || '{}')
+    console.log(userInfo)
+    if (userInfo && userInfo.token) {
+      sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+      next()
+    } else {
+      sessionStorage.removeItem('userInfo')
+      window.location.href = `${getBasePath(process.env.env).basePath}:8070/#/`
+    }
+  }).catch(function (err) {
+    console.log(err)
+  })
+})
 
 function getBasePath(env) {
   let basePath = '';

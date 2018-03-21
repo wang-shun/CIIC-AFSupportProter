@@ -1078,7 +1078,7 @@ router.beforeEach((to, from, next) => {
   localStorage.setItem('level4', to.meta.level3);
   localStorage.setItem('openNames', [to.meta.openNames]);
 
-  let storage = new CrossStorageClient(`${getBasePath(process.env.env).basePath}:8070/#/menu`)
+  let storage = new CrossStorageClient(process.env.HOME_HOST + ':8070/#/menu')
   storage.onConnect().then(function () {
     return storage.get('token')
   }).then(function (res) {
@@ -1089,39 +1089,11 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       sessionStorage.removeItem('userInfo')
-      window.location.href = `${getBasePath(process.env.env).basePath}:8070/#/`
+      window.location.href = process.env.HOME_HOST + ':8070/#/'
     }
   }).catch(function (err) {
     console.log(err)
   })
 })
-
-function getBasePath(env) {
-  let basePath = '';
-  let serverPath = '';
-  switch (env) {
-    case 'dev':
-      basePath = 'http://localhost';
-      serverPath = 'http://172.16.9.31';
-      break;
-    case 'sit':
-      basePath = 'http://172.16.9.25';
-      serverPath = 'http://172.16.9.24';
-      break;
-    case 'uat':
-      basePath = 'http://172.16.9.60';
-      serverPath = 'http://172.16.9.56';
-      break;
-    case 'prod':
-      basePath = 'http://172.16.9.60';
-      serverPath = 'http://172.16.9.60';
-      break;
-    default:
-      basePath = 'http://localhost';
-      serverPath = 'http://172.16.9.31';
-      break;
-  }
-  return {basePath: basePath, serverPath: serverPath};
-}
 
 export default router;

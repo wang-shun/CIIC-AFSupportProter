@@ -170,7 +170,7 @@ const createAjax = config => {
         ) {
           if (response.data && response.data.code === 2) {
             sessionStorage.removeItem('userInfo')
-            window.location.href = `${getBasePath(process.env.env).basePath}:8070/#/`
+            window.location.href = process.env.HOME_HOST + ':8070/#/'
             return
           }
 
@@ -199,34 +199,6 @@ const createAjax = config => {
     }
   )
   return ajax;
-}
-
-function getBasePath(env) {
-  let basePath = '';
-  let serverPath = '';
-  switch (env) {
-    case 'dev':
-      basePath = 'http://localhost';
-      serverPath = 'http://172.16.9.31';
-      break;
-    case 'sit':
-      basePath = 'http://172.16.9.25';
-      serverPath = 'http://172.16.9.24';
-      break;
-    case 'uat':
-      basePath = 'http://172.16.9.60';
-      serverPath = 'http://172.16.9.56';
-      break;
-    case 'prod':
-      basePath = 'http://172.16.9.60';
-      serverPath = 'http://172.16.9.60';
-      break;
-    default:
-      basePath = 'http://localhost';
-      serverPath = 'http://172.16.9.31';
-      break;
-  }
-  return {basePath: basePath, serverPath: serverPath};
 }
 
 const createAjaxForName = name => {

@@ -232,7 +232,9 @@
 //        this.operatorSearchData.comHfMonth = data;
 //      },
       fundAccountSearch() {
-        this.operatorSearchData.comHfMonth = this.$utils.formatDate(this.operatorSearchData.comHfMonth, 'YYYYMM');
+        if (this.operatorSearchData.comHfMonth) {
+          this.operatorSearchData.comHfMonth = this.$utils.formatDate(this.operatorSearchData.comHfMonth, 'YYYYMM');
+        }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
         api.companyFundAccountSearch({

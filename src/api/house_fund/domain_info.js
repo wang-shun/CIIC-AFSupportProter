@@ -25,7 +25,9 @@ let domainJson = {
 
     //汇缴支付相关
     //获得汇缴支付清单
-    "getFundPaysUrl":"/api/fundcommandservice/hfFundPay/fundPays"
+    "getFundPaysUrl":"/api/fundcommandservice/hfFundPay/fundPays",
+    //获得制作汇缴清单列表
+    "getMakePayListsUrl":"/api/fundcommandservice/hfFundPay/makePayLists"
 
 }
 

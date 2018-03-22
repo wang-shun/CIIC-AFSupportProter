@@ -12,32 +12,32 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="出账批号：" prop="outAccountBatch">
-                  <Input v-model="operatorSearchData.outAccountBatch" placeholder="请输入..."></Input>
+                <Form-item label="出账批号：" prop="paymentBatchNum">
+                  <Input v-model="operatorSearchData.paymentBatchNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="支付状态：" prop="payStatusValue">
-                  <Select v-model="operatorSearchData.payStatusValue" style="width: 100%;" transfer>
-                    <Option v-for="item in payStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="支付状态：" prop="paymentState">
+                  <Select v-model="operatorSearchData.paymentState" style="width: 100%;" transfer>
+                    <Option v-for="item in paymentStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业账户类型：" prop="accountTypeValue">
-                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
+                <Form-item label="企业账户类型：" prop="hfAccountType">
+                  <Select v-model="operatorSearchData.hfAccountType" style="width: 100%;" transfer>
                     <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="制单人：" prop="ticketMaker">
-                  <Input v-model="operatorSearchData.ticketMaker" placeholder="请输入..."></Input>
+                <Form-item label="制单人：" prop="createPaymentUser">
+                  <Input v-model="operatorSearchData.createPaymentUser" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="汇缴年月：" prop="payDate">
-                  <DatePicker v-model="operatorSearchData.payDate" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                <Form-item label="汇缴年月：" prop="paymentMonth">
+                  <DatePicker v-model="operatorSearchData.paymentMonth" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
             </Row>
@@ -208,6 +208,7 @@
         totalSize:0,//后台传过来的分页总数
         size:10,//默认单页记录数
         pageNum:1,//默认页数
+        loading: false,
         operatorSearchData: {
           customerNumber: "",
           outAccountBatch: "",
@@ -216,18 +217,20 @@
           ticketMaker: "",
           payDate: ""
         },
-        payStatusList: [
+        paymentStateList: [
           {label: "全部", value: ''},
-          {label: "初始", value: 0},
-          {label: "申请中", value: 1},
-          {label: "支付成功", value: 2},
-          {label: "批退", value: 3}
+          {label: "可付", value: 3},
+          {label: "申请中", value: 4},
+          {label: "内部审批批退", value: 5},
+          {label: "已申请到财务部", value: 6},
+          {label: "财务部批退", value: 7},
+          {label: "财务部支付成功", value: 8}
         ],
         accountTypeList: [
           {label: "全部", value: ''},
-          {label: "中智大库", value: 0},
-          {label: "中智外包", value: 1},
-          {label: "独立户", value: 2},
+          {label: "中智大库", value: 1},
+          {label: "中智外包", value: 2},
+          {label: "独立户", value: 3},
         ],
         isShowPayProgress: false,
         fundPayColumns: [
@@ -345,14 +348,6 @@
           }
         ],
       //  vuex数据
-      //   fundPayData: [
-      //     {outAccountBatchNumber: "201706050001", applyAmount: "", employes: "560", payDate: "201706", payStatus: "送审", ticketMaker: "王莺", ticketMakeDate: "2017-06-01", financePayDate: "", accountType: "中智大库"},
-      //     {outAccountBatchNumber: "201706050002", applyAmount: "", employes: "903", payDate: "201706", payStatus: "汇缴", ticketMaker: "王莺", ticketMakeDate: "2017-06-01", financePayDate: "", accountType: "中智外包"},
-      //     {outAccountBatchNumber: "201706050003", applyAmount: "", employes: "991", payDate: "201706", payStatus: "审核", ticketMaker: "王莺", ticketMakeDate: "2017-06-01", financePayDate: "", accountType: "独立户"},
-      //     {outAccountBatchNumber: "201706050004", applyAmount: "", employes: "1056", payDate: "201706", payStatus: "支付", ticketMaker: "王莺", ticketMakeDate: "2017-06-01", financePayDate: "", accountType: "独立户"},
-      //     {outAccountBatchNumber: "201706050005", applyAmount: "", employes: "206", payDate: "201706", payStatus: "出票", ticketMaker: "王莺", ticketMakeDate: "2017-06-01", financePayDate: "", accountType: "独立户"},
-      //     {outAccountBatchNumber: "201706050006", applyAmount: "", employes: "571", payDate: "201706", payStatus: "回单", ticketMaker: "王莺", ticketMakeDate: "2017-06-01", financePayDate: "", accountType: "独立户"}
-      //   ],
         steps: [
           {isOver: 1, title: '送审', author: '王莺', date: '2016-12-12 12:32', action: {name: '', href: ''}},
           {isOver: 0,title: '汇缴', author: '小龙女', date: '', action: {name: '催一下', href: ''}},
@@ -532,6 +527,28 @@
       }
     },
     mounted() {
+      let sessionPageNum = sessionStorage.taskPageNum
+      let sessionPageSize = sessionStorage.taskPageSize
+      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+        this.pageNum = Number(sessionPageNum)
+        this.size = Number(sessionPageSize)
+        sessionStorage.removeItem("taskPageNum")
+        sessionStorage.removeItem("taskPageSize")
+      }
+
+      let params = {
+        pageSize:this.size,
+        pageNum:this.pageNum,
+        params:{}
+      }
+      let self= this
+      FundPay.getFundPaysTableData(params).then(data=>{
+          self.loading=true;
+          self.refresh(data)
+        }
+      ).catch(error=>{
+        console.log(error);
+      })
     },
     computed: {
     },
@@ -552,9 +569,11 @@
           pageNum: page,
           params: {
             // companyId: this.operatorSearchData.companyId,//客户编号
-            // hfTypeName: (this.operatorSearchData.hfTypeName == "" || this.operatorSearchData.taskStartTime == null || this.operatorSearchData.hfTypeName == '全部') ? null : this.operatorSearchData.hfTypeName //公积金账户类型
-            // submitTimeStart:this.operatorSearchData.taskStartTime=="" || this.operatorSearchData.taskStartTime==null||this.operatorSearchData.taskStartTime[0]==null?null:Utils.formatDate(this.operatorSearchData.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
-            // submitTimeEnd:this.operatorSearchData.taskStartTime==""||this.operatorSearchData.taskStartTime==null||this.operatorSearchData.taskStartTime[0]==null ?null:Utils.formatDate(this.operatorSearchData.taskStartTime[1],'YYYY-MM-DD')
+            paymentBatchNum: (this.operatorSearchData.paymentBatchNum == "" || this.operatorSearchData.paymentBatchNum == null) ? null : this.operatorSearchData.paymentBatchNum,
+            paymentState: (this.operatorSearchData.paymentState == "" || this.operatorSearchData.paymentState == null) ? null : this.operatorSearchData.paymentState,
+            hfAccountType: (this.operatorSearchData.hfAccountType == "" || this.operatorSearchData.hfAccountType == null) ? null : this.operatorSearchData.hfAccountType,
+            createPaymentUser: (this.operatorSearchData.createPaymentUser == "" || this.operatorSearchData.createPaymentUser == null) ? null : this.operatorSearchData.createPaymentUser,
+            paymentMonth: (this.operatorSearchData.paymentMonth == "" || this.operatorSearchData.paymentMonth == null) ? null : this.$utils.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM'),
           }
         }
       },

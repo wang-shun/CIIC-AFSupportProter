@@ -49,13 +49,50 @@ export class FundPay {
     })
   }
 
-}
+  //post makePay lists
+  static getMakePayListsTableData(params){
+    let url = domainJson.getMakePayListsUrl
+    return new Promise(function(resolve,reject){
+      ajax.post(url, params).then(function (response) {
+        let responseData = {
+          data:{
+            makePayListData:[],
+            makePayListInfo:{},
+            code:"",
+            totalSize:"",
+            message:""
+          }
+        }
+        if(response.data.code=="200"){
+          for(let i of response.data.data){
+            let obj ={}
+            obj.comAccountName = i.comAccountName
+            obj.hfTypeName = i.hfTypeName
+            obj.paymentStateValue = i.paymentStateValue
+            obj.accountTypeValue = i.accountTypeValue
+            obj.paymentBankValue = i.paymentBankValue
+            responseData.data.makePayListData.push(obj)
+          }
+          responseData.data.makePayListInfo.payDate = 'n/a'
+          responseData.data.makePayListInfo.rows = response.data.total
+          responseData.data.makePayListInfo.fundAccounts = 'n/a'
+          responseData.data.makePayListInfo.payAmoun = 'n/a'
+          responseData.data.makePayListInfo.repair = 'n/a'
+          responseData.data.makePayListInfo.amount = 'n/a'
 
-export default {
-
-  hfFundPayQuery: async (params) => {
-    let response = await AJAX.postJSON('/api/fundcommandservice/hfFundPay/fundPays', params);
-    return await response.data;
+          responseData.data.totalSize=response.data.total
+          responseData.data.code=response.data.code
+          responseData.data.message= response.data.message
+          resolve(responseData)
+        }else{
+          reject(Error('后台异常！'))
+        }
+      })
+        .catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
+    })
   }
 
 }

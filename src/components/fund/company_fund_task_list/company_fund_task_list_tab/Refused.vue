@@ -101,6 +101,7 @@
         collapseInfo: [1], //展开栏
         size:10,//默认单页记录数
         pageNum:1,
+        loading: false,
         operatorSearchData: {
           serviceCenterValue: '',
           companyId: '',

@@ -12,7 +12,6 @@ import EmployeeFundSearch from "./modules/fund/employee_fund_search/event_types"
 import EmployeeCommonOperator from "./modules/fund/employee_common_operator/event_types"
 import EmployeeFundSpecialOperator from "./modules/fund/employee_special_operator/event_types"
 import EmployeeFundTransferOperator from "./modules/fund/employee_transfer_operator/event_types"
-import CompanyFundTaskList from "./modules/fund/company_fund_task_list/event_types"
 import CompanyFundAccountSearch from "./modules/fund/company_fund_account_search/event_types"
 import FundReconciliation from "./modules/fund/fund_reconciliation/event_types"
 import FundReport from "./modules/fund/fund_report/event_types"
@@ -54,7 +53,6 @@ export default {
   ...EmployeeCommonOperator,
   ...EmployeeFundSpecialOperator,
   ...EmployeeFundTransferOperator,
-  ...CompanyFundTaskList,
   ...CompanyFundAccountSearch,
   ...FundReconciliation,
   ...FundReport,

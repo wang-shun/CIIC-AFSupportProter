@@ -252,7 +252,7 @@
         taskTypeProperties: task.taskTypeProperties,
         taskStatusCom: task.taskStatusCom,
         taskTypeItem: task.taskTypeItem,
-        taskStatus: task.taskStatus,
+        taskStatus: task.taskAlreadyStatus,
         keyTypeProperties: task.keyTypeProperties
       };
     },
@@ -261,7 +261,7 @@
     },
     methods: {
       queryTaskPage() {
-        apiAjax.queryTaskPage(this.formItem).then(response => {
+        apiAjax.queryAlreadyTaskPage(this.formItem).then(response => {
           this.taskData = response.data.object.records;
           this.taskData.forEach(item => {
             if (item.status === 6) {

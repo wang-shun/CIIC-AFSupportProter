@@ -1,9 +1,6 @@
-const taskStatus = [
+const taskWaitStatus = [
   {
-    value: '1', label: '待审核'
-  },
-  {
-    value: '2', label: '已处理'
+    value: '2', label: '待审核'
   },
   {
     value: '3', label: '暂缓'
@@ -11,6 +8,8 @@ const taskStatus = [
   {
     value: '4', label: '已审核'
   },
+];
+const taskAlreadyStatus = [
   {
     value: '5', label: '已完成'
   },
@@ -124,7 +123,8 @@ function statusToChina(status) {
 }
 
 export default {
-  taskStatus,
+  taskWaitStatus,
+  taskAlreadyStatus,
   taskTypeProperties,
   taskStatusCom,
   taskTypeItem,

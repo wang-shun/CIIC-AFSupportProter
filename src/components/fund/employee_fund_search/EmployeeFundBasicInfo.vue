@@ -43,7 +43,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="个人基本公积金状态：">
-                  <label>{{this.$decode.hf_accountTempStore(viewEmpArchive.accountTempStore)}}</label>
+                  <label>{{this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatus)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -58,7 +58,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="个人补充公积金状态：">
-                  <label>{{this.$decode.hf_accountTempStore(viewEmpArchive.accountTempStoreBc)}}</label>
+                  <label>{{this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatusBc)}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -283,8 +283,8 @@
           title : '',
           hfEmpAccount : '',
           archiveTaskStatus : '',
+          archiveTaskStatusBc : '',
           hfEmpAccountBc : '',
-          archiveStatusBc : '',
           belongVendor : '',
           inDate : '',
           outDate : ''

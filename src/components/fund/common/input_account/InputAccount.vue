@@ -128,6 +128,14 @@
             }
           },
           {
+            title: '账户类型', key: 'hfType', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.hfType(params.row.hfType)),
+              ]);
+            }
+          },
+          {
             title: '企业公积金账号', key: 'hfComAccount', align: 'center'
           },
           {

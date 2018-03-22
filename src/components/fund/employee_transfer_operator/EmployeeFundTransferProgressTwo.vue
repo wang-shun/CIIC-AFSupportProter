@@ -139,7 +139,8 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务：">
-                  {{this.$decode.hf_taskCategory(transferNotice.taskCategory)}}
+
+                  {{this.$decode.hf_taskCategory(transferNotice.taskCategory) }}
                 </Form-item>
               </Col>
             </Row>
@@ -222,7 +223,7 @@
     <Row class="mt20">
       <Col :sm="{span:24}" class="tr">
         <Button type="primary" @click="submitTransferTask">保存</Button>
-        <Button type="info" @click="">打印转移单</Button>
+        <Button type="info" @click="printTransferTask">打印转移单</Button>
         <Button type="default">不需处理</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
@@ -301,7 +302,8 @@
         transferNotice:{
           employeeId: '',
           companyId: '',
-          hfType:'',  
+          hfType:'',
+          processCategory:'',
           taskCategory:'',
           transferInUnit:'',
           transferInUnitAccount:'',
@@ -324,7 +326,8 @@
       api.queryComEmpTransferForm(params).then(data => {
         if (data.code == 200) {
           this.displayVO = data.data;
-          this.transferNotice=data.data;
+          this.transferNotice=data.data.empTaskTransferBo;
+
           this.operatorListData = data.data.empTaskPeriods;
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
@@ -389,7 +392,8 @@
            
       },
       printTransferTask(){
-           
+        let params={empTaskId:this.transferNotice.empTaskId};
+           api.printTransferTask(params);
       },
       handleTransferInSearch(value) {
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);

@@ -13,9 +13,10 @@ export default {
   urgent: (urgent) => {
     return urgent == '1' ? "是" : "";
   },
-  // 任务单类型
+  // 社保任务单类型
   taskCategory: (taskCategory) => {
-    //1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作  10 集体转入   11 集体转出 12 翻牌
+    //1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作  10 集体转入   11 集体转出 12 翻牌 14 翻牌转出 15 翻牌封存
+
     switch (taskCategory) {
       case '1':
         return '新进'
@@ -37,7 +38,7 @@ export default {
         return '集体转入'
       case '11':
         return '集体转出'
-      case '12':
+      case '12': //12翻牌转入13翻牌转出14翻牌转出15翻牌封存
         return '翻牌新进'
       case '13':
         return '翻牌转入'
@@ -49,6 +50,7 @@ export default {
         return ''
     }
   },
+
   // 社保账户类型
   accountType: (accountType, self = false) => {
     switch (accountType) {
@@ -137,8 +139,8 @@ export default {
 
   },
 
-  archiveStatus:(type, self = false)=>{
-    switch (type){
+  archiveStatus: (type, self = false) => {
+    switch (type) {
       case '0':
         return '初始'
       case '1':
@@ -169,9 +171,9 @@ export default {
     }
   },
   //日常操作的缴纳方式
-  remitWay:(type)=>{
+  remitWay: (type) => {
 
-    switch (type){
+    switch (type) {
       case '1':
         return '正常'
       case '2':
@@ -269,9 +271,9 @@ export default {
   },
 
   //付款方式
-  payMethod:(type)=>{
+  payMethod: (type) => {
 
-    switch(type){
+    switch (type) {
       case "1":
         return '我司代付款'
       case "2":
@@ -295,8 +297,8 @@ export default {
         return ''
     }
   },
-  district: (type, self=false)=> {
-    switch (type){
+  district: (type, self = false) => {
+    switch (type) {
       case '1':
         return '徐汇'
       case '2':
@@ -377,7 +379,7 @@ export default {
       case "2":
       case 2:
         return '已做'
-        case "3":
+      case "3":
       case 3:
         return '转出'
       default:
@@ -393,7 +395,7 @@ export default {
       case "2":
       case 2:
         return '已做'
-        case "3":
+      case "3":
       case 3:
         return '封存'
       default:
@@ -401,7 +403,7 @@ export default {
     }
   },
   //用工状态
-  recruitAndUseStatus:(type)=>{
+  recruitAndUseStatus: (type) => {
     //1未反馈  2退工成功  3档未到先退工  4退工单盖章未返回  5退工失败  6前道要求批退  7其它
     switch (type) {
       case "1":
@@ -415,18 +417,18 @@ export default {
         return '封存'
       case "4":
       case 4:
-         return '退工单盖章未返回'
+        return '退工单盖章未返回'
       case "5":
       case 5:
-         return '退工失败'
+        return '退工失败'
       case "6":
       case 6:
-         return '前道要求批退'
+        return '前道要求批退'
       case "7":
       case 7:
-         return '其它'
+        return '其它'
       default:
-         return ''
+        return ''
     }
   },
   costCategory: (costCategory) => {
@@ -454,4 +456,141 @@ export default {
         return ''
     }
   },
+  empComStatus: (costCategory) => {
+    //1标准 2 新进 3 转入  4 补缴 5 调整 （顺调)）6 转出 7封存 8 退账 9 调整（倒调）
+    switch (costCategory) {
+      case '0':
+        return '预录用'
+      case '1':
+        return '雇员信息确认中'
+      case '2':
+        return '在职'
+      case '3':
+        return '离职'
+      default: // 默认 1
+        return ''
+    }
+  },
+  // 公积金任务单类型
+  hf_taskCategory: (taskCategory) => {
+    //1 新开     2 转入     3 启封    4 转出    5 封存    6 补缴    7 调整    8 转移
+    switch (taskCategory) {
+      case '1':
+      case 1:
+        return '新进'
+      case '2':
+      case 2:
+        return '转入'
+      case '3':
+      case 3:
+        return '启封'
+      case '4':
+      case 5:
+        return '转出'
+      case '5':
+      case 5:
+        return '封存'
+      case '6':
+      case 6:
+        return '补缴'
+      case '7':
+      case 7:
+        return '调整'
+      case '9':
+      case 9:
+        return '转移'
+      default: // 默认 1
+        return ''
+    }
+  },
+  hf_paymentWay: (v) => {
+    switch (v) {
+      case '1':
+        return '自付'
+      case '2':
+        return '我司付款（客服预付）'
+      case '3':
+        return '垫付'
+      default: // 默认 1
+        return ''
+    }
+  },
+  hf_accountType: (v) => {
+    switch (v) {
+      case '1':
+        return '中智大库'
+      case '2':
+        return '中智外包'
+      case '3':
+        return '独立户'
+      default:
+        return ''
+    }
+  },
+  hf_ukeyStore: (v) => {
+    switch (v) {
+      case '0':
+        return '没有'
+      case '1':
+        return '有（客户自办）'
+      case '2':
+        return '有（中智代办）'
+      default:
+        return ''
+    }
+  },
+  hf_state: (v) => {
+    switch (v) {
+      case '0':
+        return '初始'
+      case '1':
+        return '有效'
+      case '2':
+        return '终止'
+      default:
+        return ''
+    }
+  },
+  hf_accountTempStore: (v) => {
+    switch (v) {
+      case '0':
+        return '正常'
+      case '1':
+        return '临时保管'
+      default:
+        return ''
+    }
+  },
+  hf_archiveTaskStatus: (v) => {
+    // 0-未办理  1-已办  2-已做 3-封存
+    switch (v) {
+      case '0':
+        return '未办理'
+      case '1':
+        return '已办'
+      case '2':
+        return '已做'
+      case '3':
+        return '封存'
+      default:
+        return ''
+    }
+  },
+  hf_paymentBank: (v) => {
+    // 1 徐汇—X、2 西郊—C、3 东方路—P、4 卢湾—L、5 黄浦—H
+    switch (v) {
+      case '1':
+        return '徐汇—X'
+      case '2':
+        return '西郊—C'
+      case '3':
+        return '东方路—P'
+      case '4':
+        return '卢湾—L'
+      case '5':
+        return '黄浦—H'
+      default:
+        return ''
+    }
+  }
 };

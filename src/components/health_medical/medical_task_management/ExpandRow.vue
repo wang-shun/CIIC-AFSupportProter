@@ -77,7 +77,7 @@
     methods: {
       timeToString(val) {
         if (val !== null) {
-          return this.$utils.formatDate(val, 'YYYY-MM-DD HH:mm:ss')
+          return this.$utils.formatDate(val, 'YYYY-MM-DD')
         } else {
           return val;
         }

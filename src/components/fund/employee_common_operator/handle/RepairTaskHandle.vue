@@ -43,12 +43,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客服经理：">
-                <label>{{displayVO.serviceManager}}</label>
+                <label>{{displayVO.leaderShipName}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户专员：">
-                <label>{{displayVO.customerServicer}}</label>
+                <label>{{displayVO.createdDisplayName}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -289,6 +289,7 @@
         isShowPrint: false,
         displayVO: {
           empTaskId: 0,
+          dictTaskCategory: 6,
           taskCategory: 6,
           taskCategoryName: '补缴',
           basicHfComAccount: '',
@@ -300,8 +301,8 @@
           hfMonth: '',
           basicComHfMonth: '',
           addedComHfMonth: '',
-          serviceManager: '',
-          customerServicer: '',
+          leaderShipName: '',
+          createdDisplayName: '',
           basicEndMonth: '',
           addedEndMonth: '',
           paymentWayName: '',
@@ -320,6 +321,7 @@
           inDate: '',
           basicEmpArchiveId: '',
           basicHfEmpAccount: '',
+          basicArchiveStatusName: '',
           basicEmpTaskStatusName: '',
           basicEmpStartMonth: '',
           basicEmpEndMonth: '',
@@ -328,6 +330,7 @@
           basicRatioCom: '',
           basicRatioEmp: '',
           addedHfEmpAccount: '',
+          addedArchiveStatusName: '',
           addedEmpTaskStatusName: '',
           addedEmpStartMonth: '',
           addedEmpEndMonth: '',
@@ -483,23 +486,23 @@
           },
           {title: '每月金额', key: 'amount', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled) {
-                return h('div', [
-                  h('Input', {
-                    props: {value: params.row.amount},
-                    on: {
-                      'on-blur': (event) => {
-                        this.operatorListData[params.index].amount = event.target.value;
-                        this.operatorListDataAmount(params.index, event.target.value);
-                      }
-                    }
-                  }, params.row.amount)
-                ]);
-              } else {
+//              if (!this.inputDisabled) {
+//                return h('div', [
+//                  h('Input', {
+//                    props: {value: params.row.amount},
+//                    on: {
+//                      'on-blur': (event) => {
+//                        this.operatorListData[params.index].amount = event.target.value;
+//                        this.operatorListDataAmount(params.index, event.target.value);
+//                      }
+//                    }
+//                  }, params.row.amount)
+//                ]);
+//              } else {
                 return h('div', [
                   h('span', params.row.amount)
                 ]);
-              }
+//              }
             }
           },
           {title: '合计补缴金额', key: 'totalAmount', align: 'left'},
@@ -528,7 +531,7 @@
           {title: '公积金类型', key: 'hfTypeName', align: 'left'},
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
-          {title: '备注人', key: 'modifiedBy', align: 'left'},
+          {title: '备注人', key: 'modifiedDisplayName', align: 'left'},
           {title: '备注时间', key: 'modifiedTime', align: 'left'},
           {title: '备注内容', key: 'remark', align: 'left'}
         ],
@@ -546,6 +549,7 @@
         inputData: {
           empTaskId: 0,
           taskStatus: 1,
+          dictTaskCategory: 0,
           taskCategory: 0,
           companyId: '',
           employeeId: '',
@@ -566,7 +570,7 @@
     mounted() {
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
-      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
       let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
@@ -721,7 +725,7 @@
       },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
-        this.inputData.taskCategory = this.displayVO.taskCategory;
+        this.inputData.dictTaskCategory = this.displayVO.dictTaskCategory;
         this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
         this.inputData.operationRemind = this.displayVO.operationRemind;
         if (this.displayVO.operationRemindDate) {

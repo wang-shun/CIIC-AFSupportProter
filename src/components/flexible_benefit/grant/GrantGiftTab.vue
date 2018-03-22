@@ -8,15 +8,15 @@
           <Form :model="searchCondition" ref="searchCondition" :label-width=120>
             <Row class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="审批状态：" prop="recordApprovalReason">
-                <Select v-model="searchCondition.recordApprovalReason" :clearable="true">
+              <Form-item label="审批状态：" prop="approvalStatus">
+                <Select v-model="searchCondition.approvalStatus" :clearable="true" >
                   <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="发放状态：" prop="sendStatus">
-                <Select v-model="searchCondition.sendStatus" :clearable="true">
+                <Select v-model="searchCondition.sendStatus" :clearable="true" >
                   <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
@@ -32,7 +32,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
               <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('searchCondition')">重置</Button>
+              <!--<Button type="warning" @click="resetSearchCondition('searchCondition')" class="ml10">重置</Button>-->
               </Col>
             </Row>
           </Form>
@@ -61,16 +61,16 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         searchCondition: {
-          recordApprovalReason: "",
-          sendStatus: '',
-          applyType: 1,//申请类型：1-礼品
+          approvalStatus: 0, //审批状态
+          sendStatus: 0,  //发放状态
+          applyType: 1,//申请类型：1-礼品 2-市场活动
           current: 1,
           size: 10,
           total: 0,
         },
         grantManagerColumns: [
           {
-            title: '编号', key: 'applyRecordId', align: 'center',
+            title: '申请单号', key: 'applyRecordId', align: 'center',
           },
           {
             title: '申请人', key: 'applicant', align: 'center',
@@ -85,18 +85,22 @@
             }
           },
           {
-            title: '审批状态', key: 'recordApprovalReason', align: 'center',
+            title: '审批状态', key: 'approvalStatus', align: 'center',
             render: (h, params) => {
-              switch (params.row.recordApprovalReason) {
-                case 0:
+              switch (params.row.approvalStatus) {
+                case 1:
                   return "审批中";
                   break;
-                case 1:
+                case 2:
                   return "同意";
                   break;
-                case 2:
+                case 3:
                   return "不同意";
                   break;
+                case 4:
+                  return "部分同意";
+                  break;
+
               }
             }
           },
@@ -111,7 +115,10 @@
                   return "已发放";
                   break;
                 case 3:
-                  return "已退批";
+                  return "已批退";
+                  break;
+                case 4:
+                  return "部分发放";
                   break;
               }
             }
@@ -119,7 +126,7 @@
           {
             title: '操作', key: 'action', width: 200, align: 'center',
             render: (h, params) => {
-              if (params.row.recordApprovalReason === 1 && params.row.sendStatus === 1) {
+              if ((params.row.approvalStatus === 2 || params.row.approvalStatus === 4) && (params.row.sendStatus === 1 || params.row.sendStatus === 4)) {
                 return h('div', [
                   h('Button', {
                     props: {type: 'success', size: 'small'},
@@ -140,16 +147,16 @@
 
         examineList: [
           {
-            value: '0', label: '审批中'
+            value: '1', label: '审批中'
           },
           {
-            value: '1', label: '同意'
+            value: '2', label: '同意'
           },
           {
-            value: '2', label: '不同意'
+            value: '3', label: '不同意'
           },
           {
-            value: '3', label: '部分同意'
+            value: '4', label: '部分同意'
           }
         ],
 
@@ -162,6 +169,9 @@
           },
           {
             value: '3', label: '已批退'
+          },
+          {
+            value: '4', label: '部分发放'
           }
         ],
 
@@ -189,7 +199,9 @@
         });
       },
       resetSearchCondition(name) {
-        this.$refs[name].resetFields()
+        // this.$refs[name].resetFields()
+        this.searchCondition.approvalStatus = 0;
+        this.searchConditions.sendStatus = 0;
       },
       getByPage(val) {
         this.searchCondition.current = val;

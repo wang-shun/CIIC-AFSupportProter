@@ -43,12 +43,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客服经理：">
-                <label>{{displayVO.serviceManager}}</label>
+                <label>{{displayVO.leaderShipName}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客户专员：">
-                <label>{{displayVO.customerServicer}}</label>
+                <label>{{displayVO.createdDisplayName}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -284,8 +284,8 @@
           stateName: '',
           basicComHfMonth: '',
           addedComHfMonth: '',
-          serviceManager: '',
-          customerServicer: '',
+          leaderShipName: '',
+          createdDisplayName: '',
           basicEndMonth: '',
           addedEndMonth: '',
           paymentWayName: '',
@@ -594,7 +594,7 @@
           {title: '公积金类型', key: 'hfTypeName', align: 'left'},
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
-          {title: '备注人', key: 'modifiedBy', align: 'left'},
+          {title: '备注人', key: 'modifiedDisplayName', align: 'left'},
           {title: '备注时间', key: 'modifiedTime', align: 'left'},
           {title: '备注内容', key: 'remark', align: 'left'}
         ],

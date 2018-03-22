@@ -5,12 +5,14 @@ import ajax from "../../lib/ajax";
  */
 const ajaxApi = ajax.ajaxHmc;
 
-const queryTaskPage = params => ajaxApi.postJSON("/api/afsupportcenter/healthmedical/afTpaTask/queryTaskPage", params);
+const queryWaitTaskPage = params => ajaxApi.postJSON("/api/afsupportcenter/healthmedical/afTpaTask/queryWaitTaskPage", params);
+const queryAlreadyTaskPage = params => ajaxApi.postJSON("/api/afsupportcenter/healthmedical/afTpaTask/queryAlreadyTaskPage", params);
 const updateTpaTask = params => ajaxApi.postJSON("/api/afsupportcenter/healthmedical/afTpaTask/updateTpaTask", params);
 const syncToWarranty = params => ajaxApi.postJSON("/api/afsupportcenter/healthmedical/afTpaTask/syncToWarranty", params);
 
 export default {
-  queryTaskPage,
+  queryWaitTaskPage,
+  queryAlreadyTaskPage,
   updateTpaTask,
   syncToWarranty,
 }

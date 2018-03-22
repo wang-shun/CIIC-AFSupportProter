@@ -43,12 +43,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客服经理：">
-                <label>{{displayVO.serviceManager}}</label>
+                <label>{{displayVO.leaderShipName}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客户专员：">
-                <label>{{displayVO.customerServicer}}</label>
+                <label>{{displayVO.createdDisplayName}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -251,7 +251,7 @@
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
-        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="showButton">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="!showButton">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
@@ -348,8 +348,8 @@
           stateName: '',
           basicComHfMonth: '',
           addedComHfMonth: '',
-          serviceManager: '',
-          customerServicer: '',
+          leaderShipName: '',
+          createdDisplayName: '',
           basicEndMonth: '',
           addedEndMonth: '',
           paymentWayName: '',
@@ -658,7 +658,7 @@
           {title: '公积金类型', key: 'hfTypeName', align: 'left'},
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
-          {title: '备注人', key: 'modifiedBy', align: 'left'},
+          {title: '备注人', key: 'modifiedDisplayName', align: 'left'},
           {title: '备注时间', key: 'modifiedTime', align: 'left'},
           {title: '备注内容', key: 'remark', align: 'left'}
         ],

@@ -85,6 +85,10 @@ export default {
     let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/queryBatchEmpArchiveByEmpTaskIds', params);
     return await response.data;
   },
+  queryBatchTaskByCondition:async(params)=>{
+    let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/queryBatchTaskByCondition', params);
+    return await response.data;
+  },
   //批量任务处理
   handleBatchEmpTask: async (params) => {
     let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/handleBatchTask', params);

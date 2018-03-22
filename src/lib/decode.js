@@ -15,7 +15,8 @@ export default {
   },
   // 社保任务单类型
   taskCategory: (taskCategory) => {
-    //1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作  10 集体转入   11 集体转出 12 翻牌
+    //1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作  10 集体转入   11 集体转出 12 翻牌 14 翻牌转出 15 翻牌封存
+
     switch (taskCategory) {
       case '1':
         return '新进'
@@ -37,10 +38,14 @@ export default {
         return '集体转入'
       case '11':
         return '集体转出'
-      case '12':
-        return '翻牌转入'
+      case '12': //12翻牌转入13翻牌转出14翻牌转出15翻牌封存
+        return '翻牌新进'
       case '13':
+        return '翻牌转入'
+      case '14':
         return '翻牌转出'
+      case '15':
+        return '翻牌封存'
       default: // 默认 1
         return ''
     }

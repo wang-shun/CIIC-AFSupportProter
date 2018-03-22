@@ -15,13 +15,12 @@ export default {
   // 根据雇员任务 ID 查询 企业社保账户信息
   queryComAccountByEmpTaskId: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssComAccount/queryByEmpTaskId', params);
-    
     return await response.data;
   },
   // 根据雇员任务 ID 查询 雇员本地社保档案信息
   queryEmpArchiveByEmpTaskId: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/queryByEmpTaskId', params);
-    
+
     return await response.data;
   },
   // 查询任务单费用段，根据雇员任务 id
@@ -36,36 +35,39 @@ export default {
   },
 
   //特殊任务的办理材料页面信息查询
-  accAndEmpDetailQuery:async (params)=>{
+  accAndEmpDetailQuery: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssEmpMaterial/queryEmpMaterialByTaskId', params);
     return await response.data;
   },
 
   //特殊任务的信息查询
-  specialTaskQuery:async (params)=>{
+  specialTaskQuery: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssEmpTask/queryEmpSpecialTaskById', params);
     return await response.data;
   },
 
   //雇员特殊任务办理
-  empSpecialTaskHandle:async (params)=>{
+  empSpecialTaskHandle: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssEmpTask/empSpecialTaskHandle', params);
     return await response.data;
   },
   //保存材料
-  saveMaterial:async (params)=>{
+  saveMaterial: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssEmpMaterial/saveMaterial', params);
     return await response.data;
   },
 
   //雇员公积金查询
-  employeeQuery:async (params)=>{
+  employeeQuery: async (params) => {
     console.log(params);
     let response = await AJAX.post('/api/fundcommandservice/hfEmpArchive/queryEmpArchive', params);
     return await response.data;
   },
+  expEmployeeQuery: async (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpArchive/queryEmpArchiveExport', params);
+  },
   //查询雇员详细信息
-  employeeDetailInfoQuery:async (params)=>{
+  employeeDetailInfoQuery: async (params) => {
     let response = await AJAX.post('/api/fundcommandservice/hfEmpArchive/viewEmpArchiveInfo', params);
     return await response.data;
   },
@@ -75,15 +77,19 @@ export default {
   },
 
   //查询退账金额
-  queryRefundAmountByTaskId:async (params)=>{
+  queryRefundAmountByTaskId: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssEmpTask/queryRefundAmountByTaskId', params);
     return await response.data;
   },
 
-  impEmpAccountBeforeUpload: async(params) => {
+  impEmpAccountBeforeUpload: async (params) => {
     let response = await AJAX.upload('/api/fundcommandservice/hfEmpArchive/xlsImportEmpAccount', params);
     return await response.data;
   },
 
+  impTemplateFile: async (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpArchive/impTemplateFile', params);
+  }
+  
 }
 

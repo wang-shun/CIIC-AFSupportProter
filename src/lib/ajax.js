@@ -142,7 +142,11 @@ const createAjax = config => {
 
       // log
       logInfo(config.method, config.url, config.data);
-
+      let userInfo = sessionStorage.getItem('userInfo');
+      if (userInfo) {
+        // config.headers = {'token': JSON.parse(userInfo).token}
+        config.headers['token'] = JSON.parse(userInfo).token;
+      }
       return config;
     }
     , error => {
@@ -164,6 +168,12 @@ const createAjax = config => {
           || response.status === 304
           || response.status === 500 // 后端业务处理返回的内部错误
         ) {
+          if (response.data && response.data.code === 2) {
+            sessionStorage.removeItem('userInfo')
+            window.location.href = process.env.HOME_HOST + ':8070/#/'
+            return
+          }
+
           return response
         }
       } else {

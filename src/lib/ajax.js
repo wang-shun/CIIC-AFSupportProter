@@ -123,6 +123,13 @@ const getUrl = (url, data) => {
     }
 
     url += uri;
+
+    if (uri) {
+      let userInfo = sessionStorage.getItem('userInfo');
+      if (userInfo) {
+        url += '&token=' + JSON.parse(userInfo).token;
+      }
+    }
   }
   return url;
 }
@@ -168,7 +175,7 @@ const createAjax = config => {
           || response.status === 304
           || response.status === 500 // 后端业务处理返回的内部错误
         ) {
-          if (response.data && response.data.code === 2) {
+          if (response.data && response.data.code === '2') {
             sessionStorage.removeItem('userInfo')
             window.location.href = process.env.HOME_HOST + ':8070/#/'
             return
@@ -238,6 +245,7 @@ let createProxyAjaxForName = name => {
 
   // 下载
   proxy.download = (url, data) => {
+
     url = getUrl(url, data);
     data = {};
     logInfo('get', url, data);

@@ -496,8 +496,8 @@ export default {
       case '7':
       case 7:
         return '调整'
-      case '9':
-      case 9:
+      case '8':
+      case 8:
         return '转移'
       default: // 默认 1
         return ''

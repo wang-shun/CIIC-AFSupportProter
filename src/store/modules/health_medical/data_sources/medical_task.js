@@ -1,6 +1,6 @@
 const taskWaitStatus = [
   {
-    value: '2', label: '待审核'
+    value: '2', label: '待处理'
   },
   {
     value: '3', label: '暂缓'

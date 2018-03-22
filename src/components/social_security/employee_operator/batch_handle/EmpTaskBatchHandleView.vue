@@ -132,7 +132,16 @@
       return {
         operatorType: this.$route.query.operatorType,
         empTaskIds: this.$route.query.empTaskIds,
+        isBatchAll:this.$route.query.isBatchAll,
+        operatorSearchData:{},
+        loading:true,
         operatorTableNewColumns: [
+          {
+            type: 'index',
+            width: 60,
+            align: 'center',
+            fixed: 'left'
+          },
           // {type: 'selection', align: 'center', width: 60, fixed: 'left'},
           {
             title: '操作', key: 'action', align: 'center', width: 80, fixed: 'left',
@@ -274,15 +283,38 @@
       }
     },
     mounted() {
-      let empTaskIdsArr = this.empTaskIds.split(",");
-      let params ={operatorType:this.operatorType,empTaskIdList:empTaskIdsArr};
-      api.queryBatchEmpArchiveByEmpTaskIds(params).then(data=>{
-        if(data.data!=null){
-          this.operatorTableNewData = data.data;
-          this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+      
+      //选择
+      if(typeof(this.isBatchAll)!='undefined'){
+        let getParams = this.$route.params.operatorSearchData;
+        if(typeof(getParams)!='undefined'){
+          this.operatorSearchData = getParams;
+          sessionStorage.batchNewData = JSON.stringify(getParams);
+        }else{
+          if(typeof(sessionStorage.batchNewData)!='undefined'){
+              this.operatorSearchData = JSON.parse(sessionStorage.batchNewData);
+          }
         }
-
-      })
+        let params = this.operatorSearchData
+        //通过tab 条件查询批量任务
+        api.queryBatchTaskByCondition(params).then(data=>{
+          if(data.data!=null){
+            
+            this.operatorTableNewData = data.data;
+            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+          }
+        })
+      }else{
+        let empTaskIdsArr = this.empTaskIds.split(",");
+        let params ={operatorType:this.operatorType,empTaskIdList:empTaskIdsArr};
+        api.queryBatchEmpArchiveByEmpTaskIds(params).then(data=>{
+          if(data.data!=null){
+            this.operatorTableNewData = data.data;
+            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+          }
+        })
+      }
+      this.loading = false;
     },
     computed: {
   

@@ -123,6 +123,18 @@ export default {
   getDefualtEmployBO:async (params)=>{
     let response = await AJAX.post('/api/employcommandservice/amEmpTask/getDefualtEmployBO', params);
     return await response.data;
+  },
+  querySalCompany:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/salCompany/querySalCompany', params);
+    return await response.data;
+  },
+  saveCompanySet:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/salCompany/saveCompanySet', params);
+    return await response.data;
+  },
+  queryCompanySetDetail:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/salCompany/queryCompanySetDetail', params);
+    return await response.data;
   }
 
 

@@ -94,17 +94,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="公司社保帐户维护日期：">
-            {{employee.companySSAccountRepairDate}}
+            {{employee.accountRepairDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="公司社保缴费区县：">
-          {{employee.companySSPayArea}}
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="社保参保属性：">
-            {{employee.SSProperty}}
+          {{employee.comAccountName}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

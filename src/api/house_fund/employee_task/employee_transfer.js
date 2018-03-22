@@ -27,6 +27,9 @@ export default {
     let response = await AJAX.post('/api/fundcommandservice/hfEmpTaskHandle/comAccountQuery', params);
     return await response.data;
   },
+  printTransferTask: (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpTask/printTransferTask', params);
+  },
   hfEmpTaskRejectExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfEmpTask/hfEmpTaskRejectExport', params);
   },

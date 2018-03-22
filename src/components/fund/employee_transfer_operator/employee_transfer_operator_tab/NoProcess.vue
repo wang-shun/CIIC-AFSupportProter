@@ -77,7 +77,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="isCreateTaskTicket = true;handlePageNumNewTask(1);">新建转移任务单</Button>
-        <Button type="info" @click="">批量打印转中心通知书</Button>
+        <!-- <Button type="info" @click="">批量打印转中心通知书</Button> -->
         <Dropdown>
           <Button type="primary">
             转移操作
@@ -148,14 +148,14 @@
           </Col>
         </Row>
         <Row>
-           <Col :sm="{span: 12}" class="tr">
+           <!-- <Col :sm="{span: 12}" class="tr">
             <Form-item label="公积金类型：" prop="hfType">
                   <Select v-model="createTask.searchCondition.hfType" transfer>
                     <Option value="1" >基本公积金</Option>
                     <Option value="2" >补充公积金</Option>
                   </Select>
             </Form-item>
-           </Col>
+           </Col> -->
           <Col :sm="{span: 12}" class="tr">
             <Button type="primary" icon="ios-search" @click="handlePageNumNewTask(1)">查询</Button>
             <Button type="warning" @click="isCreateTaskTicket = false;">关闭</Button>
@@ -230,13 +230,12 @@
             {title: '操作', fixed: 'left', width: 80, align: 'center', 
               render:(h, params)=>{
                 return h('div', {style: {textAlign: 'left'}}, [
-
                   h('Button',{
                     props:{type:'success',size:'samll'},
                     style: {margin: '0 auto'},
                     on:{
                       click:()=>{
-                        this.dealTransfer(params.row.employeeId,params.row.companyId);
+                        this.dealTransfer(params.row.employeeId,params.row.companyId,params.row.hfType);
                       }
                     }
                   },'选择'),
@@ -244,7 +243,14 @@
               }
             
             },
-            {title: '客户编号', key: 'companyNumber', align: 'center', width: 150,
+            {title: '公积金类型', key: 'hfType', align: 'center', width: 120,
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'left'}}, [
+                  h('span', this.$decode.hfType(params.row.hfType)),
+                ]);
+              }
+            },
+            {title: '客户编号', key: 'companyNumber', align: 'center', width: 120,
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h('span', params.row.companyId),
@@ -347,10 +353,10 @@
               ]);
             }
           },
-          {title: '客户名称', key: 'companyName', width: 150, align: 'center',
+          {title: '客户名称', key: 'title', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
+                h('span', params.row.title),
               ]);
             }
           },
@@ -479,8 +485,8 @@
         let params = this.createTask.searchCondition
         this.queryTransferForNewTask(params);
       },
-      dealTransfer(employeeId,companyId){
-        let hfType=this.createTask.searchCondition.hfType;
+      dealTransfer(employeeId,companyId,hfType){
+         
         this.$router.push({name:'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType}});
       },
       ok () {

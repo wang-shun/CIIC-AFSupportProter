@@ -36,7 +36,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费银行：" prop="paymentBank">
                   <Select v-model="searchCondition.paymentBank" style="width: 100%;" transfer>
-                    <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option value="" >全部</Option>
+                    <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="key" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -219,14 +220,6 @@ export default {
       ],
       isShowCompanyFoundAccountList: false, //显示企业公积金账户列表
       isShowCompanyName: false, //显示公司名称
-      payBankList: [
-        { value: "", label: "全部" },
-        { value: 0, label: "徐汇支行" },
-        { value: 1, label: "卢湾支行" },
-        { value: 2, label: "西郊支行" },
-        { value: 3, label: "东方路支行" },
-        { value: 4, label: "其他" }
-      ],
       workStatusList: [
         { value: "", label: "全部" },
         { value: 2, label: "在职" },
@@ -612,6 +605,7 @@ export default {
         });
     },
     impTemplate() {
+ 
       api.impTemplateFile({});
     },
     cancel() {},

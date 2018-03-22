@@ -18,7 +18,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件号码：">
-                  <label>{{viewEmpArchive.IdNum}}</label>
+                  <label>{{viewEmpArchive.idNum}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

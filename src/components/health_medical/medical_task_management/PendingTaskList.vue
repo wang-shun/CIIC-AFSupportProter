@@ -154,10 +154,8 @@
     <Modal class="warn-back"
            v-model="modal5"
            title="更新在保库"
-           @on-ok="toubao"
-           ok-text="确认更新"
-           @on-cancel="updateTpaTaskList(6)"
-           cancel-text="退回">
+           @on-ok="syncToWarranty"
+           ok-text="确认更新">
     </Modal>
 
     <Table border
@@ -327,6 +325,28 @@
           }
         });
       },
+      syncToWarranty() {
+        if (this.selectData.length === 0) {
+          this.$Message.error('请选择数据');
+          return;
+        }
+        for (let i=0;i<this.selectData.length;i++) {
+          if (this.selectData[i].status !== 4) {
+            this.$Message.error('请选择已处理状态的数据');
+            return;
+          }
+        }
+        apiAjax.syncToWarranty(this.selectData).then(response => {
+          if (response.data.object) {
+            this.getByPage(1);
+            this.dealMsg.remark = null;
+            this.$Message.success('更新成功');
+          } else {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        });
+      },
+
       selectTableData(rows) {
         this.selectData = rows;
       },
@@ -340,9 +360,6 @@
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
-      },
-      toubao() {
-        this.$Message.info('已投保');
       },
     }
   }

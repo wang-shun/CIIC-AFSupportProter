@@ -575,23 +575,23 @@
           },
           {title: '金额', key: 'amount', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled) {
-                return h('div', [
-                  h('Input', {
-                    props: {value: params.row.amount},
-                    on: {
-                      'on-blur': (event) => {
-                        this.operatorListData[params.index].amount = event.target.value;
-                        this.operatorListDataAmount(event.target.value);
-                      }
-                    }
-                  }, params.row.amount)
-                ]);
-              } else {
+//              if (!this.inputDisabled) {
+//                return h('div', [
+//                  h('Input', {
+//                    props: {value: params.row.amount},
+//                    on: {
+//                      'on-blur': (event) => {
+//                        this.operatorListData[params.index].amount = event.target.value;
+//                        this.operatorListDataAmount(event.target.value);
+//                      }
+//                    }
+//                  }, params.row.amount)
+//                ]);
+//              } else {
                 return h('div', [
                   h('span', params.row.amount)
                 ]);
-              }
+//              }
             }
           },
           {

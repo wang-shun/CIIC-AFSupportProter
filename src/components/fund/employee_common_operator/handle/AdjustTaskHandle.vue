@@ -595,7 +595,7 @@
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
           {title: '备注人', key: 'modifiedDisplayName', align: 'left'},
-          {title: '备注时间', key: 'modifiedTime', align: 'left'},
+          {title: '备注时间', key: 'modifiedTimeFormat', align: 'left'},
           {title: '备注内容', key: 'remark', align: 'left'}
         ],
         taskListNotesChangeData: [],

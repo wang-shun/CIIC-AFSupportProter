@@ -50,7 +50,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-          <!-- <Button type="warning">默认</Button> -->
+          <Button type="warning" @click="defaultVaule()">默认</Button>
           <Button type="primary" @click="instance()">保存</Button>
         </Col>
       </Row>
@@ -62,6 +62,8 @@ import api from '../../../api/employ_manage/hire_operator'
   export default {
     props: {
       handleInfo: {
+        type: Object
+      },handleInfoMaterial:{
         type: Object
       }
     },
@@ -82,14 +84,16 @@ import api from '../../../api/employ_manage/hire_operator'
           {value: '漕虹路', label: '漕虹路'},
           {value: '区人才', label: '区人才'},
           {value: '高校', label: '高校'},
-          {value: '经营者', label: '经营者'},
+          {value: '经营者人才', label: '经营者人才'},
           {value: '厂长经理人才', label: '厂长经理人才'},
           {value: '农民工', label: '农民工'},
           {value: '退休', label: '退休'},
           {value: '协保', label: '协保'},
           {value: '退工不调档', label: '退工不调档'},
           {value: '用工不调档', label: '用工不调档'},
+          {value: '其他', label: '其他'},
           {value: '非全日制', label: '非全日制'},
+          {value: '中智', label: '中智'},
           {value: '徐职', label: '徐职'},
           {value: '公司自行保管', label: '公司自行保管'}
         ],                            
@@ -142,6 +146,42 @@ import api from '../../../api/employ_manage/hire_operator'
               }
         })
          
+       },defaultVaule(){
+         
+           var fromData = this.$utils.clear(this.handleInfo,'');
+            if(fromData.employDate){
+           fromData.employDate = this.$utils.formatDate(this.handleInfo.employDate, 'YYYY-MM-DD');
+        }
+        if(fromData.openAfDate){
+           fromData.openAfDate = this.$utils.formatDate(this.handleInfo.openAfDate, 'YYYY-MM-DD');
+        }
+         api.getDefualtEmployBO(fromData).then(data =>{
+
+           if(data.data.firstInDate){
+               this.handleInfo.employDate = data.data.firstInDate;
+           }
+
+           if(data.data.openAfDate){
+              this.handleInfo.openAfDate = data.data.openAfDate;
+           }
+
+           if(data.data.employStyle){
+               this.handleInfo.employStyle = data.data.employStyle;
+           }
+
+           if(data.data.handleType){
+             this.handleInfo.handleType = data.data.handleType;
+           }
+
+           if(data.data.archivePlace){
+             this.handleInfoMaterial.archivePlace = data.data.archivePlace;
+           }
+
+           if(data.data.employProperty){
+              this.handleInfo.employProperty = data.data.employProperty;
+           }
+
+         })
        }
        
     }

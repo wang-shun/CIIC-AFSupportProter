@@ -25,7 +25,7 @@
                 <Input v-model="formItem.umAcceptanceId" placeholder="请输入"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col v-if="formItem.status === true" :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="审核日期" prop="auditDateRange">
                 <DatePicker v-model="formItem.auditDateRange" type="daterange" placement="bottom-end"
                             placeholder="选择日期" style="width: 100%"></DatePicker>
@@ -69,8 +69,8 @@
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码" prop="idCardType">
-                <Input v-model="formItem.idCardType" placeholder="请输入"/>
+              <Form-item label="证件号码" prop="idNum">
+                <Input v-model="formItem.idNum" placeholder="请输入"/>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -124,7 +124,7 @@
           companyName: null,
           employeeId: null,
           employeeName: null,
-          idCardType: null,
+          idNum: null,
           handlerDateRange: [],
           auditDateRange: [],
         },
@@ -137,9 +137,6 @@
           },
           {
             title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center'
-          },
-          {
-            title: '性别', sortable: true, key: 'gender', align: 'center',
           },
           {
             title: '公司编号', sortable: true, key: 'companyId', align: 'center'
@@ -167,6 +164,9 @@
           },
           {
             title: '审核日期', sortable: true, key: 'auditDate', align: 'center',
+            render: (h, params) => {
+              return this.$utils.formatDate(params.row.auditDate, 'YYYY-MM-DD HH:mm:ss');
+            }
           },
           {
             title: '付款记录', sortable: true, key: 'payID', align: 'center',
@@ -175,7 +175,7 @@
             title: '连带人', sortable: true, key: 'jointPersonName', align: 'center'
           },
           {
-            title: '操作', key: 'action', width: 120, align: 'center',
+            title: '操作', key: 'action', width: 125, align: 'center',
             render: (h, params) => {
               /**已受理并且款项类型不是子女托费的显示审核按钮*/
               if (params.row.status === 1) {
@@ -191,6 +191,9 @@
                   }, '审核'),
                   h('Button', {
                     props: {type: 'success', size: 'small'},
+                    style: {
+                      marginLeft: '5px'
+                    },
                     on: {
                       click: () => {
                         sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));

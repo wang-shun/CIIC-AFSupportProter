@@ -43,12 +43,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客服经理：">
-                <label>{{displayVO.serviceManager}}</label>
+                <label>{{displayVO.leaderShipName}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客户专员：">
-                <label>{{displayVO.customerServicer}}</label>
+                <label>{{displayVO.createdDisplayName}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -274,6 +274,7 @@
         loading: false,
         displayVO: {
           empTaskId: 0,
+          dictTaskCategory: 0,
           taskCategory: 0,
           basicHfComAccount: '',
           addedHfComAccount: '',
@@ -283,8 +284,8 @@
           stateName: '',
           basicComHfMonth: '',
           addedComHfMonth: '',
-          serviceManager: '',
-          customerServicer: '',
+          leaderShipName: '',
+          createdDisplayName: '',
           basicEndMonth: '',
           addedEndMonth: '',
           paymentWayName: '',
@@ -303,6 +304,7 @@
           inDate: '',
           basicEmpArchiveId: '',
           basicHfEmpAccount: '',
+          basicArchiveStatusName: '',
           basicEmpTaskStatusName: '',
           basicEmpStartMonth: '',
           basicEmpEndMonth: '',
@@ -311,6 +313,7 @@
           basicRatioCom: '',
           basicRatioEmp: '',
           addedHfEmpAccount: '',
+          addedArchiveStatusName: '',
           addedEmpTaskStatusName: '',
           addedEmpStartMonth: '',
           addedEmpEndMonth: '',
@@ -389,30 +392,30 @@
           },
           {title: '截止月份', key: 'endMonth', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled && this.operatorListData[params.index].remitWay == 2) {
-                return h('div', [
-                  h('DatePicker', {
-                    props: {
-                      value: params.row.endMonth,
-                      type: 'month',
-                      format: 'yyyyMM',
-                      placement: 'bottom-end',
-                      placeholder: '选择年月',
-                      style: 'width: 100%;',
-                      transfer: true
-                    },
-                    on: {
-                      'on-change': (val) => {
-                        this.operatorListData[params.index].endMonth = val;
-                      }
-                    }
-                  })
-                ]);
-              } else {
+//              if (!this.inputDisabled && this.operatorListData[params.index].remitWay == 2) {
+//                return h('div', [
+//                  h('DatePicker', {
+//                    props: {
+//                      value: params.row.endMonth,
+//                      type: 'month',
+//                      format: 'yyyyMM',
+//                      placement: 'bottom-end',
+//                      placeholder: '选择年月',
+//                      style: 'width: 100%;',
+//                      transfer: true
+//                    },
+//                    on: {
+//                      'on-change': (val) => {
+//                        this.operatorListData[params.index].endMonth = val;
+//                      }
+//                    }
+//                  })
+//                ]);
+//              } else {
                 return h('div', [
                   h('span', params.row.endMonth)
                 ]);
-              }
+//              }
             }
           },
           {title: '客户汇缴月', key: 'hfMonth', align: 'left',
@@ -508,23 +511,23 @@
           },
           {title: '金额', key: 'amount', align: 'left',
             render: (h, params) => {
-              if (!this.inputDisabled) {
-                return h('div', [
-                  h('Input', {
-                    props: {value: params.row.amount},
-                    on: {
-                      'on-blur': (event) => {
-                        this.operatorListData[params.index].amount = event.target.value;
-                        this.operatorListDataAmount(event.target.value);
-                      }
-                    }
-                  }, params.row.amount)
-                ]);
-              } else {
+//              if (!this.inputDisabled) {
+//                return h('div', [
+//                  h('Input', {
+//                    props: {value: params.row.amount},
+//                    on: {
+//                      'on-blur': (event) => {
+//                        this.operatorListData[params.index].amount = event.target.value;
+//                        this.operatorListDataAmount(event.target.value);
+//                      }
+//                    }
+//                  }, params.row.amount)
+//                ]);
+//              } else {
                 return h('div', [
                   h('span', params.row.amount)
                 ]);
-              }
+//              }
             }
           },
           {
@@ -591,7 +594,7 @@
           {title: '公积金类型', key: 'hfTypeName', align: 'left'},
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
-          {title: '备注人', key: 'modifiedBy', align: 'left'},
+          {title: '备注人', key: 'modifiedDisplayName', align: 'left'},
           {title: '备注时间', key: 'modifiedTime', align: 'left'},
           {title: '备注内容', key: 'remark', align: 'left'}
         ],
@@ -616,6 +619,7 @@
         inputData: {
           empTaskId: 0,
           taskStatus: 1,
+          dictTaskCategory: 0,
           taskCategory: 0,
           companyId: '',
           employeeId: '',
@@ -636,7 +640,7 @@
     mounted() {
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
-      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
       let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
@@ -688,11 +692,11 @@
             this.transferOutUnitList.push(element);
             this.transferInUnitList.push(element);
           })
-          if (taskCategory > 2) {
+          if (dictTaskCategory > 3) {
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;
-            this.taskCategoryList.splice(2, this.taskCategoryList.length - 2);
+            this.taskCategoryList.splice(3, this.taskCategoryList.length - 3);
           }
         } else {
           this.$Message.error(data.message);
@@ -790,11 +794,12 @@
         })
       },
       handleTaskReject() {
-        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark == '') {
+        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark.trim() == '') {
           this.$Message.error("批退备注不能为空");
           return false;
         }
-        if (this.displayVO.rejectionRemark && this.displayVO.rejectionRemark.length > 200) {
+        this.displayVO.rejectionRemark = this.displayVO.rejectionRemark.trim();
+        if (this.displayVO.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
@@ -825,7 +830,7 @@
       },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
-        this.inputData.taskCategory = this.displayVO.taskCategory;
+        this.inputData.dictTaskCategory = this.displayVO.dictTaskCategory;
 //        this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
 //        if (this.displayVO.startMonth) {
 //          this.inputData.startMonth = utils.formatDate(this.displayVO.startMonth,"YYYYMM");
@@ -863,7 +868,7 @@
         })
       },
       inputDataCheck() {
-        if (this.displayVO.taskCategory != 1 &&(!this.displayVO.hfEmpAccount || this.displayVO.hfEmpAccount == '')) {
+        if (this.displayVO.dictTaskCategory != 1 &&(!this.displayVO.hfEmpAccount || this.displayVO.hfEmpAccount == '')) {
           this.$Message.error("公积金账户不能为空");
           return false;
         }
@@ -950,8 +955,8 @@
             this.$Message.error("操作栏补缴状态费用段的截止月份不能小于起缴月份");
             return false;
           }
-          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth != api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份的次月必须等于客户汇缴月");
+          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth > api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份的次月必须小于等于客户汇缴月");
             return false;
           }
           if (this.displayVO.hfType == 1) {
@@ -1024,88 +1029,6 @@
           return false;
         }
         return true;
-      },
-      transferNoticeCheck() {
-        if (this.transferNotice.transferOutUnit && this.transferNotice.transferOutUnit.length > 20) {
-          this.$Message.error("转出单位长度不能超过20");
-          return false;
-        }
-        if (this.transferNotice.transferOutUnitAccount && this.transferNotice.transferOutUnitAccount.length > 20) {
-          this.$Message.error("转出单位账号长度不能超过20");
-          return false;
-        }
-        if (this.transferNotice.transferInUnit && this.transferNotice.transferInUnit.length > 20) {
-          this.$Message.error("转入单位长度不能超过20");
-          return false;
-        }
-        if (this.transferNotice.transferInUnitAccount && this.transferNotice.transferInUnitAccount.length > 20) {
-          this.$Message.error("转入单位账号长度不能超过20");
-          return false;
-        }
-        return true;
-      },
-      transEmpTaskQuery() {
-        api.transEmpTaskQuery({
-          companyId: this.displayVO.companyId,
-          employeeId: this.displayVO.employeeId,
-          hfType: this.displayVO.hfType,
-        }).then(data => {
-          if (data.code == 200) {
-            if (!data.data || data.data.length == 0) {
-              this.isShowPrint = true;
-            } else {
-              // TODO show print page
-              console.log(data.data);
-            }
-          } else {
-            this.$Message.error(data.message);
-          }
-        })
-      },
-      ok () {
-        this.transferNotice.empTaskId = this.displayVO.empTaskId;
-        this.transferNotice.companyId = this.displayVO.companyId;
-        this.transferNotice.employeeId = this.displayVO.employeeId;
-        this.transferNotice.hfType = this.displayVO.hfType;
-        if (this.transferNotice.transferDate) {
-          this.transferNotice.transferDate = this.$utils.formatDate(this.transferNotice.transferDate, "YYYY-MM-DD");
-        }
-        if (!this.transferNoticeCheck()) {
-          return false;
-        }
-        api.createTransEmpTask(
-          this.transferNotice
-        ).then(data => {
-          if (data.code == 200) {
-            this.transferOutUnitList.length = 0;
-            this.transferInUnitList.length = 0;
-            this.transferOutUnitAccountList.length = 0;
-            this.transferInUnitAccountList.length = 0;
-            this.transferNotice.transferOutUnit = '';
-            this.transferNotice.transferOutUnitAccount = '';
-            this.transferNotice.transferInUnit = '';
-            this.transferNotice.transferInUnitAccount = '';
-            this.transferNotice.transferDate = '';
-
-            // TODO show print page
-            this.isShowPrint = false;
-            console.log(data.data);
-          } else {
-            this.$Message.error(data.message);
-          }
-        })
-      },
-      cancel() {
-        this.transferOutUnitList.length = 0;
-        this.transferInUnitList.length = 0;
-        this.transferOutUnitAccountList.length = 0;
-        this.transferInUnitAccountList.length = 0;
-        this.transferNotice.transferOutUnit = '';
-        this.transferNotice.transferOutUnitAccount = '';
-        this.transferNotice.transferInUnit = '';
-        this.transferNotice.transferInUnitAccount = '';
-        this.transferNotice.transferDate = '';
-        this.isShowPrint = false;
       },
     },
   }

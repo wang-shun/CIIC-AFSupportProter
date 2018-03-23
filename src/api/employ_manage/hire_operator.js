@@ -119,6 +119,22 @@ export default {
   },
   archiveSearchExportOpt:async (params) => {
     AJAX.download('/api/employcommandservice/amArchiveTask/archiveSearchExportOpt', params);
+  },//查询雇员详细信息
+  getDefualtEmployBO:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amEmpTask/getDefualtEmployBO', params);
+    return await response.data;
+  },
+  querySalCompany:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/salCompany/querySalCompany', params);
+    return await response.data;
+  },
+  saveCompanySet:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/salCompany/saveCompanySet', params);
+    return await response.data;
+  },
+  queryCompanySetDetail:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/salCompany/queryCompanySetDetail', params);
+    return await response.data;
   }
 
 

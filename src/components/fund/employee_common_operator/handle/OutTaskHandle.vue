@@ -43,12 +43,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客服经理：">
-                <label>{{displayVO.serviceManager}}</label>
+                <label>{{displayVO.leaderShipName}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户专员：">
-                <label>{{displayVO.customerServicer}}</label>
+                <label>{{displayVO.createdDisplayName}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -191,7 +191,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="任务类型：">
-                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
+                <Select v-model="displayVO.dictTaskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
                   <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
               </FormItem>
@@ -257,6 +257,7 @@
         isShowPrint: false,
         displayVO: {
           empTaskId: 0,
+          dictTaskCategory: 0,
           taskCategory: 0,
 //          taskCategoryName: '补缴',
           basicHfComAccount: '',
@@ -268,8 +269,8 @@
           hfMonth: '',
           basicComHfMonth: '',
           addedComHfMonth: '',
-          serviceManager: '',
-          customerServicer: '',
+          leaderShipName: '',
+          createdDisplayName: '',
           basicEndMonth: '',
           addedEndMonth: '',
           paymentWayName: '',
@@ -288,6 +289,7 @@
           inDate: '',
           basicEmpArchiveId: '',
           basicHfEmpAccount: '',
+          basicArchiveStatusName: '',
           basicEmpTaskStatusName: '',
           basicEmpStartMonth: '',
           basicEmpEndMonth: '',
@@ -296,6 +298,7 @@
           basicRatioCom: '',
           basicRatioEmp: '',
           addedHfEmpAccount: '',
+          addedArchiveStatusName: '',
           addedEmpTaskStatusName: '',
           addedEmpStartMonth: '',
           addedEmpEndMonth: '',
@@ -331,7 +334,7 @@
           {title: '公积金类型', key: 'hfTypeName', align: 'left'},
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
-          {title: '备注人', key: 'modifiedBy', align: 'left'},
+          {title: '备注人', key: 'modifiedDisplayName', align: 'left'},
           {title: '备注时间', key: 'modifiedTime', align: 'left'},
           {title: '备注内容', key: 'remark', align: 'left'}
         ],
@@ -349,6 +352,7 @@
         inputData: {
           empTaskId: 0,
           taskStatus: 1,
+          dictTaskCategory: 0,
           taskCategory: 0,
           companyId: '',
           employeeId: '',
@@ -371,7 +375,7 @@
     mounted() {
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
-      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
       let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
@@ -418,12 +422,12 @@
           this.taskCategoryList = data.data.HFLocalTaskCategory;
 //          this.operationRemindList = data.data.OperationRemind;
 //          this.transferOutUnitList = data.data.FundOutUnit;
-          if (taskCategory < 7) {
+          if (dictTaskCategory < 5) {
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;
-            this.taskCategoryList.splice(8, this.taskCategoryList.length - 2);
-            this.taskCategoryList.splice(0, 6);
+            this.taskCategoryList.splice(5, this.taskCategoryList.length - 2);
+            this.taskCategoryList.splice(0, 3);
           }
         } else {
           this.$Message.error(data.message);
@@ -495,11 +499,12 @@
         })
       },
       handleTaskReject() {
-        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark == '') {
+        if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark.trim() == '') {
           this.$Message.error("批退备注不能为空");
           return false;
         }
-        if (this.displayVO.rejectionRemark && this.displayVO.rejectionRemark.length > 200) {
+        this.displayVO.rejectionRemark = this.displayVO.rejectionRemark.trim();
+        if (this.displayVO.rejectionRemark.length > 200) {
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
@@ -533,7 +538,7 @@
       },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
-        this.inputData.taskCategory = this.displayVO.taskCategory;
+        this.inputData.dictTaskCategory = this.displayVO.dictTaskCategory;
 //        this.inputData.operationRemind = this.displayVO.operationRemind;
 //        if (this.displayVO.operationRemindDate) {
 //          this.inputData.operationRemindDate = utils.formatDate(this.displayVO.operationRemindDate,"YYYY-MM-DD");
@@ -576,7 +581,6 @@
           return false;
         }
         if (this.inputData.endMonth && this.inputData.endMonth != api.minusMonths(this.displayVO.hfMonth, 1)) {
-          debugger
           this.$Message.error("客户汇缴月非汇缴截止缴费月的次月");
           return false;
         }

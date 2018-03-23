@@ -51,7 +51,7 @@
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="连带人：" prop="jointPersonName">
             <Select v-model="formItem.jointPersonName" placeholder="请输入" :clearable="true">
-              <Option v-for="item in jointPersonNameList" :value="item.empMemberId" :key="item.empMemberId">
+              <Option v-for="item in jointPersonNameList" :value="item.name" :key="item.empMemberId">
                 {{ item.name }}
               </Option>
             </Select>

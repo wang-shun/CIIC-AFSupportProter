@@ -14,6 +14,19 @@
         </div>
       </Panel>
       <Panel name="3">
+        雇员未做任务单
+        <div slot="content">
+          <Form :label-width=150 >
+          <Row class="mt20" type="flex" justify="start">
+            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Table border width="800" :columns="theSameTaskListColumns"
+                     :data="socialSecurityPayOperator.theSameTask"></Table>
+              </Col>
+          </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="4">
         任务单参考信息
         <div slot="content">
           <Form :label-width=150>
@@ -37,7 +50,7 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="4">
+      <Panel name="5">
         社保转出操作
         <div slot="content">
           <Form ref="socialSecurityPayOperator" :model="socialSecurityPayOperator" :rules="ruleValidate" :label-width=150>
@@ -125,7 +138,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button> 
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton && isNextMonth==0">转下月处理</Button> 
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton">办理</Button>
       <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton">批退</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','save')" v-if="showButton">暂存</Button>
@@ -186,8 +199,9 @@
         empTaskId: '',
         operatorType: '',
         currentIndex: this.$route.params.index,
+        isNextMonth:this.$route.query.isNextMonth,
         sourceFrom: '',
-        collapseInfo: [1, 2, 3, 4],
+        collapseInfo: [1, 2, 3, 4,5],
         employee: {},
         company: {},
         taskCategoryType: [
@@ -200,6 +214,82 @@
         //   {value: 2, label: '终止'}
         // ], //特殊变更类型：
         reworkInfo:{},
+        theSameTaskListColumns:[
+          {
+            type: 'selection',
+            width: 60,
+            align: 'center'
+           },
+          {
+            title: '任务单ID', key: 'empTaskId', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.empTaskId),
+              ]);
+            }
+          },
+          {
+            title: '任务单类型', key: 'taskCategory', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.taskCategory(params.row.taskCategory)),
+              ]);
+            }
+          },
+          {
+            title: '起始月份',
+            key: 'startMonth',
+            align: 'center',
+            render: (h, params) => { //transfer
+              return h('span', params.row.taskCategory=='5' || params.row.taskCategory=='6' ||params.row.taskCategory =='14'|| params.row.taskCategory=='15'?'':params.row.startMonth);
+              // return h('DatePicker', {
+              //   props: {value: params.row.startMonth, type: 'month', disabled:false},
+              //   attrs: {placeholder: '',
+              //           transfer:'transfer'
+              //   },//选择年月
+              //   on: {
+              //     input: (event) => {
+              //       this.setRow(params, 'startMonth', event);
+              //     }
+              //   }
+              // });
+            }
+          },
+          {
+            title: '截止月份',
+            key: 'endMonth',
+            align: 'center',
+            render: (h, params) => {
+               return h('span',params.row.endMonth)
+              // return h('DatePicker', {
+              //   props: {value: params.row.endMonth, type: 'month', disabled:true},
+              //   attrs: {placeholder: ''},//选择年月
+              //   on: {
+              //     input: (event) => {
+              //       this.setRow(params, 'endMonth', event);
+              //     }
+              //   }
+              // });
+            }
+          },
+          {
+            title: '基数',
+            key: 'empBase',
+            align: 'center',
+            render: (h, params) => {
+
+              return h('span',params.row.empBase)
+              // return h('Input', {
+              //   props: {value: params.row.baseAmount, disabled:true},//disabled: true
+              //   on: {
+              //     'on-blur': (e) => {
+              //       this.setRow(params, 'baseAmount', e.target.value);
+              //     }
+              //   }
+              // }, params.row.baseAmount);
+            }
+          },
+        ],
         socialSecurityPayOperator: {
           handleWay: '1',
           handleMonth: '',
@@ -219,7 +309,7 @@
           empTaskId: '',
           empArchiveId: '',
           isChange:'',
-          isHaveSameTask:'',
+          theSameTask:[],
           employeeId:'',
           comAccountId:'',
           taskId:'',
@@ -304,16 +394,16 @@
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
           this.reworkInfo = data.data.amEmpTaskDTO
-           this.$Notice.config({
-                top:80
-              })
-            if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
-                this.$Notice.warning({
-                    title: '温馨提示',
-                    desc: '该雇员存在相同类型的未办任务.',
-                    duration: 0
-                });
-            }
+          //  this.$Notice.config({
+          //       top:80
+          //     })
+            // if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
+            //     this.$Notice.warning({
+            //         title: '温馨提示',
+            //         desc: '该雇员存在相同类型的未办任务.',
+            //         duration: 0
+            //     });
+            // }
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {

@@ -100,42 +100,50 @@
       @on-cancel="cancel">
       <div style="text-align: center;">
         <Form :label-width=150 ref="upLoadData" :model="upLoadData">
-        <Row type="flex" justify="start">
-                <Col :sm="{span:15}">
-                  <Form-item label="社保月份：" prop="ssMonth">
-                  <Input v-model="upLoadData.ssMonth" placeholder="请输入..."></Input>
-                </Form-item>
-                </Col>
-          </Row>
           <Row type="flex" justify="start">
-             <Col :sm="{span:15}" >
-                <Form-item label="变更汇总表类型：" prop="fileType">
-                  <Select v-model="upLoadData.fileType" style="width: 100%;" transfer>
-                    <Option v-for="item in changeTableTypeValueListOfUpload" :value="item.value" :key="item.value" >{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-            </Row>
-            <Row type="flex" justify="start">
             <Col :sm="{span:15}">
-             <Form-item label="文件上传：" prop="uploadFile">
-              <Upload ref="upload"
-                :show-upload-list="false"
-                :action="uploadAttr.actionUrl"
-                :data="upLoadData"
-                :before-upload="beforeUpload"
-                :accept="uploadAttr.acceptFileExtension"
-                :format="['xlsx','xls']"
-                :on-format-error="handleFormatError"
-                :on-error="handleError"
-                >
-                
-                <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
-              </Upload>
-               </Form-item>
+              <Form-item label="社保月份：" prop="ssMonth">
+                <Input v-model="upLoadData.ssMonth" placeholder="请输入..."></Input>
+              </Form-item>
             </Col>
           </Row>
-          </Form>
+          <Row type="flex" justify="start">
+            <Col :sm="{span:15}" >
+              <Form-item label="变更汇总表类型：" prop="fileType">
+                <Select v-model="upLoadData.fileType" style="width: 100%;" transfer>
+                  <Option v-for="item in changeTableTypeValueListOfUpload" :value="item.value" :key="item.value" >{{item.label}}</Option>
+                </Select>
+              </Form-item>
+            </Col>
+          </Row>
+          <Row type="flex" justify="start">
+            <Col :sm="{span:15}">
+              <Form-item label="文件上传：" prop="uploadFile">
+                <Upload ref="upload"
+                  :show-upload-list="false"
+                  :action="uploadAttr.actionUrl"
+                  :data="upLoadData"
+                  :before-upload="beforeUpload"
+                  :accept="uploadAttr.acceptFileExtension"
+                  :format="['xlsx','xls']"
+                  :on-format-error="handleFormatError"
+                  :on-error="handleError"
+                >
+                  <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+                </Upload>
+                
+              </Form-item>
+            </Col>
+          </Row>
+        </Form>
+      </div>
+      <div slot="footer">
+        <div v-if="this.upLoadData.file !== null">
+          <Row type="flex" justify="start">
+            上传文件名: {{ this.upLoadData.file.name }} 
+          </Row>
+          <Button type="info" @click="doUpload">上传</Button>
+        </div>
       </div>
     </Modal>
   </div>
@@ -254,7 +262,7 @@
               ]);
             }
           },
-          {title: '企业社保账号', key: 'comAccountName', width: 250, align: 'center',
+          {title: '企业社保账号名称', key: 'comAccountName', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comAccountName),
@@ -363,14 +371,19 @@
         me.upLoadData.comAccountId = data.comAccountId;
         me.upLoadData.fileType = data.impFileType;
         me.upLoadData.ssMonth = data.ssMonth;
+        me.upLoadData.file = null;
       },
 
       beforeUpload(file) {
+        this.upLoadData.file = file;
+        return false;
+      },
+      doUpload(){
         if (this.upLoadData.comAccountId == '' || this.upLoadData.ssMonth == '') {
           this.$Message.error("请选择社保账户");
         }
         else{
-          this.upLoadData.file = file;
+          //this.upLoadData.file = file;
           api.statementBeforeUpload(this.upLoadData).then(data=>{
               if (data.code == 0) {
                 this.$Message.info(data.message);
@@ -385,7 +398,6 @@
           });
           this.$refs['upload'].clearFiles();
         }
-        return false;
       },
       // onSuccess(response, file) {
       //   var data = response;

@@ -24,6 +24,9 @@ const fileMatrialsUseAndBorrow = r => require.ensure([], () => r(require('@/comp
 const recordMatch = r => require.ensure([], () => r(require('@/components/employ_manage/RecordMatch')), 'RecordMatch');
 const matchImportFile = r => require.ensure([], () => r(require('@/components/employ_manage/MatchImportFile')), 'MatchImportFile');
 
+const independentCustomList = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentCustomList')), 'IndependentCustomList');
+const independentHandleCustom = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentHandleCustom')), 'IndependentHandleCustom');
+
 export default [
   {
     path: '/employment_data_management_task_list',
@@ -134,5 +137,29 @@ export default [
       openNames:['3'],
       activeName: '3-4'
     }
-  }
+  },
+  {
+    path: '/independent_handle_task_list',
+    name:'independentCustomList',
+    component: independentCustomList,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"独立户客户管理",
+      openNames:['3'],
+      activeName: '3-5'
+    }
+  },
+  {
+    path: '/independent_handle_custom',
+    name:'independentHandleCustom',
+    component: independentHandleCustom,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"独立账户维护表单",
+      openNames:['3'],
+      activeName: '3-5'
+    }
+  },
 ]

@@ -166,6 +166,10 @@ let router = new Router({
       path: '/main',
       component: main,
       children: [
+        {
+          path: '',
+          component: welcome
+        },
         ...SsRouter,
         {
           path: '/employee_fund_search',
@@ -1019,6 +1023,7 @@ let router = new Router({
 import axios from 'axios'
 import {CrossStorageClient} from 'cross-storage'
 
+/**
 router.beforeEach((to, from, next) => {
   let storage = new CrossStorageClient(`${getBasePath(process.env.env).basePath}:8070/#/menu`);
   storage.onConnect().then(() => {
@@ -1043,6 +1048,7 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
+
 function validateToken(userInfo) {
   let param = new URLSearchParams();
   param.append("token", userInfo.token);
@@ -1062,33 +1068,32 @@ function validateToken(userInfo) {
 function backToLogin() {
   window.location.href = `${getBasePath(process.env.env).basePath}:8070/#/`;
 }
+ **/
 
-function getBasePath(env) {
-  let basePath = '';
-  let serverPath = '';
-  switch (env) {
-    case 'dev':
-      basePath = 'http://localhost';
-      serverPath = 'http://172.16.9.31';
-      break;
-    case 'sit':
-      basePath = 'http://172.16.9.25';
-      serverPath = 'http://172.16.9.24';
-      break;
-    case 'uat':
-      basePath = 'http://172.16.9.60';
-      serverPath = 'http://172.16.9.56';
-      break;
-    case 'prod':
-      basePath = 'http://172.16.9.60';
-      serverPath = 'http://172.16.9.60';
-      break;
-    default:
-      basePath = 'http://localhost';
-      serverPath = 'http://172.16.9.31';
-      break;
-  }
-  return {basePath: basePath, serverPath: serverPath};
-}
+router.beforeEach((to, from, next) => {
+  window.document.title = '支持中心';
+  localStorage.setItem('level1', to.meta.level1);
+  localStorage.setItem('level2', to.meta.level1);
+  localStorage.setItem('level3', to.meta.level2);
+  localStorage.setItem('level4', to.meta.level3);
+  localStorage.setItem('openNames', [to.meta.openNames]);
+
+  let storage = new CrossStorageClient(process.env.HOME_HOST + ':8070/#/menu')
+  storage.onConnect().then(function () {
+    return storage.get('token')
+  }).then(function (res) {
+    let userInfo = JSON.parse(res || '{}')
+    console.log(userInfo)
+    if (userInfo && userInfo.token) {
+      sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
+      next()
+    } else {
+      sessionStorage.removeItem('userInfo')
+      window.location.href = process.env.HOME_HOST + ':8070/#/'
+    }
+  }).catch(function (err) {
+    console.log(err)
+  })
+})
 
 export default router;

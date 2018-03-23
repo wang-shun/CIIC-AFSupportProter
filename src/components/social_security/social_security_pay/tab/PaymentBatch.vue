@@ -282,18 +282,8 @@
           },
           {title: '社保账户类型', key: 'ssAccountType', width: 180, align: 'center',
             render: (h, params) => {
-              let accountType = params.row.ssAccountType;
-              let accountTypeName = "";
-              if(accountType == 1){
-                  accountTypeName = "中智大库"
-              }else if(accountType == 2){
-                  accountTypeName = "中智外包"
-              }else{
-                  accountTypeName = "独立户"
-              }
-
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', accountTypeName),
+                h('span', this.$decode.hf_accountType(params.row.accountType)),
               ]);
             }
           },
@@ -360,12 +350,10 @@
       this.payBatchHandlePageNum(1);
     },
     computed: {
-      ...mapState('socialSecurityPay', {
-          data:state=>state.data
-      })
+  
     },
     methods: {
-      ...mapActions('socialSecurityPay', [EventType.SOCIALSECURITYPAYTYPE]),
+      //...mapActions('socialSecurityPay', [EventType.SOCIALSECURITYPAYTYPE]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

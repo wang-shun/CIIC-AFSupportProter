@@ -102,8 +102,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="resetForm('handleInfo')">重置</Button>
-          <Button type="primary" @click="instance()">保存</Button>
-          <Button type="error" @click="updateTask()">批退</Button>
+          <Button type="primary"  :disabled="handleInfo.isEnd == 0" @click="instance()">保存</Button>
         </Col>
       </Row>
     </Form>
@@ -148,19 +147,19 @@ import api from '../../../api/employ_manage/hire_operator'
           {value:'居住证',label:'居住证'},
           {value:'属地管理',label:'属地管理'},
           {value:'中智',label:'中智'},
+          {value:'农村富裕劳动力',label:'农村富裕劳动力'},
+          {value:'区人才',label:'区人才'},
           {value:'徐汇职介',label:'徐汇职介'},
-          {value:'市人才',label:'市人才'},
           {value:'梅园路',label:'梅园路'},
           {value:'商城路',label:'商城路'},
           {value:'漕虹分部',label:'漕虹分部'},
           {value:'浦东大道',label:'浦东大道'},
           {value:'大柏树工作站',label:'大柏树工作站'},
           {value:'国际航运中心',label:'国际航运中心'},
-          {value:'区人才',label:'区人才'},
+          {value:'市人才',label:'市人才'},
           {value:'就业指导中心',label:'就业指导中心'},
           {value:'经营者人才',label:'经营者人才'},
           {value:'厂长经理人才',label:'厂长经理人才'},
-          {value:'农村富裕劳动力',label:'农村富裕劳动力'},
           {value:'退休',label:'退休'},
           {value:'协保',label:'协保'},
           {value:'其他',label:'其他'},
@@ -186,16 +185,14 @@ import api from '../../../api/employ_manage/hire_operator'
            {value:'其他',label:'其他'}
         ],
         employFeedbackList: [
-          {value:'',label:''},
-          {value:'2',label:'已开F单未完成'},
-          {value:'3',label:'用工成功'},
-          {value:'4',label:'用工失败'},
+          {value:'0',label:'空'},
+          {value:'1',label:'用工成功'},
+          {value:'2',label:'用工已办查无档'},
+          {value:'3',label:'用工失败'},
+          {value:'4',label:'用工Ukey外借'},
           {value:'5',label:'前道要求撤销用工'},
-          {value:'6',label:'用工已办查无档'},
-          {value:'7',label:'Ukey外借'},
-          {value:'8',label:'重复任务单'},
-          {value:'9',label:'用工已办'},
-          {value:'10',label:'前道已中止'}
+          {value:'6',label:'用工成功,重复任务单'},
+          {value:'7',label:'用工已办,前道已中止'}
         ],
         transferFeedbackList: [
           {value:'空',label:'空'},
@@ -217,6 +214,7 @@ import api from '../../../api/employ_manage/hire_operator'
     methods: {
       resetForm(form) {
         this.$refs[form].resetFields();
+        this.handleInfo.luyongHandleEnd = '0';
       },instance() {
         
         if(!this.handleInfo.employmentId)
@@ -225,6 +223,7 @@ import api from '../../../api/employ_manage/hire_operator'
             return;
         }
         var fromData = this.$utils.clear(this.handleInfo,'');
+        fromData.isFrist='0';
         if(this.handleInfo.employFeedbackOptDate){
          fromData.employFeedbackOptDate = this.$utils.formatDate(this.handleInfo.employFeedbackOptDate, 'YYYY-MM-DD');
         }
@@ -243,7 +242,7 @@ import api from '../../../api/employ_manage/hire_operator'
         if(this.handleInfo.storageDate){
              fromData.storageDate = this.$utils.formatDate(this.handleInfo.storageDate, 'YYYY-MM-DD');
         }
-        
+       
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success("保存成功");

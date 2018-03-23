@@ -5,12 +5,12 @@
         <Row type="flex" justify="start" class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="雇员编号：" prop="employeeId">
-            <Input v-model="transferItem.employeeId" placeholder="请输入"/>
+            <Input v-model="transferItem.employeeId" placeholder="请输入" @on-blur="queryEmployeeInfo"/>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <FormItem label="公司编号：">
-            <Input v-model="transferItem.companyId" placeholder="请输入" @on-blur="queryEmployeeInfo"/>
+            <Input v-model="transferItem.companyId" placeholder="请输入" />
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -88,28 +88,32 @@
         this.$local.back();
       },
       addTransfer() {
-        this.$refs['transferItem'].validate((valid) => {
-          if (valid) {
-            /*vue数据脱绑*/
-            let params = JSON.parse(JSON.stringify(this.transferItem));
-            /*前台时间转化为字符串*/
-            params.turnOutDate = this.$utils.formatDate(this.transferItem.turnOutDate, 'YYYY-MM-DD');
-            params.turnBackDate = this.$utils.formatDate(this.transferItem.turnBackDate, 'YYYY-MM-DD');
-            this[EventTypes.TRANSFER_INSERT]({
-              data: params,
-              callback: (res) => {
-                if (res.code === 200) {
-                  this.$router.push({path: '/relationshipTransfer'})
-                } else {
+        if (this.transferItem.employeeName != null) {
+          this.$refs['transferItem'].validate((valid) => {
+            if (valid) {
+              /*vue数据脱绑*/
+              let params = JSON.parse(JSON.stringify(this.transferItem));
+              /*前台时间转化为字符串*/
+              params.turnOutDate = this.$utils.formatDate(this.transferItem.turnOutDate, 'YYYY-MM-DD');
+              params.turnBackDate = this.$utils.formatDate(this.transferItem.turnBackDate, 'YYYY-MM-DD');
+              this[EventTypes.TRANSFER_INSERT]({
+                data: params,
+                callback: (res) => {
+                  if (res.code === 200) {
+                    this.$router.push({path: '/relationshipTransfer'})
+                  } else {
+                    this.$Message.error("服务器异常，请稍后再试");
+                  }
+                },
+                errCallback: () => {
                   this.$Message.error("服务器异常，请稍后再试");
                 }
-              },
-              errCallback: () => {
-                this.$Message.error("服务器异常，请稍后再试");
-              }
-            });
-          }
-        })
+              });
+            }
+          })
+        } else {
+            this.$Message.error("雇员不存在，提交失败");
+        }
       },
       queryEmployeeInfo() {
         if (this.transferItem.employeeId === null || this.transferItem.companyId === null) {

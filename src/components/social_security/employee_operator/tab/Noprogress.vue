@@ -78,10 +78,10 @@
                   <Option value="4" label="补缴"></Option>
                   <Option value="5" label="转出"></Option>
                   <Option value="6" label="封存"></Option>
-                  <Option value="12" label="翻牌新进"></Option>
+                  <!-- <Option value="12" label="翻牌新进"></Option> -->
                   <Option value="13" label="翻牌转入"></Option>
                   <Option value="14" label="翻牌转出"></Option>
-                  <Option value="15" label="翻牌封存"></Option>
+                  <!-- <Option value="15" label="翻牌封存"></Option> -->
                   <!--<Option value="7" label="退账"></Option>
                   <Option value="8" label="提取"></Option>
                   <Option value="9" label="特殊操作"></Option>-->
@@ -99,7 +99,7 @@
                 <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
               </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="是否加急：" prop="urgent">
                 <Select v-model="operatorSearchData.urgent" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
@@ -107,7 +107,7 @@
                   <Option value="1" label="是"></Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
                 <Date-picker v-model="operatorSearchData.startMonth" type="month" 
@@ -128,6 +128,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+      <Button type="primary" style="width: 100px;" @click="batchAllHandle">批量全选</Button>
       <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
       <Button type="error" @click="showRefuseReason">批退</Button>
       <Button type="info" @click="exprotExcel">导出</Button>
@@ -199,7 +200,7 @@
           urgent: '',
           startMonth: '',
         },
-
+        isNextMonth:false,
         // 批退
         isRefuseReason: false,
         rejectionRemark: '',
@@ -238,13 +239,14 @@
             title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
             render: (h, params) => {
               
-              return params.row.isChange=='1'?this.$decode.taskCategory(params.row.taskCategory)+'(更正)':this.$decode.taskCategory(params.row.taskCategory)
+              return this.$decode.taskCategory(params.row.taskCategory)
             }
           },
           {
-            title: '是否加急', key: 'urgent', width: 100, align: 'center',
+            title: '是否更正', key: 'isChange', width: 100, align: 'center',
             render: (h, params) => {
-              return this.$decode.urgent(params.row.urgent)
+
+              return params.row.isChange=='1'?"是":"否"
             }
           },
           {
@@ -275,7 +277,7 @@
             title: '发起人', key: 'submitterId', width: 100, align: 'center'
           },
           {
-            title: '发起时间', key: 'submitTime', width: 180, align: 'center'
+            title: '发起时间', key: 'createdTime', width: 180, align: 'center'
           },
           {
             title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
@@ -317,13 +319,15 @@
           params: params,
         }).then(data => {
           if (data.code == 200) {
-            
             this.employeeResultData = data.data;
             this.employeeResultPageData.total = data.total;
+            if(this.operatorSearchData.taskStatus=='-2'){
+              this.isNextMonth = true;
+            }
           }
         })
       },
-      exprotExcel() {
+      exprotExcel() { 
         var params = {};
         {
           // 清除 '[全部]'
@@ -421,6 +425,49 @@
         }
         this.batchHandle(this.selectEmployeeResultData, true);
       },
+      //批量全选
+      batchAllHandle(){
+        let taskCategory = this.operatorSearchData.taskCategory
+        if(typeof(taskCategory)=='undefined'||taskCategory==null || taskCategory==''){
+          this.$Message.warning('请选择任务单类型。');
+          return;
+        }
+        let name = 'empTaskHandleView';
+          switch (taskCategory) {
+            case '1':
+            case '2':
+            case '12':
+            case '13':
+              name = 'empTaskBatchHandleView';
+              break;
+            case '3':
+              name = 'empTaskBatchHandle3View';
+              break;
+            case '4':
+              name = 'empTaskBatchHandle4View';
+              break;
+            case '5':
+            case '6':
+            case '14':
+            case '15':
+              name = 'empTaskBatchHandle5View';
+              break;
+              case '7':
+              name = 'empTaskBatchHandle7View';
+              break;
+            default:
+              name = 'empTaskBatchHandleView'
+          }
+          let startMonth = this.operatorSearchData.startMonth
+          if(typeof(startMonth)!='undefined' && startMonth!=null && startMonth!=''){
+            this.operatorSearchData.startMonth = this.$utils.formatDate(startMonth, 'YYYYMM')
+          }
+          this.$router.push({
+            name: name,  //isBatchAll 是否是 批量选择
+            params:{operatorSearchData:this.operatorSearchData},
+            query: {operatorType: taskCategory,isBatchAll:1}
+          });
+      },
       // 批量办理
       batchHandle(data, isBatch = false) {
         if (isBatch) {
@@ -499,11 +546,16 @@
             default:
               name = 'empTaskHandleView'
           }
-
+           let params = {}
+          if(this.isNextMonth){
+             params = {operatorType: taskCategory, empTaskId: data.empTaskId,isNextMonth:1};
+          }else{
+            params = {operatorType: taskCategory, empTaskId: data.empTaskId,isNextMonth:0}
+          }
           // 根据任务类型跳转
           this.$router.push({
             name: name,
-            query: {operatorType: taskCategory, empTaskId: data.empTaskId}
+            query: params
           });
         }
       },

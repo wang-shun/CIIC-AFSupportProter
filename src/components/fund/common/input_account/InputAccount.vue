@@ -90,7 +90,7 @@
       renderFormat: {
         type: Function,
         default (item) {
-          return item.comAccountName;
+          return item.hfComAccount;
         }
       }
     },
@@ -125,6 +125,14 @@
                   }
                 }
               }, '');
+            }
+          },
+          {
+            title: '账户类型', key: 'hfType', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.hfType(params.row.hfType)),
+              ]);
             }
           },
           {
@@ -163,7 +171,7 @@
         this.currentIndex = -1;
         // 处理参数
         var params = this.queryForm;
-        api.getComFundAccountNameList({
+        api.getComFundAccountClassNameList({
           pageSize: this.page.pageSize,
           pageNum: this.page.pageNum,
           orderBy: '',

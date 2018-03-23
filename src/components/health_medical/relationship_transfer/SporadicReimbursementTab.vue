@@ -8,28 +8,28 @@
           <Form ref="reimbursementItem" :model="reimbursementItem" :label-width="140">
             <Row type="flex" justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员编号">
-                <Input placeholder="请输入"/>
+              <FormItem label="雇员编号" prop="employeeId">
+                <Input v-model="reimbursementItem.employeeId" placeholder="请输入"/>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员姓名">
-                <Input placeholder="请输入"/>
+              <FormItem label="雇员姓名" prop="employeeName">
+                <Input v-model="reimbursementItem.employeeName" placeholder="请输入"/>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="证件号码">
-                <Input placeholder="请输入"/>
+              <FormItem label="证件号码" prop="idNum">
+                <Input v-model="reimbursementItem.idNum" placeholder="请输入"/>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="公司编号">
-                <Input placeholder="请输入"/>
+              <FormItem label="公司编号" prop="companyId">
+                <Input v-model="reimbursementItem.companyId" placeholder="请输入"/>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="公司名称">
-                <Input placeholder="请输入"/>
+              <FormItem label="公司名称" prop="companyName">
+                <Input v-model="reimbursementItem.companyName" placeholder="请输入"/>
               </FormItem>
               </Col>
             </row>
@@ -48,7 +48,7 @@
       <router-link to="/addReimbursement">
         <Button type="info">新增零星报销</Button>
       </router-link>
-      <Button icon="ios-download-outline" type="info" @click="exportData(2)">导出数据</Button>
+      <Button icon="ios-download-outline" type="info" @click="exportData()">导出数据</Button>
     </div>
     <Table border :columns="reimbursementColumns" :data="reimbursementData" ref="reimbursementTable"></Table>
     <Page :total="reimbursementTotal"
@@ -64,7 +64,9 @@
 <script>
   import {mapState, mapActions, mapGetters} from "vuex"
   import EventTypes from "../../../store/event_types"
+  import qs from "qs"
 
+const host = process.env.HOST_SUPPLEMENTMEDICAL
   export default {
     name: "sporadic-reimbursement-tab",
     data() {
@@ -74,9 +76,9 @@
           current: 1,
           size: 10,
           employeeId: null,
-          name: null,
-          code: null,
-          companyCode: null,
+          employeeName: null,
+          idNum: null,
+          companyId: null,
           companyName: null,
         },
         reimbursementColumns: [
@@ -84,25 +86,16 @@
             title: '雇员编号', sortable: true, key: 'employeeId', align: "center",
           },
           {
-            title: '雇员姓名', sortable: true, key: 'column2', align: "center",
+            title: '雇员姓名', sortable: true, key: 'employeeName', align: "center",
           },
           {
-            title: '中止日期', sortable: true, key: 'column3', align: "center",
-            render: (h, params) => {
-              return this.$utils.formatDate(params.row.column3, 'YYYY-MM-DD HH:mm:ss');
-            }
+            title: '证件号码', sortable: true, key: 'idNum', align: "center",
           },
           {
-            title: '证件号码', sortable: true, key: 'column4', align: "center",
+            title: '公司编号', sortable: true, key: 'companyId', align: "center",
           },
           {
-            title: '公司编号', sortable: true, key: 'column5', align: "center",
-          },
-          {
-            title: '公司名称', sortable: true, key: 'column6', align: "center",
-          },
-          {
-            title: '客户经理', sortable: true, key: 'column7', align: "center",
+            title: '公司名称', sortable: true, key: 'companyName', align: "center",
           },
           {
             title: '受理金额', sortable: true, key: 'caseMoney', align: "center",
@@ -118,15 +111,6 @@
           },
           {
             title: '医疗结算反馈', sortable: true, key: 'medicalClearingFeedBack', align: "center",
-          },
-          {
-            title: '转出地点', sortable: true, key: 'column13', align: "center",
-          },
-          {
-            title: '转出时间', sortable: true, key: 'column14', align: "center",
-            render: (h, params) => {
-              return this.$utils.formatDate(params.row.column14, 'YYYY-MM-DD HH:mm:ss');
-            }
           },
           {
             title: "操作", sortable: true, align: "center",
@@ -185,18 +169,8 @@
         this.$refs[name].resetFields()
       },
       // 导出csv
-      exportData(type) {
-        if (type === 1) {
-          this.$refs.reimbursementTable.exportCsv({
-            filename: '原始数据'
-          });
-        } else if (type === 3) {
-          this.$refs.table.exportCsv({
-            filename: '自定义数据',
-            columns: this.reimbursementColumns.filter((col, index) => index < 4),
-            data: this.reimbursementData.filter((data, index) => index < 4)
-          });
-        }
+      exportData() {
+        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/api/afsupportcenter/healthmedical/FragmentaryReimbursement/export?' + qs.stringify(this.reimbursementItem)
       }
     }
   }

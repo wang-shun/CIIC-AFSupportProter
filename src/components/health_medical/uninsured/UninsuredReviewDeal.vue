@@ -99,11 +99,12 @@
           diagnose: null,
           hospitalizationDays: null,
           auditAmount: null,
-          remark: null,
+          remark: "",
           attachment: null,
-          auditor: null, // 审核人
+          auditor: null,
           auditDate: new Date(),
         },
+        userInfo: {},
         payTypes: admissibility.payTypes,
         caseTypes: admissibility.caseTypes,
         statusProperties: admissibility.statusProperties,
@@ -112,6 +113,8 @@
     },
     created() {
       this.formItem.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      this.formItem.auditor = this.userInfo.displayName;
     },
     methods: {
       addUninsuredReviewDeal() {

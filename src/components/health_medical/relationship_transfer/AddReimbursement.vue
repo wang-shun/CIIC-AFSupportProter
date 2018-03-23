@@ -9,7 +9,7 @@
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="公司编号：">
+          <FormItem label="公司编号：" prop="companyId">
             <Input v-model="reimbursementItem.companyId" placeholder="请输入" @on-blur="queryEmployeeInfo"/>
           </FormItem>
           </Col>
@@ -96,7 +96,9 @@
         this.$local.back();
       },
       addReimbursement() {
+        console.info("==============")
         this.$refs['reimbursementItem'].validate((valid) => {
+          console.info("=====+++++++++++++")
           if (valid) {
             this[EventTypes.REIMBURSEMENT_INSERT]({
               data: this.reimbursementItem,

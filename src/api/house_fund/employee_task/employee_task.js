@@ -27,4 +27,7 @@ export default {
     return await response.data;
   },
 
+  newEmpTaskTxtExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpTask/newEmpTaskTxtExport', params);
+  },
 }

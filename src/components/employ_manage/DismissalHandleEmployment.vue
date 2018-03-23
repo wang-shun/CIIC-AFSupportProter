@@ -166,7 +166,9 @@
           employeeId:this.$route.query.employeeId,
           companyId:this.$route.query.companyId,
           employmentId:this.$route.query.employmentId,
-          empTaskId:this.$route.query.empTaskId
+          empTaskId:this.$route.query.empTaskId,
+          printDateR:false,
+          resignMaterialDeliveryDateR:false
         },
         refuseNotesData: [],
         employmentViewData: [],
@@ -197,6 +199,10 @@
             if(data.data.resignBO){
                 this.refuseInfo=data.data.resignBO;//退工信息
                 this.refuseInfo.empTaskId = this.$route.query.empTaskId;
+                this.refuseInfo.employeeId = this.$route.query.employeeId;
+                this.refuseInfo.companyId = this.$route.query.companyId;
+                this.refuseInfo.employmentId = this.$route.query.employmentId;
+        
             }else{
                this.refuseInfo.empTaskId = this.$route.query.empTaskId;
             }

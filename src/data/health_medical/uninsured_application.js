@@ -10,6 +10,7 @@ const queryAcceptanceList = params => ajaxApi.postJSON("/uninsuredService/queryA
 const updateAcceptanceList = params => ajaxApi.postJSON("/uninsuredService/updateAcceptanceList", params);
 const queryAcceptanceAuditList = params => ajaxApi.postJSON("/uninsuredAuditService/queryAcceptanceList", params);
 const addUninsuredAudit = params => ajaxApi.upload("/uninsuredAuditService/addUninsuredAudit", params);
+const acceptanceDetail = params => ajaxApi.getJSON("/uninsuredService/acceptanceDetail/" + params);
 
 /**
  * 受理单列表
@@ -23,4 +24,5 @@ export default {
   updateAcceptanceList,
   queryAcceptanceAuditList,
   addUninsuredAudit,
+  acceptanceDetail
 }

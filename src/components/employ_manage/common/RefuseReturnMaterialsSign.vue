@@ -9,10 +9,17 @@
     </Row>
      <Modal
         v-model="modal1"
-        title="新增档案备注"
+        title="归还材料签收"
         @on-ok="ok"
         @on-cancel="cancel">
       <Form :model="handleInfo" ref="handleInfo" :label-width="150">
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+          <Form-item label="材料名称：" prop="materialNamew">
+             <Input v-model="handleInfo.materialNamew" placeholder="请输入"/>
+          </Form-item>
+        </Col>
+       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="收到人：" prop="receiveManw">
@@ -43,11 +50,12 @@
       </Row>
       <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="批退日期：" prop="receiveDatew">
-            <DatePicker type="date" v-model="handleInfo.receiveDatew" transfer></DatePicker>
+          <Form-item label="批退日期：" prop="rejectDatew">
+            <DatePicker type="date" v-model="handleInfo.rejectDatew" transfer></DatePicker>
           </Form-item>
          </Col>
       </Row>
+      
     </Form>
     </Modal>
   </div>
@@ -71,6 +79,13 @@
               ]);
             }
           },
+          {title: '材料名称', key: 'materialName', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.materialName),
+              ]);
+            }
+          },
           {title: '批退人', key: 'rejectMan', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -78,10 +93,10 @@
               ]);
             }
           },
-          {title: '批退日期', key: 'receiveDate', align: 'center',
+          {title: '批退日期', key: 'rejectDate', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.receiveDate),
+                h('span', params.row.rejectDate),
               ]);
             }
           },
@@ -121,12 +136,15 @@
             }
          }
         ],handleInfo: {
+          materialNamew:'',
           remarkContentw: '',
           receiveManw: '',
           receiveDatew:'',
           submitDatew:'',
           rejectManw:'',
-          receiveDatew:''
+          receiveDatew:'',
+          rejectDatew:''
+
         },realHandInfo:{
            remarkContent: '',
            receiveMan: '',
@@ -146,16 +164,34 @@
     },
     methods: {
             ok () {
+              if(this.handleInfo.materialNamew==''){
+                 this.$Message.info('材料名称不能为空');
+                  return;
+               }
+               if(this.handleInfo.submitDatew==''){
+                  this.$Message.info('提交日期不能为空');
+                  return;
+               }
+                if(this.handleInfo.receiveDatew==''){
+                  this.$Message.info('收到日期不能为空');
+                  return;
+               }
+               if(this.handleInfo.rejectDatew==''){
+                  this.$Message.info('批退日期不能为空');
+                  return;
+               }
               var fromData = this.$utils.clear(this.realHandInfo,'');
                fromData.receiveDate = this.$utils.formatDate(this.handleInfo.receiveDatew, 'YYYY-MM-DD');
                fromData.submitDate = this.$utils.formatDate(this.handleInfo.submitDatew, 'YYYY-MM-DD');
-               fromData.receiveDate = this.$utils.formatDate(this.handleInfo.receiveDatew, 'YYYY-MM-DD');
+               fromData.rejectDate = this.$utils.formatDate(this.handleInfo.rejectDatew, 'YYYY-MM-DD');
               
                fromData.receiveMan = this.handleInfo.receiveManw;
 
                fromData.rejectMan = this.handleInfo.rejectManw;
              
                fromData.employeeId = this.$route.query.employeeId;
+
+               fromData.materialName = this.handleInfo.materialNamew;
                
                this.refuseReturnMaterialsSign.push(fromData);
             },
@@ -187,7 +223,7 @@
                       title: '',
                       content: '确认删除吗?',
                       onOk:function(){
-                         alert(empMaterialId);
+                       
                         let params = {empMaterialId:empMaterialId}
 
                         api.deleteAmEmpMaterial(params).then(data=>{

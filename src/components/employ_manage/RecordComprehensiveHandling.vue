@@ -12,22 +12,8 @@
     </div>
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="goHandle">档案办理</Button>
-        <!-- <Button type="primary">批量操作</Button> -->
         <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
-        <!--<Button type="primary" @click="isShowStockTitle = true">生成入库贴头</Button>-->
-        <!-- <Dropdown>
-          <Button type="primary">
-            退工单打印
-            <Icon type="arrow-down-b"></Icon>
-          </Button>
-          <DropdownMenu slot="list">
-            <DropdownItem>打印(套打)</DropdownItem>
-            <DropdownItem>打印2(打印一式四联)</DropdownItem>
-            <DropdownItem>外来从业人员打印</DropdownItem>
-          </DropdownMenu>
-        </Dropdown> -->
       </Col>
     </Row>
     <Table border ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData" class="mt20"></Table>
@@ -542,12 +528,14 @@
         let isHaveBatch = false;
         var tempId;
         var tempId1;
+        var employeeName;
         selection.some(item => {
           tempId = item.archiveId;
           tempId1 = item.employeeId;
+          employeeName = item.employeeName;
         });
         
-        this.$router.push({name:'fileMatrialsUseAndBorrow', query: {archiveId:tempId,employeeId:tempId1}});
+        this.$router.push({name:'fileMatrialsUseAndBorrow', query: {archiveId:tempId,employeeId:tempId1,employeeName:employeeName}});
       },
       exportXLS() {
         let params = this.searchConditions;

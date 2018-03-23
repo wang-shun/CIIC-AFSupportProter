@@ -1,288 +1,224 @@
 <template>
-    <div class="insuredList">
-        <Collapse v-model="value1" accordion>
-            <Panel name="1">
-                <div slot="content">
-                  <row>
-                      <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-                      <Form :model="formItem" :label-width="100">
-                        <Form-item label="保险公司">
-                          <Select placeholder="请选择">
-                            <Option value="1" v-for="item in insurecompany" :value="item.value" :key="item.value" >{{item.label}}</Option>
-                          </Select>
-                        </Form-item>
-                      </Form>
-                      </Col>
-                      <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-                            <Form :model="formItem" :label-width="100">
-                                <Form-item label="项目">
-                                    <Select placeholder="请选择">
-                                        <Option value="1" v-for="item in insureproject" :value="item.value" :key="item.value" >{{item.label}}</Option>
-                                    </Select>
-                                </Form-item>
-                            </Form>
-                      </Col>
-                      <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-                      <Form :model="formItem" :label-width="100">
-                        <Form-item label="状态">
-                          <Select placeholder="请选择">
-                            <Option value="1" v-for="item in insureStatus" :value="item.value" :key="item.value" >{{item.label}}</Option>
-                          </Select>
-                        </Form-item>
-                      </Form>
-                      </Col>
-                    </row>
-                  <row>
-                      <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                      <Form :model="formItem" :label-width="100">
-                        <Form-item label="雇员编号">
-                          <Input v-model="formItem.code" placeholder="请输入"></Input>
-                        </Form-item>
-                      </Form>
-                      </Col>
-                        <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                                <Form :model="formItem" :label-width="100">
-                                    <Form-item label="雇员姓名">
-                                    <Input v-model="formItem.code" placeholder="请输入"></Input>
-                                </Form-item>
-                            </Form>
-                        </Col>
-                    <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                    <Form :model="formItem" :label-width="100">
-                      <Form-item label="证件号码">
-                        <Input v-model="formItem.code" placeholder="请输入"></Input>
-                      </Form-item>
-                    </Form>
-                    </Col>
-                  </row>
-                  <row>
-                        <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                                <Form :model="formItem" :label-width="100">
-                                    <Form-item label="公司编号">
-                                    <Input v-model="formItem.code" placeholder="请输入"></Input>
-                                </Form-item>
-                            </Form>
-                        </Col>
-                        <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                                <Form :model="formItem" :label-width="100">
-                                    <Form-item label="公司名称">
-                                    <Input v-model="formItem.code" placeholder="请输入"></Input>
-                                </Form-item>
-                            </Form>
-                        </Col>
-                    <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                      <Form :model="formItem" :label-width="100">
-                      <Form-item label="标的">
-                        <Select placeholder="请选择" style="width: 80px;" >
-                          <Option value="1" v-for="item in insureStatus1" :value="item.value" :key="item.value" >{{item.label}}</Option>
-                        </Select>
-                        <Input v-model="formItem.code" style="width: 90px;" placeholder="请输入"></Input>
-                        <span class="expand-value">-</span>
-                        <Input v-model="formItem.code" style="width: 90px;" placeholder="请输入"></Input>
-                      </Form-item>
-                      </Form>
-                    </Col>
-                    </row>
-                  <row>
-                    <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                    <Form :model="formItem" :label-width="100">
-                      <Form-item label="投保日期">
-                        <DatePicker type="date" placeholder="选择日期" style="width: 131px;"  ></DatePicker>
-                        <span class="expand-value">-</span>
-                        <DatePicker type="date" placeholder="选择日期" style="width: 131px;"  ></DatePicker>
-                      </Form-item>
-                    </Form>
-                    </Col>
-                    <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                    <Form :model="formItem" :label-width="100">
-                      <Form-item label="退保日期">
-                        <DatePicker type="date" placeholder="选择日期" style="width: 131px;"  ></DatePicker>
-                        <span class="expand-value">-</span>
-                        <DatePicker type="date" placeholder="选择日期" style="width: 131px;"  ></DatePicker>
-                      </Form-item>
-                    </Form>
-                    </Col>
-                        <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                            <Button type="primary" size="large">查询</Button>
-                        </Col>
-                    </Row>
-                </div>
-            </Panel>
-        </Collapse>
-        <div class="create">
-           <Button type="info"  @click="exportData(1)"><Icon type="ios-download-outline"></Icon> 导出数据</Button>
+  <div>
+    <Collapse v-model="value1" accordion>
+      <Panel name="1">
+        <div slot="content">
+          <Form :model="formItem" ref="formItem" :label-width="100">
+            <Row justify="start" class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
+              <FormItem label="投保日期" prop="insuranceDateRange">
+                <DatePicker v-model="formItem.insuranceDateRange" type="daterange" placement="bottom-end"
+                            placeholder="选择日期" style="width: 100%"></DatePicker>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
+              <FormItem label="退保日期" prop="surrenderDateRange">
+                <DatePicker v-model="formItem.surrenderDateRange" type="daterange" placement="bottom-end"
+                            placeholder="选择日期" style="width: 100%"></DatePicker>
+              </FormItem>
+              </Col>
+              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="保险公司">
+                <Select placeholder="请选择">
+                  <Option value="1" v-for="item in insureCompany" :value="item.value" :key="item.value">{{item.label}}
+                  </Option>
+                </Select>
+              </FormItem>
+              </Col>-->
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="保险名称" prop="productName">
+                <Select v-model="formItem.productName" placeholder="请选择">
+                  <Option v-for="item in insureProject" :value="item.value"
+                          :key="item.value">{{item.label}}
+                  </Option>
+                </Select>
+              </FormItem>
+              </Col>
+              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="状态">
+                <Select placeholder="请选择">
+                  <Option v-model="formItem.status" v-for="item in insureStatus" :value="item.value" :key="item.value">
+                    {{item.label}}
+                  </Option>
+                </Select>
+              </FormItem>
+              </Col>-->
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保额类型" prop="keyType">
+                <Select v-model="formItem.keyType" :clearable="true">
+                  <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
+                  </Option>
+                </Select>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="大于" prop="keyValueLarge">
+                <InputNumber v-model="formItem.keyValueLarge" style="width: 100%"></InputNumber>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="小于" prop="keyValueSmall">
+                <InputNumber v-model="formItem.keyValueSmall" style="width: 100%"></InputNumber>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
+              <FormItem label="雇员编号" prop="employeeId">
+                <Input v-model="formItem.employeeId" placeholder="请输入"/>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
+              <FormItem label="雇员姓名" prop="employeeName">
+                <Input v-model="formItem.employeeName" placeholder="请输入"/>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
+              <FormItem label="证件号码" prop="idNum">
+                <Input v-model="formItem.idNum" placeholder="请输入"/>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
+              <FormItem label="公司编号" prop="companyId">
+                <Input v-model="formItem.companyId" placeholder="请输入"/>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
+              <FormItem label="公司名称" prop="companyName">
+                <Input v-model="formItem.companyName" placeholder="请输入"/>
+              </FormItem>
+              </Col>
+            </Row>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 24}" class="tr">
+              <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
+              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+              </Col>
+            </Row>
+          </Form>
         </div>
-        <Table border :columns="columns7" :data="data6" ref="table"></Table>
-        <Page :total="100" show-sizer show-elevator></Page>
+      </Panel>
+    </Collapse>
+
+    <div class="tr m20">
+      <Button type="info" @click="modalInput = true" icon="ios-upload-outline">导入数据</Button>
     </div>
+    <Table border
+           stripe
+           :columns="warrantyColumns"
+           :data="warrantyData"></Table>
+    <Page show-sizer show-elevator
+          @on-change="getByPage"
+          @on-page-size-change="pageSizeChange"
+          :total="formItem.total"
+          :current="formItem.current"
+          :page-size="formItem.size"></Page>
+  </div>
 </template>
 <script>
-    import expandRow from './ExpandRow.vue';
-    export default {
-        data() {
-            return {
-                modal1: false,
-                value1:'1',
-                formItem: {
-                    input: '',
-                    select: '',
-                    select1: '',
-                    radio: 'male',
-                    checkbox: [],
-                    switch: true,
-                    date: '',
-                    time: '',
-                    slider: [20, 50],
-                    textarea: ''
-                },
-                columns7: [
-                    {
-                        type: 'expand',
-                        width: 50,
-                        render: (h, params) => {
-                            return h(expandRow, {
-                                props: {
-                                    row: params.row
-                                }
-                            })
-                        }
-                    },
-                    {
-                        title: '险种名称',
-                        sortable: true,
-                        key: 'column1'
-                    },
-                    {
-                        title: '雇员编号',
-                        sortable: true,
-                        key: 'column2'
-                    },
-                    {
-                        title: '雇员姓名',
-                        sortable: true,
-                        key: 'column3'
-                    },
-                    {
-                        title: '是否在保',
-                        sortable: true,
-                        key: 'column4'
-                    }
-                ],
-                data6: [
-                    {
-                        column1: '家庭财产险',
-                        column2: '11L2674',
-                        column3: '戴敏',
-                        column4:'在保'
-                    },
-                    {
-                        column1: '二十种重大疾病保险',
-                        column2: '11L2674',
-                        column3: '戴敏',
-                        column4:'在保'
-                    }
-                ],
-                insureproject:[
-                    {
-                        label:'全部',
-                        value:'p0'
-                    },
-                    {
-                        label:'家庭财产险',
-                        value:'p1'
-                    },
-                    {
-                        label:'二十种重大疾病险',
-                        value:'p2'
-                    },
-                    {
-                        label:'补充医疗险',
-                        value:'p3'
-                    },
+  import expandRow from './ExpandRow.vue';
+  import ajax from "../../../data/health_medical/warranty.js";
+  import warranty from '../../../store/modules/health_medical/data_sources/warranty.js'
+  import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
 
-                ],
-                insureStatus:[
-                {
-                  label:'全部',
-                  value:'p1'
-                },
-                {
-                  label:'在保',
-                  value:'p2'
-                },
-                  {
-                    label:'退保',
-                    value:'p2'
-                  }
-              ],
-              insureStatus1:[
-                {
-                  label:'区间',
-                  value:'p1'
-                },
-                {
-                  label:'比例',
-                  value:'p2'
-                }
-              ],
-                insurecompany:[
-                {
-                  label:'全部',
-                  value:'p0'
-                },
-                {
-                  label:'中智',
-                  value:'p1'
-                },
-                {
-                  label:'中国平安保险',
-                  value:'p2'
-                },
-                {
-                  label:'中国大地保险',
-                  value:'p3'
-                }
-              ]
-            }
+  export default {
+    components: {expandRow},
+    data() {
+      return {
+        value1: '1',
+        formItem: {
+          total: 0,
+          current: 1,
+          size: 10,
+          insuranceDateRange: [],
+          surrenderDateRange: [],
+          productName: null,
+          employeeId: null,
+          employeeName: null,
+          idNum: null,
+          companyId: null,
+          companyName: null,
+          keyType: null,
+          keyValueLarge: null,
+          keyValueSmall: null,
         },
-        methods: {
-            show(index) {
-                this.$Modal.info({
-                    title: '用户信息',
-                    content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
-                })
-            },
-            remove(index) {
-                this.data6.splice(index, 1);
-            },
-          // 导出csv
-          exportData (type) {
-            if (type === 1) {
-              this.$refs.table.exportCsv({
-                filename: '原始数据'
-              });
-            } else if (type === 2) {
-              this.$refs.table.exportCsv({
-                filename: '排序和过滤后的数据',
-                original: false
-              });
-            } else if (type === 3) {
-              this.$refs.table.exportCsv({
-                filename: '自定义数据',
-                columns: this.columns7.filter((col, index) => index < 4),
-                data: this.data6.filter((data, index) => index < 4)
-              });
+        warrantyColumns: [
+          {
+            type: 'expand',
+            width: 50,
+            render: (h, params) => {
+              return h(expandRow, {
+                props: {
+                  row: params.row
+                }
+              })
+            }
+          },
+          {
+            title: '险种名称', sortable: true, key: 'productName', align: 'center'
+          },
+          {
+            title: '雇员编号', sortable: true, key: 'employeeId', align: 'center'
+          },
+          {
+            title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center'
+          },
+          {
+            title: '是否在保', sortable: true, key: 'insured', align: 'center',
+            render: (h, params) => {
+              return warranty.insuredToChina(params.row.insured);
             }
           }
-        }
+        ],
+        warrantyData: [],
+        insureProject: [
+          {
+            label: '家庭财产险', value: 'p1'
+          },
+          {
+            label: '二十种重大疾病险', value: 'p2'
+          },
+          {
+            label: '补充医疗险', value: 'p3'
+          },
+        ],
+        keyTypeProperties: task.keyTypeProperties,
+        insureCompany: [
+          {
+            label: '中智', value: 'p1'
+          },
+          {
+            label: '中国平安保险', value: 'p2'
+          },
+          {
+            label: '中国大地保险', value: 'p3'
+          }
+        ]
+      }
+    },
+    created() {
+      this.getByPage(1);
+    },
+    methods: {
+      queryWarrantyPage() {
+        ajax.queryWarrantyPage(this.formItem).then(response => {
+          this.warrantyData = response.data.object.records;
+          this.formItem.total = response.data.object.total;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      getByPage(val) {
+        this.formItem.current = val;
+        this.queryWarrantyPage()
+      },
+      pageSizeChange(size) {
+        this.formItem.size = size;
+        this.queryWarrantyPage()
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields()
+      },
     }
+  }
 
 </script>
-<style scoped>
-    .ivu-card {
-        background: rgba(246, 246, 246, 1);
-    }
-    .checkBtn .ivu-btn{
-        float: right;
-    }
-</style>

@@ -85,6 +85,10 @@ export default {
     let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/queryBatchEmpArchiveByEmpTaskIds', params);
     return await response.data;
   },
+  queryBatchTaskByCondition:async(params)=>{
+    let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/queryBatchTaskByCondition', params);
+    return await response.data;
+  },
   //批量任务处理
   handleBatchEmpTask: async (params) => {
     let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/handleBatchTask', params);
@@ -101,6 +105,10 @@ export default {
   //雇员新进任务 获得用退工信息
   queryReworkInfo:(params)=>{
      let res = AJAX.post('/api/soccommandservice/amEmpTask/queryReworkInfo', params);
-  }
+  },
+  //获得社保序号
+  getSerial: (params) => {
+    return AJAX.post('/api/soccommandservice/ssEmpTask/getSerial', params);
+  },
 }
 

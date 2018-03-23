@@ -167,7 +167,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="企业工伤比例："  prop="sufferedOnTheJobPercentage">
-                  <Input v-model="companyOpenAccountOperator.sufferedOnTheJobPercentage"  placeholder="请输入..."></Input>
+                  <Input v-model="companyOpenAccountOperator.sufferedOnTheJobPercentage" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
@@ -711,7 +711,8 @@
         }
         let self = this
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
-          if(typeof(result.comAccountId)!='undefined' && !result.comAccountId!=null && result.comAccountId!='' &&result.companyTaskStatus==0){
+ 
+          if(typeof(result.comAccountId)!='undefined' && !result.comAccountId!=null && result.comAccountId!='' && result.companyOpenAccountOperator.state==1){
            this.$Notice.config({
                 top:80
               })
@@ -723,6 +724,8 @@
           }
         self.comAccountId = result.comAccountId
         self.companyInfo = result.companyInfo
+         console.log(result);
+        console.log(result.companyInfo);
         self.beforeSendInfo = result.beforeSendInfo
         self.companyOpenAccountOperator  =result.companyOpenAccountOperator
         self.currentStep = Number(result.companyTaskStatus)
@@ -902,7 +905,7 @@
       },
       //
       accountIdIsNull(){
-        if(typeof(this.comAccountId)!='undefined' && !this.comAccountId!=null && this.comAccountId!='' && this.currentStep==0){
+        if(typeof(this.comAccountId)!='undefined' && !this.comAccountId!=null && this.comAccountId!='' && this.companyOpenAccountOperator.state==1){
            this.$Notice.config({
                 top:80
               })

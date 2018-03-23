@@ -36,11 +36,4 @@ export const reimbursementValidator = {
   medicalClearingMoney: [
     {type: 'number', message: '请输入正确的金额', trigger: 'blur'}
   ],
-  /*medicalRemark: [
-    {type: 'number', message: '请选择转回日期', trigger: 'blur'}
-  ],
-  medicalCle1aringFeedBack: [
-    {type: 'date', message: '请选择转回日期', trigger: 'blur'}
-  ],*/
-
 };

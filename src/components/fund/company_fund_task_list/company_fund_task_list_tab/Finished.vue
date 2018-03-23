@@ -99,11 +99,12 @@
         taskData:[],//table 里的数据
         totalSize:0,//后台传过来的分页总数
         collapseInfo: [1], //展开栏
+        loading:true,
         size:10,//默认单页记录数
         pageNum:1,
         loading: false,
         operatorSearchData: {
-          serviceCenterValue: '',
+          serviceCenterValue: [],
           companyId: '',
           accountTypeValue: '',
           payBankValue: '',

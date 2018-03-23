@@ -223,7 +223,7 @@
           {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center'},
           {title: '公积金账号', key: 'hfEmpAccount', width: 200, align: 'center'},
           {title: '发起人', key: 'submitterId', width: 150, align: 'center'},
-          {title: '发起时间', key: 'submitTime', width: 200, align: 'center'}
+          {title: '发起时间', key: 'submitTimeFormat', width: 200, align: 'center'}
         ]
       }
     },

@@ -77,13 +77,13 @@ function keyTypeToChina(status) {
 function typeToChina(status) {
   switch (status) {
     case 1:
-      return "雇员";
+      return "配偶";
       break;
     case 2:
       return "子女";
       break;
     case 3:
-      return "配偶";
+      return "雇员";
       break;
   }
 }

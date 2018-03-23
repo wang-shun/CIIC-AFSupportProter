@@ -233,7 +233,7 @@
           {
             title: '保险对象', sortable: true, align: 'center',
             render: (h, params) => {
-              if (params.row.type === 1) {
+              if (params.row.type === 3) {
                 return params.row.employeeName;
               } else {
                 return params.row.associatedInsurantName;

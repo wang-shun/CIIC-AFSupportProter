@@ -266,16 +266,55 @@
         ],
         theSameTaskListColumns:[
           {
-            type: 'selection',
-            width: 60,
-            align: 'center'
-           },
-          {
             title: '任务单ID', key: 'empTaskId', align: 'center', width: 100,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.empTaskId),
-              ]);
+              let taskCategory = params.row.taskCategory
+              let empTaskId  =params.row.empTaskId
+              return h('a', {
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    //alert("1")
+                    
+                    // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
+                    var name = 'empTaskHandleView';
+                    switch (taskCategory) {
+                      case '1':
+                      case '2':
+                      case '12':
+                      case '13':
+                        name = 'empTaskHandleView';
+                        break;
+                      case '3':
+                        name = 'empTaskHandle3View';
+                        break;
+                      case '4':
+                        name = 'empTaskHandle4View';
+                        break;
+                      case '5':
+                      case '6':
+                      case '14':
+                      case '15':
+                        name = 'empTaskHandle5View';
+                        break;
+                        case '7':
+                        name = 'empTaskHandle7View';
+                        break;
+                      default:
+                        name = 'empTaskHandleView'
+                    }
+                    
+                    let params = {}
+                      params = {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}                
+                    // 根据任务类型跳转
+                    this.$router.push({
+                      name: name,
+                      query: params
+                    });
+                    //this.showInfoTw(1)
+                  }
+                }
+              }, params.row.empTaskId);
             }
           },
           {
@@ -591,8 +630,7 @@
           
         }
        
-        
-
+        let self= this;
         this.$Modal.confirm({
           title: "操作确认",
           content: '你确定'+content+'吗?',
@@ -619,9 +657,18 @@
             
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
-                this.$Message.success(content + "成功");
-                // 返回任务列表页面
-                history.go(-1);
+                self.$Message.success(content + "成功");
+                if(taskStatus=='2'){
+                  if(self.socialSecurityPayOperator.theSameTask.length>0){
+                    let taskObj = self.socialSecurityPayOperator.theSameTask[0]
+                    this.routerMethed(taskObj.taskCategory,taskObj.empTaskId);
+                  }else{
+                     // 返回任务列表页面
+                    this.$router.push({name:'employeeOperatorView',})
+                  }
+                }else{
+                    this.$router.push({name:'employeeOperatorView',})
+                }
               } else {
                 this.$Message.error({
                   top:100,

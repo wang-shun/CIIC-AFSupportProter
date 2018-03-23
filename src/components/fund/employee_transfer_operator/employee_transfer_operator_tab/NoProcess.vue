@@ -84,7 +84,10 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem>导出雇员转移清册</DropdownItem>
+            <div style="text-align: right;margin:10px;">
+              <Button type="ghost" @click="exportEmpTaskTransfer">导出雇员转移清册</Button>
+            </div>
+            <!--<DropdownItem>导出雇员转移清册</DropdownItem>-->
             <DropdownItem>导出雇员转移TXT</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -227,7 +230,7 @@
             ],
           createNewTaskData:[],
           createNewTaskColumns: [
-            {title: '操作', fixed: 'left', width: 80, align: 'center', 
+            {title: '操作', fixed: 'left', width: 80, align: 'center',
               render:(h, params)=>{
                 return h('div', {style: {textAlign: 'left'}}, [
                   h('Button',{
@@ -241,7 +244,7 @@
                   },'选择'),
                 ]);
               }
-            
+
             },
             {title: '公积金类型', key: 'hfType', align: 'center', width: 120,
               render: (h, params) => {
@@ -428,7 +431,7 @@
     },
     mounted() {
       //this[EventType.TNOPROCESS]()
-   
+
       this.handlePageNum(1);
     },
     computed: {
@@ -486,7 +489,7 @@
         this.queryTransferForNewTask(params);
       },
       dealTransfer(employeeId,companyId,hfType){
-         
+
         this.$router.push({name:'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType}});
       },
       ok () {
@@ -494,6 +497,12 @@
       },
       cancel () {
 
+      },
+      exportEmpTaskTransfer() {
+        let params = this.searchCondition
+        api.exportEmpTaskTransfer({
+          params: params,
+        })
       },
     }
   }

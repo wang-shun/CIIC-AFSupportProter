@@ -500,6 +500,14 @@
 
       },
       multiEmpTaskTransferExport() {
+        if (!this.searchCondition.transferOutUnit) {
+          this.$Message.error("导出清册需明确转出单位及转入单位");
+          return false;
+        }
+        if (!this.searchCondition.transferInUnit) {
+          this.$Message.error("导出清册需明确转出单位及转入单位");
+          return false;
+        }
         let params = this.searchCondition
         api.multiEmpTaskTransferExport({
           params: params,

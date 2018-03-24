@@ -237,16 +237,18 @@
           },
           {
             title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
-            render: (h, params) => {
-              
-              return this.$decode.taskCategory(params.row.taskCategory)
+          render: (h, params) => {
+              return h('div', [
+                h('span',  this.$decode.taskCategory(params.row.taskCategory))
+              ]);
             }
           },
           {
             title: '是否更正', key: 'isChange', width: 100, align: 'center',
             render: (h, params) => {
-
-              return params.row.isChange=='1'?"是":"否"
+            return h('div', [
+                        h('span',  params.row.isChange=='1'?"是":"否")
+                      ]);
             }
           },
           {

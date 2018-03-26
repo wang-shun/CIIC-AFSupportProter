@@ -7,16 +7,16 @@
           <div slot="content">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="结算银行：" prop="settleBankValue">
-                  <Select v-model="operatorSearchData.settleBankValue" style="width: 100%;" transfer>
-                    <Option v-for="item in settleBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="结算银行：" prop="paymentBank">
+                  <Select v-model="operatorSearchData.paymentBank" style="width: 100%;" transfer>
+                    <Option v-for="item in paymentBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业公积金账户：" prop="outAccountBatch">
-                  <Select v-model="operatorSearchData.companyFundAccountValue" style="width: 100%;" transfer>
-                    <Option v-for="item in companyFundAccountList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="企业公积金账户类型：" prop="fundAccountType">
+                  <Select v-model="operatorSearchData.fundAccountType" style="width: 100%;" transfer>
+                    <Option v-for="item in fundAccountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -26,9 +26,9 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="支付状态：" prop="payStatusValue">
-                  <Select v-model="operatorSearchData.payStatusValue" style="width: 100%;" transfer>
-                    <Option v-for="item in payStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Form-item label="支付状态：" prop="paymentStatus">
+                  <Select v-model="operatorSearchData.paymentStatus" style="width: 100%;" transfer>
+                    <Option v-for="item in paymentStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -43,50 +43,50 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="汇缴年月：" prop="payDate">
-                  <DatePicker v-model="operatorSearchData.payDate" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                <Form-item label="汇缴年月：" prop="paymentMonth">
+                  <DatePicker v-model="operatorSearchData.paymentMonth" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search">查询</Button>
+                <Button type="primary" icon="ios-search" @click="clickQuery">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
           </div>
         </Panel>
       </Collapse>
-      <Table border class="mt20" :columns="makePayListColumns" :data="data.makePayListData"></Table>
+      <Table border class="mt20" :columns="makePayListColumns" :data="makePayListData"></Table>
       <Row class="mt20">
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="汇缴年月：">
-            {{data.makePayListInfo.payDate}}
+            {{makePayListInfo.payDate}}
           </Form-item>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="总行数：">
-            {{data.makePayListInfo.rows}}
+            {{makePayListInfo.rows}}
           </Form-item>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="公积金账号总数：">
-            {{data.makePayListInfo.fundAccounts}}
+            {{makePayListInfo.fundAccounts}}
           </Form-item>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="汇总总额：">
-            {{data.makePayListInfo.payAmount}}
+            {{makePayListInfo.payAmount}}
           </Form-item>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="补缴金额：">
-            {{data.makePayListInfo.repair}}
+            {{makePayListInfo.repair}}
           </Form-item>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="总金额：">
-            {{data.makePayListInfo.amount}}
+            {{makePayListInfo.amount}}
           </Form-item>
         </Col>
       </Row>
@@ -100,13 +100,34 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/event_types'
+  import {FundPay} from '../../../api/house_fund/fund_pay/fund_pay'
 
   export default {
     data() {
       return {
         collapseInfo: [1],
+        makePayListData:[],
+        makePayListInfo:[],
+        totalSize:0,//后台传过来的分页总数
+        size:10,//默认单页记录数
+        pageNum:1,//默认页数
+        loading: false,
+
+        //VueX Data
+        // makePayListData: [
+        //   {comAccountName: "上海中云资产管理有限公司", hfTypeName: "基本公积金", paymentStateValue: "可付", accountTypeValue: "独立户", paymentBankValue: "徐汇建行"},
+        //   {comAccountName: "上海中云资产管理有限公司", hfTypeName: "补充公积金", paymentStateValue: "未到账", accountTypeValue: "独立户", paymentBankValue: "徐汇建行"},
+        //   {comAccountName: "上海中闫资产管理有限公司", hfTypeName: "基本公积金", paymentStateValue: "无需支付", accountTypeValue: "独立户", paymentBankValue: "徐汇建行"},
+        //   {comAccountName: "上海西域机电系统有限公司", hfTypeName: "补充公积金", paymentStateValue: "已付", accountTypeValue: "独立户", paymentBankValue: "徐汇同建行"}
+        // ],
+        // makePayListInfo: {
+        //   payDate: "201708",
+        //   rows: 4,
+        //   fundAccounts: 4,
+        //   payAmount: 1000,
+        //   repair: 1000,
+        //   amount: 2000
+        // },
         operatorSearchData: {
           settleBankValue: 0,
           companyFundAccountValue: 0,
@@ -116,16 +137,19 @@
           customerName: "",
           payDate: ""
         },
-        settleBankList: [
-           {label: "全部", value: ''},
-          {label: "徐汇支行", value: 0},
-          {label: "浦东支行", value: 1},
-        ],
-        companyFundAccountList: [
+        paymentBankList: [
           {label: "全部", value: ''},
-          {label: "中智大库", value: 0},
-          {label: "中智外包", value: 1},
-          {label: "独立户", value: 2}
+          {label: "徐汇—X", value: 1},
+          {label: "西郊—C", value: 2},
+          {label: "东方路—P", value: 3},
+          {label: "卢湾—L", value: 4},
+          {label: "黄浦—H", value: 5}
+        ],
+        fundAccountTypeList: [
+          {label: "全部", value: ''},
+          {label: "中智大库", value: 1},
+          {label: "中智外包", value: 2},
+          {label: "独立户", value: 3}
         ],
         serviceCenterData: [
           {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
@@ -133,49 +157,51 @@
           {value: 3, label: '虹桥'},
           {value: 4, label: '浦东'}
         ],
-        payStatusList: [
+        paymentStatusList: [
           {label: "全部", value: ''},
-          {label: "可付", value: 1},
-          {label: "未到账", value: 2},
-          {label: "无需支付", value: 3},
+          {label: "未到帐", value: 1},
+          {label: "无需支付", value: 2},
+          {label: "可付", value: 3},
           {label: "申请中(内部审批)", value: 4},
           {label: "内部审批批退", value: 5},
-          {label: "已付(支付成功)", value: 6},
+          {label: "已申请到财务部", value: 6},
+          {label: "财务部批退", value: 7},
+          {label: "财务部支付成功", value: 8},
         ],
         makePayListColumns: [
           {type: 'selection', width: 60},
-          {title: '公积金账户名称', key: 'fundAccountName', align: 'center',
+          {title: '公积金账户名称', key: 'comAccountName', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fundAccountName),
+                h('span', params.row.comAccountName),
               ]);
             }
           },
-          {title: '公积金类型', key: 'fundType', align: 'center',
+          {title: '公积金类型', key: 'hfTypeName', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fundType),
+                h('span', params.row.hfTypeName),
               ]);
             }
           },
-          {title: '支付状态', key: 'payStatus', align: 'center',
+          {title: '支付状态', key: 'paymentStateValue', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.payStatus),
+                h('span', params.row.paymentStateValue),
               ]);
             }
           },
-          {title: '企业账户类型', key: 'fundAccountType', align: 'center',
+          {title: '企业账户类型', key: 'accountTypeValue', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.fundAccountType),
+                h('span', params.row.accountTypeValue),
               ]);
             }
           },
-          {title: '结算银行', key: 'settleBank', align: 'center',
+          {title: '结算银行', key: 'paymentBankValue', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.settleBank),
+                h('span', params.row.paymentBankValue),
               ]);
             }
           }
@@ -183,15 +209,42 @@
       }
     },
     mounted() {
-      this[EventType.MAKEPAYLIST]()
     },
     computed: {
-      ...mapState('makePayList',{
-        data:state => state.data
-      })
     },
     methods: {
-      ...mapActions('makePayList', [EventType.MAKEPAYLIST]),
+      clickQuery(){
+        this.loading=true;
+        let params = this.getParams(1)
+        let self = this
+        FundPay.getMakePayListsTableData(params).then(data=>{
+          self.refresh(data)
+        }).catch(error=>{
+          console.log(error)
+        })
+      },
+      getParams(page) {
+        return {
+          pageSize: this.size,
+          pageNum: page,
+          params: {
+            paymentBank: (this.operatorSearchData.paymentBank == "" || this.operatorSearchData.paymentBank == null) ? null : this.operatorSearchData.paymentBank,
+            paymentStatus: (this.operatorSearchData.paymentStatus == "" || this.operatorSearchData.paymentStatus == null) ? null : this.operatorSearchData.paymentStatus,
+            paymentMonth: (this.operatorSearchData.paymentMonth == "" || this.operatorSearchData.paymentMonth == null) ? null : this.$utils.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM'),
+            fundAccountType: (this.operatorSearchData.fundAccountType == "" || this.operatorSearchData.fundAccountType == null) ? null : this.operatorSearchData.fundAccountType,
+          }
+        }
+      },
+      refresh(data){
+        this.makePayListData = data.data.makePayListData;
+        this.makePayListInfo = data.data.makePayListInfo;
+        if(typeof(data.data.totalSize)=='undefined') this.totalSize = 0
+        else this.totalSize = Number(data.data.totalSize)
+        this.closeLoading();
+      },
+      closeLoading(){
+        this.loading=false;
+      },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },

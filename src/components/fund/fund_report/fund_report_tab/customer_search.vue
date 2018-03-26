@@ -30,12 +30,12 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金账号：" prop="basicHfComAccount">
+                <Form-item label="企业公积金账号：" prop="basicHfComAccount">
                   <Input v-model="operatorSearchData.basicHfComAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="补充公积金账号：" prop="addedHfComAccount">
+                <Form-item label="企业补充公积金账号：" prop="addedHfComAccount">
                   <Input v-model="operatorSearchData.addedHfComAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -157,7 +157,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           hfMonth: '',
           basicHfComAccount: '',
           addedHfComAccount: '',
-          hfType: 1,
+          hfType: '',
         },
         accountTypeList: [],
         customerData: [],
@@ -300,6 +300,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         if (this.operatorSearchData.hfMonth) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
+        this.operatorSearchData.hfType = '';
         var params = {};
         {
           // 清除 '[全部]'
@@ -322,6 +323,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         if (this.operatorSearchData.hfMonth) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
+        this.operatorSearchData.hfType = '';
         var params = {};
         {
           // 清除 '[全部]'

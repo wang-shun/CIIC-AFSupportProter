@@ -101,7 +101,7 @@
           {
             title: '转出日期', sortable: true, key: 'turnOutDate', align: "center",
             render: (h, params) => {
-              return this.$utils.formatDate(params.row.turnOutDate, 'YYYY-MM-DD HH:mm:ss');
+              return this.$utils.formatDate(params.row.turnOutDate, 'YYYY-MM-DD');
             }
           },
           {
@@ -110,7 +110,7 @@
           {
             title: '转回日期', sortable: true, key: 'turnBackDate', align: "center",
             render: (h, params) => {
-              return this.$utils.formatDate(params.row.turnBackDate, 'YYYY-MM-DD HH:mm:ss');
+              return this.$utils.formatDate(params.row.turnBackDate, 'YYYY-MM-DD');
             }
           },
           {

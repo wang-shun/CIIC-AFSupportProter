@@ -18,7 +18,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户汇缴月份：" prop="comHfMonth">
-                  <DatePicker type="month" format="yyyyMM" placement="bottom"  placeholder="选择日期" style="width: 100%;" transfer @on-change="getComHfMonth"></DatePicker>
+                  <DatePicker v-model="operatorSearchData.comHfMonth" type="month" format="yyyyMM" placement="bottom"  placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -36,7 +36,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="fundAccountSearch">查询</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -228,10 +228,13 @@
       this.fundAccountSearch();
     },
     methods: {
-      getComHfMonth(data) {
-        this.operatorSearchData.comHfMonth = data;
-      },
+//      getComHfMonth(data) {
+//        this.operatorSearchData.comHfMonth = data;
+//      },
       fundAccountSearch() {
+        if (this.operatorSearchData.comHfMonth) {
+          this.operatorSearchData.comHfMonth = this.$utils.formatDate(this.operatorSearchData.comHfMonth, 'YYYYMM');
+        }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
         api.companyFundAccountSearch({
@@ -246,13 +249,13 @@
         })
       },
       handlePageNum(val) {
-        this.rejectedPageData.pageNum = val;
-        this.hfEmpTaskQuery();
+        this.fundAccountPageData.pageNum = val;
+        this.fundAccountSearch();
       },
       handlePageSize(val) {
-        this.rejectedPageData.pageNum = 1;
-        this.rejectedPageData.pageSize = val;
-        this.hfEmpTaskQuery();
+        this.fundAccountPageData.pageNum = 1;
+        this.fundAccountPageData.pageSize = val;
+        this.fundAccountSearch();
       },
       nextStep(isCanUpdate, fundAccountData) {
         let fundAccountInfo = fundAccountData;

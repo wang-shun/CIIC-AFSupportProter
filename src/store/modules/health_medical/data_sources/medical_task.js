@@ -1,9 +1,6 @@
-const taskStatus = [
+const taskWaitStatus = [
   {
-    value: '1', label: '待审核'
-  },
-  {
-    value: '2', label: '已处理'
+    value: '2', label: '待处理'
   },
   {
     value: '3', label: '暂缓'
@@ -11,6 +8,8 @@ const taskStatus = [
   {
     value: '4', label: '已审核'
   },
+];
+const taskAlreadyStatus = [
   {
     value: '5', label: '已完成'
   },
@@ -55,12 +54,12 @@ const taskTypeItem = [
   }
 ];
 
-const insureStatus = [
+const keyTypeProperties = [
   {
-    label: '区间', value: 'p1'
+    label: '固定金额', value: '1'
   },
   {
-    label: '比例', value: 'p2'
+    label: '赔付比例', value: '2'
   }
 ];
 
@@ -78,13 +77,13 @@ function keyTypeToChina(status) {
 function typeToChina(status) {
   switch (status) {
     case 1:
-      return "雇员";
+      return "配偶";
       break;
     case 2:
       return "子女";
       break;
     case 3:
-      return "配偶";
+      return "雇员";
       break;
   }
 }
@@ -124,11 +123,12 @@ function statusToChina(status) {
 }
 
 export default {
-  taskStatus,
+  taskWaitStatus,
+  taskAlreadyStatus,
   taskTypeProperties,
   taskStatusCom,
   taskTypeItem,
-  insureStatus,
+  keyTypeProperties,
   keyTypeToChina,
   typeToChina,
   genderToChina,

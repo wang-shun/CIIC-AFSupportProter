@@ -18,7 +18,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件号码：">
-                  <label>{{viewEmpArchive.IdNum}}</label>
+                  <label>{{viewEmpArchive.idNum}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -43,7 +43,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="个人基本公积金状态：">
-                  <label>{{viewEmpArchive.hfEmpAccount}}</label>
+                  <label>{{this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatus)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -58,7 +58,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="个人补充公积金状态：">
-                  <label>{{viewEmpArchive.archiveStatusBc}}</label>
+                  <label>{{this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatusBc)}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -87,12 +87,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费区县：">
-                  <label>{{viewComAccount.paymentBank}}</label>
+                  <label>{{this.$decode.hf_paymentBank(viewComAccount.paymentBank)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业公积金账户状态：">
-                  <label>{{viewComAccount.state}}</label>
+                  <label>{{this.$decode.hf_state(viewComAccount.state)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -117,12 +117,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="付款方式：">
-                  <label>{{viewComAccount.paymentWay}}</label>
+                  <label>{{this.$decode.hf_paymentWay(viewComAccount.paymentWay)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金企业U盾：">
-                  <label>{{viewComAccount.ukeyStore}}</label>
+                  <label>{{this.$decode.hf_ukeyStore(viewComAccount.ukeyStore)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -137,7 +137,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业账户类型：">
-                  <label>{{viewComAccount.hfAccountType}}</label>
+                  <label>{{ this.$decode.hf_accountType(viewComAccount.hfAccountType)}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -151,12 +151,12 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}"
                 <Form-item label="基本公积金账号：">
-                  <Input v-model="viewEmpArchive.hfEmpAccount" placeholder="请输入..."></Input>
+                  <Input v-model="viewEmpArchive.hfEmpAccount" ></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
                 <Form-item label="基本公积金状态：">
-                  <label>{{viewEmpArchive.archiveTaskStatus}}</label>
+                  <label>{{this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatus)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -200,7 +200,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
                 <Form-item label="补充公积金状态：">
-                  <label>{{viewEmpArchive.archiveTaskStatusBc}}</label>
+                  <label>{{this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatusBc)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -283,8 +283,8 @@
           title : '',
           hfEmpAccount : '',
           archiveTaskStatus : '',
+          archiveTaskStatusBc : '',
           hfEmpAccountBc : '',
-          archiveStatusBc : '',
           belongVendor : '',
           inDate : '',
           outDate : ''
@@ -319,6 +319,8 @@
           addComAccount : '',
           companyId : '',
           title : '',
+          accountTempStoreBc:'',
+          accountTempStore:'',
         },
         listEmpTaskPeriod:[],
         listEmpTaskPeriodAdd:[],
@@ -329,7 +331,7 @@
            {title: '任务类型', key: 'taskCategory', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.taskCategory),
+                h('span',  this.$decode.hf_taskCategory(params.row.taskCategory)),
               ]);
             }
           },
@@ -373,7 +375,7 @@
            {title: '任务类型', key: 'taskCategory', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.taskCategory),
+                h('span', this.$decode.hf_taskCategory(params.row.taskCategory)),
               ]);
             }
           },
@@ -417,7 +419,7 @@
           {title: '公积金类型', key: 'hfType', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.hfType),
+                h('span', this.$decode.hfType(params.row.hfType)),
               ]);
             }
           },

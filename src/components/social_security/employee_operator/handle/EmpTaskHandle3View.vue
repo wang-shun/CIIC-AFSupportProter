@@ -14,6 +14,19 @@
         </div>
       </Panel>
       <Panel name="3">
+        雇员未做任务单
+        <div slot="content">
+          <Form :label-width=150 >
+          <Row class="mt20" type="flex" justify="start">
+            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Table border width="800" :columns="theSameTaskListColumns"
+                     :data="socialSecurityPayOperator.theSameTask"></Table>
+              </Col>
+          </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="4">
         任务单参考信息
         <div slot="content">
           <Form :label-width=150>
@@ -37,7 +50,7 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="4">
+      <Panel name="5">
         社保{{handleTitle}}操作
         <div slot="content">
           <Form :label-width=150>
@@ -107,7 +120,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton">转下月处理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton && isNextMonth==0">转下月处理</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton">办理</Button>
       <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton">批退</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','save')" v-if="showButton">暂存</Button>
@@ -134,8 +147,9 @@
         empTaskId: '',
         operatorType: '',
         currentIndex: this.$route.params.index,
+        isNextMonth:this.$route.query.isNextMonth,
         sourceFrom: '',
-        collapseInfo: [1, 2, 3, 4],
+        collapseInfo: [1, 2, 3, 4,5],
         employee: {},
         company: {},
 
@@ -250,6 +264,73 @@
           //   }
           // }
         ],
+        theSameTaskListColumns:[
+          {
+            title: '任务单ID', key: 'empTaskId', align: 'center', width: 100,
+            render: (h, params) => {
+              let taskCategory = params.row.taskCategory
+              let empTaskId  =params.row.empTaskId
+              return h('a', {
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.routerMethed(taskCategory,empTaskId)
+                  }
+                }
+              }, params.row.empTaskId);
+            }
+          },
+          {
+            title: '任务单类型', key: 'taskCategory', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.taskCategory(params.row.taskCategory)),
+              ]);
+            }
+          },
+          {
+            title: '起始月份',
+            key: 'startMonth',
+            align: 'center',
+            render: (h, params) => {
+              return h('DatePicker', params.row.taskCategory=='5' || params.row.taskCategory=='6' ||params.row.taskCategory =='14'|| params.row.taskCategory=='15'?'':params.row.startMonth);
+            }
+          },
+          {
+            title: '截止月份',
+            key: 'endMonth',
+            align: 'center',
+            render: (h, params) => {
+               return h('span',params.row.endMonth)
+              // return h('DatePicker', {
+              //   props: {value: params.row.endMonth, type: 'month', disabled:true},
+              //   attrs: {placeholder: ''},//选择年月
+              //   on: {
+              //     input: (event) => {
+              //       this.setRow(params, 'endMonth', event);
+              //     }
+              //   }
+              // });
+            }
+          },
+          {
+            title: '基数',
+            key: 'empBase',
+            align: 'center',
+            render: (h, params) => {
+
+              return h('span',params.row.empBase)
+              // return h('Input', {
+              //   props: {value: params.row.baseAmount, disabled:true},//disabled: true
+              //   on: {
+              //     'on-blur': (e) => {
+              //       this.setRow(params, 'baseAmount', e.target.value);
+              //     }
+              //   }
+              // }, params.row.baseAmount);
+            }
+          },
+        ],
         operatorListData: [
           {remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false}
         ],
@@ -273,7 +354,7 @@
           empArchiveId: '',
           empBase:'',
            isChange:'',
-           isHaveSameTask:'',
+           theSameTask:[],
            employeeId:'',
            comAccountId:'',
            taskId:'',
@@ -320,6 +401,46 @@
     },
     methods: {
       ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
+
+      routerMethed(taskCategory,empTaskId){
+          
+          // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
+          var name = 'empTaskHandleView';
+          switch (taskCategory) {
+            case '1':
+            case '2':
+            case '12':
+            case '13':
+              name = 'empTaskHandleView';
+              break;
+            case '3':
+              name = 'empTaskHandle3View';
+              break;
+            case '4':
+              name = 'empTaskHandle4View';
+              break;
+            case '5':
+            case '6':
+            case '14':
+            case '15':
+              name = 'empTaskHandle5View';
+              break;
+              case '7':
+              name = 'empTaskHandle7View';
+              break;
+            default:
+              name = 'empTaskHandleView'
+          }
+          if(this.$route.name == name){
+              this.$router.push({name:'emprefresh',query:{operatorType:taskCategory,empTaskId: empTaskId,isNextMonth:0,name:name}})
+          }else{
+            // 根据任务类型跳转
+          this.$router.push({
+            name: name,
+            query: {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}
+          });
+          } 
+      },
       getYearMonth(date){
         
         if(date==null || date=="")return "";
@@ -364,13 +485,6 @@
             this.$Notice.config({
                   top:80
                 })
-              if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
-                  this.$Notice.warning({
-                      title: '温馨提示',
-                      desc: '该雇员存在相同类型的未办任务.',
-                      duration: 0
-                  });
-              }
           }else{
             this.$Message.error(data.message)
           }
@@ -512,7 +626,7 @@
         }
         
         
-
+        let self= this;
         this.$Modal.confirm({
          title: "操作确认",
           content: '你确定'+content+'吗?',
@@ -541,11 +655,20 @@
             
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
-                this.$Message.success(content + "成功");
-                // 返回任务列表页面
-                history.go(-1);
+                self.$Message.success(content + "成功");
+                if(taskStatus=='2'){
+                  if(self.socialSecurityPayOperator.theSameTask.length>0){
+                    let taskObj = self.socialSecurityPayOperator.theSameTask[0]
+                    this.routerMethed(taskObj.taskCategory,taskObj.empTaskId);
+                  }else{
+                     // 返回任务列表页面
+                    this.$router.push({name:'employeeOperatorView',})
+                  }
+                }else{
+                    this.$router.push({name:'employeeOperatorView',})
+                }
               } else {
-                this.$Message.error(content + "失败！" + data.message);
+                self.$Message.error(content + "失败！" + data.message);
               }
             })
           }

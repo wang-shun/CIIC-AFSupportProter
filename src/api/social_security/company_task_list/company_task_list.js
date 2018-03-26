@@ -132,10 +132,13 @@ export class CompanyTaskList{
               resolve(response.data.data)
             }
         }else{
-          reject(Error('后台异常！'))
+          alert(response.data.message)
+         
         }
       }).catch(error=>{
+        alert(error)
         console.log(error)
+        
       })
     })
   }

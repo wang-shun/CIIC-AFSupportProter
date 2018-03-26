@@ -394,7 +394,7 @@
           {title: '状态', key: 'taskStatus', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.taskStatus),
+                h('span', this.$decode.hf_archiveStatus(params.row.archiveStatus)),
               ]);
             }
           },

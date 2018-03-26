@@ -24,7 +24,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="缴费区县：">
-                <label>{{this.$decode.hf_paymentBank(displayVO.paymentBankName)}}</label>
+                <label>{{this.$decode.hf_paymentBank(displayVO.paymentBank)}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -52,7 +52,7 @@
                 <label>{{displayVO.customerServicer}}</label>
               </FormItem>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="截单年月（基本）：">
                 <label>{{displayVO.basicEndMonth}}</label>
               </FormItem>
@@ -61,15 +61,15 @@
               <FormItem label="截单年月（补充）：">
                 <label>{{displayVO.addedEndMonth}}</label>
               </FormItem>
-              </Col>
+              </Col> -->
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="付款方式：">
-                <label>{{displayVO.paymentWayName}}</label>
+                <label>{{this.$decode.hf_paymentWay(displayVO.paymentWay)}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="公积金企业U盾：">
-                <label>{{displayVO.ukeyStoreName}}</label>
+                <label>{{this.$decode.hf_accountTempStore(displayVO.ukeyStore)}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -84,7 +84,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="企业账户类型：">
-                <label>{{displayVO.hfAccountTypeName}}</label>
+                <label>{{this.$decode.hf_accountType(displayVO.hfAccountType)}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -224,7 +224,7 @@
       <Col :sm="{span:24}" class="tr">
         <Button type="primary" @click="submitTransferTask">保存</Button>
         <Button type="info" @click="printTransferTask">打印转移单</Button>
-        <Button type="default">不需处理</Button>
+        <Button type="default" @click="notHandleTransfer" v-if="this.transferNotice.empTaskId!=null" >不需处理</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -247,7 +247,7 @@
           basicHfComAccount: '',
           addedHfComAccount: '',
           customerCenter: '',
-          paymentBankName: '',
+          paymentBank: '',
           ukeyStoreName: '',
           state: '',
           basicComHfMonth: '',
@@ -294,7 +294,8 @@
           rejectionRemark: '',
           operationRemind: '',
           operationRemindDate: '',
-          canHandle: false
+          canHandle: false,
+          hfType:''
         },
         transferUnitDictList:[],
         transferInUnitList:[],
@@ -326,15 +327,16 @@
       api.queryComEmpTransferForm(params).then(data => {
         if (data.code == 200) {
           this.displayVO = data.data;
-          this.transferNotice=data.data.empTaskTransferBo;
-
+          if(data.data.empTaskTransferBo==null){
+            this.transferNotice={};
+          }else{
+            this.transferNotice=data.data.empTaskTransferBo;
+          }
           this.operatorListData = data.data.empTaskPeriods;
           this.taskListNotesChangeData = data.data.empTaskRemarks;
-
           if (!this.displayVO.taskStatus || this.displayVO.taskStatus == 1) {
             this.inputDisabled = false;
           } else {
-             
             this.inputDisabled = true;
             this.taskCategoryDisable = true;
             this.showButton = false;
@@ -342,8 +344,10 @@
         } else {
           this.$Message.error(data.message);
         }
-        console.log(this.transferNotice);
-        this.transferNotice.hfType=this.$route.query.hfType;
+        if(this.transferNotice!=null){
+            this.transferNotice.hfType=this.$route.query.hfType;
+        }
+        
       });
       dict.getDictData().then(data => {
         if (data.code == 200) {
@@ -389,11 +393,48 @@
             });
       },
       notHandleTransfer(){
-           
+        let empTaskId=this.transferNotice.empTaskId;
+        if(empTaskId!=null){
+           api.notHandleTransfer({empTaskId:empTaskId}).then(
+             data=>{
+               data=data.data;
+               if(data.code==200){
+                  this.$Message.success("不需办理操作成功");
+                  history.go(-1);
+               }
+             }
+           );
+        }
       },
       printTransferTask(){
-        let params={empTaskId:this.transferNotice.empTaskId};
-           api.printTransferTask(params);
+        let empTaskId=this.transferNotice.empTaskId;
+        if(empTaskId==null){
+          this.$Message.error("请先操作保存转移表单信息！");
+        }
+
+        this.$Modal.confirm({
+          title: "你确认人打印转移通知书吗？",
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () => {
+
+               let params={empTaskId:empTaskId};
+               api.printTransferTask(params);
+            // api.saveEmpAccount(formData).then(data => {
+            //   data=data.data;
+            //   if (data.code == 200) {
+            //     this.$Message.success("信息保存成功");
+            //     // 返回任务列表页面
+            //     history.go(-1);
+            //   } else {
+            //     this.$Message.error("信息保存失败！" + data.message);
+            //   }
+            // })
+           }
+        })
+
+
+   
       },
       handleTransferInSearch(value) {
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);

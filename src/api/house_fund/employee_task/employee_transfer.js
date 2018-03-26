@@ -23,6 +23,11 @@ export default {
     let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTask/submitTransferTask', params);
     return await response.data;
   },
+  //转移任务单不需处理
+  notHandleTransfer: async (params) => {
+    let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTask/notHandleTransfer', params);
+    return await response.data;
+  },
   comAccountQuery: async (params) => {
     let response = await AJAX.post('/api/fundcommandservice/hfEmpTaskHandle/comAccountQuery', params);
     return await response.data;

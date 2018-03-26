@@ -328,8 +328,10 @@
         if (data.code == 200) {
           this.displayVO = data.data;
           if(data.data.empTaskTransferBo==null){
+            this.transferNotice.companyId=params.companyId;
             this.transferNotice={};
           }else{
+            
             this.transferNotice=data.data.empTaskTransferBo;
           }
           this.operatorListData = data.data.empTaskPeriods;
@@ -346,6 +348,8 @@
         }
         if(this.transferNotice!=null){
             this.transferNotice.hfType=this.$route.query.hfType;
+            this.transferNotice.transferDate=new Date();
+
         }
         
       });
@@ -387,6 +391,7 @@
            api.submitTransferTask(this.transferNotice).then(
              data=>{
                this.$Message.error(data.message);
+               this.transferNotice.empTaskId=data.data;
              }
            ).catch(error=>{
                 console.log(error)
@@ -410,6 +415,7 @@
         let empTaskId=this.transferNotice.empTaskId;
         if(empTaskId==null){
           this.$Message.error("请先操作保存转移表单信息！");
+          return;
         }
 
         this.$Modal.confirm({

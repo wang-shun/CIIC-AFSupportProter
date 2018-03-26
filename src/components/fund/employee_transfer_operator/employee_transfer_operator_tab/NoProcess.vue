@@ -41,7 +41,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费银行：" prop="payBankValue">
                   <Select v-model="searchCondition.payBankValue" style="width: 100%;" transfer>
-                    <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="value" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -205,7 +205,8 @@
           payBankValue:'',
           idNum: '',
           hfEmpAccount: '',
-          hfAccountType: ''
+          hfAccountType: '',
+          taskStatus: '1',
         },
         isCreateTaskTicket: false,
         pageDataNewTask: {
@@ -298,21 +299,12 @@
             },
           ]
         },
-
         serviceCenterData: [
-          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-          {value: 2, label: '日本客户'},
-          {value: 3, label: '虹桥'},
-          {value: 4, label: '浦东'}
+          {value: '1', label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
+          {value: '2', label: '日本客户'},
+          {value: '3', label: '虹桥'},
+          {value: '4', label: '浦东'}
         ], //客服中心
-        payBankList: [
-          {label: '全部', value: ''},
-          {value: 0, label: '徐汇'},
-          {value: 1, label: '长宁'},
-          {value: 2, label: '浦东'},
-          {value: 4, label: '静安'},
-          {value: 5, label: '黄浦'},
-        ],
         fundTypeList: [
           {label: '全部',value:''},
           {value: '1', label: '基本公积金'},
@@ -431,8 +423,6 @@
       }
     },
     mounted() {
-      //this[EventType.TNOPROCESS]()
-
       this.handlePageNum(1);
     },
     computed: {

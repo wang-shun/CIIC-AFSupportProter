@@ -41,7 +41,10 @@ export default {
   newEmpTaskTxtExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfEmpTask/newEmpTaskTxtExport', params);
   },
-  exportEmpTaskTransfer: (params) => {
-    AJAX.download('/api/fundcommandservice/hfEmpTask/exportEmpTaskTransfer', params);
+  multiEmpTaskTransferExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpTask/multiEmpTaskTransferExport', params);
+  },
+  empTaskTransferTxtExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpTask/empTaskTransferTxtExport', params);
   },
 }

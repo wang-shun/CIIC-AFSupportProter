@@ -85,10 +85,11 @@
           </Button>
           <DropdownMenu slot="list">
             <div style="text-align: right;margin:10px;">
-              <Button type="ghost" @click="exportEmpTaskTransfer">导出雇员转移清册</Button>
+              <Button type="ghost" @click="multiEmpTaskTransferExport">导出雇员转移清册</Button>
             </div>
-            <!--<DropdownItem>导出雇员转移清册</DropdownItem>-->
-            <DropdownItem>导出雇员转移TXT</DropdownItem>
+            <div style="text-align: right;margin:10px;">
+              <Button type="ghost" @click="empTaskTransferTxtExport">导出雇员转移TXT</Button>
+            </div>
           </DropdownMenu>
         </Dropdown>
         <!-- <Button type="primary" @click="">扫描校验</Button> -->
@@ -498,9 +499,23 @@
       cancel () {
 
       },
-      exportEmpTaskTransfer() {
+      multiEmpTaskTransferExport() {
+        if (!this.searchCondition.transferOutUnit) {
+          this.$Message.error("导出清册需明确转出单位及转入单位");
+          return false;
+        }
+        if (!this.searchCondition.transferInUnit) {
+          this.$Message.error("导出清册需明确转出单位及转入单位");
+          return false;
+        }
         let params = this.searchCondition
-        api.exportEmpTaskTransfer({
+        api.multiEmpTaskTransferExport({
+          params: params,
+        })
+      },
+      empTaskTransferTxtExport() {
+        let params = this.searchCondition
+        api.empTaskTransferTxtExport({
           params: params,
         })
       },

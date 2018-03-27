@@ -143,10 +143,10 @@
           </Row>
           <Row type="flex" justify="start">
             <Col :sm="{span: 24}" class="tr">
-            <Button type="warning" @click="back()">返回</Button>
             <Button type="primary" @click="grantGift(2)">发放</Button>
-            <Button type="error" @click="grantGift(3)">退批</Button>
-            </Col>
+            <Button type="error" @click="grantGift(3)">批退</Button>
+            <Button type="warning" @click="back()">返回</Button>
+             </Col>
           </Row>
         </div>
       </Panel>
@@ -195,7 +195,7 @@
           this.applyRecordDetail = response.data.object.applyRecordDetail;
           this.approvalStepList = response.data.object.approvalStepList;
         }).catch(e => {
-          console.info(e.message);
+//          console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
       },

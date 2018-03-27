@@ -80,13 +80,14 @@
 
         <Button type="info">打印转移通知书</Button>
         <Button type="info" @click="empTaskTransferTxtExport">导出雇员转移TXT</Button>
-         <Button type="info"  @click="isUpload=true">批量导入回单日期</Button>
+        <Button type="info"  @click="isUpload=true">批量导入回单日期</Button>
+        <Button type="info"  @click="isShowFeedbackDateBatch=true">批量更新回单日期</Button>
       </Col>
     </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="noProcessColumns" :data="empTaskTransferData"></Table>
+        <Table border :columns="noProcessColumns" :data="empTaskTransferData" @on-selection-change="handleSelectChange"></Table>
         <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -139,6 +140,23 @@
         <button type="button" class="ivu-btn ivu-btn-text ivu-btn-large" @click="importClose"><span>取消</span></button>
       </div>
     </Modal>
+
+    <!-- 批量更新回单日期 -->
+    <Modal
+      v-model="isShowFeedbackDateBatch"
+      @on-ok="ok"
+      @on-cancel="cancel"
+    >
+      <Form :label-width=100 style="margin-top: 30px">
+        <Form-item label="回单日期：" prop="feedbackDate">
+          <DatePicker v-model="feedbackDate" format="yyyy-MM-dd" placement="bottom-end" placeholder="选择日期" style="width: 50%;" transfer></DatePicker>
+        </Form-item>
+      </Form>
+      <div slot="footer">
+        <Button type="primary" @click="batchUpdateFeedbackDate()">确认更新</Button>
+        <Button type="warning" @click="isShowFeedbackDateBatch = false">取消</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
@@ -169,7 +187,9 @@ import api from '../../../../api/house_fund/employee_task/employee_transfer'
           hfAccountType: '',
           taskStatus: '3',
         },
+        feedbackDate: '',
         isCreateTaskTicket: false,
+        isShowFeedbackDateBatch: false,
         isUpload: false,
         uploadData: {
           file: ''
@@ -234,7 +254,11 @@ import api from '../../../../api/house_fund/employee_task/employee_transfer'
           {value: 2, label: '外包'},
         ],
         empTaskTransferData:[],
+        selectedData: [],
         noProcessColumns: [
+          {
+            type: 'selection', fixed: 'left', width: 60, align: 'center'
+          },
           {title: '操作', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -425,6 +449,41 @@ import api from '../../../../api/house_fund/employee_task/employee_transfer'
         let params = this.searchCondition
         api.empTaskTransferTxtExport({
           params: params,
+        })
+      },
+      resetSelectedData(selection) {
+        this.selectedData.length = 0;
+        if(selection) {
+          selection.forEach((element, index, array) => {
+            this.selectedData.push(element.empTaskId);
+          })
+        }
+      },
+      handleSelectChange(selection) {
+        this.resetSelectedData(selection);
+      },
+      batchUpdateFeedbackDate() {
+        if (this.selectedData.length == 0) {
+          this.$Message.error("请先勾选需要更新回单日期的任务");
+          return false;
+        }
+        if (!this.feedbackDate) {
+          this.$Message.error("请设置回单日期");
+          return false;
+        }
+        this.feedbackDate = this.$utils.formatDate(this.feedbackDate, "YYYY-MM-DD");
+        api.batchUpdateFeedbackDate({
+          feedbackDate: this.feedbackDate,
+          selectedData: this.selectedData
+        }).then(data => {
+          if (data.code == 200) {
+            this.$Message.info("更新回单日期操作成功");
+            this.isShowFeedbackDateBatch = false;
+            this.handlePageNum(1);
+            this.selectedData.length = 0;
+          } else {
+            this.$Message.error(data.message)
+          }
         })
       },
       beforeUpload(file) {

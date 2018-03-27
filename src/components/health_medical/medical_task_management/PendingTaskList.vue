@@ -38,7 +38,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保险项目" prop="afProductId">
                 <Select v-model="formItem.afProductId" :clearable="true">
-                  <Option v-for="item in taskTypeItem" :value="item.insuranceProductId" :key="item.insuranceProductId">
+                  <Option v-for="item in taskTypeItem" :value="item.productId" :key="item.productId">
                     {{item.productName}}
                   </Option>
                 </Select>
@@ -179,6 +179,7 @@
   import taskExpend from './TaskExpend.vue';
   import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
   import apiAjax from "../../../data/health_medical/task_medica.js";
+  import qs from "qs"
 
   export default {
     components: {taskExpend},
@@ -379,27 +380,7 @@
           this.$Message.error("导出数据请先选择保险项目");
           return;
         }
-        //提交请求
-        apiAjax.exportWaitTaskPage(this.formItem).then(
-          function (response) {
-            this.exportItem = response.data.object;
-            console.info("==============");
-
-            this.$refs.taskTable.exportCsv({
-              filename: "任务单数据",
-              columns: this.taskColumns,
-              data: this.exportItem
-            });
-
-          }.bind(this)
-        ).catch(
-          function (error) {
-            this.$Modal.error({
-              title: "异常",
-              content: "<p><h2>系统异常，请稍后重试！</h2></p>"
-            });
-          }.bind(this)
-        );
+        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?' + qs.stringify(this.formItem)
       },
       selectTableData(rows) {
         this.selectData = rows;

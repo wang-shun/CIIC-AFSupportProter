@@ -76,7 +76,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info">导出</Button>
+        <!--<Button type="info">导出</Button>-->
       </Col>
     </Row>
 

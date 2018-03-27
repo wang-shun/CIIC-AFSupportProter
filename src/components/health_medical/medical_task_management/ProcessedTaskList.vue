@@ -24,19 +24,21 @@
                 </Select>
               </Form-item>
               </Col>
-             <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保险公司" prop="">
-                <Select value="1" :clearable="true">
-                  <Option v-for="item in taskStatusCom" :value="item.value" :key="item.value">
-                    {{item.label}}
+                <Select value="1" :clearable="true" @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
+                  <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
+                          :key="item.insuranceCompanyId">
+                    {{item.insuranceCompanyName}}
                   </Option>
                 </Select>
               </Form-item>
-              </Col>-->
+              </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保险项目" prop="afProductId">
                 <Select v-model="formItem.afProductId" :clearable="true">
-                  <Option v-for="item in taskTypeItem" :value="item.value" :key="item.value">{{item.label}}
+                  <Option v-for="item in taskTypeItem" :value="item.insuranceProductId" :key="item.insuranceProductId">
+                    {{item.productName}}
                   </Option>
                 </Select>
               </Form-item>
@@ -172,6 +174,7 @@
           companyName: null,
           managementId: null,
           managementName: null,
+          insuranceCompany: "1",
         },
         dealMsg: {
           remark: null
@@ -250,14 +253,16 @@
         taskData: [],
         selectData: [],
         taskTypeProperties: task.taskTypeProperties,
-        taskStatusCom: task.taskStatusCom,
-        taskTypeItem: task.taskTypeItem,
+        insuranceCompanyProperties: [],
+        taskTypeItem: [],
         taskStatus: task.taskAlreadyStatus,
         keyTypeProperties: task.keyTypeProperties
       };
     },
     created() {
       this.getByPage(1);
+      this.queryInsuranceCompanyInfo();
+      this.queryIcProductRelationInfo(this.formItem.insuranceCompany);
     },
     methods: {
       queryTaskPage() {
@@ -269,6 +274,26 @@
             }
           });
           this.formItem.total = response.data.object.total;
+        });
+      },
+      queryInsuranceCompanyInfo() {
+        apiAjax.queryInsuranceCompany().then(response => {
+          if (response.data.code === 200) {
+            this.insuranceCompanyProperties = response.data.object;
+            this.insuranceCompanyProperties.forEach(item => {
+              item.insuranceCompanyId = item.insuranceCompanyId + "";
+            })
+          }
+        });
+      },
+      queryIcProductRelationInfo(val) {
+        apiAjax.queryIcProductRelation(val).then(response => {
+          if (response.data.code === 200) {
+            this.taskTypeItem = response.data.object;
+            this.taskTypeItem.forEach(item => {
+              item.insuranceProductId = item.insuranceProductId + "";
+            })
+          }
         });
       },
       getByPage(val) {

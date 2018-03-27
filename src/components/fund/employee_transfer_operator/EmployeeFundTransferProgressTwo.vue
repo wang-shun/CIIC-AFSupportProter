@@ -331,7 +331,7 @@
             this.transferNotice.companyId=params.companyId;
             this.transferNotice={};
           }else{
-            
+
             this.transferNotice=data.data.empTaskTransferBo;
           }
           this.operatorListData = data.data.empTaskPeriods;
@@ -388,22 +388,29 @@
         this.$router.go(-1);
       },
       submitTransferTask(){
-           api.submitTransferTask(this.transferNotice).then(
-             data=>{
-               this.$Message.error(data.message);
-               this.transferNotice.empTaskId=data.data;
-             }
-           ).catch(error=>{
-                console.log(error)
-            });
+        if (this.transferNotice.feedbackDate) {
+          this.transferNotice.feedbackDate = this.$utils.formatDate(this.transferNotice.feedbackDate, "YYYY-MM-DD");
+        }
+        if (this.transferNotice.transferDate) {
+          this.transferNotice.transferDate = this.$utils.formatDate(this.transferNotice.transferDate, "YYYY-MM-DD");
+        }
+        
+        api.submitTransferTask(this.transferNotice).then(
+          data=>{
+            this.$Message.success(data.message);
+            this.transferNotice.empTaskId=data.data;
+          }
+        ).catch(error=>{
+            console.log(error)
+        });
       },
       notHandleTransfer(){
         let empTaskId=this.transferNotice.empTaskId;
         if(empTaskId!=null){
            api.notHandleTransfer({empTaskId:empTaskId}).then(
              data=>{
-               data=data.data;
                if(data.code==200){
+                  data=data.data;
                   this.$Message.success("不需办理操作成功");
                   history.go(-1);
                }
@@ -412,6 +419,9 @@
         }
       },
       printTransferTask(){
+        if(this.checkData()==false){
+          return false;
+        }
         let empTaskId=this.transferNotice.empTaskId;
         if(empTaskId==null){
           this.$Message.error("请先操作保存转移表单信息！");
@@ -438,10 +448,29 @@
             // })
            }
         })
-
-
-   
       },
+
+      checkData(){
+          if (!this.transferNotice.transferInUnit || this.transferNotice.transferInUnit!=''  ) {
+            this.$Message.error("转入单位不能为空！");
+            return false;
+          }
+          if (!this.transferNotice.transferOutUnit || this.transferNotice.transferOutUnit!=''  ) {
+            this.$Message.error("转出单位不能为空！");
+            return false;
+          }
+           if (!this.transferNotice.transferInUnitAccount || this.transferNotice.transferInUnitAccount!=''  ) {
+            this.$Message.error("转入单位账号不能为空！");
+            return false;
+          }
+         if (!this.transferNotice.transferOutUnitAccount || this.transferNotice.transferOutUnitAccount!=''  ) {
+            this.$Message.error("转出单位账号不能为空！");
+            return false;
+          }
+
+          return true;
+      },
+
       handleTransferInSearch(value) {
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
 //        if (this.transferNotice.transferInUnitAccount != '') {

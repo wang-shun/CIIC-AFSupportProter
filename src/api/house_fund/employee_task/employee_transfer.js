@@ -51,4 +51,8 @@ export default {
     let response = await AJAX.upload('/api/fundcommandservice/hfEmpTask/feedbackDateUpload', params);
     return await response.data;
   },
+  batchUpdateFeedbackDate: async (params) => {
+    let response = await AJAX.postJSON('/api/fundcommandservice/hfEmpTask/batchUpdateFeedbackDate', params);
+    return await response.data;
+  },
 }

@@ -162,7 +162,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
                     click: () => {
                       localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
                       localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
-                      localStorage.setItem('employeeFundCommonOperator.dictTaskCategory', params.row.dictTaskCategory);
+                      localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
                       localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
                       switch (params.row.taskCategory) {
                         case '1':

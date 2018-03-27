@@ -457,7 +457,7 @@ export default {
     }
   },
   empComStatus: (costCategory) => {
-    //1标准 2 新进 3 转入  4 补缴 5 调整 （顺调)）6 转出 7封存 8 退账 9 调整（倒调）
+    //客户中心 雇员上下岗状态
     switch (costCategory) {
       case '0':
         return '预录用'
@@ -576,6 +576,21 @@ export default {
         return ''
     }
   },
+  hf_archiveStatus: (v) => {
+    // 0-未办理  1-已办  2-已做 3-封存
+    switch (v) {
+      case '0':
+        return '未办理'
+      case '1':
+        return '已办'
+      case '2':
+        return '已做'
+      case '3':
+        return '封存'
+      default:
+        return ''
+    }
+  },
   hf_paymentBank: (v) => {
     // 1 徐汇—X、2 西郊—C、3 东方路—P、4 卢湾—L、5 黄浦—H
     switch (v) {
@@ -586,6 +601,7 @@ export default {
       case '3':
         return '东方路—P'
       case '4':
+      case 4:
         return '卢湾—L'
       case '5':
         return '黄浦—H'

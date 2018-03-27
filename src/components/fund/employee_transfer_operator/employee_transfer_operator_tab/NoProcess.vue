@@ -196,7 +196,7 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         searchCondition: {
-          serviceCenterValue: '',
+          serviceCenterValue: [],
           employeeId: '',
           transferInUnit: '',
           transferOutUnit: '',

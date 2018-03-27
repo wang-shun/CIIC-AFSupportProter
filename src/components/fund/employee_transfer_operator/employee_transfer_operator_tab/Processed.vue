@@ -116,7 +116,7 @@ import api from '../../../../api/house_fund/employee_task/employee_transfer'
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         searchCondition: {
-          serviceCenterValue: '',
+          serviceCenterValue: [],
           employeeId: '',
           transferInUnit: '',
           transferOutUnit: '',

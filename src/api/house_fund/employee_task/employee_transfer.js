@@ -33,7 +33,7 @@ export default {
     return await response.data;
   },
   printTransferTask: (params) => {
-    AJAX.download('/api/fundcommandservice/hfEmpTask/printTransferTask', params);
+    AJAX.downloadPostJSON('/api/fundcommandservice/hfEmpTask/printTransferTask', params);
   },
   hfEmpTaskRejectExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfEmpTask/hfEmpTaskRejectExport', params);
@@ -46,5 +46,9 @@ export default {
   },
   empTaskTransferTxtExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfEmpTask/empTaskTransferTxtExport', params);
+  },
+  feedbackDateUpload: async(params) => {
+    let response = await AJAX.upload('/api/fundcommandservice/hfEmpTask/feedbackDateUpload', params);
+    return await response.data;
   },
 }

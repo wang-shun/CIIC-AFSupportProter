@@ -4,7 +4,7 @@
       <TabPane label="未处理" name="NoProcess">
         <no-process></no-process>
       </TabPane>
-      <TabPane label="已处理" name="processing">
+      <TabPane label="已处理" name="processed">
         <processed></processed>
       </TabPane>
       <TabPane label="已批退" name="refused">

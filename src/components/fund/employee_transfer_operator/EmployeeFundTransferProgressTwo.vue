@@ -149,10 +149,10 @@
                 <Form-item label="转出单位：">
                   <Select v-model="transferNotice.transferOutUnit"
                   filterable
-                remote
-                :remote-method="handleTransferOutSearch"
-                @on-change="handleTransferOutChange"
-                :loading="loading"
+                  remote
+                  :remote-method="handleTransferOutSearch"
+                  @on-change="handleTransferOutChange"
+                  :loading="loading"
                   style="width: 100%;" transfer>
                      <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
                   </Select>
@@ -300,6 +300,8 @@
         transferUnitDictList:[],
         transferInUnitList:[],
         transferOutUnitList:[],
+        transferOutUnitAccountList: [],
+        transferInUnitAccountList: [],
         transferNotice:{
           employeeId: '',
           companyId: '',
@@ -318,7 +320,7 @@
       }
     },
     mounted() {
-      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
+     // let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
       let params = {employeeId:this.$route.query.employeeId,
                     companyId:this.$route.query.companyId,
                     hfType:this.$route.query.hfType,
@@ -331,17 +333,7 @@
             this.transferNotice.companyId=params.companyId;
             this.transferNotice={};
           }else{
-
             this.transferNotice=data.data.empTaskTransferBo;
-          }
-          this.operatorListData = data.data.empTaskPeriods;
-          this.taskListNotesChangeData = data.data.empTaskRemarks;
-          if (!this.displayVO.taskStatus || this.displayVO.taskStatus == 1) {
-            this.inputDisabled = false;
-          } else {
-            this.inputDisabled = true;
-            this.taskCategoryDisable = true;
-            this.showButton = false;
           }
         } else {
           this.$Message.error(data.message);
@@ -349,9 +341,7 @@
         if(this.transferNotice!=null){
             this.transferNotice.hfType=this.$route.query.hfType;
             this.transferNotice.transferDate=new Date();
-
         }
-        
       });
       dict.getDictData().then(data => {
         if (data.code == 200) {
@@ -360,17 +350,8 @@
             this.transferOutUnitList.push(element);
             this.transferInUnitList.push(element);
           })
-          if (dictTaskCategory > 3) {
-            this.taskCategoryDisable = true;
-          } else {
-            this.taskCategoryDisable = false;
-            
-          }
         } else {
           this.$Message.error(data.message);
-          this.inputDisabled = true;
-          this.taskCategoryDisable = true;
-          this.showButton = false;
         }
       })
     },
@@ -388,17 +369,12 @@
         this.$router.go(-1);
       },
       submitTransferTask(){
-        if (this.transferNotice.feedbackDate) {
-          this.transferNotice.feedbackDate = this.$utils.formatDate(this.transferNotice.feedbackDate, "YYYY-MM-DD");
-        }
-        if (this.transferNotice.transferDate) {
-          this.transferNotice.transferDate = this.$utils.formatDate(this.transferNotice.transferDate, "YYYY-MM-DD");
-        }
-        
+        this.convertDate();
         api.submitTransferTask(this.transferNotice).then(
           data=>{
             this.$Message.success(data.message);
             this.transferNotice.empTaskId=data.data;
+            
           }
         ).catch(error=>{
             console.log(error)
@@ -427,50 +403,51 @@
           this.$Message.error("请先操作保存转移表单信息！");
           return;
         }
-
         this.$Modal.confirm({
           title: "你确认人打印转移通知书吗？",
           okText: '确定',
           cancelText: '取消',
           onOk: () => {
-
-               let params={empTaskId:empTaskId};
+               this.convertDate();
+               let params=this.transferNotice;
                api.printTransferTask(params);
-            // api.saveEmpAccount(formData).then(data => {
-            //   data=data.data;
-            //   if (data.code == 200) {
-            //     this.$Message.success("信息保存成功");
-            //     // 返回任务列表页面
-            //     history.go(-1);
-            //   } else {
-            //     this.$Message.error("信息保存失败！" + data.message);
-            //   }
-            // })
            }
         })
       },
 
       checkData(){
-          if (!this.transferNotice.transferInUnit || this.transferNotice.transferInUnit!=''  ) {
+          if (!this.transferNotice.transferInUnit || this.transferNotice.transferInUnit==''  ) {
             this.$Message.error("转入单位不能为空！");
             return false;
           }
-          if (!this.transferNotice.transferOutUnit || this.transferNotice.transferOutUnit!=''  ) {
+          if (!this.transferNotice.transferOutUnit || this.transferNotice.transferOutUnit==''  ) {
             this.$Message.error("转出单位不能为空！");
             return false;
           }
-           if (!this.transferNotice.transferInUnitAccount || this.transferNotice.transferInUnitAccount!=''  ) {
+           if (!this.transferNotice.transferInUnitAccount || this.transferNotice.transferInUnitAccount==''  ) {
             this.$Message.error("转入单位账号不能为空！");
             return false;
           }
-         if (!this.transferNotice.transferOutUnitAccount || this.transferNotice.transferOutUnitAccount!=''  ) {
+          if (!this.transferNotice.transferOutUnitAccount || this.transferNotice.transferOutUnitAccount==''  ) {
             this.$Message.error("转出单位账号不能为空！");
             return false;
           }
-
+          if (this.transferNotice.transferOutUnit || this.transferNotice.transferInUnit){
+              if(this.transferNotice.transferInUnit==this.transferNotice.transferOutUnit){
+                  this.$Message.error("转出单位和转入单位不可以相同！");
+                  return false;
+              }
+            }
           return true;
       },
-
+      convertDate(){
+        if (this.transferNotice.feedbackDate) {
+          this.transferNotice.feedbackDate = this.$utils.formatDate(this.transferNotice.feedbackDate, "YYYY-MM-DD");
+        }
+        if (this.transferNotice.transferDate) {
+          this.transferNotice.transferDate = this.$utils.formatDate(this.transferNotice.transferDate, "YYYY-MM-DD");
+        }
+      },
       handleTransferInSearch(value) {
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
 //        if (this.transferNotice.transferInUnitAccount != '') {
@@ -506,6 +483,7 @@
         )
       },
       doSearch(value, unitList, unitAccountList, type) {
+     
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;
@@ -517,7 +495,7 @@
           api.comAccountQuery(
             {
               comAccountName: value,
-              hfType: this.displayVO.hfType,
+              hfType: this.transferNotice.hfType,
             }
           ).then(
             data => {

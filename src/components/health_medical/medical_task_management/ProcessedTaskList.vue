@@ -25,8 +25,9 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保险公司" prop="">
-                <Select value="1" :clearable="true" @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
+              <Form-item label="保险公司" prop="insuranceCompany">
+                <Select v-model="formItem.insuranceCompany" :clearable="true"
+                        @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
                   <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
                           :key="item.insuranceCompanyId">
                     {{item.insuranceCompanyName}}
@@ -35,10 +36,10 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保险项目" prop="afProductId">
+              <Form-item label="保单" prop="afProductId">
                 <Select v-model="formItem.afProductId" :clearable="true">
-                  <Option v-for="item in taskTypeItem" :value="item.insuranceProductId" :key="item.insuranceProductId">
-                    {{item.productName}}
+                  <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
+                    {{item.insurancePolicyName}}
                   </Option>
                 </Select>
               </Form-item>

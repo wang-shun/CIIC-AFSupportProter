@@ -80,7 +80,7 @@
 
         <Button type="info">打印转移通知书</Button>
         <Button type="info" @click="empTaskTransferTxtExport">导出雇员转移TXT</Button>
-         <Button type="info" @click="isUpload=true">批量导入回单日期</Button>
+         <Button type="info"  @click="isUpload=true">批量导入回单日期</Button>
       </Col>
     </Row>
 
@@ -98,6 +98,47 @@
         show-sizer show-total></Page>
       </Col>
     </Row>
+
+    <!-- 批量上传-->
+    <Modal
+      :width="600"
+      v-model="isUpload"
+      :closable="false"
+      :mask-closable="false"
+      style="position:relative;z-index:900;">
+      <div style="text-align: center;">
+        <Form :label-width=100 ref="uploadData" :model="uploadData" style="width: 500px">
+          <Row type="flex" justify="start">
+            <Col :sm="{span:15}">
+            <Form-item label="批量上传：" prop="uploadFile">
+              <div id="loading" class="loading" style="position: absolute; z-index: 999; display: none">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <Upload ref="upload" :action="uploadAttr.actionUrl" :data="uploadData" :accept="uploadAttr.acceptFileExtension"
+                      :before-upload="beforeUpload" :default-file-list="uploadFileList">
+                <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+              </Upload>
+            </Form-item>
+            </Col>
+          </Row>
+        </Form>
+        <Row class="mt20">
+          <Col :sm="{span:24}">
+          <Table height="300" border ref="importResultData"
+                 :columns="importResultColumns"
+                 :data="importResultData"
+          ></Table>
+          </Col>
+        </Row>
+      </div>
+      <div slot="footer">
+        <button type="button" class="ivu-btn ivu-btn-text ivu-btn-large" @click="importClose"><span>取消</span></button>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>

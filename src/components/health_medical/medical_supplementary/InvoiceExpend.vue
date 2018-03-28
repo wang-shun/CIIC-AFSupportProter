@@ -64,12 +64,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="公司理赔金额：">
-          {{row.companyMoney}}
+          <Input v-model="row.companyMoney" size="large" :disabled="status>2" placeholder="large size"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="保险理赔金额：" prop="inputDateRange">
-          <Input v-model="row.insuranceCompanyMoney" size="large" :disabled="status>2" placeholder="large size"/>
+          {{row.insuranceCompanyMoney}}
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -105,8 +105,7 @@
       updateInvoice() {
         //let test = /^(([0-9]+[\\.]?[0-9]{1,2})|[1-9])$/;
         let test = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
-        console.info(test.test(this.row.insuranceCompanyMoney));
-        if (test.test(this.row.insuranceCompanyMoney)) {
+        if (test.test(this.row.companyMoney)) {
           apiAjax.updateMedicalInvoice(this.row).then(response => {
             if (response.data.code === 200) {
               this.$Message.success("保存成功");

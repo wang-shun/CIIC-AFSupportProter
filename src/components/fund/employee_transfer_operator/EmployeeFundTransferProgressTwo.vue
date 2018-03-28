@@ -316,6 +316,7 @@
           feedbackDate:'',
           operateDate:'',
           handleRemark:'',
+          taskStatus:1,
         },
       }
     },
@@ -409,8 +410,15 @@
           cancelText: '取消',
           onOk: () => {
                this.convertDate();
-               let params=this.transferNotice;
-               api.printTransferTask(params);
+                api.submitTransferTask(this.transferNotice).then(
+                  data=>{
+                    if(data.code==200){
+                      this.transferNotice.empTaskId=data.data;
+                      let params={empTaskId:this.transferNotice.empTaskId};
+                      api.printTransferTask(params);
+                    }
+                  }
+                )
            }
         })
       },

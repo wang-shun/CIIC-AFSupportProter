@@ -264,25 +264,6 @@ let createProxyAjaxForName = name => {
     }
     document.body.appendChild(iframe)
   }
-//下载和提交
-
-proxy.downloadPostJSON = (url, data,config = {}) => {
-  config.headers = config.headers || {};
-  config.headers['Content-Type'] = config.headers['Content-Type'] || 'application/json';
-  url = getUrl(url, data);
-  data = {};
-  logInfo('get', url, data);
-
-  // 下载
-  let iframe = document.createElement('iframe')
-  iframe.style.display = 'none'
-  iframe.src = baseURL + url
-  iframe.onload = () => {
-    document.body.removeChild(iframe)
-  }
-  document.body.appendChild(iframe)
-  return instance['post'](url, data, config);
-}
 
   // 上传
   proxy.upload = async (url, data, config = {}) => {

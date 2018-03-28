@@ -264,6 +264,7 @@ let createProxyAjaxForName = name => {
     }
     document.body.appendChild(iframe)
   }
+
   // 上传
   proxy.upload = async (url, data, config = {}) => {
     let formData = new FormData();

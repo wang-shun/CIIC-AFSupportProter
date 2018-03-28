@@ -4,148 +4,119 @@
       <Panel name="1">
         申请信息
         <div slot="content">
-          <Row type="flex" justify="start" class="m10">
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>申请单号: </span>
-            <span>{{ applyRecord.applyRecordId }}</span>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>主题: </span>
-            <span>{{ applyRecord.projectTopics }}</span>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>申请类别:</span>
-            <span>礼品申请</span>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>申请人部门: </span>
-            <span>{{ applyRecord.contactDeptName }}</span>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>申请人职位: </span>
-            <span>{{ applyRecord.contactPosition }}</span>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>申请时间: </span>
-            <span>{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}</span>
-            </Col>
-          </Row>
+          <Form :label-width="150">
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请单号:">{{ applyRecord.applyRecordId }}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="主题:">{{ applyRecord.projectTopics }}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请类别:">礼品申请</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请人部门:">{{ applyRecord.contactDeptName }}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请人职位:">{{ applyRecord.contactPosition }}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请时间:">{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}</Form-item>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Panel>
-    </Collapse>
-
-    <div>
-      <Card style="width: 100%">
-        申请明细:
-        <Form :model="gift" ref="gift" :label-width="140">
-          <Row type="flex" justify="start" class="m10">
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="礼品名称：">
-              {{gift.giftName}}
-            </Form-item>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="数量：">
-              {{gift.number}}
-            </Form-item>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="单价：">
-              {{gift.price}}
-            </Form-item>
-            </Col>
-          </Row>
-        </Form>
-      </Card>
-    </div>
-
-    <div v-if="applyRecordDetail.presentingObjectType !== 4">
-      <Card style="width: 100%">
-        赠送对象:
-        <Row type="flex" justify="start" class="m10">
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>对象类型: </span>
-          <span>{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}</span>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>姓名: </span>
-          <span>{{applyRecordDetail.contactName}}</span>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>手机号: </span>
-          <span>{{applyRecordDetail.contactPhoneNum}}</span>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>公司: </span>
-          <span>{{applyRecordDetail.companyName}}</span>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>部门: </span>
-          <span>{{applyRecordDetail.contactDeptName}}</span>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>职位: </span>
-          <span>{{applyRecordDetail.contactPosition}}</span>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>部门: </span>
-          <span>{{applyRecordDetail.contactDeptName}}</span>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>公司地址: </span>
-          <span>{{applyRecordDetail.companyAddress}}</span>
-          </Col>
-        </Row>
-      </Card>
-    </div>
-
-    <div v-else>
-      <Card style="width: 100%">
-        赠送对象:
-        <Row type="flex" justify="start" class="m10">
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>对象类型: </span>
-          <span>{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}</span>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>类型: </span>
-          <span>{{this.otherProperties(applyRecordDetail.applicantType)}}</span>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>申请人: </span>
-          <span>{{applyRecordDetail.applicant}}</span>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <span>申请人分机号: </span>
-          <span>{{applyRecordDetail.applicantExtension}}</span>
-          </Col>
-        </Row>
-      </Card>
-    </div>
-
-    <Collapse v-model="collapseInfo">
       <Panel name="2">
+        申请明细
+        <div slot="content">
+          <Form :model="gift" ref="gift" :label-width="150">
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="礼品名称：">{{gift.giftName}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="数量：">{{gift.number}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="单价：">{{gift.price}}</Form-item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="3" v-if="applyRecordDetail.presentingObjectType !== 4">
+        赠送对象
+        <div slot="content">
+          <Form :label-width="150">
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="对象类型：">{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="姓名：">{{applyRecordDetail.contactName}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="手机号：">{{applyRecordDetail.contactPhoneNum}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="公司：">{{applyRecordDetail.companyName}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="部门：">{{applyRecordDetail.contactDeptName}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="职位：">{{applyRecordDetail.contactPosition}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="公司地址：">{{applyRecordDetail.companyAddress}}</Form-item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="3" v-else>
+        赠送对象
+        <div slot="content">
+          <Form :label-width="150">
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="对象类型：">{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="类型：">{{this.otherProperties(applyRecordDetail.applicantType)}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请人：">{{applyRecordDetail.applicant}}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请人分机号：">{{applyRecordDetail.applicantExtension}}</Form-item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="4">
         审批列表
         <div slot="content">
-          <Row type="flex" justify="start" class="m10">
+          <Row type="flex" justify="start">
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Table stripe border :columns="approvalStepColumns" :data="approvalStepList"
-                   ref="approvalStepTable"></Table>
+              <Table stripe border :columns="approvalStepColumns" :data="approvalStepList" ref="approvalStepTable"></Table>
             </Col>
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form :model="applyRecordDetail" ref="applyRecordDetail" :label-width="140">
-              <Form-item label="发放备注：">
-                <Input v-model="applyRecordDetail.sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
-                       placeholder=""/>
-              </Form-item>
-            </Form>
+              <Form :model="applyRecordDetail" ref="applyRecordDetail" :label-width="150">
+                <Form-item label="发放备注：">
+                  <Input v-model="applyRecordDetail.sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder=""/>
+                </Form-item>
+              </Form>
             </Col>
           </Row>
           <Row type="flex" justify="start">
             <Col :sm="{span: 24}" class="tr">
-            <Button type="warning" @click="back()">返回</Button>
-            <Button type="primary" @click="grantGift(2)">发放</Button>
-            <Button type="error" @click="grantGift(3)">退批</Button>
+              <Button type="primary" @click="grantGift(2)">发放</Button>
+              <Button type="error" @click="grantGift(3)">批退</Button>
+              <Button type="warning" @click="back()">返回</Button>
             </Col>
           </Row>
         </div>
@@ -160,7 +131,7 @@
   export default {
     data() {
       return {
-        collapseInfo: [1, 2, 3], //展开栏
+        collapseInfo: [1, 2, 3, 4], //展开栏
         gift: {},
         applyRecord: {},
         applyGiftRecord: {},
@@ -195,7 +166,7 @@
           this.applyRecordDetail = response.data.object.applyRecordDetail;
           this.approvalStepList = response.data.object.approvalStepList;
         }).catch(e => {
-          console.info(e.message);
+//          console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
       },

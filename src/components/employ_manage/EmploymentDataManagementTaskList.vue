@@ -147,24 +147,24 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '客服经理', key: 'serviceManager', align: 'center', width: 150,
+          {title: '客服经理', key: 'leaderShipName', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.serviceManager),
+                h('span', params.row.leaderShipName),
               ]);
             }
           },
-          {title: '客服中心', key: 'serviceCenter', align: 'center', width: 250,
+          {title: '服务中心', key: 'serviceCenter', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.serviceCenter),
               ]);
             }
           },
-          {title: '公司特殊情况', key: 'companySpecialCase', align: 'center', width: 200,
+          {title: '公司特殊情况', key: 'employSpecial', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companySpecialCase),
+                h('span', params.row.employSpecial),
               ]);
             }
           },

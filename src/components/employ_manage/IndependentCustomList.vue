@@ -111,10 +111,10 @@
               ]);
             }
           },
-          {title: '公司特殊情况', key: 'companySpecialCase', align: 'center', width: 300,
+          {title: '公司特殊情况', key: 'special', align: 'center', width: 300,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companySpecialCase),
+                h('span', params.row.special),
               ]);
             }
           }

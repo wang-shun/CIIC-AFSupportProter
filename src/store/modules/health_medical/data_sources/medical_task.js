@@ -126,8 +126,6 @@ export default {
   taskWaitStatus,
   taskAlreadyStatus,
   taskTypeProperties,
-  taskStatusCom,
-  taskTypeItem,
   keyTypeProperties,
   keyTypeToChina,
   typeToChina,

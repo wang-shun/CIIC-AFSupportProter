@@ -1,9 +1,0 @@
-/**
- * Created by huangye on 2018/1/16.
- */
-export default {
-  COMPANYFUNDTASKLIST: 'COMPANYFUNDTASKLIST',
-  LPROCESSING: 'LPROCESSING',
-  LFINISHED: 'LFINISHED',
-  LREFUSED: 'LREFUSED'
-}

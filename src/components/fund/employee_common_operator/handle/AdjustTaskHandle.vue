@@ -183,7 +183,14 @@
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="任务类型：">
+              <FormItem label="任务单类型：">
+                <Select v-model="displayVO.dictTaskCategory" style="width: 100%;" transfer :disabled="true">
+                  <Option v-for="item in dictTaskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
+                </Select>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="办理类型：">
                 <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
                   <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
@@ -356,7 +363,7 @@
         taskReferenceInfoData: [],
         taskCategoryDisable: false,
         taskCategoryList: [],
-
+        dictTaskCategoryList: [],
         operationRemindList: [],
         operationRemindDate: '',
         operatorListData: [],
@@ -595,7 +602,7 @@
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
           {title: '备注人', key: 'modifiedDisplayName', align: 'left'},
-          {title: '备注时间', key: 'modifiedTime', align: 'left'},
+          {title: '备注时间', key: 'modifiedTimeFormat', align: 'left'},
           {title: '备注内容', key: 'remark', align: 'left'}
         ],
         taskListNotesChangeData: [],
@@ -640,7 +647,8 @@
     mounted() {
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
-      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
+//      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
+      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
       let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
@@ -684,7 +692,8 @@
       });
       dict.getDictData().then(data => {
         if (data.code == 200) {
-          this.taskCategoryList = data.data.HFLocalTaskCategory;
+          this.taskCategoryList = data.data.HFTaskCategory;
+          this.dictTaskCategoryList = data.data.HFLocalTaskCategory;
           this.operationRemindList = data.data.OperationRemind;
           this.transferUnitDictList = data.data.FundOutUnit;
           this.repairReason = data.data.RepairReason;
@@ -692,7 +701,7 @@
             this.transferOutUnitList.push(element);
             this.transferInUnitList.push(element);
           })
-          if (dictTaskCategory > 3) {
+          if (taskCategory > 3) {
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;
@@ -831,6 +840,7 @@
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
         this.inputData.dictTaskCategory = this.displayVO.dictTaskCategory;
+        this.inputData.taskCategory = this.displayVO.taskCategory;
 //        this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
 //        if (this.displayVO.startMonth) {
 //          this.inputData.startMonth = utils.formatDate(this.displayVO.startMonth,"YYYYMM");
@@ -868,7 +878,7 @@
         })
       },
       inputDataCheck() {
-        if (this.displayVO.dictTaskCategory != 1 &&(!this.displayVO.hfEmpAccount || this.displayVO.hfEmpAccount == '')) {
+        if (this.displayVO.taskCategory != 1 &&(!this.displayVO.hfEmpAccount || this.displayVO.hfEmpAccount == '')) {
           this.$Message.error("公积金账户不能为空");
           return false;
         }

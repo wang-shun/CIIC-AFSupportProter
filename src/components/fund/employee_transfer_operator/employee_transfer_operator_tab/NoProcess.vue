@@ -41,7 +41,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费银行：" prop="payBankValue">
                   <Select v-model="searchCondition.payBankValue" style="width: 100%;" transfer>
-                    <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="value" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -77,15 +77,19 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="isCreateTaskTicket = true;handlePageNumNewTask(1);">新建转移任务单</Button>
-        <Button type="info" @click="">批量打印转中心通知书</Button>
+        <!-- <Button type="info" @click="">批量打印转中心通知书</Button> -->
         <Dropdown>
           <Button type="primary">
             转移操作
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem>导出雇员转移清册</DropdownItem>
-            <DropdownItem>导出雇员转移TXT</DropdownItem>
+            <div style="text-align: right;margin:10px;">
+              <Button type="ghost" @click="multiEmpTaskTransferExport">导出雇员转移清册</Button>
+            </div>
+            <div style="text-align: right;margin:10px;">
+              <Button type="ghost" @click="empTaskTransferTxtExport">导出雇员转移TXT</Button>
+            </div>
           </DropdownMenu>
         </Dropdown>
         <!-- <Button type="primary" @click="">扫描校验</Button> -->
@@ -148,14 +152,14 @@
           </Col>
         </Row>
         <Row>
-           <Col :sm="{span: 12}" class="tr">
+           <!-- <Col :sm="{span: 12}" class="tr">
             <Form-item label="公积金类型：" prop="hfType">
                   <Select v-model="createTask.searchCondition.hfType" transfer>
                     <Option value="1" >基本公积金</Option>
                     <Option value="2" >补充公积金</Option>
                   </Select>
             </Form-item>
-           </Col>
+           </Col> -->
           <Col :sm="{span: 12}" class="tr">
             <Button type="primary" icon="ios-search" @click="handlePageNumNewTask(1)">查询</Button>
             <Button type="warning" @click="isCreateTaskTicket = false;">关闭</Button>
@@ -192,7 +196,7 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         searchCondition: {
-          serviceCenterValue: '',
+          serviceCenterValue: [],
           employeeId: '',
           transferInUnit: '',
           transferOutUnit: '',
@@ -201,7 +205,8 @@
           payBankValue:'',
           idNum: '',
           hfEmpAccount: '',
-          hfAccountType: ''
+          hfAccountType: '',
+          taskStatus: '1',
         },
         isCreateTaskTicket: false,
         pageDataNewTask: {
@@ -227,24 +232,30 @@
             ],
           createNewTaskData:[],
           createNewTaskColumns: [
-            {title: '操作', fixed: 'left', width: 80, align: 'center', 
+            {title: '操作', fixed: 'left', width: 80, align: 'center',
               render:(h, params)=>{
                 return h('div', {style: {textAlign: 'left'}}, [
-
                   h('Button',{
                     props:{type:'success',size:'samll'},
                     style: {margin: '0 auto'},
                     on:{
                       click:()=>{
-                        this.dealTransfer(params.row.employeeId,params.row.companyId);
+                        this.dealTransfer(params.row.employeeId,params.row.companyId,params.row.hfType);
                       }
                     }
                   },'选择'),
                 ]);
               }
-            
+
             },
-            {title: '客户编号', key: 'companyNumber', align: 'center', width: 150,
+            {title: '公积金类型', key: 'hfType', align: 'center', width: 120,
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'left'}}, [
+                  h('span', this.$decode.hfType(params.row.hfType)),
+                ]);
+              }
+            },
+            {title: '客户编号', key: 'companyNumber', align: 'center', width: 120,
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h('span', params.row.companyId),
@@ -288,21 +299,12 @@
             },
           ]
         },
-
         serviceCenterData: [
-          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-          {value: 2, label: '日本客户'},
-          {value: 3, label: '虹桥'},
-          {value: 4, label: '浦东'}
+          {value: '1', label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
+          {value: '2', label: '日本客户'},
+          {value: '3', label: '虹桥'},
+          {value: '4', label: '浦东'}
         ], //客服中心
-        payBankList: [
-          {label: '全部', value: ''},
-          {value: 0, label: '徐汇'},
-          {value: 1, label: '长宁'},
-          {value: 2, label: '浦东'},
-          {value: 4, label: '静安'},
-          {value: 5, label: '黄浦'},
-        ],
         fundTypeList: [
           {label: '全部',value:''},
           {value: '1', label: '基本公积金'},
@@ -347,10 +349,10 @@
               ]);
             }
           },
-          {title: '客户名称', key: 'companyName', width: 150, align: 'center',
+          {title: '客户名称', key: 'title', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
+                h('span', params.row.title),
               ]);
             }
           },
@@ -385,7 +387,7 @@
           {title: '状态', key: 'taskStatus', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.taskStatus),
+                h('span', this.$decode.hf_archiveStatus(params.row.archiveStatus)),
               ]);
             }
           },
@@ -421,8 +423,6 @@
       }
     },
     mounted() {
-      //this[EventType.TNOPROCESS]()
-   
       this.handlePageNum(1);
     },
     computed: {
@@ -479,8 +479,8 @@
         let params = this.createTask.searchCondition
         this.queryTransferForNewTask(params);
       },
-      dealTransfer(employeeId,companyId){
-        let hfType=this.createTask.searchCondition.hfType;
+      dealTransfer(employeeId,companyId,hfType){
+
         this.$router.push({name:'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType}});
       },
       ok () {
@@ -488,6 +488,26 @@
       },
       cancel () {
 
+      },
+      multiEmpTaskTransferExport() {
+        if (!this.searchCondition.transferOutUnit) {
+          this.$Message.error("导出清册需明确转出单位及转入单位");
+          return false;
+        }
+        if (!this.searchCondition.transferInUnit) {
+          this.$Message.error("导出清册需明确转出单位及转入单位");
+          return false;
+        }
+        let params = this.searchCondition
+        api.multiEmpTaskTransferExport({
+          params: params,
+        })
+      },
+      empTaskTransferTxtExport() {
+        let params = this.searchCondition
+        api.empTaskTransferTxtExport({
+          params: params,
+        })
       },
     }
   }

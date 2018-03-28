@@ -162,7 +162,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
                     click: () => {
                       localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
                       localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
-                      localStorage.setItem('employeeFundCommonOperator.dictTaskCategory', params.row.dictTaskCategory);
+                      localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
                       localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
                       switch (params.row.taskCategory) {
                         case '1':
@@ -199,7 +199,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center'},
           {title: '公积金账号', key: 'hfEmpAccount', width: 200, align: 'center'},
           {title: '发起人', key: 'submitterId', width: 150, align: 'center'},
-          {title: '发起时间', key: 'submitTime', width: 200, align: 'center'}
+          {title: '发起时间', key: 'submitTimeFormat', width: 200, align: 'center'}
         ]
       }
     },

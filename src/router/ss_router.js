@@ -14,11 +14,12 @@ const employeeSocialSecurityTaskInfo = r => require.ensure([], () => r(require('
 /*
  * employeeOperatorView              --- 雇员日常操作
  * employeeCommcialOperator          --- 雇员日常操作、办理
+ * 
  */
 
 const employeeOperatorView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeOperatorView')), 'EmployeeOperatorView')
 const employeeCommcialOperator = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeCommcialOperator')), 'EmployeeCommcialOperator')
-
+const emprefresh = r=> require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/ReFresh')), 'emprefresh')
 
 /*
  * employeeSpecialOperatorView       --- 雇员特殊操作
@@ -444,6 +445,17 @@ export default [
     path: '/re_fresh',
     name: 'refresh',
     component: refresh,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"企业任务单",
+      openNames:['1']
+    }
+  },
+  {
+    path: '/emp_re_fresh',
+    name: 'emprefresh',
+    component: emprefresh,
     meta:{
       level1:'全国社保',
       level2:"上海社保",

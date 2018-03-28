@@ -110,7 +110,6 @@ const getUrl = (url, data) => {
       url += "?"
     }
 
-
     var uri = data;
     // 参数类型如果不是字符串类型 序列号
     if (typeof(data) !== "string") {
@@ -124,11 +123,18 @@ const getUrl = (url, data) => {
 
     url += uri;
 
-    if (uri) {
-      let userInfo = sessionStorage.getItem('userInfo');
-      if (userInfo) {
+    let userInfo = sessionStorage.getItem('userInfo');
+    if (userInfo) {
+      if (uri) {
         url += '&token=' + JSON.parse(userInfo).token;
+      } else {
+        url += 'token=' + JSON.parse(userInfo).token;
       }
+    }
+  } else {
+    let userInfo = sessionStorage.getItem('userInfo');
+    if (userInfo) {
+      url += '?token=' + JSON.parse(userInfo).token;
     }
   }
   return url;
@@ -245,7 +251,6 @@ let createProxyAjaxForName = name => {
 
   // 下载
   proxy.download = (url, data) => {
-
     url = getUrl(url, data);
     data = {};
     logInfo('get', url, data);
@@ -259,6 +264,7 @@ let createProxyAjaxForName = name => {
     }
     document.body.appendChild(iframe)
   }
+
   // 上传
   proxy.upload = async (url, data, config = {}) => {
     let formData = new FormData();

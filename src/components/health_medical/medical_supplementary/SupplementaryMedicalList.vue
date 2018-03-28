@@ -27,14 +27,15 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!--TODO 待确认字段-->
+              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="分类" prop="invoiceNumber">
                 <Select v-model="formItem.invoiceNumber" placeholder="请选择" :clearable="true">
                   <Option v-for="item in category" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
               </Form-item>
-              </Col>
+              </Col>-->
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="案卷号" prop="dossierNumber">
                 <Input v-model="formItem.dossierNumber" placeholder="请输入"/>

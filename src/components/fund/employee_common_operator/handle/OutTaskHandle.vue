@@ -190,8 +190,15 @@
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="任务类型：">
-                <Select v-model="displayVO.dictTaskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
+              <FormItem label="任务单类型：">
+                <Select v-model="displayVO.dictTaskCategory" style="width: 100%;" transfer :disabled="true">
+                  <Option v-for="item in dictTaskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
+                </Select>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="办理类型：">
+                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
                   <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
               </FormItem>
@@ -335,12 +342,13 @@
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
           {title: '备注人', key: 'modifiedDisplayName', align: 'left'},
-          {title: '备注时间', key: 'modifiedTime', align: 'left'},
+          {title: '备注时间', key: 'modifiedTimeFormat', align: 'left'},
           {title: '备注内容', key: 'remark', align: 'left'}
         ],
         taskListNotesChangeData: [],
         taskCategoryDisable: false,
         taskCategoryList: [],
+        dictTaskCategoryList: [],
         transferOutUnitList: [],
         transferNotice: {
           transferOutUnit: '',
@@ -375,7 +383,8 @@
     mounted() {
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
-      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
+//      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
+      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
       let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
@@ -389,7 +398,6 @@
           } else {
             this.displayVO.hfMonth = this.displayVO.addedComHfMonth;
           }
-
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;
 //          this.operatorListData = data.data.empTaskPeriods;
@@ -419,10 +427,11 @@
       });
       dict.getDictData().then(data => {
         if (data.code == 200) {
-          this.taskCategoryList = data.data.HFLocalTaskCategory;
+          this.taskCategoryList = data.data.HFTaskCategory;
+          this.dictTaskCategoryList = data.data.HFLocalTaskCategory;
 //          this.operationRemindList = data.data.OperationRemind;
 //          this.transferOutUnitList = data.data.FundOutUnit;
-          if (dictTaskCategory < 5) {
+          if (taskCategory < 5) {
             this.taskCategoryDisable = true;
           } else {
             this.taskCategoryDisable = false;

@@ -164,20 +164,6 @@
             title: '疾病名称', sortable: true, key: 'diseaseName'
           },
           {
-            title: '投保日期', sortable: true, key: 'startConfirmDate',
-            render: (h, params) => {
-              params.row.startConfirmDate = this.employeeInfo.startConfirmDate;
-              return this.$utils.formatDate(params.row.startConfirmDate, 'YYYY-MM-DD HH:mm:ss');
-            }
-          },
-          {
-            title: '退保日期', sortable: true, key: 'endConfirmDate',
-            render: (h, params) => {
-              params.row.endConfirmDate = this.employeeInfo.endConfirmDate;
-              return this.$utils.formatDate(params.row.endConfirmDate, 'YYYY-MM-DD HH:mm:ss');
-            }
-          },
-          {
             title: '受理日期', sortable: true, key: 'auditTime',
             render: (h, params) => {
               params.row.auditTime = this.acceptanceData.auditTime;
@@ -186,9 +172,6 @@
               }
             }
           },
-          {
-            title: '发票类型', sortable: true, key: 'column10'
-          }
         ],
         invoiceData: [],
       };

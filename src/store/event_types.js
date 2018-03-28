@@ -12,10 +12,8 @@ import EmployeeFundSearch from "./modules/fund/employee_fund_search/event_types"
 import EmployeeCommonOperator from "./modules/fund/employee_common_operator/event_types"
 import EmployeeFundSpecialOperator from "./modules/fund/employee_special_operator/event_types"
 import EmployeeFundTransferOperator from "./modules/fund/employee_transfer_operator/event_types"
-import CompanyFundTaskList from "./modules/fund/company_fund_task_list/event_types"
 import CompanyFundAccountSearch from "./modules/fund/company_fund_account_search/event_types"
 import FundReconciliation from "./modules/fund/fund_reconciliation/event_types"
-import FundPay from "./modules/fund/fund_pay/event_types"
 import FundReport from "./modules/fund/fund_report/event_types"
 import FundYearAdjust from "./modules/fund/fund_year_adjust/event_types"
 import FundYearAdjustViewDifference from "./modules/fund/fund_year_adjust/event_types"
@@ -55,10 +53,8 @@ export default {
   ...EmployeeCommonOperator,
   ...EmployeeFundSpecialOperator,
   ...EmployeeFundTransferOperator,
-  ...CompanyFundTaskList,
   ...CompanyFundAccountSearch,
   ...FundReconciliation,
-  ...FundPay,
   ...FundReport,
   ...FundYearAdjust,
   ...FundYearAdjustViewDifference,

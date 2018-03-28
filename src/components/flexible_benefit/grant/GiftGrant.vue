@@ -143,6 +143,9 @@
           },
           {
             title: '审批时间', key: 'approveTime', align: 'center',
+            render: (h, params) => {
+              return h('div', this.$utils.formatDate(params.row.approveTime,'YYYY-MM-DD HH:mm:ss'))
+            }
           },
           {
             title: '状态', key: 'approveAction', align: 'center',

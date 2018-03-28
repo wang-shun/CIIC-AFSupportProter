@@ -21,7 +21,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="办理类型：">
-            <Select v-model="handleInfo.handleType" transfer>
+            <Select v-model="handleInfo.handleType" @on-change="handleChange" transfer>
               <Option v-for="item in handleTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -182,6 +182,13 @@ import api from '../../../api/employ_manage/hire_operator'
            }
 
          })
+       },handleChange(val){
+         if(val=='调档'){
+           this.handleInfoMaterial.archivePlace = '空';
+         }else{
+            this.handleInfoMaterial.archivePlace = val;
+         }
+        
        }
        
     }

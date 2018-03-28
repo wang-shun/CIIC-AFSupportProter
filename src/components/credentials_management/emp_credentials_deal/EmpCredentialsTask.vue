@@ -271,7 +271,7 @@
         let params = {}
         params.params = {}
         params.params.companyId = companyId
-        axios.get(host+'/api/emp/getCompanyInfo',params).then((response) => {
+        axios.get(host+'/api/baseData/getCompanyInfo',params).then((response) => {
           if(response.data.errCode=="0"){
             this.companyCode = response.data.data.companyId
             this.companyName = response.data.data.companyName
@@ -288,7 +288,7 @@
         params.params.idCardType = employee.idCardType
         params.params.idNum = employee.idNum
         params.params.type = employee.type
-        axios.get(host+ '/api/emp/getEmpInfo',params).then((response) => {
+        axios.get(host+ '/api/baseData/getEmpInfo',params).then((response) => {
           if(response.data.errCode == "0"){
             let item = response.data.data
             this.empCode = item.employeeId
@@ -354,13 +354,13 @@
             } else {
               this.$Notice.error({
                 title: '保存失败',
-                desc: ''
+                desc: response.data.message
               })
             }
           }).catch((error) => {
             this.$Notice.error({
               title: '保存失败',
-              desc: ''
+              desc: '系统繁忙'
             })
         })
       },

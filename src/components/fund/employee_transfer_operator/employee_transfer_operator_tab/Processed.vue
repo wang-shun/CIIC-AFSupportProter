@@ -76,9 +76,8 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info">导出</Button>
-
-        <Button type="info">打印转移通知书</Button>
+        <!-- <Button type="info">导出</Button> -->
+        <!-- <Button type="info">打印转移通知书</Button> -->
         <Button type="info" @click="empTaskTransferTxtExport">导出雇员转移TXT</Button>
         <Button type="info"  @click="isUpload=true">批量导入回单日期</Button>
         <Button type="info"  @click="isShowFeedbackDateBatch=true">批量更新回单日期</Button>
@@ -123,6 +122,7 @@
                       :before-upload="beforeUpload" :default-file-list="uploadFileList">
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
+               <Button type="info" @click="impTemplate" >下载上传模板</Button>
             </Form-item>
             </Col>
           </Row>
@@ -431,6 +431,9 @@ import api from '../../../../api/house_fund/employee_task/employee_transfer'
       cancel () {
 
       },
+     impTemplate() {
+      api.impTemplateFile({});
+     },
       multiEmpTaskTransferExport() {
         if (!this.searchCondition.transferOutUnit) {
           this.$Message.error("导出清册需明确转出单位及转入单位");

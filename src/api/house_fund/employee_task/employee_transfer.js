@@ -13,7 +13,9 @@ export default {
     let response =await AJAX.post('/api/fundcommandservice/hfEmpTask/queryEmpTaskTransferNewTask', params);
     return await response.data;
   },
-
+  impTemplateFile: async (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpTask/downloadTransferTemplateFile', params);
+  },
   queryComEmpTransferForm: async (params) => {
     let response = await AJAX.post('/api/fundcommandservice/hfEmpTask/queryComEmpTransferForm', params);
     return await response.data;

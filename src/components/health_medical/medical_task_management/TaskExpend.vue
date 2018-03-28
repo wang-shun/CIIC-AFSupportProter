@@ -33,12 +33,12 @@
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="保险开始日期：">
+        <Form-item label="保险起始日期：">
           {{this.$utils.formatDate(row.startConfirmDate, 'YYYY-MM-DD')}}
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="保险结束日期：">
+        <Form-item label="保险截止日期：">
           {{timeToString(row.endConfirmDate)}}
         </Form-item>
         </Col>

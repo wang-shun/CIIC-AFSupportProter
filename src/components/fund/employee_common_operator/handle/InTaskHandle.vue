@@ -324,6 +324,7 @@
 </template>
 <script>
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
+  import transapi from '../../../../api/house_fund/employee_task/employee_transfer'
   import dict from '../../../../api/dict_access/house_fund_dict'
   import axios from "axios";
 
@@ -1213,8 +1214,8 @@
             if (!data.data || data.data.length == 0) {
               this.isShowPrint = true;
             } else {
-              // TODO show print page
-              console.log(data.data);
+//              console.log(data.data);
+              transapi.printTransferTask({empTaskId: data.data.empTaskId})
             }
           } else {
             this.$Message.error(data.message);
@@ -1246,9 +1247,9 @@
             this.transferNotice.transferInUnitAccount = '';
             this.transferNotice.transferDate = '';
 
-            // TODO show print page
             this.isShowPrint = false;
-            console.log(data.data);
+//            console.log(data.data);
+            transapi.printTransferTask({empTaskId: data.data.empTaskId})
           } else {
             this.$Message.error(data.message);
           }

@@ -133,6 +133,7 @@
       return {
         collapseInfo: [1, 2, 3, 4], //展开栏
         gift: {},
+        userInfo: {},
         applyRecord: {},
         applyGiftRecord: {},
         applyRecordDetail: {},
@@ -157,6 +158,7 @@
       }
     },
     created() {
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
       let queryData = JSON.parse(sessionStorage.getItem('giftGrantFormItem'));
       this.selectGiftGrantInformation(queryData);
     },
@@ -176,6 +178,7 @@
       grantGift(val) {
         this.applyRecordDetail.sendStatus = val;
         this.applyRecordDetail.sendTime = new Date();
+        this.applyRecordDetail.modifiedBy = this.userInfo.loginName;
         apiAjax.giftGrantUpdate(this.applyRecordDetail).then(response => {
           if (response.data.code === 0) {
             this.$router.push({name: "grantManager"});

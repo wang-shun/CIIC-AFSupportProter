@@ -37,7 +37,7 @@
                 <Form-item label="礼品名称：">{{gift.giftName}}</Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="数量：">{{gift.number}}</Form-item>
+                <Form-item label="数量：">{{applyGiftRecord.applyNum}}</Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="单价：">{{gift.price}}</Form-item>
@@ -183,7 +183,7 @@
             this.$Message.error("服务器异常，请稍后再试");
           }
         }).catch(e => {
-          console.info(e.message);
+//          console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
       },

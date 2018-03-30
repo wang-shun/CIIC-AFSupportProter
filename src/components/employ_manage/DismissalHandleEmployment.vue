@@ -141,8 +141,6 @@
           refuseHandleDate: "",
           refuseFeedbackValue: "",
           refuseFeedbackDate: "",
-          refuseFeedbackValue2: "",
-          refuseFeedbackDate2: "",
           refuseOperator: "",
           UKeyBorrowDate: "",
           UKeyReturnDate: "",

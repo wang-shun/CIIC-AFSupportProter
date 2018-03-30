@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:850px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员转移操作
@@ -12,7 +12,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
+                <Form-item label="雇员编号：" prop="employeeId">
                   <Input v-model="searchCondition.employeeId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -109,7 +109,7 @@
       <div style="text-align: center;">
         <Form :label-width=100 ref="uploadData" :model="uploadData" style="width: 500px">
           <Row type="flex" justify="start">
-            <Col :sm="{span:15}">
+            <Col :sm="{span:12}">
             <Form-item label="批量上传：" prop="uploadFile">
               <div id="loading" class="loading" style="position: absolute; z-index: 999; display: none">
                 <span></span>
@@ -122,8 +122,10 @@
                       :before-upload="beforeUpload" :default-file-list="uploadFileList">
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
-               <Button type="info" @click="impTemplate" >下载上传模板</Button>
             </Form-item>
+            </Col>
+            <Col :sm="{span:12}">
+                <Button type="info" @click="impTemplate" >下载上传模板</Button>
             </Col>
           </Row>
         </Form>

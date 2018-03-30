@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:850px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员转移操作
@@ -12,7 +12,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
+                <Form-item label="雇员编号：" prop="employeeId">
                   <Input v-model="searchCondition.employeeId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>

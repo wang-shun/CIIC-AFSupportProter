@@ -37,7 +37,7 @@
                 <Form-item label="礼品名称：">{{gift.giftName}}</Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="数量：">{{gift.number}}</Form-item>
+                <Form-item label="数量：">{{applyGiftRecord.applyNum}}</Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="单价：">{{gift.price}}</Form-item>
@@ -133,6 +133,7 @@
       return {
         collapseInfo: [1, 2, 3, 4], //展开栏
         gift: {},
+        userInfo: {},
         applyRecord: {},
         applyGiftRecord: {},
         applyRecordDetail: {},
@@ -157,6 +158,7 @@
       }
     },
     created() {
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
       let queryData = JSON.parse(sessionStorage.getItem('giftGrantFormItem'));
       this.selectGiftGrantInformation(queryData);
     },
@@ -176,6 +178,7 @@
       grantGift(val) {
         this.applyRecordDetail.sendStatus = val;
         this.applyRecordDetail.sendTime = new Date();
+        this.applyRecordDetail.modifiedBy = this.userInfo.loginName;
         apiAjax.giftGrantUpdate(this.applyRecordDetail).then(response => {
           if (response.data.code === 0) {
             this.$router.push({name: "grantManager"});
@@ -183,7 +186,7 @@
             this.$Message.error("服务器异常，请稍后再试");
           }
         }).catch(e => {
-          console.info(e.message);
+//          console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
       },

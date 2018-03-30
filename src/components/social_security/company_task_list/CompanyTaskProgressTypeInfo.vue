@@ -1,7 +1,7 @@
 <template>
   <Form :label-width=120>
     <Steps :current="currentStep">
-      <Step title="材料收集"></Step>
+      <Step title="未处理"></Step>
       <Step title="已受理"></Step>
       <Step title="送审中"></Step>
       <Step title="完成"></Step>
@@ -171,7 +171,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="企业工伤比例开始调整月份：" prop="sufferedOnTheJobPercentageChangeStartMonth">
+                <Form-item label="工伤比例开始月份：" prop="sufferedOnTheJobPercentageChangeStartMonth">
                   <DatePicker v-model="companyOpenAccountOperator.sufferedOnTheJobPercentageChangeStartMonth" type="month" format="yyyyMM" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
@@ -477,7 +477,7 @@
             {value: '3', label: '邮寄'}
           ], //交予方式
           taskTypeList:[
-            {value: '0',label: '初始(材料收缴)',disabled:false},
+            {value: '0',label: '未处理',disabled:false},
             {value: '1', label: '受理中',disabled:false},
             {value: '2', label: '送审中',disabled:false},
             {value: '3', label: '已完成',disabled:false},

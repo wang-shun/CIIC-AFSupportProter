@@ -406,7 +406,7 @@
           return;
         }
         this.$Modal.confirm({
-          title: "你确认人打印转移通知书吗？",
+          title: "你确认操作打印转移通知书吗？",
           okText: '确定',
           cancelText: '取消',
           onOk: () => {
@@ -474,7 +474,6 @@
 //        return false;
       },
       handleTransferOutChange(value) {
-      this.transferNotice.transferOutUnit = value;
         //this.transferNotice.transferOutUnitAccount = '';
         this.transferOutUnitList.forEach((element, index, array) => {
             if (element == value) {
@@ -485,8 +484,6 @@
         )
       },
       handleTransferInChange(value) {
- 
-      
        // this.transferNotice.transferInUnitAccount = '';
         this.transferInUnitList.forEach((element, index, array) => {
             if (element == value) {

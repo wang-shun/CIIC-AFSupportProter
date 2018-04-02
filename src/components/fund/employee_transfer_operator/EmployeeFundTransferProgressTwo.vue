@@ -335,6 +335,7 @@
             this.transferNotice={};
           }else{
             this.transferNotice=data.data.empTaskTransferBo;
+
           }
         } else {
           this.$Message.error(data.message);
@@ -405,7 +406,7 @@
           return;
         }
         this.$Modal.confirm({
-          title: "你确认人打印转移通知书吗？",
+          title: "你确认操作打印转移通知书吗？",
           okText: '确定',
           cancelText: '取消',
           onOk: () => {
@@ -457,6 +458,7 @@
         }
       },
       handleTransferInSearch(value) {
+        
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
 //        if (this.transferNotice.transferInUnitAccount != '') {
 //          return true;
@@ -464,6 +466,7 @@
 //        return false;
       },
       handleTransferOutSearch(value) {
+       
         this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
 //        if (this.transferNotice.transferOutUnitAccount != '') {
 //          return true;
@@ -471,7 +474,7 @@
 //        return false;
       },
       handleTransferOutChange(value) {
-        this.transferNotice.transferOutUnitAccount = '';
+        //this.transferNotice.transferOutUnitAccount = '';
         this.transferOutUnitList.forEach((element, index, array) => {
             if (element == value) {
               this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
@@ -481,7 +484,7 @@
         )
       },
       handleTransferInChange(value) {
-        this.transferNotice.transferInUnitAccount = '';
+       // this.transferNotice.transferInUnitAccount = '';
         this.transferInUnitList.forEach((element, index, array) => {
             if (element == value) {
               this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
@@ -489,6 +492,9 @@
             }
           }
         )
+        //    this.transferInUnitList.push(value);
+        //    this.transferNotice.transferInUnit = value;
+        //  alert(this.transferNotice.transferInUnit );
       },
       doSearch(value, unitList, unitAccountList, type) {
      

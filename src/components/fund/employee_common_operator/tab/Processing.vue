@@ -17,8 +17,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务单类型：" prop="dictTaskCategory">
-                  <Select v-model="operatorSearchData.dictTaskCategory" style="width: 100%;" transfer>
+                <Form-item label="任务单类型：" prop="taskCategory">
+                  <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
                     <Option value="" label="全部"></Option>
                     <Option v-for="item in taskTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
                   </Select>
@@ -192,10 +192,15 @@
                         case '1':
                         case '2':
                         case '3':
+                        case '9':
+                        case '10':
+                        case '11':
                           this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
                           break;
                         case '4':
                         case '5':
+                        case '12':
+                        case '13':
                           this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
                           break;
                         case '6':

@@ -122,7 +122,7 @@
               <!-- 仅新增 -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="起缴月份：">
-                <DatePicker v-model="socialSecurityPayOperator.startMonth" type="month" placeholder="请选择" 
+                <DatePicker v-model="socialSecurityPayOperator.startMonth" type="month" placeholder="请选择"
                             style="width: 100%;"
                             transfer></DatePicker>
               </Form-item>
@@ -133,7 +133,7 @@
               <Form-item label="截至月份：">
 
                 <label>{{socialSecurityPayOperator.endMonth}}</label>
-                <!-- <DatePicker v-model="socialSecurityPayOperator.endMonth"  
+                <!-- <DatePicker v-model="socialSecurityPayOperator.endMonth"
                             type="month"
                             placement="bottom-end"
                             placeholder="请选择"
@@ -267,9 +267,9 @@
                   input: (event) => {
                     this.setRow(params, 'startMonth', event);
                   },
-            
+
                 },
-                
+
               });
             }
           },
@@ -376,6 +376,7 @@
           comAccountId:'',
           taskId:'',
           businessInterfaceId:'',
+          oldAgreementId:'',
           policyDetailId:'',
           welfareUnit:''
         },
@@ -425,9 +426,9 @@
       }
     },
     mounted() {
-      
+
       this.initData(this.$route.query)
-      
+
       if(this.operatorType=='12'||this.operatorType=='13'){
         this.taskCategoryType=[{value: '12', label: '翻牌新进'},{value: '13', label: '翻牌转入'}]
       }else{
@@ -439,7 +440,7 @@
     },
     methods: {
       routerMethed(taskCategory,empTaskId){
-          
+
           // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var name = 'empTaskHandleView';
           switch (taskCategory) {
@@ -475,12 +476,12 @@
             name: name,
             query: {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}
           });
-          } 
+          }
       },
         getYearMonth(date){
-        
+
         if(date==null || date=="")return "";
-        let year = date.getFullYear(); 
+        let year = date.getFullYear();
         let month = date.getMonth()+1;
         if(month>=1 && month<=9){
               month='0'+month
@@ -524,11 +525,11 @@
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
           let handleMonth = this.socialSecurityPayOperator.handleMonth;
-          
+
           if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
             let date = new Date();
             handleMonth=this.getYearMonth(date,'show');
-            
+
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
            //{base: '18000', startMonth: '201712', endYear: ''}
@@ -540,8 +541,8 @@
             this.taskNewInfoData.push(period)
             //获取用退工信息
             this.reworkInfo = data.data.amEmpTaskDTO
-            this.reworkInfo.salary = data.data.salary 
-            console.log(this.socialSecurityPayOperator.theSameTask)             
+            this.reworkInfo.salary = data.data.salary
+            console.log(this.socialSecurityPayOperator.theSameTask)
           }else{
              this.$Message.error(data.message)
           }
@@ -596,7 +597,7 @@
         };
       },
       getRows() {
-        
+
         return this.operatorListData;
       },
       setRow(params, name, value) {
@@ -646,7 +647,7 @@
           }
         }
         let handleType = 'handle'==type || 'save'==type;
-        
+
         let handleMonth = this.yyyyMM(this.socialSecurityPayOperator.handleMonth)
         let startMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == handleMonth
         let handleMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == this.yyyyMM(this.operatorListData[0].startMonth)
@@ -659,13 +660,13 @@
                return;
           }
         }
-        
+
         if(handleType){
             let currentMounth = this.yyyyMM(new Date());
             if(Number(handleMonth)<Number(currentMounth)){
                this.$Message.error("办理月份不能小于当前月份.");
                return;
-            }  
+            }
         }
 
         if(handleType && (!startMonthIsEqual || !handleMonthIsEqual)){
@@ -677,9 +678,9 @@
                   this.$Message.error("起缴月份必须小于或者等于办理月份.");
                   return;
               }
-                
+
           }
-        }  
+        }
         let self= this;
         this.$Modal.confirm({
           title: "操作确认",
@@ -721,7 +722,7 @@
 
             fromData.empTaskPeriods = self.filterData();
             api.handleEmpTask(fromData).then(data => {
-              
+
               if (data.code == 200) {
                 self.$Message.success(content + "成功");
                 if(taskStatus=='2'){

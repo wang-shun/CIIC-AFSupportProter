@@ -154,7 +154,7 @@
                           this.$router.push({name: 'companyTaskProgressTypeInfo', query: {operatorType: '1',tid:params.row.tid}})
                           break;
                         case '转移':
-                          this.$router.push({name: 'companyTaskProgressTransferInfo', query: {operatorType: '2',tid:params.row.tid}})
+                          this.$router.push({name: 'companyTaskProgressTypeInfo', query: {operatorType: '2',tid:params.row.tid}})
                           break;
                         case '变更':
                           this.$router.push({name: 'companyTaskProgressChangeInfo', query: {operatorType: '3',tid:params.row.tid}})

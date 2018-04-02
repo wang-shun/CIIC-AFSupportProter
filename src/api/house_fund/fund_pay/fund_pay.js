@@ -71,14 +71,16 @@ export class FundPay {
             obj.paymentStateValue = i.paymentStateValue
             obj.accountTypeValue = i.accountTypeValue
             obj.paymentBankValue = i.paymentBankValue
+            obj.sumAmount = i.sumAmount
+            obj.payInBackAmount = i.payInBackAmount
+            responseData.data.makePayListInfo.payDate = i.paymentMonth
             responseData.data.makePayListData.push(obj)
           }
-          responseData.data.makePayListInfo.payDate = 'n/a'
-          responseData.data.makePayListInfo.rows = response.data.total
-          responseData.data.makePayListInfo.fundAccounts = 'n/a'
-          responseData.data.makePayListInfo.payAmoun = 'n/a'
-          responseData.data.makePayListInfo.repair = 'n/a'
-          responseData.data.makePayListInfo.amount = 'n/a'
+          responseData.data.makePayListInfo.rows = 0
+          responseData.data.makePayListInfo.fundAccounts = 0
+          responseData.data.makePayListInfo.payAmount = 0
+          responseData.data.makePayListInfo.repair = 0
+          responseData.data.makePayListInfo.amount = 0
 
           responseData.data.totalSize=response.data.total
           responseData.data.code=response.data.code

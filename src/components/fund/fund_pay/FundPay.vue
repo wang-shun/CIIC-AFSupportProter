@@ -229,6 +229,8 @@
           ticketMaker: "",
           payDate: ""
         },
+
+        //todo: 菜单值统一存储维护
         paymentStateList: [
           {label: "全部", value: ''},
           {label: "可付", value: 3},

@@ -31,9 +31,9 @@ let domainJson = {
     //获得汇缴支付编辑数据
     "getFundPaysOperateEditDataUrl":"/api/fundcommandservice/hfFundPay/fundPaysOperateEditData",
     //获得汇缴支付详细数据
-    "getFundPaysOperateDetailDataUrl":"/api/fundcommandservice/hfFundPay/fundPaysOperateDetailData"
+    "getFundPaysOperateDetailDataUrl":"/api/fundcommandservice/hfFundPay/fundPaysOperateDetailData",
 
-    "getMakePayListsUrl":"/api/fundcommandservice/hfFundPay/makePayLists",
+    //"getMakePayListsUrl":"/api/fundcommandservice/hfFundPay/makePayLists",
     //公积金汇缴支付流程操作-送审
     "approvalUrl":"/api/fundcommandservice/hfFundPay/approval",
     //公积金汇缴支付流程操作-汇缴

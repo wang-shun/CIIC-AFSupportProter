@@ -175,7 +175,17 @@
         <Button type="warning" @click="isShowAddFundPayRepairList = false;">返回</Button>
       </div>
     </Modal>
-
+    <Modal
+      v-model="isShowOperateDetail"
+      title="详细"
+      width="960"
+    >
+      <Table border :columns="operateDetailColumns" :data="operateDetailData"></Table>
+      <div slot="footer">
+        <Button type="primary" @click="isShowOperateDetail = false;">汇缴</Button>
+        <Button type="warning" @click="isShowOperateDetail = false;">返回</Button>
+      </div>
+    </Modal>
     <Modal
       v-model="isShowOperateEdit"
       title="编辑"
@@ -205,6 +215,8 @@
       return {
         collapseInfo: [1],
         fundPayData:[],//汇缴支付列表里的数据
+        operateEditData:[],//汇缴支付列表编辑操作数据
+        operateDetailData:[],//汇缴支付列表详细操作数据
         totalSize:0,//后台传过来的分页总数
         size:10,//默认单页记录数
         pageNum:1,//默认页数
@@ -221,6 +233,8 @@
           paymentId:0,
           paymentState:0
         },
+
+        //todo: 菜单值统一存储维护
         paymentStateList: [
           {label: "全部", value: ''},
           {label: "可付", value: 3},
@@ -313,7 +327,81 @@
         isShowAddFundPayChangeList: false,
         isShowFundPayRepairList: false,
         isShowAddFundPayRepairList: false,
+        isShowOperateDetail: false,
         isShowOperateEdit: false,
+        operateDetailColumns: [
+          {type: 'selection', width: 60},
+          {title: '公积金类型', key: 'hfTypeName', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.hfTypeName),
+              ]);
+            }
+          },
+          {title: '汇缴月份', key: 'paymentMonth', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.paymentMonth),
+              ]);
+            }
+          },
+          {title: '公司编号', key: 'companyId', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.companyId),
+              ]);
+            }
+          },
+          {title: '公司名称', key: 'companyName', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.companyName),
+              ]);
+            }
+          },
+          {title: '汇缴银行', key: 'paymentBank', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.paymentBank),
+              ]);
+            }
+          },
+          {title: '汇缴金额', key: 'remittedAmount', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedAmount),
+              ]);
+            }
+          },
+          {title: '补缴金额', key: 'repairAmount', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.repairAmount),
+              ]);
+            }
+          },
+          {title: '汇缴人数', key: 'remittedCountEmp', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedCountEmp),
+              ]);
+            }
+          },
+          {title: '到账金额', key: 'daozhangAmount', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.daozhangAmount),
+              ]);
+            }
+          },
+          {title: '到账人数', key: 'daozhangCountEmp', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.daozhangCountEmp),
+              ]);
+            }
+          }
+        ],
         operateEditColumns: [
           {title: '操作', align: 'center', width: 120,
             render: (h, params) => {
@@ -322,31 +410,31 @@
               ]);
             }
           },
-          {title: '公积金账户名称', key: 'fundAccountName', align: 'center',
+          {title: '公积金账户名称', key: 'comAccountName', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.fundAccountName),
+                h('span', params.row.comAccountName),
               ]);
             }
           },
-          {title: '支付状态', key: 'payStatus', align: 'center', width: 100,
+          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.payStatus),
+                h('span', params.row.paymentStateValue),
               ]);
             }
           },
-          {title: '公积金账户类型', key: 'fundAccountType', align: 'center', width: 200,
+          {title: '公积金账户类型', key: 'accountTypeValue', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.fundAccountType),
+                h('span', params.row.accountTypeValue),
               ]);
             }
           },
-          {title: '结算银行', key: 'settleBank', align: 'center', width: 150,
+          {title: '结算银行', key: 'paymentBankValue', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.settleBank),
+                h('span', params.row.paymentBankValue),
               ]);
             }
           }
@@ -521,13 +609,7 @@
             amount: 7482.00
           },
           maker: "王莺"
-        },
-        operateEditData: [
-          {fundAccountName: "客户1", payStatus: "可付", fundAccountType: "独立户", settleBank: "徐汇建行"},
-          {fundAccountName: "客户2", payStatus: "未到账", fundAccountType: "独立户", settleBank: "徐汇建行"},
-          {fundAccountName: "客户3", payStatus: "无需支付", fundAccountType: "独立户", settleBank: "徐汇建行"},
-          {fundAccountName: "客户4", payStatus: "已付", fundAccountType: "独立户", settleBank: "徐汇建行"}
-        ]
+        }
       }
     },
     mounted() {
@@ -587,9 +669,24 @@
         else this.totalSize = Number(data.data.totalSize)
         this.closeLoading();
       },
-
       closeLoading(){
         this.loading=false;
+      },
+      clickQueryDetailData(){
+        let params = this.getParams(1)
+        FundPay.getFundPaysOperateDetailData(params).then(data=>{
+          this.operateDetailData = data.data.operateDetailData
+        }).catch(error=>{
+          console.log(error)
+        })
+      },
+      clickQueryEditData(){
+        let params = this.getParams(1)
+        FundPay.getFundPaysOperateEditData(params).then(data=>{
+          this.operateEditData = data.data.operateEditData
+        }).catch(error=>{
+          console.log(error)
+        })
       },
       progressClick(stepInfo) {
         console.log(JSON.stringify(stepInfo));
@@ -733,8 +830,11 @@
       operate(name) {
         switch(parseInt(name)) {
           case 0:
+            this.clickQueryDetailData();
+            this.isShowOperateDetail = true;
             break;
           case 1:
+            this.clickQueryEditData();
             this.isShowOperateEdit = true;
             break;
           case 2:

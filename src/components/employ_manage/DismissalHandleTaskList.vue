@@ -133,6 +133,7 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.title),
+                 h('span', params.row.cici),
               ]);
             }
           },

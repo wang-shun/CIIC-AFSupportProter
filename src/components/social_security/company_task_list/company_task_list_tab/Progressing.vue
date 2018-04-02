@@ -142,7 +142,7 @@
           taskTypeList: [
             {value: '', label: '全部'},
             {value: '1', label: '开户'},
-            {value: '2', label: '转移'},
+            {value: '2', label: '转入'},
             {value: '3', label: '变更'},
             {value: '4', label: '终止'},
           ],
@@ -177,8 +177,8 @@
                         //companyTaskProgressTwo 材料页面  现再屏蔽材料页面
                           this.$router.push({name: 'companyTaskProgressTypeInfo', query: {operatorType: '1',tid:params.row.tid}})
                           break;
-                        case '转移':
-                          this.$router.push({name: 'companyTaskProgressTransferInfo', query: {operatorType: '2',tid:params.row.tid}})
+                        case '转入':
+                          this.$router.push({name: 'companyTaskProgressTypeInfo', query: {operatorType: '2',tid:params.row.tid}})
                           break;
                         case '变更':
                           this.$router.push({name: 'companyTaskProgressChangeInfo', query: {operatorType: '3',tid:params.row.tid}})

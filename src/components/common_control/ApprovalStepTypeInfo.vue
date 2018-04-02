@@ -88,7 +88,7 @@
                   <Input v-model="companyOpenAccountOperator.pensionMoneySinglePassWord" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="初期余额：">
                   <Input v-model="companyOpenAccountOperator.originalSum" placeholder="请输入..."></Input>
                 </Form-item>
@@ -97,7 +97,7 @@
                 <Form-item label="初期欠费：">
                   <Input v-model="companyOpenAccountOperator.originalArrears" placeholder="请输入..."></Input>
                 </Form-item>
-              </Col>
+              </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="来源地：">
                   <Select v-model="companyOpenAccountOperator.resourceValue" style="width: 100%;" transfer>
@@ -122,11 +122,11 @@
                   <Input v-model="companyOpenAccountOperator.giveMethodNotes" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="给凭证时间：">
                   <DatePicker v-model="companyOpenAccountOperator.giveProofDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
-              </Col>
+              </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="变更时间：">
                   <DatePicker v-model="companyOpenAccountOperator.changeDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
@@ -208,7 +208,7 @@
 
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                 <Form-item label="办理原因：">
-                  <Input v-model="companyOpenAccountOperator.handleReason" type="textarea" :rows=4 placeholder="请填写办理原因..."></Input>
+                  <Input v-model="companyOpenAccountOperator.handleRemark" type="textarea" :rows=4 placeholder="请填写办理原因..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
@@ -284,8 +284,8 @@
           icbcSearchAccount: '', //工行查询账号
           pensionMoneySingleUserName: '', //养老金独立开户用户名
           pensionMoneySinglePassWord: '', //养老金独立开户密码
-          originalSum: '', //初期余额
-          originalArrears: '', //初期欠费
+          //originalSum: '', //初期余额
+          //originalArrears: '', //初期欠费
           resourceValue: '',
           resourceList: [
             {value: '1', label: '新开'},
@@ -300,7 +300,7 @@
             {value: '3', label: '邮寄'}
           ], //交予方式
           giveMethodNotes: '', //交予方式备注
-          giveProofDate: '', //交予凭证时间
+          //giveProofDate: '', //交予凭证时间
           changeDate: '', //变更时间
           recieveDate: '', //收到日期
           moveInDate: '', //转入日期
@@ -311,7 +311,7 @@
           acceptanceDate: '', //受理日期
           sendCheckDate: '', //送审日期
           finishedDate: '', //完成日期
-          handleReason:'',//办理原因
+          handleRemark:'',//办理原因
           refuseReason: '' //批退原因
         }
       }

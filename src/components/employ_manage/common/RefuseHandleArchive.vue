@@ -83,16 +83,6 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退工反馈2：">
-            {{refuse.resignFeedback2}}
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退工反馈2日期：">
-            {{refuse.resignFeedbackDate2}}
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工操作员：">
             {{refuse.resignOperateMan}}
           </Form-item>
@@ -173,7 +163,7 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="职介反馈日期：">
+          <Form-item label="退工成功日期：">
             {{refuse.jobCentreFeedbackDate}}
           </Form-item>
         </Col>

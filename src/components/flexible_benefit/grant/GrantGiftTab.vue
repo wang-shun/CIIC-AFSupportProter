@@ -81,52 +81,25 @@
           {
             title: '申请时间', key: 'applyTime', align: 'center',
             render: (h, params) => {
-              return this.$utils.formatDate(params.row.applyTime, 'YYYY-MM-DD HH:mm:ss');
+              return h("div",this.$utils.formatDate(params.row.applyTime, 'YYYY-MM-DD HH:mm:ss'));
             }
           },
           {
             title: '审批状态', key: 'approvalStatus', align: 'center',
             render: (h, params) => {
-              switch (params.row.approvalStatus) {
-                case 1:
-                  return "审批中";
-                  break;
-                case 2:
-                  return "同意";
-                  break;
-                case 3:
-                  return "不同意";
-                  break;
-                case 4:
-                  return "部分同意";
-                  break;
-
-              }
+              return h("div",this.getApprovalStatusName(params.row.approvalStatus));
             }
           },
           {
             title: '发放状态', key: 'sendStatus', align: 'center',
             render: (h, params) => {
-              switch (params.row.sendStatus) {
-                case 1:
-                  return "未处理";
-                  break;
-                case 2:
-                  return "已发放";
-                  break;
-                case 3:
-                  return "已批退";
-                  break;
-                case 4:
-                  return "部分发放";
-                  break;
-              }
+              return h("div",this.getSendStatusName(params.row.sendStatus))
             }
           },
           {
             title: '操作', key: 'action', width: 200, align: 'center',
             render: (h, params) => {
-              if ((params.row.approvalStatus === 2 || params.row.approvalStatus === 4) && (params.row.sendStatus === 1 || params.row.sendStatus === 4)) {
+              if ((params.row.approvalStatus === 2 || params.row.approvalStatus === 4) && (params.row.sendStatus === 1)) {
                 return h('div', [
                   h('Button', {
                     props: {type: 'success', size: 'small'},
@@ -211,6 +184,38 @@
         this.searchCondition.size = size;
         this.queryApplyList()
       },
+      getApprovalStatusName(val){
+        switch (val) {
+          case 1:
+            return "未处理";
+            break;
+          case 2:
+            return "已发放";
+            break;
+          case 3:
+            return "已批退";
+            break;
+          case 4:
+            return "部分发放";
+            break;
+        }
+      },
+      getSendStatusName(val){
+        switch (val) {
+          case 1:
+            return "未处理";
+            break;
+          case 2:
+            return "已发放";
+            break;
+          case 3:
+            return "已批退";
+            break;
+          case 4:
+            return "部分发放";
+            break;
+        }
+      }
     }
   }
 </script>

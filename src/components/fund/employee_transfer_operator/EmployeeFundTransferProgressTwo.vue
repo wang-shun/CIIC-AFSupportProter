@@ -24,7 +24,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="缴费区县：">
-                <label>{{this.$decode.hf_paymentBank(displayVO.paymentBankName)}}</label>
+                <label>{{this.$decode.hf_paymentBank(displayVO.paymentBank)}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -52,7 +52,7 @@
                 <label>{{displayVO.customerServicer}}</label>
               </FormItem>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="截单年月（基本）：">
                 <label>{{displayVO.basicEndMonth}}</label>
               </FormItem>
@@ -61,15 +61,15 @@
               <FormItem label="截单年月（补充）：">
                 <label>{{displayVO.addedEndMonth}}</label>
               </FormItem>
-              </Col>
+              </Col> -->
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="付款方式：">
-                <label>{{displayVO.paymentWayName}}</label>
+                <label>{{this.$decode.hf_paymentWay(displayVO.paymentWay)}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="公积金企业U盾：">
-                <label>{{displayVO.ukeyStoreName}}</label>
+                <label>{{this.$decode.hf_accountTempStore(displayVO.ukeyStore)}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -84,7 +84,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="企业账户类型：">
-                <label>{{displayVO.hfAccountTypeName}}</label>
+                <label>{{this.$decode.hf_accountType(displayVO.hfAccountType)}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -149,10 +149,10 @@
                 <Form-item label="转出单位：">
                   <Select v-model="transferNotice.transferOutUnit"
                   filterable
-                remote
-                :remote-method="handleTransferOutSearch"
-                @on-change="handleTransferOutChange"
-                :loading="loading"
+                  remote
+                  :remote-method="handleTransferOutSearch"
+                  @on-change="handleTransferOutChange"
+                  :loading="loading"
                   style="width: 100%;" transfer>
                      <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
                   </Select>
@@ -224,7 +224,7 @@
       <Col :sm="{span:24}" class="tr">
         <Button type="primary" @click="submitTransferTask">保存</Button>
         <Button type="info" @click="printTransferTask">打印转移单</Button>
-        <Button type="default">不需处理</Button>
+        <Button type="default" @click="notHandleTransfer" v-if="this.transferNotice.empTaskId!=null" >不需处理</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -247,7 +247,7 @@
           basicHfComAccount: '',
           addedHfComAccount: '',
           customerCenter: '',
-          paymentBankName: '',
+          paymentBank: '',
           ukeyStoreName: '',
           state: '',
           basicComHfMonth: '',
@@ -294,11 +294,14 @@
           rejectionRemark: '',
           operationRemind: '',
           operationRemindDate: '',
-          canHandle: false
+          canHandle: false,
+          hfType:''
         },
         transferUnitDictList:[],
         transferInUnitList:[],
         transferOutUnitList:[],
+        transferOutUnitAccountList: [],
+        transferInUnitAccountList: [],
         transferNotice:{
           employeeId: '',
           companyId: '',
@@ -313,11 +316,12 @@
           feedbackDate:'',
           operateDate:'',
           handleRemark:'',
+          taskStatus:1,
         },
       }
     },
     mounted() {
-      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
+     // let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
       let params = {employeeId:this.$route.query.employeeId,
                     companyId:this.$route.query.companyId,
                     hfType:this.$route.query.hfType,
@@ -326,24 +330,20 @@
       api.queryComEmpTransferForm(params).then(data => {
         if (data.code == 200) {
           this.displayVO = data.data;
-          this.transferNotice=data.data.empTaskTransferBo;
+          if(data.data.empTaskTransferBo==null){
+            this.transferNotice.companyId=params.companyId;
+            this.transferNotice={};
+          }else{
+            this.transferNotice=data.data.empTaskTransferBo;
 
-          this.operatorListData = data.data.empTaskPeriods;
-          this.taskListNotesChangeData = data.data.empTaskRemarks;
-
-          if (!this.displayVO.taskStatus || this.displayVO.taskStatus == 1) {
-            this.inputDisabled = false;
-          } else {
-             
-            this.inputDisabled = true;
-            this.taskCategoryDisable = true;
-            this.showButton = false;
           }
         } else {
           this.$Message.error(data.message);
         }
-        console.log(this.transferNotice);
-        this.transferNotice.hfType=this.$route.query.hfType;
+        if(this.transferNotice!=null){
+            this.transferNotice.hfType=this.$route.query.hfType;
+            this.transferNotice.transferDate=new Date();
+        }
       });
       dict.getDictData().then(data => {
         if (data.code == 200) {
@@ -352,17 +352,8 @@
             this.transferOutUnitList.push(element);
             this.transferInUnitList.push(element);
           })
-          if (dictTaskCategory > 3) {
-            this.taskCategoryDisable = true;
-          } else {
-            this.taskCategoryDisable = false;
-            
-          }
         } else {
           this.$Message.error(data.message);
-          this.inputDisabled = true;
-          this.taskCategoryDisable = true;
-          this.showButton = false;
         }
       })
     },
@@ -380,22 +371,94 @@
         this.$router.go(-1);
       },
       submitTransferTask(){
-           api.submitTransferTask(this.transferNotice).then(
-             data=>{
-               this.$Message.error(data.message);
-             }
-           ).catch(error=>{
-                console.log(error)
-            });
+        this.convertDate();
+        api.submitTransferTask(this.transferNotice).then(
+          data=>{
+            this.$Message.success(data.message);
+            this.transferNotice.empTaskId=data.data;
+            
+          }
+        ).catch(error=>{
+            console.log(error)
+        });
       },
       notHandleTransfer(){
-           
+        let empTaskId=this.transferNotice.empTaskId;
+        if(empTaskId!=null){
+           api.notHandleTransfer({empTaskId:empTaskId}).then(
+             data=>{
+               if(data.code==200){
+                  data=data.data;
+                  this.$Message.success("不需办理操作成功");
+                  history.go(-1);
+               }
+             }
+           );
+        }
       },
       printTransferTask(){
-        let params={empTaskId:this.transferNotice.empTaskId};
-           api.printTransferTask(params);
+        if(this.checkData()==false){
+          return false;
+        }
+        let empTaskId=this.transferNotice.empTaskId;
+        if(empTaskId==null){
+          this.$Message.error("请先操作保存转移表单信息！");
+          return;
+        }
+        this.$Modal.confirm({
+          title: "你确认操作打印转移通知书吗？",
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () => {
+               this.convertDate();
+                api.submitTransferTask(this.transferNotice).then(
+                  data=>{
+                    if(data.code==200){
+                      this.transferNotice.empTaskId=data.data;
+                      let params={empTaskId:this.transferNotice.empTaskId};
+                      api.printTransferTask(params);
+                    }
+                  }
+                )
+           }
+        })
+      },
+
+      checkData(){
+          if (!this.transferNotice.transferInUnit || this.transferNotice.transferInUnit==''  ) {
+            this.$Message.error("转入单位不能为空！");
+            return false;
+          }
+          if (!this.transferNotice.transferOutUnit || this.transferNotice.transferOutUnit==''  ) {
+            this.$Message.error("转出单位不能为空！");
+            return false;
+          }
+           if (!this.transferNotice.transferInUnitAccount || this.transferNotice.transferInUnitAccount==''  ) {
+            this.$Message.error("转入单位账号不能为空！");
+            return false;
+          }
+          if (!this.transferNotice.transferOutUnitAccount || this.transferNotice.transferOutUnitAccount==''  ) {
+            this.$Message.error("转出单位账号不能为空！");
+            return false;
+          }
+          if (this.transferNotice.transferOutUnit || this.transferNotice.transferInUnit){
+              if(this.transferNotice.transferInUnit==this.transferNotice.transferOutUnit){
+                  this.$Message.error("转出单位和转入单位不可以相同！");
+                  return false;
+              }
+            }
+          return true;
+      },
+      convertDate(){
+        if (this.transferNotice.feedbackDate) {
+          this.transferNotice.feedbackDate = this.$utils.formatDate(this.transferNotice.feedbackDate, "YYYY-MM-DD");
+        }
+        if (this.transferNotice.transferDate) {
+          this.transferNotice.transferDate = this.$utils.formatDate(this.transferNotice.transferDate, "YYYY-MM-DD");
+        }
       },
       handleTransferInSearch(value) {
+        
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
 //        if (this.transferNotice.transferInUnitAccount != '') {
 //          return true;
@@ -403,6 +466,7 @@
 //        return false;
       },
       handleTransferOutSearch(value) {
+       
         this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
 //        if (this.transferNotice.transferOutUnitAccount != '') {
 //          return true;
@@ -410,7 +474,7 @@
 //        return false;
       },
       handleTransferOutChange(value) {
-        this.transferNotice.transferOutUnitAccount = '';
+        //this.transferNotice.transferOutUnitAccount = '';
         this.transferOutUnitList.forEach((element, index, array) => {
             if (element == value) {
               this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
@@ -420,7 +484,7 @@
         )
       },
       handleTransferInChange(value) {
-        this.transferNotice.transferInUnitAccount = '';
+       // this.transferNotice.transferInUnitAccount = '';
         this.transferInUnitList.forEach((element, index, array) => {
             if (element == value) {
               this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
@@ -428,8 +492,12 @@
             }
           }
         )
+        //    this.transferInUnitList.push(value);
+        //    this.transferNotice.transferInUnit = value;
+        //  alert(this.transferNotice.transferInUnit );
       },
       doSearch(value, unitList, unitAccountList, type) {
+     
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;
@@ -441,7 +509,7 @@
           api.comAccountQuery(
             {
               comAccountName: value,
-              hfType: this.displayVO.hfType,
+              hfType: this.transferNotice.hfType,
             }
           ).then(
             data => {

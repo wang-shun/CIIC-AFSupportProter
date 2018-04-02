@@ -4,12 +4,12 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="材料提交人：">
-            {{materials.materialCommiter}}
+            {{materials.submitName}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="分机号：">
-            {{materials.extNumber}}
+            {{materials.phone}}
           </Form-item>
         </Col>
       </Row>
@@ -54,7 +54,7 @@ import api from '../../../api/employ_manage/hire_operator'
           {title: '前道提交时间', key: 'beforeCommitDate', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.submitDate),
+                h('span', params.row.submitterDate),
               ]);
             }
           },

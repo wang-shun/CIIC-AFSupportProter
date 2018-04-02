@@ -24,19 +24,22 @@
                 </Select>
               </Form-item>
               </Col>
-              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保险公司" prop="">
-                <Select value="1" :clearable="true">
-                  <Option v-for="item in taskStatusCom" :value="item.value" :key="item.value">
-                    {{item.label}}
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保险公司" prop="insuranceCompany">
+                <Select v-model="formItem.insuranceCompany" :clearable="true"
+                        @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
+                  <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
+                          :key="item.insuranceCompanyId">
+                    {{item.insuranceCompanyName}}
                   </Option>
                 </Select>
               </Form-item>
-              </Col>-->
+              </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保险项目" prop="afProductId">
+              <Form-item label="保单" prop="afProductId">
                 <Select v-model="formItem.afProductId" :clearable="true">
-                  <Option v-for="item in taskTypeItem" :value="item.value" :key="item.value">{{item.label}}
+                  <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
+                    {{item.insurancePolicyName}}
                   </Option>
                 </Select>
               </Form-item>
@@ -125,7 +128,7 @@
       <Button type="info" @click="modal2 = true">暂缓</Button>
       <Button type="info" @click="modal3 = true">恢复</Button>
       <Button type="info" @click="modal5 = true">更新在保库</Button>
-      <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
+      <Button type="info" @click="exportData()" icon="ios-download-outline">导出数据</Button>
     </div>
 
     <Modal class="warn-back"
@@ -160,6 +163,7 @@
 
     <Table border
            stripe
+           ref="taskTable"
            :columns="taskColumns"
            :data="taskData"
            @on-selection-change="selectTableData"></Table>
@@ -175,6 +179,7 @@
   import taskExpend from './TaskExpend.vue';
   import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
   import apiAjax from "../../../data/health_medical/task_medica.js";
+  import qs from "qs"
 
   export default {
     components: {taskExpend},
@@ -206,6 +211,7 @@
           companyName: null,
           managementId: null,
           managementName: null,
+          insuranceCompany: "1",
         },
         dealMsg: {
           remark: null
@@ -233,7 +239,7 @@
           {
             title: '保险对象', sortable: true, align: 'center',
             render: (h, params) => {
-              if (params.row.type === 1) {
+              if (params.row.type === 3) {
                 return params.row.employeeName;
               } else {
                 return params.row.associatedInsurantName;
@@ -284,17 +290,20 @@
             }
           }
         ],
+        exportItem: [],
         taskData: [],
         selectData: [],
         taskTypeProperties: task.taskTypeProperties,
-        taskStatusCom: task.taskStatusCom,
-        taskTypeItem: task.taskTypeItem,
+        insuranceCompanyProperties: [],
+        taskTypeItem: [],
         taskStatus: task.taskWaitStatus,
         keyTypeProperties: task.keyTypeProperties
       };
     },
     created() {
       this.getByPage(1);
+      this.queryInsuranceCompanyInfo();
+      this.queryIcProductRelationInfo(this.formItem.insuranceCompany);
     },
     methods: {
       queryTaskPage() {
@@ -330,7 +339,7 @@
           this.$Message.error('请选择数据');
           return;
         }
-        for (let i=0;i<this.selectData.length;i++) {
+        for (let i = 0; i < this.selectData.length; i++) {
           if (this.selectData[i].status !== 4) {
             this.$Message.error('请选择已处理状态的数据');
             return;
@@ -346,7 +355,33 @@
           }
         });
       },
-
+      queryInsuranceCompanyInfo() {
+        apiAjax.queryInsuranceCompany().then(response => {
+          if (response.data.code === 200) {
+            this.insuranceCompanyProperties = response.data.object;
+            this.insuranceCompanyProperties.forEach(item => {
+              item.insuranceCompanyId = item.insuranceCompanyId + "";
+            })
+          }
+        });
+      },
+      queryIcProductRelationInfo(val) {
+        apiAjax.queryIcProductRelation(val).then(response => {
+          if (response.data.code === 200) {
+            this.taskTypeItem = response.data.object;
+            this.taskTypeItem.forEach(item => {
+              item.insuranceProductId = item.insuranceProductId + "";
+            })
+          }
+        });
+      },
+      exportData() {
+        if (this.formItem.afProductId === null) {
+          this.$Message.error("导出数据请先选择保险项目");
+          return;
+        }
+        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?' + qs.stringify(this.formItem)
+      },
       selectTableData(rows) {
         this.selectData = rows;
       },

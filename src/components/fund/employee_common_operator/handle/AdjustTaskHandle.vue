@@ -183,7 +183,7 @@
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="任务类型：">
+              <FormItem label="办理类型：">
                 <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
                   <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
@@ -274,7 +274,6 @@
         loading: false,
         displayVO: {
           empTaskId: 0,
-          dictTaskCategory: 0,
           taskCategory: 0,
           basicHfComAccount: '',
           addedHfComAccount: '',
@@ -356,7 +355,6 @@
         taskReferenceInfoData: [],
         taskCategoryDisable: false,
         taskCategoryList: [],
-
         operationRemindList: [],
         operationRemindDate: '',
         operatorListData: [],
@@ -595,7 +593,7 @@
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
           {title: '备注人', key: 'modifiedDisplayName', align: 'left'},
-          {title: '备注时间', key: 'modifiedTime', align: 'left'},
+          {title: '备注时间', key: 'modifiedTimeFormat', align: 'left'},
           {title: '备注内容', key: 'remark', align: 'left'}
         ],
         taskListNotesChangeData: [],
@@ -619,7 +617,6 @@
         inputData: {
           empTaskId: 0,
           taskStatus: 1,
-          dictTaskCategory: 0,
           taskCategory: 0,
           companyId: '',
           employeeId: '',
@@ -639,9 +636,9 @@
     },
     mounted() {
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
-      let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
-      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
-      let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
+      let hfType = parseInt(localStorage.getItem('employeeFundCommonOperator.hfType'));
+      let taskCategory = parseInt(localStorage.getItem('employeeFundCommonOperator.taskCategory'));
+      let taskStatus = parseInt(localStorage.getItem('employeeFundCommonOperator.taskStatus'));
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
         hfType: hfType,
@@ -692,12 +689,7 @@
             this.transferOutUnitList.push(element);
             this.transferInUnitList.push(element);
           })
-          if (dictTaskCategory > 3) {
-            this.taskCategoryDisable = true;
-          } else {
-            this.taskCategoryDisable = false;
-            this.taskCategoryList.splice(3, this.taskCategoryList.length - 3);
-          }
+          this.taskCategoryDisable = true;
         } else {
           this.$Message.error(data.message);
           this.inputDisabled = true;
@@ -830,7 +822,7 @@
       },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
-        this.inputData.dictTaskCategory = this.displayVO.dictTaskCategory;
+        this.inputData.taskCategory = this.displayVO.taskCategory;
 //        this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
 //        if (this.displayVO.startMonth) {
 //          this.inputData.startMonth = utils.formatDate(this.displayVO.startMonth,"YYYYMM");
@@ -868,7 +860,7 @@
         })
       },
       inputDataCheck() {
-        if (this.displayVO.dictTaskCategory != 1 &&(!this.displayVO.hfEmpAccount || this.displayVO.hfEmpAccount == '')) {
+        if (!this.displayVO.hfEmpAccount || this.displayVO.hfEmpAccount == '') {
           this.$Message.error("公积金账户不能为空");
           return false;
         }

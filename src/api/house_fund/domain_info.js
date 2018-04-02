@@ -33,6 +33,15 @@ let domainJson = {
     //获得汇缴支付详细数据
     "getFundPaysOperateDetailDataUrl":"/api/fundcommandservice/hfFundPay/fundPaysOperateDetailData"
 
+    "getMakePayListsUrl":"/api/fundcommandservice/hfFundPay/makePayLists",
+    //公积金汇缴支付流程操作-送审
+    "approvalUrl":"/api/fundcommandservice/hfFundPay/approval",
+    //公积金汇缴支付流程操作-汇缴
+    "paymentUrl":"/api/fundcommandservice/hfFundPay/payment",
+    //公积金汇缴支付流程操作-出票
+    "ticketUrl":"/api/fundcommandservice/hfFundPay/ticket",
+    //公积金汇缴支付流程操作-回单
+    "receiptUrl":"/api/fundcommandservice/hfFundPay/receipt"
 }
 
 // let getLocation = domainJson.protcal+"://"+domainJson.domain+":"+domainJson.port

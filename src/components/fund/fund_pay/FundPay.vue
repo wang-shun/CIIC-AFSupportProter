@@ -70,16 +70,16 @@
             <DropdownItem name="7">付款凭证打印</DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <Dropdown>
+        <Dropdown @on-click="processOpt">
           <Button type="primary">
             流程制作
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem>送审</DropdownItem>
-            <DropdownItem>汇缴</DropdownItem>
-            <DropdownItem>出票</DropdownItem>
-            <DropdownItem>回单</DropdownItem>
+            <DropdownItem name="0">送审</DropdownItem>
+            <DropdownItem name="1">汇缴</DropdownItem>
+            <DropdownItem name="2">出票</DropdownItem>
+            <DropdownItem name="3">回单</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Dropdown>
@@ -107,7 +107,7 @@
       </Col>
     </Row>
 
-    <Table border ref="fundPay" class="mt20" :columns="fundPayColumns" :data="fundPayData" :loading="loading"></Table>
+    <Table border ref="fundPay" class="mt20" :columns="fundPayColumns" :data="fundPayData" :loading="loading" @on-selection-change="selectChange"></Table>
     <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
 
     <Modal
@@ -228,6 +228,10 @@
           accountTypeValue: 0,
           ticketMaker: "",
           payDate: ""
+        },
+        progressInfo:{
+          paymentId:0,
+          paymentState:0
         },
 
         //todo: 菜单值统一存储维护
@@ -693,6 +697,18 @@
       goMakePayList() {
         this.$router.push({name: 'makePayList'})
       },
+      selectChange(selection) {
+        let me = this;
+        if(selection.length > 0){
+          var item = selection[0];
+          me.progressInfo.paymentId = item.paymentId;
+          me.progressInfo.paymentState = item.paymentState;
+        }
+        else{
+          me.progressInfo.paymentId = 0;
+          me.progressInfo.paymentState = 0;
+        }
+      },
       exportTable(name) {
         switch(parseInt(name)) {
           case 0:
@@ -717,6 +733,100 @@
             break;
         }
       },
+
+
+      processOpt(name){
+        switch(parseInt(name)) {
+          case 0:
+            this.processApproval();
+            break;
+          case 1:
+            this.processPayment();
+            break;
+          case 2:
+            this.processTicket();
+            break;
+          case 3:
+            this.processReceipt();
+            break;
+          default:
+            break;
+        }
+      },
+
+      processApproval(){
+        let me = this;
+        if(me.progressInfo.paymentState == 1 || me.progressInfo.paymentState == 4 ){
+          let params = {
+            paymentId:me.progressInfo.paymentId,
+            operator:""
+          };
+          FundPay.processApproval(params).then(data=>{
+            me.$Message.success(data.message);
+            me.clickQuery();
+          }).catch(error=>{
+            console.log(error)
+          })
+        }
+        else{
+          me.$Message.success("该记录不能送审，请检查!");
+        }
+      },
+      processPayment(){
+        let me = this;
+        if(me.progressInfo.paymentState == 2){
+          let params = {
+            paymentId:me.progressInfo.paymentId,
+            operator:""
+          };
+          FundPay.processPayment(params).then(data=>{
+            me.$Message.success(data.message);
+            me.clickQuery();
+          }).catch(error=>{
+            console.log(error)
+          })
+        }
+        else{
+          me.$Message.success("该记录不能汇缴，请检查!");
+        }
+      },
+      processTicket(){
+        let me = this;
+        if(me.progressInfo.paymentState == 5){
+          let params = {
+            paymentId:me.progressInfo.paymentId,
+            operator:""
+          };
+          FundPay.processTicket(params).then(data=>{
+            me.$Message.success(data.message);
+            me.clickQuery();
+          }).catch(error=>{
+            console.log(error)
+          })
+        }
+        else{
+          me.$Message.success("该记录不能出票，请检查!");
+        }
+      },
+      processReceipt(){
+        let me = this;
+        if(me.progressInfo.paymentState == 6){
+          let params = {
+            paymentId:me.progressInfo.paymentId,
+            operator:""
+          };
+          FundPay.processReceipt(params).then(data=>{
+            me.$Message.success(data.message);
+            me.clickQuery();
+          }).catch(error=>{
+            console.log(error)
+          })
+        }
+        else{
+          me.$Message.success("该记录不能回单，请检查!");
+        }
+      },
+
       operate(name) {
         switch(parseInt(name)) {
           case 0:

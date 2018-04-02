@@ -59,7 +59,7 @@
   </div>
 </template>
 <script>
-  import customerInfo from "./common/CustomerInfo.vue"
+  import customerInfo from "./common/DissCustomerInfo.vue"
   import employeeCompleteInfo from "./common/EmployeeCompleteInfo.vue"
   import employmentInfo from "./common/EmploymentInfo.vue"
   import refuseHandle from "./common/RefuseHandle.vue"
@@ -141,8 +141,6 @@
           refuseHandleDate: "",
           refuseFeedbackValue: "",
           refuseFeedbackDate: "",
-          refuseFeedbackValue2: "",
-          refuseFeedbackDate2: "",
           refuseOperator: "",
           UKeyBorrowDate: "",
           UKeyReturnDate: "",
@@ -189,6 +187,7 @@
           api.queryAmResignDetail(params).then(data=>{
 
             if(data.data.customerInfo){
+             
                 this.customerInfo = data.data.customerInfo;//客户信息
             }
 

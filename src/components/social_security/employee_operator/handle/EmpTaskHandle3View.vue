@@ -266,16 +266,18 @@
         ],
         theSameTaskListColumns:[
           {
-            type: 'selection',
-            width: 60,
-            align: 'center'
-           },
-          {
             title: '任务单ID', key: 'empTaskId', align: 'center', width: 100,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.empTaskId),
-              ]);
+              let taskCategory = params.row.taskCategory
+              let empTaskId  =params.row.empTaskId
+              return h('a', {
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.routerMethed(taskCategory,empTaskId)
+                  }
+                }
+              }, params.row.empTaskId);
             }
           },
           {
@@ -357,6 +359,7 @@
            comAccountId:'',
            taskId:'',
            businessInterfaceId:'',
+           oldAgreementId:'',
            policyDetailId:'',
            welfareUnit:''
         },
@@ -399,10 +402,50 @@
     },
     methods: {
       ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
+
+      routerMethed(taskCategory,empTaskId){
+
+          // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
+          var name = 'empTaskHandleView';
+          switch (taskCategory) {
+            case '1':
+            case '2':
+            case '12':
+            case '13':
+              name = 'empTaskHandleView';
+              break;
+            case '3':
+              name = 'empTaskHandle3View';
+              break;
+            case '4':
+              name = 'empTaskHandle4View';
+              break;
+            case '5':
+            case '6':
+            case '14':
+            case '15':
+              name = 'empTaskHandle5View';
+              break;
+              case '7':
+              name = 'empTaskHandle7View';
+              break;
+            default:
+              name = 'empTaskHandleView'
+          }
+          if(this.$route.name == name){
+              this.$router.push({name:'emprefresh',query:{operatorType:taskCategory,empTaskId: empTaskId,isNextMonth:0,name:name}})
+          }else{
+            // 根据任务类型跳转
+          this.$router.push({
+            name: name,
+            query: {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}
+          });
+          }
+      },
       getYearMonth(date){
-        
+
         if(date==null || date=="")return "";
-        let year = date.getFullYear(); 
+        let year = date.getFullYear();
         let month = date.getMonth()+1;
         if(month>=1 && month<=9){
               month='0'+month
@@ -425,10 +468,10 @@
               this.operatorListData = data.data.empTaskPeriods;
             }else{
               this.operatorListData=[{
-                  remitWay: '1', 
-                  startMonth: data.data.startMonth, 
-                  endMonth: data.data.endMonth, 
-                  baseAmount: data.data.empBase, 
+                  remitWay: '1',
+                  startMonth: data.data.startMonth,
+                  endMonth: data.data.endMonth,
+                  baseAmount: data.data.empBase,
                   disabled: false
                 }]
             }
@@ -443,20 +486,13 @@
             this.$Notice.config({
                   top:80
                 })
-              // if(this.socialSecurityPayOperator.isHaveSameTask=='1'){
-              //     this.$Notice.warning({
-              //         title: '温馨提示',
-              //         desc: '该雇员存在相同类型的未办任务.',
-              //         duration: 0
-              //     });
-              // }
           }else{
             this.$Message.error(data.message)
           }
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          
+
            if(data.data!=null){
             this.employee = data.data;
             this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
@@ -548,9 +584,9 @@
         let handleType = 'handle'==type || 'save'==type;
         if(handleType){
             let handleMonth = this.socialSecurityPayOperator.handleMonth;
-            
+
             let currentMounth = this.yyyyMM(new Date());
-           
+
 
           if('refuse'!= type){
 
@@ -564,13 +600,13 @@
              this.$Message.error("雇员未做新进或者转入,不能办理.");
             return;
           }
-        
+
         }
-          
+
 
           let startMonth = this.operatorListData[0].startMonth;
           let endMonth = this.operatorListData[0].endMonth;
-          
+
           if(startMonth==null || startMonth==""){
             this.$Message.error("起缴月份不能为空.");
             return;
@@ -582,16 +618,16 @@
            if(Number(this.yyyyMM(handleMonth))<Number(currentMounth)){
                this.$Message.error("办理月份不能小于当前月份.");
                return;
-            }  
-            
+            }
+
           if(Number(this.yyyyMM(startMonth))>Number(this.yyyyMM(endMonth)) && (endMonth!=null && endMonth!="")){
             this.$Message.error("起缴月份不能大于截止月份.");
              return;
           }
         }
-        
-        
 
+
+        let self= this;
         this.$Modal.confirm({
          title: "操作确认",
           content: '你确定'+content+'吗?',
@@ -615,16 +651,25 @@
               submitTime.setDate(nextDay);
               fromData.submitTime = this.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');
             }
-            
+
             fromData.empTaskPeriods = this.filterData();
-            
+
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
-                this.$Message.success(content + "成功");
-                // 返回任务列表页面
-                history.go(-1);
+                self.$Message.success(content + "成功");
+                if(taskStatus=='2'){
+                  if(self.socialSecurityPayOperator.theSameTask.length>0){
+                    let taskObj = self.socialSecurityPayOperator.theSameTask[0]
+                    this.routerMethed(taskObj.taskCategory,taskObj.empTaskId);
+                  }else{
+                     // 返回任务列表页面
+                    this.$router.push({name:'employeeOperatorView',})
+                  }
+                }else{
+                    this.$router.push({name:'employeeOperatorView',})
+                }
               } else {
-                this.$Message.error(content + "失败！" + data.message);
+                self.$Message.error(content + "失败！" + data.message);
               }
             })
           }

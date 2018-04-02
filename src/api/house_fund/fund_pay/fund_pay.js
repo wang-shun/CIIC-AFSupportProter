@@ -22,6 +22,8 @@ export class FundPay {
         if(response.data.code=="200"){
           for(let i of response.data.data){
             let obj ={}
+            obj.paymentId = i.paymentId,
+            obj.paymentState = i.paymentState,
             obj.paymentBatchNum=i.paymentBatchNum
             obj.totalApplicationAmonut = i.totalApplicationAmonut
             obj.totalEmpCount = i.totalEmpCount
@@ -172,6 +174,83 @@ export class FundPay {
         }
       })
         .catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
+    })
+  }
+
+  //公积金汇缴支付流程操作-送审
+  static processApproval(params){
+    let url = domainJson.approvalUrl;
+    return new Promise(function(resolve,reject){
+      ajax.post(url, params).then(function (response) {
+        let responseData = {
+            code:"",
+            message:""
+        }
+        responseData.code=response.data.code
+        responseData.message= response.data.message
+        resolve(responseData)
+      }).catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
+    })
+  }
+
+
+  //公积金汇缴支付流程操作-汇缴
+  static processPayment(params){
+    let url = domainJson.paymentUrl;
+    return new Promise(function(resolve,reject){
+      ajax.post(url, params).then(function (response) {
+        let responseData = {
+            code:"",
+            message:""
+        }
+        responseData.code=response.data.code
+        responseData.message= response.data.message
+        resolve(responseData)
+      }).catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
+    })
+  }
+
+  //公积金汇缴支付流程操作-出票
+  static processTicket(params){
+    let url = domainJson.ticketUrl;
+    return new Promise(function(resolve,reject){
+      ajax.post(url, params).then(function (response) {
+        let responseData = {
+            code:"",
+            message:""
+        }
+        responseData.code=response.data.code
+        responseData.message= response.data.message
+        resolve(responseData)
+      }).catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
+    })
+  }
+
+  //公积金汇缴支付流程操作-回单
+  static processReceipt(params){
+    let url = domainJson.receiptUrl;
+    return new Promise(function(resolve,reject){
+      ajax.post(url, params).then(function (response) {
+        let responseData = {
+            code:"",
+            message:""
+        }
+        responseData.code=response.data.code
+        responseData.message= response.data.message
+        resolve(responseData)
+      }).catch(function (error) {
           console.log(error);
           reject(error);
         });

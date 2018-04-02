@@ -54,7 +54,7 @@
         </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="保险结束日期：">
+        <FormItem label="保险截止日期：">
           {{timeToString(row.insuranceEndDate)}}
         </FormItem>
         </Col>

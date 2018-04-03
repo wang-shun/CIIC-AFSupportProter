@@ -150,7 +150,7 @@
     },
     methods: {
       ok() {
-        var row = {};
+        let row = {};
         if (this.currentIndex >= 0) {
           row = this.data[this.currentIndex];
           this.currentValue = this.renderFormat(row);

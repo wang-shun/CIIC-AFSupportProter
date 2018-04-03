@@ -91,7 +91,7 @@
                     <label>{{companyOpenAccountOperator.pensionMoneySinglePassWord}}</label>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="初期余额：">
                     <label>{{companyOpenAccountOperator.originalSum}}</label>
                 </Form-item>
@@ -100,7 +100,7 @@
                 <Form-item label="初期欠费：">
                     <label>{{companyOpenAccountOperator.originalArrears}}</label>
                 </Form-item>
-              </Col>
+              </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="来源地：">
                     <label>{{getResourceValue()}}</label>
@@ -121,11 +121,11 @@
                     <label>{{companyOpenAccountOperator.giveMethodNotes}}</label>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="给凭证时间：">
                      <label>{{companyOpenAccountOperator.giveProofDate}}</label>
                 </Form-item>
-              </Col>
+              </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="变更时间：">
                      <label>{{companyOpenAccountOperator.changeDate}}</label>
@@ -301,13 +301,13 @@
           icbcSearchAccount: '', //工行查询账号
           pensionMoneySingleUserName: '', //养老金独立开户用户名
           pensionMoneySinglePassWord: '', //养老金独立开户密码
-          originalSum: '', //初期余额
-          originalArrears: '', //初期欠费
+          //originalSum: '', //初期余额
+          //originalArrears: '', //初期欠费
           resourceValue: '',
           resourceNotes: '', //来源地备注
           giveMethodValue: '',
           giveMethodNotes: '', //交予方式备注
-          giveProofDate: '', //交予凭证时间
+          //giveProofDate: '', //交予凭证时间
           changeDate: '', //变更时间
           recieveDate: '', //收到日期
           moveInDate: '', //转入日期

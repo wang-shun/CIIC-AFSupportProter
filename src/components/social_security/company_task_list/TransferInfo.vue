@@ -74,7 +74,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                   <Form-item label="办理备注：">
-                       <label>{{transferOperator.handleReason==''?'无':transferOperator.handleReason}}</label>
+                       <label>{{transferOperator.handleRemark==''?'无':transferOperator.handleRemark}}</label>
                   </Form-item>
                 </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
@@ -129,7 +129,7 @@
           sendCheckDate: '',
           finishedDate: '',
           refuseReason: '',
-          handleReason:'',
+          handleRemark:'',
           regionValue: '',
           transferDate: ''
         },

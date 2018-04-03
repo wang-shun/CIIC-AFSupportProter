@@ -97,7 +97,7 @@
       <Row class="mt20">
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="收款方：" prop="payee">
-          <Select v-model="payee" style="width: 100%;" transfer>
+          <Select v-model="payee" style="width: 100%;" transfer filterable >
             <Option v-for="item in payeeList" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
@@ -105,7 +105,7 @@
       </Row>
       <Row class="mt20">
         <Col :sm="{span: 24}" class="tr">
-          <Button type="info" @click="createMakePayList()">生成汇缴支付批次</Button>
+          <Button type="info" @click="createPaymentComList()">生成汇缴支付批次</Button>
           <Button type="warning" @click="goBack">返回</Button>
         </Col>
       </Row>
@@ -130,6 +130,7 @@
           fundAccountType: [],
           paymentBank: []
         },
+        selectedData: [],
         loading: false,
         ruleValidate: {
           paymentMonth: [
@@ -289,16 +290,40 @@
         this.makePayListInfo.repair = payInBackAmount;
         this.makePayListInfo.amount = sumAmount + payInBackAmount;
         this.makePayListInfo.rows = selection.length;
+        console.log(selection);
+        this.resetSelectedData(selection);
       },
-      createMakePayList() {
-        //todo: 用真实页面名字代替 createMakePayList
-        this.$router.push({name: 'createMakePayList', params: {
-          comTaskId: params.row.comTaskId,
-          companyFundAccountInfo: params.row.companyFundAccountInfo,
-          endOperator: params.row.endOperator
+
+      createPaymentComList() {
+        if(this.payee==null || this.payee==''){
+            this.$Message.error('收款方要求必填！');
+            return false;
         }
-        })
-      }
+        if(this.selectedData.length==0){
+            this.$Message.error('请选择查询列表中的公积金账户数据！');
+            return false;
+        }
+          let params = {
+            payee:this.payee,
+            listData:this.selectedData  //
+          };
+          console.log(params);
+           FundPay.createPaymentComList(params).then(data=>{
+            me.$Message.success(data.message);
+            me.clickQuery();
+          }).catch(error=>{
+            console.log(error)
+          })
+      },
+      resetSelectedData(selection) {
+        this.selectedData.length = 0;
+        if(selection) {
+          selection.forEach((element, index, array) => {
+            alert(element.paymentAccountId);
+            this.selectedData.push(element.paymentAccountId);
+          })
+        }
+      },
 
     }
   }

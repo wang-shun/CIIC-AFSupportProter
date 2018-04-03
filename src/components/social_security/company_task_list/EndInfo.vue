@@ -69,7 +69,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                   <Form-item label="办理备注：">
-                      <label>{{endOperator.handleReason}}</label>
+                      <label>{{endOperator.handleRemark}}</label>
                   </Form-item>
                 </Col>
                 <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
@@ -165,7 +165,7 @@
           sendCheckDate: '', //送审日期
           finishedDate: '', //完成日期
           endDate: '',
-          handleReason:'',
+          handleRemark:'',
           refuseReason: ''
         },
          historyRemark:{

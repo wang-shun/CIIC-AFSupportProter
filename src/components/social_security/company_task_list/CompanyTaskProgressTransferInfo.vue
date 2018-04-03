@@ -88,8 +88,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                  <Form-item label="办理备注：" prop="handleReason">
-                    <Input v-model="transferOperator.handleReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
+                  <Form-item label="办理备注：" prop="handleRemark">
+                    <Input v-model="transferOperator.handleRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
                   </Form-item>
                 </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
@@ -216,7 +216,7 @@
           sendCheckDate: '',
           finishedDate: '',
           refuseReason: '',
-          handleReason:'',
+          handleRemark:'',
           regionValue: '',
           transferDate: ''
         },
@@ -243,7 +243,7 @@
           refuseReason:[
                   { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
            ],
-          handleReason:[
+          handleRemark:[
                   { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
           ],
 
@@ -400,7 +400,7 @@
             sendCheckDate: sendCheckDate,
             finishDate: finishDate,
             transferDate:transferDate,
-            handleRemark:formObj.handleReason,
+            handleRemark:formObj.handleRemark,
             settlementArea:formObj.regionValue
            }
            return ssComTaskDTO

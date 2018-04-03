@@ -26,8 +26,8 @@ export class CompanyTaskList{
                       obj.action=""
                       obj.tid = i.comTaskId
                       if(i.taskCategory==1) obj.type='开户'
-                      //1:开户：2：转移 3：变更 4：终止
-                      else if (i.taskCategory==2) obj.type='转移'
+                      //1:开户：2：转入 3：变更 4：终止
+                      else if (i.taskCategory==2) obj.type='转入'
                       else if (i.taskCategory==3) obj.type='变更'
                       else if(i.taskCategory==4)  obj.type='终止'
                       obj.customerId = i.companyId
@@ -78,8 +78,8 @@ export class CompanyTaskList{
                     obj.action=""
                     obj.tid = i.comTaskId
                     if(i.taskCategory==1) obj.type='开户'
-                    //1:开户：2：转移 3：变更 4：终止
-                    else if (i.taskCategory==2) obj.type='转移'
+                    //1:开户：2：转入 3：变更 4：终止
+                    else if (i.taskCategory==2) obj.type='转入'
                     else if (i.taskCategory==3) obj.type='变更'
                     else if(i.taskCategory==4)  obj.type='终止'
                     obj.customerId = i.companyId
@@ -222,7 +222,7 @@ export class CompanyTaskList{
       })
     })
   }
-   //转移任务办理时 修改任务状态或者终止任务单的完成
+   //转入任务办理时 修改任务状态或者终止任务单的完成
    static updateOrTransferTask(params){
     let url =domainJson.updateOrTransferTaskUrl
     return new Promise((resolve,reject)=>{
@@ -230,13 +230,13 @@ export class CompanyTaskList{
         if(response.data.code=="200"){
           resolve(response.data.data)
        }else{
-         reject(Error("转移操作后台异常！"))
+         reject(Error("转入操作后台异常！"))
        }
       })
     })
   }
 
-  //转移任务办理时 修改任务状态或者终止任务单的完成
+  //转入任务办理时 修改任务状态或者终止任务单的完成
   static updateOrChangeTask(params){
     let url =domainJson.updateOrChangeTaskUrl
     return new Promise((resolve,reject)=>{
@@ -244,13 +244,13 @@ export class CompanyTaskList{
         if(response.data.code=="200"){
           resolve(response.data.data)
        }else{
-         reject(Error("转移操作后台异常！"))
+         reject(Error("转入操作后台异常！"))
        }
       })
     })
   }
 
-  //最后一步获得数据 终止和转移 变更
+  //最后一步获得数据 终止和转入 变更
   static theLastStepGetDate(result,type){
 
     let resultData = result.data
@@ -293,7 +293,8 @@ export class CompanyTaskList{
         acceptanceDate: resultData.startHandleDate, //受理日期startHandleDate,sendCheckDate,finishDate
         sendCheckDate: resultData.sendCheckDate, //送审日期
         finishedDate: resultData.finishDate, //完成日期
-        handleReason:resultData.handleRemark,//办理原因
+        submitRemark: resultData.submitRemark,
+        handleRemark:resultData.handleRemark,//办理原因
         refuseReason: resultData.rejectionRemark//批退原因
       }
        if(type=='end'){
@@ -508,13 +509,13 @@ export class CompanyTaskList{
             icbcSearchAccount: isNull?'':ssComAccountBO.queryAccount, //工行查询账号
             pensionMoneySingleUserName: isNull?'':ssComAccountBO.ssUsername, //养老金独立开户用户名
             pensionMoneySinglePassWord: isNull?'':ssComAccountBO.ssPwd, //养老金独立开户密码
-            originalSum: isNull?'':ssComAccountBO.initialBalance, //初期余额
-            originalArrears: isNull?'':ssComAccountBO.initialDebt, //初期欠费
+            //originalSum: isNull?'':ssComAccountBO.initialBalance, //初期余额
+            //originalArrears: isNull?'':ssComAccountBO.initialDebt, //初期欠费
             resourceValue: isNull?'':ssComAccountBO.originPlace,//来源地
             resourceNotes: isNull?'':ssComAccountBO.originPlaceRemark, //来源地备注
             giveMethodValue: isNull?'':ssComAccountBO.deliverWay,//交予方式
             giveMethodNotes: isNull?'':ssComAccountBO.deliverWayRemark, //交予方式备注
-            giveProofDate: isNull || ssComAccountBO.provideCertificateTime==null ?'':ssComAccountBO.provideCertificateTime, //交予凭证时间
+            //giveProofDate: isNull || ssComAccountBO.provideCertificateTime==null ?'':ssComAccountBO.provideCertificateTime, //交予凭证时间
             changeDate: isNull || ssComAccountBO.changeTime==null ?'':ssComAccountBO.changeTime, //变更时间
             recieveDate: isNull || ssComAccountBO.receiveDate==null ?'':ssComAccountBO.receiveDate, //收到日期
             moveInDate: isNull || ssComAccountBO.intoDate==null ?'':ssComAccountBO.intoDate, //转入日期
@@ -527,6 +528,7 @@ export class CompanyTaskList{
             sendCheckDate:result.sendCheckDate==null?'':result.sendCheckDate, //送审日期
             finishedDate:result.finishDate==null?'':result.finishDate, //完成日期
             handleRemark:result.handleRemark==null?'':result.handleRemark,//办理原因
+            submitRemark:result.submitRemark==null?'':result.submitRemark,//发起人备注
             rejectionRemark:result.rejectionRemark==null?'':result.rejectionRemark, //批退原因
             state : isNull || ssComAccountBO.state==null ?'':ssComAccountBO.state
           }

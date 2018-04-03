@@ -222,7 +222,7 @@
             idNum: '',
             companyId: '',
             titile: '',
-            workStatueValue: '',
+            status: '2',
             hfType:'1',
           },
              workStatueList: [
@@ -471,6 +471,7 @@
       },
       handlePageNumNewTask(val) {
         this.pageDataNewTask.pageNum = val;
+        this.createTask.searchCondition.status=2;
         let params = this.createTask.searchCondition
         this.queryTransferForNewTask(params);
       },

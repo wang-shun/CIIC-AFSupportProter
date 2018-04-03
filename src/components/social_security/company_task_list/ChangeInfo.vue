@@ -112,7 +112,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
                   <Form-item label="办理备注：">
-                       <label>{{changeOperator.handleReason==''?'无':changeOperator.handleReason}}</label>
+                       <label>{{changeOperator.handleRemark==''?'无':changeOperator.handleRemark}}</label>
                   </Form-item>
                 </Col>
                 <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
@@ -243,7 +243,7 @@
           acceptanceDate: '', //受理日期
           sendCheckDate: '', //送审日期
           finishedDate: '', //完成日期
-          handleReason:'',
+          handleRemark:'',
           refuseReason: ''
         }
       }

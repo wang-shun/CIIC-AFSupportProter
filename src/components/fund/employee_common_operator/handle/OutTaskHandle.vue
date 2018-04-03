@@ -190,13 +190,6 @@
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="任务单类型：">
-                <Select v-model="displayVO.dictTaskCategory" style="width: 100%;" transfer :disabled="true">
-                  <Option v-for="item in dictTaskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                </Select>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="办理类型：">
                 <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
                   <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
@@ -264,7 +257,6 @@
         isShowPrint: false,
         displayVO: {
           empTaskId: 0,
-          dictTaskCategory: 0,
           taskCategory: 0,
 //          taskCategoryName: '补缴',
           basicHfComAccount: '',
@@ -348,7 +340,6 @@
         taskListNotesChangeData: [],
         taskCategoryDisable: false,
         taskCategoryList: [],
-        dictTaskCategoryList: [],
         transferOutUnitList: [],
         transferNotice: {
           transferOutUnit: '',
@@ -360,7 +351,6 @@
         inputData: {
           empTaskId: 0,
           taskStatus: 1,
-          dictTaskCategory: 0,
           taskCategory: 0,
           companyId: '',
           employeeId: '',
@@ -382,10 +372,9 @@
     },
     mounted() {
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
-      let hfType = localStorage.getItem('employeeFundCommonOperator.hfType');
-//      let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
-      let taskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
-      let taskStatus = localStorage.getItem('employeeFundCommonOperator.taskStatus');
+      let hfType = parseInt(localStorage.getItem('employeeFundCommonOperator.hfType'));
+      let taskCategory = parseInt(localStorage.getItem('employeeFundCommonOperator.taskCategory'));
+      let taskStatus = parseInt(localStorage.getItem('employeeFundCommonOperator.taskStatus'));
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
         hfType: hfType,
@@ -427,16 +416,20 @@
       });
       dict.getDictData().then(data => {
         if (data.code == 200) {
-          this.taskCategoryList = data.data.HFTaskCategory;
-          this.dictTaskCategoryList = data.data.HFLocalTaskCategory;
+          this.taskCategoryList = data.data.HFLocalTaskCategory;
 //          this.operationRemindList = data.data.OperationRemind;
 //          this.transferOutUnitList = data.data.FundOutUnit;
-          if (taskCategory < 5) {
-            this.taskCategoryDisable = true;
-          } else {
+          if (taskCategory >= 12 || taskCategory == 4 || taskCategory == 5) {
             this.taskCategoryDisable = false;
-            this.taskCategoryList.splice(5, this.taskCategoryList.length - 2);
-            this.taskCategoryList.splice(0, 3);
+
+            if (taskCategory >= 12) {
+              this.taskCategoryList.splice(0, 11);
+            } else {
+              this.taskCategoryList.splice(5, this.taskCategoryList.length - 5);
+              this.taskCategoryList.splice(0, 3);
+            }
+          } else {
+            this.taskCategoryDisable = true;
           }
         } else {
           this.$Message.error(data.message);
@@ -547,7 +540,7 @@
       },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
-        this.inputData.dictTaskCategory = this.displayVO.dictTaskCategory;
+        this.inputData.taskCategory = this.displayVO.taskCategory;
 //        this.inputData.operationRemind = this.displayVO.operationRemind;
 //        if (this.displayVO.operationRemindDate) {
 //          this.inputData.operationRemindDate = utils.formatDate(this.displayVO.operationRemindDate,"YYYY-MM-DD");

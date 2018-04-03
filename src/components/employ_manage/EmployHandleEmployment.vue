@@ -68,26 +68,26 @@
       return {
         collapseInfo: [1, 2, 3, 4, 5, 6, 7],
         customerInfo: {
-          serviceCenter: "浦东",
-          customerNumber: "340078",
-          customerName: "上海XX信息技术有限公司",
-          servicer: "李XX",
-          centerServicer: "李XX",
-          employeeServicer: "李XX",
-          serviceManager: "王XX"
+          serviceCenter: "",
+          customerNumber: "",
+          customerName: "",
+          servicer: "",
+          centerServicer: "",
+          employeeServicer: "",
+          serviceManager: ""
         },
         employeeInfo: {
-          employeeNumber: "GY0001",
-          employeeName: "张三",
-          IdNumber: "35220219781124114",
-          sex: "男",
-          phoneNumber: "GY0001",
-          accountAddress: "XXX路X号xxx",
-          firstInCiicDate: "2014-3-3",
-          contractStartDate: "2014-3-3",
-          contractEndDate: "2014-3-3",
-          firstContractEffectiveDate: "2014-3-3",
-          position: "司机",
+          employeeNumber: "",
+          employeeName: "",
+          IdNumber: "",
+          sex: "",
+          phoneNumber: "",
+          accountAddress: "",
+          firstInCiicDate: "",
+          contractStartDate: "",
+          contractEndDate: "",
+          firstContractEffectiveDate: "",
+          position: "",
           isUnlimitedContract: "",
           unitProperty: "",
           sendCondemnationYears: "",
@@ -107,8 +107,8 @@
           companySpecialCase: ""
         },
         employmentMaterial: {
-          materialCommiter: "XXX",
-          extNumber: "7894",
+          submitName: "",
+          phone: "",
           materialsData: [],
           reasonValue: "",
           reasonList: []
@@ -166,8 +166,8 @@
                 this.customerInfo = data.data.customerInfo;
               }
               
-              if(data.data.materialList){
-                  this.employmentMaterial.materialsData = data.data.materialList;
+              if(data.data.amMaterialBO){
+                  this.employmentMaterial = data.data.amMaterialBO;
               }
              
               if(data.data.amEmploymentBO){

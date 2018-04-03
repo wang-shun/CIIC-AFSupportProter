@@ -232,7 +232,7 @@
                        refuseReason:[
                           { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
                        ],
-                       handleReason:[
+                       handleRemark:[
                          { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
                        ]
                 },

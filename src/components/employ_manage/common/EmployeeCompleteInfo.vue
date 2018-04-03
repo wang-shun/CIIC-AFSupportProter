@@ -64,7 +64,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="单位性质：">
-            {{employee.unitProperty}}
+            {{employee.companyType}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -114,17 +114,17 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey状态：">
-            {{employee.ukey}}
+            {{employee.keyStatus}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey编号：">
-            {{employee.ukey}}
+            {{employee.keyCode}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey密码(档案部)：">
-            {{employee.UKeyPasswordD}}
+            {{employee.keyPwd}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -134,7 +134,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="公司特殊情况：">
-            {{employee.companySpecialCase}}
+            {{employee.employSpecial}}
           </Form-item>
         </Col>
       </Row>

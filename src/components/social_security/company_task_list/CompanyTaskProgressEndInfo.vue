@@ -74,8 +74,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                  <Form-item prop="handleReason" label="办理备注：">
-                    <Input v-model="endOperator.handleReason" type="textarea" placeholder="请填写办理备注..." :rows="4"></Input>
+                  <Form-item prop="handleRemark" label="办理备注：">
+                    <Input v-model="endOperator.handleRemark" type="textarea" placeholder="请填写办理备注..." :rows="4"></Input>
                   </Form-item>
                 </Col>
                 <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
@@ -192,7 +192,7 @@
           sendCheckDate: '', //送审日期
           finishedDate: '', //完成日期
           endDate: '',
-          handleReason:'',
+          handleRemark:'',
           refuseReason: ''
         },
          historyRemark:{
@@ -225,7 +225,7 @@
                  refuseReason:[
                   {type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
                  ],
-                 handleReason:[
+                 handleRemark:[
                   { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
                 ]
           }
@@ -400,7 +400,7 @@
             sendCheckDate: sendCheckDate,
             finishDate: finishDate,
             endDate:endDate,
-            handleRemark:formObj.handleReason
+            handleRemark:formObj.handleRemark
            }
            return ssComTaskDTO
       },

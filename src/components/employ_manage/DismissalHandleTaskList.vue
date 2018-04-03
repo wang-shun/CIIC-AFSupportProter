@@ -73,7 +73,7 @@
               ]);
             }
           },
-          {title: '职介反馈日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,
+          {title: '退工成功日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.jobCentreFeedbackDate),
@@ -133,13 +133,14 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.title),
+                 h('span', params.row.cici),
               ]);
             }
           },
-          {title: '客服经理', key: 'serviceManager', align: 'center', width: 150,
+          {title: '客服经理', key: 'leaderShipName', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.serviceManager),
+                h('span', params.row.leaderShipName),
               ]);
             }
           },

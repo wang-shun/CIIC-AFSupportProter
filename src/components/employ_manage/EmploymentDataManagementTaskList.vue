@@ -123,6 +123,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.title),
+                h('span', params.row.cici),
               ]);
             }
           },
@@ -147,24 +148,24 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '客服经理', key: 'serviceManager', align: 'center', width: 150,
+          {title: '客服经理', key: 'leaderShipName', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.serviceManager),
+                h('span', params.row.leaderShipName),
               ]);
             }
           },
-          {title: '客服中心', key: 'serviceCenter', align: 'center', width: 250,
+          {title: '服务中心', key: 'serviceCenter', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.serviceCenter),
               ]);
             }
           },
-          {title: '公司特殊情况', key: 'companySpecialCase', align: 'center', width: 200,
+          {title: '公司特殊情况', key: 'employSpecial', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companySpecialCase),
+                h('span', params.row.employSpecial),
               ]);
             }
           },
@@ -222,7 +223,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               }, params.row.noSign);
             }
           },
-          {title: '已开F单未完成', key: 'finished', align: 'center', width: 220,
+          {title: '用工材料已签收', key: 'finished', align: 'center', width: 220,
             render: (h, params) => {
               return h('a', {
                 attrs:{

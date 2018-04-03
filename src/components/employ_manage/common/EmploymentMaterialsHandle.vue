@@ -186,13 +186,13 @@ import api from '../../../api/employ_manage/hire_operator'
         ],
         employFeedbackList: [
           {value:'0',label:'空'},
-          {value:'1',label:'用工成功'},
-          {value:'2',label:'用工已办查无档'},
-          {value:'3',label:'用工失败'},
-          {value:'4',label:'用工Ukey外借'},
+          {value:'3',label:'用工成功'},
+          {value:'10',label:'用工已办查无档'},
+          {value:'4',label:'用工失败'},
+          {value:'11',label:'Ukey外借'},
           {value:'5',label:'前道要求撤销用工'},
-          {value:'6',label:'用工成功,重复任务单'},
-          {value:'7',label:'用工已办,前道已中止'}
+          {value:'12',label:'用工成功,重复任务单'},
+          {value:'13',label:'用工已办,前道已中止'}
         ],
         transferFeedbackList: [
           {value:'空',label:'空'},

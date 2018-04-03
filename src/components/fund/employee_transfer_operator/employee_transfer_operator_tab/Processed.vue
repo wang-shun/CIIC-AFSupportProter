@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:850px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员转移操作
@@ -12,7 +12,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
+                <Form-item label="雇员编号：" prop="employeeId">
                   <Input v-model="searchCondition.employeeId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -76,9 +76,8 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info">导出</Button>
-
-        <Button type="info">打印转移通知书</Button>
+        <!-- <Button type="info">导出</Button> -->
+        <!-- <Button type="info">打印转移通知书</Button> -->
         <Button type="info" @click="empTaskTransferTxtExport">导出雇员转移TXT</Button>
         <Button type="info"  @click="isUpload=true">批量导入回单日期</Button>
         <Button type="info"  @click="isShowFeedbackDateBatch=true">批量更新回单日期</Button>
@@ -110,7 +109,7 @@
       <div style="text-align: center;">
         <Form :label-width=100 ref="uploadData" :model="uploadData" style="width: 500px">
           <Row type="flex" justify="start">
-            <Col :sm="{span:15}">
+            <Col :sm="{span:12}">
             <Form-item label="批量上传：" prop="uploadFile">
               <div id="loading" class="loading" style="position: absolute; z-index: 999; display: none">
                 <span></span>
@@ -124,6 +123,9 @@
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
               </Upload>
             </Form-item>
+            </Col>
+            <Col :sm="{span:12}">
+                <Button type="info" @click="impTemplate" >下载上传模板</Button>
             </Col>
           </Row>
         </Form>
@@ -431,6 +433,9 @@ import api from '../../../../api/house_fund/employee_task/employee_transfer'
       cancel () {
 
       },
+     impTemplate() {
+      api.impTemplateFile({});
+     },
       multiEmpTaskTransferExport() {
         if (!this.searchCondition.transferOutUnit) {
           this.$Message.error("导出清册需明确转出单位及转入单位");

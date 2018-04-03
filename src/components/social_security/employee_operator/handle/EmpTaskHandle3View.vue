@@ -359,6 +359,7 @@
            comAccountId:'',
            taskId:'',
            businessInterfaceId:'',
+           oldAgreementId:'',
            policyDetailId:'',
            welfareUnit:''
         },
@@ -403,7 +404,7 @@
       ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
 
       routerMethed(taskCategory,empTaskId){
-          
+
           // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var name = 'empTaskHandleView';
           switch (taskCategory) {
@@ -439,12 +440,12 @@
             name: name,
             query: {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}
           });
-          } 
+          }
       },
       getYearMonth(date){
-        
+
         if(date==null || date=="")return "";
-        let year = date.getFullYear(); 
+        let year = date.getFullYear();
         let month = date.getMonth()+1;
         if(month>=1 && month<=9){
               month='0'+month
@@ -467,10 +468,10 @@
               this.operatorListData = data.data.empTaskPeriods;
             }else{
               this.operatorListData=[{
-                  remitWay: '1', 
-                  startMonth: data.data.startMonth, 
-                  endMonth: data.data.endMonth, 
-                  baseAmount: data.data.empBase, 
+                  remitWay: '1',
+                  startMonth: data.data.startMonth,
+                  endMonth: data.data.endMonth,
+                  baseAmount: data.data.empBase,
                   disabled: false
                 }]
             }
@@ -491,7 +492,7 @@
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          
+
            if(data.data!=null){
             this.employee = data.data;
             this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
@@ -583,9 +584,9 @@
         let handleType = 'handle'==type || 'save'==type;
         if(handleType){
             let handleMonth = this.socialSecurityPayOperator.handleMonth;
-            
+
             let currentMounth = this.yyyyMM(new Date());
-           
+
 
           if('refuse'!= type){
 
@@ -599,13 +600,13 @@
              this.$Message.error("雇员未做新进或者转入,不能办理.");
             return;
           }
-        
+
         }
-          
+
 
           let startMonth = this.operatorListData[0].startMonth;
           let endMonth = this.operatorListData[0].endMonth;
-          
+
           if(startMonth==null || startMonth==""){
             this.$Message.error("起缴月份不能为空.");
             return;
@@ -617,15 +618,15 @@
            if(Number(this.yyyyMM(handleMonth))<Number(currentMounth)){
                this.$Message.error("办理月份不能小于当前月份.");
                return;
-            }  
-            
+            }
+
           if(Number(this.yyyyMM(startMonth))>Number(this.yyyyMM(endMonth)) && (endMonth!=null && endMonth!="")){
             this.$Message.error("起缴月份不能大于截止月份.");
              return;
           }
         }
-        
-        
+
+
         let self= this;
         this.$Modal.confirm({
          title: "操作确认",
@@ -650,9 +651,9 @@
               submitTime.setDate(nextDay);
               fromData.submitTime = this.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');
             }
-            
+
             fromData.empTaskPeriods = this.filterData();
-            
+
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 self.$Message.success(content + "成功");

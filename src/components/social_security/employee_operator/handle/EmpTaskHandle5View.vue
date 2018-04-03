@@ -138,7 +138,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton && isNextMonth==0">转下月处理</Button> 
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton && isNextMonth==0">转下月处理</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton">办理</Button>
       <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton">批退</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','save')" v-if="showButton">暂存</Button>
@@ -160,7 +160,7 @@
     data() {
       //办理日期
       const validateHandleMonth =(rule, value, callback)=>{
-            
+
             let self= this
             let handleMonth = self.socialSecurityPayOperator.handleMonth;
             if(handleMonth==null || typeof(handleMonth)=='undefined' || handleMonth==""){
@@ -179,7 +179,7 @@
       }
       //截止月份
     const validateEndMonth=(rule, value, callback)=>{
-            
+
             let self= this
             if(value==null || typeof(value)=='undefined' || value==""){
                 return callback(new Error('不能为空.'))
@@ -187,9 +187,9 @@
             //let handleMonth = self.getYearMonth(self.socialSecurityPayOperator.handleMonth);
             //获得上个月的月份
             let lastMonth = self.getLastYearMonth(self.socialSecurityPayOperator.handleMonth);
-       
+
             let valueMonth = self.getYearMonth(self.socialSecurityPayOperator.endMonth);
-  
+
             if(Number(valueMonth)!=Number(lastMonth)){
               return callback(new Error('只能在办理月份前一月.'))
             }
@@ -225,7 +225,7 @@
                 on:{
                   click:()=>{
                     //alert("1")
-                    
+
                     // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
                     var name = 'empTaskHandleView';
                     switch (taskCategory) {
@@ -253,9 +253,9 @@
                       default:
                         name = 'empTaskHandleView'
                     }
-                    
+
                     let params = {}
-                      params = {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}                
+                      params = {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}
                     // 根据任务类型跳转
                     this.$router.push({
                       name: name,
@@ -353,6 +353,7 @@
           comAccountId:'',
           taskId:'',
           businessInterfaceId:'',
+          oldAgreementId:'',
           policyDetailId:'',
           welfareUnit:''
         },
@@ -386,9 +387,9 @@
     },
     methods: {
       getYearMonth(date,type){
-        
+
         if(date==null || date=="")return "";
-        let year = date.getFullYear(); 
+        let year = date.getFullYear();
         let month = date.getMonth()+1;
         if(month>=1 && month<=9){
               month='0'+month
@@ -398,18 +399,18 @@
         }else{
           return Number(year+''+month);
         }
-        
+
       },
       getLastYearMonth(date){
-        
+
         if(date==null || date=="")return "";
-        let year = date.getFullYear(); 
+        let year = date.getFullYear();
         let month = date.getMonth();
         if(month>=1 && month<=9){
               month='0'+month
         }
-        
-        return Number(month)==0?(Number(year)-1)+'12':Number(year+''+month) 
+
+        return Number(month)==0?(Number(year)-1)+'12':Number(year+''+month)
       },
       initData(data) {
         this.empTaskId = data.empTaskId;
@@ -426,7 +427,7 @@
 
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
           let handleMonth = this.socialSecurityPayOperator.handleMonth;
-          
+
           if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
             let date = new Date();
             handleMonth=this.getYearMonth(date,'show');
@@ -468,7 +469,7 @@
         }
         return this.$utils.formatDate(date, 'YYYYMM')
       },
-    
+
       instance(taskStatus, type) {
         var fromData = this.$utils.clear(this.socialSecurityPayOperator,'');
 

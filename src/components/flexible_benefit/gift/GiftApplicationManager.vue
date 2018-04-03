@@ -80,7 +80,8 @@
         statusProperties: [
           {
             value: "0", label: "正常"
-          }, {
+          },
+          {
             value: "1", label: "已下架"
           }
         ],
@@ -88,53 +89,29 @@
         giftManagerColumns: [
           {
             title: "礼品名称", sortable: true, key: "giftName", align: "center"
-          }, {
+          },
+          {
             title: "类别", sortable: true, key: "giftType", align: "center",
             render: (h, params) => {
-              switch (params.row.giftType) {
-                case 0:
-                  return "票券";
-                  break;
-                case 1:
-                  return "办公用品";
-                  break;
-                case 2:
-                  return "生活用品";
-                  break;
-                case 3:
-                  return "食品";
-                  break;
-                case 4:
-                  return "饰品";
-                  break;
-                case 5:
-                  return "数码周边";
-                  break;
-                case 6:
-                  return "儿童用品";
-                  break;
-
-              }
+              return h("div",this.getGiftTypeName(params.row.giftType));
             }
-          }, {
+          },
+          {
             title: "价格", sortable: true, key: "price", align: "center"
-          }, {
+          },
+          {
             title: "数量", sortable: true, key: "number", align: "center"
-          }, {
+          },
+          {
             title: "备注", sortable: true, key: "remarks", align: "center"
-          }, {
+          },
+          {
             title: "状态", sortable: true, key: "status", align: "center",
             render: (h, params) => {
-              switch (params.row.status) {
-                case 0:
-                  return "正常";
-                  break;
-                case 1:
-                  return "已下架";
-                  break;
-              }
+              return h("div",this.getGiftStatusName(params.row.status));
             }
-          }, {
+          },
+          {
             title: "操作", key: "action", width: 200, align: "center",
             render: (h, params) => {
               if (params.row.status == '0') {
@@ -194,6 +171,41 @@
         this.formItem.size = size;
         this.query()
       },
+      getGiftTypeName(val){
+        switch (val) {
+          case 0:
+            return "票券";
+            break;
+          case 1:
+            return "办公用品";
+            break;
+          case 2:
+            return "生活用品";
+            break;
+          case 3:
+            return "食品";
+            break;
+          case 4:
+            return "饰品";
+            break;
+          case 5:
+            return "数码周边";
+            break;
+          case 6:
+            return "儿童用品";
+            break;
+        }
+      },
+      getGiftStatusName(val){
+        switch (val) {
+          case 0:
+            return "正常";
+            break;
+          case 1:
+            return "已下架";
+            break;
+        }
+      }
     },
   };
 </script>

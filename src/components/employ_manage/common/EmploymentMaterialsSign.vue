@@ -9,7 +9,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="分机号：">
-            {{materials.phone}}
+            {{materials.extension}}
           </Form-item>
         </Col>
       </Row>

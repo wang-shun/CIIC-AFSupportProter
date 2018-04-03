@@ -4,60 +4,53 @@
       <Panel name="1">
         申请信息
         <div slot="content">
-          <Row class="m10">
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>申请单号: </span>
-            <span>{{ applyRecord.applyRecordId }}</span>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>主题: </span>
-            <span>{{ applyRecord.projectTopics }}</span>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>申请类别:</span>
-            <span>活动申请</span>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>申请人部门: </span>
-            <span>{{ applyRecord.contactDeptName }}</span>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>申请人职位: </span>
-            <span>{{ applyRecord.contactPosition }}</span>
-            </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <span>申请时间: </span>
-            <span>{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}</span>
-            </Col>
-          </Row>
+          <Form :label-width="150">
+            <Row class="m10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请单号: ">{{ applyRecord.applyRecordId }}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="主题: ">{{ applyRecord.projectTopics }}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请类别: ">活动申请</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请人部门: ">{{ applyRecord.contactDeptName }}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请人职位: ">{{ applyRecord.contactPosition }}</Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请时间: ">{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}</Form-item>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Panel>
-    </Collapse>
-
-    <div class="create">
-      申请明细:
-      <Table stripe border :columns="applyDetailColumns" :data="recordDetailList" ref="applyDetailTable"></Table>
-    </div>
-
-    <Collapse v-model="collapseInfo">
       <Panel name="2">
+        申请明细
+        <div slot="content">
+          <Table stripe border :columns="applyDetailColumns" :data="recordDetailList" ref="applyDetailTable"></Table>
+        </div>
+      </Panel>
+      <Panel name="3">
         审批
         <div slot="content">
-          <Row class="m10">
+          <Row>
             <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
-            <Form :label-width=120>
-              <Form-item label="发放备注：">
-                <Input v-model="sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
-                       placeholder=""/>
-              </Form-item>
-            </Form>
+              <Form :label-width=120>
+                <Form-item label="发放备注：">
+                  <Input v-model="sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder=""/>
+                </Form-item>
+              </Form>
             </Col>
           </Row>
           <Row type="flex" justify="start">
             <Col :sm="{span: 24}" class="tr">
-            <Button type="warning" @click="back()">返回</Button>
-            <Button type="primary" @click="grantMarket(2)">发放</Button>
-            <Button type="error" @click="grantMarket(3)">批退</Button>
+              <Button type="warning" @click="back()">返回</Button>
+              <Button type="primary" @click="grantMarket(2)">发放</Button>
+              <Button type="error" @click="grantMarket(3)">批退</Button>
             </Col>
           </Row>
         </div>
@@ -115,6 +108,16 @@
           },
           {
             title: '审批后数量', key: 'approvalNumber', align: 'center',
+            render: (h, params) => {
+              return h("Input",{
+                props:{value: params.row.approvalNumber},
+                on: {
+                  'on-change': (e) => {
+                    this.$set(this.recordDetailList[params.index], 'approvalNumber', e.target.value)
+                  }
+                }
+              });
+            }
           },
           {
             title: '派送地址', key: 'deliveryAddress', align: 'center',
@@ -136,6 +139,7 @@
             }
           }
         ],
+        selection: []
       }
     },
     created() {
@@ -143,6 +147,9 @@
       this.selectMarketGrantInformation(queryData);
     },
     methods: {
+      getSelection(selection) {
+        this.selection = selection;
+      },
       selectMarketGrantInformation(val) {
         apiAjax.queryMarketInformation(val).then(response => {
           this.applyRecord = response.data.object.applyRecord;
@@ -156,14 +163,19 @@
         /**
          * 遍历数据赋值
          */
-        this.recordDetailList.forEach(item => {
+        if (!(this.selection.length > 0)) {
+          this.$Message.error("至少勾选一条记录");
+          return;
+        }
+        this.selection.forEach(item => {
           item.sendStatus = val;
           item.sendTime = new Date();
           item.sendRemark = this.sendRemark;
         });
-        apiAjax.marketGrantUpdate(this.recordDetailList).then(response => {
-          if (response.data.code === 0) {
-            this.$router.push({name: "grantManager"});
+        apiAjax.marketGrantUpdate(this.selection).then(response => {
+          if (parseInt(response.data.code) === 0) {
+            let queryData = JSON.parse(sessionStorage.getItem('marketGrantFormItem'));
+            this.selectMarketGrantInformation(queryData);
           } else {
             this.$Message.error("服务器异常，请稍后再试");
           }
@@ -178,7 +190,3 @@
     }
   }
 </script>
-
-<style>
-
-</style>

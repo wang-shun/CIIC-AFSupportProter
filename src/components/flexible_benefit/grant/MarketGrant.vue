@@ -33,7 +33,7 @@
         申请明细
         <div slot="content">
           <Table stripe border :columns="applyDetailColumns" :data="recordDetailList"
-                 @on-selection-change="getSelection" ref="applyDetailTable"></Table>
+                 @on-selection-change="getSelection" @on-expand="getExpandStatus" ref="applyDetailTable"></Table>
         </div>
       </Panel>
       <Panel name="3">
@@ -116,7 +116,13 @@
                 props: {value: params.row.approvalNumber},
                 on: {
                   'on-change': (e) => {
-                    this.$set(this.recordDetailList[params.index], 'approvalNumber', e.target.value)
+                    const _self = this;
+                    this.$set(this.recordDetailList[params.index], 'approvalNumber', e.target.value);
+                    this.selection.forEach(selector => {
+                      if (selector.index === params.index) {
+                        selector.approvalNumber = parseInt(e.target.value);
+                      }
+                    });
                   }
                 }
               });
@@ -167,7 +173,16 @@
     },
     methods: {
       getSelection(selection) {
-        this.selection = selection;
+        if (selection.length > 0) {
+          const _self = this;
+          this.selection = selection;
+          selection.forEach(selector => {
+            _self.recordDetailList[selector.index]._checked = true;
+          });
+        }
+      },
+      getExpandStatus(row, status) {
+        this.recordDetailList[row.index]._expanded = status;
       },
       selectMarketGrantInformation(val) {
         const CURRENT_USER = JSON.parse(window.sessionStorage.getItem('userInfo'));
@@ -175,8 +190,10 @@
           this.applyRecord = response.data.object.applyRecord;
           this.recordDetailList = response.data.object.recordDetailList;
           for (let i = 0, len = this.recordDetailList.length; i < len; i++) {
-            this.recordDetailList[i]['_disabled'] = this.recordDetailList[i].approvalStatus !== 2;
-
+            this.recordDetailList[i]['index'] = i;
+            this.recordDetailList[i]['_expanded'] = false;
+            this.recordDetailList[i]['_checked'] = false;
+            this.recordDetailList[i]['_disabled'] = this.recordDetailList[i].approvalStatus !== 2 || this.recordDetailList[i].sendStatus !== 1;
           }//for
         }).catch(e => {
           // console.info(e.message);
@@ -199,7 +216,7 @@
         apiAjax.marketGrantUpdate(this.selection).then(response => {
           if (parseInt(response.data.code) === 0) {
             let queryData = JSON.parse(sessionStorage.getItem('marketGrantFormItem'));
-            this.selectMarketGrantInformation(queryData);
+            setTimeout(() => {this.selectMarketGrantInformation(queryData);}, 500)
           } else {
             this.$Message.error("服务器异常，请稍后再试");
           }

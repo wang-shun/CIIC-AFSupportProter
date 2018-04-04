@@ -68,6 +68,7 @@ export class FundPay {
         if(response.data.code=="200"){
           for(let i of response.data.data){
             let obj ={}
+            obj.paymentAccountId= i.paymentAccountId
             obj.comAccountName = i.comAccountName
             obj.hfTypeName = i.hfTypeName
             obj.paymentStateValue = i.paymentStateValue

@@ -187,8 +187,8 @@
           {label: "财务部支付成功", value: 8},
         ],
         payeeList: [
-          {label: "住房资金归集待结算户", value: 1},
-          {label: "上海市公积金管理中心（黄浦支行（1））", value: 2},
+          {label: "住房资金归集待结算户", value: "住房资金归集待结算户"},
+          {label: "上海市公积金管理中心（黄浦支行（1））", value: "上海市公积金管理中心（黄浦支行（1））"},
         ],
         makePayListColumns: [
           {type: 'selection', width: 60},
@@ -268,6 +268,7 @@
       },
       refresh(data){
         this.makePayListData = data.data.makePayListData;
+        console.log(data.data.makePayListData);
         this.makePayListInfo = data.data.makePayListInfo;
         if(typeof(data.data.totalSize)=='undefined') this.totalSize = 0
         else this.totalSize = Number(data.data.totalSize)
@@ -290,7 +291,6 @@
         this.makePayListInfo.repair = payInBackAmount;
         this.makePayListInfo.amount = sumAmount + payInBackAmount;
         this.makePayListInfo.rows = selection.length;
-        console.log(selection);
         this.resetSelectedData(selection);
       },
 
@@ -307,7 +307,6 @@
             payee:this.payee,
             listData:this.selectedData  //
           };
-          console.log(params);
            FundPay.createPaymentComList(params).then(data=>{
             me.$Message.success(data.message);
             me.clickQuery();
@@ -319,7 +318,6 @@
         this.selectedData.length = 0;
         if(selection) {
           selection.forEach((element, index, array) => {
-            alert(element.paymentAccountId);
             this.selectedData.push(element.paymentAccountId);
           })
         }

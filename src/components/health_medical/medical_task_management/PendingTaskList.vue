@@ -376,6 +376,7 @@
         });
       },
       exportData() {
+        debugger
         if (this.formItem.afProductId === null) {
           this.$Message.error("导出数据请先选择保险项目");
           return;

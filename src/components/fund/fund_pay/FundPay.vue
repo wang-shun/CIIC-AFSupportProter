@@ -60,7 +60,7 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem name="0">Excel导出客户汇总</DropdownItem>
+            <!-- <DropdownItem name="0">Excel导出客户汇总</DropdownItem> -->
             <DropdownItem name="1">基本公积金变更清册</DropdownItem>
             <DropdownItem name="2">补充公积金变更清册</DropdownItem>
             <DropdownItem name="3">基本公积金补缴清册</DropdownItem>
@@ -99,9 +99,9 @@
           </Button>
           <DropdownMenu slot="list">
             <DropdownItem name="0">详细</DropdownItem>
-            <DropdownItem name="1">编辑</DropdownItem>
+            <!-- <DropdownItem name="1">编辑</DropdownItem> -->
             <DropdownItem name="2">删除</DropdownItem>
-            <DropdownItem name="3">取消汇缴</DropdownItem>
+            <!-- <DropdownItem name="3">取消汇缴</DropdownItem> -->
           </DropdownMenu>
         </Dropdown>
       </Col>
@@ -182,7 +182,7 @@
     >
       <Table border :columns="operateDetailColumns" :data="operateDetailData"></Table>
       <div slot="footer">
-        <Button type="primary" @click="isShowOperateDetail = false;">汇缴</Button>
+        <!-- <Button type="primary" @click="isShowOperateDetail = false;">汇缴</Button> -->
         <Button type="warning" @click="isShowOperateDetail = false;">返回</Button>
       </div>
     </Modal>
@@ -221,6 +221,7 @@
         size:10,//默认单页记录数
         pageNum:1,//默认页数
         loading: false,
+        currentIndex:-1,
         operatorSearchData: {
           customerNumber: "",
           outAccountBatch: "",
@@ -252,8 +253,23 @@
         ],
         isShowPayProgress: false,
         fundPayColumns: [
-          {type: 'selection', width: 60},
-          {title: '出账批号', key: 'paymentBatchNum', align: 'center', width: 200,
+          // {type: 'selection', width: 60},
+          {
+            title: '', key: '', align: 'center', width: 40,
+            render: (h, params) => {
+              return h('Radio', {
+                props: {
+                  value: this.currentIndex == params.index,
+                },
+                on: {
+                  'on-change': (val) => {
+                    this.currentIndex = params.index
+                  }
+                }
+              }, '');
+            }
+          },
+          {title: '出账批号', key: 'paymentBatchNum', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentBatchNum),
@@ -267,55 +283,56 @@
               ]);
             }
           },
-          {title: '总雇员数', key: 'totalEmpCount', align: 'center', width: 100,
+          {title: '总雇员数', key: 'totalEmpCount', align: 'center', width: 90,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.totalEmpCount),
               ]);
             }
           },
-          {title: '汇缴年月', key: 'paymentMonth', align: 'center', width: 200,
+          {title: '汇缴年月', key: 'paymentMonth', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentMonth),
               ]);
             }
           },
-          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 150,
+          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('a', {
-                  on: {
-                    click: () => {
-                      this.isShowPayProgress = true;
-                    }
-                  }
-                }, params.row.paymentStateValue),
+                 h('span', params.row.paymentStateValue),
+                // h('a', {
+                //   on: {
+                //     click: () => {
+                //       this.isShowPayProgress = true;
+                //     }
+                //   }
+                // }, params.row.paymentStateValue),
               ]);
             }
           },
-          {title: '制单人', key: 'createPaymentUser', align: 'center', width: 150,
+          {title: '制单人', key: 'createPaymentUser', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.createPaymentUser),
               ]);
             }
           },
-          {title: '制单日期', key: 'createPaymentDate', align: 'center', width: 200,
+          {title: '制单日期', key: 'createPaymentDate', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.createPaymentDate),
               ]);
             }
           },
-          {title: '财务支付日期', key: 'financePaymentDate', align: 'center', width: 200,
+          {title: '财务支付日期', key: 'financePaymentDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.financePaymentDate),
               ]);
             }
           },
-          {title: '企业账户类型', key: 'accountTypeValue', align: 'center', width: 159,
+          {title: '企业账户类型', key: 'accountTypeValue', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.accountTypeValue),
@@ -642,9 +659,8 @@
       clickQuery(){
         this.loading=true;
         let params = this.getParams(1)
-        let self = this
         FundPay.getFundPaysTableData(params).then(data=>{
-          self.refresh(data)
+          this.refresh(data)
         }).catch(error=>{
           console.log(error)
         })
@@ -653,14 +669,7 @@
         return {
           pageSize: this.size,
           pageNum: page,
-          params: {
-            // companyId: this.operatorSearchData.companyId,//客户编号
-            paymentBatchNum: (this.operatorSearchData.paymentBatchNum == "" || this.operatorSearchData.paymentBatchNum == null) ? null : this.operatorSearchData.paymentBatchNum,
-            paymentState: (this.operatorSearchData.paymentState == "" || this.operatorSearchData.paymentState == null) ? null : this.operatorSearchData.paymentState,
-            hfAccountType: (this.operatorSearchData.hfAccountType == "" || this.operatorSearchData.hfAccountType == null) ? null : this.operatorSearchData.hfAccountType,
-            createPaymentUser: (this.operatorSearchData.createPaymentUser == "" || this.operatorSearchData.createPaymentUser == null) ? null : this.operatorSearchData.createPaymentUser,
-            paymentMonth: (this.operatorSearchData.paymentMonth == "" || this.operatorSearchData.paymentMonth == null) ? null : this.$utils.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM'),
-          }
+          params:this.operatorSearchData
         }
       },
       refresh(data){
@@ -672,22 +681,7 @@
       closeLoading(){
         this.loading=false;
       },
-      clickQueryDetailData(){
-        let params = this.getParams(1)
-        FundPay.getFundPaysOperateDetailData(params).then(data=>{
-          this.operateDetailData = data.data.operateDetailData
-        }).catch(error=>{
-          console.log(error)
-        })
-      },
-      clickQueryEditData(){
-        let params = this.getParams(1)
-        FundPay.getFundPaysOperateEditData(params).then(data=>{
-          this.operateEditData = data.data.operateEditData
-        }).catch(error=>{
-          console.log(error)
-        })
-      },
+      
       progressClick(stepInfo) {
         console.log(JSON.stringify(stepInfo));
       },
@@ -698,15 +692,15 @@
         this.$router.push({name: 'makePayList'})
       },
       selectChange(selection) {
-        let me = this;
+      
         if(selection.length > 0){
           var item = selection[0];
-          me.progressInfo.paymentId = item.paymentId;
-          me.progressInfo.paymentState = item.paymentState;
+          this.progressInfo.paymentId = item.paymentId;
+          this.progressInfo.paymentState = item.paymentState;
         }
         else{
-          me.progressInfo.paymentId = 0;
-          me.progressInfo.paymentState = 0;
+          this.progressInfo.paymentId = 0;
+          this.progressInfo.paymentState = 0;
         }
       },
       exportTable(name) {
@@ -734,7 +728,16 @@
         }
       },
 
-
+      checkSelect(){
+        let row = {};
+        if (this.currentIndex >= 0) {
+          row = this.fundPayData[this.currentIndex];
+          return row;
+        }else{
+          this.$Message.success("请选择一条记录！");
+          return false;
+        }
+      },
       processOpt(name){
         switch(parseInt(name)) {
           case 0:
@@ -753,98 +756,134 @@
             break;
         }
       },
-
+//支付状态: 1 ,可付(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
       processApproval(){
-        let me = this;
-        if(me.progressInfo.paymentState == 1 || me.progressInfo.paymentState == 4 ){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        if(this.progressInfo.paymentState == 1 || this.progressInfo.paymentState == 4 ){
           let params = {
-            paymentId:me.progressInfo.paymentId,
+            paymentId:row.paymentId,
             operator:""
           };
           FundPay.processApproval(params).then(data=>{
-            me.$Message.success(data.message);
-            me.clickQuery();
+            this.$Message.success(data.message);
+            this.clickQuery();
           }).catch(error=>{
             console.log(error)
           })
-        }
-        else{
-          me.$Message.success("该记录不能送审，请检查!");
+        }else{
+          this.$Message.success("该记录不能送审，请检查!");
         }
       },
       processPayment(){
-        let me = this;
-        if(me.progressInfo.paymentState == 2){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        if(this.progressInfo.paymentState == 2){
           let params = {
-            paymentId:me.progressInfo.paymentId,
+            paymentId:this.progressInfo.paymentId,
             operator:""
           };
           FundPay.processPayment(params).then(data=>{
-            me.$Message.success(data.message);
-            me.clickQuery();
+            this.$Message.success(data.message);
+            this.clickQuery();
           }).catch(error=>{
             console.log(error)
           })
-        }
-        else{
-          me.$Message.success("该记录不能汇缴，请检查!");
+        }else{
+          this.$Message.success("该记录不能汇缴，请检查!");
         }
       },
       processTicket(){
-        let me = this;
-        if(me.progressInfo.paymentState == 5){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        if(this.progressInfo.paymentState == 5){
           let params = {
-            paymentId:me.progressInfo.paymentId,
+            paymentId:this.progressInfo.paymentId,
             operator:""
           };
           FundPay.processTicket(params).then(data=>{
-            me.$Message.success(data.message);
-            me.clickQuery();
+            this.$Message.success(data.message);
+            this.clickQuery();
           }).catch(error=>{
             console.log(error)
           })
-        }
-        else{
-          me.$Message.success("该记录不能出票，请检查!");
+        }else{
+          this.$Message.success("该记录不能出票，请检查!");
         }
       },
       processReceipt(){
-        let me = this;
-        if(me.progressInfo.paymentState == 6){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        if(this.progressInfo.paymentState == 6){
           let params = {
-            paymentId:me.progressInfo.paymentId,
+            paymentId:this.progressInfo.paymentId,
             operator:""
           };
           FundPay.processReceipt(params).then(data=>{
-            me.$Message.success(data.message);
-            me.clickQuery();
+            this.$Message.success(data.message);
+            this.clickQuery();
           }).catch(error=>{
             console.log(error)
           })
-        }
-        else{
-          me.$Message.success("该记录不能回单，请检查!");
+        } else{
+          this.$Message.success("该记录不能回单，请检查!");
         }
       },
-
+      //操作
       operate(name) {
         switch(parseInt(name)) {
           case 0:
             this.clickQueryDetailData();
-            this.isShowOperateDetail = true;
             break;
           case 1:
             this.clickQueryEditData();
-            this.isShowOperateEdit = true;
             break;
           case 2:
+
             break;
           case 3:
             break;
           default:
             break;
         }
-      }
+      },
+      clickQueryDetailData(){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        let params ={
+          pageSize: this.size,
+          pageNum: 1,
+          params:this.row
+        }
+        FundPay.getFundPaysOperateDetailData(params).then(data=>{
+          this.operateDetailData = data.data.operateDetailData
+        }).catch(error=>{
+          console.log(error)
+        })
+          this.isShowOperateDetail = true;
+      },
+      clickQueryEditData(){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        let params ={
+          pageSize: this.size,
+          pageNum: 1,
+          params:this.row
+        }
+        FundPay.getFundPaysOperateEditData(params).then(data=>{
+          this.operateEditData = data.data.operateEditData
+        }).catch(error=>{
+          console.log(error)
+        })
+          this.isShowOperateEdit = true;
+      },
+      
     }
   }
 </script>

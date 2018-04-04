@@ -586,20 +586,19 @@ export default {
     },
     hf_paymentBank: (v) => {
     // 1 徐汇—X、2 西郊—C、3 东方路—P、4 卢湾—L、5 黄浦—H
-        switch (v) {
-        case '1':
-            return '徐汇—X'
-        case '2':
-            return '西郊—C'
-        case '3':
-            return '东方路—P'
-        case '4':
-        case 4:
-            return '卢湾—L'
-        case '5':
-            return '黄浦—H'
-        default:
-            return ''
-        }
+    switch (v) {
+      case '15':
+        return '徐汇—X'
+      case '16':
+        return '西郊—C'
+      case '17':
+        return '东方路—P'
+      case '18':
+        return '卢湾—L'
+      case '0':
+        return '黄浦—H'
+      default:
+        return ''
     }
 }
+};

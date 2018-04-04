@@ -32,11 +32,11 @@
                   <Input v-model="queryItem.companyName" placeholder="请输入"/>
                 </Form-item>
               </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户经理：" prop="manager">
                   <Input v-model="queryItem.manager" placeholder="请输入"/>
                 </Form-item>
-              </i-col>
+              </i-col> -->
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员出生日期：" prop="birthday">
                   <DatePicker type="date"  v-model="queryItem.birthday" placeholder="请选择" transfer></DatePicker>
@@ -54,11 +54,11 @@
                   <Input v-model="queryItem.majordomo" placeholder="请输入"/>
                 </Form-item>
               </i-col> -->
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户经理：" prop="manager">
                   <Input v-model="queryItem.manager" placeholder="请输入"/>
                 </Form-item>
-              </i-col>
+              </i-col> -->
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称：" prop="companyName">
                   <Input v-model="queryItem.companyName" placeholder="请输入"/>
@@ -109,11 +109,11 @@
                   <Input v-model="queryItem.majordomo" placeholder="请输入"/>
                 </Form-item>
               </i-col> -->
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户经理：" prop="manager">
                   <Input v-model="queryItem.manager" placeholder="请输入"/>
                 </Form-item>
-              </i-col>
+              </i-col> -->
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称：" prop="companyName">
                   <Input v-model="queryItem.companyName" placeholder="请输入"/>

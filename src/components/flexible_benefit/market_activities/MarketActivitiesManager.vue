@@ -31,7 +31,7 @@
     </Collapse>
     <div class="tr m20">
       <router-link to="/addActivity">
-        <Button type="info">新增活动</Button>
+        <Button type="primary">新增活动</Button>
       </router-link>
     </div>
     <Table border :columns="marketListColumns" :data="marketListData" ref="marketManagerTable"></Table>
@@ -70,26 +70,19 @@
           {
             title: '开始时间', sortable: true, key: 'beginTime', align: "center",
             render: (h, params) => {
-              return this.$utils.formatDate(params.row.beginTime, 'YYYY-MM-DD');
+              return h('div',params.row.beginTime == null ? '' : this.$utils.formatDate(params.row.beginTime, 'YYYY-MM-DD'));
             }
           },
           {
             title: '结束时间', sortable: true, key: 'endTime', align: "center",
             render: (h, params) => {
-              return this.$utils.formatDate(params.row.endTime, 'YYYY-MM-DD');
+              return h('div',params.row.endTime == null ? '' : this.$utils.formatDate(params.row.endTime, 'YYYY-MM-DD'));
             }
           },
           {
             title: '状态', sortable: true, key: 'status', align: "center",
             render: (h, params) => {
-              switch (params.row.status) {
-                case 0:
-                  return "进行中";
-                  break;
-                case 1:
-                  return "已结束";
-                  break;
-              }
+              return h('div',this.getMarketActivityStatus(params.row.status))
             }
           },
           {
@@ -135,25 +128,26 @@
                     }
                   }, '编辑'),
                 ]);
-              } else {
-                return h('div', [
-                  h('Button', {
-                    props: {
-                      type: 'success', size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        this.$router.push({
-                          name: 'addActivity',
-                          params: {
-                            data: params.row
-                          }
-                        });
-                      }
-                    }
-                  }, '申请历史')
-                ]);
               }
+              // else {
+              //   return h('div', [
+              //     h('Button', {
+              //       props: {
+              //         type: 'success', size: 'small'
+              //       },
+              //       on: {
+              //         click: () => {
+              //           this.$router.push({
+              //             name: 'addActivity',
+              //             params: {
+              //               data: params.row
+              //             }
+              //           });
+              //         }
+              //       }
+              //     }, '申请历史')
+              //   ]);
+              // }
             }
           }
         ],
@@ -201,6 +195,14 @@
         this.formItem.pageSize = size;
         this.query()
       },
+      getMarketActivityStatus(val){
+        switch (val) {
+          case 0:
+            return "进行中";
+          case 1:
+            return "已结束";
+        }
+      }
     },
 
 

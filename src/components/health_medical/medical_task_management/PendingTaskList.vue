@@ -159,6 +159,7 @@
            title="更新在保库"
            @on-ok="syncToWarranty"
            ok-text="确认更新">
+      <DatePicker v-model="syncDate" type="date" placeholder="保险确认时间" style="width: 100%"></DatePicker>
     </Modal>
 
     <Table border
@@ -213,6 +214,7 @@
           managementName: null,
           insuranceCompany: "1",
         },
+        syncDate: null,
         dealMsg: {
           remark: null
         },
@@ -345,11 +347,16 @@
             return;
           }
         }
-        apiAjax.syncToWarranty(this.selectData).then(response => {
+
+        let syncData = {};
+        syncData.afTpaTasks = this.selectData;
+        syncData.date = this.syncDate;
+        apiAjax.syncToWarranty(syncData).then(response => {
           if (response.data.object) {
             this.getByPage(1);
             this.dealMsg.remark = null;
             this.$Message.success('更新成功');
+            this.syncDate = null;
           } else {
             this.$Message.error("服务器异常，请稍后再试");
           }

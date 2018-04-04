@@ -99,7 +99,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="公司社保缴费区县：">
-          {{employee.comAccountName}}
+          {{employee.settlementArea}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

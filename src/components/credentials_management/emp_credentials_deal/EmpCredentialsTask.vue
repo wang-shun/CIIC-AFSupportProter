@@ -221,6 +221,8 @@
         contractEndTime: '',
         credentialsType: '',
         credentialsDealType: '',
+        basicProductId: '',
+        templateType: '',
         formItem: {
           education: '',
           materialBackTime: '',
@@ -241,7 +243,8 @@
           perCompanyName: '',
           telephone: '',
           remark: '',
-          materialIds: ''
+          materialIds: '',
+          basicProductId: ''
         }
       }
     },
@@ -262,7 +265,6 @@
     methods: {
       callBack(value){
         if (value != null) {
-          console.log(value)
           this.formItem = value
           this.formItem.perCompanyName = value.companyName
         }
@@ -344,6 +346,8 @@
         params.companyId = params.companyCode
         params.credentialsType = params.credentialsType
         params.credentialsDealType = params.credentialsDealType
+        params.basicProductId = this.formItem.basicProductId
+        params.templateType = this.templateType
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){
                this.$Notice.success({
@@ -368,7 +372,7 @@
         this.$router.go(-1)
       },
       findAll(empCode) {
-        axios.get(host + '/api/empCredentialsDeal//find/task/' + empCode).then(response => {
+        axios.get(host + '/api/empCredentialsDeal/find/task/' + empCode).then(response => {
           if (response.data.errCode === "0") {
             let data = response.data.data
             for(let i in data) {
@@ -395,6 +399,7 @@
               response.data.data.splice(0,0,temp)
             }
             this.empInfo = data
+            console.log("data:"+this.empInfo[0].basicProductId)
           }
         })
       }

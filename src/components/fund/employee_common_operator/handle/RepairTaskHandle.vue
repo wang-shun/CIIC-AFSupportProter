@@ -725,7 +725,7 @@
       },
       setInputData() {
         this.inputData.empTaskId = this.displayVO.empTaskId;
-        this.inputData.dictTaskCategory = this.displayVO.dictTaskCategory;
+        this.inputData.taskCategory = this.displayVO.taskCategory;
         this.inputData.hfEmpAccount = this.displayVO.hfEmpAccount;
         this.inputData.operationRemind = this.displayVO.operationRemind;
         if (this.displayVO.operationRemindDate) {

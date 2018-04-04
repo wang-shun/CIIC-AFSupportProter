@@ -178,6 +178,7 @@ export default {
         pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
       },
       searchCondition: {
+        serviceCenterValue:"",
         employeeId: "",
         hfComAccount: "",
         hfAccountType: "",
@@ -546,6 +547,7 @@ export default {
     //...mapActions("employeeFundSearch", [EventTypes.EMPLOYEEFUNDSEARCHTYPE]),
     resetSearchCondition(name) {
       this.$refs[name].resetFields();
+      this.searchCondition.serviceCenterValue='';
     },
     showInfo(empArchiveId, companyId) {
       this.$router.push({

@@ -115,8 +115,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                  <Form-item label="办理备注：" prop="handleReason">
-                    <Input v-model="changeOperator.handleReason" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
+                  <Form-item label="办理备注：" prop="handleRemark">
+                    <Input v-model="changeOperator.handleRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>
                   </Form-item>
                 </Col>
                 <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
@@ -363,7 +363,7 @@
           acceptanceDate: '', //受理日期
           sendCheckDate: '', //送审日期
           finishedDate: '', //完成日期
-          handleReason:'',
+          handleRemark:'',
           refuseReason: ''
         },
         ruleValidate:{
@@ -403,7 +403,7 @@
           refuseReason:[
                        { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
                        ],
-          handleReason:[
+          handleRemark:[
                        { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
                        ]
         }
@@ -595,7 +595,7 @@
             sendCheckDate: sendCheckDate,
             finishDate: finishDate,
             endDate:endDate,
-            handleRemark:formObj.handleReason,
+            handleRemark:formObj.handleRemark,
             ...changeContext
            }
             

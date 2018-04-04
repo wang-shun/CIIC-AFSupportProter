@@ -88,7 +88,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('3')" v-if="showButton">办理</Button>
-      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>  
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
       <Button type="warning"  @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -254,6 +254,7 @@
            comAccountId:'',
            taskId:'',
            businessInterfaceId:'',
+           oldAgreementId:'',
            policyDetailId:'',
            welfareUnit:''
         },
@@ -302,9 +303,9 @@
         this.sourceFrom = data.sourceFrom;
         this.socialSecurityPayOperator.empTaskId = this.empTaskId;
         var empTaskId = data.empTaskId;
-        
+
         //查询退账金额
-        
+
         let refundAmount = '';
         let disabled = false;
         if('3'== this.source){
@@ -324,9 +325,9 @@
               this.operatorListData = data.data.empTaskPeriods;
             }else{
               this.operatorListData=[{
-                  remitWay: '1', 
-                  startMonth: data.data.startMonth, 
-                  endMonth: data.data.endMonth, 
+                  remitWay: '1',
+                  startMonth: data.data.startMonth,
+                  endMonth: data.data.endMonth,
                   refundAmount:refundAmount,
                   disabled: disabled
                 }]
@@ -346,7 +347,7 @@
               }
           }
         });
-        
+
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
 
            if(data.data!=null){
@@ -445,7 +446,7 @@
             return;
           }
             let handleMonth = this.socialSecurityPayOperator.handleMonth;
-            
+
             if(handleMonth==null || handleMonth==""){
              this.$Message.error("办理月份不能为空.");
              return;
@@ -456,7 +457,7 @@
                return;
             }
         }
-    
+
         let self= this
         this.$Modal.confirm({
           title: "确认办理吗？",
@@ -484,7 +485,7 @@
             }
             //获得时间段
             //fromData.empTaskPeriods = this.filterData();
-            
+
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success(content + "成功");

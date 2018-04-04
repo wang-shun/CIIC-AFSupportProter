@@ -122,7 +122,7 @@
           {
             title: '操作', key: 'action', align: 'center', width: 200,
             render: (h, params) => {
-              if ((params.row.approvalStatus === 2 || params.row.approvalStatus === 4) && (params.row.sendStatus === 1 || params.row.sendStatus === 4)) {
+              if ((params.row.approvalStatus === 2 || params.row.approvalStatus === 4) && (params.row.sendStatus === 1)) {
                 return h('div', [
                   h('Button', {
                     props: {type: 'success', size: 'small'},

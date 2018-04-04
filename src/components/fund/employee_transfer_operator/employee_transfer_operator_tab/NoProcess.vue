@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:850px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员转移操作
@@ -12,7 +12,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeNumber">
+                <Form-item label="雇员编号：" prop="employeeId">
                   <Input v-model="searchCondition.employeeId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -140,7 +140,7 @@
           </Col>
           <Col :sm="{span: 12}">
             <Form-item label="客户名称：">
-              <Input v-model="createTask.searchCondition.companyName" placeholder="请输入..."></Input>
+              <Input v-model="createTask.searchCondition.title" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
@@ -221,14 +221,14 @@
             employeeName: '',
             idNum: '',
             companyId: '',
-            companyName: '',
-            workStatueValue: '',
+            titile: '',
+            status: '2',
             hfType:'1',
           },
              workStatueList: [
               {label: '全部', value: ''},
-              {label: '在职', value: 0},
-              {label: '离职', value: 1}
+              {label: '在职', value: 2},
+              {label: '离职', value: 3}
             ],
           createNewTaskData:[],
           createNewTaskColumns: [
@@ -262,7 +262,7 @@
                 ]);
               }
             },
-            {title: '公司名称', key: 'title', align: 'center', width: 150,
+            {title: '客户名称', key: 'title', align: 'center', width: 150,
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h('span', params.row.title),
@@ -471,6 +471,7 @@
       },
       handlePageNumNewTask(val) {
         this.pageDataNewTask.pageNum = val;
+        this.createTask.searchCondition.status=2;
         let params = this.createTask.searchCondition
         this.queryTransferForNewTask(params);
       },

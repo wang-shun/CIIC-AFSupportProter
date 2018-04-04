@@ -62,7 +62,7 @@
                   <label>{{companySocialSecurityInfo.ssPwd}}</label>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="初期余额：" class="">
                   <label>{{companySocialSecurityInfo.initialBalance}}</label>
                 </Form-item>
@@ -71,7 +71,7 @@
                 <Form-item label="初期欠费：" class="">
                   <label>{{companySocialSecurityInfo.initialDebt}}</label>
                 </Form-item>
-              </Col>
+              </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="来源地：" class="">
                   <label>{{companySocialSecurityInfo.originPlace=='1'?'新开':companySocialSecurityInfo.originPlace=='2'?'AF转入':companySocialSecurityInfo.originPlace=='3'?'其他供应商转入':''}}</label>
@@ -92,11 +92,11 @@
                   <label>{{companySocialSecurityInfo.deliverWayRemark}}</label>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="给凭证时间：" class="">
                   <label>{{companySocialSecurityInfo.provideCertificateTime}}</label>
                 </Form-item>
-              </Col>
+              </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="变更时间：" class="">
                   <label>{{companySocialSecurityInfo.changeTime}}</label>
@@ -223,13 +223,13 @@
           expireDate: '',//社保截止日
           ssUsername: '',//养老金用户名
           ssPwd: '',//养老金密码
-          initialBalance: '',//初期余额
-          initialDebt: '',//初期欠费
+          // initialBalance: '',//初期余额
+          // initialDebt: '',//初期欠费
           originPlace: '',//来源地
           originPlaceRemark: '',//来源地备注
           deliverWay: '',//交予方式
           deliverWayRemark: '',//交予方式备注
-          provideCertificateTime: '',//给凭证时间
+          //provideCertificateTime: '',//给凭证时间
           changeTime: '',//变更时间
           receiveDate: '',//收到日期
           intoDate: '',//转入日期

@@ -84,26 +84,14 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈：">
-            <Select v-model="refuse.resignFeedback1" transfer @on-change="changeEndType">
+            <Select v-model="refuse.resignFeedback" transfer @on-change="changeEndType">
               <Option v-for="item in refuseFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈日期：">
-            <DatePicker v-model="refuse.resignFeedbackDate1" type="date" placeholder="" transfer></DatePicker>
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退工反馈2：">
-            <Select v-model="refuse.resignFeedback2" transfer>
-              <Option v-for="item in refuseFeedbackList2" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退工反馈2日期：">
-            <DatePicker v-model="refuse.resignFeedbackDate2" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.resignFeedbackDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -112,12 +100,12 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="UKey外借日期：">
+          <Form-item label="退工UKey外借日期：">
             <DatePicker v-model="refuse.ukeyBorrowDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="UKey返回日期：">
+          <Form-item label="退工UKey返回日期：">
             <DatePicker v-model="refuse.ukeyReturnDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
@@ -184,13 +172,13 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="职介反馈日期：">
+          <Form-item label="退工成功日期：">
             <DatePicker v-model="refuse.jobCentreFeedbackDate" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工材料交付日期：">
-            <DatePicker v-model="refuse.resignMaterialDeliveryDate" type="date" placeholder=""  transfer></DatePicker>
+            <DatePicker v-model="refuse.resignMaterialDeliveryDate"  type="date" placeholder=""  transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -262,40 +250,34 @@
           {value: '转公司', label: '转公司',disabled:false},
           {value: '转公司/暂存', label: '转公司/暂存',disabled:false},
           {value: '转户口转档', label: '转户口转档',disabled:false},
-          {value: '无档', label: '无档',disabled:false},
-          {value: '退工单自行归档', label: '退工单自行归档',disabled:false},
+          {value: '无档,退工单自行归档', label: '无档,退工单自行归档',disabled:false},
           {value: '用工不调', label: '用工不调',disabled:false},
           {value: '退工不调档', label: '退工不调档',disabled:false},
           {value: '居住证', label: '居住证',disabled:false},
-          {value: '红联自归', label: '红联自归',disabled:false},
-          {value: '退工不调', label: '退工不调',disabled:false},
+          {value: '用工不调,红联自归', label: '用工不调,红联自归',disabled:false},
+          {value: '退工不调,红联自归', label: '退工不调,红联自归',disabled:false},
           {value: '属地管理', label: '属地管理'},
           {value: '农村富裕劳动力', label: '农村富裕劳动力',disabled:false},
           {value: '自开退工单', label: '自开退工单',disabled:false}
         ],
         refuseFeedbackList: [
-          {value: '1', label: '退工成功'},
-          {value: '2', label: '档案未退先退工'},
+          {value: '1', label: '退工任务单签收'},
+          {value: '2', label: '档未到先退工'},
           {value: '3', label: '退工盖章未返回'},
           {value: '4', label: '退工失败'},
           {value: '5', label: '前道要求批退'},
-          {value: '6', label: '自开退工单,未交'},
-          {value: '7', label: '用工已办未反馈'},
-          {value: '8', label: '等翻牌联系单'},
-          {value: '9', label: '退工Ukey外借'},
-          {value: '10', label: '单项服务,原退工成功'},
-          {value: '11', label: '转外地社保,原退工成功'},
-          {value: '12', label: '转人员性质无需退工'},
-          {value: '13', label: '退工成功,改社保'},
-          {value: '14', label: '重复任务单'},
-          {value: '15', label: '等修改备案表'}
-        ],
-        refuseFeedbackList2: [
-           {value: '前道要求批退', label: '前道要求批退'},
-           {value: '重打退工单', label: '重打退工单'},
-           {value: '退工成功', label: '退工成功'},
-           {value: '撤销退工', label: '撤销退工'},
-           {value: '撤销退工等修改表', label: '撤销退工等修改表'}
+          {value: '6', label: '撤销退工'},
+          {value: '7', label: '等修改备案表'},
+          {value: '8', label: '自开退工单,未交'},
+          {value: '9', label: '用工已办未反馈'},
+          {value: '10', label: '等翻牌联系单'},
+          {value: '11', label: '退工Ukey外借'},
+          {value: '12', label: '单项服务,原退工成功'},
+          {value: '13', label: '转外地社保,原退工成功'},
+          {value: '14', label: '转人员性质无需退工'},
+          {value: '15', label: '退工成功,改社保'},
+          {value: '16', label: '重复任务单'}
+         
         ],
         companyGroupTransferDirectionList: [
           {value: '空', label: '空'},
@@ -335,11 +317,8 @@
         if(this.refuseInfo.resignHandleDate){
             fromData.resignHandleDate = this.$utils.formatDate(this.refuseInfo.resignHandleDate, 'YYYY-MM-DD');
         }
-        if(this.refuseInfo.resignFeedbackDate1){
-            fromData.resignFeedbackDate1 = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate1, 'YYYY-MM-DD');
-        }
-        if(this.refuseInfo.resignFeedbackDate2){
-           fromData.resignFeedbackDate2 = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate2, 'YYYY-MM-DD');
+        if(this.refuseInfo.resignFeedbackDate){
+            fromData.resignFeedbackDate = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate, 'YYYY-MM-DD');
         }
         if(this.refuseInfo.ukeyBorrowDate){
             fromData.ukeyBorrowDate = this.$utils.formatDate(this.refuseInfo.ukeyBorrowDate, 'YYYY-MM-DD');
@@ -405,11 +384,8 @@
         if(this.refuseInfo.resignHandleDate){
             fromData.resignHandleDate = this.$utils.formatDate(this.refuseInfo.resignHandleDate, 'YYYY-MM-DD');
         }
-        if(this.refuseInfo.resignFeedbackDate1){
-            fromData.resignFeedbackDate1 = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate1, 'YYYY-MM-DD');
-        }
-        if(this.refuseInfo.resignFeedbackDate2){
-           fromData.resignFeedbackDate2 = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate2, 'YYYY-MM-DD');
+        if(this.refuseInfo.resignFeedbackDate){
+            fromData.resignFeedbackDate = this.$utils.formatDate(this.refuseInfo.resignFeedbackDate, 'YYYY-MM-DD');
         }
         if(this.refuseInfo.ukeyBorrowDate){
             fromData.ukeyBorrowDate = this.$utils.formatDate(this.refuseInfo.ukeyBorrowDate, 'YYYY-MM-DD');
@@ -445,10 +421,7 @@
            case '1':
              return true;
              break;
-           case '10':
-             return true;
-             break;
-           case '11':
+           case '6':
              return true;
              break;
            case '12':
@@ -456,8 +429,11 @@
              break;
            case '13':
              return true;
+             break;
+           case '15':
+             return true;
              break; 
-           case '14':
+           case '16':
              return true;
              break;  
            default:
@@ -475,7 +451,7 @@
              this.endTypeList[2].disabled=true;
 
              this.refuse.printDateR = true;
-
+            
              this.refuseFileDirectionList[0].disabled = true;
              this.refuseFileDirectionList[1].disabled = true;
              this.refuseFileDirectionList[2].disabled = true;
@@ -503,9 +479,6 @@
              this.transferNotesList[12].disabled = true;
              this.transferNotesList[13].disabled = true;
              this.transferNotesList[14].disabled = true;
-             this.transferNotesList[15].disabled = true;
-
-
             
           }else{
              this.endTypeList[0].disabled=false;
@@ -541,7 +514,7 @@
              this.transferNotesList[12].disabled = false;
              this.transferNotesList[13].disabled = false;
              this.transferNotesList[14].disabled = false;
-             this.transferNotesList[15].disabled = false;
+            
 
           }
        }

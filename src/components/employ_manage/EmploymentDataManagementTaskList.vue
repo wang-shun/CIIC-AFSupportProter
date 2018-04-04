@@ -123,6 +123,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.title),
+                h('span', params.row.cici),
               ]);
             }
           },
@@ -222,7 +223,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               }, params.row.noSign);
             }
           },
-          {title: '已开F单未完成', key: 'finished', align: 'center', width: 220,
+          {title: '用工材料已签收', key: 'finished', align: 'center', width: 220,
             render: (h, params) => {
               return h('a', {
                 attrs:{

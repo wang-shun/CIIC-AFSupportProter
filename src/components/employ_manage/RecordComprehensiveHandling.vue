@@ -28,16 +28,6 @@
         show-sizer show-total></Page>
     <Table border :columns="searchResultColumns1" :data="searchResultData1" class="mt20"></Table>
     <Table border :columns="searchResultColumns2" :data="searchResultData2" class="mt20"></Table>
-
-    <!-- <Modal
-      v-model="isShowStockTitle"
-      title="生成入库贴头"
-    >
-      <employee-info :customerInfo="info" v-for="(info, index) in customerInfos" :key="index" :style="{borderBottom: index !== customerInfos.length - 1 ? '1px solid #ccc' : '', marginBottom: index !== customerInfos.length - 1 ? '20px' : ''}"></employee-info>
-      <div slot="footer">
-        <Button type="primary" @click="isShowStockTitle = false;">生成入库贴头</Button>
-      </div>
-    </Modal> -->
   </div>
 </template>
 <script>
@@ -98,7 +88,7 @@
               ]);
             }
           },
-          {title: '职介反馈日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,
+          {title: '退工成功日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.jobCentreFeedbackDate),
@@ -151,6 +141,7 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.title),
+                 h('span', params.row.cici),
               ]);
             }
           },
@@ -271,7 +262,7 @@
               }, params.row.noSign);
             }
           },
-          {title: '已开F单未完成', key: 'finished', align: 'center', width: 220,
+          {title: '用工材料已签收', key: 'finished', align: 'center', width: 220,
             render: (h, params) => {
               return h('a', {
                 attrs:{

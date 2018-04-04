@@ -75,22 +75,17 @@
         <Row type="flex" justify="start">
           <i-col span="12">
             <Form-item label="证件类型：" style="width:400px;" prop="type">
-              <Select v-model="formItem.type" placeholder="请选择" style="width:260px" :label-in-value="labelinvalue" transfer>
-                <Option v-for="(value,key) in this.baseDic.credentialsType" :value="key" :key="key">{{ value }}</Option>
+              <Select v-model="formItem.type" placeholder="请选择" style="width:260px" :label-in-value="labelinvalue" @on-change="taskTypeChange" transfer>
+                <Option v-for="item in this.taskType" :value="item.taskTypeId" :key="item.taskTypeId">{{item.taskTypeName}}</Option>
               </Select>
             </Form-item>    
           </i-col>
         </Row>
         <Row type="flex" justify="start">
            <i-col span="12">
-            <Form-item label="证件办理类型：" style="width:400px;" prop="dealType" v-if="formItem.type === '1'">
+            <Form-item label="证件办理类型：" style="width:400px;" prop="dealType" v-if="formItem.type === '1' || formItem.type === '2'">
               <Select v-model="formItem.dealType" placeholder="请选择" style="width:260px" :label-in-value="labelinvalue" transfer>
-                <Option v-for="(value,key) in this.baseDic.scoreDealType" :value="key" :key="key">{{ value }}</Option>
-              </Select>
-            </Form-item>
-            <Form-item label="证件办理类型：" style="width:400px;" prop="dealType" v-if="formItem.type === '2'">
-              <Select v-model="formItem.dealType" placeholder="请选择" style="width:260px" :label-in-value="labelinvalue" transfer>
-                <Option v-for="(value,key) in this.baseDic.BCardDealType" :value="key" :key="key">{{ value }}</Option>
+                <Option v-for="item in this.taskDealType" :value="item.taskTypeId" :key="item.taskTypeId">{{item.taskTypeName}}</Option>
               </Select>
             </Form-item>    
           </i-col> 
@@ -121,7 +116,18 @@
         pageNum: 1,
         pageSize: 5,
         total: null, 
-        idCardType: '',   
+        idCardType: '',
+        templateType: '',   
+        taskType: {
+          taskTypeId: '',
+          taskTypeName: '',
+          basicProductId:''
+        },
+        taskDealType: {
+          taskTypeId: '',
+          taskTypeName: '',
+          basicProductId:''
+        },
         queryItem: {
           empCode: '',
           empName: '',
@@ -286,6 +292,7 @@
     },
     created () {
       this.find()
+      this.findTaskType()
     },
     methods: {
       find () {
@@ -304,6 +311,16 @@
           this.total = response.data.data.total
         })
       },
+      findTaskType () {
+        axios.get(host + '/api/emp/findTaskType/0').then(response => {
+          this.taskType = response.data.data
+        })
+      },
+      taskTypeChange (val) {
+        axios.get(host + '/api/emp/findTaskType/'+val.value).then(response => {
+          this.taskDealType = response.data.data
+        })
+      },
       handleCurrentChange(val) {
         this.pageNum = val
         this.find()
@@ -315,13 +332,13 @@
         this.$router.push({name: 'empAdd'})
       },
       lookInfo (v) {
-        console.log("v:"+v.idNum)
         this.$router.push({
           name: 'empCredentialsTask', 
           params: {
             data: v,
             type: '',
             dealType: '', 
+            basicProductId: this.taskType.basicProductId,
             isDeal: false
           }
         })
@@ -329,7 +346,6 @@
       ok (value, data) {
         this.$refs[value].validate((valid) => {
           if (valid) {
-            if (this.formItem.type === '1'){
               this.$router.push({
                 name: 'empCredentialsTask', 
                 params: {
@@ -337,25 +353,13 @@
                   type: parseInt(this.formItem.type),
                   typeN: this.$decode.sel_type(parseInt(this.formItem.type)),
                   dealType: parseInt(this.formItem.dealType),
-                  dealTypeN: this.$decode.deal_type1(parseInt(this.formItem.dealType)), 
+                  dealTypeN: this.$decode.deal_type(parseInt(this.formItem.dealType)), 
                   companyId: data.companyCode,
+                  basicProductId: this.taskType.basicProductId,
                   isDeal: true
                 }
               })
-            }else{
-              this.$router.push({
-                name: 'empCredentialsTask', 
-                params: {
-                  data: data,
-                  type: parseInt(this.formItem.type),
-                  typeN: this.$decode.sel_type(parseInt(this.formItem.type)),
-                  dealType: parseInt(this.formItem.dealType),
-                  dealTypeN: this.$decode.deal_type2(parseInt(this.formItem.dealType)), 
-                  companyId: data.companyCode,
-                  isDeal: true
-                }
-              })
-            }
+              console.log("templateType"+data.templateType)    
             this.modal1 = false
           } else {
             this.$Message.error('请选择办证类型!')

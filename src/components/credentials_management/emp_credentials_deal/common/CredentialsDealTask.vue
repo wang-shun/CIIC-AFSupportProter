@@ -95,34 +95,34 @@
         </Row>
         <div class="create"></div>
         <h3>材料收缴</h3>
-        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 1">
+        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 7">
           <CredentialsMaterial1 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial1>
         </div>
-        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 2">
+        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 8">
           <CredentialsMaterial2 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial2>
         </div>
-        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 3">
+        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 9">
           <CredentialsMaterial3 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial3>
         </div>
-        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 4">
+        <div v-if="formItem.credentialsType === 1 && formItem.credentialsDealType === 10">
           <CredentialsMaterial4 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial4>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 5">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 11">
           <CredentialsMaterial5 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial5>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 6">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 12">
           <CredentialsMaterial6 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial6>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 7">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 13">
           <CredentialsMaterial7 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial7>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 8">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 14">
           <CredentialsMaterial8 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial8>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 9">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 15">
           <CredentialsMaterial9 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial9>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 10">
+        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 16">
           <CredentialsMaterial10 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial10>
         </div>
         <div v-if="formItem.credentialsType === 3">
@@ -210,7 +210,7 @@
           menu: null,
           comp:''
         },
-        rowdata: {},
+        rowdata: {basicProductId:''},
         formItem: {
           credentialsType: '',
           credentialsDealType: '',
@@ -349,6 +349,7 @@
           this.formItem.credentialsDealType = value.credentialsDealType
           this.rowdata = {...value}
           this.$emit("backRow", this.rowdata)
+          console.log("rowdata:"+this.rowdata.basicProductId)
           this.selectCompanyExt(value.credentialsType,value.companyCode)
           if (value.credentialsDealType != null && value.credentialsDealType != ""){
             this.createMeterialsMenu(value.credentialsType.toString(),value.credentialsDealType.toString())
@@ -386,11 +387,9 @@
           axios.get(host + '/api/materials/find/'+taskId).then(response => {
             if (response.data.errCode == '0') {
               this.meterials.info = response.data.data
-              console.log("lev00"+this.meterials.info.lev00)
             } else {
               this.meterials.info = ""
             }
-            console.log("meterials："+this.meterials.info)
           }).catch((error) => {
             this.meterials.info = response.data.data
           })

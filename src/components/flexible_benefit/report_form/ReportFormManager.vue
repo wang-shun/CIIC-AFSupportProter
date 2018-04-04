@@ -49,11 +49,11 @@
                   <Input v-model="queryItem.companyId" placeholder="请输入"/>
                 </Form-item>
               </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户总监：" prop="majordomo">
                   <Input v-model="queryItem.majordomo" placeholder="请输入"/>
                 </Form-item>
-              </i-col>
+              </i-col> -->
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户经理：" prop="manager">
                   <Input v-model="queryItem.manager" placeholder="请输入"/>
@@ -66,14 +66,18 @@
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务产品：" prop="product">
-                  <Input v-model="queryItem.product" placeholder="请输入"/>
+                  <Select v-model="queryItem.product" placeholder="请选择" transfer>
+                    <Option v-for="item in products" :value="item.productId" :key="item.productId">{{item.productName}}</Option>
+                  </Select>
                 </Form-item>
               </i-col>
             </Row>
             <Row type="flex" justify="start" v-if="formTitle === '6'">
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务产品" prop="productName">
-                  <Input v-model="queryItem.productName" placeholder="请输入"/>
+                  <Select v-model="queryItem.product" placeholder="请选择" transfer>
+                    <Option v-for="item in products" :value="item.productId" :key="item.productId">{{item.productName}}</Option>
+                  </Select>
                 </Form-item>
               </i-col>
             </Row>
@@ -100,11 +104,11 @@
                   <Input v-model="queryItem.companyId" placeholder="请输入"/>
                 </Form-item>
               </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户总监：" prop="majordomo">
                   <Input v-model="queryItem.majordomo" placeholder="请输入"/>
                 </Form-item>
-              </i-col>
+              </i-col> -->
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户经理：" prop="manager">
                   <Input v-model="queryItem.manager" placeholder="请输入"/>
@@ -192,6 +196,7 @@
       return {
         collapseInfo: [1],
         queryParam: {},
+        products: {},
         formTitle:'2',
         queryItem: {
           companyId: '',
@@ -207,7 +212,17 @@
         }
       }
     },
+    created() {
+      this.findProducts()
+    },
     methods: {
+      findProducts() {
+        axios.get(host + '/api/reportform/').then(Response => {
+          if (response.data.errCode == "0") {
+            this.products = response.data.data
+          }
+        })
+      },
       exportform(form){
          if (this.formTitle == '2') {
           let bir = form.birthday != "" ? Tools.formatDate(form.birthday, "YYYY-MM-DD") : ""

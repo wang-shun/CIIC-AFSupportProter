@@ -348,8 +348,6 @@
         params.credentialsDealType = params.credentialsDealType
         params.basicProductId = this.formItem.basicProductId
         params.templateType = this.templateType
-        console.log("basicproductId"+this.formItem.basicProductId)
-        console.log("templateType"+this.templateType)
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){
                this.$Notice.success({

@@ -359,7 +359,6 @@
                   isDeal: true
                 }
               })
-              console.log("templateType"+data.templateType)    
             this.modal1 = false
           } else {
             this.$Message.error('请选择办证类型!')

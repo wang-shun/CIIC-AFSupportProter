@@ -349,7 +349,6 @@
           this.formItem.credentialsDealType = value.credentialsDealType
           this.rowdata = {...value}
           this.$emit("backRow", this.rowdata)
-          console.log("rowdata:"+this.rowdata.basicProductId)
           this.selectCompanyExt(value.credentialsType,value.companyCode)
           if (value.credentialsDealType != null && value.credentialsDealType != ""){
             this.createMeterialsMenu(value.credentialsType.toString(),value.credentialsDealType.toString())

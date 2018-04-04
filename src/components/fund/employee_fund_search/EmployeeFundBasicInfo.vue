@@ -330,8 +330,13 @@
         columnsEmpTaskPeriod: [
            {title: '任务类型', key: 'taskCategory', align: 'center',
             render: (h, params) => {
+              let taskCategory=this.$decode.hf_taskCategory(params.row.taskCategory);
+              if(params.row.isChange==1){
+                taskCategory=taskCategory+'(更正)'
+              }
+              
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span',  this.$decode.hf_taskCategory(params.row.taskCategory)),
+                h('span',  taskCategory),
               ]);
             }
           },
@@ -374,8 +379,12 @@
         columnsEmpTaskPeriodAdd: [
            {title: '任务类型', key: 'taskCategory', align: 'center',
             render: (h, params) => {
+              let taskCategory=this.$decode.hf_taskCategory(params.row.taskCategory);
+              if(params.row.isChange==1){
+                taskCategory=taskCategory+'(更正)'
+              }
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', this.$decode.hf_taskCategory(params.row.taskCategory)),
+                h('span', taskCategory),
               ]);
             }
           },
@@ -480,7 +489,6 @@
                     companyId:this.$route.query.companyId
                     };
       api.employeeDetailInfoQuery(params).then(data=>{
-        
           this.viewEmpArchive=data.data.viewEmpArchive
           if(data.data.viewEmpPeriod!=null)
               this.viewEmpPeriod=data.data.viewEmpPeriod
@@ -492,10 +500,6 @@
           this.listEmpTaskPeriodAdd = data.data.listEmpTaskPeriodAdd
           this.listEmpTransfer = data.data.listEmpTransfer
       });
- 
-
-
-
     },
     computed: {
       ...mapState('employeeFundBasicInfo', {

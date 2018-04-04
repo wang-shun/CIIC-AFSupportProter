@@ -170,26 +170,8 @@
           },
           {title: '缴费银行', key: 'paymentBank', align: 'center', width: 200,
             render: (h, params) => {
-              let paymentBank = '';
-              switch (params.row.paymentBank) {
-                case '1':
-                  paymentBank = '徐汇—X';
-                  break;
-                case '2':
-                  paymentBank = '西郊—C';
-                  break;
-                case '3':
-                  paymentBank = '东方路—P';
-                  break;
-                case '4':
-                  paymentBank = '卢湾—L';
-                  break;
-                case '5':
-                  paymentBank = '黄浦—H';
-                  break;
-              }
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', paymentBank),
+                h('span', this.$decode.hf_paymentBank(params.row.paymentBank)),
               ]);
             }
           },

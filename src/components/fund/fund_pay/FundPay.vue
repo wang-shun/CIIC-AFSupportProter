@@ -369,10 +369,10 @@
               ]);
             }
           },
-          {title: '公司名称', key: 'companyName', align: 'center', width: 150,
+          {title: '公司名称', key: 'title', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
+                h('span', params.row.title),
               ]);
             }
           },
@@ -761,11 +761,13 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        if(this.progressInfo.paymentState == 1 || this.progressInfo.paymentState == 4 ){
+        if(row.paymentState == 1 || row.paymentState == 4 ){
           let params = {
             paymentId:row.paymentId,
             operator:""
           };
+ 
+
           FundPay.processApproval(params).then(data=>{
             this.$Message.success(data.message);
             this.clickQuery();
@@ -780,9 +782,9 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        if(this.progressInfo.paymentState == 2){
+        if(row.paymentState == 2){
           let params = {
-            paymentId:this.progressInfo.paymentId,
+            paymentId:row.paymentId,
             operator:""
           };
           FundPay.processPayment(params).then(data=>{
@@ -799,9 +801,9 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        if(this.progressInfo.paymentState == 5){
+        if(row.paymentState == 5){
           let params = {
-            paymentId:this.progressInfo.paymentId,
+            paymentId:row.paymentId,
             operator:""
           };
           FundPay.processTicket(params).then(data=>{
@@ -818,9 +820,9 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        if(this.progressInfo.paymentState == 6){
+        if(row.paymentState == 6){
           let params = {
-            paymentId:this.progressInfo.paymentId,
+            paymentId:row.paymentId,
             operator:""
           };
           FundPay.processReceipt(params).then(data=>{
@@ -837,13 +839,13 @@
       operate(name) {
         switch(parseInt(name)) {
           case 0:
-            this.clickQueryDetailData();
+            this.viewPayment();
             break;
           case 1:
-            this.clickQueryEditData();
+            this.editPayment();
             break;
           case 2:
-
+            this.delPayment();
             break;
           case 3:
             break;
@@ -851,14 +853,14 @@
             break;
         }
       },
-      clickQueryDetailData(){
+      viewPayment(){
         let row;
         row=this.checkSelect();
         if(!row)return false;
         let params ={
-          pageSize: this.size,
+          pageSize: 99999,//暂时这么改，后续把分页去掉
           pageNum: 1,
-          params:this.row
+          params:row
         }
         FundPay.getFundPaysOperateDetailData(params).then(data=>{
           this.operateDetailData = data.data.operateDetailData
@@ -867,14 +869,14 @@
         })
           this.isShowOperateDetail = true;
       },
-      clickQueryEditData(){
+      editPayment(){
         let row;
         row=this.checkSelect();
         if(!row)return false;
         let params ={
-          pageSize: this.size,
+          pageSize: 99999,//暂时这么改，后续把分页去掉
           pageNum: 1,
-          params:this.row
+          params:row
         }
         FundPay.getFundPaysOperateEditData(params).then(data=>{
           this.operateEditData = data.data.operateEditData
@@ -883,7 +885,29 @@
         })
           this.isShowOperateEdit = true;
       },
-      
+      delPayment(){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+      if(row.paymentState != 1 && row.paymentState !=4){
+        this.$Message.success('当前状态，不允许删除！');
+        return false;
+      }
+        this.$Modal.confirm({
+                      title: '警告',
+                      content: '您确认删除操作吗？',
+                      okText: '删除',
+                      onOk: () => {
+                            let params ={
+                            paymentId:row.paymentId
+                            }
+                            FundPay.delPayment(params).then(data=>{
+                              this.$Message.success(data.message);
+                              this.clickQuery();
+                            });
+                      }
+                    })
+      },
     }
   }
 </script>

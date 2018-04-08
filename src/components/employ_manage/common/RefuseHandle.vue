@@ -130,7 +130,7 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="反馈备注：">
+          <Form-item label="用工反馈：">
              {{refuse.employFeedback}}
           </Form-item>
         </Col>
@@ -195,6 +195,11 @@
             <input type="text" v-model="refuse.employeeId" hidden>
             <input type="text" v-model="refuse.employmentId" hidden>
             <input type="text" v-model="refuse.empTaskId" hidden>
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="用工档案缴费止：">
+            {{refuse.employDocPaymentTo}}
           </Form-item>
         </Col>
       </Row>

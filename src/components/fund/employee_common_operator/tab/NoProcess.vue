@@ -172,6 +172,7 @@
         isShowRejectBatch: false,
         rejectionRemark: '',
         selectedData: [],
+        selectedOutData: [],
         noProcessData: [],
         noProcessPageData: {
           total: 0,
@@ -290,9 +291,14 @@
       cancel() {},
       resetSelectedData(selection) {
         this.selectedData.length = 0;
+        this.selectedOutData.length = 0;
         if(selection) {
           selection.forEach((element, index, array) => {
             this.selectedData.push(element.empTaskId);
+            if (element.taskCategory == '4' || element.taskCategory == '5' ||
+              element.taskCategory == '12' || element.taskCategory == '13') {
+              this.selectedOutData.push(element.empTaskId);
+            }
           })
         }
       },
@@ -304,6 +310,11 @@
           this.$Message.error("请先勾选需要批退的任务");
           return false;
         }
+        if (this.selectedOutData.length > 0) {
+          this.$Message.error("转出或封存（翻牌转出或翻牌封存）类型的任务不能批退，请勿勾选");
+          return false;
+        }
+
         if (!this.rejectionRemark || this.rejectionRemark.trim() == '') {
           this.$Message.error("请填写批退备注");
           return false;
@@ -322,6 +333,7 @@
             this.isShowRejectBatch = false;
             this.handlePageNum(1);
             this.selectedData.length = 0;
+            this.selectedOutData.length = 0;
           } else {
             this.$Message.error(data.message)
           }

@@ -201,20 +201,14 @@ export default {
       if (info.lev30.toString() != ''){
         materialsIds = materialsIds + info.lev30.toString() + ','
       }
-      if (this.material.follower = '随员情况') {
-        if (info.lev41.toString() != ''){
-          materialsIds = materialsIds + info.lev41.toString() + ','
-        }
+      if (info.lev41.toString() != ''){
+        materialsIds = materialsIds + info.lev41.toString() + ','
       }
-      if (this.material.follower = '随员身份证明') {
-        if (info.lev42.toString() != ''){
-          materialsIds = materialsIds + info.lev42.toString() + ','
-        }
+      if (info.lev42.toString() != ''){
+        materialsIds = materialsIds + info.lev42.toString() + ','
       }
-      if (this.material.follower = '随员其他材料') {
-        if (info.lev43.toString() != ''){
-          materialsIds = materialsIds + info.lev43.toString() + ','
-        }
+      if (info.lev43.toString() != ''){
+        materialsIds = materialsIds + info.lev43.toString() + ','
       }
       this.material.materialsIds = materialsIds
       this.$emit("materialsInfo", this.material)

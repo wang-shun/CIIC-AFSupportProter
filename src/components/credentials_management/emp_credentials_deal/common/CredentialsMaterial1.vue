@@ -135,22 +135,6 @@
         </div>
       </Row>
 
-      <!-- <Row style="margin: 10px 20px">
-        <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
-            <span style="font-weight:bold;font-size:14px">配偶户籍</span>
-        </i-col>
-      </Row>
-      <Row>
-        <div  v-for="item in material.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
-          <Form-item v-if="item.level === '4-0'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev40" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
-          </Form-item>
-        </i-col>
-        </div>
-      </Row> -->
-
       <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span style="font-weight:bold;font-size:14px">配偶是否上海户籍</span>

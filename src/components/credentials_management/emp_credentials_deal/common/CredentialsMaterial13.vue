@@ -291,7 +291,6 @@ export default {
     },
     jobMaterialsChange (val) {
       this.material.jobMaterials = val
-      console.log( this.material.jobMaterials+" this.material.jobMaterials")
       this.$emit("materialsInfo", this.material)
     },
     marriedChange (val) {
@@ -304,6 +303,7 @@ export default {
     },
     change (info) {
       let materialsIds = ''
+      debugger
       if (info.lev00.toString() != ''){
         materialsIds = materialsIds + info.lev00.toString() + ','
       }
@@ -333,41 +333,42 @@ export default {
       if (info.lev40.toString() != ''){
         materialsIds = materialsIds + info.lev40.toString() + ','
       }
-      if (this.material.marryStatus = '已婚') {
+      // if (this.material.marryStatus = '已婚') {
         if (info.lev51.toString() != ''){
           materialsIds = materialsIds + info.lev51.toString() + ','
         }
-      }
-      if (this.material.marryStatus = '再婚') {
+      // }
+      // if (this.material.marryStatus = '再婚') {
         if (info.lev52.toString() != ''){
           materialsIds = materialsIds + info.lev52.toString() + ','
         }  
-      }
-      if (this.material.married = '已婚未育') {
+      // }
+      // if (this.material.married = '已婚未育') {
         if (info.lev61.toString() != ''){
           materialsIds = materialsIds + info.lev61.toString() + ','
         }
-      }
-      if (this.material.married = '已婚已育') {
+      // }
+      // if (this.material.married = '已婚已育') {
         if (info.lev62.toString() != ''){
           materialsIds = materialsIds + info.lev62.toString() + ','
-        }
+        // }
       }
       if (info.lev70.toString() != ''){
         materialsIds = materialsIds + info.lev70.toString() + ','
       }
-      if (this.material.addr = '社区公共户') {
+      // if (this.material.addr = '社区公共户') {
         if (info.lev81.toString() != ''){
           materialsIds = materialsIds + info.lev82.toString() + ','
-        }
+        // }
       }
-      if (this.material.addr = '自购房') {
+      // if (this.material.addr = '自购房') {
         if (info.lev82.toString() != ''){
           materialsIds = materialsIds + info.lev82.toString() + ','
         }
-      }
+      // }
       this.material.materialsIds = materialsIds
       this.$emit("materialsInfo", this.material)
+      console.log("materials:"+materials)
    }
   },
   watch: {

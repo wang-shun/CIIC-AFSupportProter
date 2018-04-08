@@ -494,42 +494,28 @@ export default {
       if (info.lev20.toString() != ''){
         materialsIds = materialsIds + info.lev20.toString() + ','
       }
-      if (this.material.hasGooder = '是') {
+      // if (this.material.hasGooder = '是') {
         if (info.lev31.toString() != ''){
           materialsIds = materialsIds + info.lev31.toString() + ','
         }
-      }
-
-      if (this.material.hasGooder = '否') {
+      // }
+      // if (this.material.hasGooder = '否') {
         if (info.lev32.toString() != ''){
           materialsIds = materialsIds + info.lev32.toString() + ','
         } 
+      // }
+      if (info.lev41.toString() != ''){
+        materialsIds = materialsIds + info.lev41.toString() + ','
       }
-
-      if (this.material.educate = '学历学位证书（国内）') {
-        if (info.lev41.toString() != ''){
-          materialsIds = materialsIds + info.lev41.toString() + ','
-        }
+      if (info.lev42.toString() != ''){
+        materialsIds = materialsIds + info.lev42.toString() + ','
       }
-
-      if (this.material.educate = '学历学位证书（国外）') {
-        if (info.lev42.toString() != ''){
-          materialsIds = materialsIds + info.lev42.toString() + ','
-        }
+      if (info.lev43.toString() != ''){
+        materialsIds = materialsIds + info.lev43.toString() + ','
       }
-
-      if (this.material.educate = '国外学历学位成绩单') {
-        if (info.lev43.toString() != ''){
-          materialsIds = materialsIds + info.lev43.toString() + ','
-        }
+      if (info.lev44.toString() != ''){
+        materialsIds = materialsIds + info.lev44.toString() + ','
       }
-
-      if (this.material.educate = '其他相关辅助材料') {
-        if (info.lev44.toString() != ''){
-          materialsIds = materialsIds + info.lev44.toString() + ','
-        }
-      }
-
       if (info.lev50.toString() != ''){
         materialsIds = materialsIds + info.lev50.toString() + ','
       } 
@@ -601,16 +587,16 @@ export default {
           materialsIds = materialsIds + info.lev94.toString() + ','
         }
       }
-      if (this.material.addr = '社区公共户') {
+      // if (this.material.addr = '社区公共户') {
         if (info.lev101.toString() != ''){
           materialsIds = materialsIds + info.lev101.toString() + ','
         }
-      }
-      if (this.material.addr = '自购房') {
+      // }
+      // if (this.material.addr = '自购房') {
         if (info.lev102.toString() != ''){
           materialsIds = materialsIds + info.lev102.toString() + ','
         }
-      }
+      // }
       this.material.materialsIds = materialsIds
       this.$emit("materialsInfo", this.material)
    }

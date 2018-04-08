@@ -138,9 +138,6 @@ export default {
           title: '创建日期',
           key: 'createdTime',
           sortable: true,
-          render: (h, params) => {
-            return Tools.formatDate(params.row.createdTime, 'YYYY-MM-DD HH:mm:ss');
-          }
         },
         {
           title: '政策内容',

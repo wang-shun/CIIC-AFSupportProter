@@ -118,6 +118,7 @@
         total: null, 
         idCardType: '',
         templateType: '',   
+        productId: '',
         taskType: {
           taskTypeId: '',
           taskTypeName: '',
@@ -338,13 +339,13 @@
             data: v,
             type: '',
             dealType: '', 
-            basicProductId: this.taskType.basicProductId,
             isDeal: false
           }
         })
       },
       ok (value, data) {
-        this.$refs[value].validate((valid) => {
+        this.$refs[value].validate(async (valid) => {
+          await  this.findTaskTypeDetial(this.formItem.dealType == null  || this.formItem.dealType =="" ? this.formItem.type : this.formItem.dealType)
           if (valid) {
               this.$router.push({
                 name: 'empCredentialsTask', 
@@ -355,14 +356,21 @@
                   dealType: parseInt(this.formItem.dealType),
                   dealTypeN: this.$decode.deal_type(parseInt(this.formItem.dealType)), 
                   companyId: data.companyCode,
-                  basicProductId: this.taskType.basicProductId,
+                  basicProductId: this.productId,
                   isDeal: true
                 }
               })
+              console.log("basicProductId:"+this.productId)
             this.modal1 = false
           } else {
             this.$Message.error('请选择办证类型!')
           }
+        })
+      },
+    async  findTaskTypeDetial (id) {
+       await axios.get(host + '/api/empCredentialsDeal/findTaskTypeDetial?taskTypeId=' + id).then(response => {
+          this.productId = response.data.data.basicProductId
+          console.log("responseBasicProductId:"+this.productId)
         })
       }
     }

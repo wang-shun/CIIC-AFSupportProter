@@ -163,7 +163,7 @@
         if (this.formTitle == '3') {
           let birStart = "";
            let birEnd = "";
-           if (form.birthday != null && form.birthday[0] != null) {
+           if (form.birthday != null && form.birthday[0] != "") {
              birStart = Tools.formatDate(form.birthday[0], "YYYY-MM-DD")
              birEnd = Tools.formatDate(form.birthday[1], "YYYY-MM-DD")
            }

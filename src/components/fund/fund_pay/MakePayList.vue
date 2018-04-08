@@ -9,14 +9,14 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="结算银行：" prop="paymentBank">
                   <Select v-model="operatorSearchData.paymentBank" style="width: 100%;" transfer>
-                    <Option v-for="item in paymentBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                     <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="key" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业公积金账户类型：" prop="fundAccountType">
                   <Select v-model="operatorSearchData.fundAccountType" style="width: 100%;" transfer>
-                    <Option v-for="item in fundAccountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="(value,key) in this.baseDic.companyHFAccountType" :value="key" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -114,6 +114,7 @@
 </template>
 <script>
   import {FundPay} from '../../../api/house_fund/fund_pay/fund_pay'
+  import Tools from '../../../lib/tools'
 
   export default {
     data() {
@@ -127,8 +128,8 @@
         payee: '',
         operatorSearchData: {
           paymentStatus: 3, //支付状态默认为可付
-          fundAccountType: [],
-          paymentBank: []
+          fundAccountType: '',
+          paymentBank: ''
         },
         selectedData: [],
         loading: false,
@@ -144,32 +145,21 @@
             { required: true,
               type: 'string',
               message: '至少选择一种企业公积金账户类型',
-              trigger: 'change',
-              type:'number'
+              trigger: 'blur',
+              //type:'number'
             }
           ],
           paymentBank: [
             { required: true,
               message: '至少选择一家结算银行',
-              trigger: 'change',
-              type:'number'
+              trigger: 'blur',
+//              type:'number'
             }
           ]
         },
 
         //todo: 菜单值统一存储维护
-        paymentBankList: [
-          {label: "徐汇—X", value: 1},
-          {label: "西郊—C", value: 2},
-          {label: "东方路—P", value: 3},
-          {label: "卢湾—L", value: 4},
-          {label: "黄浦—H", value: 5}
-        ],
-        fundAccountTypeList: [
-          {label: "中智大库", value: 1},
-          {label: "中智外包", value: 2},
-          {label: "独立户", value: 3}
-        ],
+  
         serviceCenterData: [
           {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
           {value: 2, label: '日本客户'},
@@ -180,11 +170,6 @@
           {label: "未到帐", value: 1},
           {label: "无需支付", value: 2},
           {label: "可付", value: 3},
-          {label: "申请中(内部审批)", value: 4},
-          {label: "内部审批批退", value: 5},
-          {label: "已申请到财务部", value: 6},
-          {label: "财务部批退", value: 7},
-          {label: "财务部支付成功", value: 8},
         ],
         payeeList: [
           {label: "住房资金归集待结算户", value: "住房资金归集待结算户"},
@@ -231,6 +216,7 @@
       }
     },
     mounted() {
+      
     },
     computed: {
     },
@@ -238,11 +224,11 @@
       clickQuery(name){
         this.loading=true;
         let params = this.getParams(1)
-        let self = this
         this.$refs[name].validate((valid)=>{
           if(valid) {
-            FundPay.getMakePayListsTableData(params).then(data=>{
-              self.refresh(data)
+               FundPay.getMakePayListsTableData(params).then(data=>{
+               this.refresh(data);
+               this.makePayListInfo.payDate= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
             }).catch(error=>{
               console.log(error)
             })
@@ -268,7 +254,6 @@
       },
       refresh(data){
         this.makePayListData = data.data.makePayListData;
-        console.log(data.data.makePayListData);
         this.makePayListInfo = data.data.makePayListInfo;
         if(typeof(data.data.totalSize)=='undefined') this.totalSize = 0
         else this.totalSize = Number(data.data.totalSize)
@@ -303,16 +288,29 @@
             this.$Message.error('请选择查询列表中的公积金账户数据！');
             return false;
         }
-          let params = {
-            payee:this.payee,
-            listData:this.selectedData  //
-          };
-           FundPay.createPaymentComList(params).then(data=>{
-            me.$Message.success(data.message);
-            me.clickQuery();
-          }).catch(error=>{
-            console.log(error)
-          })
+
+        this.$Modal.confirm({
+                    title: '确认',
+                    content: '您确认生成支付批次吗？',
+                    okText: '确认',
+                    onOk: () => {
+                      let params = {
+                          payee:this.payee,
+                          paymentMonth:this.makePayListInfo.payDate,
+                          listData:this.selectedData  //
+                        };
+                        FundPay.createPaymentComList(params).then(data=>{
+                          if(data.code==200){
+                            this.$Message.success(data.message);
+                            this.$router.go(-1);
+                          }else{
+                            this.$Message.error(data.message);
+                          }
+                        }).catch(error=>{
+                          console.log(error)
+                        })
+                    }
+                  })
       },
       resetSelectedData(selection) {
         this.selectedData.length = 0;

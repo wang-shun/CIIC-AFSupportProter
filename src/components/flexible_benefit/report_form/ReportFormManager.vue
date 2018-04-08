@@ -143,10 +143,8 @@
       findProducts() {
         axios.get(host + '/api/reportform/findProducts').then(response => {
           if (response.data.errCode == "0") {
-            console.log(response.data)
             this.products = response.data.data
           }
-          console.log(this.products)
         })
       },
       exportform(form){

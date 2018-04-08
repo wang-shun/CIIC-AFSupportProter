@@ -14,13 +14,6 @@
                 </Form-item>    
               </i-col>
             </Row>
-            <Row type="flex" justify="start" v-if="formTitle === '1'">
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="截止日期：">
-                  <DatePicker type="date" placeholder="请选择" transfer></DatePicker>
-                </Form-item>
-              </i-col>
-            </Row>
             <Row type="flex" justify="start" v-if="formTitle === '2' || formTitle === '3'">
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号：" prop="companyId">
@@ -32,14 +25,9 @@
                   <Input v-model="queryItem.companyName" placeholder="请输入"/>
                 </Form-item>
               </i-col>
-              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户经理：" prop="manager">
-                  <Input v-model="queryItem.manager" placeholder="请输入"/>
-                </Form-item>
-              </i-col> -->
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员出生日期：" prop="birthday">
-                  <DatePicker type="date"  v-model="queryItem.birthday" placeholder="请选择" transfer></DatePicker>
+                  <DatePicker type="daterange" split-panels  v-model="queryItem.birthday" placeholder="请选择" transfer></DatePicker>
                 </Form-item>
               </i-col>
             </Row>
@@ -49,16 +37,6 @@
                   <Input v-model="queryItem.companyId" placeholder="请输入"/>
                 </Form-item>
               </i-col>
-              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户总监：" prop="majordomo">
-                  <Input v-model="queryItem.majordomo" placeholder="请输入"/>
-                </Form-item>
-              </i-col> -->
-              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户经理：" prop="manager">
-                  <Input v-model="queryItem.manager" placeholder="请输入"/>
-                </Form-item>
-              </i-col> -->
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称：" prop="companyName">
                   <Input v-model="queryItem.companyName" placeholder="请输入"/>
@@ -72,16 +50,7 @@
                 </Form-item>
               </i-col>
             </Row>
-            <Row type="flex" justify="start" v-if="formTitle === '6'">
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="服务产品" prop="productName">
-                  <Select v-model="queryItem.product" placeholder="请选择" transfer>
-                    <Option v-for="item in products" :value="item.productId" :key="item.productId">{{item.productName}}</Option>
-                  </Select>
-                </Form-item>
-              </i-col>
-            </Row>
-            <Row type="flex" justify="start" v-if="formTitle === '7' || formTitle === '8'">
+            <Row type="flex" justify="start" v-if="formTitle === '7'">
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号：" prop="companyId">
                   <Input v-model="queryItem.companyId" placeholder="请输入"/>
@@ -98,28 +67,6 @@
                 </Form-item>
               </i-col>
             </Row>
-            <Row type="flex" justify="start" v-if="formTitle === '9'">
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公司编号：" prop="companyId">
-                  <Input v-model="queryItem.companyId" placeholder="请输入"/>
-                </Form-item>
-              </i-col>
-              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户总监：" prop="majordomo">
-                  <Input v-model="queryItem.majordomo" placeholder="请输入"/>
-                </Form-item>
-              </i-col> -->
-              <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户经理：" prop="manager">
-                  <Input v-model="queryItem.manager" placeholder="请输入"/>
-                </Form-item>
-              </i-col> -->
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公司名称：" prop="companyName">
-                  <Input v-model="queryItem.companyName" placeholder="请输入"/>
-                </Form-item>
-              </i-col>
-            </Row>
             <Row type="flex" justify="start" class="tr">  
               <i-col :sm="{span: 24}">
                 <Button type="primary" @click="exportform(queryItem)" class="ml10" icon="ios-search">导出报表</Button>
@@ -130,9 +77,7 @@
         </div>
       </Panel>
     </Collapse>
-    <!-- <div v-if="queryItem.formTitle === '1'">
-      <Child1 :queryParam="queryParam"></Child1>
-    </div>
+    <!-- 
     <div v-if="queryItem.formTitle === '2'">
       <Child2 :queryParam="queryParam"></Child2>
     </div>
@@ -145,34 +90,18 @@
     <div v-if="queryItem.formTitle === '5'">
       <Child5 :queryParam="queryParam"></Child5>
     </div>
-    <div v-if="queryItem.formTitle === '6'">
-      <Child6 :queryParam="queryParam"></Child6>
-    </div>
     <div v-if="queryItem.formTitle === '7'">
       <Child7 :queryParam="queryParam"></Child7>
     </div>
-    <div v-if="queryItem.formTitle === '8'">
-      <Child8 :queryParam="queryParam"></Child8>
-    </div>
-    <div v-if="queryItem.formTitle === '9'">
-      <Child9 :queryParam="queryParam"></Child9>
-    </div>
-    <div v-if="queryItem.formTitle === '10'">
-      <Child10 :queryParam="queryParam"></Child10>
-    </div> -->
+   -->
   </div>
 </template>
 <script>
-  // import Child1 from './child/Child1'
   // import Child2 from './child/Child2'
   // import Child3 from './child/Child3'
   // import Child4 from './child/Child4'
   // import Child5 from './child/Child5'
-  // import Child6 from './child/Child6'
   // import Child7 from './child/Child7'
-  // import Child8 from './child/Child8'
-  // import Child9 from './child/Child9'
-  // import Child10 from './child/Child10'
 
   import axios from 'axios'
   import Tools from '../../../lib/tools'
@@ -181,22 +110,17 @@
   const host = process.env.SITE_HOST_REPORT_FORM
   export default {
     // components: {
-    //   Child1,
     //   Child2,
     //   Child3,
     //   Child4,
     //   Child5,
-    //   Child6,
     //   Child7,
-    //   Child8,
-    //   Child9,
-    //   Child10
     // },
     data() {
       return {
         collapseInfo: [1],
         queryParam: {},
-        products: {},
+        products: [],
         formTitle:'2',
         queryItem: {
           companyId: '',
@@ -204,7 +128,7 @@
           manager: '',
           companyName: '',
           product: '',
-          birthday: '',
+          birthday: [],
           empId: ''
         },
         ruleValidate: {
@@ -217,40 +141,52 @@
     },
     methods: {
       findProducts() {
-        axios.get(host + '/api/reportform/').then(Response => {
+        axios.get(host + '/api/reportform/findProducts').then(response => {
           if (response.data.errCode == "0") {
+            console.log(response.data)
             this.products = response.data.data
           }
+          console.log(this.products)
         })
       },
       exportform(form){
          if (this.formTitle == '2') {
-          let bir = form.birthday != "" ? Tools.formatDate(form.birthday, "YYYY-MM-DD") : ""
+           let birStart = "";
+           let birEnd = "";
+           if (form.birthday != null && form.birthday[0] != "") {
+             birStart = Tools.formatDate(form.birthday[0], "YYYY-MM-DD")
+             birEnd = Tools.formatDate(form.birthday[1], "YYYY-MM-DD")
+           }
           window.location = host+'/api/reportform/get2?companyId=' + form.companyId +
                                                   '&companyName=' + form.companyName +
                                                   '&manager=' + form.manager +
-                                                  '&birthday=' + bir
+                                                  '&birStart=' + birStart + '&birEnd=' + birEnd
         }
         if (this.formTitle == '3') {
-          let bir = form.birthday != "" ? Tools.formatDate(form.birthday, "YYYY-MM-DD") : ""
+          let birStart = "";
+           let birEnd = "";
+           if (form.birthday != null && form.birthday[0] != null) {
+             birStart = Tools.formatDate(form.birthday[0], "YYYY-MM-DD")
+             birEnd = Tools.formatDate(form.birthday[1], "YYYY-MM-DD")
+           }
           window.location = host+'/api/reportform/get3?companyId=' + form.companyId +
                                                   '&companyName=' + form.companyName +
                                                   '&manager=' + form.manager +
-                                                  '&birthday=' + bir
+                                                  '&birStart=' + birStart + '&birEnd=' + birEnd
         }
         if (this.formTitle == '4') {
           window.location = host+'/api/reportform/get4?companyId=' + form.companyId +
                                                   '&companyName=' + form.companyName +
                                                   '&majordomo=' + form.majordomo +
                                                   '&manager=' + form.manager +
-                                                  '&product=' + form.product
+                                                  '&productId=' + form.product
         }
         if (this.formTitle == '5') {
           window.location = host+'/api/reportform/get5?companyId=' + form.companyId +
                                                   '&companyName=' + form.companyName +
                                                   '&majordomo=' + form.majordomo +
                                                   '&manager=' + form.manager +
-                                                  '&product=' + form.product
+                                                  '&productId=' + form.product
         }
         if (this.formTitle == '7') {
           window.location = host+'/api/reportform/get7?companyId=' + form.companyId +

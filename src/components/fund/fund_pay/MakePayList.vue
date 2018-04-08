@@ -96,6 +96,13 @@
       </Row>
       <Row class="mt20">
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="付款方式：" prop="paymentWay">
+          <Select v-model="paymentWay" style="width: 100%;" transfer filterable >
+            <Option v-for="item in paymentWayList" :value="item.value" :key="item.value">{{item.label}}</Option>
+          </Select>
+        </Form-item>
+        </Col>
+        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="收款方：" prop="payee">
           <Select v-model="payee" style="width: 100%;" transfer filterable >
             <Option v-for="item in payeeList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -123,9 +130,10 @@
         makePayListData:[],
         makePayListInfo:[],
         totalSize:0,//后台传过来的分页总数
-        size:10,//默认单页记录数
+        size:99999,//默认单页记录数
         pageNum:1,//默认页数
         payee: '',
+        paymentWay:3,
         operatorSearchData: {
           paymentStatus: 3, //支付状态默认为可付
           fundAccountType: '',
@@ -174,6 +182,10 @@
         payeeList: [
           {label: "住房资金归集待结算户", value: "住房资金归集待结算户"},
           {label: "上海市公积金管理中心（黄浦支行（1））", value: "上海市公积金管理中心（黄浦支行（1））"},
+        ],
+        paymentWayList: [
+          {label: "支票", value: 2},
+          {label: "转账", value: 3},
         ],
         makePayListColumns: [
           {type: 'selection', width: 60},
@@ -280,15 +292,14 @@
       },
 
       createPaymentComList() {
-        if(this.payee==null || this.payee==''){
-            this.$Message.error('收款方要求必填！');
-            return false;
-        }
         if(this.selectedData.length==0){
             this.$Message.error('请选择查询列表中的公积金账户数据！');
             return false;
         }
-
+        if(this.payee==null || this.payee==''){
+            this.$Message.error('收款方要求必填！');
+            return false;
+        }
         this.$Modal.confirm({
                     title: '确认',
                     content: '您确认生成支付批次吗？',
@@ -296,6 +307,7 @@
                     onOk: () => {
                       let params = {
                           payee:this.payee,
+                          paymentWay:this.paymentWay,
                           paymentMonth:this.makePayListInfo.payDate,
                           listData:this.selectedData  //
                         };

@@ -145,10 +145,10 @@
               ]);
             }
           },
-          {title: '客服经理', key: 'serviceManager', align: 'center', width: 150,
+          {title: '客服经理', key: 'leaderShipName', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.serviceManager),
+                h('span', params.row.leaderShipName),
               ]);
             }
           },
@@ -215,13 +215,6 @@
               ]);
             }
           },
-          {title: '退工反馈2', key: 'resignFeedback2', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.resignFeedback2),
-              ]);
-            }
-          },
           {title: '退档日期', key: 'refuseFileDate', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -236,10 +229,10 @@
               ]);
             }
           },
-          {title: '公司特殊情况', key: 'companySpecialCase', align: 'center', width: 200,
+          {title: '公司特殊情况', key: 'archiveSpecial', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companySpecialCase),
+                h('span', params.row.archiveSpecial),
               ]);
             }
           }

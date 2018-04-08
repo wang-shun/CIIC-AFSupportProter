@@ -9,7 +9,7 @@
     </Row>
     <Modal
         v-model="modal1"
-        title="新增档案备注"
+        title="新增工伤申报管理"
         @on-ok="ok"
         @on-cancel="cancel">
       <Form :model="handleInfo" ref="handleInfo" :label-width="150">
@@ -37,7 +37,9 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="鉴定结论：" prop="evaluationw" transfer>
-            <Input v-model="handleInfo.evaluationw" placeholder="请输入"/>
+             <Select v-model="handleInfo.evaluationw" transfer>
+              <Option v-for="item in jdjlTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+             </Select>
           </Form-item>
         </Col>
        </Row>
@@ -51,7 +53,9 @@
      <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label=" 申报单位：" prop="remarkDatew">
-            <Input v-model="handleInfo.declareUnitw" placeholder="请输入"/>
+             <Select v-model="handleInfo.declareUnitw" transfer>
+              <Option v-for="item in handleTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+            </Select>
           </Form-item>
          </Col>
       </Row>
@@ -86,6 +90,25 @@ import api from '../../../api/employ_manage/hire_operator'
     data() {
       return {
          modal1: false,
+         jdjlTypeList: [
+          {value: '无等级', label: '无等级'},
+          {value: '1', label: '1'},
+          {value: '2', label: '2'},
+          {value: '3', label: '3'},
+          {value: '4', label: '4'},
+          {value: '5', label: '5'},
+          {value: '6', label: '6'},
+          {value: '7', label: '7'},
+          {value: '8', label: '8'},
+          {value: '9', label: '9'},
+          {value: '10', label: '10'}
+              
+        ], 
+         handleTypeList:[
+          {value: '中智', label: '中智'},
+          {value: '中智外包', label: '中智外包'},
+          {value: '独立', label: '独立'}
+        ],  
         injuryReportManageColumns: [
           {title: '工伤认定日期', key: 'affirmDate', align: 'center',
             render: (h, params) => {

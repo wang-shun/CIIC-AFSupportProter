@@ -122,8 +122,8 @@ import {mapState, mapGetters, mapActions} from 'vuex'
           {title: '公司名称', key: 'title', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.title),
-                h('span', params.row.cici),
+                h('div', params.row.title),
+                h('div', params.row.cici),
               ]);
             }
           },

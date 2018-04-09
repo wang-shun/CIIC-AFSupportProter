@@ -60,13 +60,13 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <!-- <DropdownItem name="0">Excel导出客户汇总</DropdownItem> -->
+            <DropdownItem name="0">Excel输出</DropdownItem>
             <DropdownItem name="1">基本公积金变更清册</DropdownItem>
             <DropdownItem name="2">补充公积金变更清册</DropdownItem>
             <DropdownItem name="3">基本公积金补缴清册</DropdownItem>
             <DropdownItem name="4">补充公积金补缴清册</DropdownItem>
-            <DropdownItem name="5">基本公积金汇缴补缴书</DropdownItem>
-            <DropdownItem name="6">补充公积金汇缴补缴书</DropdownItem>
+            <DropdownItem name="5">基本公积金汇缴书</DropdownItem>
+            <DropdownItem name="6">补充公积金汇缴书</DropdownItem>
             <DropdownItem name="7">付款凭证打印</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -234,7 +234,6 @@
           paymentId:0,
           paymentState:0
         },
-
         //todo: 菜单值统一存储维护
         paymentStateList: [
           {label: "全部", value: ''},
@@ -704,6 +703,10 @@
         }
       },
       exportTable(name) {
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+
         switch(parseInt(name)) {
           case 0:
             this.$refs.fundPay.exportCsv({
@@ -712,7 +715,13 @@
             });
             break;
           case 1:
-            this.isShowFundPayChangeList = true;
+             
+             let params ={paymentId:row.paymentId,hfType:1}
+             FundPay.chgDetailListExport({
+                pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+                pageNum: 1,
+                params: params,
+              });
             break;
           case 2:
             this.isShowAddFundPayChangeList = true;
@@ -722,6 +731,14 @@
             break;
           case 4:
             this.isShowAddFundPayRepairList = true;
+            break;
+          case 5:
+            break;
+          case 6:
+           
+            break;
+          case 7:
+            this.printFinancePayVoucher();
             break;
           default:
             break;
@@ -775,7 +792,7 @@
             console.log(error)
           })
         }else{
-          this.$Message.success("该记录不能送审，请检查!");
+          this.$Message.info("该记录不能送审，请检查!");
         }
       },
       processPayment(){
@@ -794,7 +811,7 @@
             console.log(error)
           })
         }else{
-          this.$Message.success("该记录不能汇缴，请检查!");
+          this.$Message.info("该记录不能汇缴，请检查!");
         }
       },
       processTicket(){
@@ -813,7 +830,7 @@
             console.log(error)
           })
         }else{
-          this.$Message.success("该记录不能出票，请检查!");
+          this.$Message.info("该记录不能出票，请检查!");
         }
       },
       processReceipt(){
@@ -832,7 +849,7 @@
             console.log(error)
           })
         } else{
-          this.$Message.success("该记录不能回单，请检查!");
+          this.$Message.info("该记录不能回单，请检查!");
         }
       },
       //操作
@@ -889,8 +906,8 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-      if(row.paymentState != 1 && row.paymentState !=4){
-        this.$Message.success('当前状态，不允许删除！');
+      if(row.paymentState != 1 && row.paymentState !=4 && row.paymentState !=2  ){
+        this.$Message.info('当前状态，不允许删除！');
         return false;
       }
         this.$Modal.confirm({
@@ -908,6 +925,20 @@
                       }
                     })
       },
+      printFinancePayVoucher(){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        if(row.payApplyCode == null ||  row.payApplyCode ==''  ){
+          this.$Message.info('汇缴操作后，才可以打印付款凭证！');
+          return false;
+        }
+        let params ={payApplyCode:row.payApplyCode}
+        FundPay.printFinancePayVoucher(params);
+      }, 
+
+
+
     }
   }
 </script>

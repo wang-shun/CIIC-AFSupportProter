@@ -20,22 +20,24 @@ export class FundPay {
           }
         }
         if(response.data.code=="200"){
-          for(let i of response.data.data){
-            let obj ={}
-            obj.paymentId = i.paymentId,
-            obj.paymentState = i.paymentState,
-            obj.paymentBatchNum=i.paymentBatchNum
-            obj.totalApplicationAmonut = i.totalApplicationAmonut
-            obj.totalEmpCount = i.totalEmpCount
-            obj.paymentMonth = i.paymentMonth
-            obj.paymentStateValue = i.paymentStateValue
-            obj.createPaymentUser = i.createPaymentUser
-            obj.createPaymentDate = i.createPaymentDateString
-            obj.financePaymentDate = i.financePaymentDateString
-            obj.accountTypeValue = i.accountTypeValue
+          responseData.data.fundPayData=response.data.data;
+          console.log(response.data.data)
+          // for(let i of response.data.data){
+          //   let obj ={}
+          //   obj.paymentId = i.paymentId,
+          //   obj.paymentState = i.paymentState,
+          //   obj.paymentBatchNum=i.paymentBatchNum
+          //   obj.totalApplicationAmonut = i.totalApplicationAmonut
+          //   obj.totalEmpCount = i.totalEmpCount
+          //   obj.paymentMonth = i.paymentMonth
+          //   obj.paymentStateValue = i.paymentStateValue
+          //   obj.createPaymentUser = i.createPaymentUser
+          //   obj.createPaymentDate = i.createPaymentDateString
+          //   obj.financePaymentDate = i.financePaymentDateString
+          //   obj.accountTypeValue = i.accountTypeValue
 
-            responseData.data.fundPayData.push(obj)
-          }
+          //   responseData.data.fundPayData.push(obj)
+          // }
           responseData.data.totalSize=response.data.total
           responseData.data.code=response.data.code
           responseData.data.message= response.data.message
@@ -43,8 +45,7 @@ export class FundPay {
         }else{
           reject(Error('后台异常！'))
         }
-      })
-        .catch(function (error) {
+      }).catch(function (error) {
           console.log(error);
           reject(error);
         });
@@ -67,19 +68,6 @@ export class FundPay {
         }
         if(response.data.code=="200"){
           responseData.data.makePayListData=response.data.data;
-          // for(let i of response.data.data){
-          //   let obj ={}
-          //   obj.paymentAccountId= i.paymentAccountId
-          //   obj.comAccountName = i.comAccountName
-          //   obj.hfTypeName = i.hfTypeName
-          //   obj.paymentStateValue = i.paymentStateValue
-          //   obj.accountTypeValue = i.accountTypeValue
-          //   obj.paymentBankValue = i.paymentBankValue
-          //   obj.sumAmount = i.sumAmount
-          //   obj.payInBackAmount = i.payInBackAmount
-          //   responseData.data.makePayListInfo.payDate = i.paymentMonth
-          //   responseData.data.makePayListData.push(obj)
-          // }
           responseData.data.makePayListInfo.rows = 0
           responseData.data.makePayListInfo.fundAccounts = 0
           responseData.data.makePayListInfo.payAmount = 0
@@ -116,20 +104,6 @@ export class FundPay {
         }
         if(response.data.code=="200"){
           responseData.data.operateDetailData=response.data.data
-          // for(let i of response.data.data){
-          //   let obj ={}
-          //   obj.hfTypeName = i.hfTypeName
-          //   obj.paymentMonth = i.paymentMonth
-          //   obj.companyId = i.companyId
-          //   obj.companyName = i.companyName
-          //   obj.paymentBank = i.paymentBank
-          //   obj.remittedAmount = i.remittedAmount
-          //   obj.repairAmount = i.repairAmount
-          //   obj.remittedCountEmp = i.remittedCountEmp
-          //   obj.daozhangAmount = i.daozhangAmount
-          //   obj.daozhangCountEmp = i.daozhangCountEmp
-          //   responseData.data.operateDetailData.push(obj)
-          // }
           responseData.data.totalSize=response.data.total
           responseData.data.code=response.data.code
           responseData.data.message= response.data.message
@@ -295,5 +269,26 @@ export class FundPay {
         });
     })
   }
+//付款凭证打印
+  static printFinancePayVoucher(params){
+    let url ="/api/fundcommandservice/hfFundPay/printFinancePayVoucher";
+    return new Promise(function(resolve,reject){
+      ajax.download(url, params);
+    })
+  }
+
+  //基本公积金清册
+  static chgDetailListExport(params){
+    return new Promise(function(resolve,reject){
+      ajax.download('/api/fundcommandservice/hfMonthCharge/chgDetailListExport', params);
+    })
+  }
+  //补充公积金清册
+  static repairDetailListExport(params) {
+    return new Promise(function(resolve,reject){
+      ajax.download('/api/fundcommandservice/hfMonthCharge/repairDetailListExport', params);
+    })
+  }
+
 
 }

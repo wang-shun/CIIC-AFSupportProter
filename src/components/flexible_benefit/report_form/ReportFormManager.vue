@@ -127,7 +127,7 @@
           majordomo: '',
           manager: '',
           companyName: '',
-          product: '',
+          product: 'CPDFL1800059',
           birthday: [],
           empId: ''
         },
@@ -189,13 +189,14 @@
         if (this.formTitle == '7') {
           window.location = host+'/api/reportform/get7?companyId=' + form.companyId +
                                                   '&companyName=' + form.companyName +
-                                                  '&employeeId=' + form.employeeId
+                                                  '&employeeId=' + form.empId
         }
       }
     },
     watch: {
       formTitle: function (){
         this.$refs.queryItem.resetFields();
+        this.queryItem.product = 'CPDFL1800059'
       }
     }
   }

@@ -291,4 +291,13 @@ export class FundPay {
   }
 
 
+  static generateBankChange(params) {
+    let url = domainJson.generateBankChange;
+    ajax.download(url, params);
+  }
+
+  static generateBankRepair(params) {
+    let url = domainJson.generateBankRepair;
+    ajax.download(url, params);
+  }
 }

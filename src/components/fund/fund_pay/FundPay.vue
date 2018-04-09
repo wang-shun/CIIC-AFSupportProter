@@ -88,8 +88,12 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem>补缴.txt</DropdownItem>
-            <DropdownItem>变更.txt</DropdownItem>
+            <div style="text-align: right;margin:10px;">
+              <Button type="ghost" @click="generateBankRepair">补缴.txt</Button>
+            </div>
+            <div style="text-align: right;margin:10px;">
+              <Button type="ghost" @click="generateBankChange">变更.txt</Button>
+            </div>
           </DropdownMenu>
         </Dropdown>
         <Dropdown @on-click="operate">
@@ -680,7 +684,7 @@
       closeLoading(){
         this.loading=false;
       },
-      
+
       progressClick(stepInfo) {
         console.log(JSON.stringify(stepInfo));
       },
@@ -691,7 +695,7 @@
         this.$router.push({name: 'makePayList'})
       },
       selectChange(selection) {
-      
+
         if(selection.length > 0){
           var item = selection[0];
           this.progressInfo.paymentId = item.paymentId;
@@ -783,7 +787,7 @@
             paymentId:row.paymentId,
             operator:""
           };
- 
+
 
           FundPay.processApproval(params).then(data=>{
             this.$Message.success(data.message);
@@ -925,7 +929,21 @@
                       }
                     })
       },
-      printFinancePayVoucher(){
+      generateBankRepair() {
+        let row;
+        row=this.checkSelect();
+        FundPay.generateBankRepair({
+          paymentId:row.paymentId,
+        })
+      },
+      generateBankChange() {
+        let row;
+        row=this.checkSelect();
+        FundPay.generateBankChange({
+          paymentId:row.paymentId,
+        })
+      },
+ 	printFinancePayVoucher(){
         let row;
         row=this.checkSelect();
         if(!row)return false;
@@ -936,9 +954,6 @@
         let params ={payApplyCode:row.payApplyCode}
         FundPay.printFinancePayVoucher(params);
       }, 
-
-
-
     }
   }
 </script>

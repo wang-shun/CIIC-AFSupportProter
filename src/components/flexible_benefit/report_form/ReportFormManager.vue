@@ -127,7 +127,7 @@
           majordomo: '',
           manager: '',
           companyName: '',
-          product: '',
+          product: 'CPDFL1800059',
           birthday: [],
           empId: ''
         },
@@ -196,6 +196,7 @@
     watch: {
       formTitle: function (){
         this.$refs.queryItem.resetFields();
+        this.queryItem.product = 'CPDFL1800059'
       }
     }
   }

@@ -379,42 +379,42 @@ export default {
           materialsIds = materialsIds + info.lev34.toString() + ','
         }
       }
-      if (this.material.hasChildFollow = '是') {
+      // if (this.material.hasChildFollow = '是') {
         if (info.lev41.toString() != ''){
           materialsIds = materialsIds + info.lev41.toString() + ','
         }
-      }
-      if (this.material.hasChildFollow = '否') {
+      // }
+      // if (this.material.hasChildFollow = '否') {
         if (info.lev42.toString() != ''){
           materialsIds = materialsIds + info.lev42.toString() + ','
         }
-      }
+      // }
       if (info.lev50.toString() != ''){
         materialsIds = materialsIds + info.lev50.toString() + ','
       }
-      if (this.material.hasSpouseFollow = '是') {
+      // if (this.material.hasSpouseFollow = '是') {
         if (info.lev61.toString() != ''){
           materialsIds = materialsIds + info.lev61.toString() + ','
         }
-      }
-      if (this.material.hasSpouseFollow = '否') {
+      // }
+      // if (this.material.hasSpouseFollow = '否') {
         if (info.lev62.toString() != ''){
           materialsIds = materialsIds + info.lev62.toString() + ','
         }
-      }
+      // }
       if (info.lev70.toString() != ''){
         materialsIds = materialsIds + info.lev70.toString() + ','
       }  
-      if (this.material.addr = '社区公共户') {
+      // if (this.material.addr = '社区公共户') {
         if (info.lev81.toString() != ''){
           materialsIds = materialsIds + info.lev82.toString() + ','
         }
-      }
-      if (this.material.addr = '自购房') {
+      // }
+      // if (this.material.addr = '自购房') {
         if (info.lev82.toString() != ''){
           materialsIds = materialsIds + info.lev82.toString() + ','
         }
-      }
+      // }
       if (info.lev90.toString() != ''){
         materialsIds = materialsIds + info.lev90.toString() + ','
       }     

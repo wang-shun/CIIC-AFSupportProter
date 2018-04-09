@@ -254,6 +254,7 @@
       this.companyCode = data.companyId
       this.empCode = data.employeeId
       this.empName = data.employeeName
+      console.log("router:"+this.$route.params.basicProductId)
     },
     created () {
       this.findAll(this.$route.params.data.employeeId)
@@ -346,7 +347,7 @@
         params.companyId = params.companyCode
         params.credentialsType = params.credentialsType
         params.credentialsDealType = params.credentialsDealType
-        params.basicProductId = this.formItem.basicProductId
+        params.basicProductId = params.basicProductId == null ? this.$route.params.basicProductId : params.basicProductId
         params.templateType = this.templateType
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){

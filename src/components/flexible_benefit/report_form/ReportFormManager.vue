@@ -189,7 +189,7 @@
         if (this.formTitle == '7') {
           window.location = host+'/api/reportform/get7?companyId=' + form.companyId +
                                                   '&companyName=' + form.companyName +
-                                                  '&employeeId=' + form.employeeId
+                                                  '&employeeId=' + form.empId
         }
       }
     },

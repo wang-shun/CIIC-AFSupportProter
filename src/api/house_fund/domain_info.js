@@ -41,7 +41,10 @@ let domainJson = {
     //公积金汇缴支付流程操作-出票
     "ticketUrl":"/api/fundcommandservice/hfFundPay/ticket",
     //公积金汇缴支付流程操作-回单
-    "receiptUrl":"/api/fundcommandservice/hfFundPay/receipt"
+    "receiptUrl":"/api/fundcommandservice/hfFundPay/receipt",
+
+    "generateBankChange" : "/api/fundcommandservice/hfFundPay/generateBankChange",
+    "generateBankRepair" : "/api/fundcommandservice/hfFundPay/generateBankRepair",
 }
 
 // let getLocation = domainJson.protcal+"://"+domainJson.domain+":"+domainJson.port

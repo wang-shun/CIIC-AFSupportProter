@@ -74,7 +74,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案保管意向：">
-            {{refuse.docHoldIntent}}
+            {{refuse.archiveDirection}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

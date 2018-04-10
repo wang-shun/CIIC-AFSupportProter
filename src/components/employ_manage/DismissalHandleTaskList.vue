@@ -200,13 +200,6 @@
               ]);
             }
           },
-          {title: '退工反馈2', key: 'resignFeedback2', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.resignFeedback2),
-              ]);
-            }
-          },
           {title: '录用处理结束', key: 'luyongHandleEnd', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [

@@ -127,7 +127,7 @@
       return {
         collapseInfo: [1], //展开栏
         operatorSearchData: {
-          serviceCenterValue: '',
+          serviceCenterValue: [],
           employeeNumber: '',
           taskTicketNumber: '',
           customerName: '',

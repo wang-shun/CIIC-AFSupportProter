@@ -16,12 +16,12 @@
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="企业公积金账户：">
+        <Form-item label="企业公积金账号：">
           <Input v-model="companyFundAccount.companyFundAccount" placeholder="请输入..."></Input>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="企业补充公积金账户：">
+        <Form-item label="企业补充公积金账号：">
           <Input v-model="companyFundAccount.companyAddFundAccount" placeholder="请输入..."></Input>
         </Form-item>
       </Col>

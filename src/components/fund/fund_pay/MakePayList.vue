@@ -20,11 +20,11 @@
                   </Select>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付状态：" prop="paymentStatus">
                   <Select v-model="operatorSearchData.paymentStatus" style="width: 100%;" transfer>
@@ -73,7 +73,7 @@
             {{makePayListInfo.rows}}
           </Form-item>
         </Col>
-        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="公积金账号总数：">
             {{makePayListInfo.fundAccounts}}
           </Form-item>
@@ -92,7 +92,7 @@
           <Form-item label="总金额：">
             {{makePayListInfo.amount}}
           </Form-item>
-        </Col>
+        </Col> -->
       </Row>
       <Row class="mt20">
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

@@ -60,13 +60,13 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <!-- <DropdownItem name="0">Excel导出客户汇总</DropdownItem> -->
+            <!-- <DropdownItem name="0">Excel输出</DropdownItem> -->
             <DropdownItem name="1">基本公积金变更清册</DropdownItem>
             <DropdownItem name="2">补充公积金变更清册</DropdownItem>
             <DropdownItem name="3">基本公积金补缴清册</DropdownItem>
             <DropdownItem name="4">补充公积金补缴清册</DropdownItem>
-            <DropdownItem name="5">基本公积金汇缴补缴书</DropdownItem>
-            <DropdownItem name="6">补充公积金汇缴补缴书</DropdownItem>
+            <DropdownItem name="5">基本公积金汇缴书</DropdownItem>
+            <DropdownItem name="6">补充公积金汇缴书</DropdownItem>
             <DropdownItem name="7">付款凭证打印</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -112,7 +112,16 @@
     </Row>
 
     <Table border ref="fundPay" class="mt20" :columns="fundPayColumns" :data="fundPayData" :loading="loading" @on-selection-change="selectChange"></Table>
-    <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
+    <!-- <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page> -->
+    <Page
+      class="pageSize"
+      @on-change="handlePageNum"
+      @on-page-size-change="handlePageSite"
+      :total="totalSize"
+      :page-size="size"
+      :page-size-opts="pageSizeOpts"
+      :current="pageNum"
+      show-sizer show-total></Page>
 
     <Modal
       v-model="isShowPayProgress"
@@ -224,6 +233,7 @@
         totalSize:0,//后台传过来的分页总数
         size:10,//默认单页记录数
         pageNum:1,//默认页数
+        pageSizeOpts:[10,20,50],
         loading: false,
         currentIndex:-1,
         operatorSearchData: {
@@ -238,7 +248,6 @@
           paymentId:0,
           paymentState:0
         },
-
         //todo: 菜单值统一存储维护
         paymentStateList: [
           {label: "全部", value: ''},
@@ -322,10 +331,10 @@
               ]);
             }
           },
-          {title: '制单日期', key: 'createPaymentDate', align: 'center', width: 180,
+          {title: '制单日期', key: 'createPaymentDateString', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.createPaymentDate),
+                h('span', params.row.createPaymentDateString),
               ]);
             }
           },
@@ -676,6 +685,21 @@
           params:this.operatorSearchData
         }
       },
+
+      queryData(){
+        this.loading=true;
+        let params = {
+          pageSize: this.size,
+          pageNum: this.pageNum,
+          params:this.operatorSearchData
+        };
+        FundPay.getFundPaysTableData(params).then(data=>{
+          this.refresh(data)
+        }).catch(error=>{
+          console.log(error)
+        })
+      },
+
       refresh(data){
         this.fundPayData = data.data.fundPayData;
         if(typeof(data.data.totalSize)=='undefined') this.totalSize = 0
@@ -707,7 +731,21 @@
           this.progressInfo.paymentState = 0;
         }
       },
+
+      handlePageNum(val) {
+        this.pageNum = val;
+        this.queryData();
+      },
+      handlePageSite(val) {
+        this.size = val;
+        this.queryData();
+      },
+      //生成导出文件
       exportTable(name) {
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        let params ={paymentId:row.paymentId}
         switch(parseInt(name)) {
           case 0:
             this.$refs.fundPay.exportCsv({
@@ -716,16 +754,44 @@
             });
             break;
           case 1:
-            this.isShowFundPayChangeList = true;
+             params.hfType=1;
+             FundPay.chgDetailListExport({
+                pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+                pageNum: 1,
+                params: params,
+              });
             break;
           case 2:
-            this.isShowAddFundPayChangeList = true;
+             params.hfType=2;
+             FundPay.chgDetailListExport({
+                pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+                pageNum: 1,
+                params: params,
+              });
             break;
           case 3:
-            this.isShowFundPayRepairList = true;
+            params.hfType=1;
+             FundPay.repairDetailListExport({
+                pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+                pageNum: 1,
+                params: params,
+              });
             break;
           case 4:
-            this.isShowAddFundPayRepairList = true;
+            params.hfType=2;
+             FundPay.repairDetailListExport({
+                pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+                pageNum: 1,
+                params: params,
+              });
+            break;
+          case 5:
+            break;
+          case 6:
+
+            break;
+          case 7:
+            this.printFinancePayVoucher();
             break;
           default:
             break;
@@ -774,12 +840,12 @@
 
           FundPay.processApproval(params).then(data=>{
             this.$Message.success(data.message);
-            this.clickQuery();
+            this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         }else{
-          this.$Message.success("该记录不能送审，请检查!");
+          this.$Message.info("该记录不能送审，请检查!");
         }
       },
       processPayment(){
@@ -793,12 +859,12 @@
           };
           FundPay.processPayment(params).then(data=>{
             this.$Message.success(data.message);
-            this.clickQuery();
+            this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         }else{
-          this.$Message.success("该记录不能汇缴，请检查!");
+          this.$Message.info("该记录不能汇缴，请检查!");
         }
       },
       processTicket(){
@@ -812,12 +878,12 @@
           };
           FundPay.processTicket(params).then(data=>{
             this.$Message.success(data.message);
-            this.clickQuery();
+            this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         }else{
-          this.$Message.success("该记录不能出票，请检查!");
+          this.$Message.info("该记录不能出票，请检查!");
         }
       },
       processReceipt(){
@@ -831,12 +897,12 @@
           };
           FundPay.processReceipt(params).then(data=>{
             this.$Message.success(data.message);
-            this.clickQuery();
+            this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         } else{
-          this.$Message.success("该记录不能回单，请检查!");
+          this.$Message.info("该记录不能回单，请检查!");
         }
       },
       //操作
@@ -893,8 +959,8 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-      if(row.paymentState != 1 && row.paymentState !=4){
-        this.$Message.success('当前状态，不允许删除！');
+      if(row.paymentState != 1 && row.paymentState !=4 && row.paymentState !=2  ){
+        this.$Message.info('当前状态，不允许删除！');
         return false;
       }
         this.$Modal.confirm({
@@ -925,6 +991,17 @@
         FundPay.generateBankChange({
           paymentId:row.paymentId,
         })
+      },
+ 	printFinancePayVoucher(){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        if(row.payApplyCode == null ||  row.payApplyCode ==''  ){
+          this.$Message.info('汇缴操作后，才可以打印付款凭证！');
+          return false;
+        }
+        let params ={payApplyCode:row.payApplyCode}
+        FundPay.printFinancePayVoucher(params);
       },
     }
   }

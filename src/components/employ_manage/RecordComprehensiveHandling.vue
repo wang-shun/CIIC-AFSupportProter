@@ -67,7 +67,7 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employmentId,params.row.employeeId,params.row.companyId)
+                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employmentId,params.row.employeeId,params.row.companyId,params.row.empTaskResignId)
                     }
                   }
                 }, '办理'),
@@ -581,8 +581,8 @@
            this.archiveQuery(this.searchCondition);
 
       },
-      showInfoT (idNum,idCardType,empTaskId,employmentId,employeeId,companyId) {
-        this.$router.push({name:'recordComprehensive', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employmentId:employmentId,employeeId:employeeId,companyId:companyId}});
+      showInfoT (idNum,idCardType,empTaskId,employmentId,employeeId,companyId,empTaskResignId) {
+        this.$router.push({name:'recordComprehensive', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employmentId:employmentId,employeeId:employeeId,companyId:companyId,empTaskResignId:empTaskResignId}});
       },
       handlePageNum(val) {
         this.pageData.pageNum = val;

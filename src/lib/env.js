@@ -1,7 +1,8 @@
 let env = {};
+let dev = process.env.env;
 
-let dev = 'dev';
- // let dev = 'sit';
+// let dev = 'dev';
+// let dev = 'sit';
 // let dev = 'uat';
 // let dev = 'prod';
 

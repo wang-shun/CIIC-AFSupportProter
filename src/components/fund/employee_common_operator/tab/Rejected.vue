@@ -6,11 +6,11 @@
         <div slot="content">
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="服务中心：" prop="serviceCenter">
-                <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenter" trigger="hover" transfer></Cascader>
-              </Form-item>
-              </Col>
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="服务中心：" prop="serviceCenter">-->
+                <!--<Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenter" trigger="hover" transfer></Cascader>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员编号：" prop="employeeId">
                 <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
@@ -132,12 +132,12 @@
           hfComAccount: ''
         },
 
-        serviceCenterData: [
-          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-          {value: 2, label: '日本客户'},
-          {value: 3, label: '虹桥'},
-          {value: 4, label: '浦东'}
-        ], //客服中心
+//        serviceCenterData: [
+//          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
+//          {value: 2, label: '日本客户'},
+//          {value: 3, label: '虹桥'},
+//          {value: 4, label: '浦东'}
+//        ], //客服中心
         taskTypeList: [],
         payBankList: [],
         fundTypeList: [],

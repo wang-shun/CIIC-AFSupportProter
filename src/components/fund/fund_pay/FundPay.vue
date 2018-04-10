@@ -60,7 +60,7 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem name="0">Excel输出</DropdownItem>
+            <!-- <DropdownItem name="0">Excel输出</DropdownItem> -->
             <DropdownItem name="1">基本公积金变更清册</DropdownItem>
             <DropdownItem name="2">补充公积金变更清册</DropdownItem>
             <DropdownItem name="3">基本公积金补缴清册</DropdownItem>
@@ -321,10 +321,10 @@
               ]);
             }
           },
-          {title: '制单日期', key: 'createPaymentDate', align: 'center', width: 180,
+          {title: '制单日期', key: 'createPaymentDateString', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.createPaymentDate),
+                h('span', params.row.createPaymentDateString),
               ]);
             }
           },
@@ -706,11 +706,12 @@
           this.progressInfo.paymentState = 0;
         }
       },
+      //生成导出文件
       exportTable(name) {
         let row;
         row=this.checkSelect();
         if(!row)return false;
-
+        let params ={paymentId:row.paymentId}
         switch(parseInt(name)) {
           case 0:
             this.$refs.fundPay.exportCsv({
@@ -719,8 +720,7 @@
             });
             break;
           case 1:
-             
-             let params ={paymentId:row.paymentId,hfType:1}
+             params.hfType=1;
              FundPay.chgDetailListExport({
                 pageSize: this.$utils.DEFAULT_PAGE_SIZE,
                 pageNum: 1,
@@ -728,13 +728,28 @@
               });
             break;
           case 2:
-            this.isShowAddFundPayChangeList = true;
+             params.hfType=2;
+             FundPay.chgDetailListExport({
+                pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+                pageNum: 1,
+                params: params,
+              });
             break;
           case 3:
-            this.isShowFundPayRepairList = true;
+            params.hfType=1;
+             FundPay.repairDetailListExport({
+                pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+                pageNum: 1,
+                params: params,
+              });
             break;
           case 4:
-            this.isShowAddFundPayRepairList = true;
+            params.hfType=2;
+             FundPay.repairDetailListExport({
+                pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+                pageNum: 1,
+                params: params,
+              });
             break;
           case 5:
             break;

@@ -39,7 +39,8 @@ export class CompanyTaskListHF{
                     obj.taskCategoryName = i.taskCategoryName
                     obj.hfTypeName = i.hfTypeName
                     obj.comTaskPaymentWayName = i.comTaskPaymentWayName
-
+                    obj.initiator = i.submitterName
+                    obj.sponsorTime = i.submitTimeString
                     //开户-companyInfo传参
                     companyInfo.customerNumber = i.companyId
                     companyInfo.customerName = i.companyName

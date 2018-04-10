@@ -492,6 +492,14 @@ export default {
         case '8':
         case 8:
             return '转移'
+        case 9:
+            return '翻牌新开'
+        case 10:
+            return '翻牌转入'
+        case 11:
+            return '翻牌启封'
+        case 12:
+            return '翻牌转出'
         default: // 默认 1
             return ''
         }

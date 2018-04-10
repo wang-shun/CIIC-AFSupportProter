@@ -13,32 +13,35 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="title">
-                  <input-company v-model="operatorSearchData.companyId"></input-company>
+                  <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业账户类型：" prop="accountTypeValue">
-                  <Select v-model="operatorSearchData.accountTypeValue" style="width: 100%;" transfer>
+                <Form-item label="企业账户类型：" prop="hfAccountType">
+                  <Select v-model="operatorSearchData.hfAccountType" style="width: 100%;" transfer>
+                     <Option  value="" >全部</Option>
                     <Option v-for="(value,key) in this.baseDic.companyHFAccountType" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴费银行：" prop="payBankValue">
-                  <Select v-model="operatorSearchData.payBankValue" style="width: 100%;" transfer>
-                    <Option v-for="(value,key) in this.baseDic.payBankList" :value="key" :key="key">{{ value }}</Option>
+                <Form-item label="缴费银行：" prop="paymentBank">
+                  <Select v-model="operatorSearchData.paymentBank" style="width: 100%;" transfer>
+                    <Option  value="" >全部</Option>
+                    <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业公积金账户：" prop="companyFundAccount">
-                  <input-account v-model="operatorSearchData.companyFundAccount"></input-account>
+                <Form-item label="企业公积金账号：" prop="hfComAccount">
+                  <input-account v-model="operatorSearchData.hfComAccount"></input-account>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金类型：" prop="hfTypeName">
-                  <Select v-model="operatorSearchData.hfTypeName" style="width: 100%;" transfer>
-                    <Option v-for="(value,key) in this.baseDic.hfTypeNameList" :value="value" :key="value">{{ value }}</Option>
+                <Form-item label="公积金类型：" prop="hfType">
+                  <Select v-model="operatorSearchData.hfType" style="width: 100%;" transfer>
+                     <Option  value="" >全部</Option>
+                    <Option v-for="(value,key) in this.baseDic.hfType" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -47,11 +50,11 @@
                   <Input v-model="operatorSearchData.serviceManager" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务发起时间：" prop="taskStartTime">
-                  <DatePicker v-model="operatorSearchData.taskStartTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="任务发起时间：" prop="submitTimeArray">
+                  <DatePicker v-model="operatorSearchData.submitTimeArray" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
-              </Col>
+              </Col> -->
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -106,12 +109,13 @@
         operatorSearchData: {
           serviceCenterValue: [],
           companyId: '',
-          accountTypeValue: '',
-          payBankValue: '',
-          companyFundAccount: '',
-          hfTypeName: '',
+          hfAccountType:'',
+          paymentBank: '',
+          hfComAccount:'',
+          hfType:'',
           serviceManager: '',
-          taskStartTime: ''
+          taskStatusString: '0', //未处理
+          //submitTimeArray:[],
         },
         serviceCenterData: [
           {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
@@ -321,14 +325,23 @@
       clickQuery(){
         this.loading=true;
         //获得页面条件参数
-        let params = this.getParams(1)
-        let self = this
+        let params = this.getParams1(1)
         NoProcess.postTableData(params).then(data=>{
-          self.refresh(data)
+          this.refresh(data)
         }).catch(error=>{
           console.log(error)
         })
       },
+
+    //获得列表请求参数
+      getParams1(page){
+        return {
+          pageSize:this.size,
+          pageNum:page,
+          params:this.operatorSearchData
+        }
+      },
+
       //获得列表请求参数
       getParams(page){
         return {

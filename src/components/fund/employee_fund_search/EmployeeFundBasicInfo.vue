@@ -332,11 +332,10 @@
             render: (h, params) => {
               let taskCategory=this.$decode.hf_taskCategory(params.row.taskCategory);
               if(params.row.isChange==1){
-                taskCategory=taskCategory+'(更正)'
+                taskCategory= taskCategory+'(更正)'
               }
-              
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span',  taskCategory),
+                h('span', taskCategory),
               ]);
             }
           },

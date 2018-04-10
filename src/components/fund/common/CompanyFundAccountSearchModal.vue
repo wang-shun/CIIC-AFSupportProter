@@ -33,10 +33,10 @@
     },
     data() {
       return {
-        mAccount: '', //企业公积金账户
+        mAccount: '', //企业公积金账号
         mCompanyName: '', //企业名称
         companyFundAccountColumns: [
-          {title: '企业公积金账户', key: 'companyFundAccount', align: 'center',
+          {title: '企业公积金账号', key: 'companyFundAccount', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.companyFundAccount),

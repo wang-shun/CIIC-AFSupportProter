@@ -128,7 +128,7 @@
     data() {
       return {
         operatorSearchData: {
-          serviceCenterValue: '',
+          serviceCenterValue: [],
           serviceCenterList: [
             {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
             {value: 2, label: '日本客户'},

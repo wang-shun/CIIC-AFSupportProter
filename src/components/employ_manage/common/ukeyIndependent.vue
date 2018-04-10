@@ -88,9 +88,8 @@
     methods: {
 
        instance() {
-        
+         
        var fromData = this.$utils.clear(this.employIndependentInfo,'');
-
        
         api.saveCompanySet(fromData).then(data => {
               if (data.code == 200) {

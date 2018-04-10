@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Table border :columns="refuseReturnMaterialsSignColumns" :width="900"  :data="refuseReturnMaterialsSign" class="mt20"></Table>
+    <Table border :columns="refuseReturnMaterialsSignColumns" :width="1000"  :data="refuseReturnMaterialsSign" class="mt20"></Table>
     <Row type="flex" justify="start" class="mt20">
       <Col class="tr">
         <Button type="primary" @click="modal1 = true">新增</Button>
@@ -12,51 +12,7 @@
         title="归还材料签收"
         @on-ok="ok"
         @on-cancel="cancel">
-      <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-      <Row type="flex" justify="start">
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="材料名称：" prop="materialNamew">
-             <Input v-model="handleInfo.materialNamew" placeholder="请输入"/>
-          </Form-item>
-        </Col>
-       </Row>
-      <Row type="flex" justify="start">
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="收到人：" prop="receiveManw">
-             <Input v-model="handleInfo.receiveManw" placeholder="请输入"/>
-          </Form-item>
-        </Col>
-       </Row>
-       <Row type="flex" justify="start">
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="批退人：" prop="rejectManw">
-             <Input v-model="handleInfo.rejectManw" placeholder="请输入"/>
-          </Form-item>
-        </Col>
-       </Row>
-       <Row type="flex" justify="start">
-         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="提交日期：" prop="submitDatew">
-            <DatePicker type="date" v-model="handleInfo.submitDatew" transfer></DatePicker>
-          </Form-item>
-         </Col>
-      </Row>
-       <Row type="flex" justify="start">
-         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="收到日期：" prop="receiveDatew">
-            <DatePicker type="date" v-model="handleInfo.receiveDatew" transfer></DatePicker>
-          </Form-item>
-         </Col>
-      </Row>
-      <Row type="flex" justify="start">
-         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="批退日期：" prop="rejectDatew">
-            <DatePicker type="date" v-model="handleInfo.rejectDatew" transfer></DatePicker>
-          </Form-item>
-         </Col>
-      </Row>
-      
-    </Form>
+    <Table border  ref="payComSelection" :columns="refuseReturnMaterialsColumns" :width="300"  :data="refuseReturnMaterials" class="mt20"></Table>
     </Modal>
   </div>
 </template>
@@ -65,6 +21,9 @@
   export default {
     props: {
       refuseReturnMaterialsSignInfo: {
+        type: Array
+      },
+      refuseReturnMaterials:{
         type: Array
       }
     },
@@ -135,6 +94,16 @@
                 ]);
             }
          }
+        ],refuseReturnMaterialsColumns: [
+          {title: '', type: 'selection', width: 60},
+          {title: '材料名称', key: 'materialName', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.materialName),
+              ]);
+            }
+          }
+          
         ],handleInfo: {
           materialNamew:'',
           remarkContentw: '',
@@ -163,37 +132,40 @@
       }
     },
     methods: {
-            ok () {
-              if(this.handleInfo.materialNamew==''){
-                 this.$Message.info('材料名称不能为空');
-                  return;
-               }
-               if(this.handleInfo.submitDatew==''){
-                  this.$Message.info('提交日期不能为空');
-                  return;
-               }
-                if(this.handleInfo.receiveDatew==''){
-                  this.$Message.info('收到日期不能为空');
-                  return;
-               }
-               if(this.handleInfo.rejectDatew==''){
-                  this.$Message.info('批退日期不能为空');
-                  return;
-               }
-              var fromData = this.$utils.clear(this.realHandInfo,'');
-               fromData.receiveDate = this.$utils.formatDate(this.handleInfo.receiveDatew, 'YYYY-MM-DD');
-               fromData.submitDate = this.$utils.formatDate(this.handleInfo.submitDatew, 'YYYY-MM-DD');
-               fromData.rejectDate = this.$utils.formatDate(this.handleInfo.rejectDatew, 'YYYY-MM-DD');
-              
-               fromData.receiveMan = this.handleInfo.receiveManw;
+          ok () {
+              let selection = this.$refs.payComSelection.getSelection();
 
-               fromData.rejectMan = this.handleInfo.rejectManw;
-             
-               fromData.employeeId = this.$route.query.employeeId;
+            //判断条件
+            //是否有选中列
+            if(selection.length == 0){
+              alert("没有选中的列");
+              return;
+            }
+        
+          selection.some(item => {
+               var isE = false;
+               var fromData = this.$utils.clear(this.realHandInfo,'');
+               fromData.materialName = item.materialName;
+               fromData.empTaskId = this.$route.query.empTaskResignId;
 
-               fromData.materialName = this.handleInfo.materialNamew;
+              if(this.refuseReturnMaterialsSign.length==0){
+                 isE = false;
+              }
+              for(var i = 0; i < this.refuseReturnMaterialsSign.length; i++)
+              {
+                  if(item.materialName === this.refuseReturnMaterialsSign[i].materialName)
+                  {
+                      isE = true;
+                  }
+              }
+
+               if(!isE)
+               {
+                  this.refuseReturnMaterialsSign.push(fromData);
+               }
                
-               this.refuseReturnMaterialsSign.push(fromData);
+           });
+              
             },
             cancel () {
                
@@ -216,7 +188,7 @@
             },
             remove (index,empMaterialId) {
                 if(!empMaterialId){
-                  this.fileNotesView.splice(index, 1);
+                  this.refuseReturnMaterialsSign.splice(index, 1);
               
                 }else{
                      this.$Modal.confirm({

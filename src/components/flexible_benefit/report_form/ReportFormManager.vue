@@ -26,8 +26,8 @@
                 </Form-item>
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员出生日期：" prop="birthday">
-                  <DatePicker type="daterange" split-panels  v-model="queryItem.birthday" placeholder="请选择" transfer></DatePicker>
+                <Form-item label="雇员出生日期：" prop="birthday" key="1">
+                  <DatePicker type="daterange" split-panels  v-model="queryItem.birthday" placeholder="请选择" transfer ></DatePicker>
                 </Form-item>
               </i-col>
             </Row>
@@ -43,7 +43,7 @@
                 </Form-item>
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="服务产品：" prop="product">
+                <Form-item label="服务产品：" prop="product" key="2">
                   <Select v-model="queryItem.product" placeholder="请选择" transfer>
                     <Option v-for="item in products" :value="item.productId" :key="item.productId">{{item.productName}}</Option>
                   </Select>
@@ -62,7 +62,7 @@
                 </Form-item>
               </i-col>
                <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="empId">
+                <Form-item label="雇员编号：" prop="empId" key="3">
                   <Input v-model="queryItem.empId" placeholder="请输入"/>
                 </Form-item>
               </i-col>
@@ -127,7 +127,7 @@
           majordomo: '',
           manager: '',
           companyName: '',
-          product: '',
+          product: 'CPDFL1800059',
           birthday: [],
           empId: ''
         },
@@ -189,13 +189,15 @@
         if (this.formTitle == '7') {
           window.location = host+'/api/reportform/get7?companyId=' + form.companyId +
                                                   '&companyName=' + form.companyName +
-                                                  '&employeeId=' + form.employeeId
+                                                  '&employeeId=' + form.empId
         }
       }
     },
     watch: {
       formTitle: function (){
         this.$refs.queryItem.resetFields();
+        this.queryItem.product = 'CPDFL1800059'
+        console.log("empId:"+this.queryItem.empId)
       }
     }
   }

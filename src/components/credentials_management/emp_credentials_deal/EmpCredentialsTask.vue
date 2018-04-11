@@ -351,11 +351,22 @@
         params.templateType = this.templateType
         axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
           if (response.data.errCode === '0'){
-               this.$Notice.success({
-                  title: '保存成功',
-                  desc: ''
-                })
-                this.findAll(this.empCode)
+              //  this.$Notice.success({
+              //     title: '保存成功',
+              //     desc: ''
+              //   })
+              //   this.findAll(this.empCode)
+                this.$Modal.confirm({
+                      title: '保存成功',
+                      cancelText: '返回前页',
+                      onCancel: () => {
+                        this.$router.push('/emp_credentials_deal/emp_list')
+                      },
+                      okText: '留在本页',
+                      onOk: () => {
+                        this.findAll(this.empCode)
+                      }
+                    })
             } else {
               this.$Notice.error({
                 title: '保存失败',

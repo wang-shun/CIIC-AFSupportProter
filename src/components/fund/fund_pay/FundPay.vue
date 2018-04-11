@@ -26,7 +26,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业账户类型：" prop="hfAccountType">
                   <Select v-model="operatorSearchData.hfAccountType" style="width: 100%;" transfer>
-                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option value="" >全部</Option>
+                     <Option v-for="(value,key) in this.baseDic.companyHFAccountType" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -37,7 +38,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="汇缴年月：" prop="paymentMonth">
-                  <DatePicker v-model="operatorSearchData.paymentMonth" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                  <Date-picker v-model="operatorSearchData.paymentMonth" type="month" format='yyyyMM' placement="bottom" placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
                 </Form-item>
               </Col>
             </Row>
@@ -220,6 +221,7 @@
   import addFundPayRepairList from '../common/AddFundPayRepairList.vue'
   import InputCompany from "../common/input_company"
   import {FundPay} from '../../../api/house_fund/fund_pay/fund_pay'
+  import Tools from '../../../lib/tools'
 
 
   export default {
@@ -240,9 +242,12 @@
           customerNumber: "",
           outAccountBatch: "",
           payStatusValue: 0,
+          hfAccountType:'',
           accountTypeValue: 0,
           ticketMaker: "",
+          paymentMonth:"",
           payDate: ""
+
         },
         progressInfo:{
           paymentId:0,
@@ -251,19 +256,15 @@
         //todo: 菜单值统一存储维护
         paymentStateList: [
           {label: "全部", value: ''},
-          {label: "可付", value: 3},
-          {label: "申请中", value: 4},
-          {label: "内部审批批退", value: 5},
-          {label: "已申请到财务部", value: 6},
-          {label: "财务部批退", value: 7},
-          {label: "财务部支付成功", value: 8}
+          {label: "可付", value: 1},
+          {label: "送审", value: 2},
+          {label: "汇缴(已申请到财务部 ) ", value: 3},
+          {label: "财务部批退", value: 4},
+          {label: "财务部审批通过", value: 5},
+          {label: "出票", value:6},
+          {label: "回单", value:7}
         ],
-        accountTypeList: [
-          {label: "全部", value: ''},
-          {label: "中智大库", value: 1},
-          {label: "中智外包", value: 2},
-          {label: "独立户", value: 3},
-        ],
+    
         isShowPayProgress: false,
         fundPayColumns: [
           // {type: 'selection', width: 60},
@@ -392,7 +393,7 @@
           {title: '汇缴银行', key: 'paymentBank', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.paymentBank),
+                h('span', this.$decode.hf_paymentBank(params.row.paymentBank)),
               ]);
             }
           },
@@ -417,20 +418,20 @@
               ]);
             }
           },
-          {title: '到账金额', key: 'daozhangAmount', align: 'center', width: 200,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.daozhangAmount),
-              ]);
-            }
-          },
-          {title: '到账人数', key: 'daozhangCountEmp', align: 'center', width: 200,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.daozhangCountEmp),
-              ]);
-            }
-          }
+          // {title: '到账金额', key: 'daozhangAmount', align: 'center', width: 200,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'left'}}, [
+          //       h('span', params.row.daozhangAmount),
+          //     ]);
+          //   }
+          // },
+          // {title: '到账人数', key: 'daozhangCountEmp', align: 'center', width: 200,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'left'}}, [
+          //       h('span', params.row.daozhangCountEmp),
+          //     ]);
+          //   }
+          // }
         ],
         operateEditColumns: [
           {title: '操作', align: 'center', width: 120,
@@ -678,8 +679,12 @@
           console.log(error)
         })
       },
-      getParams(page) {
-        return {
+      getParams(page) { 
+        if(this.operatorSearchData.paymentMonth!=''){
+          this.operatorSearchData.payDate= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
+          this.operatorSearchData.paymentMonth= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
+        }
+       return {
           pageSize: this.size,
           pageNum: page,
           params:this.operatorSearchData

@@ -156,329 +156,371 @@
 </template>
 
 <script>
-  import CredentialsMaterial1 from './CredentialsMaterial1'
-  import CredentialsMaterial2 from './CredentialsMaterial2'
-  import CredentialsMaterial3 from './CredentialsMaterial3'
-  import CredentialsMaterial4 from './CredentialsMaterial4'
-  import CredentialsMaterial5 from './CredentialsMaterial5'
-  import CredentialsMaterial6 from './CredentialsMaterial6'
-  import CredentialsMaterial7 from './CredentialsMaterial7'
-  import CredentialsMaterial8 from './CredentialsMaterial8'
-  import CredentialsMaterial9 from './CredentialsMaterial9'
-  import CredentialsMaterial10 from './CredentialsMaterial10'
-  import CredentialsMaterial11 from './CredentialsMaterial11'
-  import CredentialsMaterial12 from './CredentialsMaterial12'
-  import CredentialsMaterial13 from './CredentialsMaterial13'
-  import CredentialsMaterial14 from './CredentialsMaterial14'
-  import axios from 'axios'
+import CredentialsMaterial1 from "./CredentialsMaterial1";
+import CredentialsMaterial2 from "./CredentialsMaterial2";
+import CredentialsMaterial3 from "./CredentialsMaterial3";
+import CredentialsMaterial4 from "./CredentialsMaterial4";
+import CredentialsMaterial5 from "./CredentialsMaterial5";
+import CredentialsMaterial6 from "./CredentialsMaterial6";
+import CredentialsMaterial7 from "./CredentialsMaterial7";
+import CredentialsMaterial8 from "./CredentialsMaterial8";
+import CredentialsMaterial9 from "./CredentialsMaterial9";
+import CredentialsMaterial10 from "./CredentialsMaterial10";
+import CredentialsMaterial11 from "./CredentialsMaterial11";
+import CredentialsMaterial12 from "./CredentialsMaterial12";
+import CredentialsMaterial13 from "./CredentialsMaterial13";
+import CredentialsMaterial14 from "./CredentialsMaterial14";
+import axios from "axios";
 
-  const host = process.env.SITE_HOST
-  export default {
-    components: {
-      CredentialsMaterial1,
-      CredentialsMaterial2,
-      CredentialsMaterial3,
-      CredentialsMaterial4,
-      CredentialsMaterial5,
-      CredentialsMaterial6,
-      CredentialsMaterial7,
-      CredentialsMaterial8,
-      CredentialsMaterial9,
-      CredentialsMaterial10,
-      CredentialsMaterial11,
-      CredentialsMaterial12,
-      CredentialsMaterial13,
-      CredentialsMaterial14
-    },
-    props: {
-      emp: {
-        type: Array,
-        default() {
-          return {}
-        }
-      }
-    },
-    data () {
-      return {
-        highlight: true,
-        taskFollow: false,
-        followDescription:'',
-        taskId: '',
-        materialsIds: '',
-        meterials: {
-          info: {},
-          menu: null,
-          comp:''
-        },
-        rowdata: {basicProductId:''},
-        formItem: {
-          credentialsType: '',
-          credentialsDealType: '',
-          name: '',
-          operateTypeN: '',
-          operateAccount: '',
-          operatePwd: '',
-          chargeTypeN: '',
-          payTypeN: '',
-          specialChargeRemark: '',
-          introduceMail: '',
-          onlineContactIdCard: '',
-          onlineContactIsSecretariat: '',
-          onlineContact: '',
-          businessLicence: '',
-          organizationCode: '',
-          foreignBusinessApprovalCertificate: '',
-          businessRenameNotice: '',
-          specialMaterialRemark: '',
-          taskId: ''
-        },
-        colums1: [
-          {
-            title: '雇员编号',
-            key: 'empCode'
-          },
-          {
-            title: '雇员姓名',
-            key: 'empName'
-          },
-          {
-            title: '客户编号',
-            key: 'companyCode'
-          },
-          {
-            title: '客户名称',
-            key: 'companyName'
-          },
-          {
-            title: '证件类型',
-            key: 'credentialsTypeN'
-          },
-          {
-            title: '证件办理类型',
-            key: 'credentialsDealTypeN'
-          },
-          {
-            title: '经办人',
-            key: 'createdBy'
-          },
-          {
-            title: '办理时间',
-            key: 'createdTime'
-          },
-          {
-            title: '操作',
-            key: 'action',
-            width: '150',
-            align: 'center',
-            render: (h, params) => {
-              if (params.row.action == null || params.row.action == ""){
-              return h('div', [
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                    }
-                  }
-                }, '编辑'),
-                h('Button', {
-                  props: {
-                    type: 'success',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.taskId = params.row.taskId
-                      this.taskFollowShow(params.row.taskId);
-                    }
-                  }
-                }, '跟进')
-              ])
-            }
-          }
-          }
-        ],
-        data1: [],
-        columns2: [
-          {
-            title: '跟进人',
-            width: 100,
-            key: 'createdBy'
-          },
-          {
-            title: '跟进时间',
-            width: 150,
-            key: 'createdTime'
-          },
-          {
-            title: '跟进说明',
-            key: 'followDescription'
-          }
-        ],
-        data2: []
-      }
-    },
-    methods: {
-      clickRow (value) {
-        this.formItem.name = ""
-        this.formItem.operateTypeN = ""
-        this.formItem.chargeTypeN = ""
-        this.formItem.operateAccount = ""
-        this.formItem.operatePwd = ""
-        this.formItem.payTypeN = ""
-        this.formItem.specialChargeRemark = ""
-        this.formItem.introduceMail = false
-        this.formItem.onlineContactIdCard = false
-        this.formItem.onlineContactIsSecretariat = false
-        this.formItem.onlineContact = ""
-        this.formItem.businessLicence = false
-        this.formItem.organizationCode = false
-        this.formItem.foreignBusinessApprovalCertificate = false
-        this.formItem.businessRenameNotice = false
-        this.formItem.specialMaterialRemark = ""
-        if (value !== null) {
-          this.formItem.credentialsType = value.credentialsType
-          this.formItem.credentialsDealType = value.credentialsDealType
-          this.rowdata = {...value}
-          this.$emit("backRow", this.rowdata)
-          this.selectCompanyExt(value.credentialsType,value.companyCode)
-          if (value.credentialsDealType != null && value.credentialsDealType != ""){
-            this.createMeterialsMenu(value.credentialsType.toString(),value.credentialsDealType.toString())
-          } else {
-            this.createMeterialsMenu(value.credentialsType.toString(),"")
-          }
-          this.findMaterialMenu(value.taskId)
-          this.findMaterials(value.taskId)
-        }
-      },
-      findMaterialMenu(taskId) {
-        axios.get(host+'/api/materials/findMenu/'+taskId).then(response => {
-          if (response.data.errCode == '0') {
-              this.meterials.comp = response.data.data.comp
-              this.meterials.marryStatus = response.data.data.marryStatus
-              this.meterials.hasFollower = response.data.data.hasFollower
-              this.meterials.familerMaterials = response.data.data.familerMaterials
-              this.meterials.applyAddrChange = response.data.data.applyAddrChange
-              this.meterials.addr = response.data.data.addr
-              this.meterials.followerType = response.data.data.followerType
-              this.meterials.follower = response.data.data.follower
-              this.meterials.hasChildFollow = response.data.data.hasChildFollow
-              this.meterials.hasSpouseFollow = response.data.data.hasSpouseFollow
-              this.meterials.hasShPerson = response.data.data.hasShPerson
-              this.meterials.married = response.data.data.married
-              this.meterials.jobMaterials = response.data.data.jobMaterials
-              this.meterials.hasGooder = response.data.data.hasGooder
-              this.meterials.educate = response.data.data.educate
-              this.meterials.followMaterials = response.data.data.followMaterials
-              this.meterials.notFollowMaterials = response.data.data.notFollowMaterials
-            } 
-        })
-      },
-      findMaterials(taskId) {
-          axios.get(host + '/api/materials/find/'+taskId).then(response => {
-            if (response.data.errCode == '0') {
-              this.meterials.info = response.data.data
-            } else {
-              this.meterials.info = ""
-            }
-          }).catch((error) => {
-            this.meterials.info = response.data.data
-          })
-      },
-
-      createMeterialsMenu(credentialsType,credentialsDealType) {
-        axios.get(host + '/api/materials/create?credentialsType='+credentialsType+'&credentialsDealType='+credentialsDealType).then(response => {
-          if (response.data.errCode == '0') {
-            this.meterials.menu = response.data.data
-          }
-        })
-      },
-      taskFollowShow(taskId) {
-        if( taskId != null) {
-          axios.get(host + '/api/empCredentialsDeal/find/taskFollow/'+taskId).then((response) =>{
-            if (response.data.errCode == "0"){
-              this.data2 = response.data.data
-              this.followDescription = ""
-              this.taskFollow = true
-            } else {
-              this.$Notice.error({
-                title: '查询失败',
-                desc: ''
-              })
-            }
-          }).catch((error) => {
-            this.$Notice.error({
-              title: '查询失败',
-              desc: ''
-            })
-          })
-        }
-      },
-      selectCompanyExt (credentialsType,companyId) {
-        axios.get(host + '/api/empCredentialsDeal/find/companyExt/'+companyId+'/'+credentialsType).then(response => {
-          Object.assign(this.formItem, response.data.data);
-        })
-      },
-      ok () {
-        if (this.followDescription != "" && this.followDescription != null) {
-          var params = {}
-          params.followDescription = this.followDescription
-          params.taskId = this.taskId
-          params.createdBy = 'gu'
-          axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/taskFollow', params).then(response => {
-            if (response.data.errCode === '0'){
-              this.$Notice.success({
-                title: '保存成功',
-                desc: ''
-              })
-              this.modal1 = false
-            } else {
-              this.$Notice.error({
-                title: '保存失败',
-                desc: ''
-              })
-            }
-          }).catch((error) => {
-            this.$Notice.error({
-              title: '保存失败',
-              desc: ''
-            })
-          })
-        }
-      },
-      cancel() {},
-      childBack (info) {
-        this.materialsIds = info.materialsIds
-        this.rowdata.materialIds = this.materialsIds
-        this.rowdata.comp = info.comp
-        this.rowdata.marryStatus = info.marryStatus
-        this.rowdata.hasFollower = info.hasFollower
-        this.rowdata.familerMaterials = info.familerMaterials
-        this.rowdata.applyAddrChange = info.applyAddrChange
-        this.rowdata.addr = info.addr
-        this.rowdata.followerType = info.followerType
-        this.rowdata.follower = info.follower
-        this.rowdata.hasChildFollow = info.hasChildFollow
-        this.rowdata.hasSpouseFollow = info.hasSpouseFollow
-        this.rowdata.married = info.married
-        this.rowdata.jobMaterials = info.jobMaterials
-        this.rowdata.hasGooder = info.hasGooder
-        this.rowdata.hasShPerson = info.hasShPerson
-        this.rowdata.educate = info.educate
-        this.rowdata.followMaterials = info.followMaterials
-        this.rowdata.notFollowMaterials = info.notFollowMaterials
-        this.$emit("backRow", this.rowdata)        
+const host = process.env.SITE_HOST;
+export default {
+  components: {
+    CredentialsMaterial1,
+    CredentialsMaterial2,
+    CredentialsMaterial3,
+    CredentialsMaterial4,
+    CredentialsMaterial5,
+    CredentialsMaterial6,
+    CredentialsMaterial7,
+    CredentialsMaterial8,
+    CredentialsMaterial9,
+    CredentialsMaterial10,
+    CredentialsMaterial11,
+    CredentialsMaterial12,
+    CredentialsMaterial13,
+    CredentialsMaterial14
+  },
+  props: {
+    emp: {
+      type: Array,
+      default() {
+        return {};
       }
     }
+  },
+  data() {
+    return {
+      highlight: true,
+      taskFollow: false,
+      followDescription: "",
+      taskId: "",
+      materialsIds: "",
+      meterials: {
+        info: {},
+        menu: null,
+        comp: ""
+      },
+      rowdata: { basicProductId: "" },
+      formItem: {
+        credentialsType: "",
+        credentialsDealType: "",
+        name: "",
+        operateTypeN: "",
+        operateAccount: "",
+        operatePwd: "",
+        chargeTypeN: "",
+        payTypeN: "",
+        specialChargeRemark: "",
+        introduceMail: "",
+        onlineContactIdCard: "",
+        onlineContactIsSecretariat: "",
+        onlineContact: "",
+        businessLicence: "",
+        organizationCode: "",
+        foreignBusinessApprovalCertificate: "",
+        businessRenameNotice: "",
+        specialMaterialRemark: "",
+        taskId: ""
+      },
+      colums1: [
+        {
+          title: "雇员编号",
+          key: "empCode"
+        },
+        {
+          title: "雇员姓名",
+          key: "empName"
+        },
+        {
+          title: "客户编号",
+          key: "companyCode"
+        },
+        {
+          title: "客户名称",
+          key: "companyName"
+        },
+        {
+          title: "证件类型",
+          key: "credentialsTypeN"
+        },
+        {
+          title: "证件办理类型",
+          key: "credentialsDealTypeN"
+        },
+        {
+          title: "经办人",
+          key: "createdBy"
+        },
+        {
+          title: "办理时间",
+          key: "createdTime"
+        },
+        {
+          title: "操作",
+          key: "action",
+          width: "150",
+          align: "center",
+          render: (h, params) => {
+            if (params.row.action == null || params.row.action == "") {
+              return h("div", [
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "success",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {}
+                    }
+                  },
+                  "编辑"
+                ),
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "success",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {
+                        this.taskId = params.row.taskId;
+                        this.taskFollowShow(params.row.taskId);
+                      }
+                    }
+                  },
+                  "跟进"
+                )
+              ]);
+            }
+          }
+        }
+      ],
+      data1: [],
+      columns2: [
+        {
+          title: "跟进人",
+          width: 100,
+          key: "createdBy"
+        },
+        {
+          title: "跟进时间",
+          width: 150,
+          key: "createdTime"
+        },
+        {
+          title: "跟进说明",
+          key: "followDescription"
+        }
+      ],
+      data2: []
+    };
+  },
+  methods: {
+    clickRow(value) {
+      this.formItem.name = "";
+      this.formItem.operateTypeN = "";
+      this.formItem.chargeTypeN = "";
+      this.formItem.operateAccount = "";
+      this.formItem.operatePwd = "";
+      this.formItem.payTypeN = "";
+      this.formItem.specialChargeRemark = "";
+      this.formItem.introduceMail = false;
+      this.formItem.onlineContactIdCard = false;
+      this.formItem.onlineContactIsSecretariat = false;
+      this.formItem.onlineContact = "";
+      this.formItem.businessLicence = false;
+      this.formItem.organizationCode = false;
+      this.formItem.foreignBusinessApprovalCertificate = false;
+      this.formItem.businessRenameNotice = false;
+      this.formItem.specialMaterialRemark = "";
+      if (value !== null) {
+        this.formItem.credentialsType = value.credentialsType;
+        this.formItem.credentialsDealType = value.credentialsDealType;
+        this.rowdata = { ...value };
+        this.$emit("backRow", this.rowdata);
+        this.selectCompanyExt(value.credentialsType, value.companyCode);
+        if (
+          value.credentialsDealType != null &&
+          value.credentialsDealType != ""
+        ) {
+          this.createMeterialsMenu(
+            value.credentialsType.toString(),
+            value.credentialsDealType.toString()
+          );
+        } else {
+          this.createMeterialsMenu(value.credentialsType.toString(), "");
+        }
+        this.findMaterialMenu(value.taskId);
+        this.findMaterials(value.taskId);
+      }
+    },
+    findMaterialMenu(taskId) {
+      axios.get(host + "/api/materials/findMenu/" + taskId).then(response => {
+        if (response.data.errCode == "0") {
+          this.meterials.comp = response.data.data.comp;
+          this.meterials.marryStatus = response.data.data.marryStatus;
+          this.meterials.hasFollower = response.data.data.hasFollower;
+          this.meterials.familerMaterials = response.data.data.familerMaterials;
+          this.meterials.applyAddrChange = response.data.data.applyAddrChange;
+          this.meterials.addr = response.data.data.addr;
+          this.meterials.followerType = response.data.data.followerType;
+          this.meterials.follower = response.data.data.follower;
+          this.meterials.hasChildFollow = response.data.data.hasChildFollow;
+          this.meterials.hasSpouseFollow = response.data.data.hasSpouseFollow;
+          this.meterials.hasShPerson = response.data.data.hasShPerson;
+          this.meterials.married = response.data.data.married;
+          this.meterials.jobMaterials = response.data.data.jobMaterials;
+          this.meterials.hasGooder = response.data.data.hasGooder;
+          this.meterials.educate = response.data.data.educate;
+          this.meterials.followMaterials = response.data.data.followMaterials;
+          this.meterials.notFollowMaterials =
+            response.data.data.notFollowMaterials;
+        }
+      });
+    },
+    findMaterials(taskId) {
+      axios
+        .get(host + "/api/materials/find/" + taskId)
+        .then(response => {
+          if (response.data.errCode == "0") {
+            this.meterials.info = response.data.data;
+          } else {
+            this.meterials.info = "";
+          }
+        })
+        .catch(error => {
+          this.meterials.info = response.data.data;
+        });
+    },
+
+    createMeterialsMenu(credentialsType, credentialsDealType) {
+      axios
+        .get(
+          host +
+            "/api/materials/create?credentialsType=" +
+            credentialsType +
+            "&credentialsDealType=" +
+            credentialsDealType
+        )
+        .then(response => {
+          if (response.data.errCode == "0") {
+            this.meterials.menu = response.data.data;
+          }
+        });
+    },
+    taskFollowShow(taskId) {
+      if (taskId != null) {
+        axios
+          .get(host + "/api/empCredentialsDeal/find/taskFollow/" + taskId)
+          .then(response => {
+            if (response.data.errCode == "0") {
+              this.data2 = response.data.data;
+              this.followDescription = "";
+              this.taskFollow = true;
+            } else {
+              this.$Notice.error({
+                title: "查询失败",
+                desc: ""
+              });
+            }
+          })
+          .catch(error => {
+            this.$Notice.error({
+              title: "查询失败",
+              desc: ""
+            });
+          });
+      }
+    },
+    selectCompanyExt(credentialsType, companyId) {
+      axios
+        .get(
+          host +
+            "/api/empCredentialsDeal/find/companyExt/" +
+            companyId +
+            "/" +
+            credentialsType
+        )
+        .then(response => {
+          Object.assign(this.formItem, response.data.data);
+        });
+    },
+    ok() {
+      if (this.followDescription != "" && this.followDescription != null) {
+        var params = {};
+        params.followDescription = this.followDescription;
+        params.taskId = this.taskId;
+        params.createdBy = "gu";
+        axios
+          .post(
+            host + "/api/empCredentialsDeal/saveOrUpdate/taskFollow",
+            params
+          )
+          .then(response => {
+            if (response.data.errCode === "0") {
+              this.$Notice.success({
+                title: "保存成功",
+                desc: ""
+              });
+              this.modal1 = false;
+            } else {
+              this.$Notice.error({
+                title: "保存失败",
+                desc: ""
+              });
+            }
+          })
+          .catch(error => {
+            this.$Notice.error({
+              title: "保存失败",
+              desc: ""
+            });
+          });
+      }
+    },
+    cancel() {},
+    childBack(info) {
+      this.materialsIds = info.materialsIds;
+      this.rowdata.materialIds = this.materialsIds;
+      this.rowdata.comp = info.comp;
+      this.rowdata.marryStatus = info.marryStatus;
+      this.rowdata.hasFollower = info.hasFollower;
+      this.rowdata.familerMaterials = info.familerMaterials;
+      this.rowdata.applyAddrChange = info.applyAddrChange;
+      this.rowdata.addr = info.addr;
+      this.rowdata.followerType = info.followerType;
+      this.rowdata.follower = info.follower;
+      this.rowdata.hasChildFollow = info.hasChildFollow;
+      this.rowdata.hasSpouseFollow = info.hasSpouseFollow;
+      this.rowdata.married = info.married;
+      this.rowdata.jobMaterials = info.jobMaterials;
+      this.rowdata.hasGooder = info.hasGooder;
+      this.rowdata.hasShPerson = info.hasShPerson;
+      this.rowdata.educate = info.educate;
+      this.rowdata.followMaterials = info.followMaterials;
+      this.rowdata.notFollowMaterials = info.notFollowMaterials;
+      this.$emit("backRow", this.rowdata);
+    }
   }
+};
 </script>
 
 <style scoped>

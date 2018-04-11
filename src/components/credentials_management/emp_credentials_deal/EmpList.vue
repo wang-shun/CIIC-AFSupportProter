@@ -104,277 +104,299 @@
 </template>
 
 <script>
-  import axios from 'axios'
+import axios from "axios";
 
-  const host = process.env.SITE_HOST
-  export default {
-    data () {
-      return {
-        value1: '1',
-        modal1: false,
-        labelinvalue: true,
-        pageNum: 1,
-        pageSize: 5,
-        total: null, 
-        idCardType: '',
-        templateType: '',   
-        productId: '',
-        taskType: {
-          taskTypeId: '',
-          taskTypeName: '',
-          basicProductId:''
-        },
-        taskDealType: {
-          taskTypeId: '',
-          taskTypeName: '',
-          basicProductId:''
-        },
-        queryItem: {
-          empCode: '',
-          empName: '',
-          IDNum: '',
-          status: ['',''],
-          companyCode: ''
-        },
-        formItem: {
-          companyName: '',
-          companyCode: '',
-          empName: '',
-          empCode: '',
-          type: '',
-          dealType: '',
-          data: ''
-        },
-        ruleValidate: {
-          type: [{ required: true, message: '请选择证件类型', trigger: 'change' }],
-          dealType: [{ required: true, message: '请选择证件办理类型', trigger: 'change' }]
-        },
-        statusList: [
-          {
-            value: '1',
-            label: 'af',
-            children: [
-              {
-                value: '0',
-                label: '预录用'
-              },
-              {
-                value: '1',
-                label: '雇员信息确认中'
-              },
-              {
-                value: '2',
-                label: '在职'
-              },
-              {
-                value: '3',
-                label: '离职'
-              },
-              {
-                value: '4',
-                label: '取消入职'
-              }
-            ]
-          },
-          {
-            value: '2',
-            label: 'bpo',
-            children: [
-              {
-                value: '0',
-                label: '预增'
-              },
-              {
-                value: '1',
-                label: '报入职'
-              },
-              {
-                value: '2',
-                label: '在职'
-              },
-              {
-                value: '3',
-                label: '报离职'
-              },
-              {
-                value: '4',
-                label: '离职'
-              }
-            ]
-          },
-          {
-            value: '3',
-            label: 'fc',
-            children: [
-              {
-                value: '0',
-                label: '离职'
-              },
-              {
-                value: '1',
-                label: '在职'
-              }
-            ]
-          }
+const host = process.env.SITE_HOST;
+export default {
+  data() {
+    return {
+      value1: "1",
+      modal1: false,
+      labelinvalue: true,
+      pageNum: 1,
+      pageSize: 5,
+      total: null,
+      idCardType: "",
+      templateType: "",
+      productId: "",
+      taskType: {
+        taskTypeId: "",
+        taskTypeName: "",
+        basicProductId: ""
+      },
+      taskDealType: {
+        taskTypeId: "",
+        taskTypeName: "",
+        basicProductId: ""
+      },
+      queryItem: {
+        empCode: "",
+        empName: "",
+        IDNum: "",
+        status: ["", ""],
+        companyCode: ""
+      },
+      formItem: {
+        companyName: "",
+        companyCode: "",
+        empName: "",
+        empCode: "",
+        type: "",
+        dealType: "",
+        data: ""
+      },
+      ruleValidate: {
+        type: [
+          { required: true, message: "请选择证件类型", trigger: "change" }
         ],
-        colums1: [
-          {
-            title: '雇员编号',
-            key: 'employeeId',
-            sortable: true
-          },
-          {
-            title: '雇员姓名',
-            key: 'employeeName'
-          },
-          {
-            title: '证件号码',
-            key: 'idNum'
-          },
-          {
-            title: '客户编号',
-            key: 'companyId',
-            sortable: true
-          },
-          {
-            title: '客户名称',
-            key: 'companyName'
-          },
-          {
-            title: '入离职状态',
-            key: 'statusUI'
-          },
-          {
-            title: '操作',
-            key: 'action',
-            width: '200',
-            align: 'center',
-            render: (h, params) => {
-              const renderDiv = []
-              renderDiv.push(h('Button', {
-                props: {
-                  type: 'success',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    this.formItem.data = {...params.row}
-                    this.formItem.empName = params.row.employeeName
-                    this.formItem.companyName = params.row.companyName
-                    this.modal1 = true
-                  }
-                }
-              }, '证件办理'))
-            // if (params.row.isShow === 'true') {
-              renderDiv.push(h('Button', {
-                props: {
-                  type: 'success',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    this.lookInfo(params.row)
-                  }
-                }
-              }, '查看'))
-            // }
-              return h('div', renderDiv)
+        dealType: [
+          { required: true, message: "请选择证件办理类型", trigger: "change" }
+        ]
+      },
+      statusList: [
+        {
+          value: "1",
+          label: "af",
+          children: [
+            {
+              value: "0",
+              label: "预录用"
+            },
+            {
+              value: "1",
+              label: "雇员信息确认中"
+            },
+            {
+              value: "2",
+              label: "在职"
+            },
+            {
+              value: "3",
+              label: "离职"
+            },
+            {
+              value: "4",
+              label: "取消入职"
             }
+          ]
+        },
+        {
+          value: "2",
+          label: "bpo",
+          children: [
+            {
+              value: "0",
+              label: "预增"
+            },
+            {
+              value: "1",
+              label: "报入职"
+            },
+            {
+              value: "2",
+              label: "在职"
+            },
+            {
+              value: "3",
+              label: "报离职"
+            },
+            {
+              value: "4",
+              label: "离职"
+            }
+          ]
+        },
+        {
+          value: "3",
+          label: "fc",
+          children: [
+            {
+              value: "0",
+              label: "离职"
+            },
+            {
+              value: "1",
+              label: "在职"
+            }
+          ]
+        }
+      ],
+      colums1: [
+        {
+          title: "雇员编号",
+          key: "employeeId",
+          sortable: true
+        },
+        {
+          title: "雇员姓名",
+          key: "employeeName"
+        },
+        {
+          title: "证件号码",
+          key: "idNum"
+        },
+        {
+          title: "客户编号",
+          key: "companyId",
+          sortable: true
+        },
+        {
+          title: "客户名称",
+          key: "companyName"
+        },
+        {
+          title: "入离职状态",
+          key: "statusUI"
+        },
+        {
+          title: "操作",
+          key: "action",
+          width: "200",
+          align: "center",
+          render: (h, params) => {
+            const renderDiv = [];
+            renderDiv.push(
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "success",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.formItem.data = { ...params.row };
+                      this.formItem.empName = params.row.employeeName;
+                      this.formItem.companyName = params.row.companyName;
+                      this.modal1 = true;
+                    }
+                  }
+                },
+                "证件办理"
+              )
+            );
+            renderDiv.push(
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "success",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.lookInfo(params.row);
+                    }
+                  }
+                },
+                "查看"
+              )
+            );
+            return h("div", renderDiv);
           }
-        ],
-        employeePage:[]
-      }
+        }
+      ],
+      employeePage: []
+    };
+  },
+  created() {
+    this.find();
+    this.findTaskType();
+  },
+  methods: {
+    find() {
+      var params = {};
+      params.params = {};
+      params.params.pageNum = this.pageNum;
+      params.params.pageSize = this.pageSize;
+      params.params.employeeId = this.queryItem.empCode;
+      params.params.employeeName = this.queryItem.empName;
+      params.params.idNum = this.queryItem.IDNum;
+      params.params.companyId = this.queryItem.companyCode;
+      params.params.type = this.queryItem.status[0];
+      params.params.status = this.queryItem.status[1];
+      axios.get(host + "/api/emp/find", params).then(response => {
+        this.employeePage = response.data.data.records;
+        this.total = response.data.data.total;
+      });
     },
-    created () {
-      this.find()
-      this.findTaskType()
+    findTaskType() {
+      axios.get(host + "/api/emp/findTaskType/0").then(response => {
+        this.taskType = response.data.data;
+      });
     },
-    methods: {
-      find () {
-        var params = {}
-        params.params = {}
-        params.params.pageNum = this.pageNum
-        params.params.pageSize = this.pageSize
-        params.params.employeeId = this.queryItem.empCode
-        params.params.employeeName = this.queryItem.empName
-        params.params.idNum = this.queryItem.IDNum
-        params.params.companyId = this.queryItem.companyCode
-        params.params.type = this.queryItem.status[0]
-        params.params.status = this.queryItem.status[1]
-        axios.get(host + '/api/emp/find', params).then(response => {
-          this.employeePage = response.data.data.records
-          this.total = response.data.data.total
-        })
-      },
-      findTaskType () {
-        axios.get(host + '/api/emp/findTaskType/0').then(response => {
-          this.taskType = response.data.data
-        })
-      },
-      taskTypeChange (val) {
-        axios.get(host + '/api/emp/findTaskType/'+val.value).then(response => {
-          this.taskDealType = response.data.data
-        })
-      },
-      handleCurrentChange(val) {
-        this.pageNum = val
-        this.find()
-      },
-      reset (value) {
-        this.$refs[value].resetFields()
-      },
-      add () {
-        this.$router.push({name: 'empAdd'})
-      },
-      lookInfo (v) {
-        this.$router.push({
-          name: 'empCredentialsTask', 
-          params: {
-            data: v,
-            type: '',
-            dealType: '', 
-            isDeal: false
-          }
-        })
-      },
-      ok (value, data) {
-        this.$refs[value].validate(async (valid) => {
-          await  this.findTaskTypeDetial(this.formItem.dealType == null  || this.formItem.dealType =="" ? this.formItem.type : this.formItem.dealType)
-          if (valid) {
-              this.$router.push({
-                name: 'empCredentialsTask', 
-                params: {
-                  data: data,
-                  type: parseInt(this.formItem.type),
-                  typeN: this.$decode.sel_type(parseInt(this.formItem.type)),
-                  dealType: parseInt(this.formItem.dealType),
-                  dealTypeN: this.$decode.deal_type(parseInt(this.formItem.dealType)), 
-                  companyId: data.companyCode,
-                  basicProductId: this.productId,
-                  isDeal: true
-                }
-              })
-              console.log("basicProductId:"+this.productId)
-            this.modal1 = false
-          } else {
-            this.$Message.error('请选择办证类型!')
-          }
-        })
-      },
-    async  findTaskTypeDetial (id) {
-       await axios.get(host + '/api/empCredentialsDeal/findTaskTypeDetial?taskTypeId=' + id).then(response => {
-          this.productId = response.data.data.basicProductId
-          console.log("responseBasicProductId:"+this.productId)
-        })
-      }
+    taskTypeChange(val) {
+      axios.get(host + "/api/emp/findTaskType/" + val.value).then(response => {
+        this.taskDealType = response.data.data;
+      });
+    },
+    handleCurrentChange(val) {
+      this.pageNum = val;
+      this.find();
+    },
+    reset(value) {
+      this.$refs[value].resetFields();
+    },
+    add() {
+      this.$router.push({ name: "empAdd" });
+    },
+    lookInfo(v) {
+      this.$router.push({
+        name: "empCredentialsTask",
+        params: {
+          data: v,
+          type: "",
+          dealType: "",
+          isDeal: false
+        }
+      });
+    },
+    ok(value, data) {
+      this.$refs[value].validate(async valid => {
+        await this.findTaskTypeDetial(
+          this.formItem.dealType == null || this.formItem.dealType == ""
+            ? this.formItem.type
+            : this.formItem.dealType
+        );
+        if (valid) {
+          this.$router.push({
+            name: "empCredentialsTask",
+            params: {
+              data: data,
+              type: parseInt(this.formItem.type),
+              typeN: this.$decode.sel_type(parseInt(this.formItem.type)),
+              dealType: parseInt(this.formItem.dealType),
+              dealTypeN: this.$decode.deal_type(
+                parseInt(this.formItem.dealType)
+              ),
+              companyId: data.companyCode,
+              basicProductId: this.productId,
+              isDeal: true
+            }
+          });
+          this.modal1 = false;
+        } else {
+          this.$Message.error("请选择办证类型!");
+        }
+      });
+    },
+    async findTaskTypeDetial(id) {
+      await axios
+        .get(
+          host + "/api/empCredentialsDeal/findTaskTypeDetial?taskTypeId=" + id
+        )
+        .then(response => {
+          this.productId = response.data.data.basicProductId;
+        });
     }
   }
+};
 </script>
 
 <style scoped>

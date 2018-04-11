@@ -110,5 +110,25 @@ export default {
   getSerial: (params) => {
     return AJAX.post('/api/soccommandservice/ssEmpTask/getSerial', params);
   },
+  //权限列表
+  authorityList:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/authority/authorityList', params);
+    return await response.data;
+  },
+  //配置权限详情
+  authorityDeptNodes:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/authority/authorityDeptNodes', params);
+    return await response.data;
+  },
+  //配置权限客户列表
+  authority:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/authority/authority', params);
+    return await response.data;
+  },
+  //保存配置权限客户列表
+  saveAuthority:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/authority/saveAuthority', params);
+    return await response.data;
+  },
 }
 

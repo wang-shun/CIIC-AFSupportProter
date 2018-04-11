@@ -22,12 +22,12 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业基本公积金账户：">
-                  <Input v-model="companyFundAccount.basicComAccount" placeholder="请输入..." :disabled="isCanEdit"></Input>
+                  <Input v-model="companyFundAccount.basicComAccount" placeholder="请输入..." :disabled="isCanEditBase"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业补充公积金账户：">
-                  <Input v-model="companyFundAccount.compensativeComAccount" placeholder="请输入..." :disabled="isCanEdit"></Input>
+                  <Input v-model="companyFundAccount.compensativeComAccount" placeholder="请输入..." :disabled="isCanEditBuchong"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -73,7 +73,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="info" @click="" :disabled="isCanEdit">保存</Button>
+      <Button type="info" @click="submitForm" :disabled="isCanEdit">保存</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -91,13 +91,24 @@
         collapseInfo: [1, 2],
         fundAccountInfo: {},
         isCanEdit: true,
+        isCanEditBuchong:true,
+        isCanEditBase:true,
         companyFundAccount:{},
         accountBindCompanyData: []
       }
     },
     mounted() {
       this.fundAccountInfo = JSON.parse(window.sessionStorage.getItem('fundAccountInfo'));
+      console.log(this.fundAccountInfo);
       this.isCanEdit = this.fundAccountInfo.isCanUpdate;
+      if(this.isCanEdit==false){
+         this.isCanEditBase=this.fundAccountInfo.hfType==1?false:true;
+         this.isCanEditBuchong=this.fundAccountInfo.hfType==2?false:true;
+      }else{
+         this.isCanEditBase=false;
+         this.isCanEditBuchong=false;
+      }
+      
       this.getDetail();
       this.getList();
     },
@@ -138,7 +149,14 @@
       },
       goBack() {
         this.$router.go(-1);
-      }
+      },
+      submitForm(){
+        api.companyFundAccountSubmit(this.companyFundAccount).then(
+          data=>{
+            this.$message.success(data.message);
+          }
+        )
+      },
     }
   }
 </script>

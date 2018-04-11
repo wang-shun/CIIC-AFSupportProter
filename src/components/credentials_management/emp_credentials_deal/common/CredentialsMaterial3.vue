@@ -157,11 +157,11 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Tools from '../../../../lib/tools'
-import Decode from '../../../../lib/decode'
+import axios from "axios";
+import Tools from "../../../../lib/tools";
+import Decode from "../../../../lib/decode";
 
-const host = process.env.SITE_HOST
+const host = process.env.SITE_HOST;
 export default {
   props: {
     meterials: {
@@ -169,98 +169,98 @@ export default {
       default() {}
     }
   },
-  data () {
+  data() {
     return {
-       material: {
-        menu: '',
+      material: {
+        menu: "",
         info: {},
-        materialsIds: '',
-        comp:'',
-        marryStatus:'',
-        hasFollower:'',
-        familerMaterials:'',
-        applyAddrChange:'',
-        addr:'',
-        followerType:'',
-        follower:'',
-        hasChildFollow:'',
-        hasSpouseFollow:'',
-        married:'',
-        jobMaterials:'',
-        hasGooder:'',
-        educate:'',
-        followMaterials:'',
-        notFollowMaterials:''
+        materialsIds: "",
+        comp: "",
+        marryStatus: "",
+        hasFollower: "",
+        familerMaterials: "",
+        applyAddrChange: "",
+        addr: "",
+        followerType: "",
+        follower: "",
+        hasChildFollow: "",
+        hasSpouseFollow: "",
+        married: "",
+        jobMaterials: "",
+        hasGooder: "",
+        educate: "",
+        followMaterials: "",
+        notFollowMaterials: ""
       }
-    }
+    };
   },
   methods: {
-    compChange (val) {
-      this.material.comp = val
-      this.$emit("materialsInfo", this.material)
+    compChange(val) {
+      this.material.comp = val;
+      this.$emit("materialsInfo", this.material);
     },
-    applyAddrChangeChange (val) {
-      this.material.applyAddrChange = val
-      this.$emit("materialsInfo", this.material)
+    applyAddrChangeChange(val) {
+      this.material.applyAddrChange = val;
+      this.$emit("materialsInfo", this.material);
     },
-    addrChange (val) {
-      this.material.addr = val
-      this.$emit("materialsInfo", this.material)
+    addrChange(val) {
+      this.material.addr = val;
+      this.$emit("materialsInfo", this.material);
     },
-    change (info) {
-      let materialsIds = ''
-     if (info.lev00.toString() != ''){
-        materialsIds = materialsIds + info.lev00.toString() + ','
+    change(info) {
+      let materialsIds = "";
+      if (info.lev00.toString() != "") {
+        materialsIds = materialsIds + info.lev00.toString() + ",";
       }
-      if (this.material.comp == '上海公司') {
-        if (info.lev11.toString() != ''){
-          materialsIds = materialsIds + info.lev11.toString() + ','
+      if (this.material.comp == "上海公司") {
+        if (info.lev11.toString() != "") {
+          materialsIds = materialsIds + info.lev11.toString() + ",";
         }
       }
-      if (this.material.comp == '上海分公司') {
-        if (info.lev12.toString() != ''){
-          materialsIds = materialsIds + info.lev12.toString() + ','
+      if (this.material.comp == "上海分公司") {
+        if (info.lev12.toString() != "") {
+          materialsIds = materialsIds + info.lev12.toString() + ",";
         }
       }
-      if (info.lev20.toString() != ''){
-        materialsIds = materialsIds + info.lev20.toString() + ','
+      if (info.lev20.toString() != "") {
+        materialsIds = materialsIds + info.lev20.toString() + ",";
       }
-      if (this.material.applyAddrChange = '户籍地址变更材料'){
-        if (info.lev31.toString() != ''){
-          materialsIds = materialsIds + info.lev31.toString() + ','
+      if ((this.material.applyAddrChange = "户籍地址变更材料")) {
+        if (info.lev31.toString() != "") {
+          materialsIds = materialsIds + info.lev31.toString() + ",";
         }
       }
-      if (this.material.applyAddrChange = '在沪地址变更材料'){
-        if (info.lev32.toString() != ''){
-          materialsIds = materialsIds + info.lev32.toString() + ','
+      if ((this.material.applyAddrChange = "在沪地址变更材料")) {
+        if (info.lev32.toString() != "") {
+          materialsIds = materialsIds + info.lev32.toString() + ",";
         }
       }
-      if (this.material.addr = '社区公共户') {
-        if (info.lev41.toString() != ''){
-          materialsIds = materialsIds + info.lev41.toString() + ','
+      if ((this.material.addr = "社区公共户")) {
+        if (info.lev41.toString() != "") {
+          materialsIds = materialsIds + info.lev41.toString() + ",";
         }
       }
-      if (this.material.addr = '自购房') {
-        if (info.lev42.toString() != ''){
-          materialsIds = materialsIds + info.lev42.toString() + ','
+      if ((this.material.addr = "自购房")) {
+        if (info.lev42.toString() != "") {
+          materialsIds = materialsIds + info.lev42.toString() + ",";
         }
       }
-      if (info.lev50.toString() != ''){
-        materialsIds = materialsIds + info.lev50.toString() + ','
+      if (info.lev50.toString() != "") {
+        materialsIds = materialsIds + info.lev50.toString() + ",";
       }
-      this.material.materialsIds = materialsIds
-      this.$emit("materialsInfo", this.material)
-   }
+      this.material.materialsIds = materialsIds;
+      this.$emit("materialsInfo", this.material);
+    }
   },
   watch: {
-    meterials : {
+    meterials: {
       handler: function(newV, oldV) {
-        this.material = this._.cloneDeep(newV)
+        this.material = this._.cloneDeep(newV);
       },
       deep: true
     }
   }
-}
+};
 </script>
 
 <style scoped>

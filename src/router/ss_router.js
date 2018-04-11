@@ -153,6 +153,13 @@ const annualadjustaccountemp = r => require.ensure([], () => r(require('@/compon
 
 const systemManage = r => require.ensure([], () => r(require('@/components/social_security/system_manage/SystemManage')), 'SystemManage')
 
+/*
+ * authorityList                    --- 权限管理
+ */
+
+const authorityList = r => require.ensure([], () => r(require('@/components/social_security/authority/authorityList')), 'authorityList')
+const authority = r => require.ensure([], () => r(require('@/components/social_security/authority/authority')), 'authority')
+
 export default [
   {
     path: '/employee_social_security_search',
@@ -393,6 +400,28 @@ export default [
       level3:"企业任务单",
       openNames:['1'],
       activeName: '1-3'
+    },
+  },
+  {
+    path: '/authority_list',
+    name: 'authorityList',
+    component: authorityList,
+    meta:{
+      level1:'上海社保',
+      level2:"限权管理",
+      openNames:['1'],
+      activeName: '1-12'
+    },
+  },
+  {
+    path: '/authority',
+    name: 'authority',
+    component: authority,
+    meta:{
+      level1:'上海社保',
+      level2:"限权管理",
+      openNames:['1'],
+      activeName: '1-13'
     },
   },
   {

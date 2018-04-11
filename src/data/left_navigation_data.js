@@ -16,6 +16,7 @@ const leftNavigation =
         {cid: "1-9", ckey: "年调雇员工资收集表下载", crouter: "annualadjustemployee"},
         {cid: "1-10", ckey: "年调雇员工资信息管理", crouter: "annualadjustcompany"},  // 年调雇员工资信息管理
         {cid: "1-11", ckey: "导出申报表", crouter: "annualadjustaccount"},  // 导出申报表
+        {cid: "1-12", ckey: "权限管理", crouter: "authorityList"},  // 权限管理
         // {cid: "1-11", ckey: "系统管理", crouter: "systemManage"},
         // {cid: "1-3", ckey: "雇员特殊操作", crouter: "employeeSpecialOperatorView"},
       ]

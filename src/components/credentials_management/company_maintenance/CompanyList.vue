@@ -39,81 +39,88 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Tools from '../../../lib/tools'
+import axios from "axios";
+import Tools from "../../../lib/tools";
 
-const host = process.env.SITE_HOST
+const host = process.env.SITE_HOST;
 export default {
-  data () {
+  data() {
     return {
-      value1: '1',
+      value1: "1",
       pageNum: 1,
       pageSize: 5,
       total: null,
       queryItem: {
-        companyCode: '',
-        companyName: ''
+        companyCode: "",
+        companyName: ""
       },
       colums1: [
         {
-          title: '客户编号',
-          key: 'companyId',
+          title: "客户编号",
+          key: "companyId",
           sortable: true
         },
         {
-          title: '客户名称',
-          key: 'companyName'
+          title: "客户名称",
+          key: "companyName"
         },
         {
-          title: '操作',
-          key: 'action',
-          align: 'center',
-          width: '200',
+          title: "操作",
+          key: "action",
+          align: "center",
+          width: "200",
           render: (h, params) => {
-            return h('div', [
-              h('Button', {
-                props: {
-                  type: 'success',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '10px'
-                },
-                on: {
-                  click: () => {
-                    this.$router.push({name: 'companyEdit', params:{data: params.row.companyId}})
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "success",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "10px"
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push({
+                        name: "companyEdit",
+                        query: { data: params.row.companyId }
+                      });
+                    }
                   }
-                }
-              }, '编辑')
-            ])
+                },
+                "编辑"
+              )
+            ]);
           }
         }
       ],
-      companyPage:[]
-    }
+      companyPage: []
+    };
   },
-  created () {
-    this.find()
+  created() {
+    this.find();
   },
   methods: {
-    find () {
-      var params = {}
-      params.params = {}
-      params.params.pageNum = this.pageNum
-      params.params.pageSize = this.pageSize
-      params.params.companyName = this.queryItem.companyName
-      params.params.companyId = this.queryItem.companyCode
-      axios.get(host + '/api/company/get', params).then(response => {
-        this.companyPage = response.data.data.records
-        this.total = response.data.data.total
-      })
+    find() {
+      var params = {};
+      params.params = {};
+      params.params.pageNum = this.pageNum;
+      params.params.pageSize = this.pageSize;
+      params.params.companyName = this.queryItem.companyName;
+      params.params.companyId = this.queryItem.companyCode;
+      axios.get(host + "/api/company/get", params).then(response => {
+        this.companyPage = response.data.data.records;
+        this.total = response.data.data.total;
+      });
     },
     handleCurrentChange(val) {
-      this.pageNum = val
-      this.find()
-    },
+      this.pageNum = val;
+      this.find();
+    }
   }
-}
+};
 </script>
 
 <style scoped>

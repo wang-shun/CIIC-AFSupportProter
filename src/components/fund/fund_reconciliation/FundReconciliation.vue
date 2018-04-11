@@ -101,7 +101,7 @@
         <Row type="flex" justify="start">
           <Col :sm="{span:24}">
             <Form-item label="公积金月份：" prop="hfMonth">
-              <DatePicker type="month" @on-change="newReconciliation.hfMonth=$event"></DatePicker>
+              <DatePicker type="month" format='yyyyMM' @on-change="newReconciliation.hfMonth=$event"></DatePicker>
             </Form-item>
           </Col>
           <Col :sm="{span:24}">
@@ -357,7 +357,7 @@
           comAccountName: ''
         },
         hfAccountTypeList: [
-          {label: '请选择公积金账户类型', value: 0},
+          {label: '请选择公积金账户类型', value: ''},
           {label: '大库', value: 1},
           {label: '外包', value: 2},
           {label: '独立户', value: 3}
@@ -477,6 +477,7 @@
         this.reconciliateFile = file;
         return false;
       },
+      
       saveReconciliation() { // 新建对账
         if (this.reconciliateFile == null) {
           this.$Message.error('请选择对账文件');
@@ -486,18 +487,26 @@
           headers: {'Content-Type': 'multipart/form-data'}
         };
         let that = this;
-        let formData = new FormData();
-        formData.append('hfMonth', that.newReconciliation.hfMonth);
-        formData.append('comAccountId', that.newReconciliation.comAccountId);
-        formData.append('hfAccountType', that.newReconciliation.hfAccountType);
-        formData.append('hfType', that.newReconciliation.hfType);
-        formData.append('hfComAccount', that.newReconciliation.hfComAccount);
-        formData.append('createdBy', JSON.parse(window.sessionStorage.getItem('userInfo')).userId);
-        formData.append('file', that.reconciliateFile);
-
-        this.$http.post(`${serverAddress[process.env.env]}:6007/api/fundcommandservice/statement/addStatement`, formData, config).then((response) =>{
+        //let formData = new FormData();
+        let formData ={};
+        // formData.append('hfMonth', that.newReconciliation.hfMonth);
+        // formData.append('comAccountId', that.newReconciliation.comAccountId);
+        // formData.append('hfAccountType', that.newReconciliation.hfAccountType);
+        // formData.append('hfType', that.newReconciliation.hfType);
+        // formData.append('hfComAccount', that.newReconciliation.hfComAccount);
+        // formData.append('createdBy', JSON.parse(window.sessionStorage.getItem('userInfo')).userId);
+        // formData.append('file', that.reconciliateFile);
+        formData.hfMonth=that.newReconciliation.hfMonth;
+        formData.comAccountId= that.newReconciliation.comAccountId;
+        formData.hfAccountType= that.newReconciliation.hfAccountType;
+        formData.hfType= that.newReconciliation.hfType;
+        formData.hfComAccount= that.newReconciliation.hfComAccount;
+        formData.createdBy=JSON.parse(window.sessionStorage.getItem('userInfo')).userId;
+        formData.file=that.reconciliateFile;
+console.log(formData);
+        api.addStatmentUpload(formData).then((data) =>{
           this.isShowCreateReconciliation = false;
-          if(response.data.code == 0) {
+          if(data.code == 0) {
             that.getStatement();
             that.reconciliateFile = null;
             this.loadingStatus = false;
@@ -505,7 +514,7 @@
           }else {
             that.reconciliateFile = null;
             this.loadingStatus = false;
-            that.$Message.info(response.data.message);
+            that.$Message.info(data.message);
           }
           this.resetSearchCondition('newReconciliation');
           this.resetSearchCondition('fundAccountQueryForm');

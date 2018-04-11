@@ -361,7 +361,12 @@
            businessInterfaceId:'',
            oldAgreementId:'',
            policyDetailId:'',
-           welfareUnit:''
+           welfareUnit:'',
+
+          createdDisplayName:'',
+          modifiedDisplayName:'',
+          leaderShipName:'',
+          serviceCenter:''
         },
 
         // 任务单参考信息
@@ -483,9 +488,18 @@
               handleMonth=this.getYearMonth(date,'show');
               this.socialSecurityPayOperator.handleMonth=handleMonth;
             }
+            api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:this.operatorType}).then((data) => {
+              if(data.data!=null){
+                this.company = data.data;
+                this.company.leaderShipName = this.socialSecurityPayOperator.leaderShipName;
+                this.company.serviceCenter = this.socialSecurityPayOperator.serviceCenter;
+                this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
+
+              }
+            })
             this.$Notice.config({
-                  top:80
-                })
+              top:80
+            })
           }else{
             this.$Message.error(data.message)
           }
@@ -496,13 +510,6 @@
            if(data.data!=null){
             this.employee = data.data;
             this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
-          }
-        })
-
-        api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          if(data.data!=null){
-            this.company = data.data;
-            this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
           }
         })
       },

@@ -90,84 +90,84 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Tools from '../../../../lib/tools'
-import Decode from '../../../../lib/decode'
+import axios from "axios";
+import Tools from "../../../../lib/tools";
+import Decode from "../../../../lib/decode";
 
-const host = process.env.SITE_HOST
+const host = process.env.SITE_HOST;
 export default {
   props: {
     meterials: {
       type: Object,
       default() {
-        return {}
+        return {};
       }
     }
   },
-  data () {
+  data() {
     return {
       material: {
-        menu: '',
+        menu: "",
         info: {},
-        materialsIds: '',
-        comp:'',
-        marryStatus:'',
-        hasFollower:'',
-        familerMaterials:'',
-        applyAddrChange:'',
-        addr:'',
-        followerType:'',
-        follower:'',
-        hasChildFollow:'',
-        hasSpouseFollow:'',
-        married:'',
-        jobMaterials:'',
-        hasGooder:'',
-        educate:'',
-        followMaterials:'',
-        notFollowMaterials:''
+        materialsIds: "",
+        comp: "",
+        marryStatus: "",
+        hasFollower: "",
+        familerMaterials: "",
+        applyAddrChange: "",
+        addr: "",
+        followerType: "",
+        follower: "",
+        hasChildFollow: "",
+        hasSpouseFollow: "",
+        married: "",
+        jobMaterials: "",
+        hasGooder: "",
+        educate: "",
+        followMaterials: "",
+        notFollowMaterials: ""
       }
-    }
+    };
   },
   methods: {
-    compChange (val) {
-      this.material.comp = val
-      this.$emit("materialsInfo", this.material)
+    compChange(val) {
+      this.material.comp = val;
+      this.$emit("materialsInfo", this.material);
     },
-    change (info) {
-      let materialsIds = ''
-      if (info.lev00.toString() != ''){
-        materialsIds = materialsIds + info.lev00.toString() + ','
+    change(info) {
+      let materialsIds = "";
+      if (info.lev00.toString() != "") {
+        materialsIds = materialsIds + info.lev00.toString() + ",";
       }
-      if (this.material.comp == '上海公司') {
-        if (info.lev11.toString() != ''){
-          materialsIds = materialsIds + info.lev11.toString() + ','
+      if (this.material.comp == "上海公司") {
+        if (info.lev11.toString() != "") {
+          materialsIds = materialsIds + info.lev11.toString() + ",";
         }
       }
-      if (this.material.comp == '上海分公司') {
-        if (info.lev12.toString() != ''){
-          materialsIds = materialsIds + info.lev12.toString() + ','
+      if (this.material.comp == "上海分公司") {
+        if (info.lev12.toString() != "") {
+          materialsIds = materialsIds + info.lev12.toString() + ",";
         }
       }
-      if (info.lev20.toString() != ''){
-        materialsIds = materialsIds + info.lev20.toString() + ','
+      if (info.lev20.toString() != "") {
+        materialsIds = materialsIds + info.lev20.toString() + ",";
       }
-      if (info.lev30.toString() != ''){
-        materialsIds = materialsIds + info.lev30.toString() + ','
-      } 
-      this.material.materialsIds = materialsIds
-      this.$emit("materialsInfo", this.material)
+      if (info.lev30.toString() != "") {
+        materialsIds = materialsIds + info.lev30.toString() + ",";
+      }
+      this.material.materialsIds = materialsIds;
+      this.$emit("materialsInfo", this.material);
     }
   },
   watch: {
-    meterials : {
+    meterials: {
       handler: function(newV, oldV) {
-        this.material = this._.cloneDeep(newV)
+        this.material = this._.cloneDeep(newV);
       },
       deep: true
     }
   }
-}
+};
 </script>
 
 <style scoped>

@@ -18,7 +18,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客户中心：">
-                <label>{{displayVO.customerCenter}}</label>
+                <label>{{displayVO.serviceCenter}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -342,7 +342,7 @@
           taskCategory: 0,
           basicHfComAccount: '',
           addedHfComAccount: '',
-          customerCenter: '',
+          serviceCenter: '',
           paymentBankName: '',
           ukeyStoreName: '',
           stateName: '',

@@ -18,5 +18,10 @@ export default {
   execStatement: async (params) => {
     let response = await AJAX.get(`/api/fundcommandservice/statement/execStatement/${params.params.statementId}?compareMan=${params.params.compareMan}`);
     return await response.data;
-  }
+  },
+  addStatmentUpload: async (params) => {
+    let response = await AJAX.upload('/api/fundcommandservice/statement/addStatement', params);
+    return await response.data;
+  },
+
 }

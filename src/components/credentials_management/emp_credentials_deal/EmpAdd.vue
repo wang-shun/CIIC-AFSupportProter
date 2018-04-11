@@ -82,100 +82,123 @@
 </template>
 
 <script>
-import InputCompany from '../../common_control/form/input_company/InputCompany.vue'
-import axios from 'axios'
-import Tools from '../../../lib/tools'
+import InputCompany from "../../common_control/form/input_company/InputCompany.vue";
+import axios from "axios";
+import Tools from "../../../lib/tools";
 
-const host = process.env.SITE_HOST
+const host = process.env.SITE_HOST;
 export default {
-  components:{InputCompany},
-  data () {
+  components: { InputCompany },
+  data() {
     return {
-      countrys:{},
+      countrys: {},
       formItem: {
-        companyId: '',
-        employeeName: '',
-        gender: '',
-        countryCode: '',
-        idCardType: '',
-        idNum: '',
-        birthday: '',
-        marriageStatus: '',
-        address: '',
-        remark: ''
+        companyId: "",
+        employeeName: "",
+        gender: "",
+        countryCode: "",
+        idCardType: "",
+        idNum: "",
+        birthday: "",
+        marriageStatus: "",
+        address: "",
+        remark: ""
       },
       empAddForm: {
-        companyId: '',
-        employeeName: '',
-        gender: '',
-        countryCode: '',
-        idCardType: '',
-        idNum: '',
-        marriageStatus: '',
-        address: '',
-        birthday: ''
+        companyId: "",
+        employeeName: "",
+        gender: "",
+        countryCode: "",
+        idCardType: "",
+        idNum: "",
+        marriageStatus: "",
+        address: "",
+        birthday: ""
       },
       ruleValidate: {
-        companyId: [{ required: true, message: '请选择客户', trigger: 'change' }],
-        employeeName: [{ required: true, message: '雇员姓名不能为空', trigger: 'blur' }],
-        gender: [{ required: true, message: '请选择性别', trigger: 'change' }],
-        countryCode: [{ required: true, message: '请选择国籍', trigger: 'change' }],
-        idCardType: [{ required: true, message: '请选择证件类型', trigger: 'change' }],
-        idNum: [{ required: true, message: '证件号码不能为空', trigger: 'blur' }],
-        birthday: [{ required: true, type: 'date', message: '请选择出生日期', trigger: 'change' }],
-        marriageStatus: [{ required: true, message: '婚姻状况不能为空', trigger: 'change' }],
-        address: [{ required: true, message: '联系地址不能为空', trigger: 'blur' }]
+        companyId: [
+          { required: true, message: "请选择客户", trigger: "change" }
+        ],
+        employeeName: [
+          { required: true, message: "雇员姓名不能为空", trigger: "blur" }
+        ],
+        gender: [{ required: true, message: "请选择性别", trigger: "change" }],
+        countryCode: [
+          { required: true, message: "请选择国籍", trigger: "change" }
+        ],
+        idCardType: [
+          { required: true, message: "请选择证件类型", trigger: "change" }
+        ],
+        idNum: [
+          { required: true, message: "证件号码不能为空", trigger: "blur" }
+        ],
+        birthday: [
+          {
+            required: true,
+            type: "date",
+            message: "请选择出生日期",
+            trigger: "change"
+          }
+        ],
+        marriageStatus: [
+          { required: true, message: "婚姻状况不能为空", trigger: "change" }
+        ],
+        address: [
+          { required: true, message: "联系地址不能为空", trigger: "blur" }
+        ]
       }
-    }
+    };
   },
   created() {
-    this.getCountry()
+    this.getCountry();
   },
   methods: {
-    submit (value) {
-      this.$refs[value].validate((valid) => {
+    submit(value) {
+      this.$refs[value].validate(valid => {
         if (valid) {
-          let params = {}
-          params = {...this.formItem}
-          params.birthday = Tools.formatDate(params.birthday,"YYYY-MM-DD hh:mm")
-          axios.post(host + '/api/emp/add',params).then((response) => {
-            if (response.data.errCode === "0"){
-               this.$Notice.success({
-                  title: '保存成功',
-                  desc: ''
-                })
-                this.find()
-                this.$router.push({name:"empList"})
-            }else if (response.data.errCode === '1'){
+          let params = {};
+          params = { ...this.formItem };
+          params.birthday = Tools.formatDate(
+            params.birthday,
+            "YYYY-MM-DD hh:mm"
+          );
+          axios.post(host + "/api/emp/add", params).then(response => {
+            if (response.data.errCode === "0") {
+              this.$Notice.success({
+                title: "保存成功",
+                desc: ""
+              });
+              this.find();
+              this.$router.push({ name: "empList" });
+            } else if (response.data.errCode === "1") {
               this.$Notice.error({
-                title: '保存失败',
+                title: "保存失败",
                 desc: response.data.message
-              })
-            }  
-            else {
+              });
+            } else {
               this.$Notice.error({
-                title: '保存失败',
-                desc: ''
-              })
+                title: "保存失败",
+                desc: ""
+              });
             }
-          })
+          });
         } else {
-          this.$Message.error('校验失败!')
+          this.$Message.error("校验失败!");
         }
-      })
+      });
     },
-    back () {
-      this.$router.go(-1)
+    back() {
+      this.$router.go(-1);
     },
     getCountry() {
-      axios.get(host + '/api/baseData/getCountry').then((response) => {
+      axios.get(host + "/api/baseData/getCountry").then(response => {
         if (response.data.errCode == "0") {
-          this.countrys = response.data.data
+          this.countrys = response.data.data;
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped>

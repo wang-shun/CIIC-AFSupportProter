@@ -33,7 +33,7 @@
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="客服经理：">
-        <label>{{company.companyServicer}}</label>
+        <label>{{company.leaderShipName}}</label>
       </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

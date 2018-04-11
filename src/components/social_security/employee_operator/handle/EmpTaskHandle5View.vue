@@ -355,7 +355,12 @@
           businessInterfaceId:'',
           oldAgreementId:'',
           policyDetailId:'',
-          welfareUnit:''
+          welfareUnit:'',
+
+          createdDisplayName:'',
+          modifiedDisplayName:'',
+          leaderShipName:'',
+          serviceCenter:''
         },
         showButton: true,
         ruleValidate:{
@@ -444,6 +449,15 @@
             //         duration: 0
             //     });
             // }
+          api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:this.operatorType}).then((data) => {
+            if(data.data!=null){
+              this.company = data.data;
+              this.company.leaderShipName = this.socialSecurityPayOperator.leaderShipName;
+              this.company.serviceCenter = this.socialSecurityPayOperator.serviceCenter;
+              this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
+
+            }
+          })
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
@@ -451,12 +465,6 @@
             this.employee = data.data;
             this.socialSecurityPayOperator.empArchiveId = data.data.empArchiveId
            }
-        })
-        api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          if(data.data!=null){
-            this.company = data.data;
-            this.socialSecurityPayOperator.comAccountId = data.data.comAccountId;
-          }
         })
       },
       goBack() {

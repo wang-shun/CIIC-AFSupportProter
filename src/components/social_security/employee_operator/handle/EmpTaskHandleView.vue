@@ -378,7 +378,12 @@
           businessInterfaceId:'',
           oldAgreementId:'',
           policyDetailId:'',
-          welfareUnit:''
+          welfareUnit:'',
+
+          createdDisplayName:'',
+          modifiedDisplayName:'',
+          leaderShipName:'',
+          serviceCenter:''
         },
 
         // 任务单参考信息
@@ -543,6 +548,16 @@
             this.reworkInfo = data.data.amEmpTaskDTO
             this.reworkInfo.salary = data.data.salary
             console.log(this.socialSecurityPayOperator.theSameTask)
+
+            api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:this.operatorType}).then((data) => {
+              if(data.data!=null){
+                this.company = data.data;
+                this.company.leaderShipName = this.socialSecurityPayOperator.leaderShipName;
+                this.company.serviceCenter = this.socialSecurityPayOperator.serviceCenter;
+                this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
+
+              }
+            })
           }else{
              this.$Message.error(data.message)
           }
@@ -550,12 +565,6 @@
         api.queryEmpArchiveByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((res) => {
           if(res.data!=null){
             this.employee = res.data;
-          }
-        })
-        api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:data.operatorType}).then((data) => {
-          if(data.data!=null){
-          this.company = data.data;
-          this.socialSecurityPayOperator.comAccountId = data.data.comAccountId
           }
         })
       },

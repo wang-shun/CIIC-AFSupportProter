@@ -410,11 +410,11 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Tools from '../../../../lib/tools'
-import Decode from '../../../../lib/decode'
+import axios from "axios";
+import Tools from "../../../../lib/tools";
+import Decode from "../../../../lib/decode";
 
-const host = process.env.SITE_HOST
+const host = process.env.SITE_HOST;
 export default {
   props: {
     meterials: {
@@ -422,194 +422,194 @@ export default {
       default() {}
     }
   },
-  data () {
+  data() {
     return {
       material: {
-        menu: '',
+        menu: "",
         info: {},
-        materialsIds: '',
-        comp:'',
-        marryStatus:'',
-        hasFollower:'',
-        familerMaterials:'',
-        applyAddrChange:'',
-        addr:'',
-        followerType:'',
-        follower:'',
-        hasChildFollow:'',
-        hasSpouseFollow:'',
-        married:'',
-        jobMaterials:'',
-        hasGooder:'',
-        educate:'',
-        followMaterials:'',
-        notFollowMaterials:''
+        materialsIds: "",
+        comp: "",
+        marryStatus: "",
+        hasFollower: "",
+        familerMaterials: "",
+        applyAddrChange: "",
+        addr: "",
+        followerType: "",
+        follower: "",
+        hasChildFollow: "",
+        hasSpouseFollow: "",
+        married: "",
+        jobMaterials: "",
+        hasGooder: "",
+        educate: "",
+        followMaterials: "",
+        notFollowMaterials: ""
       }
-    }
+    };
   },
   methods: {
-    compChange (val) {
-      this.material.comp = val
-      this.$emit("materialsInfo", this.material)
+    compChange(val) {
+      this.material.comp = val;
+      this.$emit("materialsInfo", this.material);
     },
-    marryStatusChange (val) {
-      this.material.marryStatus = val
-      this.$emit("materialsInfo", this.material)
+    marryStatusChange(val) {
+      this.material.marryStatus = val;
+      this.$emit("materialsInfo", this.material);
     },
-    hasGooderChange (val) {
-      this.material.hasGooder = val
-      this.$emit("materialsInfo", this.material)
+    hasGooderChange(val) {
+      this.material.hasGooder = val;
+      this.$emit("materialsInfo", this.material);
     },
-    educateChange (val) {
-      this.material.educate = val
-      this.$emit("materialsInfo", this.material)
+    educateChange(val) {
+      this.material.educate = val;
+      this.$emit("materialsInfo", this.material);
     },
-    hasfollowerChange (val) {
-      this.material.hasfollower = val
-      this.$emit("materialsInfo", this.material)
+    hasfollowerChange(val) {
+      this.material.hasfollower = val;
+      this.$emit("materialsInfo", this.material);
     },
-    followMaterialsChange (val) {
-      this.material.followMaterials = val
-      this.$emit("materialsInfo", this.material)
+    followMaterialsChange(val) {
+      this.material.followMaterials = val;
+      this.$emit("materialsInfo", this.material);
     },
-    notFollowMaterialsChange (val) {
-      this.material.notFollowMaterials = val
-      this.$emit("materialsInfo", this.material)
+    notFollowMaterialsChange(val) {
+      this.material.notFollowMaterials = val;
+      this.$emit("materialsInfo", this.material);
     },
-    change (info) {
-      let materialsIds = ''
-      if (info.lev00.toString() != ''){
-        materialsIds = materialsIds + info.lev00.toString() + ','
+    change(info) {
+      let materialsIds = "";
+      if (info.lev00.toString() != "") {
+        materialsIds = materialsIds + info.lev00.toString() + ",";
       }
-      if (this.material.comp == '上海公司') {
-        if (info.lev11.toString() != ''){
-          materialsIds = materialsIds + info.lev11.toString() + ','
+      if (this.material.comp == "上海公司") {
+        if (info.lev11.toString() != "") {
+          materialsIds = materialsIds + info.lev11.toString() + ",";
         }
       }
-      if (this.material.comp == '上海分公司') {
-        if (info.lev12.toString() != ''){
-          materialsIds = materialsIds + info.lev12.toString() + ','
+      if (this.material.comp == "上海分公司") {
+        if (info.lev12.toString() != "") {
+          materialsIds = materialsIds + info.lev12.toString() + ",";
         }
       }
-      if (info.lev20.toString() != ''){
-        materialsIds = materialsIds + info.lev20.toString() + ','
+      if (info.lev20.toString() != "") {
+        materialsIds = materialsIds + info.lev20.toString() + ",";
       }
       // if (this.material.hasGooder = '是') {
-        if (info.lev31.toString() != ''){
-          materialsIds = materialsIds + info.lev31.toString() + ','
-        }
+      if (info.lev31.toString() != "") {
+        materialsIds = materialsIds + info.lev31.toString() + ",";
+      }
       // }
       // if (this.material.hasGooder = '否') {
-        if (info.lev32.toString() != ''){
-          materialsIds = materialsIds + info.lev32.toString() + ','
-        } 
+      if (info.lev32.toString() != "") {
+        materialsIds = materialsIds + info.lev32.toString() + ",";
+      }
       // }
-      if (info.lev41.toString() != ''){
-        materialsIds = materialsIds + info.lev41.toString() + ','
+      if (info.lev41.toString() != "") {
+        materialsIds = materialsIds + info.lev41.toString() + ",";
       }
-      if (info.lev42.toString() != ''){
-        materialsIds = materialsIds + info.lev42.toString() + ','
+      if (info.lev42.toString() != "") {
+        materialsIds = materialsIds + info.lev42.toString() + ",";
       }
-      if (info.lev43.toString() != ''){
-        materialsIds = materialsIds + info.lev43.toString() + ','
+      if (info.lev43.toString() != "") {
+        materialsIds = materialsIds + info.lev43.toString() + ",";
       }
-      if (info.lev44.toString() != ''){
-        materialsIds = materialsIds + info.lev44.toString() + ','
+      if (info.lev44.toString() != "") {
+        materialsIds = materialsIds + info.lev44.toString() + ",";
       }
-      if (info.lev50.toString() != ''){
-        materialsIds = materialsIds + info.lev50.toString() + ','
-      } 
-      if (this.material.marryStatus = '未婚') {
-        if (info.lev61.toString() != ''){
-          materialsIds = materialsIds + info.lev61.toString() + ','
+      if (info.lev50.toString() != "") {
+        materialsIds = materialsIds + info.lev50.toString() + ",";
+      }
+      if ((this.material.marryStatus = "未婚")) {
+        if (info.lev61.toString() != "") {
+          materialsIds = materialsIds + info.lev61.toString() + ",";
         }
       }
 
-      if (this.material.marryStatus = '已婚') {
-        if (info.lev62.toString() != ''){
-          materialsIds = materialsIds + info.lev62.toString() + ','
+      if ((this.material.marryStatus = "已婚")) {
+        if (info.lev62.toString() != "") {
+          materialsIds = materialsIds + info.lev62.toString() + ",";
         }
       }
 
-      if (this.material.marryStatus = '离婚') {
-        if (info.lev63.toString() != ''){
-          materialsIds = materialsIds + info.lev63.toString() + ','
+      if ((this.material.marryStatus = "离婚")) {
+        if (info.lev63.toString() != "") {
+          materialsIds = materialsIds + info.lev63.toString() + ",";
         }
       }
 
-      if (this.material.marryStatus = '再婚') {
-        if (info.lev64.toString() != ''){
-          materialsIds = materialsIds + info.lev64.toString() + ','
+      if ((this.material.marryStatus = "再婚")) {
+        if (info.lev64.toString() != "") {
+          materialsIds = materialsIds + info.lev64.toString() + ",";
         }
       }
-      if (this.material.hasFollower = '是') {
-        if (info.lev71.toString() != ''){
-          materialsIds = materialsIds + info.lev71.toString() + ','
+      if ((this.material.hasFollower = "是")) {
+        if (info.lev71.toString() != "") {
+          materialsIds = materialsIds + info.lev71.toString() + ",";
         }
       }
-      if (this.material.hasFollower = '否') {
-        if (info.lev72.toString() != ''){
-          materialsIds = materialsIds + info.lev72.toString() + ','
+      if ((this.material.hasFollower = "否")) {
+        if (info.lev72.toString() != "") {
+          materialsIds = materialsIds + info.lev72.toString() + ",";
         }
       }
-      if (this.material.followMaterials = '子女') {
-        if (info.lev81.toString() != ''){
-          materialsIds = materialsIds + info.lev81.toString() + ','
+      if ((this.material.followMaterials = "子女")) {
+        if (info.lev81.toString() != "") {
+          materialsIds = materialsIds + info.lev81.toString() + ",";
         }
       }
-      if (this.material.followMaterials = '配偶') {
-        if (info.lev82.toString() != ''){
-          materialsIds = materialsIds + info.lev82.toString() + ','
+      if ((this.material.followMaterials = "配偶")) {
+        if (info.lev82.toString() != "") {
+          materialsIds = materialsIds + info.lev82.toString() + ",";
         }
       }
-      if (this.material.followMaterials = '全家') {
-        if (info.lev83.toString() != ''){
-          materialsIds = materialsIds + info.lev83.toString() + ','
+      if ((this.material.followMaterials = "全家")) {
+        if (info.lev83.toString() != "") {
+          materialsIds = materialsIds + info.lev83.toString() + ",";
         }
       }
-      if (this.material.notFollowMaterials = '已是上海户籍') {
-        if (info.lev91.toString() != ''){
-          materialsIds = materialsIds + info.lev91.toString() + ','
+      if ((this.material.notFollowMaterials = "已是上海户籍")) {
+        if (info.lev91.toString() != "") {
+          materialsIds = materialsIds + info.lev91.toString() + ",";
         }
       }
-      if (this.material.notFollowMaterials = '不符合随迁条件') {
-        if (info.lev92.toString() != ''){
-          materialsIds = materialsIds + info.lev92.toString() + ','
+      if ((this.material.notFollowMaterials = "不符合随迁条件")) {
+        if (info.lev92.toString() != "") {
+          materialsIds = materialsIds + info.lev92.toString() + ",";
         }
       }
-      if (this.material.notFollowMaterials = '已是外籍') {
-        if (info.lev93.toString() != ''){
-          materialsIds = materialsIds + info.lev93.toString() + ','
+      if ((this.material.notFollowMaterials = "已是外籍")) {
+        if (info.lev93.toString() != "") {
+          materialsIds = materialsIds + info.lev93.toString() + ",";
         }
       }
-      if (this.material.notFollowMaterials = '其他原因') {
-        if (info.lev94.toString() != ''){
-          materialsIds = materialsIds + info.lev94.toString() + ','
+      if ((this.material.notFollowMaterials = "其他原因")) {
+        if (info.lev94.toString() != "") {
+          materialsIds = materialsIds + info.lev94.toString() + ",";
         }
       }
       // if (this.material.addr = '社区公共户') {
-        if (info.lev101.toString() != ''){
-          materialsIds = materialsIds + info.lev101.toString() + ','
-        }
+      if (info.lev101.toString() != "") {
+        materialsIds = materialsIds + info.lev101.toString() + ",";
+      }
       // }
       // if (this.material.addr = '自购房') {
-        if (info.lev102.toString() != ''){
-          materialsIds = materialsIds + info.lev102.toString() + ','
-        }
+      if (info.lev102.toString() != "") {
+        materialsIds = materialsIds + info.lev102.toString() + ",";
+      }
       // }
-      this.material.materialsIds = materialsIds
-      this.$emit("materialsInfo", this.material)
-   }
+      this.material.materialsIds = materialsIds;
+      this.$emit("materialsInfo", this.material);
+    }
   },
   watch: {
-    meterials : {
+    meterials: {
       handler: function(newV, oldV) {
-        this.material = this._.cloneDeep(newV)
+        this.material = this._.cloneDeep(newV);
       },
       deep: true
     }
   }
-}
+};
 </script>
 
 <style scoped>

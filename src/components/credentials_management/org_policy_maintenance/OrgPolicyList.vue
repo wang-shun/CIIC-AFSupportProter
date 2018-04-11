@@ -86,215 +86,240 @@
 </template>
 
 <script>
-import axios from 'axios'
-import Tools from '../../../lib/tools'
-import Decode from '../../../lib/decode'
+import axios from "axios";
+import Tools from "../../../lib/tools";
+import Decode from "../../../lib/decode";
 
-const host = process.env.SITE_HOST
+const host = process.env.SITE_HOST;
 export default {
-  data () {
+  data() {
     return {
-      value1: '1',
+      value1: "1",
       modal1: false,
       disablehover: true,
       pageNum: 1,
       pageSize: 5,
       total: null,
       queryItem: {
-        type: '',
-        name: ''
+        type: "",
+        name: ""
       },
       formItem: {
-        orgPolicyId: '',
-        type: '',
-        name: '',
-        policyDescription: '',
-        isActive: '',
-        createdTime: '',
-        createdBy: '',
-        modifiedBy: '',
-        modifiedTime: ''
+        orgPolicyId: "",
+        type: "",
+        name: "",
+        policyDescription: "",
+        isActive: "",
+        createdTime: "",
+        createdBy: "",
+        modifiedBy: "",
+        modifiedTime: ""
       },
       ruleValidate: {
-        type: [{ required: true, message: '请选择证件类型', trigger: 'change' }],
-        name: [{ required: true, message: '请选择办理机构', trigger: 'change' }],
-        policyDescription: [{ required: true, message: '政策内容不能为空', trigger: 'change' }]
+        type: [
+          { required: true, message: "请选择证件类型", trigger: "change" }
+        ],
+        name: [
+          { required: true, message: "请选择办理机构", trigger: "change" }
+        ],
+        policyDescription: [
+          { required: true, message: "政策内容不能为空", trigger: "change" }
+        ]
       },
       colums1: [
         {
-          title: '办理机构',
-          key: 'name',
+          title: "办理机构",
+          key: "name",
           sortable: true
         },
         {
-          title: '证件类型',
-          key: 'typeN'
+          title: "证件类型",
+          key: "typeN"
         },
         {
-          title: '创建人',
-          key: 'createdBy'
+          title: "创建人",
+          key: "createdBy"
         },
         {
-          title: '创建日期',
-          key: 'createdTime',
-          sortable: true,
+          title: "创建日期",
+          key: "createdTime",
+          sortable: true
         },
         {
-          title: '政策内容',
-          width: '400',
-          key: 'policyDescription',
+          title: "政策内容",
+          width: "400",
+          key: "policyDescription",
           ellipsis: true,
-          render: (h,params) => {
-            return h('Tooltip', {
-              props: {
-                placement: 'bottom-start',
-                delay: 500,
-                transfer: true
-              }
-            },[
-              h('div',params.row.policyDescription),
-              h('div',{
-                slot: 'content'
-              },[
-                h('div',params.row.policyDescription)
-              ])
-            ])
+          render: (h, params) => {
+            return h(
+              "Tooltip",
+              {
+                props: {
+                  placement: "bottom-start",
+                  delay: 500,
+                  transfer: true
+                }
+              },
+              [
+                h("div", params.row.policyDescription),
+                h(
+                  "div",
+                  {
+                    slot: "content"
+                  },
+                  [h("div", params.row.policyDescription)]
+                )
+              ]
+            );
           }
         },
         {
-          title: '操作',
-          key: 'action',
-          width: '150',
-          align: 'center',
+          title: "操作",
+          key: "action",
+          width: "150",
+          align: "center",
           render: (h, params) => {
-            return h('div', [
-              h('Button', {
-                props: {
-                  type: 'success',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    this.formItem = {...params.row}
-                    this.formItem.type = params.row.type.toString()
-                    this.modal1 = true
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "success",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.formItem = { ...params.row };
+                      this.formItem.type = params.row.type.toString();
+                      this.modal1 = true;
+                    }
                   }
-                }
-              }, '编辑'),
-              h('Button', {
-                props: {
-                  type: 'error',
-                  size: 'small'
                 },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    this.$Modal.confirm({
-                      title: '警告',
-                      content: '您真的要删除吗？',
-                      okText: '删除',
-                      onOk: () => {
-                        this.del(params.row.orgPoilcyId)
-                      }
-                    })
+                "编辑"
+              ),
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "error",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.$Modal.confirm({
+                        title: "警告",
+                        content: "您真的要删除吗？",
+                        okText: "删除",
+                        onOk: () => {
+                          this.del(params.row.orgPoilcyId);
+                        }
+                      });
+                    }
                   }
-                }
-              }, '删除')
-            ])
+                },
+                "删除"
+              )
+            ]);
           }
         }
       ],
       data1: []
-    }
+    };
   },
-  created () {
-    this.find()
+  created() {
+    this.find();
   },
   methods: {
-    find () {
-      var params = {}
-      params.params = {}
-      params.params.pageNum = this.pageNum
-      params.params.pageSize = this.pageSize
-      params.params.name = this.queryItem.name
-      params.params.type = this.queryItem.type
-      axios.get(host + '/api/orgPolicy/find', params).then(response => {
-        this.data1 = response.data.data.records
-        this.total = response.data.data.total
-      })
+    find() {
+      var params = {};
+      params.params = {};
+      params.params.pageNum = this.pageNum;
+      params.params.pageSize = this.pageSize;
+      params.params.name = this.queryItem.name;
+      params.params.type = this.queryItem.type;
+      axios.get(host + "/api/orgPolicy/find", params).then(response => {
+        this.data1 = response.data.data.records;
+        this.total = response.data.data.total;
+      });
     },
     handleCurrentChange(val) {
-      this.pageNum = val
-      this.find()
+      this.pageNum = val;
+      this.find();
     },
-    add () {
-      this.modal1 = true
+    add() {
+      this.modal1 = true;
     },
-    ok (value) {
-      this.$refs[value].validate((valid) => {
+    ok(value) {
+      this.$refs[value].validate(valid => {
         if (valid) {
-          axios.post(host + '/api/orgPolicy/saveOrUpdate',this.formItem).then((response) => {
-            if (response.data.errCode === '0'){
-               this.$Notice.success({
-                  title: '保存成功',
-                  desc: ''
-                })
-                this.modal1 = false
-                this.find()
-                this.$refs['formItem'].resetFields()
-                this.formItem.orgPoilcyId = ''
+          axios
+            .post(host + "/api/orgPolicy/saveOrUpdate", this.formItem)
+            .then(response => {
+              if (response.data.errCode === "0") {
+                this.$Notice.success({
+                  title: "保存成功",
+                  desc: ""
+                });
+                this.modal1 = false;
+                this.find();
+                this.$refs["formItem"].resetFields();
+                this.formItem.orgPoilcyId = "";
+              } else {
+                this.$Notice.error({
+                  title: "保存失败",
+                  desc: ""
+                });
+              }
+            })
+            .catch(error => {
+              this.$Notice.error({
+                title: "保存失败",
+                desc: ""
+              });
+            });
+        }
+      });
+    },
+    del(val) {
+      if (val !== "" && val !== null) {
+        axios
+          .delete(host + "/api/orgPolicy/delete/" + val)
+          .then(response => {
+            console.log(response.data.errCode === 0);
+            if (response.data.errCode === "0") {
+              this.find();
+              this.$Notice.success({
+                title: "删除成功",
+                desc: ""
+              });
+            } else if (response.data.errCode === "1") {
+              this.$Notice.error({
+                title: "删除失败",
+                desc: response.data.message
+              });
             } else {
               this.$Notice.error({
-                title: '保存失败',
-                desc: ''
-              })
+                title: "删除失败",
+                desc: ""
+              });
             }
-          }).catch((error) => {
+          })
+          .catch(error => {
             this.$Notice.error({
-              title: '保存失败',
-              desc: ''
-            })
-          })
-        }
-      })
-    },
-    del (val) {
-      if (val !== '' && val !== null) {
-        axios.delete(host + '/api/orgPolicy/delete/'+val).then((response) => {
-          console.log(response.data.errCode===0)
-            if (response.data.errCode === '0'){
-              this.find()
-              this.$Notice.success({
-                  title: '删除成功',
-                  desc: ''
-                })
-            } else if (response.data.errCode === '1'){
-              this.$Notice.error({
-                title: '删除失败',
-                desc: response.data.message
-              })
-            } 
-            else {
-              this.$Notice.error({
-                title: '删除失败',
-                desc: ''
-              })
-            }
-          }).catch((error) => {
-             this.$Notice.error({
-              title: '删除失败',
-              desc: ''
-            })
-          })
+              title: "删除失败",
+              desc: ""
+            });
+          });
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>

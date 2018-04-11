@@ -192,231 +192,296 @@
 </template>
 
 <script>
-  import CredentialsDealInfo from './common/CredentialsDealTask'
-  import Tools from '../../../lib/tools'
-  import axios from 'axios'
-  import Decode from '../../../lib/decode'
+import CredentialsDealInfo from "./common/CredentialsDealTask";
+import Tools from "../../../lib/tools";
+import axios from "axios";
+import Decode from "../../../lib/decode";
 
-  const host = process.env.SITE_HOST
-  export default {
-    components: {CredentialsDealInfo},
-    data () {
-      return {
-        value1: ['2','3'],
-        empInfo: [],
-        companyCode: '',
-        companyName: '',
-        companyAddr: '',
-        companyTel: '',
-        empCode: '',
-        empName: '',
-        idNum: '',
-        education: '',
-        marriage: '',
-        sex: '',
-        birthday: '',
-        address: '',
-        firstInTime: '',
-        contractStartTime: '',
-        contractEndTime: '',
-        credentialsType: '',
-        credentialsDealType: '',
-        basicProductId: '',
-        templateType: '',
-        formItem: {
-          education: '',
-          materialBackTime: '',
-          callsTime: '',
-          applyTime: '',
-          liveAgeLimit: '',
-          shiftLetterSendTime: '',
-          talentBackTime: '',
-          talentBackReason: '',
-          dealTime: '',
-          chargeTime: '',
-          receiveFileTime: '',
-          originalBackTime: '',
-          originalBackReason: '',
-          integralBillPrintTime: '',
-          payType: '',
-          chargeAmount: '',
-          perCompanyName: '',
-          telephone: '',
-          remark: '',
-          materialIds: '',
-          basicProductId: ''
-        }
+const host = process.env.SITE_HOST;
+export default {
+  components: { CredentialsDealInfo },
+  data() {
+    return {
+      value1: ["2", "3"],
+      empInfo: [],
+      companyCode: "",
+      companyName: "",
+      companyAddr: "",
+      companyTel: "",
+      empCode: "",
+      empName: "",
+      idNum: "",
+      education: "",
+      marriage: "",
+      sex: "",
+      birthday: "",
+      address: "",
+      firstInTime: "",
+      contractStartTime: "",
+      contractEndTime: "",
+      credentialsType: "",
+      credentialsDealType: "",
+      basicProductId: "",
+      templateType: "",
+      formItem: {
+        education: "",
+        materialBackTime: "",
+        callsTime: "",
+        applyTime: "",
+        liveAgeLimit: "",
+        shiftLetterSendTime: "",
+        talentBackTime: "",
+        talentBackReason: "",
+        dealTime: "",
+        chargeTime: "",
+        receiveFileTime: "",
+        originalBackTime: "",
+        originalBackReason: "",
+        integralBillPrintTime: "",
+        payType: "",
+        chargeAmount: "",
+        perCompanyName: "",
+        telephone: "",
+        remark: "",
+        materialIds: "",
+        basicProductId: ""
+      }
+    };
+  },
+  mounted() {
+    let data = this.$route.params.data;
+    Tools.copy(data, this);
+    this.companyCode = data.companyId;
+    this.empCode = data.employeeId;
+    this.empName = data.employeeName;
+    console.log("router:" + this.$route.params.basicProductId);
+  },
+  created() {
+    this.findAll(this.$route.params.data.employeeId);
+    this.findEmpDetial(this.$route.params.data);
+    this.findCompanyDetial(this.$route.params.data.companyId);
+  },
+  computed: {},
+  methods: {
+    callBack(value) {
+      if (value != null) {
+        this.formItem = value;
+        this.formItem.perCompanyName = value.companyName;
       }
     },
-    mounted () {
-      let data = this.$route.params.data
-      Tools.copy(data,this)
-      this.companyCode = data.companyId
-      this.empCode = data.employeeId
-      this.empName = data.employeeName
-      console.log("router:"+this.$route.params.basicProductId)
-    },
-    created () {
-      this.findAll(this.$route.params.data.employeeId)
-      this.findEmpDetial(this.$route.params.data)
-      this.findCompanyDetial(this.$route.params.data.companyId)
-    },
-    computed: {
-    },
-    methods: {
-      callBack(value){
-        if (value != null) {
-          this.formItem = value
-          this.formItem.perCompanyName = value.companyName
-        }
-      },
-      findCompanyDetial(companyId) {
-        let params = {}
-        params.params = {}
-        params.params.companyId = companyId
-        axios.get(host+'/api/baseData/getCompanyInfo',params).then((response) => {
-          if(response.data.errCode=="0"){
-            this.companyCode = response.data.data.companyId
-            this.companyName = response.data.data.companyName
-            this.companyAddr = response.data.data.registeredAddress
-            this.companyTel = ""
+    findCompanyDetial(companyId) {
+      let params = {};
+      params.params = {};
+      params.params.companyId = companyId;
+      axios
+        .get(host + "/api/baseData/getCompanyInfo", params)
+        .then(response => {
+          if (response.data.errCode == "0") {
+            this.companyCode = response.data.data.companyId;
+            this.companyName = response.data.data.companyName;
+            this.companyAddr = response.data.data.registeredAddress;
+            this.companyTel = "";
           }
-        })
-      },
-      findEmpDetial(employee) {
-        let params = {}
-        params.params = {}
-        params.params.companyId = employee.companyId
-        params.params.employeeId = employee.employeeId
-        params.params.idCardType = employee.idCardType
-        params.params.idNum = employee.idNum
-        params.params.type = employee.type
-        axios.get(host+ '/api/baseData/getEmpInfo',params).then((response) => {
-          if(response.data.errCode == "0"){
-            let item = response.data.data
-            this.empCode = item.employeeId
-            this.empName = item.employeeName
-            this.idNum = item.idNum
-            this.education = ""
-            this.marriage = (item.marriageStatus == 1) ? "未婚" : (item.marriageStatus == 2) ? "已婚" : (item.marriageStatus == 3) ? "离异" : ""
-            this.sex = (item.gender == 1) ? "男" : "女"
-            this.birthday = (item.birthday == null) ? "" : Tools.formatDate(item.birthday,"YYYY年MM月DD日") 
-            this.address = item.address
-            this.firstInTime = (item.firstInDate == null) ? "" : Tools.formatDate(item.firstInDate,"YYYY年MM月DD日")
-            this.contractStartTime = (item.laborStartDate == null) ? "" : Tools.formatDate(item.laborStartDate,"YYYY年MM月DD日")
-            this.contractEndTime = (item.laborEndDate == null) ? "" : Tools.formatDate(item.laborEndDate,"YYYY年MM月DD日")
-          }
-        })
-      },
-      save () {
-        let params = {}
-        params = {...this.formItem}
-        if (params.materialBackTime !== undefined && params.materialBackTime !== null) {
-          params.materialBackTime = Tools.formatDate(params.materialBackTime,"YYYY-MM-DD hh:mm")
+        });
+    },
+    findEmpDetial(employee) {
+      let params = {};
+      params.params = {};
+      params.params.companyId = employee.companyId;
+      params.params.employeeId = employee.employeeId;
+      params.params.idCardType = employee.idCardType;
+      params.params.idNum = employee.idNum;
+      params.params.type = employee.type;
+      axios.get(host + "/api/baseData/getEmpInfo", params).then(response => {
+        if (response.data.errCode == "0") {
+          let item = response.data.data;
+          this.empCode = item.employeeId;
+          this.empName = item.employeeName;
+          this.idNum = item.idNum;
+          this.education = "";
+          this.marriage =
+            item.marriageStatus == 1
+              ? "未婚"
+              : item.marriageStatus == 2
+                ? "已婚"
+                : item.marriageStatus == 3 ? "离异" : "";
+          this.sex = item.gender == 1 ? "男" : "女";
+          this.birthday =
+            item.birthday == null
+              ? ""
+              : Tools.formatDate(item.birthday, "YYYY年MM月DD日");
+          this.address = item.address;
+          this.firstInTime =
+            item.firstInDate == null
+              ? ""
+              : Tools.formatDate(item.firstInDate, "YYYY年MM月DD日");
+          this.contractStartTime =
+            item.laborStartDate == null
+              ? ""
+              : Tools.formatDate(item.laborStartDate, "YYYY年MM月DD日");
+          this.contractEndTime =
+            item.laborEndDate == null
+              ? ""
+              : Tools.formatDate(item.laborEndDate, "YYYY年MM月DD日");
         }
-        if (params.callsTime !== undefined && params.callsTime !== null) {
-          params.callsTime = Tools.formatDate(params.callsTime,"YYYY-MM-DD hh:mm")
-        }
-        if (params.applyTime !== undefined && params.applyTime !== null){
-          params.applyTime = Tools.formatDate(params.applyTime,"YYYY-MM-DD hh:mm")
-        }
-        if (params.shiftLetterSendTime !== undefined && params.shiftLetterSendTime !== null){
-          params.shiftLetterSendTime = Tools.formatDate(params.shiftLetterSendTime,"YYYY-MM-DD hh:mm")
-        }
-        if (params.talentBackTime !== undefined && params.talentBackTime !== null){
-          params.talentBackTime = Tools.formatDate(params.talentBackTime,"YYYY-MM-DD hh:mm")
-        }
-        if (params.dealTime !== undefined && params.dealTime !== null){
-          params.dealTime = Tools.formatDate(params.dealTime,"YYYY-MM-DD hh:mm")
-        }
-        if (params.chargeTime !== undefined && params.chargeTime !== null){
-          params.chargeTime = Tools.formatDate(params.chargeTime,"YYYY-MM-DD hh:mm")
-        }
-        if (params.receiveFileTime !== undefined && params.receiveFileTime !== null){
-          params.receiveFileTime = Tools.formatDate(params.receiveFileTime,"YYYY-MM-DD hh:mm")
-        }
-        if (params.originalBackTime !== undefined && params.originalBackTime !== null){
-          params.originalBackTime = Tools.formatDate(params.originalBackTime,"YYYY-MM-DD hh:mm")
-        }
-        if (params.integralBillPrintTime !== undefined && params.integralBillPrintTime !== null){
-          params.integralBillPrintTime = Tools.formatDate(params.integralBillPrintTime,"YYYY-MM-DD hh:mm")
-        }
-        params.materialIds = params.materialIds
-        params.comp = params.comp
-        params.employeeId = params.empCode
-        params.companyId = params.companyCode
-        params.credentialsType = params.credentialsType
-        params.credentialsDealType = params.credentialsDealType
-        params.basicProductId = params.basicProductId == null ? this.$route.params.basicProductId : params.basicProductId
-        params.templateType = this.templateType
-        axios.post(host + '/api/empCredentialsDeal/saveOrUpdate/task', params).then(response => {
-          if (response.data.errCode === '0'){
-              //  this.$Notice.success({
-              //     title: '保存成功',
-              //     desc: ''
-              //   })
-              //   this.findAll(this.empCode)
-                this.$Modal.confirm({
-                      title: '保存成功',
-                      cancelText: '返回前页',
-                      onCancel: () => {
-                        this.$router.push('/emp_credentials_deal/emp_list')
-                      },
-                      okText: '留在本页',
-                      onOk: () => {
-                        this.findAll(this.empCode)
-                      }
-                    })
-            } else {
-              this.$Notice.error({
-                title: '保存失败',
-                desc: response.data.message
-              })
-            }
-          }).catch((error) => {
-            this.$Notice.error({
-              title: '保存失败',
-              desc: '系统繁忙'
-            })
-        })
-      },
-      back () {
-        this.$router.go(-1)
-      },
-      findAll(empCode) {
-        axios.get(host + '/api/empCredentialsDeal/find/task/' + empCode).then(response => {
+      });
+    },
+    save() {
+      let params = {};
+      params = { ...this.formItem };
+      if (
+        params.materialBackTime !== undefined &&
+        params.materialBackTime !== null
+      ) {
+        params.materialBackTime = Tools.formatDate(
+          params.materialBackTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (params.callsTime !== undefined && params.callsTime !== null) {
+        params.callsTime = Tools.formatDate(
+          params.callsTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (params.applyTime !== undefined && params.applyTime !== null) {
+        params.applyTime = Tools.formatDate(
+          params.applyTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (
+        params.shiftLetterSendTime !== undefined &&
+        params.shiftLetterSendTime !== null
+      ) {
+        params.shiftLetterSendTime = Tools.formatDate(
+          params.shiftLetterSendTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (
+        params.talentBackTime !== undefined &&
+        params.talentBackTime !== null
+      ) {
+        params.talentBackTime = Tools.formatDate(
+          params.talentBackTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (params.dealTime !== undefined && params.dealTime !== null) {
+        params.dealTime = Tools.formatDate(params.dealTime, "YYYY-MM-DD hh:mm");
+      }
+      if (params.chargeTime !== undefined && params.chargeTime !== null) {
+        params.chargeTime = Tools.formatDate(
+          params.chargeTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (
+        params.receiveFileTime !== undefined &&
+        params.receiveFileTime !== null
+      ) {
+        params.receiveFileTime = Tools.formatDate(
+          params.receiveFileTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (
+        params.originalBackTime !== undefined &&
+        params.originalBackTime !== null
+      ) {
+        params.originalBackTime = Tools.formatDate(
+          params.originalBackTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (
+        params.integralBillPrintTime !== undefined &&
+        params.integralBillPrintTime !== null
+      ) {
+        params.integralBillPrintTime = Tools.formatDate(
+          params.integralBillPrintTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      params.materialIds = params.materialIds;
+      params.comp = params.comp;
+      params.employeeId = params.empCode;
+      params.companyId = params.companyCode;
+      params.credentialsType = params.credentialsType;
+      params.credentialsDealType = params.credentialsDealType;
+      params.basicProductId =
+        params.basicProductId == null
+          ? this.$route.params.basicProductId
+          : params.basicProductId;
+      params.templateType = this.templateType;
+      axios
+        .post(host + "/api/empCredentialsDeal/saveOrUpdate/task", params)
+        .then(response => {
           if (response.data.errCode === "0") {
-            let data = response.data.data
-            for(let i in data) {
-              data[i].empCode = this.empCode
-              data[i].empName = this.empName
-              data[i].companyCode = this.companyCode
-              data[i].companyName = this.companyName
-            }
-            let temp ={}
-            if (this.$route.params.isDeal == true) {
-              let data1 = this.$route.params.data
-              temp.empCode = data1.employeeId
-              temp.empName = data1.employeeName
-              temp.companyCode = data1.companyId
-              temp.companyName = data1.companyName
-              temp.credentialsTypeN = this.$route.params.typeN
-              temp.credentialsType = this.$route.params.type
-              temp.companyId = this.$route.params.companyId
-              if (this.$route.params.dealType != "") {
-                temp.credentialsDealType = this.$route.params.dealType
-                temp.credentialsDealTypeN = this.$route.params.dealTypeN
+            this.$Modal.confirm({
+              title: "保存成功",
+              cancelText: "返回前页",
+              onCancel: () => {
+                this.$router.push("/emp_credentials_deal/emp_list");
+              },
+              okText: "留在本页",
+              onOk: () => {
+                this.findAll(this.empCode);
               }
-              temp.action = "1"
-              response.data.data.splice(0,0,temp)
-            }
-            this.empInfo = data
-            console.log("data:"+this.empInfo[0].basicProductId)
+            });
+          } else {
+            this.$Notice.error({
+              title: "保存失败",
+              desc: response.data.message
+            });
           }
         })
-      }
+        .catch(error => {
+          this.$Notice.error({
+            title: "保存失败",
+            desc: "系统繁忙"
+          });
+        });
+    },
+    back() {
+      this.$router.go(-1);
+    },
+    findAll(empCode) {
+      axios
+        .get(host + "/api/empCredentialsDeal/find/task/" + empCode)
+        .then(response => {
+          if (response.data.errCode === "0") {
+            let data = response.data.data;
+            for (let i in data) {
+              data[i].empCode = this.empCode;
+              data[i].empName = this.empName;
+              data[i].companyCode = this.companyCode;
+              data[i].companyName = this.companyName;
+            }
+            let temp = {};
+            if (this.$route.params.isDeal == true) {
+              let data1 = this.$route.params.data;
+              temp.empCode = data1.employeeId;
+              temp.empName = data1.employeeName;
+              temp.companyCode = data1.companyId;
+              temp.companyName = data1.companyName;
+              temp.credentialsTypeN = this.$route.params.typeN;
+              temp.credentialsType = this.$route.params.type;
+              temp.companyId = this.$route.params.companyId;
+              if (this.$route.params.dealType != "") {
+                temp.credentialsDealType = this.$route.params.dealType;
+                temp.credentialsDealTypeN = this.$route.params.dealTypeN;
+              }
+              temp.action = "1";
+              response.data.data.splice(0, 0, temp);
+            }
+            this.empInfo = data;
+          }
+        });
     }
   }
+};
 </script>
 
 <style scoped>

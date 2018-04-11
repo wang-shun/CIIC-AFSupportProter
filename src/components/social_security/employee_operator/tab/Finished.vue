@@ -239,7 +239,7 @@
             title: '客户名称', key: 'title', width: 200, align: 'center'
           },
           {
-            title: '发起人', key: 'submitterId', width: 100, align: 'center'
+            title: '发起人', key: 'submitterName', width: 100, align: 'center'
           },
           {
             title: '发起时间', key: 'createdTime', width: 180, align: 'center'

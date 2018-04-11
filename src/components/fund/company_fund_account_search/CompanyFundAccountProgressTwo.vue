@@ -73,7 +73,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="info" @click="" :disabled="isCanEdit">保存</Button>
+      <Button type="info" @click="submitForm" :disabled="isCanEdit">保存</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -138,7 +138,10 @@
       },
       goBack() {
         this.$router.go(-1);
-      }
+      },
+      submitForm(){
+
+      },
     }
   }
 </script>

@@ -233,10 +233,25 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(1)
+                    this.showInfoTw(99)
                   }
                 }
               }, params.row.noFeedback);
+            }
+          },
+          {title: '退工任务单签收退工未成功', key: 'refuseFinished', align: 'center', width: 220,
+            render: (h, params) => {
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTw(98)
+                  }
+                }
+              }, params.row.refuseFinished);
             }
           },
           {title: '退工成功', key: 'refuseFinished', align: 'center', width: 220,
@@ -248,7 +263,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(2)
+                    this.showInfoTw(1)
                   }
                 }
               }, params.row.refuseFinished);
@@ -263,7 +278,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(3)
+                    this.showInfoTw(2)
                   }
                 }
               }, params.row.refuseBeforeWithFile);
@@ -278,7 +293,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(4)
+                    this.showInfoTw(3)
                   }
                 }
               }, params.row.refuseTicketStampNoReturn);
@@ -293,7 +308,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(5)
+                    this.showInfoTw(4)
                   }
                 }
               }, params.row.refuseFailed);
@@ -308,7 +323,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(6)
+                    this.showInfoTw(5)
                   }
                 }
               }, params.row.beforeBatchNeedRefuse);
@@ -323,7 +338,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(7)
+                    this.showInfoTw(6)
                   }
                 }
               }, params.row.other);

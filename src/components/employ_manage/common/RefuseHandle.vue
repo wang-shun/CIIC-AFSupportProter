@@ -121,12 +121,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="入库日期：">
-            <DatePicker v-model="refuse.storageDate" type="date" placeholder="" transfer></DatePicker>
+            {{refuse.storageDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="调档反馈：">
-            <Input v-model="refuse.diaodangFeedback" placeholder="请输入"/>
+            {{refuse.diaodangFeedback}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

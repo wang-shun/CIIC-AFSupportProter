@@ -251,7 +251,7 @@
                     this.showInfoTw(98)
                   }
                 }
-              }, params.row.refuseFinished);
+              }, params.row.refuseWaitFinished);
             }
           },
           {title: '退工成功', key: 'refuseFinished', align: 'center', width: 220,

@@ -9,14 +9,14 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费银行：">
                   <Select v-model="companyFundAccount.paymentBank" style="width: 100%;" transfer :disabled="isCanEdit">
-                    <Option v-for="item in payBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="key" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="付款方式：">
                   <Select v-model="companyFundAccount.paymentWay" style="width: 100%;" transfer :disabled="isCanEdit">
-                    <Option v-for="item in payMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="(value,key) in this.baseDic.hfPaymentWay" :value="key" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -33,7 +33,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="U盾代管情况：">
                   <Select v-model="companyFundAccount.ukeyStore" style="width: 100%;" transfer :disabled="isCanEdit">
-                    <Option v-for="item in UKeyList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option v-for="(value,key) in this.baseDic.hfUkeyStore" :value="key" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -73,6 +73,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+      <Button type="info" @click="" :disabled="isCanEdit">保存</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -90,23 +91,6 @@
         collapseInfo: [1, 2],
         fundAccountInfo: {},
         isCanEdit: true,
-        payBankList: [
-          {label: '徐汇—X', value: '1'},
-          {label: '西郊—C', value: '2'},
-          {label: '东方路—P', value: '3'},
-          {label: '卢湾—L', value: '4'},
-          {label: '黄浦—H', value: '5'}
-        ],
-        payMethodList: [
-          {label: '自付（客户自己汇缴给银行，雇员由中智办理）', value: '1'},
-          {label: '我司付款（客户预付）', value: '2'},
-          {label: '垫付', value: '3'},
-        ],
-        UKeyList: [
-          {label: '没有', value: '0'},
-          {label: '客户自办', value: '1'},
-          {label: '中智代办', value: '2'}
-        ],
         companyFundAccount:{},
         accountBindCompanyData: []
       }

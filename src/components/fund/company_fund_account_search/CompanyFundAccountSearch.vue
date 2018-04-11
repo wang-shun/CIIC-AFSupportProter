@@ -45,11 +45,11 @@
       </Panel>
     </Collapse>
 
-    <Row class="mt20">
+    <!-- <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="info">导出</Button>
       </Col>
-    </Row>
+    </Row> -->
 
     <Row class="mt20">
       <Col :sm="{span:24}">
@@ -112,77 +112,7 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         companyFundAccountSearchColumns: [
-          {title: '企业公积金名称', key: 'comAccountName', align: 'center', width: 250,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.comAccountName),
-              ]);
-            }
-          },
-          {title: '公积金账号', key: 'comAccount', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.comAccount),
-              ]);
-            }
-          },
-          {title: '公积金类型', key: 'hfType', align: 'center', width: 150,
-            render: (h, params) => {
-              let type = '';
-              switch (params.row.hfType) {
-                case '1':
-                  type = '基本公积金';
-                  break;
-                case '2':
-                  type = '补充公积金';
-                  break;
-              }
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', type),
-              ]);
-            }
-          },
-          {title: 'U盾代管情况', key: 'ukeyStore', align: 'center', width: 200,
-            render: (h, params) => {
-              let ukeyStore = '';
-              switch (params.row.ukeyStore) {
-                case '0':
-                  ukeyStore = '没有';
-                  break;
-                case '1':
-                  ukeyStore = '客户自办';
-                  break;
-                case '2':
-                  ukeyStore = '中智代办';
-                  break;
-              }
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', ukeyStore),
-              ]);
-            }
-          },
-          {title: '客户汇缴月', key: 'comHfMonth', align: 'center', width: 200,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.comHfMonth),
-              ]);
-            }
-          },
-          {title: '缴费银行', key: 'paymentBank', align: 'center', width: 200,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', this.$decode.hf_paymentBank(params.row.paymentBank)),
-              ]);
-            }
-          },
-          {title: '备注说明', key: 'remark', align: 'center', width: 419,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.remark),
-              ]);
-            }
-          },
-          {title: '操作', align: 'center', width: 180,
+           {title: '操作', align: 'center', width: 140,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('Button', {props: {type: 'success', size: 'small'},
@@ -202,6 +132,77 @@
               ])
             }
           },
+          {title: '企业公积金名称', key: 'comAccountName', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.comAccountName),
+              ]);
+            }
+          },
+          {title: '公积金账号', key: 'comAccount', align: 'center', width: 130,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.comAccount),
+              ]);
+            }
+          },
+          {title: '公积金类型', key: 'hfType', align: 'center', width: 120,
+            render: (h, params) => {
+              let type = '';
+              switch (params.row.hfType) {
+                case '1':
+                  type = '基本公积金';
+                  break;
+                case '2':
+                  type = '补充公积金';
+                  break;
+              }
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', type),
+              ]);
+            }
+          },
+          {title: 'U盾代管情况', key: 'ukeyStore', align: 'center', width: 130,
+            render: (h, params) => {
+              let ukeyStore = '';
+              switch (params.row.ukeyStore) {
+                case '0':
+                  ukeyStore = '没有';
+                  break;
+                case '1':
+                  ukeyStore = '客户自办';
+                  break;
+                case '2':
+                  ukeyStore = '中智代办';
+                  break;
+              }
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', ukeyStore),
+              ]);
+            }
+          },
+          {title: '客户汇缴月', key: 'comHfMonth', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.comHfMonth),
+              ]);
+            }
+          },
+          {title: '缴费银行', key: 'paymentBank', align: 'center', width: 130,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.hf_paymentBank(params.row.paymentBank)),
+              ]);
+            }
+          },
+          {title: '备注说明', key: 'remark', align: 'center', width: 419,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          },
+         
         ]
       }
     },

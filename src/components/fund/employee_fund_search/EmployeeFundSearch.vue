@@ -178,7 +178,7 @@ export default {
         pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
       },
       searchCondition: {
-        serviceCenterValue:"",
+        serviceCenterValue:[],
         employeeId: "",
         hfComAccount: "",
         hfAccountType: "",
@@ -594,8 +594,11 @@ export default {
       this.employeeQuery(params);
     },
     impOk() {
-      api
-        .impEmpAccountBeforeUpload(this.upLoadData)
+      if(this.upLoadData.file==null ||this.upLoadData.file=='' ){
+        this.$Message.info("请选择导入文件");
+        return false;
+      }
+      api.impEmpAccountBeforeUpload(this.upLoadData)
         .then(data => {
           this.uploadFileList = [];
           this.isImported = true;

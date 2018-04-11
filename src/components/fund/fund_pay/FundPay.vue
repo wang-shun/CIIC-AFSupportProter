@@ -112,7 +112,16 @@
     </Row>
 
     <Table border ref="fundPay" class="mt20" :columns="fundPayColumns" :data="fundPayData" :loading="loading" @on-selection-change="selectChange"></Table>
-    <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page>
+    <!-- <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page> -->
+    <Page
+      class="pageSize"
+      @on-change="handlePageNum"
+      @on-page-size-change="handlePageSite"
+      :total="totalSize"
+      :page-size="size"
+      :page-size-opts="pageSizeOpts"
+      :current="pageNum"
+      show-sizer show-total></Page>
 
     <Modal
       v-model="isShowPayProgress"
@@ -224,6 +233,7 @@
         totalSize:0,//后台传过来的分页总数
         size:10,//默认单页记录数
         pageNum:1,//默认页数
+        pageSizeOpts:[10,20,50],
         loading: false,
         currentIndex:-1,
         operatorSearchData: {
@@ -675,6 +685,21 @@
           params:this.operatorSearchData
         }
       },
+
+      queryData(){
+        this.loading=true;
+        let params = {
+          pageSize: this.size,
+          pageNum: this.pageNum,
+          params:this.operatorSearchData
+        };
+        FundPay.getFundPaysTableData(params).then(data=>{
+          this.refresh(data)
+        }).catch(error=>{
+          console.log(error)
+        })
+      },
+
       refresh(data){
         this.fundPayData = data.data.fundPayData;
         if(typeof(data.data.totalSize)=='undefined') this.totalSize = 0
@@ -705,6 +730,15 @@
           this.progressInfo.paymentId = 0;
           this.progressInfo.paymentState = 0;
         }
+      },
+
+      handlePageNum(val) {
+        this.pageNum = val;
+        this.queryData();
+      },
+      handlePageSite(val) {
+        this.size = val;
+        this.queryData();
       },
       //生成导出文件
       exportTable(name) {
@@ -754,7 +788,7 @@
           case 5:
             break;
           case 6:
-           
+
             break;
           case 7:
             this.printFinancePayVoucher();
@@ -806,7 +840,7 @@
 
           FundPay.processApproval(params).then(data=>{
             this.$Message.success(data.message);
-            this.clickQuery();
+            this.queryData();
           }).catch(error=>{
             console.log(error)
           })
@@ -825,7 +859,7 @@
           };
           FundPay.processPayment(params).then(data=>{
             this.$Message.success(data.message);
-            this.clickQuery();
+            this.queryData();
           }).catch(error=>{
             console.log(error)
           })
@@ -844,7 +878,7 @@
           };
           FundPay.processTicket(params).then(data=>{
             this.$Message.success(data.message);
-            this.clickQuery();
+            this.queryData();
           }).catch(error=>{
             console.log(error)
           })
@@ -863,7 +897,7 @@
           };
           FundPay.processReceipt(params).then(data=>{
             this.$Message.success(data.message);
-            this.clickQuery();
+            this.queryData();
           }).catch(error=>{
             console.log(error)
           })
@@ -968,7 +1002,7 @@
         }
         let params ={payApplyCode:row.payApplyCode}
         FundPay.printFinancePayVoucher(params);
-      }, 
+      },
     }
   }
 </script>

@@ -253,9 +253,9 @@
             align: "center",
             render: (h, params) => {
               if (params.row.type === 3) {
-                return params.row.employeeName;
+                return h('div', params.row.employeeName);
               } else {
-                return params.row.associatedInsurantName;
+                return h('div', params.row.associatedInsurantName);
               }
             }
           },
@@ -265,7 +265,7 @@
             key: "gender",
             align: "center",
             render: (h, params) => {
-              return task.genderToChina(params.row.gender);
+              return h('div', task.genderToChina(params.row.gender));
             }
           },
           {
@@ -275,7 +275,7 @@
             align: "center",
             render: (h, params) => {
               if (params.row.birthDate !== null) {
-                return this.$utils.formatDate(params.row.birthDate, "YYYY-MM-DD");
+                return h('div', this.$utils.formatDate(params.row.birthDate, "YYYY-MM-DD"));
               }
             }
           },
@@ -291,7 +291,7 @@
             key: "keyType",
             align: "center",
             render: (h, params) => {
-              return task.keyTypeToChina(params.row.keyType);
+              return h('div', task.keyTypeToChina(params.row.keyType));
             }
           },
           {
@@ -300,7 +300,7 @@
             key: "type",
             align: "center",
             render: (h, params) => {
-              return task.typeToChina(params.row.type);
+              return h('div', task.typeToChina(params.row.type));
             }
           },
           {
@@ -309,7 +309,7 @@
             key: "status",
             align: "center",
             render: (h, params) => {
-              return task.statusToChina(params.row.status);
+              return h('div', task.statusToChina(params.row.status));
             }
           },
           {
@@ -319,10 +319,7 @@
             align: "center",
             render: (h, params) => {
               if (params.row.birthDate !== null) {
-                return this.$utils.formatDate(
-                  params.row.column12,
-                  "YYYY-MM-DD HH:mm:ss"
-                );
+                return h('div', this.$utils.formatDate(params.row.column12, "YYYY-MM-DD HH:mm:ss"));
               }
             }
           }

@@ -203,7 +203,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           {title: '客户编号', key: 'companyId', width: 150, align: 'center'},
           {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center'},
           {title: '公积金账号', key: 'hfEmpAccount', width: 200, align: 'center'},
-          {title: '发起人', key: 'submitterName', width: 150, align: 'center'},
+          {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center'},
           {title: '发起时间', key: 'submitTimeFormat', width: 200, align: 'center'}
         ]
       }

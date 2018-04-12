@@ -186,26 +186,26 @@
           {
             title: '受理类型', sortable: true, key: 'caseType', align: 'center',
             render: (h, params) => {
-              return admissibility.caseTypeToChina(params.row.caseType)
+              return  h('div',admissibility.caseTypeToChina(params.row.caseType))
             }
           },
           {
             title: '款项类型', sortable: true, key: 'moneyType', align: 'center',
             render: (h, params) => {
-              return admissibility.moneyTypeToChina(params.row.moneyType)
+              return  h('div',admissibility.moneyTypeToChina(params.row.moneyType))
             }
           },
           {
             title: '状态', sortable: true, key: 'status', align: 'center',
             render: (h, params) => {
-              return admissibility.statusToChina(params.row.status)
+              return  h('div',admissibility.statusToChina(params.row.status))
             }
           },
           {
             title: '受理日期', sortable: true, key: 'handlerDate', align: 'center',
             render: (h, params) => {
               if (params.row.handlerDate !== null) {
-                return this.$utils.formatDate(params.row.handlerDate, 'YYYY-MM-DD');
+                return  h('div',this.$utils.formatDate(params.row.handlerDate, 'YYYY-MM-DD'));
               }
             }
           },

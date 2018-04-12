@@ -311,10 +311,10 @@
           items: []
         },
         viewReconciliationColumns: [
-          {title: '导入公积金账号', key: 'comAccount', align: 'center',
+          {title: '导入公积金账号', key: 'empAccount', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.comAccount),
+                h('span', params.row.empAccount),
               ]);
             }
           },
@@ -478,7 +478,7 @@
         this.reconciliateFile = file;
         return false;
       },
-      
+
       saveReconciliation() { // 新建对账
         if (this.reconciliateFile == null) {
           this.$Message.error('请选择对账文件');

@@ -89,7 +89,8 @@
   </div>
 </template>
 <script>
-  import InputAccount from '../../../common_control/form/input_account'
+  import InputAccount from '../../../fund/common/input_account'
+  
   import InputCompany from '../../../common_control/form/input_company'
   import {Processing} from '../../../../api/house_fund/company_task_list/company_task_list_tab/processing'
   import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'

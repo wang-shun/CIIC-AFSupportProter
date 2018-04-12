@@ -164,7 +164,7 @@
           {
             title: '是否在保', sortable: true, key: 'insured', align: 'center',
             render: (h, params) => {
-              return warranty.insuredToChina(params.row.insured);
+              return h('div', warranty.insuredToChina(params.row.insured));
             }
           }
         ],

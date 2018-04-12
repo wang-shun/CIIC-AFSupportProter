@@ -36,13 +36,13 @@
               @on-ok="ok"
               @on-cancel="cancel">
               <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-                <Row type="flex" justify="start">
+                <!-- <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="材料使用经办人：" prop="handleManw">
                       <Input v-model="handleInfo.handleManw" placeholder="请输入"/>
                     </Form-item>
                   </Col>
-                </Row>
+                </Row> -->
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="使用日期：" prop="useDatew">
@@ -169,6 +169,7 @@ import api from '../../api/employ_manage/hire_operator'
       return {
          modal1: false,
          modal2: false,
+         userName:'',
         collapseInfo: [1, 2, 3],
         employeeInfo: {
           employeeNumber: this.$route.query.employeeId,
@@ -368,7 +369,7 @@ import api from '../../api/employ_manage/hire_operator'
           let params = {employeeId:this.$route.query.employeeId,archiveId:this.$route.query.archiveId}
 
           api.queryArchiveUse(params).then(data=>{
-              
+              this.userName = data.data.userName;
               if(data.data.amArchiveUsePageRows){
                   this.matrialsUseData  = data.data.amArchiveUsePageRows.rows;
               }
@@ -415,7 +416,7 @@ import api from '../../api/employ_manage/hire_operator'
               var fromData = this.$utils.clear(this.realHandInfo,'');
               
                fromData.useDate = this.$utils.formatDate(this.handleInfo.useDatew, 'YYYY-MM-DD');
-               fromData.handleMan = this.handleInfo.handleManw;
+               fromData.handleMan = this.userName;
                fromData.useMan = this.handleInfo.useManw;
                fromData.material = this.handleInfo.materialw;
                fromData.purpose = this.handleInfo.purposew;

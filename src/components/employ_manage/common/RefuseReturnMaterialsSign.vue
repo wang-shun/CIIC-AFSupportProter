@@ -31,10 +31,10 @@
       return {
          modal1: false,
         refuseReturnMaterialsSignColumns: [
-          {title: '提交日期', key: 'submitDate', align: 'center',
+          {title: '提交日期', key: 'submitterDate', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.submitDate),
+                h('span', params.row.submitterDate),
               ]);
             }
           },
@@ -45,10 +45,10 @@
               ]);
             }
           },
-          {title: '批退人', key: 'rejectMan', align: 'center',
+          {title: '批退人', key: 'rejectName', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.rejectMan),
+                h('span', params.row.rejectName),
               ]);
             }
           },
@@ -59,10 +59,10 @@
               ]);
             }
           },
-          {title: '收到人', key: 'receiveMan', align: 'center',
+          {title: '收到人', key: 'receiveName', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.receiveMan),
+                h('span', params.row.receiveName),
               ]);
             }
           },
@@ -170,6 +170,18 @@
             cancel () {
                
             },instance() {
+
+              if(this.refuseReturnMaterialsSign.length==0)
+              {
+                 this.$Message.success("无内容提交！");
+                 return false;
+              }
+               
+              if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
+              {
+                this.$Message.success("有收到人不能提交！");
+                 return false;
+              }
         
             api.saveAmEmpMaterial(this.refuseReturnMaterialsSign).then(data => {
                   if (data.data.data == true) {
@@ -187,6 +199,13 @@
                 })
             },
             remove (index,empMaterialId) {
+               
+              if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
+              {
+                this.$Message.success("有收到人不能删除！");
+                 return false;
+              }
+        
                 if(!empMaterialId){
                   this.refuseReturnMaterialsSign.splice(index, 1);
               

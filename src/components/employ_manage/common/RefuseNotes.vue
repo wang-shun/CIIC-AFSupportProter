@@ -131,6 +131,7 @@ import api from '../../../api/employ_manage/hire_operator'
                fromData.remarkContent = this.handleInfo.remarkContentw;
                fromData.remarkMan = this.handleInfo.remarkManw;
                fromData.employeeId = this.$route.query.employeeId;
+               fromData.empTaskId = this.$route.query.empTaskId;
                
                this.refuseNotes.push(fromData);
             },

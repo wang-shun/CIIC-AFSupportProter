@@ -177,283 +177,279 @@
   </div>
 </template>
 <script>
-import taskExpend from "./TaskExpend.vue";
-import task from "../../../store/modules/health_medical/data_sources/medical_task.js";
-import apiAjax from "../../../data/health_medical/task_medica.js";
-import qs from "qs";
+  import taskExpend from "./TaskExpend.vue";
+  import task from "../../../store/modules/health_medical/data_sources/medical_task.js";
+  import apiAjax from "../../../data/health_medical/task_medica.js";
+  import qs from "qs";
 
-export default {
-  components: { taskExpend },
-  data() {
-    return {
-      modal1: false,
-      modal2: false,
-      modal3: false,
-      modal4: false,
-      modal5: false,
-      modal6: false,
-      modal10: false,
-      value1: "1",
-      formItem: {
-        total: 0,
-        current: 1,
-        size: 10,
-        status: null,
-        taskType: "1",
-        keyType: null,
-        keyValueLarge: null,
-        keyValueSmall: null,
-        afProductId: null,
-        startConfirmDateRange: [],
-        endConfirmDateRange: [],
-        employeeId: null,
-        employeeName: null,
-        companyId: null,
-        companyName: null,
-        managementId: null,
-        managementName: null,
-        insuranceCompany: "1"
-      },
-      syncDate: null,
-      dealMsg: {
-        remark: null
-      },
-      taskColumns: [
-        {
-          type: "selection",
-          width: 60,
-          align: "center"
+  export default {
+    components: {taskExpend},
+    data() {
+      return {
+        modal1: false,
+        modal2: false,
+        modal3: false,
+        modal4: false,
+        modal5: false,
+        modal6: false,
+        modal10: false,
+        value1: "1",
+        formItem: {
+          total: 0,
+          current: 1,
+          size: 10,
+          status: null,
+          taskType: "1",
+          keyType: null,
+          keyValueLarge: null,
+          keyValueSmall: null,
+          afProductId: null,
+          startConfirmDateRange: [],
+          endConfirmDateRange: [],
+          employeeId: null,
+          employeeName: null,
+          companyId: null,
+          companyName: null,
+          managementId: null,
+          managementName: null,
+          insuranceCompany: "1"
         },
-        {
-          type: "expand",
-          width: 50,
-          render: (h, params) => {
-            return h(taskExpend, {
-              props: {
-                row: params.row
+        syncDate: null,
+        dealMsg: {
+          remark: null
+        },
+        taskColumns: [
+          {
+            type: "selection",
+            width: 60,
+            align: "center"
+          },
+          {
+            type: "expand",
+            width: 50,
+            render: (h, params) => {
+              return h(taskExpend, {
+                props: {
+                  row: params.row
+                }
+              });
+            }
+          },
+          {
+            title: "雇员编号",
+            sortable: true,
+            key: "employeeId",
+            align: "center"
+          },
+          {
+            title: "雇员姓名",
+            sortable: true,
+            key: "employeeName",
+            align: "center"
+          },
+          {
+            title: "保险对象",
+            sortable: true,
+            align: "center",
+            render: (h, params) => {
+              if (params.row.type === 3) {
+                return h('div', params.row.employeeName);
+              } else {
+                return h('div', params.row.associatedInsurantName);
               }
-            });
-          }
-        },
-        {
-          title: "雇员编号",
-          sortable: true,
-          key: "employeeId",
-          align: "center"
-        },
-        {
-          title: "雇员姓名",
-          sortable: true,
-          key: "employeeName",
-          align: "center"
-        },
-        {
-          title: "保险对象",
-          sortable: true,
-          align: "center",
-          render: (h, params) => {
-            if (params.row.type === 3) {
-              return params.row.employeeName;
-            } else {
-              return params.row.associatedInsurantName;
+            }
+          },
+          {
+            title: "性别",
+            sortable: true,
+            key: "gender",
+            align: "center",
+            render: (h, params) => {
+              return h('div', task.genderToChina(params.row.gender));
+            }
+          },
+          {
+            title: "出生日期",
+            sortable: true,
+            key: "birthDate",
+            align: "center",
+            render: (h, params) => {
+              if (params.row.birthDate !== null) {
+                return h('div', this.$utils.formatDate(params.row.birthDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: "投保费用",
+            sortable: true,
+            key: "price",
+            align: "center"
+          },
+          {
+            title: "标的",
+            sortable: true,
+            key: "keyType",
+            align: "center",
+            render: (h, params) => {
+              return h('div', task.keyTypeToChina(params.row.keyType));
+            }
+          },
+          {
+            title: "关系",
+            sortable: true,
+            key: "type",
+            align: "center",
+            render: (h, params) => {
+              return h('div', task.typeToChina(params.row.type));
+            }
+          },
+          {
+            title: "状态",
+            sortable: true,
+            key: "status",
+            align: "center",
+            render: (h, params) => {
+              return h('div', task.statusToChina(params.row.status));
+            }
+          },
+          {
+            title: "离职日期",
+            sortable: true,
+            key: "column12",
+            align: "center",
+            render: (h, params) => {
             }
           }
-        },
-        {
-          title: "性别",
-          sortable: true,
-          key: "gender",
-          align: "center",
-          render: (h, params) => {
-            return task.genderToChina(params.row.gender);
-          }
-        },
-        {
-          title: "出生日期",
-          sortable: true,
-          key: "birthDate",
-          align: "center",
-          render: (h, params) => {
-            if (params.row.birthDate !== null) {
-              return this.$utils.formatDate(params.row.birthDate, "YYYY-MM-DD");
+        ],
+        exportItem: [],
+        taskData: [],
+        selectData: [],
+        taskTypeProperties: task.taskTypeProperties,
+        insuranceCompanyProperties: [],
+        taskTypeItem: [],
+        taskStatus: task.taskWaitStatus,
+        keyTypeProperties: task.keyTypeProperties
+      };
+    },
+    created() {
+      this.getByPage(1);
+      this.queryInsuranceCompanyInfo();
+      this.queryIcProductRelationInfo(this.formItem.insuranceCompany);
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+    },
+    methods: {
+      queryTaskPage() {
+        apiAjax.queryWaitTaskPage(this.formItem).then(response => {
+          this.taskData = response.data.object.records;
+          this.taskData.forEach(item => {
+            if (item.status === 5 || item.status === 6) {
+              item._disabled = true;
             }
-          }
-        },
-        {
-          title: "投保费用",
-          sortable: true,
-          key: "price",
-          align: "center"
-        },
-        {
-          title: "标的",
-          sortable: true,
-          key: "keyType",
-          align: "center",
-          render: (h, params) => {
-            return task.keyTypeToChina(params.row.keyType);
-          }
-        },
-        {
-          title: "关系",
-          sortable: true,
-          key: "type",
-          align: "center",
-          render: (h, params) => {
-            return task.typeToChina(params.row.type);
-          }
-        },
-        {
-          title: "状态",
-          sortable: true,
-          key: "status",
-          align: "center",
-          render: (h, params) => {
-            return task.statusToChina(params.row.status);
-          }
-        },
-        {
-          title: "中止日期",
-          sortable: true,
-          key: "column12",
-          align: "center",
-          render: (h, params) => {
-            if (params.row.birthDate !== null) {
-              return this.$utils.formatDate(
-                params.row.column12,
-                "YYYY-MM-DD HH:mm:ss"
-              );
-            }
-          }
-        }
-      ],
-      exportItem: [],
-      taskData: [],
-      selectData: [],
-      taskTypeProperties: task.taskTypeProperties,
-      insuranceCompanyProperties: [],
-      taskTypeItem: [],
-      taskStatus: task.taskWaitStatus,
-      keyTypeProperties: task.keyTypeProperties
-    };
-  },
-  created() {
-    this.getByPage(1);
-    this.queryInsuranceCompanyInfo();
-    this.queryIcProductRelationInfo(this.formItem.insuranceCompany);
-  },
-  methods: {
-    queryTaskPage() {
-      apiAjax.queryWaitTaskPage(this.formItem).then(response => {
-        this.taskData = response.data.object.records;
-        this.taskData.forEach(item => {
-          if (item.status === 5 || item.status === 6) {
-            item._disabled = true;
-          }
+          });
+          this.formItem.total = response.data.object.total;
         });
-        this.formItem.total = response.data.object.total;
-      });
-    },
-    updateTpaTaskList(val) {
-      if (this.selectData.length === 0) {
-        this.$Message.error("请选择数据");
-        return;
-      }
-      this.selectData.forEach(item => {
-        item.status = val;
-        item.remark = this.dealMsg.remark;
-      });
-      apiAjax.updateTpaTask(this.selectData).then(response => {
-        if (response.data.code === 200) {
-          this.getByPage(1);
-          this.dealMsg.remark = null;
-          this.$Message.success("更新成功");
-        }
-      });
-    },
-    syncToWarranty() {
-      if (this.selectData.length === 0) {
-        this.$Message.error("请选择数据");
-        return;
-      }
-      for (let i = 0; i < this.selectData.length; i++) {
-        if (this.selectData[i].status !== 4) {
-          this.$Message.error("请选择已处理状态的数据");
+      },
+      updateTpaTaskList(val) {
+        if (this.selectData.length === 0) {
+          this.$Message.error("请选择数据");
           return;
         }
-      }
+        this.selectData.forEach(item => {
+          item.status = val;
+          item.remark = this.dealMsg.remark;
+          item.modifiedBy = this.userInfo.displayName;
+        });
+        apiAjax.updateTpaTask(this.selectData).then(response => {
+          if (response.data.code === 200) {
+            this.getByPage(1);
+            this.dealMsg.remark = null;
+            this.$Message.success("更新成功");
+          }
+        });
+      },
+      syncToWarranty() {
+        if (this.selectData.length === 0) {
+          this.$Message.error("请选择数据");
+          return;
+        }
+        for (let i = 0; i < this.selectData.length; i++) {
+          if (this.selectData[i].status !== 4) {
+            this.$Message.error("请选择已处理状态的数据");
+            return;
+          }
+        }
 
-      let syncData = {};
-      syncData.afTpaTasks = this.selectData;
-      syncData.date = this.syncDate;
-      apiAjax.syncToWarranty(syncData).then(response => {
-        if (response.data.object) {
-          this.getByPage(1);
-          this.dealMsg.remark = null;
-          this.$Message.success("更新成功");
-          this.syncDate = null;
-        } else {
-          this.$Message.error("服务器异常，请稍后再试");
+        let syncData = {};
+        syncData.afTpaTasks = this.selectData;
+        syncData.date = this.syncDate;
+        apiAjax.syncToWarranty(syncData).then(response => {
+          if (response.data.object) {
+            this.getByPage(1);
+            this.dealMsg.remark = null;
+            this.$Message.success("更新成功");
+            this.syncDate = null;
+          } else {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        });
+      },
+      queryInsuranceCompanyInfo() {
+        apiAjax.queryInsuranceCompany().then(response => {
+          if (response.data.code === 200) {
+            this.insuranceCompanyProperties = response.data.object;
+            this.insuranceCompanyProperties.forEach(item => {
+              item.insuranceCompanyId = item.insuranceCompanyId + "";
+            });
+          }
+        });
+      },
+      queryIcProductRelationInfo(val) {
+        apiAjax.queryIcProductRelation(val).then(response => {
+          if (response.data.code === 200) {
+            this.taskTypeItem = response.data.object;
+            this.taskTypeItem.forEach(item => {
+              item.insuranceProductId = item.insuranceProductId + "";
+            });
+          }
+        });
+      },
+      exportData() {
+        if (this.formItem.afProductId === null) {
+          this.$Message.error("导出数据请先选择保险项目");
+          return;
         }
-      });
-    },
-    queryInsuranceCompanyInfo() {
-      apiAjax.queryInsuranceCompany().then(response => {
-        if (response.data.code === 200) {
-          this.insuranceCompanyProperties = response.data.object;
-          this.insuranceCompanyProperties.forEach(item => {
-            item.insuranceCompanyId = item.insuranceCompanyId + "";
-          });
-        }
-      });
-    },
-    queryIcProductRelationInfo(val) {
-      apiAjax.queryIcProductRelation(val).then(response => {
-        if (response.data.code === 200) {
-          this.taskTypeItem = response.data.object;
-          this.taskTypeItem.forEach(item => {
-            item.insuranceProductId = item.insuranceProductId + "";
-          });
-        }
-      });
-    },
-    exportData() {
-      if (this.formItem.afProductId === null) {
-        this.$Message.error("导出数据请先选择保险项目");
-        return;
+        window.location =
+          process.env.HOST_SUPPLEMENTMEDICAL +
+          "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" +
+          qs.stringify(this.formItem);
+      },
+      selectTableData(rows) {
+        this.selectData = rows;
+      },
+      getByPage(val) {
+        this.formItem.current = val;
+        this.queryTaskPage();
+      },
+      pageSizeChange(size) {
+        this.formItem.size = size;
+        this.queryTaskPage();
+      },
+      resetSearchCondition(name) {
+        this.$refs[name].resetFields();
       }
-      window.location =
-        process.env.HOST_SUPPLEMENTMEDICAL +
-        "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" +
-        qs.stringify(this.formItem);
-    },
-    selectTableData(rows) {
-      this.selectData = rows;
-    },
-    getByPage(val) {
-      this.formItem.current = val;
-      this.queryTaskPage();
-    },
-    pageSizeChange(size) {
-      this.formItem.size = size;
-      this.queryTaskPage();
-    },
-    resetSearchCondition(name) {
-      this.$refs[name].resetFields();
     }
-  }
-};
+  };
 </script>
 
 <style>
-.warn-back .ivu-btn.ivu-btn-text.ivu-btn-large {
-  color: #fff;
-  background-color: #ed3f14;
-  border-color: #ed3f14;
-}
+  .warn-back .ivu-btn.ivu-btn-text.ivu-btn-large {
+    color: #fff;
+    background-color: #ed3f14;
+    border-color: #ed3f14;
+  }
 
-.warn-back .ivu-btn.ivu-btn-text.ivu-btn-large:hover {
-  background-color: #f16543;
-  border-color: #f16543;
-}
+  .warn-back .ivu-btn.ivu-btn-text.ivu-btn-large:hover {
+    background-color: #f16543;
+    border-color: #f16543;
+  }
 </style>

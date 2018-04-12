@@ -154,11 +154,18 @@ const annualadjustaccountemp = r => require.ensure([], () => r(require('@/compon
 const systemManage = r => require.ensure([], () => r(require('@/components/social_security/system_manage/SystemManage')), 'SystemManage')
 
 /*
- * authorityList                    --- 权限管理
+ * authorityList                    --- 社保权限管理
  */
 
 const authorityList = r => require.ensure([], () => r(require('@/components/social_security/authority/authorityList')), 'authorityList')
 const authority = r => require.ensure([], () => r(require('@/components/social_security/authority/authority')), 'authority')
+
+/*
+ * hfauthorityList                    --- 公积金权限管理 
+ */
+
+const hfauthorityList = r => require.ensure([], () => r(require('@/components/fund/hfauthority/hfauthorityList')), 'hfauthorityList')
+const hfauthority = r => require.ensure([], () => r(require('@/components/fund/hfauthority/hfauthority')), 'hfauthority')
 
 export default [
   {
@@ -424,6 +431,32 @@ export default [
       activeName: '1-13'
     },
   },
+
+
+  {
+    path: '/hfauthority_list',
+    name: 'hfauthorityList',
+    component: hfauthorityList,
+    meta:{
+      level1:'上海公积金',
+      level2:"限权管理",
+      openNames:['2'],
+      activeName: '2-12'
+    },
+  },
+  {
+    path: '/hfauthority',
+    name: 'hfauthority',
+    component: hfauthority,
+    meta:{
+      level1:'上海公积金',
+      level2:"限权管理",
+      openNames:['2'],
+      activeName: '2-13'
+    },
+  },
+
+
   {
     path: '/company_task_progress_two',
     name: 'companyTaskProgressTwo',

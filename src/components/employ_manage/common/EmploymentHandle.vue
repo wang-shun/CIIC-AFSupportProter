@@ -42,7 +42,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工操作专员：">
-            <Input v-model="handleInfo.employOperateMan" placeholder="请输入"/>
+            {{handleInfo.employOperateMan}}
             <input type="text" v-model="handleInfo.employmentId" hidden>
             <input type="text" v-model="handleInfo.empTaskId" hidden>
           </Form-item>

@@ -44,7 +44,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费起始年月：">
-                  <DatePicker v-model="companyFundAccount.comStartMonth" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer :disabled="isCanEdit"></DatePicker>
+                  <DatePicker v-model="companyFundAccount.comStartMonth" type="month"  placement="bottom" placeholder="选择日期" style="width: 100%;" transfer :disabled="isCanEdit"></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -83,7 +83,7 @@
   import api from '../../../api/house_fund/company_fund_account_search/company_fund_account_search'
   import companyFundAccountInfoAndOperate from "../common/CompanyFundAccountInfoAndOperate.vue"
   import companyFundAccountBindList from "../common/CompanyFundAccountBindList.vue"
-
+  import Tools from '../../../lib/tools'  
   export default {
     components: {companyFundAccountInfoAndOperate, companyFundAccountBindList},
     data() {
@@ -122,7 +122,10 @@
         }).then(data => {
           if (data.code == 200) {
             this.companyFundAccount = data.data;
-
+            this.companyFundAccount.hfType=this.fundAccountInfo.hfType;
+            this.companyFundAccount.comAccountId=this.fundAccountInfo.comAccountId;
+            this.companyFundAccount.comAccountClassId=this.fundAccountInfo.comAccountClassId;
+            
             let tmpStore = [];
             if (parseInt(this.companyFundAccount.basicAccountTempStore)) {
               tmpStore.push('基本暂保管');
@@ -151,9 +154,18 @@
         this.$router.go(-1);
       },
       submitForm(){
-        api.companyFundAccountSubmit(this.companyFundAccount).then(
+        let params = {};
+        params=this.companyFundAccount;
+         if(params.comStartMonth!=''){
+           params.comStartMonthValue= Tools.formatDate(params.comStartMonth, "YYYYMM");
+         }
+        api.companyFundAccountSubmit(params).then(
           data=>{
-            this.$message.success(data.message);
+            if(data.code == 200){
+              this.$Message.success(data.message);
+            }else{
+              this.$Message.error(data.message);
+            }
           }
         )
       },

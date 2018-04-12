@@ -33,13 +33,13 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="operatorSearchData.customerNumber" placeholder="请输入..."></Input>
+                <Form-item label="客户编号：" prop="companyId">
+                  <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称：" prop="customerName">
-                  <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input>
+                <Form-item label="客户名称：" prop="companyName">
+                  <Input v-model="operatorSearchData.companyName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -137,9 +137,10 @@
         operatorSearchData: {
           paymentStatus: 3, //支付状态默认为可付
           fundAccountType: '',
-          paymentBank: ''
+          paymentBank: '',
         },
         selectedData: [],
+        selectedData1:[],
         loading: false,
         ruleValidate: {
           paymentMonth: [
@@ -235,10 +236,12 @@
     methods: {
       clickQuery(name){
         this.loading=true;
-        let params = this.getParams(1)
+        
         this.$refs[name].validate((valid)=>{
           if(valid) {
-               FundPay.getMakePayListsTableData(params).then(data=>{
+            this.operatorSearchData.paymentMonthValue=Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
+              let params = this.getParams(1)
+              FundPay.getMakePayListsTableData(params).then(data=>{
                this.refresh(data);
                this.makePayListInfo.payDate= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
             }).catch(error=>{
@@ -256,12 +259,7 @@
         return {
           pageSize: this.size,
           pageNum: page,
-          params: {
-            paymentBank: (this.operatorSearchData.paymentBank == "" || this.operatorSearchData.paymentBank == null) ? null : this.operatorSearchData.paymentBank,
-            paymentStatus: (this.operatorSearchData.paymentStatus == "" || this.operatorSearchData.paymentStatus == null) ? null : this.operatorSearchData.paymentStatus,
-            paymentMonth: (this.operatorSearchData.paymentMonth == "" || this.operatorSearchData.paymentMonth == null) ? null : this.$utils.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM'),
-            fundAccountType: (this.operatorSearchData.fundAccountType == "" || this.operatorSearchData.fundAccountType == null) ? null : this.operatorSearchData.fundAccountType,
-          }
+          params: this.operatorSearchData
         }
       },
       refresh(data){
@@ -296,6 +294,19 @@
             this.$Message.error('请选择查询列表中的公积金账户数据！');
             return false;
         }
+        let ifPay=false;
+        this.selectedData1.forEach((element, index, array) => {
+
+          if(this.selectedData1[index]!='可付'){
+            ifPay=true;
+          }
+        })
+
+        if(ifPay){
+            this.$Message.error('您选择的账户必须为可付状态！');
+            return false;                              
+        }
+
         if(this.payee==null || this.payee==''){
             this.$Message.error('收款方要求必填！');
             return false;
@@ -329,6 +340,7 @@
         if(selection) {
           selection.forEach((element, index, array) => {
             this.selectedData.push(element.paymentAccountId);
+            this.selectedData1.push(element.paymentStateValue);
           })
         }
       },

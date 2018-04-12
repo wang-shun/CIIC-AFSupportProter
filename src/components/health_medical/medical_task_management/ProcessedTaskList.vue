@@ -243,11 +243,8 @@
             }
           },
           {
-            title: '中止日期', sortable: true, key: 'column12', align: 'center',
+            title: '离职日期', sortable: true, key: 'column12', align: 'center',
             render: (h, params) => {
-              if (params.row.birthDate !== null) {
-                return h('div', this.$utils.formatDate(params.row.column12, 'YYYY-MM-DD HH:mm:ss'));
-              }
             }
           }
         ],

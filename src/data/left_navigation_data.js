@@ -34,6 +34,7 @@ const leftNavigation =
         {cid: "2-6", ckey: "公积金对账", crouter: "fundReconciliation"},
         {cid: "2-7", ckey: "公积金汇缴支付", crouter: "fundPay"},
         {cid: "2-8", ckey: "公积金报表", crouter: "fundReport"},
+        {cid: "2-9", ckey: "权限管理", crouter: "hfauthorityList"},  // 权限管理
         // {cid: "2-10", ckey: "公积金年调", crouter: "fundYearAdjust"},
         // {cid: "2-3", ckey: "雇员特殊操作", crouter: "employeeFundSpecialOperator"},
       ]

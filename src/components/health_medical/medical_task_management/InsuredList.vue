@@ -98,9 +98,6 @@
       </Panel>
     </Collapse>
 
-    <div class="tr m20">
-      <Button type="info" @click="modalInput = true" icon="ios-upload-outline">导入数据</Button>
-    </div>
     <Table border
            stripe
            :columns="warrantyColumns"

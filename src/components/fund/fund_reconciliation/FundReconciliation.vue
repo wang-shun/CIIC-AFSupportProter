@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金月份：" prop="hfMonth">
-                  <DatePicker type="month" placement="bottom" placeholder="选择日期" @on-change="operatorSearchData.hfMonth=$event" transfer></DatePicker>
+                  <DatePicker type="month" v-model="operatorSearchData.hfMonth" format='yyyyMM' placement="bottom" placeholder="选择日期" @on-change="operatorSearchData.hfMonth=$event" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -261,7 +261,7 @@
           {title: '公积金类型', key: 'hfType', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.hfType),
+                h('span', this.$decode.hfType(params.row.hfType)),
               ]);
             }
           },
@@ -409,6 +409,7 @@
       getStatement() { // 对账列表
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
+
         api.getStatements({
           pageSize: this.page.pageSize,
           pageNum: this.page.pageNum,

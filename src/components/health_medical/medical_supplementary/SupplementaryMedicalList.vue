@@ -214,7 +214,7 @@
           {
             title: '导入日期', sortable: true, key: 'inputDate',
             render: (h, params) => {
-              return this.$utils.formatDate(params.row.inputDate, 'YYYY-MM-DD HH:mm:ss');
+              return  h('div',this.$utils.formatDate(params.row.inputDate, 'YYYY-MM-DD HH:mm:ss'));
             }
           },
           {
@@ -232,14 +232,14 @@
           {
             title: '状态', sortable: true, key: 'status',
             render: (h, params) => {
-              return supplementaryMedica.statusToChina(params.row.status);
+              return  h('div',supplementaryMedica.statusToChina(params.row.status));
             }
           },
           {
             title: '处理日期', sortable: true, key: 'auditTime',
             render: (h, params) => {
               if (params.row.auditTime !== null) {
-                return this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss');
+                return  h('div',this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss'));
               }
             }
           },

@@ -7,8 +7,8 @@
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="customerNumber">
-                  <Input v-model="operatorSearchData.customerNumber" placeholder="请输入..."></Input>
+                <Form-item label="客户编号：" prop="companyId">
+                  <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

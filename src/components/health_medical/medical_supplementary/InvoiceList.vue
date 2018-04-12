@@ -168,7 +168,7 @@
             render: (h, params) => {
               params.row.auditTime = this.acceptanceData.auditTime;
               if (params.row.auditTime !== null) {
-                return this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss');
+                return  h('div',this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss'));
               }
             }
           },

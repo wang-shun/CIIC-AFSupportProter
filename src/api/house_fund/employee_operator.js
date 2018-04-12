@@ -89,7 +89,27 @@ export default {
 
   impTemplateFile: async (params) => {
     AJAX.download('/api/fundcommandservice/hfEmpArchive/impTemplateFile', params);
-  }
+  },
+  //权限列表
+  hfauthorityList:async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfauthority/hfauthorityList', params);
+    return await response.data;
+  },
+  //配置权限详情
+  hfauthorityDeptNodes:async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfauthority/hfauthorityDeptNodes', params);
+    return await response.data;
+  },
+  //配置权限客户列表
+  hfauthority:async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfauthority/hfauthority', params);
+    return await response.data;
+  },
+  //保存配置权限客户列表
+  hfsaveAuthority:async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfauthority/hfsaveAuthority', params);
+    return await response.data;
+  },
   
 }
 

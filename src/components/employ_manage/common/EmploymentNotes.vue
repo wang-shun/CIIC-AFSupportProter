@@ -132,6 +132,7 @@
                fromData.remarkContent = this.handleInfo.remarkContentw;
                fromData.remarkMan = this.handleInfo.remarkManw;
                fromData.employeeId = this.$route.query.employeeId;
+               fromData.empTaskId = this.$route.query.empTaskId;
                
                this.notesData.push(fromData);
             },

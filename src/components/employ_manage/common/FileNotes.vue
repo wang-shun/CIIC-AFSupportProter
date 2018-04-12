@@ -129,6 +129,7 @@
                fromData.remarkDate = this.$utils.formatDate(this.handleInfo.remarkDatew, 'YYYY-MM-DD');
                fromData.remarkContent = this.handleInfo.remarkContentw;
                fromData.remarkMan = this.handleInfo.remarkManw;
+               fromData.empTaskId = this.$route.query.empTaskId;
              
                fromData.employeeId = this.$route.query.employeeId;
                

@@ -176,8 +176,8 @@
                  this.$Message.success("无内容提交！");
                  return false;
               }
-
-              if(this.refuseReturnMaterialsSign[0].receiveName!='')
+               
+              if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
               {
                 this.$Message.success("有收到人不能提交！");
                  return false;
@@ -199,11 +199,13 @@
                 })
             },
             remove (index,empMaterialId) {
-               if(this.refuseReturnMaterialsSign[0].receiveName!='')
+               
+              if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
               {
-                this.$Message.success("有收到人不能提交！");
+                this.$Message.success("有收到人不能删除！");
                  return false;
               }
+        
                 if(!empMaterialId){
                   this.refuseReturnMaterialsSign.splice(index, 1);
               

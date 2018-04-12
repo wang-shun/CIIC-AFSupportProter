@@ -8,9 +8,9 @@
 
 <script>
     import api from '../../../api/house_fund/employee_operator'
-    
+
     export default {
-      
+
     data () {
       return {
         authorityListData:[],//列表数据
@@ -128,7 +128,7 @@
         })
       },
         showInfo (userId,displayName,employeeNumber,userStatus,email,userType) {
-        this.$router.push({name:'authority', query: {userId: userId,displayName: displayName,employeeNumber: employeeNumber,userStatus: userStatus,email: email,userType: userType}});
+        this.$router.push({name:'hfauthority', query: {userId: userId,displayName: displayName,employeeNumber: employeeNumber,userStatus: userStatus,email: email,userType: userType}});
       },
     }
 }

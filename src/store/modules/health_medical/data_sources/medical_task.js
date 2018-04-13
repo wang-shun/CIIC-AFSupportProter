@@ -25,9 +25,9 @@ const taskTypeProperties = [
   {
     value: '2', label: '退保任务单'
   },
-  {
+  /*{
     value: '3', label: '变更保任务单'
-  }
+  }*/
 ];
 
 const taskStatusCom = [

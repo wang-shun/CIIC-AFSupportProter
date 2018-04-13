@@ -74,12 +74,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈：">
-            {{refuse.resignFeedback1}}
+            {{refuse.resignFeedback}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈日期：">
-            {{refuse.resignFeedbackDate1}}
+            {{refuse.resignFeedbackDate}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

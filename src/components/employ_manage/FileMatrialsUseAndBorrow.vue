@@ -118,6 +118,13 @@
                 </Row>
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                    <Form-item label="归还日期：" prop="returnDate">
+                      <DatePicker type="date" v-model="handleInfo.returnDate" transfer></DatePicker>
+                    </Form-item>
+                  </Col>
+                </Row>
+                <Row type="flex" justify="start">
+                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="备注：" prop="remarkw" transfer>
                       <Input v-model="handleInfo.remarkw" placeholder="请输入"/>
                     </Form-item>
@@ -438,9 +445,14 @@ import api from '../../api/employ_manage/hire_operator'
                   this.$Message.info('借出日期不能为空');
                   return;
                }
+               if(this.handleInfo.returnDate==''){
+                  this.$Message.info('归还日期不能为空');
+                  return;
+               }
               var fromData = this.$utils.clear(this.realHandInfo,'');
               
                fromData.useDate = this.$utils.formatDate(this.handleInfo.useDatew, 'YYYY-MM-DD');
+               fromData.returnDate = this.$utils.formatDate(this.handleInfo.returnDate, 'YYYY-MM-DD');
                fromData.handleMan = this.handleInfo.handleManw;
                fromData.useMan = this.handleInfo.useManw;
                fromData.material = this.handleInfo.materialw;
@@ -455,6 +467,7 @@ import api from '../../api/employ_manage/hire_operator'
                
                this.matrialsBorrowData.push(fromData);
             },
+            
             cancel () {
                
             },cancel1 () {

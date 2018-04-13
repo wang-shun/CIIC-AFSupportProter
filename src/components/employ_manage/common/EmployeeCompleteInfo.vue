@@ -34,22 +34,22 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="首次进中智日期：">
-            {{employee.firstInDate}}
+            {{employee.firstInDateStr}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="合同起始日期：">
-            {{employee.laborStartDate}}
+            {{employee.laborStartDateStr}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="合同截至日期：">
-            {{employee.laborEndDate}}
+            {{employee.laborEndDateStr}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="首月合同生效日期：">
-            {{employee.firstInCompanyDate}}
+            {{employee.firstInCompanyDateStr}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -74,7 +74,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工属性：">
-            {{employee.templateType}}
+            {{employee.employProperty}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

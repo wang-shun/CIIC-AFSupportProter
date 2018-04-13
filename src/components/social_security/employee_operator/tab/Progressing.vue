@@ -16,7 +16,7 @@
                 <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
                   <Option value="" label="全部"></Option>
                   <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
-                 
+
                 </Select>
               </Form-item>
               </Col>
@@ -98,7 +98,7 @@
               </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
-                <Date-picker v-model="operatorSearchData.startMonth" type="month" 
+                <Date-picker v-model="operatorSearchData.startMonth" type="month"
                              placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
               </Form-item>
               </Col>
@@ -253,7 +253,7 @@
             title: '客户名称', key: 'title', width: 200, align: 'center'
           },
           {
-            title: '发起人', key: 'submitterName', width: 100, align: 'center'
+            title: '发起人', key: 'createdDisplayName', width: 100, align: 'center'
           },
           {
             title: '发起时间', key: 'createdTime', width: 180, align: 'center'

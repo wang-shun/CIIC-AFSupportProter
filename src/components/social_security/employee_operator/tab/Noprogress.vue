@@ -110,7 +110,7 @@
               </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保起缴月份：" prop="startMonth">
-                <Date-picker v-model="operatorSearchData.startMonth" type="month" 
+                <Date-picker v-model="operatorSearchData.startMonth" type="month"
                              placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
               </Form-item>
               </Col>
@@ -149,9 +149,9 @@
         ></Page>
       </Col>
     </Row>
-  
-      
-    
+
+
+
     <!-- 批退理由 -->
       <Modal
         v-model="isRefuseReason"
@@ -276,7 +276,7 @@
             title: '客户名称', key: 'title', width: 200, align: 'center'
           },
           {
-            title: '发起人', key: 'submitterName', width: 100, align: 'center'
+            title: '发起人', key: 'createdDisplayName', width: 100, align: 'center'
           },
           {
             title: '发起时间', key: 'createdTime', width: 180, align: 'center'
@@ -288,11 +288,11 @@
       }
     },
     async mounted() {
-      
+
       this.employeeOperatorQuery();
     },
     computed: {
-    
+
     },
     methods: {
       routerToCommcialOperator(name) {
@@ -329,7 +329,7 @@
           }
         })
       },
-      exprotExcel() { 
+      exprotExcel() {
         var params = {};
         {
           // 清除 '[全部]'
@@ -398,7 +398,7 @@
             this.employeeOperatorQuery();
           }
         })
-         
+
       },
       // 选中项发生变化时就会触发
       selectionChange(selection) {
@@ -476,7 +476,7 @@
           // 组织任务 ID
           var empTaskIds = "";
           var rows = data;
-          
+
           for (let i=0;i<rows.length;i++) {
               if(i==rows.length-1){
                 empTaskIds+=rows[i].empTaskId;
@@ -561,7 +561,7 @@
           });
         }
       },
-      
+
     }
   }
 </script>

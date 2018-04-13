@@ -39,7 +39,7 @@
                   <Option value="4" label="外籍五险"></Option>
                   <Option value="5" label="延迟退休人员"></Option>
                 </Select>
-              </Form-item> 
+              </Form-item>
               </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="企业社保账号：" prop="ssAccount">
@@ -239,7 +239,7 @@
             title: '客户名称', key: 'title', width: 200, align: 'center'
           },
           {
-            title: '发起人', key: 'submitterName', width: 100, align: 'center'
+            title: '发起人', key: 'createdDisplayName', width: 100, align: 'center'
           },
           {
             title: '发起时间', key: 'createdTime', width: 180, align: 'center'

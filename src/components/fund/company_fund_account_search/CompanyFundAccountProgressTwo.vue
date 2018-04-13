@@ -22,12 +22,12 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业基本公积金账户：">
-                  <Input v-model="companyFundAccount.basicComAccount" placeholder="请输入..." :disabled="isCanEditBase"></Input>
+                  <Input v-model="companyFundAccount.basicComAccount" placeholder="" :disabled="isCanEditBase"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业补充公积金账户：">
-                  <Input v-model="companyFundAccount.compensativeComAccount" placeholder="请输入..." :disabled="isCanEditBuchong"></Input>
+                  <Input v-model="companyFundAccount.compensativeComAccount" placeholder="" :disabled="isCanEditBuchong"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -55,8 +55,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="">
                   <CheckboxGroup v-model="companyFundAccount.tmpStore" :disabled="isCanEdit">
-                    <Checkbox label="基本暂保管"></Checkbox>
-                    <Checkbox label="补充暂保管"></Checkbox>
+                    <Checkbox label="基本暂保管" :disabled="isCanEditBase"></Checkbox>
+                    <Checkbox label="补充暂保管" :disabled="isCanEditBuchong"></Checkbox>
                   </CheckboxGroup>
                 </Form-item>
               </Col>

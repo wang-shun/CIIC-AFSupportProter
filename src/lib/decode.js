@@ -470,7 +470,7 @@ export default {
         switch (taskCategory) {
         case '1':
         case 1:
-            return '新进'
+            return '新开'
         case '2':
         case 2:
             return '转入'

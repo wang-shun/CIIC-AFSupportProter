@@ -13,7 +13,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="title">
-                  <input-company v-model="operatorSearchData.companyId"></input-company>
+                  <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -33,7 +33,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业公积金账号：" prop="hfComAccount">
-                  <input-company v-model="operatorSearchData.hfComAccount"></input-company>
+                   <input-account v-model="operatorSearchData.hfComAccount"></input-account>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

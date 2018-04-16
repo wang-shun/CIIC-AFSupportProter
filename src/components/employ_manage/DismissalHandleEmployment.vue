@@ -199,7 +199,6 @@
                 this.refuseInfo.empTaskId = this.$route.query.empTaskId;
                 this.refuseInfo.employeeId = this.$route.query.employeeId;
                 this.refuseInfo.companyId = this.$route.query.companyId;
-                this.refuseInfo.employmentId = this.$route.query.employmentId;
         
             }else{
                this.refuseInfo.empTaskId = this.$route.query.empTaskId;

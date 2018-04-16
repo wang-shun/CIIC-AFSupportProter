@@ -1,6 +1,7 @@
 
   import {domainJson} from '../../../api/house_fund/domain_info'
   import utils from '../../../lib/ajax'
+  import tools from '../../../lib/tools'
   let ajax = utils.ajaxHfc
 export class CompanyTaskListHF{
     constructor(){
@@ -60,10 +61,16 @@ export class CompanyTaskListHF{
                     openAccountInfo.customerPayStartDate = ""
                     openAccountInfo.closeAccountEveryMonth = i.closeDay
                     openAccountInfo.professionalOperateStartDate = ""
-                    openAccountInfo.acceptDate = ""
-                    openAccountInfo.deliveredDate = ""
-                    openAccountInfo.finishDate = ""
-                    openAccountInfo.notes = ""
+                    if (i.startHandleDateString!=''){
+                      openAccountInfo.acceptDate = tools.parseDate(i.startHandleDateString)
+                    }
+                    if (i.sendCheckDateString!=''){
+                      openAccountInfo.acceptDate = tools.parseDate(i.sendCheckDateString)
+                    }
+                    if (i.finishDateString!=''){
+                      openAccountInfo.acceptDate = tools.parseDate(i.finishDateString)
+                    }
+                    openAccountInfo.notes = i.comAccountRemark
                     obj.openAccountInfo = openAccountInfo
 
                     //变更-companyFundAccountInfo传参

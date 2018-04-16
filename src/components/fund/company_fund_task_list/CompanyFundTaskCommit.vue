@@ -79,7 +79,7 @@
           operateStartMonth: this.$refs.openAccount.openAccountInfo.professionalOperateStartDate,
           endType: this.$refs.openAccount.openAccountInfo.endTypeValue,
           accountTempStore: this.$refs.openAccount.openAccountInfo.accountTempStoreTypeValue,
-          taskStatus: this.$refs.openAccount.openAccountInfo.taskStatus,
+          taskStatus: this.$refs.openAccount.openAccountInfo.taskType,
           acceptDate: this.$refs.openAccount.openAccountInfo.acceptDate,
           approvalDate: this.$refs.openAccount.openAccountInfo.deliveredDate,
           finishDate: this.$refs.openAccount.openAccountInfo.finishDate,

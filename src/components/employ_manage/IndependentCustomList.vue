@@ -107,7 +107,7 @@
           {title: '客服中心', key: 'handleType', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.handleType),
+                h('span', params.row.serviceCenter),
               ]);
             }
           },

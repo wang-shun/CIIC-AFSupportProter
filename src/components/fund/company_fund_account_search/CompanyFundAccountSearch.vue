@@ -13,7 +13,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户名称：" prop="companyName">
-                  <input-company v-model="operatorSearchData.companyName"></input-company>
+                  <Input v-model="operatorSearchData.companyName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

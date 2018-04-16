@@ -25,6 +25,12 @@
             <employment-info :employmentInfo="employmentInfo"></employment-info>
           </div>
         </Panel>
+        <Panel name="13">
+          用工资料信息
+          <div slot="content">
+            <use-handle :fileInfo1="fileInfo1" :fileInfo2="fileInfo2"></use-handle>
+          </div>
+        </Panel>
         <Panel name="4">
           退工信息
           <div slot="content">
@@ -87,6 +93,7 @@
   import employeeCompleteInfo from "./common/EmployeeCompleteInfo.vue"
   import employmentInfo from "./common/EmploymentInfo.vue"
   import refuseHandle from "./common/RefuseHandleArchive.vue"
+  import useHandle from "./common/UseHandleArchive.vue"
   import fileHandle from "./common/FileHandle.vue"
   import modifyFileNumber from "./common/ModifyFileNumber.vue"
   import refuseMaterialsHandle from "./common/RefuseMaterialsHandle.vue"
@@ -100,7 +107,7 @@
   import api from '../../api/employ_manage/hire_operator'
 
   export default {
-    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, fileHandle, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage},
+    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, useHandle, fileHandle, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
@@ -230,6 +237,14 @@
           companyId:this.$route.query.companyId,
           employmentId:this.$route.query.employmentId
         },
+        useInfo: {
+          employFeedback: "",
+          employFeedbackOptDate: "",
+          diaodangFeedback: "",
+          diaodangFeedbackOptDate: "",
+          ukeyBorrowDate: "",
+          ukeyReturnDate: ""
+        },
         modifyFileNumberInfo: {
           originFileNumber: "",
           nowFileNumberValue: "",
@@ -304,6 +319,11 @@
               if(data.data.amArchaiveBo){
                 
                   this.fileInfo2 = data.data.amArchaiveBo;
+              }
+
+              if(data.data.amArchaiveBo){
+                
+                  this.useInfo = data.data.amArchaiveBo;
               }
               
               if(data.data.amArchaiveBo){

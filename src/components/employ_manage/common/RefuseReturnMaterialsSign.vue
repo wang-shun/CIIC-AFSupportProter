@@ -184,9 +184,11 @@
               }
         
             api.saveAmEmpMaterial(this.refuseReturnMaterialsSign).then(data => {
-                  if (data.data.data == true) {
+                  if (data.data.data == 1) {
                     this.$Message.success("保存成功");
                     history.go(-1);
+                  }else if (data.data.data == 2){
+                    this.$Message.success("已签收，无法保存！");
                   } else {
                     this.$Message.error("保存失败！");
                   }

@@ -339,13 +339,20 @@
               ]);
             }
           },
-          {title: '差异', key: 'diffAmount', align: 'center',
+          {title: '差异金额', key: 'diffAmount', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.diffAmount),
               ]);
             }
-          }
+          },
+          {title: '备注', key: 'remark', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          },
         ],
         viewReconciliationData: [],
         fundTypeList: [
@@ -385,6 +392,7 @@
                     this.newReconciliation.comAccountId = params.row.comAccountId;
                     this.newReconciliation.hfComAccount = params.row.hfComAccount;
                     this.newReconciliation.hfAccountType = params.row.hfAccountType;
+                    this.isShowFundAccountSearch=false;
                   }
                 }
               }, '');

@@ -7,13 +7,13 @@
             <Row justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
               <FormItem label="投保日期" prop="insuranceDateRange">
-                <DatePicker v-model="formItem.insuranceDateRange" type="daterange" placement="bottom-end"
+                <DatePicker v-model="formItem.insuranceDateRange" type="daterange" placement="bottom-start"
                             placeholder="选择日期" style="width: 100%"></DatePicker>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
               <FormItem label="退保日期" prop="surrenderDateRange">
-                <DatePicker v-model="formItem.surrenderDateRange" type="daterange" placement="bottom-end"
+                <DatePicker v-model="formItem.surrenderDateRange" type="daterange" placement="bottom-start"
                             placeholder="选择日期" style="width: 100%"></DatePicker>
               </FormItem>
               </Col>

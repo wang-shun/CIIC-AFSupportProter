@@ -135,8 +135,16 @@
                fromData.empTaskId = this.$route.query.empTaskId;
                
                this.notesData.push(fromData);
+
+               this.handleInfo.remarkDatew = '';
+               this.handleInfo.remarkManw = '';
+               this.handleInfo.remarkContentw = '';
+
             },
             cancel () {
+               this.handleInfo.remarkDatew = '';
+               this.handleInfo.remarkManw = '';
+               this.handleInfo.remarkContentw = '';
                 // this.$Message.info('Clicked cancel');
             },instance() {
             if(this.notesData.length==0){

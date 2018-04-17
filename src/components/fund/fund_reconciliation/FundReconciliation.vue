@@ -265,10 +265,10 @@
               ]);
             }
           },
-          {title: '对账人', key: 'compareMan', width: 200, align: 'center',
+          {title: '对账人', key: 'compareOperateName', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.compareMan),
+                h('span', params.row.compareOperateName),
               ]);
             }
           },
@@ -531,12 +531,13 @@ console.log(formData);
         });
       },
       execReconciliate(statementId) {
-        var params = {statementId: statementId, compareMan: JSON.parse(window.sessionStorage.getItem('userInfo')).loginName}
+        var params = {statementId: statementId}
         api.execStatement({
           params: params,
         }).then(data => {
           if (data.code == 0) {
             this.$Message.success(data.message);
+            this.getStatement();
           } else {
             this.$Message.success('对账失败');
           }

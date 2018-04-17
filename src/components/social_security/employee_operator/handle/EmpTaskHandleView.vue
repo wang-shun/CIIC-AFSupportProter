@@ -657,8 +657,9 @@
         }
         let handleType = 'handle'==type || 'save'==type;
 
-        if (handleType && (!this.socialSecurityPayOperator.empSsSerial || socialSecurityPayOperator.empSsSerial.trim() == '')) {
+        if (handleType && (!this.socialSecurityPayOperator.empSsSerial || this.socialSecurityPayOperator.empSsSerial.trim() == '')) {
           this.$Message.error("社保序号不能为空.");
+          return;
         }
 
         let handleMonth = this.yyyyMM(this.socialSecurityPayOperator.handleMonth)

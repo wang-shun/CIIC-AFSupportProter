@@ -4,12 +4,12 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="预留档案编号：">
-             <Input v-model="file1.yuliuDocNum" placeholder="请输入" maxlength="50"/>
+             <Input v-model="file1.yuliuDocNum" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案编号：">
-            <Input v-model="file1.docNum" placeholder="请输入" maxlength="50"/>
+            <Input v-model="file1.docNum" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -21,7 +21,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地补充：">
-            <Input v-model="file1.archivePlaceAdditional" placeholder="请输入" maxlength="50"/>
+            <Input v-model="file1.archivePlaceAdditional" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -33,7 +33,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案号：">
-            <Input v-model="file1.docCode" placeholder="请输入" maxlength="50"/>
+            <Input v-model="file1.docCode" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -45,7 +45,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="户口号：" prop="hukouCode">
-            <Input v-model="file1.hukouCode" placeholder="请输入" maxlength="50"/>
+            <Input v-model="file1.hukouCode" placeholder="请输入" :maxlength="50"/>
             <input type="text" v-model="file1.archiveId" hidden>
           </Form-item>
         </Col>
@@ -90,7 +90,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案中途转出方向：">
-            <Input v-model="file2.docHalfwayOutDirect" placeholder="请输入" maxlength="50"/>
+            <Input v-model="file2.docHalfwayOutDirect" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -100,12 +100,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="手册入库人：">
-            <Input v-model="file2.manualStorageMan" placeholder="请输入" maxlength="50"/>
+            <Input v-model="file2.manualStorageMan" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工后收到手册入库人：">
-            <Input v-model="file2.afterEmployManualStorageMan" placeholder="请输入" maxlength="50"/>
+            <Input v-model="file2.afterEmployManualStorageMan" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -115,7 +115,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="恢复用工手册入库人：">
-            <Input v-model="file2.recoverEmployManualStorageMan" placeholder="请输入" maxlength="50"/>
+            <Input v-model="file2.recoverEmployManualStorageMan" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -125,7 +125,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="寄档案回执人：">
-            <Input v-model="file2.mailDocReturnMan" placeholder="请输入" maxlength="50"/>
+            <Input v-model="file2.mailDocReturnMan" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -135,7 +135,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="开存档证明人：">
-            <Input v-model="file2.openDocProofMan" placeholder="请输入" maxlength="50"/>
+            <Input v-model="file2.openDocProofMan" placeholder="请输入" :maxlength="50"/>
             <input type="text" v-model="file2.archiveId" hidden>
           </Form-item>
         </Col>

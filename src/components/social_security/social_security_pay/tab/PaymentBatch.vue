@@ -103,7 +103,7 @@
         <Row class="mt20" type="flex" justify="start">
           <Col :sm="{span: 24}">
             <Form-item label="">
-              <Input v-model="applyPayData.applyRemark" type="textarea" :rows="5"  maxlength='200' placeholder="请填写申请备注"></Input>
+              <Input v-model="applyPayData.applyRemark" type="textarea" :rows="5"  :maxlength='200' placeholder="请填写申请备注"></Input>
             </Form-item>
           </Col>
         </Row>
@@ -141,7 +141,7 @@
         <Row class="mt20">
           <Col :sm="{span: 12}">
             <Form-item label="出账批号：" prop="paymentBatchNumOfAdd">
-              <input type="text" maxlength="20" v-model="addPaymentData.paymentBatchNum" >
+              <input type="text" :maxlength="20" v-model="addPaymentData.paymentBatchNum" >
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">

@@ -410,7 +410,7 @@ import api from '../../api/employ_manage/hire_operator'
         
         this.$router.push({name:'fileMatrialsUseAndBorrow', query: {archiveId:tempId,employeeId:tempId1}});
       },ok () {
-
+             var isE = false;
              if(this.handleInfo.materialw==''){
                  this.$Message.info('使用材料不能为空');
                   return;
@@ -433,10 +433,29 @@ import api from '../../api/employ_manage/hire_operator'
                fromData.archiveId = this.$route.query.archiveId;
 
                fromData.useBorrow = 0;
+
+               if(this.matrialsUseData.length==0)
+               {
+                  isE = false;
+               }
+              
+              for(var i = 0; i < this.matrialsUseData.length; i++)
+              {
+                  if(fromData.useDate === this.matrialsUseData[i].useDate&&fromData.handleMan === this.matrialsUseData[i].handleMan&&fromData.useMan=== this.matrialsUseData[i].useMan&&fromData.material === this.matrialsUseData[i].material&&fromData.purpose=== this.matrialsUseData[i].purpose)
+                  {
+                      isE = true;
+                  }
+              }
                
-               this.matrialsUseData.push(fromData);
+              if(!isE)
+              {
+                  this.matrialsUseData.push(fromData);
+              }
+               
+              
                
             },ok1 () {
+              var isE = false;
               if(this.handleInfo.materialw==''){
                  this.$Message.info('借出材料不能为空');
                   return;
@@ -463,9 +482,25 @@ import api from '../../api/employ_manage/hire_operator'
                fromData.archiveId = this.$route.query.archiveId;
 
                fromData.useBorrow = 1;
+
+               if(this.matrialsBorrowData.length==0)
+               {
+                  isE = false;
+               }
+
+               for(var i = 0; i < this.matrialsBorrowData.length; i++)
+              {
+                  if(fromData.useDate === this.matrialsBorrowData[i].useDate&&fromData.returnDate=== this.matrialsBorrowData[i].returnDate&&fromData.handleMan === this.matrialsBorrowData[i].handleMan&&fromData.useMan=== this.matrialsBorrowData[i].useMan&&fromData.material === this.matrialsBorrowData[i].material&&fromData.purpose=== this.matrialsBorrowData[i].purpose)
+                  {
+                      isE = true;
+                  }
+              }
                
+              if(!isE){
+                   this.matrialsBorrowData.push(fromData);
+              }
                
-               this.matrialsBorrowData.push(fromData);
+              
             },
             
             cancel () {

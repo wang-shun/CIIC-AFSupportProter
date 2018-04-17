@@ -102,13 +102,13 @@
               @on-ok="ok1"
               @on-cancel="cancel1">
               <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-                <Row type="flex" justify="start">
+                <!--<Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="材料借出经办人：" prop="handleManw">
                       <Input v-model="handleInfo.handleManw" placeholder="请输入"/>
                     </Form-item>
                   </Col>
-                </Row>
+                </Row>-->
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="借出日期：" prop="useDatew">
@@ -452,7 +452,12 @@ import api from '../../api/employ_manage/hire_operator'
                   this.matrialsUseData.push(fromData);
               }
                
-              
+               this.handleInfo.useDatew = '';
+                this.handleInfo.returnDate = '';
+                this.handleInfo.useManw = '';
+                this.handleInfo.materialw = '';
+                this.handleInfo.purposew = '';
+                this.handleInfo.remarkw = '';
                
             },ok1 () {
               var isE = false;
@@ -500,13 +505,30 @@ import api from '../../api/employ_manage/hire_operator'
                    this.matrialsBorrowData.push(fromData);
               }
                
-              
+                this.handleInfo.useDatew = '';
+                this.handleInfo.returnDate = '';
+                this.handleInfo.useManw = '';
+                this.handleInfo.materialw = '';
+                this.handleInfo.purposew = '';
+                this.handleInfo.remarkw = '';
             },
             
             cancel () {
-               
+                this.handleInfo.useDatew = '';
+                this.handleInfo.returnDate = '';
+                this.handleInfo.useManw = '';
+                this.handleInfo.materialw = '';
+                this.handleInfo.purposew = '';
+                this.handleInfo.remarkw = '';
+
+
             },cancel1 () {
-               
+                this.handleInfo.useDatew = '';
+                this.handleInfo.returnDate = '';
+                this.handleInfo.useManw = '';
+                this.handleInfo.materialw = '';
+                this.handleInfo.purposew = '';
+                this.handleInfo.remarkw = '';
             },instance() {
         
             api.saveAmArchiveUse(this.matrialsUseData).then(data => {

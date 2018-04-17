@@ -17,22 +17,25 @@
                             placeholder="选择日期" style="width: 100%"></DatePicker>
               </FormItem>
               </Col>
-              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="保险公司">
-                <Select placeholder="请选择">
-                  <Option value="1" v-for="item in insureCompany" :value="item.value" :key="item.value">{{item.label}}
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保险公司" prop="insuranceCompany">
+                <Select v-model="formItem.insuranceCompany" :clearable="true"
+                        @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
+                  <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
+                          :key="item.insuranceCompanyId">
+                    {{item.insuranceCompanyName}}
                   </Option>
                 </Select>
-              </FormItem>
-              </Col>-->
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="保险名称" prop="productName">
-                <Select v-model="formItem.productName" placeholder="请选择">
-                  <Option v-for="item in insureProject" :value="item.value"
-                          :key="item.value">{{item.label}}
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="保单" prop="afProductId">
+                <Select v-model="formItem.afProductId" :clearable="true">
+                  <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
+                    {{item.insurancePolicyName}}
                   </Option>
                 </Select>
-              </FormItem>
+              </Form-item>
               </Col>
               <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="状态">
@@ -113,6 +116,7 @@
 <script>
   import expandRow from './ExpandRow.vue';
   import ajax from "../../../data/health_medical/warranty.js";
+  import taskAjax from "../../../data/health_medical/task_medica.js";
   import warranty from '../../../store/modules/health_medical/data_sources/warranty.js'
   import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
 
@@ -127,6 +131,8 @@
           size: 10,
           insuranceDateRange: [],
           surrenderDateRange: [],
+          insuranceCompany: "1",
+          afProductId: null,
           productName: null,
           employeeId: null,
           employeeName: null,
@@ -178,21 +184,13 @@
           },
         ],
         keyTypeProperties: task.keyTypeProperties,
-        insureCompany: [
-          {
-            label: '中智', value: 'p1'
-          },
-          {
-            label: '中国平安保险', value: 'p2'
-          },
-          {
-            label: '中国大地保险', value: 'p3'
-          }
-        ]
+        insuranceCompanyProperties: []
       }
     },
     created() {
       this.getByPage(1);
+      this.queryInsuranceCompanyInfo();
+      this.queryIcProductRelationInfo(this.formItem.insuranceCompany);
     },
     methods: {
       queryWarrantyPage() {
@@ -202,6 +200,26 @@
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      queryInsuranceCompanyInfo() {
+        taskAjax.queryInsuranceCompany().then(response => {
+          if (response.data.code === 200) {
+            this.insuranceCompanyProperties = response.data.object;
+            this.insuranceCompanyProperties.forEach(item => {
+              item.insuranceCompanyId = item.insuranceCompanyId + "";
+            });
+          }
+        });
+      },
+      queryIcProductRelationInfo(val) {
+        taskAjax.queryIcProductRelation(val).then(response => {
+          if (response.data.code === 200) {
+            this.taskTypeItem = response.data.object;
+            this.taskTypeItem.forEach(item => {
+              item.insuranceProductId = item.insuranceProductId + "";
+            });
+          }
         });
       },
       getByPage(val) {

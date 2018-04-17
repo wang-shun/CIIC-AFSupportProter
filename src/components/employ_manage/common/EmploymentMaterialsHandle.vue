@@ -4,13 +4,13 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="预留档案编号：" prop="yuliuDocNum">
-             <Input v-model="handleInfo.yuliuDocNum" placeholder="请输入"/>
+             <Input v-model="handleInfo.yuliuDocNum" placeholder="请输入" maxlength="50"/>
              <input type="text" v-model="handleInfo.archiveId" hidden>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案编号：" prop="docNum" transfer>
-            <Input v-model="handleInfo.docNum" placeholder="请输入"/>
+            <Input v-model="handleInfo.docNum" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -22,7 +22,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地补充：" prop="archivePlaceAdditional">
-            <Input v-model="handleInfo.archivePlaceAdditional" placeholder="请输入"/>
+            <Input v-model="handleInfo.archivePlaceAdditional" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -34,7 +34,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案号：" prop="docCode">
-            <Input v-model="handleInfo.docCode" placeholder="请输入"/>
+            <Input v-model="handleInfo.docCode" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -80,7 +80,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="户口号：" prop="hukouCode">
-            <Input v-model="handleInfo.hukouCode" placeholder="请输入"/>
+            <Input v-model="handleInfo.hukouCode" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

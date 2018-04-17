@@ -25,19 +25,19 @@
 
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="uKey编号：">
-            <Input v-model="employSpecial.keyCode" placeholder="请输入"/>
+            <Input v-model="employSpecial.keyCode" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
 
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案部uKey密码：">
-            <Input v-model="employSpecial.keyPwd" placeholder="请输入"/>
+            <Input v-model="employSpecial.keyPwd" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
 
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="uKey状态：">
-            <Input v-model="employSpecial.keyStatus" placeholder="请输入"/>
+            <Input v-model="employSpecial.keyStatus" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
 

@@ -53,14 +53,14 @@
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="备注：" prop="remarkw" transfer>
-                      <Input v-model="handleInfo.remarkw" placeholder="请输入"/>
+                      <Input v-model="handleInfo.remarkw" placeholder="请输入" :maxlength="50"/>
                     </Form-item>
                   </Col>
                 </Row>
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="使用借出材料人：" prop="useManw" transfer>
-                      <Input v-model="handleInfo.useManw" placeholder="请输入"/>
+                      <Input v-model="handleInfo.useManw" placeholder="请输入" :maxlength="50"/>
                     </Form-item>
                   </Col>
                 </Row>
@@ -126,14 +126,14 @@
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="备注：" prop="remarkw" transfer>
-                      <Input v-model="handleInfo.remarkw" placeholder="请输入"/>
+                      <Input v-model="handleInfo.remarkw" placeholder="请输入" :maxlength="50"/>
                     </Form-item>
                   </Col>
                 </Row>
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="借出材料人：" prop="useManw" transfer>
-                      <Input v-model="handleInfo.useManw" placeholder="请输入"/>
+                      <Input v-model="handleInfo.useManw" placeholder="请输入" :maxlength="50"/>
                     </Form-item>
                   </Col>
                 </Row>

@@ -17,7 +17,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作员：" prop="remarkManw">
-             <Input v-model="handleInfo.remarkManw" placeholder="请输入"/>
+             <Input v-model="handleInfo.remarkManw" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
        </Row>
@@ -31,7 +31,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="备注：" prop="remarkContentw" transfer>
-            <Input v-model="handleInfo.remarkContentw" placeholder="请输入"/>
+            <Input v-model="handleInfo.remarkContentw" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
        </Row>

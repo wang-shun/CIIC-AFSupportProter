@@ -9,7 +9,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="补调档人1：">
-            <Input v-model="makeUpFile.budiaoDocMan1" placeholder="请输入"/>
+            <Input v-model="makeUpFile.budiaoDocMan1" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -22,7 +22,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="补调档人2：">
-            <Input v-model="makeUpFile.budiaoDocMan2" placeholder="请输入"/>
+            <Input v-model="makeUpFile.budiaoDocMan2" placeholder="请输入" maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

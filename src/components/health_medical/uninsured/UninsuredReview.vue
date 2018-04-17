@@ -147,13 +147,13 @@
           {
             title: '受理类型', sortable: true, key: 'caseType', align: 'center',
             render: (h, params) => {
-              return  h('div',admissibility.caseTypeToChina(params.row.caseType))
+              return h('div', admissibility.caseTypeToChina(params.row.caseType))
             }
           },
           {
             title: '款项类型', sortable: true, key: 'moneyType', align: 'center',
             render: (h, params) => {
-              return  h('div',admissibility.moneyTypeToChina(params.row.moneyType))
+              return h('div', admissibility.moneyTypeToChina(params.row.moneyType))
             }
           },
           {
@@ -165,11 +165,20 @@
           {
             title: '审核日期', sortable: true, key: 'auditDate', align: 'center',
             render: (h, params) => {
-              return  h('div',this.$utils.formatDate(params.row.auditDate, 'YYYY-MM-DD HH:mm:ss'));
+              return h('div', this.$utils.formatDate(params.row.auditDate, 'YYYY-MM-DD HH:mm:ss'));
             }
           },
           {
-            title: '付款记录', sortable: true, key: 'payID', align: 'center',
+            title: '状态', sortable: true, key: 'status', align: 'center',
+            render: (h, params) => {
+              return h('div', admissibility.statusToChina(params.row.status));
+            }
+          },
+          {
+            title: '更新时间', sortable: true, key: 'modifiedTime', align: 'center',
+            render: (h, params) => {
+              return h('div', this.$utils.formatDate(params.row.modifiedTime, 'YYYY-MM-DD HH:mm:ss'));
+            }
           },
           {
             title: '连带人', sortable: true, key: 'jointPersonName', align: 'center'

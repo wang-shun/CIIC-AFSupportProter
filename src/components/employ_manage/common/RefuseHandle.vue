@@ -59,7 +59,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="转移备注补充：">
-            <Input v-model="refuse.transferRemark1" placeholder="请输入" maxlength="50"/>
+            <Input v-model="refuse.transferRemark1" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -96,7 +96,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工操作员：">
-            <Input v-model="refuse.resignOperateMan" placeholder="请输入" maxlength="50"/>
+            <Input v-model="refuse.resignOperateMan" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -111,12 +111,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案编号：">
-            <Input v-model="refuse.docNum" placeholder="请输入" maxlength="50"/>
+            <Input v-model="refuse.docNum" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地：">
-            <Input v-model="refuse.archivePlace" placeholder="请输入" maxlength="50"/>
+            <Input v-model="refuse.archivePlace" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -190,7 +190,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="对应用工序号：">
-            <Input v-model="refuse.matchEmployIndex" placeholder="请输入" maxlength="50"/>
+            <Input v-model="refuse.matchEmployIndex" placeholder="请输入" :maxlength="50"/>
             <input type="text" v-model="refuse.companyId" hidden>
             <input type="text" v-model="refuse.employeeId" hidden>
             <input type="text" v-model="refuse.employmentId" hidden>

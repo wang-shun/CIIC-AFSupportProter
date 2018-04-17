@@ -97,10 +97,10 @@
               ]);
             }
           },
-          {title: '客服经理', key: 'employProperty', align: 'center', width: 100,
+          {title: '客服经理', key: 'salManagerName', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employProperty),
+                h('span', params.row.salManagerName),
               ]);
             }
           },

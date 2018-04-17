@@ -9,7 +9,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="出库人：">
-            <Input v-model="stockAndMail.storageOutMan" placeholder="请输入" maxlength="50"/>
+            <Input v-model="stockAndMail.storageOutMan" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -19,7 +19,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际寄信人：">
-            <Input v-model="stockAndMail.postLetterMan" placeholder="请输入" maxlength="50"/>
+            <Input v-model="stockAndMail.postLetterMan" placeholder="请输入" :maxlength="50"/>
             <input type="text" v-model="stockAndMail.archiveId" hidden>
           </Form-item>
         </Col>

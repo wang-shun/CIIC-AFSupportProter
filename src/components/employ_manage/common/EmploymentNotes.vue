@@ -17,7 +17,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作员：" prop="remarkManw">
-             <Input v-model="handleInfo.remarkManw" placeholder="请输入" maxlength="50"/>
+             <Input v-model="handleInfo.remarkManw" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
        </Row>
@@ -31,7 +31,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="备注：" prop="remarkContentw" transfer>
-            <Input v-model="handleInfo.remarkContentw" placeholder="请输入" maxlength="50"/>
+            <Input v-model="handleInfo.remarkContentw" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
        </Row>
@@ -135,8 +135,16 @@
                fromData.empTaskId = this.$route.query.empTaskId;
                
                this.notesData.push(fromData);
+
+               this.handleInfo.remarkDatew = '';
+               this.handleInfo.remarkManw = '';
+               this.handleInfo.remarkContentw = '';
+
             },
             cancel () {
+               this.handleInfo.remarkDatew = '';
+               this.handleInfo.remarkManw = '';
+               this.handleInfo.remarkContentw = '';
                 // this.$Message.info('Clicked cancel');
             },instance() {
             if(this.notesData.length==0){

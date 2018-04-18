@@ -53,14 +53,14 @@
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="备注：" prop="remarkw" transfer>
-                      <Input v-model="handleInfo.remarkw" placeholder="请输入"/>
+                      <Input v-model="handleInfo.remarkw" placeholder="请输入" :maxlength="50"/>
                     </Form-item>
                   </Col>
                 </Row>
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="使用借出材料人：" prop="useManw" transfer>
-                      <Input v-model="handleInfo.useManw" placeholder="请输入"/>
+                      <Input v-model="handleInfo.useManw" placeholder="请输入" :maxlength="50"/>
                     </Form-item>
                   </Col>
                 </Row>
@@ -102,13 +102,13 @@
               @on-ok="ok1"
               @on-cancel="cancel1">
               <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-                <Row type="flex" justify="start">
+                <!--<Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="材料借出经办人：" prop="handleManw">
                       <Input v-model="handleInfo.handleManw" placeholder="请输入"/>
                     </Form-item>
                   </Col>
-                </Row>
+                </Row>-->
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="借出日期：" prop="useDatew">
@@ -126,14 +126,14 @@
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="备注：" prop="remarkw" transfer>
-                      <Input v-model="handleInfo.remarkw" placeholder="请输入"/>
+                      <Input v-model="handleInfo.remarkw" placeholder="请输入" :maxlength="50"/>
                     </Form-item>
                   </Col>
                 </Row>
                 <Row type="flex" justify="start">
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="借出材料人：" prop="useManw" transfer>
-                      <Input v-model="handleInfo.useManw" placeholder="请输入"/>
+                      <Input v-model="handleInfo.useManw" placeholder="请输入" :maxlength="50"/>
                     </Form-item>
                   </Col>
                 </Row>
@@ -410,7 +410,7 @@ import api from '../../api/employ_manage/hire_operator'
         
         this.$router.push({name:'fileMatrialsUseAndBorrow', query: {archiveId:tempId,employeeId:tempId1}});
       },ok () {
-
+             var isE = false;
              if(this.handleInfo.materialw==''){
                  this.$Message.info('使用材料不能为空');
                   return;
@@ -433,10 +433,34 @@ import api from '../../api/employ_manage/hire_operator'
                fromData.archiveId = this.$route.query.archiveId;
 
                fromData.useBorrow = 0;
+
+               if(this.matrialsUseData.length==0)
+               {
+                  isE = false;
+               }
+              
+              for(var i = 0; i < this.matrialsUseData.length; i++)
+              {
+                  if(fromData.useDate === this.matrialsUseData[i].useDate&&fromData.handleMan === this.matrialsUseData[i].handleMan&&fromData.useMan=== this.matrialsUseData[i].useMan&&fromData.material === this.matrialsUseData[i].material&&fromData.purpose=== this.matrialsUseData[i].purpose)
+                  {
+                      isE = true;
+                  }
+              }
                
-               this.matrialsUseData.push(fromData);
+              if(!isE)
+              {
+                  this.matrialsUseData.push(fromData);
+              }
+               
+               this.handleInfo.useDatew = '';
+                this.handleInfo.returnDate = '';
+                this.handleInfo.useManw = '';
+                this.handleInfo.materialw = '';
+                this.handleInfo.purposew = '';
+                this.handleInfo.remarkw = '';
                
             },ok1 () {
+              var isE = false;
               if(this.handleInfo.materialw==''){
                  this.$Message.info('借出材料不能为空');
                   return;
@@ -463,15 +487,48 @@ import api from '../../api/employ_manage/hire_operator'
                fromData.archiveId = this.$route.query.archiveId;
 
                fromData.useBorrow = 1;
+
+               if(this.matrialsBorrowData.length==0)
+               {
+                  isE = false;
+               }
+
+               for(var i = 0; i < this.matrialsBorrowData.length; i++)
+              {
+                  if(fromData.useDate === this.matrialsBorrowData[i].useDate&&fromData.returnDate=== this.matrialsBorrowData[i].returnDate&&fromData.handleMan === this.matrialsBorrowData[i].handleMan&&fromData.useMan=== this.matrialsBorrowData[i].useMan&&fromData.material === this.matrialsBorrowData[i].material&&fromData.purpose=== this.matrialsBorrowData[i].purpose)
+                  {
+                      isE = true;
+                  }
+              }
                
+              if(!isE){
+                   this.matrialsBorrowData.push(fromData);
+              }
                
-               this.matrialsBorrowData.push(fromData);
+                this.handleInfo.useDatew = '';
+                this.handleInfo.returnDate = '';
+                this.handleInfo.useManw = '';
+                this.handleInfo.materialw = '';
+                this.handleInfo.purposew = '';
+                this.handleInfo.remarkw = '';
             },
             
             cancel () {
-               
+                this.handleInfo.useDatew = '';
+                this.handleInfo.returnDate = '';
+                this.handleInfo.useManw = '';
+                this.handleInfo.materialw = '';
+                this.handleInfo.purposew = '';
+                this.handleInfo.remarkw = '';
+
+
             },cancel1 () {
-               
+                this.handleInfo.useDatew = '';
+                this.handleInfo.returnDate = '';
+                this.handleInfo.useManw = '';
+                this.handleInfo.materialw = '';
+                this.handleInfo.purposew = '';
+                this.handleInfo.remarkw = '';
             },instance() {
         
             api.saveAmArchiveUse(this.matrialsUseData).then(data => {

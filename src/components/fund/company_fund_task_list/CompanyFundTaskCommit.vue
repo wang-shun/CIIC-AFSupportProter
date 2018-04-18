@@ -8,7 +8,7 @@
         </div>
       </Panel>
       <Panel name="2">
-        办理所需材料清单
+        企业任务单办理
         <div slot="content">
           <fund-open-account ref="openAccount" :openAccountInfo="this.$route.params.openAccountInfo"></fund-open-account>
         </div>
@@ -38,6 +38,7 @@
       }
     },
     mounted() {
+      
     },
     computed: {
     },
@@ -59,7 +60,10 @@
 
       //获得更新任务单请求参数
       getParams(){
+        
+               console.log(this.$refs.openAccount.openAccountInfo);
         return {
+   
           //comTask
           comTaskId: this.$route.params.comTaskId,
 
@@ -68,6 +72,8 @@
           initiatorNotes: this.$refs.company.customerInfo.initiaterNotes,
 
           //openAccountInfo
+          comAccountId:this.$refs.openAccount.openAccountInfo.comAccountId,
+          comAccountClassId:this.$refs.openAccount.openAccountInfo.comAccountClassId, 
           taskChangeTypeValue: this.$refs.openAccount.openAccountInfo.changeTypeValue,
           paymentWay: this.$refs.openAccount.openAccountInfo.payMethodValue,
           paymentBank: this.$refs.openAccount.openAccountInfo.paymentBankValue,

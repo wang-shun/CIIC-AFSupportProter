@@ -17,7 +17,7 @@
 
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="备注：">
-            <Input v-model="employSpecial.remark" placeholder="请输入"/>
+            <Input v-model="employSpecial.remark" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
 

@@ -9,12 +9,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工档案费缴至：">
-            <Input v-model="fileSettle.resignDocPaymentTo" placeholder="请输入"/>
+            <Input v-model="fileSettle.resignDocPaymentTo" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="支付档案费金额：">
-            <Input v-model="fileSettle.payDocAmount" placeholder="请输入"/>
+            <Input v-model="fileSettle.payDocAmount" placeholder="请输入" :maxlength="50"/>
             <input type="text" v-model="fileSettle.archiveId" hidden>
           </Form-item>
         </Col>

@@ -123,10 +123,6 @@
       </Panel>
     </Collapse>
 
-    <div class="tr m20">
-      <Button type="info" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
-    </div>
-
     <Table border
            stripe
            :columns="taskColumns"

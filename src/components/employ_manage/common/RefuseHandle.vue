@@ -59,7 +59,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="转移备注补充：">
-            <Input v-model="refuse.transferRemark1" placeholder="请输入"/>
+            <Input v-model="refuse.transferRemark1" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -96,7 +96,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工操作员：">
-            <Input v-model="refuse.resignOperateMan" placeholder="请输入"/>
+            <Input v-model="refuse.resignOperateMan" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -111,12 +111,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案编号：">
-            <Input v-model="refuse.docNum" placeholder="请输入"/>
+            <Input v-model="refuse.docNum" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地：">
-            <Input v-model="refuse.archivePlace" placeholder="请输入"/>
+            <Input v-model="refuse.archivePlace" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -190,7 +190,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="对应用工序号：">
-            <Input v-model="refuse.matchEmployIndex" placeholder="请输入"/>
+            <Input v-model="refuse.matchEmployIndex" placeholder="请输入" :maxlength="50"/>
             <input type="text" v-model="refuse.companyId" hidden>
             <input type="text" v-model="refuse.employeeId" hidden>
             <input type="text" v-model="refuse.employmentId" hidden>
@@ -360,12 +360,6 @@
          
        },binding(){
          
-          if(!(this.refuseInfo.employmentId==undefined)&&this.refuseInfo.employmentId!=''){
-            this.$Message.success("重在用工序号");
-              return;
-          }
-
-         
           if(this.refuseInfo.matchEmployIndex==undefined||this.refuseInfo.matchEmployIndex==''){
               this.$Message.success("对应用工序号为空");
               return;
@@ -416,12 +410,17 @@
              fromData.jobCentreFeedbackDate = this.$utils.formatDate(this.refuseInfo.jobCentreFeedbackDate, 'YYYY-MM-DD');
         }
         
-          api.saveAmResign(fromData).then(data => {
+          api.bindEmploymentId(fromData).then(data => {
               if (data.code == 200) {
-                this.$Message.success("绑定成功");
-                 history.go(-1);
+                if(data.data.result==true){
+                   this.$Message.success("绑定成功");
+                   history.go(-1);
+                }else{
+                   this.$Message.error("绑定失败！" + data.data.result);
+                }
+                
               } else {
-                this.$Message.error("绑定失败！" + data.message);
+                this.$Message.error("绑定失败！" + data.data.result);
               }
           })
 

@@ -90,11 +90,11 @@ function typeToChina(status) {
 
 function genderToChina(status) {
   switch (status) {
-    case 0:
-      return "女";
-      break;
-    case 1:
+    case true:
       return "男";
+      break;
+    case false:
+      return "女";
       break;
   }
 }

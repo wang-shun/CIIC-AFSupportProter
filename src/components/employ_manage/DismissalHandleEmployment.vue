@@ -199,22 +199,21 @@
                 this.refuseInfo.empTaskId = this.$route.query.empTaskId;
                 this.refuseInfo.employeeId = this.$route.query.employeeId;
                 this.refuseInfo.companyId = this.$route.query.companyId;
-                this.refuseInfo.employmentId = this.$route.query.employmentId;
         
             }else{
                this.refuseInfo.empTaskId = this.$route.query.empTaskId;
             }
             
             if(data.data.amRemarkBo){
-               this.refuseNotesData = data.data.amRemarkBo.rows;//退工备注
+               this.refuseNotesData = data.data.amRemarkBo;//退工备注
             } 
 
             if(data.data.amRemarkBo1){
-                this.employmentViewData = data.data.amRemarkBo1.rows;//用工备注
+                this.employmentViewData = data.data.amRemarkBo1;//用工备注
             }
             
             if(data.data.amRemarkBo2){
-                 this.fileNotesViewData = data.data.amRemarkBo2.rows;//档案备注
+                 this.fileNotesViewData = data.data.amRemarkBo2;//档案备注
             }
             
             if(data.data.amEmploymentBO){

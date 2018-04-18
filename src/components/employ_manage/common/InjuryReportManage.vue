@@ -16,7 +16,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作员：" prop="operateManw">
-             <Input v-model="handleInfo.operateManw" placeholder="请输入"/>
+             <Input v-model="handleInfo.operateManw" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
        </Row>

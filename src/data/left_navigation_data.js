@@ -47,7 +47,8 @@ const leftNavigation =
         {cid: "3-1", ckey: "用工资料管理任务单", crouter: "employmentDataManagementTaskList"},
         {cid: "3-2", ckey: "退工办理任务单", crouter: "dismissalHandleTaskList"},
         {cid: "3-3", ckey: "档案综合办理", crouter: "recordComprehensiveHandling"},
-        {cid: "3-5", ckey: "独立户客户管理", crouter: "independentCustomList"}
+        {cid: "3-5", ckey: "独立户客户管理", crouter: "independentCustomList"},
+        {cid: "3-6", ckey: "权限管理", crouter: "amauthorityList"},  // 权限管理
         // {cid: "3-4", ckey: "档案配对", crouter: "recordMatch"}
       ]
     },

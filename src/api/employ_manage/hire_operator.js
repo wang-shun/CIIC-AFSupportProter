@@ -139,8 +139,28 @@ export default {
   bindEmploymentId:async (params)=>{
     let response = await AJAX.post('/api/employcommandservice/amResignTask/bindEmploymentId', params);
     return await response.data;
-  }
+  },
 
+  //权限列表
+  amauthorityList:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amauthority/amauthorityList', params);
+    return await response.data;
+  },
+  //配置权限详情
+  amauthorityDeptNodes:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amauthority/amauthorityDeptNodes', params);
+    return await response.data;
+  },
+  //配置权限客户列表
+  amauthority:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amauthority/amauthority', params);
+    return await response.data;
+  },
+  //保存配置权限客户列表
+  amsaveAuthority:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amauthority/amsaveAuthority', params);
+    return await response.data;
+  },
 
 }
 

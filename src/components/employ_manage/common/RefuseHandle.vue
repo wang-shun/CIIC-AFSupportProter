@@ -360,12 +360,6 @@
          
        },binding(){
          
-          if(!(this.refuseInfo.employmentId==undefined)&&this.refuseInfo.employmentId!=''){
-            this.$Message.success("重在用工序号");
-              return;
-          }
-
-         
           if(this.refuseInfo.matchEmployIndex==undefined||this.refuseInfo.matchEmployIndex==''){
               this.$Message.success("对应用工序号为空");
               return;
@@ -416,12 +410,17 @@
              fromData.jobCentreFeedbackDate = this.$utils.formatDate(this.refuseInfo.jobCentreFeedbackDate, 'YYYY-MM-DD');
         }
         
-          api.saveAmResign(fromData).then(data => {
+          api.bindEmploymentId(fromData).then(data => {
               if (data.code == 200) {
-                this.$Message.success("绑定成功");
-                 history.go(-1);
+                if(data.data.result==true){
+                   this.$Message.success("绑定成功");
+                   history.go(-1);
+                }else{
+                   this.$Message.error("绑定失败！" + data.data.result);
+                }
+                
               } else {
-                this.$Message.error("绑定失败！" + data.message);
+                this.$Message.error("绑定失败！" + data.data.result);
               }
           })
 

@@ -50,7 +50,8 @@
         searchCondition: {
           params: '',
           taskStatus:'',
-          taskCategory:''
+          taskCategory:'',
+          taskResignStatus:''
         },
         // 下半部分
         recordComprehensiveHandlingColumns: [
@@ -358,10 +359,25 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(1,2)
+                    this.showInfoTwr(99,2)
                   }
                 }
               }, params.row.noFeedback);
+            }
+          },
+          {title: '退工任务单签收退工未成功', key: 'refuseWaitFinished', align: 'center', width: 220,
+            render: (h, params) => {
+              return h('a', {
+                attrs:{
+                'href': params.row.dataDownload
+                },
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.showInfoTwr(98,2)
+                  }
+                }
+              }, params.row.refuseWaitFinished);
             }
           },
           {title: '退工成功', key: 'refuseFinished', align: 'center', width: 220,
@@ -373,7 +389,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(2,2)
+                    this.showInfoTwr(1,2)
                   }
                 }
               }, params.row.refuseFinished);
@@ -388,7 +404,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(3,2)
+                    this.showInfoTwr(2,2)
                   }
                 }
               }, params.row.refuseBeforeWithFile);
@@ -403,7 +419,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(4,2)
+                    this.showInfoTwr(3,2)
                   }
                 }
               }, params.row.refuseTicketStampNoReturn);
@@ -418,7 +434,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(5,2)
+                    this.showInfoTwr(4,2)
                   }
                 }
               }, params.row.refuseFailed);
@@ -433,7 +449,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(6,2)
+                    this.showInfoTwr(5,2)
                   }
                 }
               }, params.row.beforeBatchNeedRefuse);
@@ -448,7 +464,7 @@
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.showInfoTw(7,2)
+                    this.showInfoTwr(6,2)
                   }
                 }
               }, params.row.other);
@@ -463,7 +479,7 @@
                     style: {textAlign: 'right'},
                     on:{
                     click:()=>{
-                        this.showInfoTws(0,2)
+                        this.showInfoTwsr(0,2)
                     }
                   }
                 }, params.row.amount);
@@ -574,9 +590,22 @@
            this.archiveQuery(this.searchCondition);
 
       },
+      showInfoTwr (ind,category) {  
+           this.searchCondition.params = this.searchConditions.toString();
+           this.searchCondition.taskResignStatus = ind;
+           this.searchCondition.taskCategory = category;
+           this.archiveQuery(this.searchCondition);
+
+      },
       showInfoTws (ind,category) {
            this.searchCondition.params = this.searchConditions.toString();
            this.searchCondition.taskStatus = ind;
+           this.searchCondition.taskCategory = category;
+           this.archiveQuery(this.searchCondition);
+
+      }, showInfoTwsr (ind,category) {
+           this.searchCondition.params = this.searchConditions.toString();
+           this.searchCondition.taskResignStatus = ind;
            this.searchCondition.taskCategory = category;
            this.archiveQuery(this.searchCondition);
 

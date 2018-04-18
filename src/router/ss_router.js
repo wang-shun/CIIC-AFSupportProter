@@ -167,6 +167,13 @@ const authority = r => require.ensure([], () => r(require('@/components/social_s
 const hfauthorityList = r => require.ensure([], () => r(require('@/components/fund/hfauthority/hfauthorityList')), 'hfauthorityList')
 const hfauthority = r => require.ensure([], () => r(require('@/components/fund/hfauthority/hfauthority')), 'hfauthority')
 
+/*
+ * amauthorityList                    --- 雇佣数据权限管理 
+ */
+
+const amauthorityList = r => require.ensure([], () => r(require('@/components/employ_manage/amauthority/amauthorityList')), 'amauthorityList')
+const amauthority = r => require.ensure([], () => r(require('@/components/employ_manage/amauthority/amauthority')), 'amauthority')
+
 export default [
   {
     path: '/employee_social_security_search',
@@ -453,6 +460,29 @@ export default [
       level2:"限权管理",
       openNames:['2'],
       activeName: '2-13'
+    },
+  },
+
+  {
+    path: '/amauthority_list',
+    name: 'amauthorityList',
+    component: amauthorityList,
+    meta:{
+      level1:'雇佣管理',
+      level2:"限权管理",
+      openNames:['3'],
+      activeName: '3-12'
+    },
+  },
+  {
+    path: '/amauthority',
+    name: 'amauthority',
+    component: amauthority,
+    meta:{
+      level1:'雇佣管理',
+      level2:"限权管理",
+      openNames:['3'],
+      activeName: '3-13'
     },
   },
 

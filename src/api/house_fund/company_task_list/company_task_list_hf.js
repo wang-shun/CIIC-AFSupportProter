@@ -7,7 +7,7 @@ export class CompanyTaskListHF{
     constructor(){
     }
 
-    //post company task
+    //post company task  不要问下面代码为何这么写，要么重构，要么内心深处接纳它
     static postTableData(params,url){
       return new Promise(function(resolve,reject){
         ajax.post(url, params).then(function (response) {
@@ -52,15 +52,17 @@ export class CompanyTaskListHF{
                     companyInfo.initiaterNotes = i.submitRemark
                     obj.companyInfo = companyInfo
                     //开户-openAccountInfo传参
-                    openAccountInfo.changeTypeValue = ""
-                    openAccountInfo.paymentBankValue = ""
+                    openAccountInfo.comAccountId=i.comAccountId
+                    openAccountInfo.changeTypeValue = i.taskCategory
+                    openAccountInfo.paymentBankValue = i.paymentBank
                     openAccountInfo.payMethodValue = i.paymentWay
                     openAccountInfo.companyFundAccountName = i.comAccountName
-                    openAccountInfo.companyFundAccountNum = ""
-                    openAccountInfo.UKeyValue = ""
-                    openAccountInfo.customerPayStartDate = ""
+                    openAccountInfo.companyFundAccountNum = i.hfComAccount
+                    //openAccountInfo.accountTempStoreTypeValue = i.accountTempStoreTypeValue
+                    openAccountInfo.UKeyValue = i.ukStoreValue
+                    openAccountInfo.customerPayStartDate = i.comStartMonth
                     openAccountInfo.closeAccountEveryMonth = i.closeDay
-                    openAccountInfo.professionalOperateStartDate = ""
+                    openAccountInfo.operateStrartMonth = i.operateStrartMonth
                     if (i.startHandleDateString!=''){
                       openAccountInfo.acceptDate = tools.parseDate(i.startHandleDateString)
                     }

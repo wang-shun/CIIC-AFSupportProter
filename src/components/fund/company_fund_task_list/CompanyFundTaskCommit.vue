@@ -29,7 +29,7 @@
   import customerInfo from "../common/CustomerInfo.vue"
   import fundOpenAccount from "../common/FundOpenAccount.vue"
   import {CompanyTaskListHF} from '../../../api/house_fund/company_task_list/company_task_list_hf'
-
+  import Tools from '../../../lib/tools'
   export default {
     components: {companyInfo:customerInfo, fundOpenAccount},
     data() {
@@ -44,15 +44,21 @@
     },
     methods: {
       goBack() {
-        this.$router.push({name: "companyFundTaskList"});
+        this.$router.go(-1);
       },
 
       //点击提交按钮
       commit(){
         let params = this.getParams()
         CompanyTaskListHF.updateCompanyTask(params).then(data=>{
-          console.log("企业任务单更新成功. 后台返回代码：" + data.code)
-          this.$router.push({name: "companyFundTaskList"});
+          
+          if(data){
+             this.$Message.success('提交成功');
+             this.goBack();
+          }else{
+             this.$Message.error('提交失败');
+          }
+         
         }).catch(error=>{
           console.log(error)
         })
@@ -81,15 +87,17 @@
           comAccountName: this.$refs.openAccount.openAccountInfo.companyFundAccountName,
           comAccountNum: this.$refs.openAccount.openAccountInfo.companyFundAccountNum,
           uKeyStore: this.$refs.openAccount.openAccountInfo.UKeyValue,
-          comStartMonth: this.$refs.openAccount.openAccountInfo.customerPayStartDate,
-          operateStartMonth: this.$refs.openAccount.openAccountInfo.professionalOperateStartDate,
+          comStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.customerPayStartDate, "YYYYMM"),
+          operateStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.professionalOperateStartDate, "YYYYMM"),
           endType: this.$refs.openAccount.openAccountInfo.endTypeValue,
           accountTempStore: this.$refs.openAccount.openAccountInfo.accountTempStoreTypeValue,
-          taskStatus: this.$refs.openAccount.openAccountInfo.taskType,
+          taskStatus: this.$refs.openAccount.openAccountInfo.taskStatus,
+
           acceptDate: this.$refs.openAccount.openAccountInfo.acceptDate,
           approvalDate: this.$refs.openAccount.openAccountInfo.deliveredDate,
           finishDate: this.$refs.openAccount.openAccountInfo.finishDate,
-          comAccountRemark: this.$refs.openAccount.openAccountInfo.notes
+          comAccountRemark: this.$refs.openAccount.openAccountInfo.notes,
+
         }
       },
     }

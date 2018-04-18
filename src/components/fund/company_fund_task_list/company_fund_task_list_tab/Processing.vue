@@ -114,7 +114,7 @@
           hfComAccount:'',
           hfType:'',
           serviceManager: '',
-          taskStatusString: '1' //处理中
+          taskStatusString: '1,2' //处理中
         },
         serviceCenterData: [
           {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
@@ -256,30 +256,30 @@
       }
     },
     mounted() {
-      let sessionPageNum = sessionStorage.taskPageNum
-      let sessionPageSize = sessionStorage.taskPageSize
+      // let sessionPageNum = sessionStorage.taskPageNum
+      // let sessionPageSize = sessionStorage.taskPageSize
 
-      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-        this.pageNum = Number(sessionPageNum)
-        this.size = Number(sessionPageSize)
-        sessionStorage.removeItem("taskPageNum")
-        sessionStorage.removeItem("taskPageSize")
-      }
-      let params = {
-        pageSize:this.size,
-        pageNum:this.pageNum,
-        params:{
-          taskStatusString: '1,2', //处理中，送审中
-        }
-      }
-      let self= this
-      Processing.postTableData(params).then(data=>{
-          self.loading=true;
-          self.refresh(data)
-        }
-      ).catch(error=>{
-        console.log(error);
-      })
+      // if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+      //   this.pageNum = Number(sessionPageNum)
+      //   this.size = Number(sessionPageSize)
+      //   sessionStorage.removeItem("taskPageNum")
+      //   sessionStorage.removeItem("taskPageSize")
+      // }
+      // let params = {
+      //   pageSize:this.size,
+      //   pageNum:this.pageNum,
+      //   params:{
+      //     taskStatusString: '1,2', //处理中，送审中
+      //   }
+      // }
+      // let self= this
+      // Processing.postTableData(params).then(data=>{
+      //     self.loading=true;
+      //     self.refresh(data)
+      //   }
+      // ).catch(error=>{
+      //   console.log(error);
+      // })
 
     },
     computed: {

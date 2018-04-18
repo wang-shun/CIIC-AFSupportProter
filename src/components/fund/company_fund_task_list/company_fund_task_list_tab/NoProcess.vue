@@ -133,6 +133,7 @@
                       this.setSessionNumAndSize()
                       switch(params.row.taskCategoryName) {
                         case '开户':
+                          
                           this.$router.push({name: 'companyFundTaskCommit', params: {
                               comTaskId: params.row.comTaskId,
                               companyInfo: params.row.companyInfo,
@@ -140,6 +141,7 @@
                           });
                           break;
                         case '转入':
+                        console.log(params.row.openAccountInfo);
                           this.$router.push({name: 'companyFundTaskCommit', params: {
                               comTaskId: params.row.comTaskId,
                               companyInfo: params.row.companyInfo,

@@ -135,6 +135,10 @@ export default {
   queryCompanySetDetail:async (params)=>{
     let response = await AJAX.post('/api/employcommandservice/salCompany/queryCompanySetDetail', params);
     return await response.data;
+  },//退工绑定用工序号
+  bindEmploymentId:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amResignTask/bindEmploymentId', params);
+    return await response.data;
   }
 
 

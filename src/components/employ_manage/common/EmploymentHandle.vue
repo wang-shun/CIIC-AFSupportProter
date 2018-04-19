@@ -78,6 +78,7 @@ import api from '../../../api/employ_manage/hire_operator'
           {value: '外来从业人员', label: '外来从业人员'},
           {value: '居住证', label: '居住证'},
           {value: '调档', label: '调档'},
+          {value: '属地管理', label: '属地管理'},
           {value: '市人才', label: '市人才'},
           {value: '梅园路', label: '梅园路'},
           {value: '商城路', label: '商城路'},

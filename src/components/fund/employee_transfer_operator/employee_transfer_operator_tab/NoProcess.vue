@@ -222,8 +222,8 @@
             idNum: '',
             companyId: '',
             titile: '',
-            status: '2',
-            hfType:'1',
+            status: 2,
+            hfType:'',
           },
              workStatueList: [
               {label: '全部', value: ''},
@@ -471,7 +471,6 @@
       },
       handlePageNumNewTask(val) {
         this.pageDataNewTask.pageNum = val;
-        this.createTask.searchCondition.status=2;
         let params = this.createTask.searchCondition
         this.queryTransferForNewTask(params);
       },
@@ -481,7 +480,6 @@
         this.queryTransferForNewTask(params);
       },
       dealTransfer(employeeId,companyId,hfType){
-
         this.$router.push({name:'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType}});
       },
       ok () {

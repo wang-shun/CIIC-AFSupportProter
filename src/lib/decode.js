@@ -492,16 +492,16 @@ export default {
         case '8':
         case 8:
             return '转移'
-        case '9':    
+        case '9':
         case 9:
             return '翻牌新开'
-        case '10':    
+        case '10':
         case 10:
             return '翻牌转入'
-        case '11':    
+        case '11':
         case 11:
             return '翻牌启封'
-        case '12':    
+        case '12':
         case 12:
             return '翻牌转出'
         default: // 默认 1
@@ -559,11 +559,11 @@ export default {
     hf_accountTempStore: (v) => {
         switch (v) {
         case '0':
-            return '正常'
+            return '没有'
         case '1':
-            return '临时保管'
+            return '客户自办'
         default:
-            return ''
+            return '中智代办'
         }
     },
     hf_archiveTaskStatus: (v) => {

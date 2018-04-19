@@ -83,7 +83,7 @@
   import api from '../../../api/house_fund/company_fund_account_search/company_fund_account_search'
   import companyFundAccountInfoAndOperate from "../common/CompanyFundAccountInfoAndOperate.vue"
   import companyFundAccountBindList from "../common/CompanyFundAccountBindList.vue"
-  import Tools from '../../../lib/tools'  
+  import Tools from '../../../lib/tools'
   export default {
     components: {companyFundAccountInfoAndOperate, companyFundAccountBindList},
     data() {
@@ -99,7 +99,6 @@
     },
     mounted() {
       this.fundAccountInfo = JSON.parse(window.sessionStorage.getItem('fundAccountInfo'));
-      console.log(this.fundAccountInfo);
       this.isCanEdit = this.fundAccountInfo.isCanUpdate;
       if(this.isCanEdit==false){
          this.isCanEditBase=this.fundAccountInfo.hfType==1?false:true;
@@ -108,7 +107,7 @@
          this.isCanEditBase=false;
          this.isCanEditBuchong=false;
       }
-      
+
       this.getDetail();
       this.getList();
     },
@@ -125,7 +124,6 @@
             this.companyFundAccount.hfType=this.fundAccountInfo.hfType;
             this.companyFundAccount.comAccountId=this.fundAccountInfo.comAccountId;
             this.companyFundAccount.comAccountClassId=this.fundAccountInfo.comAccountClassId;
-            
             let tmpStore = [];
             if (parseInt(this.companyFundAccount.basicAccountTempStore)) {
               tmpStore.push('基本暂保管');
@@ -145,7 +143,6 @@
           params: params,
         }).then(data => {
           if (data.code == 200) {
-            console.log(data.data)
             this.accountBindCompanyData = data.data;
           }
         })

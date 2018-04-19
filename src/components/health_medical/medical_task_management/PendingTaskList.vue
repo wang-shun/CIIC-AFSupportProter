@@ -124,12 +124,25 @@
     </Collapse>
 
     <div class="tr m20">
-      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2'" @click="modal1 = true">审核</Button>
-      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='4'" @click="modal6 = true">批退</Button>
-      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2' || formItem.status==='4'" @click="modal2 = true">暂缓</Button>
-      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='3'" @click="modal3 = true">恢复</Button>
-      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='4'" @click="modal5 = true">更新在保库</Button>
-      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2' || formItem.status==='4'" @click="exportData()"
+      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2'"
+              @click="modal1 = true">审核
+      </Button>
+      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='4'"
+              @click="modal6 = true">批退
+      </Button>
+      <Button type="info"
+              v-if="formItem.status===null || formItem.status==='' || formItem.status==='2' || formItem.status==='4'"
+              @click="modal2 = true">暂缓
+      </Button>
+      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='3'"
+              @click="modal3 = true">恢复
+      </Button>
+      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='4'"
+              @click="modal5 = true">更新在保库
+      </Button>
+      <Button type="info"
+              v-if="formItem.status===null || formItem.status==='' || formItem.status==='2' || formItem.status==='4'"
+              @click="exportData()"
               icon="ios-download-outline">导出数据
       </Button>
     </div>
@@ -323,9 +336,12 @@
           {
             title: "离职日期",
             sortable: true,
-            key: "column12",
+            key: "departuredDate",
             align: "center",
             render: (h, params) => {
+              if (params.row.departuredDate != null) {
+                return h('div', this.$utils.formatDate(params.row.departuredDate, "YYYY-MM-DD"));
+              }
             }
           }
         ],

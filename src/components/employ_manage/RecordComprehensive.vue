@@ -308,8 +308,8 @@
                 this.refuseReturnMaterialsSignInfo = data.data.materialList;
               }
 
-              if(this.fileNotesViewData){
-                  this.fileNotesViewData = data.data.amRemarkBo.rows;
+              if(data.data.amRemarkBo){
+                  this.fileNotesViewData = data.data.amRemarkBo;
               }
            
               if(data.data.amArchaiveBo){

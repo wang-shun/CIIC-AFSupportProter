@@ -18,7 +18,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="commit">提交</Button>
-        <Button type="error" @click="goBack">批退</Button>
+        <Button type="error" @click="rejection">批退</Button>
         <Button type="warning" @click="goBack">关闭/返回</Button>
       </Col>
     </Row>
@@ -39,6 +39,11 @@
     },
     mounted() {
       
+      // if(this.$refs.openAccount.openAccountInfo.taskStatus==0){
+ 
+      //  this.$route.params.openAccountInfo.taskStatus==1;
+      // }
+        
     },
     computed: {
     },
@@ -50,20 +55,42 @@
       //点击提交按钮
       commit(){
         let params = this.getParams()
+        if(params.taskStatus==0){
+          this.$Message.error('必须选择一个任务状态');
+          return false;
+        }
         CompanyTaskListHF.updateCompanyTask(params).then(data=>{
-          
           if(data){
              this.$Message.success('提交成功');
              this.goBack();
           }else{
              this.$Message.error('提交失败');
           }
-         
         }).catch(error=>{
           console.log(error)
         })
       },
-
+      rejection(){
+           this.$Modal.confirm({
+              title: "您确认批退操作？",
+              cancelText: "取消",
+              onOk: () => {
+                  let params={
+                    comTaskId:this.$route.params.comTaskId
+                  }
+                  CompanyTaskListHF.rejection(params).then(data=>{
+                    if(data){
+                        this.$Message.success('提交成功');
+                        this.goBack();
+                    }else{
+                        this.$Message.error('提交失败');
+                    }
+                  }).catch(error=>{
+                    console.log(error)
+                  })
+              }
+            });        
+      },
       //获得更新任务单请求参数
       getParams(){
         

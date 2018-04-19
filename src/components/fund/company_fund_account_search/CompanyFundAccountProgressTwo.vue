@@ -99,7 +99,6 @@
     },
     mounted() {
       this.fundAccountInfo = JSON.parse(window.sessionStorage.getItem('fundAccountInfo'));
-      console.log(this.fundAccountInfo);
       this.isCanEdit = this.fundAccountInfo.isCanUpdate;
       if(this.isCanEdit==false){
          this.isCanEditBase=this.fundAccountInfo.hfType==1?false:true;
@@ -125,9 +124,6 @@
             this.companyFundAccount.hfType=this.fundAccountInfo.hfType;
             this.companyFundAccount.comAccountId=this.fundAccountInfo.comAccountId;
             this.companyFundAccount.comAccountClassId=this.fundAccountInfo.comAccountClassId;
-
-            console.log('==============================' + JSON.stringify(data.data))
-
             let tmpStore = [];
             if (parseInt(this.companyFundAccount.basicAccountTempStore)) {
               tmpStore.push('基本暂保管');
@@ -147,7 +143,6 @@
           params: params,
         }).then(data => {
           if (data.code == 200) {
-            console.log(data.data)
             this.accountBindCompanyData = data.data;
           }
         })

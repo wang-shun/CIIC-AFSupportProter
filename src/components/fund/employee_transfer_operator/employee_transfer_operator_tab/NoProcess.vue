@@ -223,7 +223,7 @@
             companyId: '',
             titile: '',
             status: 2,
-            hfType:'1',
+            hfType:'',
           },
              workStatueList: [
               {label: '全部', value: ''},

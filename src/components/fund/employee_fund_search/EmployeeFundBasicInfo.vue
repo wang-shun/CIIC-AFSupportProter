@@ -523,15 +523,12 @@
           okText: '确定',
           cancelText: '取消',
           onOk: () => {
-           console.log(formData);
             {//收集数据
-              
               formData.hfEmpAccount = self.viewEmpArchive.hfEmpAccount
               formData.hfEmpAccountBc=self.viewEmpArchive.hfEmpAccountBc
               formData.empArchiveIdBc=self.viewEmpArchive.empArchiveIdBc
               formData.empArchiveId= self.viewEmpArchive.empArchiveId
             }
-            console.log(formData);
             api.saveEmpAccount(formData).then(data => {
               data=data.data;
               if (data.code == 200) {

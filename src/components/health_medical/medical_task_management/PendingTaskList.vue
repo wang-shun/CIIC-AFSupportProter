@@ -368,6 +368,11 @@
         });
       },
       syncToWarranty() {
+        if (!this.syncDate) {
+          this.$Message.error("请选择时间");
+          return;
+        }
+
         if (this.selectData.length === 0) {
           this.$Message.error("请选择数据");
           return;

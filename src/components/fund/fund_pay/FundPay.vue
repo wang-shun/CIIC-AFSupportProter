@@ -83,18 +83,14 @@
             <DropdownItem name="3">回单</DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <Dropdown>
+        <Dropdown @on-click="generateBank">
           <Button type="info">
             生成网银文件
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <div style="text-align: right;margin:10px;">
-              <Button type="ghost" @click="generateBankRepair">补缴.txt</Button>
-            </div>
-            <div style="text-align: right;margin:10px;">
-              <Button type="ghost" @click="generateBankChange">变更.txt</Button>
-            </div>
+            <DropdownItem name="0">补缴.txt</DropdownItem>
+            <DropdownItem name="1">变更.txt</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Dropdown @on-click="operate">
@@ -264,7 +260,7 @@
           {label: "出票", value:6},
           {label: "回单", value:7}
         ],
-    
+
         isShowPayProgress: false,
         fundPayColumns: [
           // {type: 'selection', width: 60},
@@ -679,7 +675,7 @@
           console.log(error)
         })
       },
-      getParams(page) { 
+      getParams(page) {
         if(this.operatorSearchData.paymentMonth!=''){
           this.operatorSearchData.payDate= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
           this.operatorSearchData.paymentMonth= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
@@ -982,6 +978,18 @@
                             });
                       }
                     })
+      },
+      generateBank(name) {
+        switch(parseInt(name)) {
+          case 0:
+            this.generateBankRepair();
+            break;
+          case 1:
+            this.generateBankChange();
+            break;
+          default:
+            break;
+        }
       },
       generateBankRepair() {
         let row;

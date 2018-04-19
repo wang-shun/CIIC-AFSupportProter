@@ -39,9 +39,9 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴费银行：" prop="payBankValue">
-                  <Select v-model="searchCondition.payBankValue" style="width: 100%;" transfer>
-                    <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="value" :key="key">{{value}}</Option>
+                <Form-item label="缴费银行：" prop="paymentBank">
+                  <Select v-model="searchCondition.paymentBank" style="width: 100%;" transfer>
+                    <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="key" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -202,7 +202,7 @@
           transferOutUnit: '',
           employeeName: '',
           hfType: '',
-          payBankValue:'',
+          paymentBank:'',
           idNum: '',
           hfEmpAccount: '',
           hfAccountType: '',

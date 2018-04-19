@@ -239,8 +239,14 @@
             }
           },
           {
-            title: '离职日期', sortable: true, key: 'column12', align: 'center',
+            title: "离职日期",
+            sortable: true,
+            key: "departuredDate",
+            align: "center",
             render: (h, params) => {
+              if (params.row.departuredDate != null) {
+                return h('div', this.$utils.formatDate(params.row.departuredDate, "YYYY-MM-DD"));
+              }
             }
           }
         ],

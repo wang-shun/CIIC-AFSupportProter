@@ -1,5 +1,5 @@
 <template>
-  <Form :label-width=150>
+  <Form :label-width='150'>
     <Collapse v-model="collapseInfo" class="mt20">
       <Panel name="1">
         企业公积金账户信息
@@ -10,7 +10,7 @@
       <Panel name="2">
         企业变更操作
         <div slot="content">
-          <Form :label-width=150>
+          <Form :label-width='150'>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业账户名称：">
@@ -33,17 +33,17 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="受理日期：">
-                  <DatePicker v-model="changeOperator.acceptDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <DatePicker v-model="changeOperator.acceptDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="送审日期：">
-                  <DatePicker v-model="changeOperator.approvalDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <DatePicker v-model="changeOperator.deliveredDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="完成日期：">
-                  <DatePicker v-model="changeOperator.finishDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <DatePicker v-model="changeOperator.finishDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
@@ -60,7 +60,7 @@
     <Row class="mt20">
       <Col :sm="{span:24}" class="tr">
         <Button type="primary" @click="commit">提交</Button>
-        <Button type="error" @click="goBack">批退</Button>
+        <Button type="error" @click="rejection">批退</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -76,7 +76,11 @@
       return {
         collapseInfo: [1, 2], //展开栏
         changeOperator: {
-          taskStatusList:[],
+          taskStatusList:[
+            {value: '1', label: '受理中',disabled:false},
+            {value: '2', label: '送审中',disabled:false},
+            {value: '3', label: '已完成',disabled:false},
+          ],
           paymentTypeList:[]
         }
       }
@@ -88,25 +92,23 @@
       ).catch(error=>{
         console.log(error);
       });
-      CompanyTaskListHF.getCompanyTaskTaskStatusData().then(data=>{
-          this.refreshCompanyTaskTaskStatusData(data)
-        }
-      ).catch(error=>{
-        console.log(error);
-      });
       this.refreshChangeOperatorData(this.$route.params.changeOperator);
     },
     computed: {
     },
     methods: {
       goBack() {
-        this.$router.push({name: "companyFundTaskList"});
+        this.$router.go(-1);
       },
       commit(){
         let params = this.getParams()
         CompanyTaskListHF.updateCompanyTaskChangeInfo(params).then(data=>{
-          console.log("企业任务单(更新)成功. 后台返回代码：" + data.code)
-          this.$router.push({name: "companyFundTaskList"});
+            if(data){
+                this.$Message.success('提交成功');
+                this.goBack();
+            }else{
+                this.$Message.error('提交失败');
+            }
         }).catch(error=>{
           console.log(error)
         })
@@ -135,20 +137,22 @@
       refreshCompanyTaskPaymentWayData(data){
         this.changeOperator.paymentTypeList = data.data.paymentTypeList;
       },
-      refreshCompanyTaskTaskStatusData(data){
-        this.changeOperator.taskStatusList = data.data.taskStatusList;
-      },
       refreshChangeOperatorData(data){
         this.changeOperator.comAccountName = data.comAccountName;
         this.changeOperator.paymentType = data.paymentTypeValue;
         this.changeOperator.taskStatus = data.taskStatusValue;
+        this.changeOperator.acceptDate = data.acceptDate;
+        this.changeOperator.deliveredDate = data.deliveredDate;
+        this.changeOperator.finishDate = data.finishDate;
+        this.changeOperator.remark=data.remark;
       },
       //获得更新任务单请求参数
       getParams(){
         return {
           //comTask
           comTaskId: this.$route.params.comTaskId,
-
+          comAccountId:this.$route.params.comAccountId,
+          comAccountClassId:this.$route.params.comAccountClassId,
           //changeOperator
           comAccountName: this.changeOperator.comAccountName,
           paymentType: this.changeOperator.paymentType,

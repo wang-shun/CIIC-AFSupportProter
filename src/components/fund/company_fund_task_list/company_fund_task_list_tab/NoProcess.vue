@@ -206,20 +206,6 @@
               ]);
             }
           },
-          {title: '经办人', key: 'manager', width: 150, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.manager),
-              ]);
-            }
-          },
-          {title: '客户缴费起始年月', key: 'customerPayStartDate', width: 150, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.customerPayStartDate),
-              ]);
-            }
-          },
           {title: '付款方式', key: 'comTaskPaymentWayName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [

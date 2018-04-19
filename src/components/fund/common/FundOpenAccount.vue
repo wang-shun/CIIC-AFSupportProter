@@ -131,9 +131,9 @@
           {label: "转其他代理商", value: '3'}
         ],
         taskTypeList:[
-          {value: '1', label: '受理中',disabled:false},
-          {value: '2', label: '送审中',disabled:false},
-          {value: '3', label: '已完成',disabled:false},
+          {value: '1', label: '受理中'},
+          {value: '2', label: '送审中'},
+          {value: '3', label: '已完成'},
         ],
         UKeyList: [
           {label: "有(中智代办)", value: '2'},

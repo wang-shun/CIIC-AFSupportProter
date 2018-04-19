@@ -1,5 +1,5 @@
 <template>
-  <Form :label-width=150>
+  <Form :label-width="150">
     <Collapse v-model="collapseInfo" class="mt20">
       <Panel name="1">
         企业公积金账户信息
@@ -10,7 +10,7 @@
       <Panel name="2">
         企业终止操作
         <div slot="content">
-          <Form :label-width=100>
+          <Form :label-width="100">
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="终止月份：">
@@ -25,13 +25,20 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="任务状态：" prop="taskStatus">
+                  <Select v-model="endOperator.taskStatus" style="width: 100%;" transfer>
+                    <Option v-for="item in endOperator.taskStatusList" :value="item.value" :key="item.value" :disabled="item.disabled">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="受理日期：">
                   <DatePicker v-model="endOperator.acceptDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="送审日期：">
-                  <DatePicker v-model="endOperator.approvalDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
+                  <DatePicker v-model="endOperator.deliveredDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;"></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -53,7 +60,7 @@
     <Row class="mt20">
       <Col :sm="{span:24}" class="tr">
       <Button type="primary" @click="commit">提交</Button>
-      <Button type="error" @click="goBack">批退</Button>
+      <Button type="error" @click="rejection">批退</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -69,36 +76,70 @@
       return {
         collapseInfo: [1, 2], //展开栏
         endOperator: {
-          endTypeList:[]
+          taskStatusList:[
+            {value: '1', label: '受理中',disabled:false},
+            {value: '2', label: '送审中',disabled:false},
+            {value: '3', label: '已完成',disabled:false},
+          ],
+          endTypeList:[
+            {value:'1',label:'销户'},
+            {value:'2',label:'公司自做'},
+            {value:'3',label:'转其他代理商'},
+          ],
         }
       }
     },
     mounted() {
-      CompanyTaskListHF.getCompanyTaskEndTypeData().then(data=>{
-          this.refreshCompanyTaskEndTypeData(data)
-        }
-      ).catch(error=>{
-        console.log(error);
-      });
-      this.refreshEndOperatorData(this.$route.params.endOperator);
+      let data=this.$route.params.endOperator;
+      console.log(data);
+      this.endOperator.endMonth = data.endMonth;
+      this.endOperator.endType = data.endType;
+      this.endOperator.taskStatus = data.taskStatus;
+      this.endOperator.acceptDate = data.acceptDate;
+      this.endOperator.deliveredDate = data.deliveredDate;
+      this.endOperator.finishDate = data.finishDate;
+      this.endOperator.remark = data.remark;
     },
     computed: {
     },
     methods: {
       goBack() {
-        this.$router.push({name: "companyFundTaskList"});
+        this.$router.go(-1);
       },
       commit(){
         let params = this.getParams()
-        CompanyTaskListHF.updateCompanyTaskEndInfo(params).then(data=>{
-          console.log("企业任务单(终止)成功. 后台返回代码：" + data.code)
-          this.$router.push({name: "companyFundTaskList"});
+        CompanyTaskListHF.stopCompAccountTask(params).then(data=>{
+          console.log("企业任务单(终止)成功. 后台返回代码：" + data)
+          if(data){
+                this.$Message.success('提交成功');
+                this.goBack();
+            }else{
+                this.$Message.error('提交失败');
+            }
         }).catch(error=>{
           console.log(error)
         })
       },
-      refreshCompanyTaskEndTypeData(data){
-        this.endOperator.endTypeList = data.data.endTypeList;
+      rejection(){
+           this.$Modal.confirm({
+              title: "您确认批退操作？",
+              cancelText: "取消",
+              onOk: () => {
+                  let params={
+                    comTaskId:this.$route.params.comTaskId
+                  }
+                  CompanyTaskListHF.rejection(params).then(data=>{
+                    if(data){
+                        this.$Message.success('提交成功');
+                        this.goBack();
+                    }else{
+                        this.$Message.error('提交失败');
+                    }
+                  }).catch(error=>{
+                    console.log(error)
+                  })
+              }
+            });        
       },
       refreshEndOperatorData(data){
         this.endOperator.endMonth = data.endMonth;
@@ -108,7 +149,8 @@
         return {
           //comTask
           comTaskId: this.$route.params.comTaskId,
-
+          comAccountId:this.$route.params.comAccountId,
+          comAccountClassId:this.$route.params.comAccountClassId,
           //endOperator
           endMonth: this.endOperator.endMonth,
           endType: this.endOperator.endType,

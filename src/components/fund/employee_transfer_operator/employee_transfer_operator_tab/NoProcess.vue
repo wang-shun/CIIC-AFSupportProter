@@ -225,11 +225,11 @@
             status: '2',
             hfType:'1',
           },
-             workStatueList: [
-              {label: '全部', value: ''},
-              {label: '在职', value: 2},
-              {label: '离职', value: 3}
-            ],
+          workStatueList: [
+            {label: '全部', value: ''},
+            {label: '在职', value: 2},
+            {label: '离职', value: 3}
+          ],
           createNewTaskData:[],
           createNewTaskColumns: [
             {title: '操作', fixed: 'left', width: 80, align: 'center',

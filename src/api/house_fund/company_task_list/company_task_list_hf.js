@@ -32,8 +32,9 @@ export class CompanyTaskListHF{
                     let endOperator={}
                     //已完成任务单参数
                     let companyTaskInfo={}
-
+                    //查询列表
                     obj.action=""
+                    
                     obj.comTaskId = i.comTaskId
                     obj.companyId = i.companyId
                     obj.companyName = i.companyName
@@ -42,6 +43,11 @@ export class CompanyTaskListHF{
                     obj.comTaskPaymentWayName = i.comTaskPaymentWayName
                     obj.initiator = i.submitterName
                     obj.sponsorTime = i.submitTimeString
+                    obj.UKey = i.ukStoreValue
+                    obj.customerPayStartDate= i.comStartMonth
+                    obj.comAccountId=i.comAccountId
+                    obj.comAccountClassId=i.comAccountClassId
+                  
                     //开户-companyInfo传参
                     companyInfo.customerNumber = i.companyId
                     companyInfo.customerName = i.companyName
@@ -85,6 +91,7 @@ export class CompanyTaskListHF{
                     if(i.hfType=="2"){
                       companyFundAccountInfo.customerAddFundAccount = i.hfComAccount
                     }
+              
                     companyFundAccountInfo.companyFundAccountStatus = i.comAccountStateValue
                     companyFundAccountInfo.paymentBank = i.paymentBankValue
                     companyFundAccountInfo.closeDay = i.closeDay
@@ -94,15 +101,28 @@ export class CompanyTaskListHF{
                     companyFundAccountInfo.customerName = i.companyName
                     companyFundAccountInfo.accountType = i.typeValue
                     companyFundAccountInfo.taskStatus=i.taskStatus  //任务单状态
+                    companyFundAccountInfo.remark=i.comAccountRemark
+
                     obj.companyFundAccountInfo = companyFundAccountInfo
                     //变更-changeOperator传参
                     changeOperator.comAccountName = i.comAccountName
                     changeOperator.paymentTypeValue = i.paymentWay
                     changeOperator.taskStatusValue = i.taskStatus
+                    changeOperator.acceptDate = i.startHandleDateString
+                    changeOperator.deliveredDate = i.sendCheckDateString
+                    changeOperator.finishDate = i.finishDateString
+                    changeOperator.remark=i.comAccountRemark
+            
                     obj.changeOperator = changeOperator
 
                     //终止-endOperator传参
                     endOperator.endMonth = i.endMonth
+                    endOperator.endType = i.endType
+                    endOperator.taskStatus = i.taskStatus
+                    endOperator.acceptDate = i.startHandleDateString
+                    endOperator.deliveredDate = i.sendCheckDateString
+                    endOperator.finishDate = i.finishDateString
+                    endOperator.remark = i.comAccountRemark
                     obj.endOperator = endOperator
 
                     //已完成任务单参数
@@ -150,7 +170,19 @@ export class CompanyTaskListHF{
       })
     })
   }
-
+//终止企业任务单
+static stopCompAccountTask(params){
+  let url = "/api/fundcommandservice/hfComTask/stopCompAccountTask"
+  return new Promise((resolve,reject)=>{
+    ajax.post(url,params).then(response=>{
+      let result = this.handleReturnData(response)
+      if(!result.isError){
+        //获得前台显示数据
+        resolve(true)
+      }else reject(Error(result.message))
+    })
+  })
+}
   //更新企业任务单（变更）
   static updateCompanyTaskChangeInfo(params){
     let url = domainJson.updateCompanyTaskChangeInfo

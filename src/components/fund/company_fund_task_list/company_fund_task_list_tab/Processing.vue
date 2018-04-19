@@ -203,13 +203,6 @@
               ]);
             }
           },
-          {title: '经办人', key: 'manager', width: 150, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.manager),
-              ]);
-            }
-          },
           {title: '客户缴费起始年月', key: 'customerPayStartDate', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -256,30 +249,30 @@
       }
     },
     mounted() {
-      // let sessionPageNum = sessionStorage.taskPageNum
-      // let sessionPageSize = sessionStorage.taskPageSize
+      let sessionPageNum = sessionStorage.taskPageNum
+      let sessionPageSize = sessionStorage.taskPageSize
 
-      // if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-      //   this.pageNum = Number(sessionPageNum)
-      //   this.size = Number(sessionPageSize)
-      //   sessionStorage.removeItem("taskPageNum")
-      //   sessionStorage.removeItem("taskPageSize")
-      // }
-      // let params = {
-      //   pageSize:this.size,
-      //   pageNum:this.pageNum,
-      //   params:{
-      //     taskStatusString: '1,2', //处理中，送审中
-      //   }
-      // }
-      // let self= this
-      // Processing.postTableData(params).then(data=>{
-      //     self.loading=true;
-      //     self.refresh(data)
-      //   }
-      // ).catch(error=>{
-      //   console.log(error);
-      // })
+      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+        this.pageNum = Number(sessionPageNum)
+        this.size = Number(sessionPageSize)
+        sessionStorage.removeItem("taskPageNum")
+        sessionStorage.removeItem("taskPageSize")
+      }
+      let params = {
+        pageSize:this.size,
+        pageNum:this.pageNum,
+        params:{
+          taskStatusString: '1,2', //处理中，送审中
+        }
+      }
+      let self= this
+      Processing.postTableData(params).then(data=>{
+          self.loading=true;
+          self.refresh(data)
+        }
+      ).catch(error=>{
+        console.log(error);
+      })
 
     },
     computed: {

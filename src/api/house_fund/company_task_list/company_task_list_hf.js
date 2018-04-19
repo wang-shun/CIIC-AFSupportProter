@@ -62,8 +62,6 @@ export class CompanyTaskListHF{
                     //openAccountInfo.accountTempStoreTypeValue = i.accountTempStoreTypeValue
                     openAccountInfo.UKeyValue = i.ukeyStore
                     openAccountInfo.taskStatus=i.taskStatus  //任务单状态
-                    console.log('====')
-                    console.log(i.operateStrartMonth)
                     openAccountInfo.customerPayStartDate = i.comStartMonth
                     openAccountInfo.closeAccountEveryMonth = i.closeDay
                     openAccountInfo.operateStrartMonth = i.operateStrartMonth
@@ -95,7 +93,6 @@ export class CompanyTaskListHF{
                     companyFundAccountInfo.customerNumber = i.companyId
                     companyFundAccountInfo.customerName = i.companyName
                     companyFundAccountInfo.accountType = i.typeValue
-                    console.log(i.taskStatus);
                     companyFundAccountInfo.taskStatus=i.taskStatus  //任务单状态
                     obj.companyFundAccountInfo = companyFundAccountInfo
                     //变更-changeOperator传参

@@ -133,6 +133,12 @@
     },
     methods: {
           ok () {
+             if(this.$route.query.empTaskResignId==undefined){
+
+                  this.$Message.success("还没有退工成功不能新增！");
+                   return false;
+
+               }
               let selection = this.$refs.payComSelection.getSelection();
 
             //判断条件
@@ -146,6 +152,7 @@
                var isE = false;
                var fromData = this.$utils.clear(this.realHandInfo,'');
                fromData.materialName = item.materialName;
+
                fromData.empTaskId = this.$route.query.empTaskResignId;
 
               if(this.refuseReturnMaterialsSign.length==0){

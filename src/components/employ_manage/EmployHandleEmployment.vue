@@ -180,6 +180,7 @@
 
               if(data.data.amArchaiveBo){
                  this.materialHandleInfo = data.data.amArchaiveBo;
+                 this.materialHandleInfo.defaultC ='0';
                  
               }
 

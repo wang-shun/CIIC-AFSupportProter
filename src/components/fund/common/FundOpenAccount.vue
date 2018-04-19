@@ -131,7 +131,6 @@
           {label: "转其他代理商", value: '3'}
         ],
         taskTypeList:[
-          {value: '0',label: '初始(材料收缴)',disabled:false},
           {value: '1', label: '受理中',disabled:false},
           {value: '2', label: '送审中',disabled:false},
           {value: '3', label: '已完成',disabled:false},

@@ -178,6 +178,19 @@ export class CompanyTaskListHF{
       })
     })
   }
+ //批退
+ static rejection(params){
+  let url = '/api/fundcommandservice/hfComTask/rejection';
+  return new Promise((resolve,reject)=>{
+    ajax.post(url,params).then(response=>{
+      let result = this.handleReturnData(response)
+      if(!result.isError){
+        //获得前台显示数据
+        resolve(true)
+      }else reject(Error(result.message))
+    })
+  })
+}
 
   //处理返回值
   static handleReturnData(response){

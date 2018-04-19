@@ -78,6 +78,7 @@ import api from '../../../api/employ_manage/hire_operator'
           {value: '外来从业人员', label: '外来从业人员'},
           {value: '居住证', label: '居住证'},
           {value: '调档', label: '调档'},
+          {value: '属地管理', label: '属地管理'},
           {value: '市人才', label: '市人才'},
           {value: '梅园路', label: '梅园路'},
           {value: '商城路', label: '商城路'},
@@ -183,40 +184,47 @@ import api from '../../../api/employ_manage/hire_operator'
 
          })
        },handleChange(val){
-        var isf = false;
-         if(val=='调档'){
-           this.handleInfoMaterial.archivePlace = '空';
-           isf = true;
-         }if(val=='高校'){
-           this.handleInfoMaterial.archivePlace = '就业指导中心';
-           isf = true;
-         }if(val=='经营者'){
-           this.handleInfoMaterial.archivePlace = '经营者人才';
-           isf = true;
-         }if(val=='退工不调档'){
-           this.handleInfoMaterial.archivePlace = '退工不调';
-           isf = true;
-         }if(val=='用工不调档'){
-            this.handleInfoMaterial.archivePlace = '用工不调';
-            isf = true;
-         }if(val=='公司自行保管'){
-            this.handleInfoMaterial.archivePlace = '公司自行保理';
-            isf = true;
-         }if(val=='漕虹路'){
-            this.handleInfoMaterial.archivePlace = '漕虹分部';
-            isf = true;
-         }if(val=='农民工'){
-            this.handleInfoMaterial.archivePlace = '农村富裕劳动力';
-            isf = true;
-         }if(val=='徐职'){
-           this.handleInfoMaterial.archivePlace = '徐汇职介';
-            isf = true;
+        
+         if(this.handleInfoMaterial.defaultC=='0')
+         {
+            
+         }else{
+           
+           var isf = false;
+            if(val=='调档'){
+                this.handleInfoMaterial.archivePlace = '空';
+                isf = true;
+            }if(val=='高校'){
+              this.handleInfoMaterial.archivePlace = '就业指导中心';
+              isf = true;
+            }if(val=='经营者'){
+              this.handleInfoMaterial.archivePlace = '经营者人才';
+              isf = true;
+            }if(val=='退工不调档'){
+              this.handleInfoMaterial.archivePlace = '退工不调';
+              isf = true;
+            }if(val=='用工不调档'){
+                this.handleInfoMaterial.archivePlace = '用工不调';
+                isf = true;
+            }if(val=='公司自行保管'){
+                this.handleInfoMaterial.archivePlace = '公司自行保理';
+                isf = true;
+            }if(val=='漕虹路'){
+                this.handleInfoMaterial.archivePlace = '漕虹分部';
+                isf = true;
+            }if(val=='农民工'){
+                this.handleInfoMaterial.archivePlace = '农村富裕劳动力';
+                isf = true;
+            }if(val=='徐职'){
+              this.handleInfoMaterial.archivePlace = '徐汇职介';
+                isf = true;
+            }
+            if(isf==false){
+                this.handleInfoMaterial.archivePlace = val;
+            }
          }
-
-         if(isf==false){
-            this.handleInfoMaterial.archivePlace = val;
-         }
-
+         this.handleInfoMaterial.defaultC='1';
+        
        }
        
     }

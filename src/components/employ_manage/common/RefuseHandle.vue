@@ -308,7 +308,7 @@
          if(this.refuseInfo.employmentId==undefined)
          {
             this.$Message.success("没有对应的用工序号");
-            retrun;
+            return;
          }
         
         var fromData = this.$utils.clear(this.refuseInfo,'');

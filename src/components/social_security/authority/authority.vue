@@ -1,4 +1,6 @@
 <template>
+<div>
+<div>
   <div class="smList">
     <Collapse v-model="collapseInfo">
     <Panel name="1">
@@ -42,44 +44,130 @@
       </Panel>
     </Collapse>
     <br/>
-    <Form>
-      <Row class="mt20">
-        <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="saveAuth">保存</Button>
-          <Button type="warning" @click="goBack">返回</Button>
+    <div class="smList">
+    <Tabs v-model="currentTab" @on-click='changeTab' :animated="false">
+      <TabPane label="客户" name="1">
+      </TabPane>
+      <TabPane label="任务单类型" name="2">
+      </TabPane>
+      <TabPane label="福利办理方" name="3">
+      </TabPane>
+    </Tabs>
+  </div>
+  <div v-if="currentTab === '1'">
+      <Form>
+        <Row class="mt20">
+          <Col :sm="{span: 24}" class="tr">
+            <Button type="primary" @click="saveAuth">保存</Button>
+            <Button type="warning" @click="goBack">返回</Button>
+          </Col>
+        </Row>
+        <br/>
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 8}">
+          <Card>
+            <p slot="title">客户中心</p>
+            <Tree :data="baseData" @on-select-change="changeTree"></Tree>
+          </Card>
+        </Col>
+        <Col :sm="{span: 16}">
+          <Card>
+            <Table border :columns="authorityListColumns" :data="authorityListData" ref="authorityListSelection"></Table>
+          </Card>
+        </Col>
+      </Row>
+        <Row class="mt20">
+          <Col :sm="{span: 24}" class="tr">
+            <Button type="primary" @click="saveAuth">保存</Button>
+            <Button type="warning" @click="goBack">返回</Button>
+          </Col>
+        </Row>
+      </Form>
+    </div>
+  </div>
+  <div v-if="currentTab === '2'">
+      <Form>
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 4}">
+          <Card>
+            <Form-item prop="taskCategorys">
+              <CheckboxGroup v-model="taskCategorys" >
+                <Checkbox label="1">新进</Checkbox>
+                <br/>
+                <Checkbox label="2">转入</Checkbox>
+                <br/>
+                <Checkbox label="3">调整</Checkbox>
+                <br/>
+                <Checkbox label="4">补缴</Checkbox>
+                <br/>
+                <Checkbox label="5">转出</Checkbox>
+                <br/>
+                <Checkbox label="6">封存</Checkbox>
+                <br/>
+                <Checkbox label="12">翻排新进</Checkbox>
+                <br/>
+                <Checkbox label="13">翻排转入</Checkbox>
+                <br/>
+                <Checkbox label="14">翻牌转出</Checkbox>
+                <br/>
+                <Checkbox label="15">翻牌封存</Checkbox>
+              </CheckboxGroup>
+            </Form-item>
+          </Card>
         </Col>
       </Row>
       <br/>
-    <Row type="flex" justify="start">
-      <Col :sm="{span: 8}">
-        <Card>
-          <p slot="title">客户中心</p>
-          <Tree :data="baseData" @on-select-change="changeTree"></Tree>
-        </Card>
-      </Col>
-       <Col :sm="{span: 16}">
-        <Card>
-          <Table border :columns="authorityListColumns" :data="authorityListData" ref="authorityListSelection"></Table>
-        </Card>
-      </Col>
-    </Row>
-      <Row class="mt20">
-        <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="saveAuth">保存</Button>
-          <Button type="warning" @click="goBack">返回</Button>
+      <Row type="flex" justify="start">
+          <Col :sm="{span: 2}" class="tr">
+            <Button type="primary" @click="saveAuth2">保存</Button>
+            <Button type="warning" @click="goBack">返回</Button>
+          </Col>
+      </Row>
+      </Form>
+    </div>
+  </div>
+  <div v-if="currentTab === '3'">
+      <Form>
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 4}">
+          <Card>
+            <Form-item prop="welfareUnits">
+              <CheckboxGroup v-model="welfareUnits" >
+                <Checkbox label="3">独立户</Checkbox>
+                <br/><br/>
+                <Checkbox label="1">中智大库</Checkbox>
+                <br/><br/>
+                <Checkbox label="2">中智外包</Checkbox>
+              </CheckboxGroup>
+            </Form-item>
+          </Card>
         </Col>
       </Row>
-    </Form>
+      <br/>
+      <Row type="flex" justify="start">
+          <Col :sm="{span: 2}" class="tr">
+            <Button type="primary" @click="saveAuth3">保存</Button>
+            <Button type="warning" @click="goBack">返回</Button>
+          </Col>
+      </Row>
+      </Form>
+    </div>
   </div>
+</div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import api from '../../../api/social_security/employee_operator'
   import Utils from '../../../lib/utils';
+  import dict from '../../../api/dict_access/social_security_dict'
 
+ 
   export default {
     data () {
       return {
+        welfareUnits: [],
+        taskCategorys: [],
+        currentTab: '1',
         collapseInfo: [1], //展开栏
         baseData: [],
         currentNode: '1',
@@ -164,6 +252,21 @@
       this.loadTree();
     },
     methods: {
+      changeTab(tabName) {
+        switch (tabName) {
+          case '1':
+            this.authorityListData = [];
+            this.loadTree();
+            break;
+          case '2':
+            this.loadTaskCategory();
+            break;
+          case '3':
+            this.loadWelfareUnit();
+            break;
+        }
+      },
+
       /**
        * 加载 菜单数据
        */
@@ -232,6 +335,54 @@
             companyIds: companyIdList,
           }).then(data => {
               this.$Message.success(data.message);
+          })
+      },
+      saveAuth3(){
+        api.saveAuthorityWelfareUnit({
+            userId: this.$route.query.userId,
+            welfareUnits: this.welfareUnits,
+          }).then(data => {
+              this.$Message.success(data.message);
+          })
+      },
+      saveAuth2(){
+        api.saveAuthorityTaskCategory({
+            userId: this.$route.query.userId,
+            welfareUnits: this.taskCategorys,
+          }).then(data => {
+              this.$Message.success(data.message);
+          })
+      },
+      loadWelfareUnit(){
+        api.queryAuthorityWelfareUnit({
+            userId: this.$route.query.userId,
+          }).then(data => {
+              this.welfareUnits = data.data.welfareUnits;
+          })
+      },
+      loadTaskCategory(){
+
+
+        
+        dict.getDictData().then(data => {
+          if (data.code == 200) {
+
+            // data.data.SocialSecurityAccountType  福利办理方 字典表
+            //data.data.HFLocalTaskCategory;
+            //this.taskTypeList.splice(7, 1); // 去除转移任务
+            
+            //console.info(data.data.HFLocalTaskCategory);
+            //console.info(data.data.SocialSecurityAccountType);
+            //console.info(data.data.SocialSecurityStatus);
+            //console.info(data.data.SocialSecurityEmployeeClassify);
+            
+          }
+      });
+
+        api.queryAuthorityTaskCategory({
+            userId: this.$route.query.userId,
+          }).then(data => {
+              this.taskCategorys = data.data.welfareUnits;
           })
       },
       goBack () {

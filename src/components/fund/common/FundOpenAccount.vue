@@ -55,7 +55,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户缴费起始年月：">
-          <DatePicker v-model="openAccount.customerPayStartDate" placement="bottom-end" placeholder="选择日期"  style="width: 100%;" transfer></DatePicker>
+          <DatePicker v-model="openAccount.customerPayStartDate" type='month' placement="bottom-end"  style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -65,12 +65,12 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="专员操作起始年月：">
-          <DatePicker v-model="openAccount.operateStrartMonth" placement="bottom-end" placeholder="选择日期"  style="width: 100%;" transfer></DatePicker>
+          <DatePicker v-model="openAccount.operateStrartMonth" type='month' placement="bottom-end" placeholder="选择日期"  style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="任务状态：">
-            <Select v-model="openAccount.taskType" style="width: 100%;" transfer>
+            <Select v-model="openAccount.taskStatus" style="width: 100%;" transfer>
               <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" >{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -131,7 +131,6 @@
           {label: "转其他代理商", value: '3'}
         ],
         taskTypeList:[
-          {value: '0',label: '初始(材料收缴)',disabled:false},
           {value: '1', label: '受理中',disabled:false},
           {value: '2', label: '送审中',disabled:false},
           {value: '3', label: '已完成',disabled:false},

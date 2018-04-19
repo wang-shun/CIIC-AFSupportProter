@@ -53,13 +53,15 @@ export class CompanyTaskListHF{
                     obj.companyInfo = companyInfo
                     //开户-openAccountInfo传参
                     openAccountInfo.comAccountId=i.comAccountId
+                    openAccountInfo.comAccountClassId=i.comAccountClassId
                     openAccountInfo.changeTypeValue = i.taskCategory
                     openAccountInfo.paymentBankValue = i.paymentBank
                     openAccountInfo.payMethodValue = i.paymentWay
                     openAccountInfo.companyFundAccountName = i.comAccountName
                     openAccountInfo.companyFundAccountNum = i.hfComAccount
                     //openAccountInfo.accountTempStoreTypeValue = i.accountTempStoreTypeValue
-                    openAccountInfo.UKeyValue = i.ukStoreValue
+                    openAccountInfo.UKeyValue = i.ukeyStore
+                    openAccountInfo.taskStatus=i.taskStatus  //任务单状态
                     openAccountInfo.customerPayStartDate = i.comStartMonth
                     openAccountInfo.closeAccountEveryMonth = i.closeDay
                     openAccountInfo.operateStrartMonth = i.operateStrartMonth
@@ -67,10 +69,10 @@ export class CompanyTaskListHF{
                       openAccountInfo.acceptDate = tools.parseDate(i.startHandleDateString)
                     }
                     if (i.sendCheckDateString!=''){
-                      openAccountInfo.acceptDate = tools.parseDate(i.sendCheckDateString)
+                      openAccountInfo.deliveredDate = tools.parseDate(i.sendCheckDateString)
                     }
                     if (i.finishDateString!=''){
-                      openAccountInfo.acceptDate = tools.parseDate(i.finishDateString)
+                      openAccountInfo.finishDate = tools.parseDate(i.finishDateString)
                     }
                     openAccountInfo.notes = i.comAccountRemark
                     obj.openAccountInfo = openAccountInfo
@@ -91,6 +93,7 @@ export class CompanyTaskListHF{
                     companyFundAccountInfo.customerNumber = i.companyId
                     companyFundAccountInfo.customerName = i.companyName
                     companyFundAccountInfo.accountType = i.typeValue
+                    companyFundAccountInfo.taskStatus=i.taskStatus  //任务单状态
                     obj.companyFundAccountInfo = companyFundAccountInfo
                     //变更-changeOperator传参
                     changeOperator.comAccountName = i.comAccountName
@@ -175,6 +178,19 @@ export class CompanyTaskListHF{
       })
     })
   }
+ //批退
+ static rejection(params){
+  let url = '/api/fundcommandservice/hfComTask/rejection';
+  return new Promise((resolve,reject)=>{
+    ajax.post(url,params).then(response=>{
+      let result = this.handleReturnData(response)
+      if(!result.isError){
+        //获得前台显示数据
+        resolve(true)
+      }else reject(Error(result.message))
+    })
+  })
+}
 
   //处理返回值
   static handleReturnData(response){

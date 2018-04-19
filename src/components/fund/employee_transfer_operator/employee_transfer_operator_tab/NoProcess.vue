@@ -39,9 +39,9 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴费银行：" prop="payBankValue">
-                  <Select v-model="searchCondition.payBankValue" style="width: 100%;" transfer>
-                    <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="value" :key="key">{{value}}</Option>
+                <Form-item label="缴费银行：" prop="paymentBank">
+                  <Select v-model="searchCondition.paymentBank" style="width: 100%;" transfer>
+                    <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="key" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -202,7 +202,7 @@
           transferOutUnit: '',
           employeeName: '',
           hfType: '',
-          payBankValue:'',
+          paymentBank:'',
           idNum: '',
           hfEmpAccount: '',
           hfAccountType: '',
@@ -222,8 +222,8 @@
             idNum: '',
             companyId: '',
             titile: '',
-            status: '2',
-            hfType:'1',
+            status: 2,
+            hfType:'',
           },
              workStatueList: [
               {label: '全部', value: ''},
@@ -471,7 +471,6 @@
       },
       handlePageNumNewTask(val) {
         this.pageDataNewTask.pageNum = val;
-        this.createTask.searchCondition.status=2;
         let params = this.createTask.searchCondition
         this.queryTransferForNewTask(params);
       },
@@ -481,7 +480,6 @@
         this.queryTransferForNewTask(params);
       },
       dealTransfer(employeeId,companyId,hfType){
-
         this.$router.push({name:'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType}});
       },
       ok () {

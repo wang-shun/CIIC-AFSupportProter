@@ -1026,10 +1026,10 @@
           this.$Message.error("公积金账户长度不能超过20");
           return false;
         }
-        if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {
-          this.$Message.error("新增（新开）类型公积金账户不存在，不需要输入");
-          return false;
-        }
+//        if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {
+//          this.$Message.error("新增（新开）类型公积金账户不存在，不需要输入");
+//          return false;
+//        }
         if (this.inputData.handleRemark && this.inputData.handleRemark.length > 200) {
           this.$Message.error("办理备注长度不能超过200");
           return false;

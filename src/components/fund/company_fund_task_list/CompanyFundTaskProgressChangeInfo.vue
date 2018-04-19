@@ -111,6 +111,27 @@
           console.log(error)
         })
       },
+      rejection(){
+           this.$Modal.confirm({
+              title: "您确认批退操作？",
+              cancelText: "取消",
+              onOk: () => {
+                  let params={
+                    comTaskId:this.$route.params.comTaskId
+                  }
+                  CompanyTaskListHF.rejection(params).then(data=>{
+                    if(data){
+                        this.$Message.success('提交成功');
+                        this.goBack();
+                    }else{
+                        this.$Message.error('提交失败');
+                    }
+                  }).catch(error=>{
+                    console.log(error)
+                  })
+              }
+            });        
+      },
       refreshCompanyTaskPaymentWayData(data){
         this.changeOperator.paymentTypeList = data.data.paymentTypeList;
       },

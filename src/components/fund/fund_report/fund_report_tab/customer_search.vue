@@ -55,7 +55,7 @@
         <Button type="primary" @click="chgDetailListExport(1)">基本公积金汇缴变更清册</Button>
         <Button type="primary" @click="repairDetailListExport(1)">基本公积金补缴清册</Button>
         <Button type="primary" @click="chgDetailListExport(2)">补充公积金汇缴变更清册</Button>
-        <Button type="primary" @click="repairDetailListExport(2)">补缴公积金补缴清册</Button>
+        <Button type="primary" @click="repairDetailListExport(2)">补充公积金补缴清册</Button>
         <Button type="info" @click="excelExport()">导出</Button>
       </Col>
     </Row>
@@ -383,7 +383,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           params: params,
         })
       }
-      
+
     }
   }
 </script>

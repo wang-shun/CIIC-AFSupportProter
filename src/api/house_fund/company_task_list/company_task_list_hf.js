@@ -70,7 +70,7 @@ export class CompanyTaskListHF{
                     openAccountInfo.taskStatus=i.taskStatus  //任务单状态
                     openAccountInfo.customerPayStartDate = i.comStartMonth
                     openAccountInfo.closeAccountEveryMonth = i.closeDay
-                    openAccountInfo.operateStrartMonth = i.operateStrartMonth
+                    openAccountInfo.operateStartMonth = i.operateStartMonth
                     if (i.startHandleDateString!=''){
                       openAccountInfo.acceptDate = tools.parseDate(i.startHandleDateString)
                     }
@@ -105,8 +105,8 @@ export class CompanyTaskListHF{
 
                     obj.companyFundAccountInfo = companyFundAccountInfo
                     //变更-changeOperator传参
-                    changeOperator.comAccountName = i.comAccountName
-                    changeOperator.paymentTypeValue = i.paymentWay
+                    changeOperator.comAccountName = i.comAccountNameTask
+                    changeOperator.paymentTypeValue = i.paymentWayTask
                     changeOperator.taskStatusValue = i.taskStatus
                     changeOperator.acceptDate = i.startHandleDateString
                     changeOperator.deliveredDate = i.sendCheckDateString

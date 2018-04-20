@@ -65,7 +65,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="专员操作起始年月：">
-          <DatePicker v-model="openAccount.operateStrartMonth" type='month' placement="bottom-end" placeholder="选择日期"  style="width: 100%;" transfer></DatePicker>
+          <DatePicker v-model="openAccount.operateStartMonth" type='month' placement="bottom-end" placeholder="选择日期"  style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

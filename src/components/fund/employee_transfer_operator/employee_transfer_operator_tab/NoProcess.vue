@@ -398,10 +398,10 @@
               ]);
             }
           },
-          {title: '发起人', key: 'submitterId', width: 150, align: 'center',
+          {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.submitterId),
+                h('span', params.row.createdDisplayName),
               ]);
             }
           },

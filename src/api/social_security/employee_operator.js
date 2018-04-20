@@ -130,5 +130,25 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/authority/saveAuthority', params);
     return await response.data;
   },
+  //保存配置权限 类型为 福利办理方
+  saveAuthorityWelfareUnit:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/authority/saveAuthorityWelfareUnit', params);
+    return await response.data;
+  },
+  //查询配置权限 类型为 福利办理方
+  queryAuthorityWelfareUnit:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/authority/queryAuthorityWelfareUnit', params);
+    return await response.data;
+  },
+  //查询配置权限 类型为 任务单类型
+  queryAuthorityTaskCategory:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/authority/queryAuthorityTaskCategory', params);
+    return await response.data;
+  },
+  //保存配置权限 类型为 任务单类型
+  saveAuthorityTaskCategory:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/authority/saveAuthorityTaskCategory', params);
+    return await response.data;
+  },
 }
 

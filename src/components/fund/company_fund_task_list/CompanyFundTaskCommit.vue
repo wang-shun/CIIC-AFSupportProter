@@ -93,13 +93,9 @@
       },
       //获得更新任务单请求参数
       getParams(){
-        
-               console.log(this.$refs.openAccount.openAccountInfo);
         return {
-   
           //comTask
           comTaskId: this.$route.params.comTaskId,
-
           //companyInfo
           companyId: this.$refs.company.customerInfo.customerNumber,
           initiatorNotes: this.$refs.company.customerInfo.initiaterNotes,

@@ -124,20 +124,42 @@
     </Collapse>
 
     <div class="tr m20">
-      <Button type="info" @click="modal1 = true">审核</Button>
-      <Button type="info" @click="modal2 = true">暂缓</Button>
-      <Button type="info" @click="modal3 = true">恢复</Button>
-      <Button type="info" @click="modal5 = true">更新在保库</Button>
-      <Button type="info" @click="exportData()" icon="ios-download-outline">导出数据</Button>
+      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2'"
+              @click="modal1 = true">审核
+      </Button>
+      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='4'"
+              @click="modal6 = true">批退
+      </Button>
+      <Button type="info"
+              v-if="formItem.status===null || formItem.status==='' || formItem.status==='2' || formItem.status==='4'"
+              @click="modal2 = true">暂缓
+      </Button>
+      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='3'"
+              @click="modal3 = true">恢复
+      </Button>
+      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='4'"
+              @click="modal5 = true">更新在保库
+      </Button>
+      <Button type="info"
+              v-if="formItem.status===null || formItem.status==='' || formItem.status==='2' || formItem.status==='4'"
+              @click="exportData()"
+              icon="ios-download-outline">导出数据
+      </Button>
     </div>
 
     <Modal class="warn-back"
            v-model="modal1"
            title="审核"
            @on-ok="updateTpaTaskList(4)"
-           ok-text="审核通过"
-           @on-cancel="updateTpaTaskList(6)"
-           cancel-text="退回">
+           ok-text="审核通过">
+      <Input v-model="dealMsg.remark" placeholder="请输入操作说明："/>
+    </Modal>
+
+    <Modal class="warn-back"
+           v-model="modal6"
+           title="批退"
+           @on-ok="updateTpaTaskList(6)"
+           ok-text="批退">
       <Input v-model="dealMsg.remark" placeholder="请输入操作说明："/>
     </Modal>
 
@@ -192,7 +214,6 @@
         modal4: false,
         modal5: false,
         modal6: false,
-        modal10: false,
         value1: "1",
         formItem: {
           total: 0,
@@ -315,9 +336,12 @@
           {
             title: "离职日期",
             sortable: true,
-            key: "column12",
+            key: "departuredDate",
             align: "center",
             render: (h, params) => {
+              if (params.row.departuredDate != null) {
+                return h('div', this.$utils.formatDate(params.row.departuredDate, "YYYY-MM-DD"));
+              }
             }
           }
         ],
@@ -368,6 +392,11 @@
         });
       },
       syncToWarranty() {
+        if (!this.syncDate) {
+          this.$Message.error("请选择时间");
+          return;
+        }
+
         if (this.selectData.length === 0) {
           this.$Message.error("请选择数据");
           return;

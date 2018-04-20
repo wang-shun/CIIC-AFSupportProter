@@ -65,7 +65,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="专员操作起始年月：">
-          <DatePicker v-model="openAccount.operateStrartMonth" type='month' placement="bottom-end" placeholder="选择日期"  style="width: 100%;" transfer></DatePicker>
+          <DatePicker v-model="openAccount.operateStartMonth" type='month' placement="bottom-end" placeholder="选择日期"  style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -131,9 +131,9 @@
           {label: "转其他代理商", value: '3'}
         ],
         taskTypeList:[
-          {value: '1', label: '受理中',disabled:false},
-          {value: '2', label: '送审中',disabled:false},
-          {value: '3', label: '已完成',disabled:false},
+          {value: '1', label: '受理中'},
+          {value: '2', label: '送审中'},
+          {value: '3', label: '已完成'},
         ],
         UKeyList: [
           {label: "有(中智代办)", value: '2'},

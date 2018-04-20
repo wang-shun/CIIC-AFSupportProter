@@ -225,11 +225,11 @@
             status: 2,
             hfType:'',
           },
-             workStatueList: [
-              {label: '全部', value: ''},
-              {label: '在职', value: 2},
-              {label: '离职', value: 3}
-            ],
+          workStatueList: [
+            {label: '全部', value: ''},
+            {label: '在职', value: 2},
+            {label: '离职', value: 3}
+          ],
           createNewTaskData:[],
           createNewTaskColumns: [
             {title: '操作', fixed: 'left', width: 80, align: 'center',
@@ -398,10 +398,10 @@
               ]);
             }
           },
-          {title: '发起人', key: 'submitterId', width: 150, align: 'center',
+          {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.submitterId),
+                h('span', params.row.createdDisplayName),
               ]);
             }
           },

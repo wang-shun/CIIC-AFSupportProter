@@ -169,11 +169,11 @@ const hfauthority = r => require.ensure([], () => r(require('@/components/fund/h
 
 /*
  * amauthorityList                    --- 雇佣数据权限管理
- */
+ 
 
 const amauthorityList = r => require.ensure([], () => r(require('@/components/employ_manage/amauthority/amauthorityList')), 'amauthorityList')
 const amauthority = r => require.ensure([], () => r(require('@/components/employ_manage/amauthority/amauthority')), 'amauthority')
-
+*/
 export default [
   {
     path: '/employee_social_security_search',
@@ -462,7 +462,7 @@ export default [
       activeName: '2-13'
     },
   },
-
+/*
   {
     path: '/amauthority_list',
     name: 'amauthorityList',
@@ -485,7 +485,7 @@ export default [
       activeName: '3-13'
     },
   },
-
+*/
 
   {
     path: '/company_task_progress_two',

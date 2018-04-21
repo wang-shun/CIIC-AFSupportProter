@@ -32,7 +32,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保账户类型：" prop="ssAccountType">
                   <Select v-model="searchCondition.ssAccountType" style="width: 100%;" transfer>
-                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option value="" label="全部"></Option>
+                  <Option v-for="item in accountTypeList" :value="item.key" :key="item.key" :label="item.value"></Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -114,6 +115,7 @@
   import InputAccount from '../../common_control/form/input_account'
   import InputCompany from '../../common_control/form/input_company'
   import InputCompanyName from '../../common_control/form/input_company/InputCompanyName.vue'
+  import dict from '../../../api/dict_access/social_security_dict'
   export default {
     components: {ICol, customerModal, companyAccountSearchModal,InputAccount,InputCompany,InputCompanyName},
     data() {
@@ -155,12 +157,7 @@
         isShowCustomerName: false, //客户名称显示模态框
         mCustomerNumber: '', //客户编号
         mCustomerName: '', //客户姓名
-        accountTypeList: [
-            {value: '', label: '全部'},
-            {value: '1', label: '中智大库'},
-            {value: '2', label: '中智外包'},
-            {value: '3', label: '独立户'}
-        ], //社保账户类型
+        accountTypeList: [], //社保账户类型
 
         personTypeList: [
           {value: '1', label: '本地'},
@@ -305,6 +302,7 @@
     mounted() {
 
       this.employeeQuery({})
+      this.loadDict();
 
     },
     computed: {
@@ -324,6 +322,13 @@
       showInfo (ind) {
         this.$router.push({name:'employeeSocialSecurityInfo', query: {empArchiveId: ind}});
 
+      },
+      loadDict(){
+        dict.getDictData().then(data => {
+          if (data.code == 200) {
+            this.accountTypeList = data.data.SocialSecurityAccountType;
+          }
+        });
       },
       employeeQuery(params){
 

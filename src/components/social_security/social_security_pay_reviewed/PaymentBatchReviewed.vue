@@ -7,9 +7,10 @@
           <Form ref="payBatchSearchData" :model="payBatchSearchData" :label-width=150>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保账户类型：" prop="accountType">
+                <Form-item label="社保账户类型11：" prop="accountType">
                   <Select v-model="payBatchSearchData.accountType" clearable style="width: 100%;" transfer>
-                    <Option v-for="item in staticPayBatchSearchData.accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option value="" label="全部"></Option>
+                    <Option v-for="item in staticPayBatchSearchData.accountTypeList" :value="item.key" :key="item.key" :label="item.value"></Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -131,6 +132,7 @@
   import customerModal from '../../common_control/CustomerModal.vue'
   import EventType from '../../../store/event_types'
   import reviewedBatchApi from '../../../api/social_security/payment_batch_reviewed'
+  import dict from '../../../api/dict_access/social_security_dict'
 
   export default {
     components: {customerModal},
@@ -150,12 +152,7 @@
         },
         staticPayBatchSearchData: {
 
-          accountTypeList: [
-            {value: '', label: '全部'},
-            {value: '1', label: '中智大库'},
-            {value: '2', label: '中智外包'},
-            {value: '3', label: '独立户'}
-          ],
+          accountTypeList: [],
           paymentStateList: [
             {value: '', label: '全部'},
             {value: '4', label: '申请中'},
@@ -327,6 +324,7 @@
     mounted() {
       //this[EventType.SOCIALSECURITYPAYTYPE]();
       this.payBatchHandlePageNum(1);
+      this.loadDict();
     },
     computed: {
       ...mapState('socialSecurityPay', {
@@ -343,6 +341,13 @@
       },
       ok () {
 
+      },
+      loadDict(){
+        dict.getDictData().then(data => {
+          if (data.code == 200) {
+            this.staticPayBatchSearchData.accountTypeList = data.data.SocialSecurityAccountType;
+          }
+        });
       },
       cancel () {
 

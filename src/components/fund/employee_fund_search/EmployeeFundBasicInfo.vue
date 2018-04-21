@@ -328,7 +328,7 @@
         listEmpTaskPeriod:[],
         listEmpTaskPeriodAdd:[],
         listEmpTransfer:[],
-        
+
         collapseInfo: [1, 2, 3, 4, 5, 6, 7], //展开栏
         columnsEmpTaskPeriod: [
            {title: '任务类型', key: 'taskCategory', align: 'center',
@@ -441,10 +441,10 @@
               ]);
             }
           },
-          {title: '转出地', key: 'transferInUnit', align: 'center',
+          {title: '转出地', key: 'transferOutUnit', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.transferInUnit),
+                h('span', params.row.transferOutUnit),
               ]);
             }
           },
@@ -458,7 +458,7 @@
           {title: '状态', key: 'taskStatus', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.taskStatus),
+                h('span', this.$decode.empTaskStatus(params.row.taskStatus)),
               ]);
             }
           },
@@ -545,6 +545,6 @@
            }
         })
       }
-    }    
+    }
   }
 </script>

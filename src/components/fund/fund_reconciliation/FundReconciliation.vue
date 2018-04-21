@@ -101,7 +101,7 @@
         <Row type="flex" justify="start">
           <Col :sm="{span:24}">
             <Form-item label="公积金月份：" prop="hfMonth">
-              <DatePicker type="month" format='yyyyMM' @on-change="newReconciliation.hfMonth=$event"></DatePicker>
+              <DatePicker type="month" format='yyyyMM' v-model="newReconciliation.hfMonth" @on-change="newReconciliation.hfMonth=$event"></DatePicker>
             </Form-item>
           </Col>
           <Col :sm="{span:24}">
@@ -527,6 +527,7 @@ console.log(formData);
           }
           this.resetSearchCondition('newReconciliation');
           this.resetSearchCondition('fundAccountQueryForm');
+          this.newReconciliation.hfMonth = '';
           this.newReconciliation.fundComCurrentValue = this.newReconciliation.comAccountId = this.newReconciliation.hfComAccount = this.newReconciliation.hfAccountType = '';
         });
       },

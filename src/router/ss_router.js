@@ -14,7 +14,7 @@ const employeeSocialSecurityTaskInfo = r => require.ensure([], () => r(require('
 /*
  * employeeOperatorView              --- 雇员日常操作
  * employeeCommcialOperator          --- 雇员日常操作、办理
- * 
+ *
  */
 
 const employeeOperatorView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeOperatorView')), 'EmployeeOperatorView')
@@ -161,14 +161,14 @@ const authorityList = r => require.ensure([], () => r(require('@/components/soci
 const authority = r => require.ensure([], () => r(require('@/components/social_security/authority/authority')), 'authority')
 
 /*
- * hfauthorityList                    --- 公积金权限管理 
+ * hfauthorityList                    --- 公积金权限管理
  */
 
 const hfauthorityList = r => require.ensure([], () => r(require('@/components/fund/hfauthority/hfauthorityList')), 'hfauthorityList')
 const hfauthority = r => require.ensure([], () => r(require('@/components/fund/hfauthority/hfauthority')), 'hfauthority')
 
 /*
- * amauthorityList                    --- 雇佣数据权限管理 
+ * amauthorityList                    --- 雇佣数据权限管理
  */
 
 const amauthorityList = r => require.ensure([], () => r(require('@/components/employ_manage/amauthority/amauthorityList')), 'amauthorityList')
@@ -422,7 +422,7 @@ export default [
     component: authorityList,
     meta:{
       level1:'上海社保',
-      level2:"限权管理",
+      level2:"权限管理",
       openNames:['1'],
       activeName: '1-12'
     },
@@ -433,7 +433,7 @@ export default [
     component: authority,
     meta:{
       level1:'上海社保',
-      level2:"限权管理",
+      level2:"权限管理",
       openNames:['1'],
       activeName: '1-13'
     },
@@ -446,7 +446,7 @@ export default [
     component: hfauthorityList,
     meta:{
       level1:'上海公积金',
-      level2:"限权管理",
+      level2:"权限管理",
       openNames:['2'],
       activeName: '2-12'
     },
@@ -457,7 +457,7 @@ export default [
     component: hfauthority,
     meta:{
       level1:'上海公积金',
-      level2:"限权管理",
+      level2:"权限管理",
       openNames:['2'],
       activeName: '2-13'
     },
@@ -469,7 +469,7 @@ export default [
     component: amauthorityList,
     meta:{
       level1:'雇佣管理',
-      level2:"限权管理",
+      level2:"权限管理",
       openNames:['3'],
       activeName: '3-12'
     },
@@ -480,7 +480,7 @@ export default [
     component: amauthority,
     meta:{
       level1:'雇佣管理',
-      level2:"限权管理",
+      level2:"权限管理",
       openNames:['3'],
       activeName: '3-13'
     },

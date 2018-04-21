@@ -8,6 +8,10 @@ export default {
     let response = await AJAX.post('/api/fundcommandservice/hfEmpTask/queryEmpTaskTransfer', params);
     return await response.data;
   },
+  getCustomers:async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfauthority/getHfCustomerData', params);
+    return await response.data;
+  },
 
   queryTransferForNewTask: async (params) => {
     let response =await AJAX.post('/api/fundcommandservice/hfEmpTask/queryEmpTaskTransferNewTask', params);

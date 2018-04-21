@@ -23,9 +23,7 @@
               <Form-item label="社保账户类型：" prop="ssAccountType">
                 <Select v-model="operatorSearchData.ssAccountType" style="width: 100%;" transfer>
                   <Option value="[全部]" label="全部"></Option>
-                  <Option value="1" label="中智大库"></Option>
-                  <Option value="2" label="中智外包"></Option>
-                  <Option value="3" label="独立户"></Option>
+                  <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
                 </Select>
               </Form-item>
               </Col>
@@ -60,16 +58,7 @@
               <Form-item label="任务单类型：" prop="taskCategory">
                 <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
                   <Option value="" label="全部"></Option>
-                  <Option value="1" label="新进"></Option>
-                  <Option value="2" label="转入"></Option>
-                  <Option value="3" label="调整"></Option>
-                  <Option value="4" label="补缴"></Option>
-                  <Option value="5" label="转出"></Option>
-                  <Option value="6" label="封存"></Option>
-                  <Option value="12" label="翻牌新进"></Option>
-                  <Option value="13" label="翻牌转入"></Option>
-                  <Option value="14" label="翻牌转出"></Option>
-                  <Option value="15" label="翻牌封存"></Option>
+                  <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
                   <!--<Option value="7" label="退账"></Option>
                     <Option value="6" label="封存"></Option>
                   <Option value="8" label="提取"></Option>
@@ -152,11 +141,14 @@
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
+  import dict from '../../../../api/dict_access/social_security_dict'
   export default {
     components: {InputAccount, InputCompany,InputCompanyName},
     data() {
       return {
         collapseInfo: [1], //展开栏
+        taskCategorydict: [],
+        ssAccountTypedict: [],
         operatorSearchData: {
           taskStatus: '3',
           employeeName: '',
@@ -256,6 +248,7 @@
     async mounted() {
       this[EventType.THISMONTHHANDLETYPE]()
       this.employeeOperatorQuery();
+      this.loadDict();
     },
     computed: {
       ...mapState('thisMonthHandle', {
@@ -268,6 +261,14 @@
         this.$router.push({
           name: 'employeeCommcialOperator',
           query: {operatorType: name}
+        });
+      },
+      loadDict(){
+        dict.getDictData().then(data => {
+          if (data.code == 200) {
+            this.taskCategorydict = data.data.SOCLocalTaskCategory;
+            this.ssAccountTypedict = data.data.SocialSecurityAccountType;
+          }
         });
       },
       employeeOperatorQuery() {

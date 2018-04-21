@@ -9,7 +9,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保账户类型：" prop="ssAccountType">
                   <Select v-model="payComSearchData.ssAccountType" clearable style="width: 100%;" transfer>
-                    <Option v-for="item in staticPayComSearchData.ssAccountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option value="" label="全部"></Option>
+                    <Option v-for="item in accountTypeList" :value="item.key" :key="item.key" :label="item.value"></Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -194,6 +195,7 @@
  // import progressBar from '../../../common_control/progress/ProgressBar.vue'
   import EventType from '../../../../store/event_types'
   import payComApi from '../../../../api/social_security/payment_com'
+  import dict from '../../../../api/dict_access/social_security_dict'
 
   const progressStop = 33.3;
 
@@ -202,6 +204,7 @@
     data() {
       return{
         collapseInfo: [1], //展开栏
+        accountTypeList: [],
         payComSearchData: {
           ssAccountType: '',
           paymentId: '',
@@ -216,13 +219,6 @@
           paymentBatchNum:''
         },
         staticPayComSearchData: {
-
-          ssAccountTypeList: [
-            {value: '', label: '全部'},
-            {value: '1', label: '中智大库'},
-            {value: '2', label: '中智外包'},
-            {value: '3', label: '独立户'}
-          ],
           paymentStateList: [
             //{value: '', label: '清空'},
             {value: '', label: '全部'},
@@ -592,6 +588,7 @@
     mounted() {
       //this[EventType.SOCIALSECURITYPAYTYPE]();
       this.payComHandlePageNum(1);
+      this.loadDict();
     },
     computed: {
       ...mapState('socialSecurityPay', {
@@ -606,6 +603,13 @@
       gotoPay() {
         this.$Notice.success({
           title: '支付申请操作成功！'
+        });
+      },
+      loadDict(){
+        dict.getDictData().then(data => {
+          if (data.code == 200) {
+            this.accountTypeList = data.data.SocialSecurityAccountType;
+          }
         });
       },
       goPaymentNotice(paymentComId,comAccountId,paymentMonth) {

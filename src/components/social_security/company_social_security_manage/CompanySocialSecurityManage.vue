@@ -14,7 +14,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保账户类型：" prop="ssAccountType">
                   <Select v-model="comAccountSearch.ssAccountType" style="width: 100%;" transfer>
-                    <Option v-for="item in accountTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    <Option value="" label="全部"></Option>
+                    <Option v-for="item in accountTypeList" :value="item.key" :key="item.key" :label="item.value"></Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -78,6 +79,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/event_types'
   import InputAccount from '../../common_control/form/input_account'
+  import dict from '../../../api/dict_access/social_security_dict'
   export default {
     components:{InputAccount},
     data() {
@@ -90,12 +92,7 @@
           companyId: '',
           state: '',
         },
-        accountTypeList: [
-            {value: '', label: '全部'},
-            {value: '1', label: '中智大库'},
-            {value: '2', label: '中智外包'},
-            {value: '3', label: '独立户'},
-        ],
+        accountTypeList: [],
         stateList: [
             {value: '', label: '全部'},
             {value: '1', label: '有效'},
@@ -184,6 +181,7 @@
       this.ajax = this.$ajax.ajaxSsc;
       this[EventType.COMPANYSOCIALSECURITYMANAGETYPE]()
       this.queryAccount();
+      this.loadDict();
     },
     computed: {
       ...mapState('companySocialSecurityManage',{
@@ -195,6 +193,13 @@
 
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
+      },
+      loadDict(){
+        dict.getDictData().then(data => {
+          if (data.code == 200) {
+            this.accountTypeList = data.data.SocialSecurityAccountType;
+          }
+        });
       },
       queryAccount() {
       let sessionPageNum = sessionStorage.managerPageNum

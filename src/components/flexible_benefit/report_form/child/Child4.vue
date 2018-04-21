@@ -32,7 +32,7 @@
         pageSize: 5,
         total: null,
         colums1: [
-          {title: '客户经理', key: 'manager'},
+          {title: '客服经理', key: 'manager'},
           {title: '客户总监',key: 'majordomo'},
           {title: '公司编号',key: 'companyId'},
           {title: '公司名称',key: 'companyName'},

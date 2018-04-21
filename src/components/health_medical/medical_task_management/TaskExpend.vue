@@ -23,7 +23,7 @@
         </Form-item>
         </Col>
         <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">-->
-        <!--<Form-item label="客户经理：">-->
+        <!--<Form-item label="客服经理：">-->
         <!--{{row.selfPayAmount}}-->
         <!--</Form-item>-->
         <!--</Col>-->

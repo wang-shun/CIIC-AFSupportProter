@@ -16,14 +16,14 @@
                   <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业账户类型：" prop="hfAccountType">
                   <Select v-model="operatorSearchData.hfAccountType" style="width: 100%;" transfer>
                      <Option value="" >全部</Option>
                     <Option v-for="(value,key) in this.baseDic.companyHFAccountType" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费银行：" prop="paymentBank">
                   <Select v-model="operatorSearchData.paymentBank" style="width: 100%;" transfer>
@@ -34,7 +34,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业公积金账号：" prop="hfComAccount">
-                  <input-account v-model="operatorSearchData.hfComAccount"></input-account>
+                  <Input v-model="operatorSearchData.hfComAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -190,7 +190,7 @@
               ]);
             }
           },
-          {title: '客户经理', key: 'serviceManager', width: 150, align: 'center',
+          {title: '客服经理', key: 'serviceManager', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.serviceManager),

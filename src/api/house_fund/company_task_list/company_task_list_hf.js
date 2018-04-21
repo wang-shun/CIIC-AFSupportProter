@@ -44,6 +44,7 @@ export class CompanyTaskListHF{
                     obj.initiator = i.submitterName
                     obj.sponsorTime = i.submitTimeString
                     obj.UKey = i.ukStoreValue
+                    obj.serviceManager=i.leaderShipName
                     obj.customerPayStartDate= i.comStartMonth
                     obj.comAccountId=i.comAccountId
                     obj.comAccountClassId=i.comAccountClassId
@@ -51,11 +52,13 @@ export class CompanyTaskListHF{
                     //开户-companyInfo传参
                     companyInfo.customerNumber = i.companyId
                     companyInfo.customerName = i.companyName
-                    companyInfo.serviceManager = ""
+                    companyInfo.serviceManager = i.leaderShipName
                     companyInfo.customerFundEndDate = i.closeDay
                     companyInfo.initiater = i.submitterName
                     companyInfo.sponsorTime = i.submitTimeString
                     companyInfo.initiaterNotes = i.submitRemark
+                    companyInfo.hfTypeName = i.hfTypeName
+                    
                     obj.companyInfo = companyInfo
                     //开户-openAccountInfo传参
                     openAccountInfo.comAccountId=i.comAccountId

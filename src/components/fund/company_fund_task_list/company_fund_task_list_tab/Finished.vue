@@ -16,13 +16,13 @@
                   <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业账户类型：" prop="hfAccountType">
                   <Select v-model="operatorSearchData.hfAccountType" style="width: 100%;" transfer>
                     <Option v-for="(value,key) in this.baseDic.companyHFAccountType" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费银行：" prop="paymentBank">
                   <Select v-model="operatorSearchData.paymentBank" style="width: 100%;" transfer>
@@ -123,24 +123,24 @@
           {value: 4, label: '浦东'}
         ], //客服中心
         taskColumns: [
-          {title: '操作', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.setSessionNumAndSize();
-                      this.$router.push({name: 'companyFundTaskInfo', params: {
-                          comTaskId: params.row.comTaskId,
-                          companyInfo: params.row.companyInfo,
-                          companyTaskInfo: params.row.companyTaskInfo}
-                      });
-                    }
-                  }
-                }, '查看'),
-              ]);
-            }
-          },
+          // {title: '操作', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             this.setSessionNumAndSize();
+          //             this.$router.push({name: 'companyFundTaskInfo', params: {
+          //                 comTaskId: params.row.comTaskId,
+          //                 companyInfo: params.row.companyInfo,
+          //                 companyTaskInfo: params.row.companyTaskInfo}
+          //             });
+          //           }
+          //         }
+          //       }, '查看'),
+          //     ]);
+          //   }
+          // },
           {title: '任务类型', key: 'taskCategoryName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -190,7 +190,7 @@
               ]);
             }
           },
-          {title: '客户经理', key: 'serviceManager', width: 150, align: 'center',
+          {title: '客服经理', key: 'serviceManager', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.serviceManager),

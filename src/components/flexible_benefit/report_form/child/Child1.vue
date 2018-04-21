@@ -38,7 +38,7 @@
           {title: '联系邮编',key: ''},
           {title: '联系电话',key: ''},
           {title: '手机号码',key: ''},
-          {title: '客户经理',key: ''},
+          {title: '客服经理',key: ''},
           {title: '服务中心',key: ''},
           {title: '雇员职位',key: ''},
           {title: '雇员生日',key: ''},

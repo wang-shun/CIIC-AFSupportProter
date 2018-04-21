@@ -8,7 +8,7 @@
         </div>
       </Panel>
       <Panel name="2">
-        企业任务单办理
+        企业任务单办理 ({{hfTypeName}})
         <div slot="content">
           <fund-open-account ref="openAccount" :openAccountInfo="this.$route.params.openAccountInfo"></fund-open-account>
         </div>
@@ -34,7 +34,8 @@
     components: {companyInfo:customerInfo, fundOpenAccount},
     data() {
       return {
-        collapseInfo: [1, 2]
+        collapseInfo: [1, 2],
+        hfTypeName:this.$route.params.companyInfo.hfTypeName
       }
     },
     mounted() {
@@ -43,6 +44,8 @@
  
       //  this.$route.params.openAccountInfo.taskStatus==1;
       // }
+
+      console.log(this.$route.params);
         
     },
     computed: {
@@ -59,6 +62,18 @@
           this.$Message.error('必须选择一个任务状态');
           return false;
         }
+
+        if(params.taskStatus==3){
+          if(params.comAccountName==''){
+              this.$Message.error('企业账户名称必填');
+              return false;
+          }
+          if(params.comAccountNum==''){
+              this.$Message.error('企业账号必填');
+              return false;
+          }
+        }
+
         CompanyTaskListHF.updateCompanyTask(params).then(data=>{
           if(data){
              this.$Message.success('提交成功');

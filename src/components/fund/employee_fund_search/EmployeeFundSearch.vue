@@ -572,8 +572,8 @@ export default {
     },
     employeeQuery(params) {
       let self = this;
-      api
-        .employeeQuery({
+      delete params.serviceCenterValue;
+      api.employeeQuery({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
           params: params
@@ -585,7 +585,10 @@ export default {
     },
     handlePageNum(val) {
       this.pageData.pageNum = val;
+
       let params = this.searchCondition;
+
+
       this.employeeQuery(params);
     },
     handlePageSize(val) {

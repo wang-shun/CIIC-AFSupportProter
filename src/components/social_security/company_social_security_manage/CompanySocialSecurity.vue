@@ -259,7 +259,7 @@
               ]);
             }
           },
-          {title: '客户经理', key: 'serviceTeam', align: 'center', className: 'mw240',
+          {title: '客服经理', key: 'serviceTeam', align: 'center', className: 'mw240',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.serviceTeam),

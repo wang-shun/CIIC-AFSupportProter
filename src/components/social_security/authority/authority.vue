@@ -91,26 +91,8 @@
         <Col :sm="{span: 4}">
           <Card>
             <Form-item prop="taskCategorys">
-              <CheckboxGroup v-model="taskCategorys" >
-                <Checkbox label="1">新进</Checkbox>
-                <br/>
-                <Checkbox label="2">转入</Checkbox>
-                <br/>
-                <Checkbox label="3">调整</Checkbox>
-                <br/>
-                <Checkbox label="4">补缴</Checkbox>
-                <br/>
-                <Checkbox label="5">转出</Checkbox>
-                <br/>
-                <Checkbox label="6">封存</Checkbox>
-                <br/>
-                <Checkbox label="12">翻排新进</Checkbox>
-                <br/>
-                <Checkbox label="13">翻排转入</Checkbox>
-                <br/>
-                <Checkbox label="14">翻牌转出</Checkbox>
-                <br/>
-                <Checkbox label="15">翻牌封存</Checkbox>
+              <CheckboxGroup v-model="taskCategorys">
+                <Checkbox v-for="item in taskCategorysdict" :label="item.key" :value="item.key" :key="item.key"> {{item.value}} <br/><br/> </Checkbox>
               </CheckboxGroup>
             </Form-item>
           </Card>
@@ -133,11 +115,8 @@
           <Card>
             <Form-item prop="welfareUnits">
               <CheckboxGroup v-model="welfareUnits" >
-                <Checkbox label="3">独立户</Checkbox>
-                <br/><br/>
-                <Checkbox label="1">中智大库</Checkbox>
-                <br/><br/>
-                <Checkbox label="2">中智外包</Checkbox>
+                <br/>
+                <Checkbox v-for="item in welfareUnitsdict" :label="item.key" :value="item.key" :key="item.key"> {{item.value}} <br/><br/> </Checkbox>
               </CheckboxGroup>
             </Form-item>
           </Card>
@@ -166,7 +145,9 @@
     data () {
       return {
         welfareUnits: [],
+        welfareUnitsdict: [],
         taskCategorys: [],
+        taskCategorysdict: [],
         currentTab: '1',
         collapseInfo: [1], //展开栏
         baseData: [],
@@ -354,6 +335,11 @@
           })
       },
       loadWelfareUnit(){
+        dict.getDictData().then(data => {
+          if (data.code == 200) {
+            this.welfareUnitsdict = data.data.SocialSecurityAccountType;
+          }
+      });
         api.queryAuthorityWelfareUnit({
             userId: this.$route.query.userId,
           }).then(data => {
@@ -361,24 +347,11 @@
           })
       },
       loadTaskCategory(){
-
-
-        
         dict.getDictData().then(data => {
           if (data.code == 200) {
-
-            // data.data.SocialSecurityAccountType  福利办理方 字典表
-            //data.data.HFLocalTaskCategory;
-            //this.taskTypeList.splice(7, 1); // 去除转移任务
-            
-            //console.info(data.data.HFLocalTaskCategory);
-            //console.info(data.data.SocialSecurityAccountType);
-            //console.info(data.data.SocialSecurityStatus);
-            //console.info(data.data.SocialSecurityEmployeeClassify);
-            
+            this.taskCategorysdict = data.data.SOCLocalTaskCategory;
           }
       });
-
         api.queryAuthorityTaskCategory({
             userId: this.$route.query.userId,
           }).then(data => {

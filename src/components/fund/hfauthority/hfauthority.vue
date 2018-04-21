@@ -1,4 +1,6 @@
 <template>
+<div>
+<div>
   <div class="smList">
     <Collapse v-model="collapseInfo">
     <Panel name="1">
@@ -42,44 +44,111 @@
       </Panel>
     </Collapse>
     <br/>
-    <Form>
-      <Row class="mt20">
-        <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="saveAuth">保存</Button>
-          <Button type="warning" @click="goBack">返回</Button>
+    <div class="smList">
+    <Tabs v-model="currentTab" @on-click='changeTab' :animated="false">
+      <TabPane label="客户" name="1">
+      </TabPane>
+      <TabPane label="任务单类型" name="2">
+      </TabPane>
+      <TabPane label="福利办理方" name="3">
+      </TabPane>
+    </Tabs>
+  </div>
+  <div v-if="currentTab === '1'">
+      <Form>
+        <Row class="mt20">
+          <Col :sm="{span: 24}" class="tr">
+            <Button type="primary" @click="saveAuth">保存</Button>
+            <Button type="warning" @click="goBack">返回</Button>
+          </Col>
+        </Row>
+        <br/>
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 8}">
+          <Card>
+            <p slot="title">客户中心</p>
+            <Tree :data="baseData" @on-select-change="changeTree"></Tree>
+          </Card>
+        </Col>
+        <Col :sm="{span: 16}">
+          <Card>
+            <Table border :columns="authorityListColumns" :data="authorityListData" ref="authorityListSelection"></Table>
+          </Card>
+        </Col>
+      </Row>
+        <Row class="mt20">
+          <Col :sm="{span: 24}" class="tr">
+            <Button type="primary" @click="saveAuth">保存</Button>
+            <Button type="warning" @click="goBack">返回</Button>
+          </Col>
+        </Row>
+      </Form>
+    </div>
+  </div>
+  <div v-if="currentTab === '2'">
+      <Form>
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 4}">
+          <Card>
+            <Form-item prop="taskCategorys">
+              <CheckboxGroup v-model="taskCategorys">
+                <Checkbox v-for="item in taskCategorysdict" :label="item.key" :value="item.key" :key="item.key"> {{item.value}} <br/><br/> </Checkbox>
+              </CheckboxGroup>
+            </Form-item>
+          </Card>
         </Col>
       </Row>
       <br/>
-    <Row type="flex" justify="start">
-      <Col :sm="{span: 8}">
-        <Card>
-          <p slot="title">客户中心</p>
-          <Tree :data="baseData" @on-select-change="changeTree"></Tree>
-        </Card>
-      </Col>
-       <Col :sm="{span: 16}">
-        <Card>
-          <Table border :columns="authorityListColumns" :data="authorityListData" ref="authorityListSelection"></Table>
-        </Card>
-      </Col>
-    </Row>
-      <Row class="mt20">
-        <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="saveAuth">保存</Button>
-          <Button type="warning" @click="goBack">返回</Button>
+      <Row type="flex" justify="start">
+          <Col :sm="{span: 2}" class="tr">
+            <Button type="primary" @click="saveAuth2">保存</Button>
+            <Button type="warning" @click="goBack">返回</Button>
+          </Col>
+      </Row>
+      </Form>
+    </div>
+  </div>
+  <div v-if="currentTab === '3'">
+      <Form>
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 4}">
+          <Card>
+            <Form-item prop="welfareUnits">
+              <CheckboxGroup v-model="welfareUnits" >
+                <br/>
+                <Checkbox v-for="item in welfareUnitsdict" :label="item.key" :value="item.key" :key="item.key"> {{item.value}} <br/><br/> </Checkbox>
+              </CheckboxGroup>
+            </Form-item>
+          </Card>
         </Col>
       </Row>
-    </Form>
+      <br/>
+      <Row type="flex" justify="start">
+          <Col :sm="{span: 2}" class="tr">
+            <Button type="primary" @click="saveAuth3">保存</Button>
+            <Button type="warning" @click="goBack">返回</Button>
+          </Col>
+      </Row>
+      </Form>
+    </div>
   </div>
+</div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import api from '../../../api/house_fund/employee_operator'
   import Utils from '../../../lib/utils';
+  import dict from '../../../api/dict_access/house_fund_dict'
 
+ 
   export default {
     data () {
       return {
+        welfareUnits: [],
+        welfareUnitsdict: [],
+        taskCategorys: [],
+        taskCategorysdict: [],
+        currentTab: '1',
         collapseInfo: [1], //展开栏
         baseData: [],
         currentNode: '1',
@@ -164,6 +233,21 @@
       this.loadTree();
     },
     methods: {
+      changeTab(tabName) {
+        switch (tabName) {
+          case '1':
+            this.authorityListData = [];
+            this.loadTree();
+            break;
+          case '2':
+            this.loadTaskCategory();
+            break;
+          case '3':
+            this.loadWelfareUnit();
+            break;
+        }
+      },
+
       /**
        * 加载 菜单数据
        */
@@ -232,6 +316,46 @@
             companyIds: companyIdList,
           }).then(data => {
               this.$Message.success(data.message);
+          })
+      },
+      saveAuth3(){
+        api.hfsaveAuthorityWelfareUnit({
+            userId: this.$route.query.userId,
+            welfareUnits: this.welfareUnits,
+          }).then(data => {
+              this.$Message.success(data.message);
+          })
+      },
+      saveAuth2(){
+        api.hfsaveAuthorityTaskCategory({
+            userId: this.$route.query.userId,
+            welfareUnits: this.taskCategorys,
+          }).then(data => {
+              this.$Message.success(data.message);
+          })
+      },
+      loadWelfareUnit(){
+        dict.getDictData().then(data => {
+          if (data.code == 200) {
+            this.welfareUnitsdict = data.data.SocialSecurityAccountType;
+          }
+      });
+        api.hfqueryAuthorityWelfareUnit({
+            userId: this.$route.query.userId,
+          }).then(data => {
+              this.welfareUnits = data.data.welfareUnits;
+          })
+      },
+      loadTaskCategory(){
+        dict.getDictData().then(data => {
+          if (data.code == 200) {
+            this.taskCategorysdict = data.data.HFLocalTaskCategory;
+          }
+      });
+        api.hfqueryAuthorityTaskCategory({
+            userId: this.$route.query.userId,
+          }).then(data => {
+              this.taskCategorys = data.data.welfareUnits;
           })
       },
       goBack () {

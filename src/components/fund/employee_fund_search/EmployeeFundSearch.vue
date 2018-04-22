@@ -200,19 +200,7 @@ export default {
       companyFundAccountList: [],
       companyData: [],
       importFailedData: [],
-      serviceCenterData: [
-        {
-          value: 1,
-          label: "大客户",
-          children: [
-            { value: "1-1", label: "大客户1" },
-            { value: "1-2", label: "大客户2" }
-          ]
-        },
-        { value: 2, label: "日本客户" },
-        { value: 3, label: "虹桥" },
-        { value: 4, label: "浦东" }
-      ], //客服中心
+      serviceCenterData: [], //客服中心
       accountTypeList: [
         { value: "", label: "全部" },
         { value: 1, label: "中智大库" },
@@ -537,6 +525,7 @@ export default {
   },
   mounted() {
     this.employeeQuery({});
+    this.getCustomers();
   },
   computed: {
     // ...mapState('employeeFundSearch', {
@@ -572,7 +561,13 @@ export default {
     },
     employeeQuery(params) {
       let self = this;
-      delete params.serviceCenterValue;
+
+      let arrayServiceCenter=params.serviceCenterValue;
+      if(arrayServiceCenter!=null){
+          params=JSON.parse(JSON.stringify(params));
+          delete params.serviceCenterValue;
+          params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+      }
       api.employeeQuery({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
@@ -583,12 +578,15 @@ export default {
           self.pageData.total = Number(data.data.total);
         });
     },
+    getCustomers(){
+        let params = null;
+        api.getCustomers({params:params}).then(data=>{
+          this.serviceCenterData = data.data;
+        })
+      },
     handlePageNum(val) {
       this.pageData.pageNum = val;
-
       let params = this.searchCondition;
-
-
       this.employeeQuery(params);
     },
     handlePageSize(val) {

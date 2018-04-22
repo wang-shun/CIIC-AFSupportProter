@@ -333,13 +333,23 @@ static stopCompAccountTask(params){
         }else{
           reject(Error('后台异常！'))
         }
-      })
-        .catch(function (error) {
+      }).catch(function (error) {
           console.log(error);
           reject(error);
         });
     })
   }
-
+  //获取服务中心数字
+  static getCustomers(params){
+    let url ='/api/fundcommandservice/hfauthority/getHfCustomerData'
+    return new Promise((resolve,reject)=>{
+      ajax.post(url,params).then(response=>{
+        let result = this.handleReturnData(response)
+        if(!result.isError){
+          resolve(result)
+        }else reject(Error(result.message))
+      })
+    })
+  }
 }
 

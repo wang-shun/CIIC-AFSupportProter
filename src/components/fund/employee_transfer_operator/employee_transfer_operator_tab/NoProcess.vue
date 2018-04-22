@@ -441,6 +441,12 @@
         this.$router.push({name: name})
       },
       queryTransfer(params){
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+          params=JSON.parse(JSON.stringify(params));
+          delete params.serviceCenterValue;
+          params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         api.queryTransfer({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,

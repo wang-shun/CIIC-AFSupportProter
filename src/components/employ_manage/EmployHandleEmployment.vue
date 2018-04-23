@@ -147,7 +147,7 @@
           employOperateMan: '',
           employeeId:this.$route.query.employeeId,
           companyId:this.$route.query.companyId,
-         
+          employmentId:''
         },
         historyTaskData: [],
         userInfo:{

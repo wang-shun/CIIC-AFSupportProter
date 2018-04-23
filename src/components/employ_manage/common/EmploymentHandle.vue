@@ -143,6 +143,7 @@ import api from '../../../api/employ_manage/hire_operator'
                 this.$Message.success("保存成功");
                  this.handle.employmentId = data.data.employmentId;
                  this.handle.employOperateMan = data.data.employOperateMan;
+                 this.handleInfoMaterial.employmentId = data.data.employmentId; 
                 
               } else {
                 this.$Message.error("保存失败！" + data.message);

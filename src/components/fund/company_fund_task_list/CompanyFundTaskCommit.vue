@@ -62,14 +62,51 @@
           this.$Message.error('必须选择一个任务状态');
           return false;
         }
+        if(params.taskStatus==1 && params.acceptDate=='' ){
+          this.$Message.error('受理月份必填');
+          return false;
+        }
+        if(params.taskStatus==2 && params.approvalDate=='' ){
+          this.$Message.error('送审月份必填');
+          return false;
+        }
+        if(params.taskStatus==3 && params.finishDate=='' ){
+          this.$Message.error('完成月份必填');
+          return false;
+        }
+
 
         if(params.taskStatus==3){
-          if(params.comAccountName==''){
+          if(params.comAccountName=='' || params.comAccountName== null){
               this.$Message.error('企业账户名称必填');
               return false;
           }
-          if(params.comAccountNum==''){
+          if(params.comAccountNum=='' || params.comAccountNum==null){
               this.$Message.error('企业账号必填');
+              return false;
+          }
+          if(params.closeDay=='' || params.closeDay==null){
+              this.$Message.error('每月关账日必填');
+              return false;
+          }
+          if(params.paymentBank=='' || params.paymentBank==null){
+              this.$Message.error('缴费银行必填');
+              return false;
+          }
+          if(params.paymentWay=='' || params.paymentWay==null){
+              this.$Message.error('付款方式必填');
+              return false;
+          }
+          if(params.comStartMonth=='' || params.comStartMonth==null){
+              this.$Message.error('客户缴费起始年月必填');
+              return false;
+          }
+          if(params.operateStartMonth=='' || params.operateStartMonth==null){
+              this.$Message.error('专员操作起始年月必填');
+              return false;
+          }
+          if(params.uKeyStore=='' || params.uKeyStore==null){
+              this.$Message.error('公积金企业U盾必填');
               return false;
           }
         }
@@ -138,6 +175,7 @@
 
         }
       },
+       
     }
   }
 </script>

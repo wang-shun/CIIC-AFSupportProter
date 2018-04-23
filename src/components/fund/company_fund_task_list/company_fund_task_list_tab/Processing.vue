@@ -12,7 +12,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="title">
+                <Form-item label="客户编号：" prop="companyId">
                   <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -90,7 +90,7 @@
 </template>
 <script>
   import InputAccount from '../../../fund/common/input_account'
-  
+
   import InputCompany from '../../../common_control/form/input_company'
   import {Processing} from '../../../../api/house_fund/company_task_list/company_task_list_tab/processing'
   import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'

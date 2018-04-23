@@ -28,13 +28,13 @@
         <Panel name="4">
           退工办理
           <div slot="content">
-            <refuse-handle :refuseInfo="refuseInfo"></refuse-handle>
+            <refuse-handle :refuseInfo="refuseInfo" ></refuse-handle>
           </div>
         </Panel>
         <Panel name="5">
           退工备注
           <div slot="content">
-            <refuse-notes :refuseNotesData="refuseNotesData"></refuse-notes>
+            <refuse-notes :refuseNotesData="refuseNotesData" :userInfo="userInfo"></refuse-notes>
           </div>
         </Panel>
         <Panel name="6">
@@ -171,12 +171,9 @@
         employmentViewData: [],
         MaterialsBorrowData: [],
         fileNotesViewData: [],
-
-        historyTaskData: [
-          {customerNumber: "001", customerName: "客户1", employDate: "2010-01-01", refuseDate: "2010-01-01"},
-          {customerNumber: "001", customerName: "客户1", employDate: "2010-01-01", refuseDate: "2010-01-01"},
-          {customerNumber: "002", customerName: "客户2", employDate: "2010-01-02", refuseDate: "2010-01-02"}
-        ]
+        userInfo:{
+          userName:''
+        }
       }
     },
     async mounted() {
@@ -218,6 +215,10 @@
             
             if(data.data.amEmploymentBO){
                  this.employmentInfo = data.data.amEmploymentBO;
+            }
+
+            if(data.data.userInfo){
+                this.userInfo = data.data.userInfo;
             }
 
           })

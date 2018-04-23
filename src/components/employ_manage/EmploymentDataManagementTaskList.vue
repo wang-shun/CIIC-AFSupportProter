@@ -58,8 +58,8 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         pageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
         },
         collapseInfo: [1],
         searchConditions:[],
@@ -105,14 +105,14 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '序号', key: 'employmentId', align: 'center', width: 150,
+          {title: '序号', key: 'employmentId', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employmentId),
               ]);
             }
           },
-          {title: '公司编号', key: 'companyId', align: 'center', width: 150,
+          {title: '公司编号', key: 'companyId', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.companyId),
@@ -127,7 +127,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '雇员编码', key: 'employeeId', align: 'center', width: 150,
+          {title: '雇员编码', key: 'employeeId', align: 'center', width: 150, sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.employeeId),
@@ -141,7 +141,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '证件号', key: 'idNum', align: 'center', width: 150,
+          {title: '证件号', key: 'idNum', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.idNum),
@@ -169,21 +169,21 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '档案编号', key: 'docNum', align: 'center', width: 150,
+          {title: '档案编号', key: 'docNum', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.docNum),
               ]);
             }
           },
-          {title: '预留档案编号', key: 'yuliuDocNum', align: 'center', width: 150,
+          {title: '预留档案编号', key: 'yuliuDocNum', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.yuliuDocNum),
               ]);
             }
           },
-          {title: '用工反馈操作日期', key: 'employFeedbackOptDate', align: 'center', width: 150,
+          {title: '用工反馈操作日期', key: 'employFeedbackOptDate', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employFeedbackOptDate),

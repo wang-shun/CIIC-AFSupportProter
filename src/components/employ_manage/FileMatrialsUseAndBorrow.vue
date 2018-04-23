@@ -279,6 +279,13 @@ import api from '../../api/employ_manage/hire_operator'
               ]);
             }
           },
+          {title: '归还日期', key: 'returnDate', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.returnDate),
+              ]);
+            }
+          },
           {title: '借出经办人', key: 'matrialsManager', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -477,7 +484,7 @@ import api from '../../api/employ_manage/hire_operator'
               
                fromData.useDate = this.$utils.formatDate(this.handleInfo.useDatew, 'YYYY-MM-DD');
                fromData.returnDate = this.$utils.formatDate(this.handleInfo.returnDate, 'YYYY-MM-DD');
-               fromData.handleMan = this.handleInfo.handleManw;
+               fromData.handleMan = this.userName;
                fromData.useMan = this.handleInfo.useManw;
                fromData.material = this.handleInfo.materialw;
                fromData.purpose = this.handleInfo.purposew;

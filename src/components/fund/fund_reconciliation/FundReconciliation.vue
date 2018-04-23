@@ -93,7 +93,8 @@
     </Modal>
 
     <Modal v-model="isShowCreateReconciliation" title="新建对账" width="800" :mask-closable="false">
-      <Form :label-width=150 ref="newReconciliation" :model="newReconciliation" :rules="newReconciliationValidate">
+      <!-- <Form :label-width=150 ref="newReconciliation" :model="newReconciliation" :rules="newReconciliationValidate"> -->
+      <Form :label-width=150 ref="newReconciliation" :model="newReconciliation">
         <Row type="flex" justify="start">
           <Col :sm="{span:24}">
             <Form-item label="公积金月份：" prop="hfMonth">
@@ -285,20 +286,20 @@
           hfType: '',
           hfComAccount: ''
         },
-        newReconciliationValidate: {
-          hfMonth: [
-            {required: true, type: 'date', message: '请选择月份', trigger: 'blur'}
-          ],
-          hfType: [
-            {required: true, message: '请选择公积金类型', trigger: 'blur'}
-          ],
-          hfAccountType: [
-            {required: true, message: '请选择公积金企业账户类型', trigger: 'blur'}
-          ],
-          fundComCurrentValue: [
-            {required: true, message: '请选择公积金企业账户', trigger: 'blur'}
-          ]
-        },
+        // newReconciliationValidate: {
+        //   hfMonth: [
+        //     {required: true, type: 'date', message: '请选择月份', trigger: 'blur'}
+        //   ],
+        //   hfType: [
+        //     {required: true, message: '请选择公积金类型', trigger: 'blur'}
+        //   ],
+        //   hfAccountType: [
+        //     {required: true, message: '请选择公积金企业账户类型', trigger: 'blur'}
+        //   ],
+        //   fundComCurrentValue: [
+        //     {required: true, message: '请选择公积金企业账户', trigger: 'blur'}
+        //   ]
+        // },
         viewReconciliation: {
           hfMonth: "",
           comAccountName: "",
@@ -450,12 +451,12 @@
         })
       },
       showFundAccountSearch() { // 显示查找公积金账户名条件
-        if (this.newReconciliation.hfMonth === '') {
-          this.$Message.error('请选择公积金月份');
-          return;
-        }
         if (this.newReconciliation.hfType === '') {
           this.$Message.error('请先选择公积金类型');
+          return;
+        }
+        if (this.newReconciliation.hfAccountType === '') {
+          this.$Message.error('请先选择公积金账户类型');
           return;
         }
         this.isShowFundAccountSearch = !this.isShowFundAccountSearch;
@@ -465,6 +466,7 @@
         if (!this.isShowFundAccountSearch) {
           return;
         }
+        this.currentIndex = -1;
         var params = this.fundAccountQueryForm;
         params.hfAccountType = this.newReconciliation.hfAccountType;
         params.hfType = this.newReconciliation.hfType;
@@ -486,8 +488,16 @@
       },
 
       saveReconciliation() { // 新建对账
+        if (this.newReconciliation.hfMonth === '') {
+          this.$Message.error('请先选择公积金月份!');
+          return;
+        }
         if (this.reconciliateFile == null) {
-          this.$Message.error('请选择对账文件');
+          this.$Message.error('请选择对账文件!');
+          return;
+        }
+        if(this.newReconciliation.hfComAccount === ''){
+          this.$Message.error('公积金企业账户不能为空!');
           return;
         }
         this.loadingStatus = true;
@@ -543,6 +553,9 @@
         this.newReconciliation.hfMonth = month.replace('-', '');
       },
       resetSearchCondition(name) {
+        if(name === 'newReconciliation'){
+          this.currentIndex = -1;
+        }
         this.$refs[name].resetFields();
       },
       handlePageNum(val) {

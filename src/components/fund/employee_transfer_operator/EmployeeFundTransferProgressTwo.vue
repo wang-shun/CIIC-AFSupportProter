@@ -44,7 +44,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客服经理：">
-                <label>{{displayVO.serviceManager}}</label>
+                <label>{{displayVO.leaderShipName}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

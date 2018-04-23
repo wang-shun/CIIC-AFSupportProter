@@ -107,7 +107,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户专员：">
-                  <label>{{viewComAccount.leadershipName}}</label>
+                  <label>{{viewComAccount.serviceSpecialist}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -322,7 +322,7 @@
           accountTempStoreBc:'',
           accountTempStore:'',
           serviceSpecialist:'',
-          leadershipName:'',
+          leaderShipName:'',
           serviceCenter:'',
         },
         listEmpTaskPeriod:[],

@@ -396,12 +396,12 @@ export default {
         },
         {
           title: "客服经理",
-          key: "serviceManager",
+          key: "leaderShipName",
           align: "center",
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.serviceManager)
+              h("span", params.row.leaderShipName)
             ]);
           }
         },

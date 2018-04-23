@@ -277,11 +277,11 @@
       //点击查询按钮
       clickQuery(){
         this.loading=true;
+        this.pageNum = 1;
         //获得页面条件参数
         let params = this.getParams1(1)
-
-      console.log('====');
-      console.log(params);
+        console.log('====');
+        console.log(params);
         Refused.postTableData(params).then(data=>{
           this.refresh(data)
         }).catch(error=>{

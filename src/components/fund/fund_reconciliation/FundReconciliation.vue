@@ -92,11 +92,7 @@
       </div>
     </Modal>
 
-    <Modal
-      v-model="isShowCreateReconciliation"
-      title="新建对账"
-      width="800"
-    >
+    <Modal v-model="isShowCreateReconciliation" title="新建对账" width="800" :mask-closable="false">
       <Form :label-width=150 ref="newReconciliation" :model="newReconciliation" :rules="newReconciliationValidate">
         <Row type="flex" justify="start">
           <Col :sm="{span:24}">
@@ -200,7 +196,7 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         operatorSearchData: {
-          fundMonth: '',
+          hfMonth: '',
           hfComAccount: ''
         },
         isShowReconciliation: false, // 查看详情
@@ -415,6 +411,9 @@
     },
     methods: {
       getStatement() { // 对账列表
+        if(this.operatorSearchData.hfMonth){
+            this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, 'YYYYMM');
+        }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
         api.getStatements({
@@ -489,6 +488,7 @@
       saveReconciliation() { // 新建对账
         if (this.reconciliateFile == null) {
           this.$Message.error('请选择对账文件');
+          return;
         }
         this.loadingStatus = true;
         let config = {

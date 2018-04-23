@@ -12,7 +12,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="title">
+                <Form-item label="客户编号：" prop="companyId">
                   <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -279,7 +279,7 @@
         this.loading=true;
         //获得页面条件参数
         let params = this.getParams1(1)
-       
+
       console.log('====');
       console.log(params);
         Refused.postTableData(params).then(data=>{

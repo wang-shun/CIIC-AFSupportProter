@@ -12,7 +12,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="title">
+                <Form-item label="客户编号：" prop="companyId">
                   <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -301,7 +301,7 @@
           params:params
         }
       },
-      
+
       //获得列表请求参数
       getParams(page){
         return {

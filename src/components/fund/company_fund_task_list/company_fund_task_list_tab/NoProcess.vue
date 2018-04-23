@@ -12,13 +12,13 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="title">
+                <Form-item label="客户编号：" prop="companyId">
                   <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业公积金账号：" prop="hfComAccount">
-                   <Input v-model="operatorSearchData.hfComAccount" placeholder="请输入..."></Input>               
+                   <Input v-model="operatorSearchData.hfComAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -112,7 +112,7 @@
                       this.setSessionNumAndSize()
                       switch(params.row.taskCategoryName) {
                         case '开户':
-                          
+
                           this.$router.push({name: 'companyFundTaskCommit', params: {
                               comTaskId: params.row.comTaskId,
                               companyInfo: params.row.companyInfo,
@@ -255,7 +255,7 @@
     },
     methods: {
       resetSearchCondition(name) {
-        this.$refs[name].resetFields()
+        this.$refs[name].resetFields();
       },
       getPage(page){
         this.pageNum = page
@@ -303,7 +303,7 @@
 
     //获得列表请求参数
       getParams1(page){
-        
+
         let params={};
         let arrayServiceCenter=this.operatorSearchData.serviceCenterValue;
         if(arrayServiceCenter!=null){
@@ -320,7 +320,7 @@
 
       //获得列表请求参数
       getParams(page){
-      
+
         return {
           pageSize:this.size,
           pageNum:page,

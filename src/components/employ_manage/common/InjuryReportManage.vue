@@ -13,13 +13,13 @@
         @on-ok="ok"
         @on-cancel="cancel">
       <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-      <Row type="flex" justify="start">
+      <!-- <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作员：" prop="operateManw">
              <Input v-model="handleInfo.operateManw" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
-       </Row>
+       </Row> -->
        <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作日期：" prop="operateDatew">
@@ -85,6 +85,8 @@ import api from '../../../api/employ_manage/hire_operator'
         type: Array
       },fileInfo1: {
         type: Object
+      },userInfo:{
+        type:Object
       }
     },
     data() {
@@ -218,10 +220,6 @@ import api from '../../../api/employ_manage/hire_operator'
     methods: {
             ok () {
 
-              if(this.handleInfo.operateManw==''){
-                 this.$Message.success("操作员为空");
-                 return;
-              }
               if(this.handleInfo.operateDatew==''){
                  this.$Message.success("操作日期为空");
                  return;
@@ -243,7 +241,7 @@ import api from '../../../api/employ_manage/hire_operator'
              
               var fromData = this.$utils.clear(this.realHandInfo,'');
                fromData.operateDate = this.$utils.formatDate(this.handleInfo.operateDatew, 'YYYY-MM-DD');
-               fromData.operateMan = this.handleInfo.operateManw;
+               fromData.operateMan = this.userInfo.userName;
                fromData.evaluationDate = this.$utils.formatDate(this.handleInfo.evaluationDatew, 'YYYY-MM-DD');
                fromData.evaluation = this.handleInfo.evaluationw;
                fromData.injuryComfirmDate = this.$utils.formatDate(this.handleInfo.injuryComfirmDatew, 'YYYY-MM-DD');

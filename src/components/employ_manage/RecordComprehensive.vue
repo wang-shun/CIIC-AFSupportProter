@@ -46,7 +46,7 @@
         <Panel name="8">
           档案备注
           <div slot="content">
-            <file-notes :fileNotesViewData="fileNotesViewData"></file-notes>
+            <file-notes :fileNotesViewData="fileNotesViewData" :userInfo="userInfo"></file-notes>
           </div>
         </Panel>
         <Panel name="9">
@@ -76,7 +76,7 @@
         <Panel name="14">
           工伤申报管理
           <div slot="content">
-            <injury-report-manage :injuryReportManageInfo="injuryReportManageInfo" :fileInfo1="fileInfo1"></injury-report-manage>
+            <injury-report-manage :injuryReportManageInfo="injuryReportManageInfo" :fileInfo1="fileInfo1" :userInfo="userInfo"></injury-report-manage>
           </div>
         </Panel>
       </Collapse>
@@ -284,7 +284,10 @@
         refuseReturnMaterialsSignInfo:[],
         companyNameChangeMatrialsPrintInfo: [],
         injuryReportManageInfo: [],
-        refuseReturnMaterials:[]
+        refuseReturnMaterials:[],
+        userInfo:{
+          userName:''
+        }
       }
     },
      async mounted() {
@@ -347,6 +350,10 @@
               }
 
               this.refuseReturnMaterials = data.data.resultMaterial;
+
+              if(data.data.userInfo){
+                this.userInfo = data.data.userInfo;
+              }
 
                
           })

@@ -141,7 +141,9 @@ import api from '../../../api/employ_manage/hire_operator'
         api.saveEmployee(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success("保存成功");
-                 history.go(-1);
+                 this.handle.employmentId = data.data.employmentId;
+                 this.handle.employOperateMan = data.data.employOperateMan;
+                
               } else {
                 this.$Message.error("保存失败！" + data.message);
               }

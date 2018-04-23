@@ -13,13 +13,13 @@
         @on-ok="ok"
         @on-cancel="cancel">
       <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-      <Row type="flex" justify="start">
+      <!-- <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作员：" prop="remarkManw">
              <Input v-model="handleInfo.remarkManw" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
-       </Row>
+       </Row> -->
        <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作日期：" prop="remarkDatew">
@@ -45,6 +45,8 @@
       fileNotesViewData: {
         type: Array,
         required: true
+      },userInfo:{
+        type:Object
       }
     },
     data() {
@@ -113,10 +115,7 @@
     },
     methods: {
             ok () {
-              if(this.handleInfo.remarkManw==''){
-                 this.$Message.info('操作员不能为空');
-                  return;
-               }
+             
                if(this.handleInfo.remarkDatew==''){
                   this.$Message.info('操作日期不能为空');
                   return;
@@ -128,7 +127,7 @@
               var fromData = this.$utils.clear(this.realHandInfo,'');
                fromData.remarkDate = this.$utils.formatDate(this.handleInfo.remarkDatew, 'YYYY-MM-DD');
                fromData.remarkContent = this.handleInfo.remarkContentw;
-               fromData.remarkMan = this.handleInfo.remarkManw;
+               fromData.remarkMan = this.userInfo.userName;
                fromData.empTaskId = this.$route.query.empTaskId;
              
                fromData.employeeId = this.$route.query.employeeId;

@@ -19,7 +19,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="getStatement">查询</Button>
+                <Button type="primary" icon="ios-search" @click="searchData">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -92,12 +92,9 @@
       </div>
     </Modal>
 
-    <Modal
-      v-model="isShowCreateReconciliation"
-      title="新建对账"
-      width="800"
-    >
-      <Form :label-width=150 ref="newReconciliation" :model="newReconciliation" :rules="newReconciliationValidate">
+    <Modal v-model="isShowCreateReconciliation" title="新建对账" width="800" :mask-closable="false">
+      <!-- <Form :label-width=150 ref="newReconciliation" :model="newReconciliation" :rules="newReconciliationValidate"> -->
+      <Form :label-width=150 ref="newReconciliation" :model="newReconciliation">
         <Row type="flex" justify="start">
           <Col :sm="{span:24}">
             <Form-item label="公积金月份：" prop="hfMonth">
@@ -200,7 +197,7 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         operatorSearchData: {
-          fundMonth: '',
+          hfMonth: '',
           hfComAccount: ''
         },
         isShowReconciliation: false, // 查看详情
@@ -289,20 +286,20 @@
           hfType: '',
           hfComAccount: ''
         },
-        newReconciliationValidate: {
-          hfMonth: [
-            {required: true, type: 'date', message: '请选择月份', trigger: 'blur'}
-          ],
-          hfType: [
-            {required: true, message: '请选择公积金类型', trigger: 'blur'}
-          ],
-          hfAccountType: [
-            {required: true, message: '请选择公积金企业账户类型', trigger: 'blur'}
-          ],
-          fundComCurrentValue: [
-            {required: true, message: '请选择公积金企业账户', trigger: 'blur'}
-          ]
-        },
+        // newReconciliationValidate: {
+        //   hfMonth: [
+        //     {required: true, type: 'date', message: '请选择月份', trigger: 'blur'}
+        //   ],
+        //   hfType: [
+        //     {required: true, message: '请选择公积金类型', trigger: 'blur'}
+        //   ],
+        //   hfAccountType: [
+        //     {required: true, message: '请选择公积金企业账户类型', trigger: 'blur'}
+        //   ],
+        //   fundComCurrentValue: [
+        //     {required: true, message: '请选择公积金企业账户', trigger: 'blur'}
+        //   ]
+        // },
         viewReconciliation: {
           hfMonth: "",
           comAccountName: "",
@@ -415,9 +412,11 @@
     },
     methods: {
       getStatement() { // 对账列表
+        if(this.operatorSearchData.hfMonth){
+            this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, 'YYYYMM');
+        }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
-
         api.getStatements({
           pageSize: this.page.pageSize,
           pageNum: this.page.pageNum,
@@ -425,7 +424,7 @@
         }).then(data => {
           if (data.code == 200) {
             this.viewReconciliationData = data.data;
-            this.page.total = data.total;
+            this.page.total = Number(data.total);
           }
         })
       },
@@ -452,12 +451,12 @@
         })
       },
       showFundAccountSearch() { // 显示查找公积金账户名条件
-        if (this.newReconciliation.hfMonth === '') {
-          this.$Message.error('请选择公积金月份');
-          return;
-        }
         if (this.newReconciliation.hfType === '') {
           this.$Message.error('请先选择公积金类型');
+          return;
+        }
+        if (this.newReconciliation.hfAccountType === '') {
+          this.$Message.error('请先选择公积金账户类型');
           return;
         }
         this.isShowFundAccountSearch = !this.isShowFundAccountSearch;
@@ -467,6 +466,7 @@
         if (!this.isShowFundAccountSearch) {
           return;
         }
+        this.currentIndex = -1;
         var params = this.fundAccountQueryForm;
         params.hfAccountType = this.newReconciliation.hfAccountType;
         params.hfType = this.newReconciliation.hfType;
@@ -488,23 +488,24 @@
       },
 
       saveReconciliation() { // 新建对账
+        if (this.newReconciliation.hfMonth === '') {
+          this.$Message.error('请先选择公积金月份!');
+          return;
+        }
         if (this.reconciliateFile == null) {
-          this.$Message.error('请选择对账文件');
+          this.$Message.error('请选择对账文件!');
+          return;
+        }
+        if(this.newReconciliation.hfComAccount === ''){
+          this.$Message.error('公积金企业账户不能为空!');
+          return;
         }
         this.loadingStatus = true;
         let config = {
           headers: {'Content-Type': 'multipart/form-data'}
         };
         let that = this;
-        //let formData = new FormData();
         let formData ={};
-        // formData.append('hfMonth', that.newReconciliation.hfMonth);
-        // formData.append('comAccountId', that.newReconciliation.comAccountId);
-        // formData.append('hfAccountType', that.newReconciliation.hfAccountType);
-        // formData.append('hfType', that.newReconciliation.hfType);
-        // formData.append('hfComAccount', that.newReconciliation.hfComAccount);
-        // formData.append('createdBy', JSON.parse(window.sessionStorage.getItem('userInfo')).userId);
-        // formData.append('file', that.reconciliateFile);
         formData.hfMonth=that.newReconciliation.hfMonth;
         formData.comAccountId= that.newReconciliation.comAccountId;
         formData.hfAccountType= that.newReconciliation.hfAccountType;
@@ -512,7 +513,6 @@
         formData.hfComAccount= that.newReconciliation.hfComAccount;
         formData.createdBy=JSON.parse(window.sessionStorage.getItem('userInfo')).userId;
         formData.file=that.reconciliateFile;
-console.log(formData);
         api.addStatmentUpload(formData).then((data) =>{
           this.isShowCreateReconciliation = false;
           if(data.code == 0) {
@@ -553,6 +553,9 @@ console.log(formData);
         this.newReconciliation.hfMonth = month.replace('-', '');
       },
       resetSearchCondition(name) {
+        if(name === 'newReconciliation'){
+          this.currentIndex = -1;
+        }
         this.$refs[name].resetFields();
       },
       handlePageNum(val) {
@@ -563,6 +566,11 @@ console.log(formData);
         this.page.pageSize = val;
         this.getStatement();
       },
+      searchData(){
+        this.page.pageNum = 1;
+        this.getStatement();
+      },
+
       handleFundAccountPageNum(val) {
         this.fundAccountPage.pageNum = val;
         this.getComFundAccountList();

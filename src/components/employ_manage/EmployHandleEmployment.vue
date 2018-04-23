@@ -34,7 +34,7 @@
         <Panel name="5">
           用工备注
           <div slot="content">
-            <employment-notes :notesData="notesData"></employment-notes>
+            <employment-notes :notesData="notesData" :userInfo="userInfo"></employment-notes>
           </div>
         </Panel>
         <Panel name="6">
@@ -149,7 +149,10 @@
           companyId:this.$route.query.companyId,
          
         },
-        historyTaskData: []
+        historyTaskData: [],
+        userInfo:{
+          userName:''
+        }
       }
     },
     async mounted() {
@@ -190,6 +193,10 @@
 
               if(data.data.amEmploymentBO){
                   this.materialHandleInfo.employmentId=data.data.amEmploymentBO.employmentId;
+              }
+
+              if(data.data.userInfo){
+                this.userInfo = data.data.userInfo;
               }
                  
           })

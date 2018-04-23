@@ -106,7 +106,7 @@ import api from '../../../api/employ_manage/hire_operator'
         api.rejectMaterial(this.materialsInfo.materialsData).then(data => {
                   if (data.data.data == true) {
                     this.$Message.success("保存成功");
-                    history.go(-1);
+                     window.location.reload();
                   } else {
                     this.$Message.error("保存失败！");
                   }
@@ -116,7 +116,7 @@ import api from '../../../api/employ_manage/hire_operator'
             api.receiveMaterial(this.materialsInfo.materialsData).then(data => {
                   if (data.data.data == true) {
                     this.$Message.success("保存成功");
-                    history.go(-1);
+                   window.location.reload();
                   } else {
                     this.$Message.error("保存失败！");
                   }

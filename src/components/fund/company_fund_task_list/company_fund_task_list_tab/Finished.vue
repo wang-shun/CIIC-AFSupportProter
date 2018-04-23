@@ -90,7 +90,7 @@
 </template>
 <script>
 
-     import InputAccount from '../../../fund/common/input_account'
+  import InputAccount from '../../../fund/common/input_account'
   import InputCompany from '../../../common_control/form/input_company'
   import {Finished} from '../../../../api/house_fund/company_task_list/company_task_list_tab/finished'
   import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
@@ -118,24 +118,6 @@
         },
         serviceCenterData: [], //客服中心
         taskColumns: [
-          // {title: '操作', width: 100, align: 'center',
-          //   render: (h, params) => {
-          //     return h('div', [
-          //       h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-          //         on: {
-          //           click: () => {
-          //             this.setSessionNumAndSize();
-          //             this.$router.push({name: 'companyFundTaskInfo', params: {
-          //                 comTaskId: params.row.comTaskId,
-          //                 companyInfo: params.row.companyInfo,
-          //                 companyTaskInfo: params.row.companyTaskInfo}
-          //             });
-          //           }
-          //         }
-          //       }, '查看'),
-          //     ]);
-          //   }
-          // },
           {title: '任务类型', key: 'taskCategoryName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -278,6 +260,7 @@
       //点击查询按钮
       clickQuery(){
         this.loading=true;
+        this.pageNum = 1;
         //获得页面条件参数
         let params = this.getParams1(1)
         Finished.postTableData(params).then(data=>{

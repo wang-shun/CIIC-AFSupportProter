@@ -19,7 +19,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="getStatement">查询</Button>
+                <Button type="primary" icon="ios-search" @click="searchData">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -417,7 +417,6 @@
       getStatement() { // 对账列表
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
-
         api.getStatements({
           pageSize: this.page.pageSize,
           pageNum: this.page.pageNum,
@@ -425,7 +424,7 @@
         }).then(data => {
           if (data.code == 200) {
             this.viewReconciliationData = data.data;
-            this.page.total = data.total;
+            this.page.total = Number(data.total);
           }
         })
       },
@@ -496,15 +495,7 @@
           headers: {'Content-Type': 'multipart/form-data'}
         };
         let that = this;
-        //let formData = new FormData();
         let formData ={};
-        // formData.append('hfMonth', that.newReconciliation.hfMonth);
-        // formData.append('comAccountId', that.newReconciliation.comAccountId);
-        // formData.append('hfAccountType', that.newReconciliation.hfAccountType);
-        // formData.append('hfType', that.newReconciliation.hfType);
-        // formData.append('hfComAccount', that.newReconciliation.hfComAccount);
-        // formData.append('createdBy', JSON.parse(window.sessionStorage.getItem('userInfo')).userId);
-        // formData.append('file', that.reconciliateFile);
         formData.hfMonth=that.newReconciliation.hfMonth;
         formData.comAccountId= that.newReconciliation.comAccountId;
         formData.hfAccountType= that.newReconciliation.hfAccountType;
@@ -512,7 +503,6 @@
         formData.hfComAccount= that.newReconciliation.hfComAccount;
         formData.createdBy=JSON.parse(window.sessionStorage.getItem('userInfo')).userId;
         formData.file=that.reconciliateFile;
-console.log(formData);
         api.addStatmentUpload(formData).then((data) =>{
           this.isShowCreateReconciliation = false;
           if(data.code == 0) {
@@ -563,6 +553,11 @@ console.log(formData);
         this.page.pageSize = val;
         this.getStatement();
       },
+      searchData(){
+        this.page.pageNum = 1;
+        this.getStatement();
+      },
+
       handleFundAccountPageNum(val) {
         this.fundAccountPage.pageNum = val;
         this.getComFundAccountList();

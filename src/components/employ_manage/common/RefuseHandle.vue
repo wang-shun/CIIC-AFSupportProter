@@ -352,7 +352,7 @@
         api.saveAmResign(fromData).then(data => {
               if (data.code == 200) {
                   this.$Message.success("保存成功");
-                  history.go(-1);
+                  this.refuseInfo.resignId = data.data.resignId;
                 } else {
                   this.$Message.error("保存失败！" + data.message);
                 }

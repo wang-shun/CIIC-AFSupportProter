@@ -156,8 +156,7 @@
         return this.openAccountInfo;
       },
   changeDispatchType() {
-   	console.log('======');
-    	console.log(this.openAccountInfo.UKeyValue );
+
   }
 
     }

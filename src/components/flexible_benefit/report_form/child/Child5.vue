@@ -29,7 +29,7 @@
         pageSize: 5,
         total: null,
         colums1: [
-          {title: '客户经理', key: ''},
+          {title: '客服经理', key: ''},
           {title: '客户总监',key: ''},
           {title: '公司编号',key: ''},
           {title: '公司名称',key: ''},

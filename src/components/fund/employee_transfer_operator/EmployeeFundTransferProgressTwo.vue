@@ -19,7 +19,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客户中心：">
-                <label>{{displayVO.customerCenter}}</label>
+                <label>{{displayVO.serviceCenter}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -44,12 +44,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客服经理：">
-                <label>{{displayVO.serviceManager}}</label>
+                <label>{{displayVO.leaderShipName}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客户专员：">
-                <label>{{displayVO.customerServicer}}</label>
+                <label>{{displayVO.serviceSpecialist}}</label>
               </FormItem>
               </Col>
               <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -145,13 +145,14 @@
               </Col>
             </Row>
             <Row>
+              
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转出单位：">
+                <Form-item label="转出单位：" prop='transferOutUnit'>
                   <Select v-model="transferNotice.transferOutUnit"
                   filterable
                   remote
                   :remote-method="handleTransferOutSearch"
-                  @on-change="handleTransferOutChange"
+                  @on-change="handleTransferOutChange" 
                   :loading="loading"
                   style="width: 100%;" transfer>
                      <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
@@ -165,13 +166,14 @@
               </Col>
             </Row>
             <Row>
+              
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转入单位：">
+                <Form-item label="转入单位："  prop='transferInUnit'>
                   <Select v-model="transferNotice.transferInUnit" 
                   filterable
                 remote
                 :remote-method="handleTransferInSearch"
-                @on-change="handleTransferInChange"
+               @on-change="transferNotice.transferInUnit=$event"
                 :loading="loading"
                   style="width: 100%;" transfer>
                     <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
@@ -241,61 +243,13 @@
         currentStep: 2,
         collapseInfo: [1, 2, 3, 4], //展开栏
         loading: false,
-        displayVO: {
+        displayVO: { 
           empTaskId: 0,
           taskCategory: 0,
-          basicHfComAccount: '',
-          addedHfComAccount: '',
-          customerCenter: '',
-          paymentBank: '',
-          ukeyStoreName: '',
-          state: '',
-          basicComHfMonth: '',
-          addedComHfMonth: '',
-          serviceManager: '',
-          customerServicer: '',
-          basicEndMonth: '',
-          addedEndMonth: '',
-          paymentWayName: '',
-          companyId: '',
-          companyName: '',
-          hfAccountTypeName: '',
-          comAccountId: '',
-          comAccountName: '',
-          basicComAccountClassId: '',
-          addedComAccountClassId: '',
-          comTaskStatusName: '',
-          employeeId: '',
-          employeeName: '',
-          idNum: '',
-          inDate: '',
-          basicEmpArchiveId: '',
-          basicHfEmpAccount: '',
-          basicEmpTaskStatusName: '',
-          basicEmpStartMonth: '',
-          basicEmpEndMonth: '',
-          basicEmpAmount: '',
-          basicEmpBase: '',
-          basicRatioCom: '',
-          basicRatioEmp: '',
-          addedHfEmpAccount: '',
-          addedEmpTaskStatusName: '',
-          addedEmpStartMonth: '',
-          addedEmpEndMonth: '',
-          addedEmpAmount: '',
-          addedEmpBase: '',
-          addedRatioCom: '',
-          addedRatioEmp: '',
-          hfTypeName: '',
-          hfEmpAccount: '',
-//          isCreateSealingTicket: false,
-//          startMonth: '',
-          handleRemark: '',
-          rejectionRemark: '',
-          operationRemind: '',
-          operationRemindDate: '',
           canHandle: false,
-          hfType:''
+
+          transferInUnit:'',
+          transferOutUnit:'',
         },
         transferUnitDictList:[],
         transferInUnitList:[],
@@ -318,44 +272,36 @@
           handleRemark:'',
           taskStatus:1,
         },
+        transferNotice1:{
+          employeeId: '',
+          companyId: '',
+          hfType:'',
+          processCategory:'',
+          taskCategory:'',
+          transferInUnit:'',
+          transferInUnitAccount:'',
+          transferOutUnit:'',
+          transferOutUnitAccount:'',
+          transferDate:'',
+          feedbackDate:'',
+          operateDate:'',
+          handleRemark:'',
+          taskStatus:1,
+        },
       }
     },
+
     mounted() {
      // let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
-      let params = {employeeId:this.$route.query.employeeId,
-                    companyId:this.$route.query.companyId,
-                    hfType:this.$route.query.hfType,
-                    empTaskId:this.$route.query.empTaskId,
-                    };
-      api.queryComEmpTransferForm(params).then(data => {
-        if (data.code == 200) {
-          this.displayVO = data.data;
-          if(data.data.empTaskTransferBo==null){
-            this.transferNotice.companyId=params.companyId;
-            this.transferNotice={};
-          }else{
-            this.transferNotice=data.data.empTaskTransferBo;
+//  this.transferInUnitList.push('8iu医院的');
 
-          }
-        } else {
-          this.$Message.error(data.message);
-        }
-        if(this.transferNotice!=null){
-            this.transferNotice.hfType=this.$route.query.hfType;
-            this.transferNotice.transferDate=new Date();
-        }
-      });
-      dict.getDictData().then(data => {
-        if (data.code == 200) {
-          this.transferUnitDictList = data.data.FundOutUnit;
-          this.transferUnitDictList.forEach((element, index, array) => {
-            this.transferOutUnitList.push(element);
-            this.transferInUnitList.push(element);
-          })
-        } else {
-          this.$Message.error(data.message);
-        }
-      })
+//setTimeout(this.test2(),10);
+
+this.initData();
+
+ 
+
+  //this.test1();
     },
     computed: {
       ...mapState('employeeFundTransferProgressTwo', {
@@ -367,6 +313,57 @@
       nextStep() {
         this.$router.push({name: 'employeeFundSpecialProgressThree'});
       },
+  
+
+    initData(){
+        let params = {employeeId:this.$route.query.employeeId,
+        companyId:this.$route.query.companyId,
+        hfType:this.$route.query.hfType,
+        empTaskId:this.$route.query.empTaskId,
+        };
+          api.queryComEmpTransferForm(params).then(data => {
+          if (data.code == 200) {
+            this.displayVO = data.data;
+            if(data.data.empTaskTransferBo==null){
+              this.transferNotice.companyId=params.companyId;
+              this.transferNotice={};
+            }else{
+           this.transferNotice1 = data.data.empTaskTransferBo;
+            this.getDictData();
+            }
+          } else {
+            this.$Message.error(data.message);
+          }
+          if(this.transferNotice!=null){
+              this.transferNotice.hfType=this.$route.query.hfType;
+              this.transferNotice.transferDate=new Date();
+          }
+        });
+      },
+
+      getDictData(){
+        dict.getDictData().then(data => {
+          if (data.code == 200) {
+            this.transferUnitDictList = data.data.FundOutUnit;
+            this.transferUnitDictList.forEach((element, index, array) => {
+              this.transferOutUnitList.push(element);
+              this.transferInUnitList.push(element);
+            })
+        
+          this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
+          this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+          //this.setValue();
+          setTimeout(this.setValue,500);
+          } else {
+            this.$Message.error(data.message);
+          }
+        });  
+      },
+
+      setValue(){
+        this.transferNotice=this.transferNotice1;
+      },
+
       goBack() {
         this.$router.go(-1);
       },
@@ -485,6 +482,7 @@
       },
       handleTransferInChange(value) {
        // this.transferNotice.transferInUnitAccount = '';
+
         this.transferInUnitList.forEach((element, index, array) => {
             if (element == value) {
               this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
@@ -492,6 +490,7 @@
             }
           }
         )
+
         //    this.transferInUnitList.push(value);
         //    this.transferNotice.transferInUnit = value;
         //  alert(this.transferNotice.transferInUnit );

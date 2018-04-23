@@ -82,7 +82,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户中心：">
-                  <label>{{viewComAccount.customerCenter}}</label>
+                  <label>{{viewComAccount.serviceCenter}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -102,12 +102,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客服经理：">
-                  <label>{{viewComAccount.serviceManager}}</label>
+                  <label>{{viewComAccount.leaderShipName}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户专员：">
-                  <label>{{viewComAccount.customerServicer}}</label>
+                  <label>{{viewComAccount.serviceSpecialist}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -321,6 +321,9 @@
           title : '',
           accountTempStoreBc:'',
           accountTempStore:'',
+          serviceSpecialist:'',
+          leaderShipName:'',
+          serviceCenter:'',
         },
         listEmpTaskPeriod:[],
         listEmpTaskPeriodAdd:[],

@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
-                  <Cascader :data="serviceCenterData" v-model="searchCondition.serviceCenterValue" trigger="hover" transfer></Cascader>
+                  <Cascader :data="customerCenterData" v-model="searchCondition.serviceCenterValue" trigger="hover" transfer></Cascader>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -299,6 +299,7 @@
             },
           ]
         },
+        customerCenterData:[],
         serviceCenterData: [
           {value: '1', label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
           {value: '2', label: '日本客户'},
@@ -424,6 +425,7 @@
     },
     mounted() {
       this.handlePageNum(1);
+      this.getCustomers();
     },
     computed: {
       ...mapState('tNoProcess',{
@@ -439,6 +441,12 @@
         this.$router.push({name: name})
       },
       queryTransfer(params){
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+          params=JSON.parse(JSON.stringify(params));
+          delete params.serviceCenterValue;
+          params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         api.queryTransfer({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
@@ -453,6 +461,14 @@
         let params = this.searchCondition
         this.queryTransfer(params);
       },
+
+      getCustomers(){
+        let params = null;
+        api.getCustomers({params:params}).then(data=>{
+          this.customerCenterData = data.data;
+        })
+      },
+
       handlePageSize(val) {
         this.pageData.pageSize = val;
         let params = this.searchCondition

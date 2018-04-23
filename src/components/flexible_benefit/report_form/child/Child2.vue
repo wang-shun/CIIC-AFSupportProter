@@ -34,7 +34,7 @@
           {title: '地址',key: ''},
           {title: '联系电话',key: ''},
           {title: '邮编',key: ''},
-          {title: '客户经理',key: ''},
+          {title: '客服经理',key: ''},
           {title: '雇员编号',key: ''},
           {title: '雇员姓名',key: ''},
           {title: '出生日期',key: ''},

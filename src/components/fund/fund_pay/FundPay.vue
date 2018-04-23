@@ -307,7 +307,7 @@
               ]);
             }
           },
-          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 120,
+          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 130,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                  h('span', params.row.paymentStateValue),

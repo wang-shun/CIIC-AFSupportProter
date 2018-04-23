@@ -41,7 +41,7 @@
           {title: '主营产品',key: ''},
           {title: '英文名称',key: ''},
           {title: '客户总监',key: ''},
-          {title: '客户经理',key: ''},
+          {title: '客服经理',key: ''},
           {title: '雇员人数',key: ''},
           {title: '中止',key: '',width:65},
           {title: '独立用工',key: ''},

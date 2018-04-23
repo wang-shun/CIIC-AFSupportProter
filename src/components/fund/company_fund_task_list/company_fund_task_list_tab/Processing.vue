@@ -12,17 +12,17 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="title">
+                <Form-item label="客户编号：" prop="companyId">
                   <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业账户类型：" prop="hfAccountType">
                   <Select v-model="operatorSearchData.hfAccountType" style="width: 100%;" transfer>
                     <Option v-for="(value,key) in this.baseDic.companyHFAccountType" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费银行：" prop="paymentBank">
                   <Select v-model="operatorSearchData.paymentBank" style="width: 100%;" transfer>
@@ -33,7 +33,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业公积金账号：" prop="hfComAccount">
-                   <input-account v-model="operatorSearchData.hfComAccount"></input-account>
+                   <Input v-model="operatorSearchData.hfComAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -45,8 +45,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客服经理：" prop="serviceManager">
-                  <Input v-model="operatorSearchData.serviceManager" placeholder="请输入..."></Input>
+                <Form-item label="客服经理：" prop="leaderShipName">
+                  <Input v-model="operatorSearchData.leaderShipName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -90,7 +90,7 @@
 </template>
 <script>
   import InputAccount from '../../../fund/common/input_account'
-  
+
   import InputCompany from '../../../common_control/form/input_company'
   import {Processing} from '../../../../api/house_fund/company_task_list/company_task_list_tab/processing'
   import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
@@ -113,15 +113,10 @@
           paymentBank: '',
           hfComAccount:'',
           hfType:'',
-          serviceManager: '',
+          leaderShipName: '',
           taskStatusString: '1,2' //处理中
         },
-        serviceCenterData: [
-          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-          {value: 2, label: '日本客户'},
-          {value: 3, label: '虹桥'},
-          {value: 4, label: '浦东'}
-        ], //客服中心
+        serviceCenterData: [], //客服中心
         taskColumns: [
           {title: '操作', width: 100, align: 'center',
             render: (h, params) => {
@@ -224,7 +219,7 @@
               ]);
             }
           },
-          {title: '客户经理', key: 'serviceManager', width: 150, align: 'center',
+          {title: '客服经理', key: 'serviceManager', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.serviceManager),
@@ -272,8 +267,8 @@
         }
       ).catch(error=>{
         console.log(error);
-      })
-
+      });
+      this.getCustomers();
     },
     computed: {
     },
@@ -325,10 +320,17 @@
         })
       },
       getParams1(page){
+        let params={};
+        let arrayServiceCenter=this.operatorSearchData.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(this.operatorSearchData));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         return {
           pageSize:this.size,
           pageNum:page,
-          params:this.operatorSearchData
+          params:params
         }
       },
       //获得列表请求参数
@@ -342,6 +344,11 @@
             hfTypeName:(this.operatorSearchData.hfTypeName=="" || this.operatorSearchData.taskStartTime==null || this.operatorSearchData.hfTypeName=='全部') ? null : this.operatorSearchData.hfTypeName //公积金账户类型
           }
         }
+      },
+      getCustomers(){
+        CompanyTaskListHF.getCustomers({}).then(data=>{
+          this.serviceCenterData = data.data;
+        })
       },
     }
   }

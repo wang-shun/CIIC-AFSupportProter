@@ -202,7 +202,7 @@
             </Form-item>
             </Col>
             <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="客户经理：" prop="lowDepartmentName">
+            <Form-item label="客服经理：" prop="lowDepartmentName">
               <Label>{{empInputData.lowDepartmentName}}</Label>
             </Form-item>
             </Col>
@@ -354,7 +354,7 @@
             title: '养老金独立开户密码', key: 'ssPwd', width: 120, align: 'center'
           },
           {
-            title: '客户经理', key: 'lowDepartmentName', width: 120, align: 'center'
+            title: '客服经理', key: 'lowDepartmentName', width: 120, align: 'center'
           },
           {
             title: '客户总监', key: 'highDepartmentName', width: 120, align: 'center'

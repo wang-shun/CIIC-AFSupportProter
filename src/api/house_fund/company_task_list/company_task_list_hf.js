@@ -44,6 +44,7 @@ export class CompanyTaskListHF{
                     obj.initiator = i.submitterName
                     obj.sponsorTime = i.submitTimeString
                     obj.UKey = i.ukStoreValue
+                    obj.serviceManager=i.leaderShipName
                     obj.customerPayStartDate= i.comStartMonth
                     obj.comAccountId=i.comAccountId
                     obj.comAccountClassId=i.comAccountClassId
@@ -51,11 +52,13 @@ export class CompanyTaskListHF{
                     //开户-companyInfo传参
                     companyInfo.customerNumber = i.companyId
                     companyInfo.customerName = i.companyName
-                    companyInfo.serviceManager = ""
+                    companyInfo.serviceManager = i.leaderShipName
                     companyInfo.customerFundEndDate = i.closeDay
                     companyInfo.initiater = i.submitterName
                     companyInfo.sponsorTime = i.submitTimeString
                     companyInfo.initiaterNotes = i.submitRemark
+                    companyInfo.hfTypeName = i.hfTypeName
+                    
                     obj.companyInfo = companyInfo
                     //开户-openAccountInfo传参
                     openAccountInfo.comAccountId=i.comAccountId
@@ -330,13 +333,23 @@ static stopCompAccountTask(params){
         }else{
           reject(Error('后台异常！'))
         }
-      })
-        .catch(function (error) {
+      }).catch(function (error) {
           console.log(error);
           reject(error);
         });
     })
   }
-
+  //获取服务中心数字
+  static getCustomers(params){
+    let url ='/api/fundcommandservice/hfauthority/getHfCustomerData'
+    return new Promise((resolve,reject)=>{
+      ajax.post(url,params).then(response=>{
+        let result = this.handleReturnData(response)
+        if(!result.isError){
+          resolve(result)
+        }else reject(Error(result.message))
+      })
+    })
+  }
 }
 

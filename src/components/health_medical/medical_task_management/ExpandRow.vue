@@ -45,7 +45,7 @@
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <FormItem label="保额：">
-          {{row.keyValue}}
+          {{reverseAmount(row.keyType,row.keyValue)}}
         </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -86,6 +86,13 @@
       },
       companyToString(type) {
         return taskRow.insuranceCompanyToString(type);
+      },
+      reverseAmount(type, value) {
+        if (type === 2) {
+          return value * 100 + "%";
+        } else {
+          return value;
+        }
       }
     },
 

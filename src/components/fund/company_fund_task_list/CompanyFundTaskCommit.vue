@@ -97,11 +97,14 @@
               this.$Message.error('付款方式必填');
               return false;
           }
-          if(params.comStartMonth=='' || params.comStartMonth==null){
+          let comStartMonth=this.$refs.openAccount.openAccountInfo.customerPayStartDate;
+          console.log(comStartMonth)
+          if(comStartMonth=='' || comStartMonth==null){
               this.$Message.error('客户缴费起始年月必填');
               return false;
           }
-          if(params.operateStartMonth=='' || params.operateStartMonth==null){
+          let operateStartMonth=this.$refs.openAccount.openAccountInfo.operateStartMonth;
+          if(operateStartMonth=='' || operateStartMonth==null){
               this.$Message.error('专员操作起始年月必填');
               return false;
           }
@@ -163,7 +166,7 @@
           comAccountNum: this.$refs.openAccount.openAccountInfo.companyFundAccountNum,
           uKeyStore: this.$refs.openAccount.openAccountInfo.UKeyValue,
           comStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.customerPayStartDate, "YYYYMM"),
-          operateStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.professionalOperateStartDate, "YYYYMM"),
+          operateStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.operateStartMonth, "YYYYMM"),
           endType: this.$refs.openAccount.openAccountInfo.endTypeValue,
           accountTempStore: this.$refs.openAccount.openAccountInfo.accountTempStoreTypeValue,
           taskStatus: this.$refs.openAccount.openAccountInfo.taskStatus,

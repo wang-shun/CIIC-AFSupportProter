@@ -7,7 +7,7 @@
           <Form ref="payBatchSearchData" :model="payBatchSearchData" :label-width=150>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="社保账户类型11：" prop="accountType">
+                <Form-item label="社保账户类型：" prop="accountType">
                   <Select v-model="payBatchSearchData.accountType" clearable style="width: 100%;" transfer>
                     <Option value="" label="全部"></Option>
                     <Option v-for="item in staticPayBatchSearchData.accountTypeList" :value="item.key" :key="item.key" :label="item.value"></Option>

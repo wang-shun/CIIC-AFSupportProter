@@ -24,4 +24,8 @@ export default {
     return await response.data;
   },
 
+  exportStatementDetail:(params)=>{
+    AJAX.download('/api/fundcommandservice/statement/exportStatementDetail', params)
+  }
+
 }

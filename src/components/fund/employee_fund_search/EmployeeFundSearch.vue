@@ -42,8 +42,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客服经理：" prop="serviceManager">
-                  <Input v-model="searchCondition.serviceManager" placeholder="请输入..."></Input>
+                <Form-item label="客服经理：" prop="leaderShipName">
+                  <Input v-model="searchCondition.leaderShipName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -184,7 +184,7 @@ export default {
         hfAccountType: "",
         employeeName: "",
         paymentBank: "",
-        serviceManager: "",
+        leaderShipName: "",
         idNum: "",
         empStatus: "",
         operationRemind: ""

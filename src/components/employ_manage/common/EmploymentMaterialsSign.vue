@@ -104,9 +104,9 @@ import api from '../../../api/employ_manage/hire_operator'
          }
 
         api.rejectMaterial(this.materialsInfo.materialsData).then(data => {
-                  if (data.data.data == true) {
+                  if (data.data.data.result == true) {
                     this.$Message.success("保存成功");
-                     window.location.reload();
+                    this.materialsInfo.materialsData = data.data.data.data;
                   } else {
                     this.$Message.error("保存失败！");
                   }
@@ -114,9 +114,9 @@ import api from '../../../api/employ_manage/hire_operator'
       },instance() {
           
             api.receiveMaterial(this.materialsInfo.materialsData).then(data => {
-                  if (data.data.data == true) {
-                    this.$Message.success("保存成功");
-                   window.location.reload();
+                  if (data.data.data.result == true) {
+                     this.$Message.success("签收成功");
+                     this.materialsInfo.materialsData = data.data.data.data;
                   } else {
                     this.$Message.error("保存失败！");
                   }

@@ -142,9 +142,9 @@
               return;
             }
             api.saveAmRemark(this.fileNotesView).then(data => {
-                  if (data.data.data == true) {
+                   if (data.data.data.result == true) {
                     this.$Message.success("保存成功");
-                    history.go(-1);
+                    this.fileNotesViewData = data.data.data.data;
                   } else {
                     this.$Message.error("保存失败！");
                   }
@@ -157,6 +157,7 @@
                 })
             },
             remove (index,remarkId) {
+                const _self = this;
                 if(!remarkId){
                   this.fileNotesView.splice(index, 1);
               
@@ -169,7 +170,7 @@
                         let params = {amRemarkId:remarkId}
 
                         api.deleteAmRemark(params).then(data=>{
-                              window.location.reload();
+                              _self.fileNotesViewData.splice(index, 1);
                       })
                        
                       },

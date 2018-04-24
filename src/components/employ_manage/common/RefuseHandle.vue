@@ -413,8 +413,9 @@
           api.bindEmploymentId(fromData).then(data => {
               if (data.code == 200) {
                 if(data.data.result==true){
+                   this.refuseInfo.resignId = data.data.entity.resignId;
                    this.$Message.success("绑定成功");
-                   history.go(-1);
+                 
                 }else{
                    this.$Message.error("绑定失败！" + data.data.result);
                 }

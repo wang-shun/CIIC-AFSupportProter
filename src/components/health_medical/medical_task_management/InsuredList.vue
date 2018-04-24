@@ -37,15 +37,6 @@
                 </Select>
               </Form-item>
               </Col>
-              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="状态">
-                <Select placeholder="请选择">
-                  <Option v-model="formItem.status" v-for="item in insureStatus" :value="item.value" :key="item.value">
-                    {{item.label}}
-                  </Option>
-                </Select>
-              </FormItem>
-              </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保额类型" prop="keyType">
                 <Select v-model="formItem.keyType" :clearable="true">
@@ -172,17 +163,7 @@
           }
         ],
         warrantyData: [],
-        insureProject: [
-          {
-            label: '家庭财产险', value: 'p1'
-          },
-          {
-            label: '二十种重大疾病险', value: 'p2'
-          },
-          {
-            label: '补充医疗险', value: 'p3'
-          },
-        ],
+        taskTypeItem: [],
         keyTypeProperties: task.keyTypeProperties,
         insuranceCompanyProperties: []
       }

@@ -25,12 +25,12 @@
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <FormItem label="保险名称：">
-          {{row.productName}}
+          {{row.policyType}}
         </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <FormItem label="投保公司：">
-          {{row.companyName}}
+          {{companyToString(row.policyType)}}
         </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -69,6 +69,8 @@
   </div>
 </template>
 <script>
+  import taskRow from '../../../store/modules/health_medical/data_sources/medical_task.js'
+
   export default {
     name: "expend-row",
     props: {
@@ -81,7 +83,11 @@
         } else {
           return val;
         }
+      },
+      companyToString(type) {
+        return taskRow.insuranceCompanyToString(type);
       }
-    }
+    },
+
   }
 </script>

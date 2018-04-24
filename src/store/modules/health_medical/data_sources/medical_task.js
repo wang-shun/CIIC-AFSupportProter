@@ -30,29 +30,16 @@ const taskTypeProperties = [
   }*/
 ];
 
-const taskStatusCom = [
-  {
-    value: '1', label: '中智'
-  },
-  {
-    value: '2', label: '中国平安保险公司'
+function insuranceCompanyToString(status) {
+  switch (status) {
+    case 1:
+      return "中盈";
+      break;
+    case 2:
+      return "中智上海";
+      break;
   }
-];
-
-const taskTypeItem = [
-  {
-    value: 'type1', label: '意外伤害险'
-  },
-  {
-    value: 'type2', label: '环球医疗'
-  },
-  {
-    value: 'type3', label: '补充医疗'
-  },
-  {
-    value: 'type4', label: '重大疾病险'
-  }
-];
+}
 
 const keyTypeProperties = [
   {
@@ -126,6 +113,7 @@ export default {
   taskWaitStatus,
   taskAlreadyStatus,
   taskTypeProperties,
+  insuranceCompanyToString,
   keyTypeProperties,
   keyTypeToChina,
   typeToChina,

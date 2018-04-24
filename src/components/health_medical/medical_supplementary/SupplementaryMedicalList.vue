@@ -334,7 +334,7 @@
     created() {
       this.getByPage(1);
       this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-      this.dealMeg.handler = this.userInfo.displayName;
+      this.dealMeg.auditor = this.userInfo.displayName;
     },
     methods: {
       handleUpload(file) {

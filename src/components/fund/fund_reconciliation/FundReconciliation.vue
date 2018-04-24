@@ -93,7 +93,6 @@
     </Modal>
 
     <Modal v-model="isShowCreateReconciliation" title="新建对账" width="800" :mask-closable="false">
-      <!-- <Form :label-width=150 ref="newReconciliation" :model="newReconciliation" :rules="newReconciliationValidate"> -->
       <Form :label-width=150 ref="newReconciliation" :model="newReconciliation">
         <Row type="flex" justify="start">
           <Col :sm="{span:24}">
@@ -174,13 +173,6 @@
   </div>
 </template>
 <script>
-  const serverAddress = {
-    dev: 'http://localhost',
-    sit: 'http://172.16.9.24',
-    uat: 'http://172.16.9.60',
-    prod: ''
-  };
-
   import api from '../../../api/house_fund/fund_reconciliation/fund_reconciliation'
   import commonApi from '../../../api/house_fund/common/common'
   import InputAccount from "../common/input_account"
@@ -220,6 +212,7 @@
                     click: () => {
                       this.isShowReconciliation = true;
                       this.getStatementDetail(params.row.statementCompareId);
+                      this.currentStatementId = params.row.statementCompareId;
                     }
                   }
                 }, '查看'),
@@ -286,20 +279,6 @@
           hfType: '',
           hfComAccount: ''
         },
-        // newReconciliationValidate: {
-        //   hfMonth: [
-        //     {required: true, type: 'date', message: '请选择月份', trigger: 'blur'}
-        //   ],
-        //   hfType: [
-        //     {required: true, message: '请选择公积金类型', trigger: 'blur'}
-        //   ],
-        //   hfAccountType: [
-        //     {required: true, message: '请选择公积金企业账户类型', trigger: 'blur'}
-        //   ],
-        //   fundComCurrentValue: [
-        //     {required: true, message: '请选择公积金企业账户', trigger: 'blur'}
-        //   ]
-        // },
         viewReconciliation: {
           hfMonth: "",
           comAccountName: "",
@@ -545,9 +524,8 @@
         });
       },
       exportData() {
-        this.$refs.viewReconciliation.exportCsv({
-          filename: '对账记录'
-        });
+        var params = {statementId : this.currentStatementId};
+        api.exportStatementDetail(params);
       },
       setFundMonth(month) {
         this.newReconciliation.hfMonth = month.replace('-', '');

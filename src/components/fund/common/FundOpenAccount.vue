@@ -147,12 +147,11 @@
       }
     },
     mounted() {
-      console.log(this.openAccountInfo);
+      //console.log(this.openAccountInfo);
     }
     ,
     computed: {
       openAccount() {
-        
         return this.openAccountInfo;
       },
   changeDispatchType() {

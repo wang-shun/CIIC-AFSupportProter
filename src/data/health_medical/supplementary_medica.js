@@ -8,17 +8,17 @@ const userInfo = ajax.userInfo;
 
 const queryAcceptancePage = params => ajaxApi.postJSON("/supplyMedicalService/queryAcceptancePage", params);
 const queryAcceptanceTotal = params => ajaxApi.postJSON("/supplyMedicalService/queryAcceptanceTotal", params);
+const updateAcceptanceList = params => ajaxApi.postJSON("/supplyMedicalService/updateAcceptanceList", params);
 const queryMedicalInvoiceDetail = params => ajaxApi.get("/supplyMedicalService/queryMedicalInvoiceDetail/" + params);
 const updateMedicalInvoice = params => ajaxApi.postJSON("/supplyMedicalService/updateMedicalInvoice", params);
 const importAcceptanceXls = params => ajaxApi.upload("/supplyMedicalService/importAcceptanceXls", params);
-const queryUserInfo = params => userInfo.get("/api/common/getUserInfoByToken/" + params);
 
 
 export default {
   queryAcceptancePage,
   queryAcceptanceTotal,
+  updateAcceptanceList,
   queryMedicalInvoiceDetail,
   updateMedicalInvoice,
   importAcceptanceXls,
-  queryUserInfo,
 }

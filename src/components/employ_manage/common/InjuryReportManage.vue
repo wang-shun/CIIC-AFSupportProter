@@ -264,9 +264,9 @@ import api from '../../../api/employ_manage/hire_operator'
             },instance() {
         
             api.saveAmInjury(this.injuryReportManage).then(data => {
-                  if (data.data.data == true) {
+                  if (data.data.data.result == true) {
                     this.$Message.success("保存成功");
-                    history.go(-1);
+                    this.injuryReportManageInfo = data.data.data.data;
                   } else {
                     this.$Message.error("保存失败！");
                   }
@@ -279,6 +279,7 @@ import api from '../../../api/employ_manage/hire_operator'
                 })
             },
             remove (index,injuryId) {
+                const _self = this;
                 if(!injuryId){
                   this.injuryReportManage.splice(index, 1);
               
@@ -291,7 +292,7 @@ import api from '../../../api/employ_manage/hire_operator'
                         let params = {injuryId:injuryId}
 
                         api.deleteAmInjury(params).then(data=>{
-                              history.go(-1);
+                              _self.injuryReportManage.splice(index, 1);
                       })
                        
                       },

@@ -507,12 +507,14 @@
         this.sourceFrom = data.sourceFrom;
         this.socialSecurityPayOperator.empTaskId = this.empTaskId;
         var empTaskId = data.empTaskId;
-
+ console.log('========');
         api.queryEmpTaskById({
           empTaskId: empTaskId,
           operatorType: 1,// 任务单费用段
           isNeedSerial:1//是否需要社保序号
         }).then(data => {
+         
+          console.log(data);
           if(data.data!=null){
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;

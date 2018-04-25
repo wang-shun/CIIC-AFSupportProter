@@ -9,7 +9,7 @@
     </Row>
 
     <Table class="mt20" border :columns="operatorTableChangeColumns" :data="operatorTableNewData" ref="employeeSocialSecurityData"></Table>
-  
+
     <!-- <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="办理方式：">
@@ -92,7 +92,7 @@
         <DatePicker v-model="socialSecurityEndMonth" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
       </Form-item>
       </Col>
-    </Row> 
+    </Row>
     <Row>
       <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 24}">
       <Form-item label="批退原因：">
@@ -120,7 +120,7 @@
         isBatchAll:this.$route.query.isBatchAll,
         operatorSearchData:{},
         operatorTableNewData:[],
-        updateOperatorTableNewData:[],
+//        updateOperatorTableNewData:[],
         operatorTableChangeColumns: [
         {
             type: 'index',
@@ -138,7 +138,7 @@
                   on: {
                     click: () => {
                       self.operatorTableNewData.splice(params.index,1);
-                      self.updateOperatorTableNewData.splice(params.index,1);
+//                      self.updateOperatorTableNewData.splice(params.index,1);
                     }
                   }
                 }, '移出')
@@ -178,19 +178,19 @@
             }
           },
 
-          
-          
+
+
           {
             title: '处理方式', key: 'handleWay', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', [
-                h('span', params.row.handleWay=='1'||params.row.handleWay=="" || typeof(params.row.handleWay)=='undefined'?'网上申报': '柜面办理'),
-                  // h('Select', {props: {value: ''}},
-                  //   [
-                  //     h('Option', {props: {value: '1'}}, '网上申报'),
-                  //     h('Option', {props: {value: '2'}}, '柜面办理'),
-                  //   ]
-                  // )
+//                h('span', params.row.handleWay=='1'||params.row.handleWay=="" || typeof(params.row.handleWay)=='undefined'?'网上申报': '柜面办理'),
+                   h('Select', {props: {value: params.row.handleWay}},
+                     [
+                       h('Option', {props: {value: '1'}}, '网上申报'),
+                       h('Option', {props: {value: '2'}}, '柜面办理'),
+                     ]
+                   )
                 ]
               );
             }
@@ -246,11 +246,11 @@
                   props: {value: params.row.handleRemark},
                   on:{
                     input:(event)=>{
-                        self.updateOperatorTableNewData[params.index].handleRemark = event;
+                        self.operatorTableNewData[params.index].handleRemark = event;
                     }
                   }
                 }
-                
+
                 )
               ]);
             }
@@ -260,7 +260,7 @@
       }
     },
     mounted() {
-      
+
        //选择
       if(typeof(this.isBatchAll)!='undefined'){
         let getParams = this.$route.params.operatorSearchData;
@@ -276,9 +276,10 @@
         //通过tab 条件查询批量任务
         api.queryBatchTaskByCondition(params).then(data=>{
           if(data.data!=null){
-            
+
             this.operatorTableNewData = data.data;
-            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+            this.initHandleWay();
+//            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
           }
         })
       }else{
@@ -287,16 +288,23 @@
         api.queryBatchEmpArchiveByEmpTaskIds(params).then(data=>{
           if(data.data!=null){
             this.operatorTableNewData = data.data;
-            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+            this.initHandleWay();
+//            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
           }
         })
       }
     },
     computed: {
-     
+
     },
     methods: {
-     
+      initHandleWay() {
+        this.operatorTableNewData.forEach(e => {
+          if (!e.handleWay || e.handleWay == '') {
+            e.handleWay = '1';
+          }
+        })
+      },
       goback () {
         this.$router.push({name: 'employeeOperatorView'});
       },
@@ -309,7 +317,7 @@
               okText: '确定',
               cancelText: '取消',
               onOk: () => {
-                  let param =self.updateOperatorTableNewData;
+                  let param =self.operatorTableNewData;
                   if(param.length==0){
                     self.$Message.error("任务单为空");
                   }else{
@@ -326,7 +334,7 @@
                       }else{
                         self.$Message.error("网络异常");
                       }
-                    }) 
+                    })
                   }
               }
           });

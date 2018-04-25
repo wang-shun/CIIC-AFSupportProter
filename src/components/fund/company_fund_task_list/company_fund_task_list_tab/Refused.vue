@@ -131,7 +131,6 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.setSessionNumAndSize()
                       this.$router.push({name: 'companyFundTaskInfo', params: {
                           comTaskId: params.row.comTaskId,
                           companyInfo: params.row.companyInfo,

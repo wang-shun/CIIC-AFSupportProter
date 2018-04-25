@@ -131,7 +131,6 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.setSessionNumAndSize()
                       switch(params.row.taskCategoryName) {
                         case '开户':
                           this.$router.push({name: 'companyFundTaskCommit', params: {

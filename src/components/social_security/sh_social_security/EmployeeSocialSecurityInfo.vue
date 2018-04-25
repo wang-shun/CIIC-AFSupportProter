@@ -18,7 +18,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客服经理：">
-                  <label>{{employeeAndCustomer.customerServicer}}</label>
+                  <label>{{employeeAndCustomer.leaderShipName}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -126,7 +126,7 @@
         employeeAndCustomer:{
           companyId:'',
           title:'',
-          customerServicer:'',
+          leaderShipName:'',
           employeeId:'',
           idNum:'',
           inDate:'',

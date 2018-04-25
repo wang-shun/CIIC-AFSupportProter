@@ -269,7 +269,10 @@
             }
         }).catch(error=>{
           this.$Message.error('系统异常！');
-        })
+        });
+      this.statementId = window.sessionStorage.getItem("monthEmpChangeId");
+      this.serachMonthEmpChange(window.sessionStorage.getItem("monthEmpChangeId"));
+      this.showMonthEmpChangeDetail(window.sessionStorage.getItem("monthEmpChangeId"));
       }
     }
   }

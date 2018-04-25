@@ -110,7 +110,7 @@ import api from '../../../api/employ_manage/hire_operator'
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success("保存成功");
-                 history.go(-1);
+                this.makeUpFile.archiveId = data.data.archiveId;
               } else {
                 this.$Message.error("保存失败！" + data.message);
               }

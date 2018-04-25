@@ -156,6 +156,7 @@
           if(operateStartMonth!='' && operateStartMonth!=null){
              operateStartMonth = Tools.formatDate(operateStartMonth, "YYYYMM")
           }
+         
         return {
           //comTask
           comTaskId: this.$route.params.comTaskId,

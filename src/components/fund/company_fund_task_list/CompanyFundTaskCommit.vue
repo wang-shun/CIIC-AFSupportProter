@@ -98,7 +98,6 @@
               return false;
           }
           let comStartMonth=this.$refs.openAccount.openAccountInfo.customerPayStartDate;
-          console.log(comStartMonth)
           if(comStartMonth=='' || comStartMonth==null){
               this.$Message.error('客户缴费起始年月必填');
               return false;
@@ -148,6 +147,15 @@
       },
       //获得更新任务单请求参数
       getParams(){
+
+          let comStartMonth=this.$refs.openAccount.openAccountInfo.customerPayStartDate;
+          if(comStartMonth!='' && comStartMonth!=null){
+              comStartMonth = Tools.formatDate(comStartMonth, "YYYYMM")
+          }
+          let operateStartMonth=this.$refs.openAccount.openAccountInfo.operateStartMonth;
+          if(operateStartMonth!='' && operateStartMonth!=null){
+             operateStartMonth = Tools.formatDate(operateStartMonth, "YYYYMM")
+          }
         return {
           //comTask
           comTaskId: this.$route.params.comTaskId,
@@ -165,8 +173,8 @@
           comAccountName: this.$refs.openAccount.openAccountInfo.companyFundAccountName,
           comAccountNum: this.$refs.openAccount.openAccountInfo.companyFundAccountNum,
           uKeyStore: this.$refs.openAccount.openAccountInfo.UKeyValue,
-          comStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.customerPayStartDate, "YYYYMM"),
-          operateStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.operateStartMonth, "YYYYMM"),
+          comStartMonth: comStartMonth,
+          operateStartMonth: operateStartMonth,
           endType: this.$refs.openAccount.openAccountInfo.endTypeValue,
           accountTempStore: this.$refs.openAccount.openAccountInfo.accountTempStoreTypeValue,
           taskStatus: this.$refs.openAccount.openAccountInfo.taskStatus,

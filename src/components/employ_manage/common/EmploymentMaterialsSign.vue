@@ -94,8 +94,10 @@ import api from '../../../api/employ_manage/hire_operator'
     },
     methods: {
       refuseAll() {
-         if(this.materialsInfo.reasonValue==''){
-           alert("请选择拒绝签收原因");
+        
+         if(this.materialsInfo.reasonValue==''||this.materialsInfo.reasonValue==undefined){
+          
+            this.$Message.success("请选择拒绝签收原因");
            return;
          }
          for(var i=0;i<this.materialsInfo.materialsData.length;i++){
@@ -104,6 +106,7 @@ import api from '../../../api/employ_manage/hire_operator'
          }
 
         api.rejectMaterial(this.materialsInfo.materialsData).then(data => {
+                
                   if (data.data.data.result == true) {
                     this.$Message.success("保存成功");
                     this.materialsInfo.materialsData = data.data.data.data;

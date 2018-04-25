@@ -88,7 +88,7 @@
                         },
                         on: {
                             click: () => {
-                                this.remove(params.index,params.row.injuryId)
+                                this.remove(params.index,params.row.remarkId)
                             }
                         }
                     }, '删除')
@@ -142,6 +142,7 @@
               return;
             }
             api.saveAmRemark(this.fileNotesView).then(data => {
+                   
                    if (data.data.data.result == true) {
                     this.$Message.success("保存成功");
                     this.fileNotesViewData = data.data.data.data;
@@ -170,7 +171,7 @@
                         let params = {amRemarkId:remarkId}
 
                         api.deleteAmRemark(params).then(data=>{
-                              _self.fileNotesViewData.splice(index, 1);
+                              _self.fileNotesView.splice(index, 1);
                       })
                        
                       },

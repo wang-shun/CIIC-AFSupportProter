@@ -142,10 +142,10 @@
               return;
             }
             api.saveAmRemark(this.fileNotesView).then(data => {
-                  debugger 
+                   
                    if (data.data.data.result == true) {
                     this.$Message.success("保存成功");
-                    this.fileNotesView = data.data.data.data;
+                    this.fileNotesViewData = data.data.data.data;
                   } else {
                     this.$Message.error("保存失败！");
                   }
@@ -158,7 +158,6 @@
                 })
             },
             remove (index,remarkId) {
-                debugger;
                 const _self = this;
                 if(!remarkId){
                   this.fileNotesView.splice(index, 1);

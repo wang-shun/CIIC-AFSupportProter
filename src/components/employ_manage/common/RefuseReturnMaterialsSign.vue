@@ -217,7 +217,7 @@
                 this.$Message.success("有收到人不能删除！");
                  return false;
               }
-        
+                const _self = this;
                 if(!empMaterialId){
                   this.refuseReturnMaterialsSign.splice(index, 1);
               
@@ -230,7 +230,7 @@
                         let params = {empMaterialId:empMaterialId}
 
                         api.deleteAmEmpMaterial(params).then(data=>{
-                              history.go(-1);
+                             _self.refuseReturnMaterialsSign.splice(index, 1);;
                       })
                        
                       },

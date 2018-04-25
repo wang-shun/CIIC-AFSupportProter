@@ -419,6 +419,7 @@
 
       },
       showInfoTw (ind) {  
+           this.pageData.pageNum = 1;
            this.searchCondition.params = this.searchConditions.toString();
            this.searchCondition.taskStatus = ind;
            this.queryAmResign(this.searchCondition);

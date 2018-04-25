@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="height:950px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         企业任务单
@@ -76,14 +76,17 @@
     <Row class="mt20">
       <Col :sm="{span:24}">
         <Table border :columns="taskColumns" :data="taskData" :loading="loading"></Table>
-        <Page
+       <Page
           class="pageSize"
-          :total="totalSize"
-          :page-size="size"
-          :current="pageNum"
+          @on-page-size-change="handlePageSize"
+          @on-change="handlePageNum"
+          :total="pageData.total"
+          :page-size="pageData.pageSize"
+          :page-size-opts="pageData.pageSizeOpts"
+          :current="pageData.pageNum"
           show-sizer
           show-total
-          @on-change="getPage"></Page>
+          ></Page>
       </Col>
     </Row>
 
@@ -103,8 +106,12 @@
         totalSize:0,//后台传过来的分页总数
         collapseInfo: [1], //展开栏
         loading:true,
-        size:10,//默认单页记录数
-        pageNum:1,
+        pageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+        },
         loading: false,
         operatorSearchData: {
           serviceCenterValue: [],
@@ -124,7 +131,6 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.setSessionNumAndSize()
                       this.$router.push({name: 'companyFundTaskInfo', params: {
                           comTaskId: params.row.comTaskId,
                           companyInfo: params.row.companyInfo,
@@ -242,22 +248,50 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      getPage(page){
-        this.pageNum = page
-        this.setSessionNumAndSize()
-        this.loading=true;
-        let self= this
-        let params =this.getParams(page)
+      hfComTaskQuery(){
+          let params = this.getParams1();
         Refused.postTableData(params).then(data=>{
-            self.refresh(data)
+            this.refresh(data)
+            this.pageData.total = Number(data.data.totalSize);
           }
         ).catch(error=>{
           console.log(error);
+        });
+      },
+      handlePageNum(page){
+        this.pageData.pageNum = page
+        this.hfComTaskQuery();
+      },
+      handlePageSize(page) {
+        this.pageData.pageNum = 1;
+        this.pageData.pageSize = page;
+        this.hfComTaskQuery();
+      },
+      //点击查询按钮
+      clickQuery(){
+        this.pageNum = 1;
+        //获得页面条件参数
+        let params = this.getParams1()
+        Refused.postTableData(params).then(data=>{
+          this.refresh(data)
+        }).catch(error=>{
+          console.log(error)
         })
       },
-      setSessionNumAndSize(){
-        sessionStorage.taskPageNum = this.pageNum
-        sessionStorage.taskPageSize = this.size
+    //获得列表请求参数
+      getParams1(){
+        let params={};
+        let arrayServiceCenter=this.operatorSearchData.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(this.operatorSearchData));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
+        return {
+          pageSize:this.pageData.pageSize,
+          pageNum:this.pageData.pageNum,
+          params:params,
+        }
       },
       //关闭查询loding
       closeLoading(){
@@ -274,35 +308,7 @@
         let params = this.getParams(1)
         CompanyTaskListHF.expExcel(params);
       },
-      //点击查询按钮
-      clickQuery(){
-        this.loading=true;
-        this.pageNum = 1;
-        //获得页面条件参数
-        let params = this.getParams1(1)
-        console.log('====');
-        console.log(params);
-        Refused.postTableData(params).then(data=>{
-          this.refresh(data)
-        }).catch(error=>{
-          console.log(error)
-        })
-      },
-
-      getParams1(page){
-        let params={};
-        let arrayServiceCenter=this.operatorSearchData.serviceCenterValue;
-        if(arrayServiceCenter!=null){
-            params=JSON.parse(JSON.stringify(this.operatorSearchData));
-            delete params.serviceCenterValue;
-            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
-        }
-        return {
-          pageSize:this.size,
-          pageNum:page,
-          params:params
-        }
-      },
+        
       //获得列表请求参数
       getParams(page){
         return {

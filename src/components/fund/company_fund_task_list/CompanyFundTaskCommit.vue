@@ -62,14 +62,53 @@
           this.$Message.error('必须选择一个任务状态');
           return false;
         }
+        if(params.taskStatus==1 && params.acceptDate=='' ){
+          this.$Message.error('受理月份必填');
+          return false;
+        }
+        if(params.taskStatus==2 && params.approvalDate=='' ){
+          this.$Message.error('送审月份必填');
+          return false;
+        }
+        if(params.taskStatus==3 && params.finishDate=='' ){
+          this.$Message.error('完成月份必填');
+          return false;
+        }
+
 
         if(params.taskStatus==3){
-          if(params.comAccountName==''){
+          if(params.comAccountName=='' || params.comAccountName== null){
               this.$Message.error('企业账户名称必填');
               return false;
           }
-          if(params.comAccountNum==''){
+          if(params.comAccountNum=='' || params.comAccountNum==null){
               this.$Message.error('企业账号必填');
+              return false;
+          }
+          if(params.closeDay=='' || params.closeDay==null){
+              this.$Message.error('每月关账日必填');
+              return false;
+          }
+          if(params.paymentBank=='' || params.paymentBank==null){
+              this.$Message.error('缴费银行必填');
+              return false;
+          }
+          if(params.paymentWay=='' || params.paymentWay==null){
+              this.$Message.error('付款方式必填');
+              return false;
+          }
+          let comStartMonth=this.$refs.openAccount.openAccountInfo.customerPayStartDate;
+          if(comStartMonth=='' || comStartMonth==null){
+              this.$Message.error('客户缴费起始年月必填');
+              return false;
+          }
+          let operateStartMonth=this.$refs.openAccount.openAccountInfo.operateStartMonth;
+          if(operateStartMonth=='' || operateStartMonth==null){
+              this.$Message.error('专员操作起始年月必填');
+              return false;
+          }
+          if(params.uKeyStore=='' || params.uKeyStore==null){
+              this.$Message.error('公积金企业U盾必填');
               return false;
           }
         }
@@ -108,6 +147,15 @@
       },
       //获得更新任务单请求参数
       getParams(){
+
+          let comStartMonth=this.$refs.openAccount.openAccountInfo.customerPayStartDate;
+          if(comStartMonth!='' && comStartMonth!=null){
+              comStartMonth = Tools.formatDate(comStartMonth, "YYYYMM")
+          }
+          let operateStartMonth=this.$refs.openAccount.openAccountInfo.operateStartMonth;
+          if(operateStartMonth!='' && operateStartMonth!=null){
+             operateStartMonth = Tools.formatDate(operateStartMonth, "YYYYMM")
+          }
         return {
           //comTask
           comTaskId: this.$route.params.comTaskId,
@@ -125,8 +173,8 @@
           comAccountName: this.$refs.openAccount.openAccountInfo.companyFundAccountName,
           comAccountNum: this.$refs.openAccount.openAccountInfo.companyFundAccountNum,
           uKeyStore: this.$refs.openAccount.openAccountInfo.UKeyValue,
-          comStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.customerPayStartDate, "YYYYMM"),
-          operateStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.professionalOperateStartDate, "YYYYMM"),
+          comStartMonth: comStartMonth,
+          operateStartMonth: operateStartMonth,
           endType: this.$refs.openAccount.openAccountInfo.endTypeValue,
           accountTempStore: this.$refs.openAccount.openAccountInfo.accountTempStoreTypeValue,
           taskStatus: this.$refs.openAccount.openAccountInfo.taskStatus,
@@ -138,6 +186,7 @@
 
         }
       },
+       
     }
   }
 </script>

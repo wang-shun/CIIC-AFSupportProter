@@ -224,10 +224,10 @@
               ]);
             }
           },
-          {title: '客服经理', key: 'eservicer', align: 'center', width: 120,
+          {title: '客服经理', key: 'leaderShipName', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.eservice),
+                h('span', params.row.leaderShipName),
               ]);
             }
           },

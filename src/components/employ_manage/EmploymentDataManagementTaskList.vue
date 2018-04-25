@@ -342,6 +342,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         this.$router.push({name:'employHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId}});
       },
       showInfoTw (ind) {  
+           this.pageData.pageNum = 1;
            this.searchCondition.params = this.searchConditions.toString();
            this.searchCondition.taskStatus = ind;
            this.employeeQuery(this.searchCondition);

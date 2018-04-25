@@ -118,10 +118,7 @@
     methods: {
             ok () {
               var fromData = this.$utils.clear(this.realHandInfo,'');
-              // if(this.handleInfo.remarkManw==''){
-              //    this.$Message.info('操作员不能为空');
-              //     return;
-              //  }
+             
                if(this.handleInfo.remarkDatew==''){
                   this.$Message.info('操作日期不能为空');
                   return;
@@ -154,9 +151,9 @@
               return;
             }
             api.saveAmRemark(this.notesData).then(data => {
-                  if (data.data.data == true) {
+                  if (data.data.data.result == true) {
                     this.$Message.success("保存成功");
-                    window.location.reload();
+                    this.notesData = data.data.data.data;
                   } else {
                     this.$Message.error("保存失败！");
                   }
@@ -169,6 +166,7 @@
                 })
             },
             remove (index,remarkId) {
+              const _self = this;
                 if(!remarkId){
                   this.notesData.splice(index, 1);
               
@@ -181,7 +179,8 @@
                         let params = {amRemarkId:remarkId}
 
                         api.deleteAmRemark(params).then(data=>{
-                              window.location.reload();
+                              
+                              _self.notesData.splice(index, 1);
                       })
                        
                       },

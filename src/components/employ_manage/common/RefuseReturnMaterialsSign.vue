@@ -191,9 +191,12 @@
               }
         
             api.saveAmEmpMaterial(this.refuseReturnMaterialsSign).then(data => {
-                  if (data.data.data == 1) {
+                
+                  if (data.data.data.data == 1) {
                     this.$Message.success("保存成功");
-                    history.go(-1);
+                    
+                    this.refuseReturnMaterialsSignInfo = data.data.data.result;
+                    
                   }else if (data.data.data == 2){
                     this.$Message.success("已签收，无法保存！");
                   } else {
@@ -214,7 +217,7 @@
                 this.$Message.success("有收到人不能删除！");
                  return false;
               }
-        
+                const _self = this;
                 if(!empMaterialId){
                   this.refuseReturnMaterialsSign.splice(index, 1);
               
@@ -227,7 +230,7 @@
                         let params = {empMaterialId:empMaterialId}
 
                         api.deleteAmEmpMaterial(params).then(data=>{
-                              history.go(-1);
+                             _self.refuseReturnMaterialsSign.splice(index, 1);;
                       })
                        
                       },

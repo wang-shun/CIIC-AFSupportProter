@@ -27,11 +27,11 @@
           <label>{{emp.ssSerial}}</label>
         </Form-item>
       </Col>
-      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+      <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="学历：">
           <label>{{emp.education}}</label>
         </Form-item>
-      </Col>
+      </Col> -->
       <!-- 仅新增 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="社保账户类型：">

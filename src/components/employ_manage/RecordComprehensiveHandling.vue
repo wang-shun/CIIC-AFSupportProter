@@ -583,7 +583,8 @@
          
         })
       },
-      showInfoTw (ind,category) {  
+      showInfoTw (ind,category) { 
+           this.pageData.pageNum = 1; 
            this.searchCondition.params = this.searchConditions.toString();
            this.searchCondition.taskStatus = ind;
            this.searchCondition.taskCategory = category;
@@ -591,6 +592,7 @@
 
       },
       showInfoTwr (ind,category) {  
+           this.pageData.pageNum = 1;
            this.searchCondition.params = this.searchConditions.toString();
            this.searchCondition.taskResignStatus = ind;
            this.searchCondition.taskCategory = category;

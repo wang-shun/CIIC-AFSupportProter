@@ -160,7 +160,13 @@
             }
         }).catch(error=>{
           this.$Message.error('系统异常！');
-        })
+        });
+
+      let paymentComId = window.sessionStorage.getItem("paymentnotice_paymentComId");
+      this.comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
+      this.paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
+      this.getPaymentComDtoByPaymentId(paymentComId);
+      this.statementResultQuery(this.comAccountId,this.paymentMonth);
       }
     }
   }

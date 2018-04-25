@@ -217,7 +217,11 @@
           docFrom:"",
           employeeId:this.$route.query.employeeId,
           companyId:this.$route.query.companyId,
-          employmentId:this.$route.query.employmentId
+          employmentId:this.$route.query.employmentId,
+          docSeqList: [],
+          docSeqList2: [],
+          yuliuDocType: "",
+          docType: ""
         },
         fileInfo2: {
           isFileHalfwayOut: false,
@@ -296,7 +300,7 @@
 
 
           api.archiveDetailInfoQuery(params).then(data=>{
-
+            
              if(data.data.customerInfo){
                 this.customerInfo = data.data.customerInfo;//客户信息
             }
@@ -354,7 +358,10 @@
               if(data.data.userInfo){
                 this.userInfo = data.data.userInfo;
               }
-
+              this.fileInfo1.docSeqList = data.data.docSeqList;
+              this.fileInfo1.docSeqList2 = data.data.docSeqList2;
+              console.info(this.fileInfo1.docSeqList);
+              console.info(this.fileInfo1.docSeqList2);
                
           })
     },

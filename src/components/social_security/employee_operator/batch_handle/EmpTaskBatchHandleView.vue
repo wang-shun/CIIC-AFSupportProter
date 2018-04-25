@@ -107,7 +107,7 @@
                     transfer></DatePicker>
       </Form-item>
       </Col>
-    </Row> 
+    </Row>
     <Row style="margin-top:20px;">
       <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 24}">
       <Form-item label="批退原因：">
@@ -153,7 +153,7 @@
                   on: {
                     click: () => {
                       self.operatorTableNewData.splice(params.index,1);
-                      self.updateOperatorTableNewData.splice(params.index,1);
+//                      self.updateOperatorTableNewData.splice(params.index,1);
                     }
                   }
                 }, '移出')
@@ -201,17 +201,17 @@
             }
           },
           {
-            title: '处理方式', width: 120, key: 'handleWay', align: 'center',ellipsis: true, 
+            title: '处理方式', width: 120, key: 'handleWay', align: 'center',ellipsis: true,
             render: (h, params) => {
               return h('div', [
 
-                 h('span', params.row.handleWay=='1'||params.row.handleWay=="" || typeof(params.row.handleWay)=='undefined'?'网上申报': '柜面办理'),
-                  // h('Select', {props: {value: params.row.handleWay=="" || typeof(params.row.handleWay)=='undefined'?'1': params.row.handleWay}},
-                  //   [
-                  //     h('Option', {props: {value: '1'}}, '网上申报'),
-                  //     h('Option', {props: {value: '2'}}, '柜面办理'),
-                  //   ]
-                  // )
+//                 h('span', params.row.handleWay=='1'||params.row.handleWay=="" || typeof(params.row.handleWay)=='undefined'?'网上申报': '柜面办理'),
+                   h('Select', {props: {value: params.row.handleWay}},
+                     [
+                       h('Option', {props: {value: '1'}}, '网上申报'),
+                       h('Option', {props: {value: '2'}}, '柜面办理'),
+                     ]
+                   )
                 ]
               );
             }
@@ -232,7 +232,7 @@
             }
           },
           {
-            title: '基数', width: 120, key: 'empBase', align: 'center', 
+            title: '基数', width: 120, key: 'empBase', align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('span',  params.row.empBase)
@@ -267,23 +267,23 @@
                   props: {value: params.row.handleRemark},
                   on:{
                     input:(event)=>{
-                        self.updateOperatorTableNewData[params.index].handleRemark = event;
+                        self.operatorTableNewData[params.index].handleRemark = event;
                     }
                   }
                 }
-                
+
                 )
               ]);
             }
           }
         ],
         operatorTableNewData:[],
-        updateOperatorTableNewData:[],
+//        updateOperatorTableNewData:[],
         refuseReason: '', //批退原因
       }
     },
     mounted() {
-      
+
       //选择
       if(typeof(this.isBatchAll)!='undefined'){
         let getParams = this.$route.params.operatorSearchData;
@@ -299,9 +299,10 @@
         //通过tab 条件查询批量任务
         api.queryBatchTaskByCondition(params).then(data=>{
           if(data.data!=null){
-            
+
             this.operatorTableNewData = data.data;
-            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+            this.initHandleWay();
+//            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
           }
         })
       }else{
@@ -310,16 +311,24 @@
         api.queryBatchEmpArchiveByEmpTaskIds(params).then(data=>{
           if(data.data!=null){
             this.operatorTableNewData = data.data;
-            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+            this.initHandleWay();
+//            this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
           }
         })
       }
       this.loading = false;
     },
     computed: {
-  
+
     },
     methods: {
+      initHandleWay() {
+        this.operatorTableNewData.forEach(e => {
+          if (!e.handleWay || e.handleWay == '') {
+            e.handleWay = '1';
+          }
+        })
+      },
       goback() {
         this.$router.push({name: 'employeeOperatorView'});
       },
@@ -331,7 +340,7 @@
               okText: '确定',
               cancelText: '取消',
               onOk: () => {
-                  let param =self.updateOperatorTableNewData;
+                  let param =self.operatorTableNewData;
                   if(param.length==0){
                     self.$Message.error("任务单为空");
                   }else{
@@ -349,7 +358,7 @@
                         self.$Message.error("网络异常");
                       }
                     })
-                  } 
+                  }
               }
           });
       }

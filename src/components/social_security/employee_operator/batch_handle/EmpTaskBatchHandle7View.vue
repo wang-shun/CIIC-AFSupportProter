@@ -2,7 +2,7 @@
   <Form :label-width=150>
     <Row class="mt20">
       <Col :sm="{span: 24}">
-      <!-- <Button type="dashed">添加</Button> 
+      <!-- <Button type="dashed">添加</Button>
       <Button type="info">导出</Button>
       <Button type="error">删除</Button> -->
       </Col>
@@ -119,7 +119,7 @@
         operatorType: this.$route.query.operatorType,
         empTaskIds: this.$route.query.empTaskIds,
         operatorTableNewData:[],
-        updateOperatorTableNewData:[],
+//        updateOperatorTableNewData:[],
         operatorTableOutColumns: [
           {
             title: '操作', key: 'action', align: 'center', width: 80,
@@ -131,7 +131,7 @@
                   on: {
                     click: () => {
                       self.operatorTableNewData.splice(params.index,1);
-                      self.updateOperatorTableNewData.splice(params.index,1);
+//                      self.updateOperatorTableNewData.splice(params.index,1);
                     }
                   }
                 }, '移出')
@@ -174,13 +174,13 @@
             title: '处理方式', key: 'handleMethod', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', [
-                h('span', params.row.handleWay=='1'||params.row.handleWay=="" || typeof(params.row.handleWay)=='undefined'?'网上申报': '柜面办理'),
-                  // h('Select', {props: {value: ''}},
-                  //   [
-                  //     h('Option', {props: {value: '1'}}, '网上申报'),
-                  //     h('Option', {props: {value: '2'}}, '柜面办理'),
-                  //   ]
-                  // )
+//                h('span', params.row.handleWay=='1'||params.row.handleWay=="" || typeof(params.row.handleWay)=='undefined'?'网上申报': '柜面办理'),
+                   h('Select', {props: {value: params.row.handleWay}},
+                     [
+                       h('Option', {props: {value: '1'}}, '网上申报'),
+                       h('Option', {props: {value: '2'}}, '柜面办理'),
+                     ]
+                   )
                 ]
               );
             }
@@ -227,7 +227,7 @@
                      props:{value:params.row.refundAmount},
                      on:{
                     input:(event)=>{
-                        self.updateOperatorTableNewData[params.index].refundAmount = event;
+                        self.operatorTableNewData[params.index].refundAmount = event;
                     }
                   }
                  })
@@ -245,11 +245,11 @@
                   props: {value: params.row.handleRemark},
                   on:{
                     input:(event)=>{
-                        self.updateOperatorTableNewData[params.index].handleRemark = event;
+                        self.operatorTableNewData[params.index].handleRemark = event;
                     }
                   }
                 }
-                
+
                 )
               ]);
             }
@@ -264,21 +264,28 @@
       api.queryBatchEmpArchiveByEmpTaskIds(params).then(data=>{
         if(data.data!=null){
           this.operatorTableNewData = data.data;
-          this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
+          this.initHandleWay();
+//          this.updateOperatorTableNewData=this.$utils.deepClone(data.data);
         }
       })
     },
     computed: {
-      
+
     },
     methods: {
-     
+      initHandleWay() {
+        this.operatorTableNewData.forEach(e => {
+          if (!e.handleWay || e.handleWay == '') {
+            e.handleWay = '1';
+          }
+        })
+      },
       goback () {
         this.$router.push({name: 'employeeOperatorView'});
       },
       comfirm(){
           let self= this;
-          let param =self.updateOperatorTableNewData;
+          let param =self.operatorTableNewData;
           if(param.length==0){
             self.$Message.error("任务单为空");
           }else{
@@ -305,7 +312,7 @@
                       }
               });
           }
-           
+
       }
     }
   }

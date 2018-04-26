@@ -360,8 +360,6 @@
               }
               this.fileInfo1.docSeqList = data.data.docSeqList;
               this.fileInfo1.docSeqList2 = data.data.docSeqList2;
-              console.info(this.fileInfo1.docSeqList);
-              console.info(this.fileInfo1.docSeqList2);
                
           })
     },

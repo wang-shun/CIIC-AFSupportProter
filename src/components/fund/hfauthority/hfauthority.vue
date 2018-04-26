@@ -140,7 +140,7 @@
   import Utils from '../../../lib/utils';
   import dict from '../../../api/dict_access/house_fund_dict'
 
- 
+
   export default {
     data () {
       return {

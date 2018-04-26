@@ -6,7 +6,7 @@ module.exports = merge(prodEnv, {
     NODE_ENV: '"development"',
     SITE_HOST: '"http://localhost:6025"',//证件管理
     SITE_HOST_REPORT_FORM: '"http://localhost:6017"', //弹性福利
-    HOST_SUPPLEMENTMEDICAL: '"http://localhost:6015"', //健康医疗
+    HOST_SUPPLEMENTMEDICAL: '"http://localhost:6013"', //健康医疗
     HOME_HOST: '"http://localhost"',
     SERVER_HOST: '"http://172.16.9.31"'
 })

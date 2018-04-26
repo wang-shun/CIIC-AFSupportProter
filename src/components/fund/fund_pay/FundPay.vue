@@ -100,7 +100,7 @@
           </Button>
           <DropdownMenu slot="list">
             <DropdownItem name="0">详细</DropdownItem>
-            <DropdownItem name="1">编辑</DropdownItem>
+            <!-- <DropdownItem name="1">编辑</DropdownItem> -->
             <DropdownItem name="2">删除</DropdownItem>
             <!-- <DropdownItem name="3">取消汇缴</DropdownItem> -->
           </DropdownMenu>

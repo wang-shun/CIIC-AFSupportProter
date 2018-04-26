@@ -100,7 +100,7 @@
       </div>
       <div slot="footer">
         <Button type="Text"  @click="closeReviewdePass()">取消</Button>
-        <Button type="success" size="large"  @click="doReviewdePass()">通过</Button>
+        <Button  type="primary" size="large"  @click="doReviewdePass"  :loading="isLoading" >通过</Button>
       </div>
     </Modal>
 
@@ -138,6 +138,7 @@
     components: {customerModal},
     data() {
       return{
+        isLoading: false,
         collapseInfo: [1], //展开栏
         payBatchSearchData: {
           ssAccountType: '',
@@ -412,7 +413,7 @@
       },
       doReviewdePass() {
         let paymentId = this.reviewdePassData.paymentId;
-
+        this.isLoading = true;
         reviewedBatchApi.doReviewdePass({
           paymentId: paymentId,
         }).then(data => {
@@ -425,6 +426,7 @@
           }else{
             alert(data.message);
           }
+          this.isLoading = false;
         })
       },
       closeReviewdePass(){

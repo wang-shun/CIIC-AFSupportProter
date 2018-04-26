@@ -2,7 +2,7 @@
   <div class="smList">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-         月缴费通知
+         雇员缴费明细
         <div slot="content">
           <!-- <Form :label-width=200>
             <Row type="flex" justify="start">
@@ -281,11 +281,12 @@
         api.summaryCalculate(params).then(data=>{
             if(data.code==1){
               this.$Message.error(data.message);
+              this.queryEmlpyeeMonthFeeDetail();
             }
         }).catch(error=>{
           this.$Message.error('系统异常！');
         })
-       this.queryEmlpyeeMonthFeeDetail();
+       
       },
       queryEmlpyeeMonthFeeDetail(){
         let params = {ssMonth:this.ssMonth,ssAccount:this.ssAccount}

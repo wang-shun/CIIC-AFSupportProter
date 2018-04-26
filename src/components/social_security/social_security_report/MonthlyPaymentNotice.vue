@@ -188,11 +188,12 @@
             console.log(data.code);
             if(data.code==1){
               this.$Message.error(data.message);
+              this.paymentDetailQuery();
             }
         }).catch(error=>{
           this.$Message.error('系统异常！');
         })
-         this.paymentDetailQuery();
+         
       }
     }
   }

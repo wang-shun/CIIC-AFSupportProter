@@ -162,5 +162,11 @@ export default {
     return await response.data;
   },
 
+  //
+  queryDocSeqByDocType:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amArchiveTask/queryDocSeqByDocType', params);
+    return await response.data;
+  },
+
 }
 

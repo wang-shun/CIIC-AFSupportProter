@@ -443,14 +443,11 @@
         });
       },
       exportData() {
-        if (this.formItem.afProductId === null) {
+        if (this.formItem.afProductId === null || this.formItem.afProductId === '') {
           this.$Message.error("导出数据请先选择保险项目");
           return;
         }
-        window.location =
-          process.env.HOST_SUPPLEMENTMEDICAL +
-          "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" +
-          qs.stringify(this.formItem);
+        window.location = process.env.HOST_SUPPLEMENTMEDICAL + "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" + qs.stringify(this.formItem);
       },
       selectTableData(rows) {
         this.selectData = rows;

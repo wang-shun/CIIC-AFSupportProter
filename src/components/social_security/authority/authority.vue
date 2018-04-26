@@ -92,6 +92,7 @@
           <Card>
             <Form-item prop="taskCategorys">
               <CheckboxGroup v-model="taskCategorys">
+                <checkbox ></checkbox>
                 <Checkbox v-for="item in taskCategorysdict" :label="item.key" :value="item.key" :key="item.key"> {{item.value}} <br/><br/> </Checkbox>
               </CheckboxGroup>
             </Form-item>

@@ -848,6 +848,7 @@
           if (data.code == 200) {
             this.$Message.info("不需处理操作成功");
             this.showButton = false;
+            this.displayVO.canHandle = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -860,6 +861,7 @@
           if (data.code == 200) {
             this.$Message.info("转下月处理操作成功");
             this.showButton = false;
+            this.displayVO.canHandle = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -882,6 +884,7 @@
           if (data.code == 200) {
             this.$Message.info("批退成功");
             this.showButton = false;
+            this.displayVO.canHandle = false;
           } else {
             this.$Message.error(data.message);
           }

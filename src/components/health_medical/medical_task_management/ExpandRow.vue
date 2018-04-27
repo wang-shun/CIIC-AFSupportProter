@@ -25,7 +25,7 @@
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <FormItem label="保险名称：">
-          {{row.policyType}}
+          {{row.productName}}
         </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

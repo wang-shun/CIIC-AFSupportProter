@@ -25,9 +25,8 @@ let em_chooseField = {
   "c.budiao_doc_man2":"补调档人2",
   "c.ukey_borrow_date":"UKey外借日期",
   "c.ukey_return_date":"Ukey返回日期",
-  "a.resign_reason":"退工原因",
+  "a.out_reason":"退工原因",
   "c.storage_out_man":"出库人",
-  "g.use_date":"档案材料借出日期",
   "h.service_center":"服务中心"
 };
 let em_relationship = {

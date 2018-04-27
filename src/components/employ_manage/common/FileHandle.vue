@@ -1,28 +1,28 @@
 <template>
   <div>
-    <Form :label-width="150">
+    <Form :label-width="150" ref="file1" :model="file1">
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="预留档案类别：">
-          <Select transfer @on-change="changeType1" v-model="file1.yuliuDocType">
+          <Select transfer @on-change="changeTypeYuliu" v-model="file1.yuliuDocType">
             <Option v-for="item in file1.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="预留档案编号：" ref="numberB">
+        <Form-item label="预留档案编号：" prop="yuliuDocNum">
           <Input v-model="file1.yuliuDocNum" placeholder="请输入" :maxlength="50"/>
-        </Form-item>
+      </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="档案类别：">
-          <Select transfer @on-change="changeType2" v-model="file1.docType">
+          <Select transfer @on-change="changeType" v-model="file1.docType">
             <Option v-for="item in file1.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="档案编号：">
+        <Form-item label="档案编号：" prop="docNum">
           <Input v-model="file1.docNum" placeholder="请输入" :maxlength="50"/>
         </Form-item>
         </Col>
@@ -169,6 +169,7 @@
 </template>
 <script>
   import api from '../../../api/employ_manage/hire_operator'
+  import Vue from 'vue'
   export default {
     props: {
       fileInfo1: {
@@ -180,6 +181,7 @@
     },
     data() {
       return {
+        isFast: true,
         reservedFileNumberList: [],
         fileNumberList: [],
         placeList: [],
@@ -231,17 +233,61 @@
       }
     },
     methods: {
+      changeTypeYuliu(val){
+        if(this.isFast){
+          this.isFast = false;
+          return;
+        }
+        if(val == this.fileInfo1.oldYuLiuType){
+          //用原有的 number
+          Vue.set(this.file1,'yuliuDocNum',this.fileInfo1.oldYuLiuNum);
+          return;
+        }
+        api.queryDocSeqByDocType({type : 1,docType : val}).then(data => {
+          if (data.code == 200) {
+            Vue.set(this.file1,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1)
+            this.file1.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
+            this.seqMax1 = data.data.docBo.docSeq;
+          } else {
+            this.$Message.error("服务器异常" + data.message);
+          }
+        })
+      },
+
+      changeType(val){
+        if(this.isFast){
+          this.isFast = false;
+          return;
+        }
+        if(val == this.fileInfo1.oldType){
+          //用原有的 number
+          Vue.set(this.file1,'docNum',this.fileInfo1.oldNum);
+          return;
+        }
+        api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
+          if (data.code == 200) {
+            Vue.set(this.file1,'docNum',parseInt(data.data.docBo.docSeq)+1)
+            this.file1.docNum = parseInt(data.data.docBo.docSeq)+1;
+            this.seqMax2 = data.data.docBo.docSeq;
+          } else {
+            this.$Message.error("服务器异常" + data.message);
+          }
+        })
+      },
+
+      
       resetForm(form) {
         this.$refs[form].resetFields();
       },instance() {
 
-        if(this.file1.yuliuDocNum < this.seqMax1 || this.file1.yuliuDocNum == this.seqMax1){
-          this.$Message.error("预留档案编号太小了，换个数值！");
-          return;
+        var patrn = /^[0-9]*$/;
+        if (!patrn.test(this.file1.yuliuDocNum)) {  
+            this.$Message.error("预留档案编号必须是数字！");
+            return;
         }
-        if(this.file1.docNum < this.seqMax2 || this.file1.docNum == this.seqMax2){
-          this.$Message.error("档案编号太小了，换个数值！");
-          return;
+        if(!patrn.test(this.file1.docNum)){
+            this.$Message.error("档案编号必须是数字！");
+            return;
         }
         var fromData = this.$utils.clear(this.file1,'');
         if(this.file1.employDocPaymentTo){
@@ -368,29 +414,11 @@
           }
         })
 
-      },
-
-      changeType1(obj){
-        api.queryDocSeqByDocType({type : 1,docType : obj}).then(data => {
-          if (data.code == 200) {
-            this.file1.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
-            this.seqMax1 = data.data.docBo.docSeq;
-          } else {
-            this.$Message.error("服务器异常" + data.message);
-          }
-        })
-      },
-
-      changeType2(obj){
-        api.queryDocSeqByDocType({type : 2,docType : obj}).then(data => {
-          if (data.code == 200) {
-            this.file1.docNum = parseInt(data.data.docBo.docSeq +1);
-            this.seqMax2 = data.data.docBo.docSeq;
-          } else {
-            this.$Message.error("服务器异常" + data.message);
-          }
-        })
       }
+
+    
+
+      
     },
     computed: {
       file1() {

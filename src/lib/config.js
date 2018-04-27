@@ -15,8 +15,7 @@ let basePaths = {};
     basePaths['userInfo'] = localhost + ':9703';
 
     //健康医疗
-    basePaths['health-q'] = localhost + ':6013';
-    basePaths['health-c'] = localhost + ':6015';
+    basePaths['health-c'] = localhost + ':6013';
 
     // 社保 query 服务
     basePaths['ss-q'] = localhost + ':6001';

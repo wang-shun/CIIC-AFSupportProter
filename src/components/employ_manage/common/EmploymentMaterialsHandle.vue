@@ -46,7 +46,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工反馈：" prop="employFeedback">
-            <Select v-model="handleInfo.employFeedback" transfer>
+            <Select v-model="handleInfo.employFeedback" @on-change="changeType" transfer>
               <Option v-for="item in employFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -102,7 +102,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="resetForm('handleInfo')">重置</Button>
-          <Button type="primary"  :disabled="handleInfo.isEnd == 0" @click="instance()">保存</Button>
+          <Button type="primary"   @click="instance()" :disabled="handleInfo.end">保存</Button>
         </Col>
       </Row>
     </Form>
@@ -247,6 +247,9 @@ import api from '../../../api/employ_manage/hire_operator'
               if (data.code == 200) {
                 this.$Message.success("保存成功");
                  this.handleInfo.archiveId=data.data.archiveId;
+                
+                 this.handleInfo.end =data.data.end;
+                
               } else {
                 this.$Message.error("保存失败！" + data.message);
               }
@@ -269,6 +272,24 @@ import api from '../../../api/employ_manage/hire_operator'
                 this.$Message.error("失败！" + data.message);
               }
         })
+       },changeType(val){
+          if(val==11)
+          {
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              this.handleInfo.ukeyBorrowDate=currentdate;
+          }
+         
        }
     },
     computed: {

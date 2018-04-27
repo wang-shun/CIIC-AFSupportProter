@@ -236,6 +236,13 @@
                 h('span', params.row.archiveSpecial),
               ]);
             }
+          },
+          {title: '是否翻盘', key: 'change', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.change),
+              ]);
+            }
           }
         ],
         recordComprehensiveHandlingData: [],

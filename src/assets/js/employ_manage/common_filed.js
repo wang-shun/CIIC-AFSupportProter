@@ -15,6 +15,7 @@ let em_chooseField = {
   "b.employ_property":"用工属性",
   "c.doc_num":"档案编号",
   "c.yuliu_doc_num":"预留档案编号",
+  "a.change":"是否翻盘",
   "c.archive_place":"存档地",
   "c.employ_feedback_opt_date":"用工反馈操作日期",
   "c.storage_date":"入库日期",
@@ -24,9 +25,8 @@ let em_chooseField = {
   "c.budiao_doc_man2":"补调档人2",
   "c.ukey_borrow_date":"UKey外借日期",
   "c.ukey_return_date":"Ukey返回日期",
-  "a.resign_reason":"退工原因",
+  "a.out_reason":"退工原因",
   "c.storage_out_man":"出库人",
-  "g.use_date":"档案材料借出日期",
   "h.service_center":"服务中心"
 };
 let em_relationship = {

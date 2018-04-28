@@ -13,7 +13,7 @@
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客服经理：" class="">
-          <label>{{companyInfo.serviceManager}}</label>
+          <label>{{companyInfo.leaderShipName}}</label>
         </Form-item>
       </Col>
     </Row>

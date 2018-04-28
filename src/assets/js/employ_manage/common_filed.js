@@ -15,6 +15,7 @@ let em_chooseField = {
   "b.employ_property":"用工属性",
   "c.doc_num":"档案编号",
   "c.yuliu_doc_num":"预留档案编号",
+  "a.change":"是否翻盘",
   "c.archive_place":"存档地",
   "c.employ_feedback_opt_date":"用工反馈操作日期",
   "c.storage_date":"入库日期",

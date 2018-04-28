@@ -235,12 +235,11 @@ import Vue from 'vue'
       changeTypeYuliu(val){
         if(this.isFast){
           this.isFast = false;
-          if(this.handleInfo.oldYuLiuType == undefined){
+          if(this.handleInfo.oldYuLiuType == undefined || this.handleInfo.oldYuLiuType == ''){
             this.queryDocSeqByDocType(val);
           }
           return;
         }
-
         if(val == ''){
           Vue.set(this.handleInfo,'yuliuDocNum','');
           return;
@@ -256,20 +255,20 @@ import Vue from 'vue'
 
       queryDocSeqByDocType(val){
         api.queryDocSeqByDocType({type : 1,docType : val}).then(data => {
-              if (data.code == 200) {
-                Vue.set(this.handleInfo,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1)
-                this.handleInfo.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
-                this.seqMax1 = data.data.docBo.docSeq;
-              } else {
-                this.$Message.error("服务器异常" + data.message);
-              }
-            })
+          if (data.code == 200) {
+            Vue.set(this.handleInfo,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1)
+              this.handleInfo.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
+              this.seqMax1 = data.data.docBo.docSeq;
+          } else {
+              this.$Message.error("服务器异常" + data.message);
+          }
+        })
       },
 
       changeTypeNumber(val){
         if(this.isFast){
           this.isFast = false;
-          if(this.handleInfo.oldType == undefined){
+          if(this.handleInfo.oldType == undefined || this.handleInfo.oldType == ''){
             this.queryDocSeqByDocType2(val);
           }
           return;
@@ -285,8 +284,9 @@ import Vue from 'vue'
         }
         this.queryDocSeqByDocType2(val);
       },
+
       queryDocSeqByDocType2(val){
-          api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
+        api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
           if (data.code == 200) {
             Vue.set(this.handleInfo,'docNum',parseInt(data.data.docBo.docSeq)+1)
             this.handleInfo.docNum = parseInt(data.data.docBo.docSeq)+1;

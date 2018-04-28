@@ -5,6 +5,7 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="预留档案类别：">
           <Select transfer @on-change="changeTypeYuliu" v-model="file1.yuliuDocType">
+            <Option value="" key="">空</Option>
             <Option v-for="item in file1.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
@@ -12,11 +13,12 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="预留档案编号：" prop="yuliuDocNum">
           <Input v-model="file1.yuliuDocNum" placeholder="请输入" :maxlength="50"/>
-      </Form-item>
+        </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="档案类别：">
           <Select transfer @on-change="changeType" v-model="file1.docType">
+            <Option value="" key="">空</Option>
             <Option v-for="item in file1.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
@@ -236,8 +238,25 @@
       changeTypeYuliu(val){
         if(this.isFast){
           this.isFast = false;
+          if(this.fileInfo1.oldYuLiuType == undefined){
+            api.queryDocSeqByDocType({type : 1,docType : val}).then(data => {
+              if (data.code == 200) {
+                Vue.set(this.file1,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1)
+                this.file1.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
+                this.seqMax1 = data.data.docBo.docSeq;
+              } else {
+                this.$Message.error("服务器异常" + data.message);
+              }
+            })
+          }
           return;
         }
+
+        if(val == ''){
+          Vue.set(this.file1,'yuliuDocNum','');
+          return;
+        }
+
         if(val == this.fileInfo1.oldYuLiuType){
           //用原有的 number
           Vue.set(this.file1,'yuliuDocNum',this.fileInfo1.oldYuLiuNum);
@@ -257,6 +276,21 @@
       changeType(val){
         if(this.isFast){
           this.isFast = false;
+          if(this.fileInfo1.oldType == undefined){
+            api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
+              if (data.code == 200) {
+                Vue.set(this.file1,'docNum',parseInt(data.data.docBo.docSeq)+1)
+                this.file1.docNum = parseInt(data.data.docBo.docSeq)+1;
+                this.seqMax2 = data.data.docBo.docSeq;
+              } else {
+                this.$Message.error("服务器异常" + data.message);
+              }
+            })
+          }
+          return;
+        }
+        if(val == ''){
+          Vue.set(this.file1,'docNum','');
           return;
         }
         if(val == this.fileInfo1.oldType){
@@ -275,19 +309,19 @@
         })
       },
 
-      
+
       resetForm(form) {
         this.$refs[form].resetFields();
       },instance() {
 
         var patrn = /^[0-9]*$/;
-        if (!patrn.test(this.file1.yuliuDocNum)) {  
-            this.$Message.error("预留档案编号必须是数字！");
-            return;
+        if (!patrn.test(this.file1.yuliuDocNum) && this.file1.yuliuDocNum != undefined) {
+          this.$Message.error("预留档案编号必须是数字！");
+          return;
         }
-        if(!patrn.test(this.file1.docNum)){
-            this.$Message.error("档案编号必须是数字！");
-            return;
+        if(!patrn.test(this.file1.docNum) && this.file1.docNum != undefined){
+          this.$Message.error("档案编号必须是数字！");
+          return;
         }
         var fromData = this.$utils.clear(this.file1,'');
         if(this.file1.employDocPaymentTo){
@@ -341,9 +375,8 @@
         }
         api.saveAmArchive(fromData).then(data => {
           if (data.code == 200) {
-             this.file1.archiveId=data.data.archiveId;
             this.$Message.success("保存成功");
-            
+            this.file1.archiveId=data.data.archiveId;
           } else {
             this.$Message.error("保存失败！" + data.message);
           }
@@ -408,9 +441,8 @@
 
         api.saveAmArchive(fromData).then(data => {
           if (data.code == 200) {
-             this.file2.archiveId=data.data.archiveId;;
+            this.file2.archiveId=data.data.archiveId;
             this.$Message.success("保存成功");
-          
           } else {
             this.$Message.error("保存失败！" + data.message);
           }
@@ -418,9 +450,9 @@
 
       }
 
-    
 
-      
+
+
     },
     computed: {
       file1() {

@@ -4,7 +4,7 @@ import qs from "qs";
 const config = require('./config')
 const DEBUG = config.env.debug;
 const BASE_PATHS = config.basePaths;
-console.log('====='+BASE_PATHS);
+console.log('=====' + BASE_PATHS);
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 axios.defaults.timeout = 10000;
 const AJAX = {
@@ -291,6 +291,7 @@ AJAX.createAjax = createAjax;
 AJAX.createAjaxForName = createAjaxForName;
 AJAX.createProxyAjaxForName = createProxyAjaxForName;
 
+AJAX.basePaths = BASE_PATHS['health-c'];
 AJAX.ajaxFbq = createProxyAjaxForName('fb-q');
 AJAX.ajaxFbc = createProxyAjaxForName('fb-c');
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q');

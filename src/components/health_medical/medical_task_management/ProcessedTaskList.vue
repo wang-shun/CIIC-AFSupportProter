@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单状态" prop="status">
-                <Select v-model="formItem.status" :clearable="true">
+                <Select v-model="formItem.status" :clearable="true" @on-change="getByPage(1)">
                   <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
                     {{item.label}}
                   </Option>
@@ -37,7 +37,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保单" prop="afProductId">
-                <Select v-model="formItem.afProductId" :clearable="true">
+                <Select v-model="formItem.afProductId" :clearable="true"
+                        @on-change="getByPage(1)">
                   <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
                     {{item.insurancePolicyName}}
                   </Option>

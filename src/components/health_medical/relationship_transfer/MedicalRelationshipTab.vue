@@ -67,6 +67,7 @@
   import {mapState, mapActions, mapGetters} from "vuex"
   import EventTypes from "../../../store/event_types"
   import qs from "qs"
+  import ajax from "../../../lib/ajax"
 
   export default {
     name: "medical-relationship",
@@ -101,7 +102,7 @@
           {
             title: '转出日期', sortable: true, key: 'turnOutDate', align: "center",
             render: (h, params) => {
-              return  h('div',this.$utils.formatDate(params.row.turnOutDate, 'YYYY-MM-DD'));
+              return h('div', this.$utils.formatDate(params.row.turnOutDate, 'YYYY-MM-DD'));
             }
           },
           {
@@ -110,7 +111,7 @@
           {
             title: '转回日期', sortable: true, key: 'turnBackDate', align: "center",
             render: (h, params) => {
-              return  h('div',this.$utils.formatDate(params.row.turnBackDate, 'YYYY-MM-DD'));
+              return h('div', this.$utils.formatDate(params.row.turnBackDate, 'YYYY-MM-DD'));
             }
           },
           {
@@ -171,7 +172,7 @@
       },
       // 导出csv
       exportDataTransfer() {
-        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/api/afsupportcenter/healthmedical/MedicalRelationTransform/export?' + qs.stringify(this.transferItem)
+        window.location = ajax.basePaths + '/api/afsupportcenter/healthmedical/MedicalRelationTransform/export?' + qs.stringify(this.transferItem)
       }
     }
   };

@@ -235,12 +235,12 @@
         loading: false,
         currentIndex:-1,
         operatorSearchData: {
-          customerNumber: "",
-          outAccountBatch: "",
-          payStatusValue: 0,
+          companyId: "",
+          paymentBatchNum: "",
+          paymentState: '',
           hfAccountType:'',
           accountTypeValue: 0,
-          ticketMaker: "",
+          createPaymentUser: "",
           paymentMonth:"",
           payDate: ""
 

@@ -300,12 +300,6 @@
           ]
         },
         customerCenterData:[],
-        serviceCenterData: [
-          {value: '1', label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-          {value: '2', label: '日本客户'},
-          {value: '3', label: '虹桥'},
-          {value: '4', label: '浦东'}
-        ], //客服中心
         fundTypeList: [
           {label: '全部',value:''},
           {value: '1', label: '基本公积金'},

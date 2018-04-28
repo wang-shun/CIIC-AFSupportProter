@@ -159,7 +159,7 @@ export class CompanyTaskList{
             companyInfo = {
                           customerNumber:result.data.companyId,
                            customerName:result.data.companyName,
-                           serviceManager:""
+                           leaderShipName:result.data.leaderShipName
                           }
           }else{
 
@@ -177,7 +177,7 @@ export class CompanyTaskList{
              //社保账户类型 1:中智大库 2中智外包 3独立户
              accountType:ssComAccountBO.ssAccountType=='1'?'中智大库':ssComAccountBO.ssAccountType=='2'?'中智外包':'独立户',
               //客服经理
-             companyServicer:'',
+              leaderShipName:result.data.leaderShipName,
               //企业社保账户状态 0初始 1有效 2 终止
              companySocialSecurityState:ssComAccountBO.state=='0'?'初始':ssComAccountBO.state=='1'?'有效':'终止',
              //客户社保截至日：
@@ -275,7 +275,7 @@ export class CompanyTaskList{
             //社保账户类型 1:中智大库 2中智外包 3独立户
             accountType:ssComAccountBO.ssAccountType=='1'?'中智大库':ssComAccountBO.ssAccountType=='2'?'中智外包':'独立户',
               //客服经理
-            companyServicer:'',
+            leaderShipName:result.data.ssComAccountBO.leaderShipName,
               //企业社保账户状态 0初始 1有效 2 终止
             companySocialSecurityState:ssComAccountBO.state=='0'?'初始':ssComAccountBO.state=='1'?'有效':'终止',
             //客户社保截至日：
@@ -489,7 +489,7 @@ export class CompanyTaskList{
             customerNumber: result.companyId,
             customerName: result.companyName,
             serviceCenter: '',
-            serviceManager: ''
+            leaderShipName: result.leaderShipName
           },
       beforeSendInfo:{
         //客户社保截止日

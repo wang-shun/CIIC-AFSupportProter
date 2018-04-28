@@ -428,7 +428,7 @@
           customerNumber: '',
           customerName: '',
           serviceCenter: '',
-          serviceManager: ''
+          leaderShipName: ''
         },
          payMethodList: [
             {value: '1', label: '我司代付款'},

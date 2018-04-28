@@ -329,6 +329,13 @@
       },
       //获得列表请求请求参数
       getParams(page){
+        let submitTimeStart='';
+        let submitTimeEnd='';
+          if(this.companyTaskInfo.taskStartTime[0]!=""){
+               submitTimeStart=Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD');//任务发起时间
+               submitTimeEnd=Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD');
+          }
+
         return {
           pageSize:this.size,
           pageNum:page,
@@ -336,8 +343,8 @@
               companyId:this.companyTaskInfo.customerNumber,//客户编号
               companyName:this.companyTaskInfo.customerName,//客户姓名
               taskCategory:this.companyTaskInfo.taskTypeValue,//任务类型
-              submitTimeStart:this.companyTaskInfo.taskStartTime=="" || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
-              submitTimeEnd:this.companyTaskInfo.taskStartTime==""||this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null ?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
+              submitTimeStart:submitTimeStart,
+              submitTimeEnd:submitTimeEnd,
             }
          }
         },

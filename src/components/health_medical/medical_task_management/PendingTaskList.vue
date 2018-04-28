@@ -407,6 +407,10 @@
             this.$Message.error("请选择已审核状态的数据");
             return;
           }
+          if (this.formItem.taskType === '2' && this.selectData[i].insuranceDate > this.syncDate) {
+            this.$Message.error("退保时间不能小于投保时间");
+            return;
+          }
         }
 
         let syncData = {};

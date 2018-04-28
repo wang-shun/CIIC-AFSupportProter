@@ -139,7 +139,7 @@
         </Col>
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="寄退工单：">
-              <Checkbox  v-model="employee.mailContinueStr" true-value="1" false-value="0"></Checkbox>
+              <Checkbox  v-model="employee.mailContinue" ></Checkbox>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

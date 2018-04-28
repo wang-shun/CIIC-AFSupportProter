@@ -3,14 +3,30 @@
     <Form :model="handleInfo" ref="handleInfo" :label-width="150">
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="预留档案类别：">
+          <Select transfer @on-change="changeTypeYuliu" v-model="handleInfo.yuliuDocType">
+            <Option value="" key="">空</Option>
+            <Option v-for="item in handleInfo.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
+          </Select>
+        </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="预留档案编号：" prop="yuliuDocNum">
-             <Input v-model="handleInfo.yuliuDocNum" placeholder="请输入" :maxlength="50"/>
+             <Input v-model="handleInfo.yuliuDocNum" placeholder="请输入" :maxlength="11"/>
              <input type="text" v-model="handleInfo.archiveId" hidden>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="档案类别：">
+          <Select transfer @on-change="changeTypeNumber" v-model="handleInfo.docType">
+            <Option value="" key="">空</Option>
+            <Option v-for="item in handleInfo.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
+          </Select>
+        </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案编号：" prop="docNum" transfer>
-            <Input v-model="handleInfo.docNum" placeholder="请输入" :maxlength="50"/>
+            <Input v-model="handleInfo.docNum" placeholder="请输入" :maxlength="11"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -110,6 +126,7 @@
 </template>
 <script>
 import api from '../../../api/employ_manage/hire_operator'
+import Vue from 'vue'
   export default {
     props: {
       handleInfo: {
@@ -118,6 +135,9 @@ import api from '../../../api/employ_manage/hire_operator'
     },
     data() {
       return {
+        isFast: true,
+        seqMax1: 0,
+        seqMax2: 0,
         reservedFileNumberList: [
           {value: '空', label: '空'},
           {value: '外来从业人员', label: '外来从业人员'},
@@ -212,6 +232,70 @@ import api from '../../../api/employ_manage/hire_operator'
       }
     },
     methods: {
+      changeTypeYuliu(val){
+        if(this.isFast){
+          this.isFast = false;
+          if(this.handleInfo.oldYuLiuType == undefined){
+            this.queryDocSeqByDocType(val);
+          }
+          return;
+        }
+
+        if(val == ''){
+          Vue.set(this.handleInfo,'yuliuDocNum','');
+          return;
+        }
+
+        if(val == this.handleInfo.oldYuLiuType){
+          //用原有的 number
+          Vue.set(this.handleInfo,'yuliuDocNum',this.handleInfo.oldYuLiuNum);
+          return;
+        }
+        this.queryDocSeqByDocType(val);
+      },
+
+      queryDocSeqByDocType(val){
+        api.queryDocSeqByDocType({type : 1,docType : val}).then(data => {
+              if (data.code == 200) {
+                Vue.set(this.handleInfo,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1)
+                this.handleInfo.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
+                this.seqMax1 = data.data.docBo.docSeq;
+              } else {
+                this.$Message.error("服务器异常" + data.message);
+              }
+            })
+      },
+
+      changeTypeNumber(val){
+        if(this.isFast){
+          this.isFast = false;
+          if(this.handleInfo.oldType == undefined){
+            this.queryDocSeqByDocType2(val);
+          }
+          return;
+        }
+        if(val == ''){
+          Vue.set(this.handleInfo,'docNum','');
+          return;
+        }
+        if(val == this.handleInfo.oldType){
+          //用原有的 number
+          Vue.set(this.handleInfo,'docNum',this.handleInfo.oldNum);
+          return;
+        }
+        this.queryDocSeqByDocType2(val);
+      },
+      queryDocSeqByDocType2(val){
+          api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
+          if (data.code == 200) {
+            Vue.set(this.handleInfo,'docNum',parseInt(data.data.docBo.docSeq)+1)
+            this.handleInfo.docNum = parseInt(data.data.docBo.docSeq)+1;
+            this.seqMax2 = data.data.docBo.docSeq;
+          } else {
+            this.$Message.error("服务器异常" + data.message);
+          }
+        })
+      },
       resetForm(form) {
         this.$refs[form].resetFields();
         this.handleInfo.luyongHandleEnd = '0';
@@ -221,6 +305,15 @@ import api from '../../../api/employ_manage/hire_operator'
         {
             this.$Message.success("请先保存用工信息");
             return;
+        }
+        var patrn = /^[0-9]*$/;
+        if (!patrn.test(this.handleInfo.yuliuDocNum) && this.handleInfo.yuliuDocNum != undefined) {
+          this.$Message.error("预留档案编号必须是数字！");
+          return;
+        }
+        if(!patrn.test(this.handleInfo.docNum) && this.handleInfo.docNum != undefined){
+          this.$Message.error("档案编号必须是数字！");
+          return;
         }
         var fromData = this.$utils.clear(this.handleInfo,'');
         fromData.isFrist='0';
@@ -247,9 +340,11 @@ import api from '../../../api/employ_manage/hire_operator'
               if (data.code == 200) {
                 this.$Message.success("保存成功");
                  this.handleInfo.archiveId=data.data.archiveId;
-                
                  this.handleInfo.end =data.data.end;
-                
+                 this.handleInfo.oldYuLiuType = data.data.yuliuDocType;
+                 this.handleInfo.oldYuLiuNum = data.data.yuliuDocNum;
+                 this.handleInfo.oldType = data.data.docType;
+                 this.handleInfo.oldNum = data.data.docNum;
               } else {
                 this.$Message.error("保存失败！" + data.message);
               }

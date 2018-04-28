@@ -787,9 +787,10 @@
               });
             break;
           case 5:
+            this.printTransferNote();
             break;
           case 6:
-
+            this.printPayNote();
             break;
           case 7:
             this.printFinancePayVoucher();
@@ -827,6 +828,24 @@
             break;
         }
       },
+
+      printTransferNote(){
+        let rows = [
+          {"year":"2018","month":"04","day":21,"employeeName":"张三","fundAccount":"CA21525","transferInUnitName":"上海我爱你家","transferInAccount":"SS2212121","transferOutUnitName":"上海你家爱我","transferOutAccount":"XX12254","totalNum":54},
+          {"year":"2018","month":"04","day":22,"employeeName":"李四","fundAccount":"CA21568","transferInUnitName":"上海移动","transferInAccount":"SS878556","transferOutUnitName":"上海电信","transferOutAccount":"XX56455","totalNum":100}
+        ];
+        FundPay.printTransferNote(rows);
+      },
+      printPayNote(){
+        let rows = [
+          {"year":"2018","month":"04","day":21,"pageNum":1,"unitName":"上海移动","payYear":"2018","payMonth":"04","addFundAccount":"SX455656","pensonNum":54,"upperAmount":"壹仟陆佰捌拾捌元玖角玖分","amount":"1688.99","lastMonthPayNumber":45,"lastMonthPayAmount":"4555","thisMonthAddPayNumber":21,"thisMonthAddPayAmount":"5412","thisMonthReducePayNumber":14,"thisMonthReducePayAmount":"15000.36","thisMonthPayNumber":60,"thisMonthPayAmount":"6400","payBank":"招商","payAccount":"612655656","payCheckNumber":"C46568"},
+          {"year":"2018","month":"04","day":23,"pageNum":2,"unitName":"上海电信","payYear":"2018","payMonth":"04","addFundAccount":"SX455656","pensonNum":54,"upperAmount":"壹仟陆佰捌拾捌元玖角玖分","amount":"1688.99","lastMonthPayNumber":45,"lastMonthPayAmount":"4555","thisMonthAddPayNumber":21,"thisMonthAddPayAmount":"5412","thisMonthReducePayNumber":14,"thisMonthReducePayAmount":"15000.36","thisMonthPayNumber":60,"thisMonthPayAmount":"6401","payBank":"建设","payAccount":"612655656","payCheckNumber":"C46565"}
+        ];
+        FundPay.printPayNote(rows);
+      },
+
+
+
 //支付状态: 1 ,可付(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
       processApproval(){
         let row;

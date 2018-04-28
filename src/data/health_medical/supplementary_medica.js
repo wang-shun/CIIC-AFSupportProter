@@ -6,6 +6,7 @@ import ajax from "../../lib/ajax";
 const ajaxApi = ajax.ajaxHmc;
 const userInfo = ajax.userInfo;
 
+const basePaths = ajax.basePaths;
 const queryAcceptancePage = params => ajaxApi.postJSON("/supplyMedicalService/queryAcceptancePage", params);
 const queryAcceptanceTotal = params => ajaxApi.postJSON("/supplyMedicalService/queryAcceptanceTotal", params);
 const updateAcceptanceList = params => ajaxApi.postJSON("/supplyMedicalService/updateAcceptanceList", params);
@@ -15,6 +16,7 @@ const importAcceptanceXls = params => ajaxApi.upload("/supplyMedicalService/impo
 
 
 export default {
+  basePaths,
   queryAcceptancePage,
   queryAcceptanceTotal,
   updateAcceptanceList,

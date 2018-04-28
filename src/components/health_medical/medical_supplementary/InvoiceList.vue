@@ -168,7 +168,7 @@
             render: (h, params) => {
               params.row.auditTime = this.acceptanceData.auditTime;
               if (params.row.auditTime !== null) {
-                return  h('div',this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss'));
+                return h('div', this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss'));
               }
             }
           },
@@ -197,9 +197,9 @@
         }
         return val;
       },
-      exportData () {
+      exportData() {
         let acceptanceId = JSON.parse(sessionStorage.getItem('acceptanceId'));
-        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/supplyMedicalService/export/' + acceptanceId
+        window.location = apiAjax.basePaths + '/supplyMedicalService/export/' + acceptanceId
       }
     },
   }

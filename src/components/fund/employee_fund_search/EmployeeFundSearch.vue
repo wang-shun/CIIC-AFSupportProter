@@ -65,6 +65,11 @@
                 </Select>
               </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号：" prop="companyId">
+                  <Input v-model="searchCondition.companyId" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -180,6 +185,7 @@ export default {
       searchCondition: {
         serviceCenterValue:[],
         employeeId: "",
+        companyId: "",
         hfComAccount: "",
         hfAccountType: "",
         employeeName: "",

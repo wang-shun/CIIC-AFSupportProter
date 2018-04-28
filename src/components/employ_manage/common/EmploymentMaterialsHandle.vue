@@ -95,7 +95,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="" prop="luyongHandleEnd">
-            <Checkbox v-model="handleInfo.luyongHandleEnd" true-value="1" false-value="0">录用处理结束</Checkbox>
+            <Checkbox v-model="handleInfo.luyongHandleEnd" >录用处理结束</Checkbox>
           </Form-item>
         </Col>
       </Row>

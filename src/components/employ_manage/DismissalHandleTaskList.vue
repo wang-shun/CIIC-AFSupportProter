@@ -200,10 +200,10 @@
               ]);
             }
           },
-          {title: '录用处理结束', key: 'luyongHandleEnd', align: 'center', width: 150,
+          {title: '录用处理结束', key: 'luyongHandleEndStr', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.luyongHandleEnd),
+                h('span', params.row.luyongHandleEndStr),
               ]);
             }
           },

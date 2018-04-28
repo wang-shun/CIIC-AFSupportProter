@@ -6,7 +6,7 @@ const DEBUG = config.env.debug;
 const BASE_PATHS = config.basePaths;
 console.log('====='+BASE_PATHS);
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
-
+axios.defaults.timeout = 10000;
 const AJAX = {
   formatDate: (format, date) => {
     date = date || new Date();
@@ -32,7 +32,6 @@ const AJAX = {
     let cb = config.callback;
     let errCb = config.errCallback;
     let title = config.title || '';
-
     // vm 和 ajax 是必须的
     if (!Boolean(ajax)) {
       return;

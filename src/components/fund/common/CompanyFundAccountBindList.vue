@@ -27,10 +27,10 @@
               ]);
             }
           },
-          {title: '客服经理', key: 'accountManager', align: 'center',
+          {title: '客服经理', key: 'leaderShipName', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.accountManager),
+                h('span', params.row.leaderShipName),
               ]);
             }
           },

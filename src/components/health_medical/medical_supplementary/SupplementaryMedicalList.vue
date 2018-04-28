@@ -425,7 +425,7 @@
         this.data6.splice(index, 1);
       },
       exportData() {
-        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/supplyMedicalService/export?' + qs.stringify(this.formItem)
+        window.location = apiAjax.basePaths + '/supplyMedicalService/export?' + qs.stringify(this.formItem)
       }
     }
   }

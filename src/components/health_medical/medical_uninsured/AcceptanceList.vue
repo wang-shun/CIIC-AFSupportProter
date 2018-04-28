@@ -337,7 +337,7 @@
       },
       // 导出csv
       exportData() {
-        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/uninsuredService/export?' + qs.stringify(this.formItem)
+        window.location = apiAjax.basePaths + '/uninsuredService/export?' + qs.stringify(this.formItem)
       }
     }
   }

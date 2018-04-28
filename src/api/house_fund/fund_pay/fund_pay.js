@@ -2,6 +2,127 @@ import utils from '../../../lib/ajax'
 import {domainJson} from "../domain_info";
 let ajax = utils.ajaxHfc
 
+
+//公积金转移通知书
+function getFundTransferNoteObj(row){
+  var html = `<div style="page-break-after:always;">
+  <table cellpadding="0" cellspacing="0">
+    <tr>
+      <td height="85px"></td>
+    </tr>
+    <tr>
+      <td height="20px">
+        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 240px;">${row.year}</div>
+        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 55px;">${row.month}</div>
+        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 50px;">${row.day}</div>
+      </td>
+    </tr>
+     <tr>
+      <td height="30px">
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 270px;">${row.employeeName}</div>
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 270px;">${row.fundAccount}</div>
+      </td>
+    </tr>
+    <tr>
+      <td height="35px">
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 300px;">${row.transferInUnitName}</div>
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 245px;">${row.transferOutUnitName}</div>
+      </td>
+    </tr>
+    <tr>
+      <td height="35px">
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 300px;">${row.transferInAccount}</div>
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 245px;">${row.transferOutAccount}</div>
+      </td>
+    </tr>
+    <tr>
+      <td height="35px">
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 300px;">${row.totalNum}</div>
+      </td>
+    </tr>
+  </table>
+</div>`;
+  return html;
+}
+
+//公积金汇缴书
+function getFundPayNoteObj(row){
+  var html = `<div style="page-break-after:always;">
+  <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; width: 600px; height: 336px;">
+    <tr>
+      <td height="60px" style="vertical-align: bottom;"></td>
+    </tr>
+    <tr>
+      <td height="20px" style="vertical-align: bottom;">
+        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 230px;">${row.year}</div>
+        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 60px;">${row.month}</div>
+        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 60px;">${row.day}</div>
+        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 145px;">${row.pageNum}</div>
+      </td>
+    </tr>
+     <tr>
+      <td height="30px" style="vertical-align: bottom;">
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 150px;">&nbsp;</div>
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 165px;">${row.unitName}</div>
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 110px;">${row.payYear}</div>
+        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 75px;">${row.payMonth}</div>
+      </td>
+    </tr>
+    <tr>
+      <td height="30px" style="vertical-align: bottom;">
+        <div style="text-align: right; height: 30px; line-height: 30px; float: left; width: 150px;">&nbsp;</div>
+        <div style="text-align: right; height: 30px; line-height: 30px; float: left; width: 165px;">${row.addFundAccount}</div>
+        <div style="text-align: right; height: 30px; line-height: 30px; float: left; width: 110px;">${row.pensonNum}</div>
+        <div style="text-align: right; height: 30px; line-height: 30px; float: left; width: 75px;">${row.pensonNum}</div>
+      </td>
+    </tr>
+    <tr>
+      <td height="40px" style="vertical-align: bottom;">
+        <div style="text-align: right; height: 40px; line-height: 40px; float: left; width: 110px;">&nbsp;</div>
+        <div style="text-align: right; height: 40px; line-height: 40px; float: left; width: 300px;">${row.upperAmount}</div>
+        <div style="width: 112px height: 40px;">
+          <div style="width: 100%; height: 20px;"></div>
+          <div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 120px;">${row.amount}</div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td height="45px" style="vertical-align: bottom;">
+        <div style="height: 50px;">
+          <div style="width: 100%; height: 30px;"></div>
+          <div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 85px;">${row.lastMonthPayNumber}</div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 75px;">${row.lastMonthPayAmount}</div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 50px;">${row.thisMonthAddPayNumber}</div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 75px;">${row.thisMonthAddPayAmount}</div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 45px;">${row.thisMonthReducePayNumber}</div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 75px;">${row.thisMonthReducePayAmount}</div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 45px;">${row.thisMonthPayNumber}</div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 75px;">${row.thisMonthPayAmount}</div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td height="35px" style="vertical-align: bottom;">
+        <div style="height: 35px;">
+          <div style="width: 100%; height: 20px;"></div>
+            <div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 100px;">${row.payBank}</div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 105px;">${row.payAccount}</div>
+            <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 70px;">${row.payCheckNumber}</div>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>`;
+return html;
+}
+
+
 export class FundPay {
   constructor() {
   }
@@ -301,5 +422,35 @@ export class FundPay {
   static generateBankRepair(params) {
     let url = domainJson.generateBankRepair;
     ajax.download(url, params);
+  }
+
+  static printTransferNote(rows){
+    let head = `<html><head><title>上海市住房公积金转移通知书</title></head><body style="margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; line-height: 1; font-size: 12px; background-size: 600px 336px; background-repeat: no-repeat;">`;
+    let foot = `</body></html>`;
+    let obj = "";
+    rows.forEach(function(e){
+      var temp = getFundTransferNoteObj(e);
+      obj += temp;
+    });
+    let html = head + obj + foot;
+    let pwin = window.open("","print")
+    pwin.document.write(html);
+    pwin.document.close();
+    pwin.print();
+  }
+
+  static printPayNote(rows){
+    let head = `<html><head><title>上海市住房公积金汇缴书</title></head><body style="margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; line-height: 1; font-size: 12px; background-size: 600px 336px; background-repeat: no-repeat;">`;
+    let foot = `</body></html>`;
+    let obj = "";
+    rows.forEach(function(e){
+      var temp = getFundPayNoteObj(e);
+      obj += temp;
+    });
+    let html = head + obj + foot;
+    let pwin = window.open("","print")
+    pwin.document.write(html);
+    pwin.document.close();
+    pwin.print();
   }
 }

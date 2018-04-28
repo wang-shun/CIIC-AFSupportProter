@@ -423,16 +423,12 @@
              {value: '26', label: '26'},
              {value: '27', label: '27'},
              {value: '28', label: '28'},
-             {value: '29', label: '29'},
-             {value: '30', label: '30'},
-             {value: '31', label: '31'},
-
           ],
         companyInfo: {
           customerNumber: '',
           customerName: '',
           serviceCenter: '',
-          serviceManager: ''
+          leaderShipName: ''
         },
          payMethodList: [
             {value: '1', label: '我司代付款'},

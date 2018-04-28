@@ -403,7 +403,7 @@
         }
         for (let i = 0; i < this.selectData.length; i++) {
           if (this.selectData[i].status !== 4) {
-            this.$Message.error("请选择已处理状态的数据");
+            this.$Message.error("请选择已审核状态的数据");
             return;
           }
         }

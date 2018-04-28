@@ -57,7 +57,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="clickQuery">查询</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>

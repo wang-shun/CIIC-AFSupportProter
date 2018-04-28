@@ -513,7 +513,7 @@
           operatorType: 1,// 任务单费用段
           isNeedSerial:1//是否需要社保序号
         }).then(data => {
-         
+
           console.log(data);
           if(data.data!=null){
           if (data.data.empTaskPeriods.length > 0) {
@@ -730,7 +730,11 @@
 
             // 转下月处理
             if (type && type == 'next') {
-              var nextDay = parseInt(self.company.expireDate) + 1;
+
+              var nextDay = 27;
+              if (self.company.expireDate) {
+                nextDay = parseInt(self.company.expireDate) + 1;
+              }
               var submitTime = new Date();
               submitTime.setDate(nextDay);
               fromData.submitTime = self.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');

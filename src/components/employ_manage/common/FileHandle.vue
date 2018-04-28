@@ -295,8 +295,9 @@
         }
         api.saveAmArchive(fromData).then(data => {
           if (data.code == 200) {
+             this.file1.archiveId=data.data.archiveId;
             this.$Message.success("保存成功");
-            history.go(-1);
+            
           } else {
             this.$Message.error("保存失败！" + data.message);
           }
@@ -361,8 +362,9 @@
 
         api.saveAmArchive(fromData).then(data => {
           if (data.code == 200) {
+             this.file2.archiveId=data.data.archiveId;;
             this.$Message.success("保存成功");
-            history.go(-1);
+          
           } else {
             this.$Message.error("保存失败！" + data.message);
           }

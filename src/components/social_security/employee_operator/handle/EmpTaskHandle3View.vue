@@ -65,6 +65,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="办理月份：">
+                <!--<label>{{this.$utils.formatDate(this.socialSecurityPayOperator.handleMonth, 'YYYYMM')}}</label>-->
                 <DatePicker v-model="socialSecurityPayOperator.handleMonth" type="month" placeholder="办理年月"
                             style="width: 100%;"
                             transfer></DatePicker>
@@ -653,7 +654,10 @@
 
             // 转下月处理
             if(type && type == 'next'){
-              var nextDay = parseInt(this.company.expireDate) + 1;
+              var nextDay = 27;
+              if (self.company.expireDate) {
+                nextDay = parseInt(self.company.expireDate) + 1;
+              }
               var submitTime = new Date();
               submitTime.setDate(nextDay);
               fromData.submitTime = this.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');

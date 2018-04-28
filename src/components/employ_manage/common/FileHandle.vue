@@ -12,7 +12,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="预留档案编号：" prop="yuliuDocNum">
-          <Input v-model="file1.yuliuDocNum" placeholder="请输入" :maxlength="11"/>
+          <Input v-model="file1.yuliuDocNum" placeholder="请输入" :maxlength="9"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -25,7 +25,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="档案编号：" prop="docNum">
-          <Input v-model="file1.docNum" placeholder="请输入" :maxlength="11"/>
+          <Input v-model="file1.docNum" placeholder="请输入" :maxlength="9"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -313,6 +313,14 @@
         }
         if(!patrn.test(this.file1.docNum) && this.file1.docNum != undefined){
           this.$Message.error("档案编号必须是数字！");
+          return;
+        }
+        if(this.file1.yuliuDocNum == 999999999){
+          this.$Message.error("预留档案编号已经是极限了，请联系管理员！");
+          return;
+        }
+        if(this.file1.docNum == 999999999){
+          this.$Message.error("档案编号已经是极限了，请联系管理员！");
           return;
         }
         var fromData = this.$utils.clear(this.file1,'');

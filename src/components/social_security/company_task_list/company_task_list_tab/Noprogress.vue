@@ -32,7 +32,7 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="clickQuery">查询</Button>
+                <Button type="primary" icon="ios-search" @click="clickQuery(1)">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('companyTaskInfo')">重置</Button>
               </Col>
             </Row>
@@ -62,7 +62,7 @@
           show-sizer
           show-total
           @on-change="getPage"
-          @on-page-size-change="handlePageSite"
+          @on-page-size-change="handlePageSize"
            ></Page>
         </Col>
       </Row>
@@ -231,10 +231,8 @@
       }
     },
     mounted() {
-
       let sessionPageNum = sessionStorage.taskPageNum
       let sessionPageSize = sessionStorage.taskPageSize
-
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
          this.pageNum = Number(sessionPageNum)
          this.size = Number(sessionPageSize)
@@ -275,10 +273,9 @@
           this.pageNum = page
           this.setSessionNumAndSize()
           this.loading=true;
-          let self= this
           let params =this.getParams(page)
           NoProgress.postTableData(params).then(data=>{
-          self.refreash(data)
+          this.refreash(data)
           }
           ).catch(error=>{
             console.log(error);
@@ -313,17 +310,14 @@
         NoProgress.expExcel(params);
       },
       //点击查询按钮
-      clickQuery(){
+      clickQuery(page){
+         this.pageNum = page
          this.loading=true;
         //获得页面条件参数
-      let params = this.getParams(1)
-      let self = this
+        let params = this.getParams(1)
         NoProgress.postTableData(params).then(data=>{
-
-           self.refreash(data)
-
+           this.refreash(data)
         }).catch(error=>{
-
           console.log(error)
         })
       },
@@ -397,9 +391,9 @@
       cancel() {
          this.isRefuseReason = false;
       },
-      handlePageSite(val){
+      handlePageSize(val){
         this.size=val
-        this.clickQuery()
+        this.clickQuery(1)
       }
     }
   }

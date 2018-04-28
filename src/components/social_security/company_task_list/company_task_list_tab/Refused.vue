@@ -31,7 +31,7 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="clickQuery">查询</Button>
+                <Button type="primary" icon="ios-search" @click="clickQuery(1)">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('companyTaskInfo')">重置</Button>
               </Col>
             </Row>
@@ -44,7 +44,14 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData"></Table>
-          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" :current="pageNum" show-sizer show-total  class="pageSize" @on-change="getPage" @on-page-size-change="handlePageSite"></Page>
+          <Page :total="totalSize" 
+          :page-size="size" 
+          :page-size-opts="sizeArr"
+           :current="pageNum" show-sizer show-total  
+           class="pageSize" 
+           @on-change="getPage" 
+           @on-page-size-change="handlePageSite">
+           </Page>
         </Col>
       </Row>
 
@@ -283,7 +290,8 @@
 
       },
       //点击查询按钮
-      clickQuery(){
+      clickQuery(page){
+        this.pageNum = page
          this.loading=true;
         //获得页面条件参数
       let params = this.getParams(1)
@@ -296,6 +304,12 @@
       },
       //获得请求参数
       getParams(page){
+        let submitTimeStart='';
+        let submitTimeEnd='';
+        if(this.companyTaskInfo.taskStartTime[0]!=""){
+              submitTimeStart=Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD');//任务发起时间
+              submitTimeEnd=Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD');
+        }
         return {
           pageSize:this.size,
           pageNum:page,
@@ -303,8 +317,8 @@
               companyId:this.companyTaskInfo.customerNumber==""?'':this.companyTaskInfo.customerNumber,//客户编号
               companyName:this.companyTaskInfo.customerName==""?'':this.companyTaskInfo.customerName,//客户姓名
               taskCategory:this.companyTaskInfo.taskTypeValue==""?'':this.companyTaskInfo.taskTypeValue,//任务类型
-              submitTimeStart:this.companyTaskInfo.taskStartTime==""?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
-              submitTimeEnd:this.companyTaskInfo.taskStartTime==""?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
+              submitTimeStart:submitTimeStart,//任务发起时间
+              submitTimeEnd:submitTimeEnd
             }
          }
         },
@@ -316,7 +330,7 @@
       },
       handlePageSite(val){
         this.size=val
-        this.clickQuery()
+        this.clickQuery(1)
       }
     }
   }

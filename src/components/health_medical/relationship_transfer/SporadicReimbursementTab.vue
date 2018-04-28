@@ -65,8 +65,8 @@
   import {mapState, mapActions, mapGetters} from "vuex"
   import EventTypes from "../../../store/event_types"
   import qs from "qs"
+  import ajax from "../../../lib/ajax"
 
-const host = process.env.HOST_SUPPLEMENTMEDICAL
   export default {
     name: "sporadic-reimbursement-tab",
     data() {
@@ -170,7 +170,7 @@ const host = process.env.HOST_SUPPLEMENTMEDICAL
       },
       // 导出csv
       exportData() {
-        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/api/afsupportcenter/healthmedical/FragmentaryReimbursement/export?' + qs.stringify(this.reimbursementItem)
+        window.location = ajax.basePaths + '/api/afsupportcenter/healthmedical/FragmentaryReimbursement/export?' + qs.stringify(this.reimbursementItem)
       }
     }
   }

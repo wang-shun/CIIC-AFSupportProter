@@ -32,7 +32,7 @@
             <Row>
               <Col :sm="{span: 24}"  style="padding-bottom:10px">
                 <Button type="info" @click="exp">导出</Button>
-                <Button type="primary" @click="calculate">重新汇总</Button>
+                <!-- <Button type="primary" @click="calculate">重新汇总</Button> -->
                 <Button type="warning" @click="goBack" >返回</Button>
               </Col>
             </Row>
@@ -281,8 +281,8 @@
         api.summaryCalculate(params).then(data=>{
             if(data.code==1){
               this.$Message.error(data.message);
-              this.queryEmlpyeeMonthFeeDetail();
             }
+             this.queryEmlpyeeMonthFeeDetail();
         }).catch(error=>{
           this.$Message.error('系统异常！');
         })

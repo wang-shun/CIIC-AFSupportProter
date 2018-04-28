@@ -12,7 +12,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="预留档案编号：" prop="yuliuDocNum">
-          <Input v-model="file1.yuliuDocNum" placeholder="请输入" :maxlength="50"/>
+          <Input v-model="file1.yuliuDocNum" placeholder="请输入" :maxlength="9"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -25,7 +25,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="档案编号：" prop="docNum">
-          <Input v-model="file1.docNum" placeholder="请输入" :maxlength="50"/>
+          <Input v-model="file1.docNum" placeholder="请输入" :maxlength="9"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -82,7 +82,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="录用处理结束：">
-          <Checkbox v-model="file1.luyongHandleEnd" true-value="1" false-value="0">录用处理结束</Checkbox>
+          <Checkbox v-model="file1.luyongHandleEnd">录用处理结束</Checkbox>
         </Form-item>
         </Col>
       </Row>
@@ -239,15 +239,7 @@
         if(this.isFast){
           this.isFast = false;
           if(this.fileInfo1.oldYuLiuType == undefined){
-            api.queryDocSeqByDocType({type : 1,docType : val}).then(data => {
-              if (data.code == 200) {
-                Vue.set(this.file1,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1)
-                this.file1.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
-                this.seqMax1 = data.data.docBo.docSeq;
-              } else {
-                this.$Message.error("服务器异常" + data.message);
-              }
-            })
+            this.queryDocSeqByDocType(val);
           }
           return;
         }
@@ -262,13 +254,17 @@
           Vue.set(this.file1,'yuliuDocNum',this.fileInfo1.oldYuLiuNum);
           return;
         }
+        this.queryDocSeqByDocType(val);
+      },
+
+      queryDocSeqByDocType(val){
         api.queryDocSeqByDocType({type : 1,docType : val}).then(data => {
           if (data.code == 200) {
             Vue.set(this.file1,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1)
-            this.file1.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
-            this.seqMax1 = data.data.docBo.docSeq;
+              this.file1.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
+              this.seqMax1 = data.data.docBo.docSeq;
           } else {
-            this.$Message.error("服务器异常" + data.message);
+              this.$Message.error("服务器异常" + data.message);
           }
         })
       },
@@ -277,15 +273,7 @@
         if(this.isFast){
           this.isFast = false;
           if(this.fileInfo1.oldType == undefined){
-            api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
-              if (data.code == 200) {
-                Vue.set(this.file1,'docNum',parseInt(data.data.docBo.docSeq)+1)
-                this.file1.docNum = parseInt(data.data.docBo.docSeq)+1;
-                this.seqMax2 = data.data.docBo.docSeq;
-              } else {
-                this.$Message.error("服务器异常" + data.message);
-              }
-            })
+            this.queryDocSeqByDocType2(val);
           }
           return;
         }
@@ -298,6 +286,10 @@
           Vue.set(this.file1,'docNum',this.fileInfo1.oldNum);
           return;
         }
+        this.queryDocSeqByDocType2(val);
+      },
+
+      queryDocSeqByDocType2(val){
         api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
           if (data.code == 200) {
             Vue.set(this.file1,'docNum',parseInt(data.data.docBo.docSeq)+1)
@@ -321,6 +313,14 @@
         }
         if(!patrn.test(this.file1.docNum) && this.file1.docNum != undefined){
           this.$Message.error("档案编号必须是数字！");
+          return;
+        }
+        if(this.file1.yuliuDocNum == 999999999){
+          this.$Message.error("预留档案编号已经是极限了，请联系管理员！");
+          return;
+        }
+        if(this.file1.docNum == 999999999){
+          this.$Message.error("档案编号已经是极限了，请联系管理员！");
           return;
         }
         var fromData = this.$utils.clear(this.file1,'');
@@ -377,6 +377,11 @@
           if (data.code == 200) {
             this.$Message.success("保存成功");
             this.file1.archiveId=data.data.archiveId;
+            this.file1.oldYuLiuType = data.data.yuliuDocType;
+            this.file1.oldYuLiuNum = data.data.yuliuDocNum;
+            this.file1.oldType = data.data.docType;
+            this.file1.oldNum = data.data.docNum;
+            console.info(data.data);
           } else {
             this.$Message.error("保存失败！" + data.message);
           }

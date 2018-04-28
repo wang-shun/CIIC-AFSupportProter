@@ -110,8 +110,13 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="档案类别：">
+             {{refuse.docType}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案编号：">
-            <Input v-model="refuse.docNum" placeholder="请输入" :maxlength="50"/>
+             {{refuse.docNum}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -139,6 +144,11 @@
             <Select v-model="refuse.comGroupOutDirect" transfer>
               <Option v-for="item in companyGroupTransferDirectionList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
+          </Form-item>
+        </Col>
+         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="预留档案类别：">
+             {{refuse.yuliuDocType}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

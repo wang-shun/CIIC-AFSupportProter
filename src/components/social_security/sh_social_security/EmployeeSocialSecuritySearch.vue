@@ -186,7 +186,7 @@
                     }
                   }
                 }, '查看 / 编辑'),
-              ]);
+              ])
             }
           },
           {title: '雇员编码', key: 'employeeId', align: 'center', width: 120,
@@ -200,98 +200,98 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeName),
-              ]);
+              ])
             }
           },
           {title: '证件号', key: 'idNum', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.idNum),
-              ]);
+              ])
             }
           },
           {title: '企业社保账号', key: 'ssAccount', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.ssAccount),
-              ]);
+              ])
             }
           },
           {title: '社保状态', key: 'archiveTaskStatus', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', this.$decode.ssArchiveTaskStatus(params.row.archiveTaskStatus)),
-              ]);
+              ])
             }
           },
           {title: '客服经理', key: 'leaderShipName', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.leaderShipName),
-              ]);
+              ])
             }
           },
           {title: '社保账户类型', key: 'ssAccountType', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.accountType(params.row.ssAccountType)),
-              ]);
+              ])
             }
           },
           {title: '结算区县', key: 'settlementArea', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.settlementArea),
-              ]);
+              ])
             }
           },
           {title: '客户编号', key: 'companyId', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyId),
-              ]);
+              ])
             }
           },
           {title: '客户名称', key: 'title', align: 'center', width: 250,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.title),
-              ]);
+              ])
             }
           },
           {title: '企业社保账户名称', key: 'comAccountName', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.comAccountName),
-              ]);
+              ])
             }
           },
            {title: '起缴月份', key: 'startMonth', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.startMonth),
-              ]);
+              ])
             }
           },
            {title: '截止月份', key: 'endMonth', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.endMonth),
-              ]);
+              ])
             }
           },
            {title: '办理月份', key: 'ssMonth', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.ssMonth),
-              ]);
+              ])
             }
           },
           {title: '入职日期', key: 'inDate', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.inDate),
-              ]);
+              ])
             }
           }
 
@@ -302,7 +302,7 @@
     mounted() {
 
       this.employeeQuery({})
-      this.loadDict();
+      this.loadDict()
 
     },
     computed: {
@@ -314,7 +314,7 @@
         //   filename: '原始数据'
         // });
         let params = this.searchCondition
-        api.empSSSearchExport(params);
+        api.empSSSearchExport(params)
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
@@ -344,14 +344,14 @@
         })
       },
       handlePageNum(val) {
-        this.pageData.pageNum = val;
+        this.pageData.pageNum = val
         let params = this.searchCondition
-        this.employeeQuery(params);
+        this.employeeQuery(params)
       },
       handlePageSize(val) {
-        this.pageData.pageSize = val;
+        this.pageData.pageSize = val
         let params = this.searchCondition
-        this.employeeQuery(params);
+        this.employeeQuery(params)
       },
       ok () {
 

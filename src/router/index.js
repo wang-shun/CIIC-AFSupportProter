@@ -48,9 +48,9 @@ const employeeFundTransferOperator = r => require.ensure([], () => r(require('@/
 const employeeFundTransferProgressTwo = r => require.ensure([], () => r(require('@/components/fund/employee_transfer_operator/EmployeeFundTransferProgressTwo')), 'EmployeeFundTransferProgressTwo')
 const companyFundTaskList = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskList')), 'CompanyFundTaskList')
 const companyFundTaskCommit = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskCommit')), 'CompanyFundTaskCommit')
-const companyFundTaskProgressChangeInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/companyFundTaskProgressChangeInfo')), 'companyFundTaskProgressChangeInfo')
-const companyFundTaskProgressEndInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/companyFundTaskProgressEndInfo')), 'companyFundTaskProgressEndInfo')
-const companyFundTaskInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/companyFundTaskInfo')), 'companyFundTaskInfo')
+const companyFundTaskProgressChangeInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskProgressChangeInfo')), 'CompanyFundTaskProgressChangeInfo')
+const companyFundTaskProgressEndInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskProgressEndInfo')), 'CompanyFundTaskProgressEndInfo')
+const companyFundTaskInfo = r => require.ensure([], () => r(require('@/components/fund/company_fund_task_list/CompanyFundTaskInfo')), 'CompanyFundTaskInfo')
 
 
 const companyFundAccountSearch = r => require.ensure([], () => r(require('@/components/fund/company_fund_account_search/CompanyFundAccountSearch')), 'CompanyFundAccountSearch')
@@ -359,7 +359,7 @@ let router = new Router({
                 },
                 {
                     path: '/company_fund_task_progress_change_info',
-                    name: 'companyFundTaskProgressChangeInfo',
+                    name: 'CompanyFundTaskProgressChangeInfo',
                     component: companyFundTaskProgressChangeInfo,
                     meta: {
                         level1: '首页',
@@ -371,7 +371,7 @@ let router = new Router({
                 },
                 {
                     path: '/company_fund_task_progress_end_info',
-                    name: 'companyFundTaskProgressEndInfo',
+                    name: 'CompanyFundTaskProgressEndInfo',
                     component: companyFundTaskProgressEndInfo,
                     meta: {
                         level1: '首页',
@@ -383,7 +383,7 @@ let router = new Router({
                 },
                 {
                     path: '/company_fund_task_info',
-                    name: 'companyFundTaskInfo',
+                    name: 'CompanyFundTaskInfo',
                     component: companyFundTaskInfo,
                     meta: {
                         level1: '首页',

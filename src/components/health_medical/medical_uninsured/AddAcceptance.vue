@@ -84,7 +84,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
         <Button type="warning" @click="back">返回</Button>
-        <Button type="primary" @click="addAcceptance">提交</Button>
+        <Button type="primary" @click="addAcceptance" :loading="loading">提交</Button>
         </Col>
       </Row>
     </Card>
@@ -98,6 +98,7 @@
   export default {
     data() {
       return {
+        loading: false,
         formItem: {
           surrenderDate: null,
           dimissionDate: null,
@@ -144,8 +145,9 @@
             addData.employeeName = this.employeeInfo.employeeName;
             addData.companyId = this.employeeInfo.companyId;
             addData.companyName = this.employeeInfo.companyName;
+            this.loading = true;
             apiAjax.addAcceptance(addData).then(response => {
-              console.info(response);
+              this.loading = false;
               if (response.data.code === 200) {
                 this.$router.push({name: "addAcceptanceEmployeeList"})
               } else {

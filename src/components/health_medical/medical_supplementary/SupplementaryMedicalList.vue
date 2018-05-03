@@ -142,14 +142,14 @@
     <Modal
       v-model="modalAccept"
       title="审核操作对话框"
-      @on-ok="updateSupplementaryList(2)">
+      @on-ok="updateSupplementaryList(2)" :loading="loading">
       <Input v-model="dealMeg.remark" placeholder="备注："/>
     </Modal>
 
     <Modal
       v-model="modalRefuse"
       title="批退操作对话框"
-      @on-ok="updateSupplementaryList(1)">
+      @on-ok="updateSupplementaryList(1)" :loading="loading">
       <Input v-model="dealMeg.remark" placeholder="备注："/>
     </Modal>
 
@@ -162,7 +162,7 @@
         <Button type="ghost" icon="ios-cloud-upload-outline">选择要上传的Excel文件</Button>
       </Upload>
       <div v-if="file !== null">待上传文件：{{ file.name }}
-        <Button type="text" @click="upload">点击上传</Button>
+        <Button type="info" @click="upload" :loading="loading">点击上传</Button>
       </div>
     </Modal>
   </div>
@@ -181,6 +181,7 @@
         modalRefuse: false,
         modalInput: false,
         file: null,
+        loading: false,
         formItem: {
           total: 0,
           current: 1,
@@ -255,40 +256,6 @@
           {
             title: '操作', key: 'action', width: 240, align: 'center',
             render: (h, params) => {
-              // if (params.row.status === 0) {
-              //   return h('div', [
-              //     h('Button', {
-              //       props: {type: 'success', size: 'small'},
-              //       style: {marginRight: '5px'},
-              //       on: {
-              //         click: () => {
-              //           // this.updateSupplementary(1);
-              //           this.$Modal.success({title: '补充医疗理赔受理', content: `审核通过`});
-              //         }
-              //       }
-              //     }, '审核通过'),
-              //     h('Button', {
-              //       props: {type: 'success', size: 'small'},
-              //       style: {marginRight: '5px'},
-              //       on: {
-              //         click: () => {
-              //           this.$Modal.info({title: '补充医疗理赔受理', content: `批退完成`});
-              //         }
-              //       }
-              //     }, '批退'),
-              //     h('Button', {
-              //       props: {
-              //         type: 'success', size: 'small'
-              //       },
-              //       on: {
-              //         click: () => {
-              //           sessionStorage.setItem('acceptanceId', JSON.stringify(params.row.acceptanceId));
-              //           this.$router.push({name: 'InvoiceList'});
-              //         }
-              //       }
-              //     }, '发票明细')
-              //   ]);
-              // } else {
               return h('div', [
                 h('Button', {
                   props: {
@@ -302,7 +269,6 @@
                   }
                 }, '发票明细')
               ]);
-              // }
             }
           }
         ],
@@ -343,7 +309,9 @@
       },
       upload() {
         let data = {file: this.file};
+        this.loading = true;
         apiAjax.importAcceptanceXls(data).then(response => {
+          this.loading = false;
           if (response.data.code === 200) {
             this.$Message.success("上传成功");
           } else {
@@ -383,7 +351,9 @@
           item.auditTime = new Date();
           item.auditor = this.dealMeg.auditor;
         });
+        this.loading = true;
         apiAjax.updateAcceptanceList(this.selectData).then(response => {
+          this.loading = false;
           if (response.data.code === 200) {
             this.getByPage(1);
           } else {
@@ -425,7 +395,9 @@
         this.data6.splice(index, 1);
       },
       exportData() {
+        this.loading = true;
         window.location = apiAjax.basePaths + '/supplyMedicalService/export?' + qs.stringify(this.formItem)
+        this.loading = false;
       }
     }
   }

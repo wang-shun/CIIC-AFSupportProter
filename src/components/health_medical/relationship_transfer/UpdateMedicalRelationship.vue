@@ -52,7 +52,7 @@
         </row>
         <Row type="flex" justify="start">
           <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="updateTransfer">提交</Button>
+          <Button type="primary" @click="updateTransfer" :loading="loading">提交</Button>
           <Button type="success" @click="back">返回</Button>
           </Col>
         </Row>
@@ -67,6 +67,7 @@
   export default {
     data() {
       return {
+        loading: false,
         transferItem: {},
         transferValidate: this.$Validator.transferValidator,
       }
@@ -84,9 +85,11 @@
       updateTransfer() {
         this.$refs['transferItem'].validate((valid) => {
           if (valid) {
+            this.loading = true;
             this[EventTypes.TRANSFER_UPDATE]({
               data: this.transferItem,
               callback: (res) => {
+                this.loading = false;
                 if (res.code === 200) {
                   this.$router.push({path: '/relationshipTransfer'})
                 } else {

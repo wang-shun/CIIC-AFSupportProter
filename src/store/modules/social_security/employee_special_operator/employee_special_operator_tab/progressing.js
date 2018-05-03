@@ -16,7 +16,7 @@ const state = {
 
 const actions = {
   [EventTypes.PROGRESSINGTYPE]({commit}, params) {
-    mock.Progressing(params).then(response => {
+    mock.progressing(params).then(response => {
       commit(EventTypes.PROGRESSINGTYPE, response.data)
     })
   }

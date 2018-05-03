@@ -1,6 +1,6 @@
 import Utils from "../../../../lib/utils";
 
-const Progressing = params => Utils.promise({
+const progressing = params => Utils.promise({
   data:{
     code:200,
     data: {
@@ -243,5 +243,5 @@ const Progressing = params => Utils.promise({
 })
 
 export default {
-  Progressing
+  progressing
 }

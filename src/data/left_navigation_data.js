@@ -77,8 +77,8 @@ const leftNavigation =
       key: "健康医疗",
       icon: "ios-medkit-outline",
       children: [
-        {cid: "6-1", ckey: "待处理任务", crouter: "PendingTaskList"},
-        {cid: "6-2", ckey: "已处理任务", crouter: "ProcessedTaskList"},
+        {cid: "6-1", ckey: "待处理任务", crouter: "pendingTaskList"},
+        {cid: "6-2", ckey: "已处理任务", crouter: "processedTaskList"},
         {cid: "6-3", ckey: "补充医疗理赔", crouter: "supplementaryMedicalList"},
         {cid: "6-4", ckey: "受理单列表", crouter: "acceptanceList"},
         {cid: "6-5", ckey: "未投保审核", crouter: "uninsuredReview"},

@@ -35,11 +35,11 @@ const employeeFundHistory = r => require.ensure([], () => r(require('@/component
 const employeeFundBasicInfo = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundBasicInfo')), 'EmployeeFundBasicInfo')
 const employeeFundHistoryDetail = r => require.ensure([], () => r(require('@/components/fund/employee_fund_search/EmployeeFundHistoryDetail')), 'EmployeeFundHistoryDetail')
 
-const employeeFundCommonOperator = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/EmployeeFundCommonOperator')), 'employeeFundCommonOperator')
-const employeeFundCommonOperatorInTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/InTaskHandle')), 'employeeFundCommonOperatorInTaskHandle')
-const employeeFundCommonOperatorOutTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/OutTaskHandle')), 'employeeFundCommonOperatorOutTaskHandle')
-const employeeFundCommonOperatorRepairTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/RepairTaskHandle')), 'employeeFundCommonOperatorRepairTaskHandle')
-const employeeFundCommonOperatorAdjustTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/AdjustTaskHandle')), 'employeeFundCommonOperatorAdjustTaskHandle')
+const employeeFundCommonOperator = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/EmployeeFundCommonOperator')), 'EmployeeFundCommonOperator')
+const employeeFundCommonOperatorInTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/InTaskHandle')), 'EmployeeFundCommonOperatorInTaskHandle')
+const employeeFundCommonOperatorOutTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/OutTaskHandle')), 'EmployeeFundCommonOperatorOutTaskHandle')
+const employeeFundCommonOperatorRepairTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/RepairTaskHandle')), 'EmployeeFundCommonOperatorRepairTaskHandle')
+const employeeFundCommonOperatorAdjustTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/AdjustTaskHandle')), 'EmployeeFundCommonOperatorAdjustTaskHandle')
 
 const employeeFundSpecialOperator = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialOperator')), 'EmployeeFundSpecialOperator')
 const employeeFundSpecialProgressTwo = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialProgressTwo')), 'EmployeeFundSpecialProgressTwo')
@@ -66,24 +66,25 @@ const fundYearAdjustViewDifference = r => require.ensure([], () => r(require('@/
 
 
 //任务单管理
-const PendingTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/PendingTaskList')), 'PendingTaskList') //待处理任务单列表
-const ProcessedTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/ProcessedTaskList')), 'ProcessedTaskList') //已处理任务单列表
+const pendingTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/PendingTaskList')), 'PendingTaskList') //待处理任务单列表
+const processedTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/ProcessedTaskList')), 'ProcessedTaskList') //已处理任务单列表
+//const ProcessedTaskList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/ProcessedTaskList')), 'ProcessedTaskList') //已处理任务单列表
 
 //补充医疗理赔
-const supplementaryMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/SupplementaryMedicalList')), 'supplementaryMedicalList') //充医疗理赔
-const InvoiceList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/InvoiceList')), 'InvoiceList') //发票列表
+const supplementaryMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/SupplementaryMedicalList')), 'SupplementaryMedicalList') //充医疗理赔
+const invoiceList = r => require.ensure([], () => r(require('@/components/health_medical/medical_supplementary/InvoiceList')), 'InvoiceList') //发票列表
 
 //未投保医疗
-const acceptanceList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AcceptanceList')), 'acceptanceList') //受理单列表
-const checkMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/CheckMedicalList')), 'checkMedicalList') //新增未投保列表
-const addAcceptanceEmployeeList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddAcceptanceEmployeeList')), 'addAcceptanceEmployeeList') //理赔人员列表
-const addAcceptance = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddAcceptance')), 'addAcceptance') //新增受理单
+const acceptanceList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AcceptanceList')), 'AcceptanceList') //受理单列表
+const checkMedicalList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/CheckMedicalList')), 'CheckMedicalList') //新增未投保列表
+const addAcceptanceEmployeeList = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddAcceptanceEmployeeList')), 'AddAcceptanceEmployeeList') //理赔人员列表
+const addAcceptance = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AddAcceptance')), 'AddAcceptance') //新增受理单
 
-const auditNurseryFee = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AuditNurseryFee')), 'auditNurseryFee') //医疗关系转移
+const auditNurseryFee = r => require.ensure([], () => r(require('@/components/health_medical/medical_uninsured/AuditNurseryFee')), 'AuditNurseryFee') //医疗关系转移
 //在保管理
-const insuredList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/InsuredList')), 'insuredList') //在保管理
+const insuredList = r => require.ensure([], () => r(require('@/components/health_medical/medical_task_management/InsuredList')), 'InsuredList') //在保管理
 //保单管理
-const AddPayRate = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddPayRate')), 'AddPayRate') //新增付费比例
+const addPayRate = r => require.ensure([], () => r(require('@/components/health_medical/insurance_policy_management/AddPayRate')), 'AddPayRate') //新增付费比例
 
 /**
  * 证件管理
@@ -94,12 +95,12 @@ const AddPayRate = r => require.ensure([], () => r(require('@/components/health_
  * CompanyEdit 客户数据维护
  * OrgPolicyList 办理机构政策维护列表
  */
-const EmpList = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpList')), 'empList')
-const EmpAdd = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpAdd')), 'empAdd')
-const EmpCredentialsTask = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpCredentialsTask')), 'empCredentialsTask')
-const CompanyList = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyList')), 'companyList')
-const CompanyEdit = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyEdit')), 'companyEdit')
-const OrgPolicyList = r => require.ensure([], () => r(require('@/components/credentials_management/org_policy_maintenance/OrgPolicyList')), 'orgPolicyList')
+const empList = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpList')), 'EmpList')
+const empAdd = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpAdd')), 'EmpAdd')
+const empCredentialsTask = r => require.ensure([], () => r(require('@/components/credentials_management/emp_credentials_deal/EmpCredentialsTask')), 'EmpCredentialsTask')
+const companyList = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyList')), 'CompanyList')
+const companyEdit = r => require.ensure([], () => r(require('@/components/credentials_management/company_maintenance/CompanyEdit')), 'CompanyEdit')
+const orgPolicyList = r => require.ensure([], () => r(require('@/components/credentials_management/org_policy_maintenance/OrgPolicyList')), 'OrgPolicyList')
 
 /**
  * 健康医疗
@@ -517,7 +518,7 @@ let router = new Router({
                 ...EmployManageRouter,
                 {
                     path: '/addAcceptanceEmployeeList',
-                    name: 'addAcceptanceEmployeeList',
+                    name: 'AddAcceptanceEmployeeList',
                     component: addAcceptanceEmployeeList,
                     meta: {
                         level1: '首页',
@@ -530,7 +531,7 @@ let router = new Router({
                 {
                     path: '/PendingTaskList',
                     name: 'PendingTaskList',
-                    component: PendingTaskList,
+                    component: pendingTaskList,
                     meta: {
                         level1: '首页',
                         level2: '任务单管理',
@@ -542,7 +543,7 @@ let router = new Router({
                 {
                     path: '/ProcessedTaskList',
                     name: 'ProcessedTaskList',
-                    component: ProcessedTaskList,
+                    component: processedTaskList,
                     meta: {
                         level1: '首页',
                         level2: '任务单管理',
@@ -553,7 +554,7 @@ let router = new Router({
                 },
                 {
                     path: '/addAcceptance',
-                    name: 'addAcceptance',
+                    name: 'AddAcceptance',
                     component: addAcceptance,
                     meta: {
                         level1: '首页',
@@ -566,7 +567,7 @@ let router = new Router({
                 {
                     path: '/InvoiceList',
                     name: 'InvoiceList',
-                    component: InvoiceList,
+                    component: invoiceList,
                     meta: {
                         level1: '首页',
                         level2: '未投保医疗',
@@ -659,7 +660,7 @@ let router = new Router({
                 },
                 {
                     path: '/auditNurseryFee',
-                    name: 'auditNurseryFee',
+                    name: 'AuditNurseryFee',
                     component: auditNurseryFee,
                     meta: {
                         level1: '首页',
@@ -731,7 +732,7 @@ let router = new Router({
                 {
                     path: '/AddPayRate',
                     name: 'AddPayRate',
-                    component: AddPayRate,
+                    component: addPayRate,
                     meta: {
                         level1: '首页',
                         level2: '保单管理',
@@ -766,7 +767,7 @@ let router = new Router({
                 },
                 {
                     path: '/supplementaryMedicalList',
-                    name: 'supplementaryMedicalList',
+                    name: 'SupplementaryMedicalList',
                     component: supplementaryMedicalList,
                     meta: {
                         level1: '首页',
@@ -789,7 +790,7 @@ let router = new Router({
                 },
                 {
                     path: '/acceptanceList',
-                    name: 'acceptanceList',
+                    name: 'AcceptanceList',
                     component: acceptanceList,
                     meta: {
                         level1: '首页',
@@ -801,7 +802,7 @@ let router = new Router({
                 },
                 {
                     path: '/checkMedicalList',
-                    name: 'checkMedicalList',
+                    name: 'CheckMedicalList',
                     component: checkMedicalList,
                     meta: {
                         level1: '首页',
@@ -812,7 +813,7 @@ let router = new Router({
                 },
                 {
                     path: '/insuredList',
-                    name: 'insuredList',
+                    name: 'InsuredList',
                     component: insuredList,
                     meta: {
                         level1: '首页',
@@ -947,8 +948,8 @@ let router = new Router({
          */
                 {
                     path: '/emp_credentials_deal/emp_list',
-                    name: 'empList',
-                    component: EmpList,
+                    name: 'EmpList',
+                    component: empList,
                     meta: {
                         level1: '首页',
                         level2: '证件管理',
@@ -959,8 +960,8 @@ let router = new Router({
                 },
                 {
                     path: '/emp_credentials_deal/emp_add',
-                    name: 'empAdd',
-                    component: EmpAdd,
+                    name: 'EmpAdd',
+                    component: empAdd,
                     meta: {
                         level1: '首页',
                         level2: '证件管理',
@@ -971,8 +972,8 @@ let router = new Router({
                 },
                 {
                     path: '/emp_credentials_deal/emp_credentials_task',
-                    name: 'empCredentialsTask',
-                    component: EmpCredentialsTask,
+                    name: 'EmpCredentialsTask',
+                    component: empCredentialsTask,
                     meta: {
                         level1: '首页',
                         level2: '证件管理',
@@ -983,8 +984,8 @@ let router = new Router({
                 },
                 {
                     path: '/company_maintenance/company_list',
-                    name: 'companyList',
-                    component: CompanyList,
+                    name: 'CompanyList',
+                    component: companyList,
                     meta: {
                         level1: '首页',
                         level2: '证件管理',
@@ -994,8 +995,8 @@ let router = new Router({
                 },
                 {
                     path: '/company_maintenance/company_edit',
-                    name: 'companyEdit',
-                    component: CompanyEdit,
+                    name: 'CompanyEdit',
+                    component: companyEdit,
                     meta: {
                         level1: '首页',
                         level2: '证件管理',
@@ -1005,8 +1006,8 @@ let router = new Router({
                 },
                 {
                     path: '/org_policy_maintenance/org_policy_list',
-                    name: 'orgPolicyList',
-                    component: OrgPolicyList,
+                    name: 'OrgPolicyList',
+                    component: orgPolicyList,
                     meta: {
                         level1: '首页',
                         level2: '证件管理',

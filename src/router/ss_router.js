@@ -170,7 +170,7 @@ const hfauthority = r => require.ensure([], () => r(require('@/components/fund/h
 export default [
   {
     path: '/employee_social_security_search',
-    name:'employeeSocialSecuritySearch',
+    name:'EmployeeSocialSecuritySearch',
     component: employeeSocialSecuritySearch,
     meta:{
       level1:'全国社保',
@@ -205,7 +205,7 @@ export default [
   },
   {
     path: '/employee_social_security_task_info',
-    name:'employeeSocialSecurityTaskInfo',
+    name:'EmployeeSocialSecurityTaskInfo',
     component: employeeSocialSecurityTaskInfo,
     meta:{
       level1:'全国社保',

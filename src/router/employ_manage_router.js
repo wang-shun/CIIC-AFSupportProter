@@ -12,7 +12,7 @@
  */
 
 const employmentDataManagementTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/EmploymentDataManagementTaskList')), 'EmploymentDataManagementTaskList');
-const employHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/employHandleEmployment')), 'employHandleEmployment');
+const employHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/EmployHandleEmployment')), 'EmployHandleEmployment');
 
 const dismissalHandleTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleTaskList')), 'DismissalHandleTaskList');
 const dismissalHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleEmployment')), 'DismissalHandleEmployment');
@@ -30,7 +30,7 @@ const independentHandleCustom = r => require.ensure([], () => r(require('@/compo
 export default [
   {
     path: '/employment_data_management_task_list',
-    name:'employmentDataManagementTaskList',
+    name:'EmploymentDataManagementTaskList',
     component: employmentDataManagementTaskList,
     meta:{
       level1:'首页',
@@ -42,7 +42,7 @@ export default [
   },
   {
     path: '/employ_handle_employment',
-    name:'employHandleEmployment',
+    name:'EmployHandleEmployment',
     component: employHandleEmployment,
     meta:{
       level1:'首页',
@@ -55,7 +55,7 @@ export default [
 
   {
     path: '/dismissal_handle_task_list',
-    name:'dismissalHandleTaskList',
+    name:'DismissalHandleTaskList',
     component: dismissalHandleTaskList,
     meta:{
       level1:'首页',
@@ -67,7 +67,7 @@ export default [
   },
   {
     path: '/dismissal_handle_employment',
-    name:'dismissalHandleEmployment',
+    name:'DismissalHandleEmployment',
     component: dismissalHandleEmployment,
     meta:{
       level1:'首页',
@@ -80,7 +80,7 @@ export default [
 
   {
     path: '/record_comprehensive_handling',
-    name:'recordComprehensiveHandling',
+    name:'RecordComprehensiveHandling',
     component: recordComprehensiveHandling,
     meta:{
       level1:'首页',
@@ -92,7 +92,7 @@ export default [
   },
   {
     path: '/record_comprehensive',
-    name:'recordComprehensive',
+    name:'RecordComprehensive',
     component: recordComprehensive,
     meta:{
       level1:'首页',
@@ -104,7 +104,7 @@ export default [
   },
   {
     path: '/file_matrials_use_and_borrow',
-    name:'fileMatrialsUseAndBorrow',
+    name:'FileMatrialsUseAndBorrow',
     component: fileMatrialsUseAndBorrow,
     meta:{
       level1:'首页',
@@ -117,7 +117,7 @@ export default [
 
   {
     path: '/record_match',
-    name:'recordMatch',
+    name:'RecordMatch',
     component: recordMatch,
     meta:{
       level1:'首页',
@@ -128,7 +128,7 @@ export default [
   },
   {
     path: '/match_import_file',
-    name:'matchImportFile',
+    name:'MatchImportFile',
     component: matchImportFile,
     meta:{
       level1:'首页',
@@ -140,7 +140,7 @@ export default [
   },
   {
     path: '/independent_handle_task_list',
-    name:'independentCustomList',
+    name:'IndependentCustomList',
     component: independentCustomList,
     meta:{
       level1:'首页',
@@ -152,7 +152,7 @@ export default [
   },
   {
     path: '/independent_handle_custom',
-    name:'independentHandleCustom',
+    name:'IndependentHandleCustom',
     component: independentHandleCustom,
     meta:{
       level1:'首页',

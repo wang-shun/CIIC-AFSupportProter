@@ -88,16 +88,16 @@ const companySocialSecurity = r => require.ensure([], () => r(require('@/compone
 const companySocialSecurityProgress2 = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityProgressTwo')), 'CompanySocialSecurityProgress2')
 const companySocialSecurityTypeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityTypeInfo')), 'CompanySocialSecurityTypeInfo')
 const companySocialSecurityChangeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityChangeInfo')), 'CompanySocialSecurityChangeInfo')
-const companySocialSecurityEndInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialsecurityEndInfo')), 'CompanySocialSecurityEndInfo')
+const companySocialSecurityEndInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityEndInfo')), 'CompanySocialSecurityEndInfo')
 
 /*
- * socialSecurityReconcilate       --- 社保对账
- * socialSecurityReconcilateDetail ---社保对账查看页面
+ * socialSecurityReconCilate       --- 社保对账
+ * socialSecurityReconCilateDetail ---社保对账查看页面
  */
 
 
-const socialSecurityReconcilate = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/SocialSecurityReconcilate')), 'SocialSecurityReconcilate')
-const socialSecurityReconcilateDetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityReconCilateDetail')), 'SocialSecurityReconcilateDetail')
+const socialSecurityReconCilate = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/SocialSecurityReconCilate')), 'SocialSecurityReconCilate')
+const socialSecurityReconCilateDetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityReconCilateDetail')), 'SocialSecurityReconCilateDetail')
 const socialSecurityEmpChangeDetailYys = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailYys')), 'SocialSecurityEmpChangeDetailYys')
 const socialSecurityEmpChangeDetailGsy = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailGsy')), 'SocialSecurityEmpChangeDetailGsy')
 
@@ -654,8 +654,8 @@ export default [
 
   {
     path: '/social_security_recon_cilate',
-    name: 'SocialSecurityReconcilate',
-    component: socialSecurityReconcilate,
+    name: 'SocialSecurityReconCilate',
+    component: socialSecurityReconCilate,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -665,8 +665,8 @@ export default [
   },
   {
     path: '/social_security_recon_cilate_detail',
-    name: 'SocialSecurityReconcilateDetail',
-    component: socialSecurityReconcilateDetail,
+    name: 'SocialSecurityReconCilateDetail',
+    component: socialSecurityReconCilateDetail,
     meta:{
       level1:'全国社保',
       level2:"上海社保",

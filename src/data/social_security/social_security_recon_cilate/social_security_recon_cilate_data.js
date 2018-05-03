@@ -1,6 +1,6 @@
 import Utils from "../../../lib/utils";
 
-const socialSecurityReconcilate = params => Utils.promise({
+const socialSecurityReconCilate = params => Utils.promise({
   data:{
     code:200,
     data: {
@@ -94,5 +94,5 @@ const socialSecurityReconcilate = params => Utils.promise({
 })
 
 export default {
-  socialSecurityReconcilate
+  socialSecurityReconCilate
 }

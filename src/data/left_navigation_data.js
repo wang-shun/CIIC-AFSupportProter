@@ -9,7 +9,7 @@ const leftNavigation =
         {cid: "1-2", ckey: "雇员日常操作", crouter: "employeeOperatorView"},
         {cid: "1-3", ckey: "企业任务单", crouter: "companyTaskList"},
         {cid: "1-4", ckey: "企业社保账户管理", crouter: "companySocialSecurityManage"},
-        {cid: "1-5", ckey: "社保对账", crouter: "socialSecurityReconcilate"},
+        {cid: "1-5", ckey: "社保对账", crouter: "socialSecurityReconCilate"},
         {cid: "1-6", ckey: "社保支付", crouter: "socialSecurityPay"},
         {cid: "1-7", ckey: "社保支付审核", crouter: "paymentBatchReviewed"},
         {cid: "1-8", ckey: "社保报表", crouter: "socialSecurityReport"},

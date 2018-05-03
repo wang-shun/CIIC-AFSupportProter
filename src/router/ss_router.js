@@ -19,7 +19,7 @@ const employeeSocialSecurityTaskInfo = r => require.ensure([], () => r(require('
 
 const employeeOperatorView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeOperatorView')), 'EmployeeOperatorView')
 const employeeCommcialOperator = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeCommcialOperator')), 'EmployeeCommcialOperator')
-const emprefresh = r=> require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/ReFresh')), 'emprefresh')
+const emprefresh = r=> require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/ReFresh')), 'Emprefresh')
 
 /*
  * employeeSpecialOperatorView       --- 雇员特殊操作

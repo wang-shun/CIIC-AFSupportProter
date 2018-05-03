@@ -20,7 +20,7 @@ const actions = {
 
 const mutations = {
   [EventTypes.EMPLOYEESOCIALSECURITYSEARCH](state, data) {
-    state.data = data.data;
+    state.data = data.data
   }
 }
 
@@ -30,7 +30,7 @@ const getters = {
   }
 }
 
-const namespaced = true;
+const namespaced = true
 
 export default {
   namespaced: namespaced,

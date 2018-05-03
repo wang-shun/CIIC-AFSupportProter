@@ -73,13 +73,13 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData" ref="selection"></Table>
-          <Page :total="totalSize" 
-          :page-size="size" 
-          :page-size-opts="sizeArr" 
-          :current="pageNum" 
-          show-sizer 
-          show-total  
-          class="pageSize" 
+          <Page :total="totalSize"
+          :page-size="size"
+          :page-size-opts="sizeArr"
+          :current="pageNum"
+          show-sizer
+          show-total
+          class="pageSize"
           @on-change="getPage"
            @on-page-size-change="handlePageSite"></Page>
         </Col>
@@ -118,7 +118,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
   import EventType from '../../../../store/event_types'
-  import {Progressing} from '../../../../api/social_security/company_task_list/company_task_list_tab/Progressing'
+  import {Progressing} from '../../../../api/social_security/company_task_list/company_task_list_tab/progressing'
   import Utils from '../../../../lib/utils'
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import InputCompany from '../../../common_control/form/input_company'
@@ -420,7 +420,7 @@
                       }
         if(this.refuseReason===null || this.refuseReason.trim()==''){
            alert("请填写批退原因！");
-      
+
         }else{
           let self = this
           Progressing.refusingTask(params).then(result=>{

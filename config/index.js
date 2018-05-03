@@ -15,7 +15,7 @@ if (buildParam) {
     case 'uat':
       env = require('./uat.env')
       break
- default:
+    default:
       env = require('./prod.env')
   }
 } else {

@@ -20,6 +20,7 @@
     "iview": "^2.5.1",
     "jquery": "^3.2.1",
     "moment": "^2.20.1",
+    "print-js": "^1.0.40",
     "sortablejs": "^1.6.0",
     "vue": "^2.5.2",
     "vue-axios": "^2.0.2",

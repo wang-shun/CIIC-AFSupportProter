@@ -30,7 +30,7 @@ import market from "./modules/flexible_benefit/market"
 import transfer from './modules/health_medical/relationship_transfer'
 //社保对账
 
-import SocialSecurityReconcilate from './modules/social_security/social_security_recon_cilate'
+import SocialSecurityReconCilate from './modules/social_security/social_security_recon_cilate'
 //社保报表
 import Socialsecurityreport from './modules/social_security/social_security_report'
 
@@ -64,7 +64,7 @@ export default new Vuex.Store({
     ...market,
 
     ...transfer,
-    ...SocialSecurityReconcilate,
+    ...SocialSecurityReconCilate,
     ...Socialsecurityreport,
 
     ...CompanyDataMaintenance,

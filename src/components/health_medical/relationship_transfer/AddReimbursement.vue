@@ -59,7 +59,7 @@
         </row>
         <Row type="flex" justify="start">
           <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="addReimbursement">提交</Button>
+          <Button type="primary" @click="addReimbursement" :loading="loading">提交</Button>
           <Button type="success" @click="back">返回</Button>
           </Col>
         </Row>
@@ -74,6 +74,7 @@
   export default {
     data() {
       return {
+        loading: false,
         reimbursementItem: {
           employeeId: null,
           employeeName: null,
@@ -90,7 +91,7 @@
       };
     },
     methods: {
-      ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_INSERT,EventTypes.EMPLOYEEINFO]),
+      ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_INSERT, EventTypes.EMPLOYEEINFO]),
 
       back() {
         this.$local.back();
@@ -100,9 +101,11 @@
         this.$refs['reimbursementItem'].validate((valid) => {
           console.info("=====+++++++++++++")
           if (valid) {
+            this.loading = true;
             this[EventTypes.REIMBURSEMENT_INSERT]({
               data: this.reimbursementItem,
               callback: (res) => {
+                this.loading = false;
                 if (res.code === 200) {
                   this.$router.push({name: 'relationshipTransfer', params: {data: 1}})
                 } else {

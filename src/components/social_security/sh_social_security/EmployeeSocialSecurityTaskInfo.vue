@@ -135,7 +135,7 @@
   import companyInfo from '../components/CompanyInfo.vue'
   import employeeInfo from '../components/EmployeeInfo.vue'
 
-  import taskRefrenceInfo from './taskRefrenceInfo.vue'
+  import taskRefrenceInfo from './TaskRefrenceInfo.vue'
   import socialSecurityOperator from '../../common_control/SocialSecurityOperator.vue'
   import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
@@ -258,7 +258,7 @@
 
           }else{
             this.$Message.error(data.message)
-          }   
+          }
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {
@@ -267,7 +267,7 @@
         api.queryComAccountByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {
           this.company = data.data;
         })
-        
+
       },
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo',query:{empArchiveId:this.empArchiveId}});

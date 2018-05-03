@@ -238,7 +238,7 @@
       changeTypeYuliu(val){
         if(this.isFast){
           this.isFast = false;
-          if(this.fileInfo1.oldYuLiuType == undefined){
+          if(this.fileInfo1.oldYuLiuType == undefined || this.fileInfo1.oldYuLiuType == ''){
             this.queryDocSeqByDocType(val);
           }
           return;
@@ -272,7 +272,7 @@
       changeType(val){
         if(this.isFast){
           this.isFast = false;
-          if(this.fileInfo1.oldType == undefined){
+          if(this.fileInfo1.oldType == undefined || this.fileInfo1.oldType == ''){
             this.queryDocSeqByDocType2(val);
           }
           return;

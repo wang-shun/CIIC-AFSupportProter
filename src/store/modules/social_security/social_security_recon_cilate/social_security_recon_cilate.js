@@ -14,7 +14,7 @@ const state = {
 
 const actions = {
   [EventTypes.SOCIALSECURITYRECONCILATE]({commit}, params) {
-    mock.socialSecurityReconcilate(params).then(response => {
+    mock.socialSecurityReconCilate(params).then(response => {
       commit(EventTypes.SOCIALSECURITYRECONCILATE, response.data)
     })
   }

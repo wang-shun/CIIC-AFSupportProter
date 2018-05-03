@@ -6,7 +6,7 @@
    employeeSocialSecurityTaskInfo    --- 雇员任务详情
  */
 
-const employeeSocialSecuritySearch = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecuritySearch')), 'EmployeeSocialSecuritySearch')
+const employeeSocialSecuritySearch = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecuritySearch')), 'employeeSocialSecuritySearch')
 const employeeSocialSecurityInfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityInfo')), 'EmployeeSocialSecurityInfo')
 const companySocialSecurityNew = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/CompanySocialSecurityNew')), 'CompanySocialSecurityNew')
 const employeeSocialSecurityTaskInfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityTaskInfo')), 'EmployeeSocialSecurityTaskInfo')
@@ -19,7 +19,7 @@ const employeeSocialSecurityTaskInfo = r => require.ensure([], () => r(require('
 
 const employeeOperatorView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeOperatorView')), 'EmployeeOperatorView')
 const employeeCommcialOperator = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/EmployeeCommcialOperator')), 'EmployeeCommcialOperator')
-const emprefresh = r=> require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/ReFresh')), 'emprefresh')
+const emprefresh = r=> require.ensure([], () => r(require('@/components/social_security/employee_operator/handle/ReFresh')), 'Emprefresh')
 
 /*
  * employeeSpecialOperatorView       --- 雇员特殊操作
@@ -42,11 +42,11 @@ const empTaskHandle7View = r => require.ensure([], () => r(require('@/components
 
 
 // 雇员任务批量办理
-const empTaskBatchHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandleView')), 'empTaskBatchHandleView')
-const empTaskBatchHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle3View')), 'empTaskBatchHandle3View')
-const empTaskBatchHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle4View')), 'empTaskBatchHandle4View')
-const empTaskBatchHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle5View')), 'empTaskBatchHandle5View')
-const empTaskBatchHandle7View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle7View')), 'empTaskBatchHandle7View')
+const empTaskBatchHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandleView')), 'EmpTaskBatchHandleView')
+const empTaskBatchHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle3View')), 'EmpTaskBatchHandle3View')
+const empTaskBatchHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle4View')), 'EmpTaskBatchHandle4View')
+const empTaskBatchHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle5View')), 'EmpTaskBatchHandle5View')
+const empTaskBatchHandle7View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle7View')), 'EmpTaskBatchHandle7View')
 
 /*
  * companyTaskList                   --- 企业任务单
@@ -88,18 +88,18 @@ const companySocialSecurity = r => require.ensure([], () => r(require('@/compone
 const companySocialSecurityProgress2 = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityProgressTwo')), 'CompanySocialSecurityProgress2')
 const companySocialSecurityTypeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityTypeInfo')), 'CompanySocialSecurityTypeInfo')
 const companySocialSecurityChangeInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityChangeInfo')), 'CompanySocialSecurityChangeInfo')
-const companySocialSecurityEndInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialsecurityEndInfo')), 'CompanySocialSecurityEndInfo')
+const companySocialSecurityEndInfo = r => require.ensure([], () => r(require('@/components/social_security/company_social_security_manage/CompanySocialSecurityEndInfo')), 'CompanySocialSecurityEndInfo')
 
 /*
- * socialSecurityReconcilate       --- 社保对账
- * socialSecurityReconcilateDetail ---社保对账查看页面
+ * socialSecurityReconCilate       --- 社保对账
+ * socialSecurityReconCilateDetail ---社保对账查看页面
  */
 
 
-const socialSecurityReconcilate = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/SocialSecurityReconcilate')), 'SocialSecurityReconcilate')
-const socialSecurityReconcilateDetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityReconCilateDetail')), 'SocialSecurityReconcilateDetail')
-const socialSecurityEmpChangeDetailYys = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailYys')), 'SocialSecurityEmpChangeDetailYys')
-const socialSecurityEmpChangeDetailGsy = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailGsy')), 'SocialSecurityEmpChangeDetailGsy')
+const socialSecurityReconCilate = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/SocialSecurityReconCilate')), 'socialSecurityReconCilate')
+const socialSecurityReconCilateDetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityReconCilateDetail')), 'socialSecurityReconCilateDetail')
+const socialSecurityEmpChangeDetailYys = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailYys')), 'socialSecurityEmpChangeDetailYys')
+const socialSecurityEmpChangeDetailGsy = r => require.ensure([], () => r(require('@/components/social_security/social_security_recon_cilate/social_security_recon_cilate_child/SocialSecurityEmpChangeDetailGsy')), 'socialSecurityEmpChangeDetailGsy')
 
 /*
  * socialSecurityPay               --- 社保支付
@@ -107,8 +107,8 @@ const socialSecurityEmpChangeDetailGsy = r => require.ensure([], () => r(require
  */
 
 
-const socialSecurityPay = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/SocialSecurityPay')), 'SocialSecurityPay')
-const paymentNotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/PaymentNotice')), 'PaymentNotice')
+const socialSecurityPay = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/SocialSecurityPay')), 'socialSecurityPay')
+const paymentNotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/PaymentNotice')), 'paymentNotice')
 
 /*
  * socialSecurityPay               --- 社保支付批次审核
@@ -116,8 +116,8 @@ const paymentNotice = r => require.ensure([], () => r(require('@/components/soci
  */
 
 
-const paymentBatchReviewed = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay_reviewed/PaymentBatchReviewed')), 'PaymentBatchReviewed')
-const paymentComReviewed = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay_reviewed/PaymentComReviewed')), 'PaymentComReviewed')
+const paymentBatchReviewed = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay_reviewed/PaymentBatchReviewed')), 'paymentBatchReviewed')
+const paymentComReviewed = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay_reviewed/PaymentComReviewed')), 'paymentComReviewed')
 
 /*
  * socialSecurityReport               --- 社保报表
@@ -127,10 +127,10 @@ const paymentComReviewed = r => require.ensure([], () => r(require('@/components
  */
 
 
-const socialSecurityReport = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/SocialSecurityReport')), 'SocialSecurityReport')
-const monthlyPaymentNotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/MonthlyPaymentNotice')), 'MonthlyPaymentNotice')
-const employeeCostDetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/EmployeeCostDetail')), 'EmployeeCostDetail')
-const refundDetails = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/RefundDetails')), 'RefundDetails')
+const socialSecurityReport = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/SocialSecurityReport')), 'socialSecurityReport')
+const monthlyPaymentNotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/MonthlyPaymentNotice')), 'monthlyPaymentNotice')
+const employeeCostDetail = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/EmployeeCostDetail')), 'employeeCostDetail')
+const refundDetails = r => require.ensure([], () => r(require('@/components/social_security/social_security_report/RefundDetails')), 'refundDetails')
 
 /*
  * annualadjustemployee            --- 年调雇员工资收集表下载
@@ -151,7 +151,7 @@ const annualadjustaccountemp = r => require.ensure([], () => r(require('@/compon
  * systemManage                    --- 系统管理
  */
 
-const systemManage = r => require.ensure([], () => r(require('@/components/social_security/system_manage/SystemManage')), 'SystemManage')
+const systemManage = r => require.ensure([], () => r(require('@/components/social_security/system_manage/SystemManage')), 'systemManage')
 
 /*
  * authorityList                    --- 社保权限管理
@@ -654,8 +654,8 @@ export default [
 
   {
     path: '/social_security_recon_cilate',
-    name: 'socialSecurityReconcilate',
-    component: socialSecurityReconcilate,
+    name: 'socialSecurityReconCilate',
+    component: socialSecurityReconCilate,
     meta:{
       level1:'全国社保',
       level2:"上海社保",
@@ -665,8 +665,8 @@ export default [
   },
   {
     path: '/social_security_recon_cilate_detail',
-    name: 'socialSecurityReconcilateDetail',
-    component: socialSecurityReconcilateDetail,
+    name: 'socialSecurityReconCilateDetail',
+    component: socialSecurityReconCilateDetail,
     meta:{
       level1:'全国社保',
       level2:"上海社保",

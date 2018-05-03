@@ -6,9 +6,6 @@ import userInfoApi from '../store/modules/health_medical/data_sources/supplement
 
 
 const main = r => require.ensure([], () => r(require('@/components/main')), 'main') //首页
-const login = r => require.ensure([], () => r(require('@/components/login')), 'login') //登录
-const charts = r => require.ensure([], () => r(require('@/components/charts')), 'charts') //报表
-const demo = r => require.ensure([], () => r(require('@/components/demo')), 'demo') // 演示
 const welcome = r => require.ensure([], () => r(require('@/components/Welcome')), 'Welcome') // 欢迎页
 
 const approvalStep2 = r => require.ensure([], () => r(require('@/components/common_control/ApprovalStep2')), 'approvalStep2') //审核步骤2

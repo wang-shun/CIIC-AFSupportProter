@@ -42,11 +42,11 @@ const empTaskHandle7View = r => require.ensure([], () => r(require('@/components
 
 
 // 雇员任务批量办理
-const empTaskBatchHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandleView')), 'empTaskBatchHandleView')
-const empTaskBatchHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle3View')), 'empTaskBatchHandle3View')
-const empTaskBatchHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle4View')), 'empTaskBatchHandle4View')
-const empTaskBatchHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle5View')), 'empTaskBatchHandle5View')
-const empTaskBatchHandle7View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle7View')), 'empTaskBatchHandle7View')
+const empTaskBatchHandleView = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandleView')), 'EmpTaskBatchHandleView')
+const empTaskBatchHandle3View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle3View')), 'EmpTaskBatchHandle3View')
+const empTaskBatchHandle4View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle4View')), 'EmpTaskBatchHandle4View')
+const empTaskBatchHandle5View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle5View')), 'EmpTaskBatchHandle5View')
+const empTaskBatchHandle7View = r => require.ensure([], () => r(require('@/components/social_security/employee_operator/batch_handle/EmpTaskBatchHandle7View')), 'EmpTaskBatchHandle7View')
 
 /*
  * companyTaskList                   --- 企业任务单
@@ -140,11 +140,11 @@ const refundDetails = r => require.ensure([], () => r(require('@/components/soci
  * yearBaseApplicate               --- 年度基数申报
  */
 
-const annualadjustemployee = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustEmployee')), 'annualadjustemployee')
-const annualadjustcompany = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompany')), 'annualadjustcompany')
-const annualadjustcompanyemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompanyEmp')), 'annualadjustcompanyemp')
-const annualadjustaccount = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccount')), 'annualadjustaccount')
-const annualadjustaccountemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccountEmp')), 'annualadjustaccountemp')
+const annualadjustemployee = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustEmployee')), 'Annualadjustemployee')
+const annualadjustcompany = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompany')), 'Annualadjustcompany')
+const annualadjustcompanyemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustCompanyEmp')), 'Annualadjustcompanyemp')
+const annualadjustaccount = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccount')), 'Annualadjustaccount')
+const annualadjustaccountemp = r => require.ensure([], () => r(require('@/components/social_security/year_base_applicate/annualAdjustAccountEmp')), 'Annualadjustaccountemp')
 
 
 /*
@@ -157,15 +157,15 @@ const systemManage = r => require.ensure([], () => r(require('@/components/socia
  * authorityList                    --- 社保权限管理
  */
 
-const authorityList = r => require.ensure([], () => r(require('@/components/social_security/authority/authorityList')), 'authorityList')
-const authority = r => require.ensure([], () => r(require('@/components/social_security/authority/authority')), 'authority')
+const authorityList = r => require.ensure([], () => r(require('@/components/social_security/authority/authorityList')), 'AuthorityList')
+const authority = r => require.ensure([], () => r(require('@/components/social_security/authority/authority')), 'Authority')
 
 /*
  * hfauthorityList                    --- 公积金权限管理
  */
 
-const hfauthorityList = r => require.ensure([], () => r(require('@/components/fund/hfauthority/hfauthorityList')), 'hfauthorityList')
-const hfauthority = r => require.ensure([], () => r(require('@/components/fund/hfauthority/hfauthority')), 'hfauthority')
+const hfauthorityList = r => require.ensure([], () => r(require('@/components/fund/hfauthority/hfauthorityList')), 'HfauthorityList')
+const hfauthority = r => require.ensure([], () => r(require('@/components/fund/hfauthority/hfauthority')), 'Hfauthority')
 
 export default [
   {
@@ -182,7 +182,7 @@ export default [
   },
   {
     path: '/employee_social_security_info',
-    name:'employeeSocialSecurityInfo',
+    name:'EmployeeSocialSecurityInfo',
     component: employeeSocialSecurityInfo,
     meta:{
       level1:'全国社保',
@@ -194,7 +194,7 @@ export default [
   },
   {
     path: '/company_social_security_new',
-    name:'companySocialSecurityNew',
+    name:'CompanySocialSecurityNew',
     component: companySocialSecurityNew,
     meta:{
       level1:'全国社保',
@@ -217,7 +217,7 @@ export default [
 
   {
     path: '/employee_operator_view',
-    name:'employeeOperatorView',
+    name:'EmployeeOperatorView',
     component: employeeOperatorView,
     meta:{
       level1:'全国社保',
@@ -229,7 +229,7 @@ export default [
   },
   {
     path: '/employee_commcial_operator',
-    name:'employeeCommcialOperator',
+    name:'EmployeeCommcialOperator',
     component: employeeCommcialOperator,
     meta:{
       level1:'全国社保',
@@ -241,7 +241,7 @@ export default [
 
   {
     path: '/employee_special_operator_view',
-    name: 'employeeSpecialOperatorView',
+    name: 'EmployeeSpecialOperatorView',
     component: employeeSpecialOperatorView,
     meta:{
       level1:'全国社保',
@@ -252,7 +252,7 @@ export default [
   },
   {
     path: '/employee_special_progress_two',
-    name: 'employeeSpecialProgressTwo',
+    name: 'EmployeeSpecialProgressTwo',
     component: employeeSpecialProgressTwo,
     meta:{
       level1:'全国社保',
@@ -263,7 +263,7 @@ export default [
   },
   {
     path: '/employee_special_progress_three',
-    name: 'employeeSpecialProgressThree',
+    name: 'EmployeeSpecialProgressThree',
     component: employeeSpecialProgressThree,
     meta:{
       level1:'全国社保',
@@ -275,7 +275,7 @@ export default [
 
   {
     path: '/emp_special_task_detail',
-    name: 'empSpecialTaskDetail',
+    name: 'EmpSpecialTaskDetail',
     component: empSpecialTaskDetail,
     meta:{
       level1:'全国社保',
@@ -288,7 +288,7 @@ export default [
   // 雇员任务办理，任务类型，DicItem.DicItemValue 1:新进：2：转入 3调整 4 补缴 5 转出 6终止 7退账 8 提取 9特殊操作
   {
     path: '/emp_task_handle_view',
-    name: 'empTaskHandleView',
+    name: 'EmpTaskHandleView',
     component: empTaskHandleView,
     meta:{
       level1:'全国社保',
@@ -299,7 +299,7 @@ export default [
     }
   },{
     path: '/emp_task_handle3_view',
-    name: 'empTaskHandle3View',
+    name: 'EmpTaskHandle3View',
     component: empTaskHandle3View,
     meta:{
       level1:'全国社保',
@@ -310,7 +310,7 @@ export default [
     }
   },{
     path: '/emp_task_handle4_view',
-    name: 'empTaskHandle4View',
+    name: 'EmpTaskHandle4View',
     component: empTaskHandle4View,
     meta:{
       level1:'全国社保',
@@ -321,7 +321,7 @@ export default [
     }
   },{
     path: '/emp_task_handle5_view',
-    name: 'empTaskHandle5View',
+    name: 'EmpTaskHandle5View',
     component: empTaskHandle5View,
     meta:{
       level1:'全国社保',
@@ -333,7 +333,7 @@ export default [
   },
   {
     path: '/emp_task_handle7_view',
-    name: 'empTaskHandle7View',
+    name: 'EmpTaskHandle7View',
     component: empTaskHandle7View,
     meta:{
       level1:'全国社保',
@@ -347,7 +347,7 @@ export default [
   // 雇员任务批量办理
   {
     path: '/emp_task_batch_handle_view',
-    name: 'empTaskBatchHandleView',
+    name: 'EmpTaskBatchHandleView',
     component: empTaskBatchHandleView,
     meta:{
       level1:'全国社保',
@@ -357,7 +357,7 @@ export default [
     }
   },{
     path: '/emp_task_batch_handle3_view',
-    name: 'empTaskBatchHandle3View',
+    name: 'EmpTaskBatchHandle3View',
     component: empTaskBatchHandle3View,
     meta:{
       level1:'全国社保',
@@ -367,7 +367,7 @@ export default [
     }
   },{
     path: '/emp_task_batch_handle4_view',
-    name: 'empTaskBatchHandle4View',
+    name: 'EmpTaskBatchHandle4View',
     component: empTaskBatchHandle4View,
     meta:{
       level1:'全国社保',
@@ -377,7 +377,7 @@ export default [
     }
   },{
     path: '/emp_task_batch_handle5_view',
-    name: 'empTaskBatchHandle5View',
+    name: 'EmpTaskBatchHandle5View',
     component: empTaskBatchHandle5View,
     meta:{
       level1:'全国社保',
@@ -388,7 +388,7 @@ export default [
   },
   {
     path: '/emp_task_batch_handle7_view',
-    name: 'empTaskBatchHandle7View',
+    name: 'EmpTaskBatchHandle7View',
     component: empTaskBatchHandle7View,
     meta:{
       level1:'全国社保',
@@ -399,7 +399,7 @@ export default [
   },
   {
     path: '/company_task_list',
-    name: 'companyTaskList',
+    name: 'CompanyTaskList',
     component: companyTaskList,
     meta:{
       level1:'全国社保',
@@ -411,7 +411,7 @@ export default [
   },
   {
     path: '/authority_list',
-    name: 'authorityList',
+    name: 'AuthorityList',
     component: authorityList,
     meta:{
       level1:'上海社保',
@@ -422,7 +422,7 @@ export default [
   },
   {
     path: '/authority',
-    name: 'authority',
+    name: 'Authority',
     component: authority,
     meta:{
       level1:'上海社保',
@@ -435,7 +435,7 @@ export default [
 
   {
     path: '/hfauthority_list',
-    name: 'hfauthorityList',
+    name: 'HfauthorityList',
     component: hfauthorityList,
     meta:{
       level1:'上海公积金',
@@ -446,7 +446,7 @@ export default [
   },
   {
     path: '/hfauthority',
-    name: 'hfauthority',
+    name: 'Hfauthority',
     component: hfauthority,
     meta:{
       level1:'上海公积金',
@@ -458,7 +458,7 @@ export default [
 
   {
     path: '/company_task_progress_two',
-    name: 'companyTaskProgressTwo',
+    name: 'CompanyTaskProgressTwo',
     component: companyTaskProgressTwo,
     meta:{
       level1:'全国社保',
@@ -469,7 +469,7 @@ export default [
   },
   {
     path: '/company_task_progress_type_info',
-    name: 'companyTaskProgressTypeInfo',
+    name: 'CompanyTaskProgressTypeInfo',
     component: companyTaskProgressTypeInfo,
     meta:{
       level1:'全国社保',
@@ -481,7 +481,7 @@ export default [
   },
   {
     path: '/company_task_progress_transfer_info',
-    name: 'companyTaskProgressTransferInfo',
+    name: 'CompanyTaskProgressTransferInfo',
     component: companyTaskProgressTransferInfo,
     meta:{
       level1:'全国社保',
@@ -493,7 +493,7 @@ export default [
   },
   {
     path: '/company_task_progress_change_info',
-    name: 'companyTaskProgressChangeInfo',
+    name: 'CompanyTaskProgressChangeInfo',
     component: companyTaskProgressChangeInfo,
     meta:{
       level1:'全国社保',
@@ -504,7 +504,7 @@ export default [
   },
   {
     path: '/re_fresh',
-    name: 'refresh',
+    name: 'Refresh',
     component: refresh,
     meta:{
       level1:'全国社保',
@@ -515,7 +515,7 @@ export default [
   },
   {
     path: '/emp_re_fresh',
-    name: 'emprefresh',
+    name: 'Emprefresh',
     component: emprefresh,
     meta:{
       level1:'全国社保',
@@ -526,7 +526,7 @@ export default [
   },
   {
     path: '/company_task_progres_send_info',
-    name: 'companyTaskProgressEndInfo',
+    name: 'CompanyTaskProgressEndInfo',
     component: companyTaskProgressEndInfo,
     meta:{
       level1:'全国社保',
@@ -537,7 +537,7 @@ export default [
   },
   {
     path: '/open_account_info',
-    name: 'openAccountInfo',
+    name: 'OpenAccountInfo',
     component: openAccountInfo,
     meta:{
       level1:'全国社保',
@@ -549,7 +549,7 @@ export default [
   },
   {
     path: '/transfer_info',
-    name: 'transferInfo',
+    name: 'TransferInfo',
     component: transferInfo,
     meta:{
       level1:'全国社保',
@@ -561,7 +561,7 @@ export default [
   },
   {
     path: '/change_info',
-    name: 'changeInfo',
+    name: 'ChangeInfo',
     component: changeInfo,
     meta:{
       level1:'全国社保',
@@ -573,7 +573,7 @@ export default [
   },
   {
     path: '/end_info',
-    name: 'endInfo',
+    name: 'EndInfo',
     component: endInfo,
     meta:{
       level1:'全国社保',
@@ -585,7 +585,7 @@ export default [
   },
   {
     path: '/company_social_security_manage',
-    name: 'companySocialSecurityManage',
+    name: 'CompanySocialSecurityManage',
     component: companySocialSecurityManage,
     meta:{
       level1:'全国社保',
@@ -596,7 +596,7 @@ export default [
   },
   {
     path: '/company_social_security',
-    name: 'companySocialSecurity',
+    name: 'CompanySocialSecurity',
     component: companySocialSecurity,
     meta:{
       level1:'全国社保',
@@ -608,7 +608,7 @@ export default [
   },
   {
     path: '/company_social_security_progress2',
-    name: 'companySocialSecurityProgress2',
+    name: 'CompanySocialSecurityProgress2',
     component: companySocialSecurityProgress2,
     meta:{
       level1:'全国社保',
@@ -619,7 +619,7 @@ export default [
   },
   {
     path: '/company_social_security_type_info',
-    name: 'companySocialSecurityTypeInfo',
+    name: 'CompanySocialSecurityTypeInfo',
     component: companySocialSecurityTypeInfo,
     meta:{
       level1:'全国社保',
@@ -630,7 +630,7 @@ export default [
   },
   {
     path: '/company_social_security_change_info',
-    name: 'companySocialSecurityChangeInfo',
+    name: 'CompanySocialSecurityChangeInfo',
     component: companySocialSecurityChangeInfo,
     meta:{
       level1:'全国社保',
@@ -641,7 +641,7 @@ export default [
   },
   {
     path: '/company_social_security_end_info',
-    name: 'companySocialSecurityEndInfo',
+    name: 'CompanySocialSecurityEndInfo',
     component: companySocialSecurityEndInfo,
     meta:{
       level1:'全国社保',
@@ -654,7 +654,7 @@ export default [
 
   {
     path: '/social_security_recon_cilate',
-    name: 'socialSecurityReconcilate',
+    name: 'SocialSecurityReconcilate',
     component: socialSecurityReconcilate,
     meta:{
       level1:'全国社保',
@@ -665,7 +665,7 @@ export default [
   },
   {
     path: '/social_security_recon_cilate_detail',
-    name: 'socialSecurityReconcilateDetail',
+    name: 'SocialSecurityReconcilateDetail',
     component: socialSecurityReconcilateDetail,
     meta:{
       level1:'全国社保',
@@ -677,7 +677,7 @@ export default [
   },
   {
     path: '/social_security_emp_change_detail_yys',
-    name: 'socialSecurityEmpChangeDetailYys',
+    name: 'SocialSecurityEmpChangeDetailYys',
     component: socialSecurityEmpChangeDetailYys,
     meta:{
       level1:'全国社保',
@@ -688,7 +688,7 @@ export default [
   },
   {
     path: '/social_security_emp_change_detail_gsy',
-    name: 'socialSecurityEmpChangeDetailGsy',
+    name: 'SocialSecurityEmpChangeDetailGsy',
     component: socialSecurityEmpChangeDetailGsy,
     meta:{
       level1:'全国社保',
@@ -699,7 +699,7 @@ export default [
   },
   {
     path: '/social_security_pay',
-    name: 'socialSecurityPay',
+    name: 'SocialSecurityPay',
     component: socialSecurityPay,
     meta:{
       level1:'全国社保',
@@ -710,7 +710,7 @@ export default [
   },
   {
     path: '/payment_notice',
-    name: 'paymentNotice',
+    name: 'PaymentNotice',
     component: paymentNotice,
     meta:{
       level1:'全国社保',
@@ -722,7 +722,7 @@ export default [
   },
   {
     path: '/payment_batch_reviewed',
-    name: 'paymentBatchReviewed',
+    name: 'PaymentBatchReviewed',
     component: paymentBatchReviewed,
     meta:{
       level1:'全国社保',
@@ -733,7 +733,7 @@ export default [
   },
   {
     path: '/payment_com_reviewed',
-    name: 'paymentComReviewed',
+    name: 'PaymentComReviewed',
     component: paymentComReviewed,
     meta:{
       level1:'全国社保',
@@ -746,7 +746,7 @@ export default [
 
   {
     path: '/social_security_report',
-    name: 'socialSecurityReport',
+    name: 'SocialSecurityReport',
     component: socialSecurityReport,
     meta:{
       level1:'全国社保',
@@ -757,7 +757,7 @@ export default [
   },
   {
     path: '/monthly_payment_notice',
-    name: 'monthlyPaymentNotice',
+    name: 'MonthlyPaymentNotice',
     component: monthlyPaymentNotice,
     meta:{
       level1:'全国社保',
@@ -769,7 +769,7 @@ export default [
   },
   {
     path: '/employee_cost_detail',
-    name: 'employeeCostDetail',
+    name: 'EmployeeCostDetail',
     component: employeeCostDetail,
     meta:{
       level1:'全国社保',
@@ -781,7 +781,7 @@ export default [
   },
   {
     path: '/refund_details',
-    name: 'refundDetails',
+    name: 'RefundDetails',
     component: refundDetails,
     meta:{
       level1:'全国社保',
@@ -794,7 +794,7 @@ export default [
 
   {
     path: '/annual_adjust_employee',
-    name: 'annualadjustemployee',
+    name: 'Annualadjustemployee',
     component: annualadjustemployee,
     meta:{
       level1:'全国社保',
@@ -805,7 +805,7 @@ export default [
   },
   {
     path: '/annual_adjust_company',
-    name: 'annualadjustcompany',
+    name: 'Annualadjustcompany',
     component: annualadjustcompany,
     meta:{
       level1:'全国社保',
@@ -816,7 +816,7 @@ export default [
   },
   {
     path: '/annual_adjust_company_emp',
-    name: 'annualadjustcompanyemp',
+    name: 'Annualadjustcompanyemp',
     component: annualadjustcompanyemp,
     meta:{
       level1:'全国社保',
@@ -827,7 +827,7 @@ export default [
   },
   {
     path: '/annual_adjust_account',
-    name: 'annualadjustaccount',
+    name: 'Annualadjustaccount',
     component: annualadjustaccount,
     meta:{
       level1:'全国社保',
@@ -838,7 +838,7 @@ export default [
   },
   {
     path: '/annual_adjust_account_emp',
-    name: 'annualadjustaccountemp',
+    name: 'Annualadjustaccountemp',
     component: annualadjustaccountemp,
     meta:{
       level1:'全国社保',
@@ -851,7 +851,7 @@ export default [
 
   {
     path: '/system_manage',
-    name: 'systemManage',
+    name: 'SystemManage',
     component: systemManage,
     meta:{
       level1:'全国社保',

@@ -88,7 +88,7 @@
       </router-link>
       <Button type="info" ref="rmb" @click="modalButton(true)">受理</Button>
       <Button type="info" ref="rmb1" @click="modalButton(false)">拒赔</Button>
-      <Button type="info" @click="exportData()" icon="ios-download-outline">导出数据</Button>
+      <Button type="info" @click="exportData()" :loading="loading" icon="ios-download-outline">导出数据</Button>
     </div>
 
     <Table border
@@ -107,7 +107,7 @@
     <Modal v-model="modalAccept"
            title="受理对话框"
            ok-text="受理"
-           @on-ok="updateAcceptanceList(1)"
+           @on-ok="updateAcceptanceList(1)" :loading="loading"
            :mask-closable="true">
       <Input v-model="dealMeg.remark" placeholder="请输入操作说明："/>
     </Modal>
@@ -115,7 +115,7 @@
     <Modal v-model="modalRefuse"
            title="拒赔操作对话框"
            ok-text="拒赔"
-           @on-ok="updateAcceptanceList(2)"
+           @on-ok="updateAcceptanceList(2)" :loading="loading"
            :mask-closable="true">
       <Input v-model="dealMeg.remark" placeholder="请输入拒赔原因：" class="mt15"/>
       <Select v-model="dealMeg.rejectType" :clearable="true" placeholder="请选择拒赔类型：" class="mt15">
@@ -136,6 +136,7 @@
         collapseInfo: [1, 2, 3], //展开栏
         modalAccept: false,
         modalRefuse: false,
+        loading: false,
         formItem: {
           total: 0,
           current: 1,
@@ -307,7 +308,9 @@
           item.handler = this.dealMeg.handler;
           item.handlerDate = this.dealMeg.handlerDate;
         });
+        this.loading = true;
         apiAjax.updateAcceptanceList(this.selectData).then(response => {
+          this.loading = false;
           if (response.data.code === 200) {
             this.getByPage(1);
           } else {
@@ -337,7 +340,9 @@
       },
       // 导出csv
       exportData() {
+        this.loading = true;
         window.location = apiAjax.basePaths + '/uninsuredService/export?' + qs.stringify(this.formItem)
+        this.loading = false;
       }
     }
   }

@@ -152,35 +152,35 @@
            v-model="modal1"
            title="审核"
            @on-ok="updateTpaTaskList(4)"
-           ok-text="审核通过">
+           ok-text="审核通过" :loading="loading">
       <Input v-model="dealMsg.remark" placeholder="请输入操作说明："/>
     </Modal>
 
     <Modal class="warn-back"
            v-model="modal6"
            title="批退"
-           @on-ok="updateTpaTaskList(6)"
+           @on-ok="updateTpaTaskList(6)" :loading="loading"
            ok-text="批退">
       <Input v-model="dealMsg.remark" placeholder="请输入操作说明："/>
     </Modal>
 
     <Modal v-model="modal2"
            title="暂缓"
-           @on-ok="updateTpaTaskList(3)"
+           @on-ok="updateTpaTaskList(3)" :loading="loading"
            ok-text="暂缓">
       <Input v-model="dealMsg.remark" placeholder="请输入暂缓原因："/>
     </Modal>
 
     <Modal v-model="modal3"
            title="恢复"
-           @on-ok="updateTpaTaskList(2)"
+           @on-ok="updateTpaTaskList(2)" :loading="loading"
            ok-text="确认恢复">
     </Modal>
 
     <Modal class="warn-back"
            v-model="modal5"
            title="更新在保库"
-           @on-ok="syncToWarranty"
+           @on-ok="syncToWarranty" :loading="loading"
            ok-text="确认更新">
       <DatePicker v-model="syncDate" type="date" placeholder="保险确认时间" style="width: 100%"></DatePicker>
     </Modal>
@@ -216,6 +216,7 @@
         modal5: false,
         modal6: false,
         value1: "1",
+        loading: false,
         formItem: {
           total: 0,
           current: 1,
@@ -384,7 +385,9 @@
           item.remark = this.dealMsg.remark;
           item.modifiedBy = this.userInfo.displayName;
         });
+        this.loading = true;
         apiAjax.updateTpaTask(this.selectData).then(response => {
+          this.loading = false;
           if (response.data.code === 200) {
             this.getByPage(1);
             this.dealMsg.remark = null;
@@ -407,21 +410,25 @@
             this.$Message.error("请选择已审核状态的数据");
             return;
           }
-          if (this.formItem.taskType === '2' && this.selectData[i].insuranceDate > this.syncDate) {
-            this.$Message.error("退保时间不能小于投保时间");
-            return;
-          }
         }
 
         let syncData = {};
         syncData.afTpaTasks = this.selectData;
         syncData.date = this.syncDate;
+        this.loading = true;
         apiAjax.syncToWarranty(syncData).then(response => {
-          if (response.data.object) {
+          this.loading = false;
+          if (response.data.object === 1) {
+            this.$Message.success("更新成功");
             this.getByPage(1);
             this.dealMsg.remark = null;
-            this.$Message.success("更新成功");
             this.syncDate = null;
+          } else if (response.data.object === 2) {
+            this.$Message.error("投保任务单没有更新在宝库");
+          } else if (response.data.object === 3) {
+            this.$Message.error("投保时间大于退保时间");
+          } else if (response.data.object === 4) {
+            this.$Message.error("投保任务单批退或者暂缓");
           } else {
             this.$Message.error("服务器异常，请稍后再试");
           }
@@ -473,7 +480,7 @@
 </script>
 
 <style>
-  .warn-back .ivu-btn.ivu-btn-text.ivu-btn-large {
+  /*.warn-back .ivu-btn.ivu-btn-text.ivu-btn-large {
     color: #fff;
     background-color: #ed3f14;
     border-color: #ed3f14;
@@ -482,5 +489,5 @@
   .warn-back .ivu-btn.ivu-btn-text.ivu-btn-large:hover {
     background-color: #f16543;
     border-color: #f16543;
-  }
+  }*/
 </style>

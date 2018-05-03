@@ -348,7 +348,7 @@ let router = new Router({
                 {
                     path: '/company_fund_task_commit',
                     name: 'CompanyFundTaskCommit',
-                    component: CompanyFundTaskCommit,
+                    component: companyFundTaskCommit,
                     meta: {
                         level1: '首页',
                         level2: '上海公积金',

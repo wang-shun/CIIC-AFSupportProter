@@ -1119,12 +1119,12 @@
           }
           if (this.displayVO.hfType == 1) {
             if (this.operatorListData[i].hfMonth < this.displayVO.basicComHfMonth) {
-              this.$Message.error("操作栏客户汇缴月不能晚于末次汇缴月（基本）");
+              this.$Message.error("操作栏客户汇缴月不能小于末次汇缴月（基本）");
               return false;
             }
           } else {
             if (this.operatorListData[i].hfMonth < this.displayVO.addedComHfMonth) {
-              this.$Message.error("操作栏客户汇缴月不能晚于末次汇缴月（补充）");
+              this.$Message.error("操作栏客户汇缴月不能小于末次汇缴月（补充）");
               return false;
             }
           }
@@ -1189,6 +1189,23 @@
         return true;
       },
       transferNoticeCheck() {
+        if (!this.transferNotice.transferInUnit || this.transferNotice.transferInUnit==''  ) {
+          this.$Message.error("转入单位不能为空");
+          return false;
+        }
+        if (!this.transferNotice.transferOutUnit || this.transferNotice.transferOutUnit==''  ) {
+          this.$Message.error("转出单位不能为空");
+          return false;
+        }
+        if (!this.transferNotice.transferInUnitAccount || this.transferNotice.transferInUnitAccount==''  ) {
+          this.$Message.error("转入单位账号不能为空");
+          return false;
+        }
+        if (!this.transferNotice.transferOutUnitAccount || this.transferNotice.transferOutUnitAccount==''  ) {
+          this.$Message.error("转出单位账号不能为空");
+          return false;
+        }
+
         if (this.transferNotice.transferOutUnit && this.transferNotice.transferOutUnit.length > 20) {
           this.$Message.error("转出单位长度不能超过20");
           return false;
@@ -1204,6 +1221,13 @@
         if (this.transferNotice.transferInUnitAccount && this.transferNotice.transferInUnitAccount.length > 20) {
           this.$Message.error("转入单位账号长度不能超过20");
           return false;
+        }
+
+        if (this.transferNotice.transferOutUnit || this.transferNotice.transferInUnit){
+          if(this.transferNotice.transferInUnit==this.transferNotice.transferOutUnit){
+            this.$Message.error("转出单位和转入单位不可以相同");
+            return false;
+          }
         }
         return true;
       },

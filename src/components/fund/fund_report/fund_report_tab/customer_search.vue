@@ -228,7 +228,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         this.hfMonthChargeQuery();
       },
       hfMonthChargeQuery() {
-        if (this.operatorSearchData.hfMonth) {
+        if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth.length != 6) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
         this.operatorSearchData.hfType = '';

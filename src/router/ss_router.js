@@ -6,7 +6,7 @@
    employeeSocialSecurityTaskInfo    --- 雇员任务详情
  */
 
-const employeeSocialSecuritySearch = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecuritySearch')), 'EmployeeSocialSecuritySearch')
+const employeeSocialSecuritySearch = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecuritySearch')), 'employeeSocialSecuritySearch')
 const employeeSocialSecurityInfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityInfo')), 'EmployeeSocialSecurityInfo')
 const companySocialSecurityNew = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/CompanySocialSecurityNew')), 'CompanySocialSecurityNew')
 const employeeSocialSecurityTaskInfo = r => require.ensure([], () => r(require('@/components/social_security/sh_social_security/EmployeeSocialSecurityTaskInfo')), 'EmployeeSocialSecurityTaskInfo')
@@ -170,7 +170,7 @@ const hfauthority = r => require.ensure([], () => r(require('@/components/fund/h
 export default [
   {
     path: '/employee_social_security_search',
-    name:'EmployeeSocialSecuritySearch',
+    name:'employeeSocialSecuritySearch',
     component: employeeSocialSecuritySearch,
     meta:{
       level1:'全国社保',

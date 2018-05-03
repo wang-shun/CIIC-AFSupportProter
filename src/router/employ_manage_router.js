@@ -11,26 +11,26 @@
    matchImportFile                       --- 配对导入数据
  */
 
-const employmentDataManagementTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/EmploymentDataManagementTaskList')), 'EmploymentDataManagementTaskList');
-const employHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/EmployHandleEmployment')), 'EmployHandleEmployment');
+const employmentDataManagementTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/EmploymentDataManagementTaskList')), 'employmentDataManagementTaskList');
+const employHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/EmployHandleEmployment')), 'employHandleEmployment');
 
-const dismissalHandleTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleTaskList')), 'DismissalHandleTaskList');
-const dismissalHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleEmployment')), 'DismissalHandleEmployment');
+const dismissalHandleTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleTaskList')), 'dismissalHandleTaskList');
+const dismissalHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleEmployment')), 'dismissalHandleEmployment');
 
-const recordComprehensiveHandling = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensiveHandling')), 'RecordComprehensiveHandling');
-const recordComprehensive = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensive')), 'RecordComprehensive');
-const fileMatrialsUseAndBorrow = r => require.ensure([], () => r(require('@/components/employ_manage/FileMatrialsUseAndBorrow')), 'FileMatrialsUseAndBorrow');
+const recordComprehensiveHandling = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensiveHandling')), 'recordComprehensiveHandling');
+const recordComprehensive = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensive')), 'recordComprehensive');
+const fileMatrialsUseAndBorrow = r => require.ensure([], () => r(require('@/components/employ_manage/FileMatrialsUseAndBorrow')), 'fileMatrialsUseAndBorrow');
 
-const recordMatch = r => require.ensure([], () => r(require('@/components/employ_manage/RecordMatch')), 'RecordMatch');
-const matchImportFile = r => require.ensure([], () => r(require('@/components/employ_manage/MatchImportFile')), 'MatchImportFile');
+const recordMatch = r => require.ensure([], () => r(require('@/components/employ_manage/RecordMatch')), 'recordMatch');
+const matchImportFile = r => require.ensure([], () => r(require('@/components/employ_manage/MatchImportFile')), 'matchImportFile');
 
-const independentCustomList = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentCustomList')), 'IndependentCustomList');
-const independentHandleCustom = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentHandleCustom')), 'IndependentHandleCustom');
+const independentCustomList = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentCustomList')), 'independentCustomList');
+const independentHandleCustom = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentHandleCustom')), 'independentHandleCustom');
 
 export default [
   {
     path: '/employment_data_management_task_list',
-    name:'EmploymentDataManagementTaskList',
+    name:'employmentDataManagementTaskList',
     component: employmentDataManagementTaskList,
     meta:{
       level1:'首页',
@@ -42,7 +42,7 @@ export default [
   },
   {
     path: '/employ_handle_employment',
-    name:'EmployHandleEmployment',
+    name:'employHandleEmployment',
     component: employHandleEmployment,
     meta:{
       level1:'首页',
@@ -55,7 +55,7 @@ export default [
 
   {
     path: '/dismissal_handle_task_list',
-    name:'DismissalHandleTaskList',
+    name:'dismissalHandleTaskList',
     component: dismissalHandleTaskList,
     meta:{
       level1:'首页',
@@ -67,7 +67,7 @@ export default [
   },
   {
     path: '/dismissal_handle_employment',
-    name:'DismissalHandleEmployment',
+    name:'dismissalHandleEmployment',
     component: dismissalHandleEmployment,
     meta:{
       level1:'首页',
@@ -80,7 +80,7 @@ export default [
 
   {
     path: '/record_comprehensive_handling',
-    name:'RecordComprehensiveHandling',
+    name:'recordComprehensiveHandling',
     component: recordComprehensiveHandling,
     meta:{
       level1:'首页',
@@ -92,7 +92,7 @@ export default [
   },
   {
     path: '/record_comprehensive',
-    name:'RecordComprehensive',
+    name:'recordComprehensive',
     component: recordComprehensive,
     meta:{
       level1:'首页',
@@ -104,7 +104,7 @@ export default [
   },
   {
     path: '/file_matrials_use_and_borrow',
-    name:'FileMatrialsUseAndBorrow',
+    name:'fileMatrialsUseAndBorrow',
     component: fileMatrialsUseAndBorrow,
     meta:{
       level1:'首页',
@@ -117,7 +117,7 @@ export default [
 
   {
     path: '/record_match',
-    name:'RecordMatch',
+    name:'recordMatch',
     component: recordMatch,
     meta:{
       level1:'首页',
@@ -128,7 +128,7 @@ export default [
   },
   {
     path: '/match_import_file',
-    name:'MatchImportFile',
+    name:'matchImportFile',
     component: matchImportFile,
     meta:{
       level1:'首页',
@@ -140,7 +140,7 @@ export default [
   },
   {
     path: '/independent_handle_task_list',
-    name:'IndependentCustomList',
+    name:'independentCustomList',
     component: independentCustomList,
     meta:{
       level1:'首页',
@@ -152,7 +152,7 @@ export default [
   },
   {
     path: '/independent_handle_custom',
-    name:'IndependentHandleCustom',
+    name:'independentHandleCustom',
     component: independentHandleCustom,
     meta:{
       level1:'首页',

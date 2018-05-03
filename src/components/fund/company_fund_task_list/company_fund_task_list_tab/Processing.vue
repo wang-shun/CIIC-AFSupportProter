@@ -133,14 +133,14 @@
                     click: () => {
                       switch(params.row.taskCategoryName) {
                         case '开户':
-                          this.$router.push({name: 'companyFundTaskCommit', params: {
+                          this.$router.push({name: 'CompanyFundTaskCommit', params: {
                               comTaskId: params.row.comTaskId,
                               companyInfo: params.row.companyInfo,
                               openAccountInfo: params.row.openAccountInfo}
                           });
                           break;
                         case '转入':
-                          this.$router.push({name: 'companyFundTaskCommit', params: {
+                          this.$router.push({name: 'CompanyFundTaskCommit', params: {
                               comTaskId: params.row.comTaskId,
                               companyInfo: params.row.companyInfo,
                               openAccountInfo: params.row.openAccountInfo}
@@ -328,8 +328,8 @@
         let params = this.getParams(1)
         CompanyTaskListHF.expExcel(params);
       },
- 
-     
+
+
       //获得列表请求参数
       getParams(page){
         return {

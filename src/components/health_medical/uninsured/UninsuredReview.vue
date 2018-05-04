@@ -206,7 +206,7 @@
                     on: {
                       click: () => {
                         sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
-                        this.$router.push({name: 'LookAcceptanceUninsured'});
+                        this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
                     }
                   }, '查看')
@@ -218,7 +218,7 @@
                     on: {
                       click: () => {
                         sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
-                        this.$router.push({name: 'LookAcceptanceUninsured'});
+                        this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
                     }
                   }, '查看')

@@ -164,7 +164,13 @@ import api from '../../../api/employ_manage/hire_operator'
                         let params = {amRemarkId:remarkId}
 
                         api.deleteAmRemark(params).then(data=>{
-                            _self.refuseNotesData.splice(index, 1);
+                          
+                          if(data.data)
+                          {
+                              _self.refuseNotesData.splice(index, 1);
+                          }else{
+                            this.$Message.error("删除失败！请用创建人删除");
+                          }
                       })
                        
                       },

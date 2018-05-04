@@ -73,10 +73,11 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData" ref="selection"></Table>
-          <Page :total="totalSize"
-          :page-size="size"
-          :page-size-opts="sizeArr"
-          :current="pageNum"
+          <Page
+            :total="pageData.total"
+            :page-size="pageData.pageSize"
+            :page-size-opts="pageData.pageSizeOpts"
+            :current="pageData.pageNum"
           show-sizer
           show-total
           class="pageSize"
@@ -129,11 +130,11 @@
         refuseLoading:false,
         taskData:[],//table 里的数据
         customerData:[],//客户信息
-        totalSize:0,//后台传过来的总数
+//        totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
-        size:5,//分页
-        pageNum:1,
-        sizeArr:[5,10],
+//        size:5,//分页
+//        pageNum:1,
+//        sizeArr:[5,10],
         companyTaskInfo: {
           customerNumber: '',
           customerName:"",
@@ -161,6 +162,12 @@
             {value: '1', label: '已受理'},
             {value: '2', label: '已送审'}
           ],
+        },
+        pageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         isRefuseReason: false,
         refuseReason: '',
@@ -266,16 +273,16 @@
 
       let sessionPageNum = sessionStorage.taskPageNum
       let sessionPageSize = sessionStorage.taskPageSize
-      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-         this.pageNum = Number(sessionPageNum)
-         this.size = Number(sessionPageSize)
+      if(sessionPageNum && sessionPageSize){
+        this.pageData.pageNum = Number(sessionPageNum)
+        this.pageData.pageSize = Number(sessionPageSize)
          sessionStorage.removeItem("taskPageNum")
          sessionStorage.removeItem("taskPageSize")
       }
      let self= this
       let params = {
-          pageSize:this.size,
-          pageNum:this.pageNum,
+        pageSize:this.pageData.pageSize,
+        pageNum:this.pageData.pageNum,
         params:{}
       }
       Progressing.getTableData(params).then(data=>{
@@ -331,8 +338,7 @@
       refreash(data){
           this.taskData = data.data.taskData
           this.customerData = data.data.customerData;
-          if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
-          else this.totalSize  =Number(data.data.totalSize)
+        this.pageData.total = data.data.totalSize;
           this.closeLoading();
       },
       //导表
@@ -354,7 +360,7 @@
 
       //点击查询按钮
       clickQuery(page){
-        this.pageNum = page
+        this.pageData.pageNum = page
          this.loading=true;
         //获得页面条件参数
         let params = this.getParams(1)
@@ -370,13 +376,14 @@
       getParams(page){
          let submitTimeStart='';
         let submitTimeEnd='';
-          if(this.companyTaskInfo.taskStartTime[0]!=""){
+        if(this.companyTaskInfo.taskStartTime[0] && this.companyTaskInfo.taskStartTime[1] && this.companyTaskInfo.taskStartTime[0]!="" && this.companyTaskInfo.taskStartTime[1]!=""){
                submitTimeStart=Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD');//任务发起时间
                submitTimeEnd=Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD');
           }
+        this.pageData.pageNum = page
         return {
-          pageSize:this.size,
-          pageNum:page,
+          pageSize:this.pageData.pageSize,
+          pageNum:this.pageData.pageNum,
             params:{
               companyId:this.companyTaskInfo.customerNumber==''?'':this.companyTaskInfo.customerNumber,//客户编号
               companyName:this.companyTaskInfo.customerName==''?'':this.companyTaskInfo.customerName,//客户姓名
@@ -439,7 +446,7 @@
           this.isRefuseReason = false;
       },
       handlePageSite(val){
-        this.size=val
+        this.pageData.pageSize = val;
         this.clickQuery(1)
       }
     }

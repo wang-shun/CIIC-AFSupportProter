@@ -44,10 +44,12 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData"></Table>
-          <Page :total="totalSize"
-          :page-size="size"
-          :page-size-opts="sizeArr"
-           :current="pageNum" show-sizer show-total
+          <Page
+            :total="pageData.total"
+            :page-size="pageData.pageSize"
+            :page-size-opts="pageData.pageSizeOpts"
+            :current="pageData.pageNum"
+            show-sizer show-total
            class="pageSize"
            @on-change="getPage"
            @on-page-size-change="handlePageSite">
@@ -94,11 +96,11 @@
       return{
         taskData:[],//table 里的数据
         customerData:[],//客户信息
-        totalSize:0,//后台传过来的总数
+//        totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
-        size:5,//分页
-        pageNum:1,
-        sizeArr:[5,10],
+//        size:5,//分页
+//        pageNum:1,
+//        sizeArr:[5,10],
         companyTaskInfo: {
           serviceCenterValue: '',
           serviceCenterList: [],
@@ -117,7 +119,12 @@
           ],
           taskStartTime: ''
         },
-
+        pageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+        },
         isRefuseReason: false,
         refuseReason: '',
 
@@ -213,16 +220,16 @@
     mounted() {
       let sessionPageNum = sessionStorage.taskRePageNum
       let sessionPageSize = sessionStorage.taskRePageSize
-      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-         this.pageNum = Number(sessionPageNum)
-         this.size = Number(sessionPageSize)
+      if(sessionPageNum && sessionPageSize){
+        this.pageData.pageNum = Number(sessionPageNum)
+        this.pageData.pageSize = Number(sessionPageSize)
         //  sessionStorage.removeItem("taskRePageNum")
         //  sessionStorage.removeItem("taskRePageSize")
       }
 
       let params = {
-          pageSize:this.size,
-          pageNum:this.pageNum,
+        pageSize:this.pageData.pageSize,
+        pageNum:this.pageData.pageNum,
         params:{}
       }
       let self= this
@@ -260,9 +267,9 @@
       //页面 上 ，下一页操作
       getPage(page){
 
-         this.pageNum = page
-          sessionStorage.taskRePageNum=page
-          sessionStorage.taskRePageSize = this.size
+        this.pageData.pageNum = page
+        sessionStorage.taskRePageNum=this.pageData.pageNum
+        sessionStorage.taskRePageSize = this.pageData.pageSize
           this.loading=true;
           let self= this
           let params =this.getParams(page)
@@ -281,8 +288,7 @@
       refreash(data){
           this.taskData = data.data.taskData
           this.customerData = data.data.customerData;
-          if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
-          else this.totalSize  =Number(data.data.totalSize)
+        this.pageData.total = data.data.totalSize;
           this.closeLoading();
       },
       //导表
@@ -291,7 +297,7 @@
       },
       //点击查询按钮
       clickQuery(page){
-        this.pageNum = page
+        this.pageData.pageNum = page
          this.loading=true;
         //获得页面条件参数
       let params = this.getParams(1)
@@ -306,13 +312,14 @@
       getParams(page){
         let submitTimeStart='';
         let submitTimeEnd='';
-        if(this.companyTaskInfo.taskStartTime[0]!=""){
+        if(this.companyTaskInfo.taskStartTime[0] && this.companyTaskInfo.taskStartTime[1] && this.companyTaskInfo.taskStartTime[0]!="" && this.companyTaskInfo.taskStartTime[1]!=""){
               submitTimeStart=Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD');//任务发起时间
               submitTimeEnd=Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD');
         }
+        this.pageData.pageNum = page
         return {
-          pageSize:this.size,
-          pageNum:page,
+          pageSize:this.pageData.pageSize,
+          pageNum:this.pageData.pageNum,
             params:{
               companyId:this.companyTaskInfo.customerNumber==""?'':this.companyTaskInfo.customerNumber,//客户编号
               companyName:this.companyTaskInfo.customerName==""?'':this.companyTaskInfo.customerName,//客户姓名
@@ -329,7 +336,7 @@
 
       },
       handlePageSite(val){
-        this.size=val
+        this.pageData.pageSize = val;
         this.clickQuery(1)
       }
     }

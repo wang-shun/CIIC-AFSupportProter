@@ -29,15 +29,15 @@
                   <Row>
                     <Col span="10">
                       <Form-item prop="paymentMonthMin">
-                        <DatePicker v-model="payComSearchData.paymentMonthMinShow" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer @on-change="payComSearchData.paymentMonthMin=$event"></DatePicker>
-                        <input type="text" v-model="payComSearchData.paymentMonthMin" hidden>
+                        <DatePicker v-model="payComSearchData.paymentMonthMin" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                        <!--<input type="text" v-model="payComSearchData.paymentMonthMin" hidden>-->
                       </Form-item>
                     </Col>
                     <Col span="2" offset="2">-</Col>
                     <Col span="10">
                     <Form-item prop="paymentMonthMax">
-                      <DatePicker v-model="payComSearchData.paymentMonthMaxShow" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer @on-change="payComSearchData.paymentMonthMax=$event"></DatePicker>
-                        <input type="text" v-model="payComSearchData.paymentMonthMax" hidden>
+                      <DatePicker v-model="payComSearchData.paymentMonthMax" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                        <!--<input type="text" v-model="payComSearchData.paymentMonthMax" hidden>-->
                     </Form-item>
                     </Col>
                   </Row>
@@ -52,7 +52,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业社保账号：" prop="comAccountId">
+                <Form-item label="企业社保账号：" prop="ssAccount">
                   <Input v-model="payComSearchData.ssAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -183,7 +183,7 @@
         </Row>
       </Form>
       <div slot="footer">
-          <Button type="Text"  @click="closeAdjustment()">取消</Button>
+          <Button type="text"  @click="closeAdjustment()">取消</Button>
           <Button type="success"  @click="saveAdjustment()">保存</Button>
       </div>
     </Modal>
@@ -433,7 +433,7 @@
             render: (h, params) => {
               let ssAccountType = params.row.ssAccountType;
               let accountTypeName = "";
-              
+
               if(ssAccountType == 1){
                   accountTypeName = "中智大库"
               }else if(ssAccountType == 2){
@@ -613,7 +613,7 @@
         });
       },
       goPaymentNotice(paymentComId,comAccountId,paymentMonth) {
-      
+
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
         window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
         window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
@@ -639,6 +639,14 @@
       // },
       //查询页面数据
       paymentComQuery() {
+        if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
+          this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
+        }
+
+        if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
+          this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
+        }
+
         // 处理参数
         var params = {};
         {
@@ -714,16 +722,16 @@
         //计算合计
         let totalPayAmount = 0;
         if(ifDeductedIntoPay == 1){
-          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount) 
-                         + Number(typeof refundDeducted == 'undefined'?0:refundDeducted) 
-                         + Number(typeof adjustDeducted == 'undefined'?0:adjustDeducted) 
+          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount)
+                         + Number(typeof refundDeducted == 'undefined'?0:refundDeducted)
+                         + Number(typeof adjustDeducted == 'undefined'?0:adjustDeducted)
                          + Number(typeof extraAmount=='undefined'?0:extraAmount );
         }
         else{
-          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount) 
+          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount)
                          + Number(typeof extraAmount  =='undefined'?0:extraAmount);
         }
-        
+
         //赋值
         this.changeInfo.totalPayAmount = parseFloat(totalPayAmount).toFixed(2);
       },

@@ -228,7 +228,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         this.hfMonthChargeQuery();
       },
       hfMonthChargeQuery() {
-        if (this.operatorSearchData.hfMonth) {
+        if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth.length != 6) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
         this.operatorSearchData.hfType = '';
@@ -251,7 +251,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         })
       },
       excelExport() {
-        if (this.operatorSearchData.hfMonth) {
+        if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth.length != 6) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
         this.operatorSearchData.hfType = '';
@@ -272,7 +272,9 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         // TODO operatorSearchData logic check
 
         if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth != '') {
-          this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+          if (this.operatorSearchData.hfMonth.length != 6) {
+            this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+          }
         } else {
           this.$Message.info("导出清册时，缴费月份不能为空");
           return false;
@@ -294,7 +296,9 @@ import dict from '../../../../api/dict_access/house_fund_dict'
       },
       repairDetailListExport(hfType) {
         if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth != '') {
-          this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+          if (this.operatorSearchData.hfMonth.length != 6) {
+            this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+          }
         } else {
           this.$Message.info("导出清册时，缴费月份不能为空");
           return false;

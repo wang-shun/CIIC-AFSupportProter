@@ -9,7 +9,7 @@
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="公司编号：">
+          <FormItem label="公司编号：" prop="companyId">
             <Input v-model="transferItem.companyId" placeholder="请输入"/>
           </FormItem>
           </Col>

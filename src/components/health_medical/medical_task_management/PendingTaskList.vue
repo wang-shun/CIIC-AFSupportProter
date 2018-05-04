@@ -222,7 +222,7 @@
           current: 1,
           size: 10,
           status: null,
-          taskType: "1",
+          taskType: null,
           keyType: null,
           keyValueLarge: null,
           keyValueSmall: null,
@@ -235,7 +235,7 @@
           companyName: null,
           managementId: null,
           managementName: null,
-          insuranceCompany: "1"
+          insuranceCompany: null
         },
         syncDate: null,
         dealMsg: {
@@ -259,21 +259,13 @@
             }
           },
           {
-            title: "雇员编号",
-            sortable: true,
-            key: "employeeId",
-            align: "center"
+            title: "雇员编号", sortable: true, key: "employeeId", align: "center", width: 150
           },
           {
-            title: "雇员姓名",
-            sortable: true,
-            key: "employeeName",
-            align: "center"
+            title: "雇员姓名", sortable: true, key: "employeeName", align: "center", width: 150
           },
           {
-            title: "保险对象",
-            sortable: true,
-            align: "center",
+            title: "保险对象", sortable: true, align: "center", width: 150,
             render: (h, params) => {
               if (params.row.type === 3) {
                 return h('div', params.row.employeeName);
@@ -283,19 +275,13 @@
             }
           },
           {
-            title: "性别",
-            sortable: true,
-            key: "gender",
-            align: "center",
+            title: "性别", sortable: true, key: "gender", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.genderToChina(params.row.gender));
             }
           },
           {
-            title: "出生日期",
-            sortable: true,
-            key: "birthDate",
-            align: "center",
+            title: "出生日期", sortable: true, key: "birthDate", align: "center", width: 150,
             render: (h, params) => {
               if (params.row.birthDate !== null) {
                 return h('div', this.$utils.formatDate(params.row.birthDate, "YYYY-MM-DD"));
@@ -303,43 +289,28 @@
             }
           },
           {
-            title: "投保费用",
-            sortable: true,
-            key: "price",
-            align: "center"
+            title: "投保费用", sortable: true, key: "price", align: "center", width: 150
           },
           {
-            title: "标的",
-            sortable: true,
-            key: "keyType",
-            align: "center",
+            title: "标的", sortable: true, key: "keyType", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.keyTypeToChina(params.row.keyType));
             }
           },
           {
-            title: "关系",
-            sortable: true,
-            key: "type",
-            align: "center",
+            title: "关系", sortable: true, key: "type", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.typeToChina(params.row.type));
             }
           },
           {
-            title: "状态",
-            sortable: true,
-            key: "status",
-            align: "center",
+            title: "状态", sortable: true, key: "status", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.statusToChina(params.row.status));
             }
           },
           {
-            title: "离职日期",
-            sortable: true,
-            key: "departuredDate",
-            align: "center",
+            title: "离职日期", sortable: true, key: "departuredDate", align: "center", width: 150,
             render: (h, params) => {
               if (params.row.departuredDate != null) {
                 return h('div', this.$utils.formatDate(params.row.departuredDate, "YYYY-MM-DD"));
@@ -360,7 +331,6 @@
     created() {
       this.getByPage(1);
       this.queryInsuranceCompanyInfo();
-      this.queryIcProductRelationInfo(this.formItem.insuranceCompany);
       this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     },
     methods: {
@@ -441,6 +411,7 @@
             this.insuranceCompanyProperties.forEach(item => {
               item.insuranceCompanyId = item.insuranceCompanyId + "";
             });
+            this.queryIcProductRelationInfo(this.insuranceCompanyProperties[0].insuranceCompanyId);
           }
         });
       },

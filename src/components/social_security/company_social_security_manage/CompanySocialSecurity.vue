@@ -41,7 +41,7 @@
                   <label>{{this.$decode.billReceiver(companySocialSecurityInfo.billReceiver)}}</label>
                 </Form-item>
               </Col>
-              
+
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="工行查询账号：" class="">
                   <label>{{companySocialSecurityInfo.queryAccount}}</label>
@@ -310,10 +310,10 @@
               ]);
             }
           },
-          {title: '操作人', key: 'modifiedBy', align: 'center', className: 'mw100',
+          {title: '操作人', key: 'modifiedDisplayName', align: 'center', className: 'mw100',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.modifiedBy),
+                h('span', params.row.modifiedDisplayName),
               ]);
             }
           },

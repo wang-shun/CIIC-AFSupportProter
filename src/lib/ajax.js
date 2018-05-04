@@ -83,13 +83,14 @@ const AJAX = {
   },
 };
 
-const logInfo = (method, url, data) => {
+const logInfo = (method, url, data, timeout) => {
   // outer log
   if (DEBUG) {
     let logInfo = {
       url: url,
       method: method,
       time: AJAX.formatDate('yyyy-MM-dd hh:mm:ss:S'),
+      timeout: timeout,
       data: null,
     };
     if (typeof(data) === 'string') {
@@ -153,7 +154,7 @@ const createAjax = config => {
       }
 
       // log
-      logInfo(config.method, config.url, config.data);
+      logInfo(config.method, config.url, config.data, config.timeout);
       let userInfo = sessionStorage.getItem('userInfo');
       if (userInfo) {
         // config.headers = {'token': JSON.parse(userInfo).token}
@@ -216,7 +217,7 @@ const createAjax = config => {
 const createAjaxForName = name => {
   return createAjax({
     baseURL: BASE_PATHS[name],
-    timeout: DEBUG ? 0 : 5000,
+    timeout: DEBUG ? 0 : 120000,
     headers: {
       'Content-Type': CONTENT_TYPE
     }

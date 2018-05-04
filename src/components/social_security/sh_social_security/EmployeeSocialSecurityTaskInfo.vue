@@ -255,7 +255,12 @@
               this.operatorListData = data.data.empTaskPeriods;
             }
             this.$utils.copy(data.data, this.socialSecurityPayOperator);
-
+            console.log(data.data)
+            if (this.socialSecurityPayOperator.taskStatus == 4) {
+              this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
+            } else {
+              this.socialSecurityPayOperator.handleRemarkMan = data.data.modifiedDisplayName;
+            }
           }else{
             this.$Message.error(data.message)
           }

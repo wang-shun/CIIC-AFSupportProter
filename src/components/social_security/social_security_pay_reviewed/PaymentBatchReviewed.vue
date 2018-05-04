@@ -26,15 +26,15 @@
                   <Row>
                     <Col span="10">
                       <Form-item prop="paymentMonthMin">
-                        <DatePicker v-model="payBatchSearchData.paymentMonthMinShow" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer @on-change="payBatchSearchData.paymentMonthMin=$event"></DatePicker>
-                        <input type="text" v-model="payBatchSearchData.paymentMonthMin" hidden>
+                        <DatePicker v-model="payBatchSearchData.paymentMonthMin" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                        <!--<input type="text" v-model="payBatchSearchData.paymentMonthMin" hidden>-->
                       </Form-item>
                     </Col>
                     <Col span="2" offset="2">-</Col>
                     <Col span="10">
                     <Form-item prop="paymentMonthMax">
-                      <DatePicker v-model="payBatchSearchData.paymentMonthMaxShow" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer @on-change="payBatchSearchData.paymentMonthMax=$event"></DatePicker>
-                        <input type="text" v-model="payBatchSearchData.paymentMonthMax" hidden>
+                      <DatePicker v-model="payBatchSearchData.paymentMonthMax" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                        <!--<input type="text" v-model="payBatchSearchData.paymentMonthMax" hidden>-->
                     </Form-item>
                     </Col>
                   </Row>
@@ -99,7 +99,7 @@
         <p>是否继续</p>
       </div>
       <div slot="footer">
-        <Button type="Text"  @click="closeReviewdePass()">取消</Button>
+        <Button type="text"  @click="closeReviewdePass()">取消</Button>
         <Button  type="primary" size="large"  @click="doReviewdePass"  :loading="isLoading" >通过</Button>
       </div>
     </Modal>
@@ -367,6 +367,14 @@
       },
       //查询页面数据
       paymentBatchQuery() {
+        if (this.payBatchSearchData.paymentMonthMin && this.payBatchSearchData.paymentMonthMin.length != 6) {
+          this.payBatchSearchData.paymentMonthMin = this.$utils.formatDate(this.payBatchSearchData.paymentMonthMin, 'YYYYMM');
+        }
+
+        if (this.payBatchSearchData.paymentMonthMax && this.payBatchSearchData.paymentMonthMax.length != 6) {
+          this.payBatchSearchData.paymentMonthMax = this.$utils.formatDate(this.payBatchSearchData.paymentMonthMax, 'YYYYMM');
+        }
+
         // 处理参数
         var params = {};
         {

@@ -55,10 +55,10 @@
 
           <Page
           class="pageSize"
-          :total="totalSize"
-          :page-size="size"
-          :page-size-opts="sizeArr"
-          :current="pageNum"
+          :total="pageData.total"
+          :page-size="pageData.pageSize"
+          :page-size-opts="pageData.pageSizeOpts"
+          :current="pageData.pageNum"
           show-sizer
           show-total
           @on-change="getPage"
@@ -110,11 +110,11 @@
       return{
         taskData:[],//table 里的数据
         customerData:[],//客户信息
-        totalSize:0,//后台传过来的总数
+//        totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
-        size:5,//分页
-        pageNum:1,
-        sizeArr:[5,10],
+//        size:5,//分页
+//        pageNum:1,
+//        sizeArr:[5,10],
         refuseLoading:true,//批退模糊态的加载
         companyTaskInfo: {
           customerNumber: '',
@@ -129,6 +129,12 @@
             {value: '4', label: '终止'}
           ],
           taskStartTime: '',
+        },
+        pageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         isRefuseReason: false,
         refuseReason: '',
@@ -233,15 +239,15 @@
     mounted() {
       let sessionPageNum = sessionStorage.taskPageNum
       let sessionPageSize = sessionStorage.taskPageSize
-      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-         this.pageNum = Number(sessionPageNum)
-         this.size = Number(sessionPageSize)
+      if(sessionPageNum && sessionPageSize){
+         this.pageData.pageNum = Number(sessionPageNum)
+         this.pageData.pageSize = Number(sessionPageSize)
          sessionStorage.removeItem("taskPageNum")
          sessionStorage.removeItem("taskPageSize")
       }
       let params = {
-          pageSize:this.size,
-          pageNum:this.pageNum,
+          pageSize:this.pageData.pageSize,
+          pageNum:this.pageData.pageNum,
         params:{}
       }
 
@@ -270,7 +276,7 @@
       },
       //页面 上 ，下一页操作
       getPage(page){
-          this.pageNum = page
+          this.pageData.pageNum = page
           this.setSessionNumAndSize()
           this.loading=true;
           let params =this.getParams(page)
@@ -282,8 +288,8 @@
           })
       },
       setSessionNumAndSize(){
-          sessionStorage.taskPageNum=this.pageNum
-          sessionStorage.taskPageSize = this.size
+          sessionStorage.taskPageNum=this.pageData.pageNum
+          sessionStorage.taskPageSize = this.pageData.pageSize
       },
       //关闭查询loding
       closeLoading(){
@@ -293,8 +299,7 @@
       refreash(data){
           this.taskData = data.data.taskData;
           this.customerData = data.data.customerData;
-          if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
-          else this.totalSize  =Number(data.data.totalSize)
+          this.pageData.total = data.data.totalSize;
           this.closeLoading();
       },
       //导表
@@ -311,7 +316,7 @@
       },
       //点击查询按钮
       clickQuery(page){
-         this.pageNum = page
+         this.pageData.pageNum = page
          this.loading=true;
         //获得页面条件参数
         let params = this.getParams(1)
@@ -325,14 +330,15 @@
       getParams(page){
         let submitTimeStart='';
         let submitTimeEnd='';
-          if(this.companyTaskInfo.taskStartTime[0]!=""){
+          if(this.companyTaskInfo.taskStartTime[0] && this.companyTaskInfo.taskStartTime[1] && this.companyTaskInfo.taskStartTime[0]!="" && this.companyTaskInfo.taskStartTime[1]!=""){
                submitTimeStart=Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD');//任务发起时间
                submitTimeEnd=Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD');
           }
+        this.pageData.pageNum = page
 
         return {
-          pageSize:this.size,
-          pageNum:page,
+          pageSize:this.pageData.pageSize,
+          pageNum:this.pageData.pageNum,
             params:{
               companyId:this.companyTaskInfo.customerNumber,//客户编号
               companyName:this.companyTaskInfo.customerName,//客户姓名
@@ -366,7 +372,7 @@
          for(let obj of getRows){
                taskIdStr+=obj.tid+","
              }
-            
+
          if(this.refuseReason===null || this.refuseReason.trim()==''){
            this.$Message.warning('请填写批退原因！');
          }else{
@@ -392,7 +398,7 @@
          this.isRefuseReason = false;
       },
       handlePageSize(val){
-        this.size=val
+        this.pageData.pageSize = val;
         this.clickQuery(1)
       }
     }

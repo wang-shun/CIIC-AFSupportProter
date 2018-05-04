@@ -264,7 +264,7 @@
                   on: {
                     click: () => {
                       sessionStorage.setItem('acceptanceId', JSON.stringify(params.row.acceptanceId));
-                      this.$router.push({name: 'InvoiceList'});
+                      this.$router.push({name: 'invoiceList'});
                     }
                   }
                 }, '发票明细')

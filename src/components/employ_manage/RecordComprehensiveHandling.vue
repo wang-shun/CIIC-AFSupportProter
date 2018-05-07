@@ -545,7 +545,7 @@
         this.$router.push({name:'fileMatrialsUseAndBorrow', query: {archiveId:tempId,employeeId:tempId1,employeeName:employeeName}});
       },
       exportXLS() {
-        let params = this.searchConditions;
+        let params = this.searchCondition;
         api.archiveSearchExportOpt(params);
       },
       generateInStock() {

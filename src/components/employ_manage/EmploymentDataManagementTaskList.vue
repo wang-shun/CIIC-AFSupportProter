@@ -368,7 +368,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 
       },
       exportData() {
-        let params = this.searchConditions;
+        let params = this.searchCondition;
         api.employSearchExportOpt(params);
       },
       resetSearchCondition(name) {

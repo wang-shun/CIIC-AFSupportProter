@@ -339,6 +339,13 @@
             }
             this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
             this.$utils.copy(data.data, this.socialSecurityPayOperator);
+
+            if (this.socialSecurityPayOperator.taskStatus == 4) {
+              this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
+            } else {
+              this.socialSecurityPayOperator.handleRemarkMan = data.data.modifiedDisplayName;
+            }
+
             api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:this.operatorType}).then((data) => {
               if(data.data!=null){
                 this.company = data.data;

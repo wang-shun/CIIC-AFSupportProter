@@ -562,12 +562,12 @@ let router = new Router({
                 },
 
                 {
-                    path: '/InvoiceList',
+                    path: '/invoiceList',
                     name: 'invoiceList',
                     component: invoiceList,
                     meta: {
                         level1: '首页',
-                        level2: '未投保医疗',
+                        level2: '发票列表',
                         level3: '发票列表',
                         openNames: ['6'],
                         activeName: '6-3'
@@ -598,7 +598,7 @@ let router = new Router({
                     }
                 },
                 {
-                    path: '/LookAcceptanceUninsured',
+                    path: '/lookAcceptanceUninsured',
                     name: 'lookAcceptanceUninsured',
                     component: lookAcceptanceUninsured,
                     meta: {

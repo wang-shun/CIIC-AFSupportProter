@@ -209,10 +209,10 @@
             }
           },
           {
-            title: '任务发起人', key: 'submitterName', align: 'center', width: 115,
+            title: '任务发起人', key: 'createdDisplayName', align: 'center', width: 115,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.submitterName),
+                h('span', params.row.createdDisplayName),
               ]);
             }
           },

@@ -100,6 +100,7 @@
     </Card>
 
     <div class="tr m20">
+      <Button type="success" @click="back">返回</Button>
       <Button type="info" @click="exportData()" icon="ios-download-outline">导出</Button>
     </div>
 
@@ -196,6 +197,9 @@
           return this.$utils.formatDate(val, 'YYYY-MM-DD HH:mm:ss');
         }
         return val;
+      },
+      back() {
+        this.$local.back();
       },
       exportData() {
         let acceptanceId = JSON.parse(sessionStorage.getItem('acceptanceId'));

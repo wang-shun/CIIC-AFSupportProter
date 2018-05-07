@@ -70,7 +70,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务发起时间：" prop="submitTime">
-                  <DatePicker v-model="operatorSearchData.submitTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-model="submitTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
             </Row>
@@ -129,11 +129,12 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           hfType: '',
           hfAccountType: '',
           idNum: '',
-          submitTime: [],
+          submitTimeStart: '',
+          submitTimeEnd: '',
           companyId: '',
           hfComAccount: ''
         },
-
+        submitTime: [],
 //        serviceCenterData: [
 //          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
 //          {value: 2, label: '日本客户'},
@@ -263,12 +264,17 @@ import dict from '../../../../api/dict_access/house_fund_dict'
       ok () {},
       cancel () {},
       beforeSubmit() {
-        if (this.operatorSearchData.submitTime) {
-          for (let i = 0; i < this.operatorSearchData.submitTime.length; i++) {
-            if (this.operatorSearchData.submitTime[i]) {
-              this.operatorSearchData.submitTime[i] = this.$utils.formatDate(this.operatorSearchData.submitTime[i], 'YYYY-MM-DD');
-            }
+        this.operatorSearchData.submitTimeStart = '';
+        this.operatorSearchData.submitTimeEnd = '';
+        if (this.submitTime) {
+//          for (let i = 0; i < this.operatorSearchData.submitTime.length; i++) {
+          if (this.submitTime[0]) {
+            this.operatorSearchData.submitTimeStart = this.$utils.formatDate(this.submitTime[0], 'YYYY-MM-DD');
           }
+          if (this.submitTime[1]) {
+            this.operatorSearchData.submitTimeEnd = this.$utils.formatDate(this.submitTime[1], 'YYYY-MM-DD');
+          }
+//          }
         }
       },
       excelExport() {

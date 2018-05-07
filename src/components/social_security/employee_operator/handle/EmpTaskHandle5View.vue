@@ -439,6 +439,13 @@
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
           this.reworkInfo = data.data.amEmpTaskDTO
+
+          if (this.socialSecurityPayOperator.taskStatus == 4) {
+            this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
+          } else {
+            this.socialSecurityPayOperator.handleRemarkMan = data.data.modifiedDisplayName;
+          }
+
           //  this.$Notice.config({
           //       top:80
           //     })

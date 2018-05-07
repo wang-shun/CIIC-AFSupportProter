@@ -35,7 +35,8 @@ export class CompanyTaskList{
                       obj.sponsorTime = i.submitTime
                       obj.notes = i.submitRemark
                       obj.finishDate=i.expireDate
-                      obj.initiator=i.submitterId
+                      obj.createdTime=i.createdTime
+                      obj.createdDisplayName=i.createdDisplayName
                       responseData.data.taskData.push(obj)
                   }
                   responseData.data.totalSize=response.data.total
@@ -88,6 +89,8 @@ export class CompanyTaskList{
                     obj.notes = i.submitRemark
                     obj.finishDate=i.expireDate
                     obj.submitterName=i.submitterName
+                    obj.createdTime=i.createdTime
+                    obj.createdDisplayName=i.createdDisplayName
                     responseData.data.taskData.push(obj)
                 }
                 responseData.data.totalSize=response.data.total
@@ -133,12 +136,12 @@ export class CompanyTaskList{
             }
         }else{
           alert(response.data.message)
-         
+
         }
       }).catch(error=>{
         alert(error)
         console.log(error)
-        
+
       })
     })
   }
@@ -479,7 +482,7 @@ export class CompanyTaskList{
       if(typeof(result.dispatchMaterial)!="undefined"){
         dispatchMaterial = JSON.parse(result.dispatchMaterial)
       }
-      
+
     }
     //发出的材料
     return {

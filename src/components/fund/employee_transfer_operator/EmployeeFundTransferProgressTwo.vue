@@ -1,6 +1,6 @@
 <template>
   <Form :label-width=150>
- 
+
     <Collapse v-model="collapseInfo" class="mt20">
       <Panel name="1">
         企业账户信息
@@ -145,14 +145,14 @@
               </Col>
             </Row>
             <Row>
-              
+
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转出单位：" prop='transferOutUnit'>
                   <Select v-model="transferNotice.transferOutUnit"
                   filterable
                   remote
                   :remote-method="handleTransferOutSearch"
-                  @on-change="handleTransferOutChange" 
+                  @on-change="handleTransferOutChange"
                   :loading="loading"
                   style="width: 100%;" transfer>
                      <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
@@ -166,10 +166,10 @@
               </Col>
             </Row>
             <Row>
-              
+
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转入单位："  prop='transferInUnit'>
-                  <Select v-model="transferNotice.transferInUnit" 
+                  <Select v-model="transferNotice.transferInUnit"
                   filterable
                 remote
                 :remote-method="handleTransferInSearch"
@@ -243,7 +243,7 @@
         currentStep: 2,
         collapseInfo: [1, 2, 3, 4], //展开栏
         loading: false,
-        displayVO: { 
+        displayVO: {
           empTaskId: 0,
           taskCategory: 0,
           canHandle: false,
@@ -299,7 +299,7 @@
 
 this.initData();
 
- 
+
 
   //this.test1();
     },
@@ -313,7 +313,7 @@ this.initData();
       nextStep() {
         this.$router.push({name: 'employeeFundSpecialProgressThree'});
       },
-  
+
 
     initData(){
         let params = {employeeId:this.$route.query.employeeId,
@@ -349,7 +349,7 @@ this.initData();
               this.transferOutUnitList.push(element);
               this.transferInUnitList.push(element);
             })
-        
+
           this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
           this.transferInUnitList.push(this.transferNotice1.transferInUnit);
           //this.setValue();
@@ -357,11 +357,12 @@ this.initData();
           } else {
             this.$Message.error(data.message);
           }
-        });  
+        });
       },
 
       setValue(){
-        this.transferNotice=this.transferNotice1;
+//        this.transferNotice=this.transferNotice1
+        this.$utils.copy(this.transferNotice1,this.transferNotice);
       },
 
       goBack() {
@@ -373,7 +374,7 @@ this.initData();
           data=>{
             this.$Message.success(data.message);
             this.transferNotice.empTaskId=data.data;
-            
+
           }
         ).catch(error=>{
             console.log(error)
@@ -455,7 +456,7 @@ this.initData();
         }
       },
       handleTransferInSearch(value) {
-        
+
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
 //        if (this.transferNotice.transferInUnitAccount != '') {
 //          return true;
@@ -463,7 +464,7 @@ this.initData();
 //        return false;
       },
       handleTransferOutSearch(value) {
-       
+
         this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
 //        if (this.transferNotice.transferOutUnitAccount != '') {
 //          return true;
@@ -496,7 +497,7 @@ this.initData();
         //  alert(this.transferNotice.transferInUnit );
       },
       doSearch(value, unitList, unitAccountList, type) {
-     
+
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;
@@ -528,6 +529,17 @@ this.initData();
                   }
                 } else {
                   unitList.push(value);
+                  if (type == 1) {
+                    if (value == this.transferNotice1.transferOutUnit) {
+                      unitAccountList.push(this.transferNotice1.transferOutUnitAccount);
+                      this.transferNotice.transferOutUnitAccount = unitAccountList[0];
+                    }
+                  } else {
+                    if (value == this.transferNotice1.transferInUnit) {
+                      unitAccountList.push(this.transferNotice1.transferInUnitAccount);
+                      this.transferNotice.transferInUnitAccount = unitAccountList[0];
+                    }
+                  }
                 }
               } else {
                 this.$Message.error(data.message);

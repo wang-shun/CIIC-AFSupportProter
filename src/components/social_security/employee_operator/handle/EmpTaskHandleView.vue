@@ -507,14 +507,14 @@
         this.sourceFrom = data.sourceFrom;
         this.socialSecurityPayOperator.empTaskId = this.empTaskId;
         var empTaskId = data.empTaskId;
- console.log('========');
+// console.log('========');
         api.queryEmpTaskById({
           empTaskId: empTaskId,
           operatorType: 1,// 任务单费用段
           isNeedSerial:1//是否需要社保序号
         }).then(data => {
 
-          console.log(data);
+//          console.log(data);
           if(data.data!=null){
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
@@ -549,7 +549,13 @@
             //获取用退工信息
             this.reworkInfo = data.data.amEmpTaskDTO
             this.reworkInfo.salary = data.data.salary
-            console.log(this.socialSecurityPayOperator.theSameTask)
+//            console.log(this.socialSecurityPayOperator.theSameTask)
+
+            if (this.socialSecurityPayOperator.taskStatus == 4) {
+              this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
+            } else {
+              this.socialSecurityPayOperator.handleRemarkMan = data.data.modifiedDisplayName;
+            }
 
             api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:this.operatorType}).then((data) => {
               if(data.data!=null){

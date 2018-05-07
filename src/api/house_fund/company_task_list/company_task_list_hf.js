@@ -115,7 +115,7 @@ export class CompanyTaskListHF{
                     changeOperator.acceptDate = i.startHandleDateString
                     changeOperator.deliveredDate = i.sendCheckDateString
                     changeOperator.finishDate = i.finishDateString
-                    changeOperator.remark=i.comAccountRemark
+                    changeOperator.remark=i.taskRemark
             
                     obj.changeOperator = changeOperator
 
@@ -126,7 +126,7 @@ export class CompanyTaskListHF{
                     endOperator.acceptDate = i.startHandleDateString
                     endOperator.deliveredDate = i.sendCheckDateString
                     endOperator.finishDate = i.finishDateString
-                    endOperator.remark = i.comAccountRemark
+                    endOperator.remark = i.taskRemark
                     obj.endOperator = endOperator
 
                     //已完成任务单参数

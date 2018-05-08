@@ -29,7 +29,7 @@
 
     <div class="create"></div>
 
-    <Table border :columns="colums1" :data="companyPage" ></Table>
+    <Table border :columns="colums" :data="companyPage" ></Table>
     <Page @on-change="handleCurrentChange"
         :current="pageNum"
         :page-size="pageSize"
@@ -54,7 +54,7 @@ export default {
         companyCode: "",
         companyName: ""
       },
-      colums1: [
+      colums: [
         {
           title: "客户编号",
           key: "companyId",
@@ -68,7 +68,6 @@ export default {
           title: "操作",
           key: "action",
           align: "center",
-          width: "200",
           render: (h, params) => {
             return h("div", [
               h(

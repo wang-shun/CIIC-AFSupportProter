@@ -254,7 +254,6 @@ export default {
     this.companyCode = data.companyId;
     this.empCode = data.employeeId;
     this.empName = data.employeeName;
-    console.log("router:" + this.$route.params.basicProductId);
   },
   created() {
     this.findAll(this.$route.params.data.employeeId);

@@ -392,6 +392,27 @@ export class FundPay {
         });
     })
   }
+  
+  //获取汇缴书信息
+  static getRemittedBook(params){
+    let url ="/api/fundcommandservice/hfFundPay/printRemittedBook";
+    return new Promise(function(resolve,reject){
+      ajax.post(url, params).then(function (response) {
+        let responseData = {
+            code:"",
+            message:""
+        }
+        responseData.code=response.data.code
+        responseData.message= response.data.message
+        resolve(responseData)
+      }).catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
+    })
+  }
+
+
 //付款凭证打印
   static printFinancePayVoucher(params){
     let url ="/api/fundcommandservice/hfFundPay/printFinancePayVoucher";

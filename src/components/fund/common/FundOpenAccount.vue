@@ -1,5 +1,5 @@
 <template>
-  <Form label-width=150>
+  <Form :label-width=150>
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="变更类型：">
@@ -48,7 +48,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="公积金企业U盾：">
-          <Select v-model="openAccount.UKeyValue" style="width: 100%;" transfer @on-change="changeDispatchType">
+          <Select v-model="openAccount.UKeyValue" style="width: 100%;" transfer>
             <Option v-for="item in UKeyList" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>

@@ -488,6 +488,12 @@
               this.socialSecurityPayOperator.handleMonth=handleMonth;
             }
 
+            if (this.socialSecurityPayOperator.taskStatus == 4) {
+              this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
+            } else {
+              this.socialSecurityPayOperator.handleRemarkMan = data.data.modifiedDisplayName;
+            }
+
             api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:this.operatorType}).then((data) => {
 
               if(data.data!=null){

@@ -49,7 +49,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="用工状态：">
-                <label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskStatus)}}</label>
+                <label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskCategory, reworkInfo.taskStatus)}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -497,7 +497,6 @@
         api.getSerial({
           comAccountId : this.socialSecurityPayOperator.comAccountId
         }).then(data => {
-          console.log(data.data.data);
           this.socialSecurityPayOperator.empSsSerial = data.data.data;
         })
       },
@@ -507,20 +506,17 @@
         this.sourceFrom = data.sourceFrom;
         this.socialSecurityPayOperator.empTaskId = this.empTaskId;
         var empTaskId = data.empTaskId;
- console.log('========');
         api.queryEmpTaskById({
           empTaskId: empTaskId,
           operatorType: 1,// 任务单费用段
           isNeedSerial:1//是否需要社保序号
         }).then(data => {
 
-          console.log(data);
           if(data.data!=null){
           if (data.data.empTaskPeriods.length > 0) {
             this.operatorListData = data.data.empTaskPeriods;
           }else{
             let operatorListData =[]
-            //remitWay: '', startMonth: '', endMonth: '', baseAmount: '', disabled: false
             let periodObj ={}
              periodObj.remitWay='1';
              periodObj.startMonth=data.data.startMonth;
@@ -539,7 +535,6 @@
 
             this.socialSecurityPayOperator.handleMonth=handleMonth;
           }
-           //{base: '18000', startMonth: '201712', endYear: ''}
              let periodArr = []
              let period ={}
             period.base = this.socialSecurityPayOperator.empBase
@@ -549,7 +544,12 @@
             //获取用退工信息
             this.reworkInfo = data.data.amEmpTaskDTO
             this.reworkInfo.salary = data.data.salary
-            console.log(this.socialSecurityPayOperator.theSameTask)
+
+            if (this.socialSecurityPayOperator.taskStatus == 4) {
+              this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
+            } else {
+              this.socialSecurityPayOperator.handleRemarkMan = data.data.modifiedDisplayName;
+            }
 
             api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:this.operatorType}).then((data) => {
               if(data.data!=null){
@@ -678,8 +678,8 @@
         }
 
         if(handleType){
-            let currentMounth = this.yyyyMM(new Date());
-            if(Number(handleMonth)<Number(currentMounth)){
+            let currentMonth = this.yyyyMM(new Date());
+            if(Number(handleMonth)<Number(currentMonth)){
                this.$Message.error("办理月份不能小于当前月份.");
                return;
             }

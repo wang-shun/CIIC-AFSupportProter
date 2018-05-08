@@ -245,17 +245,17 @@
               ]);
             }
           },
-          {title: '发起人', key: 'initiator', width: 120, align: 'center',
+          {title: '发起人', key: 'createdDisplayName', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.initiator),
+                h('span', params.row.createdDisplayName),
               ]);
             }
           },
-          {title: '发起时间', key: 'sponsorTime', width: 180, align: 'center',
+          {title: '发起时间', key: 'createdTime', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.sponsorTime),
+                h('span', params.row.createdTime),
               ]);
             }
           },

@@ -1,5 +1,5 @@
 <template>
-  <Form label-width=150>
+  <Form :label-width=150>
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-if="isBasicFund">
         <Form-item label="基本公积金账号：">

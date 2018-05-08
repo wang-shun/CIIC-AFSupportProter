@@ -25,12 +25,7 @@ tools.copy = (source, target) => {
  * @returns string
  */
 tools.formatDate = function (date, fmt) {
-  try {
-    return moment(date).format(fmt);
-  } catch (e) {
-    console.warn(e.message);
-    return date;
-  }
+  return moment(date).format(fmt);
 };
 
 /**

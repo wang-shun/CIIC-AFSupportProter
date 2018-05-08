@@ -401,10 +401,6 @@ export default {
       if (taskCategory && type) {
         if (parseInt(taskCategory) === 1) {
           switch (parseInt(type)) {
-            case 1:
-              return '用工材料未签收'
-            case 2:
-              return '用工材料已签收'
             case 3:
               return '用工成功'
             case 4:
@@ -458,10 +454,6 @@ export default {
               return '重复任务单'
             case 17:
               return '退工自办'
-            case 98:
-              return '退工任务单签收退工未成功'
-            case 99:
-              return '未反馈'
             default:
               return ''
           }

@@ -228,7 +228,44 @@
           {label: "出票", value:6},
           {label: "回单", value:7}
         ],
-
+        addFundPayRepairInfo: {
+          companyName: '',
+          listId: '',
+          basicFundAccount: '',
+          payYear: '',
+          payMonth: '',
+          payDay: '',
+          amountPage: '',
+          currentPage: '',
+          list: [
+            {
+              index: 1,
+              employeeAccount: '',
+              name: '',
+              IdNumber: '',
+              repairReason: '',
+              dateToDate1: '',
+              payPercent1: '',
+              repairPriceEveryMonth1: '',
+              repairSubTotal1: '',
+              dateToDate2: '',
+              payPercent2: '',
+              repairPriceEveryMonth2: '',
+              repairSubTotal2: '',
+              repairTotal: ''
+            }
+          ],
+          reason: '',
+          subTotal: {
+            peoples: 0,
+            amount: 0.00
+          },
+          total: {
+            peoples: 0,
+            amount: 0.00
+          },
+          maker: ''
+        },
         isShowPayProgress: false,
         fundPayColumns: [
           // {type: 'selection', width: 60},
@@ -652,12 +689,12 @@
         // ];
           let rows;
           FundPay.getRemittedBook(params).then(data=>{
-            
-        
+
+
           }).catch(error=>{
             console.log(error)
           })
-        
+
         FundPay.printPayNote(rows);
       },
 

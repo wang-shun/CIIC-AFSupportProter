@@ -91,7 +91,7 @@
       title="社保账户类型"
       @on-ok="ok"
       @on-cancel="cancel">
-      <company-account-search-modal :sSocialSecurityTypeData="data.sSocialSecurityTypeData"></company-account-search-modal>
+      <company-account-search-modal :sSocialSecurityTypeData="sSocialSecurityTypeData"></company-account-search-modal>
     </Modal>
     <!-- 批量上传-->
     <Modal
@@ -131,7 +131,7 @@
                 >
                   <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
                 </Upload>
-                
+
               </Form-item>
             </Col>
           </Row>
@@ -140,7 +140,7 @@
       <div slot="footer">
         <div v-if="this.upLoadData.file !== null">
           <Row type="flex" justify="start">
-            上传文件名: {{ this.upLoadData.file.name }} 
+            上传文件名: {{ this.upLoadData.file.name }}
           </Row>
           <Button type="info" @click="doUpload">上传</Button>
         </div>
@@ -178,6 +178,24 @@
           comAccountId: '', //企业社保账户
 
         },
+        sSocialSecurityTypeData: [
+          {
+            id: '34235329',
+            name: '中智大库'
+          },
+          {
+            id: '23434324',
+            name: '中智外包'
+          },
+          {
+            id: '56565659',
+            name: '独立户-欧莱雅'
+          },
+          {
+            id: '34543543',
+            name: '独立户-迅达电梯'
+          }
+        ],
         //默认静态参数
         staticSearchData:{
           //客服中心选择框

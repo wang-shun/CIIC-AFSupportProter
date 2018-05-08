@@ -5,7 +5,7 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="modal1 = true">新增</Button>
         <!-- <Button type="error" @click="del()">删除</Button> -->
-        <Button type="primary"  @click="instance()">提交</Button>
+        <Button type="primary" :loading="isLoading"  @click="instance()">提交</Button>
       </Col>
     </Row>
      <Modal
@@ -52,6 +52,7 @@
     },
     data() {
       return {
+        isLoading: false,
         modal1: false,
         notesColumns: [
           {title: '操作员', key: 'remarkMan', align: 'center', width: 200,
@@ -150,6 +151,7 @@
               this.$Message.success("没有提交的数据行，请新增");
               return;
             }
+             this.isLoading = true;
             api.saveAmRemark(this.notesData).then(data => {
                   if (data.data.data.result == true) {
                     this.$Message.success("保存成功");
@@ -157,6 +159,7 @@
                   } else {
                     this.$Message.error("保存失败！");
                   }
+                  this.isLoading = false;
             })
           
        },show (index) {

@@ -118,7 +118,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="resetForm('handleInfo')">重置</Button>
-          <Button type="primary"   @click="instance()" :disabled="handleInfo.end">保存</Button>
+          <Button type="primary"  :loading="isLoading"  @click="instance()" :disabled="handleInfo.end">保存</Button>
         </Col>
       </Row>
     </Form>
@@ -135,6 +135,7 @@ import Vue from 'vue'
     },
     data() {
       return {
+        isLoading: false,
         isFast: true,
         seqMax1: 0,
         seqMax2: 0,
@@ -343,7 +344,7 @@ import Vue from 'vue'
         if(this.handleInfo.storageDate){
              fromData.storageDate = this.$utils.formatDate(this.handleInfo.storageDate, 'YYYY-MM-DD');
         }
-       
+         this.isLoading = true;
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success("保存成功");
@@ -356,6 +357,7 @@ import Vue from 'vue'
               } else {
                 this.$Message.error("保存失败！" + data.message);
               }
+               this.isLoading = false;
         })
          
        },updateTask(){

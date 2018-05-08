@@ -88,7 +88,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="instance()">保存</Button>
+        <Button type="primary" :loading="isLoading" @click="instance()">保存</Button>
         </Col>
       </Row>
     </Form>
@@ -163,7 +163,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="instance1()">保存</Button>
+        <Button type="primary" :loading="isLoadingT" @click="instance1()">保存</Button>
         </Col>
       </Row>
     </Form>
@@ -183,6 +183,8 @@
     },
     data() {
       return {
+        isLoading: false,
+        isLoadingT: false,
         isFast: true,
         reservedFileNumberList: [],
         fileNumberList: [],
@@ -323,6 +325,7 @@
           this.$Message.error("档案编号已经是极限了，请联系管理员！");
           return;
         }
+         this.isLoading = true;
         var fromData = this.$utils.clear(this.file1,'');
         if(this.file1.employDocPaymentTo){
           fromData.employDocPaymentTo = this.$utils.formatDate(this.file1.employDocPaymentTo, 'YYYY-MM-DD');
@@ -385,11 +388,14 @@
           } else {
             this.$Message.error("保存失败！" + data.message);
           }
+           this.isLoading = false;
         })
 
       },
       instance1() {
         this.$utils.copy(this.file2, this.file1);
+
+        this.isLoadingT = true;
 
         var fromData = this.$utils.clear(this.file2,'');
 
@@ -451,6 +457,7 @@
           } else {
             this.$Message.error("保存失败！" + data.message);
           }
+           this.isLoadingT = false;
         })
 
       }

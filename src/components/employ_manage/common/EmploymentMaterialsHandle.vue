@@ -20,7 +20,7 @@
         <Form-item label="档案类别：">
           <Select transfer @on-change="changeTypeNumber" v-model="handleInfo.docType">
             <Option value="" key="">空</Option>
-            <Option v-for="item in handleInfo.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
+            <Option v-for="item in handleInfo.docSeqList2" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
         </Col>
@@ -343,7 +343,9 @@ import Vue from 'vue'
         if(this.handleInfo.storageDate){
              fromData.storageDate = this.$utils.formatDate(this.handleInfo.storageDate, 'YYYY-MM-DD');
         }
-       
+        this.localSeqList = fromData.docSeqList;
+        fromData.docSeqList = [];
+        fromData.docSeqList2 = [];
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success("保存成功");

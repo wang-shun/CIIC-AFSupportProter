@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-    <Table border :columns="colums1" :data="data1" @on-row-click="selectedRow" :highlight-row="highlight"></Table>
+    <Table border :columns="colums" :data="data1" @on-row-click="selectedRow" :highlight-row="highlight"></Table>
     </div>
     <div>
     <Card>
@@ -157,7 +157,7 @@ export default {
         specialMaterialRemark: "",
         orgPolicyId: ""
       },
-      colums1: [
+      colums: [
         {
           title: "证件类型",
           key: "lab"
@@ -184,13 +184,11 @@ export default {
         },
         {
           title: "特殊收费备注",
-          width: "250",
           key: "specialChargeRemark"
         },
         {
           title: "操作",
           key: "action",
-          width: "100",
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -289,7 +287,6 @@ export default {
         this.credentialsType = value.credentialsType;
         this.companyId = value.companyId;
         this.title = value.lab;
-        console.log(value);
         var params = {};
         params.params = {};
         params.params.type = value.credentialsType;

@@ -32,7 +32,7 @@
           </div>
         </Panel>
         <Panel name="5">
-          用工备注
+          用工备注 
           <div slot="content">
             <employment-notes :notesData="notesData" :userInfo="userInfo"></employment-notes>
           </div>

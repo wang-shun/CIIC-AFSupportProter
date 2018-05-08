@@ -19,7 +19,7 @@
         <Form-item label="档案类别：">
           <Select transfer @on-change="changeType" v-model="file1.docType">
             <Option value="" key="">空</Option>
-            <Option v-for="item in file1.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
+            <Option v-for="item in file1.docSeqList2" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
         </Col>
@@ -376,6 +376,8 @@
         if(this.file1.budiaoDocDate2){
           fromData.budiaoDocDate2 = this.$utils.formatDate(this.file1.budiaoDocDate2, 'YYYY-MM-DD');
         }
+        fromData.docSeqList = [];
+        fromData.docSeqList2 = [];
         api.saveAmArchive(fromData).then(data => {
           if (data.code == 200) {
             this.$Message.success("保存成功");
@@ -384,7 +386,6 @@
             this.file1.oldYuLiuNum = data.data.yuliuDocNum;
             this.file1.oldType = data.data.docType;
             this.file1.oldNum = data.data.docNum;
-            console.info(data.data);
           } else {
             this.$Message.error("保存失败！" + data.message);
           }

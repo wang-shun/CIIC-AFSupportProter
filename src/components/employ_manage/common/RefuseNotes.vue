@@ -13,13 +13,7 @@
         @on-ok="ok"
         @on-cancel="cancel">
       <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-      <!-- <Row type="flex" justify="start">
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="操作员：" prop="remarkManw">
-             <Input v-model="handleInfo.remarkManw" placeholder="请输入" :maxlength="50"/>
-          </Form-item>
-        </Col>
-       </Row> -->
+      
        <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作日期：" prop="remarkDatew">
@@ -117,10 +111,7 @@ import api from '../../../api/employ_manage/hire_operator'
     methods: {
             ok () {
               var fromData = this.$utils.clear(this.realHandInfo,'');
-              //  if(this.handleInfo.remarkManw==''){
-              //    this.$Message.info('操作员不能为空');
-              //     return;
-              //  }
+            
                if(this.handleInfo.remarkDatew==''){
                   this.$Message.info('操作日期不能为空');
                   return;
@@ -145,9 +136,9 @@ import api from '../../../api/employ_manage/hire_operator'
               return;
             }
             api.saveAmRemark(this.refuseNotes).then(data => {
-                  if (data.data.data == true) {
+                  if (data.data.data.result == true) {
                     this.$Message.success("保存成功");
-                    history.go(-1);
+                    this.refuseNotesData = data.data.data.data;
                   } else {
                     this.$Message.error("保存失败！");
                   }
@@ -160,6 +151,7 @@ import api from '../../../api/employ_manage/hire_operator'
                 })
             },
             remove (index,remarkId) {
+              const _self = this;
                 if(!remarkId){
                   this.refuseNotes.splice(index, 1);
               
@@ -172,7 +164,13 @@ import api from '../../../api/employ_manage/hire_operator'
                         let params = {amRemarkId:remarkId}
 
                         api.deleteAmRemark(params).then(data=>{
-                              window.location.reload();
+                          
+                          if(data.data)
+                          {
+                              _self.refuseNotesData.splice(index, 1);
+                          }else{
+                            this.$Message.error("删除失败！请用创建人删除");
+                          }
                       })
                        
                       },

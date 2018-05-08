@@ -137,6 +137,31 @@
             {{employee.employSpecial}}
           </Form-item>
         </Col>
+         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="寄退工单：">
+              <Checkbox  v-model="employee.mailContinue" ></Checkbox>
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="邮寄退工单地址：">
+            {{employee.mailAdress}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="邮寄退工单收件人：">
+            {{employee.recipient}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="邮寄退工单邮编：">
+            {{employee.postCode}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="邮寄退工单电话：">
+            {{employee.phone}}
+          </Form-item>
+        </Col>
       </Row>
     </Form>
   </div>

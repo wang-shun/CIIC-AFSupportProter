@@ -3,6 +3,7 @@ import ajax from "../../lib/ajax";
 /**后台结构变动，现在只有一个服务*/
 const ajaxApi = ajax.ajaxHmc;
 
+const basePaths = ajax.basePaths;
 const queryEmployeeList = params => ajaxApi.postJSON("/uninsuredService/queryEmployeeList", params);
 const queryEmpMember = params => ajaxApi.postJSON("/uninsuredService/queryEmpMember", params);
 const addAcceptance = params => ajaxApi.postJSON("/uninsuredService/addAcceptance", params);
@@ -17,6 +18,7 @@ const acceptanceDetail = params => ajaxApi.getJSON("/uninsuredService/acceptance
  * 未投保审核
  */
 export default {
+  basePaths,
   queryEmployeeList,
   queryEmpMember,
   addAcceptance,

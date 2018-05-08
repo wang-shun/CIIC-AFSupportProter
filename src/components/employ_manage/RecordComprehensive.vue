@@ -217,7 +217,18 @@
           docFrom:"",
           employeeId:this.$route.query.employeeId,
           companyId:this.$route.query.companyId,
-          employmentId:this.$route.query.employmentId
+          employmentId:this.$route.query.employmentId,
+          docSeqList: [],
+          docSeqList2: [],
+          yuliuDocType: "",
+          docType: "",
+          yuliuDocNum: "",
+          docNum: "",
+          oldYuLiuType: '',
+          oldYuLiuNum: 0,
+          oldType: '',
+          oldNum: 0
+
         },
         fileInfo2: {
           isFileHalfwayOut: false,
@@ -296,7 +307,7 @@
 
 
           api.archiveDetailInfoQuery(params).then(data=>{
-
+            
              if(data.data.customerInfo){
                 this.customerInfo = data.data.customerInfo;//客户信息
             }
@@ -317,6 +328,11 @@
            
               if(data.data.amArchaiveBo){
                 this.fileInfo1 = data.data.amArchaiveBo;
+                // 记录原有的 档案编号 和 类型
+                this.fileInfo1.oldYuLiuType = data.data.amArchaiveBo.yuliuDocType;
+                this.fileInfo1.oldYuLiuNum = data.data.amArchaiveBo.yuliuDocNum;
+                this.fileInfo1.oldType = data.data.amArchaiveBo.docType;
+                this.fileInfo1.oldNum = data.data.amArchaiveBo.docNum;
               }
 
               if(data.data.amArchaiveBo){
@@ -354,7 +370,8 @@
               if(data.data.userInfo){
                 this.userInfo = data.data.userInfo;
               }
-
+              this.fileInfo1.docSeqList = data.data.docSeqList;
+              this.fileInfo1.docSeqList2 = data.data.docSeqList2;
                
           })
     },

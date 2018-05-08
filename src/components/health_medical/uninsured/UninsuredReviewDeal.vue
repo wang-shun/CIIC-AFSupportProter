@@ -74,7 +74,7 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 24}" class="tr">
           <Button type="primary" @click="addUninsuredReviewDeal">提交</Button>
-          <Button type="warning" @click="back">返回</Button>
+          <Button type="warning" @click="back" :loading="loading">返回</Button>
           </Col>
         </Row>
       </Form>
@@ -89,6 +89,7 @@
   export default {
     data() {
       return {
+        loading: false,
         formItem: {
           clinicHospital: null,
           acceptAmount: null,
@@ -120,7 +121,9 @@
       addUninsuredReviewDeal() {
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
+            this.loading = true;
             apiAjax.addUninsuredAudit(this.formItem).then(response => {
+              this.loading = false;
               if (response.data.code === 200) {
                 this.$router.push({name: "uninsuredReview"})
               } else {

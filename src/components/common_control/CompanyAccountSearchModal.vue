@@ -25,6 +25,7 @@
 </template>
 <script>
   export default {
+    name: 'company-account-search-modal',
     props: {
       sSocialSecurityTypeData: {
         require: true,
@@ -54,7 +55,6 @@
       }
     },
     mounted() {
-
     },
     computed: {
       filterUser() {

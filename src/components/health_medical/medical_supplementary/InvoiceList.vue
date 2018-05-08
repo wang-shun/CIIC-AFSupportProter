@@ -100,6 +100,7 @@
     </Card>
 
     <div class="tr m20">
+      <Button type="success" @click="back">返回</Button>
       <Button type="info" @click="exportData()" icon="ios-download-outline">导出</Button>
     </div>
 
@@ -168,7 +169,7 @@
             render: (h, params) => {
               params.row.auditTime = this.acceptanceData.auditTime;
               if (params.row.auditTime !== null) {
-                return  h('div',this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss'));
+                return h('div', this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss'));
               }
             }
           },
@@ -197,9 +198,12 @@
         }
         return val;
       },
-      exportData () {
+      back() {
+        this.$local.back();
+      },
+      exportData() {
         let acceptanceId = JSON.parse(sessionStorage.getItem('acceptanceId'));
-        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/supplyMedicalService/export/' + acceptanceId
+        window.location = apiAjax.basePaths + '/supplyMedicalService/export/' + acceptanceId
       }
     },
   }

@@ -161,6 +161,16 @@ export default {
     let response = await AJAX.post('/api/employcommandservice/amauthority/amsaveAuthority', params);
     return await response.data;
   },
+  // 根据预留档按类别查询预留档案编号seq
+  queryDocSeqByDocType:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amArchiveTask/queryDocSeqByDocType', params);
+    return await response.data;
+  },
+  // 查询预留档案编号list
+  queryAmArchiveDocType:async (params)=>{
+    let response = await AJAX.post('/api/employcommandservice/amEmpTask/queryAmArchiveDocType', params);
+    return await response.data;
+  },
 
 }
 

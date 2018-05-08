@@ -78,18 +78,14 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="isCreateTaskTicket = true;handlePageNumNewTask(1);">新建转移任务单</Button>
         <!-- <Button type="info" @click="">批量打印转中心通知书</Button> -->
-        <Dropdown>
+        <Dropdown @on-click="fileExport">
           <Button type="primary">
             转移操作
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <div style="text-align: right;margin:10px;">
-              <Button type="ghost" @click="multiEmpTaskTransferExport">导出雇员转移清册</Button>
-            </div>
-            <div style="text-align: right;margin:10px;">
-              <Button type="ghost" @click="empTaskTransferTxtExport">导出雇员转移TXT</Button>
-            </div>
+            <DropdownItem name="0">导出雇员转移清册</DropdownItem>
+            <DropdownItem name="1">导出雇员转移TXT</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <!-- <Button type="primary" @click="">扫描校验</Button> -->
@@ -300,12 +296,6 @@
           ]
         },
         customerCenterData:[],
-        serviceCenterData: [
-          {value: '1', label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-          {value: '2', label: '日本客户'},
-          {value: '3', label: '虹桥'},
-          {value: '4', label: '浦东'}
-        ], //客服中心
         fundTypeList: [
           {label: '全部',value:''},
           {value: '1', label: '基本公积金'},
@@ -524,6 +514,18 @@
           params: params,
         })
       },
+      fileExport(name) {
+        switch(parseInt(name)) {
+          case 0:
+            this.multiEmpTaskTransferExport();
+            break;
+          case 1:
+            this.empTaskTransferTxtExport();
+            break;
+          default:
+            break;
+        }
+      }
     }
   }
 </script>

@@ -27,7 +27,7 @@ import transfer from './modules/health_medical/relationship_transfer/event_types
 
 //社保对账
 
-import SocialSecurityReconcilate from "./modules/social_security/social_security_recon_cilate/event_types";
+import SocialSecurityReconCilate from "./modules/social_security/social_security_recon_cilate/event_types";
 
 //社保报表
 import Socialsecurityreport from './modules/social_security/social_security_report/event_types'
@@ -66,7 +66,7 @@ export default {
   //健康医疗
   ...transfer,
 
-  ...SocialSecurityReconcilate,
+  ...SocialSecurityReconCilate,
   ...Socialsecurityreport,
 
   //证件管理

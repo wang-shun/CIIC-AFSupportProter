@@ -339,6 +339,13 @@
             }
             this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
             this.$utils.copy(data.data, this.socialSecurityPayOperator);
+
+            if (this.socialSecurityPayOperator.taskStatus == 4) {
+              this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
+            } else {
+              this.socialSecurityPayOperator.handleRemarkMan = data.data.modifiedDisplayName;
+            }
+
             api.queryComAccountByEmpTaskId({empTaskId: empTaskId,operatorType:this.operatorType}).then((data) => {
               if(data.data!=null){
                 this.company = data.data;
@@ -482,7 +489,10 @@
 
             // 转下月处理
             if(type && type == 'next'){
-              var nextDay = parseInt(this.company.expireDate) + 1;
+              var nextDay = 27;
+              if (self.company.expireDate) {
+                nextDay = parseInt(self.company.expireDate) + 1;
+              }
               var submitTime = new Date();
               submitTime.setDate(nextDay);
               fromData.submitTime = this.$utils.formatDate(submitTime, 'YYYY-MM-DD 00:00:00');

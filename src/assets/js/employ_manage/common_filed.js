@@ -3,8 +3,8 @@
  */
 //let em_chooseField = ["公司编号", "公司名称", "雇员编号", "雇员姓名", "身份证号码", "开F单日期", "服务中心", "办理类型", "用工操作员", "用工方式", "缴费区县", "用工属性", "用工材料批退日期", "档案编号", "预留档案编号", "存档地", "用工反馈操作日期", "档案操作员", "入库日期", "出库日期", "手册入库日期", "补调档案1", "补调档案2", "UKey外借日期", "UKey返回日期", "高校调档日期", "寄回执日期", "修改档案编号提交日期", "完成改号日期", "前道提交退工任务单日期", "退工原因", "出库人", "档案材料借出日期", "档案材料借阅日期"];
 let em_chooseField = {
-  "e.company_id":"公司编号",
-  "e.title":"公司名称",
+  "a.company_id":"公司编号",
+  "h.title":"公司名称",
   "a.employee_id":"雇员编号",
   "d.employee_name":"雇员姓名",
   "d.id_num":"身份证号码",
@@ -15,7 +15,7 @@ let em_chooseField = {
   "b.employ_property":"用工属性",
   "c.doc_num":"档案编号",
   "c.yuliu_doc_num":"预留档案编号",
-  "e.license_code":"公司编号",
+  "a.change":"是否翻盘",
   "c.archive_place":"存档地",
   "c.employ_feedback_opt_date":"用工反馈操作日期",
   "c.storage_date":"入库日期",
@@ -25,9 +25,8 @@ let em_chooseField = {
   "c.budiao_doc_man2":"补调档人2",
   "c.ukey_borrow_date":"UKey外借日期",
   "c.ukey_return_date":"Ukey返回日期",
-  "a.resign_reason":"退工原因",
+  "a.out_reason":"退工原因",
   "c.storage_out_man":"出库人",
-  "g.use_date":"档案材料借出日期",
   "h.service_center":"服务中心"
 };
 let em_relationship = {

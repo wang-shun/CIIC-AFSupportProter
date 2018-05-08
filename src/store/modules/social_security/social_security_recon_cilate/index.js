@@ -1,6 +1,6 @@
-import SocialSecurityReconcilate from './social_security_recon_cilate'
-import SocialSecurityReconcilateDetail from './social_security_recon_cilate_child/social_security_recon_cilate_detail'
+import SocialSecurityReconCilate from './social_security_recon_cilate'
+import SocialSecurityReconCilateDetail from './social_security_recon_cilate_child/social_security_recon_cilate_detail'
 export default {
-  socialSecurityReconcilate: SocialSecurityReconcilate,
-  socialSecurityReconcilateDetail:SocialSecurityReconcilateDetail
+  socialSecurityReconCilate: SocialSecurityReconCilate,
+  socialSecurityReconCilateDetail:SocialSecurityReconCilateDetail
 }

@@ -59,7 +59,7 @@
         </row>
         <Row type="flex" justify="start">
           <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="updateReimbursement">提交</Button>
+          <Button type="primary" @click="updateReimbursement" :loading="loading">提交</Button>
           <Button type="success" @click="back">返回</Button>
           </Col>
         </Row>
@@ -74,6 +74,7 @@
   export default {
     data() {
       return {
+        loading: false,
         reimbursementItem: {},
         reimbursementValidator: this.$Validator.reimbursementValidator
       };
@@ -87,12 +88,13 @@
         this.$local.back();
       },
       updateReimbursement() {
-        console.info("=====");
         this.$refs['reimbursementItem'].validate((valid) => {
           if (valid) {
+            this.loading = true;
             this[EventTypes.REIMBURSEMENT_UPDATE]({
               data: this.reimbursementItem,
               callback: (res) => {
+                this.loading = false;
                 if (res.code === 200) {
                   this.$router.push({name: 'relationshipTransfer', params: {data: 1}})
                 } else {

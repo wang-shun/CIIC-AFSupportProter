@@ -43,8 +43,8 @@
          pageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
         },
         searchConditions:[],
         searchCondition: {
@@ -73,7 +73,7 @@
               ]);
             }
           },
-          {title: '退工成功日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,
+          {title: '退工成功日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.jobCentreFeedbackDate),
@@ -101,7 +101,7 @@
               ]);
             }
           },
-          {title: '雇员编号', key: 'employeeId', align: 'center', width: 150,
+          {title: '雇员编号', key: 'employeeId', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.employeeId),
@@ -115,14 +115,14 @@
               ]);
             }
           },
-          {title: '证件号码', key: 'idNum', align: 'center', width: 150,
+          {title: '证件号码', key: 'idNum', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.idNum),
               ]);
             }
           },
-          {title: '客户编号', key: 'companyId', align: 'center', width: 150,
+          {title: '客户编号', key: 'companyId', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.companyId),
@@ -151,14 +151,14 @@
               ]);
             }
           },
-          {title: '档案编号', key: 'docNum', align: 'center', width: 150,
+          {title: '档案编号', key: 'docNum', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.docNum),
               ]);
             }
           },
-          {title: '预留档案编号', key: 'yuliuDocNum', align: 'center', width: 150,
+          {title: '预留档案编号', key: 'yuliuDocNum', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.yuliuDocNum),
@@ -179,7 +179,7 @@
               ]);
             }
           },
-          {title: '退工日期', key: 'outDate', align: 'center', width: 150,
+          {title: '退工日期', key: 'outDate', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.outDate),
@@ -200,10 +200,10 @@
               ]);
             }
           },
-          {title: '录用处理结束', key: 'luyongHandleEnd', align: 'center', width: 150,
+          {title: '录用处理结束', key: 'luyongHandleEndStr', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.luyongHandleEnd),
+                h('span', params.row.luyongHandleEndStr),
               ]);
             }
           },
@@ -218,6 +218,13 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.refuseSpecial),
+              ]);
+            }
+          },
+          {title: '是否翻盘', key: 'change', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.change),
               ]);
             }
           }
@@ -386,7 +393,7 @@
 
       },
       exportXLS() {
-        let params = this.searchConditions;
+        let params = this.searchCondition;
         api.resignSearchExportOpt(params);
 
       },queryAmResign(params){
@@ -419,6 +426,7 @@
 
       },
       showInfoTw (ind) {  
+           this.pageData.pageNum = 1;
            this.searchCondition.params = this.searchConditions.toString();
            this.searchCondition.taskStatus = ind;
            this.queryAmResign(this.searchCondition);

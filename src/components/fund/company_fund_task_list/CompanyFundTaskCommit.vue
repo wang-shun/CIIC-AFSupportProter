@@ -8,7 +8,7 @@
         </div>
       </Panel>
       <Panel name="2">
-        企业任务单办理 ({{hfTypeName}})
+        企业任务单办理 ({{this.hfTypeName}})
         <div slot="content">
           <fund-open-account ref="openAccount" :openAccountInfo="this.$route.params.openAccountInfo"></fund-open-account>
         </div>
@@ -39,14 +39,14 @@
       }
     },
     mounted() {
-      
+
       // if(this.$refs.openAccount.openAccountInfo.taskStatus==0){
- 
+
       //  this.$route.params.openAccountInfo.taskStatus==1;
       // }
 
       console.log(this.$route.params);
-        
+
     },
     computed: {
     },
@@ -97,11 +97,13 @@
               this.$Message.error('付款方式必填');
               return false;
           }
-          if(params.comStartMonth=='' || params.comStartMonth==null){
+          let comStartMonth=this.$refs.openAccount.openAccountInfo.customerPayStartDate;
+          if(comStartMonth=='' || comStartMonth==null){
               this.$Message.error('客户缴费起始年月必填');
               return false;
           }
-          if(params.operateStartMonth=='' || params.operateStartMonth==null){
+          let operateStartMonth=this.$refs.openAccount.openAccountInfo.operateStartMonth;
+          if(operateStartMonth=='' || operateStartMonth==null){
               this.$Message.error('专员操作起始年月必填');
               return false;
           }
@@ -141,10 +143,20 @@
                     console.log(error)
                   })
               }
-            });        
+            });
       },
       //获得更新任务单请求参数
       getParams(){
+
+          let comStartMonth=this.$refs.openAccount.openAccountInfo.customerPayStartDate;
+          if(comStartMonth!='' && comStartMonth!=null){
+              comStartMonth = Tools.formatDate(comStartMonth, "YYYYMM")
+          }
+          let operateStartMonth=this.$refs.openAccount.openAccountInfo.operateStartMonth;
+          if(operateStartMonth!='' && operateStartMonth!=null){
+             operateStartMonth = Tools.formatDate(operateStartMonth, "YYYYMM")
+          }
+
         return {
           //comTask
           comTaskId: this.$route.params.comTaskId,
@@ -154,7 +166,7 @@
 
           //openAccountInfo
           comAccountId:this.$refs.openAccount.openAccountInfo.comAccountId,
-          comAccountClassId:this.$refs.openAccount.openAccountInfo.comAccountClassId, 
+          comAccountClassId:this.$refs.openAccount.openAccountInfo.comAccountClassId,
           taskChangeTypeValue: this.$refs.openAccount.openAccountInfo.changeTypeValue,
           paymentWay: this.$refs.openAccount.openAccountInfo.payMethodValue,
           paymentBank: this.$refs.openAccount.openAccountInfo.paymentBankValue,
@@ -162,8 +174,8 @@
           comAccountName: this.$refs.openAccount.openAccountInfo.companyFundAccountName,
           comAccountNum: this.$refs.openAccount.openAccountInfo.companyFundAccountNum,
           uKeyStore: this.$refs.openAccount.openAccountInfo.UKeyValue,
-          comStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.customerPayStartDate, "YYYYMM"),
-          operateStartMonth: Tools.formatDate(this.$refs.openAccount.openAccountInfo.professionalOperateStartDate, "YYYYMM"),
+          comStartMonth: comStartMonth,
+          operateStartMonth: operateStartMonth,
           endType: this.$refs.openAccount.openAccountInfo.endTypeValue,
           accountTempStore: this.$refs.openAccount.openAccountInfo.accountTempStoreTypeValue,
           taskStatus: this.$refs.openAccount.openAccountInfo.taskStatus,
@@ -175,7 +187,7 @@
 
         }
       },
-       
+
     }
   }
 </script>

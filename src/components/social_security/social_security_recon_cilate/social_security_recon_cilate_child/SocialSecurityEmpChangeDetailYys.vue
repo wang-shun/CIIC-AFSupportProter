@@ -266,10 +266,14 @@
             console.log(data.code);
             if(data.code==1){
               this.$Message.error(data.message);
+              this.statementId = window.sessionStorage.getItem("monthEmpChangeId");
+              this.serachMonthEmpChange(window.sessionStorage.getItem("monthEmpChangeId"));
+              this.showMonthEmpChangeDetail(window.sessionStorage.getItem("monthEmpChangeId"));
             }
         }).catch(error=>{
           this.$Message.error('系统异常！');
-        })
+        });
+
       }
     }
   }

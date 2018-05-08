@@ -20,8 +20,8 @@ const mutations={
 }
 const actions ={
     [EventType.SOCIALSECURITYRECONCILATEDETAIL]({commit},params){
-      mock.socialSecurityReconcilateDetail(params).then(response=>{
-       
+      mock.socialSecurityReconCilateDetail(params).then(response=>{
+
         commit(EventType.SOCIALSECURITYRECONCILATEDETAIL,response.data)
       })
 

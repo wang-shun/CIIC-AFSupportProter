@@ -2,6 +2,7 @@
 /*
  * employmentDataManagementTaskList      --- 用工资料管理任务单
    employHandleEmployment                --- 办理用工
+   employHandleEmploymentBatch           --- 批量办理用工
  * dismissalHandleTaskList               --- 退工办理任务单
    dismissalHandleEmployment             --- 退工档案任务单
  * recordComprehensiveHandling           --- 档案综合办理
@@ -11,21 +12,22 @@
    matchImportFile                       --- 配对导入数据
  */
 
-const employmentDataManagementTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/EmploymentDataManagementTaskList')), 'EmploymentDataManagementTaskList');
-const employHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/employHandleEmployment')), 'employHandleEmployment');
+const employmentDataManagementTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/EmploymentDataManagementTaskList')), 'employmentDataManagementTaskList');
+const employHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/EmployHandleEmployment')), 'employHandleEmployment');
+const employHandleEmploymentBatch = r => require.ensure([], () => r(require('@/components/employ_manage/EmployHandleEmploymentBatch')), 'employHandleEmploymentBatch');
 
-const dismissalHandleTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleTaskList')), 'DismissalHandleTaskList');
-const dismissalHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleEmployment')), 'DismissalHandleEmployment');
+const dismissalHandleTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleTaskList')), 'dismissalHandleTaskList');
+const dismissalHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleEmployment')), 'dismissalHandleEmployment');
 
-const recordComprehensiveHandling = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensiveHandling')), 'RecordComprehensiveHandling');
-const recordComprehensive = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensive')), 'RecordComprehensive');
-const fileMatrialsUseAndBorrow = r => require.ensure([], () => r(require('@/components/employ_manage/FileMatrialsUseAndBorrow')), 'FileMatrialsUseAndBorrow');
+const recordComprehensiveHandling = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensiveHandling')), 'recordComprehensiveHandling');
+const recordComprehensive = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensive')), 'recordComprehensive');
+const fileMatrialsUseAndBorrow = r => require.ensure([], () => r(require('@/components/employ_manage/FileMatrialsUseAndBorrow')), 'fileMatrialsUseAndBorrow');
 
-const recordMatch = r => require.ensure([], () => r(require('@/components/employ_manage/RecordMatch')), 'RecordMatch');
-const matchImportFile = r => require.ensure([], () => r(require('@/components/employ_manage/MatchImportFile')), 'MatchImportFile');
+const recordMatch = r => require.ensure([], () => r(require('@/components/employ_manage/RecordMatch')), 'recordMatch');
+const matchImportFile = r => require.ensure([], () => r(require('@/components/employ_manage/MatchImportFile')), 'matchImportFile');
 
-const independentCustomList = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentCustomList')), 'IndependentCustomList');
-const independentHandleCustom = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentHandleCustom')), 'IndependentHandleCustom');
+const independentCustomList = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentCustomList')), 'independentCustomList');
+const independentHandleCustom = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentHandleCustom')), 'independentHandleCustom');
 
 export default [
   {
@@ -48,6 +50,19 @@ export default [
       level1:'首页',
       level2:"雇佣管理",
       level3:"用工资料任务单",
+      openNames:['3'],
+      activeName: '3-1'
+    }
+  },
+
+  {
+    path: '/employ_handle_employment_batch',
+    name:'employHandleEmploymentBatch',
+    component: employHandleEmploymentBatch,
+    meta:{
+      level1:'雇佣管理',
+      level2:"用工资料任务单批量办理",
+      level3:"批理办理",
       openNames:['3'],
       activeName: '3-1'
     }

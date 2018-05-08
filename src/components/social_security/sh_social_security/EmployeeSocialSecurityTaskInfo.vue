@@ -13,14 +13,14 @@
           <employee-info :operatorType='operatorType' :employee="employee"></employee-info>
         </div>
       </Panel>
-      <Panel name="3">
+      <!-- <Panel name="3">
         任务单参考信息
         <div slot="content">
-          <task-refrence-info :operatorType='operatorType' :taskNewInfo="data.taskNewInfo"
-                              :taskNewInfoData="data.taskNewInfoData" :taskChangeInfo="data.taskChangeInfo"
-                              :taskOutInfo="data.taskOutInfo"></task-refrence-info>
+          <task-refrence-info :operatorType='operatorType' :taskNewInfo="taskRefer.taskNewInfo"
+                              :taskNewInfoData="taskRefer.taskNewInfoData" :taskChangeInfo="taskRefer.taskChangeInfo"
+                              :taskOutInfo="taskRefer.taskOutInfo"></task-refrence-info>
         </div>
-      </Panel>
+      </Panel>  -->
       <Panel name="4">
         <span>社保操作</span>
         <div slot="content">
@@ -135,7 +135,7 @@
   import companyInfo from '../components/CompanyInfo.vue'
   import employeeInfo from '../components/EmployeeInfo.vue'
 
-  import taskRefrenceInfo from './taskRefrenceInfo.vue'
+  import taskRefrenceInfo from './TaskRefrenceInfo.vue'
   import socialSecurityOperator from '../../common_control/SocialSecurityOperator.vue'
   import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
@@ -152,7 +152,12 @@
         collapseInfo: [1, 2, 3, 4],
         employee: {},
         company: {},
-
+        taskRefer:{
+          taskNewInfo:{},
+          taskNewInfoData:{},
+          taskChangeInfo:{},
+          taskOutInfo:{}
+        },
         ssOperator: {},
          taskCategoryType: [
           {value: '1', label: '新进'},
@@ -226,7 +231,7 @@
     mounted() {
       this.ssOperator = this.$refs['ssOperator'];
       this.initData(this.$route.query)
-      this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]()
+      //this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]()
     },
     computed: {
       ...mapState('companySocialSecurityNew', {
@@ -246,13 +251,19 @@
           operatorType: 1,// 任务单费用段
         }).then(data => {
           if(data.data!=null){
-                if (data.data.empTaskPeriods.length > 0) {
-            this.operatorListData = data.data.empTaskPeriods;
-          }
-          this.$utils.copy(data.data, this.socialSecurityPayOperator);
+            if (data.data.empTaskPeriods.length > 0) {
+              this.operatorListData = data.data.empTaskPeriods;
+            }
+            this.$utils.copy(data.data, this.socialSecurityPayOperator);
+//            console.log(data.data)
+            if (this.socialSecurityPayOperator.taskStatus == 4) {
+              this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
+            } else {
+              this.socialSecurityPayOperator.handleRemarkMan = data.data.modifiedDisplayName;
+            }
           }else{
             this.$Message.error(data.message)
-          }   
+          }
         });
 
         api.queryEmpArchiveByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {
@@ -261,7 +272,7 @@
         api.queryComAccountByEmpTaskId({empTaskId: this.empTaskId,operatorType:'6'}).then((data) => {
           this.company = data.data;
         })
-        
+
       },
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo',query:{empArchiveId:this.empArchiveId}});

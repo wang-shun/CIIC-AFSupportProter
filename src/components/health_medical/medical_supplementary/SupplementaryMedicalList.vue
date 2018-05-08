@@ -142,15 +142,15 @@
     <Modal
       v-model="modalAccept"
       title="审核操作对话框"
-      @on-ok="updateSupplementaryList(1)">
-      <Input v-model="formItem.code" placeholder="备注："/>
+      @on-ok="updateSupplementaryList(2)" :loading="loading">
+      <Input v-model="dealMeg.remark" placeholder="备注："/>
     </Modal>
 
     <Modal
       v-model="modalRefuse"
       title="批退操作对话框"
-      @on-ok="updateSupplementaryList(2)">
-      <Input v-model="formItem.code" placeholder="备注："/>
+      @on-ok="updateSupplementaryList(1)" :loading="loading">
+      <Input v-model="dealMeg.remark" placeholder="备注："/>
     </Modal>
 
     <Modal
@@ -162,7 +162,7 @@
         <Button type="ghost" icon="ios-cloud-upload-outline">选择要上传的Excel文件</Button>
       </Upload>
       <div v-if="file !== null">待上传文件：{{ file.name }}
-        <Button type="text" @click="upload">点击上传</Button>
+        <Button type="info" @click="upload" :loading="loading">点击上传</Button>
       </div>
     </Modal>
   </div>
@@ -181,6 +181,7 @@
         modalRefuse: false,
         modalInput: false,
         file: null,
+        loading: false,
         formItem: {
           total: 0,
           current: 1,
@@ -214,7 +215,7 @@
           {
             title: '导入日期', sortable: true, key: 'inputDate',
             render: (h, params) => {
-              return  h('div',this.$utils.formatDate(params.row.inputDate, 'YYYY-MM-DD HH:mm:ss'));
+              return h('div', this.$utils.formatDate(params.row.inputDate, 'YYYY-MM-DD HH:mm:ss'));
             }
           },
           {
@@ -232,14 +233,14 @@
           {
             title: '状态', sortable: true, key: 'status',
             render: (h, params) => {
-              return  h('div',supplementaryMedica.statusToChina(params.row.status));
+              return h('div', supplementaryMedica.statusToChina(params.row.status));
             }
           },
           {
             title: '处理日期', sortable: true, key: 'auditTime',
             render: (h, params) => {
               if (params.row.auditTime !== null) {
-                return  h('div',this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss'));
+                return h('div', this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss'));
               }
             }
           },
@@ -255,58 +256,31 @@
           {
             title: '操作', key: 'action', width: 240, align: 'center',
             render: (h, params) => {
-              if (params.row.status === 0) {
-                return h('div', [
-                  h('Button', {
-                    props: {type: 'success', size: 'small'},
-                    style: {marginRight: '5px'},
-                    on: {
-                      click: () => {
-                        // this.updateSupplementary(1);
-                        this.$Modal.success({title: '补充医疗理赔受理', content: `审核通过`});
-                      }
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'success', size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      sessionStorage.setItem('acceptanceId', JSON.stringify(params.row.acceptanceId));
+                      this.$router.push({name: 'invoiceList'});
                     }
-                  }, '审核通过'),
-                  h('Button', {
-                    props: {type: 'success', size: 'small'},
-                    style: {marginRight: '5px'},
-                    on: {
-                      click: () => {
-                        this.$Modal.info({title: '补充医疗理赔受理', content: `批退完成`});
-                      }
-                    }
-                  }, '批退'),
-                  h('Button', {
-                    props: {
-                      type: 'success', size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        sessionStorage.setItem('acceptanceId', JSON.stringify(params.row.acceptanceId));
-                        this.$router.push({name: 'InvoiceList'});
-                      }
-                    }
-                  }, '发票明细')
-                ]);
-              } else {
-                return h('div', [
-                  h('Button', {
-                    props: {
-                      type: 'success', size: 'small'
-                    },
-                    on: {
-                      click: () => {
-                        sessionStorage.setItem('acceptanceId', JSON.stringify(params.row.acceptanceId));
-                        this.$router.push({name: 'InvoiceList'});
-                      }
-                    }
-                  }, '发票明细')
-                ]);
-              }
+                  }
+                }, '发票明细')
+              ]);
             }
           }
         ],
         supplementData: [],
+        userInfo: {},
+        dealMeg: {
+          auditor: null,
+          auditTime: new Date(),
+          status: null,
+          rejectType: null,
+          remark: null,
+        },
         category: [
           {
             value: 'status4', label: '补充医疗'
@@ -325,6 +299,8 @@
     },
     created() {
       this.getByPage(1);
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      this.dealMeg.auditor = this.userInfo.displayName;
     },
     methods: {
       handleUpload(file) {
@@ -333,7 +309,9 @@
       },
       upload() {
         let data = {file: this.file};
+        this.loading = true;
         apiAjax.importAcceptanceXls(data).then(response => {
+          this.loading = false;
           if (response.data.code === 200) {
             this.$Message.success("上传成功");
           } else {
@@ -367,14 +345,26 @@
         });
       },
       updateSupplementaryList(val) {
-        this.dealMeg.status = val;
-
-        this.getByPage(1);
-      },
-      updateSupplementary(val) {
-        this.dealMeg.status = val;
-
-        this.getByPage(1);
+        this.selectData.forEach(item => {
+          item.status = val;
+          item.remark = this.dealMeg.remark;
+          item.auditTime = new Date();
+          item.auditor = this.dealMeg.auditor;
+        });
+        this.loading = true;
+        apiAjax.updateAcceptanceList(this.selectData).then(response => {
+          this.loading = false;
+          if (response.data.code === 200) {
+            this.getByPage(1);
+          } else {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+        // modal数据重置
+        this.dealMeg.remark = null;
       },
       modalButton(val) {
         if (this.selectData.length === 0) {
@@ -405,7 +395,9 @@
         this.data6.splice(index, 1);
       },
       exportData() {
-        window.location = process.env.HOST_SUPPLEMENTMEDICAL + '/supplyMedicalService/export?' + qs.stringify(this.formItem)
+        this.loading = true;
+        window.location = apiAjax.basePaths + '/supplyMedicalService/export?' + qs.stringify(this.formItem)
+        this.loading = false;
       }
     }
   }

@@ -32,7 +32,7 @@
           </div>
         </Panel>
         <Panel name="5">
-          用工备注
+          用工备注 
           <div slot="content">
             <employment-notes :notesData="notesData" :userInfo="userInfo"></employment-notes>
           </div>
@@ -104,7 +104,8 @@
           UKeyNumber: "",
           UKeyPasswordD: "",
           UKeyPasswordF: "",
-          companySpecialCase: ""
+          companySpecialCase: "",
+          mailContinueStr:""
         },
         employmentMaterial: {
           submitName: "",
@@ -127,8 +128,16 @@
         },
         notesData: [],
         materialHandleInfo: {
+          yuliuDocType: '',
           yuliuDocNum: '',
+          docType: '',
           docNum: '',
+          docSeqList: [],
+          docSeqList2: [],
+          oldYuLiuType: '',
+          oldYuLiuNum: 0,
+          oldType: '',
+          oldNum: 0,
           archivePlace: '',
           archivePlaceAdditional: '',
           archiveCardState: '',
@@ -147,7 +156,8 @@
           employOperateMan: '',
           employeeId:this.$route.query.employeeId,
           companyId:this.$route.query.companyId,
-          employmentId:''
+          employmentId:'',
+          end:false
         },
         historyTaskData: [],
         userInfo:{
@@ -184,6 +194,12 @@
               if(data.data.amArchaiveBo){
                  this.materialHandleInfo = data.data.amArchaiveBo;
                  this.materialHandleInfo.defaultC ='0';
+
+                 // 记录原有的 档案编号 和 类型
+                this.materialHandleInfo.oldYuLiuType = data.data.amArchaiveBo.yuliuDocType;
+                this.materialHandleInfo.oldYuLiuNum = data.data.amArchaiveBo.yuliuDocNum;
+                this.materialHandleInfo.oldType = data.data.amArchaiveBo.docType;
+                this.materialHandleInfo.oldNum = data.data.amArchaiveBo.docNum;
                  
               }
 
@@ -198,6 +214,9 @@
               if(data.data.userInfo){
                 this.userInfo = data.data.userInfo;
               }
+
+              this.materialHandleInfo.docSeqList = data.data.docSeqList;
+              this.materialHandleInfo.docSeqList2 = data.data.docSeqList2;
                  
           })
     },

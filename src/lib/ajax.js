@@ -4,9 +4,9 @@ import qs from "qs";
 const config = require('./config')
 const DEBUG = config.env.debug;
 const BASE_PATHS = config.basePaths;
-console.log('====='+BASE_PATHS);
+console.log('=====' + BASE_PATHS);
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
-
+axios.defaults.timeout = 10000;
 const AJAX = {
   formatDate: (format, date) => {
     date = date || new Date();
@@ -32,7 +32,6 @@ const AJAX = {
     let cb = config.callback;
     let errCb = config.errCallback;
     let title = config.title || '';
-
     // vm 和 ajax 是必须的
     if (!Boolean(ajax)) {
       return;
@@ -84,13 +83,14 @@ const AJAX = {
   },
 };
 
-const logInfo = (method, url, data) => {
+const logInfo = (method, url, data, timeout) => {
   // outer log
   if (DEBUG) {
     let logInfo = {
       url: url,
       method: method,
       time: AJAX.formatDate('yyyy-MM-dd hh:mm:ss:S'),
+      timeout: timeout,
       data: null,
     };
     if (typeof(data) === 'string') {
@@ -154,7 +154,7 @@ const createAjax = config => {
       }
 
       // log
-      logInfo(config.method, config.url, config.data);
+      logInfo(config.method, config.url, config.data, config.timeout);
       let userInfo = sessionStorage.getItem('userInfo');
       if (userInfo) {
         // config.headers = {'token': JSON.parse(userInfo).token}
@@ -217,7 +217,7 @@ const createAjax = config => {
 const createAjaxForName = name => {
   return createAjax({
     baseURL: BASE_PATHS[name],
-    timeout: DEBUG ? 0 : 5000,
+    timeout: DEBUG ? 0 : 120000,
     headers: {
       'Content-Type': CONTENT_TYPE
     }
@@ -292,6 +292,7 @@ AJAX.createAjax = createAjax;
 AJAX.createAjaxForName = createAjaxForName;
 AJAX.createProxyAjaxForName = createProxyAjaxForName;
 
+AJAX.basePaths = BASE_PATHS['health-c'];
 AJAX.ajaxFbq = createProxyAjaxForName('fb-q');
 AJAX.ajaxFbc = createProxyAjaxForName('fb-c');
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q');

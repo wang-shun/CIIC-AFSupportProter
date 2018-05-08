@@ -9,8 +9,8 @@
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="公司编号：">
-            <Input v-model="transferItem.companyId" placeholder="请输入" />
+          <FormItem label="公司编号：" prop="companyId">
+            <Input v-model="transferItem.companyId" placeholder="请输入"/>
           </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -52,7 +52,7 @@
         </row>
         <Row type="flex" justify="start">
           <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="addTransfer">提交</Button>
+          <Button type="primary" @click="addTransfer" :loading="loading">提交</Button>
           <Button type="success" @click="back">返回</Button>
           </Col>
         </Row>
@@ -67,6 +67,7 @@
   export default {
     data() {
       return {
+        loading: false,
         transferItem: {
           employeeId: null,
           employeeName: null,
@@ -96,9 +97,11 @@
               /*前台时间转化为字符串*/
               params.turnOutDate = this.$utils.formatDate(this.transferItem.turnOutDate, 'YYYY-MM-DD');
               params.turnBackDate = this.$utils.formatDate(this.transferItem.turnBackDate, 'YYYY-MM-DD');
+              this.loading = true;
               this[EventTypes.TRANSFER_INSERT]({
                 data: params,
                 callback: (res) => {
+                  this.loading = false;
                   if (res.code === 200) {
                     this.$router.push({path: '/relationshipTransfer'})
                   } else {
@@ -112,7 +115,7 @@
             }
           })
         } else {
-            this.$Message.error("雇员不存在，提交失败");
+          this.$Message.error("雇员不存在，提交失败");
         }
       },
       queryEmployeeInfo() {

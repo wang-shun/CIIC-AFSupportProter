@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单状态" prop="status">
-                <Select v-model="formItem.status" :clearable="true">
+                <Select v-model="formItem.status" :clearable="true" @on-change="getByPage(1)">
                   <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
                     {{item.label}}
                   </Option>
@@ -37,7 +37,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保单" prop="afProductId">
-                <Select v-model="formItem.afProductId" :clearable="true">
+                <Select v-model="formItem.afProductId" :clearable="true"
+                        @on-change="getByPage(1)">
                   <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
                     {{item.insurancePolicyName}}
                   </Option>
@@ -151,35 +152,35 @@
            v-model="modal1"
            title="审核"
            @on-ok="updateTpaTaskList(4)"
-           ok-text="审核通过">
+           ok-text="审核通过" :loading="loading">
       <Input v-model="dealMsg.remark" placeholder="请输入操作说明："/>
     </Modal>
 
     <Modal class="warn-back"
            v-model="modal6"
            title="批退"
-           @on-ok="updateTpaTaskList(6)"
+           @on-ok="updateTpaTaskList(6)" :loading="loading"
            ok-text="批退">
       <Input v-model="dealMsg.remark" placeholder="请输入操作说明："/>
     </Modal>
 
     <Modal v-model="modal2"
            title="暂缓"
-           @on-ok="updateTpaTaskList(3)"
+           @on-ok="updateTpaTaskList(3)" :loading="loading"
            ok-text="暂缓">
       <Input v-model="dealMsg.remark" placeholder="请输入暂缓原因："/>
     </Modal>
 
     <Modal v-model="modal3"
            title="恢复"
-           @on-ok="updateTpaTaskList(2)"
+           @on-ok="updateTpaTaskList(2)" :loading="loading"
            ok-text="确认恢复">
     </Modal>
 
     <Modal class="warn-back"
            v-model="modal5"
            title="更新在保库"
-           @on-ok="syncToWarranty"
+           @on-ok="syncToWarranty" :loading="loading"
            ok-text="确认更新">
       <DatePicker v-model="syncDate" type="date" placeholder="保险确认时间" style="width: 100%"></DatePicker>
     </Modal>
@@ -215,12 +216,13 @@
         modal5: false,
         modal6: false,
         value1: "1",
+        loading: false,
         formItem: {
           total: 0,
           current: 1,
           size: 10,
           status: null,
-          taskType: "1",
+          taskType: null,
           keyType: null,
           keyValueLarge: null,
           keyValueSmall: null,
@@ -233,7 +235,7 @@
           companyName: null,
           managementId: null,
           managementName: null,
-          insuranceCompany: "1"
+          insuranceCompany: null
         },
         syncDate: null,
         dealMsg: {
@@ -257,21 +259,13 @@
             }
           },
           {
-            title: "雇员编号",
-            sortable: true,
-            key: "employeeId",
-            align: "center"
+            title: "雇员编号", sortable: true, key: "employeeId", align: "center", width: 150
           },
           {
-            title: "雇员姓名",
-            sortable: true,
-            key: "employeeName",
-            align: "center"
+            title: "雇员姓名", sortable: true, key: "employeeName", align: "center", width: 150
           },
           {
-            title: "保险对象",
-            sortable: true,
-            align: "center",
+            title: "保险对象", sortable: true, align: "center", width: 150,
             render: (h, params) => {
               if (params.row.type === 3) {
                 return h('div', params.row.employeeName);
@@ -281,19 +275,13 @@
             }
           },
           {
-            title: "性别",
-            sortable: true,
-            key: "gender",
-            align: "center",
+            title: "性别", sortable: true, key: "gender", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.genderToChina(params.row.gender));
             }
           },
           {
-            title: "出生日期",
-            sortable: true,
-            key: "birthDate",
-            align: "center",
+            title: "出生日期", sortable: true, key: "birthDate", align: "center", width: 150,
             render: (h, params) => {
               if (params.row.birthDate !== null) {
                 return h('div', this.$utils.formatDate(params.row.birthDate, "YYYY-MM-DD"));
@@ -301,43 +289,28 @@
             }
           },
           {
-            title: "投保费用",
-            sortable: true,
-            key: "price",
-            align: "center"
+            title: "投保费用", sortable: true, key: "price", align: "center", width: 150
           },
           {
-            title: "标的",
-            sortable: true,
-            key: "keyType",
-            align: "center",
+            title: "标的", sortable: true, key: "keyType", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.keyTypeToChina(params.row.keyType));
             }
           },
           {
-            title: "关系",
-            sortable: true,
-            key: "type",
-            align: "center",
+            title: "关系", sortable: true, key: "type", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.typeToChina(params.row.type));
             }
           },
           {
-            title: "状态",
-            sortable: true,
-            key: "status",
-            align: "center",
+            title: "状态", sortable: true, key: "status", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.statusToChina(params.row.status));
             }
           },
           {
-            title: "离职日期",
-            sortable: true,
-            key: "departuredDate",
-            align: "center",
+            title: "离职日期", sortable: true, key: "departuredDate", align: "center", width: 150,
             render: (h, params) => {
               if (params.row.departuredDate != null) {
                 return h('div', this.$utils.formatDate(params.row.departuredDate, "YYYY-MM-DD"));
@@ -358,7 +331,6 @@
     created() {
       this.getByPage(1);
       this.queryInsuranceCompanyInfo();
-      this.queryIcProductRelationInfo(this.formItem.insuranceCompany);
       this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     },
     methods: {
@@ -383,7 +355,9 @@
           item.remark = this.dealMsg.remark;
           item.modifiedBy = this.userInfo.displayName;
         });
+        this.loading = true;
         apiAjax.updateTpaTask(this.selectData).then(response => {
+          this.loading = false;
           if (response.data.code === 200) {
             this.getByPage(1);
             this.dealMsg.remark = null;
@@ -403,7 +377,7 @@
         }
         for (let i = 0; i < this.selectData.length; i++) {
           if (this.selectData[i].status !== 4) {
-            this.$Message.error("请选择已处理状态的数据");
+            this.$Message.error("请选择已审核状态的数据");
             return;
           }
         }
@@ -411,12 +385,20 @@
         let syncData = {};
         syncData.afTpaTasks = this.selectData;
         syncData.date = this.syncDate;
+        this.loading = true;
         apiAjax.syncToWarranty(syncData).then(response => {
-          if (response.data.object) {
+          this.loading = false;
+          if (response.data.object === 1) {
+            this.$Message.success("更新成功");
             this.getByPage(1);
             this.dealMsg.remark = null;
-            this.$Message.success("更新成功");
             this.syncDate = null;
+          } else if (response.data.object === 2) {
+            this.$Message.error("投保任务单没有更新在宝库");
+          } else if (response.data.object === 3) {
+            this.$Message.error("投保时间大于退保时间");
+          } else if (response.data.object === 4) {
+            this.$Message.error("投保任务单批退或者暂缓");
           } else {
             this.$Message.error("服务器异常，请稍后再试");
           }
@@ -429,6 +411,7 @@
             this.insuranceCompanyProperties.forEach(item => {
               item.insuranceCompanyId = item.insuranceCompanyId + "";
             });
+            this.queryIcProductRelationInfo(this.insuranceCompanyProperties[0].insuranceCompanyId);
           }
         });
       },
@@ -443,14 +426,15 @@
         });
       },
       exportData() {
-        if (this.formItem.afProductId === null) {
+        if (this.formItem.taskType === null || this.formItem.taskType === '') {
+          this.$Message.error("导出数据请先选择任务单类型");
+          return;
+        }
+        if (this.formItem.afProductId === null || this.formItem.afProductId === '') {
           this.$Message.error("导出数据请先选择保险项目");
           return;
         }
-        window.location =
-          process.env.HOST_SUPPLEMENTMEDICAL +
-          "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" +
-          qs.stringify(this.formItem);
+        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" + qs.stringify(this.formItem);
       },
       selectTableData(rows) {
         this.selectData = rows;
@@ -471,7 +455,7 @@
 </script>
 
 <style>
-  .warn-back .ivu-btn.ivu-btn-text.ivu-btn-large {
+  /*.warn-back .ivu-btn.ivu-btn-text.ivu-btn-large {
     color: #fff;
     background-color: #ed3f14;
     border-color: #ed3f14;
@@ -480,5 +464,5 @@
   .warn-back .ivu-btn.ivu-btn-text.ivu-btn-large:hover {
     background-color: #f16543;
     border-color: #f16543;
-  }
+  }*/
 </style>

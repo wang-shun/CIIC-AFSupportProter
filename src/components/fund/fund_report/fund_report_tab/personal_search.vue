@@ -43,23 +43,6 @@
         <Button type="info" @click="excelExport()">导出</Button>
       </Col>
     </Row>
-    <!--<Row class="mt20">-->
-      <!--<Form :label-width=150>-->
-      <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
-        <!--<Form-item label="最近计算时间：">-->
-          <!--{{data.lastCalculateDate}}-->
-        <!--</Form-item>-->
-      <!--</Col>-->
-      <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
-        <!--<Form-item label="最近计算人：">-->
-          <!--{{data.lastCalculater}}-->
-        <!--</Form-item>-->
-      <!--</Col>-->
-      <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" class="tr">-->
-        <!--<Button type="primary">重新汇总计算</Button>-->
-      <!--</Col>-->
-      <!--</Form>-->
-    <!--</Row>-->
     <Row class="mt20">
       <Col :sm="{span:24}">
         <Table border :columns="personalColumns" :data="personalData"></Table>

@@ -59,23 +59,6 @@
         <Button type="info" @click="excelExport()">导出</Button>
       </Col>
     </Row>
-    <!--<Row class="mt20">-->
-      <!--<Form :label-width=150>-->
-        <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
-          <!--<Form-item label="最近计算时间：">-->
-            <!--{{data.lastCalculateDate}}-->
-          <!--</Form-item>-->
-        <!--</Col>-->
-        <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
-          <!--<Form-item label="最近计算人：">-->
-            <!--{{data.lastCalculater}}-->
-          <!--</Form-item>-->
-        <!--</Col>-->
-        <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" class="tr">-->
-          <!--<Button type="primary">重新汇总计算</Button>-->
-        <!--</Col>-->
-      <!--</Form>-->
-    <!--</Row>-->
     <Row class="mt20">
       <Col :sm="{span:24}">
         <Table border :columns="customerColumns" :data="customerData"></Table>
@@ -90,57 +73,9 @@
           show-sizer show-total></Page>
       </Col>
     </Row>
-
-    <!--<Modal-->
-      <!--v-model="isShowFundPayChangeList"-->
-      <!--title="上海市公积金汇缴变更清册"-->
-      <!--width="960"-->
-    <!--&gt;-->
-      <!--<fund-pay-change-list :fundPayChangeInfo="data.fundPayChangeInfo"></fund-pay-change-list>-->
-      <!--<div slot="footer">-->
-        <!--<Button type="warning" @click="isShowFundPayChangeList = false;">返回</Button>-->
-      <!--</div>-->
-    <!--</Modal>-->
-
-    <!--<Modal-->
-      <!--v-model="isShowFundPayRepairList"-->
-      <!--title="上海市公积金补缴清册"-->
-      <!--width="960"-->
-    <!--&gt;-->
-      <!--<fund-pay-repair-list :fundPayRepairInfo="data.fundPayRepairInfo"></fund-pay-repair-list>-->
-      <!--<div slot="footer">-->
-        <!--<Button type="warning" @click="isShowFundPayRepairList = false;">返回</Button>-->
-      <!--</div>-->
-    <!--</Modal>-->
-
-    <!--<Modal-->
-      <!--v-model="isShowAddFundPayChangeList"-->
-      <!--title="上海市补充公积金汇缴变更清册"-->
-      <!--width="960"-->
-    <!--&gt;-->
-      <!--<add-fund-pay-change-list :addFundPayChangeInfo="data.addFundPayChangeInfo"></add-fund-pay-change-list>-->
-      <!--<div slot="footer">-->
-        <!--<Button type="warning" @click="isShowAddFundPayChangeList = false;">返回</Button>-->
-      <!--</div>-->
-    <!--</Modal>-->
-
-    <!--<Modal-->
-      <!--v-model="isShowAddFundPayRepairList"-->
-      <!--title="上海市补充公积金补缴清册"-->
-      <!--width="960"-->
-    <!--&gt;-->
-      <!--<add-fund-pay-repair-list :addFundPayRepairInfo="data.addFundPayRepairInfo"></add-fund-pay-repair-list>-->
-      <!--<div slot="footer">-->
-        <!--<Button type="warning" @click="isShowAddFundPayRepairList = false;">返回</Button>-->
-      <!--</div>-->
-    <!--</Modal>-->
   </div>
 </template>
 <script>
-//  import fundPayChangeList from '../../common/FundPayChangeList.vue'
-//  import fundPayRepairList from '../../common/FundPayRepairList.vue'
-//  import addFundPayChangeList from '../../common/AddFundPayChangeList.vue'
-//  import addFundPayRepairList from '../../common/AddFundPayRepairList.vue'
 import api from '../../../../api/house_fund/fund_report/fund_report'
 import InputCompany from '../../../common_control/form/input_company'
 import dict from '../../../../api/dict_access/house_fund_dict'
@@ -161,10 +96,6 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         },
         accountTypeList: [],
         customerData: [],
-//        isShowFundPayChangeList: false,
-//        isShowFundPayRepairList: false,
-//        isShowAddFundPayChangeList: false,
-//        isShowAddFundPayRepairList: false,
         customerColumns: [
           {title: '公积金类型', key: 'hfTypeName', width: 100, align: 'center',
             render: (h, params) => {
@@ -297,7 +228,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         this.hfMonthChargeQuery();
       },
       hfMonthChargeQuery() {
-        if (this.operatorSearchData.hfMonth) {
+        if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth.length != 6) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
         this.operatorSearchData.hfType = '';
@@ -320,7 +251,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         })
       },
       excelExport() {
-        if (this.operatorSearchData.hfMonth) {
+        if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth.length != 6) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
         this.operatorSearchData.hfType = '';
@@ -341,7 +272,9 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         // TODO operatorSearchData logic check
 
         if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth != '') {
-          this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+          if (this.operatorSearchData.hfMonth.length != 6) {
+            this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+          }
         } else {
           this.$Message.info("导出清册时，缴费月份不能为空");
           return false;
@@ -363,7 +296,9 @@ import dict from '../../../../api/dict_access/house_fund_dict'
       },
       repairDetailListExport(hfType) {
         if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth != '') {
-          this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+          if (this.operatorSearchData.hfMonth.length != 6) {
+            this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
+          }
         } else {
           this.$Message.info("导出清册时，缴费月份不能为空");
           return false;

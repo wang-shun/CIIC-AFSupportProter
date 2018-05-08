@@ -53,7 +53,7 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" @click="clickQuery" icon="ios-search">查询</Button>
+                <Button type="primary" @click="clickQuery(1)" icon="ios-search">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('companyTaskInfo')">重置</Button>
               </Col>
             </Row>
@@ -73,7 +73,16 @@
       <Row class="mt20">
         <Col :sm="{span:24}">
           <Table border :columns="taskColumns" :data="taskData" ref="selection"></Table>
-          <Page :total="totalSize" :page-size="size" :page-size-opts="sizeArr" :current="pageNum" show-sizer show-total  class="pageSize" @on-change="getPage" @on-page-size-change="handlePageSite"></Page>
+          <Page
+            :total="pageData.total"
+            :page-size="pageData.pageSize"
+            :page-size-opts="pageData.pageSizeOpts"
+            :current="pageData.pageNum"
+          show-sizer
+          show-total
+          class="pageSize"
+          @on-change="getPage"
+           @on-page-size-change="handlePageSite"></Page>
         </Col>
       </Row>
 
@@ -110,7 +119,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
   import EventType from '../../../../store/event_types'
-  import {Progressing} from '../../../../api/social_security/company_task_list/company_task_list_tab/Progressing'
+  import {Progressing} from '../../../../api/social_security/company_task_list/company_task_list_tab/progressing'
   import Utils from '../../../../lib/utils'
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import InputCompany from '../../../common_control/form/input_company'
@@ -121,11 +130,11 @@
         refuseLoading:false,
         taskData:[],//table 里的数据
         customerData:[],//客户信息
-        totalSize:0,//后台传过来的总数
+//        totalSize:0,//后台传过来的总数
         collapseInfo: [1], //展开栏
-        size:5,//分页
-        pageNum:1,
-        sizeArr:[5,10],
+//        size:5,//分页
+//        pageNum:1,
+//        sizeArr:[5,10],
         companyTaskInfo: {
           customerNumber: '',
           customerName:"",
@@ -153,6 +162,12 @@
             {value: '1', label: '已受理'},
             {value: '2', label: '已送审'}
           ],
+        },
+        pageData: {
+          total: 0,
+          pageNum: 1,
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         isRefuseReason: false,
         refuseReason: '',
@@ -230,17 +245,17 @@
               ]);
             }
           },
-          {title: '发起人', key: 'initiator', width: 120, align: 'center',
+          {title: '发起人', key: 'createdDisplayName', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.initiator),
+                h('span', params.row.createdDisplayName),
               ]);
             }
           },
-          {title: '发起时间', key: 'sponsorTime', width: 180, align: 'center',
+          {title: '发起时间', key: 'createdTime', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.sponsorTime),
+                h('span', params.row.createdTime),
               ]);
             }
           },
@@ -258,16 +273,16 @@
 
       let sessionPageNum = sessionStorage.taskPageNum
       let sessionPageSize = sessionStorage.taskPageSize
-      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-         this.pageNum = Number(sessionPageNum)
-         this.size = Number(sessionPageSize)
+      if(sessionPageNum && sessionPageSize){
+        this.pageData.pageNum = Number(sessionPageNum)
+        this.pageData.pageSize = Number(sessionPageSize)
          sessionStorage.removeItem("taskPageNum")
          sessionStorage.removeItem("taskPageSize")
       }
      let self= this
       let params = {
-          pageSize:this.size,
-          pageNum:this.pageNum,
+        pageSize:this.pageData.pageSize,
+        pageNum:this.pageData.pageNum,
         params:{}
       }
       Progressing.getTableData(params).then(data=>{
@@ -323,8 +338,7 @@
       refreash(data){
           this.taskData = data.data.taskData
           this.customerData = data.data.customerData;
-          if(typeof(data.data.totalSize)=='undefined') this.totalSize  =0
-          else this.totalSize  =Number(data.data.totalSize)
+        this.pageData.total = data.data.totalSize;
           this.closeLoading();
       },
       //导表
@@ -345,14 +359,13 @@
 
 
       //点击查询按钮
-      clickQuery(){
+      clickQuery(page){
+        this.pageData.pageNum = page
          this.loading=true;
         //获得页面条件参数
-      let params = this.getParams(1)
-      let self = this
+        let params = this.getParams(1)
         Progressing.postTableData(params).then(data=>{
-
-           self.refreash(data)
+           this.refreash(data)
 
         }).catch(error=>{
 
@@ -361,9 +374,16 @@
       },
       //获得请求参数
       getParams(page){
+         let submitTimeStart='';
+        let submitTimeEnd='';
+        if(this.companyTaskInfo.taskStartTime[0] && this.companyTaskInfo.taskStartTime[1] && this.companyTaskInfo.taskStartTime[0]!="" && this.companyTaskInfo.taskStartTime[1]!=""){
+               submitTimeStart=Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD');//任务发起时间
+               submitTimeEnd=Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD');
+          }
+        this.pageData.pageNum = page
         return {
-          pageSize:this.size,
-          pageNum:page,
+          pageSize:this.pageData.pageSize,
+          pageNum:this.pageData.pageNum,
             params:{
               companyId:this.companyTaskInfo.customerNumber==''?'':this.companyTaskInfo.customerNumber,//客户编号
               companyName:this.companyTaskInfo.customerName==''?'':this.companyTaskInfo.customerName,//客户姓名
@@ -371,8 +391,8 @@
               accountType:this.companyTaskInfo.accountTypeValue==""?'':this.companyTaskInfo.accountTypeValue,//社保账户类型
               regionValue:this.companyTaskInfo.regionValue==''?'':this.companyTaskInfo.regionValue,//结算区县
               taskStatus:this.companyTaskInfo.handleStateValue==''?'':this.companyTaskInfo.handleStateValue,//处理状态
-              submitTimeStart:this.companyTaskInfo.taskStartTime=='' || this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[0],'YYYY-MM-DD'),//任务发起时间
-              submitTimeEnd:this.companyTaskInfo.taskStartTime==''||this.companyTaskInfo.taskStartTime==null||this.companyTaskInfo.taskStartTime[0]==null ?null:Utils.formatDate(this.companyTaskInfo.taskStartTime[1],'YYYY-MM-DD')
+              submitTimeStart:submitTimeStart,//任务发起时间
+              submitTimeEnd:submitTimeEnd
             }
          }
         },
@@ -407,7 +427,7 @@
                       }
         if(this.refuseReason===null || this.refuseReason.trim()==''){
            alert("请填写批退原因！");
-      
+
         }else{
           let self = this
           Progressing.refusingTask(params).then(result=>{
@@ -426,8 +446,8 @@
           this.isRefuseReason = false;
       },
       handlePageSite(val){
-        this.size=val
-        this.clickQuery()
+        this.pageData.pageSize = val;
+        this.clickQuery(1)
       }
     }
   }

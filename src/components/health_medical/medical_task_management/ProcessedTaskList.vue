@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="任务单状态" prop="status">
-                <Select v-model="formItem.status" :clearable="true">
+                <Select v-model="formItem.status" :clearable="true" @on-change="getByPage(1)">
                   <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
                     {{item.label}}
                   </Option>
@@ -37,7 +37,8 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保单" prop="afProductId">
-                <Select v-model="formItem.afProductId" :clearable="true">
+                <Select v-model="formItem.afProductId" :clearable="true"
+                        @on-change="getByPage(1)">
                   <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
                     {{item.insurancePolicyName}}
                   </Option>
@@ -158,7 +159,7 @@
           current: 1,
           size: 10,
           status: null,
-          taskType: '1',
+          taskType: null,
           keyType: null,
           keyValueLarge: null,
           keyValueSmall: null,
@@ -171,30 +172,31 @@
           companyName: null,
           managementId: null,
           managementName: null,
-          insuranceCompany: "1",
+          insuranceCompany: null
         },
         dealMsg: {
           remark: null
         },
         taskColumns: [
           {
-            type: 'expand', width: 50,
+            type: "expand",
+            width: 50,
             render: (h, params) => {
               return h(taskExpend, {
                 props: {
                   row: params.row
                 }
-              })
+              });
             }
           },
           {
-            title: '雇员编号', sortable: true, key: 'employeeId', align: 'center'
+            title: "雇员编号", sortable: true, key: "employeeId", align: "center", width: 150
           },
           {
-            title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center'
+            title: "雇员姓名", sortable: true, key: "employeeName", align: "center", width: 150
           },
           {
-            title: '保险对象', sortable: true, align: 'center',
+            title: "保险对象", sortable: true, align: "center", width: 150,
             render: (h, params) => {
               if (params.row.type === 3) {
                 return h('div', params.row.employeeName);
@@ -204,45 +206,42 @@
             }
           },
           {
-            title: '性别', sortable: true, key: 'gender', align: 'center',
+            title: "性别", sortable: true, key: "gender", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.genderToChina(params.row.gender));
             }
           },
           {
-            title: '出生日期', sortable: true, key: 'birthDate', align: 'center',
+            title: "出生日期", sortable: true, key: "birthDate", align: "center", width: 150,
             render: (h, params) => {
               if (params.row.birthDate !== null) {
-                return h('div', this.$utils.formatDate(params.row.birthDate, 'YYYY-MM-DD'));
+                return h('div', this.$utils.formatDate(params.row.birthDate, "YYYY-MM-DD"));
               }
             }
           },
           {
-            title: '投保费用', sortable: true, key: 'price', align: 'center'
+            title: "投保费用", sortable: true, key: "price", align: "center", width: 150
           },
           {
-            title: '标的', sortable: true, key: 'keyType', align: 'center',
+            title: "标的", sortable: true, key: "keyType", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.keyTypeToChina(params.row.keyType));
             }
           },
           {
-            title: '关系', sortable: true, key: 'type', align: 'center',
+            title: "关系", sortable: true, key: "type", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.typeToChina(params.row.type));
             }
           },
           {
-            title: '状态', sortable: true, key: 'status', align: 'center',
+            title: "状态", sortable: true, key: "status", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.statusToChina(params.row.status));
             }
           },
           {
-            title: "离职日期",
-            sortable: true,
-            key: "departuredDate",
-            align: "center",
+            title: "离职日期", sortable: true, key: "departuredDate", align: "center", width: 150,
             render: (h, params) => {
               if (params.row.departuredDate != null) {
                 return h('div', this.$utils.formatDate(params.row.departuredDate, "YYYY-MM-DD"));

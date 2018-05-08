@@ -17,8 +17,7 @@
           </DropdownMenu>
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
-        <!-- <Button type="primary" @click="isShowStockTitle = true">生成入库贴头</Button>
-        <Button type="primary" @click="sendToFileMangement">递交档案处</Button> -->
+        <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
     <Table border :columns="employmentColumns" :data="employmentData" ref="employmentData" class="mt20"></Table>
@@ -71,7 +70,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         printList: em_print,
         // 下半部分
         employmentColumns: [
-          // {title: '', type: 'selection', width: 60},
+          {title: '', type: 'selection', width: 60},
           {
             title: '操作',
             key: 'action',
@@ -204,6 +203,13 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
+          {title: '是否翻盘', key: 'change', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.change),
+              ]);
+            }
+          }
         ],
         employmentData: [],//列表数据
 
@@ -325,6 +331,19 @@ import {mapState, mapGetters, mapActions} from 'vuex'
       this.employeeCollectionQuery({})
     },
     methods: {
+     batchManagement(){
+        let selection = this.$refs.employmentData.getSelection();
+        if(selection.length == 0){
+          alert("没有选中的列");
+          return;
+        }
+        console.info(selection);
+        let empTaskIds = [];
+        selection.forEach(item => {
+          empTaskIds.push(item.empTaskId);
+        });
+        this.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
+     },
      searchEmploiees(conditions) {
         this.pageData.pageNum =1;
             this.searchConditions =[];
@@ -342,6 +361,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         this.$router.push({name:'employHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId}});
       },
       showInfoTw (ind) {  
+           this.pageData.pageNum = 1;
            this.searchCondition.params = this.searchConditions.toString();
            this.searchCondition.taskStatus = ind;
            this.employeeQuery(this.searchCondition);
@@ -360,7 +380,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 
       },
       exportData() {
-        let params = this.searchConditions;
+        let params = this.searchCondition;
         api.employSearchExportOpt(params);
       },
       resetSearchCondition(name) {

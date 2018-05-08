@@ -32,7 +32,7 @@
     <Row class="mt20" type="flex" justify="start">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="新社保缴费基数:">
-          <label>18000</label>
+          <label>{{taskChangeInfo.base}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

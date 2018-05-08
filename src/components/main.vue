@@ -146,13 +146,13 @@
     dev: 'http://localhost',
     sit: 'http://172.16.9.25',
     uat: 'http://172.16.9.60',
-    prod: ''
+    prod: 'http://172.16.100.104'
   };
   const serverAddress = {
     dev: 'http://172.16.9.31',
     sit: 'http://172.16.9.24',
     uat: 'http://172.16.9.60',
-    prod: ''
+    prod: 'http://172.16.100.105'
   };
 
   export default {

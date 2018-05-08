@@ -110,8 +110,13 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="档案类别：">
+             {{refuse.docType}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案编号：">
-            <Input v-model="refuse.docNum" placeholder="请输入" :maxlength="50"/>
+             {{refuse.docNum}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -139,6 +144,11 @@
             <Select v-model="refuse.comGroupOutDirect" transfer>
               <Option v-for="item in companyGroupTransferDirectionList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
+          </Form-item>
+        </Col>
+         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="预留档案类别：">
+             {{refuse.yuliuDocType}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -281,7 +291,8 @@
           {value: '13', label: '转外地社保,原退工成功'},
           {value: '14', label: '转人员性质无需退工'},
           {value: '15', label: '退工成功,改社保'},
-          {value: '16', label: '重复任务单'}
+          {value: '16', label: '重复任务单'},
+          {value: '17', label: '退工自办'}
          
         ],
         companyGroupTransferDirectionList: [
@@ -352,7 +363,7 @@
         api.saveAmResign(fromData).then(data => {
               if (data.code == 200) {
                   this.$Message.success("保存成功");
-                  history.go(-1);
+                  this.refuseInfo.resignId = data.data.resignId;
                 } else {
                   this.$Message.error("保存失败！" + data.message);
                 }
@@ -413,8 +424,9 @@
           api.bindEmploymentId(fromData).then(data => {
               if (data.code == 200) {
                 if(data.data.result==true){
+                   this.refuseInfo.resignId = data.data.entity.resignId;
                    this.$Message.success("绑定成功");
-                   history.go(-1);
+                 
                 }else{
                    this.$Message.error("绑定失败！" + data.data.result);
                 }
@@ -443,6 +455,9 @@
              return true;
              break; 
            case '16':
+             return true;
+             break;
+           case '17':
              return true;
              break;  
            default:
@@ -524,7 +539,24 @@
              this.transferNotesList[13].disabled = false;
              this.transferNotesList[14].disabled = false;
             
+          }
 
+          if(val=='17')
+          {
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              
+              this.refuse.resignFeedbackDate=currentdate;
           }
        }
        

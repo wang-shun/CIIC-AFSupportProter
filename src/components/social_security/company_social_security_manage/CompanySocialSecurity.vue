@@ -41,7 +41,7 @@
                   <label>{{this.$decode.billReceiver(companySocialSecurityInfo.billReceiver)}}</label>
                 </Form-item>
               </Col>
-              
+
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="工行查询账号：" class="">
                   <label>{{companySocialSecurityInfo.queryAccount}}</label>
@@ -259,10 +259,10 @@
               ]);
             }
           },
-          {title: '客服经理', key: 'serviceTeam', align: 'center', className: 'mw240',
+          {title: '客服经理', key: 'leaderShipName', align: 'center', className: 'mw240',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.serviceTeam),
+                h('span', params.row.leaderShipName),
               ]);
             }
           }
@@ -310,10 +310,10 @@
               ]);
             }
           },
-          {title: '操作人', key: 'modifiedBy', align: 'center', className: 'mw100',
+          {title: '操作人', key: 'modifiedDisplayName', align: 'center', className: 'mw100',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.modifiedBy),
+                h('span', params.row.modifiedDisplayName),
               ]);
             }
           },
@@ -339,31 +339,28 @@
               ]);
             }
           },
-          {title: '备注信息', key: 'notes', align: 'center', className: 'mw100',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('Button',{
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-
-                      this.chatList =  [
-                        {
-                          name:params.row.submitterName,
-                          date: params.row.submitTime,
-                          content: params.row.submitRemark
-                        }
-                      ]
-
-                      this.isShowNotes = true
-
-                    }
-                  }
-                }, '查看'),
-              ]);
-            }
-          }
+          // {title: '备注信息', key: 'notes', align: 'center', className: 'mw100',
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'center'}}, [
+          //       h('Button',{
+          //         props: {type: 'success', size: 'small'},
+          //         style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             this.chatList =  [
+          //               {
+          //                 name:params.row.submitterName,
+          //                 date: params.row.submitTime,
+          //                 content: params.row.submitRemark
+          //               }
+          //             ]
+          //             this.isShowNotes = true
+          //           }
+          //         }
+          //       }, '查看'),
+          //     ]);
+          //   }
+          // }
         ],
 
         workInjuryColumns: [

@@ -168,7 +168,7 @@
         },
 
         //todo: 菜单值统一存储维护
-  
+
         serviceCenterData: [
           {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
           {value: 2, label: '日本客户'},
@@ -229,14 +229,14 @@
       }
     },
     mounted() {
-      
+
     },
     computed: {
     },
     methods: {
       clickQuery(name){
         this.loading=true;
-        
+
         this.$refs[name].validate((valid)=>{
           if(valid) {
             this.operatorSearchData.paymentMonthValue=Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
@@ -304,7 +304,7 @@
 
         if(ifPay){
             this.$Message.error('您选择的账户必须为可付状态！');
-            return false;                              
+            return false;
         }
 
         if(this.payee==null || this.payee==''){

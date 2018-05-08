@@ -46,7 +46,16 @@ utils.copy = (source, target) => {
  * @returns string
  */
 utils.formatDate = (date, fmt) => {
-  return moment(date).format(fmt);
+  try {
+    if (moment.isDate(date)) {
+      return moment(date).format(fmt);
+    } else {
+      return date;
+    }
+  } catch (e) {
+    console.warn(e.message);
+    return date;
+  }
 };
 
 /**
@@ -231,12 +240,12 @@ utils.ajaxSsc = createAjaxForName('ss-c');
 
 /**
  * clone
- * @param {*} obj 
+ * @param {*} obj
  */
 let self = this
 utils.deepClone= (obj)=>{
   var newObj = obj instanceof Array ? [] : {};
-  for(var k in obj) 
+  for(var k in obj)
   newObj[k] = obj[k] instanceof Object ? self.a.deepClone(obj[k]) : obj[k];
   return newObj;
 }

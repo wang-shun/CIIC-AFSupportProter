@@ -48,7 +48,7 @@
       </i-col>
     </Row>
 
-    <Table border :columns="colums1" :data="employeePage" ></Table>
+    <Table border :columns="colums" :data="employeePage" ></Table>
     <Page @on-change="handleCurrentChange"
     :current="pageNum"
     :page-size="pageSize"
@@ -221,7 +221,7 @@ export default {
           ]
         }
       ],
-      colums1: [
+      colums: [
         {
           title: "雇员编号",
           key: "employeeId",
@@ -251,7 +251,6 @@ export default {
         {
           title: "操作",
           key: "action",
-          width: "200",
           align: "center",
           render: (h, params) => {
             const renderDiv = [];

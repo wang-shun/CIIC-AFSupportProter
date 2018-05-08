@@ -4,7 +4,7 @@
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="modal1 = true">新增</Button>
-        <Button type="primary"  @click="instance()">提交</Button>
+        <Button type="primary" :loading="isLoading"  @click="instance()">提交</Button>
       </Col>
     </Row>
     <Modal
@@ -45,6 +45,7 @@ import api from '../../../api/employ_manage/hire_operator'
     },
     data() {
       return {
+        isLoading: false,
          modal1: false,
         refuseNotesColumns: [
          {title: '操作员', key: 'remarkMan', align: 'center', width: 200,
@@ -135,6 +136,7 @@ import api from '../../../api/employ_manage/hire_operator'
               this.$Message.success("没有提交的数据行，请新增");
               return;
             }
+             this.isLoading = true;
             api.saveAmRemark(this.refuseNotes).then(data => {
                   if (data.data.data.result == true) {
                     this.$Message.success("保存成功");
@@ -142,6 +144,7 @@ import api from '../../../api/employ_manage/hire_operator'
                   } else {
                     this.$Message.error("保存失败！");
                   }
+                  this.isLoading = false;
             })
           
        },show (index) {

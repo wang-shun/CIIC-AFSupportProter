@@ -1,6 +1,6 @@
 import utils from '../../../lib/ajax'
 import {domainJson} from "../domain_info";
-let ajax = utils.ajaxHfc
+let ajax = utils.ajaxHfc;
 
 
 //公积金转移通知书
@@ -263,6 +263,20 @@ export class FundPay {
             obj.paymentStateValue = i.paymentStateValue
             obj.accountTypeValue = i.accountTypeValue
             obj.paymentBankValue = i.paymentBankValue
+            obj.companyId = i.companyId
+            obj.fCount = i.fCount
+            // 删除汇缴名单操作中的编辑页面中选中的列时需要传入以下参数列
+            obj.paymentId = i.paymentId
+            obj.paymentBank = i.paymentBank
+            obj.hfType = i.hfType
+            obj.paymentStatus = i.paymentStatus
+            obj.paymentMonth = i.paymentMonth
+            obj.comAccountId = i.comAccountId
+            obj.paymentMonthValue = i.paymentMonth
+            obj.fundAccountType = i.fundAccountType
+            obj.companyName = i.companyName
+            obj.title = i.title
+
             responseData.data.operateEditData.push(obj)
           }
           responseData.data.totalSize=response.data.total
@@ -375,6 +389,24 @@ export class FundPay {
     })
   }
 
+  static createPaymentComListById(params){
+    let url ="/api/fundcommandservice/hfFundPay/createPaymentComListById";
+    return new Promise(function(resolve,reject){
+      ajax.post(url, params).then(function (response) {
+        let responseData = {
+            code:"",
+            message:""
+        }
+        responseData.code=response.data.code
+        responseData.message= response.data.message
+        resolve(responseData)
+      }).catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
+    })
+  }
+
   static delPayment(params){
     let url ="/api/fundcommandservice/hfFundPay/delHfPayment";
     return new Promise(function(resolve,reject){
@@ -392,7 +424,7 @@ export class FundPay {
         });
     })
   }
-  
+
   //获取汇缴书信息
   static getRemittedBook(params){
     let url ="/api/fundcommandservice/hfFundPay/printRemittedBook";
@@ -413,6 +445,24 @@ export class FundPay {
   }
 
 
+
+  static delOperateEditData(params){
+    let url ="/api/fundcommandservice/hfFundPay/delOperateEditData";
+    return new Promise(function(resolve,reject){
+      ajax.post(url, params).then(function (response) {
+        let responseData = {
+            code:"",
+            message:""
+        }
+        responseData.code=response.data.code
+        responseData.message= response.data.message
+        resolve(responseData)
+      }).catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
+    })
+  }
 //付款凭证打印
   static printFinancePayVoucher(params){
     let url ="/api/fundcommandservice/hfFundPay/printFinancePayVoucher";
@@ -473,5 +523,10 @@ export class FundPay {
     pwin.document.write(html);
     pwin.document.close();
     pwin.print();
+  }
+  static operateDetailExcelExport(params) {
+    return new Promise(function(resolve,reject){
+      ajax.download('/api/fundcommandservice/hfMonthCharge/operateDetailExcelExport', params);
+    })
   }
 }

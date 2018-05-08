@@ -1,5 +1,5 @@
 <template>
-  <Form label-width=150>
+  <Form :label-width=150>
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户编号：">

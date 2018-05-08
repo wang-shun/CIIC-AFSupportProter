@@ -1,6 +1,6 @@
 import utils from '../../../lib/ajax'
 import {domainJson} from "../domain_info";
-let ajax = utils.ajaxHfc
+let ajax = utils.ajaxHfc;
 
 export class FundPay {
   constructor() {
@@ -142,6 +142,20 @@ export class FundPay {
             obj.paymentStateValue = i.paymentStateValue
             obj.accountTypeValue = i.accountTypeValue
             obj.paymentBankValue = i.paymentBankValue
+            obj.companyId = i.companyId
+            obj.fCount = i.fCount
+            // 删除汇缴名单操作中的编辑页面中选中的列时需要传入以下参数列
+            obj.paymentId = i.paymentId
+            obj.paymentBank = i.paymentBank
+            obj.hfType = i.hfType
+            obj.paymentStatus = i.paymentStatus
+            obj.paymentMonth = i.paymentMonth
+            obj.comAccountId = i.comAccountId
+            obj.paymentMonthValue = i.paymentMonth
+            obj.fundAccountType = i.fundAccountType
+            obj.companyName = i.companyName
+            obj.title = i.title
+
             responseData.data.operateEditData.push(obj)
           }
           responseData.data.totalSize=response.data.total
@@ -254,8 +268,44 @@ export class FundPay {
     })
   }
 
+  static createPaymentComListById(params){
+    let url ="/api/fundcommandservice/hfFundPay/createPaymentComListById";
+    return new Promise(function(resolve,reject){
+      ajax.post(url, params).then(function (response) {
+        let responseData = {
+            code:"",
+            message:""
+        }
+        responseData.code=response.data.code
+        responseData.message= response.data.message
+        resolve(responseData)
+      }).catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
+    })
+  }
+
   static delPayment(params){
     let url ="/api/fundcommandservice/hfFundPay/delHfPayment";
+    return new Promise(function(resolve,reject){
+      ajax.post(url, params).then(function (response) {
+        let responseData = {
+            code:"",
+            message:""
+        }
+        responseData.code=response.data.code
+        responseData.message= response.data.message
+        resolve(responseData)
+      }).catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
+    })
+  }
+
+  static delOperateEditData(params){
+    let url ="/api/fundcommandservice/hfFundPay/delOperateEditData";
     return new Promise(function(resolve,reject){
       ajax.post(url, params).then(function (response) {
         let responseData = {
@@ -302,4 +352,11 @@ export class FundPay {
     let url = domainJson.generateBankRepair;
     ajax.download(url, params);
   }
+
+  static operateDetailExcelExport(params) {
+    return new Promise(function(resolve,reject){
+      ajax.download('/api/fundcommandservice/hfMonthCharge/operateDetailExcelExport', params);
+    })
+  }
+
 }

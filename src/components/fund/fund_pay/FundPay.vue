@@ -100,7 +100,7 @@
           </Button>
           <DropdownMenu slot="list">
             <DropdownItem name="0">详细</DropdownItem>
-            <!-- <DropdownItem name="1">编辑</DropdownItem> -->
+            <DropdownItem name="1">编辑</DropdownItem>
             <DropdownItem name="2">删除</DropdownItem>
             <!-- <DropdownItem name="3">取消汇缴</DropdownItem> -->
           </DropdownMenu>
@@ -192,7 +192,7 @@
     >
       <Table border :columns="operateDetailColumns" :data="operateDetailData"></Table>
       <div slot="footer">
-        <!-- <Button type="primary" @click="isShowOperateDetail = false;">汇缴</Button> -->
+        <Button type="info" @click="operateDetailExcelExport()">导出</Button>
         <Button type="warning" @click="isShowOperateDetail = false;">返回</Button>
       </div>
     </Modal>
@@ -203,8 +203,57 @@
     >
       <Table border :columns="operateEditColumns" :data="operateEditData"></Table>
       <div slot="footer">
-        <Button type="primary" @click="isShowOperateEdit = false;">重新生成汇缴支付批次</Button>
-        <Button type="warning" @click="isShowOperateEdit = false;">返回</Button>
+        <Button type="primary" @click="clickOperateAdd()">添加</Button>
+        <Button type="warning" @click="goBack()">返回</Button>
+      </div>
+    </Modal>
+    <Modal
+      v-model="isShowOperateAdd"
+      title="添加"
+      width="960"
+    >
+      <Table border :columns="operateAddColumns" :data="operateAddData"
+             @on-select="updateMakePayListInfo"
+             @on-select-all="updateMakePayListInfo"
+             @on-select-cancel="updateMakePayListInfo"
+             @on-selection-change="updateMakePayListInfo"></Table>
+        <Form :label-width=75 ref="operatorSearchData" :model="operatorSearchData">
+          <!-- <Collapse v-model="collapseInfo"> -->
+            <!-- <Panel name="1"> -->
+              <!-- <Row class="mt20">
+                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="汇缴年月：">
+                    {{makePayListInfo.payDate}}
+                  </Form-item>
+                </Col>
+                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="总行数：">
+                    {{makePayListInfo.rows}}
+                  </Form-item>
+                </Col>
+              </Row>
+              <Row class="mt20">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="付款方式：" prop="paymentWay">
+                  <Select v-model="paymentWay" style="width: 100%;" transfer filterable >
+                    <Option v-for="item in paymentWayList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="收款方：" prop="payee">
+                  <Select v-model="payee" style="width: 100%;" transfer filterable >
+                    <Option v-for="item in payeeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+            </Row> -->
+          <!-- </Panel> -->
+        <!-- </Collapse> -->
+        </Form>
+      <div slot="footer">
+        <Button type="info" @click="createPaymentComList()">保存</Button>
+        <Button type="warning" @click="goBack">返回</Button>
       </div>
     </Modal>
   </div>
@@ -228,6 +277,8 @@
         fundPayData:[],//汇缴支付列表里的数据
         operateEditData:[],//汇缴支付列表编辑操作数据
         operateDetailData:[],//汇缴支付列表详细操作数据
+        operateAddData:[],//汇缴支付列表添加操作数据
+        makePayListInfo:[],
         totalSize:0,//后台传过来的分页总数
         size:10,//默认单页记录数
         pageNum:1,//默认页数
@@ -245,6 +296,16 @@
           payDate: ""
 
         },
+        operateAddParams:{
+          paymentStatus : '', 
+          fundAccountType : '',
+          paymentBank : '',
+          companyId : '',
+          companyName : '',
+          paymentMonth : ''
+        },
+        selectedData: [],
+        selectedData1: [],
         progressInfo:{
           paymentId:0,
           paymentState:0
@@ -356,8 +417,9 @@
         isShowAddFundPayRepairList: false,
         isShowOperateDetail: false,
         isShowOperateEdit: false,
+        isShowOperateAdd: false,
         operateDetailColumns: [
-          {type: 'selection', width: 60},
+          //{type: 'selection', width: 60},
           {title: '公积金类型', key: 'hfTypeName', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -375,14 +437,14 @@
           {title: '公司编号', key: 'companyId', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyId),
+                h('span', params.row.companyId + "【" + params.row.fCount + "】"),
               ]);
             }
           },
           {title: '公司名称', key: 'title', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.title),
+                h('span', params.row.title + "【" + params.row.fCount + "】"),
               ]);
             }
           },
@@ -433,7 +495,13 @@
           {title: '操作', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('a', '删除'),
+                h('Button', {props: {type: 'error', size: 'small'}, style: {marginLeft: '10px'},
+                  on: {
+                    click: () => {
+                      this.delOperateEditData(params.row);
+                    }
+                  }
+                }, '删除'),
               ]);
             }
           },
@@ -444,14 +512,59 @@
               ]);
             }
           },
+          {title: '公司编号', key: 'companyId', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.companyId + "【" + params.row.fCount + "】"),
+              ]);
+            }
+          },
           {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 100,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
+              return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentStateValue),
               ]);
             }
           },
-          {title: '公积金账户类型', key: 'accountTypeValue', align: 'center', width: 200,
+          {title: '公积金账户类型', key: 'hfTypeName', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.hfTypeName),
+              ]);
+            }
+          },
+          {title: '结算银行', key: 'paymentBankValue', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.paymentBankValue),
+              ]);
+            }
+          }
+        ],
+        operateAddColumns: [
+          {type: 'selection', width: 60},
+          {title: '公积金账户名称', key: 'comAccountName', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.comAccountName),
+              ]);
+            }
+          },
+          {title: '公积金类型', key: 'hfTypeName', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.hfTypeName),
+              ]);
+            }
+          },
+          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.paymentStateValue),
+              ]);
+            }
+          },
+          {title: '企业账户类型', key: 'accountTypeValue', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.accountTypeValue),
@@ -465,6 +578,16 @@
               ]);
             }
           }
+        ],
+        payee: '',
+        paymentWay:3,
+        payeeList: [
+          {label: "住房资金归集待结算户", value: "住房资金归集待结算户"},
+          {label: "上海市公积金管理中心（黄浦支行（1））", value: "上海市公积金管理中心（黄浦支行（1））"},
+        ],
+        paymentWayList: [
+          {label: "支票", value: 2},
+          {label: "转账", value: 3},
         ],
       //  vuex数据
         steps: [
@@ -589,7 +712,7 @@
             {index: 4, employeeAccount: "", name: "", IdNumber: "", repairReason: "", dateToDate1: "", payPercent1: "", repairPriceEveryMonth1: "", repairSubTotal1: "", dateToDate2: "", payPercent2: "", repairPriceEveryMonth2: "", repairSubTotal2: "", repairTotal: ""},
             {index: 5, employeeAccount: "", name: "", IdNumber: "", repairReason: "", dateToDate1: "", payPercent1: "", repairPriceEveryMonth1: "", repairSubTotal1: "", dateToDate2: "", payPercent2: "", repairPriceEveryMonth2: "", repairSubTotal2: "", repairTotal: ""},
             {index: 6, employeeAccount: "", name: "", IdNumber: "", repairReason: "", dateToDate1: "", payPercent1: "", repairPriceEveryMonth1: "", repairSubTotal1: "", dateToDate2: "", payPercent2: "", repairPriceEveryMonth2: "", repairSubTotal2: "", repairTotal: ""},
-            {index: 7, employeeAccount: "", name: "", IdNumber: "", repairReason: "", dateToDate1: "", payPercent1: "", repairPriceEveryMonth1: "", repairSubTotal1: "", dateToDate2: "", payPercent2: "", repairPriceEveryMonth2: "", repairSubTotal2: "", repairTotal: ""},
+            {index: 7, employeeAccount: "", name: "",  IdNumber: "", repairReason: "", dateToDate1: "", payPercent1: "", repairPriceEveryMonth1: "", repairSubTotal1: "", dateToDate2: "", payPercent2: "", repairPriceEveryMonth2: "", repairSubTotal2: "", repairTotal: ""},
             {index: 8, employeeAccount: "", name: "", IdNumber: "", repairReason: "", dateToDate1: "", payPercent1: "", repairPriceEveryMonth1: "", repairSubTotal1: "", dateToDate2: "", payPercent2: "", repairPriceEveryMonth2: "", repairSubTotal2: "", repairTotal: ""},
             {index: 9, employeeAccount: "", name: "", IdNumber: "", repairReason: "", dateToDate1: "", payPercent1: "", repairPriceEveryMonth1: "", repairSubTotal1: "", dateToDate2: "", payPercent2: "", repairPriceEveryMonth2: "", repairSubTotal2: "", repairTotal: ""},
             {index: 10, employeeAccount: "", name: "", IdNumber: "", repairReason: "", dateToDate1: "", payPercent1: "", repairPriceEveryMonth1: "", repairSubTotal1: "", dateToDate2: "", payPercent2: "", repairPriceEveryMonth2: "", repairSubTotal2: "", repairTotal: ""}
@@ -674,6 +797,39 @@
         }).catch(error=>{
           console.log(error)
         })
+      },
+      clickOperateAdd() {
+        if(!this.operateEditData[0]){
+          this.$Message.error("此批次已删除，请返回重新生成！");
+          return false;
+        }
+        // this.isShowOperateEdit = false;
+        this.isShowOperateAdd = true;
+        let row = {};
+        row.paymentBank = this.operateEditData[0].paymentBank;
+        row.fundAccountType = this.operateEditData[0].fundAccountType;
+        row.paymentMonthValue = this.operateEditData[0].paymentMonth;
+        row.paymentStatus = this.operateEditData[0].paymentStatus;
+        let params = {
+          pageSize: 99999,//暂时这么改，后续把分页去掉
+          pageNum: 1,
+          params:row
+        };
+        FundPay.getMakePayListsTableData(params).then(data=>{
+              this.addPayment(data)
+          }).catch(error=>{
+            console.log(error)
+          })
+        
+      },
+      goBack() {
+        this.isShowOperateAdd = false;
+        this.isShowOperateEdit = false;
+        this.selectedData = [];
+        this.selectedData1 = [];
+        this.payee = '',
+        this.paymentWay = 3,
+        this.clickQuery();
       },
       getParams(page) {
         if(this.operatorSearchData.paymentMonth!=''){
@@ -950,11 +1106,11 @@
           params:row
         }
         FundPay.getFundPaysOperateEditData(params).then(data=>{
-          this.operateEditData = data.data.operateEditData
+          this.operateEditData = data.data.operateEditData;
         }).catch(error=>{
           console.log(error)
         })
-          this.isShowOperateEdit = true;
+        this.isShowOperateEdit = true;
       },
       delPayment(){
         let row;
@@ -979,6 +1135,67 @@
                       }
                     })
       },
+      // 添加汇缴支付数据(编辑汇缴支付弹框中)
+      addPayment(data){
+        this.operateAddData = data.data.makePayListData;
+        this.makePayListInfo = data.data.makePayListInfo;
+        if(typeof(data.data.totalSize)=='undefined') this.totalSize = 0
+        else this.totalSize = Number(data.data.totalSize)
+        this.closeLoading();
+        this.isShowOperateAdd = true;
+      },
+      // 保存汇缴支付数据(添加汇缴支付弹框中)
+      createPaymentComList() {
+        if(this.selectedData.length==0){
+            this.$Message.error('请选择添加列表中的公积金账户数据！');
+            return false;
+        }
+        this.$Modal.confirm({
+                    title: '确认',
+                    content: '您确认添加吗？',
+                    okText: '确认',
+                    onOk: () => {
+                      let params = {
+                          listData:this.selectedData,  //
+                          paymentId:this.checkSelect().paymentId,
+                          paymentMonth:this.checkSelect().paymentMonth
+                      }
+                      FundPay.createPaymentComListById(params).then(data=>{
+                        if(data.code==200){
+                          this.$Message.success(data.message);
+                          this.isShowOperateAdd = false;
+                          this.editPayment();
+                        }else{
+                          this.$Message.error(data.message);
+                        }
+                      }).catch(error=>{
+                        console.log(error)
+                      })
+                    }
+                  })
+      },
+      ruleValidate: {
+          paymentMonth: [
+            { required: true,
+              message: '必须选择汇缴年月',
+              trigger: 'blur',
+              type:'date'
+            }
+          ],
+          fundAccountType: [
+            { required: true,
+              type: 'string',
+              message: '至少选择一种企业公积金账户类型',
+              trigger: 'blur',
+            }
+          ],
+          paymentBank: [
+            { required: true,
+              message: '至少选择一家结算银行',
+              trigger: 'blur',
+            }
+          ]
+        },
       generateBank(name) {
         switch(parseInt(name)) {
           case 0:
@@ -1005,7 +1222,7 @@
           paymentId:row.paymentId,
         })
       },
- 	printFinancePayVoucher(){
+ 	    printFinancePayVoucher(){
         let row;
         row=this.checkSelect();
         if(!row)return false;
@@ -1016,6 +1233,69 @@
         let params ={payApplyCode:row.payApplyCode}
         FundPay.printFinancePayVoucher(params);
       },
+      // 删除汇缴名单操作中的编辑页面中选中的列
+      delOperateEditData(row) {
+        this.$Modal.confirm({
+                      title: '警告',
+                      content: '您确认删除操作吗？',
+                      okText: '删除',
+                      onOk: () => {
+                        let params = {
+                          paymentId : row.paymentId,
+                          paymentBank : row.paymentBank,
+                          hfType : row.hfType,
+                          paymentState : row.paymentState,
+                          paymentStatus: row.paymentStatus,
+                          paymentMonth : row.paymentMonth,
+                          comAccountId : row.comAccountId,
+                          paymentMonthValue : row.paymentMonthValue,
+                          fundAccountType : row.fundAccountType,
+                          companyId : row.companyId,
+                          companyName : row.companyName
+                        }
+                      FundPay.delOperateEditData(params).then(data=>{
+                        this.$Message.success(data.message);
+                        this.editPayment();
+                      });
+                      }
+                    })
+      },
+      updateMakePayListInfo(selection) {
+        var sumAmount = 0;
+        var payInBackAmount = 0;
+        for(var i=0; i<selection.length;i++) {
+          sumAmount += Number(selection[i].sumAmount);
+          payInBackAmount += Number(selection[i].payInBackAmount);
+        }
+        this.makePayListInfo.payAmount = sumAmount;
+        this.makePayListInfo.repair = payInBackAmount;
+        this.makePayListInfo.amount = sumAmount + payInBackAmount;
+        this.makePayListInfo.rows = selection.length;
+        this.resetSelectedData(selection);
+      },
+      resetSelectedData(selection) {
+        this.selectedData.length = 0;
+        if(selection) {
+          selection.forEach((element, index, array) => {
+            this.selectedData.push(element.paymentAccountId);
+            this.selectedData1.push(element.paymentStateValue);
+          })
+        }
+      },
+
+      //导出公积金汇缴支付操作详情Excel
+      operateDetailExcelExport() {
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        let params ={paymentId : row.paymentId}
+        FundPay.operateDetailExcelExport({
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageNum: 1,
+          params: params,
+        });
+
+      }
     }
   }
 </script>

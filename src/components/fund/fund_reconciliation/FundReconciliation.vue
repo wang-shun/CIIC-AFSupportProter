@@ -8,7 +8,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金月份：" prop="hfMonth">
-                  <DatePicker type="month" v-model="operatorSearchData.hfMonth" format='yyyyMM' placement="bottom" placeholder="选择日期" @on-change="operatorSearchData.hfMonth=$event" transfer></DatePicker>
+                  <DatePicker type="month" v-model="operatorSearchData.hfMonth" format='yyyyMM' placement="bottom" placeholder="选择日期" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

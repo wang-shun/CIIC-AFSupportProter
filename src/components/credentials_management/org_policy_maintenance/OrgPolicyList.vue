@@ -37,7 +37,7 @@
       </i-col>
     </Row>
 
-    <Table border :columns="colums1" :data="data1" :disabled-hover="disablehover"></Table>
+    <Table border :columns="colums" :data="data1" :disabled-hover="disablehover"></Table>
      <Page @on-change="handleCurrentChange"
               :current="pageNum"
               :page-size="pageSize"
@@ -126,7 +126,7 @@ export default {
           { required: true, message: "政策内容不能为空", trigger: "change" }
         ]
       },
-      colums1: [
+      colums: [
         {
           title: "办理机构",
           key: "name",
@@ -147,7 +147,6 @@ export default {
         },
         {
           title: "政策内容",
-          width: "400",
           key: "policyDescription",
           ellipsis: true,
           render: (h, params) => {
@@ -176,7 +175,6 @@ export default {
         {
           title: "操作",
           key: "action",
-          width: "150",
           align: "center",
           render: (h, params) => {
             return h("div", [

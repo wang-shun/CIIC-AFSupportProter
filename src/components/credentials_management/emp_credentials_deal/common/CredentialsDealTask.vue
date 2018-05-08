@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Table border :columns="colums1" :data="emp" @on-row-click="clickRow" :highlight-row="highlight"></Table>
+    <Table border :columns="colums" :data="emp" @on-row-click="clickRow" :highlight-row="highlight"></Table>
     <Card>
        <Form ref="formItem" :model="formItem"  :label-width="120">
         <h4>办理与收费信息</h4>
@@ -232,7 +232,7 @@ export default {
         specialMaterialRemark: "",
         taskId: ""
       },
-      colums1: [
+      colums: [
         {
           title: "雇员编号",
           key: "empCode"
@@ -268,7 +268,6 @@ export default {
         {
           title: "操作",
           key: "action",
-          width: "150",
           align: "center",
           render: (h, params) => {
             if (params.row.action == null || params.row.action == "") {
@@ -317,12 +316,10 @@ export default {
       columns2: [
         {
           title: "跟进人",
-          width: 100,
           key: "createdBy"
         },
         {
           title: "跟进时间",
-          width: 150,
           key: "createdTime"
         },
         {

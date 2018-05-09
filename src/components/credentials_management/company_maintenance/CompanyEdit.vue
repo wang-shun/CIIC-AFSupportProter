@@ -125,7 +125,8 @@
 import axios from "axios";
 import Tools from "../../../lib/tools";
 import Decode from "../../../lib/decode";
-
+import ajax from "../../../lib/ajax";
+const AJAX = ajax.ajaxCM;
 const host = process.env.SITE_HOST;
 export default {
   data() {
@@ -221,7 +222,7 @@ export default {
   methods: {
     find() {
       let companyCode = this.$route.query.data;
-      axios.get(host + "/api/companyExt/find/" + companyCode).then(response => {
+      AJAX.get(host + "/api/companyExt/find/" + companyCode).then(response => {
         let t = response.data.data;
         let labs = [
           { lab: "积分办理", credentialsType: 1, companyId: companyCode },
@@ -248,8 +249,8 @@ export default {
         this.formItem.credentialsType != null &&
         this.formItem.credentialsType != ""
       ) {
-        axios
-          .post(host + "/api/companyExt/saveOrUpdate", this.formItem)
+        AJAX
+          .postJSON(host + "/api/companyExt/saveOrUpdate", this.formItem)
           .then(response => {
             if (response.data.errCode === "0") {
               this.$Notice.success({
@@ -290,7 +291,7 @@ export default {
         var params = {};
         params.params = {};
         params.params.type = value.credentialsType;
-        axios.get(host + "/api/orgPolicy/find", params).then(response => {
+        AJAX.getJSON(host + "/api/orgPolicy/find", params).then(response => {
           this.orgPoilcys = response.data.data.records;
         });
       }

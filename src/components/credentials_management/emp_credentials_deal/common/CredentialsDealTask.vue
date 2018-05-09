@@ -170,9 +170,10 @@ import CredentialsMaterial11 from "./CredentialsMaterial11";
 import CredentialsMaterial12 from "./CredentialsMaterial12";
 import CredentialsMaterial13 from "./CredentialsMaterial13";
 import CredentialsMaterial14 from "./CredentialsMaterial14";
+import ajax from "../../../../lib/ajax";
 import axios from "axios";
-
 const host = process.env.SITE_HOST;
+const AJAX = ajax.ajaxCM;
 export default {
   components: {
     CredentialsMaterial1,
@@ -370,7 +371,7 @@ export default {
       }
     },
     findMaterialMenu(taskId) {
-      axios.get(host + "/api/materials/findMenu/" + taskId).then(response => {
+      AJAX.get(host + "/api/materials/findMenu/" + taskId).then(response => {
         if (response.data.errCode == "0") {
           this.meterials.comp = response.data.data.comp;
           this.meterials.marryStatus = response.data.data.marryStatus;
@@ -394,7 +395,7 @@ export default {
       });
     },
     findMaterials(taskId) {
-      axios
+      AJAX
         .get(host + "/api/materials/find/" + taskId)
         .then(response => {
           if (response.data.errCode == "0") {
@@ -409,7 +410,7 @@ export default {
     },
 
     createMeterialsMenu(credentialsType, credentialsDealType) {
-      axios
+      AJAX
         .get(
           host +
             "/api/materials/create?credentialsType=" +
@@ -425,7 +426,7 @@ export default {
     },
     taskFollowShow(taskId) {
       if (taskId != null) {
-        axios
+        AJAX
           .get(host + "/api/empCredentialsDeal/find/taskFollow/" + taskId)
           .then(response => {
             if (response.data.errCode == "0") {
@@ -448,7 +449,7 @@ export default {
       }
     },
     selectCompanyExt(credentialsType, companyId) {
-      axios
+      AJAX
         .get(
           host +
             "/api/empCredentialsDeal/find/companyExt/" +
@@ -466,8 +467,8 @@ export default {
         params.followDescription = this.followDescription;
         params.taskId = this.taskId;
         params.createdBy = "gu";
-        axios
-          .post(
+        AJAX
+          .postJSON(
             host + "/api/empCredentialsDeal/saveOrUpdate/taskFollow",
             params
           )

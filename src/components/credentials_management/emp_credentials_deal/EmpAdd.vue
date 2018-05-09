@@ -83,10 +83,11 @@
 
 <script>
 import InputCompany from "../../common_control/form/input_company/InputCompany.vue";
-import axios from "axios";
 import Tools from "../../../lib/tools";
-
+import ajax from "../../../lib/ajax";
+import axios from "axios";
 const host = process.env.SITE_HOST;
+const AJAX = ajax.ajaxCM;
 export default {
   components: { InputCompany },
   data() {
@@ -162,7 +163,7 @@ export default {
             params.birthday,
             "YYYY-MM-DD hh:mm"
           );
-          axios.post(host + "/api/emp/add", params).then(response => {
+          AJAX.postJSON(host + "/api/emp/add", params).then(response => {
             if (response.data.errCode === "0") {
               this.$Notice.success({
                 title: "保存成功",
@@ -191,7 +192,7 @@ export default {
       this.$router.go(-1);
     },
     getCountry() {
-      axios.get(host + "/api/baseData/getCountry").then(response => {
+      AJAX.get(host + "/api/baseData/getCountry").then(response => {
         if (response.data.errCode == "0") {
           this.countrys = response.data.data;
         }

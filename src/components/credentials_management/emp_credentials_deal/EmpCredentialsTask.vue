@@ -194,10 +194,11 @@
 <script>
 import CredentialsDealInfo from "./common/CredentialsDealTask";
 import Tools from "../../../lib/tools";
-import axios from "axios";
 import Decode from "../../../lib/decode";
-
+import ajax from "../../../lib/ajax";
+import axios from "axios";
 const host = process.env.SITE_HOST;
+const AJAX = ajax.ajaxCM;
 export default {
   components: { CredentialsDealInfo },
   data() {
@@ -272,7 +273,7 @@ export default {
       let params = {};
       params.params = {};
       params.params.companyId = companyId;
-      axios
+      AJAX
         .get(host + "/api/baseData/getCompanyInfo", params)
         .then(response => {
           if (response.data.errCode == "0") {
@@ -291,7 +292,7 @@ export default {
       params.params.idCardType = employee.idCardType;
       params.params.idNum = employee.idNum;
       params.params.type = employee.type;
-      axios.get(host + "/api/baseData/getEmpInfo", params).then(response => {
+      AJAX.get(host + "/api/baseData/getEmpInfo", params).then(response => {
         if (response.data.errCode == "0") {
           let item = response.data.data;
           this.empCode = item.employeeId;
@@ -414,8 +415,8 @@ export default {
           ? this.$route.params.basicProductId
           : params.basicProductId;
       params.templateType = this.templateType;
-      axios
-        .post(host + "/api/empCredentialsDeal/saveOrUpdate/task", params)
+      AJAX
+        .postJSON(host + "/api/empCredentialsDeal/saveOrUpdate/task", params)
         .then(response => {
           if (response.data.errCode === "0") {
             this.$Modal.confirm({
@@ -447,7 +448,7 @@ export default {
       this.$router.go(-1);
     },
     findAll(empCode) {
-      axios
+      AJAX
         .get(host + "/api/empCredentialsDeal/find/task/" + empCode)
         .then(response => {
           if (response.data.errCode === "0") {

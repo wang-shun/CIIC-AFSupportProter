@@ -41,7 +41,8 @@
 <script>
 import axios from "axios";
 import Tools from "../../../lib/tools";
-
+import ajax from "../../../lib/ajax";
+const AJAX = ajax.ajaxCM;
 const host = process.env.SITE_HOST;
 export default {
   data() {
@@ -109,7 +110,7 @@ export default {
       params.params.pageSize = this.pageSize;
       params.params.companyName = this.queryItem.companyName;
       params.params.companyId = this.queryItem.companyCode;
-      axios.get(host + "/api/company/get", params).then(response => {
+      AJAX.get(host + "/api/company/get", params).then(response => {
         this.companyPage = response.data.data.records;
         this.total = response.data.data.total;
       });

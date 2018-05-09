@@ -109,7 +109,6 @@
     </Row>
 
     <Table border ref="fundPay" class="mt20" :columns="fundPayColumns" :data="fundPayData" :loading="loading" @on-selection-change="selectChange"></Table>
-    <!-- <Page :total="4" :page-size="5" :page-size-opts="[5, 10]" show-sizer show-total  class="pageSize"></Page> -->
     <Page
       class="pageSize"
       @on-change="handlePageNum"
@@ -120,11 +119,7 @@
       :current="pageNum"
       show-sizer show-total></Page>
 
-    <Modal
-      v-model="isShowPayProgress"
-      title="支付进度"
-      width="800"
-    >
+    <Modal v-model="isShowPayProgress" title="支付进度" width="800">
       <progress-bar :stepsInfo="steps" @on-step-click="progressClick"></progress-bar>
       <div slot="footer">
         <Button type="warning" @click="isShowPayProgress = false;">返回</Button>
@@ -132,43 +127,29 @@
     </Modal>
 
 
-    <Modal
-      v-model="isShowAddFundPayRepairList"
-      title="上海市补充公积金汇缴补缴清册"
-      width="960"
-    >
+    <Modal v-model="isShowAddFundPayRepairList" title="上海市补充公积金汇缴补缴清册" width="960">
       <add-fund-pay-repair-list :addFundPayRepairInfo="addFundPayRepairInfo"></add-fund-pay-repair-list>
       <div slot="footer">
         <Button type="warning" @click="isShowAddFundPayRepairList = false;">返回</Button>
       </div>
     </Modal>
 
-    <Modal
-      v-model="isShowAddFundPayRepairList"
-      title="上海市补充公积金汇缴补缴清册"
-      width="960"
-    >
+    <Modal v-model="isShowAddFundPayRepairList" title="上海市补充公积金汇缴补缴清册" width="960">
       <add-fund-pay-repair-list :addFundPayRepairInfo="addFundPayRepairInfo"></add-fund-pay-repair-list>
       <div slot="footer">
         <Button type="warning" @click="isShowAddFundPayRepairList = false;">返回</Button>
       </div>
     </Modal>
-    <Modal
-      v-model="isShowOperateDetail"
-      title="详细"
-      width="960"
-    >
+
+    <Modal v-model="isShowOperateDetail" title="详细" width="960">
       <Table border :columns="operateDetailColumns" :data="operateDetailData"></Table>
       <div slot="footer">
         <!-- <Button type="primary" @click="isShowOperateDetail = false;">汇缴</Button> -->
         <Button type="warning" @click="isShowOperateDetail = false;">返回</Button>
       </div>
     </Modal>
-    <Modal
-      v-model="isShowOperateEdit"
-      title="编辑"
-      width="960"
-    >
+
+    <Modal v-model="isShowOperateEdit" title="编辑" width="960">
       <Table border :columns="operateEditColumns" :data="operateEditData"></Table>
       <div slot="footer">
         <Button type="primary" @click="isShowOperateEdit = false;">重新生成汇缴支付批次</Button>
@@ -316,13 +297,6 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                  h('span', params.row.paymentStateValue),
-                // h('a', {
-                //   on: {
-                //     click: () => {
-                //       this.isShowPayProgress = true;
-                //     }
-                //   }
-                // }, params.row.paymentStateValue),
               ]);
             }
           },
@@ -630,7 +604,6 @@
               });
             break;
           case 5:
-           // this.printTransferNote();
             this.printPayNote(1);
             break;
           case 6:
@@ -671,14 +644,6 @@
           default:
             break;
         }
-      },
-
-      printTransferNote(){
-        let rows = [
-          {"year":"2018","month":"04","day":21,"employeeName":"张三","fundAccount":"CA21525","transferInUnitName":"上海我爱你家","transferInAccount":"SS2212121","transferOutUnitName":"上海你家爱我","transferOutAccount":"XX12254","totalNum":54},
-          {"year":"2018","month":"04","day":22,"employeeName":"李四","fundAccount":"CA21568","transferInUnitName":"上海移动","transferInAccount":"SS878556","transferOutUnitName":"上海电信","transferOutAccount":"XX56455","totalNum":100}
-        ];
-        FundPay.printTransferNote(rows);
       },
       printPayNote(hfType){
         let row;

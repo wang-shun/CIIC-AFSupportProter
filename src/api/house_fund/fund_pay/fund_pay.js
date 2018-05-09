@@ -47,7 +47,7 @@ function getFundTransferNoteObj(row){
 
 //公积金汇缴书
 function getFundPayNoteObj(row){
- 
+
   console.log(row)
   var html = `<div style="page-break-after:always;">
   <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; width: 600px; height: 336px;margin-left:22px;margin-top:-67px ">
@@ -106,7 +106,7 @@ function getFundPayNoteObj(row){
     <tr>
       <td height="35px" style="vertical-align: center;">
         <div style="height: 35px;">
-         
+
             <div>
             <div style="text-align: right;  float: left; width: 200px;">${row.bankName}</div>
             <div style="text-align: right;  float: left; width: 105px;"></div>
@@ -142,23 +142,6 @@ export class FundPay {
         }
         if(response.data.code=="200"){
           responseData.data.fundPayData=response.data.data;
-          console.log(response.data.data)
-          // for(let i of response.data.data){
-          //   let obj ={}
-          //   obj.paymentId = i.paymentId,
-          //   obj.paymentState = i.paymentState,
-          //   obj.paymentBatchNum=i.paymentBatchNum
-          //   obj.totalApplicationAmonut = i.totalApplicationAmonut
-          //   obj.totalEmpCount = i.totalEmpCount
-          //   obj.paymentMonth = i.paymentMonth
-          //   obj.paymentStateValue = i.paymentStateValue
-          //   obj.createPaymentUser = i.createPaymentUser
-          //   obj.createPaymentDate = i.createPaymentDateString
-          //   obj.financePaymentDate = i.financePaymentDateString
-          //   obj.accountTypeValue = i.accountTypeValue
-
-          //   responseData.data.fundPayData.push(obj)
-          // }
           responseData.data.totalSize=response.data.total
           responseData.data.code=response.data.code
           responseData.data.message= response.data.message
@@ -492,13 +475,13 @@ export class FundPay {
     ajax.download(url, params);
   }
 
-  
+
   static printPayNote(rows){
     let head = `<html><head><title>上海市住房公积金汇缴书</title></head><body style="margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; line-height: 1; font-size: 12px; background-size: 600px 336px; background-repeat: no-repeat;">`;
     let foot = `</body></html>`;
     let obj = "";
     rows.forEach(function(e){
-      
+
       var temp = getFundPayNoteObj(e);
       obj += temp;
     });

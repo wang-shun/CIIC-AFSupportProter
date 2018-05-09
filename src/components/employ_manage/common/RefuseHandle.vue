@@ -96,8 +96,9 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工操作员：">
-            <Input v-model="refuse.resignOperateMan" placeholder="请输入" :maxlength="50"/>
+            {{refuse.resignOperateMan}}
           </Form-item>
+         
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工UKey外借日期：">
@@ -215,7 +216,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="instance()">保存</Button>
+          <Button type="primary"  :loading="isLoading"  @click="instance()">保存</Button>
           <Button type="primary" @click="binding">绑定</Button>
         </Col>
       </Row>
@@ -233,6 +234,7 @@
     },
     data() {
       return {
+        isLoading: false,
         endTypeList: [
           {value: '空', label: '空',disabled:false},
           {value: '合同终止', label: '合同终止',disabled:false},
@@ -321,6 +323,8 @@
             this.$Message.success("没有对应的用工序号");
             return;
          }
+
+         this.isLoading = true;
         
         var fromData = this.$utils.clear(this.refuseInfo,'');
         if(this.refuseInfo.resignMaterialDeliveryDate){
@@ -364,9 +368,11 @@
               if (data.code == 200) {
                   this.$Message.success("保存成功");
                   this.refuseInfo.resignId = data.data.resignId;
+                  this.refuseInfo.resignOperateMan = data.data.resignOperateMan;
                 } else {
                   this.$Message.error("保存失败！" + data.message);
                 }
+                this.isLoading = false;
         })
          
        },binding(){

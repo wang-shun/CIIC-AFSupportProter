@@ -395,6 +395,12 @@ this.initData();
         }
       },
       printTransferTask(){
+        let rows = [
+          {"year":"2018","month":"04","day":21,"employeeName":"张三","fundAccount":"CA21525","transferInUnitName":"上海我爱你家","transferInAccount":"SS2212121","transferOutUnitName":"上海你家爱我","transferOutAccount":"XX12254","totalNum":54},
+          {"year":"2018","month":"04","day":22,"employeeName":"李四","fundAccount":"CA21568","transferInUnitName":"上海移动","transferInAccount":"SS878556","transferOutUnitName":"上海电信","transferOutAccount":"XX56455","totalNum":100}
+        ];
+      
+
         if(this.checkData()==false){
           return false;
         }
@@ -415,6 +421,7 @@ this.initData();
                       this.transferNotice.empTaskId=data.data;
                       let params={empTaskId:this.transferNotice.empTaskId};
                       api.printTransferTask(params);
+                      //api.printTransferNote(rows);
                     }
                   }
                 )

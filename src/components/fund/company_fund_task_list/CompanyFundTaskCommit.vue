@@ -8,7 +8,7 @@
         </div>
       </Panel>
       <Panel name="2">
-        企业任务单办理 ({{hfTypeName}})
+        企业任务单办理 ({{this.hfTypeName}})
         <div slot="content">
           <fund-open-account ref="openAccount" :openAccountInfo="this.$route.params.openAccountInfo"></fund-open-account>
         </div>
@@ -39,14 +39,14 @@
       }
     },
     mounted() {
-      
+
       // if(this.$refs.openAccount.openAccountInfo.taskStatus==0){
- 
+
       //  this.$route.params.openAccountInfo.taskStatus==1;
       // }
 
       console.log(this.$route.params);
-        
+
     },
     computed: {
     },
@@ -143,7 +143,7 @@
                     console.log(error)
                   })
               }
-            });        
+            });
       },
       //获得更新任务单请求参数
       getParams(){
@@ -156,7 +156,7 @@
           if(operateStartMonth!='' && operateStartMonth!=null){
              operateStartMonth = Tools.formatDate(operateStartMonth, "YYYYMM")
           }
-         
+
         return {
           //comTask
           comTaskId: this.$route.params.comTaskId,
@@ -166,7 +166,7 @@
 
           //openAccountInfo
           comAccountId:this.$refs.openAccount.openAccountInfo.comAccountId,
-          comAccountClassId:this.$refs.openAccount.openAccountInfo.comAccountClassId, 
+          comAccountClassId:this.$refs.openAccount.openAccountInfo.comAccountClassId,
           taskChangeTypeValue: this.$refs.openAccount.openAccountInfo.changeTypeValue,
           paymentWay: this.$refs.openAccount.openAccountInfo.payMethodValue,
           paymentBank: this.$refs.openAccount.openAccountInfo.paymentBankValue,
@@ -187,7 +187,7 @@
 
         }
       },
-       
+
     }
   }
 </script>

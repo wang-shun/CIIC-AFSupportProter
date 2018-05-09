@@ -19,7 +19,7 @@
         <Form-item label="档案类别：">
           <Select transfer @on-change="changeType" v-model="file1.docType">
             <Option value="" key="">空</Option>
-            <Option v-for="item in file1.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
+            <Option v-for="item in file1.docSeqList2" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
         </Col>
@@ -88,7 +88,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="instance()">保存</Button>
+        <Button type="primary" :loading="isLoading" @click="instance()">保存</Button>
         </Col>
       </Row>
     </Form>
@@ -163,7 +163,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="instance1()">保存</Button>
+        <Button type="primary" :loading="isLoadingT" @click="instance1()">保存</Button>
         </Col>
       </Row>
     </Form>
@@ -183,6 +183,8 @@
     },
     data() {
       return {
+        isLoading: false,
+        isLoadingT: false,
         isFast: true,
         reservedFileNumberList: [],
         fileNumberList: [],
@@ -323,6 +325,7 @@
           this.$Message.error("档案编号已经是极限了，请联系管理员！");
           return;
         }
+         this.isLoading = true;
         var fromData = this.$utils.clear(this.file1,'');
         if(this.file1.employDocPaymentTo){
           fromData.employDocPaymentTo = this.$utils.formatDate(this.file1.employDocPaymentTo, 'YYYY-MM-DD');
@@ -373,6 +376,8 @@
         if(this.file1.budiaoDocDate2){
           fromData.budiaoDocDate2 = this.$utils.formatDate(this.file1.budiaoDocDate2, 'YYYY-MM-DD');
         }
+        fromData.docSeqList = [];
+        fromData.docSeqList2 = [];
         api.saveAmArchive(fromData).then(data => {
           if (data.code == 200) {
             this.$Message.success("保存成功");
@@ -381,15 +386,17 @@
             this.file1.oldYuLiuNum = data.data.yuliuDocNum;
             this.file1.oldType = data.data.docType;
             this.file1.oldNum = data.data.docNum;
-            console.info(data.data);
           } else {
             this.$Message.error("保存失败！" + data.message);
           }
+           this.isLoading = false;
         })
 
       },
       instance1() {
         this.$utils.copy(this.file2, this.file1);
+
+        this.isLoadingT = true;
 
         var fromData = this.$utils.clear(this.file2,'');
 
@@ -451,6 +458,7 @@
           } else {
             this.$Message.error("保存失败！" + data.message);
           }
+           this.isLoadingT = false;
         })
 
       }

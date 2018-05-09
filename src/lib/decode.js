@@ -397,33 +397,68 @@ export default {
         }
     },
     //用工状态
-    recruitAndUseStatus: (type) => {
-    //1未反馈  2退工成功  3档未到先退工  4退工单盖章未返回  5退工失败  6前道要求批退  7其它
-        switch (type) {
-        case '1':
-        case 1:
-            return '未反馈'
-        case '2':
-        case 2:
-            return '退工成功'
-        case '3':
-        case 3:
-            return '封存'
-        case '4':
-        case 4:
-            return '退工单盖章未返回'
-        case '5':
-        case 5:
-            return '退工失败'
-        case '6':
-        case 6:
-            return '前道要求批退'
-        case '7':
-        case 7:
-            return '其它'
-        default:
-            return ''
+    recruitAndUseStatus: (taskCategory, type) => {
+      if (taskCategory && type) {
+        if (parseInt(taskCategory) === 1) {
+          switch (parseInt(type)) {
+            case 3:
+              return '用工成功'
+            case 4:
+              return '用工失败'
+            case 5:
+              return '前道要求撤销用工'
+            case 10:
+              return '用工已办查无档'
+            case 11:
+              return 'Ukey外借'
+            case 12:
+              return '用工成功,重复任务单'
+            case 13:
+              return '用工已办,前道已中止'
+            default:
+              return ''
+          }
+        } else {
+          switch (parseInt(type)) {
+            case 1:
+              return '退工成功'
+            case 2:
+              return '档未到先退工'
+            case 3:
+              return '退工盖章未返回'
+            case 4:
+              return '退工失败'
+            case 5:
+              return '前道要求批退'
+            case 6:
+              return '撤销退工'
+            case 7:
+              return '等修改备案表'
+            case 8:
+              return '自开退工单,未交'
+            case 9:
+              return '用工已办未反馈'
+            case 10:
+              return '等翻牌联系单'
+            case 11:
+              return '退工Ukey外借'
+            case 12:
+              return '单项服务,原退工成功'
+            case 13:
+              return '转外地社保,原退工成功'
+            case 14:
+              return '转人员性质无需退工'
+            case 15:
+              return '退工成功,改社保'
+            case 16:
+              return '重复任务单'
+            case 17:
+              return '退工自办'
+            default:
+              return ''
+          }
         }
+      }
     },
     costCategory: (costCategory) => {
     //1标准 2 新进 3 转入  4 补缴 5 调整 （顺调)）6 转出 7封存 8 退账 9 调整（倒调）

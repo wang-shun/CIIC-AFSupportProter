@@ -393,7 +393,7 @@
 
       },
       exportXLS() {
-        let params = this.searchConditions;
+        let params = this.searchCondition;
         api.resignSearchExportOpt(params);
 
       },queryAmResign(params){

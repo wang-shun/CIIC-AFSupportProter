@@ -51,7 +51,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="defaultVaule()">默认</Button>
-          <Button type="primary" @click="instance()">保存</Button>
+          <Button type="primary"  :loading="isLoading"  @click="instance()">保存</Button>
         </Col>
       </Row>
     </Form>
@@ -69,6 +69,7 @@ import api from '../../../api/employ_manage/hire_operator'
     },
     data() {
       return {
+        isLoading: false,
         employmentFormList: [
           {value: '1', label: '全日制'},
           {value: '2', label: '其它'}
@@ -129,6 +130,7 @@ import api from '../../../api/employ_manage/hire_operator'
     methods: {
 
        instance() {
+         this.isLoading = true;
         var fromData = this.$utils.clear(this.handleInfo,'');
         
         if(fromData.employDate){
@@ -148,6 +150,7 @@ import api from '../../../api/employ_manage/hire_operator'
               } else {
                 this.$Message.error("保存失败！" + data.message);
               }
+               this.isLoading = false;
         })
          
        },defaultVaule(){

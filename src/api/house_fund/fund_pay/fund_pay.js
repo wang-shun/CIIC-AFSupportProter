@@ -50,7 +50,7 @@ function getFundPayNoteObj(row){
  
   console.log(row)
   var html = `<div style="page-break-after:always;">
-  <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; width: 600px; height: 336px;margin-left:10px;margin-top:-67px ">
+  <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; width: 600px; height: 336px;margin-left:22px;margin-top:-67px ">
     <tr>
       <td height="60px" style="vertical-align: bottom;"></td>
     </tr>
@@ -82,9 +82,9 @@ function getFundPayNoteObj(row){
     </tr>
     <tr>
       <td height="40px" style="vertical-align: top;">
-        <div style="text-align: right;  float: left; width: 110px;">&nbsp;</div>
-        <div style="text-align: left;  float: left; width: 294px;">${row.moneyCN}</div>
-        <div style="text-align: right;  float: left; width: 120px; ">${row.remittedAmountArrange}</div>
+        <div style="text-align: right; float: left; width: 110px;">&nbsp;</div>
+        <div style="text-align: left; float: left; width: 294px;">${row.moneyCN}</div>
+        <div style="text-align: right; float: right; width: 120px;letter-spacing:10px">${row.remittedAmountArrange}</div>
       </td>
     </tr>
     <tr>
@@ -442,21 +442,7 @@ export class FundPay {
     ajax.download(url, params);
   }
 
-  static printTransferNote(rows){
-    let head = `<html><head><title>上海市住房公积金转移通知书</title></head><body style="margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; line-height: 1; font-size: 12px; background-size: 600px 336px; background-repeat: no-repeat;">`;
-    let foot = `</body></html>`;
-    let obj = "";
-    rows.forEach(function(e){
-      var temp = getFundTransferNoteObj(e);
-      obj += temp;
-    });
-    let html = head + obj + foot;
-    let pwin = window.open("","print")
-    pwin.document.write(html);
-    pwin.document.close();
-    pwin.print();
-  }
-
+  
   static printPayNote(rows){
     let head = `<html><head><title>上海市住房公积金汇缴书</title></head><body style="margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; line-height: 1; font-size: 12px; background-size: 600px 336px; background-repeat: no-repeat;">`;
     let foot = `</body></html>`;

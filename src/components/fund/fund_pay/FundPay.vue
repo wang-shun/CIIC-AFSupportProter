@@ -681,21 +681,17 @@
         FundPay.printTransferNote(rows);
       },
       printPayNote(hfType){
-
-
-        // let rows = [
-        //   {"year":"2018","month":"04","day":21,"pageNum":1,"unitName":"上海移动","payYear":"2018","payMonth":"04","addFundAccount":"SX455656","pensonNum":54,"upperAmount":"壹仟陆佰捌拾捌元玖角玖分","amount":"1688.99","lastMonthPayNumber":45,"lastMonthPayAmount":"4555","thisMonthAddPayNumber":21,"thisMonthAddPayAmount":"5412","thisMonthReducePayNumber":14,"thisMonthReducePayAmount":"15000.36","thisMonthPayNumber":60,"thisMonthPayAmount":"6400","payBank":"招商","payAccount":"612655656","payCheckNumber":"C46568"},
-        //   {"year":"2018","month":"04","day":23,"pageNum":2,"unitName":"上海电信","payYear":"2018","payMonth":"04","addFundAccount":"SX455656","pensonNum":54,"upperAmount":"壹仟陆佰捌拾捌元玖角玖分","amount":"1688.99","lastMonthPayNumber":45,"lastMonthPayAmount":"4555","thisMonthAddPayNumber":21,"thisMonthAddPayAmount":"5412","thisMonthReducePayNumber":14,"thisMonthReducePayAmount":"15000.36","thisMonthPayNumber":60,"thisMonthPayAmount":"6401","payBank":"建设","payAccount":"612655656","payCheckNumber":"C46565"}
-        // ];
-          let rows;
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+          let results=[];
+          let params={paymentId:row.paymentId,hfType:hfType}
           FundPay.getRemittedBook(params).then(data=>{
-
-
+            results=data.data;
+            FundPay.printPayNote(results);
           }).catch(error=>{
             console.log(error)
           })
-
-        FundPay.printPayNote(rows);
       },
 
 

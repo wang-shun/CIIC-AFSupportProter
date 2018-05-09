@@ -11,9 +11,9 @@ const DATA_TYPE = 'multipart/form-data';
 let utils = {
   // 默认分页大小 5
   DEFAULT_PAGE_SIZE: 5,
-  DEFAULT_PAGE_SIZE_OPTS: [5,10],
+  DEFAULT_PAGE_SIZE_OPTS: [5, 10],
   EMPLOYEE_DEFAULT_PAGE_SIZE: 20,
-  EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS: [20,50,2000],
+  EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS: [20, 50, 2000],
   DEBUG: DEBUG
 };
 
@@ -48,6 +48,8 @@ utils.copy = (source, target) => {
 utils.formatDate = (date, fmt) => {
   try {
     if (moment.isDate(date)) {
+      return moment(date).format(fmt);
+    } else if ((typeof date) === "number") {
       return moment(date).format(fmt);
     } else {
       return date;
@@ -94,16 +96,16 @@ utils.promise = response => {
  * @param params
  * @param keys []
  */
-utils.clearKey = (params,keys) =>{
+utils.clearKey = (params, keys) => {
   var p = {};
-  for(var name of Object.keys(params)){
+  for (var name of Object.keys(params)) {
     var exists = false;
-    for(var key of Object.keys(keys)){
-      if(params[name] == key){
+    for (var key of Object.keys(keys)) {
+      if (params[name] == key) {
         exists = true;
         break;
       }
-      if(!exists){
+      if (!exists) {
         p[name] = params[name];
       }
     }
@@ -116,10 +118,10 @@ utils.clearKey = (params,keys) =>{
  * @param params
  * @param value
  */
-utils.clear = (params,value = '[全部]') =>{
+utils.clear = (params, value = '[全部]') => {
   var p = {};
-  for(var key of Object.keys(params)){
-    if(params[key] != value){
+  for (var key of Object.keys(params)) {
+    if (params[key] != value) {
       p[key] = params[key];
     }
   }
@@ -243,10 +245,10 @@ utils.ajaxSsc = createAjaxForName('ss-c');
  * @param {*} obj
  */
 let self = this
-utils.deepClone= (obj)=>{
+utils.deepClone = (obj) => {
   var newObj = obj instanceof Array ? [] : {};
-  for(var k in obj)
-  newObj[k] = obj[k] instanceof Object ? self.a.deepClone(obj[k]) : obj[k];
+  for (var k in obj)
+    newObj[k] = obj[k] instanceof Object ? self.a.deepClone(obj[k]) : obj[k];
   return newObj;
 }
 

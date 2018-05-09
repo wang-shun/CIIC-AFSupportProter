@@ -664,6 +664,12 @@
           return;
         }
 
+        var reg = /(^[1-9]([0-9]{1,17})?$)/;
+        if (handleType && (!reg.test(this.socialSecurityPayOperator.empSsSerial))) {
+          this.$Message.error("社保序号输入不正确.");
+          return;
+        }
+
         let handleMonth = this.yyyyMM(this.socialSecurityPayOperator.handleMonth)
         let startMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == handleMonth
         let handleMonthIsEqual = this.yyyyMM(this.socialSecurityPayOperator.startMonth) == this.yyyyMM(this.operatorListData[0].startMonth)

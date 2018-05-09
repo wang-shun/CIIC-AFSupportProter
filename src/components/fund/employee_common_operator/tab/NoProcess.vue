@@ -63,7 +63,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务发起时间：" prop="submitTime">
-                  <DatePicker v-model="submitTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-model="operatorSearchData.submitTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -152,19 +152,18 @@
           taskStatus: 1,
           processStatus: '',
           employeeId: '',
-          dictTaskCategory: '',
+          taskCategory: '',
           paymentBank: '',
           employeeName: '',
           hfType: '',
           hfAccountType: '',
           idNum: '',
-          submitTimeStart: '',
-          submitTimeEnd: '',
+          submitTime: [],
           companyId: '',
           isChange: ''
 //          urgent: ''
         },
-        submitTime: [],
+
         processStatusList: [],
         taskTypeList: [],
         payBankList: [],
@@ -261,18 +260,18 @@
         this.$refs[name].resetFields()
       },
       hfEmpTaskQuery() {
-        var params = {};
+        var cparams = {};
         {
-          this.beforeSubmit();
           // 清除 '[全部]'
-          params = this.$utils.clear(this.operatorSearchData);
+          let params = this.$utils.clear(this.operatorSearchData);
           // 清除空字符串
           params = this.$utils.clear(params, '');
+          cparams = this.beforeSubmit(params);
         }
         api.hfEmpTaskQuery({
           pageSize: this.noProcessPageData.pageSize,
           pageNum: this.noProcessPageData.pageNum,
-          params: params,
+          params: cparams,
         }).then(data => {
           if (data.code == 200) {
             this.noProcessData = data.data.rows;
@@ -341,30 +340,42 @@
           }
         })
       },
-      beforeSubmit() {
-        this.operatorSearchData.submitTimeStart = '';
-        this.operatorSearchData.submitTimeEnd = '';
-        if (this.submitTime) {
+      beforeSubmit(params) {
+        var cparams = {}
+        cparams.taskStatus = params.taskStatus;
+        cparams.processStatus = params.processStatus;
+        cparams.employeeId = params.employeeId;
+        cparams.taskCategory = params.taskCategory;
+        cparams.paymentBank = params.paymentBank;
+        cparams.employeeName = params.employeeName;
+        cparams.hfType = params.hfType;
+        cparams.idNum = params.idNum;
+        cparams.companyId = params.companyId;
+        cparams.isChange = params.isChange;
+        cparams.submitTimeStart = '';
+        cparams.submitTimeEnd = '';
+        if (params.submitTime) {
 //          for (let i = 0; i < this.operatorSearchData.submitTime.length; i++) {
-          if (this.submitTime[0]) {
-            this.operatorSearchData.submitTimeStart = this.$utils.formatDate(this.submitTime[0], 'YYYY-MM-DD');
+          if (params.submitTime[0]) {
+            cparams.submitTimeStart = this.$utils.formatDate(params.submitTime[0], 'YYYY-MM-DD');
           }
-          if (this.submitTime[1]) {
-            this.operatorSearchData.submitTimeEnd = this.$utils.formatDate(this.submitTime[1], 'YYYY-MM-DD');
+          if (params.submitTime[1]) {
+            cparams.submitTimeEnd = this.$utils.formatDate(params.submitTime[1], 'YYYY-MM-DD');
           }
 //          }
         }
+        return cparams
       },
       excelExport() {
-        var params = {};
+        var cparams = {};
         {
-          this.beforeSubmit();
           // 清除 '[全部]'
-          params = this.$utils.clear(this.operatorSearchData);
+          let params = this.$utils.clear(this.operatorSearchData);
           // 清除空字符串
           params = this.$utils.clear(params, '');
+          cparams = this.beforeSubmit(params);
         }
-        api.hfEmpTaskExport({ params: params });
+        api.hfEmpTaskExport({ params: cparams });
       },
       excelExportNew() {
         if (!this.selectedData || this.selectedData.length == 0) {
@@ -373,7 +384,7 @@
         }
         var params = {};
         {
-          this.beforeSubmit();
+//          this.beforeSubmit();
           // 清除 '[全部]'
           params = this.$utils.clear(this.selectedData);
           // 清除空字符串

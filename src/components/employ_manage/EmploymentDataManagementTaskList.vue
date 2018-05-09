@@ -17,7 +17,7 @@
           </DropdownMenu>
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
-        <Button type="primary" @click="batchManagement">批理办理</Button>
+        <!-- <Button type="primary" @click="batchManagement">批理办理</Button> -->
       </Col>
     </Row>
     <Table border :columns="employmentColumns" :data="employmentData" ref="employmentData" class="mt20"></Table>
@@ -70,7 +70,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         printList: em_print,
         // 下半部分
         employmentColumns: [
-          {title: '', type: 'selection', width: 60},
+          // {title: '', type: 'selection', width: 60},
           {
             title: '操作',
             key: 'action',

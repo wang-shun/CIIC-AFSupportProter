@@ -231,18 +231,23 @@
 
           {title: '查看结果', key: 'getResult',  width: 100, align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      window.sessionStorage.setItem("statementId", params.row.statementId)
-                      this.$router.push({name:'socialSecurityReconcilateDetail'});
+              if (params.row.statementId && params.row.statementId != '') {
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        window.sessionStorage.setItem("statementId", params.row.statementId)
+                        this.$router.push({name: 'socialSecurityReconCilateDetail'});
 
-                      //window.sessionStorage.getItem("")
+                        //window.sessionStorage.getItem("")
+                      }
                     }
-                  }
-                }, '查看'),
-              ]);
+                  }, '查看'),
+                ]);
+              } else {
+                return h('div', []);
+              }
             }
           },
           {title: '导入', key: 'export', width: 100, align: 'center',

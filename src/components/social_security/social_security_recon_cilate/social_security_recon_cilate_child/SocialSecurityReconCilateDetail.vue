@@ -51,14 +51,14 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import customerModal from '../../../common_control/CustomerModal.vue'
-  import companyAccountSearchModal from '../../../common_control/CompanyAccountSearchModal.vue'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import customerModal from '../../../common_control/CustomerModal.vue'
+//  import companyAccountSearchModal from '../../../common_control/CompanyAccountSearchModal.vue'
   import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/statement_detail'
 
   export default {
-    components: {customerModal, companyAccountSearchModal},
+//    components: {customerModal, companyAccountSearchModal},
     data() {
       return {
         collapseInfo: [1], //展开栏
@@ -148,7 +148,7 @@
       }
     },
     mounted() {
-      this[EventType.SOCIALSECURITYRECONCILATEDETAIL]();
+//      this[EventType.SOCIALSECURITYRECONCILATEDETAIL]();
       // var pagParam= {
       //       //对账主表ID
       //       statementId : window.sessionStorage.getItem("statementId")
@@ -160,12 +160,12 @@
       this.statementId = window.sessionStorage.getItem("statementId");
     },
     computed: {
-      ...mapState('socialSecurityReconcilateDetail',{
-          data:state => state.data
-      })
+//      ...mapState('socialSecurityReconcilateDetail',{
+//          data:state => state.data
+//      })
     },
     methods: {
-      ...mapActions('socialSecurityReconcilateDetail',[EventType.SOCIALSECURITYRECONCILATEDETAIL]),
+//      ...mapActions('socialSecurityReconcilateDetail',[EventType.SOCIALSECURITYRECONCILATEDETAIL]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -192,7 +192,11 @@
         api.serachStatementResultData({
           statementId: statementId
         }).then(data => {
-          this.statementResultData = data.data;
+          if (data.data && data.data.length > 0) {
+            this.statementResultData = data.data;
+          } else {
+            this.statementResultData = [];
+          }
         })
       },
       calculate(){

@@ -561,10 +561,10 @@
               ]);
             }
           },
-          {title: '财务支付日期', key: 'actualPaymentDate', width: 180, align: 'center',
+          {title: '财务支付日期', key: 'financePaymentDate', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.actualPaymentDate),
+                h('span', params.row.financePaymentDate),
               ]);
             }
           },

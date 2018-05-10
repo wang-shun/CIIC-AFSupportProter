@@ -497,7 +497,11 @@
         api.getSerial({
           comAccountId : this.socialSecurityPayOperator.comAccountId
         }).then(data => {
-          this.socialSecurityPayOperator.empSsSerial = data.data.data;
+          if (data.code == 200) {
+            this.socialSecurityPayOperator.empSsSerial = data.data.data;
+          } else {
+            this.$Message.error(data.data.message)
+          }
         })
       },
       initData(data) {
@@ -664,7 +668,7 @@
           return;
         }
 
-        var reg = /(^[1-9]([0-9]{1,17})?$)/;
+        var reg = /(^[1-9]([0-9]{1,9})?$)/;
         if (handleType && (!reg.test(this.socialSecurityPayOperator.empSsSerial))) {
           this.$Message.error("社保序号输入不正确.");
           return;

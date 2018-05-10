@@ -2,49 +2,6 @@ import utils from '../../../lib/ajax'
 import {domainJson} from "../domain_info";
 let ajax = utils.ajaxHfc;
 
-
-//公积金转移通知书
-function getFundTransferNoteObj(row){
-  var html = `<div style="page-break-after:always;">
-  <table cellpadding="0" cellspacing="0">
-    <tr>
-      <td height="85px"></td>
-    </tr>
-    <tr>
-      <td height="20px">
-        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 240px;">${row.year}</div>
-        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 55px;">${row.month}</div>
-        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 50px;">${row.day}</div>
-      </td>
-    </tr>
-     <tr>
-      <td height="30px">
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 270px;">${row.employeeName}</div>
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 270px;">${row.fundAccount}</div>
-      </td>
-    </tr>
-    <tr>
-      <td height="35px">
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 300px;">${row.transferInUnitName}</div>
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 245px;">${row.transferOutUnitName}</div>
-      </td>
-    </tr>
-    <tr>
-      <td height="35px">
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 300px;">${row.transferInAccount}</div>
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 245px;">${row.transferOutAccount}</div>
-      </td>
-    </tr>
-    <tr>
-      <td height="35px">
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 300px;">${row.totalNum}</div>
-      </td>
-    </tr>
-  </table>
-</div>`;
-  return html;
-}
-
 //公积金汇缴书
 function getFundPayNoteObj(row){
 
@@ -67,8 +24,8 @@ function getFundPayNoteObj(row){
         <div style="text-align: right; float: left; width: 130px;">　</div>
         <div style="text-align: left;  float: left; width: 196px;">${row.comAccountName}</div>
         <div style="text-align: left;  float: left; width: 60px;">${row.isRemitted==null?'':row.isRemitted?'✓':''}</div>
-        <div style="text-align: left;  float: left; width: 90px;">${row.paymentYear}</div>
-        <div style="text-align: left;  float: left; width: 50px;">${row.paymentMonth}</div>
+        <div style="text-align: left;  float: left; width: 90px;">${row.paymentYear==null?'':row.paymentYear}</div>
+        <div style="text-align: left;  float: left; width: 50px;">${row.paymentMonth==null?'':row.paymentMonth}</div>
       </td>
     </tr>
     <tr>
@@ -84,7 +41,7 @@ function getFundPayNoteObj(row){
       <td height="40px" style="vertical-align: top;">
         <div style="text-align: right; float: left; width: 110px;">&nbsp;</div>
         <div style="text-align: left; float: left; width: 294px;">${row.moneyCN}</div>
-        <div style="text-align: right; float: right; width: 120px;letter-spacing:10px">${row.remittedAmountArrange}</div>
+        <div style="text-align: left; float: left; width: 120px;letter-spacing:6px">${row.remittedAmountArrange}</div>
       </td>
     </tr>
     <tr>

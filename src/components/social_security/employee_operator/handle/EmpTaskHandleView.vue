@@ -494,10 +494,14 @@
           return year+'-'+month;
       },
       getSerial(){
+        if (!this.socialSecurityPayOperator.comAccountId || this.socialSecurityPayOperator.comAccountId == '') {
+          this.$Message.error("企业账号不存在，获取社保序号失败")
+          return
+        }
         api.getSerial({
           comAccountId : this.socialSecurityPayOperator.comAccountId
         }).then(data => {
-          if (data.code == 200) {
+          if (data.data.code == 200) {
             this.socialSecurityPayOperator.empSsSerial = data.data.data;
           } else {
             this.$Message.error(data.data.message)

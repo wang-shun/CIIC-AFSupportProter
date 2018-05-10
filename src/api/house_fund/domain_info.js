@@ -30,8 +30,8 @@ let domainJson = {
     "getMakePayListsUrl":"/api/fundcommandservice/hfFundPay/makePayLists",
     //获得汇缴支付编辑数据
     "getFundPaysOperateEditDataUrl":"/api/fundcommandservice/hfFundPay/fundPaysOperateEditData",
-    //获得汇缴支付详细数据(共用编辑的后台业务逻辑)
-    "getFundPaysOperateDetailDataUrl":"/api/fundcommandservice/hfFundPay/fundPaysOperateEditData",
+    //获得汇缴支付详细数据
+    "getFundPaysOperateDetailDataUrl":"/api/fundcommandservice/hfFundPay/fundPaysOperateDetailData",
 
     //"getMakePayListsUrl":"/api/fundcommandservice/hfFundPay/makePayLists",
     //公积金汇缴支付流程操作-送审

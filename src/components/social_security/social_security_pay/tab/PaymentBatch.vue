@@ -505,7 +505,6 @@
             this.addPaymentData.paymentMonth = data.data;
             this.addPaymentData.paymentBatchNum = '';
             this.addPaymentData.accountType = '';
-
             this.addPaymentData.isShow = true;
           }else{
             alert(data.message);

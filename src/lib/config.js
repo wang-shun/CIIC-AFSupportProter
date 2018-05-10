@@ -25,8 +25,10 @@ let basePaths = {};
     basePaths['hf-c'] = localhost + ':6007';
 	//雇佣管理
     basePaths['gy-c'] = localhost + ':6011';
-
+    
     basePaths['soc'] = localhost + ':6029';
+    //证件管理
+    basePaths['cm'] = localhost + ':6025';
 
   } else {
     // war

@@ -308,5 +308,6 @@ AJAX.ajaxSiteLetterService = createProxyAjaxForName('SiteLetterService');
 AJAX.ajaxSSPService = createProxyAjaxForName('SSPService');
 AJAX.ajaxSpecialOperationService = createProxyAjaxForName('SpecialOperationService');
 AJAX.ajaxSocMessage = createProxyAjaxForName('soc');
+AJAX.ajaxCM = createProxyAjaxForName('cm');
 
 export default AJAX;

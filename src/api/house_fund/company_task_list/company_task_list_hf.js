@@ -74,8 +74,6 @@ export class CompanyTaskListHF{
                     openAccountInfo.customerPayStartDate = i.comStartMonth
                     openAccountInfo.closeAccountEveryMonth = i.closeDay
                     openAccountInfo.operateStartMonth = i.operateStartMonth
-                    
-                    console.log('--'+i.strartHandleDate);
 
                     if (i.strartHandleDate!='' && i.strartHandleDate!=null){
                       openAccountInfo.acceptDate = i.strartHandleDate;
@@ -85,16 +83,6 @@ export class CompanyTaskListHF{
                     }
                     if (i.finishDate!='' && i.finishDate!=null){
                       openAccountInfo.finishDate = i.finishDate
-                    }
-
-                    // if (i.startHandleDateString!='' && i.startHandleDateString!=null){
-                    //   openAccountInfo.acceptDate = tools.parseDate(i.startHandleDateString)
-                    // }
-                    // if (i.sendCheckDateString!='' && i.sendCheckDateString!=null){
-                    //   openAccountInfo.deliveredDate = tools.parseDate(i.sendCheckDateString)
-                    // }
-                    if (i.finishDateString!='' && i.finishDateString!=null){
-                      openAccountInfo.finishDate = tools.parseDate(i.finishDateString)
                     }
                     
                     openAccountInfo.notes = i.comAccountRemark
@@ -125,9 +113,9 @@ export class CompanyTaskListHF{
                     changeOperator.comAccountName = i.comAccountNameTask
                     changeOperator.paymentTypeValue = i.paymentWayTask
                     changeOperator.taskStatusValue = i.taskStatus
-                    changeOperator.acceptDate = i.startHandleDateString
-                    changeOperator.deliveredDate = i.sendCheckDateString
-                    changeOperator.finishDate = i.finishDateString
+                    changeOperator.acceptDate = i.strartHandleDate
+                    changeOperator.deliveredDate = i.sendCheckDate
+                    changeOperator.finishDate = i.finishDate
                     changeOperator.remark=i.taskRemark
             
                     obj.changeOperator = changeOperator
@@ -136,9 +124,9 @@ export class CompanyTaskListHF{
                     endOperator.endMonth = i.endMonth
                     endOperator.endType = i.endType
                     endOperator.taskStatus = i.taskStatus
-                    endOperator.acceptDate = i.startHandleDateString
-                    endOperator.deliveredDate = i.sendCheckDateString
-                    endOperator.finishDate = i.finishDateString
+                    endOperator.acceptDate = i.strartHandleDate
+                    endOperator.deliveredDate = i.sendCheckDate
+                    endOperator.finishDate = i.finishDate
                     endOperator.remark = i.taskRemark
                     obj.endOperator = endOperator
 
@@ -151,12 +139,10 @@ export class CompanyTaskListHF{
                     companyTaskInfo.companyFundAccountNum = i.hfComAccount
                     companyTaskInfo.UKeyValue = i.ukStoreValue
                     companyTaskInfo.closeAccountEveryMonth = i.closeDay
-                    companyTaskInfo.acceptDate = i.startHandleDateString
-                    companyTaskInfo.deliveredDate = i.sendCheckDateString
-                    companyTaskInfo.finishDate = i.finishDateString
-
+                    companyTaskInfo.acceptDate = i.strartHandleDate
+                    companyTaskInfo.deliveredDate = i.sendCheckDate
+                    companyTaskInfo.finishDate = i.finishDate
                     obj.companyTaskInfo = companyTaskInfo
-
                     responseData.data.taskData.push(obj)
                 }
                 responseData.data.totalSize=response.data.total

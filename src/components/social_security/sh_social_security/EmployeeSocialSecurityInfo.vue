@@ -256,19 +256,23 @@
       //   return this.$decode.empClassify(val)
       // }
       saveEmpSerial(){
+        var reg = /(^[1-9]([0-9]{1,9})?$)/;
+        if (!reg.test(this.employeeAndCustomer.ssSerial)) { 
+          this.$Message.error("社保序号输入不正确.");
+          return;
+        }
           var formData={
             ssSerial:'',
             empArchiveId:this.$route.query.empArchiveId,
             comAccountId: this.employeeAndCustomer.comAccountId
           };
-          let self=this;
           this.$Modal.confirm({
           title: "你确认保存信息吗？",
           okText: '确定',
           cancelText: '取消',
           onOk: () => {
             {//收集数据
-              formData.ssSerial = self.employeeAndCustomer.ssSerial
+              formData.ssSerial = this.employeeAndCustomer.ssSerial
             }
             api.saveEmpSerial(formData).then(data => {
               data=data.data;

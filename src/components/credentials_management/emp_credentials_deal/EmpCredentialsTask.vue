@@ -165,7 +165,7 @@
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="办证公司名称：" prop="">
-                <Input v-model="formItem.perCompanyName" placeholder="请输入"/>
+                <Input v-model="formItem.permitCompanyName" placeholder="请输入"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -241,7 +241,7 @@ export default {
         integralBillPrintTime: "",
         payType: "",
         chargeAmount: "",
-        perCompanyName: "",
+        permitCompanyName: "",
         telephone: "",
         remark: "",
         materialIds: "",
@@ -266,7 +266,7 @@ export default {
     callBack(value) {
       if (value != null) {
         this.formItem = value;
-        this.formItem.perCompanyName = value.companyName;
+        this.formItem.permitCompanyName = value.companyName;
       }
     },
     findCompanyDetial(companyId) {

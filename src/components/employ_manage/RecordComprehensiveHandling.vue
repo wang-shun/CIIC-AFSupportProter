@@ -12,6 +12,7 @@
     </div>
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
+        <Button type="info" @click="printLabel">打印贴头</Button>
         <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
       </Col>
@@ -547,6 +548,53 @@
       exportXLS() {
         let params = this.searchCondition;
         api.archiveSearchExportOpt(params);
+      },
+      printLabel(){
+        let selection = this.$refs.payComSelection.getSelection();
+        if(selection.length == 0){
+          alert("没有选中的列");
+          return;
+        }
+        let head = `<html><head><title>打印贴头</title></head><body style="margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; line-height: 1; font-size: 12px; background-size: 600px 336px; background-repeat: no-repeat;">`;
+        let foot = `</body></html>`;
+        let obj = '';
+        let isFrist = true;
+        selection.forEach(sel => {
+          let docType = '无';
+          let docNum = '无';
+          if(sel.docType){
+            docType = sel.docType;
+          }else if(sel.yuliuDocType){
+            docType = sel.yuliuDocType;
+          }
+          if(sel.docNum){
+            docNum = sel.docNum;
+          }else if(sel.yuliuDocNum){
+            docNum = sel.yuliuDocNum;
+          }
+          if(isFrist == false){
+            obj += '<tr><td height="30px"></td></tr>';
+          }
+          if(isFrist){
+            isFrist = false;
+          }
+          obj += 
+          '<table cellpadding="0" cellspacing="0">'+
+            '<tr>'+
+              '<td height="60px">'+
+                '<div class="lh20" style="width: 300;"><font size="5">'+ docType +'</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="5">'+ docNum +'</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="5">'+ sel.employeeName +'</font></div>'+
+                '<div class="lh20" style="width: 60px;"><br/></div>'+
+                '<div class="lh20" style="width: 60px;"><br/><br/></div>'+
+                '<div class="lh20" style="width: 145px;" float="right">&nbsp;&nbsp;&nbsp;<font size="5">'+ sel.idNum +'</font></div>'
+              '</td>'+
+            '</tr>'+
+          '</table>';
+        });
+        let html = head + obj + foot;
+        let pwin = window.open("","print")
+        pwin.document.write(html);
+        pwin.document.close();
+        pwin.print();
       },
       generateInStock() {
 

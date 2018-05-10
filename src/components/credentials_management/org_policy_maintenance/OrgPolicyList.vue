@@ -89,7 +89,8 @@
 import axios from "axios";
 import Tools from "../../../lib/tools";
 import Decode from "../../../lib/decode";
-
+import ajax from "../../../lib/ajax";
+const AJAX = ajax.ajaxCM;
 const host = process.env.SITE_HOST;
 export default {
   data() {
@@ -241,7 +242,7 @@ export default {
       params.params.pageSize = this.pageSize;
       params.params.name = this.queryItem.name;
       params.params.type = this.queryItem.type;
-      axios.get(host + "/api/orgPolicy/find", params).then(response => {
+      AJAX.get(host + "/api/orgPolicy/find", params).then(response => {
         this.data1 = response.data.data.records;
         this.total = response.data.data.total;
       });
@@ -256,8 +257,8 @@ export default {
     ok(value) {
       this.$refs[value].validate(valid => {
         if (valid) {
-          axios
-            .post(host + "/api/orgPolicy/saveOrUpdate", this.formItem)
+          AJAX
+            .postJSON(host + "/api/orgPolicy/saveOrUpdate", this.formItem)
             .then(response => {
               if (response.data.errCode === "0") {
                 this.$Notice.success({
@@ -286,10 +287,9 @@ export default {
     },
     del(val) {
       if (val !== "" && val !== null) {
-        axios
-          .delete(host + "/api/orgPolicy/delete/" + val)
+        AJAX
+          .get(host + "/api/orgPolicy/delete?id=" + val)
           .then(response => {
-            console.log(response.data.errCode === 0);
             if (response.data.errCode === "0") {
               this.find();
               this.$Notice.success({

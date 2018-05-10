@@ -104,9 +104,10 @@
 </template>
 
 <script>
+import ajax from "../../../lib/ajax";
 import axios from "axios";
-
 const host = process.env.SITE_HOST;
+const AJAX = ajax.ajaxCM;
 export default {
   data() {
     return {
@@ -133,7 +134,7 @@ export default {
         empCode: "",
         empName: "",
         IDNum: "",
-        status: ["", ""],
+        status: ["",""],
         companyCode: ""
       },
       formItem: {
@@ -320,18 +321,18 @@ export default {
       params.params.companyId = this.queryItem.companyCode;
       params.params.type = this.queryItem.status[0];
       params.params.status = this.queryItem.status[1];
-      axios.get(host + "/api/emp/find", params).then(response => {
+      AJAX.get(host + "/api/emp/find", params).then(response => {
         this.employeePage = response.data.data.records;
         this.total = response.data.data.total;
       });
     },
     findTaskType() {
-      axios.get(host + "/api/emp/findTaskType/0").then(response => {
+      AJAX.get(host + "/api/emp/findTaskType/0").then(response => {
         this.taskType = response.data.data;
       });
     },
     taskTypeChange(val) {
-      axios.get(host + "/api/emp/findTaskType/" + val.value).then(response => {
+      AJAX.get(host + "/api/emp/findTaskType/" + val.value).then(response => {
         this.taskDealType = response.data.data;
       });
     },
@@ -341,6 +342,7 @@ export default {
     },
     reset(value) {
       this.$refs[value].resetFields();
+      this.queryItem.status = status
     },
     add() {
       this.$router.push({ name: "empAdd" });
@@ -386,7 +388,7 @@ export default {
       });
     },
     async findTaskTypeDetial(id) {
-      await axios
+      await AJAX
         .get(
           host + "/api/empCredentialsDeal/findTaskTypeDetial?taskTypeId=" + id
         )

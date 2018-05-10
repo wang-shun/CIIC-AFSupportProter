@@ -129,7 +129,7 @@
             </div>
           </div>
           <div class="layout-copy">
-            <span>2017 &copy; 薪酬管理工资单</span>
+            <span></span>
           </div>
         </div>
       </i-col>

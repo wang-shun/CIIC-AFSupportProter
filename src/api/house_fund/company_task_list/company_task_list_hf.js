@@ -74,12 +74,25 @@ export class CompanyTaskListHF{
                     openAccountInfo.customerPayStartDate = i.comStartMonth
                     openAccountInfo.closeAccountEveryMonth = i.closeDay
                     openAccountInfo.operateStartMonth = i.operateStartMonth
-                    if (i.startHandleDateString!='' && i.startHandleDateString!=null){
-                      openAccountInfo.acceptDate = tools.parseDate(i.startHandleDateString)
+                    
+                    console.log('--'+i.strartHandleDate);
+
+                    if (i.strartHandleDate!='' && i.strartHandleDate!=null){
+                      openAccountInfo.acceptDate = i.strartHandleDate;
                     }
-                    if (i.sendCheckDateString!='' && i.sendCheckDateString!=null){
-                      openAccountInfo.deliveredDate = tools.parseDate(i.sendCheckDateString)
+                    if (i.sendCheckDate!='' && i.sendCheckDate!=null){
+                      openAccountInfo.deliveredDate = i.sendCheckDate
                     }
+                    if (i.finishDate!='' && i.finishDate!=null){
+                      openAccountInfo.finishDate = i.finishDate
+                    }
+
+                    // if (i.startHandleDateString!='' && i.startHandleDateString!=null){
+                    //   openAccountInfo.acceptDate = tools.parseDate(i.startHandleDateString)
+                    // }
+                    // if (i.sendCheckDateString!='' && i.sendCheckDateString!=null){
+                    //   openAccountInfo.deliveredDate = tools.parseDate(i.sendCheckDateString)
+                    // }
                     if (i.finishDateString!='' && i.finishDateString!=null){
                       openAccountInfo.finishDate = tools.parseDate(i.finishDateString)
                     }

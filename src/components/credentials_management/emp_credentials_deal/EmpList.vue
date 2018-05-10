@@ -134,7 +134,7 @@ export default {
         empCode: "",
         empName: "",
         IDNum: "",
-        status: ["", ""],
+        status: ["",""],
         companyCode: ""
       },
       formItem: {
@@ -342,6 +342,7 @@ export default {
     },
     reset(value) {
       this.$refs[value].resetFields();
+      this.queryItem.status = status
     },
     add() {
       this.$router.push({ name: "empAdd" });

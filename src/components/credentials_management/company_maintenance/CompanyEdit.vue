@@ -288,11 +288,8 @@ export default {
         this.credentialsType = value.credentialsType;
         this.companyId = value.companyId;
         this.title = value.lab;
-        var params = {};
-        params.params = {};
-        params.params.type = value.credentialsType;
-        AJAX.getJSON(host + "/api/orgPolicy/find", params).then(response => {
-          this.orgPoilcys = response.data.data.records;
+        AJAX.get(host + "/api/orgPolicy/getByType?type="+value.credentialsType).then(response => {
+          this.orgPoilcys = response.data.data;
         });
       }
     },

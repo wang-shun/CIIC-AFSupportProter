@@ -10,37 +10,37 @@
               <a href="#/org_policy_maintenance/org_policy_list">
                 {{formItem.name}}
               </a>
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="操作方式：" prop="operateType">
               {{formItem.operateTypeN}}
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="支付方式：" prop="payType">
               {{formItem.payTypeN}}
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="操作账号：" prop="operateAccount">
               {{formItem.operateAccount}}
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="操作密码：" prop="operatePwd">
               {{formItem.operatePwd}}
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="费用类型：" prop="chargeType">
               {{formItem.chargeTypeN}}
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="特殊收费备注：" prop="specialChargeRemark" v-if="formItem.chargeTypeN === '特殊收费'">
               {{formItem.specialChargeRemark}}
-            </Form-item> 
+            </Form-item>
           </i-col>
         </Row>
         <h4>留存材料信息</h4>
@@ -145,7 +145,7 @@
           <i-col span="12">
             <Form-item label="跟进说明：" prop="name"  style="width:400px;">
               <Input v-model="followDescription" placeholder="请输入" type="textarea" :autosize="{minRows: 2,maxRows: 5}"/>
-            </Form-item> 
+            </Form-item>
           </i-col>
         </Row>
         <h3>跟进历史</h3>
@@ -330,6 +330,11 @@ export default {
       ],
       data2: []
     };
+  },
+  watch: {
+    emp: function (val,oldVal) {
+        this.clickRow(val[0])
+    }
   },
   methods: {
     clickRow(value) {

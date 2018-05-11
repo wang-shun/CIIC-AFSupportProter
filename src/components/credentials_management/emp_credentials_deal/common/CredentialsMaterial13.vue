@@ -303,7 +303,6 @@ export default {
     },
     change(info) {
       let materialsIds = "";
-      debugger;
       if (info.lev00.toString() != "") {
         materialsIds = materialsIds + info.lev00.toString() + ",";
       }

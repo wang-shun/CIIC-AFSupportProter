@@ -250,18 +250,19 @@ export default {
     };
   },
   mounted() {
-    let data = this.$route.params.data;
+    let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
+    let data = credentialsTaskData.data;
     Tools.copy(data, this);
     this.companyCode = data.companyId;
     this.empCode = data.employeeId;
     this.empName = data.employeeName;
   },
   created() {
-    this.findAll(this.$route.params.data.employeeId);
-    this.findEmpDetial(this.$route.params.data);
-    this.findCompanyDetial(this.$route.params.data.companyId);
+    let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
+    this.findAll(credentialsTaskData.data.employeeId);
+    this.findEmpDetial(credentialsTaskData.data);
+    this.findCompanyDetial(credentialsTaskData.data.companyId);
   },
-  computed: {},
   methods: {
     callBack(value) {
       if (value != null) {
@@ -329,7 +330,7 @@ export default {
       });
     },
     save() {
-
+      let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
       let params = {};
       params = { ...this.formItem };
       if (
@@ -415,7 +416,7 @@ export default {
       params.credentialsDealType = params.credentialsDealType;
       params.basicProductId =
         params.basicProductId == null
-          ? this.$route.params.basicProductId
+          ? credentialsTaskData.basicProductId
           : params.basicProductId;
       params.templateType = this.templateType;
       AJAX
@@ -463,18 +464,19 @@ export default {
               data[i].companyName = this.companyName;
             }
             let temp = {};
-            if (this.$route.params.isDeal == true) {
-              let data1 = this.$route.params.data;
+            let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
+            if (credentialsTaskData.isDeal == true) {
+              let data1 = credentialsTaskData.data;
               temp.empCode = data1.employeeId;
               temp.empName = data1.employeeName;
               temp.companyCode = data1.companyId;
               temp.companyName = data1.companyName;
-              temp.credentialsTypeN = this.$route.params.typeN;
-              temp.credentialsType = this.$route.params.type;
-              temp.companyId = this.$route.params.companyId;
-              if (this.$route.params.dealType != "") {
-                temp.credentialsDealType = this.$route.params.dealType;
-                temp.credentialsDealTypeN = this.$route.params.dealTypeN;
+              temp.credentialsTypeN = credentialsTaskData.typeN;
+              temp.credentialsType = credentialsTaskData.type;
+              temp.companyId = credentialsTaskData.companyId;
+              if (credentialsTaskData.dealType != "") {
+                temp.credentialsDealType = credentialsTaskData.dealType;
+                temp.credentialsDealTypeN = credentialsTaskData.dealTypeN;
               }
               temp.action = "1";
               response.data.data.splice(0, 0, temp);

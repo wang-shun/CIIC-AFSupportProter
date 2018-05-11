@@ -348,14 +348,14 @@ export default {
       this.$router.push({ name: "empAdd" });
     },
     lookInfo(v) {
+      let credentialsTaskData = {}
+      credentialsTaskData.data = v
+      credentialsTaskData.type = ""
+      credentialsTaskData.dealType = ""
+      credentialsTaskData.isDeal = false
+      sessionStorage.setItem('credentialsTaskData', JSON.stringify(credentialsTaskData))
       this.$router.push({
         name: "empCredentialsTask",
-        params: {
-          data: v,
-          type: "",
-          dealType: "",
-          isDeal: false
-        }
       });
     },
     ok(value, data) {
@@ -368,20 +368,23 @@ export default {
         if (valid) {
           this.$router.push({
             name: "empCredentialsTask",
-            params: {
-              data: data,
-              type: parseInt(this.formItem.type),
-              typeN: this.$decode.sel_type(parseInt(this.formItem.type)),
-              dealType: parseInt(this.formItem.dealType),
-              dealTypeN: this.$decode.deal_type(
-                parseInt(this.formItem.dealType)
-              ),
-              companyId: data.companyCode,
-              basicProductId: this.productId,
-              isDeal: true
-            }
+            
           });
+          let credentialsTaskData = {}
+          credentialsTaskData.data = data,
+          credentialsTaskData.type = parseInt(this.formItem.type),
+          credentialsTaskData.typeN = this.$decode.sel_type(parseInt(this.formItem.type)),
+          credentialsTaskData.dealType = parseInt(this.formItem.dealType),
+          credentialsTaskData.dealTypeN = this.$decode.deal_type(
+            parseInt(this.formItem.dealType)
+          ),
+          credentialsTaskData.companyId = data.companyCode,
+          credentialsTaskData.basicProductId = this.productId,
+          credentialsTaskData.isDeal = true
+
+          sessionStorage.setItem('credentialsTaskData', JSON.stringify(credentialsTaskData))
           this.modal1 = false;
+          console.log("isDealZZZZZ"+sessionStorage.getItem('credentialsTaskData'))
         } else {
           this.$Message.error("请选择办证类型!");
         }

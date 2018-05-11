@@ -99,9 +99,9 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem name="0">详细</DropdownItem>
-            <DropdownItem name="1">编辑</DropdownItem>
-            <DropdownItem name="2">删除</DropdownItem>
+            <DropdownItem :loading="isLoading" name="0">详细</DropdownItem>
+            <DropdownItem :loading="isLoading" name="1">编辑</DropdownItem>
+            <DropdownItem :loading="isLoading" name="2">删除</DropdownItem>
             <!-- <DropdownItem name="3">取消汇缴</DropdownItem> -->
           </DropdownMenu>
         </Dropdown>
@@ -145,7 +145,7 @@
       <Table border :columns="operateDetailColumns" :data="operateDetailData"></Table>
       <div slot="footer">
         <!-- <Button type="primary" @click="isShowOperateDetail = false;">汇缴</Button> -->
-        <Button type="info" @click="operateDetailExcelExport">导出</Button>
+        <Button type="primary":loading="isLoading" @click="operateDetailExcelExport">导出</Button>
         <Button type="warning" @click="isShowOperateDetail = false;">返回</Button>
       </div>
     </Modal>
@@ -153,7 +153,7 @@
     <Modal v-model="isShowOperateEdit" title="编辑" width="960">
       <Table border :columns="operateEditColumns" :data="operateEditData"></Table>
       <div slot="footer">
-        <Button type="primary" @click="clickOperateAdd">添加</Button>
+        <Button :loading="isLoading" type="primary" @click="clickOperateAdd">添加</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </div>
     </Modal>
@@ -171,8 +171,8 @@
          <Form :label-width=75 ref="operatorSearchData" :model="operatorSearchData">
          </Form>
        <div slot="footer">
-         <Button type="info" @click="createPaymentComList">保存</Button>
-         <Button type="warning" @click="goBack">返回</Button>
+         <Button type="primary" :loading="isLoading" @click="createPaymentComList">保存</Button>
+         <Button type="warning" @click="isShowOperateAdd = false;">返回</Button>
        </div>
     </Modal>
   </div>
@@ -192,6 +192,7 @@
     components: {progressBar, fundPayChangeList, addFundPayChangeList, fundPayRepairList, addFundPayRepairList,InputCompany},
     data() {
       return {
+        isLoading: false,
         collapseInfo: [1],
         fundPayData:[],//汇缴支付列表里的数据
         operateEditData:[],//汇缴支付列表编辑操作数据
@@ -870,17 +871,28 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
+        // 支付状态: 1 ,可付(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
+        // 可付和送审才允许编辑
+        if(row.paymentState != 1 && row.paymentState != 2){
+          this.$Message.info("当前状态，不允许编辑！");
+          return false;
+        }
         let params ={
           pageSize: 99999,//暂时这么改，后续把分页去掉
           pageNum: 1,
-          params:row
+          params:row,
         }
         FundPay.getFundPaysOperateEditData(params).then(data=>{
-          this.operateEditData = data.data.operateEditData
+          if(data.data.code == 200){
+            this.operateEditData = data.data.operateEditData;
+            this.isShowOperateEdit = true;
+          } else {
+            this.isShowOperateEdit = false;
+            this.$Message.info(data.data.message);
+          }
         }).catch(error=>{
           console.log(error)
         })
-          this.isShowOperateEdit = true;
       },
       delPayment(){
         let row;

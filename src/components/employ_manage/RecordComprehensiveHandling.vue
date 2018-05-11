@@ -555,10 +555,11 @@
           alert("没有选中的列");
           return;
         }
-        let head = `<html><head><title>打印贴头</title></head><body style="margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; line-height: 1; font-size: 12px; background-size: 600px 336px; background-repeat: no-repeat;">`;
+        let head = `<!doctype html><html><head><title>打印贴头</title></head><body>`;
         let foot = `</body></html>`;
         let obj = '';
         let isFrist = true;
+        obj +=  '<table cellpadding="0" cellspacing="0">';
         selection.forEach(sel => {
           let docType = '无';
           let docNum = '无';
@@ -573,23 +574,33 @@
             docNum = sel.yuliuDocNum;
           }
           if(isFrist == false){
-            obj += '<tr><td height="30px"></td></tr>';
+            obj += '<tr><td height="50px"></td></tr>';
           }
           if(isFrist){
             isFrist = false;
           }
           obj += 
-          '<table cellpadding="0" cellspacing="0">'+
             '<tr>'+
-              '<td height="60px">'+
-                '<div class="lh20" style="width: 300;"><font size="5">'+ docType +'</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="5">'+ docNum +'</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<font size="5">'+ sel.employeeName +'</font></div>'+
-                '<div class="lh20" style="width: 60px;"><br/></div>'+
-                '<div class="lh20" style="width: 60px;"><br/><br/></div>'+
-                '<div class="lh20" style="width: 145px;" float="right">&nbsp;&nbsp;&nbsp;<font size="5">'+ sel.idNum +'</font></div>'
-              '</td>'+
-            '</tr>'+
-          '</table>';
+            '<td height="60px">'+
+              '<font size="6">'+ docType +'</font>&nbsp;'+
+            '</td>'+
+            '<td height="60px">'+
+              '<font size="6">'+ docNum +'</font>&nbsp;'+
+            '</td>'+
+            '<td height="60px">'+
+              '<font size="6">'+ sel.employeeName +'</font>'+
+            '</td>'+
+          '</tr>'+
+          '<tr>'+
+            '<td height="30px"></td>'+
+          '</tr>'+
+          '<tr>'+
+            '<td height="40px" colspan="3">'+
+              '<font size="6">'+  sel.idNum +'</font>'+
+            '</td>'+
+          '</tr>';
         });
+        obj += '</table>';
         let html = head + obj + foot;
         let pwin = window.open("","print")
         pwin.document.write(html);

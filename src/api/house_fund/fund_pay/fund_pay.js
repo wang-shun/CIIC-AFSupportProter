@@ -222,7 +222,9 @@ export class FundPay {
           responseData.data.message= response.data.message
           resolve(responseData)
         }else{
-          reject(Error('后台异常！'))
+          responseData.data.code=response.data.code
+          responseData.data.message= response.data.message
+          resolve(responseData)
         }
       })
         .catch(function (error) {

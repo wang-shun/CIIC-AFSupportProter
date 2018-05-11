@@ -16,7 +16,7 @@
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="适用人群：" prop="rightPerson">
             <Select v-model="formItem.rightPerson" placeholder="请选择">
-              <Option v-for="item in rightpersonTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
+              <Option v-for="item in rightPersonTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
           </Col>
@@ -28,8 +28,8 @@
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="颜色：" prop="color">
-            <Input v-model="formItem.color" placeholder="白色，黑色，红色"/>
+          <Form-item label="规格：" prop="color">
+            <Input v-model="formItem.color"/>
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -84,7 +84,7 @@
 <script>
   import {mapState, mapActions, mapGetters} from "vuex"
   import EventTypes from "../../../store/event_types"
-  import Vue from 'vue'
+  import dataSource from '../../../store/modules/flexible_benefit/data_sources/gift'
 
   export default {
     data() {
@@ -93,37 +93,10 @@
         addResult: "1",
         file: null,
         formItem: {},
-        rightpersonTypes: [
-          {
-            value: '0', label: '男士适用'
-          }, {
-            value: '1', label: '女士适用'
-          }, {
-            value: '2', label: '男女通用'
-          }],
+        rightPersonTypes: dataSource.rightPersonTypes,
 
-        giftTypeProperties: [
-          {
-            value: '0', label: '票券'
-          }, {
-            value: '1', label: '办公用品'
-          }, {
-            value: '2', label: '生活用品'
-          }, {
-            value: '3', label: '食品'
-          }, {
-            value: '4', label: '饰品'
-          }, {
-            value: '5', label: '数码周边'
-          }, {
-            value: '6', label: '儿童用品'
-          }],
-        statusProperties: [
-          {
-            value: "0", label: "正常"
-          }, {
-            value: "1", label: "已下架"
-          }],
+        giftTypeProperties: dataSource.giftTypeProperties,
+        statusProperties: dataSource.statusProperties,
         giftValidator: this.$Validator.giftValidator,
       };
     },
@@ -137,7 +110,6 @@
         if (this.formItem) {
           sessionStorage.setItem('updateGiftFormItem', JSON.stringify(this.formItem));
         }
-        // console.log("this.formItem==watch======" + sessionStorage.getItem('updateGiftFormItem'));
       }
     },
 

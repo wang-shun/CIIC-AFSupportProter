@@ -138,12 +138,10 @@
   </div>
 </template>
 <script>
-  import taskExpend from './TaskExpend.vue';
   import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
   import apiAjax from "../../../data/health_medical/task_medica.js";
 
   export default {
-    components: {taskExpend},
     data() {
       return {
         modal1: false,
@@ -179,15 +177,12 @@
         },
         taskColumns: [
           {
-            type: "expand",
-            width: 50,
-            render: (h, params) => {
-              return h(taskExpend, {
-                props: {
-                  row: params.row
-                }
-              });
-            }
+            type: "selection",
+            width: 60,
+            align: "center"
+          },
+          {
+            title: "投保项目", sortable: true, key: "productName", align: "center", width: 150
           },
           {
             title: "雇员编号", sortable: true, key: "employeeId", align: "center", width: 150
@@ -245,6 +240,51 @@
             render: (h, params) => {
               if (params.row.departuredDate != null) {
                 return h('div', this.$utils.formatDate(params.row.departuredDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            // TODO: 合同开始时间数据待确认，等待数据源
+            title: "合同开始时间", sortable: true, key: "diseaseName", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.diseaseName != null) {
+                return h('div', this.$utils.formatDate(params.row.diseaseName, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: "公司编号", sortable: true, key: "companyId", align: "center", width: 150
+          },
+          {
+            title: "公司名称", sortable: true, key: "companyName", align: "center", width: 150
+          },
+          {
+            title: "证件号码", sortable: true, key: "idNum", align: "center", width: 150
+          },
+          {
+            title: "保险起始日期", sortable: true, key: "startConfirmDate", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.startConfirmDate != null) {
+                return h('div', this.$utils.formatDate(params.row.startConfirmDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: "保险截止日期", sortable: true, key: "endConfirmDate", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.endConfirmDate != null) {
+                return h('div', this.$utils.formatDate(params.row.endConfirmDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: "提交人", sortable: true, key: "createdBy", align: "center", width: 150
+          },
+          {
+            title: "提交时间", sortable: true, key: "createdTime", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.createdTime != null) {
+                return h('div', this.$utils.formatDate(params.row.createdTime, "YYYY-MM-DD"));
               }
             }
           }

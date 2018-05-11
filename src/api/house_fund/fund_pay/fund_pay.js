@@ -27,7 +27,7 @@ function getFundPayNoteObj(row){
       </td>
     </tr>
     <tr>
-      <td height="30px" style="vertical-align: top;">
+      <td height="41px" style="vertical-align: top;">
       <div style="text-align: right; float: left; width: 130px;">　</div>
         <div style="text-align: left; float: left; width: 196px;">${row.hfComAccount}</div>
         <div style="text-align: left; float: left; width: 60px;">${row.isRepair==null?'':row.isRepair?'✓':''}</div>
@@ -36,14 +36,14 @@ function getFundPayNoteObj(row){
       </td>
     </tr>
     <tr>
-      <td height="50px" style="vertical-align: center;">
+      <td height="40px" style="vertical-align: top;">
         <div style="text-align: right; float: left; width: 110px;">&nbsp;</div>
         <div style="text-align: top; float: left; width: 294px;">${row.moneyCN}</div>
         <div style="text-align: right; float: left; width: 120px;letter-spacing:6px">${row.remittedAmountArrange}</div>
       </td>
     </tr>
     <tr>
-      <td height="50px" style="vertical-align: center;">
+      <td height="60px" style="vertical-align: center;">
           <div>
             <div style="text-align: right;  float: left; width: 65px;">${row.remittedCountEmpLast==null?'　':row.remittedCountEmpLast}</div>
             <div style="text-align: right;  float: left; width: 75px;">${row.remittedAmountLast==null?'　':row.remittedAmountLast}</div>
@@ -68,7 +68,7 @@ function getFundPayNoteObj(row){
       </td>
     </tr>
     <tr>
-      <td height="60px" style="vertical-align: bottom;"></td>
+      <td height="50px" style="vertical-align: bottom;"></td>
     </tr>
   </table>
 </div>`;

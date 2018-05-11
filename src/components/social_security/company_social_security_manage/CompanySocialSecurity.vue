@@ -302,7 +302,7 @@
               let taskType = ''
               let result= params.row.taskCategory
               if(result=='1')taskType = '开户'
-              else if(result=='2')taskType = '转移'
+              else if(result=='2')taskType = '转入'
               else if(result=='3')taskType = '变更'
               else if(result=='4')taskType = '终止'
               return h('div', {style: {textAlign: 'center'}}, [

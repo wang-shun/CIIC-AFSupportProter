@@ -517,11 +517,11 @@
         var reg = /(^[1-9]([0-9]{1,19})?$)/;
 
         if (!reg.test(this.viewEmpArchive.hfEmpAccount)) { 
-          this.$Message.error("基本公积金账号输入不正确，必须要求数字类型。");
+          this.$Message.error("【基本公积金账号】输入不正确，必须要求数字类型，并且不超过20位。");
           return;
         }
         if (this.viewEmpArchive.empArchiveIdBc && !reg.test(this.viewEmpArchive.hfEmpAccountBc)) { 
-          this.$Message.error("补充公积金账号输入不正确，必须要求数字类型。");
+          this.$Message.error("【补充公积金账号】输入不正确，必须要求数字类型，并且不超过20位。");
           return;
         }
           var formData={

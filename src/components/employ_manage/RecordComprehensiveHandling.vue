@@ -574,7 +574,7 @@
             docNum = sel.yuliuDocNum;
           }
           if(isFrist == false){
-            obj += '<tr><td height="30px"></td></tr>';
+            obj += '<tr><td height="50px"></td></tr>';
           }
           if(isFrist){
             isFrist = false;
@@ -582,10 +582,10 @@
           obj += 
             '<tr>'+
             '<td height="60px">'+
-              '<font size="6">'+ docType +'</font>&nbsp;&nbsp;&nbsp;'+
+              '<font size="6">'+ docType +'</font>&nbsp;'+
             '</td>'+
             '<td height="60px">'+
-              '<font size="6">'+ docNum +'</font>&nbsp;&nbsp;&nbsp;'+
+              '<font size="6">'+ docNum +'</font>&nbsp;'+
             '</td>'+
             '<td height="60px">'+
               '<font size="6">'+ sel.employeeName +'</font>'+
@@ -595,7 +595,7 @@
             '<td height="30px"></td>'+
           '</tr>'+
           '<tr>'+
-            '<td height="60px" colspan="3">'+
+            '<td height="40px" colspan="3">'+
               '<font size="6">'+  sel.idNum +'</font>'+
             '</td>'+
           '</tr>';

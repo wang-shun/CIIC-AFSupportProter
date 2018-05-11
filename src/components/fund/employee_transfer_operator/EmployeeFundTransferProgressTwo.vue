@@ -257,6 +257,7 @@
         transferOutUnitAccountList: [],
         transferInUnitAccountList: [],
         transferNotice:{
+          empTaskId:'',
           employeeId: '',
           companyId: '',
           hfType:'',
@@ -328,7 +329,7 @@ this.initData();
               this.transferNotice.companyId=params.companyId;
               this.transferNotice={};
             }else{
-           this.transferNotice1 = data.data.empTaskTransferBo;
+            this.transferNotice1 = data.data.empTaskTransferBo;
             this.getDictData();
             }
           } else {

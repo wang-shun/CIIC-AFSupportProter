@@ -207,6 +207,10 @@ html, body, .ivu-row-flex, .layout {
   float: right;
 }
 
+.ivu-table-row-highlight td{
+  background-color: #BFEFFF;
+}
+
 .ivu-menu-vertical .ivu-menu-item, .ivu-menu-vertical .ivu-menu-submenu-title {
   padding: 0;
   padding-left: 24px;

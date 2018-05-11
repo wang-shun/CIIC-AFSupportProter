@@ -21,17 +21,17 @@
               <Select v-model="formItem.operateType" placeholder="请选择" transfer>
                 <Option v-for="(value,key) in this.baseDic.operateType" :value="key" :key="key">{{ value }}</Option>
               </Select>
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="操作账号：" prop="operateAccount">
               <Input v-model="formItem.operateAccount" placeholder="请输入"/>
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="操作密码：" prop="operatePwd">
               <Input v-model="formItem.operatePwd" placeholder="请输入" />
-            </Form-item> 
+            </Form-item>
           </i-col>
         </Row>
         <h4>收费信息</h4>
@@ -43,7 +43,7 @@
                 <Option value="2">常规收费</Option>
                 <Option value="3">特殊收费</Option>
               </Select>
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="支付方式：" prop="payType">
@@ -51,12 +51,12 @@
                 <Option value="1">台账</Option>
                 <Option value="2">员工自付</Option>
               </Select>
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="特殊收费备注：" prop="specialChargeRemark" v-if="formItem.chargeType === '3'">
               <Input v-model="formItem.specialChargeRemark" type="textarea" :autosize="{minRows: 3,maxRows: 6}" placeholder="请输入"/>
-            </Form-item> 
+            </Form-item>
           </i-col>
         </Row>
         <h4>留存材料信息</h4>
@@ -109,12 +109,12 @@
             </Form-item>
           </i-col>
         </Row>
-        <Row type="flex" justify="start" class="tr">  
+        <Row type="flex" justify="start" class="tr">
           <i-col :sm="{span: 24}">
             <Button type="primary" @click="save" class="ml10">保存</Button>
             <Button type="warning" @click="back" class="ml10">取消</Button>
           </i-col>
-        </Row> 
+        </Row>
       </Form>
     </Card>
     </div>
@@ -218,6 +218,7 @@ export default {
   },
   created() {
     this.find();
+
   },
   methods: {
     find() {
@@ -225,7 +226,7 @@ export default {
       AJAX.get(host + "/api/companyExt/find/" + companyCode).then(response => {
         let t = response.data.data;
         let labs = [
-          { lab: "积分办理", credentialsType: 1, companyId: companyCode },
+          { lab: "积分办理", credentialsType: 1, companyId: companyCode ,_highlight: true},
           { lab: "居住证B证", credentialsType: 2, companyId: companyCode },
           { lab: "留学生落户", credentialsType: 3, companyId: companyCode },
           { lab: "居转户", credentialsType: 4, companyId: companyCode },
@@ -240,6 +241,8 @@ export default {
           }
         }
         this.data1 = labs;
+        this.formItem = labs[0];
+        this.selectedRow(this.formItem)
       });
     },
     save() {

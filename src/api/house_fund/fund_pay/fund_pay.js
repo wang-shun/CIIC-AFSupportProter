@@ -4,23 +4,21 @@ let ajax = utils.ajaxHfc;
 
 //公积金汇缴书
 function getFundPayNoteObj(row){
-
-  console.log(row)
   var html = `<div style="page-break-after:always;">
-  <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; width: 600px; height: 336px;margin-left:22px;margin-top:-67px ">
+  <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; width: 600px; height: 336px;margin-left:30px;margin-top:0px ">
     <tr>
-      <td height="60px" style="vertical-align: bottom;"></td>
+      <td height="40px" style="vertical-align: bottom;"></td>
     </tr>
     <tr>
-      <td height="20px" style="vertical-align: bottom;">
-        <div style="text-align: right;  float: left; width: 230px;">${row.curYear}</div>
+      <td height="30px" style="vertical-align: top;">
+        <div style="text-align: right;  float: left; width: 220px;">${row.curYear}</div>
         <div style="text-align: right;  float: left; width: 60px;">${row.curMonth}</div>
         <div style="text-align: right;  float: left; width: 60px;">${row.curDay}</div>
         <div style="text-align: right;  float: left; width: 145px;"></div>
       </td>
     </tr>
      <tr>
-      <td height="30px" style="vertical-align: center;">
+      <td height="30px" style="vertical-align: top;">
         <div style="text-align: right; float: left; width: 130px;">　</div>
         <div style="text-align: left;  float: left; width: 196px;">${row.comAccountName}</div>
         <div style="text-align: left;  float: left; width: 60px;">${row.isRemitted==null?'':row.isRemitted?'✓':''}</div>
@@ -29,7 +27,7 @@ function getFundPayNoteObj(row){
       </td>
     </tr>
     <tr>
-      <td height="30px" style="vertical-align: top;">
+      <td height="41px" style="vertical-align: top;">
       <div style="text-align: right; float: left; width: 130px;">　</div>
         <div style="text-align: left; float: left; width: 196px;">${row.hfComAccount}</div>
         <div style="text-align: left; float: left; width: 60px;">${row.isRepair==null?'':row.isRepair?'✓':''}</div>
@@ -40,30 +38,27 @@ function getFundPayNoteObj(row){
     <tr>
       <td height="40px" style="vertical-align: top;">
         <div style="text-align: right; float: left; width: 110px;">&nbsp;</div>
-        <div style="text-align: left; float: left; width: 294px;">${row.moneyCN}</div>
-        <div style="text-align: left; float: left; width: 120px;letter-spacing:6px">${row.remittedAmountArrange}</div>
+        <div style="text-align: top; float: left; width: 294px;">${row.moneyCN}</div>
+        <div style="text-align: right; float: left; width: 120px;letter-spacing:6px">${row.remittedAmountArrange}</div>
       </td>
     </tr>
     <tr>
-      <td height="20px" style="vertical-align: top;">
-        <div style="height: 20px;">
+      <td height="60px" style="vertical-align: center;">
           <div>
-            <div style="text-align: right;  float: left; width: 85px;">${row.remittedCountEmpLast==null?'　':row.remittedCountEmpLast}</div>
+            <div style="text-align: right;  float: left; width: 65px;">${row.remittedCountEmpLast==null?'　':row.remittedCountEmpLast}</div>
             <div style="text-align: right;  float: left; width: 75px;">${row.remittedAmountLast==null?'　':row.remittedAmountLast}</div>
-            <div style="text-align: right;  float: left; width: 50px;">${row.remittedCountEmpAdd==null?'　':row.remittedCountEmpAdd}</div>
+            <div style="text-align: center;  float: left; width: 50px;">${row.remittedCountEmpAdd==null?'　':row.remittedCountEmpAdd}</div>
             <div style="text-align: right;  float: left; width: 75px;">${row.remittedAmountAdd==null?'　':row.remittedAmountAdd}</div>
-            <div style="text-align: right;  float: left; width: 45px;">${row.remittedCountEmpReduce==null?'　':row.remittedCountEmpReduce}</div>
+            <div style="text-align: center;  float: left; width: 45px;">${row.remittedCountEmpReduce==null?'　':row.remittedCountEmpReduce}</div>
             <div style="text-align: right;  float: left; width: 75px;">${row.remittedAmountReduce==null?'　':row.remittedAmountReduce}</div>
-            <div style="text-align: right;  float: left; width: 45px;">${row.remittedCountEmp==null?'　':row.remittedCountEmp}</div>
+            <div style="text-align: center;  float: left; width: 45px;">${row.remittedCountEmp==null?'　':row.remittedCountEmp}</div>
             <div style="text-align: right;  float: left; width: 75px;">${row.remittedAmount==null?'　':row.remittedAmount}</div>
           </div>
-        </div>
       </td>
     </tr>
     <tr>
-      <td height="35px" style="vertical-align: center;">
+      <td height="45px" style="vertical-align: top;">
         <div style="height: 35px;">
-
             <div>
             <div style="text-align: right;  float: left; width: 200px;">${row.bankName}</div>
             <div style="text-align: right;  float: left; width: 105px;"></div>
@@ -71,6 +66,9 @@ function getFundPayNoteObj(row){
           </div>
         </div>
       </td>
+    </tr>
+    <tr>
+      <td height="50px" style="vertical-align: bottom;"></td>
     </tr>
   </table>
 </div>`;

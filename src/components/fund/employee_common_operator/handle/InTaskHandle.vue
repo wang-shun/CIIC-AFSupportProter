@@ -1241,8 +1241,17 @@
             if (!data.data || data.data.length == 0) {
               this.isShowPrint = true;
             } else {
-//              console.log(data.data);
-              transapi.printTransferTask({empTaskId: data.data.empTaskId})
+              //transapi.printTransferTask({empTaskId: data.data.empTaskId})
+              let params={empTaskId: data.data.empTaskId};
+            transapi.getPrintTransfer(params).then(
+                data=>{
+                  if(data.code==200){
+                    let rows =[];
+                    rows=data.data;
+                    transapi.printTransferNote(rows);
+                  }
+                }
+              )
             }
           } else {
             this.$Message.error(data.message);
@@ -1276,7 +1285,18 @@
 
             this.isShowPrint = false;
 //            console.log(data.data);
-            transapi.printTransferTask({empTaskId: data.data.empTaskId})
+            //transapi.printTransferTask({empTaskId: data.data.empTaskId});
+            let params={empTaskId: data.data.empTaskId};
+            transapi.getPrintTransfer(params).then(
+                data=>{
+                  if(data.code==200){
+                    let rows =[];
+                    rows=data.data;
+                    transapi.printTransferNote(rows);
+                  }
+                }
+              )
+
           } else {
             this.$Message.error(data.message);
           }

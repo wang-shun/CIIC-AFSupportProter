@@ -83,7 +83,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -132,7 +132,7 @@
         </p>
       </Form>
       <div slot="footer">
-        <Button type="primary" @click="batchReject()">确认批退</Button>
+        <Button type="primary" @click="batchReject()" :loading="isLoading">确认批退</Button>
         <Button type="warning" @click="isShowRejectBatch = false">取消</Button>
       </div>
     </Modal>
@@ -163,7 +163,7 @@
           isChange: ''
 //          urgent: ''
         },
-
+        isLoading: false,
         processStatusList: [],
         taskTypeList: [],
         payBankList: [],
@@ -260,6 +260,7 @@
         this.$refs[name].resetFields()
       },
       hfEmpTaskQuery() {
+        this.isLoading = true;
         var cparams = {};
         {
           // 清除 '[全部]'
@@ -277,6 +278,7 @@
             this.noProcessData = data.data.rows;
             this.noProcessPageData.total = Number(data.data.total);
           }
+          this.isLoading = false;
         })
       },
       handlePageNum(val) {
@@ -325,6 +327,7 @@
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
+        this.isLoading = true;
         api.hfEmpTaskBatchReject({
           rejectionRemark: this.rejectionRemark,
           selectedData: this.selectedData
@@ -338,6 +341,7 @@
           } else {
             this.$Message.error(data.message)
           }
+          this.isLoading = false;
         })
       },
       beforeSubmit(params) {

@@ -247,12 +247,12 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="handleTask" v-if="showButton">已处理</Button>
-        <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
-        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
-        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="!showButton && this.displayVO.canHandle">打印转移通知书</Button>
-        <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
+        <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
+        <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton" :loading="isLoading">批退</Button>
+        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="!showButton && this.displayVO.canHandle" :loading="isLoading">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
@@ -314,7 +314,7 @@
       <div slot="footer">
         <Row>
           <Col :sm="{span: 24}">
-            <Button type="primary" @click="ok">打印通知书</Button>
+            <Button type="primary" @click="ok" :loading="isLoading">打印通知书</Button>
             <Button type="warning" @click="cancel">取消</Button>
           </Col>
         </Row>
@@ -337,6 +337,7 @@
         inputDisabled: false,
         isShowPrint: false,
         loading: false,
+        isLoading: false,
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -831,7 +832,7 @@
         if (!this.inputDataCheck()) {
           return false;
         }
-
+        this.isLoading = true;
         api.empTaskHandle(params).then(data => {
           if (data.code == 200) {
             this.$Message.info("办理成功");
@@ -839,9 +840,11 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       notHandleTask() {
+        this.isLoading = true;
         api.empTaskNotHandle({
           empTaskId: this.displayVO.empTaskId
         }).then(data => {
@@ -852,9 +855,11 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       handleTaskDelay() {
+        this.isLoading = true;
         api.empTaskHandleDelay({
           empTaskId: this.displayVO.empTaskId
         }).then(data => {
@@ -865,6 +870,7 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       handleTaskReject() {
@@ -877,6 +883,7 @@
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
+        this.isLoading = true;
         api.empTaskHandleReject({
           rejectionRemark: this.displayVO.rejectionRemark,
           selectedData: [this.displayVO.empTaskId]
@@ -888,6 +895,7 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       handleTaskCancel() {
@@ -1011,13 +1019,14 @@
         if (!this.inputDataCheck()) {
           return false;
         }
-
+        this.isLoading = true;
         api.empTaskHandleDataSave(params).then(data => {
           if (data.code == 200) {
             this.$Message.info("保存成功");
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       inputDataCheck() {
@@ -1234,6 +1243,7 @@
         return true;
       },
       transEmpTaskQuery() {
+        this.isLoading = true;
         api.transEmpTaskQuery({
           companyId: this.displayVO.companyId,
           employeeId: this.displayVO.employeeId,
@@ -1258,6 +1268,7 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       ok () {
@@ -1271,6 +1282,7 @@
         if (!this.transferNoticeCheck()) {
           return false;
         }
+        this.isLoading = true;
         api.createTransEmpTask(
           this.transferNotice
         ).then(data => {
@@ -1302,6 +1314,8 @@
           } else {
             this.$Message.error(data.message);
           }
+
+          this.isLoading = false;
         })
       },
       cancel() {

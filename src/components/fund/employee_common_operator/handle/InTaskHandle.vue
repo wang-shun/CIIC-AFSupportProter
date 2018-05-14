@@ -1022,11 +1022,13 @@
       },
       inputDataCheck() {
         if (this.displayVO.taskCategory != 1 && this.displayVO.taskCategory != 9 && (!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
-          this.$Message.error("公积金账户不能为空");
+          this.$Message.error("公积金账号不能为空");
           return false;
         }
-        if (this.inputData.hfEmpAccount && this.inputData.hfEmpAccount.length > 20) {
-          this.$Message.error("公积金账户长度不能超过20");
+        var reg = /(^[1-9]([0-9]{1,19})?$)/;
+
+        if (this.inputData.hfEmpAccount && !this.inputData.hfEmpAccount == '' && !reg.test(this.inputData.hfEmpAccount)) {
+          this.$Message.error("公积金账号输入不正确，请输入数字，并且不超过20位");
           return false;
         }
 //        if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {

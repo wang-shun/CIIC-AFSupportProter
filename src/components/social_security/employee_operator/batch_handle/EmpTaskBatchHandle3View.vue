@@ -102,7 +102,7 @@
     </Row>-->
     <Row>
       <Col :sm="{span:24}" class="tr" style="margin-top:20px;">
-      <Button type="primary" @click="comfirm">批量提交</Button>
+      <Button type="primary" @click="comfirm" :loading="isLoading">批量提交</Button>
       <Button type="warning" @click="goback">返回</Button>
       </Col>
     </Row>
@@ -121,6 +121,7 @@
         operatorSearchData:{},
         operatorTableNewData:[],
 //        updateOperatorTableNewData:[],
+        isLoading: false,
         operatorTableChangeColumns: [
         {
             type: 'index',
@@ -323,6 +324,7 @@
                   }else{
                     let params ={}
                     params.ssEmpTaskBOList = param;
+                    this.isLoading = true;
                     api.handleBatchEmpTask(params).then(data=>{
                       if(data!=null){
                         if(data.data){
@@ -334,6 +336,7 @@
                       }else{
                         self.$Message.error("网络异常");
                       }
+                      this.isLoading = false;
                     })
                   }
               }

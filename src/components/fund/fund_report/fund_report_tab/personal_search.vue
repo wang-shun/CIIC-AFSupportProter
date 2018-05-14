@@ -29,7 +29,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">缴费明细</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">缴费明细</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -72,6 +72,7 @@
           basicHfEmpAccount: '',
           addedHfEmpAccount: '',
         },
+        isLoading: false,
         personalData: [],
         personalColumns: [
           {title: '公积金类型', key: 'hfTypeName', width: 100, align: 'center',
@@ -208,6 +209,7 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
+        this.isLoading = true;
         api.hfMonthChargeQuery({
           pageSize: this.personalSearchPageData.pageSize,
           pageNum: this.personalSearchPageData.pageNum,
@@ -217,6 +219,7 @@
             this.personalData = data.data.rows;
             this.personalSearchPageData.total = Number(data.data.total);
           }
+          this.isLoading = false;
         })
       },
       excelExport() {

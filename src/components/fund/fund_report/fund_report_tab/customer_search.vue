@@ -42,7 +42,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">缴费明细</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">缴费明细</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -94,6 +94,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           addedHfComAccount: '',
           hfType: '',
         },
+        isLoading: false,
         accountTypeList: [],
         customerData: [],
         customerColumns: [
@@ -239,6 +240,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
+        this.isLoading = true;
         api.hfMonthChargeQuery({
           pageSize: this.customerSearchPageData.pageSize,
           pageNum: this.customerSearchPageData.pageNum,
@@ -248,6 +250,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
             this.customerData = data.data.rows;
             this.customerSearchPageData.total = Number(data.data.total);
           }
+          this.isLoading = false;
         })
       },
       excelExport() {

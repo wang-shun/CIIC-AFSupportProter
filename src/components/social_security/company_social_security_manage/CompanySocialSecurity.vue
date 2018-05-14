@@ -280,7 +280,7 @@
                      let pageInfo = ""
                      let source = ""
                      if(taskType=='1')pageInfo='openAccountInfo'
-                     else if(taskType=='2')pageInfo='transferInfo'
+                     else if(taskType=='2')pageInfo='openAccountInfo'
                       else if(taskType=='3')pageInfo='changeInfo'
                        else if(taskType=='4')pageInfo='endInfo'
 

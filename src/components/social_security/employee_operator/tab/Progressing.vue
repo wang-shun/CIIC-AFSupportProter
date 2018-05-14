@@ -91,7 +91,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
+              <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
               <Button type="warning" @click="$refs['operatorSearchData'].resetFields()">重置</Button>
               </Col>
             </Row>
@@ -173,6 +173,7 @@
 
         // 批退
         isRefuseReason: false,
+        isLoading: false,
         rejectionRemark: '',
         selectEmployeeResultData: [],
 
@@ -184,12 +185,12 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
-          {
-            type: 'selection',
-            fixed: 'left',
-            width: 60,
-            align: 'center'
-          },
+//          {
+//            type: 'selection',
+//            fixed: 'left',
+//            width: 60,
+//            align: 'center'
+//          },
           {
             title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
             render: (h, params) => {
@@ -296,7 +297,7 @@
             params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
           }
         }
-
+        this.isLoading = true;
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
           pageNum: this.employeeResultPageData.pageNum,
@@ -306,6 +307,7 @@
             this.employeeResultData = data.data;
             this.employeeResultPageData.total = data.total;
           }
+          this.isLoading = false;
         })
       },
       handlePageNum(val) {
@@ -338,7 +340,6 @@
         for (var d of this.selectEmployeeResultData) {
           ids.push(d.empTaskId);
         }
-
         var ajax = api.refuseReason({
           remark: this.rejectionRemark,
           ids: ids

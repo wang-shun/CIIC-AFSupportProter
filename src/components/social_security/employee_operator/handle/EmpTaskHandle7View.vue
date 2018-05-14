@@ -87,8 +87,8 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('3')" v-if="showButton">办理</Button>
-      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton">批退</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('3')" v-if="showButton" :loading="isLoading">办理</Button>
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton" :loading="isLoading">批退</Button>
       <Button type="warning"  @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -117,7 +117,7 @@
         collapseInfo: [1, 2, 3],
         employee: {},
         company: {},
-
+        isLoading: false,
         taskCategoryType: [
           {value: '1', label: '新进'},
           {value: '2', label: '转入'},
@@ -499,7 +499,7 @@
             }
             //获得时间段
             //fromData.empTaskPeriods = this.filterData();
-
+            this.isLoading = true;
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 this.$Message.success(content + "成功");
@@ -508,6 +508,7 @@
               } else {
                 this.$Message.error(content + "失败！" + data.message);
               }
+              this.isLoading = false;
             })
           }
         });

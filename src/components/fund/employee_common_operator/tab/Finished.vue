@@ -76,7 +76,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -139,6 +139,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
 //          {value: 3, label: '虹桥'},
 //          {value: 4, label: '浦东'}
 //        ], //客服中心
+        isLoading: false,
         taskTypeList: [],
         payBankList: [],
         fundTypeList: [],
@@ -231,6 +232,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         this.$refs[name].resetFields()
       },
       hfEmpTaskQuery() {
+        this.isLoading = true;
         var cparams = {};
         {
           // 清除 '[全部]'
@@ -248,6 +250,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
             this.finishedData = data.data.rows;
             this.finishedPageData.total = Number(data.data.total);
           }
+          this.isLoading = false;
         })
       },
       handlePageNum(val) {

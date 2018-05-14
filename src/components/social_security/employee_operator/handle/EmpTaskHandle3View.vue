@@ -121,10 +121,10 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton && isNextMonth==0">转下月处理</Button>
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton">办理</Button>
-      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton">批退</Button>
-      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','save')" v-if="showButton">暂存</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton && isNextMonth==0" :loading="isLoading">转下月处理</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton" :loading="isLoading">办理</Button>
+      <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton" :loading="isLoading">批退</Button>
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','save')" v-if="showButton" :loading="isLoading">暂存</Button>
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -153,7 +153,7 @@
         collapseInfo: [1, 2, 3, 4,5],
         employee: {},
         company: {},
-
+        isLoading: false,
         taskCategoryType: [
           {value: '1', label: '新进'},
           {value: '2', label: '转入'},
@@ -671,7 +671,7 @@
             }
 
             fromData.empTaskPeriods = this.filterData();
-
+            this.isLoading = true;
             api.handleEmpTask(fromData).then(data => {
               if (data.code == 200) {
                 self.$Message.success(content + "成功");
@@ -689,6 +689,7 @@
               } else {
                 self.$Message.error(content + "失败！" + data.message);
               }
+              this.isLoading = false;
             })
           }
         });

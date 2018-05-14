@@ -184,12 +184,12 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
-          {
-            type: 'selection',
-            fixed: 'left',
-            width: 60,
-            align: 'center'
-          },
+//          {
+//            type: 'selection',
+//            fixed: 'left',
+//            width: 60,
+//            align: 'center'
+//          },
           {
             title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
             render: (h, params) => {

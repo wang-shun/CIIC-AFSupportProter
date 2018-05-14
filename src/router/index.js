@@ -1078,7 +1078,7 @@ router.beforeEach((to, from, next) => {
 
     let storage = new CrossStorageClient(process.env.HOME_HOST + ':8070/#/menu')
     storage.onConnect().then(function () {
-        return storage.get('token')
+        return storage.get('userInfo')
     }).then(function (res) {
         let userInfo = JSON.parse(res || '{}')
         console.log(userInfo)

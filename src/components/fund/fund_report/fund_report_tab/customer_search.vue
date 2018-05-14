@@ -30,7 +30,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业公积金账号：" prop="basicHfComAccount">
+                <Form-item label="企业基本公积金账号：" prop="basicHfComAccount">
                   <Input v-model="operatorSearchData.basicHfComAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -119,7 +119,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
               ]);
             }
           },
-          {title: '公积金账号', key: 'hfEmpAccount', width: 120, align: 'center',
+          {title: '基本/补充公积金账号', key: 'hfEmpAccount', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.hfEmpAccount),
@@ -175,21 +175,21 @@ import dict from '../../../../api/dict_access/house_fund_dict'
               ]);
             }
           },
-          {title: '公司编号', key: 'companyId', width: 120, align: 'center',
+          {title: '客户编号', key: 'companyId', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '公司全称', key: 'companyName', width: 250, align: 'center',
+          {title: '客户名称', key: 'companyName', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyName),
               ]);
             }
           },
-          {title: '公司公积金账号', key: 'hfComAccount', width: 150, align: 'center',
+          {title: '企业基本/补充公积金账号', key: 'hfComAccount', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.hfComAccount),

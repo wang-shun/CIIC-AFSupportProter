@@ -574,31 +574,19 @@
             docNum = sel.yuliuDocNum;
           }
           if(isFrist == false){
-            obj += '<tr><td height="50px"></td></tr>';
+            //obj += '<tr><td height="50px"></td></tr>';
           }
           if(isFrist){
             isFrist = false;
           }
           obj += 
             '<tr>'+
-            '<td height="60px">'+
-              '<font size="6">'+ docType +'</font>&nbsp;'+
-            '</td>'+
-            '<td height="60px">'+
-              '<font size="6">'+ docNum +'</font>&nbsp;'+
-            '</td>'+
-            '<td height="60px">'+
-              '<font size="6">'+ sel.employeeName +'</font>'+
-            '</td>'+
-          '</tr>'+
-          '<tr>'+
-            '<td height="30px"></td>'+
-          '</tr>'+
-          '<tr>'+
-            '<td height="40px" colspan="3">'+
-              '<font size="6">'+  sel.idNum +'</font>'+
-            '</td>'+
-          '</tr>';
+              '<td height="60px">'+
+                '<div class="lh20" style="width: 300;" float="left">&nbsp;&nbsp;<font size="6">'+ docType +'</font><font size="6">'+ docNum +'</font>&nbsp;&nbsp;&nbsp;<font size="6">'+ sel.employeeName +'</font></div>'+
+                '<div class="lh20" style="width: 60px;"><br/></div>'+
+                '<div class="lh20" style="width: 145px;" float="right">&nbsp;&nbsp;&nbsp;<font size="6">'+ sel.idNum +'</font></div>'+
+              '</td>'+
+            '</tr>';
         });
         obj += '</table>';
         let html = head + obj + foot;

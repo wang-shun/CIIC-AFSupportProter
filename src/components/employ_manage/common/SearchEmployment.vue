@@ -26,6 +26,13 @@
                          
           </Form-item>
         </Col>
+         <Col :sm="{span: 22}" :md="{span: 20}" :lg="{span: 9}">
+          <Form-item label="任务单状态：" prop="employFeedback">
+            <Select v-model="searchForm.isFinish" transfer>
+              <Option v-for="item in finishStatus" :value="item.value" :key="item.value">{{item.label}}</Option>
+            </Select>
+          </Form-item>
+        </Col>
       </Row>
       </Col>
       <Col :sm="{span: 2, offset: 1}">
@@ -40,7 +47,7 @@
     </Row>
     <Row justify="start">
       <Col :sm="{span: 24}" class="mt20 tr">
-        <Button type="primary" icon="ios-search" @click="searchEmploiees">查询</Button>
+        <Button type="primary" icon="ios-search" :loading="isLoading"  @click="searchEmploiees">查询</Button>
         
         <Button type="warning" @click="resetForm('searchForm')">重置</Button>
       </Col>
@@ -56,23 +63,31 @@
   };
 
   export default {
+    props: {
+      isLoading: {
+        type: Boolean
+      }
+    },
     data() {
       return {
-        // 上半部分
+         finishStatus: [
+          {value:0,label:'未处理'},
+          {value:1,label:'已处理'},
+          {value:2,label:'全部'}
+        ],
         searchForm: {
           chooseFieldValue: "",
           chooseField: em_chooseField,
           relationshipValue: "",
           relationship: em_relationship,
           searchContent: "",
-          isDate:0
+          isDate:0,
+          isFinish:0,
         },
         searchConditions: [],
         currentField: {},
         currentShip: {},
-        currentSelectIndex: -1,
-     
-
+        currentSelectIndex: -1
       }
     },
     methods: {
@@ -137,7 +152,7 @@
         this.$refs[form].resetFields();
       },
       searchEmploiees() {
-        this.$emit("on-search", this.searchConditions);
+         this.$emit("on-search", this.searchConditions,this.searchForm);
       }
     },
     computed: {

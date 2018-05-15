@@ -40,6 +40,10 @@
     components: {employeeInfo, searchEmployment},
     data() {
       return {
+         initSearch:false,
+         initSearchC:false,
+         initSearchR:false,
+         isLoading: false,
         pageData: {
           total: 0,
           pageNum: 1,
@@ -495,7 +499,6 @@
           }
         ],
         searchResultData2: [],
-
         // 弹出框
         isShowStockTitle: false,
         customerInfos: [customerInfo, customerInfo, customerInfo]
@@ -507,17 +510,23 @@
        this.resignArchiveCollection({})
     },
     methods: {
-      searchEmploiees(conditions) {
-         this.pageData.pageNum =1;
-           this.searchConditions =[];
-            for(var i=0;i<conditions.length;i++)
-                  this.searchConditions.push(conditions[i].exec);
+      searchEmploiees(conditions,searchForm) {
         
-           this.searchCondition.params = this.searchConditions.toString();
-           this.archiveQuery(this.searchCondition);
-           this.employeeArchiveCollection(this.searchCondition);
-           this.resignArchiveCollection(this.searchCondition);
-
+              this.pageData.pageNum =1;
+              this.searchConditions =[];
+              if(searchForm.isFinish!=2)
+              {
+                  var isFinish = "a.is_finish="+searchForm.isFinish;
+                  this.searchConditions.push(isFinish);
+              }
+                for(var i=0;i<conditions.length;i++)
+                      this.searchConditions.push(conditions[i].exec);
+            
+              this.searchCondition.params = this.searchConditions.toString();
+              this.archiveQuery(this.searchCondition);
+              this.employeeArchiveCollection(this.searchCondition);
+              this.resignArchiveCollection(this.searchCondition);
+         
       },
       goHandle() {
         this.$router.push({name: "recordComprehensive"});
@@ -615,39 +624,60 @@
       },
       archiveQuery(params){
 
-        let self =this
-        api.queryAmArchive({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
-          params: params,
-        }).then(data => {
-          self.recordComprehensiveHandlingData = data.data.rows;
-          self.pageData.total = Number(data.data.total);
-        })
+        if(this.initSearch)
+        {
+            let self =this
+            api.queryAmArchive({
+              pageSize: this.pageData.pageSize,
+              pageNum: this.pageData.pageNum,
+              params: params,
+            }).then(data => {
+              self.recordComprehensiveHandlingData = data.data.rows;
+              self.pageData.total = Number(data.data.total);
+            })
+        }else{
+            this.initSearch = true;
+        }
+
+       
       },
       employeeArchiveCollection(params){
-        let self =this
-        api.employeeArchiveCollection({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
-          params: params,
-        }).then(data => {
-         
-          self.searchResultData1 = data.data.row;
-         
-        })
+        if(this.initSearchC)
+        {
+            this.isLoading = true;
+            let self =this
+            api.employeeArchiveCollection({
+              pageSize: this.pageData.pageSize,
+              pageNum: this.pageData.pageNum,
+              params: params,
+            }).then(data => {
+            
+              self.searchResultData1 = data.data.row;
+              self.isLoading = false;
+            
+            })
+        }else{
+            this.initSearchC = true;
+        }
+   
       },
       resignArchiveCollection(params){
-        let self =this
-        api.resignArchiveCollection({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
-          params: params,
-        }).then(data => {
-         
-          self.searchResultData2 = data.data.row;
-         
-        })
+        if(this.initSearchR)
+        {
+            let self =this
+            api.resignArchiveCollection({
+              pageSize: this.pageData.pageSize,
+              pageNum: this.pageData.pageNum,
+              params: params,
+            }).then(data => {
+            
+              self.searchResultData2 = data.data.row;
+            
+            })
+        }else{
+            this.initSearchR = true;
+        }
+        
       },
       showInfoTw (ind,category) { 
            this.pageData.pageNum = 1; 

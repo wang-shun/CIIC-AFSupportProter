@@ -5,7 +5,7 @@
         <Panel name="1">
           用工资料管理任务单
           <div slot="content">
-            <search-employment @on-search="searchEmploiees"></search-employment>
+            <search-employment @on-search="searchEmploiees" :isLoading='isLoading'></search-employment>
           </div>
         </Panel>
       </Collapse>
@@ -20,7 +20,7 @@
         <!-- <Button type="primary" @click="batchManagement">批理办理</Button> -->
       </Col>
     </Row>
-    <Table border :columns="employmentColumns" :data="employmentData" ref="employmentData" class="mt20"></Table>
+    <Table border :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData" class="mt20"></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -30,7 +30,7 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table  border :columns="searchResultColumns" :data="searchResultData" ref="searchResultData" class="mt20"></Table>
+    <Table  border :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt20"></Table>
 
     <Modal
       v-model="isShowStockTitle"
@@ -54,6 +54,8 @@ import {mapState, mapGetters, mapActions} from 'vuex'
     components: {employeeInfo, searchEmployment},
     data() {
       return {
+        initSearch:false,
+        initSearchC:false,
         pageData: {
           total: 0,
           pageNum: 1,
@@ -66,6 +68,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
           params: '',
           taskStatus:0
         },
+        isLoading: false,
         // 当中按钮操作
         printList: em_print,
         // 下半部分
@@ -344,15 +347,22 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         });
         this.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
      },
-     searchEmploiees(conditions) {
-        this.pageData.pageNum =1;
+     searchEmploiees(conditions,searchForm) {
+
+            this.pageData.pageNum =1;
             this.searchConditions =[];
+            if(searchForm.isFinish!=2)
+            {
+              var isFinish = "a.is_finish="+searchForm.isFinish;
+              this.searchConditions.push(isFinish);
+            }
             for(var i=0;i<conditions.length;i++)
                   this.searchConditions.push(conditions[i].exec);
         
            this.searchCondition.params = this.searchConditions.toString();
            this.employeeQuery(this.searchCondition);
            this.employeeCollectionQuery(this.searchCondition);
+           
       }, goHandle() {
         this.$router.push({name: "employHandleEmployment"});
       },
@@ -391,29 +401,42 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 
       },
       employeeQuery(params){
+        if(this.initSearch){
+          this.isLoading = true;
+            let self =this
+            api.employeeQuery({
+              pageSize: this.pageData.pageSize,
+              pageNum: this.pageData.pageNum,
+              params: params,
+            }).then(data => {
+              self.employmentData = data.data.rows;
+              self.pageData.total = Number(data.data.total);
+              self.isLoading = false;
+            })
+        }else{
+          this.initSearch = true;
+        }
+      
        
-        let self =this
-        api.employeeQuery({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
-          params: params,
-        }).then(data => {
-          self.employmentData = data.data.rows;
-          self.pageData.total = Number(data.data.total);
-        })
       },
        employeeCollectionQuery(params){
+          if(this.initSearchC)
+          {
+              let self =this
+              api.employeeCollectionQuery({
+                pageSize: this.pageData.pageSize,
+                pageNum: this.pageData.pageNum,
+                params: params,
+              }).then(data => {
+              
+                self.searchResultData = data.data.row;
+              
+              })
+          }else{
+            this.initSearchC = true;
+          }
+         
         
-        let self =this
-        api.employeeCollectionQuery({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
-          params: params,
-        }).then(data => {
-         
-          self.searchResultData = data.data.row;
-         
-        })
       },
       handlePageNum(val) {
         this.pageData.pageNum = val;

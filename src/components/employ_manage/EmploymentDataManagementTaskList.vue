@@ -17,6 +17,7 @@
           </DropdownMenu>
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
+        <Button type="info" @click="printLabel">打印贴头</Button>
         <!-- <Button type="primary" @click="batchManagement">批理办理</Button> -->
       </Col>
     </Row>
@@ -73,7 +74,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         printList: em_print,
         // 下半部分
         employmentColumns: [
-          // {title: '', type: 'selection', width: 60},
+          {title: '', type: 'selection', width: 60},
           {
             title: '操作',
             key: 'action',
@@ -382,6 +383,53 @@ import {mapState, mapGetters, mapActions} from 'vuex'
            this.searchCondition.taskStatus = ind;
            this.employeeQuery(this.searchCondition);
 
+      },
+      printLabel(){
+        let selection = this.$refs.employmentData.getSelection();
+        if(selection.length == 0){
+          alert("没有选中的列");
+          return;
+        }
+        console.info(selection);
+        let head = `<!doctype html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>打印贴头</title></head><body>`;
+        let foot = `</body></html>`;
+        let obj = '';
+        let isFrist = true;
+        obj +=  '<table cellpadding="0" cellspacing="0">';
+        selection.forEach(sel => {
+          let docType = '无';
+          let docNum = '无';
+          if(sel.docType){
+            docType = sel.docType;
+          }else if(sel.yuliuDocType){
+            docType = sel.yuliuDocType;
+          }
+          if(sel.docNum){
+            docNum = sel.docNum;
+          }else if(sel.yuliuDocNum){
+            docNum = sel.yuliuDocNum;
+          }
+          if(isFrist == false){
+            //obj += '<tr><td height="50px"></td></tr>';
+          }
+          if(isFrist){
+            isFrist = false;
+          }
+          obj += 
+            '<tr>'+
+              '<td height="60px">'+
+                '<div class="lh20" style="width: 300;" float="left">&nbsp;&nbsp;<font size="6">'+ docType +'</font><font size="6">'+ docNum +'</font>&nbsp;&nbsp;&nbsp;<font size="6">'+ sel.employeeName +'</font></div>'+
+                '<div class="lh20" style="width: 60px;"><br/></div>'+
+                '<div class="lh20" style="width: 145px;" float="right">&nbsp;&nbsp;&nbsp;<font size="6">'+ sel.idNum +'</font></div>'+
+              '</td>'+
+            '</tr>';
+        });
+        obj += '</table>';
+        let html = head + obj + foot;
+        let pwin = window.open("","print")
+        pwin.document.write(html);
+        pwin.document.close();
+        pwin.print();
       },
       generateInStock() {
 

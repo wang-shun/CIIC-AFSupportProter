@@ -182,7 +182,7 @@
             align: "center"
           },
           {
-            title: "投保项目", sortable: true, key: "productName", align: "center", width: 150
+            title: "投保类型", sortable: true, key: "productName", align: "center", width: 150
           },
           {
             title: "雇员编号", sortable: true, key: "employeeId", align: "center", width: 150
@@ -218,9 +218,11 @@
             title: "投保费用", sortable: true, key: "price", align: "center", width: 150
           },
           {
-            title: "标的", sortable: true, key: "keyType", align: "center", width: 150,
+            title: "标的", sortable: true, key: "keyValue", align: "center", width: 150,
             render: (h, params) => {
-              return h('div', task.keyTypeToChina(params.row.keyType));
+              if (params.row.keyType === 2) {
+                return params.row.keyValue * 100 + "%";
+              }
             }
           },
           {
@@ -233,6 +235,14 @@
             title: "状态", sortable: true, key: "status", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.statusToChina(params.row.status));
+            }
+          },
+          {
+            title: "审核时间", sortable: true, key: "hearTime", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.hearTime != null) {
+                return h('div', this.$utils.formatDate(params.row.hearTime, "YYYY-MM-DD HH:mm:ss"));
+              }
             }
           },
           {

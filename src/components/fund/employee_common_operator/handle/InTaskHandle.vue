@@ -247,12 +247,12 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="handleTask" v-if="showButton">已处理</Button>
-        <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
-        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
-        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="!showButton && this.displayVO.canHandle">打印转移通知书</Button>
-        <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
+        <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
+        <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton" :loading="isLoading">批退</Button>
+        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="!showButton && this.displayVO.canHandle" :loading="isLoading">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
@@ -314,7 +314,7 @@
       <div slot="footer">
         <Row>
           <Col :sm="{span: 24}">
-            <Button type="primary" @click="ok">打印通知书</Button>
+            <Button type="primary" @click="ok" :loading="isLoading">打印通知书</Button>
             <Button type="warning" @click="cancel">取消</Button>
           </Col>
         </Row>
@@ -337,6 +337,7 @@
         inputDisabled: false,
         isShowPrint: false,
         loading: false,
+        isLoading: false,
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -654,6 +655,19 @@
         ],
 
         taskListNotesColumns: [
+          {
+            title: '任务单ID', key: 'empTaskId', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('a', {
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.routerMethod(params)
+                  }
+                }
+              }, params.row.empTaskId);
+            }
+          },
           {title: '公积金类型', key: 'hfTypeName', align: 'left'},
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
@@ -779,7 +793,8 @@
     },
     methods: {
       back() {
-        this.$router.go(-1)
+//        this.$router.go(-1)
+        this.$router.push({name: 'employeeFundCommonOperator'});
       },
       addOperatorListData() {
         let startMonth = this.displayVO.startMonth;
@@ -831,7 +846,7 @@
         if (!this.inputDataCheck()) {
           return false;
         }
-
+        this.isLoading = true;
         api.empTaskHandle(params).then(data => {
           if (data.code == 200) {
             this.$Message.info("办理成功");
@@ -839,9 +854,11 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       notHandleTask() {
+        this.isLoading = true;
         api.empTaskNotHandle({
           empTaskId: this.displayVO.empTaskId
         }).then(data => {
@@ -852,9 +869,11 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       handleTaskDelay() {
+        this.isLoading = true;
         api.empTaskHandleDelay({
           empTaskId: this.displayVO.empTaskId
         }).then(data => {
@@ -865,6 +884,7 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       handleTaskReject() {
@@ -877,6 +897,7 @@
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
+        this.isLoading = true;
         api.empTaskHandleReject({
           rejectionRemark: this.displayVO.rejectionRemark,
           selectedData: [this.displayVO.empTaskId]
@@ -888,6 +909,7 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       handleTaskCancel() {
@@ -1011,22 +1033,25 @@
         if (!this.inputDataCheck()) {
           return false;
         }
-
+        this.isLoading = true;
         api.empTaskHandleDataSave(params).then(data => {
           if (data.code == 200) {
             this.$Message.info("保存成功");
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       inputDataCheck() {
         if (this.displayVO.taskCategory != 1 && this.displayVO.taskCategory != 9 && (!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
-          this.$Message.error("公积金账户不能为空");
+          this.$Message.error("公积金账号不能为空");
           return false;
         }
-        if (this.inputData.hfEmpAccount && this.inputData.hfEmpAccount.length > 20) {
-          this.$Message.error("公积金账户长度不能超过20");
+        var reg = /(^[1-9]([0-9]{1,19})?$)/;
+
+        if (this.inputData.hfEmpAccount && !this.inputData.hfEmpAccount == '' && !reg.test(this.inputData.hfEmpAccount)) {
+          this.$Message.error("公积金账号输入不正确，请输入数字，并且不超过20位");
           return false;
         }
 //        if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {
@@ -1232,6 +1257,7 @@
         return true;
       },
       transEmpTaskQuery() {
+        this.isLoading = true;
         api.transEmpTaskQuery({
           companyId: this.displayVO.companyId,
           employeeId: this.displayVO.employeeId,
@@ -1241,12 +1267,22 @@
             if (!data.data || data.data.length == 0) {
               this.isShowPrint = true;
             } else {
-//              console.log(data.data);
-              transapi.printTransferTask({empTaskId: data.data.empTaskId})
+              //transapi.printTransferTask({empTaskId: data.data.empTaskId})
+              let params={empTaskId: data.data.empTaskId};
+            transapi.getPrintTransfer(params).then(
+                data=>{
+                  if(data.code==200){
+                    let rows =[];
+                    rows=data.data;
+                    transapi.printTransferNote(rows);
+                  }
+                }
+              )
             }
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       ok () {
@@ -1260,6 +1296,7 @@
         if (!this.transferNoticeCheck()) {
           return false;
         }
+        this.isLoading = true;
         api.createTransEmpTask(
           this.transferNotice
         ).then(data => {
@@ -1276,10 +1313,23 @@
 
             this.isShowPrint = false;
 //            console.log(data.data);
-            transapi.printTransferTask({empTaskId: data.data.empTaskId})
+            //transapi.printTransferTask({empTaskId: data.data.empTaskId});
+            let params={empTaskId: data.data.empTaskId};
+            transapi.getPrintTransfer(params).then(
+                data=>{
+                  if(data.code==200){
+                    let rows =[];
+                    rows=data.data;
+                    transapi.printTransferNote(rows);
+                  }
+                }
+              )
+
           } else {
             this.$Message.error(data.message);
           }
+
+          this.isLoading = false;
         })
       },
       cancel() {
@@ -1294,6 +1344,41 @@
         this.transferNotice.transferDate = '';
         this.isShowPrint = false;
       },
+      routerMethod(params) {
+        let currentTaskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+        localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
+        localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
+        localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.taskStatus', params.row.taskStatus);
+        if (currentTaskCategory === params.row.taskCategory) {
+          location.reload()
+        } else {
+          switch (params.row.taskCategory) {
+            case '1':
+            case '2':
+            case '3':
+            case '9':
+            case '10':
+            case '11':
+              this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+              break;
+            case '4':
+            case '5':
+            case '12':
+            case '13':
+              this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
+              break;
+            case '6':
+              this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
+              break;
+            case '7':
+              this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+              break;
+            default:
+              break;
+          }
+        }
+      }
     },
   }
 </script>

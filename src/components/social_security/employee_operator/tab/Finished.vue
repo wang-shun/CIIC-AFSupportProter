@@ -94,7 +94,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
+              <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
               <Button type="warning" @click="$refs['operatorSearchData'].resetFields()">重置</Button>
               </Col>
             </Row>
@@ -167,6 +167,7 @@
 
         // 批退
         isRefuseReason: false,
+        isLoading: false,
         rejectionRemark: '',
         selectEmployeeResultData: [],
 
@@ -284,7 +285,7 @@
             params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
           }
         }
-
+        this.isLoading = true;
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
           pageNum: this.employeeResultPageData.pageNum,
@@ -294,6 +295,7 @@
             this.employeeResultData = data.data;
             this.employeeResultPageData.total = data.total;
           }
+          this.isLoading = false;
         })
       },
       handlePageNum(val) {

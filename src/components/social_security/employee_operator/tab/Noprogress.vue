@@ -103,7 +103,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
+              <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
               <Button type="warning" @click="$refs['operatorSearchData'].resetFields()">重置</Button>
               </Col>
             </Row>
@@ -151,7 +151,7 @@
         </Form>
          <div slot="footer">
             <Button  size="large"  @click="cancel">取消</Button>
-            <Button  size="large"  @click="handleRefuseReason">确定</Button>
+            <Button  size="large"  @click="handleRefuseReason" :loading="isLoading">确定</Button>
         </div>
       </Modal>
 
@@ -192,6 +192,7 @@
         isNextMonth:false,
         // 批退
         isRefuseReason: false,
+        isLoading: false,
         rejectionRemark: '',
         selectEmployeeResultData: [],
 
@@ -312,7 +313,7 @@
             params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
           }
         }
-
+        this.isLoading = true;
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
           pageNum: this.employeeResultPageData.pageNum,
@@ -325,6 +326,7 @@
               this.isNextMonth = true;
             }
           }
+          this.isLoading = false;
         })
       },
       exprotExcel() {
@@ -383,6 +385,7 @@
         for (var d of this.selectEmployeeResultData) {
           ids.push(d.empTaskId);
         }
+        this.isLoading = true;
         var ajax = api.refuseReason({
           remark:remark,
           ids: ids

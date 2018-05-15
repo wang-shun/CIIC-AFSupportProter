@@ -7,14 +7,14 @@
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="客户编号：" prop="companyId">
               <input-company v-model="formItem.companyId"></input-company>
-            </Form-item>    
+            </Form-item>
           </i-col>
         </Row>
         <Row justify="start" style="margin-top:10px">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="雇员姓名：" prop="employeeName">
               <Input v-model="formItem.employeeName" placeholder="请输入"/>
-            </Form-item>    
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="性别：" prop="gender">
@@ -29,24 +29,24 @@
               <Select v-model="formItem.countryCode" placeholder="请选择" transfer>
                 <Option v-for="item in countrys" :value="item.countryCode" :key="item.countryCode">{{item.countryName}}</Option>
               </Select>
-            </Form-item>    
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
             <Form-item label="证件类型：" prop="idCardType">
               <Select v-model="formItem.idCardType" placeholder="请选择" transfer>
                 <Option v-for="(value,key) in this.baseDic.idCardType" :value="key" :key="key">{{ value }}</Option>
               </Select>
-            </Form-item>    
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
             <Form-item label="证件号码：" prop="idNum">
               <Input v-model="formItem.idNum" placeholder="请输入"/>
-            </Form-item>    
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
             <Form-item label="出生日期：" prop="birthday">
              <DatePicker type="date" v-model="formItem.birthday" placeholder="请输入" style="width: 57%" transfer/>
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
             <Form-item label="婚姻状况：" prop="marriageStatus">
@@ -55,12 +55,12 @@
                 <Option value="2">已婚</Option>
                 <Option value="3">离异</Option>
               </Select>
-            </Form-item> 
+            </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" style="margin-top:10px">
             <Form-item label="联系地址：" prop="address">
               <Input v-model="formItem.address" placeholder="请输入"/>
-            </Form-item> 
+            </Form-item>
           </i-col>
         </Row>
         <Row justify="start" style="margin-top:10px">
@@ -72,7 +72,7 @@
         </Row>
         <Row justify="start" class="tr">
           <i-col :sm="{span: 24}">
-            <Button type="primary" @click="submit('empAddForm')" class="ml10" >保存</Button>
+            <Button type="primary" @click="submit('empAddForm')" class="ml10"  :loading="isLoading">保存</Button>
             <Button type="warning" @click="back" class="ml10">取消</Button>
           </i-col>
         </Row>
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import InputCompany from "../../common_control/form/input_company/InputCompany.vue";
+import InputCompany from "./InputCompany.vue";
 import Tools from "../../../lib/tools";
 import ajax from "../../../lib/ajax";
 import axios from "axios";
@@ -92,6 +92,7 @@ export default {
   components: { InputCompany },
   data() {
     return {
+      isLoading: false,
       countrys: {},
       formItem: {
         companyId: "",
@@ -163,6 +164,7 @@ export default {
             params.birthday,
             "YYYY-MM-DD hh:mm"
           );
+          isLoading: true,
           AJAX.postJSON(host + "/api/emp/add", params).then(response => {
             if (response.data.errCode === "0") {
               this.$Notice.success({
@@ -171,16 +173,19 @@ export default {
               });
               this.find();
               this.$router.push({ name: "empList" });
+              isLoading: false;
             } else if (response.data.errCode === "1") {
               this.$Notice.error({
                 title: "保存失败",
                 desc: response.data.message
               });
+              isLoading: false;
             } else {
               this.$Notice.error({
                 title: "保存失败",
                 desc: ""
               });
+              isLoading: false;
             }
           });
         } else {

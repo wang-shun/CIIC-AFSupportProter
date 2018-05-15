@@ -3,42 +3,42 @@
     <Collapse v-model="value1" accordion>
       <Panel name="1">
         <div slot="content">
-          <Form ref="queryItem" :model="queryItem" :label-width="120"> 
+          <Form ref="queryItem" :model="queryItem" :label-width="120">
             <Row type="flex" justify="start" prop="empCode">
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="companyCode"> 
-                  <Input v-model="queryItem.companyCode" placeholder="请输入"/>                                                           
-                </Form-item> 
+                <Form-item label="客户编号：" prop="companyCode">
+                  <Input v-model="queryItem.companyCode" placeholder="请输入"/>
+                </Form-item>
               </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                      
+              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号：" prop="empCode">
                   <Input v-model="queryItem.empCode" placeholder="请输入"/>
-                </Form-item>   
-              </i-col>  
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                                                                                   
+                </Form-item>
+              </i-col>
+              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员姓名：" prop="empName">
                   <Input v-model="queryItem.empName" placeholder="请输入"/>
                 </Form-item>
               </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">   
+              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件号码：" prop="IDNum">
-                  <Input v-model="queryItem.IDNum" placeholder="请输入"/>                               
-                </Form-item>                           
+                  <Input v-model="queryItem.IDNum" placeholder="请输入"/>
+                </Form-item>
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="入离职状态：" prop="status">
                   <Cascader v-model="queryItem.status" :data="statusList" trigger="hover" style="width: 57%;hight:100px" transfer></Cascader>
-                </Form-item>    
+                </Form-item>
               </i-col>
-            </Row>   
-          </Form>  
-          <Row type="flex" justify="start" class="tr">  
+            </Row>
+          </Form>
+          <Row type="flex" justify="start" class="tr">
             <i-col :sm="{span: 24}">
               <Button type="primary" @click="handleCurrentChange(1)" class="ml10" icon="ios-search">查询</Button>
               <Button type="warning" @click="reset('queryItem')" class="ml10">重置</Button>
             </i-col>
-          </Row>                               
-        </div>           
+          </Row>
+        </div>
       </Panel>
     </Collapse>
 
@@ -57,19 +57,19 @@
     <Modal
       v-model="modal1"
       title="证件办理">
-      <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="120"> 
+      <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="120">
         <Row type="flex" justify="start">
           <i-col span="12">
             <Form-item label="客户名称：" style="width:400px;">
              {{formItem.companyName}}
-            </Form-item>    
+            </Form-item>
           </i-col>
         </Row>
         <Row type="flex" justify="start">
           <i-col span="12">
             <Form-item label="雇员姓名：" style="width:400px;">
               {{formItem.empName}}
-            </Form-item>    
+            </Form-item>
           </i-col>
         </Row>
         <Row type="flex" justify="start">
@@ -78,7 +78,7 @@
               <Select v-model="formItem.type" placeholder="请选择" style="width:260px" :label-in-value="labelinvalue" @on-change="taskTypeChange" transfer>
                 <Option v-for="item in this.taskType" :value="item.taskTypeId" :key="item.taskTypeId">{{item.taskTypeName}}</Option>
               </Select>
-            </Form-item>    
+            </Form-item>
           </i-col>
         </Row>
         <Row type="flex" justify="start">
@@ -87,17 +87,17 @@
               <Select v-model="formItem.dealType" placeholder="请选择" style="width:260px" :label-in-value="labelinvalue" transfer>
                 <Option v-for="item in this.taskDealType" :value="item.taskTypeId" :key="item.taskTypeId">{{item.taskTypeName}}</Option>
               </Select>
-            </Form-item>    
-          </i-col> 
+            </Form-item>
+          </i-col>
         </Row>
       </Form>
       <div slot="footer">
-        <Row type="flex" justify="start" class="tr">  
+        <Row type="flex" justify="start" class="tr">
           <i-col :sm="{span: 24}">
             <Button type="primary" @click="ok('formItem',formItem.data)" class="ml10">确定</Button>
             <Button type="warning" @click="modal1=false;" class="ml10">取消</Button>
           </i-col>
-        </Row> 
+        </Row>
       </div>
     </Modal>
   </div>
@@ -348,14 +348,14 @@ export default {
       this.$router.push({ name: "empAdd" });
     },
     lookInfo(v) {
+      let credentialsTaskData = {}
+      credentialsTaskData.data = v
+      credentialsTaskData.type = ""
+      credentialsTaskData.dealType = ""
+      credentialsTaskData.isDeal = false
+      sessionStorage.setItem('credentialsTaskData', JSON.stringify(credentialsTaskData))
       this.$router.push({
         name: "empCredentialsTask",
-        params: {
-          data: v,
-          type: "",
-          dealType: "",
-          isDeal: false
-        }
       });
     },
     ok(value, data) {
@@ -368,20 +368,23 @@ export default {
         if (valid) {
           this.$router.push({
             name: "empCredentialsTask",
-            params: {
-              data: data,
-              type: parseInt(this.formItem.type),
-              typeN: this.$decode.sel_type(parseInt(this.formItem.type)),
-              dealType: parseInt(this.formItem.dealType),
-              dealTypeN: this.$decode.deal_type(
-                parseInt(this.formItem.dealType)
-              ),
-              companyId: data.companyCode,
-              basicProductId: this.productId,
-              isDeal: true
-            }
+            
           });
+          let credentialsTaskData = {}
+          credentialsTaskData.data = data,
+          credentialsTaskData.type = parseInt(this.formItem.type),
+          credentialsTaskData.typeN = this.$decode.sel_type(parseInt(this.formItem.type)),
+          credentialsTaskData.dealType = parseInt(this.formItem.dealType),
+          credentialsTaskData.dealTypeN = this.$decode.deal_type(
+            parseInt(this.formItem.dealType)
+          ),
+          credentialsTaskData.companyId = data.companyCode,
+          credentialsTaskData.basicProductId = this.productId,
+          credentialsTaskData.isDeal = true
+
+          sessionStorage.setItem('credentialsTaskData', JSON.stringify(credentialsTaskData))
           this.modal1 = false;
+          console.log("isDealZZZZZ"+sessionStorage.getItem('credentialsTaskData'))
         } else {
           this.$Message.error("请选择办证类型!");
         }

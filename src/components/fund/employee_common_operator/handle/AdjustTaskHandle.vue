@@ -247,11 +247,11 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="handleTask" v-if="showButton">已处理</Button>
-        <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton">不需处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton">转下月处理</Button>
-        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>
-        <Button type="primary" class="ml10" @click="saveTask" v-if="showButton">保存</Button>
+        <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
+        <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton" :loading="isLoading">批退</Button>
+        <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
       </Col>
@@ -272,6 +272,7 @@
         inputDisabled: false,
         isShowPrint: false,
         loading: false,
+        isLoading: false,
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -589,6 +590,19 @@
         ],
 
         taskListNotesColumns: [
+          {
+            title: '任务单ID', key: 'empTaskId', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('a', {
+                style: {textAlign: 'right'},
+                on:{
+                  click:()=>{
+                    this.routerMethod(params)
+                  }
+                }
+              }, params.row.empTaskId);
+            }
+          },
           {title: '公积金类型', key: 'hfTypeName', align: 'left'},
           {title: '任务类型', key: 'taskCategoryName', align: 'left'},
           {title: '办理/批退', key: 'taskStatusName', align: 'left'},
@@ -702,7 +716,8 @@
     },
     methods: {
       back() {
-        this.$router.go(-1)
+//        this.$router.go(-1)
+        this.$router.push({name: 'employeeFundCommonOperator'});
       },
       addOperatorListData() {
         let startMonth = this.displayVO.startMonth;
@@ -751,7 +766,7 @@
         if (!this.inputDataCheck()) {
           return false;
         }
-
+        this.isLoading = true;
         api.empTaskHandle(params).then(data => {
           if (data.code == 200) {
             this.$Message.info("办理成功");
@@ -759,9 +774,11 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       notHandleTask() {
+        this.isLoading = true;
         api.empTaskNotHandle({
           empTaskId: this.displayVO.empTaskId
         }).then(data => {
@@ -771,9 +788,11 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       handleTaskDelay() {
+        this.isLoading = true;
         api.empTaskHandleDelay({
           empTaskId: this.displayVO.empTaskId
         }).then(data => {
@@ -783,6 +802,7 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       handleTaskReject() {
@@ -795,6 +815,7 @@
           this.$Message.error("批退备注长度不能超过200");
           return false;
         }
+        this.isLoading = true;
         api.empTaskHandleReject({
           rejectionRemark: this.displayVO.rejectionRemark,
           selectedData: [this.displayVO.empTaskId]
@@ -805,9 +826,11 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       handleTaskCancel() {
+        this.isLoading = true;
         api.empTaskHandleCancel(
           [this.displayVO.empTaskId]
         ).then(data => {
@@ -818,6 +841,7 @@
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       setInputData() {
@@ -850,13 +874,14 @@
         if (!this.inputDataCheck()) {
           return false;
         }
-
+        this.isLoading = true;
         api.empTaskHandleDataSave(params).then(data => {
           if (data.code == 200) {
             this.$Message.info("保存成功");
           } else {
             this.$Message.error(data.message);
           }
+          this.isLoading = false;
         })
       },
       inputDataCheck() {
@@ -1022,6 +1047,41 @@
         }
         return true;
       },
+      routerMethod(params) {
+        let currentTaskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
+        localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
+        localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
+        localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.taskStatus', params.row.taskStatus);
+        if (currentTaskCategory === params.row.taskCategory) {
+          location.reload()
+        } else {
+          switch (params.row.taskCategory) {
+            case '1':
+            case '2':
+            case '3':
+            case '9':
+            case '10':
+            case '11':
+              this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+              break;
+            case '4':
+            case '5':
+            case '12':
+            case '13':
+              this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
+              break;
+            case '6':
+              this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
+              break;
+            case '7':
+              this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+              break;
+            default:
+              break;
+          }
+        }
+      }
     },
   }
 </script>

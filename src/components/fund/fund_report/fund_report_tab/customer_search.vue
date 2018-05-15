@@ -30,7 +30,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业公积金账号：" prop="basicHfComAccount">
+                <Form-item label="企业基本公积金账号：" prop="basicHfComAccount">
                   <Input v-model="operatorSearchData.basicHfComAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -42,7 +42,7 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">缴费明细</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">缴费明细</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
@@ -94,6 +94,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           addedHfComAccount: '',
           hfType: '',
         },
+        isLoading: false,
         accountTypeList: [],
         customerData: [],
         customerColumns: [
@@ -118,7 +119,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
               ]);
             }
           },
-          {title: '公积金账号', key: 'hfEmpAccount', width: 120, align: 'center',
+          {title: '基本/补充公积金账号', key: 'hfEmpAccount', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.hfEmpAccount),
@@ -174,21 +175,21 @@ import dict from '../../../../api/dict_access/house_fund_dict'
               ]);
             }
           },
-          {title: '公司编号', key: 'companyId', width: 120, align: 'center',
+          {title: '客户编号', key: 'companyId', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '公司全称', key: 'companyName', width: 250, align: 'center',
+          {title: '客户名称', key: 'companyName', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyName),
               ]);
             }
           },
-          {title: '公司公积金账号', key: 'hfComAccount', width: 150, align: 'center',
+          {title: '企业基本/补充公积金账号', key: 'hfComAccount', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.hfComAccount),
@@ -239,6 +240,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
+        this.isLoading = true;
         api.hfMonthChargeQuery({
           pageSize: this.customerSearchPageData.pageSize,
           pageNum: this.customerSearchPageData.pageNum,
@@ -248,6 +250,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
             this.customerData = data.data.rows;
             this.customerSearchPageData.total = Number(data.data.total);
           }
+          this.isLoading = false;
         })
       },
       excelExport() {

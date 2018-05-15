@@ -8,22 +8,22 @@
             <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
               <Form-item label="客户编号：">
                 {{companyCode}}
-              </Form-item> 
+              </Form-item>
             </i-col>
             <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
               <Form-item label="客户名称：">
                 {{companyName}}
-              </Form-item> 
+              </Form-item>
             </i-col>
             <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
               <Form-item label="客户地址：">
                 {{companyAddr}}
-              </Form-item> 
+              </Form-item>
             </i-col>
             <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
               <Form-item label="客户电话：">
                 {{companyTel}}
-              </Form-item> 
+              </Form-item>
             </i-col>
           </Row>
         </Form>
@@ -33,37 +33,37 @@
         <Form :label-width="120" slot="content">
           <Row type="flex" justify="start">
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号：">{{empCode}}</Form-item> 
+              <Form-item label="雇员编号：">{{empCode}}</Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名：">{{empName}}</Form-item> 
+              <Form-item label="雇员姓名：">{{empName}}</Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码：">{{idNum}}</Form-item> 
+              <Form-item label="证件号码：">{{idNum}}</Form-item>
             </i-col>
             <!-- <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="学历：">{{education}}</Form-item> 
+              <Form-item label="学历：">{{education}}</Form-item>
             </i-col> -->
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="婚姻状况：">{{marriage}}</Form-item> 
+              <Form-item label="婚姻状况：">{{marriage}}</Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="性别：">{{sex}}</Form-item> 
+              <Form-item label="性别：">{{sex}}</Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="出生日期：">{{birthday}}</Form-item> 
+              <Form-item label="出生日期：">{{birthday}}</Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="联系地址：">{{address}}</Form-item> 
+              <Form-item label="联系地址：">{{address}}</Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="首次进入日期：">{{firstInTime}}</Form-item> 
+              <Form-item label="首次进入日期：">{{firstInTime}}</Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="合同开始日期：">{{contractStartTime}}</Form-item> 
+              <Form-item label="合同开始日期：">{{contractStartTime}}</Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="合同结束日期：">{{contractEndTime}}</Form-item> 
+              <Form-item label="合同结束日期：">{{contractEndTime}}</Form-item>
             </i-col>
           </Row>
         </Form>
@@ -99,8 +99,8 @@
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="居住年限：" prop="">
-                <Input v-model="formItem.liveAgeLimit" placeholder="请输入"/>
+              <Form-item label="居住年限：" prop="liveAgeLimit">
+                <InputNumber v-model="formItem.liveAgeLimit" :min="0" :max="99" style="width: 100%"></InputNumber>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -149,8 +149,8 @@
               </Form-item>
             </i-col>
              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="收费金额：" prop="">
-                <Input v-model="formItem.chargeAmount" placeholder="请输入"/>
+              <Form-item label="收费金额：" prop="chargeAmount">
+                <InputNumber v-model="formItem.chargeAmount" style="width: 100%"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -165,7 +165,7 @@
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="办证公司名称：" prop="">
-                <Input v-model="formItem.perCompanyName" placeholder="请输入"/>
+                <Input v-model="formItem.permitCompanyName" placeholder="请输入"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -182,7 +182,7 @@
         </Form>
       </Panel>
      </Collapse>
-      <Row type="flex" justify="start" class="tr" style="margin-top:10px">  
+      <Row type="flex" justify="start" class="tr" style="margin-top:10px">
         <i-col :sm="{span: 24}">
           <Button type="primary" @click="save" class="ml10">保存</Button>
           <Button type="warning" @click="back" class="ml10">返回</Button>
@@ -229,7 +229,7 @@ export default {
         materialBackTime: "",
         callsTime: "",
         applyTime: "",
-        liveAgeLimit: "",
+        liveAgeLimit: 0,
         shiftLetterSendTime: "",
         talentBackTime: "",
         talentBackReason: "",
@@ -240,8 +240,8 @@ export default {
         originalBackReason: "",
         integralBillPrintTime: "",
         payType: "",
-        chargeAmount: "",
-        perCompanyName: "",
+        chargeAmount: 0,
+        permitCompanyName: "",
         telephone: "",
         remark: "",
         materialIds: "",
@@ -250,23 +250,26 @@ export default {
     };
   },
   mounted() {
-    let data = this.$route.params.data;
+    let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
+    let data = credentialsTaskData.data;
     Tools.copy(data, this);
     this.companyCode = data.companyId;
     this.empCode = data.employeeId;
     this.empName = data.employeeName;
   },
   created() {
-    this.findAll(this.$route.params.data.employeeId);
-    this.findEmpDetial(this.$route.params.data);
-    this.findCompanyDetial(this.$route.params.data.companyId);
+    let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
+    this.findAll(credentialsTaskData.data.employeeId);
+    this.findEmpDetial(credentialsTaskData.data);
+    this.findCompanyDetial(credentialsTaskData.data.companyId);
   },
-  computed: {},
   methods: {
     callBack(value) {
       if (value != null) {
         this.formItem = value;
-        this.formItem.perCompanyName = value.companyName;
+        if (this.formItem.permitCompanyName == undefined) {
+          this.formItem.permitCompanyName = value.companyName
+        }
       }
     },
     findCompanyDetial(companyId) {
@@ -327,6 +330,7 @@ export default {
       });
     },
     save() {
+      let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
       let params = {};
       params = { ...this.formItem };
       if (
@@ -412,7 +416,7 @@ export default {
       params.credentialsDealType = params.credentialsDealType;
       params.basicProductId =
         params.basicProductId == null
-          ? this.$route.params.basicProductId
+          ? credentialsTaskData.basicProductId
           : params.basicProductId;
       params.templateType = this.templateType;
       AJAX
@@ -460,22 +464,24 @@ export default {
               data[i].companyName = this.companyName;
             }
             let temp = {};
-            if (this.$route.params.isDeal == true) {
-              let data1 = this.$route.params.data;
+            let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
+            if (credentialsTaskData.isDeal == true) {
+              let data1 = credentialsTaskData.data;
               temp.empCode = data1.employeeId;
               temp.empName = data1.employeeName;
               temp.companyCode = data1.companyId;
               temp.companyName = data1.companyName;
-              temp.credentialsTypeN = this.$route.params.typeN;
-              temp.credentialsType = this.$route.params.type;
-              temp.companyId = this.$route.params.companyId;
-              if (this.$route.params.dealType != "") {
-                temp.credentialsDealType = this.$route.params.dealType;
-                temp.credentialsDealTypeN = this.$route.params.dealTypeN;
+              temp.credentialsTypeN = credentialsTaskData.typeN;
+              temp.credentialsType = credentialsTaskData.type;
+              temp.companyId = credentialsTaskData.companyId;
+              if (credentialsTaskData.dealType != "") {
+                temp.credentialsDealType = credentialsTaskData.dealType;
+                temp.credentialsDealTypeN = credentialsTaskData.dealTypeN;
               }
               temp.action = "1";
               response.data.data.splice(0, 0, temp);
             }
+            data[0]._highlight = true
             this.empInfo = data;
           }
         });

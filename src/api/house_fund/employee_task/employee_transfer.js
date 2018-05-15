@@ -4,43 +4,52 @@ const AJAX = ajax.ajaxHfc;
 
 //公积金转移通知书
 function getFundTransferNoteObj(row){
-  var html = `<div style="page-break-after:always;">
-  <table cellpadding="0" cellspacing="0"  style="border-collapse: collapse; border-spacing: 0; width: 600px; height: 336px;margin-left:22px;margin-top:-67px >
+  var html = `
+
+  <div style="page-break-after:always;">
+  <table cellpadding="0" cellspacing="0"  style="border-collapse: collapse; border-spacing: 0; width: 600px; margin-left:22px;margin-top:-95px" >
     <tr>
-      <td height="85px"></td>
+      <td height="140px"> &nbsp;</td>
     </tr>
     <tr>
-      <td height="20px">
-        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 240px;">${row.createdByYYYY}</div>
-        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 55px;">${row.createdByMM}</div>
-        <div style="text-align: right; height: 20px; line-height: 20px; float: left; width: 50px;">${row.createdByDD}</div>
+      <td height="35px" style="vertical-align: center;">
+        <div style="text-align: right;  float: left; width: 235px;">${row.createdByYYYY}</div>
+        <div style="text-align: right;  float: left; width: 55px;">${row.createdByMM}</div>
+        <div style="text-align: right;  float: left; width: 50px;">${row.createdByDD}</div>
       </td>
     </tr>
      <tr>
       <td height="30px">
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 270px;">${row.employeeName}</div>
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 270px;">${row.hfEmpAccount}</div>
+        <div style="text-align: left;  float: left; width: 90px;">&nbsp;</div>
+        <div style="text-align: left;  float: left; width: 170px;">${row.employeeName}</div>
+        <div style="text-align: left;  float: left; width: 110px;">&nbsp;</div>
+        <div style="text-align: left;  float: left; width: 170px;">${row.hfEmpAccount==null?'':row.hfEmpAccount}</div>
+      </td>
+    </tr>
+    <tr style="padding: 0">
+      <td height="35px">
+        <div style="text-align: left;  float: left; width: 130px;">&nbsp;</div>
+        <div style="text-align: left;  float: left; width: 197px;">${row.inUnitName==null?'':row.inUnitName}</div>
+        <div style="text-align: left;  float: left; width: 60px;">&nbsp;</div>
+        <div style="text-align: left;  float: left; width: 200px;">${row.outUnitName==null?'':row.outUnitName}</div>
       </td>
     </tr>
     <tr>
       <td height="35px">
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 300px;">${row.inUnitName}</div>
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 245px;">${row.outUnitName}</div>
+        <div style="text-align: left;  float: left; width: 130px;">&nbsp;</div>
+        <div style="text-align: left;  float: left; width: 197px;">${row.inComAccount==null?'':row.inComAccount}</div>
+        <div style="text-align: left;  float: left; width: 60px;">&nbsp;</div>
+        <div style="text-align: left;  float: left; width: 170px;">${row.outComAccount==null?'':row.outComAccount}</div>
       </td>
     </tr>
     <tr>
       <td height="35px">
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 300px;">${row.inComAccount}</div>
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 245px;">${row.outComAccount}</div>
-      </td>
-    </tr>
-    <tr>
-      <td height="35px">
-        <div style="text-align: right; height: 35px; line-height: 35px; float: left; width: 300px;"></div>
+        <div style="text-align: right;  float: left; width: 300px;"></div>
       </td>
     </tr>
   </table>
 </div>`;
+ 
   return html;
 }
  
@@ -109,14 +118,9 @@ export default {
     return await response.data;
   },
   printTransferNote: async (rows)=> {
-    console.log(rows);
-    let head = `<html><head><title>上海市住房公积金转移通知书</title></head><body style="margin: 0; padding: 0; border: 0; font-size: 100%; font: inherit; vertical-align: baseline; line-height: 1; font-size: 12px; background-size: 600px 336px; background-repeat: no-repeat;">`;
+    let head =`<html><head><title>上海市住房公积金转移通知书</title></head><body style="margin: 0; padding: 0; border: 0;  font: inherit; vertical-align: baseline; line-height: 1; font-size: 8px;background-size: 600px 336px; background-repeat: no-repeat;">`;
     let foot = `</body></html>`;
-    let obj = "";
-    rows.forEach(function(e){
-      var temp = getFundTransferNoteObj(e);
-      obj += temp;
-    });
+    let obj = getFundTransferNoteObj(rows[0]);
     let html = head + obj + foot;
     let pwin = window.open("","print")
     pwin.document.write(html);

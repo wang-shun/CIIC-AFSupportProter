@@ -514,23 +514,32 @@
         this.$router.go(-1)
       },
       saveEmpAccount(){
+        var reg = /(^[1-9]([0-9]{1,19})?$)/;
+
+        if (!reg.test(this.viewEmpArchive.hfEmpAccount)) { 
+          this.$Message.error("【基本公积金账号】输入不正确，必须要求数字类型，并且不超过20位。");
+          return;
+        }
+        if (this.viewEmpArchive.empArchiveIdBc && !reg.test(this.viewEmpArchive.hfEmpAccountBc)) { 
+          this.$Message.error("【补充公积金账号】输入不正确，必须要求数字类型，并且不超过20位。");
+          return;
+        }
           var formData={
             hfEmpAccount:'',
             hfEmpAccountBc:'',
             empArchiveIdBc:'',
             empArchiveId:'',
           };
-          let self=this;
           this.$Modal.confirm({
           title: "你确认保存信息吗？",
           okText: '确定',
           cancelText: '取消',
           onOk: () => {
             {//收集数据
-              formData.hfEmpAccount = self.viewEmpArchive.hfEmpAccount
-              formData.hfEmpAccountBc=self.viewEmpArchive.hfEmpAccountBc
-              formData.empArchiveIdBc=self.viewEmpArchive.empArchiveIdBc
-              formData.empArchiveId= self.viewEmpArchive.empArchiveId
+              formData.hfEmpAccount = this.viewEmpArchive.hfEmpAccount
+              formData.hfEmpAccountBc=this.viewEmpArchive.hfEmpAccountBc
+              formData.empArchiveIdBc=this.viewEmpArchive.empArchiveIdBc
+              formData.empArchiveId= this.viewEmpArchive.empArchiveId
             }
             api.saveEmpAccount(formData).then(data => {
               data=data.data;

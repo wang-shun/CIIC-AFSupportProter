@@ -17,7 +17,7 @@
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
     </Row>
-    <Table border :columns="dismissalColumns" :data="dismissalData" class="mt20"></Table>
+    <Table border :columns="dismissalColumns" :data="dismissalData" :loading="isLoading"  class="mt20"></Table>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -27,7 +27,7 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table border :columns="searchResultColumns" :data="searchResultData" class="mt20"></Table>
+    <Table border :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" class="mt20"></Table>
   </div>
 </template>
 <script>
@@ -40,6 +40,9 @@
     components: {searchEmployment},
     data() {
       return {
+         initSearch:false,
+         initSearchC:false,
+         isLoading: false,
          pageData: {
           total: 0,
           pageNum: 1,
@@ -375,9 +378,15 @@
       this.queryResignTaskCount({})
     },
     methods: {
-      searchEmploiees(conditions) {
-           this.pageData.pageNum =1;
+      searchEmploiees(conditions,searchForm) {
+      
+            this.pageData.pageNum =1;
             this.searchConditions =[];
+            if(searchForm.isFinish!=2)
+            {
+              var isFinish = "a.is_finish="+searchForm.isFinish;
+              this.searchConditions.push(isFinish);
+            }
             for(var i=0;i<conditions.length;i++)
                   this.searchConditions.push(conditions[i].exec);
         
@@ -385,6 +394,7 @@
            
            this.queryAmResign(this.searchCondition);
            this.queryResignTaskCount(this.searchCondition);
+        
       },
       goHandle() {
         this.$router.push({name: "dismissalHandleEmployment"});
@@ -397,28 +407,41 @@
         api.resignSearchExportOpt(params);
 
       },queryAmResign(params){
-        let self =this
-        api.queryAmResign({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
-          params: params,
-        }).then(data => {
-          self.dismissalData = data.data.rows;
-          self.pageData.total = Number(data.data.total);
-        })
+        if(this.initSearch)
+        {
+           this.isLoading = true;
+            let self =this
+            api.queryAmResign({
+              pageSize: this.pageData.pageSize,
+              pageNum: this.pageData.pageNum,
+              params: params,
+            }).then(data => {
+              self.dismissalData = data.data.rows;
+              self.pageData.total = Number(data.data.total);
+              self.isLoading = false;
+            })
+        }else{
+           this.initSearch = true;
+        }
+       
       },
       queryResignTaskCount(params){
-
-        let self =this
-        api.queryResignTaskCount({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
-          params: params,
-        }).then(data => {
-         
-          self.searchResultData = data.data.row;
-         
-        })
+        if(this.initSearchC)
+        {
+            let self =this
+            api.queryResignTaskCount({
+              pageSize: this.pageData.pageSize,
+              pageNum: this.pageData.pageNum,
+              params: params,
+            }).then(data => {
+            
+              self.searchResultData = data.data.row;
+            
+            })
+        }else{
+          this.initSearchC = true;
+        }
+       
       },
       showInfoT (idNum,idCardType,empTaskId,employeeId,companyId,employmentId) {
         

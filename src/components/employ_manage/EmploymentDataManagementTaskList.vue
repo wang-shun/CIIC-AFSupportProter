@@ -5,7 +5,7 @@
         <Panel name="1">
           用工资料管理任务单
           <div slot="content">
-            <search-employment @on-search="searchEmploiees"></search-employment>
+            <search-employment @on-search="searchEmploiees" :isLoading='isLoading'></search-employment>
           </div>
         </Panel>
       </Collapse>
@@ -17,10 +17,11 @@
           </DropdownMenu>
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
+        <Button type="info" @click="printLabel">打印贴头</Button>
         <!-- <Button type="primary" @click="batchManagement">批理办理</Button> -->
       </Col>
     </Row>
-    <Table border :columns="employmentColumns" :data="employmentData" ref="employmentData" class="mt20"></Table>
+    <Table border :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData" class="mt20"></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -30,7 +31,7 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table  border :columns="searchResultColumns" :data="searchResultData" ref="searchResultData" class="mt20"></Table>
+    <Table  border :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt20"></Table>
 
     <Modal
       v-model="isShowStockTitle"
@@ -54,6 +55,8 @@ import {mapState, mapGetters, mapActions} from 'vuex'
     components: {employeeInfo, searchEmployment},
     data() {
       return {
+        initSearch:false,
+        initSearchC:false,
         pageData: {
           total: 0,
           pageNum: 1,
@@ -66,11 +69,12 @@ import {mapState, mapGetters, mapActions} from 'vuex'
           params: '',
           taskStatus:0
         },
+        isLoading: false,
         // 当中按钮操作
         printList: em_print,
         // 下半部分
         employmentColumns: [
-          // {title: '', type: 'selection', width: 60},
+          {title: '', type: 'selection', width: 60},
           {
             title: '操作',
             key: 'action',
@@ -344,15 +348,22 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         });
         this.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
      },
-     searchEmploiees(conditions) {
-        this.pageData.pageNum =1;
+     searchEmploiees(conditions,searchForm) {
+
+            this.pageData.pageNum =1;
             this.searchConditions =[];
+            if(searchForm.isFinish!=2)
+            {
+              var isFinish = "a.is_finish="+searchForm.isFinish;
+              this.searchConditions.push(isFinish);
+            }
             for(var i=0;i<conditions.length;i++)
                   this.searchConditions.push(conditions[i].exec);
         
            this.searchCondition.params = this.searchConditions.toString();
            this.employeeQuery(this.searchCondition);
            this.employeeCollectionQuery(this.searchCondition);
+           
       }, goHandle() {
         this.$router.push({name: "employHandleEmployment"});
       },
@@ -373,6 +384,53 @@ import {mapState, mapGetters, mapActions} from 'vuex'
            this.employeeQuery(this.searchCondition);
 
       },
+      printLabel(){
+        let selection = this.$refs.employmentData.getSelection();
+        if(selection.length == 0){
+          alert("没有选中的列");
+          return;
+        }
+        console.info(selection);
+        let head = `<!doctype html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>打印贴头</title></head><body>`;
+        let foot = `</body></html>`;
+        let obj = '';
+        let isFrist = true;
+        obj +=  '<table cellpadding="0" cellspacing="0">';
+        selection.forEach(sel => {
+          let docType = '无';
+          let docNum = '无';
+          if(sel.docType){
+            docType = sel.docType;
+          }else if(sel.yuliuDocType){
+            docType = sel.yuliuDocType;
+          }
+          if(sel.docNum){
+            docNum = sel.docNum;
+          }else if(sel.yuliuDocNum){
+            docNum = sel.yuliuDocNum;
+          }
+          if(isFrist == false){
+            //obj += '<tr><td height="50px"></td></tr>';
+          }
+          if(isFrist){
+            isFrist = false;
+          }
+          obj += 
+            '<tr>'+
+              '<td height="60px">'+
+                '<div class="lh20" style="width: 300;" float="left">&nbsp;&nbsp;<font size="6">'+ docType +'</font><font size="6">'+ docNum +'</font>&nbsp;&nbsp;&nbsp;<font size="6">'+ sel.employeeName +'</font></div>'+
+                '<div class="lh20" style="width: 60px;"><br/></div>'+
+                '<div class="lh20" style="width: 145px;" float="right">&nbsp;&nbsp;&nbsp;<font size="6">'+ sel.idNum +'</font></div>'+
+              '</td>'+
+            '</tr>';
+        });
+        obj += '</table>';
+        let html = head + obj + foot;
+        let pwin = window.open("","print")
+        pwin.document.write(html);
+        pwin.document.close();
+        pwin.print();
+      },
       generateInStock() {
 
       },
@@ -391,29 +449,42 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 
       },
       employeeQuery(params){
+        if(this.initSearch){
+          this.isLoading = true;
+            let self =this
+            api.employeeQuery({
+              pageSize: this.pageData.pageSize,
+              pageNum: this.pageData.pageNum,
+              params: params,
+            }).then(data => {
+              self.employmentData = data.data.rows;
+              self.pageData.total = Number(data.data.total);
+              self.isLoading = false;
+            })
+        }else{
+          this.initSearch = true;
+        }
+      
        
-        let self =this
-        api.employeeQuery({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
-          params: params,
-        }).then(data => {
-          self.employmentData = data.data.rows;
-          self.pageData.total = Number(data.data.total);
-        })
       },
        employeeCollectionQuery(params){
+          if(this.initSearchC)
+          {
+              let self =this
+              api.employeeCollectionQuery({
+                pageSize: this.pageData.pageSize,
+                pageNum: this.pageData.pageNum,
+                params: params,
+              }).then(data => {
+              
+                self.searchResultData = data.data.row;
+              
+              })
+          }else{
+            this.initSearchC = true;
+          }
+         
         
-        let self =this
-        api.employeeCollectionQuery({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
-          params: params,
-        }).then(data => {
-         
-          self.searchResultData = data.data.row;
-         
-        })
       },
       handlePageNum(val) {
         this.pageData.pageNum = val;

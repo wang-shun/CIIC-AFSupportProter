@@ -5,7 +5,7 @@
         <Panel name="1">
           用工资料管理任务单
           <div slot="content">
-            <search-employment @on-search="searchEmploiees"></search-employment>
+            <search-employment @on-search="searchEmploiees" :isLoading='isLoading' :showHandle="showHandle" ></search-employment>
           </div>
         </Panel>
       </Collapse>
@@ -52,6 +52,9 @@
         },
         collapseInfo: [1],
         searchConditions:[],
+        showHandle:{
+           show:false
+        },
         searchCondition: {
           params: '',
           taskStatus:'',
@@ -514,11 +517,7 @@
         
               this.pageData.pageNum =1;
               this.searchConditions =[];
-              if(searchForm.isFinish!=2)
-              {
-                  var isFinish = "a.is_finish="+searchForm.isFinish;
-                  this.searchConditions.push(isFinish);
-              }
+             
                 for(var i=0;i<conditions.length;i++)
                       this.searchConditions.push(conditions[i].exec);
             
@@ -622,6 +621,9 @@
             }).then(data => {
               self.recordComprehensiveHandlingData = data.data.rows;
               self.pageData.total = Number(data.data.total);
+                self.isLoading = false;
+               self.searchCondition.taskStatus = '';
+               self.searchCondition.taskResignStatus = '';
             })
         }else{
             this.initSearch = true;
@@ -641,7 +643,8 @@
             }).then(data => {
             
               self.searchResultData1 = data.data.row;
-              self.isLoading = false;
+            
+              
             
             })
         }else{

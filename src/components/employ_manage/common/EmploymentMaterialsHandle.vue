@@ -335,6 +335,30 @@ import Vue from 'vue'
           this.$Message.error("档案编号已经是极限了，请联系管理员！");
           return;
         }
+        if(this.handle.docType != '' && this.handle.docType != undefined){
+          if(this.handle.docNum == '' || this.handle.docNum == undefined){
+            this.$Message.error("档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
+        if(this.handle.docNum != '' && this.handle.docNum != undefined){
+          if(this.handle.docType == '' || this.handle.docType == undefined){
+            this.$Message.error("档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
+        if(this.handle.yuliuDocType != '' && this.handle.yuliuDocType != undefined){
+          if(this.handle.yuliuDocNum == '' || this.handle.yuliuDocNum == undefined){
+            this.$Message.error("预留档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
+        if(this.handle.yuliuDocNum != '' && this.handle.yuliuDocNum != undefined){
+          if(this.handle.yuliuDocType == '' || this.handle.yuliuDocType == undefined){
+            this.$Message.error("预留档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
         var fromData = this.$utils.clear(this.handleInfo,'');
         fromData.isFrist='0';
         if(this.handleInfo.employFeedbackOptDate){

@@ -570,17 +570,14 @@
         let isFrist = true;
         obj +=  '<table cellpadding="0" cellspacing="0">';
         selection.forEach(sel => {
-          let docType = '无';
-          let docNum = '无';
-          if(sel.docType){
+          let docType = '';
+          let docNum = '';
+          if(sel.docType && sel.docNum){
             docType = sel.docType;
-          }else if(sel.yuliuDocType){
-            docType = sel.yuliuDocType;
-          }
-          if(sel.docNum){
             docNum = sel.docNum;
-          }else if(sel.yuliuDocNum){
-            docNum = sel.yuliuDocNum;
+          }else if(sel.yuliuDocType && sel.yuliuDocNum){
+            docType = sel.yuliuDocType;
+            docNum = sel.yuliuDocNum
           }
           if(isFrist == false){
             //obj += '<tr><td height="50px"></td></tr>';

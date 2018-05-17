@@ -222,6 +222,8 @@
             render: (h, params) => {
               if (params.row.keyType === 2) {
                 return params.row.keyValue * 100 + "%";
+              } else {
+                return params.row.keyValue;
               }
             }
           },

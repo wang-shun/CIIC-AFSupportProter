@@ -325,6 +325,30 @@
           this.$Message.error("档案编号已经是极限了，请联系管理员！");
           return;
         }
+        if(this.file1.docType != '' && this.file1.docType != undefined){
+          if(this.file1.docNum == '' || this.file1.docNum == undefined){
+            this.$Message.error("档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
+        if(this.file1.docNum != '' && this.file1.docNum != undefined){
+          if(this.file1.docType == '' || this.file1.docType == undefined){
+            this.$Message.error("档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
+        if(this.file1.yuliuDocType != '' && this.file1.yuliuDocType != undefined){
+          if(this.file1.yuliuDocNum == '' || this.file1.yuliuDocNum == undefined){
+            this.$Message.error("预留档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
+        if(this.file1.yuliuDocNum != '' && this.file1.yuliuDocNum != undefined){
+          if(this.file1.yuliuDocType == '' || this.file1.yuliuDocType == undefined){
+            this.$Message.error("预留档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
          this.isLoading = true;
         var fromData = this.$utils.clear(this.file1,'');
         if(this.file1.employDocPaymentTo){

@@ -5,7 +5,7 @@
         <Panel name="1">
           退工档案任务单
           <div slot="content">
-            <search-employment @on-search="searchEmploiees"></search-employment>
+            <search-employment @on-search="searchEmploiees" :isLoading='isLoading' :showHandle="showHandle"></search-employment>
           </div>
         </Panel>
       </Collapse>
@@ -55,6 +55,9 @@
           taskStatus:0
         },
         collapseInfo: [1],
+        showHandle:{
+           show:true
+        },
         dismissalColumns: [
           // {title: '', type: 'selection', width: 60},
           {
@@ -419,6 +422,7 @@
               self.dismissalData = data.data.rows;
               self.pageData.total = Number(data.data.total);
               self.isLoading = false;
+               this.searchCondition.taskStatus =0;
             })
         }else{
            this.initSearch = true;

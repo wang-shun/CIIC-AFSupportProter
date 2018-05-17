@@ -121,6 +121,9 @@
             <DatePicker type="date" v-model="handleInfo.storageDate" transfer></DatePicker>
           </Form-item>
         </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          
+        </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
           <Form-item label="" prop="luyongHandleEnd">
             <Checkbox v-model="handleInfo.luyongHandleEnd" >录用处理结束</Checkbox>
@@ -334,6 +337,30 @@ import Vue from 'vue'
         if(this.handleInfo.docNum == 999999999){
           this.$Message.error("档案编号已经是极限了，请联系管理员！");
           return;
+        }
+        if(this.handle.docType != '' && this.handle.docType != undefined){
+          if(this.handle.docNum == '' || this.handle.docNum == undefined){
+            this.$Message.error("档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
+        if(this.handle.docNum != '' && this.handle.docNum != undefined){
+          if(this.handle.docType == '' || this.handle.docType == undefined){
+            this.$Message.error("档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
+        if(this.handle.yuliuDocType != '' && this.handle.yuliuDocType != undefined){
+          if(this.handle.yuliuDocNum == '' || this.handle.yuliuDocNum == undefined){
+            this.$Message.error("预留档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
+        }
+        if(this.handle.yuliuDocNum != '' && this.handle.yuliuDocNum != undefined){
+          if(this.handle.yuliuDocType == '' || this.handle.yuliuDocType == undefined){
+            this.$Message.error("预留档案类别和档案编号是一个组合整体，必须都填写！");
+            return;
+          }
         }
         var fromData = this.$utils.clear(this.handleInfo,'');
         fromData.isFrist='0';

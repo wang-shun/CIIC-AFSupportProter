@@ -389,7 +389,14 @@
         var ajax = api.refuseReason({
           remark:remark,
           ids: ids
-        })
+        }).then(data=>{
+          this.$Message.info(data.message);
+          this.isLoading = false;
+        }).catch(
+          error=>{
+            this.isLoading = false;
+          }
+        )
         this.$ajax.handle({
           vm: this,
           ajax: ajax,

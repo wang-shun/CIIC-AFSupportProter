@@ -121,6 +121,9 @@
             <DatePicker type="date" v-model="handleInfo.storageDate" transfer></DatePicker>
           </Form-item>
         </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          
+        </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
           <Form-item label="" prop="luyongHandleEnd">
             <Checkbox v-model="handleInfo.luyongHandleEnd" >录用处理结束</Checkbox>

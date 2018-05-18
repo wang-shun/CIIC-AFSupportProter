@@ -371,6 +371,19 @@
       },
       // 批退
       showRefuseReason() {
+        let length = this.selectEmployeeResultData.length;
+        if (length > 0) {
+          for (let i = 0; i < length; i++) {
+            let category = this.selectEmployeeResultData[i].taskCategory;
+            if ( category=='5' || category=='6' || category=='11'|| category=='14'|| category=='15') {
+              this.$Modal.warning({
+                title: '任务批退',
+                content: '您选择的任务单存在转出类型，不允许批量批退办理'
+              });
+              return false;
+            }
+          }
+        }
         if (this.checkSelectEmployeeResultData()) {
           this.isRefuseReason = true
         }
@@ -389,7 +402,14 @@
         var ajax = api.refuseReason({
           remark:remark,
           ids: ids
-        })
+        }).then(data=>{
+          this.$Message.info(data.message);
+          this.isLoading = false;
+        }).catch(
+          error=>{
+            this.isLoading = false;
+          }
+        )
         this.$ajax.handle({
           vm: this,
           ajax: ajax,

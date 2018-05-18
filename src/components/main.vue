@@ -1,11 +1,11 @@
 <template>
-  <div class="layout" :class="{'layout-hide-text': spanLeft < 4}">
+  <div class="layout" :class="{'layout-hide-text': spanLeft < 4}" style="height: 100%">
     <div class="layout-ceiling layoutMenuLeft">
       <Row type="flex" class="topFlex">
-        <i-col :span="spanLeft" class="layout-menu-left">
+        <Col :span="spanLeft" class="layout-menu-left">
           <div data-v-3413f463="" class="layout-menu-left ivu-col ivu-col-span-4"></div>
-        </i-col>
-        <i-col :span="spanRight">
+        </Col>
+        <Col :span="spanRight">
           <i-button type="text" @click="toggleClick">
             <Icon type="navicon" size="32"></Icon>
           </i-button>
@@ -17,58 +17,60 @@
               快速导航
               <Icon type="arrow-down-b"></Icon>
             </Button>
-              <DropdownMenu slot="list">
-                <DropdownItem :name="drop.url" v-for="(drop, index) in drops" :key="index">{{drop.label}}</DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <DropdownMenu slot="list">
+              <DropdownItem :name="drop.url" v-for="(drop, index) in drops" :key="index">{{drop.label}}</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
           <div class="layout-ceiling-main Badge">
             <ul>
               <!--<li>-->
-                <!--<a :href="`${ipPrefix}:8100/#/pending_approves`">-->
-                  <!--<Badge dot>-->
-                    <!--<Tooltip content="" placement="bottom" transfer>-->
-                      <!--<Icon type="ios-compose-outline" :size="size"></Icon>-->
-                      <!--<div slot="content">-->
-                        <!--<p>我的审批</p>-->
-                      <!--</div>-->
-                    <!--</Tooltip>-->
-                  <!--</Badge>-->
-                <!--</a>-->
+              <!--<a :href="`${ipPrefix}:8100/#/pending_approves`">-->
+              <!--<Badge dot>-->
+              <!--<Tooltip content="" placement="bottom" transfer>-->
+              <!--<Icon type="ios-compose-outline" :size="size"></Icon>-->
+              <!--<div slot="content">-->
+              <!--<p>我的审批</p>-->
+              <!--</div>-->
+              <!--</Tooltip>-->
+              <!--</Badge>-->
+              <!--</a>-->
               <!--</li>-->
               <!--<li>-->
-                <!--<Badge dot>-->
-                  <!--<Poptip trigger="hover" title="" placement="bottom" transfer>-->
-                    <!--<Icon type="ios-list-outline" :size="size"></Icon>-->
-                    <!--<div slot="content">-->
-                      <!--<a class="inPoptip" href="javascript:;" @click="isActive = !isActive">我的任务单 {{isActive ? "▲" : "▼"}}</a>-->
-                      <!--<div :class="[isActive ? 'changeToH' : 'changeToZ', 'myTaskList']">-->
-                        <!--<a :href="task.url" v-for="(task, index) in tasks" :key="index">{{task.label}}</a>-->
-                      <!--</div>-->
-                    <!--</div>-->
-                  <!--</Poptip>-->
-                <!--</Badge>-->
+              <!--<Badge dot>-->
+              <!--<Poptip trigger="hover" title="" placement="bottom" transfer>-->
+              <!--<Icon type="ios-list-outline" :size="size"></Icon>-->
+              <!--<div slot="content">-->
+              <!--<a class="inPoptip" href="javascript:;" @click="isActive = !isActive">我的任务单 {{isActive ? "▲" : "▼"}}</a>-->
+              <!--<div :class="[isActive ? 'changeToH' : 'changeToZ', 'myTaskList']">-->
+              <!--<a :href="task.url" v-for="(task, index) in tasks" :key="index">{{task.label}}</a>-->
+              <!--</div>-->
+              <!--</div>-->
+              <!--</Poptip>-->
+              <!--</Badge>-->
               <!--</li>-->
               <!--<li>-->
-                <!--<a href="javascript:;" @click="openMessageBox">-->
-                  <!--<Badge count="3" overflow-count="99">-->
-                    <!--<Tooltip trigger="hover" title="" content="站内信" placement="bottom" transfer>-->
-                      <!--<Icon type="ios-email-outline" :size="size"></Icon>-->
-                    <!--</Tooltip>-->
-                  <!--</Badge>-->
-                <!--</a>-->
+              <!--<a href="javascript:;" @click="openMessageBox">-->
+              <!--<Badge count="3" overflow-count="99">-->
+              <!--<Tooltip trigger="hover" title="" content="站内信" placement="bottom" transfer>-->
+              <!--<Icon type="ios-email-outline" :size="size"></Icon>-->
+              <!--</Tooltip>-->
+              <!--</Badge>-->
+              <!--</a>-->
               <!--</li>-->
               <!--<li>-->
-                <!--<Badge>-->
-                  <!--<Tooltip trigger="hover" title="" content="用户手册" placement="bottom" transfer>-->
-                    <!--<Icon type="ios-help-outline" :size="size" @on-click="openMessageBox"></Icon>-->
-                  <!--</Tooltip>-->
-                <!--</Badge>-->
+              <!--<Badge>-->
+              <!--<Tooltip trigger="hover" title="" content="用户手册" placement="bottom" transfer>-->
+              <!--<Icon type="ios-help-outline" :size="size" @on-click="openMessageBox"></Icon>-->
+              <!--</Tooltip>-->
+              <!--</Badge>-->
               <!--</li>-->
               <li class="userCenter">
                 <Dropdown placement="bottom-start" @on-click="userCenterHandler" transfer>
                   <div class="user-panel user">
                     <div class="image">
-                      <img :src="(userInfo.headPortrait !== undefined && userInfo.headPortrait !== null) ? userInfo.headPortrait : ''" alt="User Image" class="img-circle">
+                      <img
+                        :src="(userInfo.headPortrait !== undefined && userInfo.headPortrait !== null) ? userInfo.headPortrait : ''"
+                        alt="User Image" class="img-circle">
                       <span>{{userInfo.displayName}}</span>
                     </div>
                   </div>
@@ -80,11 +82,11 @@
               </li>
             </ul>
           </div>
-        </i-col>
+        </Col>
       </Row>
     </div>
-    <Row type="flex">
-      <i-col :span="spanLeft" class="layout-menu-left">
+    <Row style="height: 100%;">
+      <Col :span="spanLeft" class="layout-menu-left">
         <Menu theme="dark" width="auto" class="menuSet" :class="{'removeArror': spanLeft < 3}" accordion
               :open-names="openNames"
               @on-open-change="onOpenChange" @on-select="onSelect" :active-name="$route.meta.activeName">
@@ -94,7 +96,9 @@
               <span :class="{'layout-text':layoutOut}">{{item.key}}</span>
             </template>
             <Menu-item v-for="subitem in item.children" :name="subitem.cid" :key="subitem.cid">
-              <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}" @click.native="getMenu(subitem)">{{subitem.ckey}}</router-link>
+              <router-link :to="{name:subitem.crouter}" v-menuInner="{set:set}" @click.native="getMenu(subitem)">
+                {{subitem.ckey}}
+              </router-link>
             </Menu-item>
           </Submenu>
 
@@ -109,30 +113,39 @@
                       </Menu-item>
                     </Submenu> -->
         </Menu>
-      </i-col>
-      <i-col :span="spanRight">
-        <div class="layout-content">
+      </Col>
+      <Col :span="spanRight" style="height: 100%; overflow-y: scroll">
+        <div class="layout-content" >
           <div class="wrapper">
             <div class="layout-breadcrumb">
               <Breadcrumb separator="">
                 <Breadcrumb-item class="breadcrumbItem" @click="setIndex">
-                  <Icon type="ios-home"></Icon> <router-link to="/main" id="level1" v-menuInner="{set:setIndex}" class="breadcrumbLink">{{breadCrumb1}}</router-link>
+                  <Icon type="ios-home"></Icon>
+                  <router-link to="/main" id="level1" v-menuInner="{set:setIndex}" class="breadcrumbLink">
+                    {{breadCrumb1}}
+                  </router-link>
                 </Breadcrumb-item>
-                <Breadcrumb-item v-show="breadCrumbBoolean2" id="level2" class="breadcrumbItem"><Icon type="ios-arrow-right"></Icon> {{breadCrumb2}}</Breadcrumb-item>
-                <Breadcrumb-item v-show="breadCrumbBoolean3" id="level3" class="breadcrumbItem"><Icon type="ios-location"></Icon> {{breadCrumb3}}</Breadcrumb-item>
+                <Breadcrumb-item v-show="breadCrumbBoolean2" id="level2" class="breadcrumbItem">
+                  <Icon type="ios-arrow-right"></Icon>
+                  {{breadCrumb2}}
+                </Breadcrumb-item>
+                <Breadcrumb-item v-show="breadCrumbBoolean3" id="level3" class="breadcrumbItem">
+                  <Icon type="ios-location"></Icon>
+                  {{breadCrumb3}}
+                </Breadcrumb-item>
               </Breadcrumb>
             </div>
             <div class="layout-content-main">
               <!--<transition name="fade" mode="out-in">-->
-                <router-view :key="key"></router-view>
+              <router-view :key="key"></router-view>
               <!--</transition>-->
             </div>
           </div>
           <div class="layout-copy">
-            <span></span>
+            <span>2017 &copy; 中智上海经济技术合作有限公司</span>
           </div>
         </div>
-      </i-col>
+      </Col>
     </Row>
   </div>
 </template>
@@ -258,39 +271,39 @@
           this.layoutOut = false;
         }
       },
-      getMenu(obj){
+      getMenu(obj) {
         //社保账户管理 清除页面缓存
-        if(obj.crouter=='companysocialsecuritymanage'){
-            let sessionPageNum = sessionStorage.managerPageNum
-            let sessionPageSize = sessionStorage.managerPageSize
-          if(typeof(sessionPageNum)!='undefined'){
+        if (obj.crouter == 'companysocialsecuritymanage') {
+          let sessionPageNum = sessionStorage.managerPageNum
+          let sessionPageSize = sessionStorage.managerPageSize
+          if (typeof(sessionPageNum) != 'undefined') {
             sessionStorage.removeItem("managerPageNum")
           }
-          if(typeof(sessionPageSize)!="undefined"){
+          if (typeof(sessionPageSize) != "undefined") {
             sessionStorage.removeItem("managerPageSize")
           }
         }
         //企业任务单页面缓存清除
-        if(obj.crouter=='companyTaskList'){
+        if (obj.crouter == 'companyTaskList') {
           let tab = sessionStorage.companyTaskTab
           let sessionPageNum = sessionStorage.taskFiPageNum
           let sessionPageSize = sessionStorage.taskFiPageSize
-          if(typeof(tab)!='undefined'){
+          if (typeof(tab) != 'undefined') {
             sessionStorage.removeItem("companyTaskTab")
           }
-          if(typeof(sessionPageNum)!="undefined"){
+          if (typeof(sessionPageNum) != "undefined") {
             sessionStorage.removeItem("taskFiPageNum")
           }
-          if(typeof(sessionPageSize)!="undefined"){
+          if (typeof(sessionPageSize) != "undefined") {
             sessionStorage.removeItem("taskFiPageSize")
           }
         }
         //雇员日常操作任务单页面缓存清除
-        if(obj.crouter=='employeeOperatorView'){
+        if (obj.crouter == 'employeeOperatorView') {
           let tab = sessionStorage.employeeOperatorTab
           let sessionPageNum = sessionStorage.taskFiPageNum
           let sessionPageSize = sessionStorage.taskFiPageSize
-          if(typeof(tab)!='undefined'){
+          if (typeof(tab) != 'undefined') {
             sessionStorage.removeItem("employeeOperatorTab")
           }
         }
@@ -350,9 +363,9 @@
       backToLogin() {
         window.location.href = `${this.ipPrefix}:8070/#/`
       },
-      routerToCenter: function(name) {
+      routerToCenter: function (name) {
         console.log(name)
-        if(name === '0')
+        if (name === '0')
           return;
         window.location.href = name;
       },
@@ -361,10 +374,10 @@
           method: "GET",
           url: `${serverAddress[process.env.env]}:2003/api/authservice/auth/getMenuAuth/${userId}?platformId=6&hasElement=false`,
         }).then(response => {
-          if(response.data.code !== 0) {
+          if (response.data.code !== 0) {
             this.$Message.error('获取角色授权失败');
           } else {
-             this.leftNavigates = leftN; // 调试时可放开此句，获得全部菜单
+            this.leftNavigates = leftN; // 调试时可放开此句，获得全部菜单
 //            this.leftNavigates = this.creatMenu(response.data.data);
           }
         })
@@ -402,7 +415,7 @@
         storage.onConnect().then(() => {
           that.backToLogin();
           return storage.clear();
-        }).catch(function(err) {
+        }).catch(function (err) {
           console.log(err);
         })
       },
@@ -492,6 +505,7 @@
 
   .layout-menu-left {
     background: #1a2226;
+    height: 100%;
   }
 
   .layout-header {
@@ -611,10 +625,10 @@
   .breadcrumbItem {
     padding: 2px;
   }
+
   .breadcrumbLink {
     color: #2d8cf0;
   }
-
 
   .inPoptip {
     font-size: 12px;
@@ -624,21 +638,54 @@
     display: block;
     color: #666;
   }
+
   .inPoptip:hover {
     color: #2d8cf0;
   }
 
-  .myTaskList {height: 0; overflow-y: auto;}
-  .myTaskList a {font-size: 12px; line-height: 40px; text-align: center; color: #666; display: block; height: 40px; border-bottom: 1px dotted #eee; background: #eee;}
-  .myTaskList a:hover {color: #2d8cf0;}
-  .changeToH {animation: changeToHeight 0.5s ease 0s 1 alternate forwards;}
-  .changeToZ {animation: changeToZero 0s ease 0s 1 alternate forwards;}
-  @keyframes changeToHeight {
-    from {height: 0;}
-    to {height: 170px;}
+  .myTaskList {
+    height: 0;
+    overflow-y: auto;
   }
+
+  .myTaskList a {
+    font-size: 12px;
+    line-height: 40px;
+    text-align: center;
+    color: #666;
+    display: block;
+    height: 40px;
+    border-bottom: 1px dotted #eee;
+    background: #eee;
+  }
+
+  .myTaskList a:hover {
+    color: #2d8cf0;
+  }
+
+  .changeToH {
+    animation: changeToHeight 0.5s ease 0s 1 alternate forwards;
+  }
+
+  .changeToZ {
+    animation: changeToZero 0s ease 0s 1 alternate forwards;
+  }
+
+  @keyframes changeToHeight {
+    from {
+      height: 0;
+    }
+    to {
+      height: 170px;
+    }
+  }
+
   @keyframes changeToZero {
-    from {height: 170px;}
-    to {height: 0;}
+    from {
+      height: 170px;
+    }
+    to {
+      height: 0;
+    }
   }
 </style>

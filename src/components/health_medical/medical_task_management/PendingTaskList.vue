@@ -1,5 +1,5 @@
 <template>
-  <div class="pendingTaskList">
+  <div>
     <Collapse v-model="value1" accordion>
       <Panel name="1">
         待处理任务单查询
@@ -191,7 +191,7 @@
            :columns="taskColumns"
            :data="taskData"
            @on-selection-change="selectTableData"></Table>
-    <Page show-sizer show-elevator
+    <Page show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
           :total="formItem.total"
@@ -286,6 +286,8 @@
             render: (h, params) => {
               if (params.row.keyType === 2) {
                 return params.row.keyValue * 100 + "%";
+              } else {
+                return params.row.keyValue;
               }
             }
           },

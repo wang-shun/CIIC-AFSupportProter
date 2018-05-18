@@ -95,7 +95,6 @@
 
     <Table border stripe ref="uninsuredTable" :columns="uninsuredColumns" :data="uninsuredData"></Table>
     <Page :total="formItem.total"
-          show-sizer
           show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange" :current.sync="formItem.current"

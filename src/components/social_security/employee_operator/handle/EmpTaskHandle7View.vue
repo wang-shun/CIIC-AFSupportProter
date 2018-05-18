@@ -471,8 +471,8 @@
 
         let self= this
         this.$Modal.confirm({
-          title: "确认办理吗？",
-          content: content,
+          title: "操作确认",
+          content: '你确定'+content+'吗?',
           okText: '确定',
           cancelText: '取消',
           onOk: () => {

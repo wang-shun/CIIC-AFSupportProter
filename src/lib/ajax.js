@@ -256,13 +256,19 @@ let createProxyAjaxForName = name => {
     logInfo('get', url, data);
 
     // 下载
-    let iframe = document.createElement('iframe')
-    iframe.style.display = 'none'
-    iframe.src = baseURL + url
-    iframe.onload = () => {
-      document.body.removeChild(iframe)
-    }
-    document.body.appendChild(iframe)
+    // let iframe = document.createElement('iframe')
+    // iframe.style.display = 'none'
+    // iframe.src = baseURL + url
+    // iframe.onload = () => {
+    //   document.body.removeChild(iframe)
+    // }
+    // document.body.appendChild(iframe)
+    // window.open(baseURL + url)
+    var downloadElement = document.createElement('a');
+    downloadElement.href = baseURL + url;
+    document.body.appendChild(downloadElement);
+    downloadElement.click(); //点击下载
+    document.body.removeChild(downloadElement);
   }
 
   // 上传

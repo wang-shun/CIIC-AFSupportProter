@@ -3,89 +3,89 @@
     <Form ref="row" :model="row" :label-width="140">
       <Row type="flex" justify="start" class="m15">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="就诊机构：">
-          {{row.medicalInstitution}}
-        </Form-item>
+          <Form-item label="就诊机构：">
+            {{row.medicalInstitution}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="疾病名称：">
-          {{row.diseaseName}}
-        </Form-item>
+          <Form-item label="疾病名称：">
+            {{row.diseaseName}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="就诊日期：">
-          {{this.$utils.formatDate(row.clinicDate, 'YYYY-MM-DD HH:mm:ss')}}
-        </Form-item>
+          <Form-item label="就诊日期：">
+            {{this.$utils.formatDate(row.clinicDate, 'YYYY-MM-DD HH:mm:ss')}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="自付金额：">
-          {{row.selfPayAmount}}
-        </Form-item>
+          <Form-item label="自付金额：">
+            {{row.selfPayAmount}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="统筹金额：">
-          {{row.wholePlanAmount}}
-        </Form-item>
+          <Form-item label="统筹金额：">
+            {{row.wholePlanAmount}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="附加金额：">
-          {{row.attachAmount}}
-        </Form-item>
+          <Form-item label="附加金额：">
+            {{row.attachAmount}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="自费金额：">
-          {{row.ownExpenseAmount}}
-        </Form-item>
+          <Form-item label="自费金额：">
+            {{row.ownExpenseAmount}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="账户金额：">
-          {{row.accountAmount}}
-        </Form-item>
+          <Form-item label="账户金额：">
+            {{row.accountAmount}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="申请金额：">
-          {{row.applicationAmount}}
-        </Form-item>
+          <Form-item label="申请金额：">
+            {{row.applicationAmount}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="赔付金额：">
-          {{row.claimAmount}}
-        </Form-item>
+          <Form-item label="赔付金额：">
+            {{row.claimAmount}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="核准金额：">
-          {{row.approvedAmount}}
-        </Form-item>
+          <Form-item label="核准金额：">
+            {{row.approvedAmount}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="分类自付金额：">
-          {{row.csPaymentAmount}}
-        </Form-item>
+          <Form-item label="分类自付金额：">
+            {{row.csPaymentAmount}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="公司理赔金额：">
-          <Input v-model="row.companyMoney" size="large" :disabled="status>2" placeholder="large size"/>
-        </Form-item>
+          <Form-item label="公司理赔金额：">
+            <Input v-model="row.companyMoney" size="large" :disabled="status>2" placeholder="large size"/>
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="保险理赔金额：" prop="inputDateRange">
-          {{row.insuranceCompanyMoney}}
-        </Form-item>
+          <Form-item label="保险理赔金额：" prop="inputDateRange">
+            {{row.insuranceCompanyMoney}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="结案状态：">
-          {{row.closedStatus}}
-        </Form-item>
+          <Form-item label="结案状态：">
+            {{row.closedStatus}}
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="结案备注：">
-          {{row.closedRemark}}
-        </Form-item>
+          <Form-item label="结案备注：">
+            {{row.closedRemark}}
+          </Form-item>
         </Col>
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="updateInvoice" :disabled="status>2">保存修改</Button>
+          <Button type="primary" @click="updateInvoice" :disabled="status>2">保存修改</Button>
         </Col>
       </Row>
     </Form>

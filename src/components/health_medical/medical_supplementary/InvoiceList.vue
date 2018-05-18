@@ -5,22 +5,22 @@
       <Form ref="employeeInfo" :model="employeeInfo" :label-width="140">
         <Row justify="start" class="m15">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="雇员编号：">{{employeeInfo.employeeId}}</Form-item>
+            <Form-item label="雇员编号：">{{employeeInfo.employeeId}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="雇员姓名：">{{employeeInfo.employeeName}}</Form-item>
+            <Form-item label="雇员姓名：">{{employeeInfo.employeeName}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="公司编号：">{{employeeInfo.companyId}}</Form-item>
+            <Form-item label="公司编号：">{{employeeInfo.companyId}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="公司名称：">{{employeeInfo.companyName}}</Form-item>
+            <Form-item label="公司名称：">{{employeeInfo.companyName}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="终止日期：">{{employeeInfo.endDate}}</Form-item>
+            <Form-item label="终止日期：">{{employeeInfo.endDate}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退保日期：">{{employeeInfo.endConfirmDate}}</Form-item>
+            <Form-item label="退保日期：">{{employeeInfo.endConfirmDate}}</Form-item>
           </Col>
         </Row>
       </Form>
@@ -31,69 +31,69 @@
       <Form ref="acceptanceData" :model="acceptanceData" :label-width="140">
         <Row justify="start" class="m15">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="案卷号：">{{acceptanceData.dossierNumber}}</Form-item>
+            <Form-item label="案卷号：">{{acceptanceData.dossierNumber}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="发票合计：">{{acceptanceData.invoiceNumber}}</Form-item>
+            <Form-item label="发票合计：">{{acceptanceData.invoiceNumber}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="导入日期：">{{this.$utils.formatDate(acceptanceData.inputDate, 'YYYY-MM-DD HH:mm:ss')}}
-          </Form-item>
+            <Form-item label="导入日期：">{{this.$utils.formatDate(acceptanceData.inputDate, 'YYYY-MM-DD HH:mm:ss')}}
+            </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="受理编号：">{{acceptanceData.acceptanceId}}</Form-item>
+            <Form-item label="受理编号：">{{acceptanceData.acceptanceId}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="累计免赔额："></Form-item>
+            <Form-item label="累计免赔额："></Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="申请金额：">{{acceptanceData.totalApplicationAmount}}</Form-item>
+            <Form-item label="申请金额：">{{acceptanceData.totalApplicationAmount}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="核准金额：">{{acceptanceData.totalApprovedAmount}}</Form-item>
+            <Form-item label="核准金额：">{{acceptanceData.totalApprovedAmount}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="索赔金额：">{{acceptanceData.totalClaimAmount}}</Form-item>
+            <Form-item label="索赔金额：">{{acceptanceData.totalClaimAmount}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="类别：">{{typeToChina(acceptanceData.type)}}</Form-item>
+            <Form-item label="类别：">{{typeToChina(acceptanceData.type)}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="保险理赔金额：">{{acceptanceData.totalInsuranceCompanyMoney}}</Form-item>
+            <Form-item label="保险理赔金额：">{{acceptanceData.totalInsuranceCompanyMoney}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="公司理赔金额：">{{acceptanceData.totalCompanyAmount}}</Form-item>
+            <Form-item label="公司理赔金额：">{{acceptanceData.totalCompanyAmount}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="分类自付金额：">{{acceptanceData.totalCsPaymentAmount}}</Form-item>
+            <Form-item label="分类自付金额：">{{acceptanceData.totalCsPaymentAmount}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="连带被保险人：">{{acceptanceData.insuredName}}</Form-item>
+            <Form-item label="连带被保险人：">{{acceptanceData.insuredName}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="审核人：">{{acceptanceData.auditor}}</Form-item>
+            <Form-item label="审核人：">{{acceptanceData.auditor}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="审核日期：">{{dateToString(acceptanceData.auditTime)}}
-          </Form-item>
+            <Form-item label="审核日期：">{{dateToString(acceptanceData.auditTime)}}
+            </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="付款日期："></Form-item>
+            <Form-item label="付款日期："></Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="付款方式："></Form-item>
+            <Form-item label="付款方式："></Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="银行："></Form-item>
+            <Form-item label="银行："></Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="卡号："></Form-item>
+            <Form-item label="卡号："></Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="雇员付款记录："></Form-item>
+            <Form-item label="雇员付款记录："></Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="受理单备注："></Form-item>
+            <Form-item label="受理单备注："></Form-item>
           </Col>
         </Row>
       </Form>

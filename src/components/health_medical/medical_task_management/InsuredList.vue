@@ -6,85 +6,85 @@
           <Form :model="formItem" ref="formItem" :label-width="100">
             <Row justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <FormItem label="投保日期" prop="insuranceDateRange">
-                <DatePicker v-model="formItem.insuranceDateRange" type="daterange" placement="bottom-start"
-                            placeholder="选择日期" style="width: 100%"></DatePicker>
-              </FormItem>
+                <FormItem label="投保日期" prop="insuranceDateRange">
+                  <DatePicker v-model="formItem.insuranceDateRange" type="daterange" placement="bottom-start"
+                              placeholder="选择日期" style="width: 100%"></DatePicker>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <FormItem label="退保日期" prop="surrenderDateRange">
-                <DatePicker v-model="formItem.surrenderDateRange" type="daterange" placement="bottom-start"
-                            placeholder="选择日期" style="width: 100%"></DatePicker>
-              </FormItem>
+                <FormItem label="退保日期" prop="surrenderDateRange">
+                  <DatePicker v-model="formItem.surrenderDateRange" type="daterange" placement="bottom-start"
+                              placeholder="选择日期" style="width: 100%"></DatePicker>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保险公司" prop="insuranceCompany">
-                <Select v-model="formItem.insuranceCompany" :clearable="true"
-                        @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
-                  <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
-                          :key="item.insuranceCompanyId">
-                    {{item.insuranceCompanyName}}
-                  </Option>
-                </Select>
-              </Form-item>
+                <Form-item label="保险公司" prop="insuranceCompany">
+                  <Select v-model="formItem.insuranceCompany" :clearable="true"
+                          @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
+                    <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
+                            :key="item.insuranceCompanyId">
+                      {{item.insuranceCompanyName}}
+                    </Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保单" prop="afProductId">
-                <Select v-model="formItem.afProductId" :clearable="true">
-                  <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
-                    {{item.insurancePolicyName}}
-                  </Option>
-                </Select>
-              </Form-item>
+                <Form-item label="保单" prop="afProductId">
+                  <Select v-model="formItem.afProductId" :clearable="true">
+                    <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
+                      {{item.insurancePolicyName}}
+                    </Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="保额类型" prop="keyType">
-                <Select v-model="formItem.keyType" :clearable="true">
-                  <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-              </Form-item>
+                <Form-item label="保额类型" prop="keyType">
+                  <Select v-model="formItem.keyType" :clearable="true">
+                    <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
+                    </Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="大于" prop="keyValueLarge">
-                <InputNumber v-model="formItem.keyValueLarge" style="width: 100%"></InputNumber>
-              </Form-item>
+                <Form-item label="大于" prop="keyValueLarge">
+                  <InputNumber v-model="formItem.keyValueLarge" style="width: 100%"></InputNumber>
+                </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="小于" prop="keyValueSmall">
-                <InputNumber v-model="formItem.keyValueSmall" style="width: 100%"></InputNumber>
-              </Form-item>
+                <Form-item label="小于" prop="keyValueSmall">
+                  <InputNumber v-model="formItem.keyValueSmall" style="width: 100%"></InputNumber>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <FormItem label="雇员编号" prop="employeeId">
-                <Input v-model="formItem.employeeId" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="雇员编号" prop="employeeId">
+                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <FormItem label="雇员姓名" prop="employeeName">
-                <Input v-model="formItem.employeeName" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="雇员姓名" prop="employeeName">
+                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <FormItem label="证件号码" prop="idNum">
-                <Input v-model="formItem.idNum" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="证件号码" prop="idNum">
+                  <Input v-model="formItem.idNum" placeholder="请输入"/>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <FormItem label="公司编号" prop="companyId">
-                <Input v-model="formItem.companyId" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="公司编号" prop="companyId">
+                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <FormItem label="公司名称" prop="companyName">
-                <Input v-model="formItem.companyName" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="公司名称" prop="companyName">
+                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                </FormItem>
               </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+                <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -96,7 +96,7 @@
            stripe
            :columns="warrantyColumns"
            :data="warrantyData"></Table>
-    <Page show-sizer show-elevator
+    <Page show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
           :total="formItem.total"

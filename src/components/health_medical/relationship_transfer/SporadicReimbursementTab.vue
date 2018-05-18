@@ -52,7 +52,6 @@
     </div>
     <Table border :columns="reimbursementColumns" :data="reimbursementData" ref="reimbursementTable"></Table>
     <Page :total="reimbursementTotal"
-          show-sizer
           show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"

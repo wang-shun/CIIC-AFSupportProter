@@ -97,7 +97,7 @@
            :columns="acceptanceColumns"
            :data="acceptanceData"
            @on-selection-change="selectTableData"></Table>
-    <Page show-sizer show-elevator
+    <Page show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
           :total="formItem.total"

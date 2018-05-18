@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ml10 mr10 mt10">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         补充医疗查询
@@ -7,25 +7,25 @@
           <Form ref="formItem" :model="formItem" :label-width="140">
             <Row justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="导入日期" prop="inputDateRange">
-                <DatePicker v-model="formItem.inputDateRange" type="daterange" placement="bottom-end"
-                            placeholder="选择日期" style="width: 100%"></DatePicker>
-              </Form-item>
+                <Form-item label="导入日期" prop="inputDateRange">
+                  <DatePicker v-model="formItem.inputDateRange" type="daterange" placement="bottom-end"
+                              placeholder="选择日期" style="width: 100%"></DatePicker>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="审核日期" prop="auditTimeRange">
-                <DatePicker v-model="formItem.auditTimeRange" type="daterange" placement="bottom-end"
-                            placeholder="选择日期" style="width: 100%"></DatePicker>
-              </Form-item>
+                <Form-item label="审核日期" prop="auditTimeRange">
+                  <DatePicker v-model="formItem.auditTimeRange" type="daterange" placement="bottom-end"
+                              placeholder="选择日期" style="width: 100%"></DatePicker>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="状态" prop="status">
-                <Select v-model="formItem.status" placeholder="请选择" :clearable="true">
-                  <Option value="1" v-for="item in statusProperties" :value="item.value" :key="item.value">
-                    {{item.label}}
-                  </Option>
-                </Select>
-              </Form-item>
+                <Form-item label="状态" prop="status">
+                  <Select v-model="formItem.status" placeholder="请选择" :clearable="true">
+                    <Option value="1" v-for="item in statusProperties" :value="item.value" :key="item.value">
+                      {{item.label}}
+                    </Option>
+                  </Select>
+                </Form-item>
               </Col>
               <!--TODO 待确认字段-->
               <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -37,34 +37,34 @@
               </Form-item>
               </Col>-->
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="案卷号" prop="dossierNumber">
-                <Input v-model="formItem.dossierNumber" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="案卷号" prop="dossierNumber">
+                  <Input v-model="formItem.dossierNumber" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="受理编号" prop="acceptanceId">
-                <Input v-model="formItem.acceptanceId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="受理编号" prop="acceptanceId">
+                  <Input v-model="formItem.acceptanceId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号" prop="employeeId">
-                <Input v-model="formItem.employeeId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="雇员编号" prop="employeeId">
+                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名" prop="employeeName">
-                <Input v-model="formItem.employeeName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="雇员姓名" prop="employeeName">
+                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司编号" prop="companyId">
-                <Input v-model="formItem.companyId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="公司编号" prop="companyId">
+                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司名称" prop="companyName">
-                <Input v-model="formItem.companyName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="公司名称" prop="companyName">
+                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保单号">
@@ -72,25 +72,25 @@
               </Form-item>
               </Col>-->
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="管理方编号" prop="managementId">
-                <Input v-model="formItem.managementId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="管理方编号" prop="managementId">
+                  <Input v-model="formItem.managementId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="管理方名称" prop="managementName">
-                <Input v-model="formItem.managementName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="管理方名称" prop="managementName">
+                  <Input v-model="formItem.managementName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="连带人" prop="insuredName">
-                <Input v-model="formItem.insuredName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="连带人" prop="insuredName">
+                  <Input v-model="formItem.insuredName" placeholder="请输入"/>
+                </Form-item>
               </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+                <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -102,20 +102,20 @@
       <p slot="title">统计信息</p>
       <Row justify="start" class="m15">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
-        <span>记录总数:</span>
-        <span>{{statisticsData.total}}</span>
+          <span>记录总数:</span>
+          <span>{{statisticsData.total}}</span>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
-        <span>公司理赔金额总计:</span>
-        <span>{{statisticsData.totalCompanyMoney}}</span>
+          <span>公司理赔金额总计:</span>
+          <span>{{statisticsData.totalCompanyMoney}}</span>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
-        <span>保险公司理赔金额总计:</span>
-        <span>{{statisticsData.totalInsuranceCompanyMoney}}</span>
+          <span>保险公司理赔金额总计:</span>
+          <span>{{statisticsData.totalInsuranceCompanyMoney}}</span>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
-        <span>发票张数:</span>
-        <span>{{statisticsData.invoiceTotal}}</span>
+          <span>发票张数:</span>
+          <span>{{statisticsData.invoiceTotal}}</span>
         </Col>
       </Row>
     </Card>

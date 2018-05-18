@@ -1,5 +1,5 @@
 <template>
-  <div class="pendingTaskList">
+  <div>
     <Collapse v-model="value1" accordion>
       <Panel name="1">
         待处理任务单查询

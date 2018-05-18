@@ -7,9 +7,12 @@
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="办理机构：" prop="name">
-              <a href="#/org_policy_maintenance/org_policy_list">
-                {{formItem.name}}
-              </a>
+              <Poptip trigger="hover" placement="right" width="600" transfer='true'>
+                <h6>{{formItem.name}}</h6>
+                <div slot="content">
+                   <Table :columns="policyCol" :data="policyData"></Table>
+                </div>
+              </Poptip>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -212,6 +215,7 @@ export default {
         comp: ""
       },
       rowdata: { basicProductId: "" },
+      policyData: [],
       formItem: {
         credentialsType: "",
         credentialsDealType: "",
@@ -233,6 +237,23 @@ export default {
         specialMaterialRemark: "",
         taskId: ""
       },
+      policyCol: [
+        {
+          title: "政策内容",
+          width: 380,
+          key: "policyDescription"
+        },
+        {
+          title: "创建日期",
+          width: 100,
+          key: "createdTime"
+        },
+        {
+          title: "创建人",
+          width: 80,
+          key: "createdBy"
+        }
+      ],
       colums: [
         {
           title: "雇员编号",
@@ -375,6 +396,16 @@ export default {
         this.findMaterials(value.taskId);
       }
     },
+    selectPolicy(name,type) {
+      var params = {};
+      params.params = {};
+      params.params.name = name;
+      params.params.type = type;
+      AJAX.get(host + "/api/orgPolicy/find", params).then(response => {
+        this.policyData = response.data.data.records;
+      });
+      console.log("policyData:"+this.policyData[0].policyDescription)
+    },
     findMaterialMenu(taskId) {
       AJAX.get(host + "/api/materials/findMenu/" + taskId).then(response => {
         if (response.data.errCode == "0") {
@@ -413,7 +444,6 @@ export default {
           this.meterials.info = response.data.data;
         });
     },
-
     createMeterialsMenu(credentialsType, credentialsDealType) {
       AJAX
         .get(
@@ -453,8 +483,8 @@ export default {
           });
       }
     },
-    selectCompanyExt(credentialsType, companyId) {
-      AJAX
+    async selectCompanyExt(credentialsType, companyId) {
+      await AJAX
         .get(
           host +
             "/api/empCredentialsDeal/find/companyExt/" +
@@ -465,6 +495,7 @@ export default {
         .then(response => {
           Object.assign(this.formItem, response.data.data);
         });
+        this.selectPolicy(this.formItem.name,this.formItem.credentialsType)
     },
     ok() {
       if (this.followDescription != "" && this.followDescription != null) {

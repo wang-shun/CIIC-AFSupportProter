@@ -5,7 +5,7 @@
         <Panel name="1">
           用工资料管理任务单
           <div slot="content">
-            <search-employment @on-search="searchEmploiees"></search-employment>
+            <search-employment @on-search="searchEmploiees" :isLoading='isLoading' :showHandle="showHandle" ></search-employment>
           </div>
         </Panel>
       </Collapse>
@@ -52,6 +52,9 @@
         },
         collapseInfo: [1],
         searchConditions:[],
+        showHandle:{
+           show:false
+        },
         searchCondition: {
           params: '',
           taskStatus:'',
@@ -514,11 +517,7 @@
         
               this.pageData.pageNum =1;
               this.searchConditions =[];
-              if(searchForm.isFinish!=2)
-              {
-                  var isFinish = "a.is_finish="+searchForm.isFinish;
-                  this.searchConditions.push(isFinish);
-              }
+             
                 for(var i=0;i<conditions.length;i++)
                       this.searchConditions.push(conditions[i].exec);
             
@@ -570,17 +569,14 @@
         let isFrist = true;
         obj +=  '<table cellpadding="0" cellspacing="0">';
         selection.forEach(sel => {
-          let docType = '无';
-          let docNum = '无';
-          if(sel.docType){
+          let docType = '';
+          let docNum = '';
+          if(sel.docType && sel.docNum){
             docType = sel.docType;
-          }else if(sel.yuliuDocType){
-            docType = sel.yuliuDocType;
-          }
-          if(sel.docNum){
             docNum = sel.docNum;
-          }else if(sel.yuliuDocNum){
-            docNum = sel.yuliuDocNum;
+          }else if(sel.yuliuDocType && sel.yuliuDocNum){
+            docType = sel.yuliuDocType;
+            docNum = sel.yuliuDocNum
           }
           if(isFrist == false){
             //obj += '<tr><td height="50px"></td></tr>';
@@ -622,6 +618,9 @@
             }).then(data => {
               self.recordComprehensiveHandlingData = data.data.rows;
               self.pageData.total = Number(data.data.total);
+                self.isLoading = false;
+               self.searchCondition.taskStatus = '';
+               self.searchCondition.taskResignStatus = '';
             })
         }else{
             this.initSearch = true;
@@ -641,7 +640,8 @@
             }).then(data => {
             
               self.searchResultData1 = data.data.row;
-              self.isLoading = false;
+            
+              
             
             })
         }else{

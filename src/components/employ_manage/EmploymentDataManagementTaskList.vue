@@ -5,7 +5,7 @@
         <Panel name="1">
           用工资料管理任务单
           <div slot="content">
-            <search-employment @on-search="searchEmploiees" :isLoading='isLoading'></search-employment>
+            <search-employment @on-search="searchEmploiees" :isLoading='isLoading' :showHandle="showHandle"></search-employment>
           </div>
         </Panel>
       </Collapse>
@@ -68,6 +68,9 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         searchCondition: {
           params: '',
           taskStatus:0
+        },
+        showHandle:{
+           show:true
         },
         isLoading: false,
         // 当中按钮操作
@@ -376,6 +379,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
            this.searchCondition.params = this.searchConditions.toString();
            this.searchCondition.taskStatus = ind;
            this.employeeQuery(this.searchCondition);
+           
 
       },
       showInfoTws (ind) {
@@ -397,17 +401,14 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         let isFrist = true;
         obj +=  '<table cellpadding="0" cellspacing="0">';
         selection.forEach(sel => {
-          let docType = '无';
-          let docNum = '无';
-          if(sel.docType){
+          let docType = '';
+          let docNum = '';
+          if(sel.docType && sel.docNum){
             docType = sel.docType;
-          }else if(sel.yuliuDocType){
-            docType = sel.yuliuDocType;
-          }
-          if(sel.docNum){
             docNum = sel.docNum;
-          }else if(sel.yuliuDocNum){
-            docNum = sel.yuliuDocNum;
+          }else if(sel.yuliuDocType && sel.yuliuDocNum){
+            docType = sel.yuliuDocType;
+            docNum = sel.yuliuDocNum
           }
           if(isFrist == false){
             //obj += '<tr><td height="50px"></td></tr>';
@@ -460,6 +461,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               self.employmentData = data.data.rows;
               self.pageData.total = Number(data.data.total);
               self.isLoading = false;
+              this.searchCondition.taskStatus =0;
             })
         }else{
           this.initSearch = true;

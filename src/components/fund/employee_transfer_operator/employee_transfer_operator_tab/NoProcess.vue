@@ -112,35 +112,35 @@
       v-model="isCreateTaskTicket"
       width="820"
     >
-      <Form :label-width="100">
+      <Form :label-width="100" :model="createTask.searchCondition" ref='createTaskSearchForm'>
         <Row>
           <Col :sm="{span: 12}">
-            <Form-item label="雇员编号：">
+            <Form-item label="雇员编号：" prop="employeeId">
               <Input v-model="createTask.searchCondition.employeeId" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
-            <Form-item label="雇员姓名：">
+            <Form-item label="雇员姓名：" prop="employeeName">
               <Input v-model="createTask.searchCondition.employeeName" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
-            <Form-item label="证件号：">
+            <Form-item label="证件号：" prop="idNum">
               <Input v-model="createTask.searchCondition.idNum" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
-            <Form-item label="客户编号：">
+            <Form-item label="客户编号：" prop="companyId">
               <Input v-model="createTask.searchCondition.companyId" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
-            <Form-item label="客户名称：">
+            <Form-item label="客户名称：" prop="title">
               <Input v-model="createTask.searchCondition.title" placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
-            <Form-item label="上下岗状态：">
+            <Form-item label="上下岗状态：" prop="status">
               <Select v-model="createTask.searchCondition.status" style="width: 100%;" transfer>
                 <Option v-for="item in createTask.workStatueList" :value="item.value" :key="item.value">{{item.label}}</Option>
               </Select>
@@ -157,7 +157,9 @@
             </Form-item>
            </Col> -->
           <Col :sm="{span: 12}" class="tr">
+          
             <Button type="primary" icon="ios-search" @click="handlePageNumNewTask(1)">查询</Button>
+            <Button type="warning" @click="resetCreateTaskSearchCondition">重置</Button>
             <Button type="warning" @click="isCreateTaskTicket = false;">关闭</Button>
           </Col>
         </Row>
@@ -426,6 +428,9 @@
       ...mapActions('tNoProcess',[EventType.TNOPROCESS]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
+      },
+      resetCreateTaskSearchCondition() {
+        this.$refs['createTaskSearchForm'].resetFields()
       },
       routerToFundCommonOperator(name) {
         this.$router.push({name: name})

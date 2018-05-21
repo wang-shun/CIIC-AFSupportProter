@@ -9,59 +9,84 @@
         </FormItem>
         </Col>-->
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="公司编号：">
-          {{row.companyId}}
-        </FormItem>
+          <FormItem label="公司编号：">
+            {{row.companyId}}
+          </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="公司名称：">
-          {{row.companyName}}
-        </FormItem>
+          <FormItem label="公司名称：">
+            {{row.companyName}}
+          </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="投保对象：">
-          {{row.employeeName}}
-        </FormItem>
+          <FormItem label="投保对象：">
+            {{row.employeeName}}
+          </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="保险名称：">
-          {{row.productName}}
-        </FormItem>
+          <FormItem label="保险名称：">
+            {{row.productName}}
+          </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="投保公司：">
-          {{companyToString(row.policyType)}}
-        </FormItem>
+          <FormItem label="投保公司：">
+            {{companyToString(row.policyType)}}
+          </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="投保日期：">
-          {{timeToString(row.insuranceDate)}}
-        </FormItem>
+          <FormItem label="投保日期：">
+            {{timeToString(row.insuranceDate)}}
+          </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="退保日期：">
-          {{timeToString(row.surrenderDate)}}
-        </FormItem>
+          <FormItem label="退保日期：">
+            {{timeToString(row.surrenderDate)}}
+          </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="保额：">
-          {{reverseAmount(row.keyType,row.keyValue)}}
-        </FormItem>
+          <FormItem label="连带人编号：">
+            {{row.associatedInsurantId}}
+          </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="保险起始日期：">
-          {{timeToString(row.insuranceStartDate)}}
-        </FormItem>
+          <FormItem label="连带人姓名：">
+            {{row.associatedInsurantName}}
+          </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="保险截止日期：">
-          {{timeToString(row.insuranceEndDate)}}
-        </FormItem>
+          <FormItem label="性别：">
+            {{genderToString(row.gender)}}
+          </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="说明：">
-          {{row.remark}}
-        </FormItem>
+          <FormItem label="年龄：">
+            {{row.age}}
+          </FormItem>
+        </Col>
+        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="出生日期：">
+            {{timeToString(row.birthDate)}}
+          </FormItem>
+        </Col>
+        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="保额：">
+            {{reverseAmount(row.keyType,row.keyValue)}}
+          </FormItem>
+        </Col>
+        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="保险起始日期：">
+            {{timeToString(row.insuranceStartDate)}}
+          </FormItem>
+        </Col>
+        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="保险截止日期：">
+            {{timeToString(row.insuranceEndDate)}}
+          </FormItem>
+        </Col>
+        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+          <FormItem label="说明：">
+            {{row.remark}}
+          </FormItem>
         </Col>
       </Row>
     </Form>
@@ -93,6 +118,9 @@
         } else {
           return value;
         }
+      },
+      genderToString(gender) {
+        return taskRow.genderToChina(gender);
       }
     },
 

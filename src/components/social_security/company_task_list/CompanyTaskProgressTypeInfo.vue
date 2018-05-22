@@ -656,7 +656,8 @@
                           self.$Message.success('办理成功!');
                           self.goBack()
                        }else{
-                         alert(result.message);
+                         self.$Message.success(result.message);
+                         self.goBack()
                        }
                         
                     }else{

@@ -202,7 +202,7 @@
                       this.batchHandle(params.row);
                     }
                   }
-                }, '办理'),
+                }, '查看'),
               ]);
             }
           },

@@ -227,6 +227,8 @@
                 this.empChangeData.comAccountId = this.$route.query.ssAccountId;
                 this.empChangeData.comAccountName = this.$route.query.ssAccount;
             }
+             this.serachMonthEmpChange(monthEmpChangeId);
+             this.showMonthEmpChangeDetail(monthEmpChangeId);
           }
         )
       }else{

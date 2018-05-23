@@ -337,7 +337,7 @@
       loadWelfareUnit(){
         dict.getDictData().then(data => {
           if (data.code == 200) {
-            this.welfareUnitsdict = data.data.SocialSecurityAccountType;
+            this.welfareUnitsdict = data.data.WelfareUnit;
           }
       });
         api.hfqueryAuthorityWelfareUnit({

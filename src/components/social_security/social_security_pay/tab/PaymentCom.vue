@@ -162,11 +162,19 @@
           </Col>
           <Col :sm="{span: 24}">
             <Form-item>
+              <Tooltip placement="top" :delay="2000">
               <Checkbox v-model="changeInfo.ifDeductedIntoPay"  @on-change="calculateTotalPayAmount()" true-value="1" false-value="0" >抵扣费用是否纳入支付申请 </Checkbox>
+              <div slot="content">
+                <p> 如果勾选我，将会自动合计： </p>
+                <p> 申请支付金额合计 = 应缴纳合计+ 退账抵扣费用 + 调整抵扣费用 + 额外金； </p>
+                <p> 上述的【退账抵扣费用】【调整抵扣费用】必须是负数；</p>
+                 <p> 应缴纳合计 = 标准 + 新进 + 转入 + 补缴 + 调整（正数）+ 转出 + 封存；</p>
+              </div>
+              </Tooltip>
             </Form-item>
           </Col>
           <Col :sm="{span: 24}">
-            <Form-item label="申请支付金额合计（小写）：">
+            <Form-item label="申请支付金额合计：">
               <label>{{changeInfo.totalPayAmount}}</label>
             </Form-item>
           </Col>
@@ -714,6 +722,7 @@
         let refundDeducted = this.changeInfo.changeData[0].refundDeducted;
         //调整抵扣费用
         let adjustDeducted = this.changeInfo.changeData[0].adjustDeducted;
+        adjustDeducted = Number(typeof adjustDeducted == 'undefined'?0:adjustDeducted)
         //抵扣费用是否纳入支付申请
         let ifDeductedIntoPay = this.changeInfo.ifDeductedIntoPay;
         //额外金
@@ -722,14 +731,13 @@
         //计算合计
         let totalPayAmount = 0;
         if(ifDeductedIntoPay == 1){
-          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount)
+          totalPayAmount = Number(typeof oughtAmount == 'undefined'?0:oughtAmount)
                          + Number(typeof refundDeducted == 'undefined'?0:refundDeducted)
-                         + Number(typeof adjustDeducted == 'undefined'?0:adjustDeducted)
-                         + Number(typeof extraAmount=='undefined'?0:extraAmount );
-        }
-        else{
-          totalPayAmount = Number(typeof oughtAmount =='undefined'?0:oughtAmount)
-                         + Number(typeof extraAmount  =='undefined'?0:extraAmount);
+                         + Number(adjustDeducted > 0 ? 0:adjustDeducted)
+                         + Number(typeof extraAmount== 'undefined'?0:extraAmount );
+        } else{
+          totalPayAmount = Number(typeof oughtAmount == 'undefined'?0:oughtAmount)
+                         + Number(typeof extraAmount == 'undefined'?0:extraAmount);
         }
 
         //赋值

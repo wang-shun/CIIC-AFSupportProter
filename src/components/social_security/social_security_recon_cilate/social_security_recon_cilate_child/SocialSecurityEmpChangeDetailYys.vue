@@ -44,7 +44,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}">
         <Button type="info" @click="ok">导出</Button>
-        <Button type="primary" @click="calculate" >重新汇总</Button>
+        <Button type="primary" :loading="isLoading" @click="calculate" >重新汇总</Button>
         <Button type="info" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -61,6 +61,7 @@
     components: {customerModal, companyAccountSearchModal},
     data() {
       return {
+        isLoading: false,
         collapseInfo: [1], //展开栏
         empChangeData: {
           ssMonth:'',//社保月份
@@ -69,7 +70,7 @@
           computeUserId:'',
           lastComputeTime:'',
         },
-        statementId:0,
+        monthEmpChangeId:0,
         empChangeDetailData: [],
         empChangeDetailDataColumns: [
 
@@ -204,17 +205,36 @@
       }
     },
     mounted() {
-     // this[EventType.SOCIALSECURITYRECONCILATEDETAIL]();
-      // var pagParam= {
-      //       //对账主表ID
-      //       statementId : window.sessionStorage.getItem("statementId")
-      //     };
-      //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
-      //this.doAlert(pagParam.statementId);
-      this.statementId = window.sessionStorage.getItem("monthEmpChangeId");
-      this.serachMonthEmpChange(window.sessionStorage.getItem("monthEmpChangeId"));
-      this.showMonthEmpChangeDetail(window.sessionStorage.getItem("monthEmpChangeId"));
-
+    //当前页面来自两个入口，一个来自社保对账，另一个来自社保报表，传递进来的参数不一样
+      let ssMonth = this.$route.query.ssMonth;
+      let comAccountId = this.$route.query.ssAccountId;
+      let monthEmpChangeId = '';
+      let params={};
+      if(ssMonth != null){
+        params={
+          ssMonth : ssMonth,
+          comAccountId : comAccountId
+        }
+        api.getSsMonthEmpChangeId(params).then(
+          data=>{
+            monthEmpChangeId = data.data;
+            this.monthEmpChangeId = monthEmpChangeId;
+            if(monthEmpChangeId == null || monthEmpChangeId == ''){
+              monthEmpChangeId = this.$route.query.monthEmpChangeId;
+            }
+            if(monthEmpChangeId == null || monthEmpChangeId == ''){
+                this.empChangeData.ssMonth = this.$route.query.ssMonth;
+                this.empChangeData.comAccountId = this.$route.query.ssAccountId;
+                this.empChangeData.comAccountName = this.$route.query.ssAccount;
+            }
+          }
+        )
+      }else{
+         monthEmpChangeId = this.$route.query.monthEmpChangeId;
+         this.serachMonthEmpChange(monthEmpChangeId);
+         this.showMonthEmpChangeDetail(monthEmpChangeId);
+      }
+       
     },
     computed: {
       ...mapState('socialSecurityReconcilateDetail',{
@@ -222,14 +242,13 @@
       })
     },
     methods: {
-      ...mapActions('socialSecurityReconcilateDetail',[EventType.SOCIALSECURITYRECONCILATEDETAIL]),
+      //...mapActions('socialSecurityReconcilateDetail',[EventType.SOCIALSECURITYRECONCILATEDETAIL]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
       ok () {
         api.yysExport({
-          statementId: this.statementId,
-          monthEmpChangeId: this.statementId
+          monthEmpChangeId: this.monthEmpChangeId
         });
       },
       cancel () {
@@ -238,38 +257,40 @@
       goBack(){
         history.go(-1);
       },
-      doAlert(value) {
-        alert(value);
-      },
-      serachMonthEmpChange(statementId){
+      serachMonthEmpChange(monthEmpChangeId){
         api.serachMonthEmpChange({
-          monthEmpChangeId: statementId
+          monthEmpChangeId: monthEmpChangeId
         }).then(data => {
           this.empChangeData = data.data;
+
         })
       },
-      showMonthEmpChangeDetail(statementId){
+      showMonthEmpChangeDetail(monthEmpChangeId){
         api.showMonthEmpChangeDetail({
-          monthEmpChangeId: statementId
+          monthEmpChangeId: monthEmpChangeId
         }).then(data => {
           //console.log(data)
           this.empChangeDetailData = data.data;
         })
       },
       calculate(){
+        this.isLoading = true;
         let params = {
           comAccountId:this.empChangeData.comAccountId,
           ssMonth:this.empChangeData.ssMonth,
           generalMethod:'generateMonthEmpChangeReport'
         };
         api.summaryCalculate(params).then(data=>{
-            console.log(data.code);
             if(data.code==1){
               this.$Message.error(data.message);
-              this.statementId = window.sessionStorage.getItem("monthEmpChangeId");
-              this.serachMonthEmpChange(window.sessionStorage.getItem("monthEmpChangeId"));
-              this.showMonthEmpChangeDetail(window.sessionStorage.getItem("monthEmpChangeId"));
+            }else{
+              this.$Notice.success({
+                    title: '重新汇总提示',
+                    desc: '服务器已接收您的汇总计算，请等待片刻重新刷新页面，并留意‘最后计算时间’的更新。'
+                });
             }
+            this.isLoading = false;
+           
         }).catch(error=>{
           this.$Message.error('系统异常！');
         });

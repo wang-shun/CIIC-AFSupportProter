@@ -24,10 +24,11 @@
             <br/>
             <br/>
             <Row type="flex" justify="start">
-              <Col :sm="{span: 12}" offset='7'>
+              <Col :sm="{span: 20}" offset='2'>
                   <Button type="info" @click="employeeCostDetail">雇员缴费明细</Button>
                   <Button type="info" @click="refundDetails">退费明细</Button>
-                   <Button type="info" @click="monthlypaymentnotice">月缴费通知书</Button>
+                  <Button type="info" @click="monthlypaymentnotice">月缴费通知书</Button>
+                  <Button type="info" @click="monthEmpChange">月缴变更汇总表（养医失）</Button>
               </Col>
             </Row>
           </Form>
@@ -170,6 +171,16 @@ import InputAccount from './InputAccount.vue'
         if(!result)return;
          let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMM')
          this.$router.push({name: 'refundDetails',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount,ssAccountId:this.operatorSearchData.ssAccountId}})
+      },
+      monthEmpChange(){
+        let result = this.validCondition();
+        if(!result)return;
+         let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMM')
+         let param={ssMonth:ssMonth,
+                    ssAccount:this.operatorSearchData.ssAccount,
+                    ssAccountId:this.operatorSearchData.ssAccountId
+                    }
+         this.$router.push({name: 'socialSecurityEmpChangeDetailYys',query:param})
       },
       validCondition(){
         let result = false;

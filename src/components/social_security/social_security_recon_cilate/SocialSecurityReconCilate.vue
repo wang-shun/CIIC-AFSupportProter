@@ -21,13 +21,13 @@
                   <Cascader :data="staticSearchData.serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer clearable></Cascader>
                 </Form-item>
               </Col> -->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="变更汇总表类型：" prop="impFileType">
                   <Select v-model="operatorSearchData.impFileType" clearable style="width: 100%;" transfer>
                     <Option v-for="item in staticSearchData.changeTableTypeValueList" :value="item.value" :key="item.value" >{{item.label}}</Option>
                   </Select>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="差异数范围(按雇员)：">
                   <Row>

@@ -15,7 +15,7 @@
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账号：" prop="ssAccount">
-                  <input-account v-model="operatorSearchData.ssAccount" @listenToChildEvent="listentChild"></input-account>
+                  <input-account v-model="operatorSearchData.ssAccount" @listenToChildEvent="listentChild" disabled=true></input-account>
 
                    <!-- v-on:listenToChildEvent="listentChild" -->
                 </Form-item>

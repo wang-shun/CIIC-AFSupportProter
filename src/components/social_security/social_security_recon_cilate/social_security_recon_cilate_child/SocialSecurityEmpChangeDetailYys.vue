@@ -74,7 +74,7 @@
         empChangeDetailData: [],
         empChangeDetailDataColumns: [
 
-          {title: '雇员编号', key: 'employeeId',  align: 'center',
+          {title: '雇员编号', key: 'employeeId',  align: 'center',fixed: "left",width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.employeeId),
@@ -82,35 +82,35 @@
               ]);
             }
           },
-          {title: '姓名', key: 'employeeName',  align: 'center',
+          {title: '姓名', key: 'employeeName',  align: 'center',fixed: "left",width:100,
              render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.employeeName),
               ]);
             }
           },
-          {title: '变更类型', key: 'changeTypeName', align: 'center',
+          {title: '变更类型', key: 'changeTypeName', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.changeTypeName),
               ]);
             }
           },
-          {title: '个人月缴纳基数', key: 'baseAmount', align: 'center',
+          {title: '个人月缴纳基数', key: 'baseAmount', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.baseAmount),
               ]);
             }
           },
-          {title: '养老单位缴费额', key: 'comAmountPension',  align: 'center',
+          {title: '养老单位缴费额', key: 'comAmountPension',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comAmountPension),
               ]);
             }
           },
-          {title: '养老个人缴费额', key: 'empAmountPension',  align: 'center',
+          {title: '养老个人缴费额', key: 'empAmountPension',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empAmountPension),
@@ -118,35 +118,35 @@
 
             }
           },
-          {title: '养老单位补缴', key: 'comCompensatedAmountPension', align: 'center',
+          {title: '养老单位补缴', key: 'comCompensatedAmountPension', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comCompensatedAmountPension),
               ]);
             }
           },
-          {title: '养老个人补缴', key: 'empCompensatedAmountPension',  align: 'center',
+          {title: '养老个人补缴', key: 'empCompensatedAmountPension',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empCompensatedAmountPension),
               ]);
             }
           },
-          {title: '养老一次性支付', key: 'onePaymentPension', align: 'center',
+          {title: '养老一次性支付', key: 'onePaymentPension', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.onePaymentPension),
               ]);
             }
           },
-          {title: '医疗单位缴费额', key: 'comAmountMedical',  align: 'center',
+          {title: '医疗单位缴费额', key: 'comAmountMedical',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comAmountMedical),
               ]);
             }
           },
-          {title: '医疗个人缴费额', key: 'empAmountMedical',  align: 'center',
+          {title: '医疗个人缴费额', key: 'empAmountMedical',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empAmountMedical),
@@ -154,28 +154,28 @@
 
             }
           },
-          {title: '医疗单位补缴', key: 'comCompensatedAmountMedical', align: 'center',
+          {title: '医疗单位补缴', key: 'comCompensatedAmountMedical', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comCompensatedAmountMedical),
               ]);
             }
           },
-          {title: '医疗个人补缴', key: 'empCompensatedAmountMedical',  align: 'center',
+          {title: '医疗个人补缴', key: 'empCompensatedAmountMedical',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empCompensatedAmountMedical),
               ]);
             }
           },
-          {title: '失业单位缴费额', key: 'comAmountUnemployment',  align: 'center',
+          {title: '失业单位缴费额', key: 'comAmountUnemployment',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comAmountUnemployment),
               ]);
             }
           },
-          {title: '失业个人缴费额', key: 'empAmountUnemployment',  align: 'center',
+          {title: '失业个人缴费额', key: 'empAmountUnemployment',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empAmountUnemployment),
@@ -183,14 +183,14 @@
 
             }
           },
-          {title: '失业单位补缴', key: 'comCompensatedAmountUnemployment', align: 'center',
+          {title: '失业单位补缴', key: 'comCompensatedAmountUnemployment', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comCompensatedAmountUnemployment),
               ]);
             }
           },
-          {title: '失业个人补缴', key: 'empCompensatedAmountUnemployment',  align: 'center',
+          {title: '失业个人补缴', key: 'empCompensatedAmountUnemployment',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empCompensatedAmountUnemployment),
@@ -272,8 +272,6 @@
         api.showMonthEmpChangeDetail({
           monthEmpChangeId: monthEmpChangeId
         }).then(data => {
-          console.log(data)
-                    console.log(data.data)
           if(data.data != null){
             this.empChangeDetailData = data.data;
           }

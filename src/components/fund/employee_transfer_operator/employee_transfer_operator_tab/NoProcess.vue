@@ -2,13 +2,18 @@
   <div style="height:850px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        雇员转移操作
+        雇员转移查询条件
         <div slot="content">
           <Form :label-width=150 ref="searchCondition" :model="searchCondition">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Cascader :data="customerCenterData" v-model="searchCondition.serviceCenterValue" trigger="hover" transfer></Cascader>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号：" prop="companyId">
+                  <Input v-model="searchCondition.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -501,11 +506,11 @@
       },
       multiEmpTaskTransferExport() {
         if (!this.searchCondition.transferOutUnit) {
-          this.$Message.error("导出清册需明确转出单位及转入单位");
+          this.$Message.error("导出清册，必须在查询条件输入【转出单位】及【转入单位】");
           return false;
         }
         if (!this.searchCondition.transferInUnit) {
-          this.$Message.error("导出清册需明确转出单位及转入单位");
+          this.$Message.error("导出清册，必须在查询条件输入【转出单位】及【转入单位】");
           return false;
         }
         let params = this.searchCondition

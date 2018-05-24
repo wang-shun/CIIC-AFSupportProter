@@ -263,16 +263,20 @@
         api.serachMonthEmpChange({
           monthEmpChangeId: monthEmpChangeId
         }).then(data => {
-          this.empChangeData = data.data;
-
+          if(data.data != null){
+            this.empChangeData = data.data;
+          }
         })
       },
       showMonthEmpChangeDetail(monthEmpChangeId){
         api.showMonthEmpChangeDetail({
           monthEmpChangeId: monthEmpChangeId
         }).then(data => {
-          //console.log(data)
-          this.empChangeDetailData = data.data;
+          console.log(data)
+                    console.log(data.data)
+          if(data.data != null){
+            this.empChangeDetailData = data.data;
+          }
         })
       },
       calculate(){

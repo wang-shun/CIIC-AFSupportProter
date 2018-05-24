@@ -474,6 +474,7 @@
         this.pageData.pageSize = val;
         let params = this.searchCondition
         this.queryAmResign(params);
+        this.queryResignTaskCount(params);
       }
     }
   }

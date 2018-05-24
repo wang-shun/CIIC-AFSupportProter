@@ -1,44 +1,11 @@
 <template>
   <div class="smList">
     <Collapse v-model="collapseInfo">
-      <!--<Panel name="1">
+      <Panel name="1">
         用工办理
         <div slot="content">
           <Form :label-width="150">
             <Row type="flex" justify="start">
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="实际录用日期：">
-                <DatePicker type="date" placeholder="" transfer></DatePicker>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="开F单日期：">
-                <DatePicker type="date" placeholder="" transfer></DatePicker>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工形式：">
-                <Select transfer>
-                  <Option v-for="item in employmentFormList" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="办理类型：">
-                <Select @on-change="handleChange" transfer>
-                  <Option v-for="item in handleTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工属性：">
-                <Select transfer>
-                  <Option v-for="item in employmentPropertyList" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-              </Form-item>
-              </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="用工方式：">
                 <Select transfer>
@@ -47,14 +14,15 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工操作专员：">
-              </Form-item>
+            </Row>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 16}" class="tr">
+                <Button type="primary"   @click="instance()">批量办理用工</Button>
               </Col>
             </Row>
           </Form>
         </div>
-      </Panel>-->
+      </Panel>
       <Panel name="2">
         用工材料办理
         <div slot="content">
@@ -189,7 +157,7 @@
               </Col>
             </Row>
             <Row type="flex" justify="start">
-              <Col :sm="{span: 24}" class="tr">
+              <Col :sm="{span: 16}" class="tr">
               <Button type="warning" @click="resetForm('materialHandleInfo')">重置</Button>
               <Button type="primary" @click="instance()">批理办理</Button>
               </Col>
@@ -215,7 +183,7 @@
     },
     data() {
       return {
-        collapseInfo: [2], //展开栏
+        collapseInfo: [1,2], //展开栏
         docTypeList: [],
         yuliuDocTypeList: [],
         materialHandleInfo: {

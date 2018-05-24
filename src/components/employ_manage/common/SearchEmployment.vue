@@ -27,7 +27,7 @@
           </Form-item>
         </Col>
 
-         <Col :sm="{span: 22}" :md="{span: 20}" :lg="{span: 9}" v-if="showHandle.show">
+         <Col :sm="{span: 22}" :md="{span: 20}" :lg="{span: 12}" v-if="showHandle.show">
           <Form-item label="任务单状态：" prop="employFeedback">
             <Select v-model="searchForm.isFinish" transfer>
               <Option v-for="item in finishStatus" :value="item.value" :key="item.value">{{item.label}}</Option>

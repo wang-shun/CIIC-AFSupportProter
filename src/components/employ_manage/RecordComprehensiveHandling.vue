@@ -708,6 +708,8 @@
         this.pageData.pageSize = val;
         let params = this.searchCondition
         this.archiveQuery(params);
+        this.employeeArchiveCollection(params);
+        this.resignArchiveCollection(params);
       }
     },
     computed: {

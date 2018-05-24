@@ -497,6 +497,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         this.pageData.pageSize = val;
         let params = this.searchCondition
         this.employeeQuery(params);
+        this.employeeCollectionQuery(params);
       },
     },
     computed: {

@@ -238,9 +238,7 @@
             {title: '操作', fixed: 'left', width: 80, align: 'center',
               render:(h, params)=>{
                 return h('div', {style: {textAlign: 'left'}}, [
-                  h('Button',{
-                    props:{type:'success',size:'samll'},
-                    style: {margin: '0 auto'},
+                  h('Button',{props:{type:'success',size:'small'},style:{margin:'0 auto'},
                     on:{
                       click:()=>{
                         this.dealTransfer(params.row.employeeId,params.row.companyId,params.row.hfType);

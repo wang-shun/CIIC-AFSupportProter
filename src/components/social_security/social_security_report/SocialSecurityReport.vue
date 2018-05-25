@@ -15,7 +15,7 @@
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账号：" prop="ssAccount">
-                  <input-account v-model="operatorSearchData.ssAccount" @listenToChildEvent="listentChild" disabled=true></input-account>
+                  <input-account v-model="operatorSearchData.ssAccount" @listenToChildEvent="listentChild" :disabled=true></input-account>
 
                    <!-- v-on:listenToChildEvent="listentChild" -->
                 </Form-item>
@@ -138,7 +138,7 @@ import InputAccount from './InputAccount.vue'
       listentChild(value){
         if (value != null) {
           this.operatorSearchData.ssAccountId=value;
-          console.log("点击任务单："+value)
+          //console.log("点击任务单："+value)
         }
       },
       ok () {

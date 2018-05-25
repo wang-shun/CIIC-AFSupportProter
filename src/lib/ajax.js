@@ -4,7 +4,6 @@ import qs from "qs";
 const config = require('./config')
 const DEBUG = config.env.debug;
 const BASE_PATHS = config.basePaths;
-console.log('=====' + BASE_PATHS);
 const CONTENT_TYPE = 'application/x-www-form-urlencoded';
 axios.defaults.timeout = 10000;
 const AJAX = {
@@ -98,8 +97,6 @@ const logInfo = (method, url, data, timeout) => {
     } else {
       logInfo.data = qs.stringify(data);
     }
-
-    console.log(JSON.stringify(logInfo));
   }
 }
 

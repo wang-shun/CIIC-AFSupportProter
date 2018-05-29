@@ -124,6 +124,10 @@
       </Panel>
     </Collapse>
 
+    <div class="tr m20">
+      <Button type="info" @click="exportData()" icon="ios-download-outline">导出数据
+      </Button>
+    </div>
     <Table border
            stripe
            :columns="taskColumns"
@@ -140,6 +144,7 @@
 <script>
   import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
   import apiAjax from "../../../data/health_medical/task_medica.js";
+  import qs from "qs";
 
   export default {
     data() {
@@ -346,6 +351,17 @@
             })
           }
         });
+      },
+      exportData() {
+        if (this.formItem.taskType === null || this.formItem.taskType === '') {
+          this.$Message.error("导出数据请先选择任务单类型");
+          return;
+        }
+        if (this.formItem.afProductId === null || this.formItem.afProductId === '') {
+          this.$Message.error("导出数据请先选择保险项目");
+          return;
+        }
+        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" + qs.stringify(this.formItem);
       },
       getByPage(val) {
         this.formItem.current = val;

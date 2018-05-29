@@ -105,14 +105,12 @@
   </div>
 </template>
 <script>
-  import expandRow from './ExpandRow.vue';
   import ajax from "../../../data/health_medical/warranty.js";
   import taskAjax from "../../../data/health_medical/task_medica.js";
   import warranty from '../../../store/modules/health_medical/data_sources/warranty.js'
   import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
 
   export default {
-    components: {expandRow},
     data() {
       return {
         value1: '1',
@@ -136,31 +134,108 @@
         },
         warrantyColumns: [
           {
-            type: 'expand',
-            width: 50,
-            render: (h, params) => {
-              return h(expandRow, {
-                props: {
-                  row: params.row
-                }
-              })
-            }
+            title: '险种名称', sortable: true, key: 'productName', align: 'center', width: 150
           },
           {
-            title: '险种名称', sortable: true, key: 'productName', align: 'center'
+            title: '雇员编号', sortable: true, key: 'employeeId', align: 'center', width: 150
           },
           {
-            title: '雇员编号', sortable: true, key: 'employeeId', align: 'center'
+            title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center', width: 150
           },
           {
-            title: '雇员姓名', sortable: true, key: 'employeeName', align: 'center'
-          },
-          {
-            title: '是否在保', sortable: true, key: 'insured', align: 'center',
+            title: '是否在保', sortable: true, key: 'insured', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', warranty.insuredToChina(params.row.insured));
             }
-          }
+          },
+          {
+            title: '公司编号', sortable: true, key: 'companyId', align: 'center', width: 150
+          },
+          {
+            title: '公司名称', sortable: true, key: 'companyName', align: 'center', width: 150
+          },
+          {
+            title: '投保对象', sortable: true, key: 'employeeName', align: 'center', width: 150
+          },
+          {
+            title: '保险名称', sortable: true, key: 'productName', align: 'center', width: 150
+          },
+          {
+            title: '投保公司', sortable: true, key: 'policyType', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', task.insuranceCompanyToString(params.row.policyType));
+            }
+          },
+          {
+            title: '投保日期', sortable: true, key: 'insuranceDate', align: 'center', width: 150,
+            render: (h, params) => {
+              if (params.row.insuranceDate !== null) {
+                return h('div', this.$utils.formatDate(params.row.insuranceDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: '退保日期', sortable: true, key: 'surrenderDate', align: 'center', width: 150,
+            render: (h, params) => {
+              if (params.row.surrenderDate !== null) {
+                return h('div', this.$utils.formatDate(params.row.surrenderDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: '类型', sortable: true, key: 'type', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', task.typeToChina(params.row.type));
+            }
+          },
+          {
+            title: '连带人编号', sortable: true, key: 'associatedInsurantId', align: 'center', width: 150
+          },
+          {
+            title: '连带人姓名', sortable: true, key: 'associatedInsurantName', align: 'center', width: 150
+          },
+          {
+            title: '性别', sortable: true, key: 'gender', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', task.genderToChina(params.row.gender));
+            }
+          },
+          {
+            title: '年龄', sortable: true, key: 'age', align: 'center', width: 150
+          },
+          {
+            title: '出生日期', sortable: true, key: 'birthDate', align: 'center', width: 150,
+            render: (h, params) => {
+              if (params.row.birthDate !== null) {
+                return h('div', this.$utils.formatDate(params.row.birthDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: '保额',  sortable: true, key: 'keyValue', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', task.reverseAmount(params.row.keyType, params.row.keyValue));
+            }
+          },
+          {
+            title: '保险起始日期', sortable: true, key: 'insuranceStartDate', align: 'center', width: 150,
+            render: (h, params) => {
+              if (params.row.insuranceStartDate !== null) {
+                return h('div', this.$utils.formatDate(params.row.insuranceStartDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: '保险截止日期', sortable: true, key: 'insuranceEndDate', align: 'center', width: 150,
+            render: (h, params) => {
+              if (params.row.insuranceEndDate !== null) {
+                return h('div', this.$utils.formatDate(params.row.insuranceEndDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: '说明', sortable: true, key: 'remark', align: 'center', width: 150,
+          },
         ],
         warrantyData: [],
         taskTypeItem: [],

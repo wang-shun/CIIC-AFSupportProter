@@ -1,3 +1,45 @@
+<style>
+  .ivu-table .big-storage td{
+  }
+  .ivu-table .out-sourcing td{
+    background-color: #ccccff;
+  }
+  .ivu-table .dependency td{
+    background-color: #ccffcc;
+  }
+  .ivu-table .big-storage-remark td{
+    background-color: #ffff99;
+  }
+  .ivu-table .out-sourcing-remark td{
+    background-color: #ffcc00;
+  }
+  .ivu-table .dependency-remark td{
+    background-color: #c7c7c7;
+  }
+  .ivu-table .big-storage-has-out td{
+    color: #ff0000;
+  }
+  .ivu-table .out-sourcing-has-out td{
+    background-color: #ccccff;
+    color: #ff0000;
+  }
+  .ivu-table .dependency-has-out td{
+    background-color: #ccffcc;
+    color: #ff0000;
+  }
+  .ivu-table .big-storage-remark-has-out td{
+    background-color: #ffff99;
+    color: #ff0000;
+  }
+  .ivu-table .out-sourcing-remark-has-out td{
+    background-color: #ffcc00;
+    color: #ff0000;
+  }
+  .ivu-table .dependency-remark-has-out td{
+    background-color: #c7c7c7;
+    color: #ff0000;
+  }
+</style>
 <template>
   <div class="smList" style="margin-bottom: 56px">
     <Collapse v-model="collapseInfo">
@@ -103,6 +145,7 @@
     <Row class="mt20">
       <Col :sm="{span:24}" >
         <Table border ref="noProcessData"
+               :row-class-name="rowClassName"
                :columns="noProcessColumns"
                :data="noProcessData"
                @on-selection-change="handleSelectChange"
@@ -397,6 +440,26 @@
         api.newEmpTaskTxtExport({
           params: params
         });
+      },
+      rowClassName(row, index) {
+        console.log(row);
+        let className = '';
+        if (row.hfAccountType) {
+          if (parseInt(row.hfAccountType) === 1) {
+            className = 'big-storage';
+          } else if (parseInt(row.hfAccountType) === 2) {
+            className = 'out-sourcing';
+          } else if (parseInt(row.hfAccountType) === 3) {
+            className = 'dependency';
+          }
+        }
+        if (row.handleRemark && row.handleRemark != '') {
+          className += '-remark';
+        }
+        if (row.hasOut && parseInt(row.hasOut) == 1) {
+          className += '-has-out';
+        }
+        return className;
       }
     }
   }

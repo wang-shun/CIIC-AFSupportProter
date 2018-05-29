@@ -1,3 +1,48 @@
+<style>
+  .tred {
+    color: red;
+  }
+   .ivu-table .big-storage td{
+   }
+  .ivu-table .out-sourcing td{
+    background-color: #ccccff;
+  }
+  .ivu-table .dependency td{
+    background-color: #ccffcc;
+  }
+  .ivu-table .big-storage-remark td{
+    background-color: #ffff99;
+  }
+  .ivu-table .out-sourcing-remark td{
+    background-color: #ffcc00;
+  }
+  .ivu-table .dependency-remark td{
+    background-color: #c7c7c7;
+  }
+  .ivu-table .big-storage-has-out td{
+    color: #ff0000;
+  }
+  .ivu-table .out-sourcing-has-out td{
+    background-color: #ccccff;
+    color: #ff0000;
+  }
+  .ivu-table .dependency-has-out td{
+    background-color: #ccffcc;
+    color: #ff0000;
+  }
+  .ivu-table .big-storage-remark-has-out td{
+    background-color: #ffff99;
+    color: #ff0000;
+  }
+  .ivu-table .out-sourcing-remark-has-out td{
+    background-color: #ffcc00;
+    color: #ff0000;
+  }
+  .ivu-table .dependency-remark-has-out td{
+    background-color: #c7c7c7;
+    color: #ff0000;
+  }
+</style>
 <template>
   <div class="smList">
     <Collapse v-model="collapseInfo">
@@ -88,7 +133,7 @@
       </Col>
     </Row>
     <Table border class="mt20" :row-class-name="rowClassName" :columns="employeeFundColumns" :data="employeeFundData"></Table>
-   
+
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -98,7 +143,7 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-        
+
 <!-- :action="uploadAttr.actionUrl" -->
     <!-- 批量导入公积金账号 模态框 -->
     <Modal
@@ -212,6 +257,11 @@ export default {
         { value: 1, label: "中智大库" },
         { value: 2, label: "中智外包" },
         { value: 3, label: "独立户" }
+      ],
+      accountTypeColorList: [
+        { value: 1, className: "" },
+        { value: 2, className: "" },
+        { value: 3, className: "" },
       ],
       isShowCompanyFoundAccountList: false, //显示企业公积金账户列表
       isShowCompanyName: false, //显示公司名称
@@ -555,14 +605,14 @@ export default {
       this.$router.push({ name: "employeeFundHistory" });
     },
     rowClassName(row, index) {
-      if (row.companyAccountType === "中智大库") {
-        return "dk_bg";
-      } else if (row.companyAccountType === "中智外包") {
-        return "wb_bg";
-      } else if (row.companyAccountType === "独立户") {
-        return "dl_bg";
-      } else {
-        return "";
+      if (row.hfAccountType) {
+        if (parseInt(row.hfAccountType) === 1) {
+          return 'emp-fund-table-account-type-big-storage-row';
+        } else if (parseInt(row.hfAccountType) === 2) {
+          return 'emp-fund-table-account-type-out-sourcing-row';
+        } else if (parseInt(row.hfAccountType) === 3) {
+          return 'emp-fund-table-account-type-dependency-row';
+        }
       }
     },
     employeeQuery(params) {
@@ -617,7 +667,7 @@ export default {
         });
     },
     impTemplate() {
- 
+
       api.impTemplateFile({});
     },
     cancel() {},
@@ -640,20 +690,6 @@ export default {
           "文件 " + file.name + " 格式不正确，请上传 xls 或 xlsx 格式的文档。"
       });
     }
-  }
+  },
 };
 </script>
-<style>
-.tred {
-  color: red;
-}
-.ivu-table .dk_bg td {
-  background-color: #bdddfe;
-}
-.ivu-table .wb_bg td {
-  background-color: #fee6c3;
-}
-.ivu-table .dl_bg td {
-  background-color: #ffe2db;
-}
-</style>

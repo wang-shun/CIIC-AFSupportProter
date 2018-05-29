@@ -1,3 +1,17 @@
+<style>
+  .ivu-table .com-fund-table-payment-bank-xj-c-row td{
+    background-color: #ffffcc;
+  }
+  .ivu-table .com-fund-table-payment-bank-dfl-p-row td{
+    background-color: #ccffcc;
+  }
+  .ivu-table .com-fund-table-payment-bank-lw-l-row td{
+    background-color: #ccffff;
+  }
+  .ivu-table .com-fund-table-payment-bank-hp-h-row td{
+    background-color: #ffccff;
+  }
+</style>
 <template>
   <div>
     <Collapse v-model="collapseInfo">
@@ -53,7 +67,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="companyFundAccountSearchColumns" :data="fundAccountData"></Table>
+        <Table border :row-class-name="rowClassName" :columns="companyFundAccountSearchColumns" :data="fundAccountData"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -202,7 +216,7 @@
               ]);
             }
           },
-         
+
         ]
       }
     },
@@ -249,6 +263,19 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
+      rowClassName(row, index) {
+        if (row.paymentBank) {
+          if (row.paymentBank === '16') {
+            return 'com-fund-table-payment-bank-xj-c-row';
+          } else if (row.paymentBank === '17') {
+            return 'com-fund-table-payment-bank-dfl-p-row';
+          } else if (row.paymentBank === '18') {
+            return 'com-fund-table-payment-bank-lw-l-row';
+          } else if (row.paymentBank === '0') {
+            return 'com-fund-table-payment-bank-hp-h-row';
+          }
+        }
+      }
     }
   }
 </script>

@@ -405,20 +405,13 @@
         }).then(data=>{
           this.$Message.info(data.message);
           this.isLoading = false;
+           this.isRefuseReason = false;
+            this.employeeOperatorQuery();
         }).catch(
           error=>{
             this.isLoading = false;
           }
         )
-        this.$ajax.handle({
-          vm: this,
-          ajax: ajax,
-          title: '任务批退',
-          callback: (data) => {
-            this.isRefuseReason = false;
-            this.employeeOperatorQuery();
-          }
-        })
 
       },
       // 选中项发生变化时就会触发

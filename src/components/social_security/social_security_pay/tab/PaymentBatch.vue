@@ -138,6 +138,13 @@
               <label>{{addPaymentData.paymentMonth}}</label>
             </Form-item>
           </Col>
+        </Row>
+        <Row class="mt20">
+          <Col :sm="{span: 12}">
+            <Form-item label="出账批号：" prop="paymentBatchNumOfAdd">
+              <input type="text" :maxlength="20" v-model="addPaymentData.paymentBatchNum" >
+            </Form-item>
+          </Col>
           <Col :sm="{span: 12}">
             <Form-item label="社保账户类型：" prop="accountTypeOfAdd">
               <Select v-model="addPaymentData.accountType" clearable style="width: 100%;" transfer>
@@ -146,13 +153,6 @@
               </Select>
             </Form-item>
           </Col>
-        </Row>
-        <Row class="mt20">
-          <!-- <Col :sm="{span: 12}">
-            <Form-item label="出账批号：" prop="paymentBatchNumOfAdd">
-              <input type="text" :maxlength="20" v-model="addPaymentData.paymentBatchNum" >
-            </Form-item>
-          </Col> -->
         </Row>
       </Form>
 
@@ -209,7 +209,7 @@
         isShowProgress: false,
 
         payBatchColumns: [
-          {title: '出账批次号', key: 'paymentBatchNum', width: 130, align: 'center',
+          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.paymentBatchNum),
@@ -519,10 +519,10 @@
           alert("支付年月不可为空");
           return;
         }
-        // if(paymentBatchNum == null || paymentBatchNum == ""){
-        //   alert("出账批号不可为空");
-        //   return;
-        // }
+        if(paymentBatchNum == null || paymentBatchNum == ""){
+          alert("出账批号不可为空");
+          return;
+        }
         if(accountType == null || accountType == ""){
           alert("账户类型不可为空");
           return;

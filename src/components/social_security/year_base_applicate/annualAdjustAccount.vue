@@ -179,7 +179,9 @@
           {
             title: '人员分类', key: 'accountStatus', width: 120, align: 'left',
             render: (h, params) => {
-              return this.$decode.accountStatus(params.row.accountStatus)
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.accountStatus(params.row.accountStatus)),
+              ]);
             }
           },
           {
@@ -384,6 +386,8 @@
           if (data.code == 200) {
             this.accountResultData = data.data.rows;
             this.accountResultPageData.total = Number(data.data.total);
+          } else {
+            this.$Message.error(data.message);
           }
         })
       },

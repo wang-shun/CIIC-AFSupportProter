@@ -98,7 +98,7 @@
         </div>
       </Panel>
       <Panel name="2">
-        雇员信息
+        雇员公积金账户信息
         <div slot="content">
           <Form :label-width=150>
             <Row type="flex" justify="start">

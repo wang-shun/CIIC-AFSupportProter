@@ -43,7 +43,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}">
-        <!-- <Button type="info" @click="ok">导出</Button> -->
+        <Button type="info" @click="diffExportData">导出</Button>
         <Button type="info" @click="calculate()">差异对比</Button>
         <Button type="info" @click="goBack">返回</Button>
       </Col>
@@ -174,6 +174,10 @@
       },
       cancel () {
 
+      },
+      diffExportData() {
+        let params ={statementId:window.sessionStorage.getItem("statementId")};
+        api.diffExportOpt(params);
       },
       goBack(){
         history.go(-1);

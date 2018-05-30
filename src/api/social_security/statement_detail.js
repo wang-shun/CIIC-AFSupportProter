@@ -20,6 +20,9 @@ export default {
   calculate: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssStatementResult/calculateSstatementResult', params);
     return await response.data;
-  }
+  },
+  diffExportOpt:async (params) => {
+    AJAX.download('/api/soccommandservice/ssStatementResult/diffExportOpt', params);
+  },
 }
 

@@ -12,7 +12,7 @@
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="办理机构：" prop="name">
               <Select v-model="formItem.orgPoilcyId" placeholder="请选择" label-in-value="true" @on-change="orgChange" transfer>
-                <Option v-for="item in orgPoilcys" :value="item.orgPoilcyId" :key="item.name" >{{ item.name }}</Option>
+                <Option v-for="item in orgPoilcys" :value="item.orgPoilcyId" :key="item.orgPoilcyId" >{{ item.name }}</Option>
               </Select>
             </Form-item>
           </i-col>
@@ -240,6 +240,7 @@ export default {
             }
           }
         }
+        
         this.data1 = labs;
         this.formItem = labs[0];
         this.selectedRow(this.formItem)
@@ -260,7 +261,6 @@ export default {
                 title: "保存成功",
                 desc: ""
               });
-              this.modal1 = false;
               this.find();
             } else {
               this.$Notice.error({
@@ -297,7 +297,9 @@ export default {
       }
     },
     orgChange(option) {
-      this.formItem.name = option.label;
+      if(option.label!==''){
+        this.formItem.name = option.label;
+      }
     }
   }
 };

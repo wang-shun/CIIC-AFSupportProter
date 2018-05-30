@@ -1075,14 +1075,11 @@ router.beforeEach((to, from, next) => {
     localStorage.setItem('level3', to.meta.level2)
     localStorage.setItem('level4', to.meta.level3)
     localStorage.setItem('openNames', [to.meta.openNames])
-    console.log('HOME_HOST='+process.env.HOME_HOST)
     let storage = new CrossStorageClient(process.env.HOME_HOST + ':8070/#/menu')
-    console.log('storage='+storage)
     storage.onConnect().then(function () {
         return storage.get('userInfo')
     }).then(function (res) {
         let userInfo = JSON.parse(res || '{}')
-        console.log(userInfo)
         if (userInfo && userInfo.token) {
             sessionStorage.setItem('userInfo', JSON.stringify(userInfo))
             next()

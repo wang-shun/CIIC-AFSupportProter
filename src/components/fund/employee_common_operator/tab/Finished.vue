@@ -272,6 +272,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         cparams.taskCategory = params.taskCategory;
         cparams.paymentBank = params.paymentBank;
         cparams.employeeName = params.employeeName;
+        cparams.hfAccountType = params.hfAccountType;
         cparams.hfType = params.hfType;
         cparams.idNum = params.idNum;
         cparams.companyId = params.companyId;

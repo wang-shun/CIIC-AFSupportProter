@@ -44,7 +44,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}">
         <Button type="info" @click="ok">导出</Button>
-        <Button type="primary" @click="calculate" >重新汇总</Button>
+        <Button type="primary" :loading="isLoading" @click="calculate" >重新汇总</Button>
         <Button type="info" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -61,6 +61,7 @@
     components: {customerModal, companyAccountSearchModal},
     data() {
       return {
+        isLoading: false,
         collapseInfo: [1], //展开栏
         empChangeData: {
           ssMonth:'',//社保月份
@@ -69,11 +70,11 @@
           computeUserId:'',
           lastComputeTime:'',
         },
-        statementId:0,
+        monthEmpChangeId:0,
         empChangeDetailData: [],
         empChangeDetailDataColumns: [
 
-          {title: '雇员编号', key: 'employeeId',  align: 'center',
+          {title: '雇员编号', key: 'employeeId',  align: 'center',fixed: "left",width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.employeeId),
@@ -81,35 +82,35 @@
               ]);
             }
           },
-          {title: '姓名', key: 'employeeName',  align: 'center',
+          {title: '姓名', key: 'employeeName',  align: 'center',fixed: "left",width:100,
              render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.employeeName),
               ]);
             }
           },
-          {title: '变更类型', key: 'changeTypeName', align: 'center',
+          {title: '变更类型', key: 'changeTypeName', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.changeTypeName),
               ]);
             }
           },
-          {title: '个人月缴纳基数', key: 'baseAmount', align: 'center',
+          {title: '个人月缴纳基数', key: 'baseAmount', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.baseAmount),
               ]);
             }
           },
-          {title: '养老单位缴费额', key: 'comAmountPension',  align: 'center',
+          {title: '养老单位缴费额', key: 'comAmountPension',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comAmountPension),
               ]);
             }
           },
-          {title: '养老个人缴费额', key: 'empAmountPension',  align: 'center',
+          {title: '养老个人缴费额', key: 'empAmountPension',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empAmountPension),
@@ -117,35 +118,35 @@
 
             }
           },
-          {title: '养老单位补缴', key: 'comCompensatedAmountPension', align: 'center',
+          {title: '养老单位补缴', key: 'comCompensatedAmountPension', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comCompensatedAmountPension),
               ]);
             }
           },
-          {title: '养老个人补缴', key: 'empCompensatedAmountPension',  align: 'center',
+          {title: '养老个人补缴', key: 'empCompensatedAmountPension',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empCompensatedAmountPension),
               ]);
             }
           },
-          {title: '养老一次性支付', key: 'onePaymentPension', align: 'center',
+          {title: '养老一次性支付', key: 'onePaymentPension', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.onePaymentPension),
               ]);
             }
           },
-          {title: '医疗单位缴费额', key: 'comAmountMedical',  align: 'center',
+          {title: '医疗单位缴费额', key: 'comAmountMedical',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comAmountMedical),
               ]);
             }
           },
-          {title: '医疗个人缴费额', key: 'empAmountMedical',  align: 'center',
+          {title: '医疗个人缴费额', key: 'empAmountMedical',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empAmountMedical),
@@ -153,28 +154,28 @@
 
             }
           },
-          {title: '医疗单位补缴', key: 'comCompensatedAmountMedical', align: 'center',
+          {title: '医疗单位补缴', key: 'comCompensatedAmountMedical', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comCompensatedAmountMedical),
               ]);
             }
           },
-          {title: '医疗个人补缴', key: 'empCompensatedAmountMedical',  align: 'center',
+          {title: '医疗个人补缴', key: 'empCompensatedAmountMedical',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empCompensatedAmountMedical),
               ]);
             }
           },
-          {title: '失业单位缴费额', key: 'comAmountUnemployment',  align: 'center',
+          {title: '失业单位缴费额', key: 'comAmountUnemployment',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comAmountUnemployment),
               ]);
             }
           },
-          {title: '失业个人缴费额', key: 'empAmountUnemployment',  align: 'center',
+          {title: '失业个人缴费额', key: 'empAmountUnemployment',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empAmountUnemployment),
@@ -182,14 +183,14 @@
 
             }
           },
-          {title: '失业单位补缴', key: 'comCompensatedAmountUnemployment', align: 'center',
+          {title: '失业单位补缴', key: 'comCompensatedAmountUnemployment', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.comCompensatedAmountUnemployment),
               ]);
             }
           },
-          {title: '失业个人补缴', key: 'empCompensatedAmountUnemployment',  align: 'center',
+          {title: '失业个人补缴', key: 'empCompensatedAmountUnemployment',  align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.empCompensatedAmountUnemployment),
@@ -204,17 +205,38 @@
       }
     },
     mounted() {
-     // this[EventType.SOCIALSECURITYRECONCILATEDETAIL]();
-      // var pagParam= {
-      //       //对账主表ID
-      //       statementId : window.sessionStorage.getItem("statementId")
-      //     };
-      //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
-      //this.doAlert(pagParam.statementId);
-      this.statementId = window.sessionStorage.getItem("monthEmpChangeId");
-      this.serachMonthEmpChange(window.sessionStorage.getItem("monthEmpChangeId"));
-      this.showMonthEmpChangeDetail(window.sessionStorage.getItem("monthEmpChangeId"));
-
+    //当前页面来自两个入口，一个来自社保对账，另一个来自社保报表，传递进来的参数不一样
+      let ssMonth = this.$route.query.ssMonth;
+      let comAccountId = this.$route.query.ssAccountId;
+      let monthEmpChangeId = '';
+      let params={};
+      if(ssMonth != null){
+        params={
+          ssMonth : ssMonth,
+          comAccountId : comAccountId
+        }
+        api.getSsMonthEmpChangeId(params).then(
+          data=>{
+            monthEmpChangeId = data.data;
+            this.monthEmpChangeId = monthEmpChangeId;
+            if(monthEmpChangeId == null || monthEmpChangeId == ''){
+              monthEmpChangeId = this.$route.query.monthEmpChangeId;
+            }
+            if(monthEmpChangeId == null || monthEmpChangeId == ''){
+                this.empChangeData.ssMonth = this.$route.query.ssMonth;
+                this.empChangeData.comAccountId = this.$route.query.ssAccountId;
+                this.empChangeData.comAccountName = this.$route.query.ssAccount;
+            }
+             this.serachMonthEmpChange(monthEmpChangeId);
+             this.showMonthEmpChangeDetail(monthEmpChangeId);
+          }
+        )
+      }else{
+         monthEmpChangeId = this.$route.query.monthEmpChangeId;
+         this.serachMonthEmpChange(monthEmpChangeId);
+         this.showMonthEmpChangeDetail(monthEmpChangeId);
+      }
+       
     },
     computed: {
       ...mapState('socialSecurityReconcilateDetail',{
@@ -222,14 +244,13 @@
       })
     },
     methods: {
-      ...mapActions('socialSecurityReconcilateDetail',[EventType.SOCIALSECURITYRECONCILATEDETAIL]),
+      //...mapActions('socialSecurityReconcilateDetail',[EventType.SOCIALSECURITYRECONCILATEDETAIL]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
       ok () {
         api.yysExport({
-          statementId: this.statementId,
-          monthEmpChangeId: this.statementId
+          monthEmpChangeId: this.monthEmpChangeId
         });
       },
       cancel () {
@@ -238,38 +259,42 @@
       goBack(){
         history.go(-1);
       },
-      doAlert(value) {
-        alert(value);
-      },
-      serachMonthEmpChange(statementId){
+      serachMonthEmpChange(monthEmpChangeId){
         api.serachMonthEmpChange({
-          monthEmpChangeId: statementId
+          monthEmpChangeId: monthEmpChangeId
         }).then(data => {
-          this.empChangeData = data.data;
+          if(data.data != null){
+            this.empChangeData = data.data;
+          }
         })
       },
-      showMonthEmpChangeDetail(statementId){
+      showMonthEmpChangeDetail(monthEmpChangeId){
         api.showMonthEmpChangeDetail({
-          monthEmpChangeId: statementId
+          monthEmpChangeId: monthEmpChangeId
         }).then(data => {
-          //console.log(data)
-          this.empChangeDetailData = data.data;
+          if(data.data != null){
+            this.empChangeDetailData = data.data;
+          }
         })
       },
       calculate(){
+        this.isLoading = true;
         let params = {
           comAccountId:this.empChangeData.comAccountId,
           ssMonth:this.empChangeData.ssMonth,
           generalMethod:'generateMonthEmpChangeReport'
         };
         api.summaryCalculate(params).then(data=>{
-            console.log(data.code);
             if(data.code==1){
               this.$Message.error(data.message);
-              this.statementId = window.sessionStorage.getItem("monthEmpChangeId");
-              this.serachMonthEmpChange(window.sessionStorage.getItem("monthEmpChangeId"));
-              this.showMonthEmpChangeDetail(window.sessionStorage.getItem("monthEmpChangeId"));
+            }else{
+              this.$Notice.success({
+                    title: '重新汇总提示',
+                    desc: '服务器已接收您的汇总计算，请等待片刻重新刷新页面，并留意‘最后计算时间’的更新。'
+                });
             }
+            this.isLoading = false;
+           
         }).catch(error=>{
           this.$Message.error('系统异常！');
         });

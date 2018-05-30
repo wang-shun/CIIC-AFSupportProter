@@ -16,7 +16,11 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/ssMonthEmpChangeDetail/showMonthEmpChangeDetail', params);
     return await response.data;
   },
-
+  // 根据公积金账户+月份得到getMonthEmpChangeId
+  getSsMonthEmpChangeId: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssMonthEmpChange/getSsMonthEmpChangeId', params);
+    return await response.data;
+  },
   yysExport: (params) => {
     AJAX.download('/api/soccommandservice/ssMonthEmpChangeDetail/yysExport', params);
   },

@@ -134,7 +134,9 @@
             <Row>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金类型：">
-                  {{this.$decode.hfType(transferNotice.hfType)}}
+                  <Select v-model="transferNotice.hfType" style="width: 100%;" transfer>
+                    <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
+                  </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -176,7 +178,7 @@
                @on-change="transferNotice.transferInUnit=$event"
                 :loading="loading"
                   style="width: 100%;" transfer>
-                    <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
+                     <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -247,10 +249,10 @@
           empTaskId: 0,
           taskCategory: 0,
           canHandle: false,
-
           transferInUnit:'',
           transferOutUnit:'',
         },
+        fundTypeList: [],
         transferUnitDictList:[],
         transferInUnitList:[],
         transferOutUnitList:[],
@@ -293,24 +295,17 @@
     },
 
     mounted() {
-     // let dictTaskCategory = localStorage.getItem('employeeFundCommonOperator.dictTaskCategory');
-//  this.transferInUnitList.push('8iu医院的');
-
-//setTimeout(this.test2(),10);
-
-this.initData();
-
-
-
-  //this.test1();
+      dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.fundTypeList = data.data.FundType;
+        }
+      });
+      this.initData();
     },
     computed: {
-      ...mapState('employeeFundTransferProgressTwo', {
-        data:state => state.data
-      })
     },
     methods: {
-     // ...mapActions('employeeFundTransferProgressTwo', [EventType.EMPLOYEEFUNDTRANSFERPROGRESSTWO]),
+
       nextStep() {
         this.$router.push({name: 'employeeFundSpecialProgressThree'});
       },
@@ -370,12 +365,14 @@ this.initData();
         this.$router.go(-1);
       },
       submitTransferTask(){
+        if(this.transferNotice.hfType == null || this.transferNotice.hfType ==''){
+           this.$Message.info('公积金类型要求必填！');
+        }
         this.convertDate();
         api.submitTransferTask(this.transferNotice).then(
           data=>{
             this.$Message.success(data.message);
             this.transferNotice.empTaskId=data.data;
-
           }
         ).catch(error=>{
             console.log(error)

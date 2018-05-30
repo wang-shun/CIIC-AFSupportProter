@@ -14,6 +14,8 @@ const receiveMaterial = params => AJAX.postJSON("/api/employservice/amEmpTask/re
 
 const rejectMaterial = params => AJAX.postJSON("/api/employservice/amEmpTask/rejectMaterial", params);
 
+const saveBatchEmploy = params => AJAX.postJSON("/api/employservice/amEmpTask/saveBatchEmploy", params);
+
 
 export default {
 
@@ -171,6 +173,11 @@ export default {
     let response = await AJAX.post('/api/employservice/amEmpTask/queryAmArchiveDocType', params);
     return await response.data;
   },
+  saveBatchEmploy,
+  batchSaveEmployment:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amEmpTask/batchSaveEmployment', params);
+    return await response.data;
+  }
 
 }
 

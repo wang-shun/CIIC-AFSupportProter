@@ -134,7 +134,6 @@ const getUrl = (url, data) => {
       url += '?token=' + encodeURIComponent(JSON.parse(userInfo).token);
     }
   }
-  debugger
   return url;
 }
 

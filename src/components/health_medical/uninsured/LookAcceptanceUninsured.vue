@@ -13,9 +13,9 @@
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
-          <Form-item label="公司编号">
-            <span>{{ detail.companyId }}</span>
-          </Form-item>
+            <Form-item label="公司编号">
+              <span>{{ detail.companyId }}</span>
+            </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
             <Form-item label="雇员姓名">
@@ -152,7 +152,8 @@
     </Card>
     <Row class="mt10">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="warning" @click="back()">返回</Button>
+        <Button v-if="detail.status" type="primary" @click="printUninsuredReview()">打印</Button>
+        <Button type="warning" @click="back()">返回</Button>
       </Col>
     </Row>
   </div>
@@ -160,16 +161,26 @@
 
 <script>
   import apiAjax from "../../../data/health_medical/uninsured_application.js";
+  import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
+
   export default {
+    data() {
+      return {
+        umAcceptanceId: '',
+        detail: {},
+        userInfo: {}
+      }
+    },
     created() {
       this.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
       this.queryAcceptanceUninsured();
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     },
     methods: {
       queryAcceptanceUninsured() {
         apiAjax.acceptanceDetail(this.umAcceptanceId).then(response => {
           let data = response.data
-          if (data.code==200) {
+          if (data.code == 200) {
             this.detail = data.object
           } else {
             this.$Message.error("请重试");
@@ -179,84 +190,95 @@
           this.$Message.error("服务器异常，请稍后再试");
         });
       },
+      printUninsuredReview() {
+        let head = `<html><head></head><body>`;
+        let foot = `</body></html>`;
+        this.detail.username = this.userInfo.displayName;
+        let obj = this.getFundPayNoteObj(this.detail);
+        let html = head + obj + foot;
+        let pwin = window.open("", "print")
+        pwin.document.write(html);
+        pwin.document.close();
+        pwin.print();
+      },
+      getFundPayNoteObj(row) {
+        var html =
+          `<div>
+            <div style="border-bottom: 1px solid black;width: 200px;margin-bottom: 30px;">
+                <h2>CIIC</h2>
+                <h3>A1606056</h3>
+            </div>
+            <div>
+                <table border="1" cellspacing="0" style="text-align: center;">
+                    <tr>
+                        <td>
+                            收款人<br>
+                            公司编号<br>
+                            公司名称
+                        </td>
+                        <td>
+                            江伟 雇员编号:${row.employeeName}<br>
+                            ${row.employeeId}<br>
+                            ${row.companyName}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>付款方式</td>
+                        <td style="color: red">现金</td>
+                    </tr>
+                    <tr>
+                        <td>付款地区</td>
+                        <td style="color: red">日本</td>
+                    </tr>
+                    <tr>
+                        <td>金额</td>
+                        <td>
+                            人民币 肆拾伍万圆（大写）<br>
+                            ￥ 1000
+                        </td>
+                    </tr>
+                </table>
+                <p>说明：${row.remark}</p>
+
+            </div>
+            <div style="border-bottom: 1px dashed black;width: 300px;">
+                <p>
+                    部门主管&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    收款人签收&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </p>
+                <p style="text-align: right">制单人：${row.username}</p>
+                <p style="text-align: right">雇员付款编号：230221</p>
+                <p>备注：</p>
+                <p style="text-indent: 2em">
+                      1、前来领款时请携带本付款凭单及雇员证件<br>
+                    (身份证或雇员证)，取他人带领的，还必须由<br>
+                    雇员本人写好委托书方可带领并出示代领人证<br>
+                    件。
+                </p>
+                <p style="text-indent: 2em">
+                      2、领款金额3000.00元以上者，请电话预约<br>
+                    ：54594545*804 朱小姐
+                </p>
+            </div>
+        </div>`;
+        return html;
+      },
+
       back() {
         this.$local.back()
       },
-      getCaseType (type) {
-        if (type === 1) {
-          return '雇员'
-        }
-        if (type === 2) {
-          return '子女'
-        }
-        if (type === 3) {
-          return '配偶'
-        }
-        return ''
+      getCaseType(type) {
+        return admissibility.caseTypeToChina(type);
       },
-      getMoneyType (type) {
-        if (type === 1) {
-          return '医疗费'
-        }
-        if (type === 2) {
-          return '体检费用'
-        }
-        if (type === 3) {
-          return '住院补贴'
-        }
-        if (type === 4) {
-          return '大额理赔款'
-        }
-        if (type === 5) {
-          return '其他'
-        }
-        return ''
+      getMoneyType(type) {
+        return admissibility.moneyTypeToChina(type);
       },
-      getAcceptanceStatus (status) {
-        if (status === 0) {
-          return '未受理'
-        }
-        if (status === 1) {
-          return '已受理'
-        }
-        if (status === 2) {
-          return '拒赔'
-        }
-        if (status === 3) {
-          return '已审核未同步'
-        }
-        if (status === 4) {
-          return '已同步未支付'
-        }
-        if (status === 5) {
-          return '财务退回'
-        }
-        if (status === 6) {
-          return '已同步已支付'
-        }
-        if (status === 7) {
-          return '已退票'
-        }
-        if (status === 8) {
-          return '已完成'
-        }
-        return ''
+      getAcceptanceStatus(status) {
+        return admissibility.statusToChina(status);
       },
-      getPayType (type) {
-        if (type === 1) {
-          return '打卡'
-        }
-        if (type === 2) {
-          return '现金'
-        }
-        return ''
+      getPayType(type) {
+        return admissibility.payTypeToChina(type);
       }
     },
-    data() {
-      return {
-        umAcceptanceId: '',
-        detail: {}
-      }
-    }
   }
 </script>

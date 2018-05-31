@@ -180,7 +180,7 @@
       queryAcceptanceUninsured() {
         apiAjax.acceptanceDetail(this.umAcceptanceId).then(response => {
           let data = response.data
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.detail = data.object
           } else {
             this.$Message.error("请重试");
@@ -191,79 +191,13 @@
         });
       },
       printUninsuredReview() {
-        let head = `<html><head></head><body>`;
-        let foot = `</body></html>`;
         this.detail.username = this.userInfo.displayName;
-        let obj = this.getFundPayNoteObj(this.detail);
-        let html = head + obj + foot;
-        let pwin = window.open("", "print")
-        pwin.document.write(html);
-        pwin.document.close();
-        pwin.print();
+        let html = admissibility.getUninsuredObj(this.detail);
+        let print = window.open("", "print");
+        print.document.write(html);
+        print.document.close();
+        print.print();
       },
-      getFundPayNoteObj(row) {
-        var html =
-          `<div>
-            <div style="border-bottom: 1px solid black;width: 200px;margin-bottom: 30px;">
-                <h2>CIIC</h2>
-                <h3>A1606056</h3>
-            </div>
-            <div>
-                <table border="1" cellspacing="0" style="text-align: center;">
-                    <tr>
-                        <td>
-                            收款人<br>
-                            公司编号<br>
-                            公司名称
-                        </td>
-                        <td>
-                            江伟 雇员编号:${row.employeeName}<br>
-                            ${row.employeeId}<br>
-                            ${row.companyName}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>付款方式</td>
-                        <td style="color: red">现金</td>
-                    </tr>
-                    <tr>
-                        <td>付款地区</td>
-                        <td style="color: red">日本</td>
-                    </tr>
-                    <tr>
-                        <td>金额</td>
-                        <td>
-                            人民币 肆拾伍万圆（大写）<br>
-                            ￥ 1000
-                        </td>
-                    </tr>
-                </table>
-                <p>说明：${row.remark}</p>
-
-            </div>
-            <div style="border-bottom: 1px dashed black;width: 300px;">
-                <p>
-                    部门主管&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    收款人签收&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </p>
-                <p style="text-align: right">制单人：${row.username}</p>
-                <p style="text-align: right">雇员付款编号：230221</p>
-                <p>备注：</p>
-                <p style="text-indent: 2em">
-                      1、前来领款时请携带本付款凭单及雇员证件<br>
-                    (身份证或雇员证)，取他人带领的，还必须由<br>
-                    雇员本人写好委托书方可带领并出示代领人证<br>
-                    件。
-                </p>
-                <p style="text-indent: 2em">
-                      2、领款金额3000.00元以上者，请电话预约<br>
-                    ：54594545*804 朱小姐
-                </p>
-            </div>
-        </div>`;
-        return html;
-      },
-
       back() {
         this.$local.back()
       },

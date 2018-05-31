@@ -95,7 +95,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="processingColumns" :data="processingData"></Table>
+        <Table border :row-class-name="rowClassName" :columns="processingColumns" :data="processingData"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -128,8 +128,7 @@
   </div>
 </template>
 <script>
-//  import {mapState, mapGetters, mapActions} from 'vuex'
-//  import EventType from '../../../../store/event_types'
+  import ts from '../../../../api/house_fund/table_style'
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
@@ -251,6 +250,9 @@
         this.$refs[name].resetFields()
       },
       hfEmpTaskQuery() {
+        if (this.isLoading) {
+          return;
+        }
         this.isLoading = true;
         var cparams = {};
         {
@@ -348,6 +350,9 @@
           cparams = this.beforeSubmit(params);
         }
         api.hfEmpTaskExport({ params: cparams });
+      },
+      rowClassName(row, index) {
+        return ts.empRowClassName(row, index);
       }
     }
   }

@@ -93,7 +93,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="finishedColumns" :data="finishedData"></Table>
+        <Table border :row-class-name="rowClassName" :columns="finishedColumns" :data="finishedData"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -108,11 +108,10 @@
   </div>
 </template>
 <script>
-//  import {mapState, mapGetters, mapActions} from 'vuex'
-//  import EventType from '../../../../store/event_types'
-import api from '../../../../api/house_fund/employee_task/employee_task'
-import InputCompany from '../../../common_control/form/input_company'
-import dict from '../../../../api/dict_access/house_fund_dict'
+  import ts from '../../../../api/house_fund/table_style'
+  import api from '../../../../api/house_fund/employee_task/employee_task'
+  import InputCompany from '../../../common_control/form/input_company'
+  import dict from '../../../../api/dict_access/house_fund_dict'
 
   export default {
     components: {InputCompany},
@@ -232,6 +231,9 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         this.$refs[name].resetFields()
       },
       hfEmpTaskQuery() {
+        if (this.isLoading) {
+          return;
+        }
         this.isLoading = true;
         var cparams = {};
         {
@@ -301,6 +303,9 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           cparams = this.beforeSubmit(params);
         }
         api.hfEmpTaskExport({ params: cparams });
+      },
+      rowClassName(row, index) {
+        return ts.empRowClassName(row, index);
       }
     }
   }

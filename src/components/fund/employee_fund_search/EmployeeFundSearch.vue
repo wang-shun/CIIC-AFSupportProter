@@ -1,48 +1,3 @@
-<style>
-  .tred {
-    color: red;
-  }
-   .ivu-table .big-storage td{
-   }
-  .ivu-table .out-sourcing td{
-    background-color: #ccccff;
-  }
-  .ivu-table .dependency td{
-    background-color: #ccffcc;
-  }
-  .ivu-table .big-storage-remark td{
-    background-color: #ffff99;
-  }
-  .ivu-table .out-sourcing-remark td{
-    background-color: #ffcc00;
-  }
-  .ivu-table .dependency-remark td{
-    background-color: #c7c7c7;
-  }
-  .ivu-table .big-storage-has-out td{
-    color: #ff0000;
-  }
-  .ivu-table .out-sourcing-has-out td{
-    background-color: #ccccff;
-    color: #ff0000;
-  }
-  .ivu-table .dependency-has-out td{
-    background-color: #ccffcc;
-    color: #ff0000;
-  }
-  .ivu-table .big-storage-remark-has-out td{
-    background-color: #ffff99;
-    color: #ff0000;
-  }
-  .ivu-table .out-sourcing-remark-has-out td{
-    background-color: #ffcc00;
-    color: #ff0000;
-  }
-  .ivu-table .dependency-remark-has-out td{
-    background-color: #c7c7c7;
-    color: #ff0000;
-  }
-</style>
 <template>
   <div class="smList">
     <Collapse v-model="collapseInfo">
@@ -203,10 +158,11 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
+//import { mapState, mapGetters, mapActions } from "vuex";
+import ts from '../../../api/house_fund/table_style'
 import companyFundAccountSearchModal from "../common/CompanyFundAccountSearchModal.vue";
 import companyModal from "../../common_control/CompanyModal.vue";
-import EventTypes from "../../../store/event_types";
+//import EventTypes from "../../../store/event_types";
 import api from "../../../api/house_fund/employee_operator";
 import InputAccount from "../common/input_account";
 import InputCompany from "../common/input_company";
@@ -429,11 +385,11 @@ export default {
             return h("div", { style: { textAlign: "left" } }, [
               h(
                 "span",
-                {
-                  style: {
-                    color: params.row.empStatus === "离职" ? "red" : "#495060"
-                  }
-                },
+//                {
+//                  style: {
+//                    color: params.row.empStatus === "3" ? "red" : "#495060"
+//                  }
+//                },
                 this.$decode.empStatus(params.row.empStatus)
               )
             ]);
@@ -605,15 +561,7 @@ export default {
       this.$router.push({ name: "employeeFundHistory" });
     },
     rowClassName(row, index) {
-      if (row.hfAccountType) {
-        if (parseInt(row.hfAccountType) === 1) {
-          return 'emp-fund-table-account-type-big-storage-row';
-        } else if (parseInt(row.hfAccountType) === 2) {
-          return 'emp-fund-table-account-type-out-sourcing-row';
-        } else if (parseInt(row.hfAccountType) === 3) {
-          return 'emp-fund-table-account-type-dependency-row';
-        }
-      }
+      return ts.empRowClassName(row, index)
     },
     employeeQuery(params) {
       let self = this;
@@ -693,3 +641,8 @@ export default {
   },
 };
 </script>
+<!--<style>-->
+  <!--.tred {-->
+    <!--color: red;-->
+  <!--}-->
+<!--</style>-->

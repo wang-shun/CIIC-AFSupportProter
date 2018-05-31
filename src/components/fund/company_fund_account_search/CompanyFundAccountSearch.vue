@@ -1,17 +1,3 @@
-<style>
-  .ivu-table .com-fund-table-payment-bank-xj-c-row td{
-    background-color: #ffffcc;
-  }
-  .ivu-table .com-fund-table-payment-bank-dfl-p-row td{
-    background-color: #ccffcc;
-  }
-  .ivu-table .com-fund-table-payment-bank-lw-l-row td{
-    background-color: #ccffff;
-  }
-  .ivu-table .com-fund-table-payment-bank-hp-h-row td{
-    background-color: #ffccff;
-  }
-</style>
 <template>
   <div>
     <Collapse v-model="collapseInfo">
@@ -95,6 +81,7 @@
   </div>
 </template>
 <script>
+  import ts from '../../../api/house_fund/table_style'
   import api from '../../../api/house_fund/company_fund_account_search/company_fund_account_search'
   import InputCompany from "../../common_control/form/input_company"
   import companyBindAndUnbind from "../common/CompanyBindAndUnbind.vue"
@@ -264,17 +251,7 @@
         this.$refs[name].resetFields()
       },
       rowClassName(row, index) {
-        if (row.paymentBank) {
-          if (row.paymentBank === '16') {
-            return 'com-fund-table-payment-bank-xj-c-row';
-          } else if (row.paymentBank === '17') {
-            return 'com-fund-table-payment-bank-dfl-p-row';
-          } else if (row.paymentBank === '18') {
-            return 'com-fund-table-payment-bank-lw-l-row';
-          } else if (row.paymentBank === '0') {
-            return 'com-fund-table-payment-bank-hp-h-row';
-          }
-        }
+        return ts.comRowClassName(row, index);
       }
     }
   }

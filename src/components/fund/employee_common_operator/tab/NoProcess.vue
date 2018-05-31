@@ -1,45 +1,3 @@
-<style>
-  .ivu-table .big-storage td{
-  }
-  .ivu-table .out-sourcing td{
-    background-color: #ccccff;
-  }
-  .ivu-table .dependency td{
-    background-color: #ccffcc;
-  }
-  .ivu-table .big-storage-remark td{
-    background-color: #ffff99;
-  }
-  .ivu-table .out-sourcing-remark td{
-    background-color: #ffcc00;
-  }
-  .ivu-table .dependency-remark td{
-    background-color: #c7c7c7;
-  }
-  .ivu-table .big-storage-has-out td{
-    color: #ff0000;
-  }
-  .ivu-table .out-sourcing-has-out td{
-    background-color: #ccccff;
-    color: #ff0000;
-  }
-  .ivu-table .dependency-has-out td{
-    background-color: #ccffcc;
-    color: #ff0000;
-  }
-  .ivu-table .big-storage-remark-has-out td{
-    background-color: #ffff99;
-    color: #ff0000;
-  }
-  .ivu-table .out-sourcing-remark-has-out td{
-    background-color: #ffcc00;
-    color: #ff0000;
-  }
-  .ivu-table .dependency-remark-has-out td{
-    background-color: #c7c7c7;
-    color: #ff0000;
-  }
-</style>
 <template>
   <div class="smList" style="margin-bottom: 56px">
     <Collapse v-model="collapseInfo">
@@ -149,6 +107,7 @@
                :columns="noProcessColumns"
                :data="noProcessData"
                @on-selection-change="handleSelectChange"
+               :loading="isLoading"
                ></Table>
       <Page
         class="pageSize"
@@ -182,6 +141,7 @@
   </div>
 </template>
 <script>
+  import ts from '../../../../api/house_fund/table_style'
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
@@ -221,8 +181,8 @@
         noProcessPageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: 1000,
+          pageSizeOpts: [1000]
         },
         noProcessColumns: [
           {
@@ -294,7 +254,7 @@
           this.fundTypeList = data.data.FundType;
         }
       });
-      this.hfEmpTaskQuery();
+//      this.hfEmpTaskQuery();
     },
     computed: {
     },
@@ -303,6 +263,9 @@
         this.$refs[name].resetFields()
       },
       hfEmpTaskQuery() {
+        if (this.isLoading) {
+          return;
+        }
         this.isLoading = true;
         var cparams = {};
         {
@@ -329,6 +292,9 @@
         this.hfEmpTaskQuery();
       },
       handlePageSize(val) {
+//        if (val === this.noProcessPageData.pageSize) {
+//          return
+//        }
         this.noProcessPageData.pageNum = 1;
         this.noProcessPageData.pageSize = val;
         this.hfEmpTaskQuery();
@@ -443,24 +409,7 @@
         });
       },
       rowClassName(row, index) {
-        console.log(row);
-        let className = '';
-        if (row.hfAccountType) {
-          if (parseInt(row.hfAccountType) === 1) {
-            className = 'big-storage';
-          } else if (parseInt(row.hfAccountType) === 2) {
-            className = 'out-sourcing';
-          } else if (parseInt(row.hfAccountType) === 3) {
-            className = 'dependency';
-          }
-        }
-        if (row.handleRemark && row.handleRemark != '') {
-          className += '-remark';
-        }
-        if (row.hasOut && parseInt(row.hasOut) == 1) {
-          className += '-has-out';
-        }
-        return className;
+        return ts.empRowClassName(row, index);
       }
     }
   }

@@ -225,15 +225,15 @@ function payTypeToChina(status) {
  * 未投保审核表单校验
  */
 const uninsuredReviewDealRules = {
-  // diagnoseDate: [
-  //   {required: true, type: 'date', message: '请选择就诊日期', trigger: 'change'}
-  // ],
-  // hospitalizationStartDate: [
-  //   {required: true, type: 'date', message: '请选择住院开始日期', trigger: 'change'}
-  // ],
-  // hospitalizationEndDate: [
-  //   {required: true, type: 'date', message: '请选择住院结束日期', trigger: 'change'}
-  // ],
+  diagnoseDate: [
+    {required: true, type: 'date', message: '请选择就诊日期', trigger: 'change'}
+  ],
+  hospitalizationStartDate: [
+    {required: true, type: 'date', message: '请选择住院开始日期', trigger: 'change'}
+  ],
+  hospitalizationEndDate: [
+    {required: true, type: 'date', message: '请选择住院结束日期', trigger: 'change'}
+  ],
   clinicHospital: [
     // {required: true, message: '请输入就诊医院', trigger: 'change'},
     {type: 'string', max: 16, message: '字段太长', trigger: 'blur'},
@@ -248,28 +248,28 @@ const uninsuredReviewDealRules = {
     // {required: true, message: '请输入诊断', trigger: 'change'},
     {type: 'string', max: 16, message: '字段太长', trigger: 'blur'},
   ],
-  // hospitalizationDays: [
-  //   {required: true, type: 'integer', message: '请输入住院天数', trigger: 'change'}
-  // ],
+  hospitalizationDays: [
+    {required: true, type: 'integer', message: '请输入住院天数', trigger: 'change'}
+  ],
   auditAmount: [
     {required: true, type: 'number', message: '请输入审核金额', trigger: 'change'}
   ],
   remark: [
     {type: 'string', max: 66, message: '字段太长', trigger: 'blur'},
   ],
-  // attachment: [
-  //   {
-  //     required: true,
-  //     validator(rule, val, callback) {
-  //       if (val === null) {
-  //         callback(new Error('请上传附件'))
-  //       } else {
-  //         callback()
-  //       }
-  //     },
-  //     trigger: 'change'
-  //   },
-  // ],
+  attachment: [
+    {
+      required: true,
+      validator(rule, val, callback) {
+        if (val === null) {
+          callback(new Error('请上传附件'))
+        } else {
+          callback()
+        }
+      },
+      trigger: 'change'
+    },
+  ],
 };
 
 /**

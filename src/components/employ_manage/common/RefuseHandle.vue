@@ -8,6 +8,16 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="退工原因：">
+            {{refuse.outReason}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="档案保管意向：">
+            {{refuse.archiveDirection}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="首次进入日期：">
             {{refuse.firstInDate}}
           </Form-item>
@@ -65,16 +75,6 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="暂存日期：">
             <DatePicker v-model="refuse.cacheDate" type="date" placeholder="" transfer></DatePicker>
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退工原因：">
-            {{refuse.outReason}}
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="档案保管意向：">
-            {{refuse.archiveDirection}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -193,8 +193,8 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="劳动手册是否交被退人员：">
-            <Select v-model="refuse.ifLaborManualReturn" transfer>
+          <Form-item    label="劳动手册是否交被退人员："  >
+            <Select  v-model="refuse.ifLaborManualReturn" style="color:#ff9900" transfer>
               <Option v-for="item in LaborManualIsDeliverRefuserList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>

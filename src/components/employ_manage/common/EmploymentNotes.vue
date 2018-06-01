@@ -3,7 +3,7 @@
     <Table border ref="payComSelection" :width="700" :columns="notesColumns" :data="notesData" class="mt20"></Table>
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="modal1 = true">新增</Button>
+        <Button type="primary" @click="add()">新增</Button>
         <!-- <Button type="error" @click="del()">删除</Button> -->
         <Button type="primary" :loading="isLoading"  @click="instance()">提交</Button>
       </Col>
@@ -14,13 +14,6 @@
         @on-ok="ok"
         @on-cancel="cancel">
       <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-      <!-- <Row type="flex" justify="start">
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="操作员：" prop="remarkManw">
-             <Input v-model="handleInfo.remarkManw" placeholder="请输入" :maxlength="50"/>
-          </Form-item>
-        </Col>
-       </Row> -->
        <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作日期：" prop="remarkDatew">
@@ -117,6 +110,22 @@
       }
     },
     methods: {
+            add(){
+                var date = new Date();
+                var seperator1 = "-";
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var currentdate = year + seperator1 + month + seperator1 + strDate;
+                this.handleInfo.remarkDatew = currentdate;
+                this.modal1 = true;
+            },
             ok () {
               var fromData = this.$utils.clear(this.realHandInfo,'');
              

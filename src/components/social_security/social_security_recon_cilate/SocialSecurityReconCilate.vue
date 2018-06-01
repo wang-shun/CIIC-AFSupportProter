@@ -301,7 +301,10 @@
                       props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                         on: {
                           click: () => {
-                              this.$router.push({name:'socialSecurityEmpChangeDetailYys',query:{monthEmpChangeId: params.row.monthEmpChangeId}});
+                              let param={ssMonth:params.row.ssMonth,
+                              ssAccount:params.row.comAccountName,
+                              ssAccountId:params.row.comAccountId}
+                              this.$router.push({name:'socialSecurityEmpChangeDetailYys',query:param});
                           }
                         }
                       },'下载养医失'

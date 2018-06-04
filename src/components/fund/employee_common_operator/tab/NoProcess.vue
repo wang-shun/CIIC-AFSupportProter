@@ -145,6 +145,7 @@
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputCompany},
@@ -181,8 +182,8 @@
         noProcessPageData: {
           total: 0,
           pageNum: 1,
-          pageSize: 1000,
-          pageSizeOpts: [1000]
+          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         noProcessColumns: [
           {
@@ -194,6 +195,10 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+//                      console.log("before: " + JSON.stringify(this.noProcessPageData))
+                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+
                       localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
                       localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
                       localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
@@ -222,7 +227,6 @@
                         default:
                           break;
                       }
-
                     }
                   }
                 }, '办理'),
@@ -243,6 +247,10 @@
         ]
       }
     },
+    created() {
+      sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+    },
     mounted() {
       dict.getDictData().then(data => {
         if (data.code == 200) {
@@ -254,7 +262,8 @@
           this.fundTypeList = data.data.FundType;
         }
       });
-//      this.hfEmpTaskQuery();
+//      console.log("after: " + JSON.stringify(this.noProcessPageData))
+      this.hfEmpTaskQuery();
     },
     computed: {
     },
@@ -295,7 +304,7 @@
 //        if (val === this.noProcessPageData.pageSize) {
 //          return
 //        }
-        this.noProcessPageData.pageNum = 1;
+//        this.noProcessPageData.pageNum = 1;
         this.noProcessPageData.pageSize = val;
         this.hfEmpTaskQuery();
       },

@@ -132,6 +132,7 @@
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputCompany},
@@ -152,12 +153,6 @@
           companyId: '',
           hfComAccount: ''
         },
-//        serviceCenterData: [
-//          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-//          {value: 2, label: '日本客户'},
-//          {value: 3, label: '虹桥'},
-//          {value: 4, label: '浦东'}
-//        ], //客服中心
         isLoading: false,
         taskTypeList: [],
         payBankList: [],
@@ -183,6 +178,9 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('employeeFundCommonOperator.processing.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('employeeFundCommonOperator.processing.processingPageData', this.processingPageData);
+
                       localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
                       localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
                       localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
@@ -231,6 +229,10 @@
         ]
       }
     },
+    created() {
+      sessionData.getJsonDataFromSession('employeeFundCommonOperator.processing.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('employeeFundCommonOperator.processing.processingPageData', this.processingPageData);
+    },
     mounted() {
       dict.getDictData().then(data => {
         if (data.code == 200) {
@@ -241,6 +243,7 @@
           this.fundTypeList = data.data.FundType;
         }
       });
+
       this.hfEmpTaskQuery();
     },
     computed: {

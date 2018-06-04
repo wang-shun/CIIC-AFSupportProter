@@ -86,6 +86,7 @@
   import InputCompany from "../../common_control/form/input_company"
   import companyBindAndUnbind from "../common/CompanyBindAndUnbind.vue"
   import InputAccount from "../common/input_account"
+  import sessionData from '../../../api/session-data'
 
   export default {
     components: {InputCompany, companyBindAndUnbind,InputAccount},
@@ -119,6 +120,9 @@
                 h('Button', {props: {type: 'success', size: 'small'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('companyFundAccountSearch.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('companyFundAccountSearch.fundAccountPageData', this.fundAccountPageData);
+
                       this.nextStep(true, params.row);
                     }
                   }
@@ -126,6 +130,9 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('companyFundAccountSearch.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('companyFundAccountSearch.fundAccountPageData', this.fundAccountPageData);
+
                       this.nextStep(false, params.row);
                     }
                   }
@@ -206,6 +213,10 @@
 
         ]
       }
+    },
+    created() {
+      sessionData.getJsonDataFromSession('companyFundAccountSearch.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('companyFundAccountSearch.fundAccountPageData', this.fundAccountPageData);
     },
     mounted() {
       window.sessionStorage.removeItem('fundAccountInfo');

@@ -199,15 +199,15 @@
       }
     },
     mounted() {
-      let sessionPageNum = sessionStorage.taskPageNum
-      let sessionPageSize = sessionStorage.taskPageSize
-
-      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-        this.pageNum = Number(sessionPageNum)
-        this.size = Number(sessionPageSize)
-        sessionStorage.removeItem("taskPageNum")
-        sessionStorage.removeItem("taskPageSize")
-      }
+//      let sessionPageNum = sessionStorage.taskPageNum
+//      let sessionPageSize = sessionStorage.taskPageSize
+//
+//      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+//        this.pageNum = Number(sessionPageNum)
+//        this.size = Number(sessionPageSize)
+//        sessionStorage.removeItem("taskPageNum")
+//        sessionStorage.removeItem("taskPageSize")
+//      }
         this.hfComTaskQuery();
       this.getCustomers();
 

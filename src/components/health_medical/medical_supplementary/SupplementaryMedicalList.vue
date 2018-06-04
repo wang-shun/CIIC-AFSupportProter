@@ -315,7 +315,7 @@
           if (response.data.code === 200) {
             this.$Message.success("上传成功");
           }else if (response.data.code === 400){
-            this.$Message.success(response.data.message);
+            this.$Message.error(response.data.message);
           } else {
             this.$Message.error("服务器异常，请稍后再试");
           }

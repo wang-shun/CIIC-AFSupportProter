@@ -77,7 +77,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
-            <DatePicker type="date" v-model="handleInfo.employFeedbackOptDate" transfer></DatePicker>
+            <DatePicker @on-open-change="setCurrentDate" @on-change="changeDate" type="date" v-model="handleInfo.employFeedbackOptDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -89,12 +89,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="调档反馈操作日期：" prop="diaodangFeedbackOptDate">
-            <DatePicker type="date" v-model="handleInfo.diaodangFeedbackOptDate" transfer></DatePicker>
+            <DatePicker @on-open-change="setCurrentDate1" @on-change="changeDate1" type="date" v-model="handleInfo.diaodangFeedbackOptDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="UKey外借日期：" prop="ukeyBorrowDate">
-            <DatePicker type="date" v-model="handleInfo.ukeyBorrowDate" transfer></DatePicker>
+            <DatePicker  type="date" v-model="handleInfo.ukeyBorrowDate" transfer></DatePicker>
           </Form-item>
         </Col>
         
@@ -102,7 +102,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
-            <DatePicker type="date" v-model="handleInfo.ukeyReturnDate" transfer></DatePicker>
+            <DatePicker @on-open-change="setCurrentDate2" @on-change="changeDate2" type="date" v-model="handleInfo.ukeyReturnDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -112,12 +112,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="用工档案缴费至：" prop="employDocPaymentTo">
-            <DatePicker type="date" v-model="handleInfo.employDocPaymentTo" transfer></DatePicker>
+            <DatePicker @on-open-change="setCurrentDate3" @on-change="changeDate3" type="date" v-model="handleInfo.employDocPaymentTo" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="入库日期：" prop="storageDate">
-            <DatePicker type="date" v-model="handleInfo.storageDate" transfer></DatePicker>
+            <DatePicker @on-open-change="setCurrentDate4" @on-change="changeDate4" type="date" v-model="handleInfo.storageDate" transfer></DatePicker>
           </Form-item>
         </Col>
         
@@ -437,7 +437,71 @@ import Vue from 'vue'
               this.handleInfo.ukeyBorrowDate=currentdate;
           }
          
-       }
+       },currentDate(){
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              return currentdate;
+       },setCurrentDate(e) {
+        if(e){
+          if(this.handleInfo.employFeedbackOptDate==''||this.handleInfo.employFeedbackOptDate==undefined)
+          {
+             this.handleInfo.employFeedbackOptDate = this.currentDate();
+          }
+        }
+        
+      },changeDate(e) {
+        this.handleInfo.employFeedbackOptDate = e;
+      },setCurrentDate1(e) {
+        if(e){
+          if(this.handleInfo.diaodangFeedbackOptDate==''||this.handleInfo.diaodangFeedbackOptDate==undefined)
+          {
+             this.handleInfo.diaodangFeedbackOptDate = this.currentDate();
+          }
+        }
+        
+      },changeDate1(e) {
+        this.handleInfo.diaodangFeedbackOptDate = e;
+      },setCurrentDate2(e) {
+        if(e){
+          if(this.handleInfo.ukeyReturnDate==''||this.handleInfo.ukeyReturnDate==undefined)
+          {
+             this.handleInfo.ukeyReturnDate = this.currentDate();
+          }
+        }
+        
+      },changeDate2(e) {
+        this.handleInfo.ukeyReturnDate = e;
+      },setCurrentDate3(e) {
+        if(e){
+          if(this.handleInfo.employDocPaymentTo==''||this.handleInfo.employDocPaymentTo==undefined)
+          {
+             this.handleInfo.employDocPaymentTo = this.currentDate();
+          }
+        }
+        
+      },changeDate3(e) {
+        this.handleInfo.employDocPaymentTo = e;
+      },setCurrentDate4(e) {
+        if(e){
+          if(this.handleInfo.storageDate==''||this.handleInfo.storageDate==undefined)
+          {
+             this.handleInfo.storageDate = this.currentDate();
+          }
+        }
+        
+      },changeDate4(e) {
+        this.handleInfo.storageDate = e;
+      }
     },
     computed: {
       handle() {

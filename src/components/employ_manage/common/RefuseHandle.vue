@@ -31,7 +31,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="打印日期：">
-            <DatePicker v-model="refuse.printDate" type="date" placeholder="" :readonly="refuse.printDateR" transfer ></DatePicker>
+            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder="" :readonly="refuse.printDateR" transfer ></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -50,7 +50,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退档日期：">
-            <DatePicker v-model="refuse.returnDocDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.returnDocDate" @on-open-change="setCurrentDate1" @on-change="changeDate1"  type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -74,12 +74,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="暂存日期：">
-            <DatePicker v-model="refuse.cacheDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.cacheDate" @on-open-change="setCurrentDate2" @on-change="changeDate2" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工送办日期：">
-            <DatePicker v-model="refuse.resignHandleDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.resignHandleDate" @on-open-change="setCurrentDate3" @on-change="changeDate3" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -91,7 +91,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈日期：">
-            <DatePicker v-model="refuse.resignFeedbackDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.resignFeedbackDate" @on-open-change="setCurrentDate4" @on-change="changeDate4" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -102,12 +102,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工UKey外借日期：">
-            <DatePicker v-model="refuse.ukeyBorrowDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.ukeyBorrowDate" @on-open-change="setCurrentDate5" @on-change="changeDate5"  type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工UKey返回日期：">
-            <DatePicker v-model="refuse.ukeyReturnDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.ukeyReturnDate" @on-open-change="setCurrentDate6" @on-change="changeDate6"  type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -184,12 +184,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工成功日期：">
-            <DatePicker v-model="refuse.jobCentreFeedbackDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.jobCentreFeedbackDate"  @on-open-change="setCurrentDate7" @on-change="changeDate7" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工材料交付日期：">
-            <DatePicker v-model="refuse.resignMaterialDeliveryDate"  type="date" placeholder=""  transfer></DatePicker>
+            <DatePicker v-model="refuse.resignMaterialDeliveryDate" @on-open-change="setCurrentDate8" @on-change="changeDate8"  type="date" placeholder=""  transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -564,7 +564,113 @@
               
               this.refuse.resignFeedbackDate=currentdate;
           }
-       }
+       },currentDate(){
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              return currentdate;
+       },setCurrentDate(e) {
+       
+        if(e){
+          
+          if(this.refuse.printDate==''||this.refuse.printDate==undefined)
+          {
+             this.refuse.printDate = this.currentDate();
+          }
+        }
+        
+      },changeDate(e) {
+        this.refuse.printDate = e;
+      },setCurrentDate1(e) {
+        if(e){
+          if(this.refuse.returnDocDate==''||this.refuse.returnDocDate==undefined)
+          {
+             this.refuse.returnDocDate = this.currentDate();
+          }
+        }
+        
+      },changeDate1(e) {
+        this.refuse.returnDocDate = e;
+      },setCurrentDate2(e) {
+        if(e){
+          if(this.refuse.cacheDate==''||this.refuse.cacheDate==undefined)
+          {
+             this.refuse.cacheDate = this.currentDate();
+          }
+        }
+        
+      },changeDate2(e) {
+        this.refuse.cacheDate = e;
+      },setCurrentDate3(e) {
+        if(e){
+          if(this.refuse.resignHandleDate==''||this.refuse.resignHandleDate==undefined)
+          {
+             this.refuse.resignHandleDate = this.currentDate();
+          }
+        }
+        
+      },changeDate3(e) {
+        this.refuse.resignHandleDate = e;
+      },setCurrentDate4(e) {
+        if(e){
+          if(this.refuse.resignFeedbackDate==''||this.refuse.resignFeedbackDate==undefined)
+          {
+             this.refuse.resignFeedbackDate = this.currentDate();
+          }
+        }
+        
+      },changeDate4(e) {
+        this.refuse.resignFeedbackDate = e;
+      },setCurrentDate5(e) {
+        if(e){
+          if(this.refuse.ukeyBorrowDate==''||this.refuse.ukeyBorrowDate==undefined)
+          {
+             this.refuse.ukeyBorrowDate = this.currentDate();
+          }
+        }
+        
+      },changeDate5(e) {
+        this.refuse.ukeyBorrowDate = e;
+      },setCurrentDate6(e) {
+        if(e){
+          if(this.refuse.ukeyReturnDate==''||this.refuse.ukeyReturnDate==undefined)
+          {
+             this.refuse.ukeyReturnDate = this.currentDate();
+          }
+        }
+        
+      },changeDate6(e) {
+        this.refuse.ukeyReturnDate = e;
+      },setCurrentDate7(e) {
+        if(e){
+          if(this.refuse.jobCentreFeedbackDate==''||this.refuse.jobCentreFeedbackDate==undefined)
+          {
+             this.refuse.jobCentreFeedbackDate = this.currentDate();
+          }
+        }
+        
+      },changeDate7(e) {
+        this.refuse.jobCentreFeedbackDate = e;
+      },setCurrentDate8(e) {
+        if(e){
+          if(this.refuse.resignMaterialDeliveryDate==''||this.refuse.resignMaterialDeliveryDate==undefined)
+          {
+             this.refuse.resignMaterialDeliveryDate = this.currentDate();
+          }
+        }
+        
+      },changeDate8(e) {
+        this.refuse.resignMaterialDeliveryDate = e;
+      }
        
     }
   }

@@ -186,6 +186,7 @@
   import InputCompany from "../common/input_company"
   import {FundPay} from '../../../api/house_fund/fund_pay/fund_pay'
   import Tools from '../../../lib/tools'
+  import sessionData from '../../../api/session-data'
 
 
   export default {
@@ -550,6 +551,8 @@
       }
     },
     mounted() {
+      sessionData.getJsonDataFromSession('fundPay.operatorSearchData', this.operatorSearchData);
+
       let sessionPageNum = sessionStorage.taskPageNum
       let sessionPageSize = sessionStorage.taskPageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
@@ -577,6 +580,7 @@
     },
     methods: {
       clickQuery(){
+        sessionData.setJsonDataToSession('fundPay.operatorSearchData', this.operatorSearchData);
         this.loading=true;
         let params = this.getParams(1)
         FundPay.getFundPaysTableData(params).then(data=>{
@@ -628,6 +632,7 @@
         this.$refs[name].resetFields()
       },
       goMakePayList() {
+        sessionData.setJsonDataToSession('fundPay.operatorSearchData', this.operatorSearchData);
         this.$router.push({name: 'makePayList'})
       },
       selectChange(selection) {

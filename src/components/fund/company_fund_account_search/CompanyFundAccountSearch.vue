@@ -45,11 +45,11 @@
       </Panel>
     </Collapse>
 
-    <!-- <Row class="mt20">
+    <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info">导出</Button>
+        <Button type="info" @click="exportExcel">导出</Button>
       </Col>
-    </Row> -->
+    </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
@@ -248,6 +248,18 @@
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
+      },
+      exportExcel(){
+
+      if (this.operatorSearchData.comHfMonth) {
+          this.operatorSearchData.comHfMonth = this.$utils.formatDate(this.operatorSearchData.comHfMonth, 'YYYYMM');
+        }
+        var params = this.$utils.clear(this.operatorSearchData);
+        params = this.$utils.clear(params, '');
+ 
+        api.companyFundAccountExpExcel(params);
+
+
       },
     }
   }

@@ -115,19 +115,25 @@
           {
             title: '社保状态', key: 'archiveStatus', width: 80, align: 'center',
             render: (h, params) => {
-              return this.$decode.archiveStatus(params.row.archiveStatus)
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.archiveStatus(params.row.archiveStatus)),
+              ]);
             }
           },
           {
             title: '社保类型', key: 'ssAccountType', width: 100, align: 'center',
             render: (h, params) => {
-              return this.$decode.accountType(params.row.ssAccountType)
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.accountType(params.row.ssAccountType)),
+              ]);
             }
           },
           {
             title: '人员分类', key: 'empClassify', width: 100, align: 'center',
             render: (h, params) => {
-              return this.$decode.empClassify(params.row.empClassify)
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.empClassify(params.row.empClassify)),
+              ]);
             }
           },
           {
@@ -136,7 +142,9 @@
           {
             title: '结算区县', key: 'settlementArea', width: 80, align: 'center',
             render: (h, params) => {
-              return this.$decode.district(params.row.settlementArea)
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.district(params.row.settlementArea)),
+              ]);
             }
           },
           {

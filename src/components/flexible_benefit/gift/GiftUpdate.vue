@@ -73,7 +73,7 @@
         <Row class="tc mt20">
           <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="back">返回</Button>
-          <Button type="primary" @click="addGift()">提交</Button>
+          <Button type="primary" @click="updateGift()">提交</Button>
           </Col>
         </Row>
       </Form>
@@ -124,7 +124,7 @@
         this.file = file;
         return false;
       },
-      addGift() {
+      updateGift() {
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
             /**最大申请数量不能大于礼品数量*/

@@ -177,13 +177,17 @@
           {
             title: '匹配状态', key: 'matchStatus', width: 100, align: 'center',
             render: (h, params) => {
-              return this.matchStatus(params.row.matchStatus)
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.matchStatus(params.row.matchStatus)),
+              ]);
             }
           },
           {
             title: '人员类别', key: 'accountStatus', width: 120, align: 'center',
             render: (h, params) => {
-              return this.accountStatus(params.row.accountStatus)
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.accountStatus(params.row.accountStatus)),
+              ]);
             }
           },
           {
@@ -225,6 +229,8 @@
             this.employeeSearchData.accountSalaryAmount = datas[0].accountSalaryAmount;
             this.employeeSearchData.accountEmpCount = datas[0].accountEmpCount;
           }
+        } else {
+          this.$Message.error(data.message);
         }
       })
       api.annualAdjustAccountEmpQuery(

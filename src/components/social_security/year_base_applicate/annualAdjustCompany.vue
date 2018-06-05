@@ -501,6 +501,8 @@
           if (data.code == 200) {
             this.companyResultData = data.data.rows;
             this.companyResultPageData.total = Number(data.data.total);
+          } else {
+            this.$Message.error(data.message);
           }
         })
       },

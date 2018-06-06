@@ -493,6 +493,14 @@
     border-radius: 4px;
   }
 
+  .layout-content::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .layout-content::-webkit-scrollbar-thumb {
+    width: 10px;
+  }
+
   .layout-content-main {
     padding: 10px;
   }

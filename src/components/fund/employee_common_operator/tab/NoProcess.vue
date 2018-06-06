@@ -103,9 +103,11 @@
     <Row class="mt20">
       <Col :sm="{span:24}" >
         <Table border ref="noProcessData"
+               :row-class-name="rowClassName"
                :columns="noProcessColumns"
                :data="noProcessData"
                @on-selection-change="handleSelectChange"
+               :loading="isLoading"
                ></Table>
       <Page
         class="pageSize"
@@ -139,9 +141,11 @@
   </div>
 </template>
 <script>
+  import ts from '../../../../api/house_fund/table_style'
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputCompany},
@@ -191,6 +195,10 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+//                      console.log("before: " + JSON.stringify(this.noProcessPageData))
+                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+
                       localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
                       localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
                       localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
@@ -219,7 +227,6 @@
                         default:
                           break;
                       }
-
                     }
                   }
                 }, '办理'),
@@ -240,6 +247,10 @@
         ]
       }
     },
+    created() {
+      sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+    },
     mounted() {
       dict.getDictData().then(data => {
         if (data.code == 200) {
@@ -251,6 +262,7 @@
           this.fundTypeList = data.data.FundType;
         }
       });
+//      console.log("after: " + JSON.stringify(this.noProcessPageData))
       this.hfEmpTaskQuery();
     },
     computed: {
@@ -260,6 +272,9 @@
         this.$refs[name].resetFields()
       },
       hfEmpTaskQuery() {
+        if (this.isLoading) {
+          return;
+        }
         this.isLoading = true;
         var cparams = {};
         {
@@ -286,7 +301,10 @@
         this.hfEmpTaskQuery();
       },
       handlePageSize(val) {
-        this.noProcessPageData.pageNum = 1;
+//        if (val === this.noProcessPageData.pageSize) {
+//          return
+//        }
+//        this.noProcessPageData.pageNum = 1;
         this.noProcessPageData.pageSize = val;
         this.hfEmpTaskQuery();
       },
@@ -398,6 +416,9 @@
         api.newEmpTaskTxtExport({
           params: params
         });
+      },
+      rowClassName(row, index) {
+        return ts.empRowClassName(row, index);
       }
     }
   }

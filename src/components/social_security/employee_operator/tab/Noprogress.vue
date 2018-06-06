@@ -158,14 +158,16 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/event_types'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
+  import sessionData from '../../../../api/session-data'
+
   export default {
     components: {InputAccount, InputCompany,InputCompanyName},
     data() {
@@ -218,6 +220,9 @@
                   props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('employeeCommonOperator.Noprogress.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('employeeCommonOperator.Noprogress.employeeResultPageData', this.employeeResultPageData);
+
                       this.batchHandle(params.row);
                     }
                   }
@@ -276,6 +281,10 @@
           }
         ]
       }
+    },
+    created() {
+      sessionData.getJsonDataFromSession('employeeCommonOperator.Noprogress.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('employeeCommonOperator.Noprogress.employeeResultPageData', this.employeeResultPageData);
     },
     async mounted() {
 

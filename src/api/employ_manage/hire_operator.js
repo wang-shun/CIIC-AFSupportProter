@@ -120,6 +120,9 @@ export default {
   archiveSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportOpt', params);
   },//查询雇员详细信息
+  advanceSearchExportOpt:async (params) => {
+    AJAX.download('/api/employservice/amArchiveAdvance/advanceSearchExportOpt', params);
+  },
   getDefualtEmployBO:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/getDefualtEmployBO', params);
     return await response.data;
@@ -140,27 +143,6 @@ export default {
     let response = await AJAX.post('/api/employservice/amResignTask/bindEmploymentId', params);
     return await response.data;
   },
-
-  //权限列表
-  amauthorityList:async (params)=>{
-    let response = await AJAX.post('/api/employservice/amauthority/amauthorityList', params);
-    return await response.data;
-  },
-  //配置权限详情
-  amauthorityDeptNodes:async (params)=>{
-    let response = await AJAX.post('/api/employservice/amauthority/amauthorityDeptNodes', params);
-    return await response.data;
-  },
-  //配置权限客户列表
-  amauthority:async (params)=>{
-    let response = await AJAX.post('/api/employservice/amauthority/amauthority', params);
-    return await response.data;
-  },
-  //保存配置权限客户列表
-  amsaveAuthority:async (params)=>{
-    let response = await AJAX.post('/api/employservice/amauthority/amsaveAuthority', params);
-    return await response.data;
-  },
   // 根据预留档按类别查询预留档案编号seq
   queryDocSeqByDocType:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/queryDocSeqByDocType', params);
@@ -169,6 +151,41 @@ export default {
   // 查询预留档案编号list
   queryAmArchiveDocType:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/queryAmArchiveDocType', params);
+    return await response.data;
+  },
+  // 查询档案预增list
+  queryAmArchiveAdvanceList:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveAdvance/queryAmArchiveAdvanceList', params);
+    return await response.data;
+  },
+  // 删除档案预增
+  deleteAmArchiveAdvance:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveAdvance/deleteAmArchiveAdvance', params);
+    return await response.data;
+  },
+  // 新增档案预增
+  saveAmArchiveAdvance:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveAdvance/saveAmArchiveAdvance', params);
+    return await response.data;
+  },
+  // 新增档案预增
+  isExistAmArchiveAdvance:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveAdvance/isExistAmArchiveAdvance', params);
+    return await response.data;
+  },
+  // 查询UkeyList
+  queryAmArchiveUkeyList:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveUkey/queryAmArchiveUkeyList', params);
+    return await response.data;
+  },
+  // 新增Ukey
+  saveAmArchiveUkey:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveUkey/saveAmArchiveUkey', params);
+    return await response.data;
+  },
+  // 续签Ukey
+  amArchiveUkeyRenew:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveUkey/amArchiveUkeyRenew', params);
     return await response.data;
   },
 

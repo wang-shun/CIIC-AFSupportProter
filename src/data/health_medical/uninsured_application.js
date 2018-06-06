@@ -9,6 +9,7 @@ const queryEmpMember = params => ajaxApi.postJSON("/uninsuredService/queryEmpMem
 const addAcceptance = params => ajaxApi.postJSON("/uninsuredService/addAcceptance", params);
 const queryAcceptanceList = params => ajaxApi.postJSON("/uninsuredService/queryAcceptanceList", params);
 const updateAcceptanceList = params => ajaxApi.postJSON("/uninsuredService/updateAcceptanceList", params);
+const deleteAcceptanceList = params => ajaxApi.postJSON("/uninsuredService/deleteAcceptanceList", params);
 const queryAcceptanceAuditList = params => ajaxApi.postJSON("/uninsuredAuditService/queryAcceptanceList", params);
 const addUninsuredAudit = params => ajaxApi.upload("/uninsuredAuditService/addUninsuredAudit", params);
 const acceptanceDetail = params => ajaxApi.getJSON("/uninsuredService/acceptanceDetail/" + params);
@@ -24,6 +25,7 @@ export default {
   addAcceptance,
   queryAcceptanceList,
   updateAcceptanceList,
+  deleteAcceptanceList,
   queryAcceptanceAuditList,
   addUninsuredAudit,
   acceptanceDetail

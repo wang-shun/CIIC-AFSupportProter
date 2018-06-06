@@ -7,40 +7,40 @@
           <Form ref="formItem" :model="formItem" :label-width="140">
             <Row justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号" prop="employeeId">
-                <Input v-model="formItem.employeeId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="雇员编号" prop="employeeId">
+                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名" prop="employeeName">
-                <Input v-model="formItem.employeeName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="雇员姓名" prop="employeeName">
+                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司编号" prop="companyId">
-                <Input v-model="formItem.companyId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="公司编号" prop="companyId">
+                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司名称" prop="companyName">
-                <Input v-model="formItem.companyName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="公司名称" prop="companyName">
+                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码" prop="idNum">
-                <Input v-model="formItem.idNum" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="证件号码" prop="idNum">
+                  <Input v-model="formItem.idNum" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="连带人" prop="jointPersonName">
-                <Input v-model="formItem.jointPersonName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="连带人" prop="jointPersonName">
+                  <Input v-model="formItem.jointPersonName" placeholder="请输入"/>
+                </Form-item>
               </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+                <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -122,6 +122,9 @@
         ],
         addAcceptanceData: [],
       }
+    },
+    created() {
+      this.selectEmployeeList();
     },
     methods: {
       selectEmployeeList() {

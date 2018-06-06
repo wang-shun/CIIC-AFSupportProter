@@ -7,74 +7,74 @@
           <Form ref="formItem" :model="formItem" :label-width="140">
             <Row justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="款项类型" prop="moneyType">
-                <Select v-model="formItem.moneyType" placeholder="请选择" :clearable="true">
-                  <Option v-for="item in moneyTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
-              </Form-item>
+                <Form-item label="款项类型" prop="moneyType">
+                  <Select v-model="formItem.moneyType" placeholder="请选择" :clearable="true">
+                    <Option v-for="item in moneyTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="受理类型" prop="caseType">
-                <Select v-model="formItem.caseType" placeholder="请选择" :clearable="true">
-                  <Option v-for="item in caseTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
-              </Form-item>
+                <Form-item label="受理类型" prop="caseType">
+                  <Select v-model="formItem.caseType" placeholder="请选择" :clearable="true">
+                    <Option v-for="item in caseTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="受理状态" prop="status">
-                <Select v-model="formItem.status" placeholder="请选择" :clearable="true">
-                  <Option v-for="item in statusProperties" :value="item.value" :key="item.value">{{ item.label }}
-                  </Option>
-                </Select>
-              </Form-item>
+                <Form-item label="受理状态" prop="status">
+                  <Select v-model="formItem.status" placeholder="请选择" :clearable="true">
+                    <Option v-for="item in statusProperties" :value="item.value" :key="item.value">{{ item.label }}
+                    </Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="受理日期" prop="handlerDateRange">
-                <DatePicker v-model="formItem.handlerDateRange" type="daterange" placement="bottom-end"
-                            placeholder="选择日期" style="width: 100%" transfer></DatePicker>
-              </Form-item>
-              </Form-item>
+                <Form-item label="受理日期" prop="handlerDateRange">
+                  <DatePicker v-model="formItem.handlerDateRange" type="daterange" placement="bottom-end"
+                              placeholder="选择日期" style="width: 100%" transfer></DatePicker>
+                </Form-item>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="管理方编号" prop="managementId">
-                <Input v-model="formItem.managementId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="管理方编号" prop="managementId">
+                  <Input v-model="formItem.managementId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="管理方名称" prop="managementName">
-                <Input v-model="formItem.managementName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="管理方名称" prop="managementName">
+                  <Input v-model="formItem.managementName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司编号" prop="companyId">
-                <Input v-model="formItem.companyId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="公司编号" prop="companyId">
+                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司名称" prop="companyName">
-                <Input v-model="formItem.companyName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="公司名称" prop="companyName">
+                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号" prop="employeeId">
-                <Input v-model="formItem.employeeId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="雇员编号" prop="employeeId">
+                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名" prop="employeeName">
-                <Input v-model="formItem.employeeName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="雇员姓名" prop="employeeName">
+                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码" prop="idNum">
-                <Input v-model="formItem.idNum" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="证件号码" prop="idNum">
+                  <Input v-model="formItem.idNum" placeholder="请输入"/>
+                </Form-item>
               </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+                <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -86,8 +86,9 @@
       <router-link to="/addAcceptanceEmployeeList">
         <Button type="info">新建受理单</Button>
       </router-link>
-      <Button type="info" ref="rmb" @click="modalButton(true)">受理</Button>
-      <Button type="info" ref="rmb1" @click="modalButton(false)">拒赔</Button>
+      <Button type="info" @click="modalButton(true)">受理</Button>
+      <Button type="info" @click="modalButton(false)">拒赔</Button>
+      <Button type="info" @click="deleteAcceptanceList()">删除</Button>
       <Button type="info" @click="exportData()" :loading="loading" icon="ios-download-outline">导出数据</Button>
     </div>
 
@@ -323,6 +324,21 @@
         // modal数据重置
         this.dealMeg.remark = null;
         this.dealMeg.rejectType = null;
+      },
+      deleteAcceptanceList() {
+        this.loading = true;
+        apiAjax.deleteAcceptanceList(this.selectData).then(response => {
+          this.loading = false;
+          if (response.data.code === 200) {
+            this.getByPage(1);
+            this.$Message.success("删除成功");
+          } else {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
       },
       selectTableData(rows) {
         this.selectData = rows;

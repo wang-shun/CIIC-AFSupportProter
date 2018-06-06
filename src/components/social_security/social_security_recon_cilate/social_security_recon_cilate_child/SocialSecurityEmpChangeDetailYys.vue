@@ -279,10 +279,20 @@
       },
       calculate(){
         this.isLoading = true;
+        let userInfo = sessionStorage.getItem('userInfo');
+        let userName='';
+        if (userInfo) {
+          userName= JSON.parse(userInfo).displayName;
+        }else{
+          this.$Message.error('找不到用户信息，请重新登录系统。');
+          return;
+        }
+
         let params = {
           comAccountId:this.empChangeData.comAccountId,
           ssMonth:this.empChangeData.ssMonth,
-          generalMethod:'generateMonthEmpChangeReport'
+          generalMethod:'generateMonthEmpChangeReport',
+          userName:userName
         };
         api.summaryCalculate(params).then(data=>{
             if(data.code==1){

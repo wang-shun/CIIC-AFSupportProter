@@ -123,15 +123,15 @@ const getUrl = (url, data) => {
     let userInfo = sessionStorage.getItem('userInfo');
     if (userInfo) {
       if (uri) {
-        url += '&token=' + JSON.parse(userInfo).token;
+        url += '&token=' + encodeURIComponent(JSON.parse(userInfo).token);
       } else {
-        url += 'token=' + JSON.parse(userInfo).token;
+        url += 'token=' + encodeURIComponent(JSON.parse(userInfo).token);
       }
     }
   } else {
     let userInfo = sessionStorage.getItem('userInfo');
     if (userInfo) {
-      url += '?token=' + JSON.parse(userInfo).token;
+      url += '?token=' + encodeURIComponent(JSON.parse(userInfo).token);
     }
   }
   return url;

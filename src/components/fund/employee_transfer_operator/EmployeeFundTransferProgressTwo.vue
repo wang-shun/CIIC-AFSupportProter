@@ -341,13 +341,27 @@
         dict.getDictData().then(data => {
           if (data.code == 200) {
             this.transferUnitDictList = data.data.FundOutUnit;
+            let isContainOut = false;
+            let isContainIn = false;
+
             this.transferUnitDictList.forEach((element, index, array) => {
               this.transferOutUnitList.push(element);
               this.transferInUnitList.push(element);
+
+              if (element === this.transferNotice1.transferOutUnit) {
+                isContainOut = true;
+              }
+              if (element === this.transferNotice1.transferInUnit) {
+                isContainIn = true;
+              }
             })
 
-          this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
-          this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+            if (!isContainOut) {
+              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
+            }
+            if (!isContainIn) {
+              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+            }
           //this.setValue();
           setTimeout(this.setValue,500);
           } else {
@@ -397,7 +411,7 @@
           {"year":"2018","month":"04","day":21,"employeeName":"张三","fundAccount":"CA21525","transferInUnitName":"上海我爱你家","transferInAccount":"SS2212121","transferOutUnitName":"上海你家爱我","transferOutAccount":"XX12254","totalNum":54},
           {"year":"2018","month":"04","day":22,"employeeName":"李四","fundAccount":"CA21568","transferInUnitName":"上海移动","transferInAccount":"SS878556","transferOutUnitName":"上海电信","transferOutAccount":"XX56455","totalNum":100}
         ];
-      
+
 
         if(this.checkData()==false){
           return false;
@@ -428,7 +442,7 @@
                           }
                         }
                       )
-                      
+
                     }
                   }
                 )

@@ -165,6 +165,7 @@ import EventTypes from "../../../store/event_types";
 import api from "../../../api/house_fund/employee_operator";
 import InputAccount from "../common/input_account";
 import InputCompany from "../common/input_company";
+import sessionData from '../../../api/session-data'
 
 export default {
   components: {
@@ -530,7 +531,10 @@ export default {
     };
   },
   mounted() {
-    this.employeeQuery({});
+      sessionData.getJsonDataFromSession('empHFsearch.searchCondition', this.searchCondition);
+      sessionData.getJsonDataFromSession('empHFsearch.pageData', this.pageData);
+      let params = this.searchCondition;
+    this.employeeQuery(params);
     this.getCustomers();
   },
   computed: {
@@ -545,6 +549,8 @@ export default {
       this.searchCondition.serviceCenterValue='';
     },
     showInfo(empArchiveId, companyId) {
+       sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
+      sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
       this.$router.push({
         name: "employeeFundBasicInfo",
         query: { empArchiveId: empArchiveId, companyId: companyId }
@@ -566,8 +572,6 @@ export default {
       }
     },
     employeeQuery(params) {
-      let self = this;
-
       let arrayServiceCenter=params.serviceCenterValue;
       if(arrayServiceCenter!=null){
           params=JSON.parse(JSON.stringify(params));
@@ -580,8 +584,8 @@ export default {
           params: params
         })
         .then(data => {
-          self.employeeFundData = data.data.rows;
-          self.pageData.total = Number(data.data.total);
+          this.employeeFundData = data.data.rows;
+          this.pageData.total = Number(data.data.total);
         });
     },
     getCustomers(){

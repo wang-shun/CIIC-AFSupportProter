@@ -42,7 +42,8 @@
   import customerModal from '../../common_control/CustomerModal.vue'
   import companyAccountSearchModal from '../../common_control/CompanyAccountSearchModal.vue'
   import EventType from '../../../store/event_types'
-import InputAccount from './InputAccount.vue'
+  import InputAccount from './InputAccount.vue'
+  import sessionData from '../../../api/session-data'
   export default {
     components: {customerModal, companyAccountSearchModal,InputAccount},
     data() {
@@ -126,7 +127,7 @@ import InputAccount from './InputAccount.vue'
 
     },
     mounted() {
-
+        sessionData.getJsonDataFromSession('ssReport.operatorSearchData', this.operatorSearchData);
     },
     computed: {
 
@@ -183,6 +184,7 @@ import InputAccount from './InputAccount.vue'
          this.$router.push({name: 'socialSecurityEmpChangeDetailYys',query:param})
       },
       validCondition(){
+        sessionData.setJsonDataToSession('ssReport.operatorSearchData', this.operatorSearchData);
         let result = false;
         this.$refs['operatorSearchData'].validate((valid) => {
                     if (valid)result=true;

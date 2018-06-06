@@ -29,6 +29,14 @@ const matchImportFile = r => require.ensure([], () => r(require('@/components/em
 const independentCustomList = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentCustomList')), 'independentCustomList');
 const independentHandleCustom = r => require.ensure([], () => r(require('@/components/employ_manage/IndependentHandleCustom')), 'independentHandleCustom');
 
+const advanceFileList = r => require.ensure([], () => r(require('@/components/employ_manage/AdvanceFileList')), 'advanceFileList');
+const advanceFile = r => require.ensure([], () => r(require('@/components/employ_manage/AdvanceFile')), 'advanceFile');
+const advanceFileView = r => require.ensure([], () => r(require('@/components/employ_manage/AdvanceFileView')), 'advanceFileView');
+
+const UkeyManageList = r => require.ensure([], () => r(require('@/components/employ_manage/UkeyManageList')), 'UkeyManageList');
+const UkeyManage = r => require.ensure([], () => r(require('@/components/employ_manage/UkeyManage')), 'UkeyManage');
+const UkeyManageView = r => require.ensure([], () => r(require('@/components/employ_manage/UkeyManageView')), 'UkeyManageView');
+
 export default [
   {
     path: '/employment_data_management_task_list',
@@ -163,6 +171,78 @@ export default [
       level3:"独立户客户管理",
       openNames:['3'],
       activeName: '3-5'
+    }
+  },
+  {
+    path: '/advance_file_list',
+    name:'advanceFileList',
+    component: advanceFileList,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"预增档案管理",
+      openNames:['3'],
+      activeName: '3-6'
+    }
+  },
+  {
+    path: '/Ukey_manage_list',
+    name:'UkeyManageList',
+    component: UkeyManageList,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"Ukey管理",
+      openNames:['3'],
+      activeName: '3-9'
+    }
+  },
+  {
+    path: '/Ukey_manage',
+    name:'UkeyManage',
+    component: UkeyManage,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"Ukey管理",
+      openNames:['3'],
+      activeName: '3-10'
+    }
+  },
+  {
+    path: '/Ukey_manage_View',
+    name:'UkeyManageView',
+    component: UkeyManageView,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"Ukey管理",
+      openNames:['3'],
+      activeName: '3-11'
+    }
+  },
+  {
+    path: '/advance_file',
+    name:'advanceFile',
+    component: advanceFile,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"预增档案管理",
+      openNames:['3'],
+      activeName: '3-7'
+    }
+  },
+  {
+    path: '/advance_file_view',
+    name:'advanceFileView',
+    component: advanceFileView,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"预增档案管理",
+      openNames:['3'],
+      activeName: '3-8'
     }
   },
   {

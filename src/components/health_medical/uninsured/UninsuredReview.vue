@@ -7,85 +7,85 @@
           <Form ref="formItem" :model="formItem" :label-width="140">
             <Row justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="款项类型" prop="moneyType">
-                <Select v-model="formItem.moneyType" placeholder="请选择" :clearable="true">
-                  <Option v-for="item in moneyTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
-              </Form-item>
+                <Form-item label="款项类型" prop="moneyType">
+                  <Select v-model="formItem.moneyType" placeholder="请选择" :clearable="true">
+                    <Option v-for="item in moneyTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="受理类型" prop="caseType">
-                <Select v-model="formItem.caseType" placeholder="请选择" :clearable="true">
-                  <Option v-for="item in caseTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
-              </Form-item>
+                <Form-item label="受理类型" prop="caseType">
+                  <Select v-model="formItem.caseType" placeholder="请选择" :clearable="true">
+                    <Option v-for="item in caseTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="受理单编号" prop="umAcceptanceId">
-                <Input v-model="formItem.umAcceptanceId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="受理单编号" prop="umAcceptanceId">
+                  <Input v-model="formItem.umAcceptanceId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col v-if="formItem.status === true" :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="审核日期" prop="auditDateRange">
-                <DatePicker v-model="formItem.auditDateRange" type="daterange" placement="bottom-end"
-                            placeholder="选择日期" style="width: 100%"></DatePicker>
-              </Form-item>
+                <Form-item label="审核日期" prop="auditDateRange">
+                  <DatePicker v-model="formItem.auditDateRange" type="daterange" placement="bottom-end"
+                              placeholder="选择日期" style="width: 100%"></DatePicker>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="受理日期" prop="handlerDateRange">
-                <DatePicker v-model="formItem.handlerDateRange" type="daterange" placement="bottom-end"
-                            placeholder="选择日期" style="width: 100%" transfer></DatePicker>
-              </Form-item>
-              </Form-item>
+                <Form-item label="受理日期" prop="handlerDateRange">
+                  <DatePicker v-model="formItem.handlerDateRange" type="daterange" placement="bottom-end"
+                              placeholder="选择日期" style="width: 100%" transfer></DatePicker>
+                </Form-item>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="管理方编号" prop="managementId">
-                <Input v-model="formItem.managementId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="管理方编号" prop="managementId">
+                  <Input v-model="formItem.managementId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="管理方名称" prop="managementName">
-                <Input v-model="formItem.managementName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="管理方名称" prop="managementName">
+                  <Input v-model="formItem.managementName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司编号" prop="companyId">
-                <Input v-model="formItem.companyId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="公司编号" prop="companyId">
+                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="公司名称" prop="companyName">
-                <Input v-model="formItem.companyName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="公司名称" prop="companyName">
+                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号" prop="employeeId">
-                <Input v-model="formItem.employeeId" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="雇员编号" prop="employeeId">
+                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名" prop="employeeName">
-                <Input v-model="formItem.employeeName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="雇员姓名" prop="employeeName">
+                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码" prop="idNum">
-                <Input v-model="formItem.idNum" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="证件号码" prop="idNum">
+                  <Input v-model="formItem.idNum" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="审核" prop="status">
-                <i-switch v-model="formItem.status" size="large">
-                  <span slot="open">Yes</span>
-                  <span slot="close">No</span>
-                </i-switch>
-              </Form-item>
+                <Form-item label="审核" prop="status">
+                  <i-switch v-model="formItem.status" size="large" @on-change="getByPage(1)">
+                    <span slot="open">Yes</span>
+                    <span slot="close">No</span>
+                  </i-switch>
+                </Form-item>
               </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+                <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
           </Form>

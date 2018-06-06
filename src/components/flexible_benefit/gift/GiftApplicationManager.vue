@@ -7,22 +7,23 @@
           <Form :model="formItem" ref="formItem" :label-width="100">
             <Row class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="礼品名称" prop="giftName">
-                <Input v-model="formItem.giftName" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="礼品名称" prop="giftName">
+                  <Input v-model="formItem.giftName" placeholder="请输入"/>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="状态" prop="status">
-                <Select v-model="formItem.status" :clearable="true" placeholder="请选择">
-                  <Option v-for="item in statusProperties" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
+                <Form-item label="状态" prop="status">
+                  <Select v-model="formItem.status" :clearable="true" placeholder="请选择">
+                    <Option v-for="item in statusProperties" :value="item.value" :key="item.value">{{item.label}}
+                    </Option>
+                  </Select>
+                </Form-item>
               </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+                <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -93,7 +94,7 @@
           {
             title: "类别", sortable: true, key: "giftType", align: "center",
             render: (h, params) => {
-              return h("div",this.getGiftTypeName(params.row.giftType));
+              return h("div", this.getGiftTypeName(params.row.giftType));
             }
           },
           {
@@ -108,37 +109,35 @@
           {
             title: "状态", sortable: true, key: "status", align: "center",
             render: (h, params) => {
-              return h("div",this.getGiftStatusName(params.row.status));
+              return h("div", this.getGiftStatusName(params.row.status));
             }
           },
           {
             title: "操作", key: "action", width: 200, align: "center",
             render: (h, params) => {
-              if (params.row.status == '0') {
-                return h("div", [
-                  h("Button", {
-                    props: {
-                      type: "success",
-                      size: "small"
-                    },
-                    style: {marginRight: "5px"},
-                    on: {
-                      click: () => {
-                        let updateData = params.row;
-                        delete updateData._index;
-                        delete updateData._rowKey;
-                        delete updateData.page;
-                        delete updateData.createTime;
-                        delete updateData.modifiedTime;
-                        updateData.rightPerson = updateData.rightPerson + '';
-                        updateData.giftType = updateData.giftType + '';
-                        updateData.status = updateData.status + '';
-                        this.$router.push({name: "giftUpdate", params: {data: updateData}});
-                      }
+              return h("div", [
+                h("Button", {
+                  props: {
+                    type: "success",
+                    size: "small"
+                  },
+                  style: {marginRight: "5px"},
+                  on: {
+                    click: () => {
+                      let updateData = params.row;
+                      delete updateData._index;
+                      delete updateData._rowKey;
+                      delete updateData.page;
+                      delete updateData.createTime;
+                      delete updateData.modifiedTime;
+                      updateData.rightPerson = updateData.rightPerson + '';
+                      updateData.giftType = updateData.giftType + '';
+                      updateData.status = updateData.status + '';
+                      this.$router.push({name: "giftUpdate", params: {data: updateData}});
                     }
-                  }, "编辑")
-                ]);
-              }
+                  }
+                }, "编辑")
+              ]);
             }
           }],
       };
@@ -171,7 +170,7 @@
         this.formItem.size = size;
         this.query()
       },
-      getGiftTypeName(val){
+      getGiftTypeName(val) {
         switch (val) {
           case 0:
             return "票券";
@@ -196,7 +195,7 @@
             break;
         }
       },
-      getGiftStatusName(val){
+      getGiftStatusName(val) {
         switch (val) {
           case 0:
             return "正常";

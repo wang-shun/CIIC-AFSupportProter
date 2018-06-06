@@ -235,7 +235,7 @@ const uninsuredReviewDealRules = {
     {required: true, type: 'date', message: '请选择住院结束日期', trigger: 'change'}
   ],
   clinicHospital: [
-    {required: true, message: '请输入就诊医院', trigger: 'change'},
+    // {required: true, message: '请输入就诊医院', trigger: 'change'},
     {type: 'string', max: 16, message: '字段太长', trigger: 'blur'},
   ],
   acceptAmount: [
@@ -245,7 +245,7 @@ const uninsuredReviewDealRules = {
     {required: true, message: '请选择付款方式', trigger: 'change'}
   ],
   diagnose: [
-    {required: true, message: '请输入诊断', trigger: 'change'},
+    // {required: true, message: '请输入诊断', trigger: 'change'},
     {type: 'string', max: 16, message: '字段太长', trigger: 'blur'},
   ],
   hospitalizationDays: [
@@ -294,11 +294,173 @@ function employeeStatusProperties(status) {
   }
 }
 
+function getUninsuredObj(row) {
+  let head = `<html><head>
+          <style type="text/css">
+              .headStyle h2, h3 {
+                  display: inline;
+              }
+          </style>
+      </head><body>`;
+        let foot = `</body><script>
+          function convertCurrency(money) {
+              //汉字的数字
+              let cnNums = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+              //基本单位
+              let cnIntRadice = ['', '拾', '佰', '仟'];
+              //对应整数部分扩展单位
+              let cnIntUnits = ['', '万', '亿', '兆'];
+              //对应小数部分单位
+              let cnDecUnits = ['角', '分', '毫', '厘'];
+              //整数金额时后面跟的字符
+              let cnInteger = '整';
+              //整型完以后的单位
+              let cnIntLast = '元';
+              //最大处理的数字
+              let maxNum = 999999999999999.9999;
+              //金额整数部分
+              let integerNum;
+              //金额小数部分
+              let decimalNum;
+              //输出的中文金额字符串
+              let chineseStr = '';
+              //分离金额后用的数组，预定义
+              let parts;
+              if (money === '') {
+                  return '';
+              }
+              money = parseFloat(money);
+              if (money >= maxNum) {
+                  //超出最大处理数字
+                  return '';
+              }
+              if (money === 0) {
+                  chineseStr = cnNums[0] + cnIntLast + cnInteger;
+                  return chineseStr;
+              }
+              //转换为字符串
+              money = money.toString();
+              if (money.indexOf('.') === -1) {
+                  integerNum = money;
+                  decimalNum = '';
+              } else {
+                  parts = money.split('.');
+                  integerNum = parts[0];
+                  decimalNum = parts[1].substr(0, 4);
+              }
+              //获取整型部分转换
+              if (parseInt(integerNum, 10) > 0) {
+                  let zeroCount = 0;
+                  let IntLen = integerNum.length;
+                  for (let i = 0; i < IntLen; i++) {
+                      let n = integerNum.substr(i, 1);
+                      let p = IntLen - i - 1;
+                      let q = p / 4;
+                      let m = p % 4;
+                      if (n === '0') {
+                          zeroCount++;
+                      } else {
+                          if (zeroCount > 0) {
+                              chineseStr += cnNums[0];
+                          }
+                          //归零
+                          zeroCount = 0;
+                          chineseStr += cnNums[parseInt(n)] + cnIntRadice[m];
+                      }
+                      if (m === 0 && zeroCount < 4) {
+                          chineseStr += cnIntUnits[q];
+                      }
+                  }
+                  chineseStr += cnIntLast;
+              }
+              //小数部分
+              if (decimalNum !== '') {
+                  let decLen = decimalNum.length;
+                  for (let i = 0; i < decLen; i++) {
+                      let n = decimalNum.substr(i, 1);
+                      if (n !== '0') {
+                          chineseStr += cnNums[Number(n)] + cnDecUnits[i];
+                      }
+                  }
+              }
+              if (chineseStr === '') {
+                  chineseStr += cnNums[0] + cnIntLast + cnInteger;
+              } else if (decimalNum === '') {
+                  chineseStr += cnInteger;
+              }
+              return chineseStr;
+          }
+      
+          let auditAmountUpper = document.getElementById('auditAmountUpper');
+          let auditAmount = document.getElementById('auditAmount');
+          auditAmountUpper.innerHTML = convertCurrency(auditAmount.innerHTML)
+      </script></html>`;
+  let obj =
+    `<div>
+            <div class="headStyle" style="border-bottom: 1px solid black;width: 200px;margin-bottom: 30px;">
+                <h2>CIIC</h2>
+                <h3>A1606056</h3>
+            </div>
+            <div>
+                <table border="1" cellspacing="0" style="text-align: center;">
+                    <tr>
+                        <td>
+                            收款人<br>
+                            公司编号<br>
+                            公司名称
+                        </td>
+                        <td>
+                            ${row.employeeName} 雇员编号:${row.employeeId}<br>
+                            ${row.companyId}<br>
+                            ${row.companyName}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>付款方式</td>
+                        <td style="color: red">现金</td>
+                    </tr>
+                    <tr>
+                        <td>付款地区</td>
+                        <td style="color: red">中国</td>
+                    </tr>
+                    <tr>
+                        <td>金额</td>
+                        <td>
+                            人民币 <span id="auditAmountUpper"></span>（大写）<br>
+                            ￥ <span id="auditAmount">${row.auditAmount}</span>
+                        </td>
+                    </tr>
+                </table>
+                <p>说明：${row.remark}</p>
+
+            </div>
+            <div style="border-bottom: 1px dashed black;width: 300px;">
+                <p>
+                    部门主管&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    收款人签收&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </p>
+                <p style="text-align: right">制单人：${row.username}</p>
+                <p style="text-align: right">雇员付款编号：230221</p>
+                <p>备注：</p>
+                <p style="text-indent: 2em">
+                      1、前来领款时请携带本付款凭单及雇员证件
+                    (身份证或雇员证)，取他人带领的，还必须由
+                    雇员本人写好委托书方可带领并出示代领人证
+                    件。
+                </p>
+                <p style="text-indent: 2em">
+                      2、领款金额3000.00元以上者，请电话预约：54594545*804 朱小姐
+                </p>
+            </div>
+        </div>`;
+  let html = head + obj + foot;
+  return html;
+}
+
 /**
  * 健康医疗公共数据
  * 下拉框
  */
-
 export default {
   moneyTypes,
   caseTypes,
@@ -312,4 +474,5 @@ export default {
   payTypeToChina,
   uninsuredReviewDealRules,
   employeeStatusProperties,
+  getUninsuredObj,
 };

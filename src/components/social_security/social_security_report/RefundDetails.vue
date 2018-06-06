@@ -11,17 +11,17 @@
               </Col>
             </Row>
             <Table border :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData"></Table>
-            
+
           </Form>
         </div>
       </Panel>
     </Collapse>
-    
+
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/event_types'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import EventType from '../../../store/event_types'
 import api from '../../../api/social_security/social_security_report'
   export default {
     data() {
@@ -126,7 +126,7 @@ import api from '../../../api/social_security/social_security_report'
      this.queryRefundDetails();
     },
     computed: {
-      
+
     },
     methods: {
       goBack() {

@@ -8,16 +8,26 @@
             <Row type="flex" justify="start">
                  <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                  <Form-item label="报表年月：" prop="ssMonth">
-                   <Date-picker v-model="operatorSearchData.ssMonth" type="month"  placeholder="选择年月份" style="width: 100%;" transfer>
+                   <Date-picker v-model="operatorSearchData.ssMonth" type="month" format="yyyyMM"  placeholder="选择年月份" style="width: 100%;" transfer>
                   </Date-picker>
 
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="社保账户类型：" prop="ssAccountType">
+                  <Select v-model="operatorSearchData.ssAccountType" style="width: 100%;" transfer>
+                    <Option v-for="item in ssAccountTypeDict" :value="item.key" :key="item.key" :label="item.value"></Option>
+                  </Select>
+                </Form-item>
+              </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账号：" prop="ssAccount">
-                  <input-account v-model="operatorSearchData.ssAccount" @listenToChildEvent="listentChild" :disabled=true></input-account>
-
-                   <!-- v-on:listenToChildEvent="listentChild" -->
+                  <input-account v-model="operatorSearchData.ssAccount" @listenToChildEvent="listenToChild"></input-account>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号：" prop="companyId">
+                  <input-company v-model="operatorSearchData.companyId"></input-company>
                 </Form-item>
               </Col>
             </Row>
@@ -39,13 +49,15 @@
   </div>
 </template>
 <script>
+  import dict from '../../../api/dict_access/social_security_dict'
   import customerModal from '../../common_control/CustomerModal.vue'
   import companyAccountSearchModal from '../../common_control/CompanyAccountSearchModal.vue'
-  import EventType from '../../../store/event_types'
-  import InputAccount from './InputAccount.vue'
-  import sessionData from '../../../api/session-data'
+//  import EventType from '../../../store/event_types'
+  import InputAccount from '../../common_control/form/input_account'
+  import InputCompany from '../../common_control/form/input_company'
+  import sessionData from '../../../api/session-data'
   export default {
-    components: {customerModal, companyAccountSearchModal,InputAccount},
+    components: {customerModal, companyAccountSearchModal,InputAccount,InputCompany},
     data() {
       return {
         collapseInfo: [1], //展开栏
@@ -54,7 +66,10 @@
           ssAccount:'',//企业社保账户
           isShowAccountType: false, //社保账户模糊块的显示
           ssAccountId:'',
+          ssAccountType:'',
+          companyId:''
         },
+        ssAccountTypeDict: [],
         employeeResultColumns: [
 
           {title: '雇员编号', key: 'employeeNumber',  align: 'center',
@@ -119,15 +134,26 @@
           ssMonth:[
             {required:true,type:'date',message: '选择报表日期.',trigger:'change'},
           ],
-           ssAccount:[
-            {required:true,type:'string',message: '选择企业账户.',trigger:'change'},
+           ssAccountType:[
+            {required:true,type:'string',message: '选择社保账户类型.',trigger:'change'},
             ]
         }
       }
 
     },
+    created() {
+      sessionData.getJsonDataFromSession('ssReport.operatorSearchData', this.operatorSearchData);
+    },
     mounted() {
-        sessionData.getJsonDataFromSession('ssReport.operatorSearchData', this.operatorSearchData);
+      dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.ssAccountTypeDict = data.data.SocialSecurityAccountType;
+        }
+      });
+
+//      if (this.operatorSearchData.ssMonth) {
+//        this.operatorSearchData.ssMonth = this.$utils.parseDate(this.operatorSearchData.ssMonth, 'YYYYMM').toDate();
+//      }
     },
     computed: {
 
@@ -136,10 +162,10 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      listentChild(value){
-        if (value != null) {
-          this.operatorSearchData.ssAccountId=value;
-          //console.log("点击任务单："+value)
+      listenToChild(row){
+        if (row && row.comAccountId) {
+          this.operatorSearchData.ssAccountId = row.comAccountId;
+//          console.log("this.operatorSearchData.ssAccountId ：" + this.operatorSearchData.ssAccountId)
         }
       },
       ok () {
@@ -178,14 +204,21 @@
         if(!result)return;
          let ssMonth = this.$utils.formatDate(this.operatorSearchData.ssMonth, 'YYYYMM')
          let param={ssMonth:ssMonth,
+                    ssAccountType:this.operatorSearchData.ssAccountType,
                     ssAccount:this.operatorSearchData.ssAccount,
-                    ssAccountId:this.operatorSearchData.ssAccountId
+                    ssAccountId:this.operatorSearchData.ssAccountId,
+                    companyId:this.operatorSearchData.companyId
                     }
          this.$router.push({name: 'socialSecurityEmpChangeDetailYys',query:param})
       },
       validCondition(){
-        sessionData.setJsonDataToSession('ssReport.operatorSearchData', this.operatorSearchData);
         let result = false;
+        sessionData.setJsonDataToSession('ssReport.operatorSearchData', this.operatorSearchData);
+
+        if (this.operatorSearchData.ssMonth && typeof this.operatorSearchData.ssMonth === 'string') {
+          this.operatorSearchData.ssMonth = this.$utils.parseDate(this.operatorSearchData.ssMonth, 'YYYYMM').toDate();
+        }
+
         this.$refs['operatorSearchData'].validate((valid) => {
                     if (valid)result=true;
         })

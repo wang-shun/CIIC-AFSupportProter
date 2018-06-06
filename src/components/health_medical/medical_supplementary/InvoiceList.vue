@@ -43,6 +43,7 @@
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="受理编号：">{{acceptanceData.acceptanceId}}</Form-item>
           </Col>
+          <!--TODO: 累计免赔额字段确定-->
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="累计免赔额："></Form-item>
           </Col>

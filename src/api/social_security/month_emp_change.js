@@ -21,6 +21,11 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/ssMonthEmpChange/getSsMonthEmpChangeId', params);
     return await response.data;
   },
+  queryYysReport: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssMonthCharge/queryYysReport', params);
+    return await response.data;
+  },
+
   yysExport: (params) => {
     AJAX.download('/api/soccommandservice/ssMonthEmpChangeDetail/yysExport', params);
   },
@@ -28,7 +33,7 @@ export default {
   gsyExport: (params) => {
     AJAX.download('/api/soccommandservice/ssMonthEmpChangeDetail/gsyExport', params);
   },
-  
+
   summaryCalculate:async(params)=>{
     let response = await AJAXMsg.post('/soc/messageservice/summarycalculate',params);
     return await response.data;

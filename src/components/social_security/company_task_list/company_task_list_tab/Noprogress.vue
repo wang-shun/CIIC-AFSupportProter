@@ -104,6 +104,8 @@
   import Utils from '../../../../lib/utils'
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import InputCompany from '../../../common_control/form/input_company'
+  import sessionData from '../../../../api/session-data'
+
   export default {
     components: {customerModal,InputCompanyName,InputCompany},
     data() {
@@ -153,7 +155,10 @@
                   props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      this.setSessionNumAndSize()
+                      sessionData.setJsonDataToSession('companyTaskList.Noprogress.companyTaskInfo', this.companyTaskInfo);
+                      sessionData.setJsonDataToSession('companyTaskList.Noprogress.pageData', this.pageData);
+
+//                      this.setSessionNumAndSize()
                       switch(params.row.type) {
                         case '开户':
                         //companyTaskProgressTwo 材料页面  现再屏蔽材料页面
@@ -236,15 +241,19 @@
         ]
       }
     },
+    created() {
+      sessionData.getJsonDataFromSession('companyTaskList.Noprogress.companyTaskInfo', this.companyTaskInfo);
+      sessionData.getJsonDataFromSession('companyTaskList.Noprogress.pageData', this.pageData);
+    },
     mounted() {
-      let sessionPageNum = sessionStorage.taskPageNum
-      let sessionPageSize = sessionStorage.taskPageSize
-      if(sessionPageNum && sessionPageSize){
-         this.pageData.pageNum = Number(sessionPageNum)
-         this.pageData.pageSize = Number(sessionPageSize)
-         sessionStorage.removeItem("taskPageNum")
-         sessionStorage.removeItem("taskPageSize")
-      }
+//      let sessionPageNum = sessionStorage.taskPageNum
+//      let sessionPageSize = sessionStorage.taskPageSize
+//      if(sessionPageNum && sessionPageSize){
+//         this.pageData.pageNum = Number(sessionPageNum)
+//         this.pageData.pageSize = Number(sessionPageSize)
+//         sessionStorage.removeItem("taskPageNum")
+//         sessionStorage.removeItem("taskPageSize")
+//      }
       let params = {
           pageSize:this.pageData.pageSize,
           pageNum:this.pageData.pageNum,

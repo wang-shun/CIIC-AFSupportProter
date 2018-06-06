@@ -109,6 +109,15 @@ function statusToChina(status) {
   }
 }
 
+function reverseAmount(type, value) {
+  if (type === 2) {
+    return value * 100 + "%";
+  } else {
+    return value;
+  }
+}
+
+
 export default {
   taskWaitStatus,
   taskAlreadyStatus,
@@ -119,4 +128,5 @@ export default {
   typeToChina,
   genderToChina,
   statusToChina,
+  reverseAmount,
 };

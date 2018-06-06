@@ -165,6 +165,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../../store/event_types'
 import api from '../../../../api/house_fund/employee_task/employee_transfer'
+import sessionData from '../../../../api/session-data'
 
   export default {
   data() {
@@ -264,6 +265,8 @@ import api from '../../../../api/house_fund/employee_task/employee_transfer'
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('transfer.processed.searchCondition', this.searchCondition);
+                      sessionData.setJsonDataToSession('transfer.processed.pageData', this.pageData);
                       let employeeId=params.row.employeeId;
                       let companyId=params.row.companyId;
                       let hfType=params.row.hfType;
@@ -363,7 +366,10 @@ import api from '../../../../api/house_fund/employee_task/employee_transfer'
       }
     },
     mounted() {
-      this.handlePageNum(1);
+      sessionData.getJsonDataFromSession('transfer.processed.searchCondition', this.searchCondition);
+      sessionData.getJsonDataFromSession('transfer.processed.pageData', this.pageData);
+      let params = this.searchCondition
+      this.queryTransfer(params);
       this.getCustomers();
     },
     computed: {
@@ -434,7 +440,6 @@ import api from '../../../../api/house_fund/employee_task/employee_transfer'
         this.queryTransferForNewTask(params);
       },
       dealTransfer(employeeId,companyId,hfType){
-
         this.$router.push({name:'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType}});
       },
       ok () {

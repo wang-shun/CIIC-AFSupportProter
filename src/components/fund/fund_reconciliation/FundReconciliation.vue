@@ -176,6 +176,7 @@
   import api from '../../../api/house_fund/fund_reconciliation/fund_reconciliation'
   import commonApi from '../../../api/house_fund/common/common'
   import InputAccount from "../common/input_account"
+  import sessionData from '../../../api/session-data'
 
   export default {
     components: {InputAccount},
@@ -210,6 +211,8 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('fundReconCiliation.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('fundReconCiliation.fundAccountPage', this.fundAccountPage);
                       this.isShowReconciliation = true;
                       this.getStatementDetail(params.row.statementCompareId);
                       this.currentStatementId = params.row.statementCompareId;
@@ -387,6 +390,8 @@
       }
     },
     mounted() {
+      sessionData.getJsonDataFromSession('fundReconCiliation.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('fundReconCiliation.fundAccountPage', this.fundAccountPage);
       this.getStatement()
     },
     methods: {

@@ -187,6 +187,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../../store/event_types'
   import api from '../../../../api/house_fund/employee_task/employee_transfer'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     data() {
@@ -320,6 +321,8 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('transfer.noprocess.searchCondition', this.searchCondition);
+                      sessionData.setJsonDataToSession('transfer.noprocess.pageData', this.pageData);
                       let employeeId=params.row.employeeId;
                       let companyId=params.row.companyId;
                       let hfType=params.row.hfType;
@@ -419,7 +422,11 @@
       }
     },
     mounted() {
-      this.handlePageNum(1);
+      sessionData.getJsonDataFromSession('transfer.noprocess.searchCondition', this.searchCondition);
+      sessionData.getJsonDataFromSession('transfer.noprocess.pageData', this.pageData);
+      console.log(this.searchCondition);
+      let params = this.searchCondition
+      this.queryTransfer(params);
       this.getCustomers();
     },
     computed: {

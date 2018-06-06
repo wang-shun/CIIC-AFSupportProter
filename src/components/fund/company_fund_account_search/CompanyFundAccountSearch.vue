@@ -45,11 +45,11 @@
       </Panel>
     </Collapse>
 
-    <!-- <Row class="mt20">
+    <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info">导出</Button>
+        <Button type="info" @click="exportExcel">导出</Button>
       </Col>
-    </Row> -->
+    </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
@@ -81,12 +81,10 @@
   </div>
 </template>
 <script>
-  import ts from '../../../api/house_fund/table_style'
   import api from '../../../api/house_fund/company_fund_account_search/company_fund_account_search'
   import InputCompany from "../../common_control/form/input_company"
   import companyBindAndUnbind from "../common/CompanyBindAndUnbind.vue"
   import InputAccount from "../common/input_account"
-  import sessionData from '../../../api/session-data'
 
   export default {
     components: {InputCompany, companyBindAndUnbind,InputAccount},
@@ -120,9 +118,6 @@
                 h('Button', {props: {type: 'success', size: 'small'},
                   on: {
                     click: () => {
-                      sessionData.setJsonDataToSession('companyFundAccountSearch.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('companyFundAccountSearch.fundAccountPageData', this.fundAccountPageData);
-
                       this.nextStep(true, params.row);
                     }
                   }
@@ -130,9 +125,6 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
                   on: {
                     click: () => {
-                      sessionData.setJsonDataToSession('companyFundAccountSearch.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('companyFundAccountSearch.fundAccountPageData', this.fundAccountPageData);
-
                       this.nextStep(false, params.row);
                     }
                   }
@@ -214,10 +206,6 @@
         ]
       }
     },
-    created() {
-      sessionData.getJsonDataFromSession('companyFundAccountSearch.operatorSearchData', this.operatorSearchData);
-      sessionData.getJsonDataFromSession('companyFundAccountSearch.fundAccountPageData', this.fundAccountPageData);
-    },
     mounted() {
       window.sessionStorage.removeItem('fundAccountInfo');
       this.fundAccountSearch();
@@ -260,6 +248,18 @@
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
+      },
+      exportExcel(){
+
+      if (this.operatorSearchData.comHfMonth) {
+          this.operatorSearchData.comHfMonth = this.$utils.formatDate(this.operatorSearchData.comHfMonth, 'YYYYMM');
+        }
+        var params = this.$utils.clear(this.operatorSearchData);
+        params = this.$utils.clear(params, '');
+
+        api.companyFundAccountExpExcel(params);
+
+
       },
       rowClassName(row, index) {
         return ts.comRowClassName(row, index);

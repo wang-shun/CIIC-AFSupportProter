@@ -18,6 +18,9 @@ export default {
   companyFundAccountSubmit:async(params)=>{
     let response = await AJAX.postJSON('/api/fundcommandservice/companyFundAccount/submitCompanyFundAccount', params);
     return await response.data;
+  },
+  companyFundAccountExpExcel:(params)=>{
+      AJAX.download('/api/fundcommandservice/companyFundAccount/getComFundAccountListExp', params);
   }
 
 }

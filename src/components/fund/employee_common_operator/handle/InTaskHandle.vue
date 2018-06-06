@@ -251,7 +251,7 @@
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton" :loading="isLoading">批退</Button>
-        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="!showButton && this.displayVO.canHandle" :loading="isLoading">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="this.displayVO.canHandle" :loading="isLoading">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>

@@ -257,12 +257,12 @@
       this.loadDict();
     },
     computed: {
-      ...mapState('thisMonthHandle', {
-        data: state => state.data
-      }),
+//      ...mapState('thisMonthHandle', {
+//        data: state => state.data
+//      }),
     },
     methods: {
-      ...mapActions('thisMonthHandle', [EventType.THISMONTHHANDLETYPE]),
+//      ...mapActions('thisMonthHandle', [EventType.THISMONTHHANDLETYPE]),
       routerToCommcialOperator(name) {
         this.$router.push({
           name: 'employeeCommcialOperator',

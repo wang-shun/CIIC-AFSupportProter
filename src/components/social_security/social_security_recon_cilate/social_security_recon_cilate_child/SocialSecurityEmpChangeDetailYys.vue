@@ -51,10 +51,10 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
   import companyAccountSearchModal from '../../../common_control/CompanyAccountSearchModal.vue'
-  import EventType from '../../../../store/event_types'
+//  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/month_emp_change'
 
   export default {
@@ -215,33 +215,46 @@
           ssMonth : ssMonth,
           comAccountId : comAccountId
         }
-        api.getSsMonthEmpChangeId(params).then(
+        api.queryYysReport(params).then(
           data=>{
-            monthEmpChangeId = data.data;
-            this.monthEmpChangeId = monthEmpChangeId;
-            if(monthEmpChangeId == null || monthEmpChangeId == ''){
-              monthEmpChangeId = this.$route.query.monthEmpChangeId;
+            this.empChangeData.ssMonth = this.$route.query.ssMonth;
+            this.empChangeData.comAccountId = this.$route.query.ssAccountId;
+            this.empChangeData.comAccountName = this.$route.query.ssAccount;
+
+            if (data.code == 200) {
+              this.empChangeDetailData = data.data;
+            } else {
+              this.$Message.error(data.message);
             }
-            if(monthEmpChangeId == null || monthEmpChangeId == ''){
-                this.empChangeData.ssMonth = this.$route.query.ssMonth;
-                this.empChangeData.comAccountId = this.$route.query.ssAccountId;
-                this.empChangeData.comAccountName = this.$route.query.ssAccount;
-            }
-             this.serachMonthEmpChange(monthEmpChangeId);
-             this.showMonthEmpChangeDetail(monthEmpChangeId);
           }
         )
-      }else{
-         monthEmpChangeId = this.$route.query.monthEmpChangeId;
-         this.serachMonthEmpChange(monthEmpChangeId);
-         this.showMonthEmpChangeDetail(monthEmpChangeId);
+//        api.getSsMonthEmpChangeId(params).then(
+//          data=>{
+//            monthEmpChangeId = data.data;
+//            this.monthEmpChangeId = monthEmpChangeId;
+//            if(monthEmpChangeId == null || monthEmpChangeId == ''){
+//              monthEmpChangeId = this.$route.query.monthEmpChangeId;
+//            }
+//            if(monthEmpChangeId == null || monthEmpChangeId == ''){
+//                this.empChangeData.ssMonth = this.$route.query.ssMonth;
+//                this.empChangeData.comAccountId = this.$route.query.ssAccountId;
+//                this.empChangeData.comAccountName = this.$route.query.ssAccount;
+//            }
+//             this.serachMonthEmpChange(monthEmpChangeId);
+//             this.showMonthEmpChangeDetail(monthEmpChangeId);
+//          }
+//        )
+//      }else{
+//         monthEmpChangeId = this.$route.query.monthEmpChangeId;
+//         this.serachMonthEmpChange(monthEmpChangeId);
+//         this.showMonthEmpChangeDetail(monthEmpChangeId);
       }
-       
+
     },
     computed: {
-      ...mapState('socialSecurityReconcilateDetail',{
-          data:state => state.data
-      })
+//      ...mapState('socialSecurityReconcilateDetail',{
+//          data:state => state.data
+//      })
     },
     methods: {
       //...mapActions('socialSecurityReconcilateDetail',[EventType.SOCIALSECURITYRECONCILATEDETAIL]),
@@ -304,7 +317,7 @@
                 });
             }
             this.isLoading = false;
-           
+
         }).catch(error=>{
           this.$Message.error('系统异常！');
         });

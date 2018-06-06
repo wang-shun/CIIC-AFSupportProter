@@ -22,6 +22,16 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="企业社保账号：" prop="ssAccount">
+                  <label>{{empChangeData.ssAccount}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="客户编号：" prop="companyIds">
+                  <label >{{empChangeData.companyIds}}</label>
+                </Form-item>
+              </Col>
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="最近计算人：" prop="computeUserId">
                   <label>{{empChangeData.computeUserId}}</label>
                 </Form-item>
@@ -30,7 +40,7 @@
                 <Form-item label="最近计算时间：" prop="lastComputeTime">
                   <label >{{empChangeData.lastComputeTime}}</label>
                 </Form-item>
-              </Col>
+              </Col> -->
             </Row>
           </Form>
         </div>
@@ -69,6 +79,8 @@
           comAccountName: '', //社保账户类型
           computeUserId:'',
           lastComputeTime:'',
+          companyIds:'',
+          ssAccount:'',
         },
         monthEmpChangeId:0,
         empChangeDetailData: [],
@@ -284,7 +296,7 @@
         if (userInfo) {
           userName= JSON.parse(userInfo).displayName;
         }else{
-          this.$Message.error('找不到用户信息，请重新登录系统。');
+          this.$Message.error('获取用户信息超时，请重新登录系统。');
           return;
         }
 

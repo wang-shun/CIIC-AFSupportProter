@@ -13,9 +13,9 @@
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
-          <Form-item label="公司编号">
-            <span>{{ detail.companyId }}</span>
-          </Form-item>
+            <Form-item label="公司编号">
+              <span>{{ detail.companyId }}</span>
+            </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
             <Form-item label="雇员姓名">
@@ -152,7 +152,8 @@
     </Card>
     <Row class="mt10">
       <Col :sm="{span: 24}" class="tr">
-      <Button type="warning" @click="back()">返回</Button>
+        <Button v-if="detail.status" type="primary" @click="printUninsuredReview()">打印</Button>
+        <Button type="warning" @click="back()">返回</Button>
       </Col>
     </Row>
   </div>
@@ -160,16 +161,26 @@
 
 <script>
   import apiAjax from "../../../data/health_medical/uninsured_application.js";
+  import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
+
   export default {
+    data() {
+      return {
+        umAcceptanceId: '',
+        detail: {},
+        userInfo: {}
+      }
+    },
     created() {
       this.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
       this.queryAcceptanceUninsured();
+      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
     },
     methods: {
       queryAcceptanceUninsured() {
         apiAjax.acceptanceDetail(this.umAcceptanceId).then(response => {
           let data = response.data
-          if (data.code==200) {
+          if (data.code === 200) {
             this.detail = data.object
           } else {
             this.$Message.error("请重试");
@@ -179,84 +190,29 @@
           this.$Message.error("服务器异常，请稍后再试");
         });
       },
+      printUninsuredReview() {
+        this.detail.username = this.userInfo.displayName;
+        let html = admissibility.getUninsuredObj(this.detail);
+        let print = window.open("", "print");
+        print.document.write(html);
+        print.document.close();
+        print.print();
+      },
       back() {
         this.$local.back()
       },
-      getCaseType (type) {
-        if (type === 1) {
-          return '雇员'
-        }
-        if (type === 2) {
-          return '子女'
-        }
-        if (type === 3) {
-          return '配偶'
-        }
-        return ''
+      getCaseType(type) {
+        return admissibility.caseTypeToChina(type);
       },
-      getMoneyType (type) {
-        if (type === 1) {
-          return '医疗费'
-        }
-        if (type === 2) {
-          return '体检费用'
-        }
-        if (type === 3) {
-          return '住院补贴'
-        }
-        if (type === 4) {
-          return '大额理赔款'
-        }
-        if (type === 5) {
-          return '其他'
-        }
-        return ''
+      getMoneyType(type) {
+        return admissibility.moneyTypeToChina(type);
       },
-      getAcceptanceStatus (status) {
-        if (status === 0) {
-          return '未受理'
-        }
-        if (status === 1) {
-          return '已受理'
-        }
-        if (status === 2) {
-          return '拒赔'
-        }
-        if (status === 3) {
-          return '已审核未同步'
-        }
-        if (status === 4) {
-          return '已同步未支付'
-        }
-        if (status === 5) {
-          return '财务退回'
-        }
-        if (status === 6) {
-          return '已同步已支付'
-        }
-        if (status === 7) {
-          return '已退票'
-        }
-        if (status === 8) {
-          return '已完成'
-        }
-        return ''
+      getAcceptanceStatus(status) {
+        return admissibility.statusToChina(status);
       },
-      getPayType (type) {
-        if (type === 1) {
-          return '打卡'
-        }
-        if (type === 2) {
-          return '现金'
-        }
-        return ''
+      getPayType(type) {
+        return admissibility.payTypeToChina(type);
       }
     },
-    data() {
-      return {
-        umAcceptanceId: '',
-        detail: {}
-      }
-    }
   }
 </script>

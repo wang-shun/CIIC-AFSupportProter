@@ -186,42 +186,6 @@ export default [
     }
   },
   {
-    path: '/Ukey_manage_list',
-    name:'UkeyManageList',
-    component: UkeyManageList,
-    meta:{
-      level1:'首页',
-      level2:"雇佣管理",
-      level3:"Ukey管理",
-      openNames:['3'],
-      activeName: '3-9'
-    }
-  },
-  {
-    path: '/Ukey_manage',
-    name:'UkeyManage',
-    component: UkeyManage,
-    meta:{
-      level1:'首页',
-      level2:"雇佣管理",
-      level3:"Ukey管理",
-      openNames:['3'],
-      activeName: '3-10'
-    }
-  },
-  {
-    path: '/Ukey_manage_View',
-    name:'UkeyManageView',
-    component: UkeyManageView,
-    meta:{
-      level1:'首页',
-      level2:"雇佣管理",
-      level3:"Ukey管理",
-      openNames:['3'],
-      activeName: '3-11'
-    }
-  },
-  {
     path: '/advance_file',
     name:'advanceFile',
     component: advanceFile,
@@ -230,7 +194,7 @@ export default [
       level2:"雇佣管理",
       level3:"预增档案管理",
       openNames:['3'],
-      activeName: '3-7'
+      activeName: '3-6'
     }
   },
   {
@@ -242,7 +206,43 @@ export default [
       level2:"雇佣管理",
       level3:"预增档案管理",
       openNames:['3'],
-      activeName: '3-8'
+      activeName: '3-6'
+    }
+  },
+  {
+    path: '/Ukey_manage_list',
+    name:'UkeyManageList',
+    component: UkeyManageList,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"Ukey管理",
+      openNames:['3'],
+      activeName: '3-7'
+    }
+  },
+  {
+    path: '/Ukey_manage',
+    name:'UkeyManage',
+    component: UkeyManage,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"Ukey管理",
+      openNames:['3'],
+      activeName: '3-7'
+    }
+  },
+  {
+    path: '/Ukey_manage_View',
+    name:'UkeyManageView',
+    component: UkeyManageView,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"Ukey管理",
+      openNames:['3'],
+      activeName: '3-7'
     }
   },
   {

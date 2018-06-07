@@ -27,8 +27,12 @@ export default {
   },
 
   yysExport: (params) => {
-    AJAX.download('/api/soccommandservice/ssMonthEmpChangeDetail/yysExport', params);
+    AJAX.download('/api/soccommandservice/ssMonthCharge/yysExport', params);
   },
+
+  // yysExport: (params) => {
+  //   AJAX.download('/api/soccommandservice/ssMonthEmpChangeDetail/yysExport', params);
+  // },
 
   gsyExport: (params) => {
     AJAX.download('/api/soccommandservice/ssMonthEmpChangeDetail/gsyExport', params);

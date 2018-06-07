@@ -409,70 +409,58 @@
 
         payComColumns: [
           {title: '', key: 'id', width: 55, fixed: 'left', type: 'selection'},
-          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',
+          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.paymentBatchNum),
               ]);
             }
           },
-          {title: '客户编号', key: 'companyId', width: 120, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyId),
-              ]);
-            }
-          },
-          {title: '客户名称', key: 'title', width: 250, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.title),
-              ]);
-            }
-          },
-          {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.ssAccount),
-              ]);
-            }
-          },
-          {title: '社保账户类型', key: 'ssAccountType', width: 120, align: 'center',
-            render: (h, params) => {
-              let ssAccountType = params.row.ssAccountType;
-              let accountTypeName = "";
-
-              if(ssAccountType == 1){
-                  accountTypeName = "中智大库"
-              }else if(ssAccountType == 2){
-                  accountTypeName = "中智外包"
-              }else{
-                  accountTypeName = "独立户"
-              }
-
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', accountTypeName),
-              ]);
-            }
-          },
-          {title: '支付年月', key: 'paymentMonth', width: 120, align: 'center',
+          {title: '支付年月', key: 'paymentMonth', width: 100, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentMonth),
               ]);
             }
           },
-          {title: '支付状态', key: 'paymentStateName', width: 180, align: 'center',
+          {title: '客户编号', key: 'companyId', width: 110, align: 'center',fixed: 'left',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.companyId),
+              ]);
+            }
+          },
+          {title: '客户名称', key: 'title', width: 250, align: 'center',fixed: 'left',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.title),
+              ]);
+            }
+          },
+          {title: '支付状态', key: 'paymentStateName', width: 120, align: 'center',
             render: (h, params) => {
               let paymentState = params.row.paymentState;
               let paymentStateName = this.getPaymentStateName(paymentState);
-
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', paymentStateName),
               ]);
             }
           },
-          {title: '操作', key: 'operator', width: 220, align: 'center',
+          {title: '应缴纳金额', key: 'oughtAmount', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.oughtAmount),
+              ]);
+            }
+          },
+          {title: '申请支付总金额', key: 'totalPayAmount', width: 130, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.totalPayAmount),
+              ]);
+            }
+          },          
+          {title: '操作', key: 'operator', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
@@ -520,27 +508,46 @@
               ]);
             }
           },
-          {title: '企业部分金额', key: 'totalComPayAmount', width: 130, align: 'center',
+          {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.totalComPayAmount),
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.ssAccount),
               ]);
             }
           },
-          {title: '雇员部分金额', key: 'totalEmpPayAmount', width: 130, align: 'center',
+          {title: '社保账户类型', key: 'ssAccountType', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.totalEmpPayAmount),
+              let ssAccountType = params.row.ssAccountType;
+              let accountTypeName = "";
+
+              if(ssAccountType == 1){
+                  accountTypeName = "中智大库"
+              }else if(ssAccountType == 2){
+                  accountTypeName = "中智外包"
+              }else{
+                  accountTypeName = "独立户"
+              }
+
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', accountTypeName),
               ]);
             }
           },
-          {title: '应缴纳金额', key: 'oughtAmount', width: 130, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.oughtAmount),
-              ]);
-            }
-          },
+          // {title: '企业部分金额', key: 'totalComPayAmount', width: 130, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'right'}}, [
+          //       h('span', params.row.totalComPayAmount),
+          //     ]);
+          //   }
+          // },
+          // {title: '雇员部分金额', key: 'totalEmpPayAmount', width: 130, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'right'}}, [
+          //       h('span', params.row.totalEmpPayAmount),
+          //     ]);
+          //   }
+          // },
+          
           {title: '额外金', key: 'extraAmount', width: 130, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
@@ -562,13 +569,7 @@
               ]);
             }
           },
-          {title: '申请支付总金额', key: 'totalPayAmount', width: 130, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.totalPayAmount),
-              ]);
-            }
-          },
+          
           {title: '财务支付日期', key: 'financePaymentDate', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [

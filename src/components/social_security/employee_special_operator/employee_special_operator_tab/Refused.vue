@@ -133,12 +133,13 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/event_types'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -184,6 +185,9 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('employeeSpecialOperator.Refused.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('employeeSpecialOperator.Refused.employeeResultPageData', this.employeeResultPageData);
+
                        this.$router.push({name: 'empSpecialTaskDetail',query:{empTaskId:params.row.empTaskId}})
                     }
                   }
@@ -273,18 +277,22 @@
         ]
       }
     },
+    created() {
+      sessionData.getJsonDataFromSession('employeeSpecialOperator.Refused.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('employeeSpecialOperator.Refused.employeeResultPageData', this.employeeResultPageData);
+    },
     mounted() {
-      this[EventType.NOPROGRESSTYPE]()
+//      this[EventType.NOPROGRESSTYPE]()
       this.employeeOperatorQuery();
       this.initData();//
     },
     computed: {
-      ...mapState('noProgress', {
-        data: state => state.data
-      })
+//      ...mapState('noProgress', {
+//        data: state => state.data
+//      })
     },
     methods: {
-      ...mapActions('noProgress', [EventType.NOPROGRESSTYPE]),
+//      ...mapActions('noProgress', [EventType.NOPROGRESSTYPE]),
       initData(){
         // apiSelectData
       },

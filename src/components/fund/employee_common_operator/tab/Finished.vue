@@ -93,7 +93,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="finishedColumns" :data="finishedData"></Table>
+        <Table border :row-class-name="rowClassName" :columns="finishedColumns" :data="finishedData"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -108,11 +108,11 @@
   </div>
 </template>
 <script>
-//  import {mapState, mapGetters, mapActions} from 'vuex'
-//  import EventType from '../../../../store/event_types'
-import api from '../../../../api/house_fund/employee_task/employee_task'
-import InputCompany from '../../../common_control/form/input_company'
-import dict from '../../../../api/dict_access/house_fund_dict'
+  import ts from '../../../../api/house_fund/table_style'
+  import api from '../../../../api/house_fund/employee_task/employee_task'
+  import InputCompany from '../../../common_control/form/input_company'
+  import dict from '../../../../api/dict_access/house_fund_dict'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputCompany},
@@ -133,12 +133,6 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           companyId: '',
           hfComAccount: ''
         },
-//        serviceCenterData: [
-//          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-//          {value: 2, label: '日本客户'},
-//          {value: 3, label: '虹桥'},
-//          {value: 4, label: '浦东'}
-//        ], //客服中心
         isLoading: false,
         taskTypeList: [],
         payBankList: [],
@@ -160,6 +154,9 @@ import dict from '../../../../api/dict_access/house_fund_dict'
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('employeeFundCommonOperator.finished.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('employeeFundCommonOperator.finished.finishedPageData', this.finishedPageData);
+
                       localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
                       localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
                       localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
@@ -208,8 +205,11 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         ]
       }
     },
+    created () {
+      sessionData.getJsonDataFromSession('employeeFundCommonOperator.finished.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('employeeFundCommonOperator.finished.finishedPageData', this.finishedPageData);
+    },
     mounted() {
-//      this[EventType.FINISHED]()
       dict.getDictData().then(data => {
         if (data.code == 200) {
           this.accountTypeList = data.data.SocialSecurityAccountType;
@@ -219,19 +219,19 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           this.fundTypeList = data.data.FundType;
         }
       });
+
       this.hfEmpTaskQuery();
     },
     computed: {
-//      ...mapState('finished',{
-//        data:state => state.data
-//      })
     },
     methods: {
-//      ...mapActions('finished',[EventType.FINISHED]),
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
       hfEmpTaskQuery() {
+        if (this.isLoading) {
+          return;
+        }
         this.isLoading = true;
         var cparams = {};
         {
@@ -301,6 +301,9 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           cparams = this.beforeSubmit(params);
         }
         api.hfEmpTaskExport({ params: cparams });
+      },
+      rowClassName(row, index) {
+        return ts.empRowClassName(row, index);
       }
     }
   }

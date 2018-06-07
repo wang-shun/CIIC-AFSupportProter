@@ -53,7 +53,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="companyFundAccountSearchColumns" :data="fundAccountData"></Table>
+        <Table border :row-class-name="rowClassName" :columns="companyFundAccountSearchColumns" :data="fundAccountData"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -202,7 +202,7 @@
               ]);
             }
           },
-         
+
         ]
       }
     },
@@ -256,11 +256,14 @@
         }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
- 
+
         api.companyFundAccountExpExcel(params);
 
 
       },
+      rowClassName(row, index) {
+        return ts.comRowClassName(row, index);
+      }
     }
   }
 </script>

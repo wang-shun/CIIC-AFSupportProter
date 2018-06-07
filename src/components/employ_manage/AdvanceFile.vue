@@ -84,7 +84,7 @@ import Vue from 'vue'
           enteringDate: '',
           archiveSource: '',
           archivalPlace: '',
-          isExist: true,
+          exist: true,
         },
         payMethodList: [
           {value: '1',label: "客户自付", },
@@ -213,8 +213,7 @@ import Vue from 'vue'
         }
 
           if(this.oldName == this.advanceFile.employeeName && this.oldId == this.advanceFile.employeeIdcardNo){
-            this.advanceFile.isExist = false;
-            //alert(true);
+            this.advanceFile.exist = false;
           }
         var fromData = this.$utils.clear(this.advanceFile,'');
         if(this.advanceFile.enteringDate){
@@ -224,16 +223,15 @@ import Vue from 'vue'
           if (data.code == 200) {
             if(data.data == false){
               this.$Message.error("雇员姓名和身份证号码同时存在，已有这个雇员！");
-              return;
+              return
+            }else{
+              this.$Message.success("保存成功");
+              this.goBack();
             }
-            this.$Message.success("保存成功");
           } else {
             this.$Message.error("保存失败！" + data.message);
           }
-           this.isLoading = false;
         })
-        //return;
-        this.$router.go(-1);
       },
       goBack () {
         this.$router.go(-1);

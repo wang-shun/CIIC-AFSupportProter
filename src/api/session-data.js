@@ -2,6 +2,17 @@ import utils from "../lib/utils";
 
 export default {
   setJsonDataToSession(key, obj) {
+    for (var k of Object.keys(obj)) {
+      if (obj[k] instanceof Date) {
+        obj[k] = utils.formatDate(obj[k]);
+      } else if (obj[k] instanceof Array) {
+        obj[k].forEach((element, index, array) => {
+          if (obj[k][index] instanceof Date) {
+            obj[k][index] = utils.formatDate(obj[k][index]);
+          }
+        })
+      }
+    }
     sessionStorage.setItem(key, JSON.stringify(obj));
   },
   getJsonDataFromSession(key, obj) {

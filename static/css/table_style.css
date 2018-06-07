@@ -1,0 +1,55 @@
+.ivu-table .big-storage td{
+}
+.ivu-table .out-sourcing td{
+  background-color: #ccccff;
+}
+.ivu-table .dependency td{
+  background-color: #ccffcc;
+}
+.ivu-table .big-storage-remark td{
+  background-color: #ffff99;
+}
+.ivu-table .out-sourcing-remark td{
+  background-color: #ffcc00;
+}
+.ivu-table .dependency-remark td{
+  background-color: #c7c7c7;
+}
+.ivu-table .big-storage-has-out td{
+  color: #ff0000;
+}
+.ivu-table .out-sourcing-has-out td{
+  background-color: #ccccff;
+  color: #ff0000;
+}
+.ivu-table .dependency-has-out td{
+  background-color: #ccffcc;
+  color: #ff0000;
+}
+.ivu-table .big-storage-remark-has-out td{
+  background-color: #ffff99;
+  color: #ff0000;
+}
+.ivu-table .out-sourcing-remark-has-out td{
+  background-color: #ffcc00;
+  color: #ff0000;
+}
+.ivu-table .dependency-remark-has-out td{
+  background-color: #c7c7c7;
+  color: #ff0000;
+}
+
+.ivu-table .payment-bank-xh-x td{
+}
+.ivu-table .payment-bank-xj-c td{
+ background-color: #9999cc;
+}
+.ivu-table .payment-bank-dfl-p td{
+  background-color: #ff99cc;
+}
+.ivu-table .payment-bank-lw-l td{
+  background-color: #ffff99;
+}
+.ivu-table .payment-bank-hp-h td{
+  background-color: #ffcc99;
+}

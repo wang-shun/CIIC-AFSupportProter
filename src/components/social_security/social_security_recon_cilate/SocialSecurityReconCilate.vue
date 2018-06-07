@@ -16,6 +16,11 @@
                   <input-account v-model="operatorSearchData.comAccountId"></input-account>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号：" prop="companyId">
+                  <Input v-model="operatorSearchData.companyId"  placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Cascader :data="staticSearchData.serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer clearable></Cascader>
@@ -28,7 +33,7 @@
                   </Select>
                 </Form-item>
               </Col> -->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="差异数范围(按雇员)：">
                   <Row>
                     <Col span="10">
@@ -44,7 +49,7 @@
                     </Col>
                   </Row>
                 </Form-item>
-              </Col>
+              </Col> -->
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -177,7 +182,7 @@
           impFileType:'YYS',
           ssMonth:'',//社保月份
           comAccountId: '', //企业社保账户
-
+          companyId: '',
         },
         sSocialSecurityTypeData: [
           {

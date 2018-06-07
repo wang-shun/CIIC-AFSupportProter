@@ -27,8 +27,22 @@
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员出生日期：" prop="birthday" key="1">
-                  <DatePicker type="daterange" split-panels v-model="queryItem.birthday" placeholder="请选择"
-                              transfer></DatePicker>
+                <!--  <DatePicker type="daterange" split-panels v-model="queryItem.birthday" placeholder="请选择"
+                              transfer></DatePicker>  -->
+                  <Select v-model="queryItem.birthday" placeholder="请先选择月份" transfer>
+                    <Option value="1">一月</Option>
+                    <Option value="2">二月</Option>
+                    <Option value="3">三月</Option>
+                    <Option value="4">四月</Option>
+                    <Option value="5">五月</Option>
+                    <Option value="6">六月</Option>
+                    <Option value="7">七月</Option>
+                    <Option value="8">八月</Option>
+                    <Option value="9">九月</Option>
+                    <Option value="10">十月</Option>
+                    <Option value="11">十一月</Option>
+                    <Option value="12">十二月</Option>
+                  </Select>
                 </Form-item>
               </i-col>
             </Row>
@@ -54,6 +68,23 @@
               </i-col>
             </Row>
             <Row type="flex" justify="start" v-if="formTitle === '7'">
+              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="公司编号：" prop="companyId">
+                  <Input v-model="queryItem.companyId" placeholder="请输入"/>
+                </Form-item>
+              </i-col>
+              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="公司名称：" prop="companyName">
+                  <Input v-model="queryItem.companyName" placeholder="请输入"/>
+                </Form-item>
+              </i-col>
+              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="雇员编号：" prop="empId" key="3">
+                  <Input v-model="queryItem.empId" placeholder="请输入"/>
+                </Form-item>
+              </i-col>
+            </Row>
+            <Row type="flex" justify="start" v-if="formTitle === '8'">
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号：" prop="companyId">
                   <Input v-model="queryItem.companyId" placeholder="请输入"/>
@@ -101,7 +132,7 @@
           manager: '',
           companyName: '',
           product: 'CPDFL1800059',
-          birthday: [],
+          birthday: '',
           empId: ''
         },
         ruleValidate: {
@@ -124,10 +155,10 @@
         if (this.formTitle === '2') {
           let birStart = "";
           let birEnd = "";
-          if (form.birthday != null && form.birthday[0] !== "") {
-            birStart = Tools.reportFormatDate(form.birthday[0], "YYYY-MM-DD")
-            birEnd = Tools.reportFormatDate(form.birthday[1], "YYYY-MM-DD")
-          }
+       //   if (form.birthday != null && form.birthday[0] !== "") {
+            birStart = this.queryItem.birthday
+           // birEnd = Tools.reportFormatDate(form.birthday[1], "YYYY-MM-DD")
+       //   }
           window.location = host + '/api/reportform/get2?companyId=' + form.companyId +
             '&companyName=' + form.companyName +
             '&manager=' + form.manager +
@@ -157,6 +188,10 @@
             '&productId=' + form.product
         } else if (this.formTitle === '7') {
           window.location = host + '/api/reportform/get7?companyId=' + form.companyId +
+            '&companyName=' + form.companyName +
+            '&employeeId=' + form.empId
+        } else if (this.formTitle === '8') {
+          window.location = host + '/api/reportform/get8?companyId=' + form.companyId +
             '&companyName=' + form.companyName +
             '&employeeId=' + form.empId
         }

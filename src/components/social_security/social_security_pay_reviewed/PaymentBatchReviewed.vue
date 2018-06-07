@@ -133,6 +133,7 @@
   import EventType from '../../../store/event_types'
   import reviewedBatchApi from '../../../api/social_security/payment_batch_reviewed'
   import dict from '../../../api/dict_access/social_security_dict'
+  import sessionData from '../../../api/session-data'
 
   export default {
     components: {customerModal},
@@ -141,10 +142,11 @@
         isLoading: false,
         collapseInfo: [1], //展开栏
         payBatchSearchData: {
-          ssAccountType: '',
+          accountType: '',
           paymentId: '',
           companyId: '',
           paymentMonthMin: '',
+          paymentBatchNum: '',
           paymentMonthMinShow: '',
           paymentMonthMax: '',
           paymentMonthMaxShow: '',
@@ -323,8 +325,9 @@
       }
     },
     mounted() {
-      //this[EventType.SOCIALSECURITYPAYTYPE]();
-      this.payBatchHandlePageNum(1);
+      sessionData.getJsonDataFromSession('paymentBatchReviewed.payBatchSearchData', this.payBatchSearchData);
+      sessionData.getJsonDataFromSession('paymentBatchReviewed.payBatchPageData', this.payBatchPageData);
+      this.paymentBatchQuery();
       this.loadDict();
     },
     computed: {
@@ -367,6 +370,7 @@
       },
       //查询页面数据
       paymentBatchQuery() {
+       
         if (this.payBatchSearchData.paymentMonthMin && this.payBatchSearchData.paymentMonthMin.length != 6) {
           this.payBatchSearchData.paymentMonthMin = this.$utils.formatDate(this.payBatchSearchData.paymentMonthMin, 'YYYYMM');
         }
@@ -478,6 +482,8 @@
       },
 
       goPaymentComReviewed(paymentId) {
+        sessionData.setJsonDataToSession('paymentBatchReviewed.payBatchSearchData', this.payBatchSearchData);
+        sessionData.setJsonDataToSession('paymentBatchReviewed.payBatchPageData', this.payBatchPageData);
         window.sessionStorage.setItem("paymentComReviewed_paymentId", paymentId)
         this.$router.push({name: 'paymentComReviewed'})
       },

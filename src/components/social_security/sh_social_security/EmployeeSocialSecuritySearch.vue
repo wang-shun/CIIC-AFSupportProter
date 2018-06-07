@@ -116,6 +116,8 @@
   import InputCompany from '../../common_control/form/input_company'
   import InputCompanyName from '../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../api/dict_access/social_security_dict'
+  import sessionData from '../../../api/session-data'
+
   export default {
     components: {ICol, customerModal, companyAccountSearchModal,InputAccount,InputCompany,InputCompanyName},
     data() {
@@ -300,10 +302,11 @@
       }
     },
     mounted() {
-
-      this.employeeQuery({})
-      this.loadDict()
-
+      sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
+      sessionData.getJsonDataFromSession('empSSsearch.pageData', this.pageData);
+      let params = this.searchCondition;
+      this.employeeQuery(params);
+      this.loadDict();
     },
     computed: {
 
@@ -321,7 +324,7 @@
       },
       showInfo (ind) {
         this.$router.push({name:'employeeSocialSecurityInfo', query: {empArchiveId: ind}});
-
+        
       },
       loadDict(){
         dict.getDictData().then(data => {
@@ -331,16 +334,15 @@
         });
       },
       employeeQuery(params){
-
-        let self =this
+        sessionData.setJsonDataToSession('empSSsearch.searchCondition', this.searchCondition);
+        sessionData.setJsonDataToSession('empSSsearch.pageData', this.pageData);
         api.employeeQuery({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
           params: params,
         }).then(data => {
-
-          self.employeeSocialSecurityData = data.data.rows;
-          self.pageData.total = Number(data.data.total);
+          this.employeeSocialSecurityData = data.data.rows;
+          this.pageData.total = Number(data.data.total);
         })
       },
       handlePageNum(val) {

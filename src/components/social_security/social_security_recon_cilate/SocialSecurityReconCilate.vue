@@ -155,6 +155,7 @@
   import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/statement'
   import InputAccount from '../../common_control/form/input_account'
+  import sessionData from '../../../api/session-data'
 
   export default {
     components: {customerModal, InputAccount,companyAccountSearchModal},
@@ -369,8 +370,11 @@
       }
     },
     mounted() {
-      //this[EventType.SOCIALSECURITYRECONCILATE]();
-      this.handlePageNum(1);
+      
+      sessionData.getJsonDataFromSession('ssReconCilate.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('ssReconCilate.statementPageData', this.statementPageData);
+      this.statementQuery();
+      //this.handlePageNum(1);
     },
     computed: {
       ...mapState('socialSecurityReconcilate',{
@@ -474,6 +478,8 @@
       },
       //查询页面数据
       statementQuery() {
+        sessionData.setJsonDataToSession('ssReconCilate.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('ssReconCilate.statementPageData', this.statementPageData);
         // 处理参数
         var params = {};
         {
@@ -482,17 +488,6 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-
-        // var params = {
-        //   pageSize: this.statementPageData.pageSize,
-        //   pageNum: this.statementPageData.pageNum,
-        //   param: this.operatorSearchData
-        // };
-
-        // 清除 '[全部]'
-        //params = this.operatorSearchData;
-        // 清除空字符串
-        //params = this.$utils.clear(params, '');
 
         api.statementQuery({
           pageSize: this.statementPageData.pageSize,
@@ -506,7 +501,6 @@
         // api.statementQuery(params).then(data => {
         //   this.statementData = data.data;
         //   this.statementPageData.total = data.total;
-
         // })
       }
 

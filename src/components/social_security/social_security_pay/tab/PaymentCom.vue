@@ -204,7 +204,7 @@
   import EventType from '../../../../store/event_types'
   import payComApi from '../../../../api/social_security/payment_com'
   import dict from '../../../../api/dict_access/social_security_dict'
-
+  import sessionData from '../../../../api/session-data'
   const progressStop = 33.3;
 
   export default {
@@ -594,8 +594,11 @@
       }
     },
     mounted() {
-      //this[EventType.SOCIALSECURITYPAYTYPE]();
-      this.payComHandlePageNum(1);
+      //this.payComHandlePageNum(1);
+      sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
+      sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
+     
+      this.paymentComQuery();
       this.loadDict();
     },
     computed: {
@@ -621,7 +624,8 @@
         });
       },
       goPaymentNotice(paymentComId,comAccountId,paymentMonth) {
-
+        sessionData.setJsonDataToSession('paymentCom.payComSearchData', this.payComSearchData);
+        sessionData.setJsonDataToSession('paymentCom.payComPageData', this.payComPageData);
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
         window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
         window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)

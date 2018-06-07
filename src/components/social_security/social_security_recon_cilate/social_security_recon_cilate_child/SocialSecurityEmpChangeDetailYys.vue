@@ -95,7 +95,7 @@
               ]);
             }
           },
-          {title: '企业社保账号', key: 'ssAccount',  align: 'center',fixed: "left",width:120,
+          {title: '社保登记码', key: 'ssAccount',  align: 'center',fixed: "left",width:120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.ssAccount),

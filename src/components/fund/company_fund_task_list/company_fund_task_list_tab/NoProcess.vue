@@ -81,6 +81,7 @@
   import InputCompany from '../../../common_control/form/input_company'
   import {NoProcess} from '../../../../api/house_fund/company_task_list/company_task_list_tab/no_process'
   import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -116,6 +117,9 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('companyFundTaskList.noProcess.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('companyFundTaskList.noProcess.pageData', this.pageData);
+
                       switch(params.row.taskCategoryName) {
                         case '开户':
 
@@ -229,16 +233,20 @@
         ]
       }
     },
+    created() {
+      sessionData.getJsonDataFromSession('companyFundTaskList.noProcess.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('companyFundTaskList.noProcess.pageData', this.pageData);
+    },
     mounted() {
-      let sessionPageNum = sessionStorage.taskPageNum
-      let sessionPageSize = sessionStorage.taskPageSize
-
-      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-        this.pageNum = Number(sessionPageNum)
-        this.size = Number(sessionPageSize)
-        sessionStorage.removeItem("taskPageNum")
-        sessionStorage.removeItem("taskPageSize")
-      }
+//      let sessionPageNum = sessionStorage.taskPageNum
+//      let sessionPageSize = sessionStorage.taskPageSize
+//
+//      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+//        this.pageNum = Number(sessionPageNum)
+//        this.size = Number(sessionPageSize)
+//        sessionStorage.removeItem("taskPageNum")
+//        sessionStorage.removeItem("taskPageSize")
+//      }
       this.hfComTaskQuery();
       this.getCustomers();
 

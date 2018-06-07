@@ -151,12 +151,13 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../../store/event_types'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -211,6 +212,8 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('employeeSpecialOperator.Progressing.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('employeeSpecialOperator.Progressing.employeeResultPageData', this.employeeResultPageData);
 
                       this.$router.push({name: 'employeeSpecialProgressTwo',query:{taskStatus:params.row.handleStatus,empTaskId:params.row.empTaskId}})
                     }
@@ -301,18 +304,22 @@
         ]
       }
     },
+    created() {
+      sessionData.getJsonDataFromSession('employeeSpecialOperator.Progressing.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('employeeSpecialOperator.Progressing.employeeResultPageData', this.employeeResultPageData);
+    },
     mounted() {
-      this[EventType.NOPROGRESSTYPE]()
+//      this[EventType.NOPROGRESSTYPE]()
       this.employeeOperatorQuery();
       this.initData();//
     },
     computed: {
-      ...mapState('noProgress', {
-        data: state => state.data
-      })
+//      ...mapState('noProgress', {
+//        data: state => state.data
+//      })
     },
     methods: {
-      ...mapActions('noProgress', [EventType.NOPROGRESSTYPE]),
+//      ...mapActions('noProgress', [EventType.NOPROGRESSTYPE]),
       initData(){
         // apiSelectData
       },

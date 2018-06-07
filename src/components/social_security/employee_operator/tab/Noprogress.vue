@@ -4,110 +4,8 @@
       <Panel name="1">
         查询条件
         <div slot="content">
-          <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
-            <Row type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="*未处理：" prop="taskStatus">
-                <Select v-model="operatorSearchData.taskStatus" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="-1" label="本月未处理"></Option>
-                  <Option value="-2" label="下月未处理"></Option>
-                  <!--<Option value="3" label="处理中"></Option>
-                  <Option value="4" label="已完成"></Option>
-                  <Option value="5" label="批退"></Option>-->
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名：" prop="employeeName">
-                <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="结算区县：" prop="settlementArea">
-                <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
-                  <Option value="" label="全部"></Option>
-                  <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="社保账户类型：" prop="ssAccountType">
-                <Select v-model="operatorSearchData.ssAccountType" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="人员分类：" prop="empClassify">
-                <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="1" label="本地"></Option>
-                  <Option value="2" label="外地"></Option>
-                  <Option value="3" label="外籍三险"></Option>
-                  <Option value="4" label="外籍五险"></Option>
-                  <Option value="5" label="延迟退休人员"></Option>
-                </Select>
-              </Form-item>
-              </Col> -->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="企业社保账户：" prop="ssAccount">
-                <input-account v-model="operatorSearchData.ssAccount"></input-account>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户编号：" prop="companyId">
-                <input-company v-model="operatorSearchData.companyId"></input-company>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号：" prop="idNum">
-                <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="任务单类型：" prop="taskCategory">
-                <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户名称：" prop="title">
-                <input-company-name v-model="operatorSearchData.title" ></input-company-name>
-                <!-- <Input v-model="operatorSearchData.customerName" placeholder="请输入..."></Input> -->
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号：" prop="employeeId">
-                <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
-              </Form-item>
-              </Col>
-              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="是否加急：" prop="urgent">
-                <Select v-model="operatorSearchData.urgent" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="0" label="否"></Option>
-                  <Option value="1" label="是"></Option>
-                </Select>
-              </Form-item>
-              </Col> -->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="社保起缴月份：" prop="startMonth">
-                <Date-picker v-model="operatorSearchData.startMonth" type="month"
-                             placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
-              </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
-              <Button type="warning" @click="$refs['operatorSearchData'].resetFields()">重置</Button>
-              </Col>
-            </Row>
-          </Form>
+            <search-employee @on-search="searchEmploiees" ></search-employee>
+         
         </div>
       </Panel>
     </Collapse>
@@ -166,14 +64,19 @@
   import InputCompany from '../../../common_control/form/input_company'
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
+  import searchEmployee from "./SearchEmployee.vue"
   export default {
-    components: {InputAccount, InputCompany,InputCompanyName},
+    components: {InputAccount, InputCompany,InputCompanyName,searchEmployee},
     data() {
       return {
         refuseLoading:false,
         collapseInfo: [1], //展开栏
         taskCategorydict: [],
         ssAccountTypedict: [],
+        searchCondition: {
+          params: '',
+          taskStatus: '-1'
+        },
         operatorSearchData: {
           taskStatus: '-1',
           employeeName: '',
@@ -575,6 +478,31 @@
           });
         }
       },
+      searchEmploiees(conditions) {
+            // this.pageData.pageNum =1;
+            this.searchConditions =[];
+            
+            for(var i=0;i<conditions.length;i++)
+                  this.searchConditions.push(conditions[i].exec);
+        
+         
+           this.searchCondition.params = this.searchConditions.toString();
+        api.employeeOperatorQuery({
+          pageSize: this.employeeResultPageData.pageSize,
+          pageNum: this.employeeResultPageData.pageNum,
+          params: this.searchCondition,
+        }).then(data => {
+          if (data.code == 200) {
+            this.employeeResultData = data.data;
+            this.employeeResultPageData.total = data.total;
+            if(this.operatorSearchData.taskStatus=='-2'){
+              this.isNextMonth = true;
+            }
+          }
+        
+        })
+           
+      }
 
     }
   }

@@ -38,7 +38,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="保额类型" prop="keyType">
+                <Form-item label="标的类型" prop="keyType">
                   <Select v-model="formItem.keyType" :clearable="true">
                     <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
                     </Option>

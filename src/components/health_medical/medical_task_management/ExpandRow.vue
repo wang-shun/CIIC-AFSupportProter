@@ -44,7 +44,7 @@
         </FormItem>
         </Col>
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <FormItem label="保额：">
+        <FormItem label="标的：">
           {{reverseAmount(row.keyType,row.keyValue)}}
         </FormItem>
         </Col>

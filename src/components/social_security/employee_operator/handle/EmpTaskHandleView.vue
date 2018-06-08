@@ -11,26 +11,8 @@
         雇员信息
         <div slot="content">
           <employee-info :operatorType='operatorType' :employee="employee"></employee-info>
-        </div>
-      </Panel>
-      <Panel name="3">
-        雇员未做任务单
-        <div slot="content">
+
           <Form :label-width=150 >
-          <Row class="mt20" type="flex" justify="start">
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Table border width="1200" :columns="theSameTaskListColumns"
-                     :data="socialSecurityPayOperator.theSameTask"></Table>
-              </Col>
-          </Row>
-          </Form>
-        </div>
-      </Panel>
-      <Panel name="4">
-        任务单参考信息
-        <div slot="content">
-                     <!--  v-if="operatorType === '1' || operatorType === '2'" -->
-            <Form :label-width=150 >
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="开AF单日期：">
@@ -58,6 +40,41 @@
               </Form-item>
               </Col>
             </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="3">
+        任务单参考信息
+        <div slot="content">
+                     <!--  v-if="operatorType === '1' || operatorType === '2'" -->
+            <Form :label-width=150 >
+            <!--<Row class="mt20" type="flex" justify="start">-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="开AF单日期：">-->
+                <!--<label>{{reworkInfo.openAfDate}}</label>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="存档地：">-->
+                <!--<label>{{reworkInfo.archivePlace}}</label>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="工资：">-->
+                <!--<label>{{reworkInfo.salary}}</label>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="用工状态：">-->
+                <!--<label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskCategory, reworkInfo.taskStatus)}}</label>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="用工日期：">-->
+                <!--<label>{{reworkInfo.employFeedbackOptDate}}</label>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
+            <!--</Row>-->
             <Row>
               <Col :sm="{span: 13}">
               <Table border width="601" :columns="taskNewInfoColumns" :data="taskNewInfoData"></Table>
@@ -66,7 +83,7 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="5">
+      <Panel name="4">
         社保缴纳操作
         <div slot="content">
           <Form :label-width=150>
@@ -182,6 +199,19 @@
           </Form>
         </div>
       </Panel>
+      <Panel name="5">
+        历史任务单
+        <div slot="content">
+          <Form :label-width=150 >
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Table border width="1200" :columns="theSameTaskListColumns"
+                     :data="socialSecurityPayOperator.theSameTask"></Table>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -193,18 +223,21 @@
       <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
+
+    <origin-emp-task-info :paramObj="paramObj"></origin-emp-task-info>
   </div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import companyInfo from '../../components/CompanyInfo.vue'
   import employeeInfo from '../../components/EmployeeInfo.vue'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
 
   import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
   export default {
-    components: {companyInfo, employeeInfo},
+    components: {companyInfo, employeeInfo, originEmpTaskInfo},
     data() {
       return {
         empTaskId: '',
@@ -212,7 +245,7 @@
         currentIndex: this.$route.params.index,
         isNextMonth:this.$route.query.isNextMonth,
         sourceFrom: '',
-        collapseInfo: [1, 2, 3, 4,5],
+        collapseInfo: [1, 2, 3, 4, 5],
         employee: {
           idNum:'',
           education:'',
@@ -225,6 +258,9 @@
          employeeAttribute:''
         },
         isLoading: false,
+        paramObj: {
+          showOrigin: false,
+        },
         company: {},
         //用退工信息
         reworkInfo:{},
@@ -234,7 +270,7 @@
         salary:'18000',
         jobState: '已用工',
         jobDate: '2017-12-01'
-      },
+        },
       taskNewInfoData: [], //任务单参考信息 -- 新增
         taskCategoryType: [
           {value: '1', label: '新进'},
@@ -294,22 +330,7 @@
         ],
         theSameTaskListColumns:[
           {
-            title: '任务单ID', key: 'empTaskId', align: 'center', width: 100,
-            render: (h, params) => {
-              let taskCategory = params.row.taskCategory
-              let empTaskId  =params.row.empTaskId
-              return h('a', {
-                style: {textAlign: 'right'},
-                on:{
-                  click:()=>{
-                    this.routerMethed(taskCategory,empTaskId)
-                  }
-                }
-              }, params.row.empTaskId);
-            }
-          },
-          {
-            title: '任务单类型', key: 'taskCategory', align: 'center', width: 100,
+            title: '任务单类型', key: 'taskCategory', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.taskCategory(params.row.taskCategory)),
@@ -317,36 +338,100 @@
             }
           },
           {
+            title: '办理方式',
+            key: 'handleWay',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span', params.row.handleWay);
+            }
+          },
+          {
             title: '起始月份',
             key: 'startMonth',
             align: 'center',
+            width: 100,
             render: (h, params) => {
-              return h('span', params.row.taskCategory=='5' || params.row.taskCategory=='6' ||params.row.taskCategory =='14'|| params.row.taskCategory=='15'?'':params.row.startMonth);
+              return h('span', params.row.startMonth);
             }
           },
           {
             title: '截止月份',
             key: 'endMonth',
             align: 'center',
+            width: 100,
             render: (h, params) => {
-               return h('span',params.row.endMonth)
+               return h('span', params.row.endMonth)
             }
           },
           {
             title: '基数',
             key: 'empBase',
             align: 'center',
+            width: 150,
             render: (h, params) => {
-
               return h('span',params.row.empBase)
-              // return h('Input', {
-              //   props: {value: params.row.baseAmount, disabled:true},//disabled: true
-              //   on: {
-              //     'on-blur': (e) => {
-              //       this.setRow(params, 'baseAmount', e.target.value);
-              //     }
-              //   }
-              // }, params.row.baseAmount);
+            }
+          },
+          {
+            title: '办理月份',
+            key: 'handleMonth',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('div', [
+                h('span', params.row.handleMonth),
+              ]);
+            }
+          },
+          {
+            title: '办理状态',
+            key: 'taskStatus',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('div', [
+                h('span', this.$decode.empTaskStatus(params.row.taskStatus)),
+              ]);
+            }
+          },
+          {
+            title: '办理时间',
+            key: 'modifiedTime',
+            align: 'center',
+            width: 200,
+            render: (h, params) => {
+              return h('div', [
+                h('span', params.row.modifiedTime),
+              ]);
+            }
+          },
+          {
+            title: '办理人',
+            key: 'modifiedDisplayName',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('div', [
+                h('span', params.row.modifiedDisplayName),
+              ]);
+            }
+          },
+          {
+            title: '原任务单',
+            key: 'empTaskId',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              let empTaskId = params.row.empTaskId
+              return h('a', {
+                style: {textAlign: 'right'},
+                on: {
+                  click: () => {
+                    this.paramObj.showOrigin = true;
+                  }
+                }
+              }, '查看');
             }
           },
         ],

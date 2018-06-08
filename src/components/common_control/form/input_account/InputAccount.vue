@@ -155,10 +155,13 @@
         var row = {};
         if (this.currentIndex >= 0) {
           row = this.data[this.currentIndex];
-          console.log(row);
           this.currentValue = this.renderFormat(row);
         }
         this.$emit('on-ok', row);
+        this.listenToChildEvent(row);
+      },
+      listenToChildEvent(row) {
+        this.$emit('listenToChildEvent', row);
       },
       cancel() {
         this.$emit('on-cancel');

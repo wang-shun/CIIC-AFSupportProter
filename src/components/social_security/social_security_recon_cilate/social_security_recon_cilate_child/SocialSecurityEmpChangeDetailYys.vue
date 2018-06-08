@@ -16,21 +16,21 @@
                   <label>{{empChangeData.ssMonth}}</label>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="企业社保账户：" prop="comAccountName">
-                  <label >{{empChangeData.comAccountName}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="企业社保账号：" prop="ssAccount">
-                  <label>{{empChangeData.ssAccount}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="客户编号：" prop="companyIds">
-                  <label >{{empChangeData.companyIds}}</label>
-                </Form-item>
-              </Col>
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">-->
+                <!--<Form-item label="企业社保账户：" prop="comAccountName">-->
+                  <!--<label >{{empChangeData.comAccountName}}</label>-->
+                <!--</Form-item>-->
+              <!--</Col>-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">-->
+                <!--<Form-item label="企业社保账号：" prop="ssAccount">-->
+                  <!--<label>{{empChangeData.ssAccount}}</label>-->
+                <!--</Form-item>-->
+              <!--</Col>-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">-->
+                <!--<Form-item label="客户编号：" prop="companyIds">-->
+                  <!--<label >{{empChangeData.companyIds}}</label>-->
+                <!--</Form-item>-->
+              <!--</Col>-->
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="最近计算人：" prop="computeUserId">
                   <label>{{empChangeData.computeUserId}}</label>
@@ -54,7 +54,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}">
         <Button type="info" @click="ok">导出</Button>
-        <Button type="primary" :loading="isLoading" @click="calculate" >重新汇总</Button>
+        <!--<Button type="primary" :loading="isLoading" @click="calculate" >重新汇总</Button>-->
         <Button type="info" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -66,6 +66,7 @@
   import companyAccountSearchModal from '../../../common_control/CompanyAccountSearchModal.vue'
 //  import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/month_emp_change'
+  import reportApi from '../../../../api/social_security/social_security_report'
 
   export default {
     components: {customerModal, companyAccountSearchModal},
@@ -81,16 +82,44 @@
           lastComputeTime:'',
           companyIds:'',
           ssAccount:'',
+          companyId:''
         },
         monthEmpChangeId:0,
         empChangeDetailData: [],
         empChangeDetailDataColumns: [
 
+          {title: '企业社保账户', key: 'comAccountName',  align: 'center',fixed: "left",width:200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.comAccountName),
+              ]);
+            }
+          },
+          {title: '社保登记码', key: 'ssAccount',  align: 'center',fixed: "left",width:120,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.ssAccount),
+              ]);
+            }
+          },
+          {title: '客户编号', key: 'companyId',  align: 'center',fixed: "left",width:120,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.companyId),
+              ]);
+            }
+          },
+          {title: '社保序号', key: 'ssSerial',  align: 'center',fixed: "left",width:100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.ssSerial),
+              ]);
+            }
+          },
           {title: '雇员编号', key: 'employeeId',  align: 'center',fixed: "left",width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.employeeId),
-
               ]);
             }
           },
@@ -219,21 +248,43 @@
     mounted() {
     //当前页面来自两个入口，一个来自社保对账，另一个来自社保报表，传递进来的参数不一样
       let ssMonth = this.$route.query.ssMonth;
-      let comAccountId = this.$route.query.ssAccountId;
+//      let comAccountId = this.$route.query.ssAccountId;
+      let ssAccount = this.$route.query.ssAccount;
+      let companyId = this.$route.query.companyId;
+      let ssAccountType = this.$route.query.ssAccountType;
       let monthEmpChangeId = '';
       let params={};
+
+      this.empChangeData.ssMonth = this.$route.query.ssMonth;
+//      this.empChangeData.comAccountId = this.$route.query.ssAccountId;
+//      this.empChangeData.ssAccount = this.$route.query.ssAccount;
+
+//      reportApi.getAccountRelationByAccountId({
+//        comAccountId : comAccountId
+//      }).then(
+//        data => {
+//          if (data.code === 200) {
+//            if (data.data) {
+//              this.empChangeData.comAccountName = data.data.comAccountName;
+//              this.empChangeData.companyIds = data.data.companyIds;
+//            }
+//          } else {
+//            this.$Message.error(data.message);
+//          }
+//        }
+//      )
+
       if(ssMonth != null){
         params={
           ssMonth : ssMonth,
-          comAccountId : comAccountId
+//          comAccountId : comAccountId,
+          ssAccount: ssAccount,
+          ssAccountType : ssAccountType,
+          companyId : companyId
         }
         api.queryYysReport(params).then(
           data=>{
-            this.empChangeData.ssMonth = this.$route.query.ssMonth;
-            this.empChangeData.comAccountId = this.$route.query.ssAccountId;
-            this.empChangeData.comAccountName = this.$route.query.ssAccount;
-
-            if (data.code == 200) {
+            if (data.code === 200) {
               this.empChangeDetailData = data.data;
             } else {
               this.$Message.error(data.message);
@@ -274,8 +325,20 @@
         this.$refs[name].resetFields()
       },
       ok () {
+        let ssMonth = this.$route.query.ssMonth;
+        let ssAccount = this.$route.query.ssAccount;
+        let companyId = this.$route.query.companyId;
+        let ssAccountType = this.$route.query.ssAccountType;
+        let params={
+          ssMonth : ssMonth,
+          ssAccount: ssAccount,
+          ssAccountType : ssAccountType,
+          companyId : companyId
+        }
         api.yysExport({
-          monthEmpChangeId: this.monthEmpChangeId
+          pageSize: 999999,
+          pageNum: 0,
+          params: params,
         });
       },
       cancel () {
@@ -284,57 +347,57 @@
       goBack(){
         history.go(-1);
       },
-      serachMonthEmpChange(monthEmpChangeId){
-        api.serachMonthEmpChange({
-          monthEmpChangeId: monthEmpChangeId
-        }).then(data => {
-          if(data.data != null){
-            this.empChangeData = data.data;
-          }
-        })
-      },
-      showMonthEmpChangeDetail(monthEmpChangeId){
-        api.showMonthEmpChangeDetail({
-          monthEmpChangeId: monthEmpChangeId
-        }).then(data => {
-          if(data.data != null){
-            this.empChangeDetailData = data.data;
-          }
-        })
-      },
-      calculate(){
-        this.isLoading = true;
-        let userInfo = sessionStorage.getItem('userInfo');
-        let userName='';
-        if (userInfo) {
-          userName= JSON.parse(userInfo).displayName;
-        }else{
-          this.$Message.error('获取用户信息超时，请重新登录系统。');
-          return;
-        }
-
-        let params = {
-          comAccountId:this.empChangeData.comAccountId,
-          ssMonth:this.empChangeData.ssMonth,
-          generalMethod:'generateMonthEmpChangeReport',
-          userName:userName
-        };
-        api.summaryCalculate(params).then(data=>{
-            if(data.code==1){
-              this.$Message.error(data.message);
-            }else{
-              this.$Notice.success({
-                    title: '重新汇总提示',
-                    desc: '服务器已接收您的汇总计算，请等待片刻重新刷新页面，并留意‘最后计算时间’的更新。'
-                });
-            }
-            this.isLoading = false;
-
-        }).catch(error=>{
-          this.$Message.error('系统异常！');
-        });
-
-      }
+//      serachMonthEmpChange(monthEmpChangeId){
+//        api.serachMonthEmpChange({
+//          monthEmpChangeId: monthEmpChangeId
+//        }).then(data => {
+//          if(data.data != null){
+//            this.empChangeData = data.data;
+//          }
+//        })
+//      },
+//      showMonthEmpChangeDetail(monthEmpChangeId){
+//        api.showMonthEmpChangeDetail({
+//          monthEmpChangeId: monthEmpChangeId
+//        }).then(data => {
+//          if(data.data != null){
+//            this.empChangeDetailData = data.data;
+//          }
+//        })
+//      },
+//      calculate(){
+//        this.isLoading = true;
+//        let userInfo = sessionStorage.getItem('userInfo');
+//        let userName='';
+//        if (userInfo) {
+//          userName= JSON.parse(userInfo).displayName;
+//        }else{
+//          this.$Message.error('获取用户信息超时，请重新登录系统。');
+//          return;
+//        }
+//
+//        let params = {
+//          comAccountId:this.empChangeData.comAccountId,
+//          ssMonth:this.empChangeData.ssMonth,
+//          generalMethod:'generateMonthEmpChangeReport',
+//          userName:userName
+//        };
+//        api.summaryCalculate(params).then(data=>{
+//            if(data.code==1){
+//              this.$Message.error(data.message);
+//            }else{
+//              this.$Notice.success({
+//                    title: '重新汇总提示',
+//                    desc: '服务器已接收您的汇总计算，请等待片刻重新刷新页面，并留意‘最后计算时间’的更新。'
+//                });
+//            }
+//            this.isLoading = false;
+//
+//        }).catch(error=>{
+//          this.$Message.error('系统异常！');
+//        });
+//
+//      }
     }
   }
 </script>

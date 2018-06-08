@@ -56,6 +56,11 @@
                   <Input v-model="payComSearchData.ssAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客服中心：" prop="serviceCenterValue">
+                  <Cascader :data="serviceCenterData"  v-model="payComSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -73,6 +78,7 @@
         <Col :sm="{span: 24}">
           <Button type="primary" @click="gotoAddBatch()">添加到出账批次号</Button>
           <Button type="primary" @click="gotoDelBatch()">从出账批次号中移除</Button>
+          <Button type="info" @click="exportData">导出</Button>
         </Col>
       </Row>
 
@@ -213,7 +219,9 @@
       return{
         collapseInfo: [1], //展开栏
         accountTypeList: [],
+        serviceCenterData:[],
         payComSearchData: {
+          serviceCenterValue:[],
           ssAccountType: '',
           paymentId: '',
           companyId: '',
@@ -453,7 +461,7 @@
               ]);
             }
           },
-          {title: '申请支付总金额', key: 'totalPayAmount', width: 130, align: 'center',
+          {title: '申请支付总金额', key: 'totalPayAmount', width: 140, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.totalPayAmount),
@@ -601,14 +609,12 @@
      
       this.paymentComQuery();
       this.loadDict();
+      this.getCustomers();
     },
     computed: {
-      ...mapState('socialSecurityPay', {
-          data:state=>state.data
-      })
     },
     methods: {
-      ...mapActions('socialSecurityPay', [EventType.SOCIALSECURITYPAYTYPE]),
+     
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -616,6 +622,12 @@
         this.$Notice.success({
           title: '支付申请操作成功！'
         });
+      },
+      getCustomers(){
+        let params = null;
+        payComApi.getCustomers({params:params}).then(data=>{
+          this.serviceCenterData = data.data;
+        })
       },
       loadDict(){
         dict.getDictData().then(data => {
@@ -651,15 +663,13 @@
       //   this.payComPageData = selection;
       // },
       //查询页面数据
-      paymentComQuery() {
+      exportData() {
         if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
           this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
         }
-
         if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
           this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
         }
-
         // 处理参数
         var params = {};
         {
@@ -668,7 +678,35 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
+        payComApi.paymentComQueryExport(params)
+      },
+      paymentComQuery() {
+        if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
+          this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
+        }
+        if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
+          this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
+        }
+        // 处理参数
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.payComSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         payComApi.paymentComQuery({
           pageSize: this.payComPageData.pageSize,
           pageNum: this.payComPageData.pageNum,

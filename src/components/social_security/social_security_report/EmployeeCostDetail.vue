@@ -37,6 +37,7 @@
               </Col>
             </Row>
             <Table   :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData" :loading="loading" ></Table>
+          
         </div>
       </Panel>
     </Collapse>

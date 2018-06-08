@@ -1,10 +1,10 @@
 <template>
   <div class="smList">
     <Tabs v-model="tabName" @on-click="switchTab">
-      <TabPane label="企业账户管理" name="paymentCom">
+      <TabPane label="企业账户支付管理" name="paymentCom">
         <paymentCom v-if="tabNames.paymentCom"></paymentCom>
       </TabPane>
-      <TabPane label="支付批次" name="paymentBatch">
+      <TabPane label="支付批次申请" name="paymentBatch">
         <paymentBatch v-if="tabNames.paymentBatch"></paymentBatch>
       </TabPane>
     </Tabs>

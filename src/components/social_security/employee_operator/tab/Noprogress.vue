@@ -5,7 +5,6 @@
         查询条件
         <div slot="content">
             <search-employee @on-search="searchEmploiees" ></search-employee>
-         
         </div>
       </Panel>
     </Collapse>
@@ -20,7 +19,7 @@
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange"></Table>
+      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -33,7 +32,6 @@
         ></Page>
       </Col>
     </Row>
-
 
 
     <!-- 批退理由 -->
@@ -73,6 +71,7 @@
         collapseInfo: [1], //展开栏
         taskCategorydict: [],
         ssAccountTypedict: [],
+        orderConditions:[],
         searchCondition: {
           params: '',
           taskStatus: '-1'
@@ -148,13 +147,13 @@
             title: '雇员', key: 'employeeName', width: 100, align: 'center'
           },
           {
-            title: '雇员编号', key: 'employeeId', width: 100, align: 'center'
+            title: '雇员编号', key: 'employeeId', width: 100, align: 'center',sortable: true
           },
           {
-            title: '雇员证件号', key: 'idNum', width: 200, align: 'center'
+            title: '雇员证件号', key: 'idNum', width: 200, align: 'center',sortable: true
           },
           {
-            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center',sortable: true
           },
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
@@ -163,7 +162,7 @@
           //   title: '执行日期', key: 'doDate', width: 150, align: 'center'
           // },
           {
-            title: '客户编号', key: 'companyId', width: 120, align: 'center'
+            title: '客户编号', key: 'companyId', width: 120, align: 'center',sortable: true
           },
           {
             title: '客户名称', key: 'title', width: 200, align: 'center'
@@ -181,8 +180,17 @@
       }
     },
     async mounted() {
+      debugger;
+       this.searchConditions =[];
+       this.searchConditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
 
-      this.employeeOperatorQuery();
+       if(this.searchConditions==null)
+       {
+         this.searchConditions =[];
+       }
+
+      
+      this.searchEmploiees(this.searchConditions);
       this.loadDict();
     },
     computed: {
@@ -389,6 +397,7 @@
       },
       // 批量办理
       batchHandle(data, isBatch = false) {
+        
         if (isBatch) {
           // 组织任务 ID
           var empTaskIds = "";
@@ -479,14 +488,31 @@
         }
       },
       searchEmploiees(conditions) {
-            // this.pageData.pageNum =1;
-            this.searchConditions =[];
+       
             
-            for(var i=0;i<conditions.length;i++)
-                  this.searchConditions.push(conditions[i].exec);
+        this.searchConditions =[];
+            
+        for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);
+
         
-         
-           this.searchCondition.params = this.searchConditions.toString();
+        var storeOrder = JSON.parse(sessionStorage.getItem('orderConditions'));
+     
+      if(storeOrder==null)
+      {
+
+      }else{
+        if(storeOrder.length>0)
+        {
+          for(var index  in storeOrder)
+          {
+             this.searchConditions.push(storeOrder[index]);
+          }
+        }
+      }
+        
+        this.searchCondition.params = this.searchConditions.toString();
+
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
           pageNum: this.employeeResultPageData.pageNum,
@@ -502,6 +528,91 @@
         
         })
            
+      },SortChange(e){
+
+        this.searchConditions =[];
+
+        var conditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
+
+        var storeOrder = JSON.parse(sessionStorage.getItem('orderConditions'));
+            
+        for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);  
+
+        var dx ='';
+        if(e.key == 'companyId'){
+            dx = 'c.company_id';
+        }else if(e.key == 'employeeId'){
+            dx = 'e.employee_id';
+        }else if(e.key == 'ssAccount'){
+            dx = 'ca.ss_account';
+        }else if(e.key == 'idNum'){
+            dx = 'e.id_num';
+        }
+
+        const searchConditionExec = `${dx} ${e.order} `;
+        
+        if(storeOrder==null){
+        
+        }else{
+          this.orderConditions = storeOrder;
+        }
+        debugger;
+        var isE = false;
+        if(this.orderConditions.length>0)
+        {
+            for(var index in this.orderConditions)
+            { 
+               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order=='normal')
+               {  //如果是取消，则删除条件
+                  this.orderConditions.splice(index,1);
+                   isE = true;
+               }else if(this.orderConditions[index].indexOf(dx)!= -1 && this.orderConditions[index].indexOf(e.order)== -1 ) {
+                 //如果是切换查询顺序
+                  this.orderConditions.splice(index,1);
+                  this.orderConditions.push(searchConditionExec);
+                   isE = true;
+               }else if(this.orderConditions[index]===searchConditionExec){
+                   this.orderConditions.splice(index,1);
+               }
+               
+            } 
+            
+            if(!isE)
+            {
+               this.orderConditions.push(searchConditionExec);
+            }
+           
+        }else{
+            this.orderConditions.push(searchConditionExec);
+        }
+
+        sessionStorage.setItem('orderConditions', JSON.stringify(this.orderConditions));
+
+        if(this.orderConditions.length>0)
+        {
+          for(var index  in this.orderConditions)
+          {
+             this.searchConditions.push(this.orderConditions[index]);
+          }
+        }
+
+        this.searchCondition.params = this.searchConditions.toString();
+
+        api.employeeOperatorQuery({
+          pageSize: this.employeeResultPageData.pageSize,
+          pageNum: this.employeeResultPageData.pageNum,
+          params: this.searchCondition,
+        }).then(data => {
+          if (data.code == 200) {
+            this.employeeResultData = data.data;
+            this.employeeResultPageData.total = data.total;
+            if(this.operatorSearchData.taskStatus=='-2'){
+              this.isNextMonth = true;
+            }
+          }
+        
+        })
       }
 
     }

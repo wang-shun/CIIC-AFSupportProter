@@ -108,6 +108,12 @@
       }
     },
     async mounted() {
+
+      this.searchConditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
+
+     
+
+      
      
       this.loadDict();
     },
@@ -190,6 +196,8 @@
         this.$refs[form].resetFields();
       },
       searchEmploiees() {
+        
+        window.sessionStorage.setItem('searchEmploiees', JSON.stringify(this.searchConditions));
          this.$emit("on-search", this.searchConditions);
       },
       loadDict(){

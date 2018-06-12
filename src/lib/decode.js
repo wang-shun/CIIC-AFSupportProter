@@ -263,10 +263,8 @@ export default {
             return '员工自付'
         }
     },
-
     //付款方式
     payMethod: (type) => {
-
         switch (type) {
         case '1':
             return '我司代付款'
@@ -274,6 +272,17 @@ export default {
             return '客户自付'
         case '3':
             return '我司垫付'
+        default:
+            return ''
+        }
+    },
+    //付款类型
+    paymentType: (type) => {    
+        switch (type) {
+        case '1':
+            return '我司代付款'
+        case '2':
+            return '客户自付'
         default:
             return ''
         }
@@ -290,6 +299,38 @@ export default {
         default:
             return ''
         }
+    },
+    //社保企业账户来源地
+    ssComAccountResource:(type)=>{
+        switch (type) {
+            case '1':
+            case 1:
+                return '新开'
+            case '2':
+            case 2:
+                return 'AF转入(大库转入)'
+            case '3':
+            case 3:
+                return '其他供应商转入'    
+            default:
+                return ''
+            }
+    },
+    //社保企业账户交与方式
+    ssComAccountGiveMethod:(type)=>{
+        switch (type) {
+            case '1':
+            case 1:
+                return '交客服'
+            case '2':
+            case 2:
+                return '传真'
+            case '3':
+            case 3:
+                return '邮寄'    
+            default:
+                return ''
+            }
     },
     district: (type, self = false) => {
         switch (type) {

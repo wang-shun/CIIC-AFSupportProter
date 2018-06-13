@@ -95,6 +95,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="error" @click="isShowRejectBatch = true">批量批退</Button>
+        <Button type="info"  @click="isUpload=true">批量预录入雇员公积金账号</Button>
         <Button type="info" @click="excelExport()">导出</Button>
         <Button type="info" @click="excelExportNew()">导出开户文件</Button>
       </Col>
@@ -120,6 +121,50 @@
         show-sizer show-total></Page>
       </Col>
     </Row>
+
+    <!-- 批量上传-->
+    <Modal
+      :width="800"
+      v-model="isUpload"
+      :closable="false"
+      :mask-closable="false"
+      style="position:relative;z-index:900;">
+      <div style="text-align: center;">
+        <Form :label-width=100 ref="uploadData" :model="uploadData" style="width: 500px">
+          <Row type="flex" justify="start">
+            <Col :sm="{span:12}">
+            <Form-item label="批量上传：" prop="uploadFile">
+              <div id="loading" class="loading" style="position: absolute; z-index: 999; display: none">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <Upload ref="upload" :action="uploadAttr.actionUrl" :data="uploadData" :accept="uploadAttr.acceptFileExtension"
+                      :before-upload="beforeUpload" :default-file-list="uploadFileList">
+                <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+              </Upload>
+            </Form-item>
+            </Col>
+            <Col :sm="{span:12}">
+            <Button type="info" @click="impTemplate" >下载上传模板</Button>
+            </Col>
+          </Row>
+        </Form>
+        <Row class="mt20">
+          <Col :sm="{span:24}">
+          <Table height="300" border ref="importResultData"
+                 :columns="importResultColumns"
+                 :data="importResultData"
+          ></Table>
+          </Col>
+        </Row>
+      </div>
+      <div slot="footer">
+        <button type="button" class="ivu-btn ivu-btn-text ivu-btn-large" @click="importClose"><span>取消</span></button>
+      </div>
+    </Modal>
 
     <!-- 批退理由 -->
     <Modal
@@ -173,6 +218,34 @@
         payBankList: [],
         fundTypeList: [],
         accountTypeList: [],
+
+        isUpload: false,
+        uploadData: {
+          file: ''
+        },
+        uploadAttr: {
+          actionUrl: '/api/fundcommandservice/hfEmpTask/empPreInputUpload',
+          acceptFileExtension: '.xls,.xlsx',
+        },
+        uploadFileList: [],
+        importResultData: [],
+        importResultColumns: [
+          {
+            title: '雇员编号', key: 'employeeId', width: 150, align: 'left'
+          },
+          {
+            title: '雇员姓名', key: 'employeeName', width: 100, align: 'left'
+          },
+          {
+            title: '基本公积金账号', key: 'hfEmpBasAccount', width: 180, align: 'left'
+          },
+          {
+            title: '补充公积金账号', key: 'hfEmpAddAccount', width: 180, align: 'left'
+          },
+          {
+            title: '错误信息', key: 'errorMsg', width: 300, align: 'left'
+          },
+        ],
 
         isShowRejectBatch: false,
         rejectionRemark: '',
@@ -419,7 +492,35 @@
       },
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
-      }
+      },
+      beforeUpload(file) {
+        let loading = document.getElementById("loading");
+
+        loading.style.display = "inline-block";
+        this.uploadFileList.length = 0;
+        this.uploadData.file = file;
+        api.empPreInputUpload(this.uploadData).then(data => {
+          if (this.importResultData) {
+            this.importResultData.length = 0;
+          }
+          if (data.code == 200) {
+            this.uploadFileList.push({name: file.name, url: ''});
+            this.importResultData = data.data;
+//            this.isSubmit = false;
+          } else {
+            this.$Message.error(data.message);
+          }
+          loading.style.display = "none";
+        })
+        return false;
+      },
+      importClose() {
+        this.isUpload = false;
+//        this.isSubmit = false;
+      },
+      impTemplate() {
+        api.downloadEmpPreInputTemplate({});
+      },
     }
   }
 </script>

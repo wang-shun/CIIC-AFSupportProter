@@ -30,4 +30,12 @@ export default {
   newEmpTaskTxtExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfEmpTask/newEmpTaskTxtExport', params);
   },
+
+  empPreInputUpload: async(params) => {
+    let response = await AJAX.upload('/api/fundcommandservice/hfEmpTask/empPreInputUpload', params);
+    return await response.data;
+  },
+  downloadEmpPreInputTemplate: async (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpTask/downloadEmpPreInputTemplate', params);
+  },
 }

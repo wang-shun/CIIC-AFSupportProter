@@ -94,8 +94,9 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员属性：">
-                  <Select style="width: 200px"  v-model="employeeAndCustomer.xxx">
-                    <Option v-for="(value,key) in this.baseDic.ss_emp_property" :value="value" :key="key">{{value}}</Option>
+                  <Select style="width: 200px"  v-model="employeeAndCustomer.empClassify">
+                    <Option value="" > </Option>
+                    <Option v-for="(value,key) in this.baseDic.ssEmpProperty" :value="key" :key="key">{{value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -327,6 +328,7 @@
         }
           var formData={
             ssSerial:'',
+            empClassify:this.employeeAndCustomer.empClassify,
             empArchiveId:this.$route.query.empArchiveId,
             comAccountId: this.employeeAndCustomer.comAccountId
           };

@@ -67,17 +67,17 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="用工档案缴费至：" prop="employDocPaymentTo">
-          <DatePicker type="date" v-model="file1.employDocPaymentTo" transfer></DatePicker>
+          <DatePicker type="date" v-model="file1.employDocPaymentTo" @on-open-change="setCurrentDate" @on-change="changeDate" transfer></DatePicker>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="入库日期：" prop="storageDate">
-          <DatePicker type="date" v-model="file1.storageDate" transfer></DatePicker>
+          <DatePicker type="date" v-model="file1.storageDate" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="进档日期：">
-          <DatePicker  type="date" v-model="file1.inFileDate" placeholder="" transfer></DatePicker>
+          <DatePicker  type="date" v-model="file1.inFileDate" placeholder="" @on-open-change="setCurrentDate3" @on-change="changeDate3" transfer></DatePicker>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -101,7 +101,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="档案中途转出时间：">
-          <DatePicker v-model="file2.docHalfwayOutDate" type="date" placeholder="" transfer></DatePicker>
+          <DatePicker v-model="file2.docHalfwayOutDate" type="date" placeholder="" @on-open-change="setCurrentDate4" @on-change="changeDate4" transfer></DatePicker>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -111,7 +111,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="手册入库日期：">
-          <DatePicker v-model="file2.manualStorageDate" type="date" placeholder="" transfer></DatePicker>
+          <DatePicker v-model="file2.manualStorageDate" type="date" placeholder="" @on-open-change="setCurrentDate5" @on-change="changeDate5" transfer></DatePicker>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -126,7 +126,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="用工后收到手册日期：">
-          <DatePicker v-model="file2.afterEmployManualReceiveDate" type="date" placeholder="" transfer></DatePicker>
+          <DatePicker v-model="file2.afterEmployManualReceiveDate" type="date" placeholder="" @on-open-change="setCurrentDate6" @on-change="changeDate6" transfer></DatePicker>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -136,7 +136,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="恢复用工手册入库日期：">
-          <DatePicker v-model="file2.recoverEmployManualStorageDate" type="date" placeholder="" transfer></DatePicker>
+          <DatePicker v-model="file2.recoverEmployManualStorageDate" type="date" placeholder="" @on-open-change="setCurrentDate7" @on-change="changeDate7" transfer></DatePicker>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -146,7 +146,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="寄档案回执日期：">
-          <DatePicker v-model="file2.mailDocReturnDate" type="date" placeholder="" transfer></DatePicker>
+          <DatePicker v-model="file2.mailDocReturnDate" type="date" placeholder="" @on-open-change="setCurrentDate8" @on-change="changeDate8" transfer></DatePicker>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -157,7 +157,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="开存档证明日期：">
-          <DatePicker v-model="file2.openDocProofDate" type="date" placeholder="" transfer></DatePicker>
+          <DatePicker v-model="file2.openDocProofDate" type="date" placeholder="" @on-open-change="setCurrentDate9" @on-change="changeDate9" transfer></DatePicker>
         </Form-item>
         </Col>
       </Row>
@@ -485,7 +485,102 @@
            this.isLoadingT = false;
         })
 
-      }
+      },currentDate(){
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              return currentdate;
+       },setCurrentDate(e) {
+        if(e){
+          if(this.file1.employDocPaymentTo==''||this.file1.employDocPaymentTo==undefined)
+          {
+             this.file1.employDocPaymentTo = this.currentDate();
+          }
+        }
+      },changeDate(e) {
+        this.file1.employDocPaymentTo = e;
+      },setCurrentDate2(e) {
+        if(e){
+          if(this.file1.storageDate==''||this.file1.storageDate==undefined)
+          {
+             this.file1.storageDate = this.currentDate();
+          }
+        }
+      },changeDate2(e) {
+        this.file1.storageDate = e;
+      },setCurrentDate3(e) {
+        if(e){
+          if(this.file1.inFileDate==''||this.file1.inFileDate==undefined)
+          {
+             this.file1.inFileDate = this.currentDate();
+          }
+        }
+      },changeDate3(e) {
+        this.file1.inFileDate = e;
+      },setCurrentDate4(e) {
+        if(e){
+          if(this.file1.docHalfwayOutDate==''||this.file1.docHalfwayOutDate==undefined)
+          {
+             this.file1.docHalfwayOutDate = this.currentDate();
+          }
+        }
+      },changeDate4(e) {
+        this.file1.docHalfwayOutDate = e;
+      },setCurrentDate5(e) {
+        if(e){
+          if(this.file1.manualStorageDate==''||this.file1.manualStorageDate==undefined)
+          {
+             this.file1.manualStorageDate = this.currentDate();
+          }
+        }
+      },changeDate5(e) {
+        this.file1.manualStorageDate = e;
+      },setCurrentDate6(e) {
+        if(e){
+          if(this.file1.afterEmployManualReceiveDate==''||this.file1.afterEmployManualReceiveDate==undefined)
+          {
+             this.file1.afterEmployManualReceiveDate = this.currentDate();
+          }
+        }
+      },changeDate6(e) {
+        this.file1.afterEmployManualReceiveDate = e;
+      },setCurrentDate7(e) {
+        if(e){
+          if(this.file1.recoverEmployManualStorageDate==''||this.file1.recoverEmployManualStorageDate==undefined)
+          {
+             this.file1.recoverEmployManualStorageDate = this.currentDate();
+          }
+        }
+      },changeDate7(e) {
+        this.file1.recoverEmployManualStorageDate = e;
+      },setCurrentDate8(e) {
+        if(e){
+          if(this.file1.mailDocReturnDate==''||this.file1.mailDocReturnDate==undefined)
+          {
+             this.file1.mailDocReturnDate = this.currentDate();
+          }
+        }
+      },changeDate8(e) {
+        this.file1.mailDocReturnDate = e;
+      },setCurrentDate9(e) {
+        if(e){
+          if(this.file1.openDocProofDate==''||this.file1.openDocProofDate==undefined)
+          {
+             this.file1.openDocProofDate = this.currentDate();
+          }
+        }
+      },changeDate9(e) {
+        this.file1.openDocProofDate = e;
+      },
 
 
 

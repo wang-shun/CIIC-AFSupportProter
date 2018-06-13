@@ -455,14 +455,17 @@ export class CompanyTaskList{
 
     let expireDateFront = "";
     let paymentWay = "";
+    let paymentType = "";
     let billReceiver = "";
     if(isNull){
       expireDateFront =taskFormContent==null|| taskFormContent==""?"":taskFormContent.expireDateFront;
       paymentWay = taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.paymentWay);
+      paymentType = taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.paymentType);
       billReceiver = taskFormContent==null|| taskFormContent==""?"":String(taskFormContent.billReceiver);
     }else{
       expireDateFront = ssComAccountBO.expireDate
       paymentWay = ssComAccountBO.paymentWay
+      paymentType = ssComAccountBO.paymentType
       billReceiver = ssComAccountBO.billReceiver
     }
 
@@ -500,6 +503,7 @@ export class CompanyTaskList{
         //支付方式
         payMethodValue: String(paymentWay),
         billReceiverValue:String(billReceiver),
+        paymentType:paymentType,
       },
       companyOpenAccountOperator: {
             taskValue: result.taskCategory,

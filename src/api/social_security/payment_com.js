@@ -36,6 +36,10 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/authority/getSsCustomerData', params);
     return await response.data;
   },
+  doCheck:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/ssPaymentCom/doCheck', params);
+    return await response.data;
+  },
 
 }
 

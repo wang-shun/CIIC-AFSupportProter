@@ -4,7 +4,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="出库日期：">
-            <DatePicker v-model="stockAndMail.storageOutDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="stockAndMail.storageOutDate" type="date" placeholder="" @on-open-change="setCurrentDate" @on-change="changeDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -14,7 +14,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际寄信日期：">
-            <DatePicker v-model="stockAndMail.postLetterDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="stockAndMail.postLetterDate" type="date" placeholder="" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -115,7 +115,39 @@ import api from '../../../api/employ_manage/hire_operator'
               }
         })
          
-       }
+       },currentDate(){
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              return currentdate;
+       },setCurrentDate(e) {
+        if(e){
+          if(this.stockAndMail.storageOutDate==''||this.stockAndMail.storageOutDate==undefined)
+          {
+             this.stockAndMail.storageOutDate = this.currentDate();
+          }
+        }
+      },changeDate(e) {
+        this.stockAndMail.storageOutDate = e;
+      },setCurrentDate2(e) {
+        if(e){
+          if(this.stockAndMail.postLetterDate==''||this.stockAndMail.postLetterDate==undefined)
+          {
+             this.stockAndMail.postLetterDate = this.currentDate();
+          }
+        }
+      },changeDate2(e) {
+        this.stockAndMail.postLetterDate = e;
+      },
     }
   }
 </script>

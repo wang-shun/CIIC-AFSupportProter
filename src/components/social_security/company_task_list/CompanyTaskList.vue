@@ -2,18 +2,18 @@
   <div class="smList">
     <Tabs v-model="tab" @on-click='onClickO'>
       <TabPane label="未处理" name="noprogress">
-        <noprogress v-if="isNoprogress"></noprogress>
       </TabPane>
       <TabPane label="处理中" name="progressing">
-        <progressing v-if="isProgressing"></progressing>
       </TabPane>
       <TabPane label="已完成" name="finished">
-        <finished v-if="isFinished"></finished>
       </TabPane>
       <TabPane label="已批退" name="refused">
-        <refused v-if="isRefused"></refused>
       </TabPane>
     </Tabs>
+    <noprogress v-show="isNoprogress"></noprogress>
+    <progressing v-show="isProgressing"></progressing>
+    <finished v-show="isFinished"></finished>
+    <refused v-show="isRefused"></refused>
   </div>
 </template>
 <script>
@@ -50,12 +50,20 @@
       },
        //控制处理中 tab 显示
       controlShow(name){
-        if(name=="noprogress"&&!this.isNoprogress) this.isNoprogress=true
-          if(name=="progressing"&&!this.isProgressing) this.isProgressing=true
-        if(name=="finished" && !this.isFinished)this.isFinished=true
-        if(name=="refused" && !this.isRefused)this.isRefused=true
+        this.isNoprogress = this.isProgressing = this.isFinished = this.isRefused = false;
+        if(name=="noprogress" && this.isNoprogress === false){
+          this.isNoprogress=true
+        }
+        if(name=="progressing" && this.isProgressing === false){
+          this.isProgressing=true
+        }
+        if(name=="finished" && this.isFinished === false){
+          this.isFinished=true
+        }
+        if(name=="refused" && this.isRefused === false){
+          this.isRefused=true
+        }
       }
-
     }
   }
 </script>

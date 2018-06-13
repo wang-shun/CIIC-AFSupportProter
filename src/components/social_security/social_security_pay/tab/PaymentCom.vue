@@ -61,6 +61,14 @@
                   <Cascader :data="serviceCenterData"  v-model="payComSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="金额是否一致：" prop="ifCheck">
+                  <i-switch v-model="payComSearchData.ifCheck" size="large">
+                      <span slot="open">是</span>
+                      <span slot="close">否</span>
+                  </i-switch>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -232,7 +240,8 @@
           paymentState: '',
           comAccountId: '',
           ssAccount:'',
-          paymentBatchNum:''
+          paymentBatchNum:'',
+          ifCheck: false
         },
         staticPayComSearchData: {
           paymentStateList: [
@@ -516,6 +525,36 @@
               ]);
             }
           },
+          {title: '是否一致', key: 'ifCheck', width: 100, align: 'center',
+            render: (h, params) => {
+              if(params.row.ifCheck==1){
+                 return h('div', [
+                  h('A', {
+                      props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+                        on: {
+                          click: () => {
+                               this.doCheck(params.row.paymentComId,h)
+                          }
+                        }
+                      },'是'
+                    ),
+                ])
+              }else{
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        this.doCheck(params.row.paymentComId,h)
+                      }
+                    }
+                  }, '一致'),
+                ]);
+              }
+            
+            }
+          },
           {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -687,6 +726,7 @@
         payComApi.paymentComQueryExport(params)
       },
       paymentComQuery() {
+
         if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
           this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
         }
@@ -707,6 +747,7 @@
             delete params.serviceCenterValue;
             params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
         }
+        params.ifCheck=params.ifCheck?1:0;
         payComApi.paymentComQuery({
           pageSize: this.payComPageData.pageSize,
           pageNum: this.payComPageData.pageNum,
@@ -986,6 +1027,17 @@
             alert(data.message);
           }
         })
+      },
+      async doCheck(paymentComId,h){
+        payComApi.doCheck({paymentComId:paymentComId}).then(
+          data => {
+            if(data.code == "0"){
+              this.paymentComQuery()
+            }else{
+              alert(data.message);
+            }
+         }
+        );
       },
       //关闭移除批次框
       closeDelBatch(){

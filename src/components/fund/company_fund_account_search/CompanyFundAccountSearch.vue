@@ -85,6 +85,7 @@
   import InputCompany from "../../common_control/form/input_company"
   import companyBindAndUnbind from "../common/CompanyBindAndUnbind.vue"
   import InputAccount from "../common/input_account"
+  import ts from '../../../api/house_fund/table_style'
 
   export default {
     components: {InputCompany, companyBindAndUnbind,InputAccount},

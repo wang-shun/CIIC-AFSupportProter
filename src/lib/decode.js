@@ -648,5 +648,15 @@ export default {
       default:
         return ''
     }
-}
+},
+  handle_way: (v) => {
+    switch (v) {
+      case '1':
+        return '网上申报'
+      case '2':
+        return '柜面办理'
+      default:
+        return ''
+    }
+  }
 };

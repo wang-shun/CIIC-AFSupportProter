@@ -4,101 +4,7 @@
       <Panel name="1">
         查询条件
         <div slot="content">
-          <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
-            <Row type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名：" prop="employeeName">
-                <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="结算区县：" prop="settlementArea">
-                <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
-                  <Option value="" label="全部"></Option>
-                  <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="社保账户类型：" prop="ssAccountType">
-                <Select v-model="operatorSearchData.ssAccountType" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-               <Form-item label="人员分类：" prop="empClassify">
-                <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="1" label="本地"></Option>
-                  <Option value="2" label="外地"></Option>
-                  <Option value="3" label="外籍三险"></Option>
-                  <Option value="4" label="外籍五险"></Option>
-                  <Option value="5" label="延迟退休人员"></Option>
-                </Select>
-              </Form-item>
-              </Col>-->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="企业社保账号：" prop="ssAccount">
-                <input-account v-model="operatorSearchData.ssAccount"></input-account>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户编号：" prop="companyId">
-                <input-company v-model="operatorSearchData.companyId"></input-company>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号：" prop="idNum">
-                <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="任务单类型：" prop="taskCategory">
-                <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
-                  <Option value="" label="全部"></Option>
-                  <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
-                  <!--<Option value="7" label="退账"></Option>
-                    <Option value="6" label="封存"></Option>
-                  <Option value="8" label="提取"></Option>
-                  <Option value="9" label="特殊操作"></Option>-->
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户名称：" prop="title">
-                 <input-company-name v-model="operatorSearchData.title" ></input-company-name>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号：" prop="employeeId">
-                <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
-              </Form-item>
-              </Col>
-              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="是否加急：" prop="urgent">
-                <Select v-model="operatorSearchData.urgent" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="0" label="否"></Option>
-                  <Option value="1" label="是"></Option>
-                </Select>
-              </Form-item>
-              </Col> -->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="社保起缴月份：" prop="startMonth">
-                <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="bottom"
-                             placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
-              </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
-              <Button type="warning" @click="$refs['operatorSearchData'].resetFields()">重置</Button>
-              </Col>
-            </Row>
-          </Form>
+          <search-employee @on-search="searchEmploiees" ></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -143,14 +49,19 @@
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
+  import searchEmployee from "./SearchEmployee.vue"
 
   export default {
-    components: {InputAccount, InputCompany,InputCompanyName},
+    components: {InputAccount, InputCompany,InputCompanyName,searchEmployee},
     data() {
       return {
         collapseInfo: [1], //展开栏
         taskCategorydict: [],
         ssAccountTypedict: [],
+        searchCondition: {
+          params: '',
+          taskStatus: '3'
+        },
         operatorSearchData: {
           taskStatus: '3',
           employeeName: '',
@@ -257,7 +168,18 @@
     },
     async mounted() {
 //      this[EventType.THISMONTHHANDLETYPE]()
-      this.employeeOperatorQuery();
+      // this.employeeOperatorQuery();
+      // this.loadDict();
+      this.searchConditions =[];
+       this.searchConditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
+
+       if(this.searchConditions==null)
+       {
+         this.searchConditions =[];
+       }
+
+      
+      this.searchEmploiees(this.searchConditions);
       this.loadDict();
     },
     computed: {
@@ -309,11 +231,21 @@
       },
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
-        this.employeeOperatorQuery();
+         var conditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
+        if(conditions==null){
+             this.searchEmploiees(conditions);
+        }else{
+             this.searchEmploiees(this.conditions);
+        }
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
-        this.employeeOperatorQuery();
+         var conditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
+        if(conditions==null){
+             this.searchEmploiees(conditions);
+        }else{
+             this.searchEmploiees(this.conditions);
+        }
       },
       // 检查是否选中任务
       checkSelectEmployeeResultData() {
@@ -456,6 +388,133 @@
       },
       exprotExcel() {
       },
+      searchEmploiees(conditions) {
+       
+            
+        this.searchConditions =[];
+            
+        for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);
+
+        
+        var storeOrder = JSON.parse(sessionStorage.getItem('orderConditions'));
+     
+      if(storeOrder==null)
+      {
+
+      }else{
+        if(storeOrder.length>0)
+        {
+          for(var index  in storeOrder)
+          {
+             this.searchConditions.push(storeOrder[index]);
+          }
+        }
+      }
+        
+        this.searchCondition.params = this.searchConditions.toString();
+
+        api.employeeOperatorQuery({
+          pageSize: this.employeeResultPageData.pageSize,
+          pageNum: this.employeeResultPageData.pageNum,
+          params: this.searchCondition,
+        }).then(data => {
+          if (data.code == 200) {
+            this.employeeResultData = data.data;
+            this.employeeResultPageData.total = data.total;
+            if(this.operatorSearchData.taskStatus=='-2'){
+              this.isNextMonth = true;
+            }
+          }
+        
+        })
+           
+      },SortChange(e){
+
+        this.searchConditions =[];
+
+        var conditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
+
+        var storeOrder = JSON.parse(sessionStorage.getItem('orderConditions'));
+            
+        for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);  
+
+        var dx ='';
+        if(e.key == 'companyId'){
+            dx = 'c.company_id';
+        }else if(e.key == 'employeeId'){
+            dx = 'e.employee_id';
+        }else if(e.key == 'ssAccount'){
+            dx = 'ca.ss_account';
+        }else if(e.key == 'idNum'){
+            dx = 'e.id_num';
+        }
+
+        const searchConditionExec = `${dx} ${e.order} `;
+        
+        if(storeOrder==null){
+        
+        }else{
+          this.orderConditions = storeOrder;
+        }
+        
+        var isE = false;
+        if(this.orderConditions.length>0)
+        {
+            for(var index in this.orderConditions)
+            { 
+               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order=='normal')
+               {  //如果是取消，则删除条件
+                  this.orderConditions.splice(index,1);
+                   isE = true;
+               }else if(this.orderConditions[index].indexOf(dx)!= -1 && this.orderConditions[index].indexOf(e.order)== -1 ) {
+                 //如果是切换查询顺序
+                  this.orderConditions.splice(index,1);
+                  this.orderConditions.push(searchConditionExec);
+                   isE = true;
+               }else if(this.orderConditions[index]===searchConditionExec){
+                   this.orderConditions.splice(index,1);
+               }
+               
+            } 
+            
+            if(!isE)
+            {
+               this.orderConditions.push(searchConditionExec);
+            }
+           
+        }else{
+            this.orderConditions.push(searchConditionExec);
+        }
+
+        sessionStorage.setItem('orderConditions', JSON.stringify(this.orderConditions));
+
+        if(this.orderConditions.length>0)
+        {
+          for(var index  in this.orderConditions)
+          {
+             this.searchConditions.push(this.orderConditions[index]);
+          }
+        }
+
+        this.searchCondition.params = this.searchConditions.toString();
+
+        api.employeeOperatorQuery({
+          pageSize: this.employeeResultPageData.pageSize,
+          pageNum: this.employeeResultPageData.pageNum,
+          params: this.searchCondition,
+        }).then(data => {
+          if (data.code == 200) {
+            this.employeeResultData = data.data;
+            this.employeeResultPageData.total = data.total;
+            if(this.operatorSearchData.taskStatus=='-2'){
+              this.isNextMonth = true;
+            }
+          }
+        
+        })
+      }
     }
   }
 </script>

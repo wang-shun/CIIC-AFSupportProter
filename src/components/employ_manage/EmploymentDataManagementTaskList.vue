@@ -18,7 +18,7 @@
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
         <Button type="info" @click="printLabel">打印贴头</Button>
-        <!-- <Button type="primary" @click="batchManagement">批理办理</Button> -->
+        <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
     <Table border :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData" class="mt20"></Table>
@@ -394,7 +394,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
           alert("没有选中的列");
           return;
         }
-        console.info(selection);
+        // console.info(selection);
         let head = `<!doctype html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>打印贴头</title></head><body>`;
         let foot = `</body></html>`;
         let obj = '';

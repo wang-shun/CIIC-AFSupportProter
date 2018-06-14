@@ -3,7 +3,7 @@
     <Table border :columns="refuseNotesColumns" :width="700" :data="refuseNotes" class="mt20"></Table>
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="modal1 = true">新增</Button>
+        <Button type="primary" @click="add()">新增</Button>
         <Button type="primary" :loading="isLoading"  @click="instance()">提交</Button>
       </Col>
     </Row>
@@ -110,6 +110,22 @@ import api from '../../../api/employ_manage/hire_operator'
       }
     },
     methods: {
+         add(){
+                var date = new Date();
+                var seperator1 = "-";
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var currentdate = year + seperator1 + month + seperator1 + strDate;
+                this.handleInfo.remarkDatew = currentdate;
+                this.modal1 = true;
+            },
             ok () {
               var fromData = this.$utils.clear(this.realHandInfo,'');
             

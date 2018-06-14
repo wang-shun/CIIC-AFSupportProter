@@ -153,8 +153,6 @@
       submitForm(){
         let params = {};
         params=this.companyFundAccount;
-        console.log('====');
-        console.log(params);
          if(params.comStartMonth!=''){
            params.comStartMonthValue= Tools.formatDate(params.comStartMonth, "YYYYMM");
          }

@@ -7,6 +7,11 @@
           <Form :label-width=150 ref="searchCondition" :model="searchCondition">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客服中心：" prop="serviceCenterValue">
+                  <Cascader :data="serviceCenterData"  v-model="searchCondition.serviceCenterValue" trigger="hover" transfer></Cascader>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账户：" prop="ssAccount">
                    <input-account v-model="searchCondition.ssAccount"></input-account>
                 </Form-item>
@@ -130,6 +135,7 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         searchCondition: {
+          serviceCenterValue:[],
           companyId: '', //客户编号
           title: '', //客户名称
          // companyAccountType: '', //社保账户类型
@@ -142,6 +148,7 @@
           archiveTaskStatus: '',//社保状态
           //empClassify: '' //人员分类
         },
+        serviceCenterData: [], //客服中心
         employeeSocialSecurityData:[],//列表数据
         isShowCustomerName: false, //客户名称Modal
         isShowAccountType: false, //社保账户类型Modal
@@ -175,19 +182,50 @@
             title: '操作',
             key: 'action',
             align: 'center',
-            width: 120,
+            width: 120,fixed: 'left',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-
-                      this.showInfo(params.row.empArchiveId)
+  
+              if(params.row.empArchiveId == null || params.row.empArchiveId=='' ){
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        sessionData.setJsonDataToSession('empSSsearch.searchCondition', this.searchCondition);
+                        sessionData.setJsonDataToSession('empSSsearch.pageData', this.pageData);
+                        this.$router.push({name:'employeeSocialSecurityInfo', query: {companyId: params.row.companyId,employeeId:params.row.employeeId}});
+                      }
                     }
-                  }
-                }, '查看 / 编辑'),
+                  }, '查看'),
+                ])
+             
+              }else{
+                  return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        this.showInfo(params.row.empArchiveId)
+                      }
+                    }
+                  }, '查看 / 编辑'),
+                ])
+              }
+            }
+          },
+           {title: '客户编号', key: 'companyId', align: 'center', width: 120,fixed: 'left',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.companyId),
+              ])
+            }
+          },
+          {title: '客户名称', key: 'title', align: 'center', width: 250,fixed: 'left',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.title),
               ])
             }
           },
@@ -219,10 +257,24 @@
               ])
             }
           },
+          {title: '开户密码', key: 'ssPwd', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.ssPwd),
+              ])
+            }
+          },
           {title: '社保状态', key: 'archiveTaskStatus', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', this.$decode.ssArchiveTaskStatus(params.row.archiveTaskStatus)),
+              ])
+            }
+          },
+          {title: '客服中心', key: 'serviceCenter', align: 'center', width: 120,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.serviceCenter),
               ])
             }
           },
@@ -244,20 +296,6 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.settlementArea),
-              ])
-            }
-          },
-          {title: '客户编号', key: 'companyId', align: 'center', width: 120,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyId),
-              ])
-            }
-          },
-          {title: '客户名称', key: 'title', align: 'center', width: 250,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.title),
               ])
             }
           },
@@ -296,8 +334,6 @@
               ])
             }
           }
-
-
         ]
       }
     },
@@ -307,6 +343,7 @@
       let params = this.searchCondition;
       this.employeeQuery(params);
       this.loadDict();
+      this.getCustomers();
     },
     computed: {
 
@@ -322,7 +359,15 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
+      getCustomers(){
+        let params = null;
+        api.getCustomers({params:params}).then(data=>{
+          this.serviceCenterData = data.data;
+        })
+      },
       showInfo (ind) {
+        sessionData.setJsonDataToSession('empSSsearch.searchCondition', this.searchCondition);
+        sessionData.setJsonDataToSession('empSSsearch.pageData', this.pageData);
         this.$router.push({name:'employeeSocialSecurityInfo', query: {empArchiveId: ind}});
         
       },
@@ -334,8 +379,12 @@
         });
       },
       employeeQuery(params){
-        sessionData.setJsonDataToSession('empSSsearch.searchCondition', this.searchCondition);
-        sessionData.setJsonDataToSession('empSSsearch.pageData', this.pageData);
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         api.employeeQuery({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,

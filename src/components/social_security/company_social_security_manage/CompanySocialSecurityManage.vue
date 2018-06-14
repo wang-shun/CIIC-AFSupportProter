@@ -28,6 +28,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="状态：" prop="state">
                   <Select v-model="comAccountSearch.state" style="width: 100%;" transfer>
+                    <Option value="" >全部</Option>
                     <Option v-for="item in stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -94,7 +95,6 @@
         },
         accountTypeList: [],
         stateList: [
-            {value: '', label: '全部'},
             {value: '1', label: '有效'},
             {value: '2', label: '终止'},
             {value: '3', label: '封存'},
@@ -120,7 +120,7 @@
                       this.$router.push({name: 'companySocialSecurity',query:{comAccountId:params.row.comAccountId}})
                     }
                   }
-                }, '查看'),
+                }, '查看|编辑'),
               ]);
             }
           },

@@ -69,20 +69,26 @@ export default {
     empClassify: (empClassify, self = false) => {
         switch (empClassify) {
         case '1':
-            return '本地'
+            return '上海人'
         case '2':
-            return '外地'
+            return '外来城镇人员'
         case '3':
             return '外籍三险'
         case '4':
             return '外籍五险'
         case '5':
-            return '延迟退休人员'
+            return '非全日制仅工伤'
+        case '6':
+          return '柔性退休'
+        case '7':
+          return '工伤仅医疗'
+        case '8':
+          return '外籍互免'
         case undefined:
             return ''
         default: // 默认 1
             if (self) return empClassify
-            return '本地'
+            return ''
         }
     },
     // 材料类型
@@ -263,10 +269,8 @@ export default {
             return '员工自付'
         }
     },
-
     //付款方式
     payMethod: (type) => {
-
         switch (type) {
         case '1':
             return '我司代付款'
@@ -274,6 +278,17 @@ export default {
             return '客户自付'
         case '3':
             return '我司垫付'
+        default:
+            return ''
+        }
+    },
+    //付款类型
+    paymentType: (type) => {
+        switch (type) {
+        case '1':
+            return '我司代付款'
+        case '2':
+            return '客户自付'
         default:
             return ''
         }
@@ -290,6 +305,38 @@ export default {
         default:
             return ''
         }
+    },
+    //社保企业账户来源地
+    ssComAccountResource:(type)=>{
+        switch (type) {
+            case '1':
+            case 1:
+                return '新开'
+            case '2':
+            case 2:
+                return 'AF转入(大库转入)'
+            case '3':
+            case 3:
+                return '其他供应商转入'
+            default:
+                return ''
+            }
+    },
+    //社保企业账户交与方式
+    ssComAccountGiveMethod:(type)=>{
+        switch (type) {
+            case '1':
+            case 1:
+                return '交客服'
+            case '2':
+            case 2:
+                return '传真'
+            case '3':
+            case 3:
+                return '邮寄'
+            default:
+                return ''
+            }
     },
     district: (type, self = false) => {
         switch (type) {
@@ -648,5 +695,15 @@ export default {
       default:
         return ''
     }
-}
+},
+  handle_way: (v) => {
+    switch (v) {
+      case '1':
+        return '网上申报'
+      case '2':
+        return '柜面办理'
+      default:
+        return ''
+    }
+  }
 };

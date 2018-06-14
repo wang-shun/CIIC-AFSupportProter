@@ -211,7 +211,35 @@
         isShowProgress: false,
 
         payBatchColumns: [
-          {title: '出账批次号', key: 'paymentBatchNum', width: 130, align: 'center',
+          {title: '操作', key: 'operator', width: 170, align: 'center',fixed:'left',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {type: 'success', size: 'small'},
+                  style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+                      let paymentId = params.row.paymentId;
+                      let paymentState = params.row.paymentState;
+                      this.goApplyPay(paymentId,paymentState)
+                    }
+                  }
+                }, '申请支付'),
+                h('Button', {
+                  props: {type: 'error', size: 'small'},
+                  style: {margin: '0 auto 0 10px'},
+                  on: {
+                    click: () => {
+                      let paymentId = params.row.paymentId;
+                      let paymentState = params.row.paymentState;
+                      this.goDelPayment(paymentId,paymentState)
+                    }
+                  }
+                }, '删除')
+              ]);
+            }
+          },
+          {title: '出账批次号', key: 'paymentBatchNum', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.paymentBatchNum),
@@ -225,7 +253,7 @@
               ]);
             }
           },
-          {title: '总雇员数', key: 'totalEmpCount', width: 120, align: 'center',
+          {title: '总雇员数', key: 'totalEmpCount', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.totalEmpCount),
@@ -239,7 +267,7 @@
               ]);
             }
           },
-          {title: '账户/客户总数', key: 'paymentMonth', width: 120, align: 'center',
+          {title: '账户/客户总数', key: 'paymentMonth', width: 130, align: 'center',
             render: (h, params) => {
               let totalAccount = params.row.totalAccount;
               let totalCom = params.row.totalCom;
@@ -287,34 +315,7 @@
               ]);
             }
           },
-          {title: '操作', key: 'operator', width: 220, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      let paymentId = params.row.paymentId;
-                      let paymentState = params.row.paymentState;
-                      this.goApplyPay(paymentId,paymentState)
-                    }
-                  }
-                }, '申请支付'),
-                h('Button', {
-                  props: {type: 'error', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      let paymentId = params.row.paymentId;
-                      let paymentState = params.row.paymentState;
-                      this.goDelPayment(paymentId,paymentState)
-                    }
-                  }
-                }, '删除')
-              ]);
-            }
-          },
+          
         ],
         payBatchData: [],
         payBatchPageData: {

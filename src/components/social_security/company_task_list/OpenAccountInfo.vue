@@ -26,17 +26,22 @@
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="付款方式：">
-                     <label>{{getPayMethodValue()}}</label>
+                     <label>{{this.$decode.payMethod(beforeSendInfo.payMethodValue)}} </label>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="付款方式：">
-                     <label>{{getBillReceiverValue()}}</label>
+                <Form-item label="账单接收方：">
+                     <label>{{this.$decode.billReceiver(beforeSendInfo.billReceiverValue)}}</label>
                   </Select>
                 </Form-item>
               </Col>
-              
+               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="付款类型：">
+                     <label>{{this.$decode.paymentType(beforeSendInfo.paymentType)}}</label>
+                  </Select>
+                </Form-item>
+              </Col>
             </Row>
           </Form>
         </div>
@@ -81,11 +86,11 @@
                      <label>{{companyOpenAccountOperator.icbcSearchAccount}}</label>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="养老金独立开户用户名：">
                     <label>{{companyOpenAccountOperator.pensionMoneySingleUserName}}</label>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="养老金独立开户密码：">
                     <label>{{companyOpenAccountOperator.pensionMoneySinglePassWord}}</label>
@@ -103,7 +108,7 @@
               </Col>-->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="来源地：">
-                    <label>{{getResourceValue()}}</label>
+                    <label>{{this.$decode.ssComAccountResource(companyOpenAccountOperator.resourceValue)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
@@ -113,7 +118,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="交予方式：">
-                      <label>{{getGiveMethodValue()}}</label>
+                      <label>{{this.$decode.ssComAccountGiveMethod(companyOpenAccountOperator.giveMethodValue)}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
@@ -125,7 +130,7 @@
                 <Form-item label="给凭证时间：">
                      <label>{{companyOpenAccountOperator.giveProofDate}}</label>
                 </Form-item>
-              </Col>-->
+              </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="变更时间：">
                      <label>{{companyOpenAccountOperator.changeDate}}</label>
@@ -141,6 +146,7 @@
                     <label>{{companyOpenAccountOperator.moveInDate}}</label>
                 </Form-item>
               </Col>
+              -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="所属行业：">
                      <label>{{companyOpenAccountOperator.belongToIndustries}}</label>
@@ -272,13 +278,7 @@
             {value: '1', label: '开户'},
             {value: '2', label: '转入'},
           ], //任务
-           socialSecurityCenterList: [
-            {value: '1', label: '徐汇区'},
-            {value: '2', label: '长宁区'},
-            {value: '3', label: '浦东区'},
-            {value: '5', label: '静安区'},
-            {value: '6', label: '黄浦区'}
-          ], //社保中心
+           
            giveMethodList: [
             {value: '1', label: '交客服'},
             {value: '2', label: '传真'},
@@ -420,30 +420,7 @@
         self.companyOpenAccountOperator  =result.companyOpenAccountOperator
          })
       },
-      //来源地
-      getResourceValue(){
-           let resource = this.companyOpenAccountOperator.resourceValue
-            let resourceStr = ''
-           for(let i of this.resourceList){
-               if(i.value==resource){
-                    resourceStr=i.label
-                    break;
-               }
-           }
-           return resourceStr
-      },
-      //交予方式
-      getGiveMethodValue(){
-            let getGiveMethod = this.companyOpenAccountOperator.giveMethodValue
-            let getGiveMethodValueStr = ''
-           for(let i of this.giveMethodList){
-               if(i.value==getGiveMethod){
-                    getGiveMethodValueStr=i.label
-                    break;
-               }
-           }
-           return getGiveMethodValueStr
-      },
+      
       //任务状态
       getTaskTypeValue(){
           let taskType = this.companyOpenAccountOperator.taskTypeValue
@@ -456,30 +433,8 @@
            }
            return taskTypeStr
       },
-      //支付方式
-      getPayMethodValue(){
-          let payMethod = this.beforeSendInfo.payMethodValue
-            let payMethodStr = ''
-           for(let i of this.payMethodList){
-               if(i.value==payMethod){
-                    payMethodStr=i.label
-                    break;
-               }
-           }
-           return payMethodStr
-      },
-      //账单接收方
-      getBillReceiverValue(){
-            let billReceiver = this.beforeSendInfo.billReceiverValue
-            let billReceiverStr = ''
-           for(let i of this.billReceiverList){
-               if(i.value==billReceiver){
-                    billReceiverStr=i.label
-                    break;
-               }
-           }
-           return billReceiverStr
-      }
+  
+  
 
     }
   }

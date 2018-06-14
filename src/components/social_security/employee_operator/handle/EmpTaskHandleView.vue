@@ -53,7 +53,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工日期：">
+              <Form-item label="用工成功日期：">
                 <label>{{reworkInfo.employFeedbackOptDate}}</label>
               </Form-item>
               </Col>
@@ -132,7 +132,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="起缴月份：">
                 <DatePicker v-model="socialSecurityPayOperator.startMonth" type="month" placeholder="请选择"
-                            style="width: 100%;"
+                            style="width: 100%;" @on-change="handleStartMonthChange"
                             transfer></DatePicker>
               </Form-item>
               </Col>
@@ -644,6 +644,8 @@
       setRow(params, name, value) {
         this.getRows()[params.index][name] = value;
         params.row[name] = value;
+
+        this.socialSecurityPayOperator.startMonth = value;
       },
       insertRow(index) {
 
@@ -658,6 +660,9 @@
         } else {
           data.splice(index, 1);
         }
+      },
+      handleStartMonthChange(value) {
+        this.operatorListData[0]['startMonth'] = value;
       },
       instance(taskStatus, type) {
         var fromData = this.$utils.clear(this.socialSecurityPayOperator, '');

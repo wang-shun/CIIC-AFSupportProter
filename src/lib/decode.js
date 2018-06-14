@@ -69,20 +69,26 @@ export default {
     empClassify: (empClassify, self = false) => {
         switch (empClassify) {
         case '1':
-            return '本地'
+            return '上海人'
         case '2':
-            return '外地'
+            return '外来城镇人员'
         case '3':
             return '外籍三险'
         case '4':
             return '外籍五险'
         case '5':
-            return '延迟退休人员'
+            return '非全日制仅工伤'
+        case '6':
+          return '柔性退休'
+        case '7':
+          return '工伤仅医疗'
+        case '8':
+          return '外籍互免'
         case undefined:
             return ''
         default: // 默认 1
             if (self) return empClassify
-            return '本地'
+            return ''
         }
     },
     // 材料类型
@@ -277,7 +283,7 @@ export default {
         }
     },
     //付款类型
-    paymentType: (type) => {    
+    paymentType: (type) => {
         switch (type) {
         case '1':
             return '我司代付款'
@@ -311,7 +317,7 @@ export default {
                 return 'AF转入(大库转入)'
             case '3':
             case 3:
-                return '其他供应商转入'    
+                return '其他供应商转入'
             default:
                 return ''
             }
@@ -327,7 +333,7 @@ export default {
                 return '传真'
             case '3':
             case 3:
-                return '邮寄'    
+                return '邮寄'
             default:
                 return ''
             }

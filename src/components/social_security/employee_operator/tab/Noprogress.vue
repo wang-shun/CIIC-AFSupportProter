@@ -483,11 +483,8 @@
         }
       },
       searchEmploiees(conditions) {
-
-         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         this.searchConditions =[];
-       
         for(var i=0;i<conditions.length;i++)
         {
           if(conditions[i]==null||conditions[i]==undefined)
@@ -495,8 +492,6 @@
             conditions.splice(i,1);
           }
         }    
-
-        
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
            for(var i=0;i<conditions.length;i++)
@@ -519,9 +514,7 @@
           }
 
         }
-      
       var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
-     
       if(storeOrder==null)
       {
 
@@ -555,13 +548,9 @@
       },SortChange(e){
 
         this.searchConditions =[];
-
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
-
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
-            
         for(var i=0;i<conditions.length;i++)
               this.searchConditions.push(conditions[i].exec);  
 
@@ -575,15 +564,12 @@
         }else if(e.key == 'idNum'){
             dx = 'e.id_num';
         }
-
         const searchConditionExec = `${dx} ${e.order} `;
-        
         if(storeOrder==null){
         
         }else{
           this.orderConditions = storeOrder;
         }
-        
         var isE = false;
         if(this.orderConditions.length>0)
         {
@@ -614,7 +600,6 @@
         }
 
         sessionStorage.setItem('socialDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
-
         if(this.orderConditions.length>0)
         {
           for(var index  in this.orderConditions)
@@ -622,7 +607,6 @@
              this.searchConditions.push(this.orderConditions[index]);
           }
         }
-
         this.searchCondition.params = this.searchConditions.toString();
 
         api.employeeOperatorQuery({

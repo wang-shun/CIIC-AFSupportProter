@@ -182,12 +182,50 @@
     async mounted() {
    
        this.searchConditions =[];
-       
        this.searchEmploiees(this.searchConditions);
        this.loadDict();
     },
     computed: {
 
+    },created() {
+      this.employeeResultColumns.filter((e) => {
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        
+      if(storeOrder==null)
+      {
+
+      }else{
+        if(storeOrder.length>0)
+        {
+          for(var index  in storeOrder)
+          {
+             var orders = storeOrder[index].split(' ');
+             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+            
+          }
+        }
+      }
+        
+      })
     },
     methods: {
       routerToCommcialOperator(name) {

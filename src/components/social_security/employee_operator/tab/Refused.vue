@@ -14,7 +14,8 @@
       <Table border ref="selection"
              :columns="employeeResultColumns"
              :data="employeeResultData"
-             @on-selection-change="selectionChange"></Table>
+             @on-selection-change="selectionChange"
+             @on-sort-change="SortChange"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -130,13 +131,13 @@
             title: '雇员', key: 'employeeName', width: 100, align: 'center'
           },
           {
-            title: '雇员编号', key: 'employeeId', width: 100, align: 'center'
+            title: '雇员编号', key: 'employeeId', width: 100, align: 'center',sortable: true
           },
           {
-            title: '雇员证件号', key: 'idNum', width: 200, align: 'center'
+            title: '雇员证件号', key: 'idNum', width: 200, align: 'center',sortable: true
           },
           {
-            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center',sortable: true
           },
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
@@ -145,7 +146,7 @@
           //   title: '执行日期', key: 'doDate', width: 150, align: 'center'
           // },
           {
-            title: '客户编号', key: 'companyId', width: 100, align: 'center'
+            title: '客户编号', key: 'companyId', width: 100, align: 'center',sortable: true
           },
           {
             title: '客户名称', key: 'title', width: 200, align: 'center'
@@ -165,6 +166,44 @@
     created() {
       sessionData.getJsonDataFromSession('employeeCommonOperator.Refused.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeCommonOperator.Refused.employeeResultPageData', this.employeeResultPageData);
+      this.employeeResultColumns.filter((e) => {
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        
+      if(storeOrder==null)
+      {
+
+      }else{
+        if(storeOrder.length>0)
+        {
+          for(var index  in storeOrder)
+          {
+             var orders = storeOrder[index].split(' ');
+             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+            
+          }
+        }
+      }
+        
+      })
     },
     async mounted() {
 //      this[EventType.THISMONTHHANDLETYPE]()

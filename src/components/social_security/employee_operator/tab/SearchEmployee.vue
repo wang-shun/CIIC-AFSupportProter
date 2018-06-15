@@ -38,6 +38,11 @@
                 <Option value="" label="全部"></Option>
                 <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
             </Select>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 8">
+                <Option value="0" label="全部"></Option>
+                <Option value="-1" label="本月未处理"></Option>
+                <Option value="-2" label="下月未处理"></Option>
+            </Select>
              
           </Form-item>
         </Col>
@@ -139,6 +144,8 @@
             this.searchForm.isDate=6;
           }else if(content.value=='ca.settlement_area'){
             this.searchForm.isDate=7;
+          }else if(content.value == 'taskStatus'){
+             this.searchForm.isDate=8;
           }else{
             this.searchForm.isDate=0;
           }
@@ -163,7 +170,7 @@
               temp_searchContent = '%'+this.searchForm.searchContent+'%';
           }
 
-          if(this.searchForm.isDate == 5||this.searchForm.isDate == 2||this.searchForm.isDate == 7)
+          if(this.searchForm.isDate == 5||this.searchForm.isDate == 2||this.searchForm.isDate == 7||this.searchForm.isDate == 8)
           {
              this.searchForm.searchContent = this.searchForm.searchContentDesc;
           }

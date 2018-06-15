@@ -246,6 +246,34 @@
     created() {
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+       this.noProcessColumns.filter((e) => {
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+         var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+       
+      if(storeOrder==null)
+      {
+
+      }else{
+        if(storeOrder.length>0)
+        {
+          for(var index  in storeOrder)
+          {
+             var orders = storeOrder[index].split(' ');
+             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+          }
+        }
+      }
+        
+      })
     },
     mounted() {
       dict.getDictData().then(data => {

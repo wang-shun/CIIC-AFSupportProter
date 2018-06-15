@@ -17,7 +17,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Table border :row-class-name="rowClassName" :columns="rejectedColumns" :data="rejectedData"></Table>
+      <Table border :row-class-name="rowClassName" :columns="rejectedColumns" :data="rejectedData"  @on-sort-change="SortChange"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -123,10 +123,10 @@
           {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
           {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
-          {title: '雇员编号', key: 'employeeId', width: 150, align: 'center'},
+          {title: '雇员编号', key: 'employeeId', width: 150, align: 'center',sortable: true},
           {title: '雇员证件号', key: 'idNum', width: 200, align: 'center'},
           {title: '企业客户', key: 'companyName', width: 200, align: 'center'},
-          {title: '客户编号', key: 'companyId', width: 150, align: 'center'},
+          {title: '客户编号', key: 'companyId', width: 150, align: 'center',sortable: true},
           {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center'},
           {title: '公积金账号', key: 'hfEmpAccount', width: 200, align: 'center'},
           {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center'},
@@ -187,22 +187,14 @@
       },
       handlePageNum(val) {
         this.rejectedPageData.pageNum = val;
-         var conditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
-        if(conditions==null){
-             this.searchEmploiees(conditions);
-        }else{
-             this.searchEmploiees(this.conditions);
-        }
+        var conditions = [];
+        this.searchEmploiees(conditions);
       },
       handlePageSize(val) {
         this.rejectedPageData.pageNum = 1;
         this.rejectedPageData.pageSize = val;
-         var conditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
-        if(conditions==null){
-             this.searchEmploiees(conditions);
-        }else{
-             this.searchEmploiees(this.conditions);
-        }
+        var conditions = [];
+        this.searchEmploiees(conditions);
       },
       ok () {},
       cancel () {},
@@ -247,15 +239,40 @@
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
       },searchEmploiees(conditions) {
-        
+           var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         this.searchConditions =[];
-            
+       
         for(var i=0;i<conditions.length;i++)
-              this.searchConditions.push(conditions[i].exec);
+        {
+          if(conditions[i]==null||conditions[i]==undefined)
+          {
+            conditions.splice(i,1);
+          }
+        }    
 
-        
-        var storeOrder = JSON.parse(sessionStorage.getItem('orderConditions'));
-     
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+           for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('fundDaily'+userInfo.userId);
+          
+          if(temp==null){
+
+          }else{
+             var searchEmploiees = JSON.parse(temp);
+             if(searchEmploiees.length>0)
+             {
+                for(var index  in searchEmploiees)
+                {
+                    this.searchConditions.push(searchEmploiees[index].exec);
+                }
+             }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
         if(storeOrder==null)
         {
 
@@ -267,8 +284,7 @@
               this.searchConditions.push(storeOrder[index]);
             }
           }
-        }
-        
+        }    
         this.searchCondition.params = this.searchConditions.toString();
 
         api.hfEmpTaskRejectQuery({
@@ -284,25 +300,22 @@
         })
            
       },SortChange(e){
-
         this.searchConditions =[];
-
-        var conditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
-
-        var storeOrder = JSON.parse(sessionStorage.getItem('orderConditions'));
-            
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = JSON.parse(sessionStorage.getItem('fundDaily'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));    
         for(var i=0;i<conditions.length;i++)
               this.searchConditions.push(conditions[i].exec);  
 
         var dx ='';
         if(e.key == 'companyId'){
-            dx = 'c.company_id';
+            dx = 'tmp.company_id';
         }else if(e.key == 'employeeId'){
-            dx = 'e.employee_id';
+            dx = 'tmp.employee_id';
         }else if(e.key == 'ssAccount'){
-            dx = 'ca.ss_account';
+            dx = 'tmp.ss_account';
         }else if(e.key == 'idNum'){
-            dx = 'e.id_num';
+            dx = 'tmp.id_num';
         }
 
         const searchConditionExec = `${dx} ${e.order} `;
@@ -342,7 +355,7 @@
             this.orderConditions.push(searchConditionExec);
         }
 
-        sessionStorage.setItem('orderConditions', JSON.stringify(this.orderConditions));
+        sessionStorage.setItem('fundDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
 
         if(this.orderConditions.length>0)
         {
@@ -351,7 +364,7 @@
              this.searchConditions.push(this.orderConditions[index]);
           }
         }
-
+        
         this.searchCondition.params = this.searchConditions.toString();
 
        api.hfEmpTaskRejectQuery({

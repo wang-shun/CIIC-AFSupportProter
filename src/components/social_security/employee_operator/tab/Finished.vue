@@ -231,21 +231,13 @@
       },
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
-         var conditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
-        if(conditions==null){
-             this.searchEmploiees(conditions);
-        }else{
-             this.searchEmploiees(this.conditions);
-        }
+        var conditions = [];
+        this.searchEmploiees(conditions);
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
-         var conditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
-        if(conditions==null){
-             this.searchEmploiees(conditions);
-        }else{
-             this.searchEmploiees(this.conditions);
-        }
+        var conditions = [];
+        this.searchEmploiees(conditions);
       },
       // 检查是否选中任务
       checkSelectEmployeeResultData() {
@@ -389,28 +381,50 @@
       exprotExcel() {
       },
       searchEmploiees(conditions) {
-       
-            
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         this.searchConditions =[];
-            
         for(var i=0;i<conditions.length;i++)
-              this.searchConditions.push(conditions[i].exec);
-
-        
-        var storeOrder = JSON.parse(sessionStorage.getItem('orderConditions'));
-     
-      if(storeOrder==null)
-      {
-
-      }else{
-        if(storeOrder.length>0)
         {
-          for(var index  in storeOrder)
+          if(conditions[i]==null||conditions[i]==undefined)
           {
-             this.searchConditions.push(storeOrder[index]);
+            conditions.splice(i,1);
+          }
+        }    
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+           for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
+          
+          if(temp==null){
+
+          }else{
+             var searchEmploiees = JSON.parse(temp);
+             if(searchEmploiees.length>0)
+             {
+                for(var index  in searchEmploiees)
+                {
+                    this.searchConditions.push(searchEmploiees[index].exec);
+                }
+             }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(var index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
           }
         }
-      }
         
         this.searchCondition.params = this.searchConditions.toString();
 
@@ -432,11 +446,9 @@
       },SortChange(e){
 
         this.searchConditions =[];
-
-        var conditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
-
-        var storeOrder = JSON.parse(sessionStorage.getItem('orderConditions'));
-            
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
         for(var i=0;i<conditions.length;i++)
               this.searchConditions.push(conditions[i].exec);  
 
@@ -450,15 +462,12 @@
         }else if(e.key == 'idNum'){
             dx = 'e.id_num';
         }
-
         const searchConditionExec = `${dx} ${e.order} `;
-        
         if(storeOrder==null){
         
         }else{
           this.orderConditions = storeOrder;
         }
-        
         var isE = false;
         if(this.orderConditions.length>0)
         {
@@ -488,8 +497,7 @@
             this.orderConditions.push(searchConditionExec);
         }
 
-        sessionStorage.setItem('orderConditions', JSON.stringify(this.orderConditions));
-
+        sessionStorage.setItem('socialDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
         if(this.orderConditions.length>0)
         {
           for(var index  in this.orderConditions)
@@ -497,7 +505,7 @@
              this.searchConditions.push(this.orderConditions[index]);
           }
         }
-
+        
         this.searchCondition.params = this.searchConditions.toString();
 
         api.employeeOperatorQuery({

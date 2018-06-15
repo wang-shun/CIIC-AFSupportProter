@@ -237,7 +237,7 @@
           {title: '企业客户', key: 'companyName', width: 200, align: 'center'},
           {title: '客户编号', key: 'companyId', width: 150, align: 'center',sortable: true},
           {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center'},
-          {title: '公积金账号', key: 'hfEmpAccount', width: 200, align: 'center',sortable: true},
+          {title: '公积金账号', key: 'hfEmpAccount', width: 200, align: 'center'},
           {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center'},
           {title: '发起时间', key: 'submitTimeFormat', width: 200, align: 'center'}
         ]
@@ -259,7 +259,7 @@
         }
       });
 //      console.log("after: " + JSON.stringify(this.noProcessPageData))
-      // this.hfEmpTaskQuery();
+       this.hfEmpTaskQuery();
     },
     computed: {
     },
@@ -453,22 +453,19 @@
           }
 
         }
-      
-      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
-     
-      if(storeOrder==null)
-      {
-
-      }else{
-        if(storeOrder.length>0)
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
         {
-          for(var index  in storeOrder)
+
+        }else{
+          if(storeOrder.length>0)
           {
-             this.searchConditions.push(storeOrder[index]);
+            for(var index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
           }
         }
-      }
-        
         this.searchCondition.params = this.searchConditions.toString();
 
         api.hfEmpTaskQuery({
@@ -484,7 +481,6 @@
         })
            
       },SortChange(e){
-        
         this.searchConditions =[];
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('fundDaily'+userInfo.userId));

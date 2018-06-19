@@ -41,7 +41,7 @@
                     <Option value="" label="全部"></Option>
                     <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>          
-            <DatePicker v-model="searchForm.searchContent" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer v-if="searchForm.isDate == 6"></DatePicker>
+            <DatePicker v-model="searchForm.searchContent" type="date" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer v-if="searchForm.isDate == 6"></DatePicker>
             
             <input-company v-model="searchForm.searchContent" v-if="searchForm.isDate == 7"></input-company>
 
@@ -174,37 +174,8 @@
           return;
         } else {
           if(this.searchForm.isDate==6){
-            
-             if(this.searchForm.searchContent.length>1)
-             {
-              
-               for(var j = 0; j < this.searchForm.searchContent.length; j++) 
-               { 
-                      var _content = this.$utils.formatDate(this.searchForm.searchContent[j], 'YYYY-MM-DD')
-
-                      const searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${_content}`;
-                      const searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${_content}'`;
-
-                      const searchCondition = {
-                        desc: searchConditionDesc,
-                        exec: searchConditionExec
-                      };
-                     
-                      // 防止输入重复项
-                      let hasRepeatObj = -1;
-                      if(this.searchConditions.length > 0) {
-                        hasRepeatObj = _.findIndex(this.searchConditions, (o) => {
-                          return searchCondition.desc === o.desc && searchCondition.exec === o.exec;
-                        });
-                      }
-                      if(hasRepeatObj === -1) {
-                        this.searchConditions.push(searchCondition);
-                      } else {
-                        this.$Message.error("请不要重复添加");
-                      }
-               } 
-               return;
-             }
+             var d = new Date(this.searchForm.searchContent);  
+             this.searchForm.searchContent=d.getFullYear() + '-' + (d.getMonth() + 1)+'-'+d.getDate();
           }
 
           var temp_searchContent = this.searchForm.searchContent;

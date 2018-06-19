@@ -328,12 +328,15 @@
         })
            
       },SortChange(e){
+        this.orderConditions = [];
         this.searchConditions =[];
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('fundDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));    
-        for(var i=0;i<conditions.length;i++)
+        if(conditions!=null){
+            for(var i=0;i<conditions.length;i++)
               this.searchConditions.push(conditions[i].exec);  
+        }  
 
         var dx ='';
         if(e.key == 'companyId'){

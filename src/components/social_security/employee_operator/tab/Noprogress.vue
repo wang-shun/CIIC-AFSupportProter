@@ -180,7 +180,6 @@
       }
     },
     async mounted() {
-   
        this.searchConditions =[];
        this.searchEmploiees(this.searchConditions);
        this.loadDict();
@@ -584,14 +583,17 @@
         })
            
       },SortChange(e){
-
+        this.orderConditions = [];
         this.searchConditions =[];
+      
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
-        for(var i=0;i<conditions.length;i++)
+        if(conditions!=null){
+            for(var i=0;i<conditions.length;i++)
               this.searchConditions.push(conditions[i].exec);  
-
+        }
+       
         var dx ='';
         if(e.key == 'companyId'){
             dx = 'c.company_id';
@@ -638,6 +640,7 @@
         }
 
         sessionStorage.setItem('socialDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+       
         if(this.orderConditions.length>0)
         {
           for(var index  in this.orderConditions)
@@ -645,6 +648,7 @@
              this.searchConditions.push(this.orderConditions[index]);
           }
         }
+
         this.searchCondition.params = this.searchConditions.toString();
 
         api.employeeOperatorQuery({

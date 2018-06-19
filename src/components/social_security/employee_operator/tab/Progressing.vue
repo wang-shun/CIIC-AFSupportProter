@@ -523,14 +523,18 @@
 
          this.searchConditions =[];
 
+         this.orderConditions = [];
+
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
 
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
 
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
             
-        for(var i=0;i<conditions.length;i++)
-              this.searchConditions.push(conditions[i].exec);  
+        if(conditions!=null){
+            for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec); 
+        } 
 
         var dx ='';
         if(e.key == 'companyId'){

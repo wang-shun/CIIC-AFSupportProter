@@ -125,6 +125,9 @@ export default {
   advanceSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amArchiveAdvance/advanceSearchExportOpt', params);
   },
+  uekySearchExportOpt:async (params) => {
+    AJAX.download('/api/employservice/amArchiveUkey/uekySearchExportOpt', params);
+  },
   getDefualtEmployBO:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/getDefualtEmployBO', params);
     return await response.data;
@@ -178,6 +181,16 @@ export default {
   // 查询UkeyList
   queryAmArchiveUkeyList:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveUkey/queryAmArchiveUkeyList', params);
+    return await response.data;
+  },
+  // 查询Ukey
+  queryAmArchiveUkey:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveUkey/queryAmArchiveUkey', params);
+    return await response.data;
+  },
+  // 查询Ukey续签记录
+  queryAmArchiveUkeyRenew:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveUkey/queryAmArchiveUkeyRenew', params);
     return await response.data;
   },
   // 新增Ukey

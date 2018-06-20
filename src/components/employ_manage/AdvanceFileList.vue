@@ -103,7 +103,7 @@
             title: '操作',
             key: 'action',
             align: 'center',
-            width: 180,
+            width: 130,
             render: (h, params) => {
               if(params.row.status == 0 || params.row.status == 2){//删除 或 已匹配  状态
                 return h('div', [
@@ -115,7 +115,8 @@
                       this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
                                       params.row.reservedArchiveNo,params.row.employeeName,
                                       params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivalPlace
+                                      params.row.archiveSource,params.row.archivalPlace,
+                                      params.row.createdBy,params.row.remark
                       )
                     }
                   }
@@ -132,7 +133,8 @@
                       this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
                                       params.row.reservedArchiveNo,params.row.employeeName,
                                       params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivalPlace
+                                      params.row.archiveSource,params.row.archivalPlace,
+                                      params.row.createdBy,params.row.remark
                       )
                     }
                   }
@@ -145,7 +147,8 @@
                       this.showInfoT(params.row.archiveAdvanceId,params.row.reservedArchiveType,
                                       params.row.reservedArchiveNo,params.row.employeeName,
                                       params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivalPlace
+                                      params.row.archiveSource,params.row.archivalPlace,
+                                      params.row.createdBy,params.row.remark
                       )
                     }
                   }
@@ -163,61 +166,75 @@
               }
             },
           },
-          {title: '状态', key: 'status', align: 'center', width: 90,
+          {title: '状态', key: 'status', align: 'center', width: 90,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.status == 0 ? '已删除' : params.row.status == 1 ? '未匹配' : params.row.status == 2 ? '已匹配' : '未知状态'),
               ]);
             }
           },
-          {title: '预留档案类型', key: 'reservedArchiveType', align: 'center', width: 120,
+          {title: '预留档案类型', key: 'reservedArchiveType', align: 'center', width: 130,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.reservedArchiveType),
               ]);
             }
           },
-          {title: '预留档案编号', key: 'reservedArchiveNo', align: 'center', width: 150,
+          {title: '预留档案编号', key: 'reservedArchiveNo', align: 'center', width: 135,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.reservedArchiveNo),
               ]);
             }
           },
-          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 150,
+          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 110,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeName),
               ]);
             }
           },
-          {title: '身份证号', key: 'employeeIdcardNo', align: 'center', width: 230,
+          {title: '身份证号', key: 'employeeIdcardNo', align: 'center', width: 160,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeIdcardNo),
               ]);
             }
           },
-          {title: '入库日期', key: 'enteringDate', align: 'center', width: 150,
+          {title: '入库日期', key: 'enteringDate', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.enteringDate),
               ]);
             }
           },
-          {title: '档案来源', key: 'archiveSource', align: 'center', width: 230,
+          {title: '档案来源', key: 'archiveSource', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.archiveSource),
               ]);
             }
           },
-          {title: '存档地', key: 'archivalPlace', align: 'center', width: 240,
+          {title: '存档地', key: 'archivalPlace', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.archivalPlace),
               ]);
             }
+          },
+          {title: '操作人', key: 'createdBy', align: 'center', width: 100,sortable: true,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.createdBy),
+              ]);
+            }
+          },
+          {title: '备注', key: 'remark', align: 'center', width: 230,sortable: true,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remark),
+              ]);
+            } 
           }
         ],
         dismissalData: []
@@ -244,21 +261,23 @@
           self.pageData.total = Number(data.data.total);
         })
       },
-      showInfoT (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace) {
+      showInfoT (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace,createdBy,remark) {
         
         this.$router.push({name:'advanceFile', query: {archiveAdvanceId:companyId,reservedArchiveType:reservedArchiveType,
                                                         reservedArchiveNo:reservedArchiveNo,employeeName:employeeName,
                                                         employeeIdcardNo:employeeIdcardNo,enteringDate:enteringDate,
-                                                        archiveSource:archiveSource,archivalPlace:archivalPlace
+                                                        archiveSource:archiveSource,archivalPlace:archivalPlace,
+                                                        createdBy:createdBy,remark:remark
         }});
 
       },
-      showInfoTView (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace) {
+      showInfoTView (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace,createdBy,remark) {
         
         this.$router.push({name:'advanceFileView', query: {archiveAdvanceId:companyId,reservedArchiveType:reservedArchiveType,
                                                         reservedArchiveNo:reservedArchiveNo,employeeName:employeeName,
                                                         employeeIdcardNo:employeeIdcardNo,enteringDate:enteringDate,
-                                                        archiveSource:archiveSource,archivalPlace:archivalPlace
+                                                        archiveSource:archiveSource,archivalPlace:archivalPlace,
+                                                        createdBy:createdBy,remark:remark
         }});
 
       },

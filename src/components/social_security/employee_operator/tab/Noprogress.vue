@@ -19,7 +19,7 @@
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange"></Table>
+      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -102,8 +102,8 @@
         employeeResultPageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
           {
@@ -136,18 +136,16 @@
             }
           },
           {
-            title: '是否更正', key: 'isChange', width: 100, align: 'center',
-            render: (h, params) => {
-            return h('div', [
-                        h('span',  params.row.isChange=='1'?"是":"否")
-                      ]);
-            }
+            title: '客户编号', key: 'companyId', width: 120, align: 'center',sortable: true
+          },
+          {
+            title: '客户名称', key: 'title', width: 200, align: 'center'
+          },
+          {
+            title: '雇员编号', key: 'employeeId', width: 120, align: 'center',sortable: true
           },
           {
             title: '雇员', key: 'employeeName', width: 100, align: 'center'
-          },
-          {
-            title: '雇员编号', key: 'employeeId', width: 100, align: 'center',sortable: true
           },
           {
             title: '雇员证件号', key: 'idNum', width: 200, align: 'center',sortable: true
@@ -162,12 +160,6 @@
           //   title: '执行日期', key: 'doDate', width: 150, align: 'center'
           // },
           {
-            title: '客户编号', key: 'companyId', width: 120, align: 'center',sortable: true
-          },
-          {
-            title: '客户名称', key: 'title', width: 200, align: 'center'
-          },
-          {
             title: '发起人', key: 'createdDisplayName', width: 100, align: 'center'
           },
           {
@@ -175,6 +167,14 @@
           },
           {
             title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
+          },
+          {
+            title: '是否更正', key: 'isChange', width: 100, align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('span',  params.row.isChange=='1'?"是":"否")
+              ]);
+            }
           }
         ]
       }
@@ -190,7 +190,7 @@
       this.employeeResultColumns.filter((e) => {
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
          var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
-        
+
       if(storeOrder==null)
       {
 
@@ -219,11 +219,11 @@
              {
                 e.sortType = orders[1];
              }
-            
+
           }
         }
       }
-        
+
       })
     },
     methods: {
@@ -429,7 +429,7 @@
       },
       // 批量办理
       batchHandle(data, isBatch = false) {
-        
+
         if (isBatch) {
           // 组织任务 ID
           var empTaskIds = "";
@@ -520,6 +520,7 @@
         }
       },
       searchEmploiees(conditions) {
+        this.isLoading = true;
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
@@ -528,7 +529,7 @@
           {
             conditions.splice(i,1);
           }
-        }    
+        }
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
            for(var i=0;i<conditions.length;i++)
@@ -536,7 +537,7 @@
         }else{
           // 否则从session 里边去缓存的表单查询值
           var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
-          
+
           if(temp==null){
 
           }else{
@@ -564,7 +565,7 @@
           }
         }
       }
-      
+
         this.searchCondition.params = this.searchConditions.toString();
 
         api.employeeOperatorQuery({
@@ -579,21 +580,22 @@
               this.isNextMonth = true;
             }
           }
-        
+          this.isLoading = false;
         })
-           
+
       },SortChange(e){
+        this.isLoading = true;
         this.orderConditions = [];
         this.searchConditions =[];
-      
+
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
         if(conditions!=null){
             for(var i=0;i<conditions.length;i++)
-              this.searchConditions.push(conditions[i].exec);  
+              this.searchConditions.push(conditions[i].exec);
         }
-       
+
         var dx ='';
         if(e.key == 'companyId'){
             dx = 'c.company_id';
@@ -606,7 +608,7 @@
         }
         const searchConditionExec = `${dx} ${e.order} `;
         if(storeOrder==null){
-        
+
         }else{
           this.orderConditions = storeOrder;
         }
@@ -614,7 +616,7 @@
         if(this.orderConditions.length>0)
         {
             for(var index in this.orderConditions)
-            { 
+            {
                if(this.orderConditions[index].indexOf(dx)!= -1 && e.order=='normal')
                {  //如果是取消，则删除条件
                   this.orderConditions.splice(index,1);
@@ -627,20 +629,20 @@
                }else if(this.orderConditions[index]===searchConditionExec){
                    this.orderConditions.splice(index,1);
                }
-               
-            } 
-            
+
+            }
+
             if(!isE)
             {
                this.orderConditions.push(searchConditionExec);
             }
-           
+
         }else{
             this.orderConditions.push(searchConditionExec);
         }
 
         sessionStorage.setItem('socialDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
-       
+
         if(this.orderConditions.length>0)
         {
           for(var index  in this.orderConditions)
@@ -663,7 +665,7 @@
               this.isNextMonth = true;
             }
           }
-        
+          this.isLoading = false;
         })
       }
 

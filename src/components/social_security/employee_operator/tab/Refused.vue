@@ -4,97 +4,7 @@
       <Panel name="1">
         查询条件
         <div slot="content">
-          <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
-            <Row type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名：" prop="employeeName">
-                <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="结算区县：" prop="settlementArea">
-                <Select v-model="operatorSearchData.settlementArea" style="width: 100%;" transfer>
-                  <Option value="" label="全部"></Option>
-                  <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="社保账户类型：" prop="ssAccountType">
-                <Select v-model="operatorSearchData.ssAccountType" style="width: 100%;" transfer>
-                 <Option value="[全部]" label="全部"></Option>
-                  <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="人员分类：" prop="empClassify">
-                <Select v-model="operatorSearchData.empClassify" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="1" label="本地"></Option>
-                  <Option value="2" label="外地"></Option>
-                  <Option value="3" label="外籍三险"></Option>
-                  <Option value="4" label="外籍五险"></Option>
-                  <Option value="5" label="延迟退休人员"></Option>
-                </Select>
-              </Form-item>
-              </Col> -->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="企业社保账号：" prop="ssAccount">
-                <input-account v-model="operatorSearchData.ssAccount"></input-account>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户编号：" prop="companyId">
-                <input-company v-model="operatorSearchData.companyId"></input-company>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号：" prop="idNum">
-                <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="任务单类型：" prop="taskCategory">
-                <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
-                  <Option value="" label="全部"></Option>
-                  <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户名称：" prop="title">
-                <input-company-name v-model="operatorSearchData.title" ></input-company-name>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号：" prop="employeeId">
-                <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
-              </Form-item>
-              </Col>
-              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="是否加急：" prop="urgent">
-                <Select v-model="operatorSearchData.urgent" style="width: 100%;" transfer>
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option value="0" label="否"></Option>
-                  <Option value="1" label="是"></Option>
-                </Select>
-              </Form-item>
-              </Col> -->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="社保起缴月份：" prop="startMonth">
-                <Date-picker v-model="operatorSearchData.startMonth" type="month" placement="bottom"
-                             placeholder="选择年月份" style="width: 100%;" transfer></Date-picker>
-              </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
-              <Button type="warning" @click="$refs['operatorSearchData'].resetFields()">重置</Button>
-              </Col>
-            </Row>
-          </Form>
+          <search-employee @on-search="searchEmploiees" ></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -104,7 +14,9 @@
       <Table border ref="selection"
              :columns="employeeResultColumns"
              :data="employeeResultData"
-             @on-selection-change="selectionChange"></Table>
+             @on-selection-change="selectionChange"
+             @on-sort-change="SortChange"
+             :loading="isLoading"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -139,14 +51,19 @@
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
+  import searchEmployee from "./SearchEmployee.vue"
 
   export default {
-    components: {InputAccount, InputCompany,InputCompanyName},
+    components: {InputAccount, InputCompany,InputCompanyName,searchEmployee},
     data() {
       return {
         collapseInfo: [1], //展开栏
         taskCategorydict: [],
         ssAccountTypedict: [],
+        searchCondition: {
+          params: '',
+          taskStatus: '4'
+        },
         operatorSearchData: {
           taskStatus: '4',
           employeeName: '',
@@ -173,8 +90,8 @@
         employeeResultPageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
           {
@@ -204,24 +121,22 @@
             }
           },
           {
-            title: '是否更正', key: 'isChange', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('span',  params.row.isChange=='1'?"是":"否")
-              ]);
-            }
+            title: '客户编号', key: 'companyId', width: 120, align: 'center',sortable: true
+          },
+          {
+            title: '客户名称', key: 'title', width: 200, align: 'center'
+          },
+          {
+            title: '雇员编号', key: 'employeeId', width: 120, align: 'center',sortable: true
           },
           {
             title: '雇员', key: 'employeeName', width: 100, align: 'center'
           },
           {
-            title: '雇员编号', key: 'employeeId', width: 100, align: 'center'
+            title: '雇员证件号', key: 'idNum', width: 200, align: 'center',sortable: true
           },
           {
-            title: '雇员证件号', key: 'idNum', width: 200, align: 'center'
-          },
-          {
-            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center'
+            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center',sortable: true
           },
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
@@ -230,12 +145,6 @@
           //   title: '执行日期', key: 'doDate', width: 150, align: 'center'
           // },
           {
-            title: '客户编号', key: 'companyId', width: 100, align: 'center'
-          },
-          {
-            title: '客户名称', key: 'title', width: 200, align: 'center'
-          },
-          {
             title: '发起人', key: 'createdDisplayName', width: 100, align: 'center'
           },
           {
@@ -243,13 +152,59 @@
           },
           {
             title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
-          }
+          },
+          {
+            title: '是否更正', key: 'isChange', width: 100, align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('span',  params.row.isChange=='1'?"是":"否")
+              ]);
+            }
+          },
         ]
       }
     },
     created() {
       sessionData.getJsonDataFromSession('employeeCommonOperator.Refused.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeCommonOperator.Refused.employeeResultPageData', this.employeeResultPageData);
+      this.employeeResultColumns.filter((e) => {
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+
+      if(storeOrder==null)
+      {
+
+      }else{
+        if(storeOrder.length>0)
+        {
+          for(var index  in storeOrder)
+          {
+             var orders = storeOrder[index].split(' ');
+             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+          }
+        }
+      }
+
+      })
     },
     async mounted() {
 //      this[EventType.THISMONTHHANDLETYPE]()
@@ -305,11 +260,13 @@
       },
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
-        this.employeeOperatorQuery();
+        var conditions = [];
+        this.searchEmploiees(conditions);
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
-        this.employeeOperatorQuery();
+        var conditions = [];
+        this.searchEmploiees(conditions);
       },
       // 检查是否选中任务
       checkSelectEmployeeResultData() {
@@ -453,6 +410,158 @@
       },
       exprotExcel() {
       },
+      searchEmploiees(conditions) {
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
+       var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        this.searchConditions =[];
+        for(var i=0;i<conditions.length;i++)
+        {
+          if(conditions[i]==null||conditions[i]==undefined)
+          {
+            conditions.splice(i,1);
+          }
+        }
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+           for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
+
+          if(temp==null){
+
+          }else{
+             var searchEmploiees = JSON.parse(temp);
+             if(searchEmploiees.length>0)
+             {
+                for(var index  in searchEmploiees)
+                {
+                    this.searchConditions.push(searchEmploiees[index].exec);
+                }
+             }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(var index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
+          }
+        }
+
+        this.searchCondition.params = this.searchConditions.toString();
+
+        api.employeeOperatorQuery({
+          pageSize: this.employeeResultPageData.pageSize,
+          pageNum: this.employeeResultPageData.pageNum,
+          params: this.searchCondition,
+        }).then(data => {
+          if (data.code == 200) {
+            this.employeeResultData = data.data;
+            this.employeeResultPageData.total = data.total;
+            if(this.operatorSearchData.taskStatus=='-2'){
+              this.isNextMonth = true;
+            }
+          }
+          this.isLoading = false;
+        })
+
+      },SortChange(e){
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
+        this.orderConditions = [];
+        this.searchConditions =[];
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+       if(conditions!=null){
+            for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);
+        }
+        var dx ='';
+        if(e.key == 'companyId'){
+            dx = 'c.company_id';
+        }else if(e.key == 'employeeId'){
+            dx = 'e.employee_id';
+        }else if(e.key == 'ssAccount'){
+            dx = 'ca.ss_account';
+        }else if(e.key == 'idNum'){
+            dx = 'e.id_num';
+        }
+        const searchConditionExec = `${dx} ${e.order} `;
+        if(storeOrder==null){
+
+        }else{
+          this.orderConditions = storeOrder;
+        }
+        var isE = false;
+        if(this.orderConditions.length>0)
+        {
+            for(var index in this.orderConditions)
+            {
+               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order=='normal')
+               {  //如果是取消，则删除条件
+                  this.orderConditions.splice(index,1);
+                   isE = true;
+               }else if(this.orderConditions[index].indexOf(dx)!= -1 && this.orderConditions[index].indexOf(e.order)== -1 ) {
+                 //如果是切换查询顺序
+                  this.orderConditions.splice(index,1);
+                  this.orderConditions.push(searchConditionExec);
+                   isE = true;
+               }else if(this.orderConditions[index]===searchConditionExec){
+                   this.orderConditions.splice(index,1);
+               }
+
+            }
+
+            if(!isE)
+            {
+               this.orderConditions.push(searchConditionExec);
+            }
+
+        }else{
+            this.orderConditions.push(searchConditionExec);
+        }
+
+        sessionStorage.setItem('socialDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+        if(this.orderConditions.length>0)
+        {
+          for(var index  in this.orderConditions)
+          {
+             this.searchConditions.push(this.orderConditions[index]);
+          }
+        }
+
+        this.searchCondition.params = this.searchConditions.toString();
+
+        api.employeeOperatorQuery({
+          pageSize: this.employeeResultPageData.pageSize,
+          pageNum: this.employeeResultPageData.pageNum,
+          params: this.searchCondition,
+        }).then(data => {
+          if (data.code == 200) {
+            this.employeeResultData = data.data;
+            this.employeeResultPageData.total = data.total;
+            if(this.operatorSearchData.taskStatus=='-2'){
+              this.isNextMonth = true;
+            }
+          }
+          this.isLoading = false;
+        })
+      }
     }
   }
 </script>

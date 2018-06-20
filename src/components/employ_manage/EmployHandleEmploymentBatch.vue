@@ -1,60 +1,78 @@
 <template>
   <div class="smList">
     <Collapse v-model="collapseInfo">
-      <!--<Panel name="1">
+      <Panel name="1">
         用工办理
         <div slot="content">
           <Form :label-width="150">
             <Row type="flex" justify="start">
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="实际录用日期：">
-                <DatePicker type="date" placeholder="" transfer></DatePicker>
-              </Form-item>
+              
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+                <Form-item label="材料签收日期：">
+                  <DatePicker v-model="employmentInfo.receiveDate" type="date" placeholder="" transfer></DatePicker>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+                <Form-item label="实际录用日期：">
+                  <DatePicker v-model="employmentInfo.employDate" type="date" placeholder="" transfer></DatePicker>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+                <Form-item label="开F单日期：">
+                  <DatePicker v-model="employmentInfo.openAfDate" type="date"  placeholder="" transfer></DatePicker>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+                <Form-item label="用工形式：">
+                  <Select v-model="employmentInfo.employStyle" transfer>
+                    <Option v-for="item in employmentFormList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="开F单日期：">
-                <DatePicker type="date" placeholder="" transfer></DatePicker>
-              </Form-item>
+                
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+                <Form-item label="办理类型：">
+                  <Select v-model="employmentInfo.handleType"  transfer>
+                    <Option v-for="item in handleTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+                <Form-item label="用工属性：">
+                  <Select v-model="employmentInfo.employProperty" transfer>
+                    <Option v-for="item in employmentPropertyList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工形式：">
-                <Select transfer>
-                  <Option v-for="item in employmentFormList" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-              </Form-item>
+                <Form-item label="用工方式：">
+                  <Select v-model="employmentInfo.employWay" transfer>
+                    <Option v-for="item in employmentMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="办理类型：">
-                <Select @on-change="handleChange" transfer>
-                  <Option v-for="item in handleTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
+                
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工属性：">
-                <Select transfer>
-                  <Option v-for="item in employmentPropertyList" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-              </Form-item>
+                 <Form-item label="用工备注：" >
+                  <Input placeholder="请输入" :maxlength="50" v-model="employmentInfo.remarkContent"/>
+                 </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工方式：">
-                <Select transfer>
-                  <Option v-for="item in employmentMethodList" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工操作专员：">
-              </Form-item>
-              </Col>
+             
             </Row>
+          <Row type="flex" justify="start">
+            <Col :sm="{span: 16}" class="tr">
+              <!-- <Button type="warning" @click="defaultVaule()">默认</Button> -->
+              <Button type="primary"  :loading="isLoadingC"   @click="instanceEmployment()"  >保存</Button>
+            </Col>
+          </Row>
           </Form>
         </div>
-      </Panel>-->
+      </Panel>
       <Panel name="2">
         用工材料办理
         <div slot="content">
@@ -93,22 +111,22 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="存档地：" prop="archivePlace" v-model="materialHandleInfo.archivePlace">
-                <Select transfer>
+              <Form-item label="存档地：" >
+                <Select v-model="materialHandleInfo.archivePlace" transfer>
                   <Option v-for="item in filePlaceList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
-              </Form-item>
+              </Form-item> 
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="存档地补充：" prop="archivePlaceAdditional">
+              <Form-item label="存档地补充：" >
                 <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.archivePlaceAdditional"/>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
-              <Form-item label="存档卡状态：" prop="archiveCardState" v-model="materialHandleInfo.archiveCardState">
-                <Select transfer>
+              <Form-item label="存档卡状态：" >
+                <Select v-model="materialHandleInfo.archiveCardState" transfer>
                   <Option v-for="item in placeStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
@@ -120,7 +138,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
               <Form-item label="档案来源：" prop="docFrom">
-                <Select  transfer v-model="materialHandleInfo.docFrom">
+                <Select  v-model="materialHandleInfo.docFrom" transfer>
                   <Option v-for="item in fileOriginList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
@@ -189,9 +207,9 @@
               </Col>
             </Row>
             <Row type="flex" justify="start">
-              <Col :sm="{span: 24}" class="tr">
+              <Col :sm="{span: 16}" class="tr">
               <Button type="warning" @click="resetForm('materialHandleInfo')">重置</Button>
-              <Button type="primary" @click="instance()">批理办理</Button>
+              <Button type="primary"  :loading="isLoading"  @click="instance()" :disabled="materialHandleInfo.end" >批理办理</Button>
               </Col>
             </Row>
           </Form>
@@ -215,9 +233,15 @@
     },
     data() {
       return {
-        collapseInfo: [2], //展开栏
+         isLoading: false,
+         isLoadingC:false,
+        collapseInfo: [1,2], //展开栏
         docTypeList: [],
         yuliuDocTypeList: [],
+        employmentInfo:{
+          receiveDate:'',
+          employDate:'',
+        },
         materialHandleInfo: {
           yuliuDocType: '',
           yuliuDocNum: '',
@@ -240,7 +264,12 @@
           employWay: '',
           employOperateMan: '',
           employmentId:'',
-          end:false
+          end:false,
+          empTaskIds:[]
+        },
+        employeeBatchData:{
+          empTaskIds:[],
+          employWay:''
         },
         employmentFormList: [
           {value: '1', label: '全日制'},
@@ -422,7 +451,6 @@
           }
         })
       },
-
       instance() {
         
         var patrn = /^[0-9]*$/;
@@ -443,6 +471,8 @@
           return;
         }
         var fromData = this.$utils.clear(this.materialHandleInfo,'');
+     
+        
         fromData.isFrist='0';
         if(this.materialHandleInfo.employFeedbackOptDate){
          fromData.employFeedbackOptDate = this.$utils.formatDate(this.materialHandleInfo.employFeedbackOptDate, 'YYYY-MM-DD');
@@ -462,18 +492,45 @@
         if(this.materialHandleInfo.storageDate){
              fromData.storageDate = this.$utils.formatDate(this.materialHandleInfo.storageDate, 'YYYY-MM-DD');
         }
+       
         fromData.empTaskIds = this.$route.query.empTaskIds;
-        console.info(fromData);
-        return;
-        api.saveAmArchiveBatch(fromData).then(data => {
-              if (data.code == 200) {
-                this.$Message.success("批量办理成功");
-              } else {
-                this.$Message.error("保存失败！" + data.message);
-              }
+       this.isLoading = true;
+        api.saveBatchEmploy(fromData).then(data => {
+            if (data.data.code == 200) {
+              this.materialHandleInfo.end =data.data.data.end;
+              this.$Message.success("批量办理成功");
+            } else {
+              this.$Message.error("保存失败！" + data.data.message);
+            }
+
+            this.isLoading = false;
         })
 
-      }, defaultVaule() {
+      }, instanceEmployment(){
+            var fromData = this.$utils.clear(this.employmentInfo,'');
+            if(fromData.employDate){
+              fromData.employDate = this.$utils.formatDate(this.employmentInfo.employDate, 'YYYY-MM-DD');
+            }
+            if(fromData.openAfDate){
+              fromData.openAfDate = this.$utils.formatDate(this.employmentInfo.openAfDate, 'YYYY-MM-DD');
+            }
+            if(fromData.receiveDate){
+              fromData.receiveDate = this.$utils.formatDate(this.employmentInfo.receiveDate, 'YYYY-MM-DD');
+            }
+           fromData.empTaskIds = this.$route.query.empTaskIds;
+            this.isLoadingC = true;
+          api.batchSaveEmployment(fromData).then(data => {
+            if (data.code == 200) {
+              this.$Message.success("批量办理成功");
+            } else {
+              this.$Message.error("保存失败！" + data.data.message);
+            }
+           
+           this.isLoadingC = false;
+            
+         })
+
+      },defaultVaule() {
 
         var fromData = this.$utils.clear(this.handleInfo, '');
         if (fromData.employDate) {
@@ -574,7 +631,7 @@
                   strDate = "0" + strDate;
               }
               var currentdate = year + seperator1 + month + seperator1 + strDate;
-              this.handleInfo.ukeyBorrowDate=currentdate;
+              this.materialHandleInfo.ukeyBorrowDate=currentdate;
           }
          
        }

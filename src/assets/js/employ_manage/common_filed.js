@@ -29,6 +29,20 @@ let em_chooseField = {
   "c.storage_out_man":"出库人",
   "h.service_center":"服务中心"
 };
+let ukey_chooseField = {
+  "u.material_receive_date":"材料签收日期",
+  "u.material_delivery_date":"材料送办日期",
+  "u.material_feedback_date":"材料反馈日期",
+  "u.company_name":"公司名称",
+  "u.organization_code":"组织机构代码",
+  "u.due_date":"到期日期",
+  "u.logout_date":"注销日期",
+  "u.key_type":"类别",
+  "u.key_code":"编号",
+  "u.key_pwd":"密码",
+  "u.key_seq":"序列号",
+  "u.key_fee":"收费标准"
+};
 let em_relationship = {
   "等于": "=",
   "大于": ">",
@@ -38,6 +52,15 @@ let em_relationship = {
   "不等于": "<>",
   "类似于": "like",
   "为空": "is null"
+};
+let ukey_relationship = {
+  "等于": "=",
+  "大于": ">",
+  "大于等于": ">=",
+  "小于": "<",
+  "小于等于": "<=",
+  "类似于": "like",
+  "不等于": "<>"
 };
 let em_print = ["用工录用名册打印", "派谴录用名册打印", "外来独立", "外来派谴", "采集表汇总表", "打印批退材料签收单"];
 
@@ -53,4 +76,4 @@ let customerInfo = {
 
 let batchOperate = ["退材料交付日期", "转移备注", "转移方式", "退工反馈", "退工反馈2", "退档日期", "档案转出方向", "档案转出日期", "手册转出日期", "公司集体转出方向", "网办", "劳动手册是否交被退人员", "已交", "未交", "职介反馈日期", "打印退工单", "UKey外借日期", "UKey返回日期"];
 
-export {em_chooseField, em_relationship, em_print, customerInfo, batchOperate}
+export {ukey_chooseField,ukey_relationship, em_chooseField, em_relationship, em_print, customerInfo, batchOperate}

@@ -2,63 +2,120 @@
 <div class="smList">
 <Collapse v-model="collapseInfo">
 <Panel name="1">
-  Ukey管理 新增
+  Ukey管理 {{$route.query.id != 0 ? "维护详情" : "新增UKEY"}}
   <div slot="content">
   <Form :label-width=150 ref="uekyFile" :model="uekyFile">
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="Ukey类别：">
+        <Form-item label="材料签收日期：">
+          <DatePicker  type='date' placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialReceiveDate"  style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="材料送办日期：">
+          <DatePicker  type='date' placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialDeliveryDate"  style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="材料反馈日期：">
+          <DatePicker  type='date' placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialFeedbackDate"  style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="公司名称：">
+          <input-company-name v-model="uekyFile.companyName"></input-company-name>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+      <Form-item label="组织机构代码：">
+        <Input  placeholder="请输入..." v-model="uekyFile.organizationCode" :maxlength="9" ></Input>
+      </Form-item>
+      </Col>
+      <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="到期日期：">
+          <DatePicker  type='date' placement="bottom-end" placeholder="选择日期" v-model="uekyFile.dueDate"  style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col> -->
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="注销日期：">
+          <DatePicker  type='date' placement="bottom-end" placeholder="选择日期" v-model="uekyFile.logoutDate"  style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="类别：">
           <Select transfer v-model="uekyFile.keyType">
               <Option v-for="item in transferFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-      <Form-item label="Ukey编号：">
-        <Input  placeholder="请输入..." v-model="uekyFile.keyCode" :maxlength="9" ></Input>
-      </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="档案部UKey密码：">
-          <Input placeholder="请输入..." v-model="uekyFile.keyPwd"></Input>
+        <Form-item label="编号：">
+          <Input  placeholder="请输入..." v-model="uekyFile.keyCode" :maxlength="9" ></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="Ukey状态：">
-          <Select transfer v-model="uekyFile.keyStatus" @on-change="changeStatus">
-              <Option v-for="item in UkeyStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
-          </Select>
+        <Form-item label="密码：">
+          <Input  placeholder="请输入..." v-model="uekyFile.keyPwd" :maxlength="9" ></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="Ukey序列号：">
+        <Form-item label="序列号：">
           <Input placeholder="请输入..." v-model="uekyFile.keySeq" :maxlength="50"></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="费用：">
+        <Form-item label="收费标准：">
           <Input placeholder="请输入..." v-model="uekyFile.keyFee" :maxlength="18"></Input>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="已绑定公司编号：">
-          <input-company v-model="uekyFile.companyId"></input-company>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="已绑定公司：">
-          <input-company-name v-model="uekyFile.companyName"></input-company-name>
         </Form-item>
       </Col>
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+        <Button type="primary" v-if="$route.query.id!=0" @click="add">续签</Button>
         <Button type="primary" @click="doSave">保存</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
+    <Modal
+        v-model="modal1"
+        title="Ukey更新"
+        @on-ok="ok"
+        :model="renewUkey" ref="renewUkey"
+        @on-cancel="cancel">
+      <Form :label-width="150">
+       <Row type="flex" justify="start">
+         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+          <Form-item label="操作日期：" prop="renewDate">
+            <DatePicker type="date" :readonly="true" v-model="renewUkey.renewDate" transfer></DatePicker>
+          </Form-item>
+         </Col>
+      </Row>
+      <Row type="flex" justify="start">
+         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+          <Form-item label="到期日期：" prop="renewDueDate">
+            <DatePicker type="date" v-model="renewUkey.renewDueDate" transfer></DatePicker>
+          </Form-item>
+         </Col>
+      </Row>
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+          <Form-item label="更新方式：" prop="type" transfer>
+            <Select transfer v-model="renewUkey.type">
+              <Option v-for="item in typeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+            </Select>
+          </Form-item>
+        </Col>
+       </Row>
+    </Form>
+    </Modal>
   </Form>
   </div>
+  </Panel>
+  <Panel name="2" v-if="$route.query.id!=0">
+    续签记录 
+    <div slot="content">
+      <Table border :width="800" :columns="notesColumns" :data="notesData" class="mt20"></Table>
+    </div>
   </Panel>
 </Collapse>
 </div>
@@ -75,71 +132,140 @@ import Vue from 'vue'
     components: {customerModal,InputCompanyName,InputCompany},
     data() {
       return {
-        collapseInfo: [1], //展开栏
-        docTypeList: [],
-        isFast: true,
-        oldCompanyId: '',
-        OldCompanyName: '',
+        modal1: false,
+        collapseInfo: [1,2], //展开栏
+        notesData: [],
         uekyFile: {
+          renewDueDate: '',
+          renewDate: '',
+          materialReceiveDate: '',
+          materialDeliveryDate: '',
+          materialFeedbackDate: '',
+          organizationCode: '',
+          dueDate: '',
+          logoutDate: '',
           id: '',
           keyType: '',
           keyCode: '',
           keySeq: '',
           keyPwd: '',
-          keyStatus: '',
           keyFee: '',
-          companyId: '',
           companyName: ''
+        },
+        renewUkey:{
+          id: '',
+          type: '',
+          renewDueDate: '',
+          renewDate: ''
         },
         transferFeedbackList: [
           {value:'空',label:'空'},
-          {value:'已告知本人转档',label:'已告知本人转档'},
-          {value:'无档自查',label:'无档自查'},
-          {value:'浦东职介代管',label:'浦东职介代管'},
-          {value:'黄浦职介代管',label:'黄浦职介代管'},
-          {value:'长宁职介代管',label:'长宁职介代管'},
-          {value:'静安职介代管',label:'静安职介代管'},
-          {value:'普陀职介代管',label:'普陀职介代管'},
-          {value:'虹口职介代管',label:'虹口职介代管'},
-          {value:'金桥职介代管',label:'金桥职介代管'},
-          {value:'徐汇职介代管',label:'徐汇职介代管'},
-          {value:'档在高招办',label:'档在高招办'}
+          {value:'1X',label:'1X'},
+          {value:'2X',label:'2X'},
+          {value:'1K',label:'1K'},
+          {value:'2K',label:'2K'},
+          {value:'1D',label:'1D'},
+          {value:'2D',label:'2D'},
+          {value:'H',label:'H'},
+          {value:'R',label:'R'},
+          {value:'S',label:'S'},
+          {value:'Z',label:'Z'},
+          {value:'C',label:'C'}
         ],
-        UkeyStatusList: [
+        typeList: [
           {value:'空',label:'空'},
-          {value:'已绑定公司',label:'已绑定公司'},
-          {value:'未绑定公司',label:'未绑定公司'}
+          {value:'网办',label:'网办'},
+          {value:'柜面',label:'柜面'}
+        ],
+        notesColumns: [
+          {title: '操作员', key: 'createdBy', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.createdBy),
+              ]);
+            }
+          },
+          {title: '操作日期', key: 'renewDate', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.renewDate),
+              ]);
+            }
+          },
+          {title: '到期日期', key: 'dueDate', align: 'center', width: 200,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.dueDate),
+              ]);
+            }
+          },
+          {title: '更新方式', key: 'type', align: 'center', width: 195,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.type),
+              ]);
+            }
+          },
         ],
       }
     },
     mounted() {
 
-      this.uekyFile.id = this.$route.query.id;
-      this.uekyFile.keyType = this.$route.query.keyType;
-      this.uekyFile.keyCode = this.$route.query.keyCode;
-      this.uekyFile.keySeq = this.$route.query.keySeq;
-      this.uekyFile.keyPwd = this.$route.query.keyPwd;
-      this.uekyFile.keyStatus = this.$route.query.keyStatus;
-      this.uekyFile.keyFee = this.$route.query.keyFee;
-      this.uekyFile.companyId = this.$route.query.companyId;
-      this.uekyFile.companyName = this.$route.query.companyName;
-      this.oldCompanyId = this.$route.query.companyId;
-      this.OldCompanyName = this.$route.query.companyName;
+      let id = this.$route.query.id;
+
+      if(id != 0){
+        api.queryAmArchiveUkey({id: id}).then(data => {
+            this.uekyFile = data.data;
+        })
+
+      this.queryRenew(this.$route.query.id);
+        
+      }
     }
     ,
     methods: {
-      changeStatus(val){
-        if(this.isFast){
-          this.isFast = false;
+      queryRenew(id){
+        api.queryAmArchiveUkeyRenew({id: id}).then(data => {
+            this.notesData = data.data;
+        })
+      },
+      add(){
+        let d = new Date();
+        this.renewUkey.renewDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+        this.modal1 = true;
+        this.renewUkey.type = '';
+        this.renewUkey.renewDueDate = '';
+      },
+      ok(){
+
+        if(this.renewUkey.renewDueDate == '' || this.renewUkey.renewDueDate == undefined){
+          this.$Message.error("请填写到期日期！");
           return;
         }
-        if(val == "空" || val == "未绑定公司"){
-          Vue.set(this.uekyFile,'companyId','');
-          Vue.set(this.uekyFile,'companyName','');
-        }else if(val == "已绑定公司"){
-          Vue.set(this.uekyFile,'companyId',this.oldCompanyId);
-          Vue.set(this.uekyFile,'companyName',this.OldCompanyName);
+        if(this.renewUkey.type == '空' || this.renewUkey.type == '' || this.renewUkey.type == undefined){
+          this.$Message.error("请选择更新方式！");
+          return;
         }
+        this.renewUkey.id = this.$route.query.id;
+        var fromData = this.$utils.clear(this.renewUkey,'');
+        if(this.renewUkey.renewDueDate){
+          fromData.renewDueDate = this.$utils.formatDate(this.renewUkey.renewDueDate, 'YYYY-MM-DD');
+        }
+        if(this.renewUkey.renewDate){
+          fromData.renewDate = this.$utils.formatDate(this.renewUkey.renewDate, 'YYYY-MM-DD');
+        }
+        api.amArchiveUkeyRenew(fromData).then(data => {
+          if (data.code == 200) {
+            if(data.data == true){
+              this.$Message.success("续签成功");
+              this.queryRenew(this.$route.query.id);
+            }
+          } else {
+            this.$Message.error("保存失败！" + data.message);
+          }
+        })
+      },
+      cancel(){
       },
       doSave(){
 
@@ -147,15 +273,35 @@ import Vue from 'vue'
         //   this.$Message.error("身份证必须填写！");
         //   return;
         // }
+        this.uekyFile.createdTime='';
+        this.uekyFile.modifiedTime='';
         var fromData = this.$utils.clear(this.uekyFile,'');
+        if(this.uekyFile.materialReceiveDate){
+          fromData.materialReceiveDate = this.$utils.formatDate(this.uekyFile.materialReceiveDate, 'YYYY-MM-DD');
+        }
+        if(this.uekyFile.materialDeliveryDate){
+          fromData.materialDeliveryDate = this.$utils.formatDate(this.uekyFile.materialDeliveryDate , 'YYYY-MM-DD');
+        }
+        if(this.uekyFile.materialFeedbackDate){
+          fromData.materialFeedbackDate = this.$utils.formatDate(this.uekyFile.materialFeedbackDate, 'YYYY-MM-DD');
+        }
+        if(this.uekyFile.dueDate){
+          fromData.dueDate = this.$utils.formatDate(this.uekyFile.dueDate, 'YYYY-MM-DD');
+        }
+        if(this.uekyFile.logoutDate){
+          fromData.logoutDate = this.$utils.formatDate(this.uekyFile.logoutDate, 'YYYY-MM-DD');
+        }
         api.saveAmArchiveUkey(fromData).then(data => {
           if (data.code == 200) {
-            this.$Message.success("保存成功");
+            if(data.data == 1){
+              this.$Message.success("保存成功");
+            }else if(data.data == 0){
+              this.$Message.error("组织机构代码已存在！");
+            }
           } else {
             this.$Message.error("保存失败！" + data.message);
           }
         })
-
         this.$router.go(-1);
       },
       goBack () {

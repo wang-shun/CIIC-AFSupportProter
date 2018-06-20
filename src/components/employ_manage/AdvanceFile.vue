@@ -50,6 +50,16 @@
             </Select>
           </Form-item>
       </Col>
+      <Col span="16">
+      <Form-item label="备注：" prop="remark">
+        <Input v-model="advanceFile.remark" placeholder="请输入..."></Input>
+      </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-if="$route.query.createdBy!=''&&$route.query.createdBy!=undefined">
+        <Form-item label="操作人：">
+          <label>{{$route.query.createdBy}}</label>
+        </Form-item>
+      </Col>
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -75,6 +85,9 @@ import Vue from 'vue'
         docTypeList: [],
         oldName: [],
         oldId: [],
+        isOne: true,
+        oldType: '',
+        oldNumber: '',
         advanceFile: {
           archiveAdvanceId: '',
           reservedArchiveType: '',
@@ -85,6 +98,7 @@ import Vue from 'vue'
           archiveSource: '',
           archivalPlace: '',
           exist: true,
+          remark: '',
         },
         payMethodList: [
           {value: '1',label: "客户自付", },
@@ -93,31 +107,9 @@ import Vue from 'vue'
         ],
         filePlaceList: [
           {value:'',label:'空'},
-          {value:'外来从业人员',label:'外来从业人员'},
-          {value:'居住证',label:'居住证'},
-          {value:'属地管理',label:'属地管理'},
           {value:'中智',label:'中智'},
-          {value:'农村富裕劳动力',label:'农村富裕劳动力'},
-          {value:'区人才',label:'区人才'},
-          {value:'徐汇职介',label:'徐汇职介'},
-          {value:'梅园路',label:'梅园路'},
-          {value:'商城路',label:'商城路'},
-          {value:'漕虹分部',label:'漕虹分部'},
-          {value:'浦东大道',label:'浦东大道'},
-          {value:'大柏树工作站',label:'大柏树工作站'},
-          {value:'国际航运中心',label:'国际航运中心'},
-          {value:'市人才',label:'市人才'},
-          {value:'就业指导中心',label:'就业指导中心'},
-          {value:'经营者人才',label:'经营者人才'},
-          {value:'厂长经理人才',label:'厂长经理人才'},
-          {value:'退休',label:'退休'},
-          {value:'协保',label:'协保'},
-          {value:'其他',label:'其他'},
-          {value:'公司自行保理',label:'公司自行保理'},
-          {value:'退工不调',label:'退工不调'},
-          {value:'用工不调',label:'用工不调'},
-          {value:'非全日制',label:'非全日制'},
-          {value:'翻牌转下一条任务单',label:'翻牌转下一条任务单'}
+          {value:'退回寄出地',label:'退回寄出地'},
+          {value:'其它',label:'其它'}
         ],
         fileOriginList: [
            {value:'',label:'空'},
@@ -140,8 +132,11 @@ import Vue from 'vue'
       this.advanceFile.enteringDate = this.$route.query.enteringDate;
       this.advanceFile.archiveSource = this.$route.query.archiveSource;
       this.advanceFile.archivalPlace = this.$route.query.archivalPlace;
+      this.advanceFile.remark = this.$route.query.remark;
       this.oldName = this.$route.query.employeeName;
       this.oldId = this.$route.query.employeeIdcardNo;
+      this.oldType = this.$route.query.reservedArchiveType;
+      this.oldNumber = this.$route.query.reservedArchiveNo;
       if(this.advanceFile.enteringDate == undefined || this.advanceFile.enteringDate == ''){
         let d = new Date();
         this.advanceFile.enteringDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
@@ -149,7 +144,6 @@ import Vue from 'vue'
       api.queryAmArchiveDocType().then(data => {
           if (data.code == 200) {
               this.docTypeList = data.data.docSeqList;
-              console.info(data.data);
           } else {
               this.$Message.error("服务器异常" + data.message);
           }
@@ -158,8 +152,16 @@ import Vue from 'vue'
     ,
     methods: {
       changeTypeYuliu(val){
+        if(this.isOne == true && this.$route.query.reservedArchiveType!=undefined){
+          this.isOne = false;
+          return;
+        }
         if(val == ''){
           Vue.set(this.advanceFile,'reservedArchiveNo','');
+          return;
+        }
+        if(val == this.oldType){
+          Vue.set(this.advanceFile,'reservedArchiveNo',this.oldNumber);
           return;
         }
         this.queryDocSeqByDocType(val);
@@ -224,9 +226,14 @@ import Vue from 'vue'
             if(data.data == false){
               this.$Message.error("雇员姓名和身份证号码同时存在，已有这个雇员！");
               return
-            }else{
+            }else if(data.data == true){
               this.$Message.success("保存成功");
               this.goBack();
+            }else{
+              if(confirm("该雇员已有档案，是否直接跳转到档案办理？")){
+                this.$router.push({name:'recordComprehensive', query: {idNum:data.data.idNum,idCardType:data.data.idCardType,empTaskId:data.data.empTaskId,
+                employmentId:data.data.employmentId,employeeId:data.data.employeeId,companyId:data.data.companyId,empTaskResignId:data.data.empTaskResignId}});
+              }
             }
           } else {
             this.$Message.error("保存失败！" + data.message);

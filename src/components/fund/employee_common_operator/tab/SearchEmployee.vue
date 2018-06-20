@@ -12,7 +12,7 @@
         </Col>
         <Col :sm="{span: 24}">
           <Form-item label="关系" prop="relationshipValue">
-            <Select v-model="searchForm.relationshipValue" :label-in-value="true" @on-change="v=>{setOption(v, 1002)}" transfer>
+            <Select v-model="searchForm.relationshipValue" :label-in-value="true" @on-change="v=>{setOption(v, 1002)}" :disabled="searchForm.disabled" transfer>
               <Option v-for="(value, key, index) in searchForm.relationship" :value="value" :key="index">{{key}}</Option>
             </Select>
           </Form-item>
@@ -20,15 +20,15 @@
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
             <Input v-model="searchForm.searchContent" placeholder="请输入" v-if="searchForm.isDate == 0" />
-            
+
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 1">
                   <Option value="" label="全部"></Option>
                   <Option v-for="item in processStatusList" :value="item.key" :key="item.key">{{item.value}}</Option>
-            </Select>   
+            </Select>
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 2">
                   <Option value="" label="全部"></Option>
                   <Option v-for="item in taskTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
-            </Select>   
+            </Select>
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 3">
                     <Option value="" label="全部"></Option>
                     <Option v-for="item in payBankList" :value="item.key" :key="item.key">{{item.value}}</Option>
@@ -36,13 +36,13 @@
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 4">
                     <Option value="" label="全部"></Option>
                     <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
-            </Select> 
+            </Select>
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 5">
                     <Option value="" label="全部"></Option>
                     <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
-            </Select>          
+            </Select>
             <DatePicker v-model="searchForm.searchContent" type="date" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer v-if="searchForm.isDate == 6"></DatePicker>
-            
+
             <input-company v-model="searchForm.searchContent" v-if="searchForm.isDate == 7"></input-company>
 
              <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true"  @on-change="categroryChange" transfer v-if="searchForm.isDate == 8">
@@ -50,12 +50,8 @@
                     <Option value="0" label="否"></Option>
                     <Option value="1" label="是"></Option>
              </Select>
-           
-             
           </Form-item>
         </Col>
-
-         
       </Row>
       </Col>
       <Col :sm="{span: 2, offset: 1}">
@@ -71,7 +67,7 @@
     <Row justify="start">
       <Col :sm="{span: 24}" class="mt20 tr">
         <Button type="primary" icon="ios-search" :loading="isLoading"  @click="searchEmploiees">查询</Button>
-        
+
         <Button type="warning" @click="resetForm('searchForm')">重置</Button>
       </Col>
     </Row>
@@ -113,6 +109,7 @@
           searchContent: "",
           isDate:0,
           searchContentDesc: "",
+          disabled: false
         },
         processStatusList: [],
         taskTypeList: [],
@@ -122,7 +119,7 @@
         searchConditions: [],
         currentField: {},
         currentShip: {},
-        currentSelectIndex: -1
+        currentSelectIndex: -1,
       }
     },
     async mounted() {
@@ -130,7 +127,7 @@
        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
 
       var fu = sessionStorage.getItem('fundDaily'+userInfo.userId);
-      
+
       if(fu!=null)
       {
         this.searchConditions = JSON.parse(fu);
@@ -142,9 +139,11 @@
       // 选择字段或关系
       setOption(content, type){
         if(type === chooseType.field) {
-         
+
           if(content.value=='processStatus'){
             this.searchForm.isDate=1;
+            this.searchForm.disabled = true;
+            this.searchForm.relationshipValue = "=";
           }else if(content.value=='het.task_category'){
             this.searchForm.isDate=2;
           }else if(content.value=='hcas.payment_bank'){
@@ -157,8 +156,10 @@
             this.searchForm.isDate=6;
           }else if(content.value=='sc.company_id'){
             this.searchForm.isDate=7;
-          }else if(content.value=='het.is_change'){
+          }else if(content.value=='het.is_change' || content.value=='preInput'){
             this.searchForm.isDate=8;
+            this.searchForm.disabled = true;
+            this.searchForm.relationshipValue = "=";
           }else{
             this.searchForm.isDate=0;
           }
@@ -174,7 +175,7 @@
           return;
         } else {
           if(this.searchForm.isDate==6){
-             var d = new Date(this.searchForm.searchContent);  
+             var d = new Date(this.searchForm.searchContent);
              this.searchForm.searchContent=d.getFullYear() + '-' + (d.getMonth() + 1)+'-'+d.getDate();
           }
 
@@ -182,7 +183,7 @@
           if(this.currentShip.value=='like'){
               temp_searchContent = '%'+this.searchForm.searchContent+'%';
           }
-         
+
           if(this.searchForm.isDate == 1||this.searchForm.isDate == 2||this.searchForm.isDate == 3||this.searchForm.isDate == 4||this.searchForm.isDate == 5||this.searchForm.isDate == 8)
           {
              this.searchForm.searchContent = this.searchForm.searchContentDesc;
@@ -217,6 +218,9 @@
       },
       resetForm(form) {
         this.$refs[form].resetFields();
+        if (customizedForm) {
+          this.$refs[customizedForm].resetFields();
+        }
       },
       searchEmploiees() {
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));

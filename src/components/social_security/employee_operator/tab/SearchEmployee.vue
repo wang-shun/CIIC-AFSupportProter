@@ -12,14 +12,14 @@
         </Col>
         <Col :sm="{span: 24}">
           <Form-item label="关系" prop="relationshipValue">
-            <Select v-model="searchForm.relationshipValue" :label-in-value="true" @on-change="v=>{setOption(v, 1002)}" transfer>
+            <Select v-model="searchForm.relationshipValue" :label-in-value="true" @on-change="v=>{setOption(v, 1002)}" :disabled="searchForm.disabled" transfer>
               <Option v-for="(value, key, index) in searchForm.relationship" :value="value" :key="index">{{key}}</Option>
             </Select>
           </Form-item>
         </Col>
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
-            
+
             <Input v-model="searchForm.searchContent" placeholder="请输入" v-if="searchForm.isDate == 0" />
             <Date-picker  v-model="searchForm.searchContent"  type="month"  placement="right"
                              placeholder="选择年月份" style="width: 100%;" v-if="searchForm.isDate == 1"></Date-picker>
@@ -27,7 +27,7 @@
                   <Option value="[全部]" label="全部"></Option>
                   <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
             </Select>
-            <input-account v-model="searchForm.searchContent" v-if="searchForm.isDate == 3" ></input-account> 
+            <input-account v-model="searchForm.searchContent" v-if="searchForm.isDate == 3" ></input-account>
             <input-company v-model="searchForm.searchContent" v-if="searchForm.isDate == 4"></input-company>
             <input-company-name v-model="searchForm.searchContent" v-if="searchForm.isDate == 6"></input-company-name>
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer  v-if="searchForm.isDate == 5">
@@ -43,11 +43,11 @@
                 <Option value="-1" label="本月未处理"></Option>
                 <Option value="-2" label="下月未处理"></Option>
             </Select>
-             
+
           </Form-item>
         </Col>
 
-         
+
       </Row>
       </Col>
       <Col :sm="{span: 2, offset: 1}">
@@ -63,7 +63,7 @@
     <Row justify="start">
       <Col :sm="{span: 24}" class="mt20 tr">
         <Button type="primary" icon="ios-search" :loading="isLoading"  @click="searchEmploiees">查询</Button>
-        
+
         <Button type="warning" @click="resetForm('searchForm')">重置</Button>
       </Col>
     </Row>
@@ -105,6 +105,7 @@
           searchContent: "",
           isDate:0,
           searchContentDesc: "",
+          disabled: false
         },
         searchConditions: [],
         currentField: {},
@@ -117,19 +118,19 @@
       var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
 
       var fu = sessionStorage.getItem('socialDaily'+userInfo.userId);
-      
+
       if(fu!=null)
       {
         this.searchConditions = JSON.parse(fu);
       }
-     
+
       this.loadDict();
     },
     methods: {
       // 选择字段或关系
       setOption(content, type){
         if(type === chooseType.field) {
-         
+
           if(content.value.indexOf("month")>0){
             this.searchForm.isDate=1;
           }else if(content.value=='ca.ss_account_type'){
@@ -146,6 +147,8 @@
             this.searchForm.isDate=7;
           }else if(content.value == 'taskStatus'){
              this.searchForm.isDate=8;
+            this.searchForm.disabled = true;
+            this.searchForm.relationshipValue = "=";
           }else{
             this.searchForm.isDate=0;
           }
@@ -161,7 +164,7 @@
           return;
         } else {
           if(this.searchForm.isDate==1){
-             var d = new Date(this.searchForm.searchContent);  
+             var d = new Date(this.searchForm.searchContent);
              this.searchForm.searchContent=d.getFullYear() + '-' + (d.getMonth() + 1);
           }
 
@@ -185,7 +188,7 @@
           // const searchCondition = searchConditionExec;
           // 防止输入重复项
           let hasRepeatObj = -1;
-         
+
           if(this.searchConditions.length > 0) {
             hasRepeatObj = _.findIndex(this.searchConditions, (o) => {
               return searchCondition.desc === o.desc && searchCondition.exec === o.exec;

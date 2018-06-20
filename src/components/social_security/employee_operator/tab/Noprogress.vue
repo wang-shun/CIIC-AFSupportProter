@@ -520,6 +520,9 @@
         }
       },
       searchEmploiees(conditions) {
+        if (this.isLoading) {
+          return;
+        }
         this.isLoading = true;
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         this.searchConditions =[];
@@ -584,6 +587,9 @@
         })
 
       },SortChange(e){
+        if (this.isLoading) {
+          return;
+        }
         this.isLoading = true;
         this.orderConditions = [];
         this.searchConditions =[];

@@ -451,6 +451,9 @@
         }})
       },
       searchEmploiees(conditions) {
+        if (this.isLoading) {
+          return;
+        }
         this.isLoading = true;
          var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
 
@@ -521,6 +524,9 @@
         })
 
       },SortChange(e){
+        if (this.isLoading) {
+          return;
+        }
         this.isLoading = true;
          this.searchConditions =[];
 

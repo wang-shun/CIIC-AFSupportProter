@@ -411,6 +411,10 @@
       exprotExcel() {
       },
       searchEmploiees(conditions) {
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
@@ -470,10 +474,14 @@
               this.isNextMonth = true;
             }
           }
-
+          this.isLoading = false;
         })
 
       },SortChange(e){
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
         this.orderConditions = [];
         this.searchConditions =[];
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
@@ -551,7 +559,7 @@
               this.isNextMonth = true;
             }
           }
-
+          this.isLoading = false;
         })
       }
     }

@@ -8,9 +8,9 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保账户类型：" prop="ssAccountType">
-                  <Select v-model="payComSearchData.ssAccountType" clearable style="width: 100%;" transfer>
+                  <Select v-model="payComSearchData.ssAccountType"   style="width: 100%;" transfer>
                     <Option value="" label="全部"></Option>
-                    <Option v-for="item in accountTypeList" :value="item.key" :key="item.key" :label="item.value"></Option>
+                    <Option v-for="item in accountTypeList" :value="item.key" :key="item.key" >{{item.value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -65,7 +65,7 @@
               <Form-item label="金额是否一致：" prop="ifCheck">
                   <i-switch v-model="payComSearchData.ifCheck" size="large">
                       <span slot="open">是</span>
-                      <span slot="close">否</span>
+                      <span slot="close"></span>
                   </i-switch>
                 </Form-item>
               </Col>
@@ -532,7 +532,7 @@
                   h('A', {
                       props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                         on: {
-                          click: () => {
+                          dblclick: () => {
                                this.doCheck(params.row.paymentComId,h)
                           }
                         }
@@ -643,11 +643,8 @@
     },
     mounted() {
       //this.payComHandlePageNum(1);
-      sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
-      sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
-     
-      this.paymentComQuery();
       this.loadDict();
+      this.paymentComQuery();
       this.getCustomers();
     },
     computed: {
@@ -672,10 +669,13 @@
         dict.getDictData().then(data => {
           if (data.code == 200) {
             this.accountTypeList = data.data.SocialSecurityAccountType;
+            sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
+            sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
           }
         });
       },
       goPaymentNotice(paymentComId,comAccountId,paymentMonth) {
+        console.log(this.payComSearchData)
         sessionData.setJsonDataToSession('paymentCom.payComSearchData', this.payComSearchData);
         sessionData.setJsonDataToSession('paymentCom.payComPageData', this.payComPageData);
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)

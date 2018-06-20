@@ -105,6 +105,26 @@
                   <label>{{$decode.accountType(employeeAndCustomer.ssAccountType)}}</label>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="离职操作日期：">
+                  <label>{{employeeAndCustomer.outOperateDate}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="合同起始日期：">
+                  <label>{{employeeAndCustomer.laborStartDate}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="合同截止日期：">
+                  <label>{{employeeAndCustomer.laborEndDate}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="前道提交费用缴纳至：">
+                  <label>{{employeeAndCustomer.endMonth}}</label>
+                </Form-item>
+              </Col>
             </Row>
           </Form>
         </div>

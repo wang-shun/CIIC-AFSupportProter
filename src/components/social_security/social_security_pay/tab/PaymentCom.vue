@@ -1029,15 +1029,22 @@
         })
       },
       async doCheck(paymentComId,h){
-        payComApi.doCheck({paymentComId:paymentComId}).then(
-          data => {
-            if(data.code == "0"){
-              this.paymentComQuery()
-            }else{
-              alert(data.message);
+        this.$Modal.confirm({
+            title: "提示",
+            content: "您确认操作吗？",
+            okText: "确认",
+            onOk: () => {
+              payComApi.doCheck({paymentComId:paymentComId}).then(
+                data => {
+                  if(data.code == "0"){
+                    this.paymentComQuery()
+                  }else{
+                    alert(data.message);
+                  }
+                }
+              );
             }
-         }
-        );
+          });
       },
       //关闭移除批次框
       closeDelBatch(){

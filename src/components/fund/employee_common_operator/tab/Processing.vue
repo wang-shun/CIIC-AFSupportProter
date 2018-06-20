@@ -151,8 +151,12 @@
           {title: '雇员证件号', key: 'idNum', width: 200, align: 'center',sortable: true},
           {title: '企业客户', key: 'companyName', width: 200, align: 'center'},
           {title: '客户编号', key: 'companyId', width: 150, align: 'center',sortable: true},
-          {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center'},
-          {title: '公积金账号', key: 'hfEmpAccount', width: 200, align: 'center',sortable: true},
+          {title: '公积金类型', key: 'hfTypeName', width: 100, align: 'center'},
+          {title: '公积金账号', key: 'hfEmpAccount', width: 150, align: 'center',sortable: true},
+          {title: '执行年月', key: 'handleDate', width: 100, align: 'center'},
+          {title: '开始年月', key: 'startMonth', width: 100, align: 'center'},
+          {title: '截止年月', key: 'endMonth', width: 100, align: 'center'},
+          {title: '操作提示', key: 'operationRemindName', width: 150, align: 'center'},
           {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center'},
           {title: '发起时间', key: 'submitTimeFormat', width: 200, align: 'center'}
         ]

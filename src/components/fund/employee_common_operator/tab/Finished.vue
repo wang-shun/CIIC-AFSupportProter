@@ -434,7 +434,7 @@
         })
       },
       changeSortClass(storeOrder) {
-        this.noProcessColumns.forEach((e, idx) => {
+        this.finishedColumns.forEach((e, idx) => {
           let order = 'normal'
           if(storeOrder==null)
           {

@@ -252,9 +252,9 @@
     created() {
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
        this.noProcessColumns.filter((e) => {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-         var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
 
       if(storeOrder==null)
       {

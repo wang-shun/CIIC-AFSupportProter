@@ -145,9 +145,9 @@
     created () {
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.rejected.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.rejected.rejectedPageData', this.rejectedPageData);
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
            this.rejectedColumns.filter((e) => {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-         var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
 
       if(storeOrder==null)
       {
@@ -195,6 +195,10 @@
       });
 
       this.hfEmpTaskRejectQuery();
+
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
     },
@@ -470,7 +474,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(0, idx, order)
+          tableStyle.changeSortElementClass(1, idx, order)
         });
       },
     }

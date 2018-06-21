@@ -168,9 +168,9 @@
     created() {
       sessionData.getJsonDataFromSession('employeeCommonOperator.Refused.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeCommonOperator.Refused.employeeResultPageData', this.employeeResultPageData);
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
       this.employeeResultColumns.filter((e) => {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
 
       if(storeOrder==null)
       {
@@ -200,17 +200,19 @@
              {
                 e.sortType = orders[1];
              }
-
           }
         }
       }
-
       })
     },
     async mounted() {
 //      this[EventType.THISMONTHHANDLETYPE]()
       this.employeeOperatorQuery();
       this.loadDict();
+
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
 //      ...mapState('thisMonthHandle', {
@@ -599,7 +601,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(0, idx, order)
+          tableStyle.changeSortElementClass(1, idx, order)
         });
       },
     }

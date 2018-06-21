@@ -142,9 +142,9 @@
     created () {
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.finished.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.finished.finishedPageData', this.finishedPageData);
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
       this.finishedColumns.filter((e) => {
-       var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
 
       if(storeOrder==null)
       {
@@ -192,6 +192,10 @@
       });
 
       this.hfEmpTaskQuery();
+
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
     },
@@ -467,7 +471,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(0, idx, order)
+          tableStyle.changeSortElementClass(1, idx, order)
         });
       },
     }

@@ -321,15 +321,55 @@
         return cparams
       },
       excelExport() {
-        var cparams = {};
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = [];
+        this.searchConditions =[];
+
+        for(var i=0;i<conditions.length;i++)
         {
-          // 清除 '[全部]'
-          let params = this.$utils.clear(this.operatorSearchData);
-          // 清除空字符串
-          params = this.$utils.clear(params, '');
-          cparams = this.beforeSubmit(params);
+          if(conditions[i]==null||conditions[i]==undefined)
+          {
+            conditions.splice(i,1);
+          }
         }
-        api.hfEmpTaskExport({ params: cparams });
+
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+          for(var i=0;i<conditions.length;i++)
+            this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('fundDaily'+userInfo.userId);
+
+          if(temp==null){
+
+          }else{
+            var searchEmploiees = JSON.parse(temp);
+            if(searchEmploiees.length>0)
+            {
+              for(var index  in searchEmploiees)
+              {
+                this.searchConditions.push(searchEmploiees[index].exec);
+              }
+            }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(let index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
+          }
+        }
+        this.searchCondition.params = this.searchConditions.toString();
+        api.hfEmpTaskExport({ params: this.searchCondition });
       },
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);

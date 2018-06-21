@@ -429,21 +429,57 @@
         }
       },
       exprotExcel() {
-        var params = {};
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = [];
+        this.searchConditions =[];
+        for(var i=0;i<conditions.length;i++)
         {
-          // 清除 '[全部]'
-          params = this.$utils.clear(this.operatorSearchData);
-          // 清除空字符串
-          params = this.$utils.clear(params, '');
-          // 处理 社保起缴月份
-          if (params.startMonth) {
-            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
+          if(conditions[i]==null||conditions[i]==undefined)
+          {
+            conditions.splice(i,1);
           }
         }
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+          for(var i=0;i<conditions.length;i++)
+            this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
+
+          if(temp==null){
+
+          }else{
+            var searchEmploiees = JSON.parse(temp);
+            if(searchEmploiees.length>0)
+            {
+              for(var index  in searchEmploiees)
+              {
+                this.searchConditions.push(searchEmploiees[index].exec);
+              }
+            }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(var index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
+          }
+        }
+
+        this.searchCondition.params = this.searchConditions.toString();
         api.employeeOperatorQueryExport({
           pageSize: 999999,
           pageNum: 0,
-          params: params,
+          params: this.searchCondition,
         });
       },
       employeeDailyOperatorDiskExport(val) {

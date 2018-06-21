@@ -177,7 +177,6 @@ import Vue from 'vue'
         ],
         fileNumberList: [],
         filePlaceList: [
-          {value:'空',label:'空'},
           {value:'外来从业人员',label:'外来从业人员'},
           {value:'居住证',label:'居住证'},
           {value:'属地管理',label:'属地管理'},
@@ -202,7 +201,8 @@ import Vue from 'vue'
           {value:'退工不调',label:'退工不调'},
           {value:'用工不调',label:'用工不调'},
           {value:'非全日制',label:'非全日制'},
-          {value:'翻牌转下一条任务单',label:'翻牌转下一条任务单'}
+          {value:'翻牌转下一条任务单',label:'翻牌转下一条任务单'},
+          {value:'退回寄出地',label:'退回寄出地'}
         ],
         filePlaceAddList: [],
         placeStateList: [

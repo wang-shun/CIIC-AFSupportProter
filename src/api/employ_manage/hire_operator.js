@@ -2,7 +2,7 @@ import ajax from "../../lib/ajax";
 
 const AJAX = ajax.ajaxGyg;
 
-const saveAmRemark = params => AJAX.postJSON("/api/employservice/amEmpTask/saveAmRemark", params);
+// const saveAmRemark = params => AJAX.postJSON("/api/employservice/amEmpTask/saveAmRemark", params);
 
 const  saveAmInjury  = params => AJAX.postJSON("/api/employservice/amArchiveTask/saveAmInjury", params);
 
@@ -45,11 +45,11 @@ export default {
     return await response.data;
   },
   //保存用工档案
-  // saveAmRemark:async (params)=>{
-  //   let response = await AJAX.post('/api/employservice/amEmpTask/saveAmRemark', params);
-  //   return await response.data;
-  // }
-  saveAmRemark,
+  saveAmRemark:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amEmpTask/saveAmRemark', params);
+    return await response.data;
+  }
+ ,
   //用工备注删除
   deleteAmRemark:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/deleteAmRemark', params);

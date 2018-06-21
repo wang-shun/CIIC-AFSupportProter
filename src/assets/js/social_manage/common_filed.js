@@ -2,7 +2,7 @@
  * Created by huangye on 2018/1/8.
  */
 let em_chooseField = {
-  "taskStatus":"*未处理",
+  "taskStatus":"未处理",
   "e.employee_name":"雇员姓名",
   "ca.settlement_area":"结算区县",
   "ca.ss_account_type":"社保账户类型",

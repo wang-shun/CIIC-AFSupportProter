@@ -19,7 +19,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :row-class-name="rowClassName" :columns="processingColumns" :data="processingData"  @on-sort-change="SortChange"></Table>
+        <Table border :row-class-name="rowClassName" :columns="processingColumns" :data="processingData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -58,6 +58,7 @@
   import dict from '../../../../api/dict_access/house_fund_dict'
   import sessionData from '../../../../api/session-data'
   import searchEmployee from "./SearchEmployee.vue"
+  import tableStyle from '../../../../api/table_style'
 
   export default {
     components: {InputCompany,searchEmployee},
@@ -94,8 +95,8 @@
         processingPageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
         },
         processingColumns: [
 //          {
@@ -145,14 +146,18 @@
             }
           },
           {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
-          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
+//          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center',sortable: true},
-          {title: '雇员证件号', key: 'idNum', width: 200, align: 'center'},
+          {title: '雇员证件号', key: 'idNum', width: 200, align: 'center',sortable: true},
           {title: '企业客户', key: 'companyName', width: 200, align: 'center'},
           {title: '客户编号', key: 'companyId', width: 150, align: 'center',sortable: true},
-          {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center'},
-          {title: '公积金账号', key: 'hfEmpAccount', width: 200, align: 'center'},
+          {title: '公积金类型', key: 'hfTypeName', width: 100, align: 'center'},
+          {title: '公积金账号', key: 'hfEmpAccount', width: 150, align: 'center',sortable: true},
+          {title: '执行年月', key: 'handleDate', width: 100, align: 'center'},
+          {title: '开始年月', key: 'startMonth', width: 100, align: 'center'},
+          {title: '截止年月', key: 'endMonth', width: 100, align: 'center'},
+          {title: '操作提示', key: 'operationRemindName', width: 150, align: 'center'},
           {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center'},
           {title: '发起时间', key: 'submitTimeFormat', width: 200, align: 'center'}
         ]
@@ -161,10 +166,10 @@
     created() {
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.processing.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.processing.processingPageData', this.processingPageData);
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
           this.processingColumns.filter((e) => {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-         var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
-       
+
       if(storeOrder==null)
       {
 
@@ -184,10 +189,19 @@
                 e.sortType = orders[1];
              }
 
+            if(e.key === 'hfEmpAccount'&&storeOrder[index].indexOf('hf_emp_account')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+
+            if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
+            {
+              e.sortType = orders[1];
+            }
           }
         }
       }
-        
+
       })
     },
     mounted() {
@@ -202,6 +216,10 @@
       });
 
       this.hfEmpTaskQuery();
+
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
     },
@@ -303,30 +321,73 @@
         return cparams
       },
       excelExport() {
-        var cparams = {};
-        {
-          // 清除 '[全部]'
-          let params = this.$utils.clear(this.operatorSearchData);
-          // 清除空字符串
-          params = this.$utils.clear(params, '');
-          cparams = this.beforeSubmit(params);
-        }
-        api.hfEmpTaskExport({ params: cparams });
-      },
-      rowClassName(row, index) {
-        return ts.empRowClassName(row, index);
-      },searchEmploiees(conditions) {
-        
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = [];
         this.searchConditions =[];
-       
+
         for(var i=0;i<conditions.length;i++)
         {
           if(conditions[i]==null||conditions[i]==undefined)
           {
             conditions.splice(i,1);
           }
-        }    
+        }
+
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+          for(var i=0;i<conditions.length;i++)
+            this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('fundDaily'+userInfo.userId);
+
+          if(temp==null){
+
+          }else{
+            var searchEmploiees = JSON.parse(temp);
+            if(searchEmploiees.length>0)
+            {
+              for(var index  in searchEmploiees)
+              {
+                this.searchConditions.push(searchEmploiees[index].exec);
+              }
+            }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(let index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
+          }
+        }
+        this.searchCondition.params = this.searchConditions.toString();
+        api.hfEmpTaskExport({ params: this.searchCondition });
+      },
+      rowClassName(row, index) {
+        return ts.empRowClassName(row, index);
+      },searchEmploiees(conditions) {
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        this.searchConditions =[];
+
+        for(var i=0;i<conditions.length;i++)
+        {
+          if(conditions[i]==null||conditions[i]==undefined)
+          {
+            conditions.splice(i,1);
+          }
+        }
 
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
@@ -335,14 +396,14 @@
         }else{
           // 否则从session 里边去缓存的表单查询值
           var temp = sessionStorage.getItem('fundDaily'+userInfo.userId);
-          
+
           if(temp==null){
 
           }else{
              var searchEmploiees = JSON.parse(temp);
              if(searchEmploiees.length>0)
              {
-                for(var index  in searchEmploiees)
+                for(let index  in searchEmploiees)
                 {
                     this.searchConditions.push(searchEmploiees[index].exec);
                 }
@@ -350,22 +411,22 @@
           }
 
         }
-      
+
         var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
-      
+
         if(storeOrder==null)
         {
 
         }else{
           if(storeOrder.length>0)
           {
-            for(var index  in storeOrder)
+            for(let index  in storeOrder)
             {
               this.searchConditions.push(storeOrder[index]);
             }
           }
         }
-        
+
         this.searchCondition.params = this.searchConditions.toString();
 
         api.hfEmpTaskQuery({
@@ -377,45 +438,49 @@
             this.processingData = data.data.rows;
             this.processingPageData.total = Number(data.data.total);
           }
-         
+          this.isLoading = false;
         })
-           
+
       },SortChange(e){
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
         this.orderConditions = [];
         this.searchConditions =[];
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('fundDaily'+userInfo.userId));
-        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));    
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
         if(conditions!=null){
             for(var i=0;i<conditions.length;i++)
-              this.searchConditions.push(conditions[i].exec);  
-        }  
+              this.searchConditions.push(conditions[i].exec);
+        }
 
         var dx ='';
-        if(e.key == 'companyId'){
+        if(e.key === 'companyId'){
             dx = 'tmp.company_id';
-        }else if(e.key == 'employeeId'){
+        }else if(e.key === 'employeeId'){
             dx = 'tmp.employee_id';
-        }else if(e.key == 'ssAccount'){
-            dx = 'tmp.ss_account';
-        }else if(e.key == 'idNum'){
+        }else if(e.key === 'hfEmpAccount'){
+            dx = 'tmp.hf_emp_account';
+        }else if(e.key === 'idNum'){
             dx = 'tmp.id_num';
         }
 
         const searchConditionExec = `${dx} ${e.order} `;
-        
+
         if(storeOrder==null){
-        
+
         }else{
           this.orderConditions = storeOrder;
         }
-        
+
         var isE = false;
         if(this.orderConditions.length>0)
         {
-            for(var index in this.orderConditions)
-            { 
-               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order=='normal')
+            for(let index in this.orderConditions)
+            {
+               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order==='normal')
                {  //如果是取消，则删除条件
                   this.orderConditions.splice(index,1);
                    isE = true;
@@ -427,14 +492,14 @@
                }else if(this.orderConditions[index]===searchConditionExec){
                    this.orderConditions.splice(index,1);
                }
-               
-            } 
-            
+
+            }
+
             if(!isE)
             {
                this.orderConditions.push(searchConditionExec);
             }
-           
+
         }else{
             this.orderConditions.push(searchConditionExec);
         }
@@ -443,14 +508,14 @@
 
         if(this.orderConditions.length>0)
         {
-          for(var index  in this.orderConditions)
+          for(let index  in this.orderConditions)
           {
              this.searchConditions.push(this.orderConditions[index]);
           }
         }
 
         this.searchCondition.params = this.searchConditions.toString();
-  
+
         api.hfEmpTaskQuery({
           pageSize: this.processingPageData.pageSize,
           pageNum: this.processingPageData.pageNum,
@@ -460,10 +525,49 @@
             this.processingData = data.data.rows;
             this.processingPageData.total = Number(data.data.total);
           }
-         
+          this.isLoading = false;
+
+          this.changeSortClass(storeOrder);
         })
-        
-      }
+
+      },
+      changeSortClass(storeOrder) {
+        this.processingColumns.forEach((e, idx) => {
+          let order = 'normal'
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'companyId' && storeOrder[index].indexOf('company_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'hfEmpAccount' && storeOrder[index].indexOf('hf_emp_account')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'idNum' && storeOrder[index].indexOf('id_num')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+              }
+            }
+          }
+          tableStyle.changeSortElementClass(1, idx, order)
+        });
+      },
     }
   }
 </script>

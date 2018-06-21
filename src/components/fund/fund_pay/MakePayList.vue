@@ -253,6 +253,7 @@
         })
       },
       resetSearchCondition(name) {
+        console.log(this.$refs[name]);
         this.$refs[name].resetFields()
       },
       getParams(page) {

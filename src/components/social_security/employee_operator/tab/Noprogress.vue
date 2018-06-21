@@ -19,7 +19,7 @@
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange"></Table>
+      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -63,6 +63,8 @@
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
   import searchEmployee from "./SearchEmployee.vue"
+  import tableStyle from '../../../../api/table_style'
+
   export default {
     components: {InputAccount, InputCompany,InputCompanyName,searchEmployee},
     data() {
@@ -102,8 +104,8 @@
         employeeResultPageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
           {
@@ -136,18 +138,16 @@
             }
           },
           {
-            title: '是否更正', key: 'isChange', width: 100, align: 'center',
-            render: (h, params) => {
-            return h('div', [
-                        h('span',  params.row.isChange=='1'?"是":"否")
-                      ]);
-            }
+            title: '客户编号', key: 'companyId', width: 120, align: 'center',sortable: true
+          },
+          {
+            title: '客户名称', key: 'title', width: 200, align: 'center'
+          },
+          {
+            title: '雇员编号', key: 'employeeId', width: 120, align: 'center',sortable: true
           },
           {
             title: '雇员', key: 'employeeName', width: 100, align: 'center'
-          },
-          {
-            title: '雇员编号', key: 'employeeId', width: 100, align: 'center',sortable: true
           },
           {
             title: '雇员证件号', key: 'idNum', width: 200, align: 'center',sortable: true
@@ -162,12 +162,6 @@
           //   title: '执行日期', key: 'doDate', width: 150, align: 'center'
           // },
           {
-            title: '客户编号', key: 'companyId', width: 120, align: 'center',sortable: true
-          },
-          {
-            title: '客户名称', key: 'title', width: 200, align: 'center'
-          },
-          {
             title: '发起人', key: 'createdDisplayName', width: 100, align: 'center'
           },
           {
@@ -175,6 +169,14 @@
           },
           {
             title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
+          },
+          {
+            title: '是否更正', key: 'isChange', width: 100, align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('span',  params.row.isChange=='1'?"是":"否")
+              ]);
+            }
           }
         ]
       }
@@ -187,46 +189,48 @@
     computed: {
 
     },created() {
-      this.employeeResultColumns.filter((e) => {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
-        
-      if(storeOrder==null)
-      {
-
-      }else{
-        if(storeOrder.length>0)
-        {
-          for(var index  in storeOrder)
-          {
-             var orders = storeOrder[index].split(' ');
-             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
-
-             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
-
-             if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
-             {
-                e.sortType = orders[1];
-             }
-
-             if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
-             {
-                e.sortType = orders[1];
-             }
-            
-          }
-        }
-      }
-        
-      })
+       this.loadSortType();
     },
     methods: {
+      loadSortType() {
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+
+        this.employeeResultColumns.filter((e) => {
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+                {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+                {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
+                {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
+                {
+                  e.sortType = orders[1];
+                }
+              }
+            }
+          }
+
+        })
+      },
       routerToCommcialOperator(name) {
         this.$router.push({
           name: 'employeeCommcialOperator',
@@ -271,21 +275,68 @@
         })
       },
       exprotExcel() {
-        var params = {};
+//        var params = {};
+//        {
+//          // 清除 '[全部]'
+//          params = this.$utils.clear(this.operatorSearchData);
+//          // 清除空字符串
+//          params = this.$utils.clear(params, '');
+//          // 处理 社保起缴月份
+//          if (params.startMonth) {
+//            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
+//          }
+//        }
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = [];
+        this.searchConditions =[];
+        for(var i=0;i<conditions.length;i++)
         {
-          // 清除 '[全部]'
-          params = this.$utils.clear(this.operatorSearchData);
-          // 清除空字符串
-          params = this.$utils.clear(params, '');
-          // 处理 社保起缴月份
-          if (params.startMonth) {
-            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
+          if(conditions[i]==null||conditions[i]==undefined)
+          {
+            conditions.splice(i,1);
           }
         }
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+          for(var i=0;i<conditions.length;i++)
+            this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
+
+          if(temp==null){
+
+          }else{
+            var searchEmploiees = JSON.parse(temp);
+            if(searchEmploiees.length>0)
+            {
+              for(var index  in searchEmploiees)
+              {
+                this.searchConditions.push(searchEmploiees[index].exec);
+              }
+            }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(var index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
+          }
+        }
+
+        this.searchCondition.params = this.searchConditions.toString();
         api.employeeOperatorQueryExport({
           pageSize: 999999,
           pageNum: 0,
-          params: params,
+          params: this.searchCondition,
         });
       },
       handlePageNum(val) {
@@ -429,7 +480,7 @@
       },
       // 批量办理
       batchHandle(data, isBatch = false) {
-        
+
         if (isBatch) {
           // 组织任务 ID
           var empTaskIds = "";
@@ -520,6 +571,10 @@
         }
       },
       searchEmploiees(conditions) {
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
@@ -528,7 +583,7 @@
           {
             conditions.splice(i,1);
           }
-        }    
+        }
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
            for(var i=0;i<conditions.length;i++)
@@ -536,7 +591,7 @@
         }else{
           // 否则从session 里边去缓存的表单查询值
           var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
-          
+
           if(temp==null){
 
           }else{
@@ -564,7 +619,7 @@
           }
         }
       }
-      
+
         this.searchCondition.params = this.searchConditions.toString();
 
         api.employeeOperatorQuery({
@@ -579,47 +634,51 @@
               this.isNextMonth = true;
             }
           }
-        
+          this.isLoading = false;
         })
-           
+
       },SortChange(e){
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
         this.orderConditions = [];
         this.searchConditions =[];
-      
+
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
-        if(conditions!=null){
+        if(conditions!==null){
             for(var i=0;i<conditions.length;i++)
-              this.searchConditions.push(conditions[i].exec);  
+              this.searchConditions.push(conditions[i].exec);
         }
-       
+
         var dx ='';
-        if(e.key == 'companyId'){
+        if(e.key === 'companyId'){
             dx = 'c.company_id';
-        }else if(e.key == 'employeeId'){
+        }else if(e.key === 'employeeId'){
             dx = 'e.employee_id';
-        }else if(e.key == 'ssAccount'){
+        }else if(e.key === 'ssAccount'){
             dx = 'ca.ss_account';
-        }else if(e.key == 'idNum'){
+        }else if(e.key === 'idNum'){
             dx = 'e.id_num';
         }
         const searchConditionExec = `${dx} ${e.order} `;
-        if(storeOrder==null){
-        
+        if(storeOrder===null){
+
         }else{
           this.orderConditions = storeOrder;
         }
         var isE = false;
         if(this.orderConditions.length>0)
         {
-            for(var index in this.orderConditions)
-            { 
-               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order=='normal')
+            for(let index in this.orderConditions)
+            {
+               if(this.orderConditions[index].indexOf(dx)!== -1 && e.order==='normal')
                {  //如果是取消，则删除条件
                   this.orderConditions.splice(index,1);
                    isE = true;
-               }else if(this.orderConditions[index].indexOf(dx)!= -1 && this.orderConditions[index].indexOf(e.order)== -1 ) {
+               }else if(this.orderConditions[index].indexOf(dx)!== -1 && this.orderConditions[index].indexOf(e.order)=== -1 ) {
                  //如果是切换查询顺序
                   this.orderConditions.splice(index,1);
                   this.orderConditions.push(searchConditionExec);
@@ -627,23 +686,23 @@
                }else if(this.orderConditions[index]===searchConditionExec){
                    this.orderConditions.splice(index,1);
                }
-               
-            } 
-            
+
+            }
+
             if(!isE)
             {
                this.orderConditions.push(searchConditionExec);
             }
-           
+
         }else{
             this.orderConditions.push(searchConditionExec);
         }
 
         sessionStorage.setItem('socialDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
-       
+
         if(this.orderConditions.length>0)
         {
-          for(var index  in this.orderConditions)
+          for(let index  in this.orderConditions)
           {
              this.searchConditions.push(this.orderConditions[index]);
           }
@@ -663,10 +722,49 @@
               this.isNextMonth = true;
             }
           }
-        
-        })
-      }
+          this.isLoading = false;
 
+          this.changeSortClass(storeOrder);
+        })
+      },
+
+      changeSortClass(storeOrder) {
+        this.employeeResultColumns.forEach((e, idx) => {
+          let order = 'normal'
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'companyId' && storeOrder[index].indexOf('company_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'ssAccount' && storeOrder[index].indexOf('ss_account')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'idNum' && storeOrder[index].indexOf('id_num')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+              }
+            }
+          }
+          tableStyle.changeSortElementClass(0, idx, order)
+        });
+      },
     }
   }
 </script>

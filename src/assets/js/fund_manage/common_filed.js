@@ -2,7 +2,7 @@
  * Created by huangye on 2018/1/8.
  */
 let em_chooseField = {
-  "processStatus":"*未处理",
+  "processStatus":"未处理",
   "ee.employee_id":"雇员编号",
   "het.task_category":"任务单类型",
   "hcas.payment_bank":"缴费银行",
@@ -13,7 +13,8 @@ let em_chooseField = {
   "het.submit_time":"任务发起时间",
   "hcac.hf_com_account":"企业公积金账号",
   "sc.company_id":"客户编号",
-  "het.is_change":"是否更正"
+  "het.is_change":"是否更正",
+  "preInput":"是否已预录入公积金账号",
 };
 let em_relationship = {
   "等于": "=",

@@ -42,6 +42,16 @@
                   <label>{{$route.query.archivalPlace}}</label>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 16}">
+                <Form-item label="备注：">
+                  <label>{{$route.query.remark}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="操作人：">
+                  <label>{{$route.query.createdBy}}</label>
+                </Form-item>
+              </Col>
             </Row>
             <Row class="mt20">
               <Col :sm="{span: 24}" class="tr">

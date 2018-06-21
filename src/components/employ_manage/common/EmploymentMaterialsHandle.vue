@@ -4,8 +4,7 @@
       <Row type="flex" justify="start" >
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <Form-item label="预留档案类别：">
-          <Select transfer @on-change="changeTypeYuliu" v-model="handleInfo.yuliuDocType">
-            <Option value="" key="">空</Option>
+          <Select transfer @on-change="changeTypeYuliu" filterable v-model="handleInfo.yuliuDocType">
             <Option v-for="item in handleInfo.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
@@ -18,8 +17,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <Form-item label="档案类别：">
-          <Select transfer @on-change="changeTypeNumber" v-model="handleInfo.docType">
-            <Option value="" key="">空</Option>
+          <Select transfer @on-change="changeTypeNumber" filterable v-model="handleInfo.docType">
             <Option v-for="item in handleInfo.docSeqList2" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
@@ -313,6 +311,8 @@ import Vue from 'vue'
       resetForm(form) {
         this.$refs[form].resetFields();
         this.handleInfo.luyongHandleEnd = '0';
+        this.handleInfo.yuliuDocType = '';
+        this.handleInfo.docType = '';
       },instance() {
         
         if(!this.handleInfo.employmentId)

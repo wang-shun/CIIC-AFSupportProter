@@ -38,6 +38,7 @@
   import dict from '../../../../api/dict_access/house_fund_dict'
   import sessionData from '../../../../api/session-data'
   import searchEmployee from "./SearchEmployee.vue"
+  import tableStyle from '../../../../api/table_style'
 
   export default {
     components: {InputCompany,searchEmployee},
@@ -361,13 +362,13 @@
         }
 
         var dx ='';
-        if(e.key == 'companyId'){
+        if(e.key === 'companyId'){
             dx = 'tmp.company_id';
-        }else if(e.key == 'employeeId'){
+        }else if(e.key === 'employeeId'){
             dx = 'tmp.employee_id';
-        }else if(e.key == 'hfEmpAccount'){
+        }else if(e.key === 'hfEmpAccount'){
             dx = 'tmp.hf_emp_account';
-        }else if(e.key == 'idNum'){
+        }else if(e.key === 'idNum'){
             dx = 'tmp.id_num';
         }
 
@@ -382,9 +383,9 @@
         var isE = false;
         if(this.orderConditions.length>0)
         {
-            for(var index in this.orderConditions)
+            for(let index in this.orderConditions)
             {
-               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order=='normal')
+               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order==='normal')
                {  //如果是取消，则删除条件
                   this.orderConditions.splice(index,1);
                    isE = true;
@@ -412,7 +413,7 @@
 
         if(this.orderConditions.length>0)
         {
-          for(var index  in this.orderConditions)
+          for(let index  in this.orderConditions)
           {
              this.searchConditions.push(this.orderConditions[index]);
           }
@@ -431,8 +432,47 @@
           }
 
          this.isLoading = false;
+
+         this.changeSortClass(storeOrder);
         })
-      }
+      },
+      changeSortClass(storeOrder) {
+        this.noProcessColumns.forEach((e, idx) => {
+          let order = 'normal'
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'companyId' && storeOrder[index].indexOf('company_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'hfEmpAccount' && storeOrder[index].indexOf('hf_emp_account')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'idNum' && storeOrder[index].indexOf('id_num')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+              }
+            }
+          }
+          tableStyle.changeSortElementClass(0, idx, order)
+        });
+      },
     }
   }
 </script>

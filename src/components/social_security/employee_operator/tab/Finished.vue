@@ -52,6 +52,7 @@
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
   import searchEmployee from "./SearchEmployee.vue"
+  import tableStyle from '../../../../api/table_style'
 
   export default {
     components: {InputAccount, InputCompany,InputCompanyName,searchEmployee},
@@ -503,13 +504,13 @@
         }
 
         var dx ='';
-        if(e.key == 'companyId'){
+        if(e.key === 'companyId'){
             dx = 'c.company_id';
-        }else if(e.key == 'employeeId'){
+        }else if(e.key === 'employeeId'){
             dx = 'e.employee_id';
-        }else if(e.key == 'ssAccount'){
+        }else if(e.key === 'ssAccount'){
             dx = 'ca.ss_account';
-        }else if(e.key == 'idNum'){
+        }else if(e.key === 'idNum'){
             dx = 'e.id_num';
         }
         const searchConditionExec = `${dx} ${e.order} `;
@@ -521,9 +522,9 @@
         var isE = false;
         if(this.orderConditions.length>0)
         {
-            for(var index in this.orderConditions)
+            for(let index in this.orderConditions)
             {
-               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order=='normal')
+               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order==='normal')
                {  //如果是取消，则删除条件
                   this.orderConditions.splice(index,1);
                    isE = true;
@@ -550,7 +551,7 @@
         sessionStorage.setItem('socialDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
         if(this.orderConditions.length>0)
         {
-          for(var index  in this.orderConditions)
+          for(let index  in this.orderConditions)
           {
              this.searchConditions.push(this.orderConditions[index]);
           }
@@ -571,8 +572,47 @@
             }
           }
           this.isLoading = false;
+
+          this.changeSortClass(storeOrder);
         })
-      }
+      },
+      changeSortClass(storeOrder) {
+        this.employeeResultColumns.forEach((e, idx) => {
+          let order = 'normal'
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'companyId' && storeOrder[index].indexOf('company_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'ssAccount' && storeOrder[index].indexOf('ss_account')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'idNum' && storeOrder[index].indexOf('id_num')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+              }
+            }
+          }
+          tableStyle.changeSortElementClass(0, idx, order)
+        });
+      },
     }
   }
 </script>

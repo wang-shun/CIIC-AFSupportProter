@@ -253,7 +253,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="saveEmpAccount">保存</Button>
+        <Button type="primary" @click="saveEmpAccount" v-show="this.$route.query.empArchiveId">保存</Button>
         <Button type="warning" @click="back">关闭/返回</Button>
       </Col>
     </Row>
@@ -488,7 +488,8 @@
     },
     async mounted() {
       let params = {empArchiveId:this.$route.query.empArchiveId,
-                    companyId:this.$route.query.companyId
+                    companyId:this.$route.query.companyId,
+                    employeeId:this.$route.query.employeeId
                     };
       api.employeeDetailInfoQuery(params).then(data=>{
           this.viewEmpArchive=data.data.viewEmpArchive

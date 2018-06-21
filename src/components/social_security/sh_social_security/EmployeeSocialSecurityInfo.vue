@@ -44,7 +44,7 @@
       <Panel name="2">
         雇员信息
         <div slot="content">
-          <Form :label-width=120>
+          <Form :label-width=150>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号：">
@@ -68,7 +68,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保序号：">
-                  <Input style="width: 200px" v-model="employeeAndCustomer.ssSerial" placeholder=""></Input>
+                  <Input style="width: 200px" v-model="employeeAndCustomer.ssSerial" disabled="this.$route.query.empArchiveId" placeholder=""></Input>
                 </Form-item>
               </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -94,7 +94,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员属性：">
-                  <Select style="width: 200px"  v-model="employeeAndCustomer.empClassify">
+                  <Select style="width: 200px"  v-model="employeeAndCustomer.empClassify"  disabled="this.$route.query.empArchiveId"  placeholder="" >
                     <Option value="" > </Option>
                     <Option v-for="(value,key) in this.baseDic.ssEmpProperty" :value="key" :key="key">{{value}}</Option>
                   </Select>
@@ -103,6 +103,26 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保账户类型：">
                   <label>{{$decode.accountType(employeeAndCustomer.ssAccountType)}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="离职操作日期：">
+                  <label>{{employeeAndCustomer.outOperateDate}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="合同起始日期：">
+                  <label>{{employeeAndCustomer.laborStartDate}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="合同截止日期：">
+                  <label>{{employeeAndCustomer.laborEndDate}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="前道提交费用缴纳至：">
+                  <label>{{employeeAndCustomer.endMonth}}</label>
                 </Form-item>
               </Col>
             </Row>

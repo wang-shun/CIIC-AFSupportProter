@@ -70,6 +70,11 @@
                   <Input v-model="searchCondition.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="雇员基本公积金账号：" prop="hfEmpAccount">
+                  <Input v-model="searchCondition.hfEmpAccount" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -195,7 +200,8 @@ export default {
         leaderShipName: "",
         idNum: "",
         empStatus: "",
-        operationRemind: ""
+        operationRemind: "",
+        hfEmpAccount:""
       },
       upLoadData: {
         file: ""
@@ -244,24 +250,50 @@ export default {
           align: "center",
           width: 120,
           render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: { type: "success", size: "small" },
-                  style: { margin: "0 auto" },
-                  on: {
-                    click: () => {
-                      this.showInfo(
-                        params.row.empArchiveId,
-                        params.row.companyId
-                      );
+
+            if(params.row.empArchiveId == null || params.row.empArchiveId=='' ){
+              return h("div", [
+                h(
+                  "Button",
+                  {
+                    props: { type: "success", size: "small" },
+                    style: { margin: "0 auto" },
+                    on: {
+                      click: () => {
+                        sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
+                        sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
+                        this.$router.push({
+                          name: "employeeFundBasicInfo",
+                          query: { companyId: params.row.companyId,employeeId:params.row.employeeId }
+                        });
+                      }
                     }
-                  }
-                },
-                "查看/修改"
-              )
-            ]);
+                  },
+                  "查看"
+                )
+              ]);
+            }else{
+              return h("div", [
+                h(
+                  "Button",
+                  {
+                    props: { type: "success", size: "small" },
+                    style: { margin: "0 auto" },
+                    on: {
+                      click: () => {
+                        this.showInfo(
+                          params.row.empArchiveId,
+                          params.row.companyId
+                        );
+                      }
+                    }
+                  },
+                  "查看/修改"
+                )
+              ]);
+            }
+
+
           }
         },
         {

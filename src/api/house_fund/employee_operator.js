@@ -59,7 +59,6 @@ export default {
 
   //雇员公积金查询
   employeeQuery: async (params) => {
-    console.log(params);
     let response = await AJAX.post('/api/fundcommandservice/hfEmpArchive/queryEmpArchive', params);
     return await response.data;
   },

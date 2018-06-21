@@ -168,8 +168,6 @@
               @on-select-cancel="updateMakePayListInfo"
               @on-selection-change="updateMakePayListInfo">
        </Table>
-         <Form :label-width=75 ref="operatorSearchData" :model="operatorSearchData">
-         </Form>
        <div slot="footer">
          <Button type="primary" :loading="isLoading" @click="createPaymentComList">保存</Button>
          <Button type="warning" @click="isShowOperateAdd = false;">返回</Button>
@@ -207,14 +205,14 @@
         loading: false,
         currentIndex:-1,
         operatorSearchData: {
-          companyId: "",
-          paymentBatchNum: "",
+          companyId: '',
+          paymentBatchNum: '',
           paymentState: '',
           hfAccountType:'',
           accountTypeValue: 0,
-          createPaymentUser: "",
-          paymentMonth:"",
-          payDate: ""
+          createPaymentUser:'',
+          paymentMonth:'',
+          payDate: ''
 
         },
         operateAddParams:{
@@ -629,6 +627,8 @@
         console.log(JSON.stringify(stepInfo));
       },
       resetSearchCondition(name) {
+        console.log(name)
+        console.log(this.$refs[name])
         this.$refs[name].resetFields()
       },
       goMakePayList() {

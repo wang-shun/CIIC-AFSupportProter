@@ -4,8 +4,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="预留档案类别：">
-          <Select transfer @on-change="changeTypeYuliu" v-model="file1.yuliuDocType">
-            <Option value="" key="">空</Option>
+          <Select transfer @on-change="changeTypeYuliu" filterable v-model="file1.yuliuDocType">
             <Option v-for="item in file1.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
@@ -17,9 +16,8 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="档案类别：">
-          <Select transfer @on-change="changeType" v-model="file1.docType">
-            <Option value="" key="">空</Option>
-            <Option v-for="item in file1.docSeqList2" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
+          <Select transfer @on-change="changeType" filterable v-model="file1.docType">
+            <Option v-for="item in file1.docSeqList2" :value="item.docType" :label="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
         </Col>

@@ -17,7 +17,7 @@
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
     </Row>
-    <Table border :columns="dismissalColumns" :data="dismissalData" :loading="isLoading"  class="mt20"></Table>
+    <Table border height="300" :columns="dismissalColumns" :data="dismissalData" :loading="isLoading"  class="mt20"></Table>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -56,7 +56,8 @@
         },
         collapseInfo: [1],
         showHandle:{
-           show:true
+           show:true,
+           name:'resign'
         },
         dismissalColumns: [
           // {title: '', type: 'selection', width: 60},

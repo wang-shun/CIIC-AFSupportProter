@@ -21,7 +21,7 @@
         <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
-    <Table border :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData" class="mt20"></Table>
+    <Table border height="300" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData" class="mt20"></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -31,7 +31,7 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table  border :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt20"></Table>
+    <Table  border  :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt20"></Table>
 
     <Modal
       v-model="isShowStockTitle"
@@ -70,7 +70,8 @@ import {mapState, mapGetters, mapActions} from 'vuex'
           taskStatus:0
         },
         showHandle:{
-           show:true
+           show:true,
+           name:'employ'
         },
         isLoading: false,
         // 当中按钮操作

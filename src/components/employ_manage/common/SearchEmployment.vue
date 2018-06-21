@@ -3,10 +3,24 @@
     <Row justify="start">
       <Col :sm="{span: 8}">
       <Row>
-        <Col :sm="{span: 24}">
+        <Col :sm="{span: 24}" v-if="showHandle.name==='employ'">
           <Form-item label="选择字段" prop="chooseFieldValue">
             <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" transfer>
               <Option v-for="(field, index) in searchForm.chooseField" :value="index" :key="index">{{field}}</Option>
+            </Select>
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 24}" v-if="showHandle.name==='resign'">
+          <Form-item label="选择字段" prop="chooseFieldValue">
+            <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" transfer>
+              <Option v-for="(field, index) in searchForm.chooseResignField" :value="index" :key="index">{{field}}</Option>
+            </Select>
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 24}" v-if="showHandle.name==='archive'">
+          <Form-item label="选择字段" prop="chooseFieldValue">
+            <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" transfer>
+              <Option v-for="(field, index) in searchForm.chooseArchiveField" :value="index" :key="index">{{field}}</Option>
             </Select>
           </Form-item>
         </Col>
@@ -20,7 +34,7 @@
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
             
-            <Input v-model="searchForm.searchContent" placeholder="请输入" v-if="searchForm.isDate !== 1" />
+            <Input v-model="searchForm.searchContent" placeholder="请输入" @on-enter = "addCondition" v-if="searchForm.isDate !== 1" />
             <Date-picker  v-model="searchForm.searchContent"  type="date"  placement="right"
                              placeholder="选择年月份" style="width: 100%;" v-else></Date-picker> 
                          
@@ -56,7 +70,7 @@
   </Form>
 </template>
 <script>
-  import {em_chooseField, em_relationship} from "../../../assets/js/employ_manage/common_filed"
+  import {em_chooseField,em_resign_chooseField,em_arc_chooseField,em_relationship} from "../../../assets/js/employ_manage/common_filed"
   import COMMON_METHODS from "../../../assets/js/common_methods"
   const chooseType = {
     field: 1001,
@@ -81,6 +95,8 @@
         searchForm: {
           chooseFieldValue: "",
           chooseField: em_chooseField,
+          chooseResignField: em_resign_chooseField,
+          chooseArchiveField: em_arc_chooseField,
           relationshipValue: "",
           relationship: em_relationship,
           searchContent: "",

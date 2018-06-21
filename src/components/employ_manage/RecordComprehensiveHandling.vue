@@ -1,3 +1,29 @@
+<style>
+    .ivu-table .demo-table-info-row td{
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-error-row td{
+        background-color: #ff6600;
+        color: #fff;
+    }
+    .ivu-table td.demo-table-info-column{
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-cell-name {
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-cell-age {
+        background-color: #ff6600;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-cell-address {
+        background-color: #187;
+        color: #fff;
+    }
+</style>
 <template>
   <div>
     <div class="smList">
@@ -17,7 +43,7 @@
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
       </Col>
     </Row>
-    <Table border ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData" class="mt20"></Table>
+    <Table border height="300" :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData" class="mt20"></Table>
      <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -53,7 +79,8 @@
         collapseInfo: [1],
         searchConditions:[],
         showHandle:{
-           show:false
+           show:false,
+           name:'archive'
         },
         searchCondition: {
           params: '',
@@ -513,6 +540,13 @@
        this.resignArchiveCollection({})
     },
     methods: {
+      rowClassName (row, index) {
+              
+                if (row.outReason!=undefined&&row.outReason!='') {
+                    return 'demo-table-error-row';
+                } 
+                return '';
+            },
       searchEmploiees(conditions,searchForm) {
         
               this.pageData.pageNum =1;

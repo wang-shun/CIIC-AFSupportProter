@@ -4,8 +4,6 @@
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="add()">新增</Button>
-        <!-- <Button type="error" @click="del()">删除</Button> -->
-        <Button type="primary" :loading="isLoading"  @click="instance()">提交</Button>
       </Col>
     </Row>
      <Modal
@@ -143,11 +141,22 @@
                fromData.employeeId = this.$route.query.employeeId;
                fromData.empTaskId = this.$route.query.empTaskId;
                
-               this.notesData.push(fromData);
+          
+               api.saveAmRemark(fromData).then(data => {
+                  if (data.data.result == true) {
+                    this.$Message.success("保存成功");
+                    this.notesData.push(data.data.data);
+                  } else {
+                    this.$Message.error("保存失败！");
+                  }
 
-               this.handleInfo.remarkDatew = '';
-               this.handleInfo.remarkManw = '';
-               this.handleInfo.remarkContentw = '';
+                  this.handleInfo.remarkDatew = '';
+                  this.handleInfo.remarkManw = '';
+                  this.handleInfo.remarkContentw = '';
+                 
+                })
+
+               
 
             },
             cancel () {
@@ -155,23 +164,7 @@
                this.handleInfo.remarkManw = '';
                this.handleInfo.remarkContentw = '';
                 // this.$Message.info('Clicked cancel');
-            },instance() {
-            if(this.notesData.length==0){
-              this.$Message.success("没有提交的数据行，请新增");
-              return;
-            }
-             this.isLoading = true;
-            api.saveAmRemark(this.notesData).then(data => {
-                  if (data.data.data.result == true) {
-                    this.$Message.success("保存成功");
-                    this.notesData = data.data.data.data;
-                  } else {
-                    this.$Message.error("保存失败！");
-                  }
-                  this.isLoading = false;
-            })
-          
-       },show (index) {
+            },show (index) {
                 this.$Modal.info({
                     title: 'User Info',
                     content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`

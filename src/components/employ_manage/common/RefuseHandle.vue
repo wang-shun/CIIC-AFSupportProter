@@ -193,10 +193,8 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item    label="劳动手册是否交被退人员："  >
-            <Select  v-model="refuse.ifLaborManualReturn" style="color:#ff9900" transfer>
-              <Option v-for="item in LaborManualIsDeliverRefuserList" :value="item.value" :key="item.value">{{item.label}}</Option>
-            </Select>
+          <Form-item    label=""  >
+             <Checkbox v-model="refuse.ifLaborManualReturn" true-value="1" false-value="0">劳动手册是否交被退人员</Checkbox>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -236,7 +234,6 @@
       return {
         isLoading: false,
         endTypeList: [
-          {value: '空', label: '空',disabled:false},
           {value: '合同终止', label: '合同终止',disabled:false},
           {value: '合同解除', label: '合同解除',disabled:false}
         ],

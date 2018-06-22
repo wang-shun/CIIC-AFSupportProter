@@ -91,7 +91,9 @@
         </div>
       </Panel>
     </Collapse>
-
+    <div class="tr m20">
+      <Button type="info" @click="exportData()" icon="ios-download-outline">导出数据</Button>
+    </div>
     <Table border
            stripe
            :columns="warrantyColumns"
@@ -109,6 +111,8 @@
   import taskAjax from "../../../data/health_medical/task_medica.js";
   import warranty from '../../../store/modules/health_medical/data_sources/warranty.js'
   import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
+  import apiAjax from "../../../data/health_medical/task_medica.js";
+  import qs from "qs";
 
   export default {
     data() {
@@ -277,6 +281,10 @@
             });
           }
         });
+      },
+      exportData() {
+
+        window.location = apiAjax.basePaths + "/warrantyService/exportWarranty?" + qs.stringify(this.formItem);
       },
       getByPage(val) {
         this.formItem.current = val;

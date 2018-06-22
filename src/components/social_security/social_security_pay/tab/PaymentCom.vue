@@ -8,9 +8,9 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保账户类型：" prop="ssAccountType">
-                  <Select v-model="payComSearchData.ssAccountType" clearable style="width: 100%;" transfer>
+                  <Select v-model="payComSearchData.ssAccountType"   style="width: 100%;" transfer>
                     <Option value="" label="全部"></Option>
-                    <Option v-for="item in accountTypeList" :value="item.key" :key="item.key" :label="item.value"></Option>
+                    <Option v-for="item in accountTypeList" :value="item.key" :key="item.key" >{{item.value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -56,6 +56,19 @@
                   <Input v-model="payComSearchData.ssAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客服中心：" prop="serviceCenterValue">
+                  <Cascader :data="serviceCenterData"  v-model="payComSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="金额是否一致：" prop="ifCheck">
+                  <i-switch v-model="payComSearchData.ifCheck" size="large">
+                      <span slot="open">是</span>
+                      <span slot="close"></span>
+                  </i-switch>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -73,6 +86,7 @@
         <Col :sm="{span: 24}">
           <Button type="primary" @click="gotoAddBatch()">添加到出账批次号</Button>
           <Button type="primary" @click="gotoDelBatch()">从出账批次号中移除</Button>
+          <Button type="info" @click="exportData">导出</Button>
         </Col>
       </Row>
 
@@ -204,7 +218,7 @@
   import EventType from '../../../../store/event_types'
   import payComApi from '../../../../api/social_security/payment_com'
   import dict from '../../../../api/dict_access/social_security_dict'
-
+  import sessionData from '../../../../api/session-data'
   const progressStop = 33.3;
 
   export default {
@@ -213,7 +227,9 @@
       return{
         collapseInfo: [1], //展开栏
         accountTypeList: [],
+        serviceCenterData:[],
         payComSearchData: {
+          serviceCenterValue:[],
           ssAccountType: '',
           paymentId: '',
           companyId: '',
@@ -224,7 +240,8 @@
           paymentState: '',
           comAccountId: '',
           ssAccount:'',
-          paymentBatchNum:''
+          paymentBatchNum:'',
+          ifCheck: false
         },
         staticPayComSearchData: {
           paymentStateList: [
@@ -409,70 +426,58 @@
 
         payComColumns: [
           {title: '', key: 'id', width: 55, fixed: 'left', type: 'selection'},
-          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',
+          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.paymentBatchNum),
               ]);
             }
           },
-          {title: '客户编号', key: 'companyId', width: 120, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyId),
-              ]);
-            }
-          },
-          {title: '客户名称', key: 'title', width: 250, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.title),
-              ]);
-            }
-          },
-          {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.ssAccount),
-              ]);
-            }
-          },
-          {title: '社保账户类型', key: 'ssAccountType', width: 120, align: 'center',
-            render: (h, params) => {
-              let ssAccountType = params.row.ssAccountType;
-              let accountTypeName = "";
-
-              if(ssAccountType == 1){
-                  accountTypeName = "中智大库"
-              }else if(ssAccountType == 2){
-                  accountTypeName = "中智外包"
-              }else{
-                  accountTypeName = "独立户"
-              }
-
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', accountTypeName),
-              ]);
-            }
-          },
-          {title: '支付年月', key: 'paymentMonth', width: 120, align: 'center',
+          {title: '支付年月', key: 'paymentMonth', width: 100, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentMonth),
               ]);
             }
           },
-          {title: '支付状态', key: 'paymentStateName', width: 180, align: 'center',
+          {title: '客户编号', key: 'companyId', width: 110, align: 'center',fixed: 'left',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.companyId),
+              ]);
+            }
+          },
+          {title: '客户名称', key: 'title', width: 250, align: 'center',fixed: 'left',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.title),
+              ]);
+            }
+          },
+          {title: '支付状态', key: 'paymentStateName', width: 120, align: 'center',
             render: (h, params) => {
               let paymentState = params.row.paymentState;
               let paymentStateName = this.getPaymentStateName(paymentState);
-
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', paymentStateName),
               ]);
             }
           },
-          {title: '操作', key: 'operator', width: 220, align: 'center',
+          {title: '应缴纳金额', key: 'oughtAmount', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.oughtAmount),
+              ]);
+            }
+          },
+          {title: '申请支付总金额', key: 'totalPayAmount', width: 140, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.totalPayAmount),
+              ]);
+            }
+          },          
+          {title: '操作', key: 'operator', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', [
                 h('Button', {
@@ -520,27 +525,76 @@
               ]);
             }
           },
-          {title: '企业部分金额', key: 'totalComPayAmount', width: 130, align: 'center',
+          {title: '是否一致', key: 'ifCheck', width: 100, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.totalComPayAmount),
+              if(params.row.ifCheck==1){
+                 return h('div', [
+                  h('A', {
+                      props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+                        on: {
+                          dblclick: () => {
+                               this.doCheck(params.row.paymentComId,h)
+                          }
+                        }
+                      },'是'
+                    ),
+                ])
+              }else{
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        this.doCheck(params.row.paymentComId,h)
+                      }
+                    }
+                  }, '一致'),
+                ]);
+              }
+            
+            }
+          },
+          {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.ssAccount),
               ]);
             }
           },
-          {title: '雇员部分金额', key: 'totalEmpPayAmount', width: 130, align: 'center',
+          {title: '社保账户类型', key: 'ssAccountType', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.totalEmpPayAmount),
+              let ssAccountType = params.row.ssAccountType;
+              let accountTypeName = "";
+
+              if(ssAccountType == 1){
+                  accountTypeName = "中智大库"
+              }else if(ssAccountType == 2){
+                  accountTypeName = "中智外包"
+              }else{
+                  accountTypeName = "独立户"
+              }
+
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', accountTypeName),
               ]);
             }
           },
-          {title: '应缴纳金额', key: 'oughtAmount', width: 130, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.oughtAmount),
-              ]);
-            }
-          },
+          // {title: '企业部分金额', key: 'totalComPayAmount', width: 130, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'right'}}, [
+          //       h('span', params.row.totalComPayAmount),
+          //     ]);
+          //   }
+          // },
+          // {title: '雇员部分金额', key: 'totalEmpPayAmount', width: 130, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'right'}}, [
+          //       h('span', params.row.totalEmpPayAmount),
+          //     ]);
+          //   }
+          // },
+          
           {title: '额外金', key: 'extraAmount', width: 130, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
@@ -562,13 +616,7 @@
               ]);
             }
           },
-          {title: '申请支付总金额', key: 'totalPayAmount', width: 130, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.totalPayAmount),
-              ]);
-            }
-          },
+          
           {title: '财务支付日期', key: 'financePaymentDate', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -594,17 +642,15 @@
       }
     },
     mounted() {
-      //this[EventType.SOCIALSECURITYPAYTYPE]();
-      this.payComHandlePageNum(1);
+      //this.payComHandlePageNum(1);
       this.loadDict();
+      this.paymentComQuery();
+      this.getCustomers();
     },
     computed: {
-      ...mapState('socialSecurityPay', {
-          data:state=>state.data
-      })
     },
     methods: {
-      ...mapActions('socialSecurityPay', [EventType.SOCIALSECURITYPAYTYPE]),
+     
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -613,15 +659,25 @@
           title: '支付申请操作成功！'
         });
       },
+      getCustomers(){
+        let params = null;
+        payComApi.getCustomers({params:params}).then(data=>{
+          this.serviceCenterData = data.data;
+        })
+      },
       loadDict(){
         dict.getDictData().then(data => {
           if (data.code == 200) {
             this.accountTypeList = data.data.SocialSecurityAccountType;
+            sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
+            sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
           }
         });
       },
       goPaymentNotice(paymentComId,comAccountId,paymentMonth) {
-
+        console.log(this.payComSearchData)
+        sessionData.setJsonDataToSession('paymentCom.payComSearchData', this.payComSearchData);
+        sessionData.setJsonDataToSession('paymentCom.payComPageData', this.payComPageData);
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
         window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
         window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
@@ -646,15 +702,13 @@
       //   this.payComPageData = selection;
       // },
       //查询页面数据
-      paymentComQuery() {
+      exportData() {
         if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
           this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
         }
-
         if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
           this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
         }
-
         // 处理参数
         var params = {};
         {
@@ -663,7 +717,37 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
+        payComApi.paymentComQueryExport(params)
+      },
+      paymentComQuery() {
 
+        if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
+          this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
+        }
+        if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
+          this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
+        }
+        // 处理参数
+        var params = {};
+        {
+          // 清除 '[全部]'
+          params = this.$utils.clear(this.payComSearchData);
+          // 清除空字符串
+          params = this.$utils.clear(params, '');
+        }
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
+        params.ifCheck=params.ifCheck?1:0;
         payComApi.paymentComQuery({
           pageSize: this.payComPageData.pageSize,
           pageNum: this.payComPageData.pageNum,
@@ -943,6 +1027,24 @@
             alert(data.message);
           }
         })
+      },
+      async doCheck(paymentComId,h){
+        this.$Modal.confirm({
+            title: "提示",
+            content: "您确认操作吗？",
+            okText: "确认",
+            onOk: () => {
+              payComApi.doCheck({paymentComId:paymentComId}).then(
+                data => {
+                  if(data.code == "0"){
+                    this.paymentComQuery()
+                  }else{
+                    alert(data.message);
+                  }
+                }
+              );
+            }
+          });
       },
       //关闭移除批次框
       closeDelBatch(){

@@ -52,6 +52,16 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+      <!-- <Dropdown @on-click="exportTable">
+            <Button type="info">
+              汇缴书
+              <Icon type="arrow-down-b"></Icon>
+            </Button>
+            <DropdownMenu slot="list">
+              <DropdownItem name="5">基本公积金汇缴书</DropdownItem>
+              <DropdownItem name="6">补充公积金汇缴书</DropdownItem>
+            </DropdownMenu>
+        </Dropdown> -->
         <Button type="primary" @click="chgDetailListExport(1)">基本公积金汇缴变更清册</Button>
         <Button type="primary" @click="repairDetailListExport(1)">基本公积金补缴清册</Button>
         <Button type="primary" @click="chgDetailListExport(2)">补充公积金汇缴变更清册</Button>
@@ -320,7 +330,50 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           pageNum: this.customerSearchPageData.pageNum,
           params: params,
         })
-      }
+      },
+       //生成汇缴书打印
+      exportTable(name) {
+        switch(parseInt(name)) {
+          case 5:
+            this.printPayNote(1);
+            break;
+          case 6:
+            this.printPayNote(2);
+            break;
+          default:
+            break;
+        }
+      },
+      printPayNote(hfType){
+          if(this.operatorSearchData.hfAccountType == ''){
+            this.$Message.info("查询条件中的【账户类型】不能为空");
+            return false;
+          }
+          if(this.operatorSearchData.hfMonth==null || this.operatorSearchData.hfMonth==''){
+            this.$Message.info("查询条件中的【缴费月份】不能为空");
+            return false;
+          }
+          if(this.operatorSearchData.hfAccountType == 3){
+            if(this.operatorSearchData.companyId==null || this.operatorSearchData.companyId==''){
+              this.$Message.info("查询条件中的【客户编号】不能为空");
+              return false;
+            }
+          }
+          
+         
+          let results=[];
+          let params={hfAccountType:this.operatorSearchData.hfAccountType,
+                      hfType:hfType,
+                      companyId:this.operatorSearchData.companyId,
+                      hfMonth:this.operatorSearchData.hfMonth
+                      }
+          api.getRemittedBook(params).then(data=>{
+            results=data.data;
+            api.printPayNote(results);
+          }).catch(error=>{
+            console.log(error)
+          })
+      },
 
     }
   }

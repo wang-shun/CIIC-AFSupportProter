@@ -37,14 +37,15 @@
               </Col>
             </Row>
             <Table   :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData" :loading="loading" ></Table>
+          
         </div>
       </Panel>
     </Collapse>
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventType from '../../../store/event_types'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/social_security_report'
   export default {
     data() {
@@ -274,7 +275,7 @@
       },
       calculate(){
         let params = {
-          comAccountId:this.comAccountId,  
+          comAccountId:this.comAccountId,
           ssMonth:this.ssMonth,
           generalMethod:'generateSocPaymentInfo'
         };
@@ -286,7 +287,7 @@
         }).catch(error=>{
           this.$Message.error('系统异常！');
         })
-       
+
       },
       queryEmlpyeeMonthFeeDetail(){
         let params = {ssMonth:this.ssMonth,ssAccount:this.ssAccount}

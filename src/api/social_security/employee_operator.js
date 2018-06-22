@@ -69,6 +69,8 @@ export default {
   empSSSearchExport:async (params) => {
     AJAX.download('/api/soccommandservice/ssEmpArchive/empSSSearchExport', params);
   },
+
+
   //查询雇员详细信息
   employeeDetailInfoQuery:async (params)=>{
     let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/employeeDetailInfoQuery', params);
@@ -94,7 +96,6 @@ export default {
     let response = await AJAX.postJSON('/api/soccommandservice/ssEmpTask/handleBatchTask', params);
     return await response.data;
   },
-
   employeeDailyOperatorDiskExport: (params) => {
     AJAX.download('/api/soccommandservice/ssEmpTask/employeeDailyOperatorDiskExport', params);
   },
@@ -148,6 +149,10 @@ export default {
   //保存配置权限 类型为 任务单类型
   saveAuthorityTaskCategory:async (params)=>{
     let response = await AJAX.post('/api/soccommandservice/authority/saveAuthorityTaskCategory', params);
+    return await response.data;
+  },
+  getCustomers:async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/authority/getSsCustomerData', params);
     return await response.data;
   },
 }

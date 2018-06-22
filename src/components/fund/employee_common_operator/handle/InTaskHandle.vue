@@ -33,12 +33,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="末次汇缴月（基本）：">
-                <label>{{displayVO.basicComHfMonth}}</label>
+                <label>{{displayVO.empBasLastMonth}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="末次汇缴月（补充）：">
-                <label>{{displayVO.addedComHfMonth}}</label>
+                <label>{{displayVO.empAddLastMonth}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -134,6 +134,31 @@
                 <label>{{displayVO.basicArchiveStatusName}}</label>
               </FormItem>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="缴纳至：">
+                <label>{{(displayVO.empBasEndMonth) ? displayVO.empBasEndMonth : displayVO.empBasLastMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入年月：">
+                <label>{{displayVO.empBasStartMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入办理年月：">
+                <label>{{displayVO.empBasHandleMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出年月：">
+                <label>{{displayVO.empBasEndMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出办理年月：">
+                <label>{{displayVO.empBasStopHandleMonth}}</label>
+              </FormItem>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}">
@@ -149,6 +174,31 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="补充公积金状态：">
                 <label>{{displayVO.addedArchiveStatusName}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="缴纳至：">
+                <label>{{(displayVO.empAddEndMonth) ? displayVO.empAddEndMonth : displayVO.empAddLastMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入年月：">
+                <label>{{displayVO.empAddStartMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入办理年月：">
+                <label>{{displayVO.empAddHandleMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出年月：">
+                <label>{{displayVO.empAddEndMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出办理年月：">
+                <label>{{displayVO.empAddStopHandleMonth}}</label>
               </FormItem>
               </Col>
             </Row>
@@ -251,7 +301,7 @@
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton" :loading="isLoading">批退</Button>
-        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="!showButton && this.displayVO.canHandle" :loading="isLoading">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="this.displayVO.canHandle" :loading="isLoading">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
@@ -396,7 +446,18 @@
 
           operationRemind: '',
           operationRemindDate: '',
-          canHandle: false
+          canHandle: false,
+
+          empBasStartMonth: '',
+          empBasHandleMonth: '',
+          empBasEndMonth: '',
+          empBasStopHandleMonth: '',
+          empBasLastMonth: '',
+          empAddStartMonth: '',
+          empAddHandleMonth: '',
+          empAddEndMonth: '',
+          empAddStopHandleMonth: '',
+          empAddLastMonth: '',
         },
         fundColumns: [
           {title: '起缴年月', key: 'startMonth', align: 'left'},

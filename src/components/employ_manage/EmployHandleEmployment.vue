@@ -128,6 +128,9 @@
         },
         notesData: [],
         materialHandleInfo: {
+          employee: '',
+          idNum: '',
+          formAdvance: '',
           yuliuDocType: '',
           yuliuDocNum: '',
           docType: '',
@@ -144,14 +147,14 @@
           docCode:'',
           docFrom:'',
           employFeedback:'',
-          employFeedbackOptDate:'',
+          employFeedbackOptDate:this.$utils.formatDate(new Date(), 'YYYY-MM-DD'),
           diaodangFeedback:'',
-          diaodangFeedbackOptDate:'',
+          diaodangFeedbackOptDate:this.$utils.formatDate(new Date(), 'YYYY-MM-DD'),
           ukeyBorrowDate:'',
           ukeyReturnDate:'',
           hukouCode:'',
           employDocPaymentTo:'',
-          storageDate:'',
+          storageDate:this.$utils.formatDate(new Date(), 'YYYY-MM-DD'),
           employWay: '',
           employOperateMan: '',
           employeeId:this.$route.query.employeeId,
@@ -172,7 +175,7 @@
           api.employeeDetailInfoQuery(params).then(data=>{
 
               if(data.data.amEmpTaskBO){
-                   this.employeeInfo=data.data.amEmpTaskBO;
+                  this.employeeInfo=data.data.amEmpTaskBO;
               }
 
               if(data.data.customerInfo){
@@ -200,7 +203,15 @@
                 this.materialHandleInfo.oldYuLiuNum = data.data.amArchaiveBo.yuliuDocNum;
                 this.materialHandleInfo.oldType = data.data.amArchaiveBo.docType;
                 this.materialHandleInfo.oldNum = data.data.amArchaiveBo.docNum;
-                 
+
+                if(this.materialHandleInfo.formAdvance == true){
+                   // 雇员名称和身份证
+                  this.materialHandleInfo.employeeName = this.employeeInfo.employeeName;
+                  this.materialHandleInfo.idNum = this.employeeInfo.IdNumber;
+                  this.materialHandleInfo.docFrom = this.data.data.amArchaiveBo.docFrom;
+                  this.materialHandleInfo.archivePlace = this.data.data.amArchaiveBo.archivePlace;
+                  console.info(this.materialHandleInfo);
+                }
               }
 
               if(data.data.company){

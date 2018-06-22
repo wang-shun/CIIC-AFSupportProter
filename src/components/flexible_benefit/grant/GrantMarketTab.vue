@@ -8,39 +8,57 @@
           <Form ref="searchCondition" :model="searchCondition" :label-width=120>
             <Row class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="审批状态：" prop="approvalStatus">
-                <Select v-model="searchCondition.approvalStatus" :clearable="true">
-                  <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
+                <Form-item label="审批状态：" prop="approvalStatus">
+                  <Select v-model="searchCondition.approvalStatus" :clearable="true">
+                    <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="发放状态：" prop="sendStatus">
-                <Select v-model="searchCondition.sendStatus" :clearable="true">
-                  <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
+                <Form-item label="发放状态：" prop="sendStatus">
+                  <Select v-model="searchCondition.sendStatus" :clearable="true">
+                    <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
               </Col>
-              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item :label-width="160" label="申请人所属部门:" :clearable="true">
-                <Select v-model="searchCondition.customerNumber">
-                  <Option v-for="item in deptList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
-              </Col>-->
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" :clearable="true">
+                <Form-item label="申请时间：" prop="applyTimeRange">
+                  <DatePicker v-model="searchCondition.applyTimeRange" type="daterange" show-week-numbers
+                              placement="bottom-end" placeholder="选择时间"
+                              style="width: 100%"></DatePicker>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="所属中心：" prop="departmentId">
+                  <Select v-model="searchCondition.departmentId" :clearable="true">
+                    <Option v-for="item in centerList" :value="item.departmentId" :key="item.departmentId">
+                      {{item.departmentName}}
+                    </Option>
+                  </Select>
+                </Form-item>
+              </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
-              <!--<Button type="warning" @click="resetSearchCondition('searchCondition')">重置</Button>-->
+                <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('searchCondition')">重置</Button>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
     </Collapse>
-    <Table stripe border :columns="grantManagerColumns" :data="grantManagerData" ref="grantManagerTable"></Table>
-    <Page show-sizer show-elevator
+
+    <div class="tr m20">
+      <Button type="info" @click="exportData()" icon="ios-download-outline">导出数据</Button>
+    </div>
+
+    <Table stripe
+           border
+           :columns="grantManagerColumns"
+           :data="grantManagerData"
+           ref="grantManagerTable"></Table>
+    <Page show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
           :total="searchCondition.total"
@@ -51,6 +69,7 @@
 
 <script>
   import apiAjax from "../../../data/flexible_benefit/grant/grant_manager.js";
+  import qs from "qs";
 
   export default {
     data() {
@@ -60,6 +79,8 @@
           approvalStatus: 0, //审批状态
           sendStatus: 0,
           applyType: 2,//申请类型：1-活动
+          applyTimeRange: [],
+          departmentId: null,
           current: 1,
           size: 10,
           total: 0,
@@ -77,20 +98,20 @@
           {
             title: '申请时间', key: 'applyTime', align: 'center',
             render: (h, params) => {
-              return this.$utils.formatDate(params.row.applyTime, 'YYYY-MM-DD HH:mm:ss');
+              return this.$utils.formatDate(params.row.applyTime, 'YYYY-MM-DD');
             }
           },
           {
             title: '审批状态', key: 'approvalStatus', align: 'center',
             render: (h, params) => {
-              return h('div',this.getApprovalStatusName(params.row.approvalStatus))
+              return h('div', this.getApprovalStatusName(params.row.approvalStatus))
 
             }
           },
           {
             title: '发放状态', key: 'sendStatus', align: 'center',
             render: (h, params) => {
-              return h('div',this.getSendStatusName(params.row.sendStatus))
+              return h('div', this.getSendStatusName(params.row.sendStatus))
 
             }
           },
@@ -147,10 +168,13 @@
           }
 
         ],
+        centerList: [],
+
       }
     },
     created() {
       this.getByPage(1);
+      this.getSubDepartmentsOfLevel();
     },
     methods: {
       queryMarketApplyList() {
@@ -161,6 +185,17 @@
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
+      },
+      getSubDepartmentsOfLevel() {
+        apiAjax.getSubDepartmentsOfLevel().then(response => {
+          this.centerList = response.data.object;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      exportData() {
+        window.location = apiAjax.fbqBasePaths + "/grantQueryService/exportApplyList?" + qs.stringify(this.searchCondition);
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()

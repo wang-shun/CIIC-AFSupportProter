@@ -709,6 +709,7 @@
         if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
           this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
         }
+   
         // 处理参数
         var params = {};
         {
@@ -723,6 +724,7 @@
             delete params.serviceCenterValue;
             params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
         }
+        params.ifCheck=params.ifCheck?1:0;
         payComApi.paymentComQueryExport(params)
       },
       paymentComQuery() {

@@ -21,6 +21,11 @@
         <label>{{emp.inDate}}</label>
       </Form-item>
       </Col>
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+      <Form-item label="人员属性：">
+        <label>{{$decode.empClassify(emp.empClassify)}}</label>
+      </Form-item>
+      </Col>
       <!-- 调整和转出 -->
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="operatorType !== '1' && operatorType !== '2'">
       <Form-item label="社保序号：">
@@ -50,12 +55,17 @@
         <label>{{emp.contactAddress}}</label>
       </Form-item>
       </Col>
+      <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}" v-show="operatorType == '1' || operatorType=='2'">
+      <Form-item label="邮编：">
+        <label>{{emp.zipCode}}</label>
+      </Form-item>
+      </Col>
       <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}">
       <Form-item label="基数(使用中)：">
         <label>{{emp.oldEmpBase}}</label>
       </Form-item>
       </Col>
-      
+
       <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
       <Form-item label="人员分类：">
         <label>{{emp.empClassify}}</label>

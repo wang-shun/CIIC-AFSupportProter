@@ -104,6 +104,8 @@
   import Utils from '../../../../lib/utils'
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import InputCompany from '../../../common_control/form/input_company'
+  import sessionData from '../../../../api/session-data'
+
   export default {
     components: {customerModal,InputCompanyName,InputCompany},
     data() {
@@ -156,6 +158,9 @@
                   props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('companyTaskList.Finished.companyTaskInfo', this.companyTaskInfo);
+                      sessionData.setJsonDataToSession('companyTaskList.Finished.pageData', this.pageData);
+
                       switch(params.row.type) {
                         case '开户':
                           this.$router.push({name: 'openAccountInfo', query:{operatorType: '1',source:0,tid:params.row.tid}})
@@ -237,17 +242,21 @@
         ]
       }
     },
+    created() {
+      sessionData.getJsonDataFromSession('companyTaskList.Finished.companyTaskInfo', this.companyTaskInfo);
+      sessionData.getJsonDataFromSession('companyTaskList.Finished.pageData', this.pageData);
+    },
     mounted() {
 
-      let sessionPageNum = sessionStorage.taskFiPageNum
-      let sessionPageSize = sessionStorage.taskFiPageSize
-
-      if(sessionPageNum && sessionPageSize){
-        this.pageData.pageNum = Number(sessionPageNum)
-        this.pageData.pageSize = Number(sessionPageSize)
-        //  sessionStorage.removeItem("taskFiPageNum")
-        //  sessionStorage.removeItem("taskFiPageSize")
-      }
+//      let sessionPageNum = sessionStorage.taskFiPageNum
+//      let sessionPageSize = sessionStorage.taskFiPageSize
+//
+//      if(sessionPageNum && sessionPageSize){
+//        this.pageData.pageNum = Number(sessionPageNum)
+//        this.pageData.pageSize = Number(sessionPageSize)
+//        //  sessionStorage.removeItem("taskFiPageNum")
+//        //  sessionStorage.removeItem("taskFiPageSize")
+//      }
 
       let params = {
         pageSize:this.pageData.pageSize,

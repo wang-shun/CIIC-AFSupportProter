@@ -53,7 +53,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工日期：">
+              <Form-item label="用工成功日期：">
                 <label>{{reworkInfo.employFeedbackOptDate}}</label>
               </Form-item>
               </Col>
@@ -109,6 +109,15 @@
                 </Form-item>
 
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="人员属性：">
+                <Select v-model="socialSecurityPayOperator.empClassify" style="width: 100%;"  transfer>
+                  <Option v-for="item in SocialSecurityEmployeeClassify" :value="item.key" :key="item.key"
+                          :label="item.value"></Option>
+                </Select>
+              </Form-item>
+              </Col>
+
               <!-- 仅转出 -->
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType === '2'">
               <Form-item label="特殊变更类型：">
@@ -123,7 +132,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="起缴月份：">
                 <DatePicker v-model="socialSecurityPayOperator.startMonth" type="month" placeholder="请选择"
-                            style="width: 100%;"
+                            style="width: 100%;" @on-change="handleStartMonthChange"
                             transfer></DatePicker>
               </Form-item>
               </Col>
@@ -202,6 +211,7 @@
 
   import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
+  import dict from '../../../../api/dict_access/social_security_dict'
 
   export default {
     components: {companyInfo, employeeInfo},
@@ -222,7 +232,8 @@
           residenceAddress:'',
           residenceAttribute:'',
           contactAddress:'',
-         employeeAttribute:''
+          employeeAttribute:'',
+          zipCode:''
         },
         isLoading: false,
         company: {},
@@ -235,6 +246,7 @@
         jobState: '已用工',
         jobDate: '2017-12-01'
       },
+        SocialSecurityEmployeeClassify: [],
       taskNewInfoData: [], //任务单参考信息 -- 新增
         taskCategoryType: [
           {value: '1', label: '新进'},
@@ -384,7 +396,8 @@
           createdDisplayName:'',
           modifiedDisplayName:'',
           leaderShipName:'',
-          serviceCenter:''
+          serviceCenter:'',
+          empClassify:''
         },
 
         // 任务单参考信息
@@ -432,7 +445,13 @@
       }
     },
     mounted() {
-
+      dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.SocialSecurityEmployeeClassify = data.data.SocialSecurityEmployeeClassify;
+        } else {
+          this.$Message.error(data.message);
+        }
+      })
       this.initData(this.$route.query)
 
       if(this.operatorType=='12'||this.operatorType=='13'){
@@ -625,6 +644,8 @@
       setRow(params, name, value) {
         this.getRows()[params.index][name] = value;
         params.row[name] = value;
+
+        this.socialSecurityPayOperator.startMonth = value;
       },
       insertRow(index) {
 
@@ -639,6 +660,9 @@
         } else {
           data.splice(index, 1);
         }
+      },
+      handleStartMonthChange(value) {
+        this.operatorListData[0]['startMonth'] = value;
       },
       instance(taskStatus, type) {
         var fromData = this.$utils.clear(this.socialSecurityPayOperator, '');
@@ -700,6 +724,11 @@
                this.$Message.error("办理月份不能小于当前月份.");
                return;
             }
+
+//            if (!this.socialSecurityPayOperator.empClassify) {
+//              this.$Message.error("人员属性不能为空.");
+//              return;
+//            }
         }
 
         if(handleType && (!startMonthIsEqual || !handleMonthIsEqual)){
@@ -741,7 +770,7 @@
               fromData.employeeId = self.employee.employeeId;
               fromData.employeeName = self.employee.employeeName;
               fromData.salary = salary;
-              //fromData.empClassify = self.employee.employeeAttribute;
+              fromData.empClassify = this.socialSecurityPayOperator.empClassify;
               fromData.inDate = self.employee.inDate;
             }
 

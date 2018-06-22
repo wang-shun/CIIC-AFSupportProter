@@ -265,6 +265,9 @@
             }
           },
           {
+            title: "证件号码", sortable: true, key: "idNum", align: "center", width: 150
+          },
+          {
             title: "性别", sortable: true, key: "gender", align: "center", width: 150,
             render: (h, params) => {
               return h('div', task.genderToChina(params.row.gender));
@@ -333,9 +336,6 @@
           },
           {
             title: "公司名称", sortable: true, key: "companyName", align: "center", width: 150
-          },
-          {
-            title: "证件号码", sortable: true, key: "idNum", align: "center", width: 150
           },
           {
             title: "保险起始日期", sortable: true, key: "startConfirmDate", align: "center", width: 150,

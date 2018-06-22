@@ -16,6 +16,11 @@
                   <input-account v-model="operatorSearchData.comAccountId"></input-account>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号：" prop="companyId">
+                  <Input v-model="operatorSearchData.companyId"  placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Cascader :data="staticSearchData.serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer clearable></Cascader>
@@ -28,7 +33,7 @@
                   </Select>
                 </Form-item>
               </Col> -->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="差异数范围(按雇员)：">
                   <Row>
                     <Col span="10">
@@ -44,7 +49,7 @@
                     </Col>
                   </Row>
                 </Form-item>
-              </Col>
+              </Col> -->
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -103,19 +108,19 @@
           <Row type="flex" justify="start">
             <Col :sm="{span:15}">
               <Form-item label="社保月份：" prop="ssMonth">
-                <Input v-model="upLoadData.ssMonth" placeholder="请输入..."></Input>
+                 <label>{{upLoadData.ssMonth}}</label>
               </Form-item>
             </Col>
           </Row>
-          <Row type="flex" justify="start">
+          <!-- <Row type="flex" justify="start">
             <Col :sm="{span:15}" >
-              <Form-item label="变更汇总表类型：" prop="fileType">
-                <Select v-model="upLoadData.fileType" style="width: 100%;" transfer>
+              <Form-item label="变更汇总表类型：" prop="fileType"> 
+                <Select v-model="upLoadData.fileType" style="width: 100%;"  transfer>
                   <Option v-for="item in changeTableTypeValueListOfUpload" :value="item.value" :key="item.value" >{{item.label}}</Option>
                 </Select>
               </Form-item>
             </Col>
-          </Row>
+          </Row> -->
           <Row type="flex" justify="start">
             <Col :sm="{span:15}">
               <Form-item label="文件上传：" prop="uploadFile">
@@ -155,6 +160,7 @@
   import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/statement'
   import InputAccount from '../../common_control/form/input_account'
+  import sessionData from '../../../api/session-data'
 
   export default {
     components: {customerModal, InputAccount,companyAccountSearchModal},
@@ -173,10 +179,10 @@
           serviceCenterValue: [],
           minDiffSumByEmp: '',//最小差异数（按雇员）
           maxDiffSumByEmp: '',//最大差异数（按雇员）
-          impFileType:'YYS',
+          //impFileType:'YYS',
           ssMonth:'',//社保月份
           comAccountId: '', //企业社保账户
-
+          companyId: '',
         },
         sSocialSecurityTypeData: [
           {
@@ -199,14 +205,7 @@
         //默认静态参数
         staticSearchData:{
           //客服中心选择框
-          serviceCenterData: [
-            {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-            {value: 2, label: '日本客户'},
-            {value: 3, label: '虹桥'},
-            {value: 4, label: '浦东'},
-            {value: 5, label: '东区1'},
-            {value: 6, label: '东区2'}
-          ],
+          serviceCenterData: [],
           //变更汇总类型下拉默认选项
           changeTableTypeDefaultVal: 'YYS',
           //变更汇总表类型
@@ -292,10 +291,9 @@
               ]);
             }
           },
-          {title: '下载月度变更', key: 'downloadChanngeOfMonth', width: 200, align: 'center',
+          {title: '下载月度变更', key: 'downloadChanngeOfMonth', width: 140, align: 'center',
             render: (h, params) => {
-              let changeTableType = params.row.impFileType;
-              if(changeTableType=='YYS'){
+       
                 return h('div', [
                   h('A', {
                       props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
@@ -307,36 +305,24 @@
                               this.$router.push({name:'socialSecurityEmpChangeDetailYys',query:param});
                           }
                         }
-                      },'下载养医失'
+                      },'养医失'
                     ),
                 ])
-              }else{
-                return h('div', [
-                        h('A', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                          on: {
-                            click: () => {
-                               window.sessionStorage.setItem("statementId", params.row.statementId)
-                               window.sessionStorage.setItem("monthEmpChangeId", params.row.monthEmpChangeId)
-                              this.$router.push({name:'socialSecurityEmpChangeDetailGsy'});
-                            }
-                          }
-                           },'下载工生育'),
-                ])
-              }
+             
 
             }
           },
-          {title: '变更汇总表类型', key: 'impFileName', width: 150, align: 'center',
-            render: (h, params) => {
-              let changeTableType = params.row.impFileType;
-              if(changeTableType=='YYS'){
-                return h('div', {style: {textAlign: 'center'}}, [h('span', "YYS(养医失)"),]);
-              }
-              else{
-                return h('div', {style: {textAlign: 'center'}}, [h('span', "GYS(工生育)"),]);
-              }
-            }
-          },
+          // {title: '变更汇总表类型', key: 'impFileName', width: 150, align: 'center',
+          //   render: (h, params) => {
+          //     let changeTableType = params.row.impFileType;
+          //     if(changeTableType=='YYS'){
+          //       return h('div', {style: {textAlign: 'center'}}, [h('span', "YYS(养医失)"),]);
+          //     }
+          //     else{
+          //       return h('div', {style: {textAlign: 'center'}}, [h('span', "GYS(工生育)"),]);
+          //     }
+          //   }
+          // },
           {title: '差异数（按雇员）', key: 'diffSumByEmp', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
@@ -369,8 +355,11 @@
       }
     },
     mounted() {
-      //this[EventType.SOCIALSECURITYRECONCILATE]();
-      this.handlePageNum(1);
+      
+      sessionData.getJsonDataFromSession('ssReconCilate.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('ssReconCilate.statementPageData', this.statementPageData);
+      this.statementQuery();
+      //this.handlePageNum(1);
     },
     computed: {
       ...mapState('socialSecurityReconcilate',{
@@ -474,6 +463,8 @@
       },
       //查询页面数据
       statementQuery() {
+        sessionData.setJsonDataToSession('ssReconCilate.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('ssReconCilate.statementPageData', this.statementPageData);
         // 处理参数
         var params = {};
         {
@@ -482,17 +473,6 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-
-        // var params = {
-        //   pageSize: this.statementPageData.pageSize,
-        //   pageNum: this.statementPageData.pageNum,
-        //   param: this.operatorSearchData
-        // };
-
-        // 清除 '[全部]'
-        //params = this.operatorSearchData;
-        // 清除空字符串
-        //params = this.$utils.clear(params, '');
 
         api.statementQuery({
           pageSize: this.statementPageData.pageSize,
@@ -506,7 +486,6 @@
         // api.statementQuery(params).then(data => {
         //   this.statementData = data.data;
         //   this.statementPageData.total = data.total;
-
         // })
       }
 

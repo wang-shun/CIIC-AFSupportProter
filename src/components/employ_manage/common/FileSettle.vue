@@ -4,7 +4,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际结费日期：">
-            <DatePicker v-model="fileSettle.closeFeeDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="fileSettle.closeFeeDate" type="date" placeholder="" @on-open-change="setCurrentDate" @on-change="changeDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -20,12 +20,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案结费起始日期：">
-            <DatePicker v-model="fileSettle.closeFeeStartDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="fileSettle.closeFeeStartDate" type="date" placeholder="" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工单并档日期：">
-            <DatePicker v-model="fileSettle.resignDocDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="fileSettle.resignDocDate" type="date" placeholder="" @on-open-change="setCurrentDate3" @on-change="changeDate3" transfer></DatePicker>
           </Form-item>
         </Col>
       </Row>
@@ -116,7 +116,49 @@ import api from '../../../api/employ_manage/hire_operator'
               }
         })
          
-       }
+       },
+       currentDate(){
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              return currentdate;
+       },setCurrentDate(e) {
+        if(e){
+          if(this.fileSettle.closeFeeDate==''||this.fileSettle.closeFeeDate==undefined)
+          {
+             this.fileSettle.closeFeeDate = this.currentDate();
+          }
+        }
+      },changeDate(e) {
+        this.fileSettle.closeFeeDate = e;
+      },setCurrentDate2(e) {
+        if(e){
+          if(this.fileSettle.closeFeeStartDate==''||this.fileSettle.closeFeeStartDate==undefined)
+          {
+             this.fileSettle.closeFeeStartDate = this.currentDate();
+          }
+        }
+      },changeDate2(e) {
+        this.fileSettle.closeFeeStartDate = e;
+      },setCurrentDate3(e) {
+        if(e){
+          if(this.fileSettle.resignDocDate==''||this.fileSettle.resignDocDate==undefined)
+          {
+             this.fileSettle.resignDocDate = this.currentDate();
+          }
+        }
+      },changeDate3(e) {
+        this.fileSettle.resignDocDate = e;
+      },
     },
     computed: {
       fileSettle() {

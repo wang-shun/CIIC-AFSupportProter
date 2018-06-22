@@ -23,14 +23,14 @@
        <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作日期：" prop="operateDatew">
-            <DatePicker type="date" v-model="handleInfo.operateDatew" transfer></DatePicker>
+            <DatePicker type="date" v-model="handleInfo.operateDatew" @on-open-change="setCurrentDate" @on-change="changeDate" transfer></DatePicker>
           </Form-item>
          </Col>
       </Row>
        <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="工伤认定日期：" prop="affirmDatew">
-            <DatePicker type="date" v-model="handleInfo.affirmDatew" transfer></DatePicker>
+            <DatePicker type="date" v-model="handleInfo.affirmDatew" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
           </Form-item>
          </Col>
       </Row>
@@ -46,7 +46,7 @@
        <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="鉴定结论日期：" prop="remarkDatew">
-            <DatePicker type="date" v-model="handleInfo.evaluationDatew" transfer></DatePicker>
+            <DatePicker type="date" v-model="handleInfo.evaluationDatew" @on-open-change="setCurrentDate3" @on-change="changeDate3" transfer></DatePicker>
           </Form-item>
          </Col>
       </Row>
@@ -317,7 +317,48 @@ import api from '../../../api/employ_manage/hire_operator'
                   });
             },clickRow (index) {
               
-            }
+            },currentDate(){
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              return currentdate;
+       },setCurrentDate(e) {
+        if(e){
+          if(this.handleInfo.operateDatew==''||this.handleInfo.operateDatew==undefined)
+          {
+             this.handleInfo.operateDatew = this.currentDate();
+          }
+        }
+      },changeDate(e) {
+        this.handleInfo.operateDatew = e;
+      },setCurrentDate2(e) {
+        if(e){
+          if(this.handleInfo.affirmDatew==''||this.handleInfo.affirmDatew==undefined)
+          {
+             this.handleInfo.affirmDatew = this.currentDate();
+          }
+        }
+      },changeDate2(e) {
+        this.handleInfo.affirmDatew = e;
+      },setCurrentDate3(e) {
+        if(e){
+          if(this.handleInfo.evaluationDatew==''||this.handleInfo.evaluationDatew==undefined)
+          {
+             this.handleInfo.evaluationDatew = this.currentDate();
+          }
+        }
+      },changeDate3(e) {
+        this.handleInfo.evaluationDatew = e;
+      },
         
     }
   }

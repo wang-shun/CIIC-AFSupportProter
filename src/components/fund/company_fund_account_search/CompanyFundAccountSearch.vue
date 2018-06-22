@@ -45,15 +45,15 @@
       </Panel>
     </Collapse>
 
-    <!-- <Row class="mt20">
+    <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info">导出</Button>
+        <Button type="info" @click="exportExcel">导出</Button>
       </Col>
-    </Row> -->
+    </Row>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="companyFundAccountSearchColumns" :data="fundAccountData"></Table>
+        <Table border :row-class-name="rowClassName" :columns="companyFundAccountSearchColumns" :data="fundAccountData"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -85,6 +85,7 @@
   import InputCompany from "../../common_control/form/input_company"
   import companyBindAndUnbind from "../common/CompanyBindAndUnbind.vue"
   import InputAccount from "../common/input_account"
+  import ts from '../../../api/house_fund/table_style'
 
   export default {
     components: {InputCompany, companyBindAndUnbind,InputAccount},
@@ -202,7 +203,7 @@
               ]);
             }
           },
-         
+
         ]
       }
     },
@@ -249,6 +250,21 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
+      exportExcel(){
+
+      if (this.operatorSearchData.comHfMonth) {
+          this.operatorSearchData.comHfMonth = this.$utils.formatDate(this.operatorSearchData.comHfMonth, 'YYYYMM');
+        }
+        var params = this.$utils.clear(this.operatorSearchData);
+        params = this.$utils.clear(params, '');
+
+        api.companyFundAccountExpExcel(params);
+
+
+      },
+      rowClassName(row, index) {
+        return ts.comRowClassName(row, index);
+      }
     }
   }
 </script>

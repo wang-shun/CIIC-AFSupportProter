@@ -4,90 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-          <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
-            <Row type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="*未处理：" prop="processStatus">
-                  <Select v-model="operatorSearchData.processStatus" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in processStatusList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号：" prop="employeeId">
-                  <Input v-model="operatorSearchData.employeeId" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务单类型：" prop="taskCategory">
-                  <Select v-model="operatorSearchData.taskCategory" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in taskTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴费银行：" prop="paymentBank">
-                  <Select v-model="operatorSearchData.paymentBank" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in payBankList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员姓名：" prop="employeeName">
-                  <Input v-model="operatorSearchData.employeeName" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金类型：" prop="hfType">
-                  <Select v-model="operatorSearchData.hfType" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业账户类型：" prop="hfAccountType">
-                  <Select v-model="operatorSearchData.hfAccountType" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="证件号：" prop="idNum">
-                  <Input v-model="operatorSearchData.idNum" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务发起时间：" prop="submitTime">
-                  <DatePicker v-model="operatorSearchData.submitTime" type="daterange" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户编号：" prop="companyId">
-                <input-company v-model="operatorSearchData.companyId"></input-company>
-              </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="是否更正：" prop="isChange">
-                  <Select v-model="operatorSearchData.isChange" style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
-                    <Option value="0" label="否"></Option>
-                    <Option value="1" label="是"></Option>
-                  </Select>
-                </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
-                <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
-              </Col>
-            </Row>
-          </Form>
+           <search-employee @on-search="searchEmploiees" ></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -95,6 +12,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="error" @click="isShowRejectBatch = true">批量批退</Button>
+        <Button type="info"  @click="isUpload=true">批量预录入雇员公积金账号</Button>
         <Button type="info" @click="excelExport()">导出</Button>
         <Button type="info" @click="excelExportNew()">导出开户文件</Button>
       </Col>
@@ -103,9 +21,12 @@
     <Row class="mt20">
       <Col :sm="{span:24}" >
         <Table border ref="noProcessData"
+               :row-class-name="rowClassName"
                :columns="noProcessColumns"
                :data="noProcessData"
                @on-selection-change="handleSelectChange"
+               @on-sort-change="SortChange"
+               :loading="isLoading"
                ></Table>
       <Page
         class="pageSize"
@@ -118,6 +39,50 @@
         show-sizer show-total></Page>
       </Col>
     </Row>
+
+    <!-- 批量上传-->
+    <Modal
+      :width="800"
+      v-model="isUpload"
+      :closable="false"
+      :mask-closable="false"
+      style="position:relative;z-index:900;">
+      <div style="text-align: center;">
+        <Form :label-width=100 ref="uploadData" :model="uploadData" style="width: 500px">
+          <Row type="flex" justify="start">
+            <Col :sm="{span:12}">
+            <Form-item label="批量上传：" prop="uploadFile">
+              <div id="loading" class="loading" style="position: absolute; z-index: 999; display: none">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <Upload ref="upload" :action="uploadAttr.actionUrl" :data="uploadData" :accept="uploadAttr.acceptFileExtension"
+                      :before-upload="beforeUpload" :default-file-list="uploadFileList">
+                <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+              </Upload>
+            </Form-item>
+            </Col>
+            <Col :sm="{span:12}">
+            <Button type="info" @click="impTemplate" >下载上传模板</Button>
+            </Col>
+          </Row>
+        </Form>
+        <Row class="mt20">
+          <Col :sm="{span:24}">
+          <Table height="300" border ref="importResultData"
+                 :columns="importResultColumns"
+                 :data="importResultData"
+          ></Table>
+          </Col>
+        </Row>
+      </div>
+      <div slot="footer">
+        <button type="button" class="ivu-btn ivu-btn-text ivu-btn-large" @click="importClose"><span>取消</span></button>
+      </div>
+    </Modal>
 
     <!-- 批退理由 -->
     <Modal
@@ -139,12 +104,16 @@
   </div>
 </template>
 <script>
+  import ts from '../../../../api/house_fund/table_style'
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import sessionData from '../../../../api/session-data'
+  import searchEmployee from "./SearchEmployee.vue"
+  import tableStyle from '../../../../api/table_style'
 
   export default {
-    components: {InputCompany},
+    components: {InputCompany,searchEmployee},
     data() {
       return {
         collapseInfo: [1], //展开栏
@@ -163,12 +132,45 @@
           isChange: ''
 //          urgent: ''
         },
+        orderConditions:[],
+        searchCondition: {
+          params: '',
+          taskStatus: 1
+        },
         isLoading: false,
         processStatusList: [],
         taskTypeList: [],
         payBankList: [],
         fundTypeList: [],
         accountTypeList: [],
+
+        isUpload: false,
+        uploadData: {
+          file: ''
+        },
+        uploadAttr: {
+          actionUrl: '/api/fundcommandservice/hfEmpTask/empPreInputUpload',
+          acceptFileExtension: '.xls,.xlsx',
+        },
+        uploadFileList: [],
+        importResultData: [],
+        importResultColumns: [
+          {
+            title: '雇员编号', key: 'employeeId', width: 150, align: 'left'
+          },
+          {
+            title: '雇员姓名', key: 'employeeName', width: 100, align: 'left'
+          },
+          {
+            title: '基本公积金账号', key: 'hfEmpBasAccount', width: 180, align: 'left'
+          },
+          {
+            title: '补充公积金账号', key: 'hfEmpAddAccount', width: 180, align: 'left'
+          },
+          {
+            title: '错误信息', key: 'errorMsg', width: 300, align: 'left'
+          },
+        ],
 
         isShowRejectBatch: false,
         rejectionRemark: '',
@@ -178,8 +180,8 @@
         noProcessPageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
+          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
         },
         noProcessColumns: [
           {
@@ -191,6 +193,10 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+//                      console.log("before: " + JSON.stringify(this.noProcessPageData))
+                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+
                       localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
                       localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
                       localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
@@ -219,7 +225,6 @@
                         default:
                           break;
                       }
-
                     }
                   }
                 }, '办理'),
@@ -227,18 +232,63 @@
             }
           },
           {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
-          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
+//          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
-          {title: '雇员编号', key: 'employeeId', width: 150, align: 'center'},
-          {title: '雇员证件号', key: 'idNum', width: 200, align: 'center'},
+          {title: '雇员编号', key: 'employeeId', width: 150, align: 'center',sortable: true},
+          {title: '雇员证件号', key: 'idNum', width: 200, align: 'center',sortable: true},
           {title: '企业客户', key: 'companyName', width: 200, align: 'center'},
-          {title: '客户编号', key: 'companyId', width: 150, align: 'center'},
-          {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center'},
-          {title: '公积金账号', key: 'hfEmpAccount', width: 200, align: 'center'},
+          {title: '客户编号', key: 'companyId', width: 150, align: 'center',sortable: true},
+          {title: '公积金类型', key: 'hfTypeName', width: 100, align: 'center'},
+          {title: '公积金账号', key: 'hfEmpAccount', width: 150, align: 'center',sortable: true},
+          {title: '执行年月', key: 'handleDate', width: 100, align: 'center'},
+          {title: '开始年月', key: 'startMonth', width: 100, align: 'center'},
+          {title: '截止年月', key: 'endMonth', width: 100, align: 'center'},
+          {title: '操作提示', key: 'operationRemindName', width: 150, align: 'center'},
           {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center'},
           {title: '发起时间', key: 'submitTimeFormat', width: 200, align: 'center'}
         ]
       }
+    },
+    created() {
+      sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+       this.noProcessColumns.filter((e) => {
+
+      if(storeOrder==null)
+      {
+
+      }else{
+        if(storeOrder.length>0)
+        {
+          for(var index  in storeOrder)
+          {
+             var orders = storeOrder[index].split(' ');
+             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+             {
+                e.sortType = orders[1];
+             }
+
+            if(e.key === 'hfEmpAccount'&&storeOrder[index].indexOf('hf_emp_account')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+
+            if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+          }
+        }
+      }
+
+      })
     },
     mounted() {
       dict.getDictData().then(data => {
@@ -251,7 +301,8 @@
           this.fundTypeList = data.data.FundType;
         }
       });
-      this.hfEmpTaskQuery();
+//      console.log("after: " + JSON.stringify(this.noProcessPageData))
+       this.hfEmpTaskQuery();
     },
     computed: {
     },
@@ -260,6 +311,9 @@
         this.$refs[name].resetFields()
       },
       hfEmpTaskQuery() {
+        if (this.isLoading) {
+          return;
+        }
         this.isLoading = true;
         var cparams = {};
         {
@@ -283,12 +337,17 @@
       },
       handlePageNum(val) {
         this.noProcessPageData.pageNum = val;
-        this.hfEmpTaskQuery();
+        var conditions = [];
+        this.searchEmploiees(conditions);
       },
       handlePageSize(val) {
-        this.noProcessPageData.pageNum = 1;
+//        if (val === this.noProcessPageData.pageSize) {
+//          return
+//        }
+//        this.noProcessPageData.pageNum = 1;
         this.noProcessPageData.pageSize = val;
-        this.hfEmpTaskQuery();
+        var conditions = [];
+        this.searchEmploiees(conditions);
       },
       ok() {},
       cancel() {},
@@ -372,15 +431,63 @@
         return cparams
       },
       excelExport() {
-        var cparams = {};
+//        var cparams = {};
+//        {
+//          // 清除 '[全部]'
+//          let params = this.$utils.clear(this.operatorSearchData);
+//          // 清除空字符串
+//          params = this.$utils.clear(params, '');
+//          cparams = this.beforeSubmit(params);
+//        }
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = [];
+        this.searchConditions =[];
+
+        for(var i=0;i<conditions.length;i++)
         {
-          // 清除 '[全部]'
-          let params = this.$utils.clear(this.operatorSearchData);
-          // 清除空字符串
-          params = this.$utils.clear(params, '');
-          cparams = this.beforeSubmit(params);
+          if(conditions[i]==null||conditions[i]==undefined)
+          {
+            conditions.splice(i,1);
+          }
         }
-        api.hfEmpTaskExport({ params: cparams });
+
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+          for(var i=0;i<conditions.length;i++)
+            this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('fundDaily'+userInfo.userId);
+
+          if(temp==null){
+
+          }else{
+            var searchEmploiees = JSON.parse(temp);
+            if(searchEmploiees.length>0)
+            {
+              for(var index  in searchEmploiees)
+              {
+                this.searchConditions.push(searchEmploiees[index].exec);
+              }
+            }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(let index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
+          }
+        }
+        this.searchCondition.params = this.searchConditions.toString();
+        api.hfEmpTaskExport({ params: this.searchCondition });
       },
       excelExportNew() {
         if (!this.selectedData || this.selectedData.length == 0) {
@@ -398,7 +505,234 @@
         api.newEmpTaskTxtExport({
           params: params
         });
+      },
+      rowClassName(row, index) {
+        return ts.empRowClassName(row, index);
+
+      },searchEmploiees(conditions) {
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        this.searchConditions =[];
+
+        for(var i=0;i<conditions.length;i++)
+        {
+          if(conditions[i]==null||conditions[i]==undefined)
+          {
+            conditions.splice(i,1);
+          }
+        }
+
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+           for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('fundDaily'+userInfo.userId);
+
+          if(temp==null){
+
+          }else{
+             var searchEmploiees = JSON.parse(temp);
+             if(searchEmploiees.length>0)
+             {
+                for(var index  in searchEmploiees)
+                {
+                    this.searchConditions.push(searchEmploiees[index].exec);
+                }
+             }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(let index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
+          }
+        }
+        this.searchCondition.params = this.searchConditions.toString();
+
+        api.hfEmpTaskQuery({
+          pageSize: this.noProcessPageData.pageSize,
+          pageNum: this.noProcessPageData.pageNum,
+          params: this.searchCondition,
+        }).then(data => {
+          if (data.code == 200) {
+            this.noProcessData = data.data.rows;
+            this.noProcessPageData.total = Number(data.data.total);
+          }
+
+          this.isLoading = false;
+        })
+
+      },SortChange(e){
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
+        this.orderConditions = [];
+        this.searchConditions =[];
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = JSON.parse(sessionStorage.getItem('fundDaily'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+        if(conditions!=null){
+            for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);
+        }
+
+
+        var dx ='';
+        if(e.key === 'companyId'){
+            dx = 'tmp.company_id';
+        }else if(e.key === 'employeeId'){
+            dx = 'tmp.employee_id';
+        }else if(e.key === 'hfEmpAccount'){
+            dx = 'tmp.hf_emp_account';
+        }else if(e.key === 'idNum'){
+            dx = 'tmp.id_num';
+        }
+
+        const searchConditionExec = `${dx} ${e.order} `;
+
+        if(storeOrder==null){
+
+        }else{
+          this.orderConditions = storeOrder;
+        }
+
+        var isE = false;
+        if(this.orderConditions.length>0)
+        {
+            for(let index in this.orderConditions)
+            {
+               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order==='normal')
+               {  //如果是取消，则删除条件
+                  this.orderConditions.splice(index,1);
+                   isE = true;
+               }else if(this.orderConditions[index].indexOf(dx)!= -1 && this.orderConditions[index].indexOf(e.order)== -1 ) {
+                 //如果是切换查询顺序
+                  this.orderConditions.splice(index,1);
+                  this.orderConditions.push(searchConditionExec);
+                   isE = true;
+               }else if(this.orderConditions[index]===searchConditionExec){
+                   this.orderConditions.splice(index,1);
+               }
+
+            }
+
+            if(!isE)
+            {
+               this.orderConditions.push(searchConditionExec);
+            }
+
+        }else{
+            this.orderConditions.push(searchConditionExec);
+        }
+
+        sessionStorage.setItem('fundDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+
+        if(this.orderConditions.length>0)
+        {
+          for(let index  in this.orderConditions)
+          {
+             this.searchConditions.push(this.orderConditions[index]);
+          }
+        }
+
+        this.searchCondition.params = this.searchConditions.toString();
+
+        api.hfEmpTaskQuery({
+          pageSize: this.noProcessPageData.pageSize,
+          pageNum: this.noProcessPageData.pageNum,
+          params: this.searchCondition,
+        }).then(data => {
+          if (data.code == 200) {
+            this.noProcessData = data.data.rows;
+            this.noProcessPageData.total = Number(data.data.total);
+          }
+
+          this.isLoading = false;
+
+          this.changeSortClass(storeOrder);
+        })
+      },
+      changeSortClass(storeOrder) {
+        this.noProcessColumns.forEach((e, idx) => {
+          let order = 'normal'
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'companyId' && storeOrder[index].indexOf('company_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'hfEmpAccount' && storeOrder[index].indexOf('hf_emp_account')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'idNum' && storeOrder[index].indexOf('id_num')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+              }
+            }
+          }
+          tableStyle.changeSortElementClass(0, idx, order)
+        });
+      },
+      beforeUpload(file) {
+        let loading = document.getElementById("loading");
+
+        loading.style.display = "inline-block";
+        this.uploadFileList.length = 0;
+        this.uploadData.file = file;
+        api.empPreInputUpload(this.uploadData).then(data => {
+          if (this.importResultData) {
+            this.importResultData.length = 0;
+          }
+          if (data.code == 200) {
+            this.uploadFileList.push({name: file.name, url: ''});
+            this.importResultData = data.data;
+//            this.isSubmit = false;
+          } else {
+            this.$Message.error(data.message);
+          }
+          loading.style.display = "none";
+        })
+        return false;
+      },
+      importClose() {
+        this.isUpload = false;
+//        this.isSubmit = false;
+      },
+      impTemplate() {
+        api.downloadEmpPreInputTemplate({});
       }
-    }
+
+      }
+
   }
 </script>

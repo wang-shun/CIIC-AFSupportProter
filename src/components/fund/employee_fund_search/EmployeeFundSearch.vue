@@ -70,6 +70,11 @@
                   <Input v-model="searchCondition.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="雇员基本公积金账号：" prop="hfEmpAccount">
+                  <Input v-model="searchCondition.hfEmpAccount" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -88,7 +93,7 @@
       </Col>
     </Row>
     <Table border class="mt20" :row-class-name="rowClassName" :columns="employeeFundColumns" :data="employeeFundData"></Table>
-   
+
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -98,7 +103,7 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-        
+
 <!-- :action="uploadAttr.actionUrl" -->
     <!-- 批量导入公积金账号 模态框 -->
     <Modal
@@ -158,13 +163,15 @@
   </div>
 </template>
 <script>
-import { mapState, mapGetters, mapActions } from "vuex";
+//import { mapState, mapGetters, mapActions } from "vuex";
+import ts from '../../../api/house_fund/table_style'
 import companyFundAccountSearchModal from "../common/CompanyFundAccountSearchModal.vue";
 import companyModal from "../../common_control/CompanyModal.vue";
-import EventTypes from "../../../store/event_types";
+//import EventTypes from "../../../store/event_types";
 import api from "../../../api/house_fund/employee_operator";
 import InputAccount from "../common/input_account";
 import InputCompany from "../common/input_company";
+import sessionData from '../../../api/session-data'
 
 export default {
   components: {
@@ -193,7 +200,8 @@ export default {
         leaderShipName: "",
         idNum: "",
         empStatus: "",
-        operationRemind: ""
+        operationRemind: "",
+        hfEmpAccount:""
       },
       upLoadData: {
         file: ""
@@ -212,6 +220,11 @@ export default {
         { value: 1, label: "中智大库" },
         { value: 2, label: "中智外包" },
         { value: 3, label: "独立户" }
+      ],
+      accountTypeColorList: [
+        { value: 1, className: "" },
+        { value: 2, className: "" },
+        { value: 3, className: "" },
       ],
       isShowCompanyFoundAccountList: false, //显示企业公积金账户列表
       isShowCompanyName: false, //显示公司名称
@@ -237,24 +250,50 @@ export default {
           align: "center",
           width: 120,
           render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: { type: "success", size: "small" },
-                  style: { margin: "0 auto" },
-                  on: {
-                    click: () => {
-                      this.showInfo(
-                        params.row.empArchiveId,
-                        params.row.companyId
-                      );
+
+            if(params.row.empArchiveId == null || params.row.empArchiveId=='' ){
+              return h("div", [
+                h(
+                  "Button",
+                  {
+                    props: { type: "success", size: "small" },
+                    style: { margin: "0 auto" },
+                    on: {
+                      click: () => {
+                        sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
+                        sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
+                        this.$router.push({
+                          name: "employeeFundBasicInfo",
+                          query: { companyId: params.row.companyId,employeeId:params.row.employeeId }
+                        });
+                      }
                     }
-                  }
-                },
-                "查看/修改"
-              )
-            ]);
+                  },
+                  "查看"
+                )
+              ]);
+            }else{
+              return h("div", [
+                h(
+                  "Button",
+                  {
+                    props: { type: "success", size: "small" },
+                    style: { margin: "0 auto" },
+                    on: {
+                      click: () => {
+                        this.showInfo(
+                          params.row.empArchiveId,
+                          params.row.companyId
+                        );
+                      }
+                    }
+                  },
+                  "查看/修改"
+                )
+              ]);
+            }
+
+
           }
         },
         {
@@ -379,11 +418,11 @@ export default {
             return h("div", { style: { textAlign: "left" } }, [
               h(
                 "span",
-                {
-                  style: {
-                    color: params.row.empStatus === "离职" ? "red" : "#495060"
-                  }
-                },
+//                {
+//                  style: {
+//                    color: params.row.empStatus === "3" ? "red" : "#495060"
+//                  }
+//                },
                 this.$decode.empStatus(params.row.empStatus)
               )
             ]);
@@ -530,7 +569,10 @@ export default {
     };
   },
   mounted() {
-    this.employeeQuery({});
+      sessionData.getJsonDataFromSession('empHFsearch.searchCondition', this.searchCondition);
+      sessionData.getJsonDataFromSession('empHFsearch.pageData', this.pageData);
+      let params = this.searchCondition;
+    this.employeeQuery(params);
     this.getCustomers();
   },
   computed: {
@@ -545,6 +587,8 @@ export default {
       this.searchCondition.serviceCenterValue='';
     },
     showInfo(empArchiveId, companyId) {
+       sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
+      sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
       this.$router.push({
         name: "employeeFundBasicInfo",
         query: { empArchiveId: empArchiveId, companyId: companyId }
@@ -555,19 +599,9 @@ export default {
       this.$router.push({ name: "employeeFundHistory" });
     },
     rowClassName(row, index) {
-      if (row.companyAccountType === "中智大库") {
-        return "dk_bg";
-      } else if (row.companyAccountType === "中智外包") {
-        return "wb_bg";
-      } else if (row.companyAccountType === "独立户") {
-        return "dl_bg";
-      } else {
-        return "";
-      }
+      return ts.empRowClassName(row, index)
     },
     employeeQuery(params) {
-      let self = this;
-
       let arrayServiceCenter=params.serviceCenterValue;
       if(arrayServiceCenter!=null){
           params=JSON.parse(JSON.stringify(params));
@@ -580,8 +614,8 @@ export default {
           params: params
         })
         .then(data => {
-          self.employeeFundData = data.data.rows;
-          self.pageData.total = Number(data.data.total);
+          this.employeeFundData = data.data.rows;
+          this.pageData.total = Number(data.data.total);
         });
     },
     getCustomers(){
@@ -617,7 +651,7 @@ export default {
         });
     },
     impTemplate() {
- 
+
       api.impTemplateFile({});
     },
     cancel() {},
@@ -640,20 +674,11 @@ export default {
           "文件 " + file.name + " 格式不正确，请上传 xls 或 xlsx 格式的文档。"
       });
     }
-  }
+  },
 };
 </script>
-<style>
-.tred {
-  color: red;
-}
-.ivu-table .dk_bg td {
-  background-color: #bdddfe;
-}
-.ivu-table .wb_bg td {
-  background-color: #fee6c3;
-}
-.ivu-table .dl_bg td {
-  background-color: #ffe2db;
-}
-</style>
+<!--<style>-->
+  <!--.tred {-->
+    <!--color: red;-->
+  <!--}-->
+<!--</style>-->

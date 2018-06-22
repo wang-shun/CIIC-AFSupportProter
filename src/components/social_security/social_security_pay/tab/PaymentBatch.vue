@@ -138,13 +138,6 @@
               <label>{{addPaymentData.paymentMonth}}</label>
             </Form-item>
           </Col>
-        </Row>
-        <Row class="mt20">
-          <Col :sm="{span: 12}">
-            <Form-item label="出账批号：" prop="paymentBatchNumOfAdd">
-              <input type="text" :maxlength="20" v-model="addPaymentData.paymentBatchNum" >
-            </Form-item>
-          </Col>
           <Col :sm="{span: 12}">
             <Form-item label="社保账户类型：" prop="accountTypeOfAdd">
               <Select v-model="addPaymentData.accountType" clearable style="width: 100%;" transfer>
@@ -153,6 +146,13 @@
               </Select>
             </Form-item>
           </Col>
+        </Row>
+        <Row class="mt20">
+          <!-- <Col :sm="{span: 12}">
+            <Form-item label="出账批号：" prop="paymentBatchNumOfAdd">
+              <input type="text" :maxlength="20" v-model="addPaymentData.paymentBatchNum" >
+            </Form-item>
+          </Col> -->
         </Row>
       </Form>
 
@@ -170,6 +170,8 @@
   import EventType from '../../../../store/event_types'
   import payBatchApi from '../../../../api/social_security/payment_batch'
   import dict from '../../../../api/dict_access/social_security_dict'
+  import sessionData from '../../../../api/session-data'
+
 
   export default {
     components: {customerModal},
@@ -209,7 +211,35 @@
         isShowProgress: false,
 
         payBatchColumns: [
-          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',
+          {title: '操作', key: 'operator', width: 170, align: 'center',fixed:'left',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {type: 'success', size: 'small'},
+                  style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+                      let paymentId = params.row.paymentId;
+                      let paymentState = params.row.paymentState;
+                      this.goApplyPay(paymentId,paymentState)
+                    }
+                  }
+                }, '申请支付'),
+                h('Button', {
+                  props: {type: 'error', size: 'small'},
+                  style: {margin: '0 auto 0 10px'},
+                  on: {
+                    click: () => {
+                      let paymentId = params.row.paymentId;
+                      let paymentState = params.row.paymentState;
+                      this.goDelPayment(paymentId,paymentState)
+                    }
+                  }
+                }, '删除')
+              ]);
+            }
+          },
+          {title: '出账批次号', key: 'paymentBatchNum', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.paymentBatchNum),
@@ -223,7 +253,7 @@
               ]);
             }
           },
-          {title: '总雇员数', key: 'totalEmpCount', width: 120, align: 'center',
+          {title: '总雇员数', key: 'totalEmpCount', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.totalEmpCount),
@@ -237,7 +267,7 @@
               ]);
             }
           },
-          {title: '账户/客户总数', key: 'paymentMonth', width: 120, align: 'center',
+          {title: '账户/客户总数', key: 'paymentMonth', width: 130, align: 'center',
             render: (h, params) => {
               let totalAccount = params.row.totalAccount;
               let totalCom = params.row.totalCom;
@@ -285,34 +315,7 @@
               ]);
             }
           },
-          {title: '操作', key: 'operator', width: 220, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      let paymentId = params.row.paymentId;
-                      let paymentState = params.row.paymentState;
-                      this.goApplyPay(paymentId,paymentState)
-                    }
-                  }
-                }, '申请支付'),
-                h('Button', {
-                  props: {type: 'error', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      let paymentId = params.row.paymentId;
-                      let paymentState = params.row.paymentState;
-                      this.goDelPayment(paymentId,paymentState)
-                    }
-                  }
-                }, '删除')
-              ]);
-            }
-          },
+          
         ],
         payBatchData: [],
         payBatchPageData: {
@@ -344,8 +347,10 @@
       }
     },
     mounted() {
-      //this[EventType.SOCIALSECURITYPAYTYPE]();
-      this.payBatchHandlePageNum(1);
+      sessionData.getJsonDataFromSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
+      sessionData.getJsonDataFromSession('paymentBatch.payBatchPageData', this.payBatchPageData);
+      this.paymentBatchQuery();
+      //this.payBatchHandlePageNum(1);
       this.loadDict();
     },
     computed: {
@@ -386,6 +391,9 @@
       },
       //查询页面数据
       paymentBatchQuery() {
+         sessionData.setJsonDataToSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
+         sessionData.setJsonDataToSession('paymentBatch.payBatchPageData', this.payBatchPageData);
+     
         if (this.payBatchSearchData.paymentMonthMin && this.payBatchSearchData.paymentMonthMin.length != 6) {
           this.payBatchSearchData.paymentMonthMin = this.$utils.formatDate(this.payBatchSearchData.paymentMonthMin, 'YYYYMM');
         }
@@ -519,10 +527,10 @@
           alert("支付年月不可为空");
           return;
         }
-        if(paymentBatchNum == null || paymentBatchNum == ""){
-          alert("出账批号不可为空");
-          return;
-        }
+        // if(paymentBatchNum == null || paymentBatchNum == ""){
+        //   alert("出账批号不可为空");
+        //   return;
+        // }
         if(accountType == null || accountType == ""){
           alert("账户类型不可为空");
           return;

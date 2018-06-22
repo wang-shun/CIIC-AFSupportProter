@@ -68,7 +68,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保序号：">
-                  <Input style="width: 200px" v-model="employeeAndCustomer.ssSerial" :disabled="!this.$route.query.empArchiveId"  placeholder=""></Input>
+                  <Input style="width: 200px" v-model="employeeAndCustomer.ssSerial" :disabled="this.$route.query.empArchiveId==null"  placeholder=""></Input>
                 </Form-item>
               </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -94,7 +94,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员属性：">
-                  <Select style="width: 200px"  v-model="employeeAndCustomer.empClassify"  :disabled="!this.$route.query.empArchiveId"  placeholder="" >
+                  <Select style="width: 200px"  v-model="employeeAndCustomer.empClassify"  :disabled="this.$route.query.empArchiveId==null"  placeholder="" >
                     <Option value="" > </Option>
                     <Option v-for="(value,key) in this.baseDic.ssEmpProperty" :value="key" :key="key">{{value}}</Option>
                   </Select>

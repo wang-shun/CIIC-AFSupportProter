@@ -4,8 +4,7 @@
       <Row type="flex" justify="start" >
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <Form-item label="预留档案类别：">
-          <Select transfer @on-change="changeTypeYuliu" v-model="handleInfo.yuliuDocType">
-            <Option value="" key="">空</Option>
+          <Select transfer @on-change="changeTypeYuliu" filterable v-model="handleInfo.yuliuDocType">
             <Option v-for="item in handleInfo.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
@@ -18,8 +17,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
         <Form-item label="档案类别：">
-          <Select transfer @on-change="changeTypeNumber" v-model="handleInfo.docType">
-            <Option value="" key="">空</Option>
+          <Select transfer @on-change="changeTypeNumber" filterable v-model="handleInfo.docType">
             <Option v-for="item in handleInfo.docSeqList2" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
@@ -177,7 +175,6 @@ import Vue from 'vue'
         ],
         fileNumberList: [],
         filePlaceList: [
-          {value:'空',label:'空'},
           {value:'外来从业人员',label:'外来从业人员'},
           {value:'居住证',label:'居住证'},
           {value:'属地管理',label:'属地管理'},
@@ -202,7 +199,8 @@ import Vue from 'vue'
           {value:'退工不调',label:'退工不调'},
           {value:'用工不调',label:'用工不调'},
           {value:'非全日制',label:'非全日制'},
-          {value:'翻牌转下一条任务单',label:'翻牌转下一条任务单'}
+          {value:'翻牌转下一条任务单',label:'翻牌转下一条任务单'},
+          {value:'退回寄出地',label:'退回寄出地'}
         ],
         filePlaceAddList: [],
         placeStateList: [
@@ -313,6 +311,8 @@ import Vue from 'vue'
       resetForm(form) {
         this.$refs[form].resetFields();
         this.handleInfo.luyongHandleEnd = '0';
+        this.handleInfo.yuliuDocType = '';
+        this.handleInfo.docType = '';
       },instance() {
         
         if(!this.handleInfo.employmentId)

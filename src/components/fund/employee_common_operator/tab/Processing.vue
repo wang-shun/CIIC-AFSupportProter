@@ -58,6 +58,7 @@
   import dict from '../../../../api/dict_access/house_fund_dict'
   import sessionData from '../../../../api/session-data'
   import searchEmployee from "./SearchEmployee.vue"
+  import tableStyle from '../../../../api/table_style'
 
   export default {
     components: {InputCompany,searchEmployee},
@@ -165,9 +166,9 @@
     created() {
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.processing.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.processing.processingPageData', this.processingPageData);
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
           this.processingColumns.filter((e) => {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-         var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
 
       if(storeOrder==null)
       {
@@ -215,6 +216,10 @@
       });
 
       this.hfEmpTaskQuery();
+
+      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
     },
@@ -316,15 +321,55 @@
         return cparams
       },
       excelExport() {
-        var cparams = {};
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = [];
+        this.searchConditions =[];
+
+        for(var i=0;i<conditions.length;i++)
         {
-          // 清除 '[全部]'
-          let params = this.$utils.clear(this.operatorSearchData);
-          // 清除空字符串
-          params = this.$utils.clear(params, '');
-          cparams = this.beforeSubmit(params);
+          if(conditions[i]==null||conditions[i]==undefined)
+          {
+            conditions.splice(i,1);
+          }
         }
-        api.hfEmpTaskExport({ params: cparams });
+
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+          for(var i=0;i<conditions.length;i++)
+            this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('fundDaily'+userInfo.userId);
+
+          if(temp==null){
+
+          }else{
+            var searchEmploiees = JSON.parse(temp);
+            if(searchEmploiees.length>0)
+            {
+              for(var index  in searchEmploiees)
+              {
+                this.searchConditions.push(searchEmploiees[index].exec);
+              }
+            }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(let index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
+          }
+        }
+        this.searchCondition.params = this.searchConditions.toString();
+        api.hfEmpTaskExport({ params: this.searchCondition });
       },
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
@@ -358,7 +403,7 @@
              var searchEmploiees = JSON.parse(temp);
              if(searchEmploiees.length>0)
              {
-                for(var index  in searchEmploiees)
+                for(let index  in searchEmploiees)
                 {
                     this.searchConditions.push(searchEmploiees[index].exec);
                 }
@@ -375,7 +420,7 @@
         }else{
           if(storeOrder.length>0)
           {
-            for(var index  in storeOrder)
+            for(let index  in storeOrder)
             {
               this.searchConditions.push(storeOrder[index]);
             }
@@ -412,13 +457,13 @@
         }
 
         var dx ='';
-        if(e.key == 'companyId'){
+        if(e.key === 'companyId'){
             dx = 'tmp.company_id';
-        }else if(e.key == 'employeeId'){
+        }else if(e.key === 'employeeId'){
             dx = 'tmp.employee_id';
-        }else if(e.key == 'hfEmpAccount'){
+        }else if(e.key === 'hfEmpAccount'){
             dx = 'tmp.hf_emp_account';
-        }else if(e.key == 'idNum'){
+        }else if(e.key === 'idNum'){
             dx = 'tmp.id_num';
         }
 
@@ -433,9 +478,9 @@
         var isE = false;
         if(this.orderConditions.length>0)
         {
-            for(var index in this.orderConditions)
+            for(let index in this.orderConditions)
             {
-               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order=='normal')
+               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order==='normal')
                {  //如果是取消，则删除条件
                   this.orderConditions.splice(index,1);
                    isE = true;
@@ -463,7 +508,7 @@
 
         if(this.orderConditions.length>0)
         {
-          for(var index  in this.orderConditions)
+          for(let index  in this.orderConditions)
           {
              this.searchConditions.push(this.orderConditions[index]);
           }
@@ -481,9 +526,48 @@
             this.processingPageData.total = Number(data.data.total);
           }
           this.isLoading = false;
+
+          this.changeSortClass(storeOrder);
         })
 
-      }
+      },
+      changeSortClass(storeOrder) {
+        this.processingColumns.forEach((e, idx) => {
+          let order = 'normal'
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'companyId' && storeOrder[index].indexOf('company_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'hfEmpAccount' && storeOrder[index].indexOf('hf_emp_account')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'idNum' && storeOrder[index].indexOf('id_num')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+              }
+            }
+          }
+          tableStyle.changeSortElementClass(1, idx, order)
+        });
+      },
     }
   }
 </script>

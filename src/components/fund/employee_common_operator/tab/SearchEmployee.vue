@@ -218,9 +218,6 @@
       },
       resetForm(form) {
         this.$refs[form].resetFields();
-        if (customizedForm) {
-          this.$refs[customizedForm].resetFields();
-        }
       },
       searchEmploiees() {
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));

@@ -4,7 +4,6 @@
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="add()">新增</Button>
-        <Button type="primary"  @click="instance()">提交</Button>
       </Col>
     </Row>
     <Modal
@@ -140,28 +139,24 @@
                fromData.remarkMan = this.userInfo.userName;
                fromData.empTaskId = this.$route.query.empTaskId;
              
-               fromData.employeeId = this.$route.query.employeeId;
-               
-               this.fileNotesView.push(fromData);
-            },
-            cancel () {
-               
-            },instance() {
-             if(this.fileNotesView.length==0){
-              this.$Message.success("没有提交的数据行，请新增");
-              return;
-            }
-            api.saveAmRemark(this.fileNotesView).then(data => {
-                   
-                   if (data.data.data.result == true) {
+               api.saveAmRemark(fromData).then(data => {
+                  if (data.data.result == true) {
                     this.$Message.success("保存成功");
-                    this.fileNotesViewData = data.data.data.data;
+                    this.fileNotesView.push(data.data.data);
                   } else {
                     this.$Message.error("保存失败！");
                   }
-            })
-          
-       },show (index) {
+
+                  this.handleInfo.remarkDatew = '';
+                  this.handleInfo.remarkManw = '';
+                  this.handleInfo.remarkContentw = '';
+                 
+                })
+
+            },
+            cancel () {
+               
+            },show (index) {
                 this.$Modal.info({
                     title: 'User Info',
                     content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`

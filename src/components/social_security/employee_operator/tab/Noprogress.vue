@@ -63,6 +63,8 @@
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
   import searchEmployee from "./SearchEmployee.vue"
+  import tableStyle from '../../../../api/table_style'
+
   export default {
     components: {InputAccount, InputCompany,InputCompanyName,searchEmployee},
     data() {
@@ -187,46 +189,48 @@
     computed: {
 
     },created() {
-      this.employeeResultColumns.filter((e) => {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
-
-      if(storeOrder==null)
-      {
-
-      }else{
-        if(storeOrder.length>0)
-        {
-          for(var index  in storeOrder)
-          {
-             var orders = storeOrder[index].split(' ');
-             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
-
-             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
-
-             if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
-             {
-                e.sortType = orders[1];
-             }
-
-             if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
-             {
-                e.sortType = orders[1];
-             }
-
-          }
-        }
-      }
-
-      })
+       this.loadSortType();
     },
     methods: {
+      loadSortType() {
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+
+        this.employeeResultColumns.filter((e) => {
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+                {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+                {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
+                {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
+                {
+                  e.sortType = orders[1];
+                }
+              }
+            }
+          }
+
+        })
+      },
       routerToCommcialOperator(name) {
         this.$router.push({
           name: 'employeeCommcialOperator',
@@ -271,21 +275,68 @@
         })
       },
       exprotExcel() {
-        var params = {};
+//        var params = {};
+//        {
+//          // 清除 '[全部]'
+//          params = this.$utils.clear(this.operatorSearchData);
+//          // 清除空字符串
+//          params = this.$utils.clear(params, '');
+//          // 处理 社保起缴月份
+//          if (params.startMonth) {
+//            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
+//          }
+//        }
+        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var conditions = [];
+        this.searchConditions =[];
+        for(var i=0;i<conditions.length;i++)
         {
-          // 清除 '[全部]'
-          params = this.$utils.clear(this.operatorSearchData);
-          // 清除空字符串
-          params = this.$utils.clear(params, '');
-          // 处理 社保起缴月份
-          if (params.startMonth) {
-            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
+          if(conditions[i]==null||conditions[i]==undefined)
+          {
+            conditions.splice(i,1);
           }
         }
+        if(conditions.length>0)
+        {//如果是点击查询事件，则取出去执行的值
+          for(var i=0;i<conditions.length;i++)
+            this.searchConditions.push(conditions[i].exec);
+        }else{
+          // 否则从session 里边去缓存的表单查询值
+          var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
+
+          if(temp==null){
+
+          }else{
+            var searchEmploiees = JSON.parse(temp);
+            if(searchEmploiees.length>0)
+            {
+              for(var index  in searchEmploiees)
+              {
+                this.searchConditions.push(searchEmploiees[index].exec);
+              }
+            }
+          }
+
+        }
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(var index  in storeOrder)
+            {
+              this.searchConditions.push(storeOrder[index]);
+            }
+          }
+        }
+
+        this.searchCondition.params = this.searchConditions.toString();
         api.employeeOperatorQueryExport({
           pageSize: 999999,
           pageNum: 0,
-          params: params,
+          params: this.searchCondition,
         });
       },
       handlePageNum(val) {
@@ -597,23 +648,23 @@
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
-        if(conditions!=null){
+        if(conditions!==null){
             for(var i=0;i<conditions.length;i++)
               this.searchConditions.push(conditions[i].exec);
         }
 
         var dx ='';
-        if(e.key == 'companyId'){
+        if(e.key === 'companyId'){
             dx = 'c.company_id';
-        }else if(e.key == 'employeeId'){
+        }else if(e.key === 'employeeId'){
             dx = 'e.employee_id';
-        }else if(e.key == 'ssAccount'){
+        }else if(e.key === 'ssAccount'){
             dx = 'ca.ss_account';
-        }else if(e.key == 'idNum'){
+        }else if(e.key === 'idNum'){
             dx = 'e.id_num';
         }
         const searchConditionExec = `${dx} ${e.order} `;
-        if(storeOrder==null){
+        if(storeOrder===null){
 
         }else{
           this.orderConditions = storeOrder;
@@ -621,13 +672,13 @@
         var isE = false;
         if(this.orderConditions.length>0)
         {
-            for(var index in this.orderConditions)
+            for(let index in this.orderConditions)
             {
-               if(this.orderConditions[index].indexOf(dx)!= -1 && e.order=='normal')
+               if(this.orderConditions[index].indexOf(dx)!== -1 && e.order==='normal')
                {  //如果是取消，则删除条件
                   this.orderConditions.splice(index,1);
                    isE = true;
-               }else if(this.orderConditions[index].indexOf(dx)!= -1 && this.orderConditions[index].indexOf(e.order)== -1 ) {
+               }else if(this.orderConditions[index].indexOf(dx)!== -1 && this.orderConditions[index].indexOf(e.order)=== -1 ) {
                  //如果是切换查询顺序
                   this.orderConditions.splice(index,1);
                   this.orderConditions.push(searchConditionExec);
@@ -651,7 +702,7 @@
 
         if(this.orderConditions.length>0)
         {
-          for(var index  in this.orderConditions)
+          for(let index  in this.orderConditions)
           {
              this.searchConditions.push(this.orderConditions[index]);
           }
@@ -672,9 +723,48 @@
             }
           }
           this.isLoading = false;
-        })
-      }
 
+          this.changeSortClass(storeOrder);
+        })
+      },
+
+      changeSortClass(storeOrder) {
+        this.employeeResultColumns.forEach((e, idx) => {
+          let order = 'normal'
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'companyId' && storeOrder[index].indexOf('company_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'ssAccount' && storeOrder[index].indexOf('ss_account')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'idNum' && storeOrder[index].indexOf('id_num')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+              }
+            }
+          }
+          tableStyle.changeSortElementClass(0, idx, order)
+        });
+      },
     }
   }
 </script>

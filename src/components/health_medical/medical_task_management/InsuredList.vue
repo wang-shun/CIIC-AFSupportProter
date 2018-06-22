@@ -216,7 +216,7 @@
             }
           },
           {
-            title: '保额',  sortable: true, key: 'keyValue', align: 'center', width: 150,
+            title: '标的',  sortable: true, key: 'keyValue', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', task.reverseAmount(params.row.keyType, params.row.keyValue));
             }

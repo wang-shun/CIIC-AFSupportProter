@@ -2,10 +2,10 @@
   <div class="layout" :class="{'layout-hide-text': spanLeft < 4}" style="height: 100%">
     <div class="layout-ceiling layoutMenuLeft">
       <Row type="flex" class="topFlex">
-        <Col :span="spanLeft" class="layout-menu-left">
+        <i-col :span="spanLeft" class="layout-menu-left">
           <div data-v-3413f463="" class="layout-menu-left ivu-col ivu-col-span-4"></div>
-        </Col>
-        <Col :span="spanRight">
+        </i-col>
+        <i-col :span="spanRight">
           <i-button type="text" @click="toggleClick">
             <Icon type="navicon" size="32"></Icon>
           </i-button>
@@ -80,11 +80,11 @@
               </li>
             </ul>
           </div>
-        </Col>
+        </i-col>
       </Row>
     </div>
     <Row style="height: 100%;">
-      <Col :span="spanLeft" class="layout-menu-left">
+      <i-col :span="spanLeft" class="layout-menu-left">
         <Menu theme="dark" width="auto" class="menuSet" :class="{'removeArror': spanLeft < 3}" accordion
               :open-names="openNames"
               @on-open-change="onOpenChange" @on-select="onSelect" :active-name="$route.meta.activeName">
@@ -110,8 +110,8 @@
                       </Menu-item>
                     </Submenu> -->
         </Menu>
-      </Col>
-      <Col :span="spanRight" style="height: 100%; overflow-y: scroll">
+      </i-col>
+      <i-col :span="spanRight" style="height: 100%; overflow-y: scroll">
         <div class="layout-content" >
           <div class="wrapper">
             <div class="layout-breadcrumb">
@@ -142,34 +142,38 @@
             <span>2017 &copy; 中智上海经济技术合作有限公司</span>
           </div>
         </div>
-      </Col>
+      </i-col>
     </Row>
+    <iframe id="crossFrame" class="crossFrame" src="#"></iframe>
   </div>
 </template>
 <script>
 import { CommonApi } from '../api/common_service'
+import dropMenuList from '../data/dropMenu'
+
+const COUNT_OUT = 10
+
 export default {
   data () {
     return {
-      items: [],
-      personOnline: true,
+      leftNavigates: [],
       spanLeft: 4,
       spanRight: 20,
-      size: 24, //icon的大小
-      layoutOut: true, //控制左側菜單的顯示隱藏,
+      size: 24,
+      layoutOut: true,
       breadCrumb1: "首页",
       breadCrumb2: "",
       breadCrumb3: "",
-      transfer: true,
       breadCrumbBoolean2: false,
       breadCrumbBoolean3: false,
+      ipPrefix: '',
       openNames: ["1"],
       activeName: '1-1',
-      userName: '',
-      ipPrefix: '',
+      userInfo: {},
       isActive: false,
-      leftNavigates: {},
-      userInfo: {}
+      platformIds: new Set(),
+      postMessageInterval: {},
+      postCount: 1
     }
   },
   created () {
@@ -182,37 +186,129 @@ export default {
   },
   mounted () {
     this.ipPrefix = process.env.LOCAL_URL
+    this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+    this.getPlatformAuth()
     this.getMenuAuth()
     this.getBreadCrumb()
   },
   computed: {
-    drops () {
-      const dropList = [
-        {label: '销售中心', url: `${this.ipPrefix}:8100/#/`},
-        {label: '客服中心', url: `${this.ipPrefix}:8103/#/`},
-        {label: '代理中心', url: `${this.ipPrefix}:8109/#/`},
-        {label: '雇员中心', url: `${this.ipPrefix}:8101/`},
-        {label: '服务外包业务中心', url: `${this.ipPrefix}:8104/#/`},
-        {label: '外企支持中心', url: `${this.ipPrefix}:8108/#/main/`},
-        {label: '财务咨询业务中心', url: `${this.ipPrefix}:8112/#/`},
-        {label: '账单中心', url: `${this.ipPrefix}:8110/#/`},
-        {label: '结算中心', url: `${this.ipPrefix}:8111/#/`},
-        {label: '财务咨询报表中心', url: `${this.ipPrefix}:8070/#/`},
-        {label: '产品中心', url: `${this.ipPrefix}:8106/#/`},
-        {label: '供应商管理中心', url: `${this.ipPrefix}:8105/#/`},
-        {label: '外企内控中心', url: `${this.ipPrefix}:8107/dic_list`},
-        {label: '财务咨询运营中心', url: `${this.ipPrefix}:8113/#/`}
-      ]
-      return dropList
-    },
     key () {
       return this.$route.path.replace(/\//g, '_')
     },
-    iconSize () {
-      return this.spanLeft === 4 ? 24 : 24
+    drops () {
+      let dropMenus = []
+      if (this.platformIds && [...this.platformIds].length > 0) {
+        const platformIds = [...this.platformIds]
+        for (let i = 0, len = platformIds.length; i < len; i++) {
+          if (dropMenuList[platformIds[i]] !== undefined) {
+            dropMenus.push(dropMenuList[platformIds[i]])
+          }
+        }
+      }
+      return dropMenus
     }
   },
   methods: {
+    getPlatformAuth () {
+      CommonApi.getPlatformAuth(this.userInfo.userId).then(res => {
+        if (res.data.code === 0) {
+          this.platformIds = new Set(res.data.data.replace(/\[|\]/g, '').replace(/ /g, '').split(','))
+        }
+      })
+    },
+    getMenuAuth () {
+      const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+      CommonApi.getMenuAuth(userInfo.userId).then(res => {
+        this.leftNavigates = this.creatMenu(res.data)
+      }, e => {
+        this.$Message.error('获取角色授权失败')
+      })
+    },
+    postRouteApply (url) {
+      const _self = this
+      window.sessionStorage.setItem('currentGoTo', url)
+      document.getElementById('crossFrame').src = url
+      this.postMessageInterval = setInterval(() => {
+        if (_self.postCount >= COUNT_OUT) {
+          clearInterval(_self.postMessageInterval)
+        }
+        window.frames[0].postMessage(JSON.stringify(_self.userInfo), url)
+        _self.postCount++
+      }, 1000)
+    },
+    creatMenu (allMenu) {
+      let menuTree = allMenu.filter(menu => {
+        return menu.menuLevel === 1
+      });
+      let tmpLevel2 = allMenu.filter(menu => {
+        return menu.menuLevel === 2
+      });
+      menuTree.forEach(level => {
+        level['children'] = []
+      });
+      for (let i = 0, level1Length = menuTree.length; i < level1Length; i++) {
+        menuTree[i]['id'] = i + 1
+        menuTree[i]['key'] = menuTree[i].menuName
+        menuTree[i]['icon'] = menuTree[i].imageUrl
+        for (let j = 0, level2Length = tmpLevel2.length; j < level2Length; j++) {
+          if (menuTree[i].menuCode === tmpLevel2[j].parentMenuCode) {
+            tmpLevel2[j]['cid'] = `${i + 1}-${j + 1}`
+            tmpLevel2[j]['ckey'] = tmpLevel2[j].menuName
+            tmpLevel2[j]['crouter'] = tmpLevel2[j].linkUrl
+            menuTree[i]['children'].push(tmpLevel2[j])
+          }
+        }
+      }
+      return menuTree
+    },
+    set (breadCrumb3) {
+      this.breadCrumbBoolean2 = true
+      this.breadCrumbBoolean3 = true
+    },
+    setIndex () {
+      this.breadCrumbBoolean2 = false
+      this.breadCrumbBoolean3 = false
+    },
+    getBreadCrumb () {
+      if (localStorage.getItem('level2') != "undefined" && localStorage.getItem('level3') != "undefined") {
+        this.breadCrumb2 = localStorage.getItem('level2')
+        if (!this.$local.edits) {
+          this.breadCrumb3 = localStorage.getItem('level3')
+        } else {
+          this.$local.edits = !this.$local.edits
+          this.breadCrumb3 = localStorage.getItem('level4')
+        }
+        this.breadCrumbBoolean2 = this.breadCrumbBoolean3 = true
+      }
+    },
+    routerToCenter (url) {
+      this.postRouteApply(url)
+    },
+    backToHome () {
+      window.location.href = process.env.TOKEN_URL
+    },
+    userCenterHandler (name) {
+      switch (name) {
+        case 'modifyPassword':
+          this.modifyPassword()
+          break
+        case 'logout':
+          this.logout()
+          break
+      }
+    },
+    modifyPassword() {
+      window.location.href = `${this.ipPrefix}:8070/#/changePassword`
+    },
+    logout() {
+      CommonApi.logout({token: this.userInfo.token}).then(res => {
+        if (res.data.code === 0) {
+          window.localStorage.clear()
+          window.sessionStorage.removeItem('userInfo')
+          window.location = process.env.LOGIN_URL
+        }
+      })
+    },
     toggleClick () {
       if (this.spanLeft === 4) {
         this.spanLeft = 1
@@ -224,6 +320,19 @@ export default {
         this.spanRight = 20
         this.size = 16
         this.layoutOut = false
+      }
+    },
+    onSelect (name) {
+    },
+    onOpenChange (name) {
+      this.openNames = name
+      if (this.size == 26) {
+        this.spanLeft = 4
+        this.spanRight = 20
+        this.size = 16
+        this.layoutOut = false
+      } else {
+        return false
       }
     },
     getMenu (obj) {
@@ -263,107 +372,6 @@ export default {
         }
       }
     },
-    onSelect (name) {
-    },
-    onOpenChange (name) {
-      this.openNames = name
-      if (this.size == 26) {
-        this.spanLeft = 4
-        this.spanRight = 20
-        this.size = 16
-        this.layoutOut = false
-      } else {
-        return false
-      }
-    },
-    set (breadCrumb3) {
-      this.breadCrumbBoolean2 = true
-      this.breadCrumbBoolean3 = true
-    },
-    setIndex () {
-      this.breadCrumbBoolean2 = false
-      this.breadCrumbBoolean3 = false
-    },
-    getBreadCrumb () {
-      if (localStorage.getItem('level2') != "undefined" && localStorage.getItem('level3') != "undefined") {
-        this.breadCrumb2 = localStorage.getItem('level2')
-        if (!this.$local.edits) {
-          this.breadCrumb3 = localStorage.getItem('level3')
-        } else {
-          this.$local.edits = !this.$local.edits
-          this.breadCrumb3 = localStorage.getItem('level4')
-        }
-        this.breadCrumbBoolean2 = this.breadCrumbBoolean3 = true
-      }
-    },
-    userCenterHandler (name) {
-      switch (name) {
-        case 'modifyPassword':
-          this.modifyPassword()
-          break
-        case 'logout':
-          this.logout()
-          break
-      }
-    },
-    openMessageBox () {
-      this.$Notice.open({
-        desc: '<div style="max-height: 100px; overflow-y: auto;"><h3>标题1</h3><p>我是标题1的内容</p><br/><h3>标题2</h3><p>我是标题2的内容</p><br/><h3>标题3</h3><p>我是标题3的内容</p></div>',
-        duration: 0
-      })
-    },
-    backToHome () {
-      window.location.href = `${this.ipPrefix}:8070/#/menu`
-    },
-    backToLogin () {
-      window.location.href = `${this.ipPrefix}:8070/#/`
-    },
-    routerToCenter: function (name) {
-      if (name === '0')
-        return
-      window.location.href = name
-    },
-    getMenuAuth () {
-      const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-      CommonApi.getMenuAuth(userInfo.userId).then(res => {
-        this.leftNavigates = this.creatMenu(res.data)
-      }, e => {
-        this.$Message.error('获取角色授权失败')
-      })
-    },
-    // 此处将结构组织成满足iviewMenu的结构
-    creatMenu(allMenu) {
-      let menuTree = allMenu.filter(menu => {
-        return menu.menuLevel === 1
-      });
-      let tmpLevel2 = allMenu.filter(menu => {
-        return menu.menuLevel === 2
-      });
-      menuTree.forEach(level => {
-        level['children'] = []
-      });
-      for (let i = 0, level1Length = menuTree.length; i < level1Length; i++) {
-        menuTree[i]['id'] = i + 1
-        menuTree[i]['key'] = menuTree[i].menuName
-        menuTree[i]['icon'] = menuTree[i].imageUrl
-        for (let j = 0, level2Length = tmpLevel2.length; j < level2Length; j++) {
-          if (menuTree[i].menuCode === tmpLevel2[j].parentMenuCode) {
-            tmpLevel2[j]['cid'] = `${i + 1}-${j + 1}`
-            tmpLevel2[j]['ckey'] = tmpLevel2[j].menuName
-            tmpLevel2[j]['crouter'] = tmpLevel2[j].linkUrl
-            menuTree[i]['children'].push(tmpLevel2[j])
-          }
-        }
-      }
-      return menuTree
-    },
-    logout() {
-      window.sessionStorage.removeItem('userInfo')
-      window.location.href = process.env.LOGIN_URL
-    },
-    modifyPassword() {
-      window.location.href = `${this.ipPrefix}:8070/#/changePassword`
-    }
   },
   directives: {
     menuInner: {

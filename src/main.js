@@ -27,20 +27,26 @@ Vue.use(VueAxios,Axios)
 Vue.use(Validator)
 Vue.use(Dic)
 
+const response = {
+  'code': 0,
+  'message': 'OK'
+}
 window.addEventListener('message', (event) => {
-  if ((event.source !== window.parent) || (event.data === '')) {
-    return
-  }
   const userInfo = window.sessionStorage.getItem('userInfo')
-  if ((userInfo === null) || (userInfo === '')) {
-    window.sessionStorage.setItem('userInfo', event.data)
+  const currentGoTo = window.sessionStorage.getItem('currentGoTo')
+  const message = !event.data ? {} : JSON.parse(event.data)
+  const isToken = message.token !== undefined
+  if (isToken && (currentGoTo === null || currentGoTo !== '')) {
+    if ((userInfo === null) || (userInfo === '')) {
+      window.sessionStorage.setItem('userInfo', event.data)
+    }
+    window.parent.postMessage(JSON.stringify(response), event.origin)
+  } else {
+    if ((currentGoTo !== null) && (currentGoTo !== '')) {
+      window.sessionStorage.removeItem('currentGoTo')
+      window.location.href = currentGoTo
+    }
   }
-  const response = {
-    'code': 0,
-    'data': '',
-    'message': 'OK'
-  }
-  window.parent.postMessage(JSON.stringify(response), event.origin)
 }, false)
 
 const app = new Vue({

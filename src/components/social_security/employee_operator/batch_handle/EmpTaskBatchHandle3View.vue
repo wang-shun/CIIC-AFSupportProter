@@ -229,15 +229,15 @@
               ]);
             }
           },
-          {
-            title: '调整截止月份', key: 'endMonth', align: 'center', width: 180, ellipsis: true,
-            render: (h, params) => {
-              return h('div', [
-                 h('span',  params.row.endMonth)
-                // h('DatePicker', {props: {value: params.row.changeEndMonth}})
-              ]);
-            }
-          },
+//          {
+//            title: '调整截止月份', key: 'endMonth', align: 'center', width: 180, ellipsis: true,
+//            render: (h, params) => {
+//              return h('div', [
+//                 h('span',  params.row.endMonth)
+//                // h('DatePicker', {props: {value: params.row.changeEndMonth}})
+//              ]);
+//            }
+//          },
           {
             title: '办理备注', key: 'handleRemark', align: 'center', width: 260, ellipsis: true,
             render: (h, params) => {

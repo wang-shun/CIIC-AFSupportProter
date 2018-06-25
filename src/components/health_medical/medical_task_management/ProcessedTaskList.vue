@@ -115,7 +115,7 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="getByPage(1)">查询</Button>
+                <Button type="primary" icon="ios-search" :loading="loading" @click="getByPage(1)">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('formItem')" class="ml10">重置</Button>
               </Col>
             </Row>
@@ -125,7 +125,7 @@
     </Collapse>
 
     <div class="tr m20">
-      <Button type="info" @click="exportData()" icon="ios-download-outline">导出数据
+      <Button type="info" @click="exportData()" :loading="loading" icon="ios-download-outline">导出数据
       </Button>
     </div>
     <Table border
@@ -157,6 +157,7 @@
         modal6: false,
         modal10: false,
         value1: '1',
+        loading: false,
         formItem: {
           total: 0,
           current: 1,
@@ -322,7 +323,9 @@
     },
     methods: {
       queryTaskPage() {
+        this.loading = true;
         apiAjax.queryAlreadyTaskPage(this.formItem).then(response => {
+          this.loading = false;
           this.taskData = response.data.object.records;
           this.taskData.forEach(item => {
             if (item.status === 6) {
@@ -353,15 +356,9 @@
         });
       },
       exportData() {
-        if (this.formItem.taskType === null || this.formItem.taskType === '') {
-          this.$Message.error("导出数据请先选择任务单类型");
-          return;
-        }
-        if (this.formItem.afProductId === null || this.formItem.afProductId === '') {
-          this.$Message.error("导出数据请先选择保险项目");
-          return;
-        }
-        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" + qs.stringify(this.formItem);
+        this.loading = true;
+        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportAlreadyTaskList?" + qs.stringify(this.formItem);
+        this.loading = false;
       },
       getByPage(val) {
         this.formItem.current = val;

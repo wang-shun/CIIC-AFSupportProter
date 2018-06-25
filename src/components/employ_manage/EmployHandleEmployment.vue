@@ -208,9 +208,8 @@
                    // 雇员名称和身份证
                   this.materialHandleInfo.employeeName = this.employeeInfo.employeeName;
                   this.materialHandleInfo.idNum = this.employeeInfo.IdNumber;
-                  this.materialHandleInfo.docFrom = this.data.data.amArchaiveBo.docFrom;
-                  this.materialHandleInfo.archivePlace = this.data.data.amArchaiveBo.archivePlace;
-                  console.info(this.materialHandleInfo);
+                  this.materialHandleInfo.docFrom = data.data.amArchaiveBo.docFrom;
+                  this.materialHandleInfo.archivePlace = data.data.amArchaiveBo.archivePlace;
                 }
               }
 

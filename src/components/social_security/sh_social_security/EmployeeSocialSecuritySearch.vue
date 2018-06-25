@@ -338,11 +338,11 @@
       }
     },
     mounted() {
-      sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
-      sessionData.getJsonDataFromSession('empSSsearch.pageData', this.pageData);
+
+      this.loadDict();
       let params = this.searchCondition;
       this.employeeQuery(params);
-      this.loadDict();
+    
       this.getCustomers();
     },
     computed: {
@@ -375,6 +375,8 @@
         dict.getDictData().then(data => {
           if (data.code == 200) {
             this.accountTypeList = data.data.SocialSecurityAccountType;
+            sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
+            sessionData.getJsonDataFromSession('empSSsearch.pageData', this.pageData);
           }
         });
       },

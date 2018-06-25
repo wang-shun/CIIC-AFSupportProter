@@ -112,8 +112,8 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="人员属性：">
                 <Select v-model="socialSecurityPayOperator.empClassify" style="width: 100%;"  transfer>
-                  <Option v-for="item in SocialSecurityEmployeeClassify" :value="item.value" :key="item.value"
-                          :label="item.label"></Option>
+                  <Option v-for="item in SocialSecurityEmployeeClassify" :value="item.key" :key="item.key"
+                          :label="item.value"></Option>
                 </Select>
               </Form-item>
               </Col>

@@ -535,9 +535,9 @@
       }
     },
     mounted() {
-       this.archiveQuery({})
-       this.employeeArchiveCollection({})
-       this.resignArchiveCollection({})
+      //  this.archiveQuery({})
+      //  this.employeeArchiveCollection({})
+      //  this.resignArchiveCollection({})
     },
     methods: {
       rowClassName (row, index) {
@@ -642,63 +642,48 @@
       },
       archiveQuery(params){
 
-        if(this.initSearch)
-        {
-            let self =this
-            api.queryAmArchive({
-              pageSize: this.pageData.pageSize,
-              pageNum: this.pageData.pageNum,
-              params: params,
-            }).then(data => {
-              self.recordComprehensiveHandlingData = data.data.rows;
-              self.pageData.total = Number(data.data.total);
-                self.isLoading = false;
-               self.searchCondition.taskStatus = '';
-               self.searchCondition.taskResignStatus = '';
-            })
-        }else{
-            this.initSearch = true;
-        }
+        let self =this
+        api.queryAmArchive({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params,
+        }).then(data => {
+          self.recordComprehensiveHandlingData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+            self.isLoading = false;
+            self.searchCondition.taskStatus = '';
+            self.searchCondition.taskResignStatus = '';
+        })
 
        
       },
       employeeArchiveCollection(params){
-        if(this.initSearchC)
-        {
-            this.isLoading = true;
-            let self =this
-            api.employeeArchiveCollection({
-              pageSize: this.pageData.pageSize,
-              pageNum: this.pageData.pageNum,
-              params: params,
-            }).then(data => {
-            
-              self.searchResultData1 = data.data.row;
-            
-              
-            
-            })
-        }else{
-            this.initSearchC = true;
-        }
+        this.isLoading = true;
+        let self =this
+        api.employeeArchiveCollection({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params,
+        }).then(data => {
+        
+          self.searchResultData1 = data.data.row;
+        
+          
+        
+        })
    
       },
       resignArchiveCollection(params){
-        if(this.initSearchR)
-        {
-            let self =this
-            api.resignArchiveCollection({
-              pageSize: this.pageData.pageSize,
-              pageNum: this.pageData.pageNum,
-              params: params,
-            }).then(data => {
-            
-              self.searchResultData2 = data.data.row;
-            
-            })
-        }else{
-            this.initSearchR = true;
-        }
+          let self =this
+          api.resignArchiveCollection({
+            pageSize: this.pageData.pageSize,
+            pageNum: this.pageData.pageNum,
+            params: params,
+          }).then(data => {
+          
+            self.searchResultData2 = data.data.row;
+          
+          })
         
       },
       showInfoTw (ind,category) { 

@@ -129,7 +129,7 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'companyId', align: 'center', width: 150,sortable: true,
+          {title: '公司编号', key: 'companyId', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.companyId),
@@ -193,13 +193,6 @@
               ]);
             }
           },
-          {title: '出库日期', key: 'storageOutDate', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.storageOutDate),
-              ]);
-            }
-          },
           {title: '退工反馈', key: 'resignFeedback1', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -207,10 +200,10 @@
               ]);
             }
           },
-          {title: '录用处理结束', key: 'luyongHandleEndStr', align: 'center', width: 150,
+          {title: '用工反馈', key: 'employFeedback', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.luyongHandleEndStr),
+                h('span', params.row.employFeedback),
               ]);
             }
           },
@@ -378,8 +371,8 @@
       }
     },
     mounted() {
-      this.queryAmResign({}),
-      this.queryResignTaskCount({})
+      // this.queryAmResign({}),
+      // this.queryResignTaskCount({})
     },
     methods: {
       searchEmploiees(conditions,searchForm) {
@@ -411,9 +404,7 @@
         api.resignSearchExportOpt(params);
 
       },queryAmResign(params){
-        if(this.initSearch)
-        {
-           this.isLoading = true;
+            this.isLoading = true;
             let self =this
             api.queryAmResign({
               pageSize: this.pageData.pageSize,
@@ -425,14 +416,9 @@
               self.isLoading = false;
                this.searchCondition.taskStatus =0;
             })
-        }else{
-           this.initSearch = true;
-        }
        
       },
       queryResignTaskCount(params){
-        if(this.initSearchC)
-        {
             let self =this
             api.queryResignTaskCount({
               pageSize: this.pageData.pageSize,
@@ -443,9 +429,6 @@
               self.searchResultData = data.data.row;
             
             })
-        }else{
-          this.initSearchC = true;
-        }
        
       },
       showInfoT (idNum,idCardType,empTaskId,employeeId,companyId,employmentId) {

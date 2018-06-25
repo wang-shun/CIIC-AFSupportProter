@@ -125,6 +125,11 @@
                   <label>{{employeeAndCustomer.endMonth}}</label>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="社保状态：">
+                <label>{{this.$decode.ssArchiveTaskStatus(employeeAndCustomer.archiveTaskStatus)}}</label>
+              </Form-item>
+              </Col>
             </Row>
           </Form>
         </div>

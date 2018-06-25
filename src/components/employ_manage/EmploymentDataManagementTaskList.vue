@@ -1,3 +1,29 @@
+<style>
+    .ivu-table .demo-table-info-row td{
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-error-row td{
+        background-color: #ff6600;
+        color: #fff;
+    }
+    .ivu-table td.demo-table-info-column{
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-cell-name {
+        background-color: #2db7f5;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-cell-age {
+        background-color: #ff6600;
+        color: #fff;
+    }
+    .ivu-table .demo-table-info-cell-address {
+        background-color: #187;
+        color: #fff;
+    }
+</style>
 <template>
   <div>
     <div class="smList">
@@ -21,7 +47,7 @@
         <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
-    <Table border height="300" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData" class="mt20"></Table>
+    <Table border height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData" class="mt20"></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -335,10 +361,17 @@ import {mapState, mapGetters, mapActions} from 'vuex'
       }
     },
     mounted() {
-      this.employeeQuery({}),
-      this.employeeCollectionQuery({})
+      // this.employeeQuery({}),
+      // this.employeeCollectionQuery({})
     },
     methods: {
+         rowClassName (row, index) {
+              
+                if (row.outReason!=undefined&&row.outReason!='') {
+                    return 'demo-table-error-row';
+                } 
+                return '';
+            },
      batchManagement(){
         let selection = this.$refs.employmentData.getSelection();
         if(selection.length == 0){
@@ -353,7 +386,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         this.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
      },
      searchEmploiees(conditions,searchForm) {
-
+             
             this.pageData.pageNum =1;
             this.searchConditions =[];
             if(searchForm.isFinish!=2)
@@ -363,8 +396,10 @@ import {mapState, mapGetters, mapActions} from 'vuex'
             }
             for(var i=0;i<conditions.length;i++)
                   this.searchConditions.push(conditions[i].exec);
-        
+
+
            this.searchCondition.params = this.searchConditions.toString();
+           
            this.employeeQuery(this.searchCondition);
            this.employeeCollectionQuery(this.searchCondition);
            
@@ -451,9 +486,9 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 
       },
       employeeQuery(params){
-        if(this.initSearch){
-          this.isLoading = true;
-            let self =this
+       
+            this.isLoading = true;
+            let self =this;
             api.employeeQuery({
               pageSize: this.pageData.pageSize,
               pageNum: this.pageData.pageNum,
@@ -464,30 +499,20 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               self.isLoading = false;
               this.searchCondition.taskStatus =0;
             })
-        }else{
-          this.initSearch = true;
-        }
-      
        
       },
        employeeCollectionQuery(params){
-          if(this.initSearchC)
-          {
-              let self =this
-              api.employeeCollectionQuery({
-                pageSize: this.pageData.pageSize,
-                pageNum: this.pageData.pageNum,
-                params: params,
-              }).then(data => {
-              
-                self.searchResultData = data.data.row;
-              
-              })
-          }else{
-            this.initSearchC = true;
-          }
+          let self =this
+          api.employeeCollectionQuery({
+            pageSize: this.pageData.pageSize,
+            pageNum: this.pageData.pageNum,
+            params: params,
+          }).then(data => {
+          
+            self.searchResultData = data.data.row;
+          
+          })
          
-        
       },
       handlePageNum(val) {
         this.pageData.pageNum = val;

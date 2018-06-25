@@ -393,6 +393,7 @@ export default {
 }
 </script>
 <style scoped>
+.crossFrame {display: none; position: absolute; z-index: 999; top: -999px; left: -999px;}
 .layout {
   background: #f5f7f9;
   position: relative;

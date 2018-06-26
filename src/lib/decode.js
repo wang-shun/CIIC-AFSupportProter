@@ -448,6 +448,10 @@ export default {
       if (taskCategory && type) {
         if (parseInt(taskCategory) === 1) {
           switch (parseInt(type)) {
+            case 1:
+              return '用工材料未签收'
+            case 2:
+              return '用工材料已签收'
             case 3:
               return '用工成功'
             case 4:

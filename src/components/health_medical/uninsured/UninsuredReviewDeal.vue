@@ -115,7 +115,7 @@
     },
     created() {
       this.formItem.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
-      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.formItem.auditor = this.userInfo.displayName;
     },
     methods: {

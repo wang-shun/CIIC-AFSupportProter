@@ -63,7 +63,7 @@
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="doSave">保存</Button>
+        <Button type="primary" @click="doSave" :disabled="this.isDisable">保存</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -88,6 +88,7 @@ import Vue from 'vue'
         isOne: true,
         oldType: '',
         oldNumber: '',
+        isDisable: false,
         advanceFile: {
           archiveAdvanceId: '',
           reservedArchiveType: '',
@@ -177,7 +178,7 @@ import Vue from 'vue'
         })
       },
       doSave(){
-
+        this.isDisable = true;
         var patrn = /^[0-9]*$/;
         if (!patrn.test(this.advanceFile.reservedArchiveNo) && this.advanceFile.reservedArchiveNo != undefined) {
           this.$Message.error("预留档案编号必须是数字！");
@@ -213,7 +214,6 @@ import Vue from 'vue'
             return;
           }
         }
-
           if(this.oldName == this.advanceFile.employeeName && this.oldId == this.advanceFile.employeeIdcardNo){
             this.advanceFile.exist = false;
           }
@@ -225,6 +225,7 @@ import Vue from 'vue'
           if (data.code == 200) {
             if(data.data == false){
               this.$Message.error("雇员姓名和身份证号码同时存在，已有这个雇员！");
+              this.isDisable = false;
               return
             }else if(data.data == true){
               this.$Message.success("保存成功");
@@ -233,10 +234,12 @@ import Vue from 'vue'
               if(confirm("该雇员已有档案，是否直接跳转到档案办理？")){
                 this.$router.push({name:'recordComprehensive', query: {idNum:data.data.idNum,idCardType:data.data.idCardType,empTaskId:data.data.empTaskId,
                 employmentId:data.data.employmentId,employeeId:data.data.employeeId,companyId:data.data.companyId,empTaskResignId:data.data.empTaskResignId}});
+                this.isDisable = false;
               }
             }
           } else {
             this.$Message.error("保存失败！" + data.message);
+            this.isDisable = false;
           }
         })
       },

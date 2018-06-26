@@ -271,7 +271,7 @@
       }
     },
     created() {
-      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.dealMeg.handler = this.userInfo.displayName;
       this.getByPage(1);
     },

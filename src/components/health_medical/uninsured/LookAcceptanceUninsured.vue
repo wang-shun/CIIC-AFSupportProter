@@ -174,7 +174,7 @@
     created() {
       this.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
       this.queryAcceptanceUninsured();
-      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
     },
     methods: {
       queryAcceptanceUninsured() {

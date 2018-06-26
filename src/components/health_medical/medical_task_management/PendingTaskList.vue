@@ -378,7 +378,7 @@
     created() {
       this.getByPage(1);
       this.queryInsuranceCompanyInfo();
-      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
     },
     methods: {
       queryTaskPage() {

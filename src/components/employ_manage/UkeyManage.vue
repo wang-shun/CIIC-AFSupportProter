@@ -28,7 +28,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="组织机构代码：">
-        <Input  placeholder="请输入..." v-model="uekyFile.organizationCode" :maxlength="9" ></Input>
+        <Input  placeholder="请输入..." v-model="uekyFile.organizationCode" :maxlength="30" ></Input>
       </Form-item>
       </Col>
       <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -265,14 +265,19 @@ import Vue from 'vue'
           }
         })
       },
-      cancel(){
+      cancel(){ 
       },
       doSave(){
 
-        // if(this.uekyFile.employeeIdcardNo == '' || this.uekyFile.employeeIdcardNo == undefined){
-        //   this.$Message.error("身份证必须填写！");
-        //   return;
-        // }
+        if(this.uekyFile.companyName == '' || this.uekyFile.companyName == undefined){
+          this.$Message.error("公司名称必须填写！");
+          return;
+        }
+        if(this.uekyFile.organizationCode == '' || this.uekyFile.organizationCode == undefined){
+          this.$Message.error("组织机构代码必须填写！");
+          return;
+        }
+        this.uekyFile.organizationCode = String.trim(this.uekyFile.organizationCode);
         this.uekyFile.createdTime='';
         this.uekyFile.modifiedTime='';
         var fromData = this.$utils.clear(this.uekyFile,'');
@@ -295,14 +300,15 @@ import Vue from 'vue'
           if (data.code == 200) {
             if(data.data == 1){
               this.$Message.success("保存成功");
+              this.$router.go(-1);
             }else if(data.data == 0){
               this.$Message.error("组织机构代码已存在！");
+              return;
             }
           } else {
             this.$Message.error("保存失败！" + data.message);
           }
         })
-        this.$router.go(-1);
       },
       goBack () {
         this.$router.go(-1);

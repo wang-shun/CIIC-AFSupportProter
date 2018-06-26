@@ -246,7 +246,13 @@
             align: "center"
           },
           {
-            title: "投保类型", sortable: true, key: "productName", align: "center", width: 150
+            title: "投保类型", sortable: true, key: "taskType", align: "center", width: 120,
+            render: (h, params) => {
+              return h('div', task.taskTypeToChinese(params.row.taskType));
+            }
+          },
+          {
+            title: "产品名称", sortable: true, key: "productName", align: "center", width: 150
           },
           {
             title: "雇员编号", sortable: true, key: "employeeId", align: "center", width: 150

@@ -119,7 +119,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey编号：">
-            {{employee.keyType+employee.keyCode}}
+            {{employee.keyType}}{{employee.keyCode}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

@@ -72,7 +72,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" v-if="$route.query.id!=0" @click="add">续签</Button>
-        <Button type="primary" @click="doSave">保存</Button>
+        <Button type="primary" @click="doSave" :disabled="this.isDisable">保存</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -135,6 +135,7 @@ import Vue from 'vue'
         modal1: false,
         collapseInfo: [1,2], //展开栏
         notesData: [],
+        isDisable: false,
         uekyFile: {
           renewDueDate: '',
           renewDate: '',
@@ -142,6 +143,8 @@ import Vue from 'vue'
           materialDeliveryDate: '',
           materialFeedbackDate: '',
           organizationCode: '',
+          oldOrganizationCode: '',
+          flag: true,
           dueDate: '',
           logoutDate: '',
           id: '',
@@ -216,6 +219,7 @@ import Vue from 'vue'
       if(id != 0){
         api.queryAmArchiveUkey({id: id}).then(data => {
             this.uekyFile = data.data;
+            this.uekyFile.oldOrganizationCode = data.data.organizationCode;
         })
 
       this.queryRenew(this.$route.query.id);
@@ -268,7 +272,7 @@ import Vue from 'vue'
       cancel(){ 
       },
       doSave(){
-
+        this.isDisable = true;
         if(this.uekyFile.companyName == '' || this.uekyFile.companyName == undefined){
           this.$Message.error("公司名称必须填写！");
           return;
@@ -276,6 +280,10 @@ import Vue from 'vue'
         if(this.uekyFile.organizationCode == '' || this.uekyFile.organizationCode == undefined){
           this.$Message.error("组织机构代码必须填写！");
           return;
+        }
+        this.uekyFile.flag = true;
+        if(this.uekyFile.oldOrganizationCode == this.uekyFile.organizationCode){
+          this.uekyFile.flag = false;
         }
         this.uekyFile.organizationCode = String.trim(this.uekyFile.organizationCode);
         this.uekyFile.createdTime='';
@@ -303,10 +311,12 @@ import Vue from 'vue'
               this.$router.go(-1);
             }else if(data.data == 0){
               this.$Message.error("组织机构代码已存在！");
+              this.isDisable = false;
               return;
             }
           } else {
             this.$Message.error("保存失败！" + data.message);
+            this.isDisable = false;
           }
         })
       },

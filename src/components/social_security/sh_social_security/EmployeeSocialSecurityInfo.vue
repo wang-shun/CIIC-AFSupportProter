@@ -155,7 +155,7 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工日期：">
+              <Form-item label="用工成功日期：">
                 <label>{{reworkInfo.employFeedbackOptDate}}</label>
               </Form-item>
               </Col>
@@ -332,6 +332,10 @@
           this.socialSecurityInfoListData=data.data.empBasePeriod
           this.changeListData = data.data.ssEmpTasks
           this.reworkInfo = data.data.amEmpTask
+          if (!this.reworkInfo.taskStatus || (
+            this.reworkInfo.taskStatus !== '3' && this.reworkInfo.taskStatus !== '10' && this.reworkInfo.taskStatus !== '12' && this.reworkInfo.taskStatus !== '13')) {
+              this.reworkInfo.employFeedbackOptDate = '';
+          }
       })
     },
     computed: {

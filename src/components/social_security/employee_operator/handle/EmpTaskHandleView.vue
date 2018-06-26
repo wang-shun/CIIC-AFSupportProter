@@ -575,6 +575,11 @@
             this.reworkInfo = data.data.amEmpTaskDTO
             this.reworkInfo.salary = data.data.salary
 
+            if (!this.reworkInfo.taskStatus || (
+              this.reworkInfo.taskStatus !== 3 && this.reworkInfo.taskStatus !== 10 && this.reworkInfo.taskStatus !== 12 && this.reworkInfo.taskStatus !== 13)) {
+                this.reworkInfo.employFeedbackOptDate = '';
+            }
+
             if (this.socialSecurityPayOperator.taskStatus == 4) {
               this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
             } else {

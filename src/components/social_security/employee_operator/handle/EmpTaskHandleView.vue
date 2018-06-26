@@ -576,7 +576,7 @@
             this.reworkInfo.salary = data.data.salary
 
             if (!this.reworkInfo.taskStatus || (
-              this.reworkInfo.taskStatus !== 3 && this.reworkInfo.taskStatus !== 10 && this.reworkInfo.taskStatus !== 12 && this.reworkInfo.taskStatus !== 13)) {
+              this.reworkInfo.taskStatus !== '3' && this.reworkInfo.taskStatus !== '10' && this.reworkInfo.taskStatus !== '12' && this.reworkInfo.taskStatus !== '13')) {
                 this.reworkInfo.employFeedbackOptDate = '';
             }
 

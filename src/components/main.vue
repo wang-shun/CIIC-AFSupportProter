@@ -186,7 +186,7 @@ export default {
   },
   mounted () {
     this.ipPrefix = process.env.LOCAL_URL
-    this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+    this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
     this.getPlatformAuth()
     this.getMenuAuth()
     this.getBreadCrumb()
@@ -217,7 +217,7 @@ export default {
       })
     },
     getMenuAuth () {
-      const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+      const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
       CommonApi.getMenuAuth(userInfo.userId).then(res => {
         this.leftNavigates = this.creatMenu(res.data)
       }, e => {
@@ -226,7 +226,7 @@ export default {
     },
     postRouteApply (url) {
       const _self = this
-      window.sessionStorage.setItem('currentGoTo', url)
+      window.localStorage.setItem('currentGoTo', url)
       document.getElementById('crossFrame').src = url
       this.postMessageInterval = setInterval(() => {
         if (_self.postCount >= COUNT_OUT) {
@@ -304,7 +304,7 @@ export default {
       CommonApi.logout({token: this.userInfo.token}).then(res => {
         if (res.data.code === 0) {
           window.localStorage.clear()
-          window.sessionStorage.removeItem('userInfo')
+          window.localStorage.removeItem('userInfo')
           window.location = process.env.LOGIN_URL
         }
       })
@@ -393,6 +393,7 @@ export default {
 }
 </script>
 <style scoped>
+.crossFrame {display: none; position: absolute; z-index: 999; top: -999px; left: -999px;}
 .layout {
   background: #f5f7f9;
   position: relative;

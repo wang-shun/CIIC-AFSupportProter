@@ -1014,7 +1014,7 @@ let router = new Router({
 import { CommonApi } from '../api/common_service'
 
 router.beforeEach((to, from, next) => {
-  const userInfo = window.sessionStorage.getItem('userInfo')
+  const userInfo = window.localStorage.getItem('userInfo')
   if ((userInfo !== null) && (userInfo !== '')) {
     let param = new URLSearchParams()
     param.append('token', JSON.parse(userInfo).token)
@@ -1039,7 +1039,7 @@ const SET_DOCUMENT_INFO = (to) => {
 }
 
 const BACK_TO_LOGIN = () => {
-  window.sessionStorage.removeItem('userInfo')
+  window.localStorage.removeItem('userInfo')
   window.location = process.env.LOGIN_URL
 }
 

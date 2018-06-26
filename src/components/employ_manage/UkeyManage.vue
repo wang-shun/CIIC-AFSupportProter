@@ -28,7 +28,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
       <Form-item label="组织机构代码：">
-        <Input  placeholder="请输入..." v-model="uekyFile.organizationCode" :maxlength="9" ></Input>
+        <Input  placeholder="请输入..." v-model="uekyFile.organizationCode" :maxlength="30" ></Input>
       </Form-item>
       </Col>
       <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -277,6 +277,7 @@ import Vue from 'vue'
           this.$Message.error("组织机构代码必须填写！");
           return;
         }
+        this.uekyFile.organizationCode = String.trim(this.uekyFile.organizationCode);
         this.uekyFile.createdTime='';
         this.uekyFile.modifiedTime='';
         var fromData = this.$utils.clear(this.uekyFile,'');

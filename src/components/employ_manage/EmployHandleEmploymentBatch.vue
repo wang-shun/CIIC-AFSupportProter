@@ -4,35 +4,33 @@
       <Panel name="1">
         用工办理
         <div slot="content">
-          <Form :label-width="150">
+          <Form :label-width="100">
             <Row type="flex" justify="start">
               
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="材料签收日期：">
                   <DatePicker v-model="employmentInfo.receiveDate" type="date" placeholder="" transfer></DatePicker>
                 </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="实际录用日期：">
                   <DatePicker v-model="employmentInfo.employDate" type="date" placeholder="" transfer></DatePicker>
                 </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="开F单日期：">
                   <DatePicker v-model="employmentInfo.openAfDate" type="date"  placeholder="" transfer></DatePicker>
                 </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="用工形式：">
                   <Select v-model="employmentInfo.employStyle" transfer>
                     <Option v-for="item in employmentFormList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
               </Col>
+             
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
                 <Form-item label="办理类型：">
                   <Select v-model="employmentInfo.handleType"  transfer>
                     <Option v-for="item in handleTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -40,7 +38,7 @@
                 </Form-item>
               </Col>
               
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="用工属性：">
                   <Select v-model="employmentInfo.employProperty" transfer>
                     <Option v-for="item in employmentPropertyList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -54,9 +52,7 @@
                   </Select>
                 </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                
-              </Col>
+             
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                  <Form-item label="用工备注：" >
                   <Input placeholder="请输入" :maxlength="50" v-model="employmentInfo.remarkContent"/>
@@ -65,7 +61,7 @@
              
             </Row>
           <Row type="flex" justify="start">
-            <Col :sm="{span: 16}" class="tr">
+            <Col :sm="{span: 24}" class="tr">
               <!-- <Button type="warning" @click="defaultVaule()">默认</Button> -->
               <Button type="primary"  :loading="isLoadingC"   @click="instanceEmployment()"  >保存</Button>
             </Col>
@@ -76,9 +72,9 @@
       <Panel name="2">
         用工材料办理
         <div slot="content">
-          <Form :model="materialHandleInfo" ref="materialHandleInfo" :label-width="150">
+          <Form :model="materialHandleInfo" ref="materialHandleInfo" :label-width="100">
             <Row type="flex" justify="start">
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="预留档案类别：">
                 <Select transfer @on-change="changeTypeYuliu" v-model="materialHandleInfo.yuliuDocType">
                   <Option value="" key="">空</Option>
@@ -88,12 +84,12 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="预留档案编号：" prop="yuliuDocNum">
                 <Input placeholder="请输入" :maxlength="9" v-model="materialHandleInfo.yuliuDocNum"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案类别：">
                 <Select transfer @on-change="changeTypeNumber" v-model="materialHandleInfo.docType">
                   <Option value="" key="">空</Option>
@@ -103,47 +99,45 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案编号：" prop="docNum" transfer>
                 <Input placeholder="请输入" :maxlength="9" v-model="materialHandleInfo.docNum"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+             
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
               <Form-item label="存档地：" >
                 <Select v-model="materialHandleInfo.archivePlace" transfer>
                   <Option v-for="item in filePlaceList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item> 
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
               <Form-item label="存档地补充：" >
                 <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.archivePlaceAdditional"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="存档卡状态：" >
                 <Select v-model="materialHandleInfo.archiveCardState" transfer>
                   <Option v-for="item in placeStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案号：" prop="docCode">
                 <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.docCode"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案来源：" prop="docFrom">
                 <Select  v-model="materialHandleInfo.docFrom" transfer>
                   <Option v-for="item in fileOriginList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工反馈：" prop="employFeedback">
                 <Select  @on-change="changeType" transfer v-model="materialHandleInfo.employFeedback">
                   <Option v-for="item in employFeedbackList" :value="item.value" :key="item.value">{{item.label}}
@@ -151,14 +145,12 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
                 <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate"></DatePicker>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span:6}">
               <Form-item label="调档反馈：" prop="diaodangFeedback">
                 <Select transfer v-model="materialHandleInfo.diaodangFeedback">
                   <Option v-for="item in transferFeedbackList" :value="item.value" :key="item.value">{{item.label}}
@@ -166,40 +158,37 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="调档反馈操作日期：" prop="diaodangFeedbackOptDate">
                 <DatePicker type="date" transfer v-model="materialHandleInfo.diaodangFeedbackOptDate"></DatePicker>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="UKey外借日期：" prop="ukeyBorrowDate">
                 <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyBorrowDate"></DatePicker>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
                 <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate"></DatePicker>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="户口号：" prop="hukouCode">
                 <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.hukouCode"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工档案缴费至：" prop="employDocPaymentTo">
                 <DatePicker type="date" transfer v-model="materialHandleInfo.employDocPaymentTo"></DatePicker>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="入库日期：" prop="storageDate">
                 <DatePicker type="date"  transfer v-model="materialHandleInfo.storageDate"></DatePicker>
               </Form-item>
               </Col>
-             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              </Col>
+            
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="" prop="luyongHandleEnd">
                 <Checkbox v-model="materialHandleInfo.luyongHandleEnd">录用处理结束</Checkbox>
@@ -207,7 +196,7 @@
               </Col>
             </Row>
             <Row type="flex" justify="start">
-              <Col :sm="{span: 16}" class="tr">
+              <Col :sm="{span: 24}" class="tr">
               <Button type="warning" @click="resetForm('materialHandleInfo')">重置</Button>
               <Button type="primary"  :loading="isLoading"  @click="instance()" :disabled="materialHandleInfo.end" >批理办理</Button>
               </Col>

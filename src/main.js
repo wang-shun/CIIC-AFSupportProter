@@ -37,9 +37,7 @@ window.addEventListener('message', (event) => {
   const message = !event.data ? {} : JSON.parse(event.data)
   const isToken = message.token !== undefined
   if (isToken && (currentGoTo === null || currentGoTo !== '')) {
-    if ((userInfo === null) || (userInfo === '')) {
-      window.localStorage.setItem('userInfo', event.data)
-    }
+    window.localStorage.setItem('userInfo', event.data)
     window.parent.postMessage(JSON.stringify(response), event.origin)
   } else {
     if ((currentGoTo !== null) && (currentGoTo !== '')) {

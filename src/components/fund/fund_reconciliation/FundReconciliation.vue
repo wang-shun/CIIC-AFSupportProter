@@ -16,6 +16,11 @@
                   <InputAccount v-model="operatorSearchData.hfComAccount"></InputAccount>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号：" prop="companyId">
+                  <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -191,7 +196,8 @@
         },
         operatorSearchData: {
           hfMonth: '',
-          hfComAccount: ''
+          hfComAccount: '',
+          companyId:''
         },
         isShowReconciliation: false, // 查看详情
         isShowCreateReconciliation:false, // 新建对账

@@ -357,7 +357,7 @@
       },
       exportData() {
         this.loading = true;
-        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportAlreadyTaskList?" + qs.stringify(this.formItem);
+        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" + qs.stringify(this.formItem);
         this.loading = false;
       },
       getByPage(val) {

@@ -75,6 +75,14 @@ function typeToChina(status) {
   }
 }
 
+function taskTypeToChinese(type) {
+  if (type==1) {
+    return "投保";
+  } else if (type==2) {
+    return "退保";
+  }
+}
+
 function genderToChina(status) {
   switch (status) {
     case 1:
@@ -125,6 +133,7 @@ export default {
   insuranceCompanyToString,
   keyTypeProperties,
   keyTypeToChina,
+  taskTypeToChinese,
   typeToChina,
   genderToChina,
   statusToChina,

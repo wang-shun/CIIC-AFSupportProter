@@ -168,7 +168,7 @@
     created() {
       sessionData.getJsonDataFromSession('employeeCommonOperator.Refused.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeCommonOperator.Refused.employeeResultPageData', this.employeeResultPageData);
-      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
       this.employeeResultColumns.filter((e) => {
 
@@ -210,7 +210,7 @@
       this.employeeOperatorQuery();
       this.loadDict();
 
-      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
@@ -418,7 +418,7 @@
           return;
         }
         this.isLoading = true;
-       var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
         {
@@ -487,7 +487,7 @@
         this.isLoading = true;
         this.orderConditions = [];
         this.searchConditions =[];
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
        if(conditions!=null){

@@ -193,7 +193,7 @@
     },
     methods: {
       loadSortType() {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
 
         this.employeeResultColumns.filter((e) => {
@@ -286,7 +286,7 @@
 //            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
 //          }
 //        }
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
@@ -575,7 +575,7 @@
           return;
         }
         this.isLoading = true;
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
         {
@@ -645,7 +645,7 @@
         this.orderConditions = [];
         this.searchConditions =[];
 
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
         if(conditions!==null){

@@ -124,7 +124,7 @@
     },
     async mounted() {
 
-       var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
       var fu = sessionStorage.getItem('fundDaily'+userInfo.userId);
 
@@ -220,7 +220,7 @@
         this.$refs[form].resetFields();
       },
       searchEmploiees() {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
          window.sessionStorage.setItem('fundDaily'+userInfo.userId, JSON.stringify(this.searchConditions));
          this.$emit("on-search", this.searchConditions);
       },

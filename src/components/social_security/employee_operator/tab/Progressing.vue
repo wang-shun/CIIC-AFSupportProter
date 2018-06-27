@@ -183,7 +183,7 @@
     created() {
       sessionData.getJsonDataFromSession('employeeCommonOperator.Progressing.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeCommonOperator.Progressing.employeeResultPageData', this.employeeResultPageData);
-      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
       this.employeeResultColumns.filter((e) => {
       if(storeOrder===null)
@@ -235,7 +235,7 @@
       this.searchEmploiees(this.searchConditions);
       this.loadDict();
 
-      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
@@ -429,7 +429,7 @@
         }
       },
       exprotExcel() {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
@@ -493,7 +493,7 @@
           return;
         }
         this.isLoading = true;
-         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
         this.searchConditions =[];
 
@@ -570,7 +570,7 @@
 
          this.orderConditions = [];
 
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
 

@@ -299,7 +299,7 @@
     },
     created() {
       this.getByPage(1);
-      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.dealMeg.auditor = this.userInfo.displayName;
     },
     methods: {

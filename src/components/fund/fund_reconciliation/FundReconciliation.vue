@@ -501,7 +501,7 @@
         formData.hfAccountType= that.newReconciliation.hfAccountType;
         formData.hfType= that.newReconciliation.hfType;
         formData.hfComAccount= that.newReconciliation.hfComAccount;
-        formData.createdBy=JSON.parse(window.sessionStorage.getItem('userInfo')).userId;
+        formData.createdBy=JSON.parse(window.localStorage.getItem('userInfo')).userId;
         formData.file=that.reconciliateFile;
         api.addStatmentUpload(formData).then((data) =>{
           this.isShowCreateReconciliation = false;

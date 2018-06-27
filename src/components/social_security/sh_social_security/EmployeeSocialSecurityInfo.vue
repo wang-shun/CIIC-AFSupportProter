@@ -23,7 +23,7 @@
               </Col>
 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客服中心：">
+                <Form-item label="服务中心：">
                   <label>{{employeeAndCustomer.serviceCenter}}</label>
                 </Form-item>
               </Col>
@@ -231,7 +231,7 @@
             title: '变更类型', key: 'remitWay', align: 'center', width: 162,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.remitWay=='1'?'正常': params.row.remitWay='2'?'补缴':''),
+                h('span', params.row.remitWay==1?'正常': params.row.remitWay==2?'补缴':params.row.remitWay==3?'调整':''),
               ]);
             }
           },
@@ -269,10 +269,11 @@
                 h('a', {
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: 'employeeSocialSecurityTaskInfo',
-                        query: {operatorType: params.row.taskCategory, sourceFrom: 'search',empTaskId:params.row.empTaskId,empArchiveId:this.$route.query.empArchiveId}
-                      });
+                      this.enterView(params.row);
+                      // this.$router.push({
+                      //   name: 'employeeSocialSecurityTaskInfo',
+                      //   query: {operatorType: params.row.taskCategory, sourceFrom: 'search',empTaskId:params.row.empTaskId,empArchiveId:this.$route.query.empArchiveId}
+                      // });
                     }
                   }
                 }, params.row.empTaskId)
@@ -382,6 +383,45 @@
            }
         })
       },
+      enterView(data){
+        // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
+          var taskCategory = data.taskCategory;
+          var name = 'empTaskHandleView';
+          let type={}
+          switch (taskCategory) {
+            case '1':
+            case '2':
+            case '12':
+            case '13':
+              name = 'empTaskHandleView';
+              break;
+            case '3':
+              name = 'empTaskHandle3View';
+              break;
+            case '4':
+              name = 'empTaskHandle4View';
+              break;
+            case '5':
+            case '6':
+            case '14':
+            case '15':
+              name = 'empTaskHandle5View';
+              break;
+              case '7':
+              type={type:3}
+              name = 'empTaskHandle7View';
+              break;
+            default:
+              name = 'empTaskHandleView'
+          }
+
+
+          // 根据任务类型跳转
+          this.$router.push({
+            name: name,
+            query: {operatorType: taskCategory,...type,empTaskId: data.empTaskId}
+          });
+      }
     }
   }
 </script>

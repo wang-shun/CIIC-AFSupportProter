@@ -166,7 +166,7 @@
     created() {
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.processing.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.processing.processingPageData', this.processingPageData);
-      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
           this.processingColumns.filter((e) => {
 
@@ -217,7 +217,7 @@
 
       this.hfEmpTaskQuery();
 
-      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
@@ -321,7 +321,7 @@
         return cparams
       },
       excelExport() {
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
 
@@ -378,7 +378,7 @@
           return;
         }
         this.isLoading = true;
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         this.searchConditions =[];
 
         for(var i=0;i<conditions.length;i++)
@@ -448,7 +448,7 @@
         this.isLoading = true;
         this.orderConditions = [];
         this.searchConditions =[];
-        var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('fundDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
         if(conditions!=null){

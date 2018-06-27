@@ -110,24 +110,24 @@
       }
     },
     mounted() {
-      
-      var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-      var fu;
     
-      if(this.showHandle.name==='employ')
-      {
-         fu = sessionStorage.getItem('employment'+userInfo.userId);
-      }else if(this.showHandle.name==='resign'){
-         fu = sessionStorage.getItem('resign'+userInfo.userId);
-      }else if(this.showHandle.name==='archive'){
-         fu = sessionStorage.getItem('archive'+userInfo.userId);
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var fu;
+      if(userInfo!=null&&userInfo!=undefined){
+         if(this.showHandle.name==='employ')
+          {
+            fu = sessionStorage.getItem('employment'+userInfo.userId);
+          }else if(this.showHandle.name==='resign'){
+            fu = sessionStorage.getItem('resign'+userInfo.userId);
+          }else if(this.showHandle.name==='archive'){
+            fu = sessionStorage.getItem('archive'+userInfo.userId);
+          }
+          if(fu!=null)
+          {
+            this.searchConditions = JSON.parse(fu);
+            this.$emit("on-search", this.searchConditions,this.searchForm);
+          }
       }
-      if(fu!=null)
-      {
-        this.searchConditions = JSON.parse(fu);
-        this.$emit("on-search", this.searchConditions,this.searchForm);
-      }
-
      
     },
     methods: {
@@ -192,15 +192,18 @@
         this.$refs[form].resetFields();
       },
       searchEmploiees() {
-         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-         if(this.showHandle.name==='employ')
-         {
-           window.sessionStorage.setItem('employment'+userInfo.userId, JSON.stringify(this.searchConditions));
-         }else if(this.showHandle.name==='resign'){
-           window.sessionStorage.setItem('resign'+userInfo.userId, JSON.stringify(this.searchConditions));
-         }else if(this.showHandle.name==='archive'){
-           window.sessionStorage.setItem('archive'+userInfo.userId, JSON.stringify(this.searchConditions));
+         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+         if(userInfo!=null&&userInfo!=undefined){
+             if(this.showHandle.name==='employ')
+              {
+                window.sessionStorage.setItem('employment'+userInfo.userId, JSON.stringify(this.searchConditions));
+              }else if(this.showHandle.name==='resign'){
+                window.sessionStorage.setItem('resign'+userInfo.userId, JSON.stringify(this.searchConditions));
+              }else if(this.showHandle.name==='archive'){
+                window.sessionStorage.setItem('archive'+userInfo.userId, JSON.stringify(this.searchConditions));
+              }
          }
+         
          this.$emit("on-search", this.searchConditions,this.searchForm);
       }
     },

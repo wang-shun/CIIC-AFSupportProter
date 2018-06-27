@@ -716,6 +716,7 @@
           if (data.code == 200) {
             this.uploadFileList.push({name: file.name, url: ''});
             this.importResultData = data.data;
+            this.$Message.info("上传成功");
 //            this.isSubmit = false;
           } else {
             this.$Message.error(data.message);

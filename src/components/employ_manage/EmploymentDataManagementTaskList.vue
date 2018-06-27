@@ -378,12 +378,39 @@ import {mapState, mapGetters, mapActions} from 'vuex'
           alert("没有选中的列");
           return;
         }
-        console.info(selection);
+        
         let empTaskIds = [];
         selection.forEach(item => {
           empTaskIds.push(item.empTaskId);
         });
-        this.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
+
+        var fromData={};
+        fromData.empTaskIds = empTaskIds;
+        const _self = this;
+        api.batchCheck(fromData).then(data => {
+            if (data.code == 200) {
+                if(data.data.employmentCount==0)
+                {
+                    _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
+                }else{
+                    _self.$Modal.confirm({
+                      title: '',
+                      content: "用工办理已经重在" + data.data.employmentCount+"条数据"+" , "+"用工档案已经重在" + data.data.ArchiveCount+"条数据"+" , "+"确认要覆盖吗？",
+                      onOk:function(){
+                        _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
+                      },
+                      error:function(error){
+                        
+                    }
+                    });
+                  
+                }
+            } else {
+              this.$Message.error("批量失败！" + data.message);
+            }
+         })
+        
+        
      },
      searchEmploiees(conditions,searchForm) {
              

@@ -182,35 +182,42 @@ import Vue from 'vue'
         var patrn = /^[0-9]*$/;
         if (!patrn.test(this.advanceFile.reservedArchiveNo) && this.advanceFile.reservedArchiveNo != undefined) {
           this.$Message.error("预留档案编号必须是数字！");
+          this.isDisable = false;
           return;
         }
         if(this.advanceFile.employeeName == '' || this.advanceFile.employeeName == undefined){
           this.$Message.error("雇员姓名必须填写！");
+          this.isDisable = false;
           return;
         }
         if(this.advanceFile.employeeIdcardNo == '' || this.advanceFile.employeeIdcardNo == undefined){
           this.$Message.error("身份证必须填写！");
+          this.isDisable = false;
           return;
         }
         var numberPatrn =  /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/;
         if(!numberPatrn.test(this.advanceFile.employeeIdcardNo)){
           this.$Message.error("不是有效的身份证！");
+          this.isDisable = false;
           return;
         }
         if(this.advanceFile.reservedArchiveNo == 999999999){
           this.$Message.error("预留档案编号已经是极限了，请联系管理员！");
+          this.isDisable = false;
           return;
         }
         
         if(this.advanceFile.reservedArchiveType != '' && this.advanceFile.reservedArchiveType != undefined){
           if(this.advanceFile.reservedArchiveNo == '' || this.advanceFile.reservedArchiveNo == undefined){
             this.$Message.error("预留档案类别和档案编号是一个组合整体，必须都填写！");
+            this.isDisable = false;
             return;
           }
         }
         if(this.advanceFile.reservedArchiveNo != '' && this.advanceFile.reservedArchiveNo != undefined){
           if(this.advanceFile.reservedArchiveType == '' || this.advanceFile.reservedArchiveType == undefined){
             this.$Message.error("预留档案类别和档案编号是一个组合整体，必须都填写！");
+            this.isDisable = false;
             return;
           }
         }

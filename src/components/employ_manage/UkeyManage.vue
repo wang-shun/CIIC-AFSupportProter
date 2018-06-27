@@ -80,6 +80,7 @@
         v-model="modal1"
         title="Ukey更新"
         @on-ok="ok"
+        :loading="isLoading"
         :model="renewUkey" ref="renewUkey"
         @on-cancel="cancel">
       <Form :label-width="150">
@@ -136,6 +137,7 @@ import Vue from 'vue'
         collapseInfo: [1,2], //展开栏
         notesData: [],
         isDisable: false,
+        isLoading: true,
         uekyFile: {
           renewDueDate: '',
           renewDate: '',
@@ -162,7 +164,7 @@ import Vue from 'vue'
           renewDate: ''
         },
         transferFeedbackList: [
-          {value:'空',label:'空'},
+          {value:'',label:'空'},
           {value:'1X',label:'1X'},
           {value:'2X',label:'2X'},
           {value:'1K',label:'1K'},
@@ -176,7 +178,6 @@ import Vue from 'vue'
           {value:'C',label:'C'}
         ],
         typeList: [
-          {value:'空',label:'空'},
           {value:'网办',label:'网办'},
           {value:'柜面',label:'柜面'}
         ],
@@ -241,15 +242,17 @@ import Vue from 'vue'
         this.renewUkey.renewDueDate = '';
       },
       ok(){
-
         if(this.renewUkey.renewDueDate == '' || this.renewUkey.renewDueDate == undefined){
           this.$Message.error("请填写到期日期！");
+          this.isLoading = false;
           return;
         }
         if(this.renewUkey.type == '空' || this.renewUkey.type == '' || this.renewUkey.type == undefined){
           this.$Message.error("请选择更新方式！");
+          this.isLoading = false;
           return;
         }
+        this.isLoading = true;
         this.renewUkey.id = this.$route.query.id;
         var fromData = this.$utils.clear(this.renewUkey,'');
         if(this.renewUkey.renewDueDate){
@@ -262,23 +265,33 @@ import Vue from 'vue'
           if (data.code == 200) {
             if(data.data == true){
               this.$Message.success("续签成功");
+              this.renewUkey.type = '';
+              this.renewUkey.renewDueDate = '';
               this.queryRenew(this.$route.query.id);
+              this.isLoading = false;
+              this.modal1 = false;
             }
           } else {
             this.$Message.error("保存失败！" + data.message);
+            this.isLoading = false;
           }
         })
       },
       cancel(){ 
+        this.isLoading = true;
+        this.renewUkey.type = '';
+        this.renewUkey.renewDueDate = '';
       },
       doSave(){
         this.isDisable = true;
         if(this.uekyFile.companyName == '' || this.uekyFile.companyName == undefined){
           this.$Message.error("公司名称必须填写！");
+          this.isDisable = false;
           return;
         }
         if(this.uekyFile.organizationCode == '' || this.uekyFile.organizationCode == undefined){
           this.$Message.error("组织机构代码必须填写！");
+          this.isDisable = false;
           return;
         }
         this.uekyFile.flag = true;

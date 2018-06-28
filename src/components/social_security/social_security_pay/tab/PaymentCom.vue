@@ -206,7 +206,7 @@
       </Form>
       <div slot="footer">
           <Button type="text"  @click="closeAdjustment()">取消</Button>
-          <Button type="success"  @click="saveAdjustment()">保存</Button>
+          <Button type="success"  @click="saveAdjustment()" :disabled='changeInfo.ifAdjustSave'>保存</Button>
       </div>
     </Modal>
   </div>
@@ -233,7 +233,7 @@
           ssAccountType: '',
           paymentId: '',
           companyId: '',
-          paymentMonthMin: '',
+          paymentMonthMin: '201805',
           paymentMonthMinShow: '',
           paymentMonthMax: '',
           paymentMonthMaxShow: '',
@@ -421,6 +421,7 @@
           totalPayAmountUpper: '',
           remark: '',
           isImport: false,
+          ifAdjustSave:false,
           changeData:[],
         },
 
@@ -493,8 +494,8 @@
                       let extraAmount = params.row.extraAmount;
                       let totalPayAmount = params.row.totalPayAmount;
                       let remark = params.row.remark;
-
-                      this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark)
+                      let paymentState = params.row.paymentState;
+                      this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState)
                     }
                   }
                 }, '调整'),
@@ -517,7 +518,8 @@
                      let paymentComId = params.row.paymentComId;
                      let comAccountId = params.row.comAccountId;
                      let paymentMonth = params.row.paymentMonth;
-                     this.goPaymentNotice(paymentComId,comAccountId,paymentMonth);
+                     let paymentState = params.row.paymentState;
+                     this.goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState);
                    }
                  }
                }
@@ -674,13 +676,13 @@
           }
         });
       },
-      goPaymentNotice(paymentComId,comAccountId,paymentMonth) {
-        console.log(this.payComSearchData)
+      goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState) {
         sessionData.setJsonDataToSession('paymentCom.payComSearchData', this.payComSearchData);
         sessionData.setJsonDataToSession('paymentCom.payComPageData', this.payComPageData);
-        window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
-        window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
-        window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
+        window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId);
+        window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId);
+        window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth);
+        window.sessionStorage.setItem("paymentnotice_paymentState", paymentState);
         this.$router.push({name: 'paymentNotice'})
       },
       ok () {
@@ -775,7 +777,7 @@
         return paymentStateMap.get(paymentState);
       },
       //调整按钮弹出框
-      doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark){
+      doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState){
         //基本数据填充数据填充
         this.changeInfo.paymentComId = paymentComId;
         // if(ifDeductedIntoPay == 0){
@@ -794,9 +796,10 @@
             refundDeducted : refundDeducted,
             adjustDeducted : adjustDeducted
           }
-        ],
-
-
+        ];
+        if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
+          this.changeInfo.ifAdjustSave= true;
+        }
         //展现
         this.changeInfo.isShowChange = true;
       },
@@ -837,7 +840,7 @@
         let extraAmount = this.changeInfo.extraAmount;
         extraAmount = extraAmount * 1;
         if(isNaN(extraAmount)){
-          alert("额外金必须为数字");
+          this.$Message.info("额外金必须为数字");
           return;
         }
 
@@ -855,13 +858,13 @@
           remark: remark,
         }).then(data => {
           if(data.code == "0"){
-            alert("操作成功");
+            this.$Message.info("操作成功");
             this.closeAdjustment();
             //重新查询
             this.paymentComQuery()
 
           }else{
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
 
@@ -878,7 +881,7 @@
         //判断条件
         //是否有选中列
         if(selection.length == 0){
-          alert("没有选中的列");
+          this.$Message.info("没有选中的列");
           return;
         }
 
@@ -892,7 +895,7 @@
           }
         });
         if(isHaveBatch){
-            alert("已有出账批次的数据不可以再加入批次");
+            this.$Message.info("已有出账批次的数据不可以再加入批次");
             return;
         }
 
@@ -910,7 +913,7 @@
           }
         });
         if(isManyAccountType){
-            alert("选中列中社保账户类型不同");
+            this.$Message.info("选中列中社保账户类型不同");
             return;
         }
 
@@ -925,7 +928,7 @@
           }
         });
         if(isDisableState){
-            alert("只有可付和批退状态的记录可以进行添加批次操作");
+            this.$Message.info("只有可付和批退状态的记录可以进行添加批次操作");
             return;
         }
         //检索数据
@@ -951,14 +954,14 @@
           paymentComIdList: paymentComIdList,
         }).then(data => {
           if(data.code == "0"){
-            alert("操作成功");
+            this.$Message.info("操作成功");
             this.closeAddBatch();
             //重新查询
             this.paymentComQuery()
 
           }else{
             console.log(data);
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
       },
@@ -975,7 +978,7 @@
         //判断条件
         //是否有选中列
         if(selection.length == 0){
-          alert("没有选中的列");
+          this.$Message.info("没有选中的列");
           return;
         }
 
@@ -989,7 +992,7 @@
           }
         });
         if(isHaventBatch){
-            alert("请选择已有批次的客户费用");
+            this.$Message.info("请选择已有批次的客户费用");
             return;
         }
         //判断选中列的支付状态(只有可付:3 和批退:5 可以进行此操作)
@@ -1002,7 +1005,7 @@
           }
         });
         if(isDisableState){
-            alert("只有可付和批退状态的记录可以进行操作");
+            this.$Message.info("只有可付和批退状态的记录可以进行操作");
             return;
         }
         //将数据传给子画面
@@ -1020,13 +1023,13 @@
           paymentComIdList: paymentComIdList,
         }).then(data => {
           if(data.code == "0"){
-            alert("移除成功");
+            this.$Message.info("移除成功");
             this.closeDelBatch();
             //重新查询
             this.paymentComQuery()
 
           }else{
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
       },
@@ -1041,7 +1044,7 @@
                   if(data.code == "0"){
                     this.paymentComQuery()
                   }else{
-                    alert(data.message);
+                    this.$Message.info(data.message);
                   }
                 }
               );

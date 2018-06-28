@@ -115,21 +115,26 @@
       var fu;
       var isFinishValue;
       if(userInfo!=null&&userInfo!=undefined){
+        debugger
          if(this.showHandle.name==='employ')
           {
             fu = sessionStorage.getItem('employment'+userInfo.userId);
             isFinishValue = sessionStorage.getItem('employmentIsFinish'+userInfo.userId);
-            this.searchForm.isFinish = JSON.parse(isFinishValue);
+           
           }else if(this.showHandle.name==='resign'){
             fu = sessionStorage.getItem('resign'+userInfo.userId);
             isFinishValue = sessionStorage.getItem('resignIsFinish'+userInfo.userId);
-            this.searchForm.isFinish = JSON.parse(isFinishValue);
+           
           }else if(this.showHandle.name==='archive'){
             fu = sessionStorage.getItem('archive'+userInfo.userId);
           }
           if(fu!=null)
           {
             this.searchConditions = JSON.parse(fu);
+
+            if(isFinishValue!=null&&isFinishValue!=undefined){
+                this.searchForm.isFinish = JSON.parse(isFinishValue);
+            }
             
             this.$emit("on-search", this.searchConditions,this.searchForm);
           }

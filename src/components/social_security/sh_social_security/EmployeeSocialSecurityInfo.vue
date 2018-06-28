@@ -419,7 +419,7 @@
           // 根据任务类型跳转
           this.$router.push({
             name: name,
-            query: {operatorType: taskCategory,...type,empTaskId: data.empTaskId}
+            query: {operatorType: taskCategory,...type,empTaskId: data.empTaskId,sourceFrom:'search'}
           });
       }
     }

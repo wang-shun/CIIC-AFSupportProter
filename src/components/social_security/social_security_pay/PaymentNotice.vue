@@ -26,7 +26,7 @@
         :columns="noticeColumns"
         :data="noticeData">
     </Table>
-    <Button type="primary" @click="calculate" >重新汇总</Button>
+    <Button type="primary" @click="calculate" v-show="this.ifShowSumButton">重新汇总</Button>
     <Button type="warning" @click="goBack">返回</Button>
   </div>
 </template>
@@ -111,6 +111,7 @@
           totalPayAmountUP: '',
           remark: '',
         },
+        ifShowSumButton:true,
       }
     },
     mounted() {
@@ -118,7 +119,10 @@
       let paymentComId = window.sessionStorage.getItem("paymentnotice_paymentComId");
       this.comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
       this.paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
-
+      let paymentState = window.sessionStorage.getItem("paymentnotice_paymentState");
+      if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
+          this.ifShowSumButton= false;
+        }
       this.getPaymentComDtoByPaymentId(paymentComId);
       this.statementResultQuery(this.comAccountId,this.paymentMonth);
     },

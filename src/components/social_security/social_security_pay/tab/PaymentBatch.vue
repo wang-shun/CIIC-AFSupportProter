@@ -213,30 +213,33 @@
         payBatchColumns: [
           {title: '操作', key: 'operator', width: 170, align: 'center',fixed:'left',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      let paymentId = params.row.paymentId;
-                      let paymentState = params.row.paymentState;
-                      this.goApplyPay(paymentId,paymentState)
+              let b=[];
+              let paymentId = params.row.paymentId;
+              let paymentState = params.row.paymentState;
+              if(params.row.totalAccount>0 && !(paymentState != "3" && paymentState != "5" && paymentState != "7")){
+                  b.push(h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        this.goApplyPay(paymentId,paymentState)
+                      }
                     }
-                  }
-                }, '申请支付'),
-                h('Button', {
+                  }, '申请支付'));
+              }
+              if( !(paymentState != "3" && paymentState != "5" && paymentState != "7")){ 
+                b.push(h('Button', {
                   props: {type: 'error', size: 'small'},
                   style: {margin: '0 auto 0 10px'},
                   on: {
                     click: () => {
-                      let paymentId = params.row.paymentId;
-                      let paymentState = params.row.paymentState;
                       this.goDelPayment(paymentId,paymentState)
                     }
                   }
-                }, '删除')
-              ]);
+                }, '删除'));
+              }
+              return h('div', b);
+
             }
           },
           {title: '出账批次号', key: 'paymentBatchNum', width: 150, align: 'center',
@@ -439,7 +442,7 @@
       goApplyPay(paymentId,paymentState) {
         //验证可操作性
         if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
-          alert("只有可付和批退状态的批次可以申请支付");
+          this.$Message.info("只有可付和批退状态的批次可以申请支付");
           return;
         }
 
@@ -457,13 +460,13 @@
           applyRemark: applyRemark,
         }).then(data => {
           if(data.code == "0"){
-            alert("申请成功");
+            this.$Message.info("申请成功");
             this.closeApplyPay();
             //重新查询
             this.paymentBatchQuery()
 
           }else{
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
       },
@@ -475,7 +478,7 @@
       goDelPayment(paymentId,paymentState) {
         //验证可操作性
         if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
-          alert("只有可付和批退状态的批次可以删除");
+          this.$Message.info("只有可付和批退状态的批次可以删除");
           return;
         }
         this.delPaymentData.isShow = true;
@@ -489,13 +492,13 @@
           paymentId: paymentId,
         }).then(data => {
           if(data.code == "0"){
-            alert("删除成功");
+            this.$Message.info("删除成功");
             this.closeDelPayment();
             //重新查询
             this.paymentBatchQuery()
 
           }else{
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
       },
@@ -515,7 +518,7 @@
             this.addPaymentData.accountType = '';
             this.addPaymentData.isShow = true;
           }else{
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
       },
@@ -524,15 +527,15 @@
         let paymentBatchNum = this.addPaymentData.paymentBatchNum;
         let accountType = this.addPaymentData.accountType;
         if(paymentMonth == null || paymentMonth == ""){
-          alert("支付年月不可为空");
+          this.$Message.info("支付年月不可为空");
           return;
         }
         // if(paymentBatchNum == null || paymentBatchNum == ""){
-        //   alert("出账批号不可为空");
+        //   this.$Message.info("出账批号不可为空");
         //   return;
         // }
         if(accountType == null || accountType == ""){
-          alert("账户类型不可为空");
+          this.$Message.info("账户类型不可为空");
           return;
         }
         payBatchApi.addPayment({
@@ -541,13 +544,13 @@
           accountType: accountType,
         }).then(data => {
           if(data.code == "0"){
-            alert("添加成功成功");
+            this.$Message.info("添加成功");
             this.closeAddPayment();
             //重新查询
             //this.paymentBatchQuery()
             this.payBatchHandlePageNum(1);
           }else{
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
       },

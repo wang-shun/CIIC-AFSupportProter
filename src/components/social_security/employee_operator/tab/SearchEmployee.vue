@@ -131,6 +131,9 @@
       setOption(content, type){
         if(type === chooseType.field) {
 
+          this.searchForm.disabled = false;
+          this.searchForm.relationshipValue = "";
+
           if(content.value.indexOf("month")>0){
             this.searchForm.isDate=1;
           }else if(content.value=='ca.ss_account_type'){

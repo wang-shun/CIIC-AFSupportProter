@@ -128,7 +128,7 @@
       <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2'"
               @click="modal1 = true">审核
       </Button>
-      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='4'"
+      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2' || formItem.status==='4'"
               @click="modal6 = true">批退
       </Button>
       <Button type="info"

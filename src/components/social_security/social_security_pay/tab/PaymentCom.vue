@@ -57,7 +57,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客服中心：" prop="serviceCenterValue">
+                <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Cascader :data="serviceCenterData"  v-model="payComSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
                 </Form-item>
               </Col>

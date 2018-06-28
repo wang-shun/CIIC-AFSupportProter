@@ -7,7 +7,7 @@
           <Form :label-width=150 ref="searchCondition" :model="searchCondition">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客服中心：" prop="serviceCenterValue">
+                <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Cascader :data="serviceCenterData"  v-model="searchCondition.serviceCenterValue" trigger="hover" transfer></Cascader>
                 </Form-item>
               </Col>

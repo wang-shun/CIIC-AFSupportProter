@@ -113,18 +113,24 @@
     
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var fu;
+      var isFinishValue;
       if(userInfo!=null&&userInfo!=undefined){
          if(this.showHandle.name==='employ')
           {
             fu = sessionStorage.getItem('employment'+userInfo.userId);
+            isFinishValue = sessionStorage.getItem('employmentIsFinish'+userInfo.userId);
+            this.searchForm.isFinish = JSON.parse(isFinishValue);
           }else if(this.showHandle.name==='resign'){
             fu = sessionStorage.getItem('resign'+userInfo.userId);
+            isFinishValue = sessionStorage.getItem('resignIsFinish'+userInfo.userId);
+            this.searchForm.isFinish = JSON.parse(isFinishValue);
           }else if(this.showHandle.name==='archive'){
             fu = sessionStorage.getItem('archive'+userInfo.userId);
           }
           if(fu!=null)
           {
             this.searchConditions = JSON.parse(fu);
+            
             this.$emit("on-search", this.searchConditions,this.searchForm);
           }
       }
@@ -197,8 +203,10 @@
              if(this.showHandle.name==='employ')
               {
                 window.sessionStorage.setItem('employment'+userInfo.userId, JSON.stringify(this.searchConditions));
+                window.sessionStorage.setItem('employmentIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
               }else if(this.showHandle.name==='resign'){
                 window.sessionStorage.setItem('resign'+userInfo.userId, JSON.stringify(this.searchConditions));
+                window.sessionStorage.setItem('resignIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
               }else if(this.showHandle.name==='archive'){
                 window.sessionStorage.setItem('archive'+userInfo.userId, JSON.stringify(this.searchConditions));
               }

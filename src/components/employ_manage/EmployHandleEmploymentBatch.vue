@@ -9,17 +9,17 @@
               
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="材料签收日期：">
-                  <DatePicker v-model="employmentInfo.receiveDate" type="date" placeholder="" transfer></DatePicker>
+                  <DatePicker v-model="employmentInfo.receiveDate" @on-open-change="setCurrentDate" @on-change="changeDate" type="date" placeholder="" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="实际录用日期：">
-                  <DatePicker v-model="employmentInfo.employDate" type="date" placeholder="" transfer></DatePicker>
+                  <DatePicker v-model="employmentInfo.employDate" @on-open-change="setCurrentDate1" @on-change="changeDate1" type="date" placeholder="" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="开F单日期：">
-                  <DatePicker v-model="employmentInfo.openAfDate" type="date"  placeholder="" transfer></DatePicker>
+                  <DatePicker v-model="employmentInfo.openAfDate" @on-open-change="setCurrentDate2" @on-change="changeDate2" type="date"  placeholder="" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -147,7 +147,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate" @on-open-change="setCurrentDate3" @on-change="changeDate3"></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span:6}">
@@ -160,7 +160,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="调档反馈操作日期：" prop="diaodangFeedbackOptDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.diaodangFeedbackOptDate"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.diaodangFeedbackOptDate" @on-open-change="setCurrentDate4" @on-change="changeDate4"></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -170,7 +170,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate"  @on-open-change="setCurrentDate5" @on-change="changeDate5"></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -180,12 +180,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工档案缴费至：" prop="employDocPaymentTo">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.employDocPaymentTo"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.employDocPaymentTo" @on-open-change="setCurrentDate6" @on-change="changeDate6"></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="入库日期：" prop="storageDate">
-                <DatePicker type="date"  transfer v-model="materialHandleInfo.storageDate"></DatePicker>
+                <DatePicker type="date"  transfer v-model="materialHandleInfo.storageDate" @on-open-change="setCurrentDate7" @on-change="changeDate7"></DatePicker>
               </Form-item>
               </Col>
             
@@ -505,7 +505,11 @@
             }
             if(fromData.receiveDate){
               fromData.receiveDate = this.$utils.formatDate(this.employmentInfo.receiveDate, 'YYYY-MM-DD');
+            }else{
+              this.$Message.error("材料签收日期不能为空");
+              return;
             }
+            
            fromData.empTaskIds = this.$route.query.empTaskIds;
             this.isLoadingC = true;
           api.batchSaveEmployment(fromData).then(data => {
@@ -623,7 +627,103 @@
               this.materialHandleInfo.ukeyBorrowDate=currentdate;
           }
          
-       }
+       },currentDate(){
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              return currentdate;
+       },setCurrentDate(e) {
+        if(e){
+          if(this.employmentInfo.receiveDate==''||this.employmentInfo.receiveDate==undefined)
+          {
+             this.employmentInfo.receiveDate = this.currentDate();
+          }
+        }
+        
+      },changeDate(e) {
+        this.employmentInfo.receiveDate = e;
+      },setCurrentDate1(e) {
+        if(e){
+          if(this.employmentInfo.employDate==''||this.employmentInfo.employDate==undefined)
+          {
+             this.employmentInfo.employDate = this.currentDate();
+          }
+        }
+        
+      },changeDate1(e) {
+        this.employmentInfo.employDate = e;
+      },setCurrentDate2(e) {
+        if(e){
+          if(this.employmentInfo.openAfDate==''||this.employmentInfo.openAfDate==undefined)
+          {
+             this.employmentInfo.openAfDate = this.currentDate();
+          }
+        }
+        
+      },changeDate2(e) {
+        this.employmentInfo.openAfDate = e;
+      },setCurrentDate3(e) {
+        if(e){
+          if(this.materialHandleInfo.employFeedbackOptDate==''||this.materialHandleInfo.employFeedbackOptDate==undefined)
+          {
+             this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+          }
+        }
+        
+      },changeDate3(e) {
+        this.materialHandleInfo.employFeedbackOptDate = e;
+      },setCurrentDate4(e) {
+        if(e){
+          if(this.materialHandleInfo.diaodangFeedbackOptDate==''||this.materialHandleInfo.diaodangFeedbackOptDate==undefined)
+          {
+             this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
+          }
+        }
+        
+      },changeDate4(e) {
+        this.materialHandleInfo.diaodangFeedbackOptDate = e;
+      },setCurrentDate5(e) {
+        if(e){
+          if(this.materialHandleInfo.ukeyReturnDate==''||this.materialHandleInfo.ukeyReturnDate==undefined)
+          {
+             this.materialHandleInfo.ukeyReturnDate = this.currentDate();
+          }
+        }
+        
+      },changeDate5(e) {
+        this.materialHandleInfo.ukeyReturnDate = e;
+      },setCurrentDate6(e) {
+        if(e){
+          if(this.materialHandleInfo.employDocPaymentTo==''||this.materialHandleInfo.employDocPaymentTo==undefined)
+          {
+             this.materialHandleInfo.employDocPaymentTo = this.currentDate();
+          }
+        }
+        
+      },changeDate6(e) {
+        this.materialHandleInfo.employDocPaymentTo = e;
+      },setCurrentDate7(e) {
+        if(e){
+          if(this.materialHandleInfo.storageDate==''||this.materialHandleInfo.storageDate==undefined)
+          {
+             this.materialHandleInfo.storageDate = this.currentDate();
+          }
+        }
+        
+      },changeDate7(e) {
+        this.materialHandleInfo.storageDate = e;
+      }
+
+      
 
     }
   }

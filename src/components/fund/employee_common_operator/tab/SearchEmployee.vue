@@ -140,6 +140,9 @@
       setOption(content, type){
         if(type === chooseType.field) {
 
+          this.searchForm.disabled = false;
+          this.searchForm.relationshipValue = "";
+
           if(content.value=='processStatus'){
             this.searchForm.isDate=1;
             this.searchForm.disabled = true;

@@ -428,7 +428,7 @@
 //          startMonth: '',
 //          operationRemind: '',
 //          operationRemindDate: '',
-//          operatorListData: [],
+          operatorListData: [],
           handleRemark: '',
           rejectionRemark: ''
         },
@@ -453,7 +453,7 @@
           }
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;
-//          this.operatorListData = data.data.empTaskPeriods;
+          this.operatorListData = data.data.empTaskPeriods;
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
           this.showButton = this.displayVO.canHandle;
@@ -467,6 +467,9 @@
             this.inputDisabled = true;
             this.taskCategoryDisable = true;
             this.showButton = false;
+          }
+          if (this.operatorListData && this.operatorListData.length == 1) {
+            this.inputData.endMonth = this.operatorListData[0].endMonth;
           }
           if (!this.inputData.endMonth || this.inputData.endMonth == '') {
             this.inputData.endMonth = this.displayVO.endMonth;

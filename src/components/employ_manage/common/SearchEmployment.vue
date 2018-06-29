@@ -115,7 +115,7 @@
       var fu;
       var isFinishValue;
       if(userInfo!=null&&userInfo!=undefined){
-        debugger
+        
          if(this.showHandle.name==='employ')
           {
             fu = sessionStorage.getItem('employment'+userInfo.userId);

@@ -185,7 +185,7 @@
         this.recordDetailList[row.index]._expanded = status;
       },
       selectMarketGrantInformation(val) {
-        const CURRENT_USER = JSON.parse(window.sessionStorage.getItem('userInfo'));
+        const CURRENT_USER = JSON.parse(window.localStorage.getItem('userInfo'));
         apiAjax.queryMarketInformation(val).then(response => {
           this.applyRecord = response.data.object.applyRecord;
           this.recordDetailList = response.data.object.recordDetailList;

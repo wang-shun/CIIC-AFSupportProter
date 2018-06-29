@@ -1026,6 +1026,10 @@ router.beforeEach((to, from, next) => {
         BACK_TO_LOGIN()
       }
     })
+  } else {
+    if (self === top) {
+      BACK_TO_LOGIN()
+    }
   }
 })
 

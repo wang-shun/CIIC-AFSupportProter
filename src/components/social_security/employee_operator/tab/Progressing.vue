@@ -4,7 +4,7 @@
       <Panel name="1">
         查询条件
         <div slot="content">
-            <search-employee @on-search="searchEmploiees" ></search-employee>
+            <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -73,6 +73,9 @@
         searchCondition: {
           params: '',
           taskStatus: '2'
+        },
+        showHandle:{
+           name:'progressing'
         },
         operatorSearchData: {
           taskStatus: '2',

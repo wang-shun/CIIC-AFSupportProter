@@ -4,7 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-          <search-employee @on-search="searchEmploiees" ></search-employee>
+          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -62,6 +62,9 @@
         searchCondition: {
           params: '',
           taskStatus: 4
+        },
+        showHandle:{
+           name:'rejected'
         },
         isLoading: false,
         taskTypeList: [],

@@ -158,7 +158,7 @@
       }
     },
     created() {
-      this.userInfo = JSON.parse(sessionStorage.getItem('userInfo'))
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
       let queryData = JSON.parse(sessionStorage.getItem('giftGrantFormItem'));
       this.selectGiftGrantInformation(queryData);
     },

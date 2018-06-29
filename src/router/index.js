@@ -1014,7 +1014,7 @@ let router = new Router({
 import { CommonApi } from '../api/common_service'
 
 router.beforeEach((to, from, next) => {
-  const userInfo = window.sessionStorage.getItem('userInfo')
+  const userInfo = window.localStorage.getItem('userInfo')
   if ((userInfo !== null) && (userInfo !== '')) {
     let param = new URLSearchParams()
     param.append('token', JSON.parse(userInfo).token)

@@ -236,7 +236,7 @@
          this.serachMonthEmpChange(monthEmpChangeId);
          this.showMonthEmpChangeDetail(monthEmpChangeId);
       }
-       
+
     },
     computed: {
       ...mapState('socialSecurityReconcilateDetail',{
@@ -279,7 +279,7 @@
       },
       calculate(){
         this.isLoading = true;
-        let userInfo = sessionStorage.getItem('userInfo');
+        let userInfo = localStorage.getItem('userInfo');
         let userName='';
         if (userInfo) {
           userName= JSON.parse(userInfo).displayName;
@@ -304,7 +304,7 @@
                 });
             }
             this.isLoading = false;
-           
+
         }).catch(error=>{
           this.$Message.error('系统异常！');
         });

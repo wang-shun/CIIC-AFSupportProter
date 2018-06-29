@@ -393,9 +393,16 @@ import {mapState, mapGetters, mapActions} from 'vuex'
                 {
                     _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
                 }else{
+                  var content;
+                   if(data.data.ArchiveCount){
+                     var content="用工办理已经存在" + data.data.employmentCount+"条数据"+" , "+"用工档案已经存在" + data.data.ArchiveCount+"条数据"+" , "+"确认要覆盖吗？";
+                   }else{
+                      var content="用工办理已经存在" + data.data.employmentCount+"条数据, "+"确认要覆盖吗？";
+                   }
+                   
                     _self.$Modal.confirm({
                       title: '',
-                      content: "用工办理已经重在" + data.data.employmentCount+"条数据"+" , "+"用工档案已经重在" + data.data.ArchiveCount+"条数据"+" , "+"确认要覆盖吗？",
+                      content: content,
                       onOk:function(){
                         _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
                       },

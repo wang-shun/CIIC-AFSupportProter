@@ -118,10 +118,20 @@
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
       var fu = sessionStorage.getItem('socialDaily'+userInfo.userId);
-
+      
       if(fu!=null)
       {
         this.searchConditions = JSON.parse(fu);
+        if(this.showHandle.name!='noprogress')
+        {
+            for(var i=0;i<this.searchConditions.length;i++)
+            {
+               if(this.searchConditions[i].exec.indexOf('taskStatus')!=-1)
+               {
+                    this.searchConditions.splice(i,1);
+               }
+            }
+        }
       }
 
       this.loadDict();

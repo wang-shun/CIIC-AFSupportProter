@@ -132,7 +132,7 @@
           manager: '',
           companyName: '',
           product: 'CPDFL1800059',
-          birthday: '',
+          birthday: '1',
           empId: ''
         },
         ruleValidate: {

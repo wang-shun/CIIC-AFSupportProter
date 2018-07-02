@@ -242,6 +242,7 @@ import Vue from 'vue'
         this.renewUkey.renewDueDate = '';
       },
       ok(){
+        this.isLoading = true;
         if(this.renewUkey.renewDueDate == '' || this.renewUkey.renewDueDate == undefined){
           this.$Message.error("请填写到期日期！");
           this.isLoading = false;
@@ -249,10 +250,8 @@ import Vue from 'vue'
         }
         if(this.renewUkey.type == '空' || this.renewUkey.type == '' || this.renewUkey.type == undefined){
           this.$Message.error("请选择更新方式！");
-          this.isLoading = false;
           return;
         }
-        this.isLoading = true;
         this.renewUkey.id = this.$route.query.id;
         var fromData = this.$utils.clear(this.renewUkey,'');
         if(this.renewUkey.renewDueDate){
@@ -268,17 +267,14 @@ import Vue from 'vue'
               this.renewUkey.type = '';
               this.renewUkey.renewDueDate = '';
               this.queryRenew(this.$route.query.id);
-              this.isLoading = false;
               this.modal1 = false;
             }
           } else {
             this.$Message.error("保存失败！" + data.message);
-            this.isLoading = false;
           }
         })
       },
       cancel(){ 
-        this.isLoading = true;
         this.renewUkey.type = '';
         this.renewUkey.renewDueDate = '';
       },

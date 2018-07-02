@@ -238,9 +238,11 @@ import Vue from 'vue'
               this.$Message.success("保存成功");
               this.goBack();
             }else{
-              if(confirm("该雇员已有档案，是否直接跳转到档案办理？")){
+              if(confirm("该雇员已有档案,不能预增，是否直接跳转到档案办理？")){
                 this.$router.push({name:'recordComprehensive', query: {idNum:data.data.idNum,idCardType:data.data.idCardType,empTaskId:data.data.empTaskId,
                 employmentId:data.data.employmentId,employeeId:data.data.employeeId,companyId:data.data.companyId,empTaskResignId:data.data.empTaskResignId}});
+                this.isDisable = false;
+              }else{
                 this.isDisable = false;
               }
             }

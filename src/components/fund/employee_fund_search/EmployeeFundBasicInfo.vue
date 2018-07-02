@@ -541,15 +541,16 @@
               formData.hfEmpAccountBc=this.viewEmpArchive.hfEmpAccountBc
               formData.empArchiveIdBc=this.viewEmpArchive.empArchiveIdBc
               formData.empArchiveId= this.viewEmpArchive.empArchiveId
+              formData.employeeId =this.viewEmpArchive.employeeId
             }
             api.saveEmpAccount(formData).then(data => {
               data=data.data;
               if (data.code == 200) {
-                this.$Message.success("信息保存成功");
+                this.$Message.success(data.message);
                 // 返回任务列表页面
                 history.go(-1);
               } else {
-                this.$Message.error("信息保存失败！" + data.message);
+                this.$Message.error( data.message);
               }
             })
            }

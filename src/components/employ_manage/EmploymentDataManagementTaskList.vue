@@ -47,7 +47,7 @@
         <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
-    <Table border height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData" class="mt20"></Table>
+    <Table border height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" class="mt20"></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -105,25 +105,6 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         // 下半部分
         employmentColumns: [
           {title: '', type: 'selection', width: 60},
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 120,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employeeId,params.row.companyId)
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
           {title: '用工方式', key: 'employWay', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -440,10 +421,6 @@ import {mapState, mapGetters, mapActions} from 'vuex'
       }, goHandle() {
         this.$router.push({name: "employHandleEmployment"});
       },
-      showInfoT (idNum,idCardType,empTaskId,employeeId,companyId) {
-
-        this.$router.push({name:'employHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId}});
-      },
       showInfoTw (ind) {  
            this.pageData.pageNum = 1;
            this.searchCondition.params = this.searchConditions.toString();
@@ -558,7 +535,9 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         let params = this.searchCondition
         this.employeeQuery(params);
         this.employeeCollectionQuery(params);
-      },
+      },handleData(row,index){
+         this.$router.push({name:'employHandleEmployment', query: {empTaskId:row.empTaskId,employeeId:row.employeeId,companyId:row.companyId}});
+      }
     },
     computed: {
 

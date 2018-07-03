@@ -75,8 +75,7 @@
         ssAccountTypedict: [],
         orderConditions:[],
         searchCondition: {
-          params: '',
-          taskStatus: '-1'
+          params: ''
         },
         showHandle:{
            name:'noprogress'
@@ -322,6 +321,7 @@
 
         }
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        
         if(storeOrder==null)
         {
 

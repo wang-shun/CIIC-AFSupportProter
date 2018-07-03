@@ -1,27 +1,9 @@
 <style>
-    .ivu-table .demo-table-info-row td{
-        background-color: #2db7f5;
-        color: #fff;
+    .ivu-table .demo-table-error-row td span{
+        color: #ff6600;
     }
-    .ivu-table .demo-table-error-row td{
-        background-color: #ff6600;
-        color: #fff;
-    }
-    .ivu-table td.demo-table-info-column{
-        background-color: #2db7f5;
-        color: #fff;
-    }
-    .ivu-table .demo-table-info-cell-name {
-        background-color: #2db7f5;
-        color: #fff;
-    }
-    .ivu-table .demo-table-info-cell-age {
-        background-color: #ff6600;
-        color: #fff;
-    }
-    .ivu-table .demo-table-info-cell-address {
-        background-color: #187;
-        color: #fff;
+     .ivu-table .demo-table-error-row td div{
+        color: #ff6600;
     }
 </style>
 <template>
@@ -346,14 +328,14 @@ import {mapState, mapGetters, mapActions} from 'vuex'
       // this.employeeCollectionQuery({})
     },
     methods: {
-         rowClassName (row, index) {
-              
-                if (row.outReason!=undefined&&row.outReason!='') {
-                    return 'demo-table-error-row';
-                } 
-                return '';
-            },
-     batchManagement(){
+     rowClassName (row, index) {
+        
+        if (row.outReason!=undefined&&row.outReason!='') {
+            return 'demo-table-error-row';
+        } 
+        return '';
+      },
+     batchManagement(){ 
         let selection = this.$refs.employmentData.getSelection();
         if(selection.length == 0){
           alert("没有选中的列");
@@ -370,6 +352,11 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         const _self = this;
         api.batchCheck(fromData).then(data => {
             if (data.code == 200) {
+                if(data.data.empTask){
+                  var content="已经办理了" + data.data.empTask+"条数据，请重新选择数据";
+                   this.$Message.error(content);
+                   return;
+                }
                 if(data.data.employmentCount==0)
                 {
                     _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});

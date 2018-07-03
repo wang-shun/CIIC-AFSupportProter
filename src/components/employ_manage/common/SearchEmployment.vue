@@ -33,11 +33,9 @@
         </Col>
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
-            
             <Input v-model="searchForm.searchContent" placeholder="请输入" @on-enter = "addCondition" v-if="searchForm.isDate !== 1" />
             <Date-picker  v-model="searchForm.searchContent"  type="date"  placement="right"
                              placeholder="选择年月份" style="width: 100%;" v-else></Date-picker> 
-                         
           </Form-item>
         </Col>
 

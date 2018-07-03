@@ -204,6 +204,13 @@
             <input type="text" v-model="refuse.employeeId" hidden>
             <input type="text" v-model="refuse.employmentId" hidden>
             <input type="text" v-model="refuse.empTaskId" hidden>
+          
+          </Form-item>
+          
+        </Col>
+         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="用工绑定：">
+            <Button type="primary" @click="binding">绑定</Button>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -215,7 +222,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
           <Button type="primary"  :loading="isLoading"  @click="instance()">保存</Button>
-          <Button type="primary" @click="binding">绑定</Button>
+          
         </Col>
       </Row>
     </Form>

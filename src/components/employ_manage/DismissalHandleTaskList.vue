@@ -17,7 +17,7 @@
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
     </Row>
-    <Table border height="300" :columns="dismissalColumns" :data="dismissalData" :loading="isLoading"  class="mt20"></Table>
+    <Table border height="300" :columns="dismissalColumns" :data="dismissalData" :loading="isLoading"  @on-row-dblclick="handleData" class="mt20"></Table>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -60,26 +60,6 @@
            name:'resign'
         },
         dismissalColumns: [
-          // {title: '', type: 'selection', width: 60},
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 120,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employeeId,params.row.companyId,params.row.employmentId)
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
           {title: '退工成功日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -431,11 +411,6 @@
             })
        
       },
-      showInfoT (idNum,idCardType,empTaskId,employeeId,companyId,employmentId) {
-        
-        this.$router.push({name:'dismissalHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId,employmentId:employmentId}});
-
-      },
       showInfoTw (ind) {  
            this.pageData.pageNum = 1;
            this.searchCondition.params = this.searchConditions.toString();
@@ -459,6 +434,8 @@
         let params = this.searchCondition
         this.queryAmResign(params);
         this.queryResignTaskCount(params);
+      },handleData(row,index){
+         this.$router.push({name:'dismissalHandleEmployment', query: {empTaskId:row.empTaskId,employeeId:row.employeeId,companyId:row.companyId,employmentId:row.employmentId}});
       }
     }
   }

@@ -43,7 +43,7 @@
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
       </Col>
     </Row>
-    <Table border height="300" :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData" class="mt20"></Table>
+    <Table border height="300" :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData"  @on-row-dblclick="handleData" class="mt20"></Table>
      <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -91,25 +91,6 @@
         // 下半部分
         recordComprehensiveHandlingColumns: [
           {title: '', type: 'selection', width: 60},
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 120,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employmentId,params.row.employeeId,params.row.companyId,params.row.empTaskResignId)
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
           {title: '用工方式', key: 'employWay', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -715,9 +696,6 @@
            this.archiveQuery(this.searchCondition);
 
       },
-      showInfoT (idNum,idCardType,empTaskId,employmentId,employeeId,companyId,empTaskResignId) {
-        this.$router.push({name:'recordComprehensive', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employmentId:employmentId,employeeId:employeeId,companyId:companyId,empTaskResignId:empTaskResignId}});
-      },
       handlePageNum(val) {
         this.pageData.pageNum = val;
         let params = this.searchCondition
@@ -729,6 +707,8 @@
         this.archiveQuery(params);
         this.employeeArchiveCollection(params);
         this.resignArchiveCollection(params);
+      },handleData(row,index){
+         this.$router.push({name:'recordComprehensive', query: {empTaskId:row.empTaskId,employmentId:row.employmentId,employeeId:row.employeeId,companyId:row.companyId,empTaskResignId:row.empTaskResignId}});
       }
     },
     computed: {

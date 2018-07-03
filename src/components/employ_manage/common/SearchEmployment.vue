@@ -201,6 +201,7 @@
       },
       resetForm(form) {
         this.$refs[form].resetFields();
+        this.searchConditions = [];
       },
       searchEmploiees() {
          var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));

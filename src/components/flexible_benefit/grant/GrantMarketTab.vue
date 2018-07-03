@@ -76,8 +76,8 @@
       return {
         collapseInfo: [1, 2, 3], //展开栏
         searchCondition: {
-          approvalStatus: 0, //审批状态
-          sendStatus: 0,
+          approvalStatus: '', //审批状态
+          sendStatus: '',
           applyType: 2,//申请类型：1-活动
           applyTimeRange: [],
           departmentId: null,

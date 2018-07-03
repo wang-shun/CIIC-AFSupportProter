@@ -645,6 +645,7 @@ export default {
           this.isImported = true;
           this.retStr = data.message;
           this.isUpload = false;
+          
         })
         .catch(error => {
           this.$Message.error("系统异常！");

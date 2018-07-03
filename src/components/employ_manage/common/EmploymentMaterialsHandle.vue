@@ -80,7 +80,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="调档反馈：" prop="diaodangFeedback">
-            <Select v-model="handleInfo.diaodangFeedback" transfer>
+            <Select v-model="handleInfo.diaodangFeedback" @on-change="changeTypeDd" transfer>
               <Option v-for="item in transferFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -420,22 +420,17 @@ import Vue from 'vue'
               }
         })
        },changeType(val){
+          
           if(val==11)
-          {
-              var date = new Date();
-              var seperator1 = "-";
-              var year = date.getFullYear();
-              var month = date.getMonth() + 1;
-              var strDate = date.getDate();
-              if (month >= 1 && month <= 9) {
-                  month = "0" + month;
-              }
-              if (strDate >= 0 && strDate <= 9) {
-                  strDate = "0" + strDate;
-              }
-              var currentdate = year + seperator1 + month + seperator1 + strDate;
-              this.handleInfo.ukeyBorrowDate=currentdate;
+          { 
+              this.handleInfo.ukeyBorrowDate=this.currentDate();
           }
+          
+          this.handleInfo.employFeedbackOptDate = this.currentDate();
+         
+       },changeTypeDd(val){
+          
+          this.handleInfo.diaodangFeedbackOptDate = this.currentDate();
          
        },currentDate(){
               var date = new Date();

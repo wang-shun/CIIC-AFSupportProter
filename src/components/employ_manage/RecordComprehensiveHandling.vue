@@ -43,7 +43,7 @@
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
       </Col>
     </Row>
-    <Table border height="300" :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData" class="mt20"></Table>
+    <Table border height="300" :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData"  @on-row-dblclick="handleData" class="mt20"></Table>
      <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -715,9 +715,6 @@
            this.archiveQuery(this.searchCondition);
 
       },
-      showInfoT (idNum,idCardType,empTaskId,employmentId,employeeId,companyId,empTaskResignId) {
-        this.$router.push({name:'recordComprehensive', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employmentId:employmentId,employeeId:employeeId,companyId:companyId,empTaskResignId:empTaskResignId}});
-      },
       handlePageNum(val) {
         this.pageData.pageNum = val;
         let params = this.searchCondition
@@ -729,6 +726,8 @@
         this.archiveQuery(params);
         this.employeeArchiveCollection(params);
         this.resignArchiveCollection(params);
+      },handleData(row,index){
+         this.$router.push({name:'recordComprehensive', query: {empTaskId:row.empTaskId,employmentId:row.employmentId,employeeId:row.employeeId,companyId:row.companyId,empTaskResignId:row.empTaskResignId}});
       }
     },
     computed: {

@@ -1,18 +1,22 @@
 <template>
   <div class="smList">
-    <Tabs v-model="tabName" @on-click="switchTab">
-      <TabPane label="企业账户支付管理" name="paymentCom">
-        <paymentCom v-if="tabNames.paymentCom"></paymentCom>
+    <Tabs v-model="tabName" @on-click="switchTab" >
+      <TabPane label="企业账户支付管理" name="paymentCom" >
+        
       </TabPane>
       <TabPane label="支付批次申请" name="paymentBatch">
-        <paymentBatch v-if="tabNames.paymentBatch"></paymentBatch>
+       
       </TabPane>
+ 
+      
     </Tabs>
+     <paymentBatch v-if="tabNames.paymentBatch" @switchTab='switchTab'></paymentBatch>
+     <paymentCom v-if="tabNames.paymentCom"></paymentCom>
   </div>
 </template>
 <script>
-  import paymentCom from './tab/PaymentCom'//社保支付 -- 企业账户管理
   import paymentBatch from './tab/PaymentBatch'//社保支付 -- 支付批次
+  import paymentCom from './tab/PaymentCom'//社保支付 -- 企业账户管理
 
   export default {
     components: {paymentCom, paymentBatch},
@@ -21,7 +25,7 @@
         tabName: 'paymentCom',
         tabNames: {
           paymentCom: true,
-          paymentBatch: false,
+          paymentBatch: false ,
         }
       }
     },
@@ -31,7 +35,13 @@
     computed: {},
     methods: {
       switchTab(name) {
-        this.tabNames[name] = true;
+        if(name =='paymentCom'){
+            this.tabNames['paymentCom'] = true;
+            this.tabNames['paymentBatch'] = false;
+        }else{
+            this.tabNames['paymentCom'] = false;
+            this.tabNames['paymentBatch'] = true;
+        }
       }
     }
   }

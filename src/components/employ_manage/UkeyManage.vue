@@ -236,7 +236,7 @@ import Vue from 'vue'
       },
       add(){
         let d = new Date();
-        this.renewUkey.renewDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+        this.renewUkey.renewDate = d;//d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
         this.modal1 = true;
         this.renewUkey.type = '';
         this.renewUkey.renewDueDate = '';

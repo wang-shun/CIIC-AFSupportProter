@@ -27,6 +27,11 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/ssPaymentCom/doAddBatch', params);
     return await response.data;
   },
+  // 添加到出账批次
+  addPaymentBatch: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssPaymentCom/addPaymentBatch', params);
+    return await response.data;
+  },
   // 从出账批次移除
   doDelBatch: async (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssPaymentCom/doDelBatch', params);

@@ -63,7 +63,9 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span: 24}">
-          <Button type="primary" @click="goAddPayment()">新建批号</Button>
+        
+          <Button type="primary" @click="goAddPayment()">创建支付批次</Button>
+          <!-- <Button type="primary" @click="goCreatePaymentBatch()">创建支付批次</Button> -->
         </Col>
       </Row>
 
@@ -171,6 +173,7 @@
   import payBatchApi from '../../../../api/social_security/payment_batch'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
+import SocialSecurityPayVue from '../SocialSecurityPay.vue';
 
 
   export default {
@@ -211,26 +214,24 @@
         isShowProgress: false,
 
         payBatchColumns: [
-          {title: '操作', key: 'operator', width: 170, align: 'center',fixed:'left',
+          {title: '操作', key: 'operator', width:200, align: 'left',fixed:'left',
             render: (h, params) => {
               let b=[];
               let paymentId = params.row.paymentId;
               let paymentState = params.row.paymentState;
-              if(params.row.totalAccount>0 && !(paymentState != "3" && paymentState != "5" && paymentState != "7")){
-                  b.push(h('Button', {
-                    props: {type: 'success', size: 'small'},
-                    style: {margin: '0 auto'},
-                    on: {
-                      click: () => {
-                        this.goApplyPay(paymentId,paymentState)
-                      }
-                    }
-                  }, '申请支付'));
-              }
-              if( !(paymentState != "3" && paymentState != "5" && paymentState != "7")){ 
+              // b.push(h('Button', {
+              //       props: {type: 'success', size: 'small'},
+              //       style: {margin: '0 auto 0 5px'},
+              //       on: {
+              //         click: () => {
+              //           this.goPaymentCom(paymentId);
+              //         }
+              //       }
+              //     }, '查看'));
+              if( !(paymentState != "3" && paymentState != "5" && paymentState != "7")){
                 b.push(h('Button', {
                   props: {type: 'error', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
+                  style: {margin: '0 auto 0 5px'},
                   on: {
                     click: () => {
                       this.goDelPayment(paymentId,paymentState)
@@ -238,9 +239,21 @@
                   }
                 }, '删除'));
               }
-              return h('div', b);
+              if(params.row.totalAccount>0 && !(paymentState != "3" && paymentState != "5" && paymentState != "7")){
+                  b.push(h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto 0 5px'},
+                    on: {
+                      click: () => {
+                        this.goApplyPay(paymentId,paymentState)
+                      }
+                    }
+                  }, '申请支付'));
+              }
 
+              return h('div', b);
             }
+
           },
           {title: '出账批次号', key: 'paymentBatchNum', width: 150, align: 'center',
             render: (h, params) => {
@@ -367,8 +380,9 @@
       goPaymentNotice() {
         this.$router.push({name: 'paymentnotice'})
       },
-      ok () {
-
+      goPaymentCom(paymentId) {
+        sessionStorage.setItem("PaymentBatch_paymentId",paymentId);
+        this.$emit('switchTab','paymentCom');
       },
       cancel () {
 
@@ -521,6 +535,9 @@
             this.$Message.info(data.message);
           }
         })
+      },
+      goCreatePaymentBatch(){
+        this.$router.push({name:"createPaymentBatch"});
       },
       doAddPayment() {
         let paymentMonth = this.addPaymentData.paymentMonth;

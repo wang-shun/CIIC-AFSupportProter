@@ -140,22 +140,22 @@
             }
           },
           {
-            title: '客户编号', key: 'companyId', width: 120, align: 'center',sortable: true
+            title: '客户编号', key: 'companyId', width: 120, align: 'center',sortable: 'custom'
           },
           {
             title: '客户名称', key: 'title', width: 200, align: 'center'
           },
           {
-            title: '雇员编号', key: 'employeeId', width: 120, align: 'center',sortable: true
+            title: '雇员编号', key: 'employeeId', width: 120, align: 'center',sortable: 'custom'
           },
           {
             title: '雇员', key: 'employeeName', width: 100, align: 'center'
           },
           {
-            title: '雇员证件号', key: 'idNum', width: 200, align: 'center',sortable: true
+            title: '雇员证件号', key: 'idNum', width: 200, align: 'center',sortable: 'custom'
           },
           {
-            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center',sortable: true
+            title: '企业社保账号', key: 'ssAccount', width: 200, align: 'center',sortable: 'custom'
           },
           {
             title: 'UKEY密码', key: 'ssPwd', width: 200, align: 'center'
@@ -727,7 +727,7 @@
           }
           this.isLoading = false;
 
-          this.changeSortClass(storeOrder);
+          this.changeSortClass(this.orderConditions);
         })
       },
 

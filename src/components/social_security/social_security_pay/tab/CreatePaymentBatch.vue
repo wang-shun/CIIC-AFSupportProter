@@ -9,7 +9,6 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保账户类型：" prop="ssAccountType">
                   <Select v-model="payComSearchData.ssAccountType"   style="width: 100%;" transfer>
-                    <Option value="" label="全部"></Option>
                     <Option v-for="item in accountTypeList" :value="item.key" :key="item.key" >{{item.value}}</Option>
                   </Select>
                 </Form-item>
@@ -26,22 +25,9 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付年月：">
-                  <Row>
-                    <Col span="10">
-                      <Form-item prop="paymentMonthMin">
-                        <DatePicker v-model="payComSearchData.paymentMonthMin" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-                        <!--<input type="text" v-model="payComSearchData.paymentMonthMin" hidden>-->
+                      <Form-item prop="paymentMonth">
+                        <DatePicker v-model="payComSearchData.paymentMonth" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" disabled='true' readonly="true" transfer></DatePicker>
                       </Form-item>
-                    </Col>
-                    <Col span="2" offset="2">-</Col>
-                    <Col span="10">
-                    <Form-item prop="paymentMonthMax">
-                      <DatePicker v-model="payComSearchData.paymentMonthMax" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-                        <!--<input type="text" v-model="payComSearchData.paymentMonthMax" hidden>-->
-                    </Form-item>
-                    </Col>
-                  </Row>
-                  <!-- <DatePicker v-model="payComInfo.payDate" type="daterange" format="yyyy-MM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker> -->
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -61,14 +47,15 @@
                   <Cascader :data="serviceCenterData"  v-model="payComSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="金额是否一致：" prop="ifCheck">
                   <i-switch v-model="payComSearchData.ifCheck" size="large">
                       <span slot="open">是</span>
                       <span slot="close"></span>
                   </i-switch>
                 </Form-item>
-              </Col>
+              </Col> -->
+               
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -82,77 +69,26 @@
     </Collapse>
 
     <Form>
-      <Row class="mt20">
-        <Col :sm="{span: 24}">
-          <Button type="primary" @click="gotoAddBatch()">添加到出账批次号</Button>
-          <Button type="primary" @click="gotoDelBatch()">从出账批次号中移除</Button>
-          <Button type="info" @click="exportData">导出</Button>
-        </Col>
-      </Row>
-
         <Row class="mt20">
             <Col :sm="{span:24}">
                 <Table stripe
                     border ref="payComSelection"
                     :columns="payComColumns"
                     :data="payComData"
+                    height="380"
                     >
                 </Table>
-                <Page
-                    class="pageSize"
-                    @on-change="payComHandlePageNum"
-                    @on-page-size-change="payComHandlePageSite"
-                    :total="payComPageData.total"
-                    :page-size="payComPageData.pageSize"
-                    :page-size-opts="payComPageData.pageSizeOpts"
-                    :current="payComPageData.pageNum"
-                    show-sizer show-total>
-                </Page>
             </Col>
         </Row>
+        
         <Row class="mt20">
-        </Row>
-        <Row class="mt20">
-        </Row>
-        <Row class="mt20">
-        </Row>
+        <Col :sm="{span: 24}" class="tr">
+          <Button type="info" @click="createPaymentBatch()">生成支付批次</Button>
+          <Button type="info" @click="exportData">导出</Button>
+          <Button type="warning" @click="goBack">返回</Button>
+        </Col>
+      </Row>
     </Form>
-
-
-    <!-- 添加批次 -->
-    <Modal
-      v-model="addBatchData.isShowAddBatch"
-      width="80%"
-      title="加入批次">
-      <Table border :columns="addBatchData.payBatchColumns" :data="addBatchData.payBatchData" ></Table>
-
-      <div slot="footer">
-      </div>
-    </Modal>
-    <!-- 删除批次 -->
-    <Modal v-model="delBatchData.isShowDelBatch" width="360">
-      <p slot="header" style="color:#f60;text-align:center">
-        <Icon type="information-circled"></Icon>
-        <span>移除确认</span>
-      </p>
-      <div style="text-align:center">
-        <p>选中的数据将从批次中移除</p>
-        <p>是否继续移除</p>
-      </div>
-      <div slot="footer">
-        <Button type="error" size="large"  @click="doDelBatch()">移除</Button>
-      </div>
-    </Modal>
-
-    <!-- 进度 -->
-    <!-- <Modal
-      v-model="isShowProgress"
-      width="680"
-      title="查看进度"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <progress-bar :stepsInfo="steps"></progress-bar>
-    </Modal> -->
 
     <!-- 调整 -->
     <Modal
@@ -209,6 +145,7 @@
           <Button type="success"  @click="saveAdjustment()" :disabled='changeInfo.ifAdjustSave'>保存</Button>
       </div>
     </Modal>
+    
   </div>
 </template>
 <script>
@@ -233,10 +170,7 @@
           ssAccountType: '',
           paymentId: '',
           companyId: '',
-          paymentMonthMin: '',
-          paymentMonthMinShow: '',
-          paymentMonthMax: '',
-          paymentMonthMaxShow: '',
+          paymentMonth: '',
           paymentState: '3',
           comAccountId: '',
           ssAccount:'',
@@ -261,12 +195,7 @@
         isShowCustomerName: false,
         isShowProgress: false,
         progressStop: progressStop,
-        steps: [
-          {isOver: 1, title: '创建支付', author: '迎曦', date: '2016-12-12 12:32', action: {name: '', action: ''}},
-          {isOver: 0,title: '部门初审', author: '小龙女', date: '', action: {name: '催一下', action: ''}},
-          {isOver: -1, title: '财务复审', author: '', date: '', action: {name: '', action: ''}},
-          {isOver: -1, title: '财务复审', author: '', date: '', action: {name: '', action: ''}},
-        ],
+        
 
         //加入批次功能数据结构
         addBatchData:{
@@ -281,6 +210,7 @@
                   on: {
                     click: () => {
                       let paymentId = params.row.paymentId;
+
                       this.doAddBatch(paymentId);
                     }
                   }
@@ -288,13 +218,6 @@
               ]);
             }
           },
-            {title: '出账批次号', key: 'paymentBatchNum', width: 140, align: 'center',
-              render: (h, params) => {
-                return h('div', {style: {textAlign: 'right'}}, [
-                  h('span', params.row.paymentBatchNum),
-                ]);
-              }
-            },
             {title: '申请支付总金额', key: 'totalApplicationAmount', width: 140, align: 'center',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
@@ -426,13 +349,6 @@
 
         payComColumns: [
           {title: '', key: 'id', width: 55, fixed: 'left', type: 'selection'},
-          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',fixed: 'left',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.paymentBatchNum),
-              ]);
-            }
-          },
           {title: '支付年月', key: 'paymentMonth', width: 100, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -477,85 +393,74 @@
               ]);
             }
           },          
-          {title: '操作', key: 'operator', width: 180, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      let paymentComId = params.row.paymentComId;
-                      let oughtAmount = params.row.oughtAmount;
-                      let refundDeducted = params.row.refundDeducted;
-                      let adjustDeducted = params.row.adjustDeducted;
-                      let ifDeductedIntoPay = params.row.ifDeductedIntoPay;
-                      let extraAmount = params.row.extraAmount;
-                      let totalPayAmount = params.row.totalPayAmount;
-                      let remark = params.row.remark;
-                      let paymentState = params.row.paymentState;
-                      this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState)
-                    }
-                  }
-                }, '调整'),
-                // h('Button', {
-                //   props: {type: 'success', size: 'small'},
-                //   style: {margin: '0 auto 0 10px'},
-                //   on: {
-                //     click: () => {
-                //       this.isShowProgress = true;
-                //     }
-                //   }
-                // }
-                // , '进度'),
-               h('Button', {
-                 props: {type: 'success', size: 'small'},
-                 style: {margin: '0 auto 0 10px'},
-                 on: {
-                  // let self = this;
-                   click: () => {
-                     let paymentComId = params.row.paymentComId;
-                     let comAccountId = params.row.comAccountId;
-                     let paymentMonth = params.row.paymentMonth;
-                     let paymentState = params.row.paymentState;
-                     this.goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState);
-                   }
-                 }
-               }
-                , '付款通知书')
-              ]);
-            }
-          },
-          {title: '是否一致', key: 'ifCheck', width: 100, align: 'center',
-            render: (h, params) => {
-              if(params.row.ifCheck==1){
-                 return h('div', [
-                  h('A', {
-                      props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                        on: {
-                          dblclick: () => {
-                               this.doCheck(params.row.paymentComId,h)
-                          }
-                        }
-                      },'是'
-                    ),
-                ])
-              }else{
-                return h('div', [
-                  h('Button', {
-                    props: {type: 'success', size: 'small'},
-                    style: {margin: '0 auto'},
-                    on: {
-                      click: () => {
-                        this.doCheck(params.row.paymentComId,h)
-                      }
-                    }
-                  }, '一致'),
-                ]);
-              }
-            
-            }
-          },
+          // {title: '操作', key: 'operator', width: 180, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {
+          //         props: {type: 'success', size: 'small'},
+          //         style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             let paymentComId = params.row.paymentComId;
+          //             let oughtAmount = params.row.oughtAmount;
+          //             let refundDeducted = params.row.refundDeducted;
+          //             let adjustDeducted = params.row.adjustDeducted;
+          //             let ifDeductedIntoPay = params.row.ifDeductedIntoPay;
+          //             let extraAmount = params.row.extraAmount;
+          //             let totalPayAmount = params.row.totalPayAmount;
+          //             let remark = params.row.remark;
+          //             let paymentState = params.row.paymentState;
+          //             this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState)
+          //           }
+          //         }
+          //       }, '调整'),
+          //      h('Button', {
+          //        props: {type: 'success', size: 'small'},
+          //        style: {margin: '0 auto 0 10px'},
+          //        on: {
+          //         // let self = this;
+          //          click: () => {
+          //            let paymentComId = params.row.paymentComId;
+          //            let comAccountId = params.row.comAccountId;
+          //            let paymentMonth = params.row.paymentMonth;
+          //            let paymentState = params.row.paymentState;
+          //            this.goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState);
+          //          }
+          //        }
+          //      }
+          //       , '付款通知书')
+          //     ]);
+          //   }
+          // },
+          // {title: '是否一致', key: 'ifCheck', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     if(params.row.ifCheck==1){
+          //        return h('div', [
+          //         h('A', {
+          //             props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+          //               on: {
+          //                 dblclick: () => {
+          //                      this.doCheck(params.row.paymentComId,h)
+          //                 }
+          //               }
+          //             },'是'
+          //           ),
+          //       ])
+          //     }else{
+          //       return h('div', [
+          //         h('Button', {
+          //           props: {type: 'success', size: 'small'},
+          //           style: {margin: '0 auto'},
+          //           on: {
+          //             click: () => {
+          //               this.doCheck(params.row.paymentComId,h)
+          //             }
+          //           }
+          //         }, '一致'),
+          //       ]);
+          //     }
+          //   }
+          // },
           {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -637,26 +542,21 @@
         payComPageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+          pageSize: 99999,
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         }
       }
     },
     mounted() {
-      this.getCustomers()
+      //this.payComHandlePageNum(1);
       this.loadDict();
-      let paymentId=sessionStorage.getItem("PaymentBatch_paymentId");
-      if(paymentId){
-        this.payComSearchData.paymentId=paymentId;
-        this.paymentComQuery();
-        sessionStorage.setItem("PaymentBatch_paymentId",null);
-        this.payComSearchData.paymentId='';
-        return;
-      }
-      let queryMonth = new Date()
-      queryMonth.setMonth(queryMonth.getMonth()-1);
-      this.payComSearchData.paymentMonthMin=queryMonth;
+      let d = new Date()
+      d.setMonth(d.getMonth()-1);
+
+      this.payComSearchData.paymentMonth=d;
+
       this.paymentComQuery();
+      this.getCustomers()
     },
     computed: {
     },
@@ -682,6 +582,7 @@
             this.accountTypeList = data.data.SocialSecurityAccountType;
             sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
             sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
+                this.payComSearchData.ssAccountType = '3';
           }
         });
       },
@@ -852,14 +753,10 @@
           this.$Message.info("额外金必须为数字");
           return;
         }
-
-
         //抵扣费用是否纳入支付申请
         let ifDeductedIntoPay = this.changeInfo.ifDeductedIntoPay;
-
         //备注
         let remark = this.changeInfo.remark;
-
         payComApi.saveAdjustment({
           paymentComId: paymentComId,
           extraAmount: extraAmount,
@@ -871,22 +768,19 @@
             this.closeAdjustment();
             //重新查询
             this.paymentComQuery()
-
           }else{
             this.$Message.info(data.message);
           }
         })
-
       },
       //关闭调整框
       closeAdjustment(){
         this.changeInfo.isShowChange = false;
       },
-      gotoAddBatch(){
+      // 生成支付批次
+      createPaymentBatch(){
         //获取选中列
-
         let selection = this.$refs.payComSelection.getSelection();
-
         //判断条件
         //是否有选中列
         if(selection.length == 0){
@@ -907,9 +801,6 @@
             this.$Message.info("已有出账批次的数据不可以再加入批次");
             return;
         }
-
-
-
         //判断选中列是否都是同一个社保账户分类
         let ssAccountType = selection[0].ssAccountType;
         let paymentMonth =selection[0].paymentMonth;
@@ -925,8 +816,6 @@
             this.$Message.info("选中列中社保账户类型不同");
             return;
         }
-
-
         //判断选中列的支付状态(只有可付:3 和内部审批批退:5 可以进行此操作)
         let isDisableState = false;
         selection.some(item => {
@@ -940,20 +829,27 @@
             this.$Message.info("只有可付和批退状态的记录可以进行添加批次操作");
             return;
         }
-        //检索数据
-        payComApi.showAddBatch({
-          accountType: ssAccountType,
-          paymentMonth: paymentMonth,
-        }).then(data => {
-          this.addBatchData.payBatchData = data.data;
-        })
+  
         //将数据传给子画面
         this.addBatchData.paymentComIdList = [];
         selection.forEach(item => {
           this.addBatchData.paymentComIdList.push(item.paymentComId);
         });
-        //展示页面
-        this.addBatchData.isShowAddBatch = true;
+
+        payComApi.addPaymentBatch({
+          paymentId: paymentId,
+          paymentComIdList: paymentComIdList,
+        }).then(data => {
+          if(data.code == "0"){
+            this.$Message.info("操作成功");
+            this.closeAddBatch();
+            //重新查询
+            this.paymentComQuery()
+          }else{
+            console.log(data);
+            this.$Message.info(data.message);
+          }
+        })
       },
       //执行添加批次
       doAddBatch(paymentId){
@@ -1064,8 +960,10 @@
       closeDelBatch(){
         this.delBatchData.isShowDelBatch = false;
       },
-
-
+      goBack () {
+        this.$router.go(-1);
+      },
+      
     }
   }
 </script>

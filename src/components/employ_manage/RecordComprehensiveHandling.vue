@@ -91,25 +91,6 @@
         // 下半部分
         recordComprehensiveHandlingColumns: [
           {title: '', type: 'selection', width: 60},
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 120,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employmentId,params.row.employeeId,params.row.companyId,params.row.empTaskResignId)
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
           {title: '用工方式', key: 'employWay', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [

@@ -132,11 +132,6 @@
             {{employee.ssPwd}}
           </Form-item>
         </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="公司特殊情况：">
-            {{employee.employSpecial}}
-          </Form-item>
-        </Col>
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="寄退工单：">
               <Checkbox  v-model="employee.mailContinue" ></Checkbox>
@@ -160,6 +155,11 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="邮寄退工单电话：">
             {{employee.phone}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 16}">
+          <Form-item label="公司特殊情况：">
+            {{employee.employSpecial}}
           </Form-item>
         </Col>
       </Row>

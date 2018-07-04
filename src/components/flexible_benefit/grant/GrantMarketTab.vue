@@ -98,7 +98,7 @@
           {
             title: '申请时间', key: 'applyTime', align: 'center',
             render: (h, params) => {
-              return this.$utils.formatDate(params.row.applyTime, 'YYYY-MM-DD');
+              return h('div', this.$utils.formatDate(params.row.applyTime, 'YYYY-MM-DD'));
             }
           },
           {

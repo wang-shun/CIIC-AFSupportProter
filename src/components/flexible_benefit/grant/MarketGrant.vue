@@ -22,7 +22,7 @@
               <Form-item label="申请人职位: ">{{ applyRecord.contactPosition }}</Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="申请时间: ">{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD HH:mm:ss')}}
+              <Form-item label="申请时间: ">{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD')}}
               </Form-item>
               </Col>
             </Row>

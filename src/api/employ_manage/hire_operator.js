@@ -203,6 +203,11 @@ export default {
     let response = await AJAX.post('/api/employservice/amArchiveUkey/amArchiveUkeyRenew', params);
     return await response.data;
   },
+   // 根据公司编号名称查询组织机构代码
+   queryOrganizationCodeByCid:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveUkey/queryOrganizationCodeByCid', params);
+    return await response.data;
+  },
   saveBatchEmploy,
   batchSaveEmployment:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/batchSaveEmployment', params);

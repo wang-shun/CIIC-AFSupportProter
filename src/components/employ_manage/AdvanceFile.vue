@@ -10,8 +10,8 @@
         <Form-item label="预留档案类型：">
           <Select transfer @on-change="changeTypeYuliu" v-model="advanceFile.reservedArchiveType">
             <Option value="" key="">空</Option>
-              <Option v-for="item in docTypeList" :value="item.docType" :key="item.docType">
-                {{item.docType}}
+              <Option v-for="item in docTypeList" :value="item.value" :key="item.value">
+                {{item.label}}
               </Option>
           </Select>
         </Form-item>
@@ -55,6 +55,11 @@
         <Input v-model="advanceFile.remark" placeholder="请输入..."></Input>
       </Form-item>
       </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="退回寄出地日期：">
+          <DatePicker  type='date' placement="bottom-end" v-model="advanceFile.exitThePlaceDate" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-if="$route.query.createdBy!=''&&$route.query.createdBy!=undefined">
         <Form-item label="操作人：">
           <label>{{$route.query.createdBy}}</label>
@@ -82,7 +87,9 @@ import Vue from 'vue'
     data() {
       return {
         collapseInfo: [1], //展开栏
-        docTypeList: [],
+        docTypeList: [
+          {value: 'Cc',label: 'Cc'}
+        ],
         oldName: [],
         oldId: [],
         isOne: true,
@@ -100,6 +107,7 @@ import Vue from 'vue'
           archivalPlace: '',
           exist: true,
           remark: '',
+          exitThePlaceDate: ''
         },
         payMethodList: [
           {value: '1',label: "客户自付", },
@@ -133,6 +141,7 @@ import Vue from 'vue'
       this.advanceFile.enteringDate = this.$route.query.enteringDate;
       this.advanceFile.archiveSource = this.$route.query.archiveSource;
       this.advanceFile.archivalPlace = this.$route.query.archivalPlace;
+      this.advanceFile.exitThePlaceDate = this.$route.query.exitThePlaceDate;
       this.advanceFile.remark = this.$route.query.remark;
       this.oldName = this.$route.query.employeeName;
       this.oldId = this.$route.query.employeeIdcardNo;
@@ -142,13 +151,13 @@ import Vue from 'vue'
         let d = new Date();
         this.advanceFile.enteringDate = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
       }
-      api.queryAmArchiveDocType().then(data => {
-          if (data.code == 200) {
-              this.docTypeList = data.data.docSeqList;
-          } else {
-              this.$Message.error("服务器异常" + data.message);
-          }
-        })
+      // api.queryAmArchiveDocType().then(data => {
+      //     if (data.code == 200) {
+              //this.docTypeList = data.data.docSeqList;
+        //   } else {
+        //       this.$Message.error("服务器异常" + data.message);
+        //   }
+        // })
     }
     ,
     methods: {
@@ -227,6 +236,9 @@ import Vue from 'vue'
         var fromData = this.$utils.clear(this.advanceFile,'');
         if(this.advanceFile.enteringDate){
            fromData.enteringDate = this.$utils.formatDate(this.advanceFile.enteringDate, 'YYYY-MM-DD');
+        }
+        if(this.advanceFile.exitThePlaceDate){
+           fromData.exitThePlaceDate = this.$utils.formatDate(this.advanceFile.exitThePlaceDate, 'YYYY-MM-DD');
         }
         api.saveAmArchiveAdvance(fromData).then(data => {
           if (data.code == 200) {

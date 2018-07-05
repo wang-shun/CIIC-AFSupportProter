@@ -13,6 +13,8 @@ let em_chooseField = {
   "b.handle_type":"办理类型",
   "b.employ_operate_man":"用工操作员",
   "a.employee_nature":"人员性质",
+  "a.created_time":"前端提交时间",
+  "m.material_name":"材料名称",
   "b.employ_way":"用工方式",
   "e.settlement_area":"缴费区县",
   "b.employ_property":"用工属性",
@@ -23,6 +25,7 @@ let em_chooseField = {
   "c.employ_feedback_opt_date":"用工反馈操作日期",
   "c.ukey_borrow_date":"用工UKey外借日期",
   "c.ukey_return_date":"用工Ukey返回日期",
+  
   "a.change":"是否翻牌",
 };
 let em_resign_chooseField = {

@@ -52,16 +52,11 @@
         </Col>
       
       </Row>
-      <Row type="flex" justify="start">
-        <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="instance()">保存</Button>
-        </Col>
-      </Row>
+     
     </Form>
   </div>
 </template>
 <script>
- import api from '../../../api/employ_manage/hire_operator'
   export default {
     props: {
       employIndependentInfo: {
@@ -78,65 +73,6 @@
       employSpecial() {
         return this.employIndependentInfo;
       }
-    },
-    methods: {
-
-       instance() {
-        
-        var fromData = this.$utils.clear(this.employIndependentInfo,'');
-        var str = '';
-        if(this.employIndependentInfo.companySpecial0==1)
-        {
-          str = str + '无材料用工'+',';
-        }
-
-        if(this.employIndependentInfo.companySpecial1==1)
-        {
-          str = str + '提交材料复印件件无材料用工'+',';
-        }
-
-        if(this.employIndependentInfo.companySpecial2==1)
-        {
-          str = str + '公司自开录用名册'+',';
-        }
-
-        if(this.employIndependentInfo.companySpecial3==1)
-        {
-          str = str + '公司更名'+',';
-        }
-
-        if(this.employIndependentInfo.companySpecial4==1)
-        {
-          str = str + '有盖章录用名册'+',';
-        }
-
-        if(this.employIndependentInfo.companySpecial5==1)
-        {
-          str = str + '公司自开录用名册'+',';
-        }
-
-        if(this.employIndependentInfo.companySpecial6==1)
-        {
-          str = str + '用工成功录用名册归还公司'+',';
-        }
-
-        if(this.employIndependentInfo.companySpecial7==1)
-        {
-          str = str + '公司不同意名册盖章（电子章）'+',';
-        }
-
-       fromData.employSpecial = str;
-       
-        api.saveCompanySet(fromData).then(data => {
-              if (data.code == 200) {
-                  this.$Message.success("保存成功");
-                } else {
-                  this.$Message.error("保存失败！" + data.message);
-                }
-        })
-         
-       }
-       
     }
   }
 </script>

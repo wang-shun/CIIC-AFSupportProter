@@ -142,9 +142,10 @@
     methods: {
       // 选择字段或关系
       setOption(content, type){
+       
         if(type === chooseType.field) {
          
-          if(content.value.indexOf("date")>0){
+          if(content.value.indexOf("date")>0||content.value.indexOf("created_time")>0){
             this.searchForm.isDate=1;
           }else{
             this.searchForm.isDate=0;

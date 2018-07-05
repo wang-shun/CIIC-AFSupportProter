@@ -262,7 +262,7 @@
         },
         employmentFormList: [
           {value: '1', label: '全日制'},
-          {value: '2', label: '其它'}
+          {value: '2', label: '非全日制'}
         ],
         handleTypeList: [
           {value: '空', label: '空'},

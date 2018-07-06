@@ -16,6 +16,11 @@ else if ('sit' === dev) {
   env.isJar = true
   env.debug = false
 }
+else if ('lpt' === dev) {
+  env.localhost = 'http://172.16.9.69';
+  env.isJar = true
+  env.debug = false
+}
 else if ('uat' === dev) {
   env.localhost = 'http://172.16.9.61';
   env.isJar = true

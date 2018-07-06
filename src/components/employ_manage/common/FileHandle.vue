@@ -3,27 +3,24 @@
     <Form :label-width="150" ref="file1" :model="file1">
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="预留档案类别：">
-          <Select transfer @on-change="changeTypeYuliu" filterable v-model="file1.yuliuDocType">
+        <Form-item label="预留档案编号：">
+          <Select transfer @on-change="changeTypeYuliu" filterable v-model="file1.yuliuDocType" style="width:100px">
             <Option v-for="item in file1.docSeqList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
+          <Input v-model="file1.yuliuDocNum" placeholder="请输入" :maxlength="9" style="width:245px"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="预留档案编号：" prop="yuliuDocNum">
-          <Input v-model="file1.yuliuDocNum" placeholder="请输入" :maxlength="9"/>
-        </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="档案类别：">
-          <Select transfer @on-change="changeType" filterable v-model="file1.docType">
+        <Form-item label="档案编号：">
+          <Select transfer @on-change="changeType" filterable v-model="file1.docType" style="width:100px">
             <Option v-for="item in file1.docSeqList2" :value="item.docType" :label="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
+          <Input v-model="file1.docNum" placeholder="请输入" :maxlength="9" style="width:245px"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="档案编号：" prop="docNum">
-          <Input v-model="file1.docNum" placeholder="请输入" :maxlength="9"/>
+        <Form-item label="档案号：">
+          <Input v-model="file1.docCode" placeholder="请输入" :maxlength="50"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -34,8 +31,31 @@
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="档案来源：" prop="docFrom">
+          <Select v-model="file1.docFrom" transfer>
+            <Option v-for="item in fileOriginList" :value="item.value" :key="item.value">{{item.label}}</Option>
+          </Select>
+        </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="进档日期：">
+          <DatePicker  type="date" v-model="file1.inFileDate" placeholder="" @on-open-change="setCurrentDate3" @on-change="changeDate3" transfer></DatePicker>
+        </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="存档地补充：">
           <Input v-model="file1.archivePlaceAdditional" placeholder="请输入" :maxlength="50"/>
+        </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="户口号：" prop="hukouCode">
+          <Input v-model="file1.hukouCode" placeholder="请输入" :maxlength="50"/>
+          <input type="text" v-model="file1.archiveId" hidden>
+        </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="入库日期：" prop="storageDate">
+          <DatePicker type="date" v-model="file1.storageDate" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -46,37 +66,9 @@
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="档案号：">
-          <Input v-model="file1.docCode" placeholder="请输入" :maxlength="50"/>
-        </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="档案来源：" prop="docFrom">
-          <Select v-model="file1.docFrom" transfer>
-            <Option v-for="item in fileOriginList" :value="item.value" :key="item.value">{{item.label}}</Option>
-          </Select>
-        </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="户口号：" prop="hukouCode">
-          <Input v-model="file1.hukouCode" placeholder="请输入" :maxlength="50"/>
-          <input type="text" v-model="file1.archiveId" hidden>
-        </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="用工档案缴费至：" prop="employDocPaymentTo">
-          <DatePicker type="date" v-model="file1.employDocPaymentTo" @on-open-change="setCurrentDate" @on-change="changeDate" transfer></DatePicker>
-        </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="入库日期：" prop="storageDate">
-          <DatePicker type="date" v-model="file1.storageDate" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
-        </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="进档日期：">
-          <DatePicker  type="date" v-model="file1.inFileDate" placeholder="" @on-open-change="setCurrentDate3" @on-change="changeDate3" transfer></DatePicker>
-        </Form-item>
+          <Form-item label="用工档案缴费至：" prop="employDocPaymentTo">
+            <DatePicker type="date" v-model="file1.employDocPaymentTo" @on-open-change="setCurrentDate" @on-change="changeDate" transfer></DatePicker>
+          </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="录用处理结束：">

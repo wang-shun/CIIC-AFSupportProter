@@ -139,7 +139,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工反馈：" prop="employFeedback">
-                <Select  @on-change="changeType" transfer v-model="materialHandleInfo.employFeedback">
+                <Select  @on-change="changeType" transfer v-model="materialHandleInfo.employFeedback" >
                   <Option v-for="item in employFeedbackList" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
@@ -152,7 +152,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span:6}">
               <Form-item label="调档反馈：" prop="diaodangFeedback">
-                <Select transfer v-model="materialHandleInfo.diaodangFeedback">
+                <Select @on-change="changeTypeDd" transfer v-model="materialHandleInfo.diaodangFeedback">
                   <Option v-for="item in transferFeedbackList" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
@@ -338,7 +338,6 @@
           {value: '独立', label: '独立'}
         ],
         employFeedbackList: [
-          {value:'0',label:'空'},
           {value:'3',label:'用工成功'},
           {value:'10',label:'用工已办查无档'},
           {value:'4',label:'用工失败'},
@@ -486,8 +485,13 @@
        this.isLoading = true;
         api.saveBatchEmploy(fromData).then(data => {
             if (data.data.code == 200) {
-              this.materialHandleInfo.end =data.data.data.end;
-              this.$Message.success("批量办理成功");
+              if(data.data.data.remark){
+                  this.$Message.error(data.data.data.remark);
+              }else{
+                  this.materialHandleInfo.end =data.data.data.end;
+                  this.$Message.success("批量办理成功");
+              }
+             
             } else {
               this.$Message.error("保存失败！" + data.data.message);
             }
@@ -608,26 +612,7 @@
         }
         this.handleInfoMaterial.defaultC = '1';
 
-      },
-      changeType(val){
-          if(val==11)
-          {
-              var date = new Date();
-              var seperator1 = "-";
-              var year = date.getFullYear();
-              var month = date.getMonth() + 1;
-              var strDate = date.getDate();
-              if (month >= 1 && month <= 9) {
-                  month = "0" + month;
-              }
-              if (strDate >= 0 && strDate <= 9) {
-                  strDate = "0" + strDate;
-              }
-              var currentdate = year + seperator1 + month + seperator1 + strDate;
-              this.materialHandleInfo.ukeyBorrowDate=currentdate;
-          }
-         
-       },currentDate(){
+      },currentDate(){
               var date = new Date();
               var seperator1 = "-";
               var year = date.getFullYear();
@@ -641,6 +626,19 @@
               }
               var currentdate = year + seperator1 + month + seperator1 + strDate;
               return currentdate;
+       },changeType(val){
+          
+          if(val==11)
+          { 
+              this.materialHandleInfo.ukeyBorrowDate=this.currentDate();
+          }
+          
+          this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+         
+       },changeTypeDd(val){
+          
+          this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
+         
        },setCurrentDate(e) {
         if(e){
           if(this.employmentInfo.receiveDate==''||this.employmentInfo.receiveDate==undefined)

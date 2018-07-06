@@ -1,5 +1,5 @@
 <template>
-  <Form :model="searchForm" ref="searchForm" :label-width="100">
+  <Form :model="searchForm" ref="searchForm" :label-width="100" @submit.native.prevent>
     <Row justify="start">
       <Col :sm="{span: 8}">
       <Row>

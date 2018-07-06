@@ -485,8 +485,13 @@
        this.isLoading = true;
         api.saveBatchEmploy(fromData).then(data => {
             if (data.data.code == 200) {
-              this.materialHandleInfo.end =data.data.data.end;
-              this.$Message.success("批量办理成功");
+              if(data.data.data.remark){
+                  this.$Message.error(data.data.data.remark);
+              }else{
+                  this.materialHandleInfo.end =data.data.data.end;
+                  this.$Message.success("批量办理成功");
+              }
+             
             } else {
               this.$Message.error("保存失败！" + data.data.message);
             }

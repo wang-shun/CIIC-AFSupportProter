@@ -1,5 +1,5 @@
 <template>
-  <Form :model="searchForm" ref="searchForm" :label-width="100">
+  <Form :model="searchForm" ref="searchForm" :label-width="100" @submit.native.prevent>
     <Row justify="start">
       <Col :sm="{span: 8}">
       <Row>
@@ -114,7 +114,7 @@
       }
     },
     async mounted() {
-
+     
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
       var fu = sessionStorage.getItem('socialDaily'+userInfo.userId);
@@ -178,7 +178,12 @@
         } else {
           if(this.searchForm.isDate==1){
              var d = new Date(this.searchForm.searchContent);
-             this.searchForm.searchContent=d.getFullYear() + '-' + (d.getMonth() + 1);
+              var year = d.getFullYear();
+              var month = d.getMonth() + 1; 
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+               this.searchForm.searchContent=year + '-' + month;
           }
 
           var temp_searchContent = this.searchForm.searchContent;
@@ -221,6 +226,7 @@
       },
       resetForm(form) {
         this.$refs[form].resetFields();
+        this.searchConditions=[];
       },
       searchEmploiees() {
          var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));

@@ -51,7 +51,7 @@
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
-  import searchEmployee from "./SearchEmployee.vue"
+  import searchEmployee from "./SearchEmployeeR.vue"
   import tableStyle from '../../../../api/table_style'
 
   export default {
@@ -172,7 +172,7 @@
       sessionData.getJsonDataFromSession('employeeCommonOperator.Refused.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeCommonOperator.Refused.employeeResultPageData', this.employeeResultPageData);
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyROrder'+userInfo.userId));
       this.employeeResultColumns.filter((e) => {
 
       if(storeOrder==null)
@@ -214,7 +214,7 @@
       this.loadDict();
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyROrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
     computed: {
@@ -433,10 +433,12 @@
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
            for(var i=0;i<conditions.length;i++)
-              this.searchConditions.push(conditions[i].exec);
+           {
+               this.searchConditions.push(conditions[i].exec);
+           }
         }else{
           // 否则从session 里边去缓存的表单查询值
-          var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
+          var temp = sessionStorage.getItem('socialDailyR'+userInfo.userId);
 
           if(temp==null){
 
@@ -452,7 +454,7 @@
           }
 
         }
-        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyROrder'+userInfo.userId));
         if(storeOrder==null)
         {
 
@@ -491,8 +493,8 @@
         this.orderConditions = [];
         this.searchConditions =[];
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-        var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
-        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        var conditions = JSON.parse(sessionStorage.getItem('socialDailyR'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyROrder'+userInfo.userId));
        if(conditions!=null){
             for(var i=0;i<conditions.length;i++)
               this.searchConditions.push(conditions[i].exec);
@@ -542,7 +544,7 @@
             this.orderConditions.push(searchConditionExec);
         }
 
-        sessionStorage.setItem('socialDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+        sessionStorage.setItem('socialDailyROrder'+userInfo.userId, JSON.stringify(this.orderConditions));
         if(this.orderConditions.length>0)
         {
           for(let index  in this.orderConditions)

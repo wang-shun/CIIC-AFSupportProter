@@ -60,7 +60,7 @@
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
-  import searchEmployee from "./SearchEmployee.vue"
+  import searchEmployee from "./SearchEmployeeP.vue"
   import tableStyle from '../../../../api/table_style'
 
   export default {
@@ -187,7 +187,7 @@
       sessionData.getJsonDataFromSession('employeeCommonOperator.Progressing.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeCommonOperator.Progressing.employeeResultPageData', this.employeeResultPageData);
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyPOrder'+userInfo.userId));
       this.employeeResultColumns.filter((e) => {
       if(storeOrder===null)
       {
@@ -226,20 +226,13 @@
 //      this[EventType.THISMONTHHANDLETYPE]()
       // this.employeeOperatorQuery();
       // this.loadDict();
-       this.searchConditions =[];
-       this.searchConditions = JSON.parse(sessionStorage.getItem('searchEmploiees'));
-
-       if(this.searchConditions==null)
-       {
-         this.searchConditions =[];
-       }
-
-
+      this.searchConditions =[];
+    
       this.searchEmploiees(this.searchConditions);
       this.loadDict();
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyPOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
     computed: {
@@ -445,10 +438,12 @@
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
           for(var i=0;i<conditions.length;i++)
-            this.searchConditions.push(conditions[i].exec);
+          {
+             this.searchConditions.push(conditions[i].exec);
+          }
         }else{
           // 否则从session 里边去缓存的表单查询值
-          var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
+          var temp = sessionStorage.getItem('socialDailyP'+userInfo.userId);
 
           if(temp==null){
 
@@ -458,13 +453,13 @@
             {
               for(var index  in searchEmploiees)
               {
-                this.searchConditions.push(searchEmploiees[index].exec);
+                  this.searchConditions.push(searchEmploiees[index].exec);
               }
             }
           }
 
         }
-        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyPOrder'+userInfo.userId));
         if(storeOrder==null)
         {
 
@@ -492,6 +487,7 @@
         }})
       },
       searchEmploiees(conditions) {
+        
         if (this.isLoading) {
           return;
         }
@@ -512,10 +508,12 @@
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
            for(var i=0;i<conditions.length;i++)
+           {
               this.searchConditions.push(conditions[i].exec);
+           }
         }else{
           // 否则从session 里边去缓存的表单查询值
-          var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
+          var temp = sessionStorage.getItem('socialDailyP'+userInfo.userId);
 
           if(temp==null){
 
@@ -532,7 +530,7 @@
 
         }
 
-      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyPOrder'+userInfo.userId));
 
       if(storeOrder==null)
       {
@@ -546,7 +544,7 @@
           }
         }
       }
-
+     
         this.searchCondition.params = this.searchConditions.toString();
 
         api.employeeOperatorQuery({
@@ -575,9 +573,9 @@
 
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
-        var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
+        var conditions = JSON.parse(sessionStorage.getItem('socialDailyP'+userInfo.userId));
 
-        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyPOrder'+userInfo.userId));
 
         if(conditions!=null){
             for(var i=0;i<conditions.length;i++)
@@ -632,7 +630,7 @@
             this.orderConditions.push(searchConditionExec);
         }
 
-        sessionStorage.setItem('socialDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+        sessionStorage.setItem('socialDailyPOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
 
         if(this.orderConditions.length>0)
         {

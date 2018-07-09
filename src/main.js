@@ -9,7 +9,9 @@ import commons from "./lib/commons";
 import Validator from '@/validator/flexible_benefit'
 
 import 'iview/dist/styles/iview.css'
-import '../static/css/style.css' //修改全局樣式
+import '../static/css/common.css'
+import '../static/css/style.css'
+import '../static/css/overwrite.css'
 
 import Dic from './lib/dic.js'
 import moment from 'moment'

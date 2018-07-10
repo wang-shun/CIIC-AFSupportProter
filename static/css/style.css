@@ -121,7 +121,7 @@ html,body, .ivu-row-flex, .layout{
   background: #3c8dbc;
 }
 .layoutMenuLeft .layout-menu-left {
-  background: #367fa9 url("../../static/img/support_center.jpg") no-repeat 100%;
+  background: #367fa9 url("../../static/img/support_center.jpg") no-repeat top right 100%;
 }
 
 /* 容器 */
@@ -247,6 +247,19 @@ html,body, .ivu-row-flex, .layout{
 .logoFonts {
   color: #fff;
   font-size: 18px;
+}
+
+/* 前端规范1.5.2 */
+.ivu-form .ivu-form-item-label {
+  text-align: right;
+  vertical-align: middle;
+  float: left;
+  font-size: 12px;
+  font-weight: bold;
+  color: #333;
+  line-height: 1;
+  padding: 10px 12px 10px 0;
+  box-sizing: border-box;
 }
 
 /*滚动条样式*/

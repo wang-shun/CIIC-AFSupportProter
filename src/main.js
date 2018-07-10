@@ -34,15 +34,12 @@ const response = {
   'message': 'OK'
 }
 window.addEventListener('message', (event) => {
-  const userInfo = window.localStorage.getItem('userInfo')
   const currentGoTo = window.localStorage.getItem('currentGoTo')
   const message = !event.data ? {} : JSON.parse(event.data)
   const isToken = message.token !== undefined
   if (isToken && (currentGoTo === null || currentGoTo !== '')) {
-    if ((userInfo === null) || (userInfo === '')) {
-      window.localStorage.setItem('userInfo', event.data)
-    }
-    window.parent.postMessage(JSON.stringify(response), event.origin)
+    window.localStorage.setItem('userInfo', event.data)
+    top.postMessage(JSON.stringify(response), event.origin)
   } else {
     if ((currentGoTo !== null) && (currentGoTo !== '')) {
       window.localStorage.removeItem('currentGoTo')

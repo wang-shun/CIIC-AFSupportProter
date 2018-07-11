@@ -183,7 +183,7 @@
               if (month >= 1 && month <= 9) {
                   month = "0" + month;
               }
-               this.searchForm.searchContent=year + '-' + month;
+              this.searchForm.searchContent= year + month;
           }
 
           var temp_searchContent = this.searchForm.searchContent;

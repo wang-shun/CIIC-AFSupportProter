@@ -75,8 +75,8 @@ function getFundPayNoteObj(row){
 return html;
 }
 
-
-export class FundPay {
+ 
+export  class FundPay {
   constructor() {
   }
 
@@ -451,6 +451,25 @@ export class FundPay {
   static operateDetailExcelExport(params) {
     return new Promise(function(resolve,reject){
       ajax.download('/api/fundcommandservice/hfMonthCharge/operateDetailExcelExport', params);
+    })
+  }
+
+   //询问财务是否可付
+   static enquireFinanceComAccount (params){
+    const AJAXMsg=utils.ajaxHfMessage;
+    let url ="/hf/messageservice/summarycalculate";
+    return new Promise(function(resolve,reject){
+      AJAXMsg.post(url, params).then(function (response) {
+        let responseData = {
+            code:response.data.code,
+            message:response.data.message,
+            data:response.data.data,
+        }
+        resolve(responseData)
+      }).catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
     })
   }
 }

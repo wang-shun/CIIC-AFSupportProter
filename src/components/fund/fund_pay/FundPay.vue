@@ -54,6 +54,8 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+
+        <Button type="info" @click="enquireFinanceComAccount()">询问财务可付状态</Button>
         <Button type="primary" @click="goMakePayList">制作汇缴名单</Button>
         <Dropdown @on-click="exportTable">
           <Button type="info">
@@ -338,17 +340,24 @@
               ]);
             }
           },
-          {title: '制单日期', key: 'createPaymentDateString', align: 'center', width: 180,
+          {title: '制单日期', key: 'createPaymentDateString', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.createPaymentDateString),
               ]);
             }
           },
-          {title: '财务支付日期', key: 'financePaymentDateString', align: 'center', width: 150,
+          {title: '财务支付日期', key: 'financePaymentDateString', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.financePaymentDateString),
+              ]);
+            }
+          },
+          {title: '付款方式', key: 'paymentWay', align: 'center', width: 110,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', this.$decode.hf_payment_paymentWay(params.row.paymentWay)),
               ]);
             }
           },
@@ -785,7 +794,7 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        if(row.paymentState == 2){
+        if(row.paymentState == 2 && (row.paymentWay == 2 || row.paymentWay == 3) ){
           let params = {
             paymentId:row.paymentId,
             operator:""
@@ -804,7 +813,7 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        if(row.paymentState == 5){
+        if(row.paymentState == 5 || row.paymentWay == 0){
           let params = {
             paymentId:row.paymentId,
             operator:""
@@ -1091,8 +1100,31 @@
            pageNum: 1,
            params: params,
          });
- 
        },
+       enquireFinanceComAccount(){
+          let y;
+          let m=new Date().getMonth()+1;
+        this.$Modal.confirm({
+              title: '手动询问结算中心是否可付',
+              content: `系统将执行所有未到款企业账户的财务询问，执行时间较长，您确认操作吗？`,
+              onOk:function(){
+                let userInfo = localStorage.getItem('userInfo');
+                let params = {
+                  comAccountId:'0',
+                  ssMonth:'hf',
+                  generalMethod:'enquireFinanceComAccount',
+                };
+                FundPay.enquireFinanceComAccount(params).then(data=>{
+                  if(data.code==0)
+                  {
+                    this.$Message.success("操作成功！请等待几分钟后，再到查询您要支付的企业账户");
+                  }else{
+                    this.$Message.error("系统正在执行中，请等待！");
+                  }
+              })
+              }, 
+          });
+      },
     }
   }
 </script>

@@ -296,22 +296,40 @@
             return false;
         }
         let ifPay=false;
+        let dc = this.selectedData1.length;
+        let kfC=0;
+        let nopayC=0;
+         let wdzC=0;
         this.selectedData1.forEach((element, index, array) => {
-
-          if(this.selectedData1[index]!='可付'){
-            ifPay=true;
+          if(this.selectedData1[index]=='可付'){
+            kfC++;
+          }
+          if(this.selectedData1[index]=='无需支付'){
+            nopayC++;
+          }
+          if(this.selectedData1[index]=='未到账'){
+            wdzC++;
           }
         })
+  
+        if((dc!=kfC && dc!=nopayC) || wdzC>0 ){
+          ifPay=true;
+        }
 
         if(ifPay){
-            this.$Message.error('您选择的账户必须为可付状态！');
+            this.$Message.error('您选择的账户必须为全部【可付】或全部【无需支付】状态！');
             return false;
         }
 
-        if(this.payee==null || this.payee==''){
+        if( dc==kfC && (this.payee==null || this.payee=='' )){
             this.$Message.error('收款方要求必填！');
             return false;
         }
+
+        if(dc==nopayC){ //如果是无需支付
+            this.paymentWay=0;  
+        }
+
         this.$Modal.confirm({
                     title: '确认',
                     content: '您确认生成支付批次吗？',

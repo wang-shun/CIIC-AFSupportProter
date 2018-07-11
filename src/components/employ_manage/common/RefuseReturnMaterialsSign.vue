@@ -3,8 +3,8 @@
     <Table border :columns="refuseReturnMaterialsSignColumns" :width="1000"  :data="refuseReturnMaterialsSign" class="mt20"></Table>
     <Row type="flex" justify="start" class="mt20">
       <Col class="tr">
-        <Button type="primary" @click="modal1 = true">新增</Button>
-        <Button type="primary"  @click="instance()">提交</Button>
+        <Button type="primary" @click="insertShow">新增</Button>
+        <!-- <Button type="primary"  @click="instance()">提交</Button> -->
       </Col>
     </Row>
      <Modal
@@ -132,6 +132,11 @@
       }
     },
     methods: {
+          insertShow(){
+            this.modal1 = true;
+            let selection = this.$refs.payComSelection; 
+            selection.selectAll(false);
+          },
           ok () {
              if(this.$route.query.empTaskResignId==undefined){
 
@@ -158,13 +163,13 @@
               if(this.refuseReturnMaterialsSign.length==0){
                  isE = false;
               }
-              for(var i = 0; i < this.refuseReturnMaterialsSign.length; i++)
-              {
-                  if(item.materialName === this.refuseReturnMaterialsSign[i].materialName)
-                  {
-                      isE = true;
-                  }
-              }
+              // for(var i = 0; i < this.refuseReturnMaterialsSign.length; i++)
+              // {
+              //     if(item.materialName === this.refuseReturnMaterialsSign[i].materialName)
+              //     {
+              //        isE = true;
+              //    }
+              // }
 
                if(!isE)
                {
@@ -172,7 +177,7 @@
                }
                
            });
-              
+              this.instance();
             },
             cancel () {
                
@@ -189,12 +194,10 @@
                 this.$Message.success("有收到人不能提交！");
                  return false;
               }
-        
             api.saveAmEmpMaterial(this.refuseReturnMaterialsSign).then(data => {
                 
                   if (data.data.data.data == 1) {
                     this.$Message.success("保存成功");
-                    
                     this.refuseReturnMaterialsSignInfo = data.data.data.result;
                     
                   }else if (data.data.data == 2){

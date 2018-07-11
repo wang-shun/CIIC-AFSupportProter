@@ -29,7 +29,7 @@
         <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
-    <Table border height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" class="mt20"></Table>
+    <Table border height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -58,6 +58,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
   import searchEmployment from "./common/SearchEmployment.vue"
   import employeeInfo from "./common/EmployeeInfo.vue"
   import api from '../../api/employ_manage/hire_operator'
+  import tableStyle from '../../api/table_style'
 
   export default {
     components: {employeeInfo, searchEmployment},
@@ -101,21 +102,21 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '序号', key: 'employmentId', align: 'center', width: 150,sortable: true,
+          {title: '序号', key: 'employmentId', align: 'center', width: 150,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employmentId),
               ]);
             }
           },
-          {title: '公司编号', key: 'companyId', align: 'center', width: 150,sortable: true,
+          {title: '公司编号', key: 'companyId', align: 'center', width: 150,sortable:'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '公司名称', key: 'title', align: 'center', width: 250,
+          {title: '公司名称', key: 'title', align: 'center', width: 250,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('div', params.row.title),
@@ -123,21 +124,21 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '雇员编码', key: 'employeeId', align: 'center', width: 150, sortable: true,
+          {title: '雇员编码', key: 'employeeId', align: 'center', width: 150, sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.employeeId),
               ]);
             }
           },
-          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 150,
+          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 150,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeName),
               ]);
             }
           },
-          {title: '证件号', key: 'idNum', align: 'center', width: 150,sortable: true,
+          {title: '证件号', key: 'idNum', align: 'center', width: 150,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.idNum),
@@ -165,35 +166,35 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               ]);
             }
           },
-          {title: '档案编号', key: 'docNum', align: 'center', width: 150,sortable: true,
+          {title: '档案编号', key: 'docNum', align: 'center', width: 150,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.docNum),
               ]);
             }
           },
-          {title: '预留档案编号', key: 'yuliuDocNum', align: 'center', width: 150,sortable: true,
+          {title: '预留档案编号', key: 'yuliuDocNum', align: 'center', width: 150,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.yuliuDocNum),
               ]);
             }
           },
-          {title: '用工反馈操作日期', key: 'employFeedbackOptDate', align: 'center', width: 150,sortable: true,
+          {title: '用工反馈操作日期', key: 'employFeedbackOptDate', align: 'center', width: 150,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employFeedbackOptDate),
               ]);
             }
           },
-          {title: '调档反馈', key: 'diaodangFeedback', align: 'center', width: 150,
+          {title: '调档反馈', key: 'diaodangFeedback', align: 'center', width: 150,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.diaodangFeedback),
               ]);
             }
           },
-          {title: '调档反馈操作日期', key: 'diaodangFeedbackOptDate', align: 'center', width: 150,
+          {title: '调档反馈操作日期', key: 'diaodangFeedbackOptDate', align: 'center', width: 150,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.diaodangFeedbackOptDate),
@@ -524,7 +525,185 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         this.employeeCollectionQuery(params);
       },handleData(row,index){
          this.$router.push({name:'employHandleEmployment', query: {empTaskId:row.empTaskId,employeeId:row.employeeId,companyId:row.companyId}});
-      }
+      },SortChange(e){
+        this.orderConditions = [];
+        this.searchConditions =[];
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var conditions = sessionStorage.getItem('employment'+userInfo.userId);
+        var storeOrder = JSON.parse(sessionStorage.getItem('employmentOrder'+userInfo.userId));
+         if(conditions!==null){
+            for(var i=0;i<conditions.length;i++)
+              this.searchConditions.push(conditions[i].exec);
+        }
+        var dx ='';
+        if(e.key === 'companyId'){
+            dx = 'a.company_id';
+        }else if(e.key === 'title'){
+            dx = 'h.title';
+        }else if(e.key === 'employeeId'){
+            dx = 'a.employee_id';
+        }else if(e.key === 'employmentId'){
+            dx = 'b.employment_id';
+        }else if(e.key === 'idNum'){
+            dx = 'd.id_num';
+        }else if(e.key === 'employeeName'){
+             dx = 'd.employee_name';
+        }else if(e.key === 'docNum'){
+             dx = 'c.doc_num';
+        }else if(e.key === 'yuliuDocNum'){
+             dx = 'c.yuliu_doc_num';
+        }else if(e.key === 'employFeedbackOptDate'){
+             dx = 'c.employ_feedback_opt_date';
+        }else if(e.key === 'diaodangFeedback'){
+             dx = 'c.diaodang_feedback';
+        }else if(e.key === 'diaodangFeedbackOptDate'){
+            dx = 'c.diaodang_feedback_opt_date';
+        }
+        const searchConditionExec = `${dx} ${e.order} `;
+        if(storeOrder===null){
+
+        }else{
+          this.orderConditions = storeOrder;
+        }
+        var isE = false;
+        if(this.orderConditions.length>0)
+        {
+            for(let index in this.orderConditions)
+            {
+               if(this.orderConditions[index].indexOf(dx)!== -1 && e.order==='normal')
+               {  //如果是取消，则删除条件
+                  this.orderConditions.splice(index,1);
+                   isE = true;
+               }else if(this.orderConditions[index].indexOf(dx)!== -1 && this.orderConditions[index].indexOf(e.order)=== -1 ) {
+                 //如果是切换查询顺序
+                  this.orderConditions.splice(index,1);
+                  this.orderConditions.push(searchConditionExec);
+                   isE = true;
+               }else if(this.orderConditions[index]===searchConditionExec){
+                   this.orderConditions.splice(index,1);
+               }
+
+            }
+
+            if(!isE)
+            {
+               this.orderConditions.push(searchConditionExec);
+            }
+
+        }else{
+            this.orderConditions.push(searchConditionExec);
+        }
+
+        sessionStorage.setItem('employmentOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+
+        if(this.orderConditions.length>0)
+        {
+          for(let index  in this.orderConditions)
+          {
+             this.searchConditions.push(this.orderConditions[index]);
+          }
+        }
+
+        this.searchCondition.params = this.searchConditions.toString();
+
+        this.isLoading = true;
+        let self =this;
+        api.employeeQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: this.searchCondition,
+        }).then(data => {
+          self.employmentData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+          self.isLoading = false;
+          this.searchCondition.taskStatus =0;
+          this.changeSortClass(this.orderConditions);
+        })
+
+      },changeSortClass(storeOrder) {
+        this.employmentColumns.forEach((e, idx) => {
+          let order = 'normal';
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+
+                if(e.key === 'companyId' && storeOrder[index].indexOf('company_id')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+
+                if(e.key === 'title' && storeOrder[index].indexOf('title')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+
+                if(e.key === 'employmentId' && storeOrder[index].indexOf('employment_id')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+
+                if(e.key === 'employeeName' && storeOrder[index].indexOf('employee_name')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+
+                if(e.key === 'idNum' && storeOrder[index].indexOf('id_num')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+
+                if(e.key === 'docNum' && storeOrder[index].indexOf('doc_num')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+
+                if(e.key === 'yuliuDocNum' && storeOrder[index].indexOf('yuliu_doc_num')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+
+                if(e.key === 'employFeedbackOptDate' && storeOrder[index].indexOf('employ_feedback_opt_date')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+
+                if(e.key === 'diaodangFeedback' && storeOrder[index].indexOf('diaodang_feedback')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+
+                if(e.key === 'diaodangFeedbackOptDate' && storeOrder[index].indexOf('diaodang_feedback_opt_date')!=-1) {
+                  order = orders[1]
+                   tableStyle.changeSortElementClass(0, idx, order)
+                  break;
+                }
+             
+              }
+            }
+          }
+         
+        });
+      },
     },
     computed: {
 

@@ -70,7 +70,7 @@
   </Form>
 </template>
 <script>
-  import {em_chooseField, em_relationship} from "../../../../assets/js/social_manage/common_filed"
+  import {em_chooseField, em_relationship} from "../../../../assets/js/social_manage/common_filed_other"
   import COMMON_METHODS from "../../../../assets/js/common_methods"
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
@@ -117,21 +117,11 @@
      
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
-      var fu = sessionStorage.getItem('socialDaily'+userInfo.userId);
+      var fu = sessionStorage.getItem('socialDailyR'+userInfo.userId);
       
       if(fu!=null)
       {
         this.searchConditions = JSON.parse(fu);
-        if(this.showHandle.name!='noprogress')
-        {
-            for(var i=0;i<this.searchConditions.length;i++)
-            {
-               if(this.searchConditions[i].exec.indexOf('taskStatus')!=-1)
-               {
-                    this.searchConditions.splice(i,1);
-               }
-            }
-        }
       }
 
       this.loadDict();
@@ -230,7 +220,7 @@
       },
       searchEmploiees() {
          var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-         window.sessionStorage.setItem('socialDaily'+userInfo.userId, JSON.stringify(this.searchConditions));
+         window.sessionStorage.setItem('socialDailyR'+userInfo.userId, JSON.stringify(this.searchConditions));
          this.$emit("on-search", this.searchConditions);
       },
       loadDict(){

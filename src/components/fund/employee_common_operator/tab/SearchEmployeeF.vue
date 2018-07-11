@@ -19,35 +19,39 @@
         </Col>
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
-
             <Input v-model="searchForm.searchContent" placeholder="请输入" v-if="searchForm.isDate == 0" />
-            <Date-picker  v-model="searchForm.searchContent"  type="month"  placement="right"
-                             placeholder="选择年月份" style="width: 100%;" v-if="searchForm.isDate == 1"></Date-picker>
-            <Select v-model="searchForm.searchContent" style="width: 100%;"  :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 2">
-                  <Option value="[全部]" label="全部"></Option>
-                  <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
-            </Select>
-            <input-account v-model="searchForm.searchContent" v-if="searchForm.isDate == 3" ></input-account>
-            <input-company v-model="searchForm.searchContent" v-if="searchForm.isDate == 4"></input-company>
-            <input-company-name v-model="searchForm.searchContent" v-if="searchForm.isDate == 6"></input-company-name>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer  v-if="searchForm.isDate == 5">
-              <Option value="" label="全部"></Option>
-              <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
-            </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 7">
-                <Option value="" label="全部"></Option>
-                <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
-            </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 8">
-                <Option value="0" label="全部"></Option>
-                <Option value="-1" label="本月未处理"></Option>
-                <Option value="-2" label="下月未处理"></Option>
-            </Select>
 
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 1">
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="item in processStatusList" :value="item.key" :key="item.key">{{item.value}}</Option>
+            </Select>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 2">
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="item in taskTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
+            </Select>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 3">
+                    <Option value="" label="全部"></Option>
+                    <Option v-for="item in payBankList" :value="item.key" :key="item.key">{{item.value}}</Option>
+            </Select>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 4">
+                    <Option value="" label="全部"></Option>
+                    <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
+            </Select>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 5">
+                    <Option value="" label="全部"></Option>
+                    <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
+            </Select>
+            <DatePicker v-model="searchForm.searchContent" type="date" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer v-if="searchForm.isDate == 6"></DatePicker>
+
+            <input-company v-model="searchForm.searchContent" v-if="searchForm.isDate == 7"></input-company>
+
+             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true"  @on-change="categroryChange" transfer v-if="searchForm.isDate == 8">
+                    <Option value="" label="全部"></Option>
+                    <Option value="0" label="否"></Option>
+                    <Option value="1" label="是"></Option>
+             </Select>
           </Form-item>
         </Col>
-
-
       </Row>
       </Col>
       <Col :sm="{span: 2, offset: 1}">
@@ -70,12 +74,12 @@
   </Form>
 </template>
 <script>
-  import {em_chooseField, em_relationship} from "../../../../assets/js/social_manage/common_filed"
+  import {em_chooseField, em_relationship} from "../../../../assets/js/fund_manage/common_filed_other"
   import COMMON_METHODS from "../../../../assets/js/common_methods"
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
-  import dict from '../../../../api/dict_access/social_security_dict'
+  import dict from '../../../../api/dict_access/house_fund_dict'
   const chooseType = {
     field: 1001,
     relationship: 1002
@@ -107,31 +111,26 @@
           searchContentDesc: "",
           disabled: false
         },
+        processStatusList: [],
+        taskTypeList: [],
+        payBankList: [],
+        fundTypeList: [],
+        accountTypeList: [],
         searchConditions: [],
         currentField: {},
         currentShip: {},
-        currentSelectIndex: -1
+        currentSelectIndex: -1,
       }
     },
     async mounted() {
-     
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
-      var fu = sessionStorage.getItem('socialDaily'+userInfo.userId);
-      
+       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+
+      var fu = sessionStorage.getItem('fundDailyF'+userInfo.userId);
+
       if(fu!=null)
       {
         this.searchConditions = JSON.parse(fu);
-        if(this.showHandle.name!='noprogress')
-        {
-            for(var i=0;i<this.searchConditions.length;i++)
-            {
-               if(this.searchConditions[i].exec.indexOf('taskStatus')!=-1)
-               {
-                    this.searchConditions.splice(i,1);
-               }
-            }
-        }
       }
 
       this.loadDict();
@@ -144,22 +143,24 @@
           this.searchForm.disabled = false;
           this.searchForm.relationshipValue = "";
 
-          if(content.value.indexOf("month")>0){
+          if(content.value=='processStatus'){
             this.searchForm.isDate=1;
-          }else if(content.value=='ca.ss_account_type'){
+            this.searchForm.disabled = true;
+            this.searchForm.relationshipValue = "=";
+          }else if(content.value=='het.task_category'){
             this.searchForm.isDate=2;
-          }else if(content.value=='ca.ss_account'){
+          }else if(content.value=='hcas.payment_bank'){
             this.searchForm.isDate=3;
-          }else if(content.value=='c.company_id'){
+          }else if(content.value=='het.hf_type'){
             this.searchForm.isDate=4;
-          }else if(content.value=='et.task_category'){
+          }else if(content.value=='hcas.hf_account_type'){
             this.searchForm.isDate=5;
-          }else if(content.value=='c.title'){
+          }else if(content.value=='het.submit_time'){
             this.searchForm.isDate=6;
-          }else if(content.value=='ca.settlement_area'){
+          }else if(content.value=='sc.company_id'){
             this.searchForm.isDate=7;
-          }else if(content.value == 'taskStatus'){
-             this.searchForm.isDate=8;
+          }else if(content.value=='het.is_change' || content.value=='preInput'){
+            this.searchForm.isDate=8;
             this.searchForm.disabled = true;
             this.searchForm.relationshipValue = "=";
           }else{
@@ -176,14 +177,20 @@
           this.$Message.error("请选择字段、关系并输入查询内容");
           return;
         } else {
-          if(this.searchForm.isDate==1){
+          if(this.searchForm.isDate==6){
              var d = new Date(this.searchForm.searchContent);
+                var seperator1 = "-";
               var year = d.getFullYear();
-              var month = d.getMonth() + 1; 
+              var month = d.getMonth() + 1;
+              var strDate = d.getDate();
               if (month >= 1 && month <= 9) {
                   month = "0" + month;
               }
-               this.searchForm.searchContent=year + '-' + month;
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+             this.searchForm.searchContent=currentdate;
           }
 
           var temp_searchContent = this.searchForm.searchContent;
@@ -191,7 +198,7 @@
               temp_searchContent = '%'+this.searchForm.searchContent+'%';
           }
 
-          if(this.searchForm.isDate == 5||this.searchForm.isDate == 2||this.searchForm.isDate == 7||this.searchForm.isDate == 8)
+          if(this.searchForm.isDate == 1||this.searchForm.isDate == 2||this.searchForm.isDate == 3||this.searchForm.isDate == 4||this.searchForm.isDate == 5||this.searchForm.isDate == 8)
           {
              this.searchForm.searchContent = this.searchForm.searchContentDesc;
           }
@@ -206,7 +213,6 @@
           // const searchCondition = searchConditionExec;
           // 防止输入重复项
           let hasRepeatObj = -1;
-
           if(this.searchConditions.length > 0) {
             hasRepeatObj = _.findIndex(this.searchConditions, (o) => {
               return searchCondition.desc === o.desc && searchCondition.exec === o.exec;
@@ -226,20 +232,24 @@
       },
       resetForm(form) {
         this.$refs[form].resetFields();
-        this.searchConditions=[];
+        this.searchConditions = [];
       },
       searchEmploiees() {
-         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-         window.sessionStorage.setItem('socialDaily'+userInfo.userId, JSON.stringify(this.searchConditions));
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+         window.sessionStorage.setItem('fundDailyF'+userInfo.userId, JSON.stringify(this.searchConditions));
          this.$emit("on-search", this.searchConditions);
       },
       loadDict(){
-        dict.getDictData().then(data => {
-          if (data.code == 200) {
-            this.taskCategorydict = data.data.SOCLocalTaskCategory;
-            this.ssAccountTypedict = data.data.SocialSecurityAccountType;
-          }
-        });
+       dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.accountTypeList = data.data.SocialSecurityAccountType;
+          this.processStatusList = data.data.ProcessPeriod;
+          this.taskTypeList = data.data.HFLocalTaskCategory;
+          this.taskTypeList.splice(7, 1); // 去除转移任务
+          this.payBankList = data.data.PayBank;
+          this.fundTypeList = data.data.FundType;
+        }
+      });
       },categroryChange(option) {
          this.searchForm.searchContentDesc = option.label;
       }

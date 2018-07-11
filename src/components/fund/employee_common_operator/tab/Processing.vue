@@ -57,7 +57,7 @@
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
   import sessionData from '../../../../api/session-data'
-  import searchEmployee from "./SearchEmployee.vue"
+  import searchEmployee from "./SearchEmployeeP.vue"
   import tableStyle from '../../../../api/table_style'
 
   export default {
@@ -170,7 +170,7 @@
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.processing.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.processing.processingPageData', this.processingPageData);
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyPOrder'+userInfo.userId));
           this.processingColumns.filter((e) => {
 
       if(storeOrder==null)
@@ -221,7 +221,7 @@
       this.hfEmpTaskQuery();
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyPOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
     computed: {
@@ -342,7 +342,7 @@
             this.searchConditions.push(conditions[i].exec);
         }else{
           // 否则从session 里边去缓存的表单查询值
-          var temp = sessionStorage.getItem('fundDaily'+userInfo.userId);
+          var temp = sessionStorage.getItem('fundDailyP'+userInfo.userId);
 
           if(temp==null){
 
@@ -358,7 +358,7 @@
           }
 
         }
-        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyPOrder'+userInfo.userId));
         if(storeOrder==null)
         {
 
@@ -398,7 +398,7 @@
               this.searchConditions.push(conditions[i].exec);
         }else{
           // 否则从session 里边去缓存的表单查询值
-          var temp = sessionStorage.getItem('fundDaily'+userInfo.userId);
+          var temp = sessionStorage.getItem('fundDailyP'+userInfo.userId);
 
           if(temp==null){
 
@@ -415,7 +415,7 @@
 
         }
 
-        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyPOrder'+userInfo.userId));
 
         if(storeOrder==null)
         {
@@ -452,8 +452,8 @@
         this.orderConditions = [];
         this.searchConditions =[];
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-        var conditions = JSON.parse(sessionStorage.getItem('fundDaily'+userInfo.userId));
-        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+        var conditions = JSON.parse(sessionStorage.getItem('fundDailyP'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyPOrder'+userInfo.userId));
         if(conditions!=null){
             for(var i=0;i<conditions.length;i++)
               this.searchConditions.push(conditions[i].exec);
@@ -507,7 +507,7 @@
             this.orderConditions.push(searchConditionExec);
         }
 
-        sessionStorage.setItem('fundDailyOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+        sessionStorage.setItem('fundDailyPOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
 
         if(this.orderConditions.length>0)
         {

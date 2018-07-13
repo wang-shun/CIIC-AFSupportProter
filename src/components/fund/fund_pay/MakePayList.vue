@@ -136,8 +136,8 @@
         paymentWay:3,
         operatorSearchData: {
           paymentStatus: 3, //支付状态默认为可付
-          fundAccountType: '',
-          paymentBank: '',
+          fundAccountType: '3',
+          paymentBank: '15',
         },
         selectedData: [],
         selectedData1:[],
@@ -296,7 +296,8 @@
             return false;
         }
         let ifPay=false;
-        let dc = this.selectedData1.length;
+        let dc=0;
+        dc = this.selectedData1.length;
         let kfC=0;
         let nopayC=0;
          let wdzC=0;
@@ -311,11 +312,9 @@
             wdzC++;
           }
         })
-  
         if((dc!=kfC && dc!=nopayC) || wdzC>0 ){
           ifPay=true;
         }
-
         if(ifPay){
             this.$Message.error('您选择的账户必须为全部【可付】或全部【无需支付】状态！');
             return false;
@@ -325,7 +324,7 @@
             this.$Message.error('收款方要求必填！');
             return false;
         }
-
+     
         if(dc==nopayC){ //如果是无需支付
             this.paymentWay=0;  
         }
@@ -341,6 +340,7 @@
                           paymentMonth:this.makePayListInfo.payDate,
                           listData:this.selectedData  //
                         };
+                        console.log(params);
                         FundPay.createPaymentComList(params).then(data=>{
                           if(data.code==200){
                             this.$Message.success(data.message);
@@ -356,6 +356,7 @@
       },
       resetSelectedData(selection) {
         this.selectedData.length = 0;
+        this.selectedData1.length = 0;
         if(selection) {
           selection.forEach((element, index, array) => {
             this.selectedData.push(element.paymentAccountId);

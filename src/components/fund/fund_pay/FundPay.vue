@@ -234,6 +234,7 @@
         //todo: 菜单值统一存储维护
         paymentStateList: [
           {label: "全部", value: ''},
+          {label: "无需支付", value: 0},
           {label: "可付", value: 1},
           {label: "送审", value: 2},
           {label: "汇缴(已申请到财务部 ) ", value: 3},
@@ -326,7 +327,7 @@
               ]);
             }
           },
-          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 130,
+          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 160,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                  h('span', params.row.paymentStateValue),
@@ -636,8 +637,6 @@
         console.log(JSON.stringify(stepInfo));
       },
       resetSearchCondition(name) {
-        console.log(name)
-        console.log(this.$refs[name])
         this.$refs[name].resetFields()
       },
       goMakePayList() {
@@ -768,7 +767,7 @@
 
 
 
-//支付状态: 1 ,可付(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
+//支付状态: 0，无需支付 1 ,可付(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
       processApproval(){
         let row;
         row=this.checkSelect();
@@ -813,7 +812,7 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        if(row.paymentState == 5 || row.paymentWay == 0){
+        if(row.paymentState == 5 || row.paymentState == 0){
           let params = {
             paymentId:row.paymentId,
             operator:""

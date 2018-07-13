@@ -121,6 +121,10 @@ import api from '../../../api/employ_manage/hire_operator'
        if(this.fileSettle.budiaoDocDate2){
             fromData.budiaoDocDate2 = this.$utils.formatDate(this.fileSettle.budiaoDocDate2, 'YYYY-MM-DD');
        }
+       if(this.fileSettle.resignDocPaymentTo){
+            fromData.resignDocPaymentTo = this.$utils.formatDate(this.fileSettle.resignDocPaymentTo, 'YYYY-MM-DD');
+       }
+       
        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {

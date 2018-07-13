@@ -13,6 +13,7 @@
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <!-- <Button type="primary" @click="goHandle">办理</Button> -->
+         <Button type="primary" @click="batchManagement">批理办理</Button>
         <!-- <Button type="primary" @click="batchOperating">批量操作</Button> -->
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
@@ -60,6 +61,7 @@
            name:'resign'
         },
         dismissalColumns: [
+          {title: '', type: 'selection', width: 60},
           {title: '退工成功日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -436,7 +438,60 @@
         this.queryResignTaskCount(params);
       },handleData(row,index){
          this.$router.push({name:'dismissalHandleEmployment', query: {empTaskId:row.empTaskId,employeeId:row.employeeId,companyId:row.companyId,employmentId:row.employmentId}});
-      }
+      },batchManagement(){ 
+        let selection = this.$refs.dismissalData.getSelection();
+        if(selection.length == 0){
+          alert("没有选中的列");
+          return;
+        }
+        
+        let empTaskIds = [];
+        selection.forEach(item => {
+          empTaskIds.push(item.empTaskId);
+        });
+
+        var fromData={};
+        fromData.empTaskIds = empTaskIds;
+        alert(fromData.empTaskIds);
+        return;
+        const _self = this;
+        api.batchCheck(fromData).then(data => {
+            if (data.code == 200) {
+                if(data.data.empTask){
+                  var content="已经办理了" + data.data.empTask+"条数据，请重新选择数据";
+                   this.$Message.error(content);
+                   return;
+                }
+                if(data.data.employmentCount==0)
+                {
+                    _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
+                }else{
+                  var content;
+                   if(data.data.ArchiveCount){
+                     var content="用工办理已经存在" + data.data.employmentCount+"条数据"+" , "+"用工档案已经存在" + data.data.ArchiveCount+"条数据"+" , "+"确认要覆盖吗？";
+                   }else{
+                      var content="用工办理已经存在" + data.data.employmentCount+"条数据, "+"确认要覆盖吗？";
+                   }
+                   
+                    _self.$Modal.confirm({
+                      title: '',
+                      content: content,
+                      onOk:function(){
+                        _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
+                      },
+                      error:function(error){
+                        
+                    }
+                    });
+                  
+                }
+            } else {
+              this.$Message.error("批量失败！" + data.message);
+            }
+         })
+        
+        
+     }
     }
   }
 </script>

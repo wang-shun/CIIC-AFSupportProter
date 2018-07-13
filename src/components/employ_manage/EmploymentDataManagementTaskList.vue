@@ -627,7 +627,6 @@ import {mapState, mapGetters, mapActions} from 'vuex'
           {
 
           }else{
-            debugger
             if(storeOrder.length>0)
             {
               for(var index  in storeOrder)

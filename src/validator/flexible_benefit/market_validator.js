@@ -29,7 +29,7 @@ export const marketValidate = {
   marketTime: [
     {
       validator(rule, val, callback) {
-        if (!val || val.length !== 2 || val[0] === null || val[1] === null) {
+        if (!val || val.length !== 2 || val[0] === null || val[0] === '') {
           callback(new Error('请选择活动时间'))
         } else {
           callback()

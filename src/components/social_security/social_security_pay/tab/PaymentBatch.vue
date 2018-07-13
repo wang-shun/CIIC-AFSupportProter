@@ -63,7 +63,9 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span: 24}">
-          <Button type="primary" @click="goAddPayment()">新建批号</Button>
+        
+          <Button type="primary" @click="goAddPayment()">创建支付批次</Button>
+          <!-- <Button type="primary" @click="goCreatePaymentBatch()">创建支付批次</Button> -->
         </Col>
       </Row>
 
@@ -138,13 +140,6 @@
               <label>{{addPaymentData.paymentMonth}}</label>
             </Form-item>
           </Col>
-        </Row>
-        <Row class="mt20">
-          <Col :sm="{span: 12}">
-            <Form-item label="出账批号：" prop="paymentBatchNumOfAdd">
-              <input type="text" :maxlength="20" v-model="addPaymentData.paymentBatchNum" >
-            </Form-item>
-          </Col>
           <Col :sm="{span: 12}">
             <Form-item label="社保账户类型：" prop="accountTypeOfAdd">
               <Select v-model="addPaymentData.accountType" clearable style="width: 100%;" transfer>
@@ -153,6 +148,13 @@
               </Select>
             </Form-item>
           </Col>
+        </Row>
+        <Row class="mt20">
+          <!-- <Col :sm="{span: 12}">
+            <Form-item label="出账批号：" prop="paymentBatchNumOfAdd">
+              <input type="text" :maxlength="20" v-model="addPaymentData.paymentBatchNum" >
+            </Form-item>
+          </Col> -->
         </Row>
       </Form>
 
@@ -170,6 +172,9 @@
   import EventType from '../../../../store/event_types'
   import payBatchApi from '../../../../api/social_security/payment_batch'
   import dict from '../../../../api/dict_access/social_security_dict'
+  import sessionData from '../../../../api/session-data'
+import SocialSecurityPayVue from '../SocialSecurityPay.vue';
+
 
   export default {
     components: {customerModal},
@@ -209,7 +214,48 @@
         isShowProgress: false,
 
         payBatchColumns: [
-          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',
+          {title: '操作', key: 'operator', width:200, align: 'left',fixed:'left',
+            render: (h, params) => {
+              let b=[];
+              let paymentId = params.row.paymentId;
+              let paymentState = params.row.paymentState;
+              // b.push(h('Button', {
+              //       props: {type: 'success', size: 'small'},
+              //       style: {margin: '0 auto 0 5px'},
+              //       on: {
+              //         click: () => {
+              //           this.goPaymentCom(paymentId);
+              //         }
+              //       }
+              //     }, '查看'));
+              if( !(paymentState != "3" && paymentState != "5" && paymentState != "7")){
+                b.push(h('Button', {
+                  props: {type: 'error', size: 'small'},
+                  style: {margin: '0 auto 0 5px'},
+                  on: {
+                    click: () => {
+                      this.goDelPayment(paymentId,paymentState)
+                    }
+                  }
+                }, '删除'));
+              }
+              if(params.row.totalAccount>0 && !(paymentState != "3" && paymentState != "5" && paymentState != "7")){
+                  b.push(h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto 0 5px'},
+                    on: {
+                      click: () => {
+                        this.goApplyPay(paymentId,paymentState)
+                      }
+                    }
+                  }, '申请支付'));
+              }
+
+              return h('div', b);
+            }
+
+          },
+          {title: '出账批次号', key: 'paymentBatchNum', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.paymentBatchNum),
@@ -223,7 +269,7 @@
               ]);
             }
           },
-          {title: '总雇员数', key: 'totalEmpCount', width: 120, align: 'center',
+          {title: '总雇员数', key: 'totalEmpCount', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.totalEmpCount),
@@ -237,7 +283,7 @@
               ]);
             }
           },
-          {title: '账户/客户总数', key: 'paymentMonth', width: 120, align: 'center',
+          {title: '账户/客户总数', key: 'paymentMonth', width: 130, align: 'center',
             render: (h, params) => {
               let totalAccount = params.row.totalAccount;
               let totalCom = params.row.totalCom;
@@ -285,34 +331,7 @@
               ]);
             }
           },
-          {title: '操作', key: 'operator', width: 220, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      let paymentId = params.row.paymentId;
-                      let paymentState = params.row.paymentState;
-                      this.goApplyPay(paymentId,paymentState)
-                    }
-                  }
-                }, '申请支付'),
-                h('Button', {
-                  props: {type: 'error', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      let paymentId = params.row.paymentId;
-                      let paymentState = params.row.paymentState;
-                      this.goDelPayment(paymentId,paymentState)
-                    }
-                  }
-                }, '删除')
-              ]);
-            }
-          },
+          
         ],
         payBatchData: [],
         payBatchPageData: {
@@ -344,8 +363,10 @@
       }
     },
     mounted() {
-      //this[EventType.SOCIALSECURITYPAYTYPE]();
-      this.payBatchHandlePageNum(1);
+      sessionData.getJsonDataFromSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
+      sessionData.getJsonDataFromSession('paymentBatch.payBatchPageData', this.payBatchPageData);
+      this.paymentBatchQuery();
+      //this.payBatchHandlePageNum(1);
       this.loadDict();
     },
     computed: {
@@ -359,8 +380,9 @@
       goPaymentNotice() {
         this.$router.push({name: 'paymentnotice'})
       },
-      ok () {
-
+      goPaymentCom(paymentId) {
+        sessionStorage.setItem("PaymentBatch_paymentId",paymentId);
+        this.$emit('switchTab','paymentCom');
       },
       cancel () {
 
@@ -386,6 +408,9 @@
       },
       //查询页面数据
       paymentBatchQuery() {
+         sessionData.setJsonDataToSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
+         sessionData.setJsonDataToSession('paymentBatch.payBatchPageData', this.payBatchPageData);
+     
         if (this.payBatchSearchData.paymentMonthMin && this.payBatchSearchData.paymentMonthMin.length != 6) {
           this.payBatchSearchData.paymentMonthMin = this.$utils.formatDate(this.payBatchSearchData.paymentMonthMin, 'YYYYMM');
         }
@@ -431,7 +456,7 @@
       goApplyPay(paymentId,paymentState) {
         //验证可操作性
         if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
-          alert("只有可付和批退状态的批次可以申请支付");
+          this.$Message.info("只有可付和批退状态的批次可以申请支付");
           return;
         }
 
@@ -449,13 +474,13 @@
           applyRemark: applyRemark,
         }).then(data => {
           if(data.code == "0"){
-            alert("申请成功");
+            this.$Message.info("申请成功");
             this.closeApplyPay();
             //重新查询
             this.paymentBatchQuery()
 
           }else{
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
       },
@@ -467,7 +492,7 @@
       goDelPayment(paymentId,paymentState) {
         //验证可操作性
         if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
-          alert("只有可付和批退状态的批次可以删除");
+          this.$Message.info("只有可付和批退状态的批次可以删除");
           return;
         }
         this.delPaymentData.isShow = true;
@@ -481,13 +506,13 @@
           paymentId: paymentId,
         }).then(data => {
           if(data.code == "0"){
-            alert("删除成功");
+            this.$Message.info("删除成功");
             this.closeDelPayment();
             //重新查询
             this.paymentBatchQuery()
 
           }else{
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
       },
@@ -507,24 +532,27 @@
             this.addPaymentData.accountType = '';
             this.addPaymentData.isShow = true;
           }else{
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
+      },
+      goCreatePaymentBatch(){
+        this.$router.push({name:"createPaymentBatch"});
       },
       doAddPayment() {
         let paymentMonth = this.addPaymentData.paymentMonth;
         let paymentBatchNum = this.addPaymentData.paymentBatchNum;
         let accountType = this.addPaymentData.accountType;
         if(paymentMonth == null || paymentMonth == ""){
-          alert("支付年月不可为空");
+          this.$Message.info("支付年月不可为空");
           return;
         }
-        if(paymentBatchNum == null || paymentBatchNum == ""){
-          alert("出账批号不可为空");
-          return;
-        }
+        // if(paymentBatchNum == null || paymentBatchNum == ""){
+        //   this.$Message.info("出账批号不可为空");
+        //   return;
+        // }
         if(accountType == null || accountType == ""){
-          alert("账户类型不可为空");
+          this.$Message.info("账户类型不可为空");
           return;
         }
         payBatchApi.addPayment({
@@ -533,13 +561,13 @@
           accountType: accountType,
         }).then(data => {
           if(data.code == "0"){
-            alert("添加成功成功");
+            this.$Message.info("添加成功");
             this.closeAddPayment();
             //重新查询
             //this.paymentBatchQuery()
             this.payBatchHandlePageNum(1);
           }else{
-            alert(data.message);
+            this.$Message.info(data.message);
           }
         })
       },

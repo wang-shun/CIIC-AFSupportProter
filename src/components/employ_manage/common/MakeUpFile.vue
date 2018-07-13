@@ -4,7 +4,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="补调档案日期1：">
-            <DatePicker v-model="makeUpFile.budiaoDocDate1" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="makeUpFile.budiaoDocDate1" type="date" placeholder="" @on-open-change="setCurrentDate" @on-change="changeDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -17,7 +17,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="补调档案日期2：">
-            <DatePicker v-model="makeUpFile.budiaoDocDate2" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="makeUpFile.budiaoDocDate2" type="date" placeholder="" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -106,6 +106,10 @@ import api from '../../../api/employ_manage/hire_operator'
        if(this.makeUpFile.budiaoDocDate2){
             fromData.budiaoDocDate2 = this.$utils.formatDate(this.makeUpFile.budiaoDocDate2, 'YYYY-MM-DD');
        }
+
+       if(this.makeUpFile.resignDocPaymentTo){
+            fromData.resignDocPaymentTo = this.$utils.formatDate(this.makeUpFile.resignDocPaymentTo, 'YYYY-MM-DD');
+       }
        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
@@ -116,7 +120,39 @@ import api from '../../../api/employ_manage/hire_operator'
               }
         })
          
-       }
+       },currentDate(){
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              return currentdate;
+       },setCurrentDate(e) {
+        if(e){
+          if(this.makeUpFile.budiaoDocDate1==''||this.makeUpFile.budiaoDocDate1==undefined)
+          {
+             this.makeUpFile.budiaoDocDate1 = this.currentDate();
+          }
+        }
+      },changeDate(e) {
+        this.makeUpFile.budiaoDocDate1 = e;
+      },setCurrentDate2(e) {
+        if(e){
+          if(this.makeUpFile.budiaoDocDate2==''||this.makeUpFile.budiaoDocDate2==undefined)
+          {
+             this.makeUpFile.budiaoDocDate2 = this.currentDate();
+          }
+        }
+      },changeDate2(e) {
+        this.makeUpFile.budiaoDocDate2 = e;
+      },
     }
   }
 </script>

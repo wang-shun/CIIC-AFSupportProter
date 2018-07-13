@@ -253,7 +253,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="saveEmpAccount">保存</Button>
+        <Button type="primary" @click="saveEmpAccount" v-show="this.$route.query.empArchiveId">保存</Button>
         <Button type="warning" @click="back">关闭/返回</Button>
       </Col>
     </Row>
@@ -488,7 +488,8 @@
     },
     async mounted() {
       let params = {empArchiveId:this.$route.query.empArchiveId,
-                    companyId:this.$route.query.companyId
+                    companyId:this.$route.query.companyId,
+                    employeeId:this.$route.query.employeeId
                     };
       api.employeeDetailInfoQuery(params).then(data=>{
           this.viewEmpArchive=data.data.viewEmpArchive
@@ -540,15 +541,16 @@
               formData.hfEmpAccountBc=this.viewEmpArchive.hfEmpAccountBc
               formData.empArchiveIdBc=this.viewEmpArchive.empArchiveIdBc
               formData.empArchiveId= this.viewEmpArchive.empArchiveId
+              formData.employeeId =this.viewEmpArchive.employeeId
             }
             api.saveEmpAccount(formData).then(data => {
               data=data.data;
               if (data.code == 200) {
-                this.$Message.success("信息保存成功");
+                this.$Message.success(data.message);
                 // 返回任务列表页面
                 history.go(-1);
               } else {
-                this.$Message.error("信息保存失败！" + data.message);
+                this.$Message.error( data.message);
               }
             })
            }

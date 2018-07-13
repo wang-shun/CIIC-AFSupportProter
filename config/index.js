@@ -12,6 +12,9 @@ if (buildParam) {
     case 'sit':
       env = require('./sit.env')
       break;
+    case 'lpt':
+      env = require('./lpt.env')
+      break;
     case 'uat':
       env = require('./uat.env')
       break

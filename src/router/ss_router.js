@@ -109,7 +109,7 @@ const socialSecurityEmpChangeDetailGsy = r => require.ensure([], () => r(require
 
 const socialSecurityPay = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/SocialSecurityPay')), 'socialSecurityPay')
 const paymentNotice = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/PaymentNotice')), 'paymentNotice')
-
+const createPaymentBatch = r => require.ensure([], () => r(require('@/components/social_security/social_security_pay/tab/CreatePaymentBatch')), 'createPaymentBatch')
 /*
  * socialSecurityPay               --- 社保支付批次审核
  * paymentNotice                   --- 查看批次明细
@@ -712,6 +712,18 @@ export default [
     path: '/payment_notice',
     name: 'paymentNotice',
     component: paymentNotice,
+    meta:{
+      level1:'全国社保',
+      level2:"上海社保",
+      level3:"社保支付",
+      openNames:['1'],
+      activeName: '1-6'
+    }
+  },
+  {
+    path: '/create_payment_batch',
+    name: 'createPaymentBatch',
+    component: createPaymentBatch,
     meta:{
       level1:'全国社保',
       level2:"上海社保",

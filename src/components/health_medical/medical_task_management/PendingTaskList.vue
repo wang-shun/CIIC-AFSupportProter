@@ -128,7 +128,7 @@
       <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2'"
               @click="modal1 = true">审核
       </Button>
-      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='4'"
+      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2' || formItem.status==='4'"
               @click="modal6 = true">批退
       </Button>
       <Button type="info"
@@ -246,7 +246,13 @@
             align: "center"
           },
           {
-            title: "投保类型", sortable: true, key: "productName", align: "center", width: 150
+            title: "投保类型", sortable: true, key: "taskType", align: "center", width: 120,
+            render: (h, params) => {
+              return h('div', task.taskTypeToChinese(params.row.taskType));
+            }
+          },
+          {
+            title: "产品名称", sortable: true, key: "productName", align: "center", width: 150
           },
           {
             title: "雇员编号", sortable: true, key: "employeeId", align: "center", width: 150
@@ -263,6 +269,9 @@
                 return h('div', params.row.associatedInsurantName);
               }
             }
+          },
+          {
+            title: "证件号码", sortable: true, key: "idNum", align: "center", width: 150
           },
           {
             title: "性别", sortable: true, key: "gender", align: "center", width: 150,
@@ -333,9 +342,6 @@
           },
           {
             title: "公司名称", sortable: true, key: "companyName", align: "center", width: 150
-          },
-          {
-            title: "证件号码", sortable: true, key: "idNum", align: "center", width: 150
           },
           {
             title: "保险起始日期", sortable: true, key: "startConfirmDate", align: "center", width: 150,

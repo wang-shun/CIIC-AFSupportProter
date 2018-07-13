@@ -4,28 +4,28 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际结费日期：">
-            <DatePicker v-model="fileSettle.closeFeeDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="fileSettle.closeFeeDate" type="date" placeholder="" @on-open-change="setCurrentDate" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工档案费缴至：">
-            <Input v-model="fileSettle.resignDocPaymentTo" placeholder="请输入" :maxlength="50"/>
+            <DatePicker v-model="fileSettle.resignDocPaymentTo" type="date" placeholder=""  @on-open-change="setCurrentDate4"  transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="支付档案费金额：">
-            <Input v-model="fileSettle.payDocAmount" placeholder="请输入" :maxlength="50"/>
+            <Input v-model="fileSettle.payDocAmount" placeholder="请输入"  :maxlength="50"/>
             <input type="text" v-model="fileSettle.archiveId" hidden>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="档案结费起始日期：">
-            <DatePicker v-model="fileSettle.closeFeeStartDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="fileSettle.closeFeeStartDate" type="date" placeholder="" @on-open-change="setCurrentDate2"  transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工单并档日期：">
-            <DatePicker v-model="fileSettle.resignDocDate" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="fileSettle.resignDocDate" type="date" placeholder="" @on-open-change="setCurrentDate3"  transfer></DatePicker>
           </Form-item>
         </Col>
       </Row>
@@ -54,7 +54,22 @@ import api from '../../../api/employ_manage/hire_operator'
     methods: {
       resetForm(form) {
         this.$refs[form].resetFields();
+      },isNumber(val){
+          var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+          var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+          if(regPos.test(val) || regNeg.test(val)){
+              return true;
+          }else{
+              return false;
+          }
       },instance() { 
+        var isNumber = this.isNumber(this.fileSettle.payDocAmount);
+        if(!isNumber)
+        {
+          this.$Message.error("支付档案费金额必须是数字！");
+          return;
+        }
+        
         var fromData = this.$utils.clear(this.fileSettle,'');
        
         if(this.fileSettle.employDocPaymentTo){
@@ -106,6 +121,10 @@ import api from '../../../api/employ_manage/hire_operator'
        if(this.fileSettle.budiaoDocDate2){
             fromData.budiaoDocDate2 = this.$utils.formatDate(this.fileSettle.budiaoDocDate2, 'YYYY-MM-DD');
        }
+       if(this.fileSettle.resignDocPaymentTo){
+            fromData.resignDocPaymentTo = this.$utils.formatDate(this.fileSettle.resignDocPaymentTo, 'YYYY-MM-DD');
+       }
+       
        
         api.saveAmArchive(fromData).then(data => {
               if (data.code == 200) {
@@ -116,7 +135,51 @@ import api from '../../../api/employ_manage/hire_operator'
               }
         })
          
-       }
+       },
+       currentDate(){
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              return currentdate;
+       },setCurrentDate(e) {
+        if(e){
+          if(this.fileSettle.closeFeeDate==''||this.fileSettle.closeFeeDate==undefined)
+          {
+             this.fileSettle.closeFeeDate = this.currentDate();
+          }
+        }
+      },setCurrentDate2(e) {
+       
+        if(e){
+          if(this.fileSettle.closeFeeStartDate==''||this.fileSettle.closeFeeStartDate==undefined)
+          {
+             this.fileSettle.closeFeeStartDate = this.currentDate();
+          }
+        }
+      },setCurrentDate3(e) {
+        if(e){
+          if(this.fileSettle.resignDocDate==''||this.fileSettle.resignDocDate==undefined)
+          {
+             this.fileSettle.resignDocDate = this.currentDate();
+          }
+        }
+      },setCurrentDate4(e) {
+        if(e){
+          if(this.fileSettle.resignDocPaymentTo==''||this.fileSettle.resignDocPaymentTo==undefined)
+          {
+             this.fileSettle.resignDocPaymentTo = this.currentDate();
+          }
+        }
+      }
     },
     computed: {
       fileSettle() {

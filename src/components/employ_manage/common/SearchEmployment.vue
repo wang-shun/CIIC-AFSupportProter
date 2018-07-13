@@ -1,12 +1,26 @@
 <template>
-  <Form :model="searchForm" ref="searchForm" :label-width="100">
+  <Form :model="searchForm" ref="searchForm" :label-width="100" @submit.native.prevent>
     <Row justify="start">
       <Col :sm="{span: 8}">
       <Row>
-        <Col :sm="{span: 24}">
+        <Col :sm="{span: 24}" v-if="showHandle.name==='employ'">
           <Form-item label="选择字段" prop="chooseFieldValue">
             <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" transfer>
               <Option v-for="(field, index) in searchForm.chooseField" :value="index" :key="index">{{field}}</Option>
+            </Select>
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 24}" v-if="showHandle.name==='resign'">
+          <Form-item label="选择字段" prop="chooseFieldValue">
+            <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" transfer>
+              <Option v-for="(field, index) in searchForm.chooseResignField" :value="index" :key="index">{{field}}</Option>
+            </Select>
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 24}" v-if="showHandle.name==='archive'">
+          <Form-item label="选择字段" prop="chooseFieldValue">
+            <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" transfer>
+              <Option v-for="(field, index) in searchForm.chooseArchiveField" :value="index" :key="index">{{field}}</Option>
             </Select>
           </Form-item>
         </Col>
@@ -19,11 +33,9 @@
         </Col>
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
-            
-            <Input v-model="searchForm.searchContent" placeholder="请输入" v-if="searchForm.isDate !== 1" />
+            <Input v-model="searchForm.searchContent" placeholder="请输入" @on-enter = "addCondition" v-if="searchForm.isDate !== 1" />
             <Date-picker  v-model="searchForm.searchContent"  type="date"  placement="right"
                              placeholder="选择年月份" style="width: 100%;" v-else></Date-picker> 
-                         
           </Form-item>
         </Col>
 
@@ -56,7 +68,7 @@
   </Form>
 </template>
 <script>
-  import {em_chooseField, em_relationship} from "../../../assets/js/employ_manage/common_filed"
+  import {em_chooseField,em_resign_chooseField,em_arc_chooseField,em_relationship} from "../../../assets/js/employ_manage/common_filed"
   import COMMON_METHODS from "../../../assets/js/common_methods"
   const chooseType = {
     field: 1001,
@@ -81,6 +93,8 @@
         searchForm: {
           chooseFieldValue: "",
           chooseField: em_chooseField,
+          chooseResignField: em_resign_chooseField,
+          chooseArchiveField: em_arc_chooseField,
           relationshipValue: "",
           relationship: em_relationship,
           searchContent: "",
@@ -93,12 +107,45 @@
         currentSelectIndex: -1
       }
     },
+    mounted() {
+    
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var fu;
+      var isFinishValue;
+      if(userInfo!=null&&userInfo!=undefined){
+        
+         if(this.showHandle.name==='employ')
+          {
+            fu = sessionStorage.getItem('employment'+userInfo.userId);
+            isFinishValue = sessionStorage.getItem('employmentIsFinish'+userInfo.userId);
+           
+          }else if(this.showHandle.name==='resign'){
+            fu = sessionStorage.getItem('resign'+userInfo.userId);
+            isFinishValue = sessionStorage.getItem('resignIsFinish'+userInfo.userId);
+           
+          }else if(this.showHandle.name==='archive'){
+            fu = sessionStorage.getItem('archive'+userInfo.userId);
+          }
+          if(fu!=null)
+          {
+            this.searchConditions = JSON.parse(fu);
+
+            if(isFinishValue!=null&&isFinishValue!=undefined){
+                this.searchForm.isFinish = JSON.parse(isFinishValue);
+            }
+            
+            this.$emit("on-search", this.searchConditions,this.searchForm);
+          }
+      }
+     
+    },
     methods: {
       // 选择字段或关系
       setOption(content, type){
+       
         if(type === chooseType.field) {
          
-          if(content.value.indexOf("date")>0){
+          if(content.value.indexOf("date")>0||content.value.indexOf("created_time")>0){
             this.searchForm.isDate=1;
           }else{
             this.searchForm.isDate=0;
@@ -116,7 +163,18 @@
         } else {
           if(this.searchForm.isDate==1){
              var d = new Date(this.searchForm.searchContent);  
-             this.searchForm.searchContent=d.getFullYear() + '-' + (d.getMonth() + 1)+'-'+d.getDate();
+              var seperator1 = "-";
+              var year = d.getFullYear();
+              var month = d.getMonth() + 1;
+              var strDate = d.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+             this.searchForm.searchContent=currentdate;
           }
 
           var temp_searchContent = this.searchForm.searchContent;
@@ -153,8 +211,23 @@
       },
       resetForm(form) {
         this.$refs[form].resetFields();
+        this.searchConditions = [];
       },
       searchEmploiees() {
+         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+         if(userInfo!=null&&userInfo!=undefined){
+             if(this.showHandle.name==='employ')
+              {
+                window.sessionStorage.setItem('employment'+userInfo.userId, JSON.stringify(this.searchConditions));
+                window.sessionStorage.setItem('employmentIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
+              }else if(this.showHandle.name==='resign'){
+                window.sessionStorage.setItem('resign'+userInfo.userId, JSON.stringify(this.searchConditions));
+                window.sessionStorage.setItem('resignIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
+              }else if(this.showHandle.name==='archive'){
+                window.sessionStorage.setItem('archive'+userInfo.userId, JSON.stringify(this.searchConditions));
+              }
+         }
+         
          this.$emit("on-search", this.searchConditions,this.searchForm);
       }
     },

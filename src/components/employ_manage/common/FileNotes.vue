@@ -3,8 +3,7 @@
     <Table border :columns="fileNotesViewColumns" :width="700" :data="fileNotesView" class="mt20"></Table>
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="modal1 = true">新增</Button>
-        <Button type="primary"  @click="instance()">提交</Button>
+        <Button type="primary" @click="add()">新增</Button>
       </Col>
     </Row>
     <Modal
@@ -13,13 +12,7 @@
         @on-ok="ok"
         @on-cancel="cancel">
       <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-      <!-- <Row type="flex" justify="start">
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="操作员：" prop="remarkManw">
-             <Input v-model="handleInfo.remarkManw" placeholder="请输入" :maxlength="50"/>
-          </Form-item>
-        </Col>
-       </Row> -->
+     
        <Row type="flex" justify="start">
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="操作日期：" prop="remarkDatew">
@@ -114,6 +107,22 @@
       }
     },
     methods: {
+            add(){
+                var date = new Date();
+                var seperator1 = "-";
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var currentdate = year + seperator1 + month + seperator1 + strDate;
+                this.handleInfo.remarkDatew = currentdate;
+                this.modal1 = true;
+            },
             ok () {
              
                if(this.handleInfo.remarkDatew==''){
@@ -130,28 +139,24 @@
                fromData.remarkMan = this.userInfo.userName;
                fromData.empTaskId = this.$route.query.empTaskId;
              
-               fromData.employeeId = this.$route.query.employeeId;
-               
-               this.fileNotesView.push(fromData);
-            },
-            cancel () {
-               
-            },instance() {
-             if(this.fileNotesView.length==0){
-              this.$Message.success("没有提交的数据行，请新增");
-              return;
-            }
-            api.saveAmRemark(this.fileNotesView).then(data => {
-                   
-                   if (data.data.data.result == true) {
+               api.saveAmRemark(fromData).then(data => {
+                  if (data.data.result == true) {
                     this.$Message.success("保存成功");
-                    this.fileNotesViewData = data.data.data.data;
+                    this.fileNotesView.push(data.data.data);
                   } else {
                     this.$Message.error("保存失败！");
                   }
-            })
-          
-       },show (index) {
+
+                  this.handleInfo.remarkDatew = '';
+                  this.handleInfo.remarkManw = '';
+                  this.handleInfo.remarkContentw = '';
+                 
+                })
+
+            },
+            cancel () {
+               
+            },show (index) {
                 this.$Modal.info({
                     title: 'User Info',
                     content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`

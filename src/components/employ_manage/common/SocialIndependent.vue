@@ -55,6 +55,115 @@
         
        var fromData = this.$utils.clear(this.employIndependentInfo,'');
 
+        var employStr = '';
+        if(this.employIndependentInfo.companySpecial0==1)
+        {
+          employStr = employStr + '无材料用工'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial1==1)
+        {
+          employStr = employStr + '提交材料复印件件无材料用工'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial2==1)
+        {
+          employStr = employStr + '用工自办'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial3==1)
+        {
+          employStr = employStr + '公司更名'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial4==1)
+        {
+          employStr = employStr + '有盖章录用名册'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial5==1)
+        {
+          employStr = employStr + '公司自开录用名册'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial6==1)
+        {
+          employStr = employStr + '用工成功录用名册归还公司'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial7==1)
+        {
+          employStr = employStr + '公司不同意名册盖章（电子章）'+',';
+        }
+
+        fromData.employSpecial = employStr;
+
+        var archiveStr = '';
+        if(this.employIndependentInfo.companySpecial8==1)
+        {
+          archiveStr = archiveStr + '具有档案保管资质'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial9==1)
+        {
+          archiveStr = archiveStr + '公司自行保管档案'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial10==1)
+        {
+          archiveStr = archiveStr + '用工不调档'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial11==1)
+        {
+          archiveStr = archiveStr + '客服跟催档案'+',';
+        }
+
+        fromData.archiveSpecial = archiveStr;
+
+        var refuseStr = '';
+        if(this.employIndependentInfo.companySpecial12==1)
+        {
+          refuseStr = refuseStr + '公司自开退工单'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial13==1)
+        {
+          refuseStr = refuseStr + '退工材料公司自行归档'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial14==1)
+        {
+          refuseStr = refuseStr + '公司自留存根联'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial15==1)
+        {
+         refuseStr = refuseStr + '退工自办'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial16==1)
+        {
+          refuseStr = refuseStr + '上海人退工单'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial17==1)
+        {
+          refuseStr = refuseStr + '外来从业人员退工单'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial18==1)
+        {
+          refuseStr = refuseStr + '退工单人事章'+',';
+        }
+
+        if(this.employIndependentInfo.companySpecial19==1)
+        {
+          refuseStr = refuseStr + '不寄退工单'+',';
+        }
+
+        fromData.refuseSpecial = refuseStr;
+
         var str = '';
         if(this.employIndependentInfo.companySpecial21==1)
         {
@@ -71,7 +180,6 @@
         api.saveCompanySet(fromData).then(data => {
               if (data.code == 200) {
                   this.$Message.success("保存成功");
-                  history.go(-1);
                 } else {
                   this.$Message.error("保存失败！" + data.message);
                 }

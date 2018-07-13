@@ -1026,6 +1026,10 @@ router.beforeEach((to, from, next) => {
         BACK_TO_LOGIN()
       }
     })
+  } else {
+    if (self === top) {
+      BACK_TO_LOGIN()
+    }
   }
 })
 
@@ -1039,7 +1043,7 @@ const SET_DOCUMENT_INFO = (to) => {
 }
 
 const BACK_TO_LOGIN = () => {
-  window.sessionStorage.removeItem('userInfo')
+  window.localStorage.removeItem('userInfo')
   window.location = process.env.LOGIN_URL
 }
 

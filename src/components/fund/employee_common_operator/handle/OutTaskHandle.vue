@@ -33,12 +33,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="末次汇缴月（基本）：">
-                <label>{{displayVO.basicComHfMonth}}</label>
+                <label>{{displayVO.empBasLastMonth}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="末次汇缴月（补充）：">
-                <label>{{displayVO.addedComHfMonth}}</label>
+                <label>{{displayVO.empAddLastMonth}}</label>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -134,6 +134,31 @@
                 <label>{{displayVO.basicArchiveStatusName}}</label>
               </Form-item>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="缴纳至：">
+                <label>{{(displayVO.empBasEndMonth) ? displayVO.empBasEndMonth : displayVO.empBasLastMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入年月：">
+                <label>{{displayVO.empBasStartMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入办理年月：">
+                <label>{{displayVO.empBasHandleMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出年月：">
+                <label>{{displayVO.empBasEndMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出办理年月：">
+                <label>{{displayVO.empBasStopHandleMonth}}</label>
+              </FormItem>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}">
@@ -150,6 +175,31 @@
               <Form-item label="补充公积金状态：">
                 <label>{{displayVO.addedArchiveStatusName}}</label>
               </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="缴纳至：">
+                <label>{{(displayVO.empAddEndMonth) ? displayVO.empAddEndMonth : displayVO.empAddLastMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入年月：">
+                <label>{{displayVO.empAddStartMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入办理年月：">
+                <label>{{displayVO.empAddHandleMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出年月：">
+                <label>{{displayVO.empAddEndMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出办理年月：">
+                <label>{{displayVO.empAddStopHandleMonth}}</label>
+              </FormItem>
               </Col>
             </Row>
             <Row>
@@ -378,7 +428,7 @@
 //          startMonth: '',
 //          operationRemind: '',
 //          operationRemindDate: '',
-//          operatorListData: [],
+          operatorListData: [],
           handleRemark: '',
           rejectionRemark: ''
         },
@@ -403,7 +453,7 @@
           }
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;
-//          this.operatorListData = data.data.empTaskPeriods;
+          this.operatorListData = data.data.empTaskPeriods;
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
           this.showButton = this.displayVO.canHandle;
@@ -417,6 +467,9 @@
             this.inputDisabled = true;
             this.taskCategoryDisable = true;
             this.showButton = false;
+          }
+          if (this.operatorListData && this.operatorListData.length == 1) {
+            this.inputData.endMonth = this.operatorListData[0].endMonth;
           }
           if (!this.inputData.endMonth || this.inputData.endMonth == '') {
             this.inputData.endMonth = this.displayVO.endMonth;

@@ -4,31 +4,77 @@
       <Panel name="1">
         用工办理
         <div slot="content">
-          <Form :label-width="150">
+          <Form :label-width="100">
             <Row type="flex" justify="start">
+              
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="用工方式：">
-                <Select transfer>
-                  <Option v-for="item in employmentMethodList" :value="item.value" :key="item.value">{{item.label}}
-                  </Option>
-                </Select>
-              </Form-item>
+                <Form-item label="材料签收日期：">
+                  <DatePicker v-model="employmentInfo.receiveDate" @on-open-change="setCurrentDate" @on-change="changeDate" type="date" placeholder="" transfer></DatePicker>
+                </Form-item>
               </Col>
-            </Row>
-            <Row type="flex" justify="start">
-              <Col :sm="{span: 16}" class="tr">
-                <Button type="primary"   @click="instance()">批量办理用工</Button>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="实际录用日期：">
+                  <DatePicker v-model="employmentInfo.employDate" @on-open-change="setCurrentDate1" @on-change="changeDate1" type="date" placeholder="" transfer></DatePicker>
+                </Form-item>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="开F单日期：">
+                  <DatePicker v-model="employmentInfo.openAfDate" @on-open-change="setCurrentDate2" @on-change="changeDate2" type="date"  placeholder="" transfer></DatePicker>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="用工形式：">
+                  <Select v-model="employmentInfo.employStyle" transfer>
+                    <Option v-for="item in employmentFormList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+             
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="办理类型：">
+                  <Select v-model="employmentInfo.handleType"  transfer>
+                    <Option v-for="item in handleTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="用工属性：">
+                  <Select v-model="employmentInfo.employProperty" transfer>
+                    <Option v-for="item in employmentPropertyList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="用工方式：">
+                  <Select v-model="employmentInfo.employWay" transfer>
+                    <Option v-for="item in employmentMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+             
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                 <Form-item label="用工备注：" >
+                  <Input placeholder="请输入" :maxlength="50" v-model="employmentInfo.remarkContent"/>
+                 </Form-item>
+              </Col>
+             
             </Row>
+          <Row type="flex" justify="start">
+            <Col :sm="{span: 24}" class="tr">
+              <!-- <Button type="warning" @click="defaultVaule()">默认</Button> -->
+              <Button type="primary"  :loading="isLoadingC"   @click="instanceEmployment()"  >保存</Button>
+            </Col>
+          </Row>
           </Form>
         </div>
       </Panel>
       <Panel name="2">
         用工材料办理
         <div slot="content">
-          <Form :model="materialHandleInfo" ref="materialHandleInfo" :label-width="150">
+          <Form :model="materialHandleInfo" ref="materialHandleInfo" :label-width="100">
             <Row type="flex" justify="start">
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="预留档案类别：">
                 <Select transfer @on-change="changeTypeYuliu" v-model="materialHandleInfo.yuliuDocType">
                   <Option value="" key="">空</Option>
@@ -38,12 +84,12 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="预留档案编号：" prop="yuliuDocNum">
                 <Input placeholder="请输入" :maxlength="9" v-model="materialHandleInfo.yuliuDocNum"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案类别：">
                 <Select transfer @on-change="changeTypeNumber" v-model="materialHandleInfo.docType">
                   <Option value="" key="">空</Option>
@@ -53,103 +99,96 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案编号：" prop="docNum" transfer>
                 <Input placeholder="请输入" :maxlength="9" v-model="materialHandleInfo.docNum"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="存档地：" prop="archivePlace" v-model="materialHandleInfo.archivePlace">
-                <Select transfer>
+             
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
+              <Form-item label="存档地：" >
+                <Select v-model="materialHandleInfo.archivePlace" transfer>
                   <Option v-for="item in filePlaceList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
-              </Form-item>
+              </Form-item> 
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="存档地补充：" prop="archivePlaceAdditional">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
+              <Form-item label="存档地补充：" >
                 <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.archivePlaceAdditional"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
-              <Form-item label="存档卡状态：" prop="archiveCardState" v-model="materialHandleInfo.archiveCardState">
-                <Select transfer>
+              
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
+              <Form-item label="存档卡状态：" >
+                <Select v-model="materialHandleInfo.archiveCardState" transfer>
                   <Option v-for="item in placeStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案号：" prop="docCode">
                 <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.docCode"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案来源：" prop="docFrom">
-                <Select  transfer v-model="materialHandleInfo.docFrom">
+                <Select  v-model="materialHandleInfo.docFrom" transfer>
                   <Option v-for="item in fileOriginList" :value="item.value" :key="item.value">{{item.label}}</Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工反馈：" prop="employFeedback">
-                <Select  @on-change="changeType" transfer v-model="materialHandleInfo.employFeedback">
+                <Select  @on-change="changeType" transfer v-model="materialHandleInfo.employFeedback" >
                   <Option v-for="item in employFeedbackList" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate" @on-open-change="setCurrentDate3" @on-change="changeDate3"></DatePicker>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span:6}">
               <Form-item label="调档反馈：" prop="diaodangFeedback">
-                <Select transfer v-model="materialHandleInfo.diaodangFeedback">
+                <Select @on-change="changeTypeDd" transfer v-model="materialHandleInfo.diaodangFeedback">
                   <Option v-for="item in transferFeedbackList" :value="item.value" :key="item.value">{{item.label}}
                   </Option>
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="调档反馈操作日期：" prop="diaodangFeedbackOptDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.diaodangFeedbackOptDate"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.diaodangFeedbackOptDate" @on-open-change="setCurrentDate4" @on-change="changeDate4"></DatePicker>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="UKey外借日期：" prop="ukeyBorrowDate">
                 <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyBorrowDate"></DatePicker>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate"  @on-open-change="setCurrentDate5" @on-change="changeDate5"></DatePicker>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="户口号：" prop="hukouCode">
                 <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.hukouCode"/>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工档案缴费至：" prop="employDocPaymentTo">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.employDocPaymentTo"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.employDocPaymentTo" @on-open-change="setCurrentDate6" @on-change="changeDate6"></DatePicker>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 4}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="入库日期：" prop="storageDate">
-                <DatePicker type="date"  transfer v-model="materialHandleInfo.storageDate"></DatePicker>
+                <DatePicker type="date"  transfer v-model="materialHandleInfo.storageDate" @on-open-change="setCurrentDate7" @on-change="changeDate7"></DatePicker>
               </Form-item>
               </Col>
-             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              </Col>
+            
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="" prop="luyongHandleEnd">
                 <Checkbox v-model="materialHandleInfo.luyongHandleEnd">录用处理结束</Checkbox>
@@ -157,9 +196,9 @@
               </Col>
             </Row>
             <Row type="flex" justify="start">
-              <Col :sm="{span: 16}" class="tr">
+              <Col :sm="{span: 24}" class="tr">
               <Button type="warning" @click="resetForm('materialHandleInfo')">重置</Button>
-              <Button type="primary" @click="instance()">批理办理</Button>
+              <Button type="primary"  :loading="isLoading"  @click="instance()" :disabled="materialHandleInfo.end" >批理办理</Button>
               </Col>
             </Row>
           </Form>
@@ -183,9 +222,15 @@
     },
     data() {
       return {
+         isLoading: false,
+         isLoadingC:false,
         collapseInfo: [1,2], //展开栏
         docTypeList: [],
         yuliuDocTypeList: [],
+        employmentInfo:{
+          receiveDate:'',
+          employDate:'',
+        },
         materialHandleInfo: {
           yuliuDocType: '',
           yuliuDocNum: '',
@@ -208,11 +253,16 @@
           employWay: '',
           employOperateMan: '',
           employmentId:'',
-          end:false
+          end:false,
+          empTaskIds:[]
+        },
+        employeeBatchData:{
+          empTaskIds:[],
+          employWay:''
         },
         employmentFormList: [
           {value: '1', label: '全日制'},
-          {value: '2', label: '其它'}
+          {value: '2', label: '非全日制'}
         ],
         handleTypeList: [
           {value: '空', label: '空'},
@@ -288,7 +338,6 @@
           {value: '独立', label: '独立'}
         ],
         employFeedbackList: [
-          {value:'0',label:'空'},
           {value:'3',label:'用工成功'},
           {value:'10',label:'用工已办查无档'},
           {value:'4',label:'用工失败'},
@@ -390,7 +439,6 @@
           }
         })
       },
-
       instance() {
         
         var patrn = /^[0-9]*$/;
@@ -411,6 +459,8 @@
           return;
         }
         var fromData = this.$utils.clear(this.materialHandleInfo,'');
+     
+        
         fromData.isFrist='0';
         if(this.materialHandleInfo.employFeedbackOptDate){
          fromData.employFeedbackOptDate = this.$utils.formatDate(this.materialHandleInfo.employFeedbackOptDate, 'YYYY-MM-DD');
@@ -430,18 +480,54 @@
         if(this.materialHandleInfo.storageDate){
              fromData.storageDate = this.$utils.formatDate(this.materialHandleInfo.storageDate, 'YYYY-MM-DD');
         }
+       
         fromData.empTaskIds = this.$route.query.empTaskIds;
-        console.info(fromData);
-        return;
-        api.saveAmArchiveBatch(fromData).then(data => {
-              if (data.code == 200) {
-                this.$Message.success("批量办理成功");
-              } else {
-                this.$Message.error("保存失败！" + data.message);
+       this.isLoading = true;
+        api.saveBatchEmploy(fromData).then(data => {
+            if (data.data.code == 200) {
+              if(data.data.data.remark){
+                  this.$Message.error(data.data.data.remark);
+              }else{
+                  this.materialHandleInfo.end =data.data.data.end;
+                  this.$Message.success("批量办理成功");
               }
+             
+            } else {
+              this.$Message.error("保存失败！" + data.data.message);
+            }
+
+            this.isLoading = false;
         })
 
-      }, defaultVaule() {
+      }, instanceEmployment(){
+            var fromData = this.$utils.clear(this.employmentInfo,'');
+            if(fromData.employDate){
+              fromData.employDate = this.$utils.formatDate(this.employmentInfo.employDate, 'YYYY-MM-DD');
+            }
+            if(fromData.openAfDate){
+              fromData.openAfDate = this.$utils.formatDate(this.employmentInfo.openAfDate, 'YYYY-MM-DD');
+            }
+            if(fromData.receiveDate){
+              fromData.receiveDate = this.$utils.formatDate(this.employmentInfo.receiveDate, 'YYYY-MM-DD');
+            }else{
+              this.$Message.error("材料签收日期不能为空");
+              return;
+            }
+            
+           fromData.empTaskIds = this.$route.query.empTaskIds;
+            this.isLoadingC = true;
+          api.batchSaveEmployment(fromData).then(data => {
+            if (data.code == 200) {
+              this.$Message.success("批量办理成功");
+            } else {
+              this.$Message.error("保存失败！" + data.data.message);
+            }
+           
+           this.isLoadingC = false;
+            
+         })
+
+      },defaultVaule() {
 
         var fromData = this.$utils.clear(this.handleInfo, '');
         if (fromData.employDate) {
@@ -526,10 +612,7 @@
         }
         this.handleInfoMaterial.defaultC = '1';
 
-      },
-      changeType(val){
-          if(val==11)
-          {
+      },currentDate(){
               var date = new Date();
               var seperator1 = "-";
               var year = date.getFullYear();
@@ -542,10 +625,103 @@
                   strDate = "0" + strDate;
               }
               var currentdate = year + seperator1 + month + seperator1 + strDate;
-              this.handleInfo.ukeyBorrowDate=currentdate;
+              return currentdate;
+       },changeType(val){
+          
+          if(val==11)
+          { 
+              this.materialHandleInfo.ukeyBorrowDate=this.currentDate();
           }
+          
+          this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
          
-       }
+       },changeTypeDd(val){
+          
+          this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
+         
+       },setCurrentDate(e) {
+        if(e){
+          if(this.employmentInfo.receiveDate==''||this.employmentInfo.receiveDate==undefined)
+          {
+             this.employmentInfo.receiveDate = this.currentDate();
+          }
+        }
+        
+      },changeDate(e) {
+        this.employmentInfo.receiveDate = e;
+      },setCurrentDate1(e) {
+        if(e){
+          if(this.employmentInfo.employDate==''||this.employmentInfo.employDate==undefined)
+          {
+             this.employmentInfo.employDate = this.currentDate();
+          }
+        }
+        
+      },changeDate1(e) {
+        this.employmentInfo.employDate = e;
+      },setCurrentDate2(e) {
+        if(e){
+          if(this.employmentInfo.openAfDate==''||this.employmentInfo.openAfDate==undefined)
+          {
+             this.employmentInfo.openAfDate = this.currentDate();
+          }
+        }
+        
+      },changeDate2(e) {
+        this.employmentInfo.openAfDate = e;
+      },setCurrentDate3(e) {
+        if(e){
+          if(this.materialHandleInfo.employFeedbackOptDate==''||this.materialHandleInfo.employFeedbackOptDate==undefined)
+          {
+             this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+          }
+        }
+        
+      },changeDate3(e) {
+        this.materialHandleInfo.employFeedbackOptDate = e;
+      },setCurrentDate4(e) {
+        if(e){
+          if(this.materialHandleInfo.diaodangFeedbackOptDate==''||this.materialHandleInfo.diaodangFeedbackOptDate==undefined)
+          {
+             this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
+          }
+        }
+        
+      },changeDate4(e) {
+        this.materialHandleInfo.diaodangFeedbackOptDate = e;
+      },setCurrentDate5(e) {
+        if(e){
+          if(this.materialHandleInfo.ukeyReturnDate==''||this.materialHandleInfo.ukeyReturnDate==undefined)
+          {
+             this.materialHandleInfo.ukeyReturnDate = this.currentDate();
+          }
+        }
+        
+      },changeDate5(e) {
+        this.materialHandleInfo.ukeyReturnDate = e;
+      },setCurrentDate6(e) {
+        if(e){
+          if(this.materialHandleInfo.employDocPaymentTo==''||this.materialHandleInfo.employDocPaymentTo==undefined)
+          {
+             this.materialHandleInfo.employDocPaymentTo = this.currentDate();
+          }
+        }
+        
+      },changeDate6(e) {
+        this.materialHandleInfo.employDocPaymentTo = e;
+      },setCurrentDate7(e) {
+        if(e){
+          if(this.materialHandleInfo.storageDate==''||this.materialHandleInfo.storageDate==undefined)
+          {
+             this.materialHandleInfo.storageDate = this.currentDate();
+          }
+        }
+        
+      },changeDate7(e) {
+        this.materialHandleInfo.storageDate = e;
+      }
+
+      
 
     }
   }

@@ -12,39 +12,52 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="牡丹卡号：" class="">
-                  <label>{{companySocialSecurityInfo.bankAccount}}</label>
+                <Form-item label="牡丹卡号：" prop="bankAccount">
+                  <Input v-model="companySocialSecurityInfo.bankAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="养老金用公司名称：" class="">
+                <Form-item label="企业社保账户名称：" class="">
                   <label>{{companySocialSecurityInfo.comAccountName}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="结算区县：" class="">
-                  <label>{{companySocialSecurityInfo.settlementArea}}</label>
+            
+                <Form-item label="社保中心(结算区县)：" prop="settlementArea">
+                  	<AutoComplete
+                      v-model="companySocialSecurityInfo.settlementArea"
+                      placeholder="请选择">
+                      <div class="demo-auto-complete-item">
+                          <Option v-for="option in socialSecurityCenterList" :value="option.label" :key="option.label">
+                              <span class="demo-auto-complete-title">{{ option.label }}</span>
+                          </Option>
+                      </div>
+                  </AutoComplete>
+                   </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="付款行：" prop="paymentBank">
+                  <Input v-model="companySocialSecurityInfo.paymentBank" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="付款行：" class="">
-                  <label>{{companySocialSecurityInfo.paymentBank}}</label>
+                <Form-item label="付款方式：" prop="paymentWay">
+                  <Select v-model="companySocialSecurityInfo.paymentWay" style="width: 100%;" transfer>
+                    <Option v-for="item in payMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="付款方式：" class="">
-                  <label>{{this.$decode.payMethod(companySocialSecurityInfo.paymentWay)}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="账单接收方：" class="">
-                  <label>{{this.$decode.billReceiver(companySocialSecurityInfo.billReceiver)}}</label>
+                <Form-item label="账单接收方：" prop="billReceiver">
+                  <Select v-model="companySocialSecurityInfo.billReceiver" style="width: 100%;" transfer>
+                    <Option v-for="item in billReceiverList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
                 </Form-item>
               </Col>
 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="工行查询账号：" class="">
-                  <label>{{companySocialSecurityInfo.queryAccount}}</label>
+                <Form-item label="工行查询账号：" prop="queryAccount">
+                  <Input v-model="companySocialSecurityInfo.queryAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -52,14 +65,14 @@
                   <label>{{companySocialSecurityInfo.expireDate}}</label>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="养老金独立开户用户名：" class="">
                   <label>{{companySocialSecurityInfo.ssUsername}}</label>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="养老金独立开户密码：" class="">
-                  <label>{{companySocialSecurityInfo.ssPwd}}</label>
+                <Form-item label="养老金独立开户密码：" prop="ssPwd">
+                  <Input v-model="companySocialSecurityInfo.ssPwd" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -97,7 +110,7 @@
                   <label>{{companySocialSecurityInfo.provideCertificateTime}}</label>
                 </Form-item>
               </Col>-->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="变更时间：" class="">
                   <label>{{companySocialSecurityInfo.changeTime}}</label>
                 </Form-item>
@@ -111,7 +124,7 @@
                 <Form-item label="转入日期：" class="">
                   <label>{{companySocialSecurityInfo.intoDate}}</label>
                 </Form-item>
-              </Col>
+              </Col> -->
             </Row>
             <Row>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -120,24 +133,24 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 24}" :lg="{span: 16}">
-                <Form-item label="发出材料：" prop="dispatchMaterial">
+                <Form-item label="发出材料：" prop="dispatchMaterial"  >
                   <CheckboxGroup v-model="companySocialSecurityInfo.dispatchMaterial">
-                    <Checkbox label="正式通知书">
+                    <Checkbox label="正式通知书"  :disabled=true>
                       <span>正式通知书</span>
                     </Checkbox>
-                    <Checkbox label="预生成通知书">
+                    <Checkbox label="预生成通知书" :disabled=true>
                       <span>预生成通知书</span>
                     </Checkbox>
-                    <Checkbox label="收据">
+                    <Checkbox label="收据" :disabled=true>
                       <span>收据</span>
                     </Checkbox>
-                    <Checkbox label="银行对账单">
+                    <Checkbox label="银行对账单" :disabled=true>
                       <span>银行对账单</span>
                     </Checkbox>
-                    <Checkbox label="汇总表">
+                    <Checkbox label="汇总表" :disabled=true>
                       <span>汇总表</span>
                     </Checkbox>
-                    <Checkbox label="实时表">
+                    <Checkbox label="实时表" :disabled=true>
                       <span>实时表</span>
                     </Checkbox>
                   </CheckboxGroup>
@@ -171,6 +184,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span:24}" class="tr">
+        <Button type="primary" @click="saveComAccount">保存</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -182,7 +196,6 @@
       @on-cancel="cancel">
       <ul>
         <li v-for="chatItem in chatList">
-
             <div class="content">
               <p class="info">
                 <span>{{chatItem.name}}</span>
@@ -236,6 +249,53 @@
           dispatchMaterial: [],//发出材料
           endDate: ''
         }, //企业社保账号信息
+payMethodList: [
+          {value: '1', label: '我司代付款'},
+          {value: '2', label: '客户自付'},
+          {value: '3', label: '我司垫付'},
+        ],
+        billReceiverList:[
+            {value: '1', label: '我司'},
+            {value: '2', label: '客户公司'},
+        ],
+        paymentTypeList:[
+            {value: '1', label: '委托扣款'},
+            {value: '2', label: '制卡缴费'},
+        ],
+        resourceList: [
+            {value: '1', label: '新开'},
+            {value: '2', label: 'AF转入(大库转入)'},
+            {value: '3', label: '其他供应商转入'}
+          ], //来源地
+          taskList: [
+            {value: '1', label: '开户'},
+            {value: '2', label: '转入'},
+          ], //任务
+           socialSecurityCenterList: [
+            
+            {value: '徐汇', label: '徐汇'},
+            {value: '长宁', label: '长宁'},
+            {value: '浦东', label: '浦东'},
+            {value: '静安', label: '静安'},
+            {value: '黄浦', label: '黄浦'},
+            {value: '杨浦', label: '杨浦'},
+            {value: '普陀', label: '普陀'},
+            {value: '宝山', label: '宝山'},
+            {value: '虹口', label: '虹口'},
+            {value: '闵行', label: '闵行'},
+            {value: '松江', label: '松江'},
+            {value: '嘉定', label: '嘉定'},
+            {value: '青浦', label: '青浦'},
+            {value: '奉贤', label: '奉贤'},
+            {value: '崇明', label: '崇明'},
+            {value: '金山', label: '金山'},
+          ], //社保中心
+           giveMethodList: [
+            {value: '1', label: '交客服'},
+            {value: '2', label: '传真'},
+            {value: '3', label: '邮寄'}
+          ], //交予方式
+
 
         childCompanyColumns: [
           {title: '客户编号', key: 'companyId', align: 'center', className: 'mw120',
@@ -402,7 +462,6 @@
       api.companySocialSecurityQuery({comAccountId:comAccountId}).then(result=>{
         this.companySocialSecurityInfo = result.data.account
         this.childCompanyData = result.data.ssAccountComRelation
-
         this.historyTaskData = result.data.ssComTask
         this.workInjuryData = result.data.ssAccountRatio
       })
@@ -411,9 +470,39 @@
 
     },
     methods: {
-
       goBack() {
         this.$router.push({name: 'companySocialSecurityManage'})
+      },
+      saveComAccount(){
+        let form=this.companySocialSecurityInfo
+        let params = {
+          comAccountId : this.comAccountId,
+          bankAccount : form.bankAccount,
+          settlementArea : form.settlementArea,
+          paymentBank : form.paymentBank,
+          paymentWay : form.paymentWay,
+          billReceiver : form.billReceiver,
+          queryAccount : form.queryAccount,
+          ssPwd : form.ssPwd,
+         };
+        this.$Modal.confirm({
+            title: '',
+            content: '您确定保存操作吗?',
+            onOk:function(){
+                api.ssComAccountSave(params).then(
+                  data=>{
+                    if(data.code == 200){
+                      this.$Message.success(data.message);
+                    }else{
+                      this.$Message.error(data.message);
+                    }
+                  }
+                )
+            },
+            error:function(error){
+              self.$Modal.remove();
+            }
+          });
       },
       ok () {
 
@@ -426,7 +515,6 @@
 </script>
 <style scoped>
   li {clear: both; margin-top: 10px;}
-
   .content {
     width: 352px;
     float: left;

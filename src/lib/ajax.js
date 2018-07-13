@@ -164,7 +164,7 @@ const createAjax = config => {
     if (response) {
       if (response.status === 200 || response.status === 304 || response.status === 500) { // 后端业务处理返回的内部错误
         if (response.data && response.data.code === '2') {
-          sessionStorage.removeItem('userInfo')
+          localStorage.removeItem('userInfo')
           window.location.href = process.env.LOCAL_URL + ':8070/#/'
           return
         }
@@ -277,6 +277,7 @@ AJAX.createAjaxForName = createAjaxForName
 AJAX.createProxyAjaxForName = createProxyAjaxForName
 
 AJAX.basePaths = BASE_PATHS['health-c']
+AJAX.fbqBasePaths = BASE_PATHS['fb-q'];
 AJAX.ajaxFbq = createProxyAjaxForName('fb-q')
 AJAX.ajaxFbc = createProxyAjaxForName('fb-c')
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q')

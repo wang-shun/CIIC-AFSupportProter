@@ -41,7 +41,13 @@
                   </Select>
                 </Form-item>
               </Col>
-              
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+                <Form-item label="付款类型：" prop="paymentType">
+                  <Select v-model="beforeSendInfo.paymentType" style="width: 100%;" transfer>
+                    <Option v-for="item in paymentTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
             </Row>
           </Form>
         </div>
@@ -96,11 +102,11 @@
                   <Input v-model="companyOpenAccountOperator.icbcSearchAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="养老金独立开户用户名：" prop="pensionMoneySingleUserName">
                   <Input v-model="companyOpenAccountOperator.pensionMoneySingleUserName" placeholder="请输入..."></Input>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="养老金独立开户密码：" prop="pensionMoneySinglePassWord">
                   <Input v-model="companyOpenAccountOperator.pensionMoneySinglePassWord" placeholder="请输入..."></Input>
@@ -140,12 +146,7 @@
                   <Input v-model="companyOpenAccountOperator.giveMethodNotes" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="给凭证时间：">
-                  <DatePicker v-model="companyOpenAccountOperator.giveProofDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
-                </Form-item>
-              </Col>-->
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="变更时间：">
                   <DatePicker v-model="companyOpenAccountOperator.changeDate" type="datetime" format="yyyy-MM-dd HH:mm" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
@@ -159,7 +160,7 @@
                 <Form-item label="转入日期：">
                   <DatePicker v-model="companyOpenAccountOperator.moveInDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
-              </Col>
+              </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="所属行业："  prop="belongToIndustries">
                   <Input v-model="companyOpenAccountOperator.belongToIndustries" placeholder="请输入..."></Input>
@@ -430,15 +431,19 @@
           serviceCenter: '',
           leaderShipName: ''
         },
-         payMethodList: [
-            {value: '1', label: '我司代付款'},
-            {value: '2', label: '客户自付'},
-            {value: '3', label: '我司垫付'},
-          ],
-          billReceiverList:[
-             {value: '1', label: '我司'},
-             {value: '2', label: '客户公司'},
-          ],
+        payMethodList: [
+          {value: '1', label: '我司代付款'},
+          {value: '2', label: '客户自付'},
+          {value: '3', label: '我司垫付'},
+        ],
+        billReceiverList:[
+            {value: '1', label: '我司'},
+            {value: '2', label: '客户公司'},
+        ],
+        paymentTypeList:[
+            {value: '1', label: '委托扣款'},
+            {value: '2', label: '制卡缴费'},
+        ],
         beforeSendInfo: {
           customerSocialSecurityEndDate: '',
           payMethodValue: '',
@@ -490,7 +495,7 @@
           joinSafeguardRegister: '', //参保户登记码
           bankCardNumber: '', //牡丹卡号
           pensionMoneyUseCompanyName: '', //养老金用公司名称
-          socialSecurityCenterValue: '',//社保中心
+          socialSecurityCenterValue: '',//结算区县
           payBank: '', //付款行
           icbcSearchAccount: '', //工行查询账号
           pensionMoneySingleUserName: '', //养老金独立开户用户名
@@ -525,91 +530,88 @@
                     payMethodValue:[
                         { required: true, message: '请选择付款方式！', trigger: 'change' }
                     ],
+                    paymentType:[
+                        { required: true, message: '请选择付款类型！', trigger: 'change' }
+                    ],
                     billReceiverValue:[
                         { required: true, message: '请选择账单接收方！', trigger: 'change' }
                     ],
                     taskValue: [
                         { required: true, message: '请选择任务状态！', trigger: 'blur' }
-                    ],
-                    joinSafeguardRegister: [
-                        { required: true, message: '该项不能为空!', trigger: 'blur' },
-                        { max:20, message: '最多不超过20个.', trigger: 'blur' }
-                    ],
-                     bankCardNumber: [
-                        { required: true,validator: validateBankCardNumber, trigger: 'blur' }
+                    ], 
+                    // joinSafeguardRegister: [
+                    //     { required: true, message: '该项不能为空!', trigger: 'blur' },
+                    //     { max:20, message: '最多不超过20个.', trigger: 'blur' }
+                    // ],
+                    //  bankCardNumber: [
+                    //     { required: true,validator: validateBankCardNumber, trigger: 'blur' }
+                    // ],
+                    // pensionMoneyUseCompanyName: [
+                    //     { required: true, message: '该项不能为空!', trigger: 'blur' },
+                    //     { max:20, message: '最多不超过20个.', trigger: 'blur' }
+                    // ],
+                    // socialSecurityCenterValue: [
+                    //     { required: true, message: '请选择结算区县!', trigger: 'blur' },
+                    //      { required: true, message: '请选择结算区县!', trigger: 'change' }
+                    // ],
+                    // icbcSearchAccount: [
+                    //     { required: true, message: '该项不能为空!', trigger: 'blur' },
+                    //     { type:'string',max:20, message: '最多不超过20个.', trigger: 'blur' }
+                    // ],
 
-                    ],
-                    pensionMoneyUseCompanyName: [
-                        { required: true, message: '该项不能为空!', trigger: 'blur' },
-                        { max:20, message: '最多不超过20个.', trigger: 'blur' }
-                    ],
-                    socialSecurityCenterValue: [
-                        { required: true, message: '请选择结算区县!', trigger: 'blur' },
-                         { required: true, message: '请选择结算区县!', trigger: 'change' }
-                    ],
-                    icbcSearchAccount: [
-                        { required: true, message: '该项不能为空!', trigger: 'blur' },
-                        { type:'string',max:20, message: '最多不超过20个.', trigger: 'blur' }
-                    ],
+                    // payBank: [
+                    //     { required: true, message: '该项不能为空!', trigger: 'blur' },
+                    //     { type:'string', max:20, message: '最多不超过20个.', trigger: 'blur' }
+                    // ],
+                    // pensionMoneySingleUserName: [
+                    //     { required: true, validator: validateUserNameAndPsw, trigger: 'blur' },
 
-                    payBank: [
-                        { required: true, message: '该项不能为空!', trigger: 'blur' },
-                        { type:'string', max:20, message: '最多不超过20个.', trigger: 'blur' }
-                    ],
-                    pensionMoneySingleUserName: [
-                        { required: true, validator: validateUserNameAndPsw, trigger: 'blur' },
+                    // ],
+                    // pensionMoneySinglePassWord: [
+                    //     { required: true, validator: validateUserNameAndPsw, trigger: 'blur' },
 
-                    ],
-                    pensionMoneySinglePassWord: [
-                        { required: true, validator: validateUserNameAndPsw, trigger: 'blur' },
-
-                    ],
-                    //originalSum:[
-                    // {validator: validateUserMoney, trigger: 'blur'}
-                    //],
-                    //originalArrears:[
-                    //{validator: validateUserMoney, trigger: 'blur'}
-                    //],
-                      resourceValue: [
-                        { required: true, message: '请选择来源地!', trigger: 'change' }
-                    ],
-                    resourceNotes: [
-                        { type:'string', max:50, message: '最多不超过50个.', trigger: 'blur' }
-                    ],
-                     giveMethodValue: [
-                        { required: true, message: '请选择交予方式!', trigger: 'change' }
-                    ],
-                     giveMethodNotes: [
-                        {type:'string', max:100, message: '最多不超过100个.', trigger: 'blur' }
-                    ],
-                    belongToIndustries: [
-                       { required: true, message: '该项不能为空!', trigger: 'blur' },
-                        {type:'string', max:10, message: '最多不超过10位.', trigger: 'blur' }
-                    ],
-                    sufferedOnTheJobPercentage:[
-                      {required:true,validator: validateSufferedOnTheJobPercentage, trigger: 'blur'}
-                    ],
-                    sufferedOnTheJobPercentageChangeStartMonth: [
-                        { required: true, type: 'date', message: '请选择变更开始调整月份.', trigger: 'change' }
-                    ],
-                    taskTypeValue: [
-                       { required: true, message: '该项不能为空!', trigger: 'blur' }
-                       ],
-                     acceptanceDate: [
-                       { type: 'date',validator:validateAcceptanceDate, trigger: 'change' }
-                       ],
-                     sendCheckDate: [
-                       { type: 'date',validator:validateSendCheckDate, trigger: 'change' }
-                       ],
-                     finishedDate: [
-                       { type: 'date',validator:validateFinishedDate, trigger: 'change' }
-                       ],
-                       refuseReason:[
-                          { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
-                       ],
-                       handleRemark:[
-                         { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
-                       ]
+                    // ],
+    
+                    // resourceValue: [
+                    //     { required: true, message: '请选择来源地!', trigger: 'change' }
+                    // ],
+                    // resourceNotes: [
+                    //     { type:'string', max:50, message: '最多不超过50个.', trigger: 'blur' }
+                    // ],
+                    //  giveMethodValue: [
+                    //     { required: true, message: '请选择交予方式!', trigger: 'change' }
+                    // ],
+                    //  giveMethodNotes: [
+                    //     {type:'string', max:100, message: '最多不超过100个.', trigger: 'blur' }
+                    // ],
+                    // belongToIndustries: [
+                    //    { required: true, message: '该项不能为空!', trigger: 'blur' },
+                    //     {type:'string', max:10, message: '最多不超过10位.', trigger: 'blur' }
+                    // ],
+                    // sufferedOnTheJobPercentage:[
+                    //   {required:true,validator: validateSufferedOnTheJobPercentage, trigger: 'blur'}
+                    // ],
+                    // sufferedOnTheJobPercentageChangeStartMonth: [
+                    //     { required: true, type: 'date', message: '请选择变更开始调整月份.', trigger: 'change' }
+                    // ],
+                    // taskTypeValue: [
+                    //    { required: true, message: '该项不能为空!', trigger: 'blur' }
+                    //    ],
+                    //  acceptanceDate: [
+                    //    { type: 'date',validator:validateAcceptanceDate, trigger: 'change' }
+                    //    ],
+                    //  sendCheckDate: [
+                    //    { type: 'date',validator:validateSendCheckDate, trigger: 'change' }
+                    //    ],
+                    //  finishedDate: [
+                    //    { type: 'date',validator:validateFinishedDate, trigger: 'change' }
+                    //    ],
+                    //    refuseReason:[
+                    //       { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+                    //    ],
+                    //    handleRemark:[
+                    //      { type:'string', max:200, message: '最多不超过200个.', trigger: 'blur' }
+                    //    ]
                 },
       }
     },
@@ -623,6 +625,35 @@
       goBack() {
         this.$router.push({name: 'companyTaskList'});
       },
+
+      validateRequired() {
+        // 参保登记吗 、业社保账户名称、结算区县、所属行业、企业工伤比例、工伤比例开始月份
+        if(!this.companyOpenAccountOperator.joinSafeguardRegister){
+           this.$Message.warning('【参保户登记码】要求必填！')
+           return false;
+        }
+        if(!this.companyOpenAccountOperator.pensionMoneyUseCompanyName){
+           this.$Message.warning('【养老金用公司名称】要求必填！')
+           return false;
+        }
+        if(!this.companyOpenAccountOperator.socialSecurityCenterValue){
+           this.$Message.warning('【结算区县】要求必填！')
+           return false;
+        }
+        if(!this.companyOpenAccountOperator.sufferedOnTheJobPercentage){
+           this.$Message.warning('【企业工伤比例】要求必填！')
+           return false;
+        }
+        if(!this.companyOpenAccountOperator.sufferedOnTheJobPercentage){
+           this.$Message.warning('【企业工伤比例】要求必填！')
+           return false;
+        }
+        if(!this.companyOpenAccountOperator.sufferedOnTheJobPercentageChangeStartMonth){
+           this.$Message.warning('【工伤比例开始月份】要求必填！')
+           return false;
+        }
+        return true;
+      },
       //办理
       confirm(){
         let res =this.accountIdIsNull()
@@ -635,45 +666,54 @@
                     }
                 })
         let companyOpenValid = false;
-         this.$refs['companyOpenAccountOperator'].validate((valid) => {
-                    if (valid) {
-                        companyOpenValid = true;
-                    }
-                })
-            if(!beforeValid || !companyOpenValid){
-              return;
+        this.$refs['companyOpenAccountOperator'].validate((valid) => {
+            if (valid) {
+                companyOpenValid = true;
             }
-            let self = this;
-            self.$Modal.confirm({
-                title: '',
-                content: '确认办理吗?',
-                //loading:true,
-                onOk:function(){
-                   let params = self.getParams()
-                   CompanyTaskList.addOrUpdate(params).then(result=>{
-                    if(result.result){
-                       if(result.message=='正常'){
-                          self.$Message.success('办理成功!');
-                          self.goBack()
-                       }else{
-                         self.$Message.success(result.message);
-                         self.goBack()
-                       }
-                        
-                    }else{
-                      self.$Message.error('办理失败!');
-                    }
+        })
+        if(!beforeValid || !companyOpenValid){
+            // 这时应该自动页面回到顶部，暂时找不到代码。
+            return;
+        }
+        res=this.validateRequired();
+        if(res == false )return;
 
-                   }).catch(error=>{
-                     console.log(error)
-                   })
+        let self = this;
+        self.$Modal.confirm({
+            title: '',
+            content: '确认办理吗?',
+            //loading:true,
+            onOk:function(){
+                let params = self.getParams()
+                CompanyTaskList.addOrUpdate(params).then(result=>{
+                  if(result.result){
+                      let taskState = self.companyOpenAccountOperator.taskTypeValue;
+                      if(taskState==1 || taskState==2){
+                        sessionStorage.companyTaskTab = "progressing";
+                      }else if(taskState==3){
+                        sessionStorage.companyTaskTab = "finished";
+                      }
+                      //下面代码感觉怪怪的，有空再改
+                      if(result.message=='正常'){
+                        self.$Message.success('办理成功!');
+                        self.goBack()
+                      }else{
+                        self.$Message.success(result.message);
+                        self.goBack()
+                      }
+                  }else{
+                    self.$Message.error('办理失败!');
+                  }
+                }).catch(error=>{
+                  console.log(error)
+                })
 
-                },
-                 error:function(error){
-                   self.$Message.error('办理失败!');
-                   self.$Modal.remove();
-               }
-            });
+            },
+              error:function(error){
+                self.$Message.error('办理失败!');
+                self.$Modal.remove();
+            }
+        });
       },
       //批退任务
       refuseTask(){
@@ -727,8 +767,6 @@
           }
         self.comAccountId = result.comAccountId
         self.companyInfo = result.companyInfo
-         console.log(result);
-        console.log(result.companyInfo);
         self.beforeSendInfo = result.beforeSendInfo
         self.companyOpenAccountOperator  =result.companyOpenAccountOperator
         self.currentStep = Number(result.companyTaskStatus)
@@ -780,6 +818,7 @@
               settlementArea: this.companyOpenAccountOperator.socialSecurityCenterValue,
               paymentBank: this.companyOpenAccountOperator.payBank,
               paymentWay: this.beforeSendInfo.payMethodValue,
+              paymentType: this.beforeSendInfo.paymentType,
               billReceiver:this.beforeSendInfo.billReceiverValue,
               ssUsername: this.companyOpenAccountOperator.pensionMoneySingleUserName,
               ssPwd: this.companyOpenAccountOperator.pensionMoneySinglePassWord,
@@ -791,9 +830,9 @@
               deliverWay: this.companyOpenAccountOperator.giveMethodValue,
               deliverWayRemark: this.companyOpenAccountOperator.giveMethodNotes,
               //provideCertificateTime: this.companyOpenAccountOperator.giveProofDate==null || this.companyOpenAccountOperator.giveProofDate==''?'':Utils.formatDate(this.companyOpenAccountOperator.giveProofDate,'YYYY-MM-DD'),
-              changeTime: this.companyOpenAccountOperator.changeDate==null ||this.companyOpenAccountOperator.changeDate=='' ?'':Utils.formatDate(this.companyOpenAccountOperator.changeDate,'YYYY-MM-DD HH:mm'),
-              receiveDate: this.companyOpenAccountOperator.recieveDate==null || this.companyOpenAccountOperator.recieveDate==''?'':Utils.formatDate(this.companyOpenAccountOperator.recieveDate,'YYYY-MM-DD'),
-              intoDate: this.companyOpenAccountOperator.moveInDate==null || this.companyOpenAccountOperator.moveInDate==''?'':Utils.formatDate(this.companyOpenAccountOperator.moveInDate,'YYYY-MM-DD'),
+              // changeTime: this.companyOpenAccountOperator.changeDate==null ||this.companyOpenAccountOperator.changeDate=='' ?'':Utils.formatDate(this.companyOpenAccountOperator.changeDate,'YYYY-MM-DD HH:mm'),
+              // receiveDate: this.companyOpenAccountOperator.recieveDate==null || this.companyOpenAccountOperator.recieveDate==''?'':Utils.formatDate(this.companyOpenAccountOperator.recieveDate,'YYYY-MM-DD'),
+              // intoDate: this.companyOpenAccountOperator.moveInDate==null || this.companyOpenAccountOperator.moveInDate==''?'':Utils.formatDate(this.companyOpenAccountOperator.moveInDate,'YYYY-MM-DD'),
               dispatchMaterial: JSON.stringify(this.companyOpenAccountOperator.sendedMaterials),
               expireDate:this.beforeSendInfo.customerSocialSecurityEndDate
           }
@@ -849,17 +888,23 @@
             this.handDateControl = false;
             this.sendDateControl=true;
             this.finishDateControl=true;
+             formObj.acceptanceDate = Date();
              formObj.sendCheckDate = null;
              formObj.finishedDate =null;
         }else if(taskState=='2'){
             this.handDateControl = false;
             this.sendDateControl=false;
             this.finishDateControl=true;
+            formObj.acceptanceDate = formObj.acceptanceDate==null? Date() : formObj.acceptanceDate;
+            formObj.sendCheckDate = Date();
              formObj.finishedDate =null;
         }else if(taskState=='3'){
             this.handDateControl = false;
             this.sendDateControl=false;
             this.finishDateControl=false;
+             formObj.acceptanceDate = formObj.acceptanceDate==null? Date() : formObj.acceptanceDate;
+             formObj.sendCheckDate = formObj.sendCheckDate==null?Date() : formObj.sendCheckDate;
+             formObj.finishedDate =Date();
         }
       },
       //撤销任务单 状态(将任务单状态往回走一步)

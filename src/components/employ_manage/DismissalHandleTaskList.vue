@@ -17,7 +17,7 @@
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
     </Row>
-    <Table border :columns="dismissalColumns" :data="dismissalData" :loading="isLoading"  class="mt20"></Table>
+    <Table border height="300" :columns="dismissalColumns" :data="dismissalData" :loading="isLoading"  @on-row-dblclick="handleData" class="mt20"></Table>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -56,29 +56,10 @@
         },
         collapseInfo: [1],
         showHandle:{
-           show:true
+           show:true,
+           name:'resign'
         },
         dismissalColumns: [
-          // {title: '', type: 'selection', width: 60},
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 120,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employeeId,params.row.companyId,params.row.employmentId)
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
           {title: '退工成功日期', key: 'jobCentreFeedbackDate', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -128,7 +109,7 @@
               ]);
             }
           },
-          {title: '客户编号', key: 'companyId', align: 'center', width: 150,sortable: true,
+          {title: '公司编号', key: 'companyId', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.companyId),
@@ -192,13 +173,6 @@
               ]);
             }
           },
-          {title: '出库日期', key: 'storageOutDate', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.storageOutDate),
-              ]);
-            }
-          },
           {title: '退工反馈', key: 'resignFeedback1', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -206,10 +180,10 @@
               ]);
             }
           },
-          {title: '录用处理结束', key: 'luyongHandleEndStr', align: 'center', width: 150,
+          {title: '用工反馈', key: 'employFeedback', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.luyongHandleEndStr),
+                h('span', params.row.employFeedback),
               ]);
             }
           },
@@ -377,8 +351,8 @@
       }
     },
     mounted() {
-      this.queryAmResign({}),
-      this.queryResignTaskCount({})
+      // this.queryAmResign({}),
+      // this.queryResignTaskCount({})
     },
     methods: {
       searchEmploiees(conditions,searchForm) {
@@ -410,9 +384,7 @@
         api.resignSearchExportOpt(params);
 
       },queryAmResign(params){
-        if(this.initSearch)
-        {
-           this.isLoading = true;
+            this.isLoading = true;
             let self =this
             api.queryAmResign({
               pageSize: this.pageData.pageSize,
@@ -424,14 +396,9 @@
               self.isLoading = false;
                this.searchCondition.taskStatus =0;
             })
-        }else{
-           this.initSearch = true;
-        }
        
       },
       queryResignTaskCount(params){
-        if(this.initSearchC)
-        {
             let self =this
             api.queryResignTaskCount({
               pageSize: this.pageData.pageSize,
@@ -442,15 +409,7 @@
               self.searchResultData = data.data.row;
             
             })
-        }else{
-          this.initSearchC = true;
-        }
        
-      },
-      showInfoT (idNum,idCardType,empTaskId,employeeId,companyId,employmentId) {
-        
-        this.$router.push({name:'dismissalHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId,employmentId:employmentId}});
-
       },
       showInfoTw (ind) {  
            this.pageData.pageNum = 1;
@@ -475,6 +434,8 @@
         let params = this.searchCondition
         this.queryAmResign(params);
         this.queryResignTaskCount(params);
+      },handleData(row,index){
+         this.$router.push({name:'dismissalHandleEmployment', query: {empTaskId:row.empTaskId,employeeId:row.employeeId,companyId:row.companyId,employmentId:row.employmentId}});
       }
     }
   }

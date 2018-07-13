@@ -168,8 +168,6 @@
               @on-select-cancel="updateMakePayListInfo"
               @on-selection-change="updateMakePayListInfo">
        </Table>
-         <Form :label-width=75 ref="operatorSearchData" :model="operatorSearchData">
-         </Form>
        <div slot="footer">
          <Button type="primary" :loading="isLoading" @click="createPaymentComList">保存</Button>
          <Button type="warning" @click="isShowOperateAdd = false;">返回</Button>
@@ -186,6 +184,7 @@
   import InputCompany from "../common/input_company"
   import {FundPay} from '../../../api/house_fund/fund_pay/fund_pay'
   import Tools from '../../../lib/tools'
+  import sessionData from '../../../api/session-data'
 
 
   export default {
@@ -206,14 +205,14 @@
         loading: false,
         currentIndex:-1,
         operatorSearchData: {
-          companyId: "",
-          paymentBatchNum: "",
+          companyId: '',
+          paymentBatchNum: '',
           paymentState: '',
           hfAccountType:'',
           accountTypeValue: 0,
-          createPaymentUser: "",
-          paymentMonth:"",
-          payDate: ""
+          createPaymentUser:'',
+          paymentMonth:'',
+          payDate: ''
 
         },
         operateAddParams:{
@@ -550,6 +549,8 @@
       }
     },
     mounted() {
+      sessionData.getJsonDataFromSession('fundPay.operatorSearchData', this.operatorSearchData);
+
       let sessionPageNum = sessionStorage.taskPageNum
       let sessionPageSize = sessionStorage.taskPageSize
       if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
@@ -577,6 +578,7 @@
     },
     methods: {
       clickQuery(){
+        sessionData.setJsonDataToSession('fundPay.operatorSearchData', this.operatorSearchData);
         this.loading=true;
         let params = this.getParams(1)
         FundPay.getFundPaysTableData(params).then(data=>{
@@ -625,9 +627,12 @@
         console.log(JSON.stringify(stepInfo));
       },
       resetSearchCondition(name) {
+        console.log(name)
+        console.log(this.$refs[name])
         this.$refs[name].resetFields()
       },
       goMakePayList() {
+        sessionData.setJsonDataToSession('fundPay.operatorSearchData', this.operatorSearchData);
         this.$router.push({name: 'makePayList'})
       },
       selectChange(selection) {

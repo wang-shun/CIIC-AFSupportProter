@@ -7,7 +7,7 @@
           <Form :label-width='150' ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客服中心：" prop="serviceCenterValue">
+                <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
                 </Form-item>
               </Col>
@@ -199,15 +199,15 @@
       }
     },
     mounted() {
-      let sessionPageNum = sessionStorage.taskPageNum
-      let sessionPageSize = sessionStorage.taskPageSize
-
-      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-        this.pageNum = Number(sessionPageNum)
-        this.size = Number(sessionPageSize)
-        sessionStorage.removeItem("taskPageNum")
-        sessionStorage.removeItem("taskPageSize")
-      }
+//      let sessionPageNum = sessionStorage.taskPageNum
+//      let sessionPageSize = sessionStorage.taskPageSize
+//
+//      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+//        this.pageNum = Number(sessionPageNum)
+//        this.size = Number(sessionPageSize)
+//        sessionStorage.removeItem("taskPageNum")
+//        sessionStorage.removeItem("taskPageSize")
+//      }
         this.hfComTaskQuery();
       this.getCustomers();
 

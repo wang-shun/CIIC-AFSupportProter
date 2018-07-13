@@ -119,7 +119,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey编号：">
-            {{employee.keyCode}}
+            {{employee.keyType}}{{employee.keyCode}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -130,11 +130,6 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="UKey密码(福利部)：">
             {{employee.ssPwd}}
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="公司特殊情况：">
-            {{employee.employSpecial}}
           </Form-item>
         </Col>
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -160,6 +155,11 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="邮寄退工单电话：">
             {{employee.phone}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 16}">
+          <Form-item label="公司特殊情况：">
+            {{employee.employSpecial}}
           </Form-item>
         </Col>
       </Row>

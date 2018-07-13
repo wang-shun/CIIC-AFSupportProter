@@ -19,7 +19,10 @@ export default {
     if(response.data.code===200)return {code:true,data:response.data.data}
     else return {code:false,message:response.data.message}
   },
-
+  ssComAccountSave:async(params)=>{
+    let response = await AJAX.postJSON('/api/soccommandservice/ssComAccount/ssComAccountSave', params);
+    return await response.data;
+  },
 
   //处理企业社保账户管理信息查询数据结构
   handleComSocialSecurityQueryResult:(data)=>{

@@ -445,6 +445,45 @@
     },
     methods: {
       ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
+      routerMethed(taskCategory,empTaskId){
+
+        // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
+        var name = 'empTaskHandleView';
+        switch (taskCategory) {
+          case '1':
+          case '2':
+          case '12':
+          case '13':
+            name = 'empTaskHandleView';
+            break;
+          case '3':
+            name = 'empTaskHandle3View';
+            break;
+          case '4':
+            name = 'empTaskHandle4View';
+            break;
+          case '5':
+          case '6':
+          case '14':
+          case '15':
+            name = 'empTaskHandle5View';
+            break;
+          case '7':
+            name = 'empTaskHandle7View';
+            break;
+          default:
+            name = 'empTaskHandleView'
+        }
+        if(this.$route.name == name){
+          this.$router.push({name:'emprefresh',query:{operatorType:taskCategory,empTaskId: empTaskId,isNextMonth:0,name:name}})
+        }else{
+          // 根据任务类型跳转
+          this.$router.push({
+            name: name,
+            query: {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}
+          });
+        }
+      },
       getYearMonth(date){
 
         if(date==null || date=="")return "";
@@ -528,7 +567,7 @@
         })
       },
       goBack() {
-        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.push({name: 'employeeSocialSecurityInfo'});
+        this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.go(-1);
       },
       // yyyy-MM or date
       yyyyMM(date) {

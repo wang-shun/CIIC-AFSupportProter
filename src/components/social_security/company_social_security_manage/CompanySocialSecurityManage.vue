@@ -28,6 +28,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="状态：" prop="state">
                   <Select v-model="comAccountSearch.state" style="width: 100%;" transfer>
+                    <Option value="" >全部</Option>
                     <Option v-for="item in stateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -80,6 +81,8 @@
   import EventType from '../../../store/event_types'
   import InputAccount from '../../common_control/form/input_account'
   import dict from '../../../api/dict_access/social_security_dict'
+  import sessionData from '../../../api/session-data'
+
   export default {
     components:{InputAccount},
     data() {
@@ -94,7 +97,6 @@
         },
         accountTypeList: [],
         stateList: [
-            {value: '', label: '全部'},
             {value: '1', label: '有效'},
             {value: '2', label: '终止'},
             {value: '3', label: '封存'},
@@ -115,12 +117,12 @@
                   style: {margin: '0 auto'},
                   on: {
                     click: () => {
-                      sessionStorage.managerPageNum = this.resultPageData.pageNum
-                      sessionStorage.managerPageSize = this.resultPageData.pageSize
+                      sessionData.setJsonDataToSession('ssCompanyManage.comAccountSearch', this.comAccountSearch);
+                      sessionData.setJsonDataToSession('ssCompanyManage.resultPageData', this.resultPageData);
                       this.$router.push({name: 'companySocialSecurity',query:{comAccountId:params.row.comAccountId}})
                     }
                   }
-                }, '查看'),
+                }, '查看|编辑'),
               ]);
             }
           },
@@ -179,9 +181,10 @@
     },
     mounted() {
       this.ajax = this.$ajax.ajaxSsc;
-      this[EventType.COMPANYSOCIALSECURITYMANAGETYPE]()
-      this.queryAccount();
       this.loadDict();
+      //this[EventType.COMPANYSOCIALSECURITYMANAGETYPE]()
+      this.queryAccount();
+      
     },
     computed: {
       ...mapState('companySocialSecurityManage',{
@@ -189,7 +192,7 @@
       })
     },
     methods: {
-      ...mapActions('companySocialSecurityManage', [EventType.COMPANYSOCIALSECURITYMANAGETYPE]),
+      //...mapActions('companySocialSecurityManage', [EventType.COMPANYSOCIALSECURITYMANAGETYPE]),
 
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
@@ -198,21 +201,15 @@
         dict.getDictData().then(data => {
           if (data.code == 200) {
             this.accountTypeList = data.data.SocialSecurityAccountType;
+            sessionData.getJsonDataFromSession('ssCompanyManage.comAccountSearch', this.comAccountSearch);
+            sessionData.getJsonDataFromSession('ssCompanyManage.resultPageData', this.resultPageData);
           }
         });
       },
       queryAccount() {
-      let sessionPageNum = sessionStorage.managerPageNum
-      let sessionPageSize = sessionStorage.managerPageSize
-      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-         this.resultPageData.pageNum = Number(sessionPageNum)
-         this.resultPageData.pageSize = Number(sessionPageSize)
-         sessionStorage.removeItem("managerPageNum")
-         sessionStorage.removeItem("managerPageSize")
-      }
         var params = {
-          pageNum: typeof(sessionPageNum)=="undefined"?this.resultPageData.pageNum:Number(sessionPageNum),
-          pageSize: typeof(sessionPageSize)=="undefined"?this.resultPageData.pageSize:Number(sessionPageSize),
+          pageNum:  this.resultPageData.pageNum ,
+          pageSize:  this.resultPageData.pageSize,
           params:this.comAccountSearch
         };
         this.operatorQuery(params).then(data => {

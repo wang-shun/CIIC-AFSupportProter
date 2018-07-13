@@ -7,7 +7,7 @@
           <Form :label-width='150' ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客服中心：" prop="serviceCenterValue">
+                <Form-item label="服务中心：" prop="serviceCenterValue">
                   <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
                 </Form-item>
               </Col>
@@ -97,6 +97,7 @@
   import InputCompany from '../../../common_control/form/input_company'
   import {Processing} from '../../../../api/house_fund/company_task_list/company_task_list_tab/processing'
   import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -131,6 +132,9 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('companyFundTaskList.processing.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('companyFundTaskList.processing.pageData', this.pageData);
+
                       switch(params.row.taskCategoryName) {
                         case '开户':
                           this.$router.push({name: 'companyFundTaskCommit', params: {
@@ -249,16 +253,20 @@
         ]
       }
     },
+    created() {
+      sessionData.getJsonDataFromSession('companyFundTaskList.processing.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('companyFundTaskList.processing.pageData', this.pageData);
+    },
     mounted() {
-      let sessionPageNum = sessionStorage.taskPageNum
-      let sessionPageSize = sessionStorage.taskPageSize
-
-      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
-        this.pageNum = Number(sessionPageNum)
-        this.size = Number(sessionPageSize)
-        sessionStorage.removeItem("taskPageNum")
-        sessionStorage.removeItem("taskPageSize")
-      }
+//      let sessionPageNum = sessionStorage.taskPageNum
+//      let sessionPageSize = sessionStorage.taskPageSize
+//
+//      if(typeof(sessionPageNum)!="undefined" && typeof(sessionPageSize)!="undefined"){
+//        this.pageNum = Number(sessionPageNum)
+//        this.size = Number(sessionPageSize)
+//        sessionStorage.removeItem("taskPageNum")
+//        sessionStorage.removeItem("taskPageSize")
+//      }
       this.hfComTaskQuery();
       this.getCustomers();
     },

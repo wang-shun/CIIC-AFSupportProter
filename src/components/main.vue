@@ -304,7 +304,7 @@ export default {
       CommonApi.logout({token: this.userInfo.token}).then(res => {
         if (res.data.code === 0) {
           window.localStorage.clear()
-          window.sessionStorage.removeItem('userInfo')
+          window.localStorage.removeItem('userInfo')
           window.location = process.env.LOGIN_URL
         }
       })
@@ -435,6 +435,15 @@ export default {
   background: #fff;
   border-radius: 4px;
 }
+
+.layout-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.layout-content::-webkit-scrollbar-thumb {
+  width: 10px;
+}
+
 .layout-content-main {
   padding: 10px;
 }

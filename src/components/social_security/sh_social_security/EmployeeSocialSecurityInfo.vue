@@ -21,6 +21,22 @@
                   <label>{{employeeAndCustomer.leaderShipName}}</label>
                 </Form-item>
               </Col>
+
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="服务中心：">
+                  <label>{{employeeAndCustomer.serviceCenter}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="开户密码：">
+                  <label>{{employeeAndCustomer.ssPwd}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="结算区县：">
+                  <label>{{employeeAndCustomer.settlementArea}}</label>
+                </Form-item>
+              </Col>
             </Row>
           </Form>
         </div>
@@ -28,7 +44,7 @@
       <Panel name="2">
         雇员信息
         <div slot="content">
-          <Form :label-width=120>
+          <Form :label-width=150>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号：">
@@ -52,7 +68,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="社保序号：">
-                  <Input style="width: 200px" v-model="employeeAndCustomer.ssSerial" placeholder=""></Input>
+                  <Input style="width: 200px" v-model="employeeAndCustomer.ssSerial" :disabled="this.$route.query.empArchiveId==null"  placeholder=""></Input>
                 </Form-item>
               </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -65,6 +81,7 @@
                   <label>{{employeeAndCustomer.ssAccount}}</label>
                 </Form-item>
               </Col>
+              
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：">
                   <label>{{getEmpClassify(employeeAndCustomer.empClassify)}}</label>
@@ -74,6 +91,73 @@
                 <Form-item label="离职日期：">
                   <label>{{employeeAndCustomer.outDate}}</label>
                 </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="人员属性：">
+                  <Select style="width: 200px"  v-model="employeeAndCustomer.empClassify"  :disabled="this.$route.query.empArchiveId==null"  placeholder="" >
+                    <Option value="" > </Option>
+                    <Option v-for="(value,key) in this.baseDic.ssEmpProperty" :value="key" :key="key">{{value}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="社保账户类型：">
+                  <label>{{$decode.accountType(employeeAndCustomer.ssAccountType)}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="离职操作日期：">
+                  <label>{{employeeAndCustomer.outOperateDate}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="合同起始日期：">
+                  <label>{{employeeAndCustomer.laborStartDate}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="合同截止日期：">
+                  <label>{{employeeAndCustomer.laborEndDate}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="前道提交费用缴纳至：">
+                  <label>{{employeeAndCustomer.endMonth}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="社保状态：">
+                <label>{{this.$decode.ssArchiveTaskStatus(employeeAndCustomer.archiveTaskStatus)}}</label>
+              </Form-item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="2.5">
+        用退工信息
+        <div slot="content">
+          <Form :label-width=120>
+             <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="开AF单日期：">
+                <label>{{reworkInfo.openAfDate}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="存档地：">
+                <label>{{reworkInfo.archivePlace}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="用工状态：">
+                <label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskCategory, reworkInfo.taskStatus)}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="用工成功日期：">
+                <label>{{reworkInfo.employFeedbackOptDate}}</label>
+              </Form-item>
               </Col>
             </Row>
           </Form>
@@ -106,7 +190,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="saveEmpSerial">保存</Button>
+        <Button type="primary" @click="saveEmpSerial" v-show="this.$route.query.empArchiveId" >保存</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -116,13 +200,16 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
+
   export default {
     data() {
       return {
-        collapseInfo: [1, 2, 3, 4], //展开栏
+        collapseInfo: [1, 2, 3, 4,2.5], //展开栏
         customer:{
 
         },
+        //用退工信息
+        reworkInfo:{},
         employeeAndCustomer:{
           companyId:'',
           title:'',
@@ -144,7 +231,7 @@
             title: '变更类型', key: 'remitWay', align: 'center', width: 162,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.remitWay=='1'?'正常': params.row.remitWay='2'?'补缴':''),
+                h('span', params.row.remitWay==1?'正常': params.row.remitWay==2?'补缴':params.row.remitWay==3?'调整':''),
               ]);
             }
           },
@@ -182,10 +269,11 @@
                 h('a', {
                   on: {
                     click: () => {
-                      this.$router.push({
-                        name: 'employeeSocialSecurityTaskInfo',
-                        query: {operatorType: params.row.taskCategory, sourceFrom: 'search',empTaskId:params.row.empTaskId,empArchiveId:this.$route.query.empArchiveId}
-                      });
+                      this.enterView(params.row);
+                      // this.$router.push({
+                      //   name: 'employeeSocialSecurityTaskInfo',
+                      //   query: {operatorType: params.row.taskCategory, sourceFrom: 'search',empTaskId:params.row.empTaskId,empArchiveId:this.$route.query.empArchiveId}
+                      // });
                     }
                   }
                 }, params.row.empTaskId)
@@ -236,12 +324,19 @@
       }
     },
     async mounted() {
-      let params = {empArchiveId:this.$route.query.empArchiveId}
+      let params = {empArchiveId:this.$route.query.empArchiveId,
+                    companyId:this.$route.query.companyId,
+                    employeeId:this.$route.query.employeeId}
 
       api.employeeDetailInfoQuery(params).then(data=>{
           this.employeeAndCustomer=data.data.ssEmpArchive
           this.socialSecurityInfoListData=data.data.empBasePeriod
           this.changeListData = data.data.ssEmpTasks
+          this.reworkInfo = data.data.amEmpTask
+          if (!this.reworkInfo.taskStatus || (
+            this.reworkInfo.taskStatus !== '3' && this.reworkInfo.taskStatus !== '10' && this.reworkInfo.taskStatus !== '12' && this.reworkInfo.taskStatus !== '13')) {
+              this.reworkInfo.employFeedbackOptDate = '';
+          }
       })
     },
     computed: {
@@ -263,6 +358,7 @@
         }
           var formData={
             ssSerial:'',
+            empClassify:this.employeeAndCustomer.empClassify,
             empArchiveId:this.$route.query.empArchiveId,
             comAccountId: this.employeeAndCustomer.comAccountId
           };
@@ -287,6 +383,45 @@
            }
         })
       },
+      enterView(data){
+        // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
+          var taskCategory = data.taskCategory;
+          var name = 'empTaskHandleView';
+          let type={}
+          switch (taskCategory) {
+            case '1':
+            case '2':
+            case '12':
+            case '13':
+              name = 'empTaskHandleView';
+              break;
+            case '3':
+              name = 'empTaskHandle3View';
+              break;
+            case '4':
+              name = 'empTaskHandle4View';
+              break;
+            case '5':
+            case '6':
+            case '14':
+            case '15':
+              name = 'empTaskHandle5View';
+              break;
+              case '7':
+              type={type:3}
+              name = 'empTaskHandle7View';
+              break;
+            default:
+              name = 'empTaskHandleView'
+          }
+
+
+          // 根据任务类型跳转
+          this.$router.push({
+            name: name,
+            query: {operatorType: taskCategory,...type,empTaskId: data.empTaskId,sourceFrom:'search'}
+          });
+      }
     }
   }
 </script>

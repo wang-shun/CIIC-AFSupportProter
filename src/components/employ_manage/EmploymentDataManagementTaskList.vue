@@ -1,3 +1,11 @@
+<style>
+    .ivu-table .demo-table-error-row td span{
+        color: #ff6600;
+    }
+     .ivu-table .demo-table-error-row td div{
+        color: #ff6600;
+    }
+</style>
 <template>
   <div>
     <div class="smList">
@@ -18,10 +26,10 @@
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
         <Button type="info" @click="printLabel">打印贴头</Button>
-        <!-- <Button type="primary" @click="batchManagement">批理办理</Button> -->
+        <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
-    <Table border :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData" class="mt20"></Table>
+    <Table border height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" class="mt20"></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -31,7 +39,7 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table  border :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt20"></Table>
+    <Table  border  :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt20"></Table>
 
     <Modal
       v-model="isShowStockTitle"
@@ -70,7 +78,8 @@ import {mapState, mapGetters, mapActions} from 'vuex'
           taskStatus:0
         },
         showHandle:{
-           show:true
+           show:true,
+           name:'employ'
         },
         isLoading: false,
         // 当中按钮操作
@@ -78,25 +87,6 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         // 下半部分
         employmentColumns: [
           {title: '', type: 'selection', width: 60},
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 120,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.idNum,params.row.idCardType,params.row.empTaskId,params.row.employeeId,params.row.companyId)
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
           {title: '用工方式', key: 'employWay', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -334,25 +324,71 @@ import {mapState, mapGetters, mapActions} from 'vuex'
       }
     },
     mounted() {
-      this.employeeQuery({}),
-      this.employeeCollectionQuery({})
+      // this.employeeQuery({}),
+      // this.employeeCollectionQuery({})
     },
     methods: {
-     batchManagement(){
+     rowClassName (row, index) {
+        
+        if (row.outReason!=undefined&&row.outReason!='') {
+            return 'demo-table-error-row';
+        } 
+        return '';
+      },
+     batchManagement(){ 
         let selection = this.$refs.employmentData.getSelection();
         if(selection.length == 0){
           alert("没有选中的列");
           return;
         }
-        console.info(selection);
+        
         let empTaskIds = [];
         selection.forEach(item => {
           empTaskIds.push(item.empTaskId);
         });
-        this.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
+
+        var fromData={};
+        fromData.empTaskIds = empTaskIds;
+        const _self = this;
+        api.batchCheck(fromData).then(data => {
+            if (data.code == 200) {
+                if(data.data.empTask){
+                  var content="已经办理了" + data.data.empTask+"条数据，请重新选择数据";
+                   this.$Message.error(content);
+                   return;
+                }
+                if(data.data.employmentCount==0)
+                {
+                    _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
+                }else{
+                  var content;
+                   if(data.data.ArchiveCount){
+                     var content="用工办理已经存在" + data.data.employmentCount+"条数据"+" , "+"用工档案已经存在" + data.data.ArchiveCount+"条数据"+" , "+"确认要覆盖吗？";
+                   }else{
+                      var content="用工办理已经存在" + data.data.employmentCount+"条数据, "+"确认要覆盖吗？";
+                   }
+                   
+                    _self.$Modal.confirm({
+                      title: '',
+                      content: content,
+                      onOk:function(){
+                        _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
+                      },
+                      error:function(error){
+                        
+                    }
+                    });
+                  
+                }
+            } else {
+              this.$Message.error("批量失败！" + data.message);
+            }
+         })
+        
+        
      },
      searchEmploiees(conditions,searchForm) {
-
+             
             this.pageData.pageNum =1;
             this.searchConditions =[];
             if(searchForm.isFinish!=2)
@@ -362,17 +398,15 @@ import {mapState, mapGetters, mapActions} from 'vuex'
             }
             for(var i=0;i<conditions.length;i++)
                   this.searchConditions.push(conditions[i].exec);
-        
+
+
            this.searchCondition.params = this.searchConditions.toString();
+           
            this.employeeQuery(this.searchCondition);
            this.employeeCollectionQuery(this.searchCondition);
            
       }, goHandle() {
         this.$router.push({name: "employHandleEmployment"});
-      },
-      showInfoT (idNum,idCardType,empTaskId,employeeId,companyId) {
-
-        this.$router.push({name:'employHandleEmployment', query: {idNum:idNum,idCardType:idCardType,empTaskId:empTaskId,employeeId:employeeId,companyId:companyId}});
       },
       showInfoTw (ind) {  
            this.pageData.pageNum = 1;
@@ -394,7 +428,7 @@ import {mapState, mapGetters, mapActions} from 'vuex'
           alert("没有选中的列");
           return;
         }
-        console.info(selection);
+        // console.info(selection);
         let head = `<!doctype html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>打印贴头</title></head><body>`;
         let foot = `</body></html>`;
         let obj = '';
@@ -450,9 +484,9 @@ import {mapState, mapGetters, mapActions} from 'vuex'
 
       },
       employeeQuery(params){
-        if(this.initSearch){
-          this.isLoading = true;
-            let self =this
+       
+            this.isLoading = true;
+            let self =this;
             api.employeeQuery({
               pageSize: this.pageData.pageSize,
               pageNum: this.pageData.pageNum,
@@ -463,30 +497,20 @@ import {mapState, mapGetters, mapActions} from 'vuex'
               self.isLoading = false;
               this.searchCondition.taskStatus =0;
             })
-        }else{
-          this.initSearch = true;
-        }
-      
        
       },
        employeeCollectionQuery(params){
-          if(this.initSearchC)
-          {
-              let self =this
-              api.employeeCollectionQuery({
-                pageSize: this.pageData.pageSize,
-                pageNum: this.pageData.pageNum,
-                params: params,
-              }).then(data => {
-              
-                self.searchResultData = data.data.row;
-              
-              })
-          }else{
-            this.initSearchC = true;
-          }
+          let self =this
+          api.employeeCollectionQuery({
+            pageSize: this.pageData.pageSize,
+            pageNum: this.pageData.pageNum,
+            params: params,
+          }).then(data => {
+          
+            self.searchResultData = data.data.row;
+          
+          })
          
-        
       },
       handlePageNum(val) {
         this.pageData.pageNum = val;
@@ -498,7 +522,9 @@ import {mapState, mapGetters, mapActions} from 'vuex'
         let params = this.searchCondition
         this.employeeQuery(params);
         this.employeeCollectionQuery(params);
-      },
+      },handleData(row,index){
+         this.$router.push({name:'employHandleEmployment', query: {empTaskId:row.empTaskId,employeeId:row.employeeId,companyId:row.companyId}});
+      }
     },
     computed: {
 

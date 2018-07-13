@@ -8,12 +8,12 @@
           <Form :label-width=150 ref="searchCondition" :model="searchCondition">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：" prop="companyId">
+                <Form-item label="公司编码：" prop="companyId">
                   <Input v-model="searchCondition.companyId" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户姓名：" prop="title">
+                <Form-item label="公司名称：" prop="title">
                   <Input v-model="searchCondition.title" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>

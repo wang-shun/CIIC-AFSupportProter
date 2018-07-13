@@ -16,6 +16,11 @@
                   <InputAccount v-model="operatorSearchData.hfComAccount"></InputAccount>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户编号：" prop="companyId">
+                  <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -176,6 +181,7 @@
   import api from '../../../api/house_fund/fund_reconciliation/fund_reconciliation'
   import commonApi from '../../../api/house_fund/common/common'
   import InputAccount from "../common/input_account"
+  import sessionData from '../../../api/session-data'
 
   export default {
     components: {InputAccount},
@@ -190,7 +196,8 @@
         },
         operatorSearchData: {
           hfMonth: '',
-          hfComAccount: ''
+          hfComAccount: '',
+          companyId:''
         },
         isShowReconciliation: false, // 查看详情
         isShowCreateReconciliation:false, // 新建对账
@@ -210,6 +217,8 @@
                 h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('fundReconCiliation.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('fundReconCiliation.fundAccountPage', this.fundAccountPage);
                       this.isShowReconciliation = true;
                       this.getStatementDetail(params.row.statementCompareId);
                       this.currentStatementId = params.row.statementCompareId;
@@ -387,6 +396,8 @@
       }
     },
     mounted() {
+      sessionData.getJsonDataFromSession('fundReconCiliation.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('fundReconCiliation.fundAccountPage', this.fundAccountPage);
       this.getStatement()
     },
     methods: {

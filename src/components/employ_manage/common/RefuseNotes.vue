@@ -3,8 +3,7 @@
     <Table border :columns="refuseNotesColumns" :width="700" :data="refuseNotes" class="mt20"></Table>
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="primary" @click="modal1 = true">新增</Button>
-        <Button type="primary" :loading="isLoading"  @click="instance()">提交</Button>
+        <Button type="primary" @click="add()">新增</Button>
       </Col>
     </Row>
     <Modal
@@ -110,6 +109,22 @@ import api from '../../../api/employ_manage/hire_operator'
       }
     },
     methods: {
+         add(){
+                var date = new Date();
+                var seperator1 = "-";
+                var year = date.getFullYear();
+                var month = date.getMonth() + 1;
+                var strDate = date.getDate();
+                if (month >= 1 && month <= 9) {
+                    month = "0" + month;
+                }
+                if (strDate >= 0 && strDate <= 9) {
+                    strDate = "0" + strDate;
+                }
+                var currentdate = year + seperator1 + month + seperator1 + strDate;
+                this.handleInfo.remarkDatew = currentdate;
+                this.modal1 = true;
+            },
             ok () {
               var fromData = this.$utils.clear(this.realHandInfo,'');
             
@@ -124,30 +139,28 @@ import api from '../../../api/employ_manage/hire_operator'
                fromData.remarkDate = this.$utils.formatDate(this.handleInfo.remarkDatew, 'YYYY-MM-DD');
                fromData.remarkContent = this.handleInfo.remarkContentw;
                fromData.remarkMan = this.userInfo.userName;
-               fromData.employeeId = this.$route.query.employeeId;
                fromData.empTaskId = this.$route.query.empTaskId;
-               
-               this.refuseNotes.push(fromData);
-            },
-            cancel () {
-               
-            },instance() {
-             if(this.refuseNotes.length==0){
-              this.$Message.success("没有提交的数据行，请新增");
-              return;
-            }
-             this.isLoading = true;
-            api.saveAmRemark(this.refuseNotes).then(data => {
-                  if (data.data.data.result == true) {
+
+               api.saveAmRemark(fromData).then(data => {
+                  if (data.data.result == true) {
                     this.$Message.success("保存成功");
-                    this.refuseNotesData = data.data.data.data;
+                    this.refuseNotes.push(data.data.data);
                   } else {
                     this.$Message.error("保存失败！");
                   }
-                  this.isLoading = false;
-            })
-          
-       },show (index) {
+
+                  this.handleInfo.remarkDatew = '';
+                  this.handleInfo.remarkManw = '';
+                  this.handleInfo.remarkContentw = '';
+                 
+                })
+
+               
+               
+            },
+            cancel () {
+               
+            },show (index) {
                 this.$Modal.info({
                     title: 'User Info',
                     content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`

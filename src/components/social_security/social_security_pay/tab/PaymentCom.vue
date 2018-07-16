@@ -198,7 +198,7 @@
             </Form-item>
           </Col> -->
           <Col :sm="{span: 24}">
-            <Form-item label="备注说明：">
+            <Form-item label="额外金备注：">
               <Input v-model="changeInfo.remark" type="textarea" :rows="5"  placeholder="请输入..."></Input>
             </Form-item>
           </Col>
@@ -479,36 +479,29 @@
           },          
           {title: '操作', key: 'operator', width: 180, align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      let paymentComId = params.row.paymentComId;
-                      let oughtAmount = params.row.oughtAmount;
-                      let refundDeducted = params.row.refundDeducted;
-                      let adjustDeducted = params.row.adjustDeducted;
-                      let ifDeductedIntoPay = params.row.ifDeductedIntoPay;
-                      let extraAmount = params.row.extraAmount;
-                      let totalPayAmount = params.row.totalPayAmount;
-                      let remark = params.row.remark;
-                      let paymentState = params.row.paymentState;
-                      this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState)
+              let paymentState = params.row.paymentState;
+              let b=[];
+              if(!(paymentState != "3" && paymentState != "5" && paymentState != "7")){
+                b.push( h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        let paymentComId = params.row.paymentComId;
+                        let oughtAmount = params.row.oughtAmount;
+                        let refundDeducted = params.row.refundDeducted;
+                        let adjustDeducted = params.row.adjustDeducted;
+                        let ifDeductedIntoPay = params.row.ifDeductedIntoPay;
+                        let extraAmount = params.row.extraAmount;
+                        let totalPayAmount = params.row.totalPayAmount;
+                        let remark = params.row.remark;
+                        let paymentState = params.row.paymentState;
+                        this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState)
+                      }
                     }
-                  }
-                }, '调整'),
-                // h('Button', {
-                //   props: {type: 'success', size: 'small'},
-                //   style: {margin: '0 auto 0 10px'},
-                //   on: {
-                //     click: () => {
-                //       this.isShowProgress = true;
-                //     }
-                //   }
-                // }
-                // , '进度'),
-               h('Button', {
+                  }, '调整'));
+              }
+                b.push(h('Button', {
                  props: {type: 'success', size: 'small'},
                  style: {margin: '0 auto 0 10px'},
                  on: {
@@ -522,8 +515,8 @@
                    }
                  }
                }
-                , '付款通知书')
-              ]);
+                , '付款通知书'));
+              return h('div', b);
             }
           },
           {title: '是否一致', key: 'ifCheck', width: 100, align: 'center',
@@ -625,13 +618,21 @@
               ]);
             }
           },
+          {title: '抵扣金额是否纳入支付', key: 'ifDeductedIntoPay', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.ifDeductedIntoPay==1?'是':''),
+              ]);
+            }
+          },
           {title: '额外金备注', key: 'remark', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remark),
               ]);
             }
-          }
+          },
+       
         ],
         payComData: [],
         payComPageData: {

@@ -607,6 +607,18 @@ export default {
             return ''
         }
     },
+    hf_payment_paymentWay: (v) => {
+        switch (v) {
+        case '0':
+            return '无需支付'
+        case '2':
+            return '支票'
+        case '3':
+            return '转账'
+        default: 
+            return ''
+        }
+    },
     hf_accountType: (v) => {
         switch (v) {
         case '1':

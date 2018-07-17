@@ -75,7 +75,8 @@
         ssAccountTypedict: [],
         orderConditions:[],
         searchCondition: {
-          params: ''
+          params: '',
+          taskStatus: '-1'
         },
         showHandle:{
            name:'noprogress'
@@ -288,6 +289,7 @@
 //            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
 //          }
 //        }
+        var isStatus = false;
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
@@ -301,7 +303,17 @@
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
           for(var i=0;i<conditions.length;i++)
-            this.searchConditions.push(conditions[i].exec);
+          {
+             if(conditions[i].exec.indexOf("taskStatus")!=-1)
+              {
+                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
+                  {
+                    isStatus = true;
+                  }
+              }else{
+                 this.searchConditions.push(conditions[i].exec);
+              }
+          }
         }else{
           // 否则从session 里边去缓存的表单查询值
           var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
@@ -314,7 +326,15 @@
             {
               for(var index  in searchEmploiees)
               {
-                this.searchConditions.push(searchEmploiees[index].exec);
+                if(searchEmploiees[index].exec.indexOf("taskStatus")!=-1)
+                {
+                  if(searchEmploiees[index].desc.indexOf("下月未处理")!=-1)
+                  {
+                    isStatus = true;
+                  }
+                }else{
+                    this.searchConditions.push(searchEmploiees[index].exec);
+                }
               }
             }
           }
@@ -336,6 +356,12 @@
         }
 
         this.searchCondition.params = this.searchConditions.toString();
+        if(isStatus)
+        {
+            this.searchCondition.taskStatus = -2;
+        }else{
+            this.searchCondition.taskStatus = -1;
+        }
         api.employeeOperatorQueryExport({
           pageSize: 999999,
           pageNum: 0,
@@ -574,6 +600,8 @@
         }
       },
       searchEmploiees(conditions) {
+        var isStatus = false;
+      
         if (this.isLoading) {
           return;
         }
@@ -590,7 +618,18 @@
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
            for(var i=0;i<conditions.length;i++)
-              this.searchConditions.push(conditions[i].exec);
+           {  
+              if(conditions[i].exec.indexOf("taskStatus")!=-1)
+              {
+                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
+                  {
+                    isStatus = true;
+                  }
+              }else{
+                 this.searchConditions.push(conditions[i].exec);
+              }
+           }
+             
         }else{
           // 否则从session 里边去缓存的表单查询值
           var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
@@ -603,7 +642,15 @@
              {
                 for(var index  in searchEmploiees)
                 {
-                    this.searchConditions.push(searchEmploiees[index].exec);
+                    if(searchEmploiees[index].exec.indexOf("taskStatus")!=-1)
+                    {
+                      if(searchEmploiees[index].desc.indexOf("下月未处理")!=-1)
+                      {
+                        isStatus = true;
+                      }
+                    }else{
+                        this.searchConditions.push(searchEmploiees[index].exec);
+                    }
                 }
              }
           }
@@ -623,6 +670,12 @@
         }
       }
 
+       if(isStatus)
+       {
+          this.searchCondition.taskStatus = -2;
+       }else{
+          this.searchCondition.taskStatus = -1;
+       }
         this.searchCondition.params = this.searchConditions.toString();
 
         api.employeeOperatorQuery({

@@ -1,5 +1,5 @@
 <template>
-  <Form :model="searchForm" ref="searchForm" :label-width="100">
+  <Form :model="searchForm" ref="searchForm" :label-width="100" @submit.native.prevent>
     <Row justify="start">
       <Col :sm="{span: 8}">
       <Row>
@@ -189,7 +189,18 @@
         } else {
           if(this.searchForm.isDate==6){
              var d = new Date(this.searchForm.searchContent);
-             this.searchForm.searchContent=d.getFullYear() + '-' + (d.getMonth() + 1)+'-'+d.getDate();
+                var seperator1 = "-";
+              var year = d.getFullYear();
+              var month = d.getMonth() + 1;
+              var strDate = d.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+             this.searchForm.searchContent=currentdate;
           }
 
           var temp_searchContent = this.searchForm.searchContent;
@@ -231,6 +242,7 @@
       },
       resetForm(form) {
         this.$refs[form].resetFields();
+        this.searchConditions = [];
       },
       searchEmploiees() {
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));

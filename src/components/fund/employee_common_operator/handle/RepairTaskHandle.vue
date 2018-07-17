@@ -281,11 +281,11 @@
                 <DatePicker v-model="displayVO.operationRemindDate" format="yyyy-MM-dd" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer :disabled="inputDisabled"></DatePicker>
               </FormItem>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户汇缴月份：">
-                {{displayVO.hfMonth}}
-              </Form-item>
-              </Col>
+              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="客户汇缴月份：">-->
+                <!--{{displayVO.hfMonth}}-->
+              <!--</Form-item>-->
+              <!--</Col>-->
             </Row>
             <Row>
               <Col :sm="{span: 24}">
@@ -468,20 +468,20 @@
               }
             }
           },
-//          {title: '客户汇缴月', key: 'hfMonth', align: 'left',
-//            render: (h, params) => {
-//              return h('div', [
-//                h('Input', {
-//                  props: {value: params.row.hfMonth},
-//                  on: {
-//                    'on-blur': (event) => {
-//                      this.operatorListData[params.index].hfMonth = event.target.value
-//                    }
-//                  }
-//                }, params.row.hfMonth)
-//              ]);
-//            }
-//          },
+          {title: '客户汇缴月', key: 'hfMonth', align: 'left',
+            render: (h, params) => {
+              return h('div', [
+                h('Input', {
+                  props: {value: params.row.hfMonth},
+                  on: {
+                    'on-blur': (event) => {
+                      this.operatorListData[params.index].hfMonth = event.target.value
+                    }
+                  }
+                }, params.row.hfMonth)
+              ]);
+            }
+          },
           {title: '补缴基数', key: 'baseAmount', align: 'left',
             render: (h, params) => {
 //              return h('div', [
@@ -863,11 +863,30 @@
             this.$Message.error("操作栏补缴截止月份不能小于补缴起缴月份");
             return false;
           }
-          if (!this.displayVO.hfMonth || this.displayVO.hfMonth == '') {
-            this.$Message.error("客户汇缴月不能为空");
+//          if (!this.displayVO.hfMonth || this.displayVO.hfMonth == '') {
+//            this.$Message.error("客户汇缴月不能为空");
+//            return false;
+//          }
+          if (!this.operatorListData[i].hfMonth || this.operatorListData[i].hfMonth == '') {
+            this.$Message.error("操作栏客户汇缴月不能为空");
             return false;
           }
-          if (this.operatorListData[i].endMonth >= this.displayVO.hfMonth) {
+          if (this.displayVO.hfType == 1) {
+            if (this.operatorListData[i].hfMonth < this.displayVO.basicComHfMonth) {
+              this.$Message.error("操作栏客户汇缴月不能小于末次汇缴月（基本）");
+              return false;
+            }
+          } else {
+            if (this.operatorListData[i].hfMonth < this.displayVO.addedComHfMonth) {
+              this.$Message.error("操作栏客户汇缴月不能小于末次汇缴月（补充）");
+              return false;
+            }
+          }
+//          if (this.operatorListData[i].endMonth >= this.displayVO.hfMonth) {
+//            this.$Message.error("操作栏补缴截止月份必须小于客户汇缴月");
+//            return false;
+//          }
+          if (this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
             this.$Message.error("操作栏补缴截止月份必须小于客户汇缴月");
             return false;
           }

@@ -58,8 +58,7 @@
       title="资深雇员编号录入"
       width="80"
       :mask-closable=false
-      :closable="false"
-      @on-ok="updateSenior">
+      :closable="false">
       <Form :model="seniorEmpData" ref="seniorEmpData" :rules="seniorEmpRules" :label-width="100">
         <Row class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -94,6 +93,11 @@
           </Col>
         </Row>
       </Form>
+
+      <div slot="footer">
+        <Button @click="modal1 = false">关闭</Button>
+        <Button type="primary" @click="updateSenior" :loading="loading">提交</Button>
+      </div>
     </Modal>
 
     <Modal v-model="modalInput"
@@ -219,8 +223,7 @@
       updateSenior() {
         this.$refs['seniorEmpData'].validate((valid) => {
           if (valid) {
-          } else {
-            this.$Message.error("请填写有效编号，数据未提交");
+            this.modal1 = false
           }
         })
       },

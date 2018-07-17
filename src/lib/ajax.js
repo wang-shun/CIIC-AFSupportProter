@@ -293,6 +293,7 @@ AJAX.ajaxSiteLetterService = createProxyAjaxForName('SiteLetterService')
 AJAX.ajaxSSPService = createProxyAjaxForName('SSPService')
 AJAX.ajaxSpecialOperationService = createProxyAjaxForName('SpecialOperationService')
 AJAX.ajaxSocMessage = createProxyAjaxForName('soc')
+AJAX.ajaxHfMessage = createProxyAjaxForName('hf-m')
 AJAX.ajaxCM = createProxyAjaxForName('cm')
 
 export default AJAX

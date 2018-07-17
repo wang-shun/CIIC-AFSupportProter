@@ -134,7 +134,7 @@
                                       params.row.reservedArchiveNo,params.row.employeeName,
                                       params.row.employeeIdcardNo,params.row.enteringDate,
                                       params.row.archiveSource,params.row.archivalPlace,
-                                      params.row.createdBy,params.row.remark
+                                      params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
                       )
                     }
                   }
@@ -148,7 +148,7 @@
                                       params.row.reservedArchiveNo,params.row.employeeName,
                                       params.row.employeeIdcardNo,params.row.enteringDate,
                                       params.row.archiveSource,params.row.archivalPlace,
-                                      params.row.createdBy,params.row.remark
+                                      params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
                       )
                     }
                   }
@@ -261,23 +261,23 @@
           self.pageData.total = Number(data.data.total);
         })
       },
-      showInfoT (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace,createdBy,remark) {
+      showInfoT (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace,createdBy,remark,exitThePlaceDate) {
         
         this.$router.push({name:'advanceFile', query: {archiveAdvanceId:companyId,reservedArchiveType:reservedArchiveType,
                                                         reservedArchiveNo:reservedArchiveNo,employeeName:employeeName,
                                                         employeeIdcardNo:employeeIdcardNo,enteringDate:enteringDate,
                                                         archiveSource:archiveSource,archivalPlace:archivalPlace,
-                                                        createdBy:createdBy,remark:remark
+                                                        createdBy:createdBy,remark:remark,exitThePlaceDate:exitThePlaceDate
         }});
 
       },
-      showInfoTView (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace,createdBy,remark) {
+      showInfoTView (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace,createdBy,remark,exitThePlaceDate) {
         
         this.$router.push({name:'advanceFileView', query: {archiveAdvanceId:companyId,reservedArchiveType:reservedArchiveType,
                                                         reservedArchiveNo:reservedArchiveNo,employeeName:employeeName,
                                                         employeeIdcardNo:employeeIdcardNo,enteringDate:enteringDate,
                                                         archiveSource:archiveSource,archivalPlace:archivalPlace,
-                                                        createdBy:createdBy,remark:remark
+                                                        createdBy:createdBy,remark:remark,exitThePlaceDate:exitThePlaceDate
         }});
 
       },

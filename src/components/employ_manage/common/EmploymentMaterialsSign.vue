@@ -65,6 +65,13 @@ import api from '../../../api/employ_manage/hire_operator'
               ]);
             }
           },
+          {title: '批退日期', key: 'rejectDate', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.rejectDate),
+              ]);
+            }
+          },
         ],
         reasonList: [
           {value: '空', label: '空'},

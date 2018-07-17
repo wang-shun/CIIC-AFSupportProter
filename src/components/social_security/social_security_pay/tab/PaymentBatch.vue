@@ -64,8 +64,10 @@
       <Row class="mt20">
         <Col :sm="{span: 24}">
         
-          <Button type="primary" @click="goAddPayment()">创建支付批次</Button>
-          <!-- <Button type="primary" @click="goCreatePaymentBatch()">创建支付批次</Button> -->
+          <!-- <Button type="primary" @click="goAddPayment()">创建支付批次</Button> -->
+          <Button type="primary" @click="goCreatePaymentBatch()">创建支付批次</Button>
+
+          <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button>
         </Col>
       </Row>
 
@@ -219,15 +221,15 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
               let b=[];
               let paymentId = params.row.paymentId;
               let paymentState = params.row.paymentState;
-              // b.push(h('Button', {
-              //       props: {type: 'success', size: 'small'},
-              //       style: {margin: '0 auto 0 5px'},
-              //       on: {
-              //         click: () => {
-              //           this.goPaymentCom(paymentId);
-              //         }
-              //       }
-              //     }, '查看'));
+              b.push(h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto 0 5px'},
+                    on: {
+                      click: () => {
+                        this.goPaymentCom(paymentId);
+                      }
+                    }
+                  }, '查看'));
               if( !(paymentState != "3" && paymentState != "5" && paymentState != "7")){
                 b.push(h('Button', {
                   props: {type: 'error', size: 'small'},
@@ -250,7 +252,6 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
                     }
                   }, '申请支付'));
               }
-
               return h('div', b);
             }
 
@@ -345,7 +346,6 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
           isShow : false,
           paymentId:'',
           applyRemark:'',
-
         },
         //删除批次
         delPaymentData:{
@@ -574,7 +574,30 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
       closeAddPayment(){
         this.addPaymentData.isShow = false;
       },
-
+      enquireFinanceComAccount(){
+          let y;
+          let m=new Date().getMonth()+1;
+        this.$Modal.confirm({
+              title: '手动询问结算中心是否可付',
+              content: `系统将执行${new Date().getFullYear()}年${new Date().getMonth()}月份所有未到款企业账户的财务询问，执行时间较长，您确认操作吗？`,
+              onOk:function(){
+                let userInfo = localStorage.getItem('userInfo');
+                let params = {
+                  comAccountId:'0',
+                  ssMonth:'ss',
+                  generalMethod:'enquireFinanceComAccount',
+                };
+                payBatchApi.enquireFinanceComAccount(params).then(data=>{
+                  if(data.code==0)
+                  {
+                    this.$Message.success("操作成功！请等待几分钟后，再到查询您要支付的企业账户");
+                  }else{
+                    this.$Message.error("系统正在执行中，请等待！");
+                  }
+              })
+              }, 
+          });
+      },
     }
   }
 </script>

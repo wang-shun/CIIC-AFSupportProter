@@ -278,6 +278,7 @@ AJAX.createProxyAjaxForName = createProxyAjaxForName
 
 AJAX.basePaths = BASE_PATHS['health-c']
 AJAX.fbqBasePaths = BASE_PATHS['fb-q'];
+AJAX.fbcBasePaths = BASE_PATHS['fb-c'];
 AJAX.ajaxFbq = createProxyAjaxForName('fb-q')
 AJAX.ajaxFbc = createProxyAjaxForName('fb-c')
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q')

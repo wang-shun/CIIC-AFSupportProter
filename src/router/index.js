@@ -140,6 +140,7 @@ const giftGrant = r => require.ensure([], () => r(require('@/components/flexible
 const marketGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketGrant')), 'marketGrant') //活动发放
 
 const reportFormManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/report_form/ReportFormManager')), 'reportFormManager') //报表查询
+const seniorEmployeeList = r => require.ensure([], () => r(require('@/components/flexible_benefit/senior_employee/SeniorEmployeeList')), 'seniorEmployeeList') //资深雇员
 
 Vue.use(Router)
 let router = new Router({
@@ -931,6 +932,18 @@ let router = new Router({
             level3: '报表查询',
             openNames: ['5'],
             activeName: '5-4'
+          }
+        },
+        {
+          path: '/seniorEmployeeList',
+          name: 'seniorEmployeeList',
+          component: seniorEmployeeList,
+          meta: {
+            level1: '首页',
+            level2: '弹性福利',
+            level3: '资深雇员',
+            openNames: ['5'],
+            activeName: '5-5'
           }
         },
         /**

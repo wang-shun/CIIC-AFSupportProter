@@ -68,7 +68,7 @@ import api from '../../../api/employ_manage/hire_operator'
           {title: '批退日期', key: 'rejectDate', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.rejectDate),
+                h('span', this.$utils.formatDate(params.row.rejectDate, 'YYYY-MM-DD')),
               ]);
             }
           },
@@ -95,45 +95,50 @@ import api from '../../../api/employ_manage/hire_operator'
           {value: '未到实际用工时间', label: '未到实际用工时间'},
           {value: '多领失业金', label: '多领失业金'},
           {value: '采集表提交错误', label: '采集表提交错误'}
-          
+
         ]
       }
-    },
-    methods: {
-      refuseAll() {
-        
+    },methods: {
+          refuseAll() {
+
          if(this.materialsInfo.reasonValue==''||this.materialsInfo.reasonValue==undefined){
-          
+
             this.$Message.success("请选择拒绝签收原因");
            return;
          }
          for(var i=0;i<this.materialsInfo.materialsData.length;i++){
            this.materialsInfo.materialsData[i].rejectReason = this.materialsInfo.reasonValue;
-           
+           this.materialsInfo.materialsData[i].modifiedTime = '';
+
          }
 
         api.rejectMaterial(this.materialsInfo.materialsData).then(data => {
-                
-                  if (data.data.data.result == true) {
-                    this.$Message.success("保存成功");
+
+
+                  for(var i=0;i<this.materialsInfo.materialsData.length;i++){
+                    this.materialsInfo.materialsData[i].modifiedTime = '';
+
+                  }
+                  if (data.data.data.result == "批退成功") {
+                    this.$Message.success("批退成功");
                     this.materialsInfo.materialsData = data.data.data.data;
                   } else {
-                    this.$Message.error("保存失败！");
+                    this.$Message.error(data.data.data.result);
                   }
             })
       },instance() {
-          
+
             api.receiveMaterial(this.materialsInfo.materialsData).then(data => {
-                  if (data.data.data.result == true) {
+                  if (data.data.data.result == "签收成功") {
                      this.$Message.success("签收成功");
                      this.materialsInfo.materialsData = data.data.data.data;
                   } else {
-                    this.$Message.error("保存失败！");
+                    this.$Message.error(data.data.data.result);
                   }
             })
-          
+
        }
-      
+
     },
     computed: {
       materials() {

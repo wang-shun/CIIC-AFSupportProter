@@ -3,8 +3,8 @@
     <Form :label-width=150 >
       <Row class="mt20" type="flex" justify="start">
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Table border width="1200" :columns="theSameTaskListColumns"
-               :data="theSameTask"></Table>
+        <Table border width="1200" :columns="handledTaskListColumns"
+               :data="handledTask"></Table>
         </Col>
       </Row>
     </Form>
@@ -32,6 +32,7 @@
 <script>
   import api from '../../../../api/social_security/employee_operator'
   export default {
+    name: 'origin-emp-task-info',
     props: {
       empTaskId: {
         require: true,
@@ -44,8 +45,8 @@
     data() {
       return {
         showOrigin: false,
-        theSameTask: [],
-        theSameTaskListColumns:[
+        handledTask: [],
+        handledTaskListColumns:[
           {
             title: '任务单类型', key: 'taskCategory', align: 'center', width: 150,
             render: (h, params) => {
@@ -140,13 +141,14 @@
             align: 'center',
             width: 100,
             render: (h, params) => {
-              let empTaskId = params.row.empTaskId
+              let empTaskId = params.row.empTaskId;
+              let taskCategory = params.row.taskCategory;
               return h('a', {
                 style: {textAlign: 'right'},
                 on: {
                   click: () => {
                     this.showOrigin = true;
-                    this.getOriginEmpTask(empTaskId);
+                    this.getOriginEmpTask(empTaskId, taskCategory);
                   }
                 }
               }, '查看');
@@ -182,11 +184,11 @@
           },
           {
             title: '基数',
-            key: 'empBase',
+            key: 'empCompanyBase',
             align: 'center',
             width: 150,
             render: (h, params) => {
-              return h('span',params.row.empBase)
+              return h('span',params.row.empCompanyBase)
             }
           },
           {
@@ -214,19 +216,7 @@
     created() {
     },
     mounted() {
-      api.queryHistoryEmpTask({
-        companyId: this.companyId,
-        employeeId: this.employeeId,
-        empTaskId: this.empTaskId
-      }).then(data => {
-        if (data.code == 200) {
-          if (data.data) {
-            this.theSameTask = data.data;
-          }
-        } else {
-          this.$Message.error(data.message);
-        }
-      })
+      this.queryHistoryEmpTask();
     },
     computed: {
     },
@@ -234,13 +224,28 @@
       close() {
         this.showOrigin = false
       },
-      getOriginEmpTask(empTaskId) {
+      queryHistoryEmpTask() {
+        debugger
+        api.queryHistoryEmpTask({
+          empTaskId: this.empTaskId
+        }).then(data => {
+          if (data.code == 200) {
+            if (data.data) {
+              this.handledTask = data.data;
+            }
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
+      },
+      getOriginEmpTask(empTaskId, taskCategory) {
         api.getOriginEmpTask({
           empTaskId: empTaskId
         }).then(data => {
           if (data.code == 200) {
             if (data.data) {
-              this.originEmpTask = data.data;
+              this.originEmpTask = [data.data];
+              this.originEmpTask.taskCategory = taskCategory;
             }
           } else {
             this.$Message.error(data.message);

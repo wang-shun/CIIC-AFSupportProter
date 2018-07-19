@@ -114,21 +114,21 @@ import api from '../../../api/employ_manage/hire_operator'
 
         api.rejectMaterial(this.materialsInfo.materialsData).then(data => {
                 
-                  if (data.data.data.result == true) {
-                    this.$Message.success("保存成功");
+                  if (data.data.data.result == "批退成功") {
+                    this.$Message.success("批退成功");
                     this.materialsInfo.materialsData = data.data.data.data;
                   } else {
-                    this.$Message.error("保存失败！");
+                    this.$Message.error(data.data.data.result);
                   }
             })
       },instance() {
           
             api.receiveMaterial(this.materialsInfo.materialsData).then(data => {
-                  if (data.data.data.result == true) {
+                  if (data.data.data.result == "签收成功") {
                      this.$Message.success("签收成功");
                      this.materialsInfo.materialsData = data.data.data.data;
                   } else {
-                    this.$Message.error("保存失败！");
+                    this.$Message.error(data.data.data.result);
                   }
             })
           

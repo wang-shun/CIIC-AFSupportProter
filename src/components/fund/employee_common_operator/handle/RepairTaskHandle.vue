@@ -308,11 +308,17 @@
         </div>
       </Panel>
       <Panel name="5">
-        任务单备注
+        历史任务单
         <div slot="content">
-          <Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>
+          <origin-emp-task-info></origin-emp-task-info>
         </div>
       </Panel>
+      <!--<Panel name="5">-->
+        <!--任务单备注-->
+        <!--<div slot="content">-->
+          <!--<Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>-->
+        <!--</div>-->
+      <!--</Panel>-->
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -330,8 +336,10 @@
 <script>
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
 
   export default {
+    components: {originEmpTaskInfo},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5], //展开栏

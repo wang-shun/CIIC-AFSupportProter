@@ -289,11 +289,17 @@
         </div>
       </Panel>
       <Panel name="5">
-        任务单备注
+        历史任务单
         <div slot="content">
-          <Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>
+          <origin-emp-task-info></origin-emp-task-info>
         </div>
       </Panel>
+      <!--<Panel name="6">-->
+        <!--任务单备注-->
+        <!--<div slot="content">-->
+          <!--<Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>-->
+        <!--</div>-->
+      <!--</Panel>-->
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -375,10 +381,12 @@
 <script>
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import transapi from '../../../../api/house_fund/employee_task/employee_transfer'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
   import dict from '../../../../api/dict_access/house_fund_dict'
   import axios from "axios";
 
   export default {
+    components: {originEmpTaskInfo},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
@@ -462,7 +470,7 @@
         fundColumns: [
           {title: '起缴年月', key: 'startMonth', align: 'left'},
           {title: '截至年月', key: 'endMonth', align: 'left'},
-          {title: '客户汇缴年月', key: 'hfMonth', align: 'left'},
+//          {title: '客户汇缴年月', key: 'hfMonth', align: 'left'},
           {title: '基数', key: 'baseAmount', align: 'left'},
           {title: '企业比例', key: 'ratioCom', align: 'left'},
           {title: '个人比例', key: 'ratioEmp', align: 'left'},

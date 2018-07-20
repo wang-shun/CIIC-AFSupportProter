@@ -98,4 +98,12 @@ export default {
       return yearInt + '' + monthInt;
     }
   },
+  queryHistoryEmpTask: async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpTaskHandle/queryHistoryEmpTask', params);
+    return await response.data;
+  },
+  getOriginEmpTask: async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpTaskHandle/getOriginEmpTask', params);
+    return await response.data;
+  }
 }

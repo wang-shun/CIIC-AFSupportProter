@@ -116,6 +116,21 @@ export default {
   employSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOpt', params);
   },
+  employSearchExportOptUseWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptUseWord', params);
+  },
+  employSearchExportOptDispatchWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptDispatchWord', params);
+  },
+  employSearchExportOptAlonehWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptAlonehWord', params);
+  },
+  employSearchExportOptExtDispatchWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtDispatchWord', params);
+  },
+  employSearchExportOptExtCollectWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtCollectWord', params);
+  },
   resignSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amResignTask/resignSearchExportOpt', params);
   },

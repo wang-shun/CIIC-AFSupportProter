@@ -138,5 +138,13 @@ export default {
     let response = await AJAX.post('/api/fundcommandservice/hfauthority/getHfCustomerData', params);
     return await response.data;
   },
+  queryHistoryEmpTask: async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpArchive/queryHistoryEmpTask', params);
+    return await response.data;
+  },
+  getOriginEmpTaskList: async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpArchive/getOriginEmpTaskList', params);
+    return await response.data;
+  }
 }
 

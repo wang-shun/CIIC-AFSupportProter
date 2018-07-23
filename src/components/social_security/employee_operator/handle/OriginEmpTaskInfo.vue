@@ -65,6 +65,15 @@
             }
           },
           {
+            title: '人员属性',
+            key: 'empClassify',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span', this.$decode.empClassify(params.row.empClassify));
+            }
+          },
+          {
             title: '起始月份',
             key: 'startMonth',
             align: 'center',
@@ -216,7 +225,7 @@
     created() {
     },
     mounted() {
-      this.queryHistoryEmpTask();
+      this.queryHistoryEmpTaskList();
     },
     computed: {
     },
@@ -224,8 +233,8 @@
       close() {
         this.showOrigin = false
       },
-      queryHistoryEmpTask() {
-        api.queryHistoryEmpTask({
+      queryHistoryEmpTaskList() {
+        api.queryHistoryEmpTaskList({
           empTaskId: this.empTaskId
         }).then(data => {
           if (data.code == 200) {

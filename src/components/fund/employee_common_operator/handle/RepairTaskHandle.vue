@@ -661,8 +661,9 @@
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;
           this.operatorListData = data.data.empTaskPeriods;
-          this.operatorListData.forEach((element, index, arry) => {
+          this.operatorListData.forEach((element, index, arr) => {
             this.getTotalAmount(index);
+            this.operatorListData[index].repairReason = '1';
           });
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 

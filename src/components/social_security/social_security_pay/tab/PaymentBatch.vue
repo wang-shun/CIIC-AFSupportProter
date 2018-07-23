@@ -277,7 +277,7 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
               ]);
             }
           },
-          {title: '支付年月', key: 'paymentMonth', width: 120, align: 'center',
+          {title: '支付年月', key: 'paymentMonth', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentMonth),
@@ -304,14 +304,14 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
               ]);
             }
           },
-          {title: '申请人', key: 'requestUser', width: 120, align: 'center',
+          {title: '申请人', key: 'requestUser', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.requestUser),
               ]);
             }
           },
-          {title: '申请日期', key: 'requestDate', width: 120, align: 'center',
+          {title: '申请日期', key: 'requestDate', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.requestDate),

@@ -27,7 +27,7 @@
               </Col> -->
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付状态：" prop="paymentStatus">
-                  <Select v-model="operatorSearchData.paymentStatus" style="width: 100%;" transfer>
+                  <Select v-model="operatorSearchData.paymentStatus" style="width: 100%;" transfer @on-change="paymentStatusChange()">
                     <Option v-for="item in paymentStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
@@ -95,14 +95,14 @@
         </Col> -->
       </Row>
       <Row class="mt20">
-        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="showPaymentWay">
         <Form-item label="付款方式：" prop="paymentWay">
           <Select v-model="paymentWay" style="width: 100%;" transfer filterable >
             <Option v-for="item in paymentWayList" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
         </Col>
-        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-if="showPayee">
         <Form-item label="收款方：" prop="payee">
           <Select v-model="payee" style="width: 100%;" transfer filterable >
             <Option v-for="item in payeeList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -134,6 +134,8 @@
         pageNum:1,//默认页数
         payee: '',
         paymentWay:3,
+        showPaymentWay:true,
+        showPayee:true,
         operatorSearchData: {
           paymentStatus: 3, //支付状态默认为可付
           fundAccountType: '3',
@@ -289,7 +291,15 @@
         this.makePayListInfo.rows = selection.length;
         this.resetSelectedData(selection);
       },
-
+      paymentStatusChange(){
+        if(this.operatorSearchData.paymentStatus==2){
+          this.showPaymentWay=false;
+          this.showPayee=false;
+        }else{
+          this.showPaymentWay=true;
+          this.showPayee=true;
+        }
+      },
       createPaymentComList() {
         if(this.selectedData.length==0){
             this.$Message.error('请选择查询列表中的公积金账户数据！');

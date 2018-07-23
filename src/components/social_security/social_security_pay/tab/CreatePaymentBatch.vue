@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        企业账户管理
+        查询条件
         <div slot="content">
           <Form ref="payComSearchData" :model="payComSearchData" :label-width=150>
             <Row type="flex" justify="start">
@@ -646,6 +646,9 @@
         }
         if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
           this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
+        }
+        if (this.payComSearchData.paymentMonth && this.payComSearchData.paymentMonth.length != 6) {
+          this.payComSearchData.paymentMonth = this.$utils.formatDate(this.payComSearchData.paymentMonth, 'YYYYMM');
         }
         // 处理参数
         var params = {};

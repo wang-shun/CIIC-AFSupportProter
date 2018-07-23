@@ -232,7 +232,13 @@
           </Form>
         </div>
       </Panel>
-       <Panel name="5">
+      <Panel name="5">
+        雇员任务单
+        <div slot="content">
+          <origin-emp-task-info :empArchiveId="this.$route.query.empArchiveId"></origin-emp-task-info>
+        </div>
+      </Panel>
+       <Panel name="6">
         雇员基本/补充公积金转移
         <div slot="content">
           <Form :label-width='150'>
@@ -260,17 +266,18 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../../../store/event_types'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import EventTypes from '../../../store/event_types'
   import basicInfo from '../common/BasicInfo.vue'
   import companyFundAccountInfo from '../common/CompanyFundAccountInfo.vue'
   import fundInfo from '../common/FundInfo.vue'
   import fundTransfer from '../common/FundTransfer.vue'
   import fundNotes from '../common/FundNotes.vue'
   import api from '../../../api/house_fund/employee_operator'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
 
   export default {
-    components: {basicInfo, fundNotes},
+    components: {basicInfo, fundNotes, originEmpTaskInfo},
     data() {
       return {
         viewEmpArchive:{
@@ -505,23 +512,23 @@
       });
     },
     computed: {
-      ...mapState('employeeFundBasicInfo', {
-        data: state => state.data
-      })
+//      ...mapState('employeeFundBasicInfo', {
+//        data: state => state.data
+//      })
     },
     methods: {
-      ...mapActions('employeeFundBasicInfo', [EventTypes.EMPLOYEEFUNDBASICINFO]),
+//      ...mapActions('employeeFundBasicInfo', [EventTypes.EMPLOYEEFUNDBASICINFO]),
       back() {
         this.$router.go(-1)
       },
       saveEmpAccount(){
         var reg = /(^[1-9]([0-9]{1,19})?$)/;
 
-        if (!reg.test(this.viewEmpArchive.hfEmpAccount)) { 
+        if (!reg.test(this.viewEmpArchive.hfEmpAccount)) {
           this.$Message.error("【基本公积金账号】输入不正确，必须要求数字类型，并且不超过20位。");
           return;
         }
-        if (this.viewEmpArchive.empArchiveIdBc && !reg.test(this.viewEmpArchive.hfEmpAccountBc)) { 
+        if (this.viewEmpArchive.empArchiveIdBc && !reg.test(this.viewEmpArchive.hfEmpAccountBc)) {
           this.$Message.error("【补充公积金账号】输入不正确，必须要求数字类型，并且不超过20位。");
           return;
         }

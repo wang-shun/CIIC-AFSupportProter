@@ -595,7 +595,7 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
                     this.$Message.error("系统正在执行中，请等待！");
                   }
               })
-              }, 
+              }
           });
       },
     }

@@ -286,9 +286,9 @@ export default {
     paymentType: (type) => {
         switch (type) {
         case '1':
-            return '我司代付款'
+            return '委托扣款'
         case '2':
-            return '客户自付'
+            return '制卡缴费'
         default:
             return ''
         }

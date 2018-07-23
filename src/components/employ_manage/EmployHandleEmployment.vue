@@ -112,7 +112,8 @@
           phone: "",
           materialsData: [],
           reasonValue: "",
-          reasonList: []
+          reasonList: [],
+          logBOList: []
         },
         handleInfo: {
           employDate: '',

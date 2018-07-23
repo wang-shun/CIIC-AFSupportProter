@@ -7,6 +7,15 @@
         <!-- <Button type="primary"  @click="instance()">提交</Button> -->
       </Col>
     </Row>
+    <br/>
+    <Collapse v-model="collapseInfo">
+    <Form :label-width="150">
+      <Panel name="1">
+        材料流转记录
+    <Table border :columns="refuseReturnMaterialsSignColumnsLog" :width="1000"  :data="materialLogList" class="mt20"></Table>
+    </Panel>
+    </Form>
+    </Collapse>
      <Modal
         v-model="modal1"
         title="归还材料签收"
@@ -23,12 +32,16 @@
       refuseReturnMaterialsSignInfo: {
         type: Array
       },
+      materialLogList: {
+        type: Array
+      },
       refuseReturnMaterials:{
         type: Array
       }
     },
     data() {
       return {
+        collapseInfo: [1], //展开栏
          modal1: false,
         refuseReturnMaterialsSignColumns: [
           {title: '提交日期', key: 'submitterDate', align: 'center',
@@ -94,11 +107,40 @@
                 ]);
             }
          }
+        ],refuseReturnMaterialsSignColumnsLog: [
+          {title: '操作类型', key: 'operationType', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.operationType==1?"签收":params.row.operationType==2?"批退":params.row.operationType==3?"提交":"其它"),
+              ]);
+            }
+          },
+          {title: '操作人', key: 'operationName', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.operationName),
+              ]);
+            }
+          },
+          {title: '操作时间', key: 'operationTime', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.operationTime),
+              ]);
+            }
+          },
+          {title: '备注', key: 'remark', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          }
         ],refuseReturnMaterialsColumns: [
           {title: '', type: 'selection', width: 60},
           {title: '材料名称', key: 'materialName', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.materialName),
               ]);
             }

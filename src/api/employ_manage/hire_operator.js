@@ -211,6 +211,13 @@ export default {
   batchCheck:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/batchCheck', params);
     return await response.data;
+  },saveAmResignBatch:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amResignTask/saveAmResignBatch', params);
+    return await response.data;
+  },
+  batchCheck:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amResignTask/batchCheck', params);
+    return await response.data;
   }
 
 }

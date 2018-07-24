@@ -505,7 +505,7 @@
     methods: {
       rowClassName (row, index) {
               
-                if (row.outReason!=undefined&&row.outReason!='') {
+               if (row.job!=undefined&&row.job=='N') {
                     return 'demo-table-error-row';
                 } 
                 return '';

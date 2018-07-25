@@ -1,14 +1,14 @@
 <template>
   <div class="smList">
     <Tabs v-model="tabName" @on-click="switchTab" >
-  
+
       <TabPane label="支付批次申请" name="paymentBatch">
-       
+
       </TabPane>
      <TabPane label="企业账户支付管理" name="paymentCom" >
-        
+
       </TabPane>
-      
+
     </Tabs>
      <paymentBatch v-if="tabNames.paymentBatch" @switchTab='switchTab'></paymentBatch>
      <paymentCom v-if="tabNames.paymentCom"></paymentCom>
@@ -42,6 +42,7 @@
             this.tabNames['paymentCom'] = false;
             this.tabNames['paymentBatch'] = true;
         }
+        this.tabName = name;
       }
     }
   }

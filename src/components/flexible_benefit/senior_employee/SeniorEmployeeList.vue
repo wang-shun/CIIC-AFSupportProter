@@ -7,28 +7,20 @@
           <Form :model="seniorSearchInfo" ref="seniorSearchInfo" :label-width="100">
             <Row class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号" prop="giftName">
-                  <Input v-model="seniorSearchInfo.giftName" placeholder="请输入"></Input>
+                <Form-item label="雇员编号" prop="employeeId">
+                  <Input v-model="seniorSearchInfo.employeeId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员姓名" prop="giftName">
-                  <Input v-model="seniorSearchInfo.giftName" placeholder="请输入"></Input>
+                <Form-item label="雇员姓名" prop="employeeName">
+                  <Input v-model="seniorSearchInfo.employeeName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="身份证号码" prop="giftName">
-                  <Input v-model="seniorSearchInfo.giftName" placeholder="请输入"></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号" prop="giftName">
-                  <Input v-model="seniorSearchInfo.giftName" placeholder="请输入"></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称" prop="giftName">
-                  <Input v-model="seniorSearchInfo.giftName" placeholder="请输入"></Input>
+                <Form-item label="状态" prop="status">
+                  <Select v-model="seniorSearchInfo.status" style="width:100%">
+                    <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
                 </Form-item>
               </Col>
             </Row>
@@ -43,9 +35,10 @@
       </Panel>
     </Collapse>
     <div class="tr m20">
-      <Button type="primary" icon="ios-download-outline" @click="modalInput = true">导入资深雇员</Button>
+      <Button type="primary" icon="ios-upload-outline" @click="exportSeniorData">导出资深雇员编号</Button>
+      <Button type="primary" icon="ios-download-outline" @click="modalInput = true">导入资深雇员编号</Button>
     </div>
-    <Table border :columns="seniorEmpColumns" :data="seniorEmpDataList" ref="seniorEmpTable"></Table>
+    <Table border :columns="seniorEmpColumns" :data="seniorEmpDataList"></Table>
     <Page show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
@@ -87,8 +80,8 @@
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="资深雇员编号" prop="number">
-              <Input v-model="seniorEmpData.number" placeholder="请输入"></Input>
+            <Form-item label="资深雇员编号" prop="seniorEmployeeId">
+              <Input v-model="seniorEmpData.seniorEmployeeId" placeholder="请输入"></Input>
             </Form-item>
           </Col>
         </Row>
@@ -127,6 +120,7 @@
 
 <script>
   import ajax from "../../../lib/ajax";
+  import qs from "qs";
 
   export default {
     data() {
@@ -140,36 +134,47 @@
         fileList: [],
         uploadAction: ajax.fbcBasePaths + '/seniorEmpService/uploadFileCache',
         seniorSearchInfo: {
-          id: null,
-          giftName: "",
-          status: "",
+          employeeId: "",
+          employeeName: "",
+          status: "2",
           current: 1,
           size: 10,
           total: 0
         },
         seniorEmpColumns: [
           {
-            title: "雇员编号", sortable: true, key: "employeeId", align: "center"
-          },
-          {
             title: "雇员姓名", sortable: true, key: "employeeName", align: "center"
           },
           {
-            title: "身份证号码", sortable: true, key: "idNum", align: "center"
+            title: "雇员编号", sortable: true, key: "employeeId", align: "center"
           },
           {
-            title: "客户编号", sortable: true, key: "companyId", align: "center"
+            title: "性别", sortable: true, key: "sex", align: "center",
+            render: (h, params) => {
+              return h('div', this.genderToChina(params.row.gender));
+            }
           },
           {
-            title: "客户名称", sortable: true, key: "companyName", align: "center"
+            title: "出生日期", sortable: true, key: "birthday", align: "center",
+            render: (h, params) => {
+              if (params.row.birthday !== null) {
+                return h('div', this.$utils.formatDate(params.row.birthday, "YYYY-MM-DD"));
+              }
+            }
           },
           {
-            title: "资深雇员编号", sortable: true, key: "number", align: "center"
+            title: "手机号", sortable: true, key: "mobile", align: "center"
+          },
+          {
+            title: "证件号", sortable: true, key: "idNum", align: "center"
+          },
+          {
+            title: "资深雇员编号", sortable: true, key: "seniorEmployeeId", align: "center"
           },
           {
             title: "操作", sortable: true, align: 'center',
             render: (h, params) => {
-              if (params.row.number === null || params.row.number === '') {
+              if (params.row.seniorEmployeeId === undefined || params.row.seniorEmployeeId === null || params.row.seniorEmployeeId === '') {
                 return h("div", [
                   h("Button", {
                     props: {
@@ -185,33 +190,47 @@
                     }
                   }, '编辑')
                 ]);
+              } else {
+                return h("div", [
+                  h("Button", {
+                    props: {
+                      type: 'success',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.$Modal.confirm({
+                          title: '提示',
+                          content: '确认要清除自设雇员编号吗？',
+                          onOk: () => {
+                            this.$Message.info('Clicked ok');
+                          },
+                          onCancel: () => {
+                            this.$Message.info('Clicked cancel');
+                          }
+                        });
+                      }
+                    }
+                  }, '清除')
+                ]);
               }
             }
           }
         ],
-        seniorEmpDataList: [
+        seniorEmpDataList: [],
+        statusList: [
           {
-            "employeeId": "455646",
-            "employeeName": "测试",
-            "idNum": "4512155511223",
-            "companyId": "455646",
-            "companyName": "中智",
-            "number": "455646",
+            value: '2', label: '在职'
           },
           {
-            "employeeId": "455646",
-            "employeeName": "测试",
-            "idNum": "4512155511223",
-            "companyId": "455646",
-            "companyName": "中智",
-            "number": "",
+            value: '3', label: '离职'
           }
         ],
         seniorEmpData: {},
         seniorEmpRules: {
-          number: [
+          seniorEmployeeId: [
             {required: true, message: '请输入资深雇员编号', trigger: 'blur'},
-            {type: 'string', pattern: '/\s+/', message: '请输入有效的雇员编号', trigger: 'blur'}
+            {type: 'string', pattern: !'/\s+/', message: '请输入有效的雇员编号', trigger: 'blur'}
           ]
         }
       };
@@ -223,11 +242,23 @@
       updateSenior() {
         this.$refs['seniorEmpData'].validate((valid) => {
           if (valid) {
+            ajax.ajaxFbc.postJSON("/seniorEmpService/updateSeniorEmp", this.seniorEmpData).then(response => {
+              if (response.data.code === 0) {
+                this.$Message.success('提交成功')
+              } else {
+                this.$Message.error('服务器异常，请稍后再试')
+              }
+            });
             this.modal1 = false
           }
-        })
+        });
+        this.getByPage(1);
       },
       query() {
+        ajax.ajaxFbq.postJSON("/seniorEmpQueryService/querySeniorPage", this.seniorSearchInfo).then(response => {
+          this.seniorEmpDataList = response.data.object.records;
+          this.seniorSearchInfo.total = response.data.object.total;
+        })
       },
       seniorUploadFile() {
         if (this.file === null || this.file == null || this.file === '') {
@@ -271,6 +302,9 @@
         this.loading = false;
         this.percent = 0
       },
+      exportSeniorData() {
+        window.location = ajax.fbqBasePaths + '/seniorEmpQueryService/exportSeniorEmpExcel?' + qs.stringify(this.seniorSearchInfo);
+      },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -282,6 +316,14 @@
         this.seniorSearchInfo.size = size;
         this.query()
       },
+      genderToChina(status) {
+        switch (status) {
+          case 1:
+            return "男";
+          case 0:
+            return "女";
+        }
+      }
     }
   };
 </script>

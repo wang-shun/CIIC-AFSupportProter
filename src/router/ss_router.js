@@ -441,7 +441,7 @@ export default [
       level1:'上海公积金',
       level2:"权限管理",
       openNames:['2'],
-      activeName: '2-40'
+      activeName: '2-12'
     },
   },
   {

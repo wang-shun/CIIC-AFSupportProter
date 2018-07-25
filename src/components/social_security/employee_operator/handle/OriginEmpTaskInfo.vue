@@ -3,7 +3,7 @@
     <Form :label-width=150 >
       <Row class="mt20" type="flex" justify="start">
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Table border width="1200" :columns="handledTaskListColumns"
+        <Table border width="1300" :columns="handledTaskListColumns"
                :data="handledTask"></Table>
         </Col>
       </Row>
@@ -253,7 +253,11 @@
           if (data.code == 200) {
             if (data.data) {
               this.originEmpTask = [data.data];
-              this.originEmpTask.taskCategory = taskCategory;
+              if (this.originEmpTask) {
+                for (let i = 0; i< this.originEmpTask.length; i++) {
+                  this.originEmpTask[i].taskCategory = taskCategory;
+                }
+              }
             }
           } else {
             this.$Message.error(data.message);

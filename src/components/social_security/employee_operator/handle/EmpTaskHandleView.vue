@@ -11,37 +11,37 @@
         雇员信息
         <div slot="content">
           <employee-info :operatorType='operatorType' :employee="employee"></employee-info>
-        </div>
 
-        <Form :label-width=150 >
-          <Row class="mt20" type="flex" justify="start">
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="开AF单日期：">
-              <label>{{reworkInfo.openAfDate}}</label>
-            </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="存档地：">
-              <label>{{reworkInfo.archivePlace}}</label>
-            </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="工资：">
-              <label>{{reworkInfo.salary}}</label>
-            </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="用工状态：">
-              <label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskCategory, reworkInfo.taskStatus)}}</label>
-            </Form-item>
-            </Col>
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="用工成功日期：">
-              <label>{{reworkInfo.employFeedbackOptDate}}</label>
-            </Form-item>
-            </Col>
-          </Row>
-        </Form>
+          <Form :label-width=150 >
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="开AF单日期：">
+                <label>{{reworkInfo.openAfDate}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="存档地：">
+                <label>{{reworkInfo.archivePlace}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="工资：">
+                <label>{{reworkInfo.salary}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="用工状态：">
+                <label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskCategory, reworkInfo.taskStatus)}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="用工成功日期：">
+                <label>{{reworkInfo.employFeedbackOptDate}}</label>
+              </Form-item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
       </Panel>
       <Panel name="3">
         任务单参考信息

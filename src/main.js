@@ -36,7 +36,7 @@ window.addEventListener('message', (event) => {
   const currentGoTo = window.localStorage.getItem('currentGoTo')
   const message = !event.data ? {} : JSON.parse(event.data)
   const isToken = message.token !== undefined
-  if (isToken && (currentGoTo === null || currentGoTo !== '')) {
+  if (isToken && (currentGoTo === null || currentGoTo === '')) {
     if ((userInfo === null) || (userInfo === '')) {
       window.localStorage.setItem('userInfo', event.data)
     }

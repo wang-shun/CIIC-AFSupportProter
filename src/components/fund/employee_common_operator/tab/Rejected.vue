@@ -78,7 +78,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.HF_DEFAULT_PAGE_SIZE_OPTS
         },
         rejectedColumns: [
           {title: '操作', fixed: 'left', width: 100, align: 'center',

@@ -226,7 +226,7 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
                     style: {margin: '0 auto 0 5px'},
                     on: {
                       click: () => {
-                        this.goPaymentCom(paymentId);
+                        this.goPaymentCom(params.row);
                       }
                     }
                   }, '查看'));
@@ -380,8 +380,10 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
       goPaymentNotice() {
         this.$router.push({name: 'paymentnotice'})
       },
-      goPaymentCom(paymentId) {
-        sessionStorage.setItem("PaymentBatch_paymentId",paymentId);
+      goPaymentCom(row) {
+        sessionStorage.setItem("PaymentBatch_paymentId",row.paymentId);
+        sessionStorage.setItem("PaymentBatch_paymentBatchNum",row.paymentBatchNum);
+        sessionStorage.setItem("PaymentBatch_paymentMonth",row.paymentMonth);
         this.$emit('switchTab','paymentCom');
       },
       cancel () {
@@ -579,6 +581,7 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
           let m=new Date().getMonth()+1;
         this.$Modal.confirm({
               title: '手动询问结算中心是否可付',
+              closable:true,
               content: `系统将执行${new Date().getFullYear()}年${new Date().getMonth()}月份所有未到款企业账户的财务询问，执行时间较长，您确认操作吗？`,
               onOk:function(){
                 let userInfo = localStorage.getItem('userInfo');

@@ -1,8 +1,8 @@
 <template>
-  <div class="smList" style="height: 1050px;">
+  <div class="smList" style="height: 5400px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        查询条件
+        查询条件1
         <div slot="content">
             <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
         </div>
@@ -19,7 +19,7 @@
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
+      <Table border ref="selection"  :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -108,7 +108,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.SS_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
           {

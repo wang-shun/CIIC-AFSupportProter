@@ -233,9 +233,9 @@ export default {
       let menuTree = allMenu.filter(menu => {
         return menu.menuLevel === 1
       });
-      let tmpLevel2 = allMenu.filter(menu => {
-        return menu.menuLevel === 2
-      });
+//      let tmpLevel2 = allMenu.filter(menu => {
+//        return menu.menuLevel === 2
+//      });
       menuTree.forEach(level => {
         level['children'] = []
       });
@@ -243,13 +243,18 @@ export default {
         menuTree[i]['id'] = i + 1
         menuTree[i]['key'] = menuTree[i].menuName
         menuTree[i]['icon'] = menuTree[i].imageUrl
+
+        let tmpLevel2 = allMenu.filter(menu => {
+          return menu.menuLevel === 2 && menu.parentMenuCode === menuTree[i].menuCode
+        });
+
         for (let j = 0, level2Length = tmpLevel2.length; j < level2Length; j++) {
-          if (menuTree[i].menuCode === tmpLevel2[j].parentMenuCode) {
+//          if (menuTree[i].menuCode === tmpLevel2[j].parentMenuCode) {
             tmpLevel2[j]['cid'] = `${i + 1}-${j + 1}`
             tmpLevel2[j]['ckey'] = tmpLevel2[j].menuName
             tmpLevel2[j]['crouter'] = tmpLevel2[j].linkUrl
             menuTree[i]['children'].push(tmpLevel2[j])
-          }
+//          }
         }
       }
       return menuTree

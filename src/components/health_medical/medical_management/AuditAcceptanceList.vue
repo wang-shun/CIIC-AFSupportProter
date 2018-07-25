@@ -91,7 +91,7 @@
                   <row>
 
                    <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                     <div class="floatRightBtns">
+                     <div class="tr mt20 mb20">
                         <router-link to="/addAcceptanceEmployeeList">
                             <Button type="primary">审核</Button>
                         </router-link>

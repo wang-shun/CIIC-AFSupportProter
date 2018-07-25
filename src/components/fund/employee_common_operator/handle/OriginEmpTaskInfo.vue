@@ -3,7 +3,7 @@
     <Form :label-width=150 >
       <Row class="mt20" type="flex" justify="start">
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Table border width="1200" :columns="handledTaskListColumns"
+        <Table border width="1270" :columns="handledTaskListColumns"
                :data="handledTask"></Table>
         </Col>
       </Row>
@@ -30,15 +30,15 @@
   </div>
 </template>
 <script>
-  import api from '../../../../api/social_security/employee_operator'
+  import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
+
   export default {
     name: 'origin-emp-task-info',
     props: {
       empTaskId: {
-        require: true,
         type: String,
         default() {
-          return ''
+          return localStorage.getItem('employeeFundCommonOperator.empTaskId');
         }
       },
     },
@@ -48,29 +48,11 @@
         handledTask: [],
         handledTaskListColumns:[
           {
-            title: '任务单类型', key: 'taskCategory', align: 'center', width: 150,
+            title: '任务单类型', key: 'taskCategoryName', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', this.$decode.taskCategory(params.row.taskCategory)),
+                h('span', params.row.taskCategoryName),
               ]);
-            }
-          },
-          {
-            title: '办理方式',
-            key: 'handleWay',
-            align: 'center',
-            width: 100,
-            render: (h, params) => {
-              return h('span', this.$decode.handle_way(params.row.handleWay));
-            }
-          },
-          {
-            title: '人员属性',
-            key: 'empClassify',
-            align: 'center',
-            width: 100,
-            render: (h, params) => {
-              return h('span', this.$decode.empClassify(params.row.empClassify));
             }
           },
           {
@@ -95,30 +77,52 @@
             title: '基数',
             key: 'empBase',
             align: 'center',
-            width: 150,
+            width: 100,
             render: (h, params) => {
               return h('span',params.row.empBase)
             }
           },
           {
             title: '办理月份',
-            key: 'handleMonth',
+            key: 'hfMonth',
             align: 'center',
             width: 100,
             render: (h, params) => {
               return h('div', [
-                h('span', params.row.handleMonth),
+                h('span', params.row.hfMonth),
               ]);
             }
           },
           {
             title: '办理状态',
-            key: 'taskStatus',
+            key: 'taskStatusName',
             align: 'center',
             width: 100,
             render: (h, params) => {
               return h('div', [
-                h('span', this.$decode.empTaskStatus(params.row.taskStatus)),
+                h('span', params.row.taskStatusName),
+              ]);
+            }
+          },
+          {
+            title: '操作提示',
+            key: 'operationRemindName',
+            align: 'center',
+            width: 200,
+            render: (h, params) => {
+              return h('div', [
+                h('span', params.row.operationRemindName),
+              ]);
+            }
+          },
+          {
+            title: '操作提示日期',
+            key: 'operationRemindDateFormat',
+            align: 'center',
+            width: 120,
+            render: (h, params) => {
+              return h('div', [
+                h('span', params.row.operationRemindDateFormat),
               ]);
             }
           },
@@ -126,7 +130,7 @@
             title: '办理时间',
             key: 'modifiedTime',
             align: 'center',
-            width: 200,
+            width: 150,
             render: (h, params) => {
               return h('div', [
                 h('span', params.row.modifiedTime),
@@ -193,11 +197,11 @@
           },
           {
             title: '基数',
-            key: 'empCompanyBase',
+            key: 'empBase',
             align: 'center',
             width: 150,
             render: (h, params) => {
-              return h('span',params.row.empCompanyBase)
+              return h('span',params.row.empBase)
             }
           },
           {

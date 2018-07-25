@@ -281,11 +281,11 @@
                 <DatePicker v-model="displayVO.operationRemindDate" format="yyyy-MM-dd" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer :disabled="inputDisabled"></DatePicker>
               </FormItem>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="客户汇缴月份：">
-                {{displayVO.hfMonth}}
-              </Form-item>
-              </Col>
+              <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="客户汇缴月份：">-->
+                <!--{{displayVO.hfMonth}}-->
+              <!--</Form-item>-->
+              <!--</Col>-->
             </Row>
             <Row>
               <Col :sm="{span: 24}">
@@ -308,11 +308,17 @@
         </div>
       </Panel>
       <Panel name="5">
-        任务单备注
+        历史任务单
         <div slot="content">
-          <Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>
+          <origin-emp-task-info></origin-emp-task-info>
         </div>
       </Panel>
+      <!--<Panel name="5">-->
+        <!--任务单备注-->
+        <!--<div slot="content">-->
+          <!--<Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>-->
+        <!--</div>-->
+      <!--</Panel>-->
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -330,8 +336,10 @@
 <script>
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
 
   export default {
+    components: {originEmpTaskInfo},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
@@ -468,20 +476,20 @@
               }
             }
           },
-//          {title: '客户汇缴月', key: 'hfMonth', align: 'left',
-//            render: (h, params) => {
-//              return h('div', [
-//                h('Input', {
-//                  props: {value: params.row.hfMonth},
-//                  on: {
-//                    'on-blur': (event) => {
-//                      this.operatorListData[params.index].hfMonth = event.target.value
-//                    }
-//                  }
-//                }, params.row.hfMonth)
-//              ]);
-//            }
-//          },
+          {title: '客户汇缴月', key: 'hfMonth', align: 'left',
+            render: (h, params) => {
+              return h('div', [
+                h('Input', {
+                  props: {value: params.row.hfMonth},
+                  on: {
+                    'on-blur': (event) => {
+                      this.operatorListData[params.index].hfMonth = event.target.value
+                    }
+                  }
+                }, params.row.hfMonth)
+              ]);
+            }
+          },
           {title: '补缴基数', key: 'baseAmount', align: 'left',
             render: (h, params) => {
 //              return h('div', [
@@ -653,8 +661,9 @@
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;
           this.operatorListData = data.data.empTaskPeriods;
-          this.operatorListData.forEach((element, index, arry) => {
+          this.operatorListData.forEach((element, index, arr) => {
             this.getTotalAmount(index);
+            this.operatorListData[index].repairReason = '1';
           });
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
@@ -863,11 +872,30 @@
             this.$Message.error("操作栏补缴截止月份不能小于补缴起缴月份");
             return false;
           }
-          if (!this.displayVO.hfMonth || this.displayVO.hfMonth == '') {
-            this.$Message.error("客户汇缴月不能为空");
+//          if (!this.displayVO.hfMonth || this.displayVO.hfMonth == '') {
+//            this.$Message.error("客户汇缴月不能为空");
+//            return false;
+//          }
+          if (!this.operatorListData[i].hfMonth || this.operatorListData[i].hfMonth == '') {
+            this.$Message.error("操作栏客户汇缴月不能为空");
             return false;
           }
-          if (this.operatorListData[i].endMonth >= this.displayVO.hfMonth) {
+          if (this.displayVO.hfType == 1) {
+            if (this.operatorListData[i].hfMonth < this.displayVO.basicComHfMonth) {
+              this.$Message.error("操作栏客户汇缴月不能小于末次汇缴月（基本）");
+              return false;
+            }
+          } else {
+            if (this.operatorListData[i].hfMonth < this.displayVO.addedComHfMonth) {
+              this.$Message.error("操作栏客户汇缴月不能小于末次汇缴月（补充）");
+              return false;
+            }
+          }
+//          if (this.operatorListData[i].endMonth >= this.displayVO.hfMonth) {
+//            this.$Message.error("操作栏补缴截止月份必须小于客户汇缴月");
+//            return false;
+//          }
+          if (this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
             this.$Message.error("操作栏补缴截止月份必须小于客户汇缴月");
             return false;
           }

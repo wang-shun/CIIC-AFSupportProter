@@ -162,7 +162,7 @@
   import api from '../../../../api/social_security/employee_operator'
 
   export default {
-    components: {companyInfo, employeeInfo},
+    components: {companyInfo, employeeInfo, originEmpTaskInfo},
     data() {
       //办理日期
       const validateHandleMonth =(rule, value, callback)=>{

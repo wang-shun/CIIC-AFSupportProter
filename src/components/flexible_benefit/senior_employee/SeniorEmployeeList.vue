@@ -163,6 +163,12 @@
             }
           },
           {
+            title: "状态", sortable: true, key: "status", align: "center",
+            render: (h, params) => {
+              return h('div', this.statusToChina(params.row.status));
+            }
+          },
+          {
             title: "手机号", sortable: true, key: "mobile", align: "center"
           },
           {
@@ -348,7 +354,17 @@
           case 0:
             return "女";
         }
-      }
+      },
+      statusToChina(status) {
+        switch (status) {
+          case 2:
+            return '在职';
+          case 3:
+            return '离职';
+          default:
+            return '';
+        }
+      },
     }
   };
 </script>

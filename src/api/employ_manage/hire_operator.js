@@ -4,7 +4,7 @@ const AJAX = ajax.ajaxGyg;
 
 // const saveAmRemark = params => AJAX.postJSON("/api/employservice/amEmpTask/saveAmRemark", params);
 
-const  saveAmInjury  = params => AJAX.postJSON("/api/employservice/amArchiveTask/saveAmInjury", params);
+//const  saveAmInjury  = params => AJAX.postJSON("/api/employservice/amArchiveTask/saveAmInjury", params);
 
 const  saveAmEmpMaterial = params => AJAX.postJSON("/api/employservice/amArchiveTask/saveAmEmpMaterial", params);
 
@@ -88,8 +88,14 @@ export default {
   archiveDetailInfoQuery:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/archiveDetailInfoQuery', params);
     return await response.data;
-  },saveAmInjury
-  ,saveAmEmpMaterial
+  },saveAmInjury:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveTask/saveAmInjury', params);
+    return await response.data;
+  },queryAmInjury:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveTask/queryAmInjury', params);
+    return await response.data;
+  },
+   saveAmEmpMaterial
   , deleteAmInjury:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/deleteAmInjury', params);
     return await response.data;
@@ -230,6 +236,13 @@ export default {
   },
   batchCheck:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/batchCheck', params);
+    return await response.data;
+  },saveAmResignBatch:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amResignTask/saveAmResignBatch', params);
+    return await response.data;
+  },
+  batchCheck:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amResignTask/batchCheck', params);
     return await response.data;
   }
 

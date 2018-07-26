@@ -816,7 +816,7 @@ export default {
               if (
                 e.key === "title" &&
                 storeOrder[index].indexOf("title") != -1
-              ) {debugger
+              ) {
                 order = orders[1];
                 tableStyle.changeSortElementClass(0, idx-1, order);
                 break;

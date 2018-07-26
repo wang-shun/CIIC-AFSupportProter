@@ -228,7 +228,7 @@
             <Row>
               <Col :sm="{span: 24}">
                 <!--<Table border class="mt20" :columns="columnsEmpTaskPeriodAdd" :data="listEmpTaskPeriodAdd"></Table>-->
-                <origin-emp-task-info :companyId="this.$route.query.companyId" :employeeId="this.$route.query.employeeId" :hfType=1></origin-emp-task-info>
+                <origin-emp-task-info :companyId="this.$route.query.companyId" :employeeId="this.$route.query.employeeId" :hfType=2></origin-emp-task-info>
               </Col>
             </Row>
           </Form>

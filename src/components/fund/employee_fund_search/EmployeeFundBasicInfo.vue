@@ -149,7 +149,7 @@
         <div slot="content">
           <Form :label-width='150'>
             <Row type="flex" justify="start">
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}"
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="基本公积金账号：">
                   <Input v-model="viewEmpArchive.hfEmpAccount" ></Input>
                 </Form-item>
@@ -182,7 +182,8 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}">
-                <Table border class="mt20" :columns="columnsEmpTaskPeriod" :data="listEmpTaskPeriod"></Table>
+                <!--<Table border class="mt20" :columns="columnsEmpTaskPeriod" :data="listEmpTaskPeriod"></Table>-->
+                <origin-emp-task-info :companyId="this.$route.query.companyId" :employeeId="this.$route.query.employeeId" :hfType=1></origin-emp-task-info>
               </Col>
             </Row>
           </Form>
@@ -226,19 +227,20 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}">
-                <Table border class="mt20" :columns="columnsEmpTaskPeriodAdd" :data="listEmpTaskPeriodAdd"></Table>
+                <!--<Table border class="mt20" :columns="columnsEmpTaskPeriodAdd" :data="listEmpTaskPeriodAdd"></Table>-->
+                <origin-emp-task-info :companyId="this.$route.query.companyId" :employeeId="this.$route.query.employeeId" :hfType=1></origin-emp-task-info>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
-      <Panel name="5">
-        雇员任务单
-        <div slot="content">
-          <origin-emp-task-info :empArchiveId="this.$route.query.empArchiveId"></origin-emp-task-info>
-        </div>
-      </Panel>
-       <Panel name="6">
+      <!--<Panel name="5">-->
+        <!--雇员任务单-->
+        <!--<div slot="content">-->
+          <!--<origin-emp-task-info :empArchiveId="this.$route.query.empArchiveId"></origin-emp-task-info>-->
+        <!--</div>-->
+      <!--</Panel>-->
+       <Panel name="5">
         雇员基本/补充公积金转移
         <div slot="content">
           <Form :label-width='150'>

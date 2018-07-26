@@ -283,7 +283,8 @@ export default {
                       click: () => {
                         this.showInfo(
                           params.row.empArchiveId,
-                          params.row.companyId
+                          params.row.companyId,
+                          params.row.employeeId
                         );
                       }
                     }
@@ -586,12 +587,12 @@ export default {
       this.$refs[name].resetFields();
       this.searchCondition.serviceCenterValue='';
     },
-    showInfo(empArchiveId, companyId) {
+    showInfo(empArchiveId, companyId, employeeId) {
        sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
       sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
       this.$router.push({
         name: "employeeFundBasicInfo",
-        query: { empArchiveId: empArchiveId, companyId: companyId }
+        query: { empArchiveId: empArchiveId, companyId: companyId, employeeId: employeeId }
       });
     },
 
@@ -645,7 +646,7 @@ export default {
           this.isImported = true;
           this.retStr = data.message;
           this.isUpload = false;
-          
+
         })
         .catch(error => {
           this.$Message.error("系统异常！");

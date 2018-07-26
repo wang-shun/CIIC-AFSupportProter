@@ -3,7 +3,7 @@
     <Form :label-width=150 >
       <Row class="mt20" type="flex" justify="start">
         <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Table border width="1000" :columns="originEmpTaskColumns"
+        <Table border width="1300" :columns="originEmpTaskColumns"
                :data="originEmpTask"></Table>
         </Col>
       </Row>
@@ -35,11 +35,25 @@
   export default {
     name: 'origin-emp-task-info',
     props: {
-      empArchiveId: {
+      companyId: {
         require: true,
         type: String,
         default() {
           return ''
+        }
+      },
+      employeeId: {
+        require: true,
+        type: String,
+        default() {
+          return ''
+        }
+      },
+      hfType: {
+        require: true,
+        type: Number,
+        default() {
+          return 1
         }
       },
     },
@@ -187,6 +201,33 @@
             }
           },
           {
+            title: '企业比例',
+            key: 'ratioCom',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span',params.row.ratioCom)
+            }
+          },
+          {
+            title: '个人比例',
+            key: 'ratioEmp',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span',params.row.ratioEmp)
+            }
+          },
+          {
+            title: '金额',
+            key: 'amount',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span',params.row.amount)
+            }
+          },
+          {
             title: '发起时间',
             key: 'createdTime',
             align: 'center',
@@ -256,20 +297,20 @@
         })
       },
       getOriginEmpTaskList() {
-        if (this.empArchiveId && this.empArchiveId != '') {
-          api.getOriginEmpTaskList({
-            empArchiveId: this.empArchiveId
-          }).then(data => {
-            console.log(data)
-            if (data.code == 200) {
-              if (data.data) {
-                this.originEmpTask = data.data;
-              }
-            } else {
-              this.$Message.error(data.message);
+        api.getOriginEmpTaskList({
+          companyId: this.companyId,
+          employeeId: this.employeeId,
+          hfType: this.hfType
+        }).then(data => {
+          console.log(data)
+          if (data.code == 200) {
+            if (data.data) {
+              this.originEmpTask = data.data;
             }
-          })
-        }
+          } else {
+            this.$Message.error(data.message);
+          }
+        })
       }
     }
   }

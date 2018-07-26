@@ -663,7 +663,9 @@
           this.operatorListData = data.data.empTaskPeriods;
           this.operatorListData.forEach((element, index, arr) => {
             this.getTotalAmount(index);
-            this.operatorListData[index].repairReason = '1';
+            if (!this.operatorListData[index].repairReason || this.operatorListData[index].repairReason == '') {
+              this.operatorListData[index].repairReason = '1';
+            }
           });
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 

@@ -237,7 +237,7 @@
           paymentMonthMinShow: '',
           paymentMonthMax: '',
           paymentMonthMaxShow: '',
-          paymentState: '3',
+          paymentState: '',
           comAccountId: '',
           ssAccount:'',
           paymentBatchNum:'',
@@ -643,6 +643,7 @@
         }
       }
     },
+ 
     mounted() {
       this.getCustomers()
       this.loadDict();
@@ -654,18 +655,23 @@
         this.payComSearchData.paymentBatchNum=sessionStorage.getItem("PaymentBatch_paymentBatchNum");
         this.payComSearchData.paymentMonthMin=sessionStorage.getItem("PaymentBatch_paymentMonth");
         this.payComSearchData.paymentMonthMax=sessionStorage.getItem("PaymentBatch_paymentMonth");
+        //this.payComSearchData.paymentState=sessionStorage.getItem("PaymentBatch_paymentState");
         sessionStorage.setItem("PaymentBatch_paymentId",null);
         sessionStorage.setItem("PaymentBatch_paymentBatchNum",null);
         sessionStorage.setItem("PaymentBatch_paymentMonth",null);
+        sessionStorage.setItem("PaymentBatch_paymentState",null);
         this.payComSearchData.paymentId='';
         return;
       }
+     
       let queryMonth = new Date()
       queryMonth.setMonth(queryMonth.getMonth()-1);
       this.payComSearchData.paymentMonthMin=queryMonth;
       this.paymentComQuery();
+      
     },
     computed: {
+      
     },
     methods: {
      
@@ -689,6 +695,7 @@
             this.accountTypeList = data.data.SocialSecurityAccountType;
             sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
             sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
+           // this.payComSearchData.paymentState=3;
           }
         });
       },

@@ -384,6 +384,7 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
         sessionStorage.setItem("PaymentBatch_paymentId",row.paymentId);
         sessionStorage.setItem("PaymentBatch_paymentBatchNum",row.paymentBatchNum);
         sessionStorage.setItem("PaymentBatch_paymentMonth",row.paymentMonth);
+        sessionStorage.setItem("PaymentBatch_paymentState",row.paymentState);
         this.$emit('switchTab','paymentCom');
       },
       cancel () {

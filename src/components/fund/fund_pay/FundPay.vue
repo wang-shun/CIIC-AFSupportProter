@@ -772,13 +772,11 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        if(row.paymentState == 1 || row.paymentState == 4 ){
+        if(row.paymentState == 0 || row.paymentState == 1 || row.paymentState == 4 ){
           let params = {
             paymentId:row.paymentId,
             operator:""
           };
-
-
           FundPay.processApproval(params).then(data=>{
             this.$Message.success(data.message);
             this.queryData();
@@ -812,7 +810,7 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        if(row.paymentState == 5 || row.paymentState == 0){
+        if(row.paymentState == 5 || (row.paymentWay == 0 && row.paymentState==2)){
           let params = {
             paymentId:row.paymentId,
             operator:""

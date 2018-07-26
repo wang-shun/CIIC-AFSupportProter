@@ -1,5 +1,5 @@
 <template>
-  <div class="smList">
+  <div class="smList" >
     <Tabs v-model="tab" @on-click="onClickO">
       <TabPane label="未处理" name="noprogress">
         <noprogress v-if="isNoprogress"></noprogress>

@@ -26,6 +26,19 @@
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
         <Button type="info" @click="printLabel">打印贴头</Button>
+        <Dropdown @on-click="exportTable">
+          <Button type="info">
+            生成导出文件
+            <Icon type="arrow-down-b"></Icon>
+          </Button>
+          <DropdownMenu slot="list">
+            <DropdownItem name="1">用工录用名册</DropdownItem>
+            <DropdownItem name="2">派遣录用名册</DropdownItem>
+            <DropdownItem name="3">外来独立</DropdownItem>
+            <DropdownItem name="4">外来派遣</DropdownItem>
+            <DropdownItem name="5">采集表汇总表</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
@@ -688,9 +701,13 @@ export default {
       this.orderConditions = [];
       this.searchConditions = [];
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-      var isFinish = JSON.parse(sessionStorage.getItem("employmentIsFinish" + userInfo.userId));
+      var isFinish = JSON.parse(
+        sessionStorage.getItem("employmentIsFinish" + userInfo.userId)
+      );
       var conditions = sessionStorage.getItem("employment" + userInfo.userId);
-      var storeOrder = JSON.parse(sessionStorage.getItem("employmentOrder" + userInfo.userId));
+      var storeOrder = JSON.parse(
+        sessionStorage.getItem("employmentOrder" + userInfo.userId)
+      );
       if (conditions !== null) {
         for (var i = 0; i < conditions.length; i++)
           this.searchConditions.push(conditions[i].exec);
@@ -758,6 +775,46 @@ export default {
         "employmentOrder" + userInfo.userId,
         JSON.stringify(this.orderConditions)
       );
+    },
+    //生成导出文件
+    exportTable(name) {
+      switch (parseInt(name)) {
+        case 1:
+          // 用工录用名册
+          api.employSearchExportOptUseWord();
+          break;
+        case 2:
+          // 派遣录用名册
+          api.employSearchExportOptDispatchWord();
+          break;
+        case 3:
+          // 外来独立
+          api.employSearchExportOptAlonehWord();
+          break;
+        case 4:
+          // 外来派遣
+          api.employSearchExportOptExtDispatchWord();
+          break;
+        case 5:
+          // 采集表 汇总表
+          api.employSearchExportOptExtCollectWord();
+          break;
+        default:
+          break;
+      }
+    },
+    exportData() {
+      let params = this.searchCondition;
+      api.employSearchExportOpt(params);
+    },
+    resetSearchCondition(name) {
+      this.$refs[name].resetFields();
+    },
+    showInfo(ind) {
+      this.$router.push({
+        name: "employeeSocialSecurityInfo",
+        query: { empArchiveId: ind }
+      });
 
       if (this.orderConditions.length > 0) {
         for (let index in this.orderConditions) {
@@ -787,7 +844,6 @@ export default {
         });
     },
     changeSortClass(storeOrder) {
-      
       this.employmentColumns.forEach((e, idx) => {
         let order = "normal";
         if (storeOrder == null) {
@@ -800,7 +856,7 @@ export default {
                 storeOrder[index].indexOf("employee_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
 
@@ -809,7 +865,7 @@ export default {
                 storeOrder[index].indexOf("company_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
 
@@ -818,7 +874,7 @@ export default {
                 storeOrder[index].indexOf("title") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
 
@@ -827,7 +883,7 @@ export default {
                 storeOrder[index].indexOf("employment_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
 
@@ -836,7 +892,7 @@ export default {
                 storeOrder[index].indexOf("employee_name") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
 
@@ -845,7 +901,7 @@ export default {
                 storeOrder[index].indexOf("id_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
 
@@ -854,7 +910,7 @@ export default {
                 storeOrder[index].indexOf("doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
 
@@ -863,7 +919,7 @@ export default {
                 storeOrder[index].indexOf("yuliu_doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
 
@@ -872,7 +928,7 @@ export default {
                 storeOrder[index].indexOf("employ_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
 
@@ -881,7 +937,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
 
@@ -890,7 +946,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass(0, idx - 1, order);
                 break;
               }
             }

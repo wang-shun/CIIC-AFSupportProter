@@ -37,7 +37,7 @@
       </Panel>
     </Collapse>
 
-    <div class="floatRightBtns">
+    <div class="tr mt20 mb20">
       <router-link to="/AddPolicy">
         <Button type="primary" size="large">上一步</Button>
       </router-link>

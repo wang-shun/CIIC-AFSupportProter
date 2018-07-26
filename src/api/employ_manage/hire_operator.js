@@ -122,6 +122,21 @@ export default {
   employSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOpt', params);
   },
+  employSearchExportOptUseWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptUseWord', params);
+  },
+  employSearchExportOptDispatchWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptDispatchWord', params);
+  },
+  employSearchExportOptAlonehWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptAlonehWord', params);
+  },
+  employSearchExportOptExtDispatchWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtDispatchWord', params);
+  },
+  employSearchExportOptExtCollectWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtCollectWord', params);
+  },
   resignSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amResignTask/resignSearchExportOpt', params);
   },
@@ -207,6 +222,11 @@ export default {
   // 续签Ukey
   amArchiveUkeyRenew:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveUkey/amArchiveUkeyRenew', params);
+    return await response.data;
+  },
+   // 根据公司编号名称查询组织机构代码
+   queryOrganizationCodeByCid:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveUkey/queryOrganizationCodeByCid', params);
     return await response.data;
   },
   saveBatchEmploy,

@@ -46,7 +46,7 @@
         </div>
       </Panel>
     </Collapse>
-    <div class="floatRightBtns">
+    <div class="tr mt20 mb20">
       <Button type="primary" size="large" @click="exportData(1)" icon="ios-download-outline">导出数据</Button>
       <router-link to="/policyManagement">
         <Button type="primary">上一步</Button>

@@ -1,10 +1,8 @@
 <template>
-  <div class="layout" :class="{'layout-hide-text': spanLeft < 4}" style="height: 100%">
+  <div class="layout" :class="{'layout-hide-text': spanLeft < 4}">
     <div class="layout-ceiling layoutMenuLeft">
       <Row type="flex" class="topFlex">
-        <i-col :span="spanLeft" class="layout-menu-left">
-          <div data-v-3413f463="" class="layout-menu-left ivu-col ivu-col-span-4"></div>
-        </i-col>
+        <i-col :span="spanLeft" class="layout-menu-left"></i-col>
         <i-col :span="spanRight">
           <i-button type="text" @click="toggleClick">
             <Icon type="navicon" size="32"></Icon>
@@ -24,66 +22,69 @@
           <div class="layout-ceiling-main Badge">
             <ul>
               <!--<li>-->
-              <!--<a :href="`${ipPrefix}:8100/#/pending_approves`">-->
-              <!--<Badge dot>-->
-              <!--<Tooltip content="" placement="bottom" transfer>-->
-              <!--<Icon type="ios-compose-outline" :size="size"></Icon>-->
-              <!--<div slot="content">-->
-              <!--<p>我的审批</p>-->
-              <!--</div>-->
-              <!--</Tooltip>-->
-              <!--</Badge>-->
-              <!--</a>-->
+                <!--<a href="http://172.16.9.25:8100/#/pending_approves">-->
+                  <!--<Badge dot>-->
+                    <!--<Tooltip content="" placement="bottom" transfer>-->
+                      <!--<Icon type="ios-compose-outline" :size="size"></Icon>-->
+                      <!--<div slot="content">-->
+                        <!--<p>我的审批</p>-->
+                      <!--</div>-->
+                    <!--</Tooltip>-->
+                  <!--</Badge>-->
+                <!--</a>-->
               <!--</li>-->
               <!--<li>-->
-              <!--<Badge dot>-->
-              <!--<Poptip trigger="hover" title="" placement="bottom" transfer>-->
-              <!--<Icon type="ios-list-outline" :size="size"></Icon>-->
-              <!--<div slot="content">-->
-              <!--<a class="inPoptip" href="javascript:;" @click="isActive = !isActive">我的任务单 {{isActive ? "▲" : "▼"}}</a>-->
-              <!--<div :class="[isActive ? 'changeToH' : 'changeToZ', 'myTaskList']">-->
-              <!--<a :href="task.url" v-for="(task, index) in tasks" :key="index">{{task.label}}</a>-->
-              <!--</div>-->
-              <!--</div>-->
-              <!--</Poptip>-->
-              <!--</Badge>-->
+                <!--<Badge dot>-->
+                  <!--<Poptip trigger="hover" title="" placement="bottom" transfer>-->
+                    <!--<Icon type="ios-list-outline" :size="size"></Icon>-->
+                    <!--<div slot="content">-->
+                      <!--<a class="inPoptip" href="javascript:;"-->
+                      <!--&gt;我的任务单</a>-->
+                      <!--&lt;!&ndash; <div :class="[isActive ? 'changeToH' : 'changeToZ', 'myTaskList']">-->
+                        <!--<a :href="task.url" v-for="(task, index) in taskList" :key="index">{{task.label}}</a>-->
+                      <!--</div> &ndash;&gt;-->
+                    <!--</div>-->
+                  <!--</Poptip>-->
+                <!--</Badge>-->
               <!--</li>-->
               <!--<li>-->
-              <!--<a href="javascript:;" @click="openMessageBox">-->
-              <!--<Badge count="3" overflow-count="99">-->
-              <!--<Tooltip trigger="hover" title="" content="站内信" placement="bottom" transfer>-->
-              <!--<Icon type="ios-email-outline" :size="size"></Icon>-->
-              <!--</Tooltip>-->
-              <!--</Badge>-->
-              <!--</a>-->
+                <!--<a href="javascript:;" >-->
+                  <!--<Badge count="3" overflow-count="99">-->
+                    <!--<Tooltip trigger="hover" title="" content="站内信" placement="bottom" transfer>-->
+                      <!--<Icon type="ios-email-outline" :size="size"></Icon>-->
+                    <!--</Tooltip>-->
+                  <!--</Badge>-->
+                <!--</a>-->
               <!--</li>-->
               <!--<li>-->
-              <!--<Badge>-->
-              <!--<Tooltip trigger="hover" title="" content="用户手册" placement="bottom" transfer>-->
-              <!--<Icon type="ios-help-outline" :size="size" @on-click="openMessageBox"></Icon>-->
-              <!--</Tooltip>-->
-              <!--</Badge>-->
+                <!--<Badge>-->
+                  <!--<Tooltip trigger="hover" title="" content="用户手册" placement="bottom" transfer>-->
+                    <!--<Icon type="ios-help-outline" :size="size" ></Icon>-->
+                  <!--</Tooltip>-->
+                <!--</Badge>-->
               <!--</li>-->
-              <li class="userCenter">
-                <Dropdown placement="bottom-start" @on-click="userCenterHandler" transfer>
-                  <div class="user-panel user">
-                    <div class="image">
-                      <img :src="(userInfo.headPortrait !== undefined && userInfo.headPortrait !== null) ? userInfo.headPortrait : ''" alt="User Image" class="img-circle">
-                      <span>{{(userInfo.displayName !== undefined && userInfo.displayName !== null) ? userInfo.displayName : ''}}</span>
+              <li>
+                <div class="user-panel user">
+                  <Dropdown @on-click="userCenterHandler" transfer>
+                    <div>
+                      <div class="image">
+                        <img :src="(userInfo.headPortrait !== undefined && userInfo.headPortrait !== null) ? userInfo.headPortrait : 'static/img/defaultPortal.jpg'" alt="" />
+                        <span>欢迎您！{{(userInfo.displayName !== undefined && userInfo.displayName !== null) ? userInfo.displayName : ''}}</span>
+                      </div>
                     </div>
-                  </div>
-                  <Dropdown-menu slot="list">
-                    <Dropdown-item name="modifyPassword">修改密码</Dropdown-item>
-                    <Dropdown-item divided name="logout">退出</Dropdown-item>
-                  </Dropdown-menu>
-                </Dropdown>
+                    <Dropdown-menu slot="list">
+                      <Dropdown-item name="modifyPassword">修改密码</Dropdown-item>
+                      <Dropdown-item divided name="logout">退出</Dropdown-item>
+                    </Dropdown-menu>
+                  </Dropdown>
+                </div>
               </li>
             </ul>
           </div>
         </i-col>
       </Row>
     </div>
-    <Row style="height: 100%;">
+    <Row type="flex">
       <i-col :span="spanLeft" class="layout-menu-left">
         <Menu theme="dark" width="auto" class="menuSet" :class="{'removeArror': spanLeft < 3}" accordion
               :open-names="openNames"
@@ -111,32 +112,24 @@
                     </Submenu> -->
         </Menu>
       </i-col>
-      <i-col :span="spanRight" style="height: 100%; overflow-y: scroll">
+      <i-col :span="spanRight">
+        <div class="layout-breadcrumb">
+          <Breadcrumb separator="">
+            <Breadcrumb-item class="breadcrumbItem" @click="setIndex">
+              <Icon type="ios-home"></Icon>
+              <router-link to="/main" id="level1" v-menuInner="{set:setIndex}" class="breadcrumbLink">{{breadCrumb1}}</router-link>
+            </Breadcrumb-item>
+            <Breadcrumb-item v-show="breadCrumbBoolean2" id="level2" class="breadcrumbItem">
+              <Icon type="ios-arrow-right"></Icon>{{breadCrumb2}}
+            </Breadcrumb-item>
+            <Breadcrumb-item v-show="breadCrumbBoolean3" id="level3" class="breadcrumbItem">
+              <Icon type="ios-location"></Icon>{{breadCrumb3}}
+            </Breadcrumb-item>
+          </Breadcrumb>
+        </div>
         <div class="layout-content" >
-          <div class="wrapper">
-            <div class="layout-breadcrumb">
-              <Breadcrumb separator="">
-                <Breadcrumb-item class="breadcrumbItem" @click="setIndex">
-                  <Icon type="ios-home"></Icon>
-                  <router-link to="/main" id="level1" v-menuInner="{set:setIndex}" class="breadcrumbLink">
-                    {{breadCrumb1}}
-                  </router-link>
-                </Breadcrumb-item>
-                <Breadcrumb-item v-show="breadCrumbBoolean2" id="level2" class="breadcrumbItem">
-                  <Icon type="ios-arrow-right"></Icon>
-                  {{breadCrumb2}}
-                </Breadcrumb-item>
-                <Breadcrumb-item v-show="breadCrumbBoolean3" id="level3" class="breadcrumbItem">
-                  <Icon type="ios-location"></Icon>
-                  {{breadCrumb3}}
-                </Breadcrumb-item>
-              </Breadcrumb>
-            </div>
-            <div class="layout-content-main">
-              <!--<transition name="fade" mode="out-in">-->
-              <router-view :key="key"></router-view>
-              <!--</transition>-->
-            </div>
+          <div class="layout-content-main">
+            <router-view :key="key"></router-view>
           </div>
           <div class="layout-copy">
             <span>2017 &copy; 中智上海经济技术合作有限公司</span>
@@ -240,9 +233,9 @@ export default {
       let menuTree = allMenu.filter(menu => {
         return menu.menuLevel === 1
       });
-      let tmpLevel2 = allMenu.filter(menu => {
-        return menu.menuLevel === 2
-      });
+//      let tmpLevel2 = allMenu.filter(menu => {
+//        return menu.menuLevel === 2
+//      });
       menuTree.forEach(level => {
         level['children'] = []
       });
@@ -250,13 +243,18 @@ export default {
         menuTree[i]['id'] = i + 1
         menuTree[i]['key'] = menuTree[i].menuName
         menuTree[i]['icon'] = menuTree[i].imageUrl
+
+        let tmpLevel2 = allMenu.filter(menu => {
+          return menu.menuLevel === 2 && menu.parentMenuCode === menuTree[i].menuCode
+        });
+
         for (let j = 0, level2Length = tmpLevel2.length; j < level2Length; j++) {
-          if (menuTree[i].menuCode === tmpLevel2[j].parentMenuCode) {
+//          if (menuTree[i].menuCode === tmpLevel2[j].parentMenuCode) {
             tmpLevel2[j]['cid'] = `${i + 1}-${j + 1}`
             tmpLevel2[j]['ckey'] = tmpLevel2[j].menuName
             tmpLevel2[j]['crouter'] = tmpLevel2[j].linkUrl
             menuTree[i]['children'].push(tmpLevel2[j])
-          }
+//          }
         }
       }
       return menuTree
@@ -394,216 +392,4 @@ export default {
 </script>
 <style scoped>
 .crossFrame {display: none; position: absolute; z-index: 999; top: -999px; left: -999px;}
-.layout {
-  background: #f5f7f9;
-  position: relative;
-  border-radius: 4px;
-  overflow: hidden;
-}
-.layout-logo {
-  width: 100px;
-  height: 30px;
-  background: #5b6270;
-  border-radius: 3px;
-  float: left;
-  position: relative;
-  top: 15px;
-  left: 20px;
-}
-.layout-header {
-  height: 60px;
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-}
-.layout-ceiling {
-  /* overflow: hidden;  */
-}
-.layout-ceiling-main {
-  float: right;
-  /* margin-right: 15px; */
-}
-.layout-ceiling-main a {
-  color: #fff;
-}
-.layout-breadcrumb {
-  padding: 10px 15px 0;
-}
-.layout-content {
-  min-height: 200px;
-  margin: 15px;
-  overflow: hidden;
-  background: #fff;
-  border-radius: 4px;
-}
-
-.layout-content::-webkit-scrollbar {
-  width: 10px;
-}
-
-.layout-content::-webkit-scrollbar-thumb {
-  width: 10px;
-}
-
-.layout-content-main {
-  padding: 10px;
-}
-.layout-copy {
-  text-align: center;
-  padding: 10px 0 20px;
-  color: #9ea7b4;
-}
-.layout-menu-left {
-  background: #1a2226;
-  height: 100%;
-}
-.layout-header {
-  height: 60px;
-  background: #fff;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-}
-.layout-logo-left {
-  width: 90%;
-  height: 30px;
-  background: #5b6270;
-  border-radius: 3px;
-  margin: 15px auto;
-}
-.layout-hide-text .layout-text {
-  /* animation:show 2s linear;
-     -webkit-animation:show 2s linear;
-     -webkit-transition: all 2s; */
-  display: none;
-}
-@keyframes show {
-  from {
-    height: 100%;
-  }
-  to {
-    height: 0;
-  }
-}
-@-webkit-keyframes show {
-  from {
-    height: 100%;
-  }
-  to {
-    height: 0;
-  }
-}
-.ivu-col {
-  transition: width .2s ease-in-out;
-}
-.ivu-col-span-4 {
-  float: left;
-  -ms-flex: 0 0 auto;
-  flex: 0 0 auto
-}
-.ivu-menu-dark {
-  background: #222d32;
-  border-left: 2px solid #222d32;
-  border-right: none;
-}
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item-active:not(.ivu-menu-submenu),
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title-active:not(.ivu-menu-submenu) {
-  background: #1e282c;
-  border-right: none;
-  color: #fff;
-}
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-item:hover,
-.ivu-menu-dark.ivu-menu-vertical .ivu-menu-submenu-title:hover,
-.ivu-menu-opened:hover {
-  background: #1a2226;
-  border-right: none;
-}
-.ivu-btn-text {
-  color: #fff;
-}
-.layoutMenuLeft img {
-  vertical-align: middle
-}
-.layoutMenuLeft .ivu-col {
-  background: #3c8dbc;
-}
-.layoutMenuLeft .layout-menu-left {
-  background: #367fa9 url(/static/img/support_center.jpg) no-repeat 100%
-}
-.ivu-badge {
-  color: #fff;
-  margin-right: 20px;
-}
-.logoFonts {
-  color: #fff;
-  font-size: 18px;
-}
-.wrapper {
-  min-height: 94%;
-  height: auto !important;
-  height: 100%;
-}
-.bold {
-  font-size: 16px;
-}
-.ivu-dropdown-item {
-  width: 100%;
-  text-align: center;
-}
-.ivu-tooltip-inner {
-  min-width: inherit;
-}
-.breadcrumbItem {
-  padding: 2px;
-}
-.breadcrumbLink {
-  color: #2d8cf0;
-}
-.inPoptip {
-  font-size: 12px;
-  line-height: 30px;
-  text-align: center;
-  height: 30px;
-  display: block;
-  color: #666;
-}
-.inPoptip:hover {
-  color: #2d8cf0;
-}
-.myTaskList {
-  height: 0;
-  overflow-y: auto;
-}
-.myTaskList a {
-  font-size: 12px;
-  line-height: 40px;
-  text-align: center;
-  color: #666;
-  display: block;
-  height: 40px;
-  border-bottom: 1px dotted #eee;
-  background: #eee;
-}
-.myTaskList a:hover {
-  color: #2d8cf0;
-}
-.changeToH {
-  animation: changeToHeight 0.5s ease 0s 1 alternate forwards;
-}
-.changeToZ {
-  animation: changeToZero 0s ease 0s 1 alternate forwards;
-}
-@keyframes changeToHeight {
-  from {
-    height: 0;
-  }
-  to {
-    height: 170px;
-  }
-}
-@keyframes changeToZero {
-  from {
-    height: 170px;
-  }
-  to {
-    height: 0;
-  }
-}
 </style>

@@ -155,13 +155,21 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/authority/getSsCustomerData', params);
     return await response.data;
   },
-  queryHistoryEmpTask: async (params)=>{
-    let response = await AJAX.post('/api/soccommandservice/ssEmpTask/queryHistoryEmpTask', params);
+  queryHistoryEmpTaskList: async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/ssEmpTask/queryHistoryEmpTaskList', params);
     return await response.data;
   },
   getOriginEmpTask: async (params)=>{
     let response = await AJAX.post('/api/soccommandservice/ssEmpTask/getOriginEmpTask', params);
     return await response.data;
-  }
+  },
+  getOriginEmpTaskList: async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/getOriginEmpTaskList', params);
+    return await response.data;
+  },
+  queryHistoryEmpTask: async (params)=>{
+    let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/queryHistoryEmpTask', params);
+    return await response.data;
+  },
 }
 

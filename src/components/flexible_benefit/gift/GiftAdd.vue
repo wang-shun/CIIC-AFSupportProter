@@ -14,6 +14,11 @@
           </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="成本价：" prop="costPrice">
+            <Input v-model="formItem.costPrice" placeholder="请输入"/>
+          </Form-item>
+          </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="适用人群：" prop="rightPerson">
             <Select v-model="formItem.rightPerson" placeholder="请选择">
               <Option v-for="item in rightPersonTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -87,6 +92,7 @@
         formItem: {
           giftName: "",//礼品名称
           price: 0,//价格
+          costPrice: 0,//成本价
           rightPerson: "",//使用人群
           giftType: "",//礼品类型
           color: "",//颜色

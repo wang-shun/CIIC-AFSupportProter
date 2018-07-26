@@ -52,6 +52,11 @@
                   <label>{{$route.query.createdBy}}</label>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="退回寄出地日期：">
+                  <label>{{$route.query.exitThePlaceDate}}</label>
+                </Form-item>
+              </Col>
             </Row>
             <Row class="mt20">
               <Col :sm="{span: 24}" class="tr">

@@ -808,7 +808,9 @@
           this.operatorListData = data.data.empTaskPeriods;
           this.operatorListData.forEach((element, index, arr) => {
             if (this.operatorListData[index].remitWay == 2 ) {
-              this.operatorListData[index].repairReason = '1';
+              if (!this.operatorListData[index].repairReason || this.operatorListData[index].repairReason == '') {
+                this.operatorListData[index].repairReason = '1';
+              }
             }
           });
           this.taskListNotesChangeData = data.data.empTaskRemarks;
@@ -879,11 +881,12 @@
         let hfMonth;
         if (this.displayVO.hfType == 1) {
           hfMonth = this.displayVO.basicComHfMonth;
+
+          if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.displayVO.hfAccountType == 3) {
+            hfMonth = api.plusMonths(hfMonth, 1);
+          }
         } else {
           hfMonth = this.displayVO.addedComHfMonth;
-        }
-        if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.displayVO.hfAccountType == 3) {
-          hfMonth = api.plusMonths(hfMonth, 1);
         }
 
         this.operatorListData.push({

@@ -647,10 +647,16 @@
       this.getCustomers()
       this.loadDict();
       let paymentId=sessionStorage.getItem("PaymentBatch_paymentId");
-      if(paymentId){
+      if(paymentId!='null'){
+
         this.payComSearchData.paymentId=paymentId;
         this.paymentComQuery();
+        this.payComSearchData.paymentBatchNum=sessionStorage.getItem("PaymentBatch_paymentBatchNum");
+        this.payComSearchData.paymentMonthMin=sessionStorage.getItem("PaymentBatch_paymentMonth");
+        this.payComSearchData.paymentMonthMax=sessionStorage.getItem("PaymentBatch_paymentMonth");
         sessionStorage.setItem("PaymentBatch_paymentId",null);
+        sessionStorage.setItem("PaymentBatch_paymentBatchNum",null);
+        sessionStorage.setItem("PaymentBatch_paymentMonth",null);
         this.payComSearchData.paymentId='';
         return;
       }

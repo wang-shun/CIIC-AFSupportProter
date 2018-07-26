@@ -146,7 +146,7 @@
   const HANDLE_TITLE = "补缴";
 
   export default {
-    components: {companyInfo, employeeInfo},
+    components: {companyInfo, employeeInfo, originEmpTaskInfo},
     data() {
       return {
         handleTitle:HANDLE_TITLE,

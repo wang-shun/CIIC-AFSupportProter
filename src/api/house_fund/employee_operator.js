@@ -109,11 +109,11 @@ export default {
     let response = await AJAX.post('/api/fundcommandservice/hfauthority/hfsaveAuthority', params);
     return await response.data;
   },
-  //保存配置权限客户列表
-  hfsaveAuthority:async (params)=>{
-    let response = await AJAX.post('/api/fundcommandservice/hfauthority/hfsaveAuthority', params);
-    return await response.data;
-  },
+  // //保存配置权限客户列表
+  // hfsaveAuthority:async (params)=>{
+  //   let response = await AJAX.post('/api/fundcommandservice/hfauthority/hfsaveAuthority', params);
+  //   return await response.data;
+  // },
   //保存配置权限 类型为 福利办理方
   hfsaveAuthorityWelfareUnit:async (params)=>{
     let response = await AJAX.post('/api/fundcommandservice/hfauthority/saveAuthorityWelfareUnit', params);
@@ -138,5 +138,13 @@ export default {
     let response = await AJAX.post('/api/fundcommandservice/hfauthority/getHfCustomerData', params);
     return await response.data;
   },
+  queryHistoryEmpTask: async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpArchive/queryHistoryEmpTask', params);
+    return await response.data;
+  },
+  getOriginEmpTaskList: async (params)=>{
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpArchive/getOriginEmpTaskList', params);
+    return await response.data;
+  }
 }
 

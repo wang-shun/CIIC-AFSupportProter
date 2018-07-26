@@ -11,26 +11,8 @@
         雇员信息
         <div slot="content">
           <employee-info :operatorType='operatorType' :employee="employee"></employee-info>
-        </div>
-      </Panel>
-      <Panel name="3">
-        雇员未做任务单
-        <div slot="content">
+
           <Form :label-width=150 >
-          <Row class="mt20" type="flex" justify="start">
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Table border width="1200" :columns="theSameTaskListColumns"
-                     :data="socialSecurityPayOperator.theSameTask"></Table>
-              </Col>
-          </Row>
-          </Form>
-        </div>
-      </Panel>
-      <Panel name="4">
-        任务单参考信息
-        <div slot="content">
-                     <!--  v-if="operatorType === '1' || operatorType === '2'" -->
-            <Form :label-width=150 >
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="开AF单日期：">
@@ -58,6 +40,41 @@
               </Form-item>
               </Col>
             </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="3">
+        任务单参考信息
+        <div slot="content">
+                     <!--  v-if="operatorType === '1' || operatorType === '2'" -->
+            <Form :label-width=150 >
+            <!--<Row class="mt20" type="flex" justify="start">-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="开AF单日期：">-->
+                <!--<label>{{reworkInfo.openAfDate}}</label>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="存档地：">-->
+                <!--<label>{{reworkInfo.archivePlace}}</label>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="工资：">-->
+                <!--<label>{{reworkInfo.salary}}</label>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="用工状态：">-->
+                <!--<label>{{this.$decode.recruitAndUseStatus(reworkInfo.taskCategory, reworkInfo.taskStatus)}}</label>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
+              <!--<Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">-->
+              <!--<Form-item label="用工成功日期：">-->
+                <!--<label>{{reworkInfo.employFeedbackOptDate}}</label>-->
+              <!--</Form-item>-->
+              <!--</Col>-->
+            <!--</Row>-->
             <Row>
               <Col :sm="{span: 13}">
               <Table border width="601" :columns="taskNewInfoColumns" :data="taskNewInfoData"></Table>
@@ -66,7 +83,7 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="5">
+      <Panel name="4">
         社保缴纳操作
         <div slot="content">
           <Form :label-width=150>
@@ -191,6 +208,25 @@
           </Form>
         </div>
       </Panel>
+      <Panel name="5">
+        历史任务单
+        <div slot="content">
+          <origin-emp-task-info :empTaskId="this.$route.query.empTaskId"></origin-emp-task-info>
+        </div>
+      </Panel>
+      <Panel name="6">
+        雇员未做任务单
+        <div slot="content">
+          <Form :label-width=150 >
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Table border width="1200" :columns="theSameTaskListColumns"
+                     :data="socialSecurityPayOperator.theSameTask"></Table>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -205,16 +241,16 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
   import companyInfo from '../../components/CompanyInfo.vue'
   import employeeInfo from '../../components/EmployeeInfo.vue'
-
-  import EventTypes from '../../../../store/event_types'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
+//  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
   import dict from '../../../../api/dict_access/social_security_dict'
 
   export default {
-    components: {companyInfo, employeeInfo},
+    components: {companyInfo, employeeInfo, originEmpTaskInfo},
     data() {
       return {
         empTaskId: '',
@@ -222,7 +258,7 @@
         currentIndex: this.$route.params.index,
         isNextMonth:this.$route.query.isNextMonth,
         sourceFrom: '',
-        collapseInfo: [1, 2, 3, 4,5],
+        collapseInfo: [1, 2, 3, 4, 5, 6],
         employee: {
           idNum:'',
           education:'',
@@ -240,14 +276,14 @@
         //用退工信息
         reworkInfo:{},
         taskNewInfo: {
-        afDate: '2017-12-01',
-        storePlace: '外来从业人员',
-        salary:'18000',
-        jobState: '已用工',
-        jobDate: '2017-12-01'
-      },
+          afDate: '2017-12-01',
+          storePlace: '外来从业人员',
+          salary:'18000',
+          jobState: '已用工',
+          jobDate: '2017-12-01'
+        },
         SocialSecurityEmployeeClassify: [],
-      taskNewInfoData: [], //任务单参考信息 -- 新增
+        taskNewInfoData: [], //任务单参考信息 -- 新增
         taskCategoryType: [
           {value: '1', label: '新进'},
           {value: '2', label: '转入'},
@@ -258,7 +294,6 @@
           {value: 1, label: '退休'},
           {value: 2, label: '终止'}
         ], //特殊变更类型：
-
         operatorListColumns: [
           {
             title: '', key: 'remitWay', align: 'center', width: 100,
@@ -453,7 +488,6 @@
         }
       })
       this.initData(this.$route.query)
-
       if(this.operatorType=='12'||this.operatorType=='13'){
         this.taskCategoryType=[{value: '12', label: '翻牌新进'},{value: '13', label: '翻牌转入'}]
       }else{

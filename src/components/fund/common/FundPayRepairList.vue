@@ -2,9 +2,9 @@
   <div>
     <h2 class="tc">上海市住房公积金补缴清册</h2>
     <div class="listHead">
-      <p class="tl w50"><span class="strong">单位名称：</span>{{fundPayRepair.companyName}}</p>
+      <p class="tl w50"><span class="fb">单位名称：</span>{{fundPayRepair.companyName}}</p>
       <p class="tr w50">{{fundPayRepair.listId}}</p>
-      <p class="tl w30"><span class="strong">单位(住房)公积金账号：</span>{{fundPayRepair.basicFundAccount}}</p>
+      <p class="tl w30"><span class="fb">单位(住房)公积金账号：</span>{{fundPayRepair.basicFundAccount}}</p>
       <p class="tc w35">{{fundPayRepair.payYear}}　年　{{fundPayRepair.payMonth}}　月　{{fundPayRepair.payDay}}　日</p>
       <p class="tr w30">共　{{fundPayRepair.amountPage}}　页　第　{{fundPayRepair.currentPage}}　页</p>
     </div>
@@ -60,22 +60,22 @@
     </table>
     <div class="tl mt50">
       <p class="dib w33">
-        <span class="strong">填写表人：</span>　{{fundPayRepair.maker}}
+        <span class="fb">填写表人：</span>　{{fundPayRepair.maker}}
       </p>
       <p class="dib w33">
-        <span class="strong">市或区县中心审核人：</span>
+        <span class="fb">市或区县中心审核人：</span>
       </p>
       <p class="dib w33">
-        <span class="strong">建行经办人：</span>
+        <span class="fb">建行经办人：</span>
       </p>
       <p class="dib w33">
-        <span class="strong">单位盖章：</span>
+        <span class="fb">单位盖章：</span>
       </p>
       <p class="dib w33">
-        <span class="strong">市或区县中心盖章：</span>
+        <span class="fb">市或区县中心盖章：</span>
       </p>
       <p class="dib w33">
-        <span class="strong">建行经办行盖章：</span>
+        <span class="fb">建行经办行盖章：</span>
       </p>
     </div>
   </div>

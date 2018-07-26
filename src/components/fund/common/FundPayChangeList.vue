@@ -2,10 +2,10 @@
   <div>
     <h2 class="tc">上海市公积金汇缴变更清册</h2>
     <div class="listHead">
-      <p class="tl w50"><span class="strong">单位名称：</span>{{fundPayChange.companyName}}</p>
+      <p class="tl w50"><span class="fb">单位名称：</span>{{fundPayChange.companyName}}</p>
       <p class="tr w50">{{fundPayChange.listId}}</p>
-      <p class="tl w35"><span class="strong">基本住房公积金账号：</span>{{fundPayChange.basicFundAccount}}</p>
-      <p class="tc w35"><span class="strong">缴交日期：</span>　{{fundPayChange.payYear}}　年　{{fundPayChange.payMonth}}　月</p>
+      <p class="tl w35"><span class="fb">基本住房公积金账号：</span>{{fundPayChange.basicFundAccount}}</p>
+      <p class="tc w35"><span class="fb">缴交日期：</span>　{{fundPayChange.payYear}}　年　{{fundPayChange.payMonth}}　月</p>
       <p class="tr w30">共　{{fundPayChange.amountPage}}　页　第　{{fundPayChange.currentPage}}　页</p>
     </div>
     <table border="1" cellspacing="0" cellpading="0">
@@ -68,9 +68,9 @@
       </tr>
     </table>
     <div class="tr mt50">
-      <span class="strong">制表：</span>　{{fundPayChange.maker}}
-      <span class="strong ml150">单位盖章：</span>
-      <span class="strong ml150">制表日期：</span>{{fundPayChange.makeDate}}</div>
+      <span class="fb">制表：</span>　{{fundPayChange.maker}}
+      <span class="fb ml150">单位盖章：</span>
+      <span class="fb ml150">制表日期：</span>{{fundPayChange.makeDate}}</div>
   </div>
 </template>
 <script>

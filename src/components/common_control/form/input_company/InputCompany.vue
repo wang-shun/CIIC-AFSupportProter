@@ -7,6 +7,7 @@
       :disabled="disabled"
       :name="name"
       :icon="icon"
+      :readonly="only"
 
       placeholder="请点击右侧搜索按钮..."
       @on-click="handleClick"
@@ -68,6 +69,10 @@
       elementId: String,
       size: String,
       disabled: {
+        type: Boolean,
+        default: false
+      },
+      only:{
         type: Boolean,
         default: false
       },

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 850px;">
+  <div style="height: 5400px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
@@ -95,7 +95,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.SS_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
           {

@@ -286,9 +286,9 @@ export default {
     paymentType: (type) => {
         switch (type) {
         case '1':
-            return '我司代付款'
+            return '委托扣款'
         case '2':
-            return '客户自付'
+            return '制卡缴费'
         default:
             return ''
         }
@@ -604,6 +604,18 @@ export default {
         case '3':
             return '垫付'
         default: // 默认 1
+            return ''
+        }
+    },
+    hf_payment_paymentWay: (v) => {
+        switch (v) {
+        case '0':
+            return '无需支付'
+        case '2':
+            return '支票'
+        case '3':
+            return '转账'
+        default: 
             return ''
         }
     },

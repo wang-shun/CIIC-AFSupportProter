@@ -1,7 +1,7 @@
 import ajax from "../../lib/ajax";
 
 const AJAX = ajax.ajaxSsc;
-
+const AJAXMsg=ajax.ajaxSocMessage;
 export default {
   
   // 对账查询
@@ -33,7 +33,11 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/ssPayment/addPayment', params);
     return await response.data;
   },
-
+  //询问财务是否可付
+  enquireFinanceComAccount: async(params)=>{
+    let response = await AJAXMsg.post('/soc/messageservice/summarycalculate',params);
+    return await response.data;
+  },
 
 }
 

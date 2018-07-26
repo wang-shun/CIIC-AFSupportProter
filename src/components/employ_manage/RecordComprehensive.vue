@@ -70,7 +70,7 @@
         <Panel name="12">
           退工归还材料签收
           <div slot="content">
-            <refuse-return-materials-sign :refuseReturnMaterialsSignInfo="refuseReturnMaterialsSignInfo" :refuseReturnMaterials="refuseReturnMaterials"></refuse-return-materials-sign>
+            <refuse-return-materials-sign :materialLogList="materialLogList" :refuseReturnMaterialsSignInfo="refuseReturnMaterialsSignInfo" :refuseReturnMaterials="refuseReturnMaterials"></refuse-return-materials-sign>
           </div>
         </Panel>
         <Panel name="14">
@@ -296,6 +296,7 @@
         companyNameChangeMatrialsPrintInfo: [],
         injuryReportManageInfo: [],
         refuseReturnMaterials:[],
+        materialLogList:[],
         userInfo:{
           userName:''
         }
@@ -320,6 +321,10 @@
 
               if(data.data.materialList){
                 this.refuseReturnMaterialsSignInfo = data.data.materialList;
+              }
+
+              if(data.data.materialLogList){
+                this.materialLogList = data.data.materialLogList;
               }
 
               if(data.data.amRemarkBo){

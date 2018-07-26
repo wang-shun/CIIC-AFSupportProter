@@ -26,6 +26,19 @@
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
         <Button type="info" @click="printLabel">打印贴头</Button>
+        <Dropdown @on-click="exportTable">
+          <Button type="info">
+            生成导出文件
+            <Icon type="arrow-down-b"></Icon>
+          </Button>
+          <DropdownMenu slot="list">
+            <DropdownItem name="1">用工录用名册</DropdownItem>
+            <DropdownItem name="2">派遣录用名册</DropdownItem>
+            <DropdownItem name="3">外来独立</DropdownItem>
+            <DropdownItem name="4">外来派遣</DropdownItem>
+            <DropdownItem name="5">采集表汇总表</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
@@ -471,6 +484,33 @@ import {mapState, mapGetters, mapActions} from 'vuex'
       },
       sendToFileMangement() {
 
+      },
+      //生成导出文件
+      exportTable(name) {
+        switch(parseInt(name)) {
+          case 1:
+            // 用工录用名册
+            api.employSearchExportOptUseWord();
+            break;
+          case 2:
+            // 派遣录用名册
+            api.employSearchExportOptDispatchWord();
+            break;
+          case 3:
+            // 外来独立
+            api.employSearchExportOptAlonehWord();
+            break;
+          case 4:
+            // 外来派遣
+            api.employSearchExportOptExtDispatchWord();
+            break;
+          case 5:
+            // 采集表 汇总表
+            api.employSearchExportOptExtCollectWord();
+            break;
+          default:
+            break;
+        }
       },
       exportData() {
         let params = this.searchCondition;

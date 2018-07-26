@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        企业账户管理
+        查询条件
         <div slot="content">
           <Form ref="payComSearchData" :model="payComSearchData" :label-width=150>
             <Row type="flex" justify="start">
@@ -26,7 +26,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付年月：">
                       <Form-item prop="paymentMonth">
-                        <DatePicker v-model="payComSearchData.paymentMonth" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" disabled='true' readonly="true" transfer></DatePicker>
+                        <DatePicker v-model="payComSearchData.paymentMonth" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" :disabled=true transfer></DatePicker>
                       </Form-item>
                 </Form-item>
               </Col>
@@ -91,7 +91,7 @@
     </Form>
 
     <!-- 调整 -->
-    <Modal
+    <!-- <Modal
       v-model="changeInfo.isShowChange"
       width="640"
       @on-ok="ok"
@@ -99,11 +99,6 @@
       >
       <Table border :columns="changeInfo.changeColumns" :data="changeInfo.changeData"></Table>
       <Form :label-width=250>
-        <!--<Row class="mt20">-->
-          <!--<Col :sm="{span: 24}">-->
-            <!--<Button type="primary" @click="changeInfo.isImport = true">导入调整明细</Button>-->
-          <!--</Col>-->
-        <!--</Row>-->
         <Row class="mt20" type="flex" justify="start">
           <Col :sm="{span: 24}">
             <Form-item label="额外金：">
@@ -128,11 +123,6 @@
               <label>{{changeInfo.totalPayAmount}}</label>
             </Form-item>
           </Col>
-          <!-- <Col :sm="{span: 24}">
-            <Form-item label="申请支付金额合计（大写）：">
-              <label>{{changeInfo.totalPayAmountUpper}}</label>
-            </Form-item>
-          </Col> -->
           <Col :sm="{span: 24}">
             <Form-item label="备注说明：">
               <Input v-model="changeInfo.remark" type="textarea" :rows="5"  placeholder="请输入..."></Input>
@@ -145,7 +135,7 @@
           <Button type="success"  @click="saveAdjustment()" :disabled='changeInfo.ifAdjustSave'>保存</Button>
       </div>
     </Modal>
-    
+     -->
   </div>
 </template>
 <script>
@@ -168,7 +158,7 @@
         payComSearchData: {
           serviceCenterValue:[],
           ssAccountType: '',
-          paymentId: '',
+          ifCreateBatch: '1',
           companyId: '',
           paymentMonth: '',
           paymentState: '3',
@@ -349,7 +339,7 @@
 
         payComColumns: [
           {title: '', key: 'id', width: 55, fixed: 'left', type: 'selection'},
-          {title: '支付年月', key: 'paymentMonth', width: 100, align: 'center',fixed: 'left',
+          {title: '支付年月', key: 'paymentMonth', width: 90, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentMonth),
@@ -370,7 +360,7 @@
               ]);
             }
           },
-          {title: '支付状态', key: 'paymentStateName', width: 120, align: 'center',
+          {title: '支付状态', key: 'paymentStateName', width: 100, align: 'center',
             render: (h, params) => {
               let paymentState = params.row.paymentState;
               let paymentStateName = this.getPaymentStateName(paymentState);
@@ -647,6 +637,9 @@
         if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
           this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
         }
+        if (this.payComSearchData.paymentMonth && this.payComSearchData.paymentMonth.length != 6) {
+          this.payComSearchData.paymentMonth = this.$utils.formatDate(this.payComSearchData.paymentMonth, 'YYYYMM');
+        }
         // 处理参数
         var params = {};
         {
@@ -788,19 +781,6 @@
           return;
         }
 
-        //已有批次的不可再添加
-        let isHaveBatch = false;
-        selection.some(item => {
-          if(item.paymentId != null && item.paymentId != ""){
-            isHaveBatch = true;
-            //跳出循环
-            return true;
-          }
-        });
-        if(isHaveBatch){
-            this.$Message.info("已有出账批次的数据不可以再加入批次");
-            return;
-        }
         //判断选中列是否都是同一个社保账户分类
         let ssAccountType = selection[0].ssAccountType;
         let paymentMonth =selection[0].paymentMonth;
@@ -837,16 +817,12 @@
         });
 
         payComApi.addPaymentBatch({
-          paymentId: paymentId,
-          paymentComIdList: paymentComIdList,
+          paymentComIdList: this.addBatchData.paymentComIdList,
         }).then(data => {
           if(data.code == "0"){
             this.$Message.info("操作成功");
-            this.closeAddBatch();
-            //重新查询
-            this.paymentComQuery()
+            this.$router.go(-1);
           }else{
-            console.log(data);
             this.$Message.info(data.message);
           }
         })
@@ -863,9 +839,7 @@
             this.closeAddBatch();
             //重新查询
             this.paymentComQuery()
-
           }else{
-            console.log(data);
             this.$Message.info(data.message);
           }
         })

@@ -18,7 +18,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="状态" prop="status">
-                  <Select v-model="seniorSearchInfo.status" style="width:100%">
+                  <Select v-model="seniorSearchInfo.status" @on-change="getByPage(1)" style="width:100%">
                     <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
                 </Form-item>
@@ -38,7 +38,7 @@
       <Button type="primary" icon="ios-upload-outline" @click="exportSeniorData">导出资深雇员编号</Button>
       <Button type="primary" icon="ios-download-outline" @click="modalInput = true">导入资深雇员编号</Button>
     </div>
-    <Table border :columns="seniorEmpColumns" :data="seniorEmpDataList"></Table>
+    <Table border :columns="seniorEmpColumns" :data="seniorEmpDataList" ref="seniorEmpTable"></Table>
     <Page show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
@@ -174,7 +174,7 @@
           {
             title: "操作", sortable: true, align: 'center',
             render: (h, params) => {
-              if (params.row.seniorEmployeeId === undefined || params.row.seniorEmployeeId === null || params.row.seniorEmployeeId === '') {
+              if ((params.row.seniorEmployeeId === undefined || params.row.seniorEmployeeId === null || params.row.seniorEmployeeId === '') && params.row.status === 2) {
                 return h("div", [
                   h("Button", {
                     props: {
@@ -190,7 +190,7 @@
                     }
                   }, '编辑')
                 ]);
-              } else {
+              } else if (params.row.seniorEmployeeId !== undefined && params.row.seniorEmployeeId !== null && params.row.seniorEmployeeId !== '' && params.row.status === 3) {
                 return h("div", [
                   h("Button", {
                     props: {
@@ -203,10 +203,10 @@
                           title: '提示',
                           content: '确认要清除自设雇员编号吗？',
                           onOk: () => {
-                            this.$Message.info('Clicked ok');
+                            this.cleanSenior(params.row);
                           },
                           onCancel: () => {
-                            this.$Message.info('Clicked cancel');
+                            this.$Message.info('取消操作');
                           }
                         });
                       }
@@ -245,6 +245,7 @@
             ajax.ajaxFbc.postJSON("/seniorEmpService/updateSeniorEmp", this.seniorEmpData).then(response => {
               if (response.data.code === 0) {
                 this.$Message.success('提交成功')
+                this.getByPage(1);
               } else {
                 this.$Message.error('服务器异常，请稍后再试')
               }
@@ -252,7 +253,17 @@
             this.modal1 = false
           }
         });
-        this.getByPage(1);
+      },
+      cleanSenior(param) {
+        ajax.ajaxFbc.postJSON("/seniorEmpService/clearSeniorEmp", param).then(response => {
+          if (response.data.code === 0) {
+            this.$Message.success('提交成功')
+            this.getByPage(1);
+          } else {
+            this.$Message.error('服务器异常，请稍后再试')
+          }
+        });
+        this.modal1 = false
       },
       query() {
         ajax.ajaxFbq.postJSON("/seniorEmpQueryService/querySeniorPage", this.seniorSearchInfo).then(response => {
@@ -271,23 +282,36 @@
         ajax.ajaxFbc.upload("/seniorEmpService/importSeniorEmpExcel", data).then(response => {
           this.loading = false;
           if (response.data.code === 0) {
+            this.getByPage(1)
             this.$Message.success("上传成功");
           } else if (response.data.code === 400) {
+            this.$Modal.confirm({
+              title: '提示',
+              content: response.data.message,
+              onOk: () => {
+                this.$Message.info('OK');
+              },
+              onCancel: () => {
+                this.$Message.info('取消操作');
+              }
+            });
+          } else if (response.data.code === 600) {
             this.$Message.error(response.data.message);
-          } else {
+          }
+          else {
             this.$Message.error("服务器异常，请稍后再试");
           }
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
-        this.uploadSuccess()
+        this.uploadSuccess();
       },
       handleUpload(file) {
         if (file === null) {
           return false
         }
-        this.file = file
+        this.file = file;
         return true
       },
       // 文件上传成功时 页面只显示最新选择的文件
@@ -314,6 +338,7 @@
       },
       pageSizeChange(size) {
         this.seniorSearchInfo.size = size;
+
         this.query()
       },
       genderToChina(status) {

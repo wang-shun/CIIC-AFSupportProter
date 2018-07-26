@@ -7,22 +7,22 @@
           <Form :model="formItem" ref="formItem" :label-width="100">
             <Row class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="活动主题" prop="activityTitle">
-                <Input v-model="formItem.activityTitle" placeholder="请输入"/>
-              </Form-item>
+                <Form-item label="活动主题" prop="activityTitle">
+                  <Input v-model="formItem.activityTitle" placeholder="请输入"></Input>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
-              <Form-item label="状态" prop="status">
-                <Select v-model="formItem.status" :clearable="true" placeholder="请选择">
-                  <Option v-for="item in statusTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
+                <Form-item label="状态" prop="status">
+                  <Select v-model="formItem.status" :clearable="true" placeholder="请选择">
+                    <Option v-for="item in statusTypes" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
               </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
+                <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('formItem')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -70,28 +70,28 @@
           {
             title: '开始时间', sortable: true, key: 'beginTime', align: "center",
             render: (h, params) => {
-              return h('div',params.row.beginTime == null ? '' : this.$utils.formatDate(params.row.beginTime, 'YYYY-MM-DD'));
+              return h('div', params.row.beginTime == null ? '' : this.$utils.formatDate(params.row.beginTime, 'YYYY-MM-DD'));
             }
           },
           {
             title: '结束时间', sortable: true, key: 'endTime', align: "center",
             render: (h, params) => {
-              return h('div',params.row.endTime == null ? '' : this.$utils.formatDate(params.row.endTime, 'YYYY-MM-DD'));
+              return h('div', params.row.endTime == null ? '' : this.$utils.formatDate(params.row.endTime, 'YYYY-MM-DD'));
             }
           },
           {
             title: '状态', sortable: true, key: 'status', align: "center",
             render: (h, params) => {
-              return h('div',this.getMarketActivityStatus(params.row.status))
+              return h('div', this.getMarketActivityStatus(params.row.status))
             }
           },
           {
             title: '内容', sortable: true, key: 'content', align: "center",
           },
           {
-            title: '操作', align: 'center', key: 'action', align: "center", width: 200,
+            title: '操作', align: 'center', key: 'action', width: 200,
             render: (h, params) => {
-              if (params.row.status == '0') {
+              if (params.row.status === '0') {
                 return h('div', [
                   h('Button', {
                     props: {
@@ -126,28 +126,9 @@
                         });
                       }
                     }
-                  }, '编辑'),
+                  }, '编辑')
                 ]);
               }
-              // else {
-              //   return h('div', [
-              //     h('Button', {
-              //       props: {
-              //         type: 'success', size: 'small'
-              //       },
-              //       on: {
-              //         click: () => {
-              //           this.$router.push({
-              //             name: 'addActivity',
-              //             params: {
-              //               data: params.row
-              //             }
-              //           });
-              //         }
-              //       }
-              //     }, '申请历史')
-              //   ]);
-              // }
             }
           }
         ],
@@ -195,7 +176,7 @@
         this.formItem.pageSize = size;
         this.query()
       },
-      getMarketActivityStatus(val){
+      getMarketActivityStatus(val) {
         switch (val) {
           case 0:
             return "进行中";

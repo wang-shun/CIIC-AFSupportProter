@@ -79,37 +79,37 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方编号" prop="managementId">
-                  <Input v-model="formItem.managementId" placeholder="请输入"/>
+                  <Input v-model="formItem.managementId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方名称" prop="managementName">
-                  <Input v-model="formItem.managementName" placeholder="请输入"/>
+                  <Input v-model="formItem.managementName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号" prop="employeeId">
-                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员姓名" prop="employeeName">
-                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件号码" prop="idNum">
-                  <Input v-model="formItem.idNum" placeholder="请输入"/>
+                  <Input v-model="formItem.idNum" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号" prop="companyId">
-                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                  <Input v-model="formItem.companyId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称" prop="companyName">
-                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                  <Input v-model="formItem.companyName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
             </Row>
@@ -128,7 +128,8 @@
       <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2'"
               @click="modal1 = true">审核
       </Button>
-      <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2' || formItem.status==='4'"
+      <Button type="info"
+              v-if="formItem.status===null || formItem.status==='' || formItem.status==='2' || formItem.status==='4'"
               @click="modal6 = true">批退
       </Button>
       <Button type="info"
@@ -153,7 +154,7 @@
            title="审核"
            @on-ok="updateTpaTaskList(4)"
            ok-text="审核通过" :loading="loading">
-      <Input v-model="dealMsg.remark" placeholder="请输入操作说明："/>
+      <Input v-model="dealMsg.remark" placeholder="请输入操作说明："></Input>
     </Modal>
 
     <Modal class="warn-back"
@@ -161,14 +162,14 @@
            title="批退"
            @on-ok="updateTpaTaskList(6)" :loading="loading"
            ok-text="批退">
-      <Input v-model="dealMsg.remark" placeholder="请输入操作说明："/>
+      <Input v-model="dealMsg.remark" placeholder="请输入操作说明："></Input>
     </Modal>
 
     <Modal v-model="modal2"
            title="暂缓"
            @on-ok="updateTpaTaskList(3)" :loading="loading"
            ok-text="暂缓">
-      <Input v-model="dealMsg.remark" placeholder="请输入暂缓原因："/>
+      <Input v-model="dealMsg.remark" placeholder="请输入暂缓原因："></Input>
     </Modal>
 
     <Modal v-model="modal3"

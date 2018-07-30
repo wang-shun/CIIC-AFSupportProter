@@ -64,6 +64,7 @@
   import dict from '../../../../api/dict_access/social_security_dict'
   import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputAccount, InputCompany,InputCompanyName,searchEmployee},
@@ -125,6 +126,7 @@
                   props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('employeeCommonOperator.noProcess.employeeResultPageData', this.employeeResultPageData);
                       this.batchHandle(params.row);
                     }
                   }
@@ -186,7 +188,7 @@
     },
     async mounted() {
        this.searchConditions =[];
-       this.searchEmploiees(this.searchConditions);
+       this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
        this.loadDict();
     },
     computed: {
@@ -198,6 +200,7 @@
       loadSortType() {
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        sessionData.getJsonDataFromSession('employeeCommonOperator.noProcess.employeeResultPageData', this.employeeResultPageData);
 
         this.employeeResultColumns.filter((e) => {
           if(storeOrder==null)
@@ -384,7 +387,7 @@
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.employeeResultPageData.pageNum);
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
@@ -612,7 +615,7 @@
           });
         }
       },
-      searchEmploiees(conditions) {
+      searchEmploiees(conditions, pageNum = 1) {
         var isStatus = null;
 
         if (this.isLoading) {
@@ -706,7 +709,7 @@
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
-          pageNum: this.employeeResultPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {

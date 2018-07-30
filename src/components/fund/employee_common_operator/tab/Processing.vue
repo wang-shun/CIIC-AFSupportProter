@@ -218,7 +218,9 @@
         }
       });
 
-      this.hfEmpTaskQuery();
+//      this.hfEmpTaskQuery();
+      var conditions = [];
+      this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyPOrder'+userInfo.userId));
@@ -258,7 +260,7 @@
       handlePageNum(val) {
         this.processingPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.processingPageData.pageNum);
       },
       handlePageSize(val) {
         this.processingPageData.pageNum = 1;
@@ -376,7 +378,7 @@
       },
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
-      },searchEmploiees(conditions) {
+      },searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -434,7 +436,7 @@
 
         api.hfEmpTaskQuery({
           pageSize: this.processingPageData.pageSize,
-          pageNum: this.processingPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {

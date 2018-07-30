@@ -221,7 +221,7 @@
        }
 
 
-      this.searchEmploiees(this.searchConditions);
+      this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
       this.loadDict();
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
@@ -278,7 +278,7 @@
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.employeeResultPageData.pageNum);
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
@@ -426,7 +426,7 @@
       },
       exprotExcel() {
       },
-      searchEmploiees(conditions) {
+      searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -445,7 +445,7 @@
            for(var i=0;i<conditions.length;i++)
            {
                this.searchConditions.push(conditions[i].exec);
-           }  
+           }
         }else{
           // 否则从session 里边去缓存的表单查询值
           var temp = sessionStorage.getItem('socialDailyF'+userInfo.userId);
@@ -482,7 +482,7 @@
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
-          pageNum: this.employeeResultPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {

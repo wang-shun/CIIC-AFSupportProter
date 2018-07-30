@@ -153,6 +153,7 @@
     data() {
       return{
         collapseInfo: [1], //展开栏
+        ssAccountType:'',
         accountTypeList: [],
         serviceCenterData:[],
         payComSearchData: {
@@ -383,74 +384,7 @@
               ]);
             }
           },          
-          // {title: '操作', key: 'operator', width: 180, align: 'center',
-          //   render: (h, params) => {
-          //     return h('div', [
-          //       h('Button', {
-          //         props: {type: 'success', size: 'small'},
-          //         style: {margin: '0 auto'},
-          //         on: {
-          //           click: () => {
-          //             let paymentComId = params.row.paymentComId;
-          //             let oughtAmount = params.row.oughtAmount;
-          //             let refundDeducted = params.row.refundDeducted;
-          //             let adjustDeducted = params.row.adjustDeducted;
-          //             let ifDeductedIntoPay = params.row.ifDeductedIntoPay;
-          //             let extraAmount = params.row.extraAmount;
-          //             let totalPayAmount = params.row.totalPayAmount;
-          //             let remark = params.row.remark;
-          //             let paymentState = params.row.paymentState;
-          //             this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState)
-          //           }
-          //         }
-          //       }, '调整'),
-          //      h('Button', {
-          //        props: {type: 'success', size: 'small'},
-          //        style: {margin: '0 auto 0 10px'},
-          //        on: {
-          //         // let self = this;
-          //          click: () => {
-          //            let paymentComId = params.row.paymentComId;
-          //            let comAccountId = params.row.comAccountId;
-          //            let paymentMonth = params.row.paymentMonth;
-          //            let paymentState = params.row.paymentState;
-          //            this.goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState);
-          //          }
-          //        }
-          //      }
-          //       , '付款通知书')
-          //     ]);
-          //   }
-          // },
-          // {title: '是否一致', key: 'ifCheck', width: 100, align: 'center',
-          //   render: (h, params) => {
-          //     if(params.row.ifCheck==1){
-          //        return h('div', [
-          //         h('A', {
-          //             props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-          //               on: {
-          //                 dblclick: () => {
-          //                      this.doCheck(params.row.paymentComId,h)
-          //                 }
-          //               }
-          //             },'是'
-          //           ),
-          //       ])
-          //     }else{
-          //       return h('div', [
-          //         h('Button', {
-          //           props: {type: 'success', size: 'small'},
-          //           style: {margin: '0 auto'},
-          //           on: {
-          //             click: () => {
-          //               this.doCheck(params.row.paymentComId,h)
-          //             }
-          //           }
-          //         }, '一致'),
-          //       ]);
-          //     }
-          //   }
-          // },
+         
           {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -572,7 +506,7 @@
             this.accountTypeList = data.data.SocialSecurityAccountType;
             sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
             sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
-                this.payComSearchData.ssAccountType = '3';
+            this.payComSearchData.ssAccountType = '3';
           }
         });
       },
@@ -611,7 +545,9 @@
         if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
           this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
         }
-   
+       if (this.payComSearchData.paymentMonth && this.payComSearchData.paymentMonth.length != 6) {
+          this.payComSearchData.paymentMonth = this.$utils.formatDate(this.payComSearchData.paymentMonth, 'YYYYMM');
+        }
         // 处理参数
         var params = {};
         {
@@ -662,6 +598,7 @@
         }).then(data => {
           this.payComData = data.data;
           this.payComPageData.total = data.total;
+          this.ssAccountType=this.payComSearchData.ssAccountType;
         })
 
       },
@@ -817,6 +754,7 @@
         });
 
         payComApi.addPaymentBatch({
+          ssAccountType:this.ssAccountType,
           paymentComIdList: this.addBatchData.paymentComIdList,
         }).then(data => {
           if(data.code == "0"){

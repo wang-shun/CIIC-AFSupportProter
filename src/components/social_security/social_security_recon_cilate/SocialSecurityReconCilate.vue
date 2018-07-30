@@ -438,13 +438,12 @@
       },
 
       exportInfo(){
-        let me = this;
         let params = {
-          ssMonth:me.operatorSearchData.ssMonth,
-          comAccountId:me.operatorSearchData.comAccountId,
-          impFileType:me.operatorSearchData.impFileType,
-          minDiffSumByEmp:me.operatorSearchData.minDiffSumByEmp,
-          maxDiffSumByEmp:me.operatorSearchData.maxDiffSumByEmp
+          ssMonth:this.operatorSearchData.ssMonth,
+          comAccountId:this.operatorSearchData.comAccountId,
+          impFileType:'YYS',
+          minDiffSumByEmp:this.operatorSearchData.minDiffSumByEmp,
+          maxDiffSumByEmp:this.operatorSearchData.maxDiffSumByEmp
         };
         api.statementExport(params);
       },

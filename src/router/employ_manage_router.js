@@ -18,6 +18,7 @@ const employHandleEmploymentBatch = r => require.ensure([], () => r(require('@/c
 
 const dismissalHandleTaskList = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleTaskList')), 'dismissalHandleTaskList');
 const dismissalHandleEmployment = r => require.ensure([], () => r(require('@/components/employ_manage/DismissalHandleEmployment')), 'dismissalHandleEmployment');
+const refuseHandleBatch = r => require.ensure([], () => r(require('@/components/employ_manage/RefuseHandleBatch')), 'refuseHandleBatch');
 
 const recordComprehensiveHandling = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensiveHandling')), 'recordComprehensiveHandling');
 const recordComprehensive = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensive')), 'recordComprehensive');
@@ -86,6 +87,18 @@ export default [
       level3:"退工办理任务单",
       openNames:['3'],
       activeName: '3-2'
+    }
+  },
+  {
+    path: '/refuse_handle_batch',
+    name:'refuseHandleBatch',
+    component: refuseHandleBatch,
+    meta:{
+      level1:'雇佣管理',
+      level2:"退工资料任务单批量办理",
+      level3:"批理办理",
+      openNames:['3'],
+      activeName: '3-1'
     }
   },
   {

@@ -227,8 +227,8 @@
       // this.employeeOperatorQuery();
       // this.loadDict();
       this.searchConditions =[];
-    
-      this.searchEmploiees(this.searchConditions);
+
+      this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
       this.loadDict();
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
@@ -285,7 +285,7 @@
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.employeeResultPageData.pageNum);
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
@@ -486,8 +486,8 @@
           taskStatus: 2
         }})
       },
-      searchEmploiees(conditions) {
-        
+      searchEmploiees(conditions, pageNum = 1) {
+
         if (this.isLoading) {
           return;
         }
@@ -544,12 +544,12 @@
           }
         }
       }
-     
+
         this.searchCondition.params = this.searchConditions.toString();
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
-          pageNum: this.employeeResultPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {

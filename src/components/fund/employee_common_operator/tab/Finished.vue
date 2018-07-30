@@ -194,7 +194,9 @@
         }
       });
 
-      this.hfEmpTaskQuery();
+//      this.hfEmpTaskQuery();
+      var conditions = [];
+      this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyFOrder'+userInfo.userId));
@@ -234,7 +236,7 @@
       handlePageNum(val) {
         this.finishedPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.processingPageData.pageNum);
       },
       handlePageSize(val) {
         this.finishedPageData.pageNum = 1;
@@ -301,7 +303,7 @@
               for(var index  in searchEmploiees)
               {
                 if(searchEmploiees[index].desc.indexOf("未处理")!=-1){
-                     
+
                 }else{
                     this.searchConditions.push(searchEmploiees[index].exec);
                 }
@@ -328,7 +330,7 @@
       },
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
-      },searchEmploiees(conditions) {
+      },searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -361,7 +363,7 @@
                 for(let index  in searchEmploiees)
                 {
                     if(searchEmploiees[index].desc.indexOf("未处理")!=-1){
-                     
+
                     }else{
                        this.searchConditions.push(searchEmploiees[index].exec);
                     }
@@ -387,7 +389,7 @@
 
         api.hfEmpTaskQuery({
           pageSize: this.finishedPageData.pageSize,
-          pageNum: this.finishedPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {

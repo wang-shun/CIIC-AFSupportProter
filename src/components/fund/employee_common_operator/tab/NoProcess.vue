@@ -305,7 +305,10 @@
         }
       });
 //      console.log("after: " + JSON.stringify(this.noProcessPageData))
-       this.hfEmpTaskQuery();
+//       this.hfEmpTaskQuery();
+
+      var conditions = [];
+      this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
     },
     computed: {
     },
@@ -341,7 +344,7 @@
       handlePageNum(val) {
         this.noProcessPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
       },
       handlePageSize(val) {
 //        if (val === this.noProcessPageData.pageSize) {
@@ -512,7 +515,7 @@
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
 
-      },searchEmploiees(conditions) {
+      },searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -567,7 +570,7 @@
 
         api.hfEmpTaskQuery({
           pageSize: this.noProcessPageData.pageSize,
-          pageNum: this.noProcessPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -716,11 +719,17 @@
           if (this.importResultData) {
             this.importResultData.length = 0;
           }
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.uploadFileList.push({name: file.name, url: ''});
             this.importResultData = data.data;
+
             this.$Message.info("上传成功");
 //            this.isSubmit = false;
+          } else if (data.code === 222) {
+            this.uploadFileList.push({name: file.name, url: ''});
+            this.importResultData = data.data;
+
+            this.$Message.error(data.message);
           } else {
             this.$Message.error(data.message);
           }

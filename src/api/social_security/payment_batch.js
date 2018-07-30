@@ -39,5 +39,9 @@ export default {
     return await response.data;
   },
 
+  printFinancePayVoucher: async(params)=>{
+    AJAX.download('/api/fundcommandservice/hfFundPay/printFinancePayVoucher', params);
+  },
+
 }
 

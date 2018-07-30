@@ -66,8 +66,8 @@
         
           <!-- <Button type="primary" @click="goAddPayment()">创建支付批次</Button> -->
           <Button type="primary" @click="goCreatePaymentBatch()">创建支付批次</Button>
-
           <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button>
+          <!-- <Button type="primary" @click="printFinancePayVoucher()">打印付款凭证</Button> -->
         </Col>
       </Row>
 
@@ -216,6 +216,21 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
         isShowProgress: false,
 
         payBatchColumns: [
+          {
+            title: '', key: '', align: 'center', width: 40,fixed:'left',
+            render: (h, params) => {
+              return h('Radio', {
+                props: {
+                  value: this.currentIndex == params.index,
+                },
+                on: {
+                  'on-change': (val) => {
+                    this.currentIndex = params.index
+                  }
+                }
+              }, '');
+            }
+          },
           {title: '操作', key: 'operator', width:200, align: 'left',fixed:'left',
             render: (h, params) => {
               let b=[];
@@ -334,6 +349,7 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
           },
           
         ],
+        currentIndex:-1,
         payBatchData: [],
         payBatchPageData: {
           total: 0,
@@ -467,6 +483,27 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
         this.applyPayData.applyRemark = '';
         this.applyPayData.isShow = true;
 
+      },
+      checkSelect(){
+        let row = {};
+        if (this.currentIndex >= 0) {
+          row = this.payBatchData[this.currentIndex];
+          return row;
+        }else{
+          this.$Message.success("请选择一条记录！");
+          return false;
+        }
+      },
+      printFinancePayVoucher(){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        if(row.payApplyCode == null ||  row.payApplyCode ==''  ){
+          this.$Message.info('只有支付状态为‘已申请到财务’，才可以打印付款凭证！');
+          return false;
+        }
+        let params ={payApplyCode:row.payApplyCode}
+        payBatchApi.printFinancePayVoucher(params);
       },
       doApplyPay() {
         let paymentId = this.applyPayData.paymentId;

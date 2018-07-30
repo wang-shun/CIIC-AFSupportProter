@@ -929,6 +929,10 @@
                     })
       },
       generateBank(name) {
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        
         switch(parseInt(name)) {
           case 0:
             this.generateBankRepair();

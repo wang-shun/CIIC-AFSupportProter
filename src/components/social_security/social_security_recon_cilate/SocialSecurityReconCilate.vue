@@ -379,12 +379,11 @@
 
       },
       batchUpload(data){
-        let me = this;
-        me.isUpload=true
-        me.upLoadData.comAccountId = data.comAccountId;
-        me.upLoadData.fileType = data.impFileType;
-        me.upLoadData.ssMonth = data.ssMonth;
-        me.upLoadData.file = null;
+        this.isUpload=true
+        this.upLoadData.comAccountId = data.comAccountId;
+        this.upLoadData.fileType = 'YYS';
+        this.upLoadData.ssMonth = data.ssMonth;
+        this.upLoadData.file = null;
       },
 
       beforeUpload(file) {

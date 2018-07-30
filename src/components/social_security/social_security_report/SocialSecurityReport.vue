@@ -13,11 +13,23 @@
 
                 </Form-item>
               </Col>
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="社保账户类型：" prop="ssAccountType">
+                <Select v-model="operatorSearchDataFirst.ssAccountType" style="width: 100%;" transfer>
+                  <Option v-for="item in ssAccountTypeDict" :value="item.key" :key="item.key" :label="item.value"></Option>
+                </Select>
+              </Form-item>
+              </Col> -->
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业社保账号：" prop="ssAccount">
                   <input-account v-model="operatorSearchDataFirst.ssAccount" @listenToChildEvent="listenToChild"></input-account>
                 </Form-item>
               </Col>
+               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="客户编号：" prop="companyId">
+                <input-company v-model="operatorSearchDataFirst.companyId"></input-company>
+              </Form-item>
+              </Col> -->
             </Row>
             <br/>
             <br/>
@@ -93,7 +105,9 @@
           ssMonth:'',//报表年月
           ssAccount:'',//企业社保账户
           isShowAccountType: false, //社保账户模糊块的显示
+          ssAccountType:'',
           ssAccountId:'',
+          companyId:''
         },
         operatorSearchData: {
           ssMonth:'',//报表年月
@@ -225,23 +239,40 @@
         let result = this.validConditionFirst();
         if(!result)return;
         let ssMonth = this.$utils.formatDate(this.operatorSearchDataFirst.ssMonth, 'YYYYMM')
-        //this.$router.push({name: 'payment_notice',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchData.ssAccount}})
-       // window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
-        // this.$router.push({name: 'paymentNotice',query:{ssMonth:ssMonth,ssAccountId:this.operatorSearchData.ssAccountId}})
-
-        this.$router.push({name: 'monthlyPaymentNotice',query:{ssMonth:ssMonth,ssAccountId:this.operatorSearchDataFirst.ssAccountId}})
+        let param={
+          ssMonth:ssMonth,
+          ssAccountType:this.operatorSearchDataFirst.ssAccountType,
+          ssAccount:this.operatorSearchDataFirst.ssAccount,
+          companyId:this.operatorSearchDataFirst.companyId,
+          ssAccountId:this.operatorSearchDataFirst.ssAccountId
+        };
+        this.$router.push({name: 'monthlyPaymentNotice',query:param})
       },
       employeeCostDetail(){
         let result = this.validConditionFirst();
         if(!result)return;
         let ssMonth = this.$utils.formatDate(this.operatorSearchDataFirst.ssMonth, 'YYYYMM')
-        this.$router.push({name: 'employeeCostDetail',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchDataFirst.ssAccount,ssAccountId:this.operatorSearchDataFirst.ssAccountId}})
+        let param={
+          ssMonth:ssMonth,
+          ssAccountType:this.operatorSearchDataFirst.ssAccountType,
+          ssAccount:this.operatorSearchDataFirst.ssAccount,
+          companyId:this.operatorSearchDataFirst.companyId,
+          ssAccountId:this.operatorSearchDataFirst.ssAccountId
+        };
+        this.$router.push({name: 'employeeCostDetail',query:param})
       },
       refundDetails(){
         let result = this.validConditionFirst();
         if(!result)return;
          let ssMonth = this.$utils.formatDate(this.operatorSearchDataFirst.ssMonth, 'YYYYMM')
-         this.$router.push({name: 'refundDetails',query:{ssMonth:ssMonth,ssAccount:this.operatorSearchDataFirst.ssAccount,ssAccountId:this.operatorSearchDataFirst.ssAccountId}})
+         let param={
+          ssMonth:ssMonth,
+          ssAccountType:this.operatorSearchDataFirst.ssAccountType,
+          ssAccount:this.operatorSearchDataFirst.ssAccount,
+          companyId:this.operatorSearchDataFirst.companyId,
+          ssAccountId:this.operatorSearchDataFirst.ssAccountId
+        };
+         this.$router.push({name: 'refundDetails',query:param})
       },
       monthEmpChange(){
         let result = this.validCondition();

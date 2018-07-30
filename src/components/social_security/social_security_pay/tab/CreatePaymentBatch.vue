@@ -454,6 +454,13 @@
               ]);
             }
           },
+          {title: '抵扣金额是否纳入支付', key: 'ifDeductedIntoPay', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.ifDeductedIntoPay==1?'是':''),
+              ]);
+            }
+          },
           {title: '额外金备注', key: 'remark', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [

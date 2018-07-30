@@ -151,37 +151,57 @@
 
     <Modal class="warn-back"
            v-model="modal1"
-           title="审核"
-           @on-ok="updateTpaTaskList(4)"
-           ok-text="审核通过" :loading="loading">
-      <Input v-model="dealMsg.remark" placeholder="请输入操作说明："></Input>
+           title="审核">
+      <Form ref="dealMsg" :model="dealMsg" :rules="dealMsgRules" :label-width="80">
+        <Form-item label="操作说明" prop="remark">
+          <Input v-model="dealMsg.remark" placeholder="请输入" style="width: 100%;text-align: left"></Input>
+        </Form-item>
+      </Form>
+      <div slot="footer">
+        <Button @click="cancel(4)">取消</Button>
+        <Button type="primary" @click="updateTpaTaskList(4)" :loading="loading">提交</Button>
+      </div>
     </Modal>
 
     <Modal class="warn-back"
            v-model="modal6"
-           title="批退"
-           @on-ok="updateTpaTaskList(6)" :loading="loading"
-           ok-text="批退">
-      <Input v-model="dealMsg.remark" placeholder="请输入操作说明："></Input>
+           title="批退">
+      <Form ref="dealMsg" :model="dealMsg" :rules="dealMsgRules">
+        <Form-item label="操作说明" prop="remark" :label-width="100">
+          <Input v-model="dealMsg.remark" placeholder="请输入"></Input>
+        </Form-item>
+      </Form>
+      <div slot="footer">
+        <Button @click="cancel(6)">取消</Button>
+        <Button type="primary" @click="updateTpaTaskList(6)" :loading="loading">批退</Button>
+      </div>
     </Modal>
 
     <Modal v-model="modal2"
-           title="暂缓"
-           @on-ok="updateTpaTaskList(3)" :loading="loading"
-           ok-text="暂缓">
+           title="暂缓">
       <Input v-model="dealMsg.remark" placeholder="请输入暂缓原因："></Input>
+      <div slot="footer">
+        <Button @click="cancel(3)">取消</Button>
+        <Button type="primary" @click="updateTpaTaskList(3)" :loading="loading">提交</Button>
+      </div>
     </Modal>
 
     <Modal v-model="modal3"
            title="恢复"
-           @on-ok="updateTpaTaskList(2)" :loading="loading"
+           @on-ok="updateTpaTaskList(2)"
+           :loading="loading"
            ok-text="确认恢复">
+      <div slot="footer">
+        <Button @click="cancel(2)">取消</Button>
+        <Button type="primary" @click="updateTpaTaskList(2)" :loading="loading">提交</Button>
+      </div>
     </Modal>
 
     <Modal class="warn-back"
            v-model="modal5"
            title="更新在保库"
-           @on-ok="syncToWarranty" :loading="loading"
+           @on-ok="syncToWarranty"
+           :loading="loading"
            ok-text="确认更新">
       <DatePicker v-model="syncDate" type="date" placeholder="保险确认时间" style="width: 100%"></DatePicker>
     </Modal>
@@ -238,7 +258,13 @@
         },
         syncDate: null,
         dealMsg: {
-          remark: null
+          remark: ''
+        },
+        dealMsgRules: {
+          remark: [
+            {required: true, message: '请输入操作说明', trigger: 'blur'},
+            {type: 'string', pattern: !'/\s+/', message: '请输入文字', trigger: 'blur'}
+          ]
         },
         taskColumns: [
           {
@@ -412,15 +438,43 @@
             item.hearTime = new Date();
           }
         });
-        this.loading = true;
-        apiAjax.updateTpaTask(this.selectData).then(response => {
-          this.loading = false;
-          if (response.data.code === 200) {
-            this.getByPage(1);
-            this.dealMsg.remark = null;
-            this.$Message.success("更新成功");
-          }
-        });
+        if (val === 4 || val === 6) {
+          this.$refs['dealMsg'].validate((valid) => {
+            if (valid) {
+              this.loading = true;
+              apiAjax.updateTpaTask(this.selectData).then(response => {
+                this.loading = false;
+                if (response.data.code === 200) {
+                  this.getByPage(1);
+                  this.cancel(val);
+                  this.$Message.success("更新成功");
+                }
+              });
+            }
+          });
+        } else {
+          this.loading = true;
+          apiAjax.updateTpaTask(this.selectData).then(response => {
+            this.loading = false;
+            if (response.data.code === 200) {
+              this.getByPage(1);
+              this.cancel(val);
+              this.$Message.success("更新成功");
+            }
+          });
+        }
+      },
+      cancel(val) {
+        if (val === 4) {
+          this.modal1 = false;
+        } else if (val === 6) {
+          this.modal6 = false;
+        } else if (val === 2) {
+          this.modal3 = false;
+        } else if (val === 3) {
+          this.modal2 = false;
+        }
+        this.dealMsg.remark = ''
       },
       syncToWarranty() {
         if (!this.syncDate) {
@@ -448,7 +502,7 @@
           if (response.data.object === 1) {
             this.$Message.success("更新成功");
             this.getByPage(1);
-            this.dealMsg.remark = null;
+            this.dealMsg.remark = '';
             this.syncDate = null;
           } else if (response.data.object === 2) {
             this.$Message.error("投保任务单没有更新在保库");

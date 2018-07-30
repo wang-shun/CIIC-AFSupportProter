@@ -196,7 +196,7 @@
 
 //      this.hfEmpTaskQuery();
       var conditions = [];
-      this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
+      this.searchEmploiees(conditions, this.finishedPageData.pageNum);
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyFOrder'+userInfo.userId));
@@ -236,7 +236,7 @@
       handlePageNum(val) {
         this.finishedPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions, this.processingPageData.pageNum);
+        this.searchEmploiees(conditions, this.finishedPageData.pageNum);
       },
       handlePageSize(val) {
         this.finishedPageData.pageNum = 1;

@@ -20,26 +20,26 @@
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
 
-            <Input v-model="searchForm.searchContent" placeholder="请输入" v-if="searchForm.isDate == 0" />
+            <Input v-model="searchForm.searchContent" placeholder="请输入" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 0" />
             <Date-picker  v-model="searchForm.searchContent"  type="month"  placement="right"
-                             placeholder="选择年月份" style="width: 100%;" v-if="searchForm.isDate == 1"></Date-picker>
-            <Select v-model="searchForm.searchContent" style="width: 100%;"  :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 2">
-                  <Option value="[全部]" label="全部"></Option>
+                             placeholder="选择年月份" style="width: 100%;" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 1"></Date-picker>
+            <Select v-model="searchForm.searchContent" style="width: 100%;"  :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 2">
+                  <!--<Option value="[全部]" label="全部"></Option>-->
                   <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
             </Select>
-            <input-account v-model="searchForm.searchContent" v-if="searchForm.isDate == 3" ></input-account>
-            <input-company v-model="searchForm.searchContent" v-if="searchForm.isDate == 4"></input-company>
-            <input-company-name v-model="searchForm.searchContent" v-if="searchForm.isDate == 6"></input-company-name>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer  v-if="searchForm.isDate == 5">
-              <Option value="" label="全部"></Option>
+            <input-account v-model="searchForm.searchContent" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 3" ></input-account>
+            <input-company v-model="searchForm.searchContent" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 4"></input-company>
+            <input-company-name v-model="searchForm.searchContent" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 6"></input-company-name>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer  v-if="searchForm.isDate == 5">
+              <!--<Option value="" label="全部"></Option>-->
               <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
             </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 7">
-                <Option value="" label="全部"></Option>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 7">
+                <!--<Option value="" label="全部"></Option>-->
                 <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
             </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 8">
-                <Option value="0" label="全部"></Option>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 8">
+                <!--<Option value="0" label="全部"></Option>-->
                 <Option value="-1" label="本月未处理"></Option>
                 <Option value="-2" label="下月未处理"></Option>
             </Select>
@@ -105,7 +105,8 @@
           searchContent: "",
           isDate:0,
           searchContentDesc: "",
-          disabled: false
+          disabled: false,
+          contentDisabled: false
         },
         searchConditions: [],
         currentField: {},
@@ -114,11 +115,11 @@
       }
     },
     async mounted() {
-     
+
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
       var fu = sessionStorage.getItem('socialDailyP'+userInfo.userId);
-      
+
       if(fu!=null)
       {
         this.searchConditions = JSON.parse(fu);
@@ -159,17 +160,21 @@
           this.currentField = content;
         } else {
           this.currentShip = content;
+
+          if (this.currentShip.value === "is null") {
+            this.searchForm.contentDisabled = true;
+          }
         }
       },
       addCondition() {
-        if(COMMON_METHODS.IS_EMPTY(this.currentField) || COMMON_METHODS.IS_EMPTY(this.currentShip) || COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent)) {
+        if(COMMON_METHODS.IS_EMPTY(this.currentField) || COMMON_METHODS.IS_EMPTY(this.currentShip) || (!this.searchForm.contentDisabled && COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent))) {
           this.$Message.error("请选择字段、关系并输入查询内容");
           return;
         } else {
           if(this.searchForm.isDate==1){
              var d = new Date(this.searchForm.searchContent);
               var year = d.getFullYear();
-              var month = d.getMonth() + 1; 
+              var month = d.getMonth() + 1;
               if (month >= 1 && month <= 9) {
                   month = "0" + month;
               }
@@ -187,7 +192,11 @@
           }
 
           const searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContent}`;
-          const searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${temp_searchContent}'`;
+          var searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${temp_searchContent}'`;
+
+          if (COMMON_METHODS.IS_EMPTY(temp_searchContent)) {
+            searchConditionExec = `${this.currentField.value} ${this.currentShip.value}`;
+          }
 
           const searchCondition = {
             desc: searchConditionDesc,

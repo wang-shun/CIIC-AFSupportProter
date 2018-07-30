@@ -139,7 +139,7 @@
           {title: '操作提示', key: 'operationRemindName', width: 150, align: 'center'},
           {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center'},
           {title: '发起时间', key: 'submitTimeFormat', width: 200, align: 'center'},
-          {title: '批退人', key: 'modifiedBy', width: 200, align: 'center'},
+          {title: '批退人', key: 'modifiedDisplayName', width: 200, align: 'center'},
           {title: '批退时间', key: 'modifiedTimeFormat', width: 200, align: 'center'},
           {title: '批退备注', key: 'rejectionRemark', width: 300, align: 'center'}
         ]

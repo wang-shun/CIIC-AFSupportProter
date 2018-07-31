@@ -304,6 +304,11 @@ export default {
       fromData.ifGiveupEvaluation = this.handleInfo.ifGiveupEvaluationw;
       fromData.ifComplete = this.handleInfo.ifCompletew;
       fromData.archiveId = this.fileInfo1.archiveId;
+      if(fromData.archiveId===''||fromData.archiveId==undefined)
+      {
+        this.$Message.success("请先保存档案");
+        return;
+      }
       if (
         this.handleInfo.injuryId != undefined &&
         this.handleInfo.injuryId != ""

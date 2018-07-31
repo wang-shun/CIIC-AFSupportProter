@@ -134,6 +134,9 @@ export default {
   employSearchExportOptExtDispatchWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtDispatchWord', params);
   },
+  archiveSearchExportReturnList:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturnList', params);
+  },//批量打印退工单
   employSearchExportOptExtCollectWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtCollectWord', params);
   },

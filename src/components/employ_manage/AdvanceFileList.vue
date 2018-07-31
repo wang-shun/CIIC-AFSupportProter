@@ -173,14 +173,14 @@
               ]);
             }
           },
-          {title: '预留档案类型', key: 'reservedArchiveType', align: 'center', width: 130,sortable: true,
+          {title: '档案类型', key: 'reservedArchiveType', align: 'center', width: 130,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.reservedArchiveType),
               ]);
             }
           },
-          {title: '预留档案编号', key: 'reservedArchiveNo', align: 'center', width: 135,sortable: true,
+          {title: '档案编号', key: 'reservedArchiveNo', align: 'center', width: 135,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.reservedArchiveNo),

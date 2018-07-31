@@ -27,9 +27,9 @@
                   <!--<Option value="[全部]" label="全部"></Option>-->
                   <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
             </Select>
-            <input-account v-model="searchForm.searchContent" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 3" ></input-account>
-            <input-company v-model="searchForm.searchContent" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 4"></input-company>
-            <input-company-name v-model="searchForm.searchContent" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 6"></input-company-name>
+            <input-account v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 3" ></input-account>
+            <input-company v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 4"></input-company>
+            <input-company-name v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 6"></input-company-name>
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer  v-if="searchForm.isDate == 5">
               <!--<Option value="" label="全部"></Option>-->
               <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
@@ -130,6 +130,8 @@
     methods: {
       // 选择字段或关系
       setOption(content, type){
+        this.searchForm.contentDisabled = false;
+
         if(type === chooseType.field) {
 
           this.searchForm.disabled = false;

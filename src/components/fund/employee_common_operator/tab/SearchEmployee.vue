@@ -43,7 +43,7 @@
             </Select>
             <DatePicker v-model="searchForm.searchContent" type="date" placement="bottom" placeholder="选择日期" style="width: 100%;" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 6"></DatePicker>
 
-            <input-company v-model="searchForm.searchContent" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 7"></input-company>
+            <input-company v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 7"></input-company>
 
              <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true"  @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 8">
                     <!--<Option value="" label="全部"></Option>-->
@@ -149,10 +149,10 @@
     methods: {
       // 选择字段或关系
       setOption(content, type){
-        if(type === chooseType.field) {
+        this.searchForm.contentDisabled = false;
 
+        if(type === chooseType.field) {
           this.searchForm.disabled = false;
-          this.searchForm.contentDisabled = false;
           this.searchForm.relationshipValue = "";
 
           if(content.value=='processStatus'){

@@ -4,7 +4,7 @@
       v-model="currentValue"
       :size="size"
       :id="elementId"
-      :disabled="disabled"
+      :disabled="disabled || alDisabled"
       :name="name"
       :icon="icon"
       :class-name="className"
@@ -66,6 +66,10 @@
       title: String,
       elementId: String,
       size: String,
+      alDisabled: {
+        type: Boolean,
+        default: false
+      },
       disabled: {
         type: Boolean,
         default: false

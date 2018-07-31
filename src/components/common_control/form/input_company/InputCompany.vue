@@ -4,7 +4,7 @@
       v-model="currentValue"
       :size="size"
       :id="elementId"
-      :disabled="disabled"
+      :disabled="disabled || alDisabled"
       :name="name"
       :icon="icon"
       :readonly="only"
@@ -68,6 +68,10 @@
       title: String,
       elementId: String,
       size: String,
+      alDisabled: {
+        type: Boolean,
+        default: false
+      },
       disabled: {
         type: Boolean,
         default: false
@@ -176,6 +180,7 @@
       },
 
       handleClick() {
+        if (this.alDisabled) return false;
         this.visible = true;
         if (this.data.length == 0) {
           this.query();

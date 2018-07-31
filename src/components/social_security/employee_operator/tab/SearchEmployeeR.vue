@@ -20,25 +20,25 @@
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
 
-            <Input v-model="searchForm.searchContent" placeholder="请输入" v-if="searchForm.isDate == 0" />
+            <Input v-model="searchForm.searchContent" placeholder="请输入" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 0" />
             <Date-picker  v-model="searchForm.searchContent"  type="month"  placement="right"
-                             placeholder="选择年月份" style="width: 100%;" v-if="searchForm.isDate == 1"></Date-picker>
-            <Select v-model="searchForm.searchContent" style="width: 100%;"  :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 2">
+                             placeholder="选择年月份" style="width: 100%;" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 1"></Date-picker>
+            <Select v-model="searchForm.searchContent" style="width: 100%;"  :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 2">
                   <!--<Option value="[全部]" label="全部"></Option>-->
                   <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
             </Select>
-            <input-account v-model="searchForm.searchContent" v-if="searchForm.isDate == 3" ></input-account>
-            <input-company v-model="searchForm.searchContent" v-if="searchForm.isDate == 4"></input-company>
-            <input-company-name v-model="searchForm.searchContent" v-if="searchForm.isDate == 6"></input-company-name>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer  v-if="searchForm.isDate == 5">
+            <input-account v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 3" ></input-account>
+            <input-company v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 4"></input-company>
+            <input-company-name v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 6"></input-company-name>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer  v-if="searchForm.isDate == 5">
               <!--<Option value="" label="全部"></Option>-->
               <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
             </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 7">
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 7">
                 <!--<Option value="" label="全部"></Option>-->
                 <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
             </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 8">
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 8">
                 <!--<Option value="0" label="全部"></Option>-->
                 <Option value="-1" label="本月未处理"></Option>
                 <Option value="-2" label="下月未处理"></Option>
@@ -130,6 +130,8 @@
     methods: {
       // 选择字段或关系
       setOption(content, type){
+        this.searchForm.contentDisabled = false;
+
         if(type === chooseType.field) {
 
           this.searchForm.disabled = false;

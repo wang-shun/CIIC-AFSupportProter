@@ -2,8 +2,8 @@
   <div>
     <Form :label-width=150 >
       <Row class="mt20" type="flex" justify="start">
-        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Table border width="1000" :columns="originEmpTaskColumns"
+        <Col :sm="{span: 20}">
+        <Table border :columns="originEmpTaskColumns"
                :data="originEmpTask"></Table>
         </Col>
       </Row>
@@ -16,8 +16,8 @@
       <div style="margin-bottom: 25px">
         <Form :label-width=150 >
           <Row class="mt20" type="flex" justify="start">
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Table border width="900" :columns="handledTaskListColumns"
+            <Col :sm="{span: 24}">
+            <Table border :columns="handledTaskListColumns"
                    :data="handledTask"></Table>
             </Col>
           </Row>
@@ -48,7 +48,7 @@
         handledTask: [],
         handledTaskListColumns:[
           {
-            title: '任务单类型', key: 'taskCategory', align: 'center', width: 100,
+            title: '任务单类型', key: 'taskCategory', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.taskCategory(params.row.taskCategory)),
@@ -59,7 +59,7 @@
             title: '办理方式',
             key: 'handleWay',
             align: 'center',
-            width: 100,
+            width: 120,
             render: (h, params) => {
               return h('span', this.$decode.handle_way(params.row.handleWay));
             }
@@ -68,7 +68,7 @@
             title: '人员属性',
             key: 'empClassify',
             align: 'center',
-            width: 100,
+            width: 150,
             render: (h, params) => {
               return h('span', this.$decode.empClassify(params.row.empClassify));
             }
@@ -137,7 +137,7 @@
             title: '办理人',
             key: 'modifiedDisplayName',
             align: 'center',
-            width: 100,
+            width: 120,
             render: (h, params) => {
               return h('div', [
                 h('span', params.row.modifiedDisplayName),
@@ -147,7 +147,7 @@
         ],
         originEmpTaskColumns: [
           {
-            title: '任务单类型', key: 'taskCategory', align: 'center', width: 150,
+            title: '任务单类型', key: 'taskCategory', align: 'center', width: 180,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.taskCategory(params.row.taskCategory)),
@@ -158,7 +158,7 @@
             title: '起始月份',
             key: 'startMonth',
             align: 'center',
-            width: 100,
+            width: 150,
             render: (h, params) => {
               return h('span', params.row.startMonth);
             }
@@ -167,7 +167,7 @@
             title: '截止月份',
             key: 'endMonth',
             align: 'center',
-            width: 100,
+            width: 150,
             render: (h, params) => {
               return h('span', params.row.endMonth)
             }
@@ -176,7 +176,7 @@
             title: '基数',
             key: 'empCompanyBase',
             align: 'center',
-            width: 150,
+            width: 180,
             render: (h, params) => {
               return h('span',params.row.empCompanyBase)
             }
@@ -185,7 +185,7 @@
             title: '发起时间',
             key: 'createdTime',
             align: 'center',
-            width: 200,
+            width: 220,
             render: (h, params) => {
               return h('span',params.row.createdTime)
             }
@@ -194,7 +194,7 @@
             title: '发起人',
             key: 'createdDisplayName',
             align: 'center',
-            width: 150,
+            width: 180,
             render: (h, params) => {
               return h('span',params.row.createdDisplayName)
             }
@@ -203,7 +203,7 @@
             title: '任务单办理信息',
             key: 'empTaskId',
             align: 'center',
-            width: 150,
+            width: 194,
             render: (h, params) => {
               let empTaskId = params.row.empTaskId;
               let taskStatus = params.row.taskStatus;

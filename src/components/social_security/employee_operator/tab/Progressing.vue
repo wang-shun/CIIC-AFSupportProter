@@ -20,7 +20,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Table border ref="selection"
+      <Table border id="processingData" ref="selection"
              :columns="employeeResultColumns"
              :data="employeeResultData"
              @on-selection-change="selectionChange"
@@ -692,7 +692,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(1, idx, order)
+          tableStyle.changeSortElementClass('processingData', idx, order)
         });
       },
     }

@@ -369,6 +369,12 @@ export default {
           sessionStorage.removeItem("employeeOperatorTab")
         }
       }
+      if (obj.crouter == 'employeeFundCommonOperator') {
+        let tab = sessionStorage.fundEmployeeOperatorTab
+        if (typeof(tab) != 'undefined') {
+          sessionStorage.removeItem("fundEmployeeOperatorTab")
+        }
+      }
     },
   },
   directives: {

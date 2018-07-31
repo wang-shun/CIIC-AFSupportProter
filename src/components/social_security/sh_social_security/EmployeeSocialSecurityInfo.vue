@@ -168,8 +168,8 @@
         <div slot="content">
           <Form :label-width=120>
             <Row>
-              <Col :sm="{span: 20}">
-                <Table width="731" border :columns="socialSecurityInfoListColumns" :data="socialSecurityInfoListData"></Table>
+              <Col :sm="{span: 12}">
+                <Table border :columns="socialSecurityInfoListColumns" :data="socialSecurityInfoListData"></Table>
               </Col>
             </Row>
           </Form>
@@ -244,7 +244,7 @@
             }
           },
           {
-            title: '基数', key: 'baseAmount', align: 'center', width: 162,
+            title: '基数', key: 'baseAmount', align: 'center', width: 183,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.baseAmount),

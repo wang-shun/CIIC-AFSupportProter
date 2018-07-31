@@ -20,7 +20,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}" >
-        <Table border ref="noProcessData"
+        <Table border id="noProcessData"
                :row-class-name="rowClassName"
                :columns="noProcessColumns"
                :data="noProcessData"
@@ -309,6 +309,9 @@
 
       var conditions = [];
       this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
     },
@@ -706,7 +709,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(0, idx, order)
+          tableStyle.changeSortElementClass('noProcessData', idx, order)
         });
       },
       beforeUpload(file) {

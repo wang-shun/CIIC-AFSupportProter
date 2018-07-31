@@ -19,7 +19,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :row-class-name="rowClassName" :columns="processingColumns" :data="processingData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
+        <Table border id="processingData" :row-class-name="rowClassName" :columns="processingColumns" :data="processingData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -570,7 +570,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(1, idx, order)
+          tableStyle.changeSortElementClass('processingData', idx, order)
         });
       },
     }

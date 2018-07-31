@@ -154,13 +154,7 @@ import {FundPay} from '../../../../api/house_fund/fund_pay/fund_pay'
               ]);
             }
           },
-          {title: '上月汇缴人数', key: 'remittedCountEmpLast', width: 120, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.remittedCountEmpLast),
-              ]);
-            }
-          },
+
           {title: '上月汇缴金额', key: 'remittedAmountLast', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -193,6 +187,13 @@ import {FundPay} from '../../../../api/house_fund/fund_pay/fund_pay'
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.repairAmount),
+              ]);
+            }
+          },
+          {title: '上月汇缴人数', key: 'remittedCountEmpLast', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedCountEmpLast),
               ]);
             }
           },

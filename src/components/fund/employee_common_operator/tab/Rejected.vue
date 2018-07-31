@@ -17,7 +17,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Table border :row-class-name="rowClassName" :columns="rejectedColumns" :data="rejectedData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
+      <Table border id="rejectedData" :row-class-name="rowClassName" :columns="rejectedColumns" :data="rejectedData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -519,7 +519,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(3, idx, order)
+          tableStyle.changeSortElementClass('rejectedData', idx, order)
         });
       },
     }

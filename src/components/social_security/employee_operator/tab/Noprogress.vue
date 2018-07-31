@@ -19,7 +19,7 @@
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Table border ref="selection"  :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
+      <Table border id="noProcessData" ref="selection"  :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -190,6 +190,10 @@
        this.searchConditions =[];
        this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
        this.loadDict();
+
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
 
@@ -847,7 +851,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(0, idx, order)
+          tableStyle.changeSortElementClass('noProcessData', idx, order)
         });
       },
     }

@@ -26,7 +26,7 @@
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
     </Row>
-    <Table border height="300" :row-class-name="rowClassName" :columns="dismissalColumns" :data="dismissalData" ref="dismissalData" :loading="isLoading"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
+    <Table border id="dissList" height="300" :row-class-name="rowClassName" :columns="dismissalColumns" :data="dismissalData" ref="dismissalData" :loading="isLoading"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -777,7 +777,7 @@ export default {
           self.dismissalData = data.data.rows;
           // self.pageData.total = Number(data.data.total);
           self.isLoading = false;
-          this.searchCondition.taskStatus = 0;
+          // this.searchCondition.taskStatus = 0;
           this.changeSortClass(this.orderConditions);
         });
     },changeSortClass(storeOrder) {
@@ -794,7 +794,7 @@ export default {
                 storeOrder[index].indexOf("job_centre_feedback_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
               if (
@@ -802,7 +802,7 @@ export default {
                 storeOrder[index].indexOf("out_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
               if (
@@ -810,7 +810,7 @@ export default {
                 storeOrder[index].indexOf("employee_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
 
@@ -819,7 +819,7 @@ export default {
                 storeOrder[index].indexOf("company_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
 
@@ -828,7 +828,7 @@ export default {
                 storeOrder[index].indexOf("title") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
 
@@ -837,7 +837,7 @@ export default {
                 storeOrder[index].indexOf("employment_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
 
@@ -846,7 +846,7 @@ export default {
                 storeOrder[index].indexOf("employee_name") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
 
@@ -855,7 +855,7 @@ export default {
                 storeOrder[index].indexOf("id_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
 
@@ -864,7 +864,7 @@ export default {
                 storeOrder[index].indexOf("doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
 
@@ -873,7 +873,7 @@ export default {
                 storeOrder[index].indexOf("yuliu_doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
 
@@ -882,7 +882,7 @@ export default {
                 storeOrder[index].indexOf("employ_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
 
@@ -891,7 +891,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
 
@@ -900,7 +900,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx-1, order);
+                tableStyle.changeSortElementClass('dissList', idx-1, order);
                 break;
               }
             }

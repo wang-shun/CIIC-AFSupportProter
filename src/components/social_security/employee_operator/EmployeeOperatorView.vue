@@ -31,11 +31,11 @@
           isProgressing: false,
           isFinished: false,
           isRefused: false,
-        
+
       }
     },
-    mounted() {
-      
+    created() {
+
       if(typeof(sessionStorage.employeeOperatorTab)!="undefined"){
           this.tab = sessionStorage.employeeOperatorTab
       }

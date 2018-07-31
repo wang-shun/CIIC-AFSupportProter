@@ -42,7 +42,7 @@
         <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
-    <Table border height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
+    <Table border id="employList" height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -775,6 +775,25 @@ export default {
         "employmentOrder" + userInfo.userId,
         JSON.stringify(this.orderConditions)
       );
+      if (this.orderConditions.length > 0) {
+        for (let index in this.orderConditions) {
+          this.searchConditions.push(this.orderConditions[index]);
+        }
+      }
+
+      this.searchCondition.params = this.searchConditions.toString();
+      let self = this;
+      api
+        .employeeQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: this.searchCondition
+        })
+        .then(data => {
+          self.employmentData = data.data.rows;
+
+          this.changeSortClass(this.orderConditions);
+        });
     },
     //生成导出文件
     exportTable(name) {
@@ -856,7 +875,7 @@ export default {
                 storeOrder[index].indexOf("employee_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
 
@@ -865,7 +884,7 @@ export default {
                 storeOrder[index].indexOf("company_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
 
@@ -874,7 +893,7 @@ export default {
                 storeOrder[index].indexOf("title") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
 
@@ -883,7 +902,7 @@ export default {
                 storeOrder[index].indexOf("employment_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
 
@@ -892,7 +911,7 @@ export default {
                 storeOrder[index].indexOf("employee_name") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
 
@@ -901,7 +920,7 @@ export default {
                 storeOrder[index].indexOf("id_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
 
@@ -910,7 +929,7 @@ export default {
                 storeOrder[index].indexOf("doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
 
@@ -919,7 +938,7 @@ export default {
                 storeOrder[index].indexOf("yuliu_doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
 
@@ -928,7 +947,7 @@ export default {
                 storeOrder[index].indexOf("employ_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
 
@@ -937,7 +956,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
 
@@ -946,7 +965,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
                 break;
               }
             }

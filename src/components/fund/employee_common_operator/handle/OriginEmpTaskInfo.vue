@@ -1,23 +1,23 @@
 <template>
   <div>
     <Form :label-width=150 >
-      <Row class="mt20" type="flex" justify="start">
-        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Table border width="1270" :columns="handledTaskListColumns"
+      <Row>
+        <Col :sm="{span: 24}">
+        <Table border :columns="handledTaskListColumns"
                :data="handledTask"></Table>
         </Col>
       </Row>
     </Form>
 
-    <Modal v-model="showOrigin" :width="900" :mask-closable="false" :closable="false">
+    <Modal v-model="showOrigin" :width="885" :mask-closable="false" :closable="false">
       <div style="margin-bottom: 20px">
         <span style="font-weight: bold">原任务单信息</span>
       </div>
       <div style="margin-bottom: 25px">
         <Form :label-width=150 >
-          <Row class="mt20" type="flex" justify="start">
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Table border width="850" :columns="originEmpTaskColumns"
+          <Row>
+            <Col :sm="{span: 24}">
+            <Table border :columns="originEmpTaskColumns"
                    :data="originEmpTask"></Table>
             </Col>
           </Row>
@@ -27,6 +27,7 @@
         <button type="button" class="ivu-btn ivu-btn-text ivu-btn-large" @click="close"><span>关闭</span></button>
       </div>
     </Modal>
+
   </div>
 </template>
 <script>
@@ -59,7 +60,7 @@
             title: '起始月份',
             key: 'startMonth',
             align: 'center',
-            width: 100,
+            width: 90,
             render: (h, params) => {
               return h('span', params.row.startMonth);
             }
@@ -68,7 +69,7 @@
             title: '截止月份',
             key: 'endMonth',
             align: 'center',
-            width: 100,
+            width: 90,
             render: (h, params) => {
               return h('span', params.row.endMonth)
             }
@@ -83,10 +84,37 @@
             }
           },
           {
+            title: '企业比例',
+            key: 'ratioCom',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span',params.row.ratioCom)
+            }
+          },
+          {
+            title: '个人比例',
+            key: 'ratioEmp',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span',params.row.ratioEmp)
+            }
+          },
+          {
+            title: '金额',
+            key: 'amount',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span',params.row.amount)
+            }
+          },
+          {
             title: '办理月份',
             key: 'hfMonth',
             align: 'center',
-            width: 100,
+            width: 90,
             render: (h, params) => {
               return h('div', [
                 h('span', params.row.hfMonth),
@@ -97,7 +125,7 @@
             title: '办理状态',
             key: 'taskStatusName',
             align: 'center',
-            width: 100,
+            width: 90,
             render: (h, params) => {
               return h('div', [
                 h('span', params.row.taskStatusName),
@@ -141,7 +169,7 @@
             title: '办理人',
             key: 'modifiedDisplayName',
             align: 'center',
-            width: 100,
+            width: 85,
             render: (h, params) => {
               return h('div', [
                 h('span', params.row.modifiedDisplayName),
@@ -152,7 +180,7 @@
             title: '原任务单',
             key: 'empTaskId',
             align: 'center',
-            width: 100,
+            width: 90,
             render: (h, params) => {
               let empTaskId = params.row.empTaskId;
               let taskCategory = params.row.taskCategory;
@@ -170,10 +198,10 @@
         ],
         originEmpTaskColumns: [
           {
-            title: '任务单类型', key: 'taskCategory', align: 'center', width: 150,
+            title: '任务单类型', key: 'taskCategoryName', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', this.$decode.taskCategory(params.row.taskCategory)),
+                h('span', params.row.taskCategoryName),
               ]);
             }
           },
@@ -202,6 +230,33 @@
             width: 150,
             render: (h, params) => {
               return h('span',params.row.empBase)
+            }
+          },
+          {
+            title: '企业比例',
+            key: 'ratioCom',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span',params.row.ratioCom)
+            }
+          },
+          {
+            title: '个人比例',
+            key: 'ratioEmp',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span',params.row.ratioEmp)
+            }
+          },
+          {
+            title: '金额',
+            key: 'amount',
+            align: 'center',
+            width: 100,
+            render: (h, params) => {
+              return h('span',params.row.amount)
             }
           },
           {

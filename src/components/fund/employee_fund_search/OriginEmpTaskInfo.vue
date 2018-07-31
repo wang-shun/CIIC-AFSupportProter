@@ -2,8 +2,8 @@
   <div>
     <Form :label-width=150 >
       <Row class="mt20" type="flex" justify="start">
-        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Table border width="1300" :columns="originEmpTaskColumns"
+        <Col :sm="{span: 24}">
+        <Table border :columns="originEmpTaskColumns"
                :data="originEmpTask"></Table>
         </Col>
       </Row>
@@ -16,8 +16,8 @@
       <div style="margin-bottom: 25px">
         <Form :label-width=150 >
           <Row class="mt20" type="flex" justify="start">
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Table border width="900" :columns="handledTaskListColumns"
+            <Col :sm="{span: 24}">
+            <Table border :columns="handledTaskListColumns"
                    :data="handledTask"></Table>
             </Col>
           </Row>
@@ -166,7 +166,7 @@
         ],
         originEmpTaskColumns: [
           {
-            title: '任务单类型', key: 'taskCategory', align: 'center', width: 150,
+            title: '任务单类型', key: 'taskCategory', align: 'center', width: 175,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.taskCategoryName),
@@ -177,7 +177,7 @@
             title: '起始月份',
             key: 'startMonth',
             align: 'center',
-            width: 100,
+            width: 120,
             render: (h, params) => {
               return h('span', params.row.startMonth);
             }
@@ -186,7 +186,7 @@
             title: '截止月份',
             key: 'endMonth',
             align: 'center',
-            width: 100,
+            width: 120,
             render: (h, params) => {
               return h('span', params.row.endMonth)
             }
@@ -195,7 +195,7 @@
             title: '基数',
             key: 'empBase',
             align: 'center',
-            width: 150,
+            width: 160,
             render: (h, params) => {
               return h('span',params.row.empBase)
             }
@@ -204,7 +204,7 @@
             title: '企业比例',
             key: 'ratioCom',
             align: 'center',
-            width: 100,
+            width: 120,
             render: (h, params) => {
               return h('span',params.row.ratioCom)
             }
@@ -213,7 +213,7 @@
             title: '个人比例',
             key: 'ratioEmp',
             align: 'center',
-            width: 100,
+            width: 120,
             render: (h, params) => {
               return h('span',params.row.ratioEmp)
             }
@@ -222,7 +222,7 @@
             title: '金额',
             key: 'amount',
             align: 'center',
-            width: 100,
+            width: 150,
             render: (h, params) => {
               return h('span',params.row.amount)
             }
@@ -240,7 +240,7 @@
             title: '发起人',
             key: 'createdDisplayName',
             align: 'center',
-            width: 150,
+            width: 160,
             render: (h, params) => {
               return h('span',params.row.createdDisplayName)
             }
@@ -249,7 +249,7 @@
             title: '任务单办理信息',
             key: 'empTaskId',
             align: 'center',
-            width: 150,
+            width: 180,
             render: (h, params) => {
               let empTaskId = params.row.empTaskId;
               let taskStatus = params.row.taskStatus;

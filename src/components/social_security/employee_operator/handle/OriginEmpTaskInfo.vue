@@ -2,8 +2,8 @@
   <div>
     <Form :label-width=150 >
       <Row class="mt20" type="flex" justify="start">
-        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-        <Table border width="1300" :columns="handledTaskListColumns"
+        <Col :sm="{span: 24}">
+        <Table border :columns="handledTaskListColumns"
                :data="handledTask"></Table>
         </Col>
       </Row>
@@ -16,8 +16,8 @@
       <div style="margin-bottom: 25px">
         <Form :label-width=150 >
           <Row class="mt20" type="flex" justify="start">
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            <Table border width="850" :columns="originEmpTaskColumns"
+            <Col :sm="{span: 24}">
+            <Table border :columns="originEmpTaskColumns"
                    :data="originEmpTask"></Table>
             </Col>
           </Row>
@@ -48,7 +48,7 @@
         handledTask: [],
         handledTaskListColumns:[
           {
-            title: '任务单类型', key: 'taskCategory', align: 'center', width: 150,
+            title: '任务单类型', key: 'taskCategory', align: 'center', width: 160,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.taskCategory(params.row.taskCategory)),
@@ -59,7 +59,7 @@
             title: '办理方式',
             key: 'handleWay',
             align: 'center',
-            width: 100,
+            width: 120,
             render: (h, params) => {
               return h('span', this.$decode.handle_way(params.row.handleWay));
             }
@@ -68,7 +68,7 @@
             title: '人员属性',
             key: 'empClassify',
             align: 'center',
-            width: 100,
+            width: 160,
             render: (h, params) => {
               return h('span', this.$decode.empClassify(params.row.empClassify));
             }
@@ -77,7 +77,7 @@
             title: '起始月份',
             key: 'startMonth',
             align: 'center',
-            width: 100,
+            width: 115,
             render: (h, params) => {
               return h('span', params.row.startMonth);
             }
@@ -86,7 +86,7 @@
             title: '截止月份',
             key: 'endMonth',
             align: 'center',
-            width: 100,
+            width: 115,
             render: (h, params) => {
               return h('span', params.row.endMonth)
             }
@@ -95,7 +95,7 @@
             title: '基数',
             key: 'empBase',
             align: 'center',
-            width: 150,
+            width: 160,
             render: (h, params) => {
               return h('span',params.row.empBase)
             }
@@ -104,7 +104,7 @@
             title: '办理月份',
             key: 'handleMonth',
             align: 'center',
-            width: 100,
+            width: 115,
             render: (h, params) => {
               return h('div', [
                 h('span', params.row.handleMonth),
@@ -115,7 +115,7 @@
             title: '办理状态',
             key: 'taskStatus',
             align: 'center',
-            width: 100,
+            width: 120,
             render: (h, params) => {
               return h('div', [
                 h('span', this.$decode.empTaskStatus(params.row.taskStatus)),
@@ -137,7 +137,7 @@
             title: '办理人',
             key: 'modifiedDisplayName',
             align: 'center',
-            width: 100,
+            width: 120,
             render: (h, params) => {
               return h('div', [
                 h('span', params.row.modifiedDisplayName),
@@ -148,7 +148,7 @@
             title: '原任务单',
             key: 'empTaskId',
             align: 'center',
-            width: 100,
+            width: 120,
             render: (h, params) => {
               let empTaskId = params.row.empTaskId;
               let taskCategory = params.row.taskCategory;
@@ -166,7 +166,7 @@
         ],
         originEmpTaskColumns: [
           {
-            title: '任务单类型', key: 'taskCategory', align: 'center', width: 150,
+            title: '任务单类型', key: 'taskCategory', align: 'center', width: 160,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.taskCategory(params.row.taskCategory)),
@@ -195,7 +195,7 @@
             title: '基数',
             key: 'empCompanyBase',
             align: 'center',
-            width: 150,
+            width: 155,
             render: (h, params) => {
               return h('span',params.row.empCompanyBase)
             }

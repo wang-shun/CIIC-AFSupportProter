@@ -772,6 +772,7 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
+       
         if(row.paymentState == 0 || row.paymentState == 1 || row.paymentState == 4 ){
           let params = {
             paymentId:row.paymentId,
@@ -909,7 +910,7 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-      if(row.paymentState != 1 && row.paymentState !=4 && row.paymentState !=2  ){
+      if(row.paymentState != 1 && row.paymentState !=4 && row.paymentState !=2  && row.paymentState !=0 ){
         this.$Message.info('当前状态，不允许删除！');
         return false;
       }

@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        礼品管理查询
+        雇员查询
         <div slot="content">
           <Form :model="seniorSearchInfo" ref="seniorSearchInfo" :label-width="100">
             <Row class="mt20 mr10">

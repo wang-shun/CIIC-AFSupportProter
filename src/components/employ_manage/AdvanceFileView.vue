@@ -8,12 +8,12 @@
           <Form :label-width=120>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="预留档案类型：">
+                <Form-item label="档案类型：">
                   <label>{{$route.query.reservedArchiveType}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="预留档案编号：">
+                <Form-item label="档案编号：">
                   <label>{{$route.query.reservedArchiveNo}}</label>
                 </Form-item>
               </Col>

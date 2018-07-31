@@ -161,7 +161,7 @@
         } else {
           this.currentShip = content;
 
-          if (this.currentShip.value === "is null") {
+          if (this.currentShip && this.currentShip.value === "is null") {
             this.searchForm.contentDisabled = true;
           }
         }

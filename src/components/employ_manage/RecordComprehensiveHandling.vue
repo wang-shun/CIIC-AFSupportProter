@@ -25,7 +25,7 @@
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
       </Col>
     </Row>
-    <Table border height="300" :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
+    <Table border id="redList" height="300" :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
      <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -1042,10 +1042,10 @@ export default {
         })
         .then(data => {
           self.recordComprehensiveHandlingData = data.data.rows;
-          self.pageData.total = Number(data.data.total);
+          // self.pageData.total = Number(data.data.total);
 
-          self.searchCondition.taskStatus = "";
-          self.searchCondition.taskResignStatus = "";
+          // self.searchCondition.taskStatus = "";
+          // self.searchCondition.taskResignStatus = "";
           this.changeSortClass(this.orderConditions);
         });
     },
@@ -1062,7 +1062,7 @@ export default {
                 storeOrder[index].indexOf("employee_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1071,7 +1071,7 @@ export default {
                 storeOrder[index].indexOf("company_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1080,7 +1080,7 @@ export default {
                 storeOrder[index].indexOf("title") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1089,7 +1089,7 @@ export default {
                 storeOrder[index].indexOf("employment_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1098,7 +1098,7 @@ export default {
                 storeOrder[index].indexOf("employee_name") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1107,7 +1107,7 @@ export default {
                 storeOrder[index].indexOf("id_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1116,7 +1116,7 @@ export default {
                 storeOrder[index].indexOf("doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1125,7 +1125,7 @@ export default {
                 storeOrder[index].indexOf("yuliu_doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1134,7 +1134,7 @@ export default {
                 storeOrder[index].indexOf("job_centre_feedback_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1143,7 +1143,7 @@ export default {
                 storeOrder[index].indexOf("employ_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1152,7 +1152,7 @@ export default {
                 storeOrder[index].indexOf("storage_out_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1161,7 +1161,7 @@ export default {
                 storeOrder[index].indexOf("return_doc_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
 
@@ -1170,7 +1170,7 @@ export default {
                 storeOrder[index].indexOf("resign_handle_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass(0, idx - 1, order);
+                tableStyle.changeSortElementClass('redList', idx - 1, order);
                 break;
               }
             }

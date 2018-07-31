@@ -99,7 +99,7 @@
           relationship: em_relationship,
           searchContent: "",
           isDate:0,
-          isFinish:0,
+          isFinish:2,
         },
         searchConditions: [],
         currentField: {},

@@ -26,6 +26,8 @@
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
         <Button type="info" @click="printLabel">打印贴头</Button>
+        <Button type="info" @click="exportTable(1)">用工录用名册</Button>
+        <Button type="info" @click="exportTable(2)">派遣录用名册</Button>
         <Dropdown @on-click="exportTable">
           <Button type="info">
             生成导出文件
@@ -701,9 +703,23 @@ export default {
       this.orderConditions = [];
       this.searchConditions = [];
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+<<<<<<< .mine
       var isFinish = JSON.parse(sessionStorage.getItem("employmentIsFinish" + userInfo.userId));
       var conditions = JSON.parse(sessionStorage.getItem("employment" + userInfo.userId));
       var storeOrder = JSON.parse(sessionStorage.getItem("employmentOrder" + userInfo.userId));
+
+
+
+
+=======
+      var isFinish = JSON.parse(
+        sessionStorage.getItem("employmentIsFinish" + userInfo.userId)
+      );
+      var conditions = JSON.parse(sessionStorage.getItem("employment" + userInfo.userId));
+      var storeOrder = JSON.parse(
+        sessionStorage.getItem("employmentOrder" + userInfo.userId)
+      );
+>>>>>>> .theirs
       if (conditions !== null) {
         for (var i = 0; i < conditions.length; i++)
           this.searchConditions.push(conditions[i].exec);
@@ -793,84 +809,20 @@ export default {
     },
     //生成导出文件
     exportTable(name) {
-
       this.orderConditions = [];
       this.searchConditions = [];
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-      var isFinish = JSON.parse(
-        sessionStorage.getItem("employmentIsFinish" + userInfo.userId)
-      );
-      var conditions = sessionStorage.getItem("employment" + userInfo.userId);
-      var storeOrder = JSON.parse(
-        sessionStorage.getItem("employmentOrder" + userInfo.userId)
-      );
+      var conditions = JSON.parse(sessionStorage.getItem("employment" + userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem("employmentOrder" + userInfo.userId));
+     
       if (conditions !== null) {
         for (var i = 0; i < conditions.length; i++)
           this.searchConditions.push(conditions[i].exec);
       }
-      var dx = "";
-      if (e.key === "companyId") {
-        dx = "a.company_id";
-      } else if (e.key === "title") {
-        dx = "h.title";
-      } else if (e.key === "employeeId") {
-        dx = "a.employee_id";
-      } else if (e.key === "employmentId") {
-        dx = "b.employment_id";
-      } else if (e.key === "idNum") {
-        dx = "d.id_num";
-      } else if (e.key === "employeeName") {
-        dx = "d.employee_name";
-      } else if (e.key === "docNum") {
-        dx = "c.doc_num";
-      } else if (e.key === "yuliuDocNum") {
-        dx = "c.yuliu_doc_num";
-      } else if (e.key === "employFeedbackOptDate") {
-        dx = "c.employ_feedback_opt_date";
-      } else if (e.key === "diaodangFeedback") {
-        dx = "c.diaodang_feedback";
-      } else if (e.key === "diaodangFeedbackOptDate") {
-        dx = "c.diaodang_feedback_opt_date";
-      }
-      const searchConditionExec = `${dx} ${e.order} `;
       if (storeOrder === null) {
       } else {
         this.orderConditions = storeOrder;
       }
-      var isE = false;
-      if (this.orderConditions.length > 0) {
-        for (let index in this.orderConditions) {
-          if (
-            this.orderConditions[index].indexOf(dx) !== -1 &&
-            e.order === "normal"
-          ) {
-            //如果是取消，则删除条件
-            this.orderConditions.splice(index, 1);
-            isE = true;
-          } else if (
-            this.orderConditions[index].indexOf(dx) !== -1 &&
-            this.orderConditions[index].indexOf(e.order) === -1
-          ) {
-            //如果是切换查询顺序
-            this.orderConditions.splice(index, 1);
-            this.orderConditions.push(searchConditionExec);
-            isE = true;
-          } else if (this.orderConditions[index] === searchConditionExec) {
-            this.orderConditions.splice(index, 1);
-          }
-        }
-
-        if (!isE) {
-          this.orderConditions.push(searchConditionExec);
-        }
-      } else {
-        this.orderConditions.push(searchConditionExec);
-      }
-
-      sessionStorage.setItem(
-        "employmentOrder" + userInfo.userId,
-        JSON.stringify(this.orderConditions)
-      );
       if (this.orderConditions.length > 0) {
         for (let index in this.orderConditions) {
           this.searchConditions.push(this.orderConditions[index]);
@@ -879,15 +831,14 @@ export default {
 
       this.searchCondition.params = this.searchConditions.toString();
 
-
       switch (parseInt(name)) {
         case 1:
           // 用工录用名册
-          api.employSearchExportOptUseWord(this.searchCondition.params);
+          api.employSearchExportOptUseWord(this.searchCondition);
           break;
         case 2:
           // 派遣录用名册
-          api.employSearchExportOptDispatchWord(this.searchCondition.params);
+          api.employSearchExportOptDispatchWord(this.searchCondition);
           break;
         case 3:
           // 外来独立

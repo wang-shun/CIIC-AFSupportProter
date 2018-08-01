@@ -26,9 +26,7 @@
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
         <Button type="info" @click="printLabel">打印贴头</Button>
-        <Button type="info" @click="exportTable(1)">用工录用名册</Button>
-        <Button type="info" @click="exportTable(2)">派遣录用名册</Button>
-        <Dropdown @on-click="exportTable">
+        <Dropdown @on-click="exportTable" transfer>
           <Button type="info">
             生成导出文件
             <Icon type="arrow-down-b"></Icon>
@@ -830,11 +828,11 @@ export default {
           break;
         case 3:
           // 外来独立
-          api.employSearchExportOptAlonehWord();
+          api.employSearchExportOptAlonehWord(this.searchCondition);
           break;
         case 4:
           // 外来派遣
-          api.employSearchExportOptExtDispatchWord();
+          api.employSearchExportOptExtDispatchWord(this.searchCondition);
           break;
         case 5:
           // 采集表 汇总表

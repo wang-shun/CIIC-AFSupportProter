@@ -172,6 +172,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
   import EventType from '../../../../store/event_types'
+  import payComApi from '../../../../api/social_security/payment_com'
   import payBatchApi from '../../../../api/social_security/payment_batch'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
@@ -381,6 +382,12 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
     mounted() {
       sessionData.getJsonDataFromSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
       sessionData.getJsonDataFromSession('paymentBatch.payBatchPageData', this.payBatchPageData);
+      let d = new Date();
+      payComApi.getLastMonth().then(data=>{
+        d=new Date(data.data+'/01');
+        this.payComSearchData.paymentMonth=d;
+      })
+
       this.paymentBatchQuery();
       //this.payBatchHandlePageNum(1);
       this.loadDict();

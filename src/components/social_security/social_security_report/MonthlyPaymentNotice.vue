@@ -150,7 +150,8 @@
       },
       paymentDetailQuery(){
         api.getPaymentDetail({
-          comAccountId: this.comAccountId,
+         // comAccountId: this.comAccountId,
+          ssAccount:this.$route.query.ssAccount,
           paymentMonth: this.ssMonth
         }).then(data => {
           this.noticeData = data.data;

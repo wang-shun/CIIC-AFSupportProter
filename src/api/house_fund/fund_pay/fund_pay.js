@@ -82,8 +82,6 @@ export  class FundPay {
 
   //post fund pays
   static getFundPaysTableData(params){
-    console.log("===");
-    console.log(params);
     let url = domainJson.getFundPaysUrl
     return new Promise(function(resolve,reject){
       ajax.post(url, params).then(function (response) {

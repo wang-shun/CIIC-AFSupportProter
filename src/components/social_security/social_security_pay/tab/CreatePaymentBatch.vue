@@ -26,7 +26,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付年月：">
                       <Form-item prop="paymentMonth">
-                        <DatePicker v-model="payComSearchData.paymentMonth" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" :disabled=true transfer></DatePicker>
+                        <DatePicker v-model="payComSearchData.paymentMonth" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" :disabled=true style="width: 100%;"  transfer></DatePicker>
                       </Form-item>
                 </Form-item>
               </Col>
@@ -481,11 +481,11 @@
     mounted() {
       //this.payComHandlePageNum(1);
       this.loadDict();
-      let d = new Date()
-      d.setMonth(d.getMonth()-1);
-
-      this.payComSearchData.paymentMonth=d;
-
+      let d = new Date();
+      payComApi.getLastMonth().then(data=>{
+        d=new Date(data.data+'/01');
+        this.payComSearchData.paymentMonth=d;
+      })
       this.paymentComQuery();
       this.getCustomers()
     },

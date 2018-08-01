@@ -154,7 +154,13 @@ import {FundPay} from '../../../../api/house_fund/fund_pay/fund_pay'
               ]);
             }
           },
-
+          {title: '缴费月份', key: 'paymentMonth', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.paymentMonth),
+              ]);
+            }
+          },
           {title: '上月汇缴金额', key: 'remittedAmountLast', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [

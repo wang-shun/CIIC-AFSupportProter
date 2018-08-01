@@ -948,7 +948,7 @@ export default {
       this.orderConditions = [];
       this.searchConditions = [];
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-      var conditions = sessionStorage.getItem("archive" + userInfo.userId);
+      var conditions = JSON.parse(sessionStorage.getItem("archive" + userInfo.userId));
       var storeOrder = JSON.parse(
         sessionStorage.getItem("archiveOrder" + userInfo.userId)
       );

@@ -703,23 +703,11 @@ export default {
       this.orderConditions = [];
       this.searchConditions = [];
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-<<<<<<< .mine
+
       var isFinish = JSON.parse(sessionStorage.getItem("employmentIsFinish" + userInfo.userId));
       var conditions = JSON.parse(sessionStorage.getItem("employment" + userInfo.userId));
       var storeOrder = JSON.parse(sessionStorage.getItem("employmentOrder" + userInfo.userId));
 
-
-
-
-=======
-      var isFinish = JSON.parse(
-        sessionStorage.getItem("employmentIsFinish" + userInfo.userId)
-      );
-      var conditions = JSON.parse(sessionStorage.getItem("employment" + userInfo.userId));
-      var storeOrder = JSON.parse(
-        sessionStorage.getItem("employmentOrder" + userInfo.userId)
-      );
->>>>>>> .theirs
       if (conditions !== null) {
         for (var i = 0; i < conditions.length; i++)
           this.searchConditions.push(conditions[i].exec);

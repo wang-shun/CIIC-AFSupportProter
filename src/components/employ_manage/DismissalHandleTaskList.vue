@@ -638,7 +638,7 @@ export default {
       var fromData = {};
       fromData.empTaskIds = empTaskIds;
       const _self = this;
-      api.batchCheck(fromData).then(data => {
+      api.batchResignCheck(fromData).then(data => {
         if (data.code == 200) {
           if (data.data.empTask) {
             var content =

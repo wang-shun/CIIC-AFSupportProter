@@ -39,7 +39,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="存档地：">
-                  <label>{{$route.query.archivalPlace}}</label>
+                  <label>{{$route.query.archivePlace}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 16}">

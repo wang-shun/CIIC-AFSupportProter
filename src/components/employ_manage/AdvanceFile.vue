@@ -45,7 +45,7 @@
       </Col>
        <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地：">
-            <Select style="width: 100%;" transfer v-model="advanceFile.archivalPlace">
+            <Select style="width: 100%;" transfer v-model="advanceFile.archivePlace">
               <Option v-for="item in filePlaceList" :value="item.value" :key="item.value" >{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -101,7 +101,7 @@ export default {
         employeeIdcardNo: "",
         enteringDate: "",
         archiveSource: "",
-        archivalPlace: "",
+        archivePlace: "",
         exist: true,
         remark: "",
         exitThePlaceDate: ""
@@ -136,7 +136,7 @@ export default {
     this.advanceFile.employeeIdcardNo = this.$route.query.employeeIdcardNo;
     this.advanceFile.enteringDate = this.$route.query.enteringDate;
     this.advanceFile.archiveSource = this.$route.query.archiveSource;
-    this.advanceFile.archivalPlace = this.$route.query.archivalPlace;
+    this.advanceFile.archivePlace = this.$route.query.archivePlace;
     this.advanceFile.exitThePlaceDate = this.$route.query.exitThePlaceDate;
     this.advanceFile.remark = this.$route.query.remark;
     this.oldName = this.$route.query.employeeName;

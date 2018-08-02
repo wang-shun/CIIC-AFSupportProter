@@ -211,7 +211,15 @@ export default {
         this.$Message.success("还没有材料");
         return;
       }
+      for (var i = 0; i < this.materialsInfo.materialsData.length; i++) {
+        this.materialsInfo.materialsData[i].modifiedTime = "";
+        this.materialsInfo.materialsData[i].createdTime = "";
+      }
       api.receiveMaterial(this.materialsInfo.materialsData).then(data => {
+        for (var i = 0; i < this.materialsInfo.materialsData.length; i++) {
+          this.materialsInfo.materialsData[i].modifiedTime = "";
+          this.materialsInfo.materialsData[i].createdTime = "";
+        }
         if (data.data.data.result == "签收成功") {
           this.$Message.success("签收成功");
           this.materialsInfo.materialsData = data.data.data.data;

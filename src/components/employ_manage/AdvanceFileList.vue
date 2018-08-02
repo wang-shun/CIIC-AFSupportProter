@@ -115,7 +115,7 @@
                       this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
                                       params.row.reservedArchiveNo,params.row.employeeName,
                                       params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivalPlace,
+                                      params.row.archiveSource,params.row.archivePlace,
                                       params.row.createdBy,params.row.remark
                       )
                     }
@@ -133,7 +133,7 @@
                       this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
                                       params.row.reservedArchiveNo,params.row.employeeName,
                                       params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivalPlace,
+                                      params.row.archiveSource,params.row.archivePlace,
                                       params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
                       )
                     }
@@ -147,7 +147,7 @@
                       this.showInfoT(params.row.archiveAdvanceId,params.row.reservedArchiveType,
                                       params.row.reservedArchiveNo,params.row.employeeName,
                                       params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivalPlace,
+                                      params.row.archiveSource,params.row.archivePlace,
                                       params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
                       )
                     }
@@ -215,10 +215,10 @@
               ]);
             }
           },
-          {title: '存档地', key: 'archivalPlace', align: 'center', width: 150,sortable: true,
+          {title: '存档地', key: 'archivePlace', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.archivalPlace),
+                h('span', params.row.archivePlace),
               ]);
             }
           },
@@ -261,22 +261,22 @@
           self.pageData.total = Number(data.data.total);
         })
       },
-      showInfoT (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace,createdBy,remark,exitThePlaceDate) {
+      showInfoT (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivePlace,createdBy,remark,exitThePlaceDate) {
         
         this.$router.push({name:'advanceFile', query: {archiveAdvanceId:companyId,reservedArchiveType:reservedArchiveType,
                                                         reservedArchiveNo:reservedArchiveNo,employeeName:employeeName,
                                                         employeeIdcardNo:employeeIdcardNo,enteringDate:enteringDate,
-                                                        archiveSource:archiveSource,archivalPlace:archivalPlace,
+                                                        archiveSource:archiveSource,archivePlace:archivePlace,
                                                         createdBy:createdBy,remark:remark,exitThePlaceDate:exitThePlaceDate
         }});
 
       },
-      showInfoTView (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace,createdBy,remark,exitThePlaceDate) {
+      showInfoTView (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivePlace,createdBy,remark,exitThePlaceDate) {
         
         this.$router.push({name:'advanceFileView', query: {archiveAdvanceId:companyId,reservedArchiveType:reservedArchiveType,
                                                         reservedArchiveNo:reservedArchiveNo,employeeName:employeeName,
                                                         employeeIdcardNo:employeeIdcardNo,enteringDate:enteringDate,
-                                                        archiveSource:archiveSource,archivalPlace:archivalPlace,
+                                                        archiveSource:archiveSource,archivePlace:archivePlace,
                                                         createdBy:createdBy,remark:remark,exitThePlaceDate:exitThePlaceDate
         }});
 

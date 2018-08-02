@@ -174,12 +174,15 @@
       }
     },
     methods: {
+        
           insertShow(){
-            if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
+            if(this.refuseReturnMaterialsSign[0] != undefined){
+              if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
               {
                 this.$Message.success("有签收不能新增材料！");
                  return false;
               }
+            }
             this.modal1 = true;
             let selection = this.$refs.payComSelection; 
             selection.selectAll(false);

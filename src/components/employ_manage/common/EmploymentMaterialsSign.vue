@@ -176,6 +176,11 @@ export default {
   },
   methods: {
     refuseAll() {
+      
+      if(this.materialsInfo.materialsData == undefined){
+        this.$Message.success("还没有材料");
+        return;
+      }
       if (
         this.materialsInfo.reasonValue == "" ||
         this.materialsInfo.reasonValue == undefined
@@ -189,7 +194,6 @@ export default {
         ].rejectReason = this.materialsInfo.reasonValue;
         this.materialsInfo.materialsData[i].modifiedTime = "";
       }
-
       api.rejectMaterial(this.materialsInfo.materialsData).then(data => {
         for (var i = 0; i < this.materialsInfo.materialsData.length; i++) {
           this.materialsInfo.materialsData[i].modifiedTime = "";
@@ -203,6 +207,10 @@ export default {
       });
     },
     instance() {
+      if(this.materialsInfo.materialsData == undefined){
+        this.$Message.success("还没有材料");
+        return;
+      }
       api.receiveMaterial(this.materialsInfo.materialsData).then(data => {
         if (data.data.data.result == "签收成功") {
           this.$Message.success("签收成功");

@@ -485,8 +485,9 @@
       payComApi.getLastMonth().then(data=>{
         d=new Date(data.data+'/01');
         this.payComSearchData.paymentMonth=d;
+        this.paymentComQuery();
       })
-      this.paymentComQuery();
+      
       this.getCustomers()
     },
     computed: {

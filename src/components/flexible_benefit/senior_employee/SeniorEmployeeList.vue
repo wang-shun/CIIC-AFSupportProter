@@ -37,6 +37,7 @@
     <div class="tr m20">
       <Button type="primary" icon="ios-upload-outline" @click="exportSeniorData">导出资深雇员编号</Button>
       <Button type="primary" icon="ios-download-outline" @click="modalInput = true">导入资深雇员编号</Button>
+      <Button type="primary" icon="ios-download-outline" @click="exportSeniorTemplate">下载导入模板</Button>
     </div>
     <Table border :columns="seniorEmpColumns" :data="seniorEmpDataList" ref="seniorEmpTable"></Table>
     <Page show-elevator
@@ -49,7 +50,7 @@
     <Modal
       v-model="modal1"
       title="资深雇员编号录入"
-      width="80"
+      width="50"
       :mask-closable=false
       :closable="false">
       <Form :model="seniorEmpData" ref="seniorEmpData" :rules="seniorEmpRules" :label-width="100">
@@ -67,16 +68,6 @@
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="身份证号码">
               {{seniorEmpData.idNum}}
-            </Form-item>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="客户编号">
-              {{seniorEmpData.companyId}}
-            </Form-item>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="客户名称">
-              {{seniorEmpData.companyName}}
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -236,7 +227,7 @@
         seniorEmpRules: {
           seniorEmployeeId: [
             {required: true, message: '请输入资深雇员编号', trigger: 'blur'},
-            {type: 'string', pattern: !'/\s+/', message: '请输入有效的雇员编号', trigger: 'blur'}
+            {type: 'string', max: 50, pattern: /^[\s\S]*.*[^\s][\s\S]*$/, message: '请输入有效的雇员编号', trigger: 'blur'}
           ]
         }
       };
@@ -331,6 +322,9 @@
         this.modalInput = false;
         this.loading = false;
         this.percent = 0
+      },
+      exportSeniorTemplate() {
+        window.location = ajax.fbqBasePaths + '/seniorEmpQueryService/exportSeniorTemplate';
       },
       exportSeniorData() {
         window.location = ajax.fbqBasePaths + '/seniorEmpQueryService/exportSeniorEmpExcel?' + qs.stringify(this.seniorSearchInfo);

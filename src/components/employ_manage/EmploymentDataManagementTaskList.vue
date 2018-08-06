@@ -34,9 +34,9 @@
           <DropdownMenu slot="list">
             <DropdownItem name="1">用工录用名册</DropdownItem>
             <DropdownItem name="2">派遣录用名册</DropdownItem>
-            <!-- <DropdownItem name="3">外来独立</DropdownItem>
-            <DropdownItem name="4">外来派遣</DropdownItem>
-            <DropdownItem name="5">采集表汇总表</DropdownItem> -->
+            <!--<DropdownItem name="3">外来独立</DropdownItem>-->
+            <!--<DropdownItem name="4">外来派遣</DropdownItem>-->
+            <!--<DropdownItem name="5">采集表汇总表</DropdownItem>-->
           </DropdownMenu>
         </Dropdown>
         <Button type="primary" @click="batchManagement">批理办理</Button>
@@ -800,7 +800,7 @@ export default {
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
       var conditions = JSON.parse(sessionStorage.getItem("employment" + userInfo.userId));
       var storeOrder = JSON.parse(sessionStorage.getItem("employmentOrder" + userInfo.userId));
-     
+
       if (conditions !== null) {
         for (var i = 0; i < conditions.length; i++)
           this.searchConditions.push(conditions[i].exec);
@@ -836,7 +836,7 @@ export default {
           break;
         case 5:
           // 采集表 汇总表
-          api.employSearchExportOptExtCollectWord();
+          api.employSearchExportOptExtCollectWord(this.searchCondition);
           break;
         default:
           break;

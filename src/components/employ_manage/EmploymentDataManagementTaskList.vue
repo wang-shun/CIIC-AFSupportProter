@@ -503,6 +503,12 @@ export default {
       const _self = this;
       api.batchCheck(fromData).then(data => {
         if (data.code == 200) {
+          if (data.data.empMaterial) {
+            var content =
+              "有数据材料已批退，请重新选择数据";
+            this.$Message.error(content);
+            return;
+          }
           if (data.data.empTask) {
             var content =
               "已经办理了" + data.data.empTask + "条数据，请重新选择数据";

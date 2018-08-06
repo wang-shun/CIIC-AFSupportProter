@@ -201,6 +201,7 @@ export default {
         if (data.data.data.result == "批退成功") {
           this.$Message.success("批退成功");
           this.materialsInfo.materialsData = data.data.data.data;
+          this.materials.logBOList = data.data.data.logList;
         } else {
           this.$Message.error(data.data.data.result);
         }
@@ -223,6 +224,7 @@ export default {
         if (data.data.data.result == "签收成功") {
           this.$Message.success("签收成功");
           this.materialsInfo.materialsData = data.data.data.data;
+          this.materials.logBOList = data.data.data.logList;
         } else {
           this.$Message.error(data.data.data.result);
         }

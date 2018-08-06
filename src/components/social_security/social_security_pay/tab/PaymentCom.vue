@@ -667,8 +667,7 @@
       let queryMonth = new Date()
       queryMonth.setMonth(queryMonth.getMonth()-1);
       this.payComSearchData.paymentMonthMin=queryMonth;
-      this.paymentComQuery();
-      
+      setTimeout( this.paymentComQuery(),500);
     },
     computed: {
       

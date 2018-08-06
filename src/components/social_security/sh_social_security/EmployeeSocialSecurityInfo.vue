@@ -207,6 +207,7 @@
 //  import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
   import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
+  import dict from '../../../api/dict_access/house_fund_dict'
 
   export default {
     components: {originEmpTaskInfo},
@@ -216,6 +217,7 @@
         customer:{
 
         },
+       // SocialSecurityEmployeeClassifyList:[],
         //用退工信息
         reworkInfo:{},
         employeeAndCustomer:{
@@ -332,6 +334,9 @@
       }
     },
     async mounted() {
+
+      //this.loadDict();
+
       let params = {empArchiveId:this.$route.query.empArchiveId,
                     companyId:this.$route.query.companyId,
                     employeeId:this.$route.query.employeeId}
@@ -390,6 +395,13 @@
             })
            }
         })
+      },
+      loadDict(){
+       dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.SocialSecurityEmployeeClassifyList = data.data.SocialSecurityEmployeeClassify;
+        }
+      });
       },
       enterView(data){
         // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作

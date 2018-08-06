@@ -52,7 +52,7 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table  border  :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt20"></Table>
+    <Table  border  :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt14"></Table>
 
     <Modal
       v-model="isShowStockTitle"
@@ -307,11 +307,11 @@ export default {
       employmentData: [], //列表数据
 
       searchResultColumns: [
-        {
-          title: "用工材料未签收",
+          {
+          title: "在职",
           key: "noSign",
           align: "center",
-          width: 220,
+          width: 70,
           render: (h, params) => {
             return h(
               "a",
@@ -331,10 +331,10 @@ export default {
           }
         },
         {
-          title: "用工材料已签收",
-          key: "finished",
+          title: "终止",
+          key: "noSign",
           align: "center",
-          width: 220,
+          width: 70,
           render: (h, params) => {
             return h(
               "a",
@@ -345,11 +345,34 @@ export default {
                 style: { textAlign: "right" },
                 on: {
                   click: () => {
-                    this.showInfoTw(2);
+                    this.showInfoTw(1);
                   }
                 }
               },
-              params.row.finished
+              params.row.noSign
+            );
+          }
+        },
+        {
+          title: "未反馈",
+          key: "noSign",
+          align: "center",
+          width: 85,
+          render: (h, params) => {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: params.row.dataDownload
+                },
+                style: { textAlign: "right" },
+                on: {
+                  click: () => {
+                    this.showInfoTw(1);
+                  }
+                }
+              },
+              params.row.noSign
             );
           }
         },
@@ -357,7 +380,7 @@ export default {
           title: "用工成功",
           key: "employSuccess",
           align: "center",
-          width: 220,
+          width: 120,
           render: (h, params) => {
             return h(
               "a",
@@ -377,10 +400,33 @@ export default {
           }
         },
         {
+          title: "用工已办查无档",
+          key: "noRecord",
+          align: "center",
+          width: 130,
+          render: (h, params) => {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: params.row.dataDownload
+                },
+                style: { textAlign: "right" },
+                on: {
+                  click: () => {
+                    this.showInfoTw(10);
+                  }
+                }
+              },
+              params.row.noRecord
+            );
+          }
+        },
+        {
           title: "用工失败",
           key: "employFailed",
           align: "center",
-          width: 220,
+          width: 95,
           render: (h, params) => {
             return h(
               "a",
@@ -403,7 +449,7 @@ export default {
           title: "前道要求撤消用工",
           key: "employCancel",
           align: "center",
-          width: 220,
+          width: 138,
           render: (h, params) => {
             return h(
               "a",
@@ -423,10 +469,33 @@ export default {
           }
         },
         {
+          title: "ukey外借",
+          key: "borrowKey",
+          align: "center",
+          width: 90,
+          render: (h, params) => {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: params.row.dataDownload
+                },
+                style: { textAlign: "right" },
+                on: {
+                  click: () => {
+                    this.showInfoTw(11);
+                  }
+                }
+              },
+              params.row.borrowKey
+            );
+          }
+        },
+        {
           title: "其他",
           key: "other",
           align: "center",
-          width: 220,
+          width: 80,
           render: (h, params) => {
             return h(
               "a",
@@ -446,10 +515,10 @@ export default {
           }
         },
         {
-          title: "总计",
+          title: "TOTAL",
           key: "amount",
           align: "center",
-          width: 231,
+          width: 85,
           render: (h, params) => {
             return h(
               "a",

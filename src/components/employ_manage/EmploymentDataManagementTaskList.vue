@@ -34,9 +34,9 @@
           <DropdownMenu slot="list">
             <DropdownItem name="1">用工录用名册</DropdownItem>
             <DropdownItem name="2">派遣录用名册</DropdownItem>
-            <DropdownItem name="3">外来独立</DropdownItem>
+            <!-- <DropdownItem name="3">外来独立</DropdownItem>
             <DropdownItem name="4">外来派遣</DropdownItem>
-            <DropdownItem name="5">采集表汇总表</DropdownItem>
+            <DropdownItem name="5">采集表汇总表</DropdownItem> -->
           </DropdownMenu>
         </Dropdown>
         <Button type="primary" @click="batchManagement">批理办理</Button>

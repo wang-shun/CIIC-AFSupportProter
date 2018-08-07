@@ -239,6 +239,7 @@
       updateSenior() {
         this.$refs['seniorEmpData'].validate((valid) => {
           if (valid) {
+            this.seniorEmpData.seniorEmployeeId = this.seniorEmpData.seniorEmployeeId.trim();
             ajax.ajaxFbc.postJSON("/seniorEmpService/updateSeniorEmp", this.seniorEmpData).then(response => {
               if (response.data.code === 0) {
                 this.$Message.success('提交成功')

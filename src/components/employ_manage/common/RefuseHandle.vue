@@ -44,7 +44,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地：">
-            <Input v-model="refuse.archivePlace" placeholder="请输入" :maxlength="50"/>
+            {{refuse.archivePlace}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -473,7 +473,6 @@
           if(isCon){
              this.endTypeList[0].disabled=true;
              this.endTypeList[1].disabled=true;
-             this.endTypeList[2].disabled=true;
 
              this.refuse.printDateR = true;
             
@@ -508,7 +507,6 @@
           }else{
              this.endTypeList[0].disabled=false;
              this.endTypeList[1].disabled=false;
-             this.endTypeList[2].disabled=false;
             
              this.refuse.printDateR = false;
 

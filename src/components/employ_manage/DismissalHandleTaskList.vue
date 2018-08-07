@@ -666,6 +666,11 @@ export default {
               },
               error: function(error) {}
             });
+          }else{
+               _self.$router.push({
+                  name: "refuseHandleBatch",
+                  query: { empTaskIds: empTaskIds }
+                });
           }
         } else {
           this.$Message.error("批量失败！" + data.message);

@@ -99,7 +99,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="noProcessColumns" :data="empTaskTransferData" width></Table>
+        <Table border :columns="noProcessColumns" :data="empTaskTransferData" @on-row-dblclick="dbClickHandleData" width></Table>
         <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -315,25 +315,25 @@
         ],
         empTaskTransferData:[],
         noProcessColumns: [
-          {title: '操作', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      sessionData.setJsonDataToSession('transfer.noprocess.searchCondition', this.searchCondition);
-                      sessionData.setJsonDataToSession('transfer.noprocess.pageData', this.pageData);
-                      let employeeId=params.row.employeeId;
-                      let companyId=params.row.companyId;
-                      let hfType=params.row.hfType;
-                      let empTaskId=params.row.empTaskId;
-                      this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId}});
-                    }
-                  }
-                }, '转移'),
-              ]);
-            }
-          },
+          // {title: '操作', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             sessionData.setJsonDataToSession('transfer.noprocess.searchCondition', this.searchCondition);
+          //             sessionData.setJsonDataToSession('transfer.noprocess.pageData', this.pageData);
+          //             let employeeId=params.row.employeeId;
+          //             let companyId=params.row.companyId;
+          //             let hfType=params.row.hfType;
+          //             let empTaskId=params.row.empTaskId;
+          //             this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId}});
+          //           }
+          //         }
+          //       }, '转移'),
+          //     ]);
+          //   }
+          // },
           {title: '公积金类型', key: 'hfType', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -466,7 +466,15 @@
         let params = this.searchCondition
         this.queryTransfer(params);
       },
-
+      dbClickHandleData(row, index){
+        sessionData.setJsonDataToSession('transfer.noprocess.searchCondition', this.searchCondition);
+        sessionData.setJsonDataToSession('transfer.noprocess.pageData', this.pageData);
+        let employeeId=row.employeeId;
+        let companyId=row.companyId;
+        let hfType=row.hfType;
+        let empTaskId=row.empTaskId;
+        this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId}});
+      },
       getCustomers(){
         let params = null;
         api.getCustomers({params:params}).then(data=>{

@@ -17,7 +17,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="支付状态：" prop="paymentState">
+                <Form-item label="批次状态：" prop="paymentState">
                   <Select v-model="operatorSearchData.paymentState" style="width: 100%;" transfer>
                     <Option v-for="item in paymentStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
@@ -43,7 +43,13 @@
               </Col>
             </Row>
             <Row>
-              <Col :sm="{span: 24}" class="tr">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="申请支付总金额：" prop="totalApplicationAmonut">
+                   <InputNumber  v-model="operatorSearchData.totalApplicationAmonut" placeholder="请输入..."  style="width: 100%;"  ></InputNumber >
+                </Form-item>
+              </Col>
+          
+              <Col :sm="{span: 22}"  :md="{span: 12}" :lg="{span: 8}" class="tr">
                 <Button type="primary" icon="ios-search" @click="clickQuery">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
@@ -214,8 +220,8 @@
           accountTypeValue: 0,
           createPaymentUser:'',
           paymentMonth:'',
-          payDate: ''
-
+          payDate: '',
+          totalApplicationAmonut:''
         },
         operateAddParams:{
            paymentStatus : '',
@@ -327,7 +333,7 @@
               ]);
             }
           },
-          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 160,
+          {title: '批次状态', key: 'paymentStateValue', align: 'center', width: 160,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                  h('span', params.row.paymentStateValue),

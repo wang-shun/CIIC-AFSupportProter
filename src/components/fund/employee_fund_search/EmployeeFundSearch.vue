@@ -322,17 +322,17 @@ export default {
             ]);
           }
         },
-        {
-          title: "企业账户类型",
-          key: "hfAccountType",
-          align: "center",
-          width: 150,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", this.$decode.accountType(params.row.hfAccountType))
-            ]);
-          }
-        },
+        // {
+        //   title: "企业账户类型",
+        //   key: "hfAccountType",
+        //   align: "center",
+        //   width: 150,
+        //   render: (h, params) => {
+        //     return h("div", { style: { textAlign: "left" } }, [
+        //       h("span", this.$decode.accountType(params.row.hfAccountType))
+        //     ]);
+        //   }
+        // },
         {
           title: "雇员编码",
           key: "employeeId",
@@ -413,25 +413,20 @@ export default {
             ]);
           }
         },
-        {
-          title: "上下岗状态",
-          key: "empStatus",
-          align: "center",
-          width: 150,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h(
-                "span",
-//                {
-//                  style: {
-//                    color: params.row.empStatus === "3" ? "red" : "#495060"
-//                  }
-//                },
-                this.$decode.empStatus(params.row.empStatus)
-              )
-            ]);
-          }
-        },
+        // {
+        //   title: "上下岗状态",
+        //   key: "empStatus",
+        //   align: "center",
+        //   width: 150,
+        //   render: (h, params) => {
+        //     return h("div", { style: { textAlign: "left" } }, [
+        //       h(
+        //         "span",
+        //         this.$decode.empStatus(params.row.empStatus)
+        //       )
+        //     ]);
+        //   }
+        // },
         {
           title: "客服中心",
           key: "serviceCenter",

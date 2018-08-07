@@ -95,11 +95,7 @@
                   <DatePicker v-model="materialHandleInfo.ukeyReturnDate" @on-open-change="setCurrentDate6" @on-change="changeDate6"  type="date" placeholder="" transfer></DatePicker>
                 </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="存档地：">
-                  <Input v-model="materialHandleInfo.archivePlace" placeholder="请输入" :maxlength="50"/>
-                </Form-item>
-              </Col>
+            
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司集体转出方向：">
                   <Select v-model="materialHandleInfo.comGroupOutDirect" transfer>
@@ -130,7 +126,6 @@
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <!-- <Button type="warning" @click="resetForm('materialHandleInfo')">重置</Button> -->
               <Button type="primary"  :loading="isLoading"  @click="instance()"  >批理办理</Button>
               </Col>
             </Row>
@@ -352,14 +347,13 @@
        },changeEndType(val){
      
         var isCon = this.callbackValue(val);
-        debugger
+       
           if(isCon){
              this.endTypeList[0].disabled=true;
              this.endTypeList[1].disabled=true;
              this.endTypeList[2].disabled=true;
 
-          
-            
+            this.refuse.printDateR = true;
              this.refuseFileDirectionList[0].disabled = true;
              this.refuseFileDirectionList[1].disabled = true;
              this.refuseFileDirectionList[2].disabled = true;
@@ -392,7 +386,7 @@
              this.endTypeList[0].disabled=false;
              this.endTypeList[1].disabled=false;
              this.endTypeList[2].disabled=false;
-            
+             this.refuse.printDateR = false;
              this.refuseFileDirectionList[0].disabled = false;
              this.refuseFileDirectionList[1].disabled = false;
              this.refuseFileDirectionList[2].disabled = false;

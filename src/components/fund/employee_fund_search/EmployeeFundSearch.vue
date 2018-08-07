@@ -59,9 +59,10 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="提示操作：" prop="operationRemind">
+              <Form-item label="操作提示：" prop="operationRemind">
                 <Select v-model="searchCondition.operationRemind" style="width: 100%;" transfer>
-                  <Option v-for="item in operatorTipsList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="item in operationRemindList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
               </Form-item>
               </Col>
@@ -172,6 +173,7 @@ import api from "../../../api/house_fund/employee_operator";
 import InputAccount from "../common/input_account";
 import InputCompany from "../common/input_company";
 import sessionData from '../../../api/session-data'
+import dict from '../../../api/dict_access/house_fund_dict'
 
 export default {
   components: {
@@ -189,6 +191,7 @@ export default {
         pageSize: this.$utils.DEFAULT_PAGE_SIZE,
         pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
       },
+      operationRemindList: [],
       searchCondition: {
         serviceCenterValue:[],
         employeeId: "",
@@ -575,6 +578,25 @@ export default {
       let params = this.searchCondition;
     this.employeeQuery(params);
     this.getCustomers();
+
+    dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.taskCategoryList = data.data.HFLocalTaskCategory;
+          this.operationRemindList = data.data.OperationRemind;
+          this.transferUnitDictList = data.data.FundOutUnit;
+          this.repairReason = data.data.RepairReason;
+          this.transferUnitDictList.forEach((element, index, array) => {
+            this.transferOutUnitList.push(element);
+            this.transferInUnitList.push(element);
+          })
+          this.taskCategoryDisable = true;
+        } else {
+          this.$Message.error(data.message);
+          this.inputDisabled = true;
+          this.taskCategoryDisable = true;
+          this.showButton = false;
+        }
+      })
   },
   computed: {
     // ...mapState('employeeFundSearch', {
@@ -656,6 +678,13 @@ export default {
 
       api.impTemplateFile({});
     },
+    loadDict(){
+       dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.SocialSecurityEmployeeClassifyList = data.data.SocialSecurityEmployeeClassify;
+        }
+      });
+      },
     cancel() {},
     beforeUpload(file) {
       this.upLoadData.file = file;

@@ -6,11 +6,6 @@
   <div slot="content">
   <Form :label-width=150 ref="uekyFile" :model="uekyFile">
     <Row type="flex" justify="start">
-      <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="公司名称：">
-          <input-company-name v-model="uekyFile.companyName"></input-company-name>
-        </Form-item>
-      </Col> -->
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="公司编号：">
           <input-company v-model="uekyFile.companyId" v-on:input="updateData" :only="true"></input-company>
@@ -147,6 +142,7 @@ import Vue from 'vue'
         notesData: [],
         isDisable: false,
         isLoading: true,
+        isFrist: true,
         uekyFile: {
           renewDueDate: '',
           renewDate: '',
@@ -352,6 +348,12 @@ import Vue from 'vue'
         if(val == '' || val == undefined){
           return;
         }
+        if(this.$route.query.id != 0){
+          if(this.isFrist){
+            this.isFrist = false;
+            return;
+          }
+        } 
         api.queryOrganizationCodeByCid({companyId:val}).then(data => {
           if (data.code == 200) {
             this.uekyFile.companyName = data.data.companyName;

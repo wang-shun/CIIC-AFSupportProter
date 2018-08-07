@@ -95,11 +95,7 @@
                   <DatePicker v-model="materialHandleInfo.ukeyReturnDate" @on-open-change="setCurrentDate6" @on-change="changeDate6"  type="date" placeholder="" transfer></DatePicker>
                 </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="存档地：">
-                  <Input v-model="materialHandleInfo.archivePlace" placeholder="请输入" :maxlength="50"/>
-                </Form-item>
-              </Col>
+            
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司集体转出方向：">
                   <Select v-model="materialHandleInfo.comGroupOutDirect" transfer>
@@ -130,7 +126,6 @@
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="warning" @click="resetForm('materialHandleInfo')">重置</Button>
               <Button type="primary"  :loading="isLoading"  @click="instance()"  >批理办理</Button>
               </Col>
             </Row>
@@ -159,41 +154,19 @@
          isLoadingC:false,
         collapseInfo: [2], //展开栏
         docTypeList: [],
-        yuliuDocTypeList: [],
         employmentInfo:{
           receiveDate:'',
           employDate:'',
         },
         materialHandleInfo: {
-          yuliuDocType: '',
-          yuliuDocNum: '',
-          docType: '',
-          docNum: '',
-          archivePlace: '',
-          archivePlaceAdditional: '',
-          archiveCardState: '',
-          docCode:'',
-          docFrom:'',
-          employFeedback:'',
-          employFeedbackOptDate:'',
-          diaodangFeedback:'',
-          diaodangFeedbackOptDate:'',
-          ukeyBorrowDate:'',
-          ukeyReturnDate:'',
-          hukouCode:'',
-          employDocPaymentTo:'',
-          storageDate:'',
-          employWay: '',
-          employOperateMan: '',
-          employmentId:'',
-          end:false,
+          printDateR:false,
           empTaskIds:[]
         },
         employeeBatchData:{
           empTaskIds:[],
           employWay:''
         },
-           endTypeList: [
+        endTypeList: [
           {value: '合同终止', label: '合同终止',disabled:false},
           {value: '合同解除', label: '合同解除',disabled:false}
         ],
@@ -285,49 +258,6 @@
       }
     },
     methods: {
-      resetForm(form) {
-        this.$refs[form].resetFields();
-        this.materialHandleInfo.luyongHandleEnd = false;
-        this.materialHandleInfo.yuliuDocType = '';
-        this.materialHandleInfo.docType = '';
-      },
-      changeTypeYuliu(val){
-        if(val == ''){
-          Vue.set(this.materialHandleInfo,'yuliuDocNum','');
-          return;
-        }
-        this.queryDocSeqByDocType(val);
-      },
-
-      queryDocSeqByDocType(val){
-        api.queryDocSeqByDocType({type : 1,docType : val}).then(data => {
-          if (data.code == 200) {
-            Vue.set(this.materialHandleInfo,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1)
-              this.materialHandleInfo.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
-          } else {
-              this.$Message.error("服务器异常" + data.message);
-          }
-        })
-      },
-
-      changeTypeNumber(val){
-        if(val == ''){
-          Vue.set(this.materialHandleInfo,'docNum','');
-          return;
-        }
-        this.queryDocSeqByDocType2(val);
-      },
-
-      queryDocSeqByDocType2(val){
-        api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
-          if (data.code == 200) {
-            Vue.set(this.materialHandleInfo,'docNum',parseInt(data.data.docBo.docSeq)+1)
-            this.materialHandleInfo.docNum = parseInt(data.data.docBo.docSeq)+1;
-          } else {
-            this.$Message.error("服务器异常" + data.message);
-          }
-        })
-      },
       instance() {
        
         var fromData = this.$utils.clear(this.materialHandleInfo,'');
@@ -372,11 +302,10 @@
         fromData.empTaskIds = this.$route.query.empTaskIds;
        
         api.saveAmResignBatch(fromData).then(data => {
-            if (data.data.code == 200) {
-              if(data.data.data.remark){
-                  this.$Message.error(data.data.data.remark);
+            if (data.code == 200) {
+              if(data.data.remark){
+                  this.$Message.error(data.data.remark);
               }else{
-                  //this.materialHandleInfo.end =data.data.data.end;
                   this.$Message.success("批量办理成功");
               }
              
@@ -386,120 +315,126 @@
 
         })
 
-      }, instanceEmployment(){
-            var fromData = this.$utils.clear(this.employmentInfo,'');
-            if(fromData.employDate){
-              fromData.employDate = this.$utils.formatDate(this.employmentInfo.employDate, 'YYYY-MM-DD');
-            }
-            if(fromData.openAfDate){
-              fromData.openAfDate = this.$utils.formatDate(this.employmentInfo.openAfDate, 'YYYY-MM-DD');
-            }
-            if(fromData.receiveDate){
-              fromData.receiveDate = this.$utils.formatDate(this.employmentInfo.receiveDate, 'YYYY-MM-DD');
-            }else{
-              this.$Message.error("材料签收日期不能为空");
-              return;
-            }
+      },callbackValue(val){
+         
+         switch(val){
+           case '1':
+             return true;
+             break;
+           case '6':
+             return true;
+             break;
+           case '12':
+             return true;
+             break;
+           case '13':
+             return true;
+             break;
+           case '15':
+             return true;
+             break; 
+           case '16':
+             return true;
+             break;
+           case '17':
+             return true;
+             break;  
+           default:
+             return false;
+             break;   
+
+         }
+       },changeEndType(val){
+     
+        var isCon = this.callbackValue(val);
+       
+          if(isCon){
+             this.endTypeList[0].disabled=true;
+             this.endTypeList[1].disabled=true;
+             this.endTypeList[2].disabled=true;
+
+            this.refuse.printDateR = true;
+             this.refuseFileDirectionList[0].disabled = true;
+             this.refuseFileDirectionList[1].disabled = true;
+             this.refuseFileDirectionList[2].disabled = true;
+             this.refuseFileDirectionList[3].disabled = true;
+             this.refuseFileDirectionList[4].disabled = true;
+             this.refuseFileDirectionList[5].disabled = true;
+             this.refuseFileDirectionList[6].disabled = true;
+
+             this.transferMethodList[0].disabled = true;
+             this.transferMethodList[1].disabled = true;
+             this.transferMethodList[2].disabled = true;
+
+             this.transferNotesList[0].disabled = true;
+             this.transferNotesList[1].disabled = true;
+             this.transferNotesList[2].disabled = true;
+             this.transferNotesList[3].disabled = true;
+             this.transferNotesList[4].disabled = true;
+             this.transferNotesList[5].disabled = true;
+             this.transferNotesList[6].disabled = true;
+             this.transferNotesList[7].disabled = true;
+             this.transferNotesList[8].disabled = true;
+             this.transferNotesList[9].disabled = true;
+             this.transferNotesList[10].disabled = true;
+             this.transferNotesList[11].disabled = true;
+             this.transferNotesList[12].disabled = true;
+             this.transferNotesList[13].disabled = true;
+             this.transferNotesList[14].disabled = true;
             
-           fromData.empTaskIds = this.$route.query.empTaskIds;
-            this.isLoadingC = true;
-          api.batchSaveEmployment(fromData).then(data => {
-            if (data.code == 200) {
-              this.$Message.success("批量办理成功");
-            } else {
-              this.$Message.error("保存失败！" + data.data.message);
-            }
-           
-           this.isLoadingC = false;
+          }else{
+             this.endTypeList[0].disabled=false;
+             this.endTypeList[1].disabled=false;
+             this.endTypeList[2].disabled=false;
+             this.refuse.printDateR = false;
+             this.refuseFileDirectionList[0].disabled = false;
+             this.refuseFileDirectionList[1].disabled = false;
+             this.refuseFileDirectionList[2].disabled = false;
+             this.refuseFileDirectionList[3].disabled = false;
+             this.refuseFileDirectionList[4].disabled = false;
+             this.refuseFileDirectionList[5].disabled = false;
+             this.refuseFileDirectionList[6].disabled = false;
+
+             this.transferMethodList[0].disabled = false;
+             this.transferMethodList[1].disabled = false;
+             this.transferMethodList[2].disabled = false;
+
+             this.transferNotesList[0].disabled = false;
+             this.transferNotesList[1].disabled = false;
+             this.transferNotesList[2].disabled = false;
+             this.transferNotesList[3].disabled = false;
+             this.transferNotesList[4].disabled = false;
+             this.transferNotesList[5].disabled = false;
+             this.transferNotesList[6].disabled = false;
+             this.transferNotesList[7].disabled = false;
+             this.transferNotesList[8].disabled = false;
+             this.transferNotesList[9].disabled = false;
+             this.transferNotesList[10].disabled = false;
+             this.transferNotesList[11].disabled = false;
+             this.transferNotesList[12].disabled = false;
+             this.transferNotesList[13].disabled = false;
+             this.transferNotesList[14].disabled = false;
             
-         })
-
-      },defaultVaule() {
-
-        var fromData = this.$utils.clear(this.handleInfo, '');
-        if (fromData.employDate) {
-          fromData.employDate = this.$utils.formatDate(this.handleInfo.employDate, 'YYYY-MM-DD');
-        }
-        if (fromData.openAfDate) {
-          fromData.openAfDate = this.$utils.formatDate(this.handleInfo.openAfDate, 'YYYY-MM-DD');
-        }
-        api.getDefualtEmployBO(fromData).then(data => {
-
-          if (data.data.firstInDate) {
-            this.handleInfo.employDate = data.data.firstInDate;
           }
 
-          if (data.data.openAfDate) {
-            this.handleInfo.openAfDate = data.data.openAfDate;
+          if(val=='17')
+          {
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              
+              this.materialHandleInfo.resignFeedbackDate=currentdate;
           }
-
-          if (data.data.employStyle) {
-            this.handleInfo.employStyle = data.data.employStyle;
-          }
-
-          if (data.data.handleType) {
-            this.handleInfo.handleType = data.data.handleType;
-          }
-
-          if (data.data.archivePlace) {
-            this.handleInfoMaterial.archivePlace = data.data.archivePlace;
-          }
-
-          if (data.data.employProperty) {
-            this.handleInfo.employProperty = data.data.employProperty;
-          }
-
-        })
-      }, handleChange(val) {
-
-        if (this.handleInfoMaterial.defaultC == '0') {
-
-        } else {
-
-          var isf = false;
-          if (val == '调档') {
-            this.handleInfoMaterial.archivePlace = '空';
-            isf = true;
-          }
-          if (val == '高校') {
-            this.handleInfoMaterial.archivePlace = '就业指导中心';
-            isf = true;
-          }
-          if (val == '经营者') {
-            this.handleInfoMaterial.archivePlace = '经营者人才';
-            isf = true;
-          }
-          if (val == '退工不调档') {
-            this.handleInfoMaterial.archivePlace = '退工不调';
-            isf = true;
-          }
-          if (val == '用工不调档') {
-            this.handleInfoMaterial.archivePlace = '用工不调';
-            isf = true;
-          }
-          if (val == '公司自行保管') {
-            this.handleInfoMaterial.archivePlace = '公司自行保理';
-            isf = true;
-          }
-          if (val == '漕虹路') {
-            this.handleInfoMaterial.archivePlace = '漕虹分部';
-            isf = true;
-          }
-          if (val == '农民工') {
-            this.handleInfoMaterial.archivePlace = '农村富裕劳动力';
-            isf = true;
-          }
-          if (val == '徐职') {
-            this.handleInfoMaterial.archivePlace = '徐汇职介';
-            isf = true;
-          }
-          if (isf == false) {
-            this.handleInfoMaterial.archivePlace = val;
-          }
-        }
-        this.handleInfoMaterial.defaultC = '1';
-
-      },currentDate(){
+       },currentDate(){
               var date = new Date();
               var seperator1 = "-";
               var year = date.getFullYear();
@@ -513,70 +448,69 @@
               }
               var currentdate = year + seperator1 + month + seperator1 + strDate;
               return currentdate;
-       },changeType(val){
-          
-          if(val==11)
-          { 
-              this.materialHandleInfo.ukeyBorrowDate=this.currentDate();
-          }
-          
-          this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
-         
-       },changeTypeDd(val){
-          
-          this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
-         
        },setCurrentDate(e) {
+       
         if(e){
-          if(this.employmentInfo.receiveDate==''||this.employmentInfo.receiveDate==undefined)
+          
+          if(this.materialHandleInfo.printDate==''||this.materialHandleInfo.printDate==undefined)
           {
-             this.employmentInfo.receiveDate = this.currentDate();
+             this.materialHandleInfo.printDate = this.currentDate();
           }
         }
         
       },changeDate(e) {
-        this.employmentInfo.receiveDate = e;
+        this.materialHandleInfo.printDate = e;
       },setCurrentDate1(e) {
         if(e){
-          if(this.employmentInfo.employDate==''||this.employmentInfo.employDate==undefined)
+          if(this.materialHandleInfo.returnDocDate==''||this.materialHandleInfo.returnDocDate==undefined)
           {
-             this.employmentInfo.employDate = this.currentDate();
+             this.materialHandleInfo.returnDocDate = this.currentDate();
           }
         }
         
       },changeDate1(e) {
-        this.employmentInfo.employDate = e;
+        this.materialHandleInfo.returnDocDate = e;
       },setCurrentDate2(e) {
         if(e){
-          if(this.employmentInfo.openAfDate==''||this.employmentInfo.openAfDate==undefined)
+          if(this.materialHandleInfo.cacheDate==''||this.materialHandleInfo.cacheDate==undefined)
           {
-             this.employmentInfo.openAfDate = this.currentDate();
+             this.materialHandleInfo.cacheDate = this.currentDate();
           }
         }
         
       },changeDate2(e) {
-        this.employmentInfo.openAfDate = e;
+        this.materialHandleInfo.cacheDate = e;
       },setCurrentDate3(e) {
         if(e){
-          if(this.materialHandleInfo.employFeedbackOptDate==''||this.materialHandleInfo.employFeedbackOptDate==undefined)
+          if(this.materialHandleInfo.resignHandleDate==''||this.materialHandleInfo.resignHandleDate==undefined)
           {
-             this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+             this.materialHandleInfo.resignHandleDate = this.currentDate();
           }
         }
         
       },changeDate3(e) {
-        this.materialHandleInfo.employFeedbackOptDate = e;
+        this.materialHandleInfo.resignHandleDate = e;
       },setCurrentDate4(e) {
         if(e){
-          if(this.materialHandleInfo.diaodangFeedbackOptDate==''||this.materialHandleInfo.diaodangFeedbackOptDate==undefined)
+          if(this.materialHandleInfo.resignFeedbackDate==''||this.materialHandleInfo.resignFeedbackDate==undefined)
           {
-             this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
+             this.materialHandleInfo.resignFeedbackDate = this.currentDate();
           }
         }
         
       },changeDate4(e) {
-        this.materialHandleInfo.diaodangFeedbackOptDate = e;
+        this.materialHandleInfo.resignFeedbackDate = e;
       },setCurrentDate5(e) {
+        if(e){
+          if(this.materialHandleInfo.ukeyBorrowDate==''||this.materialHandleInfo.ukeyBorrowDate==undefined)
+          {
+             this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
+          }
+        }
+        
+      },changeDate5(e) {
+        this.materialHandleInfo.ukeyBorrowDate = e;
+      },setCurrentDate6(e) {
         if(e){
           if(this.materialHandleInfo.ukeyReturnDate==''||this.materialHandleInfo.ukeyReturnDate==undefined)
           {
@@ -584,32 +518,30 @@
           }
         }
         
-      },changeDate5(e) {
-        this.materialHandleInfo.ukeyReturnDate = e;
-      },setCurrentDate6(e) {
-        if(e){
-          if(this.materialHandleInfo.employDocPaymentTo==''||this.materialHandleInfo.employDocPaymentTo==undefined)
-          {
-             this.materialHandleInfo.employDocPaymentTo = this.currentDate();
-          }
-        }
-        
       },changeDate6(e) {
-        this.materialHandleInfo.employDocPaymentTo = e;
+        this.materialHandleInfo.ukeyReturnDate = e;
       },setCurrentDate7(e) {
         if(e){
-          if(this.materialHandleInfo.storageDate==''||this.materialHandleInfo.storageDate==undefined)
+          if(this.materialHandleInfo.jobCentreFeedbackDate==''||this.materialHandleInfo.jobCentreFeedbackDate==undefined)
           {
-             this.materialHandleInfo.storageDate = this.currentDate();
+             this.materialHandleInfo.jobCentreFeedbackDate = this.currentDate();
           }
         }
         
       },changeDate7(e) {
-        this.materialHandleInfo.storageDate = e;
+        this.materialHandleInfo.jobCentreFeedbackDate = e;
+      },setCurrentDate8(e) {
+        if(e){
+          if(this.materialHandleInfo.resignMaterialDeliveryDate==''||this.materialHandleInfo.resignMaterialDeliveryDate==undefined)
+          {
+             this.materialHandleInfo.resignMaterialDeliveryDate = this.currentDate();
+          }
+        }
+        
+      },changeDate8(e) {
+        this.materialHandleInfo.resignMaterialDeliveryDate = e;
       }
-
       
-
     }
   }
 </script>

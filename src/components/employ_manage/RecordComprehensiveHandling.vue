@@ -347,12 +347,12 @@ export default {
         },
         {
           title: "是否翻牌",
-          key: "change",
+          key: "changeCompany",
           align: "center",
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.change)
+              h("span", params.row.changeCompany)
             ]);
           }
         }

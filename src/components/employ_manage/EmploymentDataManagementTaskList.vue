@@ -509,6 +509,10 @@ export default {
             this.$Message.error(content);
             return;
           }
+          if (data.data.isMaterial) {
+            this.$Message.error(data.data.isMaterial);
+            return;
+          }
           if (data.data.empTask) {
             var content =
               "已经办理了" + data.data.empTask + "条数据，请重新选择数据";

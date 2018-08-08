@@ -221,7 +221,7 @@
           createPaymentUser:'',
           paymentMonth:'',
           payDate: '',
-          totalApplicationAmonut:''
+          totalApplicationAmonut:0,
         },
         operateAddParams:{
            paymentStatus : '',

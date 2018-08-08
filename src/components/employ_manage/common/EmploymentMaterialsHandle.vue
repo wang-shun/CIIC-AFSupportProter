@@ -246,7 +246,6 @@ export default {
   },
   methods: {
     changeStatus(val) {
-      debugger
       this.employFeedbackList[0].disabled = val;
       this.employFeedbackList[1].disabled = val;
       this.employFeedbackList[2].disabled = val;

@@ -176,8 +176,6 @@
     methods: {
         
           insertShow(){
-
-            console.info(this.materialLogList[0].operationType);
             if(this.materialLogList[0] != undefined){
               if(this.materialLogList[0].operationType != undefined && this.materialLogList[0].operationType != 2)
               {
@@ -251,6 +249,7 @@
                   if (data.data.data.data == 1) {
                     this.$Message.success("保存成功");
                     this.refuseReturnMaterialsSignInfo = data.data.data.result;
+                    this.materialLogList = data.data.data.logList;
                     
                   }else if (data.data.data == 2){
                     this.$Message.success("已签收，无法保存！");

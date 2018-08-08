@@ -1036,7 +1036,9 @@ router.beforeEach((to, from, next) => {
         SET_DOCUMENT_INFO(to)
         next()
       } else {
-        BACK_TO_LOGIN()
+        if (self === top) {
+          BACK_TO_LOGIN()
+        }
       }
     })
   } else {

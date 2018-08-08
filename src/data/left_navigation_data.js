@@ -50,7 +50,7 @@ const leftNavigation =
         // {cid: "3-4", ckey: "档案配对", crouter: "recordMatch"},
         {cid: "3-4", ckey: "独立户客户管理", crouter: "independentCustomList"},
         {cid: "3-5", ckey: "档案预增管理", crouter: "advanceFileList"},
-        {cid: "3-6", ckey: "Ukey管理", crouter: "UkeyManageList"}
+        {cid: "3-6", ckey: "Ukey管理", crouter: "ukeyManageList"}
       ]
     },
     {

@@ -585,10 +585,6 @@ export default {
           this.operationRemindList = data.data.OperationRemind;
           this.transferUnitDictList = data.data.FundOutUnit;
           this.repairReason = data.data.RepairReason;
-          this.transferUnitDictList.forEach((element, index, array) => {
-            this.transferOutUnitList.push(element);
-            this.transferInUnitList.push(element);
-          })
           this.taskCategoryDisable = true;
         } else {
           this.$Message.error(data.message);

@@ -385,7 +385,7 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
       let d = new Date();
       payComApi.getLastMonth().then(data=>{
         d=new Date(data.data+'/01');
-        this.payComSearchData.paymentMonth=d;
+        this.payBatchSearchData.paymentMonthMin=d;
       })
 
       this.paymentBatchQuery();

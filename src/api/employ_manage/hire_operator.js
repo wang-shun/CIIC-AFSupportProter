@@ -8,7 +8,7 @@ const AJAX = ajax.ajaxGyg;
 
 const  saveAmEmpMaterial = params => AJAX.postJSON("/api/employservice/amArchiveTask/saveAmEmpMaterial", params);
 
-const  saveAmArchiveUse  = params => AJAX.postJSON("/api/employservice/amArchiveTask/saveAmArchiveUse", params);
+// const  saveAmArchiveUse  = params => AJAX.postJSON("/api/employservice/amArchiveTask/saveAmArchiveUse", params);
 
 const receiveMaterial = params => AJAX.postJSON("/api/employservice/amEmpTask/receiveMaterial", params);
 
@@ -104,7 +104,11 @@ export default {
     let response = await AJAX.post('/api/employservice/amArchiveTask/deleteAmEmpMaterial', params);
     return await response.data;
   },
-  saveAmArchiveUse,//查询雇员详细信息
+   //保存用工档案借阅
+  saveAmArchiveUse:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveTask/saveAmArchiveUse', params);
+    return await response.data;
+  },
   queryArchiveUse:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/queryArchiveUse', params);
     return await response.data;

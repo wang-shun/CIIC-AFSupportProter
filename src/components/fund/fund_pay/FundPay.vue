@@ -599,6 +599,9 @@
       },
       getParams(page) {
         if(this.operatorSearchData.paymentMonth!=''){
+          if(this.operatorSearchData.paymentMonth.length==6){
+            this.operatorSearchData.paymentMonth=this.operatorSearchData.paymentMonth+'01'
+          }
           this.operatorSearchData.payDate= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
           this.operatorSearchData.paymentMonth= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
         }

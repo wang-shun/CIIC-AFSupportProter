@@ -86,6 +86,7 @@
         <Col :sm="{span: 24}">
           <Button type="primary" @click="gotoAddBatch()">添加到出账批次号</Button>
           <Button type="primary" @click="gotoDelBatch()">从出账批次号中移除</Button>
+          <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button>
           <Button type="info" @click="exportData">导出</Button>
         </Col>
       </Row>
@@ -219,6 +220,7 @@
   import payComApi from '../../../../api/social_security/payment_com'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
+  import payBatchApi from '../../../../api/social_security/payment_batch'
   const progressStop = 33.3;
 
   export default {
@@ -1078,7 +1080,31 @@
         this.delBatchData.isShowDelBatch = false;
       },
 
-
+      enquireFinanceComAccount(){
+          let y;
+          let m=new Date().getMonth()+1;
+        this.$Modal.confirm({
+              title: '手动询问结算中心是否可付',
+              closable:true,
+              content: `系统将执行${new Date().getFullYear()}年${new Date().getMonth()}月份所有未到款企业账户的财务询问，执行时间较长，您确认操作吗？`,
+              onOk:function(){
+                let userInfo = localStorage.getItem('userInfo');
+                let params = {
+                  comAccountId:'0',
+                  ssMonth:'ss',
+                  generalMethod:'enquireFinanceComAccount',
+                };
+                payBatchApi.enquireFinanceComAccount(params).then(data=>{
+                  if(data.code==0)
+                  {
+                    this.$Message.success("操作成功！请等待几分钟后，再到查询您要支付的企业账户");
+                  }else{
+                    this.$Message.error("系统正在执行中，请等待！");
+                  }
+              })
+              }
+          });
+      },
     }
   }
 </script>

@@ -565,6 +565,7 @@
       }
     },
     mounted() {
+      this.operatorSearchData.totalApplicationAmonut='';
       sessionData.getJsonDataFromSession('fundPay.operatorSearchData', this.operatorSearchData);
 
       let sessionPageNum = sessionStorage.taskPageNum

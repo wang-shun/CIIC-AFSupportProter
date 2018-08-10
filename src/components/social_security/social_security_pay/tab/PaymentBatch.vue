@@ -6,7 +6,7 @@
         <div slot="content">
           <Form ref="payBatchSearchData" :model="payBatchSearchData" :label-width=150>
             <Row type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="社保账户类型：" prop="accountType">
                   <Select v-model="payBatchSearchData.accountType" clearable style="width: 100%;" transfer>
                     <Option value="" label="全部"></Option>
@@ -14,14 +14,13 @@
                   </Select>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="出账批号：" prop="paymentBatchNum">
                   <Input v-model="payBatchSearchData.paymentBatchNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:0}" :md="{span: 0}" :lg="{span: 8}">
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+           
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="支付年月：">
                   <Row>
                     <Col span="10">
@@ -41,7 +40,7 @@
                   <!-- <DatePicker v-model="payBatchInfo.payDate" type="daterange" format="yyyy-MM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker> -->
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="支付状态：" prop="paymentState">
                   <Select v-model="payBatchSearchData.paymentState" clearable style="width: 100%;" transfer>
                     <Option v-for="item in staticPayBatchSearchData.paymentStateList" :value="item.value" :key="item.value">{{item.label}}</Option>

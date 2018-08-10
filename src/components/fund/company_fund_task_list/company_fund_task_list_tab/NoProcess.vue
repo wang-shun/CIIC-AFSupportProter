@@ -59,7 +59,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="taskColumns" :data="taskData" :loading="loading"></Table>
+        <Table border :columns="taskColumns" :data="taskData" :loading="loading" :row-class-name="rowClassName"></Table>
         <Page
           class="pageSize"
           @on-page-size-change="handlePageSize"
@@ -82,6 +82,7 @@
   import {NoProcess} from '../../../../api/house_fund/company_task_list/company_task_list_tab/no_process'
   import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
   import sessionData from '../../../../api/session-data'
+  import ts from '../../../../api/house_fund/table_style'
 
   export default {
     components: {InputAccount, InputCompany},
@@ -341,6 +342,9 @@
           this.serviceCenterData = data.data;
         })
       },
+      rowClassName(row, index) {
+        return ts.comRowClassName(row, index);
+      }
     }
   }
 </script>

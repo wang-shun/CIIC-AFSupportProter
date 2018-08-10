@@ -114,11 +114,11 @@
           {label: "转入", value: '2'}
         ],
         paymentBankList: [
-          {label: "徐汇--X", value: '15'},
-          {label: "西郊--C", value: '16'},
-          {label: "东方路--P", value: '17'},
-          {label: "卢湾--L", value: '18'},
-          {label: "黄浦--H", value: '0'},
+          {label: "徐汇—X", value: '15'},
+          {label: "西郊—C", value: '16'},
+          {label: "东方路—P", value: '17'},
+          {label: "卢湾—L", value: '18'},
+          {label: "黄浦—H", value: '0'},
         ],
         payMethodList: [
           {value: '1',label: "客户自付", },

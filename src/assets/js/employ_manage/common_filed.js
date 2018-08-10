@@ -26,7 +26,7 @@ let em_chooseField = {
   "c.ukey_borrow_date":"用工UKey外借日期",
   "c.ukey_return_date":"用工Ukey返回日期",
   
-  "a.change":"是否翻牌",
+  "a.change_company":"是否翻牌",
 };
 let em_resign_chooseField = {
   "a.company_id":"公司编号",

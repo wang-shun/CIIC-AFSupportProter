@@ -176,13 +176,20 @@
     methods: {
         
           insertShow(){
-            if(this.refuseReturnMaterialsSign[0] != undefined){
-              if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
+            if(this.materialLogList[0] != undefined){
+              if(this.materialLogList[0].operationType != undefined && this.materialLogList[0].operationType != 2)
               {
-                this.$Message.success("有签收不能新增材料！");
+                this.$Message.success("材料已提交到雇员中心，雇员中心未做批退操作，不能新增！");
                  return false;
               }
             }
+            // if(this.refuseReturnMaterialsSign[0] != undefined){
+            //   if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
+            //   {
+            //     this.$Message.success("有签收不能新增材料！");
+            //      return false;
+            //   }
+            // }
             this.modal1 = true;
             let selection = this.$refs.payComSelection; 
             selection.selectAll(false);
@@ -237,17 +244,12 @@
                  this.$Message.success("无内容提交！");
                  return false;
               }
-               
-              if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
-              {
-                this.$Message.success("有收到人不能提交！");
-                 return false;
-              }
             api.saveAmEmpMaterial(this.refuseReturnMaterialsSign).then(data => {
                 
                   if (data.data.data.data == 1) {
                     this.$Message.success("保存成功");
                     this.refuseReturnMaterialsSignInfo = data.data.data.result;
+                    this.materialLogList = data.data.data.logList;
                     
                   }else if (data.data.data == 2){
                     this.$Message.success("已签收，无法保存！");
@@ -264,11 +266,13 @@
             },
             remove (index,empMaterialId) {
                
-              if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
-              {
-                this.$Message.success("有收到人不能删除！");
-                 return false;
-              }
+              if(this.materialLogList[0] != undefined){
+                if(this.materialLogList[0].operationType != undefined && this.materialLogList[0].operationType != 2)
+                {
+                  this.$Message.success("材料已提交到雇员中心，雇员中心未做批退操作，不能删除！");
+                  return false;
+                }
+            }
                 const _self = this;
                 if(!empMaterialId){
                   this.refuseReturnMaterialsSign.splice(index, 1);

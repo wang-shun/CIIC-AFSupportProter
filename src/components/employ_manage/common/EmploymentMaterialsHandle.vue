@@ -66,7 +66,7 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="用工反馈：" prop="employFeedback">
             <Select v-model="handleInfo.employFeedback" @on-change="changeType" transfer>
-              <Option v-for="item in employFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
+              <Option v-for="item in employFeedbackList" :value="item.value" :disabled="item.disabled" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
         </Col>
@@ -129,7 +129,7 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-          <Button type="primary"  :loading="isLoading"  @click="instance()" :disabled="handleInfo.end">保存</Button>
+          <Button type="primary"  :loading="isLoading"  @click="instance()" >保存</Button>
         </Col>
       </Row>
     </Form>
@@ -217,13 +217,13 @@ export default {
         { value: "其他", label: "其他" }
       ],
       employFeedbackList: [
-        { value: "3", label: "用工成功" },
-        { value: "10", label: "用工已办查无档" },
-        { value: "4", label: "用工失败" },
-        { value: "11", label: "Ukey外借" },
-        { value: "5", label: "前道要求撤销用工" },
-        { value: "12", label: "用工成功,重复任务单" },
-        { value: "13", label: "用工已办,前道已中止" }
+        { value: "3", label: "用工成功", disabled: false },
+        { value: "10", label: "用工已办查无档", disabled: false },
+        { value: "4", label: "用工失败", disabled: false },
+        { value: "11", label: "Ukey外借", disabled: false },
+        { value: "5", label: "前道要求撤销用工", disabled: false },
+        { value: "12", label: "用工成功,重复任务单", disabled: false },
+        { value: "13", label: "用工已办,前道已中止", disabled: false }
       ],
       transferFeedbackList: [
         { value: "空", label: "空" },
@@ -241,7 +241,27 @@ export default {
       ]
     };
   },
+  watch: {
+   handleInfo() {
+      this.employFeedbackList[0].disabled = this.handleInfo.end;
+      this.employFeedbackList[1].disabled = this.handleInfo.end;
+      this.employFeedbackList[2].disabled = this.handleInfo.end;
+      this.employFeedbackList[3].disabled = this.handleInfo.end;
+      this.employFeedbackList[4].disabled = this.handleInfo.end;
+      this.employFeedbackList[5].disabled = this.handleInfo.end;
+      this.employFeedbackList[6].disabled = this.handleInfo.end;
+    }
+  },
   methods: {
+    changeStatus(val) {
+      this.employFeedbackList[0].disabled = val;
+      this.employFeedbackList[1].disabled = val;
+      this.employFeedbackList[2].disabled = val;
+      this.employFeedbackList[3].disabled = val;
+      this.employFeedbackList[4].disabled = val;
+      this.employFeedbackList[5].disabled = val;
+      this.employFeedbackList[6].disabled = val;
+    },
     changeTypeYuliu(val) {
       if (this.isFast) {
         this.isFast = false;
@@ -435,12 +455,16 @@ export default {
       api.saveAmArchive(fromData).then(data => {
         if (data.code == 200) {
           this.$Message.success("保存成功");
+          this.isLoading = false;
           this.handleInfo.archiveId = data.data.archiveId;
-          this.handleInfo.end = data.data.end;
+         
           this.handleInfo.oldYuLiuType = data.data.yuliuDocType;
           this.handleInfo.oldYuLiuNum = data.data.yuliuDocNum;
           this.handleInfo.oldType = data.data.docType;
           this.handleInfo.oldNum = data.data.docNum;
+          if (data.data.end) {
+            this.changeStatus(data.data.end);
+          }
         } else {
           this.$Message.error("保存失败！" + data.message);
         }

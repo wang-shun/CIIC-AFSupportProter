@@ -305,12 +305,12 @@ export default {
         },
         {
           title: "是否翻牌",
-          key: "change",
+          key: "changeCompany",
           align: "center",
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.change)
+              h("span", params.row.changeCompany)
             ]);
           }
         }
@@ -666,6 +666,11 @@ export default {
               },
               error: function(error) {}
             });
+          }else{
+               _self.$router.push({
+                  name: "refuseHandleBatch",
+                  query: { empTaskIds: empTaskIds }
+                });
           }
         } else {
           this.$Message.error("批量失败！" + data.message);

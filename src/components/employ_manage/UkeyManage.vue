@@ -348,10 +348,12 @@ import Vue from 'vue'
         if(val == '' || val == undefined){
           return;
         }
-        if(this.isFrist){
-          this.isFrist = false;
-          return;
-        }
+        if(this.$route.query.id != 0){
+          if(this.isFrist){
+            this.isFrist = false;
+            return;
+          }
+        } 
         api.queryOrganizationCodeByCid({companyId:val}).then(data => {
           if (data.code == 200) {
             this.uekyFile.companyName = data.data.companyName;

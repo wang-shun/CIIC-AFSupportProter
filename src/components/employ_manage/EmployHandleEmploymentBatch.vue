@@ -8,11 +8,6 @@
             <Row type="flex" justify="start">
               
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="材料签收日期：">
-                  <DatePicker v-model="employmentInfo.receiveDate" @on-open-change="setCurrentDate" @on-change="changeDate" type="date" placeholder="" transfer></DatePicker>
-                </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="实际录用日期：">
                   <DatePicker v-model="employmentInfo.employDate" @on-open-change="setCurrentDate1" @on-change="changeDate1" type="date" placeholder="" transfer></DatePicker>
                 </Form-item>
@@ -228,7 +223,6 @@ export default {
       docTypeList: [],
       yuliuDocTypeList: [],
       employmentInfo: {
-        receiveDate: "",
         employDate: ""
       },
       materialHandleInfo: {
@@ -541,15 +535,7 @@ export default {
           "YYYY-MM-DD"
         );
       }
-      if (fromData.receiveDate) {
-        fromData.receiveDate = this.$utils.formatDate(
-          this.employmentInfo.receiveDate,
-          "YYYY-MM-DD"
-        );
-      } else {
-        this.$Message.error("材料签收日期不能为空");
-        return;
-      }
+     
 
       fromData.empTaskIds = this.$route.query.empTaskIds;
       this.isLoadingC = true;
@@ -676,19 +662,6 @@ export default {
     },
     changeTypeDd(val) {
       this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
-    },
-    setCurrentDate(e) {
-      if (e) {
-        if (
-          this.employmentInfo.receiveDate == "" ||
-          this.employmentInfo.receiveDate == undefined
-        ) {
-          this.employmentInfo.receiveDate = this.currentDate();
-        }
-      }
-    },
-    changeDate(e) {
-      this.employmentInfo.receiveDate = e;
     },
     setCurrentDate1(e) {
       if (e) {

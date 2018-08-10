@@ -729,7 +729,6 @@
         selection.some(item => {
           if(item.ssAccountType != ssAccountType){
             isManyAccountType = true;
-            //跳出循环
             return true;
           }
         });
@@ -738,7 +737,17 @@
             return;
         }
 
-
+        let isPaymentMonth = false;
+        selection.some(item => {
+          if(item.paymentMonth != paymentMonth){
+            isPaymentMonth = true;
+            return true;
+          }
+        });
+        if(isPaymentMonth){
+            this.$Message.info("选中列中支付年月不同");
+            return;
+        }
 
         //判断选中列的支付状态(只有可付:3 和内部审批批退:5 可以进行此操作)
         let isDisableState = false;
@@ -761,6 +770,7 @@
         });
 
         payComApi.addPaymentBatch({
+          paymentMonth:paymentMonth,
           ssAccountType:this.ssAccountType,
           paymentComIdList: this.addBatchData.paymentComIdList,
         }).then(data => {

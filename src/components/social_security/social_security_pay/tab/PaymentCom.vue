@@ -290,7 +290,7 @@
               ]);
             }
           },
-            {title: '出账批次号', key: 'paymentBatchNum', width: 140, align: 'center',
+            {title: '出账批次号', key: 'paymentBatchNum', width: 130, align: 'center',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
                   h('span', params.row.paymentBatchNum),
@@ -428,14 +428,14 @@
 
         payComColumns: [
           {title: '', key: 'id', width: 55, fixed: 'left', type: 'selection'},
-          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',fixed: 'left',
+          {title: '出账批次号', key: 'paymentBatchNum', width: 140, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.paymentBatchNum),
               ]);
             }
           },
-          {title: '支付年月', key: 'paymentMonth', width: 100, align: 'center',fixed: 'left',
+          {title: '支付年月', key: 'paymentMonth', width: 85, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentMonth),

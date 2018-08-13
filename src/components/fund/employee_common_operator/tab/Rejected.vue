@@ -4,7 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
+          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDailyR"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -37,7 +37,7 @@
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
   import sessionData from '../../../../api/session-data'
-  import searchEmployee from "./SearchEmployeeR.vue"
+  import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
 
   export default {
@@ -324,7 +324,7 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
         api.hfEmpTaskRejectExport({ params: this.searchCondition });
       },
       rowClassName(row, index) {
@@ -380,7 +380,7 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskRejectQuery({
           pageSize: this.rejectedPageData.pageSize,
@@ -468,7 +468,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
        api.hfEmpTaskRejectQuery({
           pageSize: this.rejectedPageData.pageSize,

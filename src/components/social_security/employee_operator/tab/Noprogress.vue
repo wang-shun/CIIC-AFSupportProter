@@ -4,7 +4,7 @@
       <Panel name="1">
         查询条件
         <div slot="content">
-            <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
+            <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDaily"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -375,7 +375,7 @@
         }
 
         this.searchCondition.taskStatus = isStatus;
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 //        if(isStatus)
 //        {
 //            this.searchCondition.taskStatus = -2;
@@ -709,7 +709,7 @@
 //          this.searchCondition.taskStatus = -1;
 //       }
         this.searchCondition.taskStatus = isStatus;
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
@@ -797,7 +797,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,

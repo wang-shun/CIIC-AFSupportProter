@@ -4,7 +4,7 @@
       <Panel name="1">
         查询条件
         <div slot="content">
-          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
+          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDailyR"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -51,7 +51,7 @@
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
-  import searchEmployee from "./SearchEmployeeR.vue"
+  import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
 
   export default {
@@ -471,7 +471,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
@@ -556,7 +556,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,

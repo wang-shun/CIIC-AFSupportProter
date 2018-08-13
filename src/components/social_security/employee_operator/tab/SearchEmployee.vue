@@ -1,7 +1,7 @@
 <template>
-  <Form :model="searchForm" ref="searchForm" :label-width="100" @submit.native.prevent>
+  <Form :model="searchForm" ref="searchForm" :label-width="60" @submit.native.prevent>
     <Row justify="start">
-      <Col :sm="{span: 8}">
+      <Col :sm="{span: 9}">
       <Row>
         <Col :sm="{span: 24}">
           <Form-item label="选择字段" prop="chooseFieldValue">
@@ -20,12 +20,15 @@
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
 
-            <Input v-model="searchForm.searchContent" placeholder="请输入" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 0" />
+            <Input v-model="searchForm.searchContent" placeholder="请输入" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 0 || searchForm.isDate == 30 || searchForm.isDate == 40" />
             <Date-picker  v-model="searchForm.searchContent"  type="month"  placement="right"
                              placeholder="选择年月份" style="width: 100%;" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 1"></Date-picker>
             <Select v-model="searchForm.searchContent" style="width: 100%;"  :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 2">
                   <!--<Option value="[全部]" label="全部"></Option>-->
                   <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
+            </Select>
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 20">
+              <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
             </Select>
             <input-account v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 3" ></input-account>
             <input-company v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 4"></input-company>
@@ -34,9 +37,15 @@
               <!--<Option value="" label="全部"></Option>-->
               <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
             </Select>
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer  v-if="searchForm.isDate == 50">
+              <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
+            </Select>
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 7">
                 <!--<Option value="" label="全部"></Option>-->
                 <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
+            </Select>
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 70">
+              <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
             </Select>
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 8">
                 <!--<Option value="0" label="全部"></Option>-->
@@ -50,13 +59,20 @@
 
       </Row>
       </Col>
-      <Col :sm="{span: 2, offset: 1}">
-        <Button type="primary" @click="addCondition" long>新增</Button>
-        <Button type="error" @click="delCondition" class="mt20" long>删除</Button>
+      <Col :sm="{span: 1, offset: 1}">
+        <Row>
+          <Col><Form-item>&nbsp;</Form-item></Col>
+          <Col>
+            <Button :id="sessionKey" type="primary" @click="addCondition"><Icon type="ios-arrow-forward"></Icon></Button>
+            <!--<Button type="error" @click="delCondition" class="mt20" long>删除</Button>-->
+          </Col>
+          <Col><Form-item>&nbsp;</Form-item></Col>
+        </Row>
       </Col>
       <Col :sm="{span: 12, offset: 1}">
         <div class="showCondition">
-          <a href="javascript:;" :class="{'selected': index === currentSelectIndex}" @click="currentSelectIndex = index" v-for="(condition, index) in searchConditions">{{condition.desc}}</a>
+          <a href="javascript:;" :class="{'selected': index === currentSelectIndex}" @click="currentSelectIndex = index"
+             v-for="(condition, index) in searchConditions">{{condition.desc}}<Icon style="float:right;margin-top: 10px;" type="close" @click="delCondition(index)"/></a>
         </div>
       </Col>
     </Row>
@@ -86,8 +102,13 @@
     props: {
       isLoading: {
         type: Boolean
-      }, showHandle: {
+      },
+      showHandle: {
         type: Object
+      },
+      sessionKey: {
+        type: String,
+        required: true
       }
     },
     data() {
@@ -103,6 +124,7 @@
           relationshipValue: "",
           relationship: em_relationship,
           searchContent: "",
+          searchContentArr: [],
           isDate:0,
           searchContentDesc: "",
           disabled: false,
@@ -115,17 +137,16 @@
       }
     },
     async mounted() {
+      let userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-
-      var fu = sessionStorage.getItem('socialDaily'+userInfo.userId);
+      let fu = sessionStorage.getItem(this.sessionKey + userInfo.userId);
 
       if(fu!=null)
       {
         this.searchConditions = JSON.parse(fu);
         if(this.showHandle.name!='noprogress')
         {
-            for(var i=0;i<this.searchConditions.length;i++)
+            for(let i=0;i<this.searchConditions.length;i++)
             {
                if(this.searchConditions[i].exec.indexOf('taskStatus')!=-1)
                {
@@ -136,39 +157,65 @@
       }
 
       this.loadDict();
+
+      document.onkeyup = function(e) {
+        let key = window.event.keyCode;
+        if (key === 13) {
+          if (sessionStorage.employeeOperatorTab === "noprogress") {
+            document.getElementById("socialDaily").click()
+          } else if (sessionStorage.employeeOperatorTab === "progressing") {
+            document.getElementById("socialDailyP").click()
+          } else if (sessionStorage.employeeOperatorTab === "finished") {
+            document.getElementById("socialDailyF").click()
+          } else if (sessionStorage.employeeOperatorTab === "refused") {
+            document.getElementById("socialDailyR").click()
+          }
+        }
+      }
     },
     methods: {
       // 选择字段或关系
       setOption(content, type){
         this.searchForm.contentDisabled = false;
+        if (!content) return;
 
         if(type === chooseType.field) {
-
           this.searchForm.disabled = false;
           this.searchForm.relationshipValue = "";
+          delete this.searchForm.relationship["包含"];
 
           if(content.value.indexOf("month")>0){
             this.searchForm.isDate=1;
-          }else if(content.value=='ca.ss_account_type'){
+          }else if(content.value==='ca.ss_account_type'){
             this.searchForm.isDate=2;
-          }else if(content.value=='ca.ss_account'){
+            this.searchForm.relationship["包含"] = "in";
+          }else if(content.value==='ca.ss_account'){
             this.searchForm.isDate=3;
-          }else if(content.value=='c.company_id'){
+            this.searchForm.relationship["包含"] = "in";
+          }else if(content.value==='c.company_id'){
             this.searchForm.isDate=4;
-          }else if(content.value=='et.task_category'){
+            this.searchForm.relationship["包含"] = "in";
+          }else if(content.value==='et.task_category'){
             this.searchForm.isDate=5;
-          }else if(content.value=='c.title'){
+            this.searchForm.relationship["包含"] = "in";
+          }else if(content.value==='c.title'){
             this.searchForm.isDate=6;
-          }else if(content.value=='ca.settlement_area'){
+          }else if(content.value==='ca.settlement_area'){
             this.searchForm.isDate=7;
-          }else if(content.value == 'taskStatus'){
-             this.searchForm.isDate=8;
+            this.searchForm.relationship["包含"] = "in";
+          }else if(content.value === 'taskStatus') {
+            this.searchForm.isDate = 8;
             this.searchForm.disabled = true;
             this.searchForm.relationshipValue = "=";
+          }else if(content.value === 'e.employee_id') {
+            this.searchForm.isDate=0;
+            this.searchForm.relationship["包含"] = "in";
           }else{
             this.searchForm.isDate=0;
           }
+
           this.searchForm.searchContent ="";
+          this.searchForm.searchContentArr =[];
           this.currentField = content;
         } else {
           this.currentShip = content;
@@ -176,38 +223,83 @@
           if (this.currentShip && this.currentShip.value === "is null") {
             this.searchForm.contentDisabled = true;
           }
+
+          if (this.currentShip && this.currentShip.value === "in") {
+            if (this.searchForm.isDate===2 ||
+              this.searchForm.isDate===3 ||
+              this.searchForm.isDate===4 ||
+              this.searchForm.isDate===5 ||
+              this.searchForm.isDate===7
+            ) {
+              this.searchForm.isDate=this.searchForm.isDate * 10;
+            }
+          } else if (this.searchForm.isDate===20 ||
+            this.searchForm.isDate===30 ||
+            this.searchForm.isDate===40 ||
+            this.searchForm.isDate===50 ||
+            this.searchForm.isDate===70
+          ) {
+            this.searchForm.isDate=this.searchForm.isDate / 10;
+          }
         }
       },
       addCondition() {
-        if(COMMON_METHODS.IS_EMPTY(this.currentField) || COMMON_METHODS.IS_EMPTY(this.currentShip) || (!this.searchForm.contentDisabled && COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent))) {
+        if(COMMON_METHODS.IS_EMPTY(this.currentField) || COMMON_METHODS.IS_EMPTY(this.currentShip) ||
+          (!this.searchForm.contentDisabled && COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent) && COMMON_METHODS.IS_EMPTY(this.searchForm.searchContentArr))) {
           this.$Message.error("请选择字段、关系并输入查询内容");
-          return;
         } else {
-          if(this.searchForm.isDate==1){
-             var d = new Date(this.searchForm.searchContent);
-              var year = d.getFullYear();
-              var month = d.getMonth() + 1;
-              if (month >= 1 && month <= 9) {
-                  month = "0" + month;
-              }
-              this.searchForm.searchContent= year + month;
+          if(this.searchForm.isDate===1){
+            let d = new Date(this.searchForm.searchContent.trim());
+            let year = d.getFullYear();
+            let month = d.getMonth() + 1;
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            this.searchForm.searchContent= year + month;
           }
 
-          var temp_searchContent = this.searchForm.searchContent;
-          if(this.currentShip.value=='like'){
+          let searchConditionExec = '';
+
+          if (COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent)) {
+            searchConditionExec = `${this.currentField.value} ${this.currentShip.value}`;
+          }
+
+          let temp_searchContent = this.searchForm.searchContent.trim();
+
+          if(this.currentShip.value==='like'){
               temp_searchContent = '%'+this.searchForm.searchContent+'%';
           }
 
-          if(this.searchForm.isDate == 5||this.searchForm.isDate == 2||this.searchForm.isDate == 7||this.searchForm.isDate == 8)
+          let searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContent}`;
+
+          if(this.searchForm.isDate === 5||
+            this.searchForm.isDate === 2||
+            this.searchForm.isDate === 7||
+            this.searchForm.isDate === 8||
+            this.searchForm.isDate === 20||
+            this.searchForm.isDate === 50||
+            this.searchForm.isDate === 70)
           {
-             this.searchForm.searchContent = this.searchForm.searchContentDesc;
+            searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContentDesc}`;
           }
 
-          const searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContent}`;
-          var searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${temp_searchContent}'`;
-
-          if (COMMON_METHODS.IS_EMPTY(temp_searchContent)) {
+          if (this.currentShip.value === "is null") {
             searchConditionExec = `${this.currentField.value} ${this.currentShip.value}`;
+          } else if (this.currentShip.value === "in") {
+            if (this.searchForm.isDate===20 ||
+              this.searchForm.isDate===50) {
+              temp_searchContent = this.searchForm.searchContentArr.join();
+              searchConditionExec = `${this.currentField.value} ${this.currentShip.value} (${temp_searchContent})`;
+            } else if (this.searchForm.isDate===70) {
+              temp_searchContent = this.searchForm.searchContentArr.join();
+              temp_searchContent = temp_searchContent.replace(/,/g, "','");
+              searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ('${temp_searchContent}')`;
+            } else {
+              temp_searchContent = temp_searchContent.replace(/ *, */g, "','");
+              searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ('${temp_searchContent}')`;
+            }
+          } else {
+            searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${temp_searchContent}'`;
           }
 
           const searchCondition = {
@@ -230,8 +322,10 @@
           }
         }
       },
-      delCondition() {
-        if(this.currentSelectIndex !== -1) {
+      delCondition(idx) {
+        if(idx !== -1) {
+          this.searchConditions.splice(idx, 1);
+        } else {
           this.searchConditions.splice(this.currentSelectIndex, 1);
         }
       },
@@ -240,19 +334,33 @@
         this.searchConditions=[];
       },
       searchEmploiees() {
-         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-         window.sessionStorage.setItem('socialDaily'+userInfo.userId, JSON.stringify(this.searchConditions));
+         let userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+         window.sessionStorage.setItem(this.sessionKey + userInfo.userId, JSON.stringify(this.searchConditions));
          this.$emit("on-search", this.searchConditions);
       },
       loadDict(){
         dict.getDictData().then(data => {
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.taskCategorydict = data.data.SOCLocalTaskCategory;
             this.ssAccountTypedict = data.data.SocialSecurityAccountType;
           }
         });
-      },categroryChange(option) {
-         this.searchForm.searchContentDesc = option.label;
+      },
+      categroryChange(option) {
+        if (option) {
+          this.searchForm.searchContentDesc = option.label;
+        }
+      },
+      arrChange(option) {
+        this.searchForm.searchContentDesc = ''
+        if (option && option.length > 0) {
+          let desc = '';
+          option.forEach((v, idx, arr) => {
+            desc = desc.concat(v.label)
+            desc = desc.concat(',')
+          })
+          this.searchForm.searchContentDesc = desc.substring(0, desc.length - 1);
+        }
       }
     },
     computed: {

@@ -4,7 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-           <search-employee @on-search="searchEmploiees" :showHandle="showHandle"></search-employee>
+           <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDaily"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -495,7 +495,7 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
         api.hfEmpTaskExport({ params: this.searchCondition });
       },
       excelExportNew() {
@@ -569,7 +569,7 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.noProcessPageData.pageSize,
@@ -658,7 +658,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.noProcessPageData.pageSize,

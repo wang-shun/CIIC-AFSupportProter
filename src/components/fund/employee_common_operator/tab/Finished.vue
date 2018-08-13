@@ -4,7 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-           <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
+           <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDailyF"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -37,7 +37,7 @@
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
   import sessionData from '../../../../api/session-data'
-  import searchEmployee from "./SearchEmployeeF.vue"
+  import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
 
   export default {
@@ -325,7 +325,7 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
         api.hfEmpTaskExport({ params: this.searchCondition });
       },
       rowClassName(row, index) {
@@ -385,7 +385,7 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.finishedPageData.pageSize,
@@ -471,7 +471,7 @@
              this.searchConditions.push(this.orderConditions[index]);
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.finishedPageData.pageSize,

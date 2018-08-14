@@ -599,6 +599,9 @@
       },
       getParams(page) {
         if(this.operatorSearchData.paymentMonth!=''){
+          if(this.operatorSearchData.paymentMonth.length==6){
+            this.operatorSearchData.paymentMonth=this.operatorSearchData.paymentMonth+'01'
+          }
           this.operatorSearchData.payDate= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
           this.operatorSearchData.paymentMonth= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
         }
@@ -1098,7 +1101,7 @@
          if(!row)return false;
          let params ={paymentId : row.paymentId}
          FundPay.operateDetailExcelExport({
-           pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+           pageSize: 9999999,
            pageNum: 1,
            params: params,
          });

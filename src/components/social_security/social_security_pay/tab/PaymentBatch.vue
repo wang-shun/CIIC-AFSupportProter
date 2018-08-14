@@ -66,7 +66,7 @@
         
           <!-- <Button type="primary" @click="goAddPayment()">创建支付批次</Button> -->
           <Button type="primary" @click="goCreatePaymentBatch()">创建支付批次</Button>
-          <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button>
+          <!-- <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button> -->
           <!-- <Button type="primary" @click="printFinancePayVoucher()">打印付款凭证</Button> -->
         </Col>
       </Row>
@@ -385,7 +385,7 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
       let d = new Date();
       payComApi.getLastMonth().then(data=>{
         d=new Date(data.data+'/01');
-        this.payComSearchData.paymentMonth=d;
+        this.payBatchSearchData.paymentMonthMin=d;
       })
 
       this.paymentBatchQuery();

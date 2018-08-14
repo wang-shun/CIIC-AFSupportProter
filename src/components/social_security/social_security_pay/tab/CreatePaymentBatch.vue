@@ -14,11 +14,6 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="出账批号：" prop="paymentBatchNum">
-                  <Input v-model="payComSearchData.paymentBatchNum" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="companyId">
                   <Input v-model="payComSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
@@ -26,7 +21,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付年月：">
                       <Form-item prop="paymentMonth">
-                        <DatePicker v-model="payComSearchData.paymentMonth" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" :disabled=true style="width: 100%;"  transfer></DatePicker>
+                        <DatePicker v-model="payComSearchData.paymentMonth" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;"  transfer></DatePicker>
                       </Form-item>
                 </Form-item>
               </Col>
@@ -495,7 +490,10 @@
     methods: {
      
       resetSearchCondition(name) {
-        this.$refs[name].resetFields()
+        let t =this.payComSearchData.paymentMonth; 
+        console.log(t)
+        this.$refs[name].resetFields();
+        this.payComSearchData.paymentMonth=t;
       },
       gotoPay() {
         this.$Notice.success({
@@ -575,11 +573,9 @@
       },
       paymentComQuery() {
 
-        if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
-          this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
-        }
-        if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
-          this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
+        if(this.payComSearchData.paymentMonth==null ||this.payComSearchData.paymentMonth==''){
+          this.$Message.error("支付年月不可为空！");
+            return false;
         }
         if (this.payComSearchData.paymentMonth && this.payComSearchData.paymentMonth.length != 6) {
           this.payComSearchData.paymentMonth = this.$utils.formatDate(this.payComSearchData.paymentMonth, 'YYYYMM');
@@ -733,7 +729,6 @@
         selection.some(item => {
           if(item.ssAccountType != ssAccountType){
             isManyAccountType = true;
-            //跳出循环
             return true;
           }
         });
@@ -741,6 +736,19 @@
             this.$Message.info("选中列中社保账户类型不同");
             return;
         }
+
+        let isPaymentMonth = false;
+        selection.some(item => {
+          if(item.paymentMonth != paymentMonth){
+            isPaymentMonth = true;
+            return true;
+          }
+        });
+        if(isPaymentMonth){
+            this.$Message.info("选中列中支付年月不同");
+            return;
+        }
+
         //判断选中列的支付状态(只有可付:3 和内部审批批退:5 可以进行此操作)
         let isDisableState = false;
         selection.some(item => {
@@ -762,6 +770,7 @@
         });
 
         payComApi.addPaymentBatch({
+          paymentMonth:paymentMonth,
           ssAccountType:this.ssAccountType,
           paymentComIdList: this.addBatchData.paymentComIdList,
         }).then(data => {

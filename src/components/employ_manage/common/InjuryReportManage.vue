@@ -65,6 +65,13 @@
           </Form-item>
          </Col>
       </Row>
+      <Row type="flex" justify="start">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+          <Form-item label="备注：" prop="remarkw" transfer>
+            <Input v-model="handleInfo.remarkw" placeholder="请输入" :maxlength="50"/>
+          </Form-item>
+        </Col>
+       </Row>
     </Form>
     </Modal>
   </div>
@@ -186,6 +193,16 @@ export default {
           }
         },
         {
+          title: "备注",
+          key: "remark",
+          align: "center",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.remark)
+            ]);
+          }
+        },
+        {
           title: "操作",
           key: "action",
           width: 200,
@@ -237,6 +254,7 @@ export default {
         declareUnitw: "",
         ifGiveupEvaluationw: "",
         ifCompletew: "",
+        remarkw:"",
         injuryId: ""
       },
       realHandInfo: {
@@ -249,7 +267,8 @@ export default {
         ifGiveupEvaluation: "",
         ifComplete: "",
         ifCompleteLabel: "",
-        ifGiveupEvaluationLabel: ""
+        ifGiveupEvaluationLabel: "",
+        remark:""
       }
     };
   },
@@ -303,10 +322,11 @@ export default {
       fromData.declareUnit = this.handleInfo.declareUnitw;
       fromData.ifGiveupEvaluation = this.handleInfo.ifGiveupEvaluationw;
       fromData.ifComplete = this.handleInfo.ifCompletew;
-      fromData.archiveId = this.fileInfo1.archiveId;
-      if(fromData.archiveId===''||fromData.archiveId==undefined)
+      fromData.empTaskId = this.fileInfo1.empTaskId;
+      fromData.remark = this.handleInfo.remarkw;
+      if(fromData.empTaskId===''||fromData.empTaskId==undefined)
       {
-        this.$Message.success("请先保存档案");
+        this.$Message.success("无对应的用工任务单号");
         return;
       }
       if (

@@ -12,7 +12,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
       <!--<Button type="primary" style="width: 100px;" @click="batchAllHandle">批量全选</Button>-->
-      <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
+      <!-- <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button> -->
       <Button type="error" @click="showRefuseReason">批退</Button>
       <Button type="info" @click="exprotExcel">导出</Button>
       </Col>

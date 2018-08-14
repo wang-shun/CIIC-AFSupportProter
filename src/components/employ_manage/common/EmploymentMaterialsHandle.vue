@@ -241,12 +241,19 @@ export default {
       ]
     };
   },
-  mounted() {
-    this.changeStatus(this.handleInfo.end);
+  watch: {
+   handleInfo() {
+      this.employFeedbackList[0].disabled = this.handleInfo.end;
+      this.employFeedbackList[1].disabled = this.handleInfo.end;
+      this.employFeedbackList[2].disabled = this.handleInfo.end;
+      this.employFeedbackList[3].disabled = this.handleInfo.end;
+      this.employFeedbackList[4].disabled = this.handleInfo.end;
+      this.employFeedbackList[5].disabled = this.handleInfo.end;
+      this.employFeedbackList[6].disabled = this.handleInfo.end;
+    }
   },
   methods: {
     changeStatus(val) {
-      debugger
       this.employFeedbackList[0].disabled = val;
       this.employFeedbackList[1].disabled = val;
       this.employFeedbackList[2].disabled = val;

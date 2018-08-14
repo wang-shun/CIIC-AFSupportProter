@@ -60,19 +60,19 @@
       </Row>
       </Col>
       <Col :sm="{span: 1, offset: 1}">
-        <Row>
-          <Col><Form-item>&nbsp;</Form-item></Col>
-          <Col>
-            <Button :id="sessionKey" type="primary" @click="addCondition"><Icon type="ios-arrow-forward"></Icon></Button>
-            <!--<Button type="error" @click="delCondition" class="mt20" long>删除</Button>-->
-          </Col>
-          <Col><Form-item>&nbsp;</Form-item></Col>
-        </Row>
+        <Button type="primary" @click="addCondition" >新增</Button>
+        <Button type="error" @click="delCondition" class="mt20" >删除</Button>
       </Col>
       <Col :sm="{span: 12, offset: 1}">
         <div class="showCondition">
-          <a href="javascript:;" :class="{'selected': index === currentSelectIndex}" @click="currentSelectIndex = index"
-             v-for="(condition, index) in searchConditions">{{condition.desc}}<Icon style="float:right;margin-top: 10px;" type="close" @click="delCondition(index)"/></a>
+          <div :class="{'selected': index === currentSelectIndex}" v-for="(condition, index) in searchConditions" @click="currentSelectIndex = index">
+            <!--<a href="javascript:;">-->
+              {{condition.desc}}
+            <!--</a>-->
+            <div style="position: absolute;top:0;right:0">
+              <Icon type="close" @click="delCondition(index)"/>
+            </div>
+          </div>
         </div>
       </Col>
     </Row>
@@ -295,7 +295,7 @@
               temp_searchContent = temp_searchContent.replace(/,/g, "','");
               searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ('${temp_searchContent}')`;
             } else {
-              temp_searchContent = temp_searchContent.replace(/ *, */g, "','");
+              temp_searchContent = temp_searchContent.replace(/ *[,|\uff0c] */g, "','");
               searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ('${temp_searchContent}')`;
             }
           } else {
@@ -321,9 +321,11 @@
             this.$Message.error("请不要重复添加");
           }
         }
+
+        console.log();
       },
       delCondition(idx) {
-        if(idx !== -1) {
+        if(idx && idx !== -1) {
           this.searchConditions.splice(idx, 1);
         } else {
           this.searchConditions.splice(this.currentSelectIndex, 1);
@@ -378,20 +380,44 @@
     border: 1px solid #ccc;
     border-radius: 5px;
   }
-  .showCondition a {
+  .showCondition div {
     color: #2b85e4;
-    line-height: 30px;
-    display: block;
-    height: 40px;
+    position: relative;
+    /*line-height: 30px;*/
+    /*display: block;*/
+    /*height: 40px;*/
     padding: 5px;
-    background: white;
+    /*background: white;*/
   }
-  .showCondition a:hover {
+  /*.showCondition a {*/
+    /*color: #2b85e4;*/
+    /*!*background: white;*!*/
+  /*}*/
+  .showCondition div:hover {
     color: white;
-    background: #2b85e4;
+    background: #5bc0de;
+  }
+  .showCondition div:hover div {
+    background: transparent;
+  }
+  /*.showCondition div:hover a {*/
+    /*color: white;*/
+    /*!*background: #2b85e4;*!*/
+  /*}*/
+
+  .showCondition i {
+    color: red;
+    /*background: white;*/
+  }
+  .showCondition i:hover {
+    color: white;
+    /*background: red;*/
   }
   .selected {
     color: white!important;
     background: #2b85e4!important;
   }
+  /*.selected a {*/
+    /*color: white!important;*/
+  /*}*/
 </style>

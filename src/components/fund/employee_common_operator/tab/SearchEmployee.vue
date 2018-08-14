@@ -59,21 +59,27 @@
       </Row>
       </Col>
       <Col :sm="{span: 1, offset: 1}">
-        <!--<Button type="primary" @click="addCondition" long>新增</Button>-->
-        <!--<Button type="error" @click="delCondition" class="mt20" long>删除</Button>-->
-        <Row>
-          <Col><Form-item>&nbsp;</Form-item></Col>
-          <Col>
-            <Button :id="sessionKey" type="primary" @click="addCondition"><Icon type="ios-arrow-forward"></Icon></Button>
-          </Col>
-          <Col><Form-item>&nbsp;</Form-item></Col>
-        </Row>
+        <Button type="primary" @click="addCondition" long>新增</Button>
+        <Button type="error" @click="delCondition" class="mt20" long>删除</Button>
+        <!--<Row>-->
+          <!--<Col><Form-item>&nbsp;</Form-item></Col>-->
+          <!--<Col>-->
+            <!--<Button :id="sessionKey" type="primary" @click="addCondition"><Icon type="ios-arrow-forward"></Icon></Button>-->
+          <!--</Col>-->
+          <!--<Col><Form-item>&nbsp;</Form-item></Col>-->
+        <!--</Row>-->
       </Col>
       <Col :sm="{span: 12, offset: 1}">
         <div class="showCondition">
           <!--<a href="javascript:;" :class="{'selected': index === currentSelectIndex}" @click="currentSelectIndex = index" v-for="(condition, index) in searchConditions">{{condition.desc}}</a>-->
-          <a href="javascript:;" :class="{'selected': index === currentSelectIndex}" @click="currentSelectIndex = index"
-             v-for="(condition, index) in searchConditions">{{condition.desc}}<Icon style="float:right;margin-top: 10px;" type="close" @click="delCondition(index)"/></a>
+          <!--<a href="javascript:;" :class="{'selected': index === currentSelectIndex}" @click="currentSelectIndex = index"-->
+             <!--v-for="(condition, index) in searchConditions">{{condition.desc}}<Icon style="float:right;margin-top: 10px;" type="close" @click="delCondition(index)"/></a>-->
+          <div :class="{'selected': index === currentSelectIndex}" v-for="(condition, index) in searchConditions" @click="currentSelectIndex = index">
+            {{condition.desc}}
+            <div style="position: absolute;top:0;right:0">
+              <Icon type="close" @click="delCondition(index)"/>
+            </div>
+          </div>
         </div>
       </Col>
     </Row>
@@ -316,7 +322,7 @@
 //              temp_searchContent = temp_searchContent.replace(/,/g, "','");
 //              searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ('${temp_searchContent}')`;
             } else {
-              temp_searchContent = temp_searchContent.replace(/ *, */g, "','");
+              temp_searchContent = temp_searchContent.replace(/ *[,|\uff0c] */g, "','");
               searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ('${temp_searchContent}')`;
             }
           } else {
@@ -398,17 +404,40 @@
     border: 1px solid #ccc;
     border-radius: 5px;
   }
-  .showCondition a {
+  /*.showCondition a {*/
+    /*color: #2b85e4;*/
+    /*line-height: 30px;*/
+    /*display: block;*/
+    /*height: 40px;*/
+    /*padding: 5px;*/
+    /*background: white;*/
+  /*}*/
+  /*.showCondition a:hover {*/
+    /*color: white;*/
+    /*background: #2b85e4;*/
+  /*}*/
+  /*.selected {*/
+    /*color: white!important;*/
+    /*background: #2b85e4!important;*/
+  /*}*/
+  .showCondition div {
     color: #2b85e4;
-    line-height: 30px;
-    display: block;
-    height: 40px;
+    position: relative;
     padding: 5px;
-    background: white;
   }
-  .showCondition a:hover {
+  .showCondition div:hover {
     color: white;
-    background: #2b85e4;
+    background: #5bc0de;
+  }
+  .showCondition div:hover div {
+    background: transparent;
+  }
+
+  .showCondition i {
+    color: red;
+  }
+  .showCondition i:hover {
+    color: white;
   }
   .selected {
     color: white!important;

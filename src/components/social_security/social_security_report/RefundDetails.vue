@@ -10,7 +10,7 @@
                 <Button type="warning" @click="goBack" >返回</Button>
               </Col>
             </Row>
-            <Table border :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData"></Table>
+            <Table border :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData" height=600></Table>
 
           </Form>
         </div>
@@ -139,7 +139,10 @@ import api from '../../../api/social_security/social_security_report'
 
       },
       queryRefundDetails(){
-        let params = {ssMonth:this.ssMonth,ssAccount:this.ssAccount}
+        let params = {ssMonth:this.ssMonth,
+                ssAccount:this.ssAccount,
+                companyId:this.$route.query.companyId,
+        }
         api.queryRefundDetails(params).then(data=>{
             if(data.code==500){
               this.$Message.error(data.message);

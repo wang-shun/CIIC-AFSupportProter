@@ -300,6 +300,8 @@
         }
       });
       this.initData();
+
+      
     },
     computed: {
     },
@@ -361,6 +363,8 @@
             if (!isContainIn) {
               this.transferInUnitList.push(this.transferNotice1.transferInUnit);
             }
+           
+          
           setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);
@@ -369,7 +373,11 @@
       },
 
       setValue(){
-        this.$utils.copy(this.transferNotice1,this.transferNotice);
+        //
+       this.$utils.copy(this.transferNotice1,this.transferNotice);
+       if(this.transferNotice.hfType==undefined){
+            this.transferNotice.hfType='1';
+       }
       },
 
       goBack() {
@@ -527,14 +535,27 @@
             {
               comAccountName: value,
               hfType: this.transferNotice.hfType,
+              companyId:this.$route.query.companyId,
             }
           ).then(
             data => {
               if (data.code == 200) {
                 if (data.data && data.data.length == 1) {
+                  let isDuplicate=false;
+                  unitList.forEach((element, index, array) => {
+                      if( data.data[0].comAccountName == element){
+                        isDuplicate = true;
+                      }
+                  })
+                  if(isDuplicate==false){
+                    unitList.push(data.data[0].comAccountName);
+                    unitAccountList.push(data.data[0].hfComAccount);
+                  }
                     if (type == 1) {
+                      this.transferNotice.transferOutUnit = data.data[0].comAccountName;
                       this.transferNotice.transferOutUnitAccount = data.data[0].hfComAccount;
                     } else {
+                      this.transferNotice.transferInUnit = data.data[0].comAccountName;
                       this.transferNotice.transferInUnitAccount = data.data[0].hfComAccount;
                     }
                 } 

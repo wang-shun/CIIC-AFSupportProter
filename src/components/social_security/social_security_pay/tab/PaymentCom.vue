@@ -754,7 +754,6 @@
         payComApi.paymentComQueryExport(params)
       },
       paymentComQuery() {
-
         if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
           this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
         }

@@ -227,7 +227,8 @@
           oldYuLiuType: '',
           oldYuLiuNum: 0,
           oldType: '',
-          oldNum: 0
+          oldNum: 0,
+          empTaskId:this.$route.query.empTaskId
 
         },
         fileInfo2: {

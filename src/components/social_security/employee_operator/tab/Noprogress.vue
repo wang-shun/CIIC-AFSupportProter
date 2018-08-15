@@ -450,8 +450,8 @@
         }).then(data=>{
           this.$Message.info(data.message);
           this.isLoading = false;
-           this.isRefuseReason = false;
-            this.employeeOperatorQuery();
+          this.isRefuseReason = false;
+          this.handlePageNum(1);
         }).catch(
           error=>{
             this.isLoading = false;

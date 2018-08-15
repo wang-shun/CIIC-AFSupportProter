@@ -425,10 +425,15 @@
             this.selectedOutData.length = 0;
             this.selectedNewData.length = 0;
           } else {
+            this.isLoading = false;
             this.$Message.error(data.message)
           }
 //          this.isLoading = false;
-        })
+        }).catch(
+          error=>{
+            this.isLoading = false;
+          }
+        )
       },
       beforeSubmit(params) {
         var cparams = {}

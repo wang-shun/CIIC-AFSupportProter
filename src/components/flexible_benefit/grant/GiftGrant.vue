@@ -177,8 +177,7 @@
           this.applyGiftRecord = response.data.object.applyGiftRecord;
           this.applyRecordDetail = response.data.object.applyRecordDetail;
           this.approvalStepList = response.data.object.approvalStepList;
-        }).catch(e => {
-//          console.info(e.message);
+        }).catch(() => {
           this.$Message.error("服务器异常，请稍后再试");
         });
       },
@@ -192,8 +191,7 @@
           } else {
             this.$Message.error("服务器异常，请稍后再试");
           }
-        }).catch(e => {
-//          console.info(e.message);
+        }).catch(() => {
           this.$Message.error("服务器异常，请稍后再试");
         });
       },

@@ -43,7 +43,8 @@
             <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
               <Form :label-width=120>
                 <Form-item label="发放备注：">
-                  <Input v-model="sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder=""></Input>
+                  <Input v-model="sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
+                         placeholder=""></Input>
                 </Form-item>
               </Form>
             </Col>

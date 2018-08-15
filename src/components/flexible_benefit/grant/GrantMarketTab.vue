@@ -20,7 +20,8 @@
                 <Form-item label="发放状态：" prop="sendStatus">
                   <label>
                     <Select v-model="searchCondition.sendStatus" :clearable="true">
-                      <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                      <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}
+                      </Option>
                     </Select>
                   </label>
                 </Form-item>

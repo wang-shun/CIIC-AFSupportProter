@@ -239,7 +239,10 @@
         let result = this.validConditionFirst();
         if(!result)return;
 
-
+        if(this.operatorSearchDataFirst.ssAccount=='' && this.operatorSearchDataFirst.companyId==''){
+          this.$Message.info("条件【企业社保账号】和【客户编号】请二选一输入！");
+          return;
+        }
         
         let ssMonth = this.$utils.formatDate(this.operatorSearchDataFirst.ssMonth, 'YYYYMM');
 
@@ -255,6 +258,10 @@
       employeeCostDetail(){
         let result = this.validConditionFirst();
         if(!result)return;
+        if(this.operatorSearchDataFirst.ssAccount=='' && this.operatorSearchDataFirst.companyId==''){
+          this.$Message.info("条件【企业社保账号】和【客户编号】请二选一输入！");
+          return;
+        }
         let ssMonth = this.$utils.formatDate(this.operatorSearchDataFirst.ssMonth, 'YYYYMM')
         let param={
           ssMonth:ssMonth,
@@ -268,6 +275,11 @@
       refundDetails(){
         let result = this.validConditionFirst();
         if(!result)return;
+
+        if(this.operatorSearchDataFirst.ssAccount=='' && this.operatorSearchDataFirst.companyId==''){
+          this.$Message.info("条件【企业社保账号】和【客户编号】请二选一输入！");
+          return;
+        }
          let ssMonth = this.$utils.formatDate(this.operatorSearchDataFirst.ssMonth, 'YYYYMM')
          let param={
           ssMonth:ssMonth,

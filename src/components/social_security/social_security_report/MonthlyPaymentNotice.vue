@@ -173,13 +173,13 @@
 
       getAccountCompanay(){
         api.getAccountById({
-          comAccountId: this.comAccountId,
-          companyId:this.$route.query.companyId,
+          //comAccountId: this.comAccountId,
+          //companyId:this.$route.query.companyId,
           ssAccount:this.$route.query.ssAccount,
         }).then(data=>{
           this.accountName = data.data.comAccountName;
           this.account = data.data.ssAccount;
-          this.companyId =data.dtas.companyId;
+          this.companyId =data.data.companyId;
         })
       },
 

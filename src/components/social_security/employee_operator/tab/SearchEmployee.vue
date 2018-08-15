@@ -52,6 +52,7 @@
                 <Option value="-1" label="本月未处理"></Option>
                 <Option value="-2" label="下月未处理"></Option>
             </Select>
+            <Cascader :data="serviceCenterData" v-model="searchForm.searchContentArr" trigger="hover" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 9"></Cascader>
 
           </Form-item>
         </Col>
@@ -60,7 +61,7 @@
       </Row>
       </Col>
       <Col :sm="{span: 1, offset: 1}">
-        <Button type="primary" @click="addCondition" >新增</Button>
+        <Button :id="sessionKey" type="primary" @click="addCondition" >新增</Button>
         <Button type="error" @click="delCondition" class="mt20" >删除</Button>
       </Col>
       <Col :sm="{span: 12, offset: 1}">
@@ -92,6 +93,8 @@
   import InputCompany from '../../../common_control/form/input_company'
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
+  import api from '../../../../api/social_security/employee_operator'
+
   const chooseType = {
     field: 1001,
     relationship: 1002
@@ -118,6 +121,7 @@
           {value:1,label:'已处理'},
           {value:2,label:'全部'}
         ],
+//        searchContentProp: "searchContent",
         searchForm: {
           chooseFieldValue: "",
           chooseField: em_chooseField,
@@ -133,7 +137,9 @@
         searchConditions: [],
         currentField: {},
         currentShip: {},
-        currentSelectIndex: -1
+        currentSelectIndex: -1,
+        serviceCenterData: [],
+        leaderShipData: []
       }
     },
     async mounted() {
@@ -157,6 +163,8 @@
       }
 
       this.loadDict();
+      this.getServiceCenters();
+//      this.getLeadserShips();
 
       document.onkeyup = function(e) {
         let key = window.event.keyCode;
@@ -169,11 +177,25 @@
             document.getElementById("socialDailyF").click()
           } else if (sessionStorage.employeeOperatorTab === "refused") {
             document.getElementById("socialDailyR").click()
+          } else {
+            document.getElementById("socialDaily").click()
           }
         }
       }
     },
     methods: {
+      getServiceCenters(){
+        let params = null;
+        api.getCustomers({params:params}).then(data=>{
+          this.serviceCenterData = data.data;
+        })
+      },
+//      getLeadserShips(){
+//        let params = null;
+//        api.getTeams({params:params}).then(data=>{
+//          this.leaderShipData = data.data;
+//        })
+//      },
       // 选择字段或关系
       setOption(content, type){
         this.searchForm.contentDisabled = false;
@@ -208,8 +230,10 @@
             this.searchForm.disabled = true;
             this.searchForm.relationshipValue = "=";
           }else if(content.value === 'e.employee_id') {
-            this.searchForm.isDate=0;
+            this.searchForm.isDate = 0;
             this.searchForm.relationship["包含"] = "in";
+          }else if (content.value === 'et.service_center_id') {
+            this.searchForm.isDate = 9;
           }else{
             this.searchForm.isDate=0;
           }
@@ -249,7 +273,7 @@
           this.$Message.error("请选择字段、关系并输入查询内容");
         } else {
           if(this.searchForm.isDate===1){
-            let d = new Date(this.searchForm.searchContent.trim());
+            let d = new Date(this.searchForm.searchContent);
             let year = d.getFullYear();
             let month = d.getMonth() + 1;
             if (month >= 1 && month <= 9) {
@@ -259,23 +283,30 @@
           }
 
           let searchConditionExec = '';
+          let temp_searchContent = '';
 
           if (COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent)) {
             searchConditionExec = `${this.currentField.value} ${this.currentShip.value}`;
+          } else {
+            temp_searchContent = this.searchForm.searchContent.trim();
           }
 
-          let temp_searchContent = this.searchForm.searchContent.trim();
+          if (this.searchForm.isDate === 9) {
+            temp_searchContent = this.searchForm.searchContentArr[0];
+          }
+
+          let searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${temp_searchContent}`;
 
           if(this.currentShip.value==='like'){
-              temp_searchContent = '%'+this.searchForm.searchContent+'%';
+            temp_searchContent = '%' + temp_searchContent + '%';
           }
 
-          let searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContent}`;
-
-          if(this.searchForm.isDate === 5||
+          if(
             this.searchForm.isDate === 2||
+            this.searchForm.isDate === 5||
             this.searchForm.isDate === 7||
             this.searchForm.isDate === 8||
+            this.searchForm.isDate === 9||
             this.searchForm.isDate === 20||
             this.searchForm.isDate === 50||
             this.searchForm.isDate === 70)
@@ -298,6 +329,15 @@
               temp_searchContent = temp_searchContent.replace(/ *[,|\uff0c] */g, "','");
               searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ('${temp_searchContent}')`;
             }
+          } else if (
+            this.searchForm.isDate === 2||
+            this.searchForm.isDate === 5||
+            this.searchForm.isDate === 8||
+            this.searchForm.isDate === 9||
+            this.searchForm.isDate === 20||
+            this.searchForm.isDate === 50
+          ) {
+            searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ${temp_searchContent}`;
           } else {
             searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${temp_searchContent}'`;
           }
@@ -321,18 +361,21 @@
             this.$Message.error("请不要重复添加");
           }
         }
-
-        console.log();
       },
       delCondition(idx) {
-        if(idx && idx !== -1) {
+        if(typeof idx === 'number' && idx !== -1) {
           this.searchConditions.splice(idx, 1);
         } else {
-          this.searchConditions.splice(this.currentSelectIndex, 1);
+          if (this.currentSelectIndex === -1) {
+            this.$Message.error("请先选中要删除的项");
+          } else {
+            this.searchConditions.splice(this.currentSelectIndex, 1);
+          }
         }
       },
       resetForm(form) {
         this.$refs[form].resetFields();
+        this.searchForm.searchContentArr=[];
         this.searchConditions=[];
       },
       searchEmploiees() {
@@ -353,9 +396,19 @@
           this.searchForm.searchContentDesc = option.label;
         }
       },
-      arrChange(option) {
+      arrChange(option, selectedData) {
         this.searchForm.searchContentDesc = ''
-        if (option && option.length > 0) {
+
+        if (selectedData) {
+          if (selectedData.length > 0) {
+            let desc = '';
+            selectedData.forEach((v, idx, arr) => {
+              desc = desc.concat(v.label)
+              desc = desc.concat(',')
+            })
+            this.searchForm.searchContentDesc = desc.substring(0, desc.length - 1);
+          }
+        } else if (option && option.length > 0) {
           let desc = '';
           option.forEach((v, idx, arr) => {
             desc = desc.concat(v.label)

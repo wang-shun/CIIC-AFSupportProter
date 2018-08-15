@@ -117,7 +117,7 @@
             }
           },
           {
-            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
+            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',sortable: 'custom',
             render: (h, params) => {
               return h('div', [
                 h('span',  this.$decode.taskCategory(params.row.taskCategory))
@@ -183,26 +183,30 @@
         {
           for(var index  in storeOrder)
           {
-             var orders = storeOrder[index].split(' ');
-             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            var orders = storeOrder[index].split(' ');
+            if(e.key === 'taskCategory' && storeOrder[index].indexOf('task_category')!=-1) {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'employeeId'&& storeOrder[index].indexOf('employee_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'companyId'&& storeOrder[index].indexOf('company_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'ssAccount'&& storeOrder[index].indexOf('ss_account')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+
+            if(e.key === 'idNum'&& storeOrder[index].indexOf('id_num')!=-1)
+            {
+              e.sortType = orders[1];
+            }
           }
         }
       }
@@ -511,14 +515,16 @@
         }
 
         var dx ='';
-        if(e.key === 'companyId'){
-            dx = 'c.company_id';
-        }else if(e.key === 'employeeId'){
-            dx = 'e.employee_id';
-        }else if(e.key === 'ssAccount'){
-            dx = 'ca.ss_account';
-        }else if(e.key === 'idNum'){
-            dx = 'e.id_num';
+        if (e.key === 'taskCategory') {
+          dx = 'et.task_category';
+        } else if (e.key === 'companyId') {
+          dx = 'c.company_id';
+        } else if (e.key === 'employeeId') {
+          dx = 'e.employee_id';
+        } else if (e.key === 'ssAccount') {
+          dx = 'ca.ss_account';
+        } else if(e.key === 'idNum') {
+          dx = 'e.id_num';
         }
         const searchConditionExec = `${dx} ${e.order} `;
         if(storeOrder==null){
@@ -595,6 +601,7 @@
               for(var index  in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
+
                 if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
                   order = orders[1]
                   break;

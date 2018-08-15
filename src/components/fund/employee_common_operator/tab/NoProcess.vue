@@ -234,7 +234,7 @@
               ]);
             }
           },
-          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
+          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center',sortable: 'custom'},
 //          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center',sortable: 'custom'},
@@ -267,16 +267,21 @@
         {
           for(var index  in storeOrder)
           {
-             var orders = storeOrder[index].split(' ');
-             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            var orders = storeOrder[index].split(' ');
+            if(e.key === 'taskCategoryName'&&storeOrder[index].indexOf('task_category')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+
+            if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
             if(e.key === 'hfEmpAccount'&&storeOrder[index].indexOf('hf_emp_account')!=-1)
             {
@@ -601,14 +606,16 @@
 
 
         var dx ='';
-        if(e.key === 'companyId'){
-            dx = 'tmp.company_id';
+        if(e.key === 'taskCategoryName') {
+          dx = 'tmp.task_category';
+        }else if(e.key === 'companyId'){
+          dx = 'tmp.company_id';
         }else if(e.key === 'employeeId'){
-            dx = 'tmp.employee_id';
+          dx = 'tmp.employee_id';
         }else if(e.key === 'hfEmpAccount'){
-            dx = 'tmp.hf_emp_account';
+          dx = 'tmp.hf_emp_account';
         }else if(e.key === 'idNum'){
-            dx = 'tmp.id_num';
+          dx = 'tmp.id_num';
         }
 
         const searchConditionExec = `${dx} ${e.order} `;
@@ -687,6 +694,11 @@
               for(var index  in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
+                if(e.key === 'taskCategoryName' && storeOrder[index].indexOf('task_category')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
                 if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
                   order = orders[1]
                   break;

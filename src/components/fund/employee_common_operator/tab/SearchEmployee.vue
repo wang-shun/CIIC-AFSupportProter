@@ -59,8 +59,8 @@
       </Row>
       </Col>
       <Col :sm="{span: 1, offset: 1}">
-        <Button type="primary" @click="addCondition" long>新增</Button>
-        <Button type="error" @click="delCondition" class="mt20" long>删除</Button>
+        <Button :id="sessionKey" type="primary" @click="addCondition" >新增</Button>
+        <Button type="error" @click="delCondition" class="mt20" >删除</Button>
         <!--<Row>-->
           <!--<Col><Form-item>&nbsp;</Form-item></Col>-->
           <!--<Col>-->
@@ -182,6 +182,8 @@
             document.getElementById("fundDailyF").click()
           } else if (sessionStorage.fundEmployeeOperatorTab === "refused") {
             document.getElementById("fundDailyR").click()
+          } else {
+            document.getElementById("fundDaily").click()
           }
         }
       }
@@ -275,25 +277,27 @@
           }
 
           let searchConditionExec = '';
+          let temp_searchContent = '';
 
           if (COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent)) {
             searchConditionExec = `${this.currentField.value} ${this.currentShip.value}`;
+          } else {
+            temp_searchContent = this.searchForm.searchContent.trim();
           }
 
-          let temp_searchContent = this.searchForm.searchContent.trim();
+          let searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${temp_searchContent}`;
 
           if(this.currentShip.value==='like'){
-              temp_searchContent = '%'+this.searchForm.searchContent+'%';
+              temp_searchContent = '%' + temp_searchContent + '%';
           }
-
-          let searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContent}`;
 
 //          if(this.searchForm.isDate == 1||this.searchForm.isDate == 2||this.searchForm.isDate == 3||this.searchForm.isDate == 4||this.searchForm.isDate == 5||this.searchForm.isDate == 8)
 //          {
 //            searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContentDesc}`;
 //          }
 
-          if(this.searchForm.isDate === 1||
+          if(
+            this.searchForm.isDate === 1||
             this.searchForm.isDate === 2||
             this.searchForm.isDate === 3||
             this.searchForm.isDate === 4||
@@ -301,8 +305,8 @@
             this.searchForm.isDate === 8||
             this.searchForm.isDate === 20||
             this.searchForm.isDate === 30||
-            this.searchForm.isDate === 50)
-          {
+            this.searchForm.isDate === 50
+          ) {
             searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContentDesc}`;
           }
 
@@ -325,6 +329,18 @@
               temp_searchContent = temp_searchContent.replace(/ *[,|\uff0c] */g, "','");
               searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ('${temp_searchContent}')`;
             }
+          } else if (
+            this.searchForm.isDate === 1||
+            this.searchForm.isDate === 2||
+            this.searchForm.isDate === 3||
+            this.searchForm.isDate === 4||
+            this.searchForm.isDate === 5||
+            this.searchForm.isDate === 8||
+            this.searchForm.isDate === 20||
+            this.searchForm.isDate === 30||
+            this.searchForm.isDate === 50
+          ) {
+            searchConditionExec = `${this.currentField.value} ${this.currentShip.value} ${temp_searchContent}`;
           } else {
             searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${temp_searchContent}'`;
           }
@@ -349,12 +365,19 @@
         }
       },
       delCondition() {
-        if(this.currentSelectIndex !== -1) {
-          this.searchConditions.splice(this.currentSelectIndex, 1);
+        if(typeof idx === 'number' && idx !== -1) {
+          this.searchConditions.splice(idx, 1);
+        } else {
+          if (this.currentSelectIndex === -1) {
+            this.$Message.error("请先选中要删除的项");
+          } else {
+            this.searchConditions.splice(this.currentSelectIndex, 1);
+          }
         }
       },
       resetForm(form) {
         this.$refs[form].resetFields();
+        this.searchForm.searchContentArr=[];
         this.searchConditions = [];
       },
       searchEmploiees() {

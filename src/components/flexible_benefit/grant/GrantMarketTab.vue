@@ -9,16 +9,20 @@
             <Row class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="审批状态：" prop="approvalStatus">
-                  <Select v-model="searchCondition.approvalStatus" :clearable="true">
-                    <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
+                  <label>
+                    <Select v-model="searchCondition.approvalStatus" :clearable="true">
+                      <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    </Select>
+                  </label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="发放状态：" prop="sendStatus">
-                  <Select v-model="searchCondition.sendStatus" :clearable="true">
-                    <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
+                  <label>
+                    <Select v-model="searchCondition.sendStatus" :clearable="true">
+                      <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    </Select>
+                  </label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" :clearable="true">

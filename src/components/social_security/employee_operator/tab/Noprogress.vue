@@ -414,6 +414,7 @@
       },
       // 批退
       showRefuseReason() {
+
         let length = this.selectEmployeeResultData.length;
         if (length > 0) {
           for (let i = 0; i < length; i++) {
@@ -428,6 +429,7 @@
           }
         }
         if (this.checkSelectEmployeeResultData()) {
+          this.rejectionRemark ='';
           this.isRefuseReason = true
         }
       },

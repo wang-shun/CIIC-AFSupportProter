@@ -783,6 +783,7 @@
       }
     },
     mounted() {
+
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = parseInt(localStorage.getItem('employeeFundCommonOperator.hfType'));
       let taskCategory = parseInt(localStorage.getItem('employeeFundCommonOperator.taskCategory'));
@@ -826,12 +827,14 @@
             this.inputDisabled = true;
             this.taskCategoryDisable = true;
             this.showButton = false;
+            this.displayVO.canHandle = false;
           }
         } else {
           this.$Message.error(data.message);
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
+          
         }
       });
       dict.getDictData().then(data => {

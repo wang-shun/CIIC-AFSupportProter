@@ -8,40 +8,44 @@
           <Form :model="searchCondition" ref="searchCondition" :label-width=120>
             <Row class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="审批状态：" prop="approvalStatus">
-                <Select v-model="searchCondition.approvalStatus" :clearable="true">
-                  <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
+                <Form-item label="审批状态：" prop="approvalStatus">
+                  <label>
+                    <Select v-model="searchCondition.approvalStatus" :clearable="true">
+                      <Option v-for="item in examineList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    </Select>
+                  </label>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="发放状态：" prop="sendStatus">
-                <Select v-model="searchCondition.sendStatus" :clearable="true">
-                  <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
+                <Form-item label="发放状态：" prop="sendStatus">
+                  <label>
+                    <Select v-model="searchCondition.sendStatus" :clearable="true">
+                      <Option v-for="item in grantStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    </Select>
+                  </label>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" :clearable="true">
-              <Form-item label="申请时间：" prop="applyTimeRange">
-                <DatePicker v-model="searchCondition.applyTimeRange" type="daterange" show-week-numbers
-                            placement="bottom-end" placeholder="选择时间"
-                            style="width: 100%"></DatePicker>
-              </Form-item>
+                <Form-item label="申请时间：" prop="applyTimeRange">
+                  <DatePicker v-model="searchCondition.applyTimeRange" type="daterange" show-week-numbers
+                              placement="bottom-end" placeholder="选择时间"
+                              style="width: 100%"></DatePicker>
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="所属中心：" prop="departmentId">
-                <Select v-model="searchCondition.departmentId" :clearable="true">
-                  <Option v-for="item in centerList" :value="item.departmentId" :key="item.departmentId">
-                    {{item.departmentName}}
-                  </Option>
-                </Select>
-              </Form-item>
+                <Form-item label="所属中心：" prop="departmentId">
+                  <Select v-model="searchCondition.departmentId" :clearable="true">
+                    <Option v-for="item in centerList" :value="item.departmentId" :key="item.departmentId">
+                      {{item.departmentName}}
+                    </Option>
+                  </Select>
+                </Form-item>
               </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('searchCondition')">重置</Button>
+                <Button type="primary" @click="getByPage(1)" icon="ios-search">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('searchCondition')">重置</Button>
               </Col>
             </Row>
           </Form>

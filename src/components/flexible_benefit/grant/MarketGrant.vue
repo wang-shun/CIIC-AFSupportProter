@@ -7,23 +7,23 @@
           <Form :label-width="150">
             <Row class="m10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="申请单号: ">{{ applyRecord.applyRecordId }}</Form-item>
+                <Form-item label="申请单号: ">{{ applyRecord.applyRecordId }}</Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="主题: ">{{ applyRecord.projectTopics }}</Form-item>
+                <Form-item label="主题: ">{{ applyRecord.projectTopics }}</Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="申请类别: ">活动申请</Form-item>
+                <Form-item label="申请类别: ">活动申请</Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="申请人部门: ">{{ applyRecord.contactDeptName }}</Form-item>
+                <Form-item label="申请人部门: ">{{ applyRecord.contactDeptName }}</Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="申请人职位: ">{{ applyRecord.contactPosition }}</Form-item>
+                <Form-item label="申请人职位: ">{{ applyRecord.contactPosition }}</Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="申请时间: ">{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD')}}
-              </Form-item>
+                <Form-item label="申请时间: ">{{this.$utils.formatDate(applyRecord.applyTime, 'YYYY-MM-DD')}}
+                </Form-item>
               </Col>
             </Row>
           </Form>
@@ -41,19 +41,18 @@
         <div slot="content">
           <Row>
             <Col :xs="{span: 8, offset: 1}" :lg="{ span: 8, offset: 1}">
-            <Form :label-width=120>
-              <Form-item label="发放备注：">
-                <Input v-model="sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder=""/>
-              </Form-item>
-            </Form>
+              <Form :label-width=120>
+                <Form-item label="发放备注：">
+                  <Input v-model="sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder=""></Input>
+                </Form-item>
+              </Form>
             </Col>
           </Row>
           <Row type="flex" justify="start">
             <Col :sm="{span: 24}" class="tr">
-            <Button type="primary" @click="grantMarket(2)">发放</Button>
-            <Button type="error" @click="grantMarket(3)">批退</Button>
-            <Button type="warning" @click="back()">返回</Button>
-
+              <Button type="primary" @click="grantMarket(2)">发放</Button>
+              <Button type="error" @click="grantMarket(3)">批退</Button>
+              <Button type="warning" @click="back()">返回</Button>
             </Col>
           </Row>
         </div>
@@ -216,7 +215,9 @@
         apiAjax.marketGrantUpdate(this.selection).then(response => {
           if (parseInt(response.data.code) === 0) {
             let queryData = JSON.parse(sessionStorage.getItem('marketGrantFormItem'));
-            setTimeout(() => {this.selectMarketGrantInformation(queryData);}, 500)
+            setTimeout(() => {
+              this.selectMarketGrantInformation(queryData);
+            }, 500)
           } else {
             this.$Message.error("服务器异常，请稍后再试");
           }

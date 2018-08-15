@@ -52,7 +52,8 @@
           <Form :label-width="150">
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="对象类型：">{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}</Form-item>
+                <Form-item label="对象类型：">{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="姓名：">{{applyRecordDetail.contactName}}</Form-item>
@@ -82,7 +83,8 @@
           <Form :label-width="150">
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="对象类型：">{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}</Form-item>
+                <Form-item label="对象类型：">{{this.presentingObjectTypeList(applyRecordDetail.presentingObjectType)}}
+                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="类型：">{{this.otherProperties(applyRecordDetail.applicantType)}}</Form-item>
@@ -102,12 +104,17 @@
         <div slot="content">
           <Row type="flex" justify="start">
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Table stripe border :columns="approvalStepColumns" :data="approvalStepList" ref="approvalStepTable"></Table>
+              <Table stripe
+                     border
+                     :columns="approvalStepColumns"
+                     :data="approvalStepList"
+                     ref="approvalStepTable"></Table>
             </Col>
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form :model="applyRecordDetail" ref="applyRecordDetail" :label-width="150">
                 <Form-item label="发放备注：">
-                  <Input v-model="applyRecordDetail.sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}" placeholder=""/>
+                  <Input v-model="applyRecordDetail.sendRemark" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
+                         placeholder=""></Input>
                 </Form-item>
               </Form>
             </Col>
@@ -145,7 +152,7 @@
           {
             title: '审批时间', key: 'approveTime', align: 'center',
             render: (h, params) => {
-              return h('div', this.$utils.formatDate(params.row.approveTime,'YYYY-MM-DD HH:mm:ss'))
+              return h('div', this.$utils.formatDate(params.row.approveTime, 'YYYY-MM-DD HH:mm:ss'))
             }
           },
           {
@@ -197,54 +204,46 @@
         switch (val) {
           case 0:
             return "票券";
-            break;
           case 1:
             return "办公用品";
-            break;
           case 2:
             return "生活用品";
-            break;
           case 3:
             return "食品";
-            break;
           case 4:
             return "饰品";
-            break;
           case 5:
             return "数码周边";
-            break;
           case 6:
             return "儿童用品";
-            break;
+          default:
+            return val;
         }
       },
       presentingObjectTypeList(val) {
         switch (val) {
           case 0:
             return "管理方";
-            break;
           case 1:
             return "客户";
-            break;
           case 2:
             return "联系人";
-            break;
           case 3:
             return "雇员";
-            break;
           case 4:
             return "其他";
-            break;
+          default:
+            return val;
         }
       },
       otherProperties(val) {
         switch (val) {
           case 0:
             return "个人";
-            break;
           case 1:
             return "公司";
-            break;
+          default:
+            return val;
         }
       },
     }

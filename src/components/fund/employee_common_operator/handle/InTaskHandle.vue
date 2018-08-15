@@ -289,11 +289,17 @@
         </div>
       </Panel>
       <Panel name="5">
-        任务单备注
+        历史任务单
         <div slot="content">
-          <Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>
+          <origin-emp-task-info></origin-emp-task-info>
         </div>
       </Panel>
+      <!--<Panel name="6">-->
+        <!--任务单备注-->
+        <!--<div slot="content">-->
+          <!--<Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>-->
+        <!--</div>-->
+      <!--</Panel>-->
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -375,10 +381,12 @@
 <script>
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import transapi from '../../../../api/house_fund/employee_task/employee_transfer'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
   import dict from '../../../../api/dict_access/house_fund_dict'
   import axios from "axios";
 
   export default {
+    components: {originEmpTaskInfo},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
@@ -462,7 +470,7 @@
         fundColumns: [
           {title: '起缴年月', key: 'startMonth', align: 'left'},
           {title: '截至年月', key: 'endMonth', align: 'left'},
-          {title: '客户汇缴年月', key: 'hfMonth', align: 'left'},
+//          {title: '客户汇缴年月', key: 'hfMonth', align: 'left'},
           {title: '基数', key: 'baseAmount', align: 'left'},
           {title: '企业比例', key: 'ratioCom', align: 'left'},
           {title: '个人比例', key: 'ratioEmp', align: 'left'},
@@ -775,6 +783,7 @@
       }
     },
     mounted() {
+
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = parseInt(localStorage.getItem('employeeFundCommonOperator.hfType'));
       let taskCategory = parseInt(localStorage.getItem('employeeFundCommonOperator.taskCategory'));
@@ -798,6 +807,13 @@
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;
           this.operatorListData = data.data.empTaskPeriods;
+          this.operatorListData.forEach((element, index, arr) => {
+            if (this.operatorListData[index].remitWay == 2 ) {
+              if (!this.operatorListData[index].repairReason || this.operatorListData[index].repairReason == '') {
+                this.operatorListData[index].repairReason = '1';
+              }
+            }
+          });
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
           this.showButton = this.displayVO.canHandle;
@@ -811,12 +827,14 @@
             this.inputDisabled = true;
             this.taskCategoryDisable = true;
             this.showButton = false;
+            this.displayVO.canHandle = false;
           }
         } else {
           this.$Message.error(data.message);
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
+          
         }
       });
       dict.getDictData().then(data => {
@@ -866,11 +884,12 @@
         let hfMonth;
         if (this.displayVO.hfType == 1) {
           hfMonth = this.displayVO.basicComHfMonth;
+
+          if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.displayVO.hfAccountType == 3) {
+            hfMonth = api.plusMonths(hfMonth, 1);
+          }
         } else {
           hfMonth = this.displayVO.addedComHfMonth;
-        }
-        if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.displayVO.hfAccountType == 3) {
-          hfMonth = api.plusMonths(hfMonth, 1);
         }
 
         this.operatorListData.push({
@@ -883,7 +902,7 @@
           ratioCom: this.operatorListData[0].ratioCom,
           ratioEmp: this.operatorListData[0].ratioEmp,
           amount: this.operatorListData[0].amount,
-          repairReason: ''
+          repairReason: '1'
         })
       },
       handleTask() {
@@ -1109,10 +1128,10 @@
           this.$Message.error("公积金账号不能为空");
           return false;
         }
-        var reg = /(^[1-9]([0-9]{1,19})?$)/;
+        var reg = /(^[0-9]{9}$)/;
 
         if (this.inputData.hfEmpAccount && !this.inputData.hfEmpAccount == '' && !reg.test(this.inputData.hfEmpAccount)) {
-          this.$Message.error("公积金账号输入不正确，请输入数字，并且不超过20位");
+          this.$Message.error("公积金账号输入不正确，请输入9位的数字");
           return false;
         }
 //        if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.inputData.hfEmpAccount && this.inputData.hfEmpAccount != '') {
@@ -1194,13 +1213,13 @@
             this.$Message.error("操作栏补缴状态费用段的截止月份不能小于起缴月份");
             return false;
           }
-          if (this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType != 3 && this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
-            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月");
+          if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.displayVO.hfType == 1 && this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType == 3
+            && this.operatorListData[i].endMonth >= api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
+            this.$Message.error("基本公积金新开任务单，操作栏补缴状态费用段的截止月份必须小于客户汇缴月的次月（独立户时）");
             return false;
           }
-          if ((this.displayVO.taskCategory == 1 || this.displayVO.taskCategory == 9) && this.operatorListData[i].remitWay == 2 && this.displayVO.hfAccountType == 3
-            && this.operatorListData[i].endMonth >= api.minusMonths(this.operatorListData[i].hfMonth, 1)) {
-            this.$Message.error("新开任务单，操作栏补缴状态费用段的截止月份必须小于客户汇缴月的次月（独立户时）");
+          if (this.operatorListData[i].remitWay == 2 && this.operatorListData[i].endMonth >= this.operatorListData[i].hfMonth) {
+            this.$Message.error("操作栏补缴状态费用段的截止月份必须小于客户汇缴月");
             return false;
           }
           if (this.displayVO.hfType == 1) {

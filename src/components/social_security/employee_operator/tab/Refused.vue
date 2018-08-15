@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 850px;">
+  <div style="height: 5400px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
@@ -11,7 +11,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Table border ref="selection"
+      <Table border id="rejectedData" ref="selection"
              :columns="employeeResultColumns"
              :data="employeeResultData"
              @on-selection-change="selectionChange"
@@ -95,7 +95,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.SS_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
           {
@@ -155,7 +155,7 @@
             title: '发起时间', key: 'createdTime', width: 180, align: 'center'
           },
           {
-            title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
+            title: '批退备注', key: 'rejectionRemark', width: 300, align: 'center'
           },
           {
             title: '是否更正', key: 'isChange', width: 100, align: 'center',
@@ -210,7 +210,10 @@
     },
     async mounted() {
 //      this[EventType.THISMONTHHANDLETYPE]()
-      this.employeeOperatorQuery();
+//      this.employeeOperatorQuery();
+      this.searchConditions =[];
+
+      this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
       this.loadDict();
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
@@ -267,7 +270,7 @@
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.employeeResultPageData.pageNum);
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
@@ -416,7 +419,7 @@
       },
       exprotExcel() {
       },
-      searchEmploiees(conditions) {
+      searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -472,7 +475,7 @@
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
-          pageNum: this.employeeResultPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -606,7 +609,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(1, idx, order)
+          tableStyle.changeSortElementClass('rejectedData', idx, order)
         });
       },
     }

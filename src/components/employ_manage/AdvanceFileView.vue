@@ -8,12 +8,12 @@
           <Form :label-width=120>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="预留档案类型：">
+                <Form-item label="档案类型：">
                   <label>{{$route.query.reservedArchiveType}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="预留档案编号：">
+                <Form-item label="档案编号：">
                   <label>{{$route.query.reservedArchiveNo}}</label>
                 </Form-item>
               </Col>
@@ -39,7 +39,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="存档地：">
-                  <label>{{$route.query.archivalPlace}}</label>
+                  <label>{{$route.query.archivePlace}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 16}">
@@ -50,6 +50,11 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="操作人：">
                   <label>{{$route.query.createdBy}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="退回寄出地日期：">
+                  <label>{{$route.query.exitThePlaceDate}}</label>
                 </Form-item>
               </Col>
             </Row>

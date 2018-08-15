@@ -64,8 +64,10 @@
       <Row class="mt20">
         <Col :sm="{span: 24}">
         
-          <Button type="primary" @click="goAddPayment()">创建支付批次</Button>
-          <!-- <Button type="primary" @click="goCreatePaymentBatch()">创建支付批次</Button> -->
+          <!-- <Button type="primary" @click="goAddPayment()">创建支付批次</Button> -->
+          <Button type="primary" @click="goCreatePaymentBatch()">创建支付批次</Button>
+          <!-- <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button> -->
+          <!-- <Button type="primary" @click="printFinancePayVoucher()">打印付款凭证</Button> -->
         </Col>
       </Row>
 
@@ -170,6 +172,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
   import EventType from '../../../../store/event_types'
+  import payComApi from '../../../../api/social_security/payment_com'
   import payBatchApi from '../../../../api/social_security/payment_batch'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
@@ -214,20 +217,35 @@ import Tools from '../../../../lib/tools'
         isShowProgress: false,
 
         payBatchColumns: [
+          {
+            title: '', key: '', align: 'center', width: 40,fixed:'left',
+            render: (h, params) => {
+              return h('Radio', {
+                props: {
+                  value: this.currentIndex == params.index,
+                },
+                on: {
+                  'on-change': (val) => {
+                    this.currentIndex = params.index
+                  }
+                }
+              }, '');
+            }
+          },
           {title: '操作', key: 'operator', width:200, align: 'left',fixed:'left',
             render: (h, params) => {
               let b=[];
               let paymentId = params.row.paymentId;
               let paymentState = params.row.paymentState;
-              // b.push(h('Button', {
-              //       props: {type: 'success', size: 'small'},
-              //       style: {margin: '0 auto 0 5px'},
-              //       on: {
-              //         click: () => {
-              //           this.goPaymentCom(paymentId);
-              //         }
-              //       }
-              //     }, '查看'));
+              b.push(h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto 0 5px'},
+                    on: {
+                      click: () => {
+                        this.goPaymentCom(params.row);
+                      }
+                    }
+                  }, '查看'));
               if( !(paymentState != "3" && paymentState != "5" && paymentState != "7")){
                 b.push(h('Button', {
                   props: {type: 'error', size: 'small'},
@@ -250,7 +268,6 @@ import Tools from '../../../../lib/tools'
                     }
                   }, '申请支付'));
               }
-
               return h('div', b);
             }
 
@@ -276,7 +293,7 @@ import Tools from '../../../../lib/tools'
               ]);
             }
           },
-          {title: '支付年月', key: 'paymentMonth', width: 120, align: 'center',
+          {title: '支付年月', key: 'paymentMonth', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentMonth),
@@ -303,14 +320,14 @@ import Tools from '../../../../lib/tools'
               ]);
             }
           },
-          {title: '申请人', key: 'requestUser', width: 120, align: 'center',
+          {title: '申请人', key: 'requestUser', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.requestUser),
               ]);
             }
           },
-          {title: '申请日期', key: 'requestDate', width: 120, align: 'center',
+          {title: '申请日期', key: 'requestDate', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.requestDate),
@@ -333,6 +350,7 @@ import Tools from '../../../../lib/tools'
           },
           
         ],
+        currentIndex:-1,
         payBatchData: [],
         payBatchPageData: {
           total: 0,
@@ -345,7 +363,6 @@ import Tools from '../../../../lib/tools'
           isShow : false,
           paymentId:'',
           applyRemark:'',
-
         },
         //删除批次
         delPaymentData:{
@@ -365,6 +382,10 @@ import Tools from '../../../../lib/tools'
     mounted() {
       sessionData.getJsonDataFromSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
       sessionData.getJsonDataFromSession('paymentBatch.payBatchPageData', this.payBatchPageData);
+      payComApi.getLastMonth().then(data=>{
+        d=new Date(data.data+'/01');
+        this.payBatchSearchData.paymentMonthMin=d;
+      })
       this.paymentBatchQuery();
       //this.payBatchHandlePageNum(1);
       this.loadDict();
@@ -380,8 +401,11 @@ import Tools from '../../../../lib/tools'
       goPaymentNotice() {
         this.$router.push({name: 'paymentnotice'})
       },
-      goPaymentCom(paymentId) {
-        sessionStorage.setItem("PaymentBatch_paymentId",paymentId);
+      goPaymentCom(row) {
+        sessionStorage.setItem("PaymentBatch_paymentId",row.paymentId);
+        sessionStorage.setItem("PaymentBatch_paymentBatchNum",row.paymentBatchNum);
+        sessionStorage.setItem("PaymentBatch_paymentMonth",row.paymentMonth);
+        sessionStorage.setItem("PaymentBatch_paymentState",row.paymentState);
         this.$emit('switchTab','paymentCom');
       },
       cancel () {
@@ -410,13 +434,12 @@ import Tools from '../../../../lib/tools'
       paymentBatchQuery() {
          sessionData.setJsonDataToSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
          sessionData.setJsonDataToSession('paymentBatch.payBatchPageData', this.payBatchPageData);
-     
         if (this.payBatchSearchData.paymentMonthMin && this.payBatchSearchData.paymentMonthMin.length != 6) {
-          this.payBatchSearchData.paymentMonthMin = this.$utils.formatDate(this.payBatchSearchData.paymentMonthMin, 'YYYYMM');
+          this.payBatchSearchData.paymentMonthMin = moment(this.payBatchSearchData.paymentMonthMin ).format('YYYYMM');
         }
 
         if (this.payBatchSearchData.paymentMonthMax && this.payBatchSearchData.paymentMonthMax.length != 6) {
-          this.payBatchSearchData.paymentMonthMax = this.$utils.formatDate(this.payBatchSearchData.paymentMonthMax, 'YYYYMM');
+          this.payBatchSearchData.paymentMonthMax = moment(this.payBatchSearchData.paymentMonthMax ).format('YYYYMM');
         }
 
         // 处理参数
@@ -464,6 +487,27 @@ import Tools from '../../../../lib/tools'
         this.applyPayData.applyRemark = '';
         this.applyPayData.isShow = true;
 
+      },
+      checkSelect(){
+        let row = {};
+        if (this.currentIndex >= 0) {
+          row = this.payBatchData[this.currentIndex];
+          return row;
+        }else{
+          this.$Message.success("请选择一条记录！");
+          return false;
+        }
+      },
+      printFinancePayVoucher(){
+        let row;
+        row=this.checkSelect();
+        if(!row)return false;
+        if(row.payApplyCode == null ||  row.payApplyCode ==''  ){
+          this.$Message.info('只有支付状态为‘已申请到财务’，才可以打印付款凭证！');
+          return false;
+        }
+        let params ={payApplyCode:row.payApplyCode}
+        payBatchApi.printFinancePayVoucher(params);
       },
       doApplyPay() {
         let paymentId = this.applyPayData.paymentId;
@@ -574,7 +618,31 @@ import Tools from '../../../../lib/tools'
       closeAddPayment(){
         this.addPaymentData.isShow = false;
       },
-
+      enquireFinanceComAccount(){
+          let y;
+          let m=new Date().getMonth()+1;
+        this.$Modal.confirm({
+              title: '手动询问结算中心是否可付',
+              closable:true,
+              content: `系统将执行${new Date().getFullYear()}年${new Date().getMonth()}月份所有未到款企业账户的财务询问，执行时间较长，您确认操作吗？`,
+              onOk:function(){
+                let userInfo = localStorage.getItem('userInfo');
+                let params = {
+                  comAccountId:'0',
+                  ssMonth:'ss',
+                  generalMethod:'enquireFinanceComAccount',
+                };
+                payBatchApi.enquireFinanceComAccount(params).then(data=>{
+                  if(data.code==0)
+                  {
+                    this.$Message.success("操作成功！请等待几分钟后，再到查询您要支付的企业账户");
+                  }else{
+                    this.$Message.error("系统正在执行中，请等待！");
+                  }
+              })
+              }
+          });
+      },
     }
   }
 </script>

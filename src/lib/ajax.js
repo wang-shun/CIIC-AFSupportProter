@@ -278,6 +278,7 @@ AJAX.createProxyAjaxForName = createProxyAjaxForName
 
 AJAX.basePaths = BASE_PATHS['health-c']
 AJAX.fbqBasePaths = BASE_PATHS['fb-q'];
+AJAX.fbcBasePaths = BASE_PATHS['fb-c'];
 AJAX.ajaxFbq = createProxyAjaxForName('fb-q')
 AJAX.ajaxFbc = createProxyAjaxForName('fb-c')
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q')
@@ -293,6 +294,7 @@ AJAX.ajaxSiteLetterService = createProxyAjaxForName('SiteLetterService')
 AJAX.ajaxSSPService = createProxyAjaxForName('SSPService')
 AJAX.ajaxSpecialOperationService = createProxyAjaxForName('SpecialOperationService')
 AJAX.ajaxSocMessage = createProxyAjaxForName('soc')
+AJAX.ajaxHfMessage = createProxyAjaxForName('hf-m')
 AJAX.ajaxCM = createProxyAjaxForName('cm')
 
 export default AJAX

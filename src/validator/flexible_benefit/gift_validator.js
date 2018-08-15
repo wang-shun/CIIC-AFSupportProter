@@ -14,6 +14,14 @@ export const giftValidator = {
       trigger: 'change'
     }
   ],
+  costPrice: [
+    {
+      required: true,
+      pattern: /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/,
+      message: '请输入价格,两位小数',
+      trigger: 'change'
+    }
+  ],
   rightPerson: [
     {required: true, message: '请选择适用人群', trigger: 'change'}
   ],
@@ -32,7 +40,7 @@ export const giftValidator = {
   remarks: [
     {
       validator(rule, val, callback) {
-        if (val !==null && val.length >= 200) {
+        if (val !== null && val.length >= 200) {
           callback(new Error('不超过200字'))
         } else {
           callback()

@@ -1,5 +1,5 @@
 <template>
-  <div class="smList" style="height: 1050px;">
+  <div class="smList" style="height: 5400px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
@@ -12,14 +12,14 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
       <!--<Button type="primary" style="width: 100px;" @click="batchAllHandle">批量全选</Button>-->
-      <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
+      <!-- <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button> -->
       <Button type="error" @click="showRefuseReason">批退</Button>
       <Button type="info" @click="exprotExcel">导出</Button>
       </Col>
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
+      <Table border id="noProcessData" ref="selection"  :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -64,6 +64,7 @@
   import dict from '../../../../api/dict_access/social_security_dict'
   import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputAccount, InputCompany,InputCompanyName,searchEmployee},
@@ -108,7 +109,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.SS_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
           {
@@ -125,6 +126,7 @@
                   props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('employeeCommonOperator.noProcess.employeeResultPageData', this.employeeResultPageData);
                       this.batchHandle(params.row);
                     }
                   }
@@ -186,8 +188,12 @@
     },
     async mounted() {
        this.searchConditions =[];
-       this.searchEmploiees(this.searchConditions);
+       this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
        this.loadDict();
+
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
 
@@ -198,6 +204,7 @@
       loadSortType() {
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        sessionData.getJsonDataFromSession('employeeCommonOperator.noProcess.employeeResultPageData', this.employeeResultPageData);
 
         this.employeeResultColumns.filter((e) => {
           if(storeOrder==null)
@@ -289,7 +296,7 @@
 //            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
 //          }
 //        }
-        var isStatus = false;
+        var isStatus = null;
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
@@ -306,10 +313,16 @@
           {
              if(conditions[i].exec.indexOf("taskStatus")!=-1)
               {
-                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
-                  {
-                    isStatus = true;
-                  }
+//                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
+//                  {
+//                    isStatus = true;
+//                  }
+                if(conditions[i].desc.indexOf("下月未处理")!=-1)
+                {
+                  isStatus = -2;
+                } else if (conditions[i].desc.indexOf("本月未处理")!=-1) {
+                  isStatus = -1;
+                }
               }else{
                  this.searchConditions.push(conditions[i].exec);
               }
@@ -328,9 +341,15 @@
               {
                 if(searchEmploiees[index].exec.indexOf("taskStatus")!=-1)
                 {
+//                  if(searchEmploiees[index].desc.indexOf("下月未处理")!=-1)
+//                  {
+//                    isStatus = true;
+//                  }
                   if(searchEmploiees[index].desc.indexOf("下月未处理")!=-1)
                   {
-                    isStatus = true;
+                    isStatus = -2;
+                  } else if (searchEmploiees[index].desc.indexOf("本月未处理")!=-1) {
+                    isStatus = -1;
                   }
                 }else{
                     this.searchConditions.push(searchEmploiees[index].exec);
@@ -341,7 +360,7 @@
 
         }
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
-        
+
         if(storeOrder==null)
         {
 
@@ -355,13 +374,14 @@
           }
         }
 
+        this.searchCondition.taskStatus = isStatus;
         this.searchCondition.params = this.searchConditions.toString();
-        if(isStatus)
-        {
-            this.searchCondition.taskStatus = -2;
-        }else{
-            this.searchCondition.taskStatus = -1;
-        }
+//        if(isStatus)
+//        {
+//            this.searchCondition.taskStatus = -2;
+//        }else{
+//            this.searchCondition.taskStatus = -1;
+//        }
         api.employeeOperatorQueryExport({
           pageSize: 999999,
           pageNum: 0,
@@ -371,7 +391,7 @@
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.employeeResultPageData.pageNum);
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
@@ -394,6 +414,7 @@
       },
       // 批退
       showRefuseReason() {
+
         let length = this.selectEmployeeResultData.length;
         if (length > 0) {
           for (let i = 0; i < length; i++) {
@@ -408,6 +429,7 @@
           }
         }
         if (this.checkSelectEmployeeResultData()) {
+          this.rejectionRemark ='';
           this.isRefuseReason = true
         }
       },
@@ -599,9 +621,9 @@
           });
         }
       },
-      searchEmploiees(conditions) {
-        var isStatus = false;
-      
+      searchEmploiees(conditions, pageNum = 1) {
+        var isStatus = null;
+
         if (this.isLoading) {
           return;
         }
@@ -618,18 +640,24 @@
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
            for(var i=0;i<conditions.length;i++)
-           {  
+           {
               if(conditions[i].exec.indexOf("taskStatus")!=-1)
               {
-                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
-                  {
-                    isStatus = true;
-                  }
+//                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
+//                  {
+//                    isStatus = true;
+//                  }
+                if(conditions[i].desc.indexOf("下月未处理")!=-1)
+                {
+                  isStatus = -2;
+                } else if (conditions[i].desc.indexOf("本月未处理")!=-1) {
+                  isStatus = -1;
+                }
               }else{
                  this.searchConditions.push(conditions[i].exec);
               }
            }
-             
+
         }else{
           // 否则从session 里边去缓存的表单查询值
           var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
@@ -644,9 +672,15 @@
                 {
                     if(searchEmploiees[index].exec.indexOf("taskStatus")!=-1)
                     {
+//                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
+//                  {
+//                    isStatus = true;
+//                  }
                       if(searchEmploiees[index].desc.indexOf("下月未处理")!=-1)
                       {
-                        isStatus = true;
+                        isStatus = -2;
+                      } else if (searchEmploiees[index].desc.indexOf("本月未处理")!=-1) {
+                        isStatus = -1;
                       }
                     }else{
                         this.searchConditions.push(searchEmploiees[index].exec);
@@ -670,17 +704,18 @@
         }
       }
 
-       if(isStatus)
-       {
-          this.searchCondition.taskStatus = -2;
-       }else{
-          this.searchCondition.taskStatus = -1;
-       }
+//       if(isStatus)
+//       {
+//          this.searchCondition.taskStatus = -2;
+//       }else{
+//          this.searchCondition.taskStatus = -1;
+//       }
+        this.searchCondition.taskStatus = isStatus;
         this.searchCondition.params = this.searchConditions.toString();
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
-          pageNum: this.employeeResultPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -818,7 +853,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(0, idx, order)
+          tableStyle.changeSortElementClass('noProcessData', idx, order)
         });
       },
     }

@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        企业账户管理
+        查询条件
         <div slot="content">
           <Form ref="payComSearchData" :model="payComSearchData" :label-width=150>
             <Row type="flex" justify="start">
@@ -14,11 +14,6 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="出账批号：" prop="paymentBatchNum">
-                  <Input v-model="payComSearchData.paymentBatchNum" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="companyId">
                   <Input v-model="payComSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
@@ -26,7 +21,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付年月：">
                       <Form-item prop="paymentMonth">
-                        <DatePicker v-model="payComSearchData.paymentMonth" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;" disabled='true' readonly="true" transfer></DatePicker>
+                        <DatePicker v-model="payComSearchData.paymentMonth" type="month" format="yyyyMM" placement="bottom" placeholder="选择日期" style="width: 100%;"  transfer></DatePicker>
                       </Form-item>
                 </Form-item>
               </Col>
@@ -91,7 +86,7 @@
     </Form>
 
     <!-- 调整 -->
-    <Modal
+    <!-- <Modal
       v-model="changeInfo.isShowChange"
       width="640"
       @on-ok="ok"
@@ -99,11 +94,6 @@
       >
       <Table border :columns="changeInfo.changeColumns" :data="changeInfo.changeData"></Table>
       <Form :label-width=250>
-        <!--<Row class="mt20">-->
-          <!--<Col :sm="{span: 24}">-->
-            <!--<Button type="primary" @click="changeInfo.isImport = true">导入调整明细</Button>-->
-          <!--</Col>-->
-        <!--</Row>-->
         <Row class="mt20" type="flex" justify="start">
           <Col :sm="{span: 24}">
             <Form-item label="额外金：">
@@ -128,11 +118,6 @@
               <label>{{changeInfo.totalPayAmount}}</label>
             </Form-item>
           </Col>
-          <!-- <Col :sm="{span: 24}">
-            <Form-item label="申请支付金额合计（大写）：">
-              <label>{{changeInfo.totalPayAmountUpper}}</label>
-            </Form-item>
-          </Col> -->
           <Col :sm="{span: 24}">
             <Form-item label="备注说明：">
               <Input v-model="changeInfo.remark" type="textarea" :rows="5"  placeholder="请输入..."></Input>
@@ -145,7 +130,7 @@
           <Button type="success"  @click="saveAdjustment()" :disabled='changeInfo.ifAdjustSave'>保存</Button>
       </div>
     </Modal>
-    
+     -->
   </div>
 </template>
 <script>
@@ -163,12 +148,13 @@
     data() {
       return{
         collapseInfo: [1], //展开栏
+        ssAccountType:'',
         accountTypeList: [],
         serviceCenterData:[],
         payComSearchData: {
           serviceCenterValue:[],
           ssAccountType: '',
-          paymentId: '',
+          ifCreateBatch: '1',
           companyId: '',
           paymentMonth: '',
           paymentState: '3',
@@ -349,7 +335,7 @@
 
         payComColumns: [
           {title: '', key: 'id', width: 55, fixed: 'left', type: 'selection'},
-          {title: '支付年月', key: 'paymentMonth', width: 100, align: 'center',fixed: 'left',
+          {title: '支付年月', key: 'paymentMonth', width: 90, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentMonth),
@@ -370,7 +356,7 @@
               ]);
             }
           },
-          {title: '支付状态', key: 'paymentStateName', width: 120, align: 'center',
+          {title: '支付状态', key: 'paymentStateName', width: 100, align: 'center',
             render: (h, params) => {
               let paymentState = params.row.paymentState;
               let paymentStateName = this.getPaymentStateName(paymentState);
@@ -393,74 +379,7 @@
               ]);
             }
           },          
-          // {title: '操作', key: 'operator', width: 180, align: 'center',
-          //   render: (h, params) => {
-          //     return h('div', [
-          //       h('Button', {
-          //         props: {type: 'success', size: 'small'},
-          //         style: {margin: '0 auto'},
-          //         on: {
-          //           click: () => {
-          //             let paymentComId = params.row.paymentComId;
-          //             let oughtAmount = params.row.oughtAmount;
-          //             let refundDeducted = params.row.refundDeducted;
-          //             let adjustDeducted = params.row.adjustDeducted;
-          //             let ifDeductedIntoPay = params.row.ifDeductedIntoPay;
-          //             let extraAmount = params.row.extraAmount;
-          //             let totalPayAmount = params.row.totalPayAmount;
-          //             let remark = params.row.remark;
-          //             let paymentState = params.row.paymentState;
-          //             this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState)
-          //           }
-          //         }
-          //       }, '调整'),
-          //      h('Button', {
-          //        props: {type: 'success', size: 'small'},
-          //        style: {margin: '0 auto 0 10px'},
-          //        on: {
-          //         // let self = this;
-          //          click: () => {
-          //            let paymentComId = params.row.paymentComId;
-          //            let comAccountId = params.row.comAccountId;
-          //            let paymentMonth = params.row.paymentMonth;
-          //            let paymentState = params.row.paymentState;
-          //            this.goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState);
-          //          }
-          //        }
-          //      }
-          //       , '付款通知书')
-          //     ]);
-          //   }
-          // },
-          // {title: '是否一致', key: 'ifCheck', width: 100, align: 'center',
-          //   render: (h, params) => {
-          //     if(params.row.ifCheck==1){
-          //        return h('div', [
-          //         h('A', {
-          //             props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-          //               on: {
-          //                 dblclick: () => {
-          //                      this.doCheck(params.row.paymentComId,h)
-          //                 }
-          //               }
-          //             },'是'
-          //           ),
-          //       ])
-          //     }else{
-          //       return h('div', [
-          //         h('Button', {
-          //           props: {type: 'success', size: 'small'},
-          //           style: {margin: '0 auto'},
-          //           on: {
-          //             click: () => {
-          //               this.doCheck(params.row.paymentComId,h)
-          //             }
-          //           }
-          //         }, '一致'),
-          //       ]);
-          //     }
-          //   }
-          // },
+         
           {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -530,6 +449,13 @@
               ]);
             }
           },
+          {title: '抵扣金额是否纳入支付', key: 'ifDeductedIntoPay', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.ifDeductedIntoPay==1?'是':''),
+              ]);
+            }
+          },
           {title: '额外金备注', key: 'remark', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -550,12 +476,13 @@
     mounted() {
       //this.payComHandlePageNum(1);
       this.loadDict();
-      let d = new Date()
-      d.setMonth(d.getMonth()-1);
-
-      this.payComSearchData.paymentMonth=d;
-
-      this.paymentComQuery();
+      let d = new Date();
+      payComApi.getLastMonth().then(data=>{
+        d=new Date(data.data+'/01');
+        this.payComSearchData.paymentMonth=d;
+        this.paymentComQuery();
+      })
+      
       this.getCustomers()
     },
     computed: {
@@ -563,7 +490,10 @@
     methods: {
      
       resetSearchCondition(name) {
-        this.$refs[name].resetFields()
+        let t =this.payComSearchData.paymentMonth; 
+        console.log(t)
+        this.$refs[name].resetFields();
+        this.payComSearchData.paymentMonth=t;
       },
       gotoPay() {
         this.$Notice.success({
@@ -582,7 +512,7 @@
             this.accountTypeList = data.data.SocialSecurityAccountType;
             sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
             sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
-                this.payComSearchData.ssAccountType = '3';
+            this.payComSearchData.ssAccountType = '3';
           }
         });
       },
@@ -621,7 +551,9 @@
         if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
           this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
         }
-   
+       if (this.payComSearchData.paymentMonth && this.payComSearchData.paymentMonth.length != 6) {
+          this.payComSearchData.paymentMonth = this.$utils.formatDate(this.payComSearchData.paymentMonth, 'YYYYMM');
+        }
         // 处理参数
         var params = {};
         {
@@ -641,11 +573,12 @@
       },
       paymentComQuery() {
 
-        if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
-          this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
+        if(this.payComSearchData.paymentMonth==null ||this.payComSearchData.paymentMonth==''){
+          this.$Message.error("支付年月不可为空！");
+            return false;
         }
-        if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
-          this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
+        if (this.payComSearchData.paymentMonth && this.payComSearchData.paymentMonth.length != 6) {
+          this.payComSearchData.paymentMonth = this.$utils.formatDate(this.payComSearchData.paymentMonth, 'YYYYMM');
         }
         // 处理参数
         var params = {};
@@ -669,6 +602,7 @@
         }).then(data => {
           this.payComData = data.data;
           this.payComPageData.total = data.total;
+          this.ssAccountType=this.payComSearchData.ssAccountType;
         })
 
       },
@@ -788,19 +722,6 @@
           return;
         }
 
-        //已有批次的不可再添加
-        let isHaveBatch = false;
-        selection.some(item => {
-          if(item.paymentId != null && item.paymentId != ""){
-            isHaveBatch = true;
-            //跳出循环
-            return true;
-          }
-        });
-        if(isHaveBatch){
-            this.$Message.info("已有出账批次的数据不可以再加入批次");
-            return;
-        }
         //判断选中列是否都是同一个社保账户分类
         let ssAccountType = selection[0].ssAccountType;
         let paymentMonth =selection[0].paymentMonth;
@@ -808,7 +729,6 @@
         selection.some(item => {
           if(item.ssAccountType != ssAccountType){
             isManyAccountType = true;
-            //跳出循环
             return true;
           }
         });
@@ -816,6 +736,19 @@
             this.$Message.info("选中列中社保账户类型不同");
             return;
         }
+
+        let isPaymentMonth = false;
+        selection.some(item => {
+          if(item.paymentMonth != paymentMonth){
+            isPaymentMonth = true;
+            return true;
+          }
+        });
+        if(isPaymentMonth){
+            this.$Message.info("选中列中支付年月不同");
+            return;
+        }
+
         //判断选中列的支付状态(只有可付:3 和内部审批批退:5 可以进行此操作)
         let isDisableState = false;
         selection.some(item => {
@@ -837,16 +770,14 @@
         });
 
         payComApi.addPaymentBatch({
-          paymentId: paymentId,
-          paymentComIdList: paymentComIdList,
+          paymentMonth:paymentMonth,
+          ssAccountType:this.ssAccountType,
+          paymentComIdList: this.addBatchData.paymentComIdList,
         }).then(data => {
           if(data.code == "0"){
             this.$Message.info("操作成功");
-            this.closeAddBatch();
-            //重新查询
-            this.paymentComQuery()
+            this.$router.go(-1);
           }else{
-            console.log(data);
             this.$Message.info(data.message);
           }
         })
@@ -863,9 +794,7 @@
             this.closeAddBatch();
             //重新查询
             this.paymentComQuery()
-
           }else{
-            console.log(data);
             this.$Message.info(data.message);
           }
         })

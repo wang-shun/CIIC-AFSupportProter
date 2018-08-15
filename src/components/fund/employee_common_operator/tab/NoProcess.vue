@@ -20,7 +20,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}" >
-        <Table border ref="noProcessData"
+        <Table border id="noProcessData"
                :row-class-name="rowClassName"
                :columns="noProcessColumns"
                :data="noProcessData"
@@ -185,7 +185,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.HF_DEFAULT_PAGE_SIZE_OPTS
         },
         noProcessColumns: [
           {
@@ -306,7 +306,13 @@
         }
       });
 //      console.log("after: " + JSON.stringify(this.noProcessPageData))
-       this.hfEmpTaskQuery();
+//       this.hfEmpTaskQuery();
+
+      var conditions = [];
+      this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
     },
@@ -342,7 +348,7 @@
       handlePageNum(val) {
         this.noProcessPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
       },
       handlePageSize(val) {
 //        if (val === this.noProcessPageData.pageSize) {
@@ -534,7 +540,7 @@
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
 
-      },searchEmploiees(conditions) {
+      },searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -589,7 +595,7 @@
 
         api.hfEmpTaskQuery({
           pageSize: this.noProcessPageData.pageSize,
-          pageNum: this.noProcessPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -725,7 +731,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(0, idx, order)
+          tableStyle.changeSortElementClass('noProcessData', idx, order)
         });
       },
       beforeUpload(file) {
@@ -738,11 +744,17 @@
           if (this.importResultData) {
             this.importResultData.length = 0;
           }
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.uploadFileList.push({name: file.name, url: ''});
             this.importResultData = data.data;
+
             this.$Message.info("上传成功");
 //            this.isSubmit = false;
+          } else if (data.code === 222) {
+            this.uploadFileList.push({name: file.name, url: ''});
+            this.importResultData = data.data;
+
+            this.$Message.error(data.message);
           } else {
             this.$Message.error(data.message);
           }

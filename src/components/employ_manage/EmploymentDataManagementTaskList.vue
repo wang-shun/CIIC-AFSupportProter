@@ -1,10 +1,10 @@
 <style>
-    .ivu-table .demo-table-error-row td span{
-        color: #ff6600;
-    }
-     .ivu-table .demo-table-error-row td div{
-        color: #ff6600;
-    }
+.ivu-table .demo-table-error-row td span {
+  color: #ff6600;
+}
+.ivu-table .demo-table-error-row td div {
+  color: #ff6600;
+}
 </style>
 <template>
   <div>
@@ -26,10 +26,23 @@
         </Dropdown>
         <Button type="info" @click="exportData">导出XLS</Button>
         <Button type="info" @click="printLabel">打印贴头</Button>
+        <Dropdown @on-click="exportTable" transfer>
+          <Button type="info">
+            生成导出文件
+            <Icon type="arrow-down-b"></Icon>
+          </Button>
+          <DropdownMenu slot="list">
+            <DropdownItem name="1">用工录用名册</DropdownItem>
+            <DropdownItem name="2">派遣录用名册</DropdownItem>
+            <DropdownItem name="3">外来独立</DropdownItem>
+            <DropdownItem name="4">外来派遣</DropdownItem>
+            <DropdownItem name="5">采集表汇总表</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
-    <Table border height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" class="mt20"></Table>
+    <Table border id="employList" height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -53,481 +66,938 @@
   </div>
 </template>
 <script>
-import {mapState, mapGetters, mapActions} from 'vuex'
-  import {em_print, customerInfo} from "../../assets/js/employ_manage/common_filed"
-  import searchEmployment from "./common/SearchEmployment.vue"
-  import employeeInfo from "./common/EmployeeInfo.vue"
-  import api from '../../api/employ_manage/hire_operator'
+import { mapState, mapGetters, mapActions } from "vuex";
+import {
+  em_print,
+  customerInfo
+} from "../../assets/js/employ_manage/common_filed";
+import searchEmployment from "./common/SearchEmployment.vue";
+import employeeInfo from "./common/EmployeeInfo.vue";
+import api from "../../api/employ_manage/hire_operator";
+import tableStyle from "../../api/table_style";
 
-  export default {
-    components: {employeeInfo, searchEmployment},
-    data() {
-      return {
-        initSearch:false,
-        initSearchC:false,
-        pageData: {
-          total: 0,
-          pageNum: 1,
-          pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
-        },
-        collapseInfo: [1],
-        searchConditions:[],
-        searchCondition: {
-          params: '',
-          taskStatus:0
-        },
-        showHandle:{
-           show:true,
-           name:'employ'
-        },
-        isLoading: false,
-        // 当中按钮操作
-        printList: em_print,
-        // 下半部分
-        employmentColumns: [
-          {title: '', type: 'selection', width: 60},
-          {title: '用工方式', key: 'employWay', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employWay),
-              ]);
-            }
-          },
-          {title: '用工属性', key: 'employProperty', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employProperty),
-              ]);
-            }
-          },
-          {title: '序号', key: 'employmentId', align: 'center', width: 150,sortable: true,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employmentId),
-              ]);
-            }
-          },
-          {title: '公司编号', key: 'companyId', align: 'center', width: 150,sortable: true,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.companyId),
-              ]);
-            }
-          },
-          {title: '公司名称', key: 'title', align: 'center', width: 250,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('div', params.row.title),
-                h('div', params.row.cici),
-              ]);
-            }
-          },
-          {title: '雇员编码', key: 'employeeId', align: 'center', width: 150, sortable: true,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.employeeId),
-              ]);
-            }
-          },
-          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeName),
-              ]);
-            }
-          },
-          {title: '证件号', key: 'idNum', align: 'center', width: 150,sortable: true,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.idNum),
-              ]);
-            }
-          },
-          {title: '客服经理', key: 'leaderShipName', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.leaderShipName),
-              ]);
-            }
-          },
-          {title: '服务中心', key: 'serviceCenter', align: 'center', width: 250,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.serviceCenter),
-              ]);
-            }
-          },
-          {title: '公司特殊情况', key: 'employSpecial', align: 'center', width: 200,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employSpecial),
-              ]);
-            }
-          },
-          {title: '档案编号', key: 'docNum', align: 'center', width: 150,sortable: true,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.docNum),
-              ]);
-            }
-          },
-          {title: '预留档案编号', key: 'yuliuDocNum', align: 'center', width: 150,sortable: true,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.yuliuDocNum),
-              ]);
-            }
-          },
-          {title: '用工反馈操作日期', key: 'employFeedbackOptDate', align: 'center', width: 150,sortable: true,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employFeedbackOptDate),
-              ]);
-            }
-          },
-          {title: '调档反馈', key: 'diaodangFeedback', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.diaodangFeedback),
-              ]);
-            }
-          },
-          {title: '调档反馈操作日期', key: 'diaodangFeedbackOptDate', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.diaodangFeedbackOptDate),
-              ]);
-            }
-          },
-          {title: '是否翻牌', key: 'change', align: 'center', width: 150,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.change),
-              ]);
-            }
-          }
-        ],
-        employmentData: [],//列表数据
-
-        searchResultColumns: [
-          {title: '用工材料未签收', key: 'noSign', align: 'center', width: 220,
-             render: (h, params) => {
-              return h('a', {
-                attrs:{
-                'href': params.row.dataDownload
-                },
-                style: {textAlign: 'right'},
-                on:{
-                  click:()=>{
-                    this.showInfoTw(1)
-                  }
-                }
-              }, params.row.noSign);
-            }
-          },
-          {title: '用工材料已签收', key: 'finished', align: 'center', width: 220,
-            render: (h, params) => {
-              return h('a', {
-                attrs:{
-                'href': params.row.dataDownload
-                },
-                style: {textAlign: 'right'},
-                on:{
-                  click:()=>{
-                    this.showInfoTw(2)
-                  }
-                }
-              }, params.row.finished);
-            }
-          },
-          {title: '用工成功', key: 'employSuccess', align: 'center', width: 220,
-            render: (h, params) => {
-              return h('a', {
-                attrs:{
-                'href': params.row.dataDownload
-                },
-                style: {textAlign: 'right'},
-                on:{
-                  click:()=>{
-                    this.showInfoTw(3)
-                  }
-                }
-              }, params.row.employSuccess);
-            }
-          },
-          {title: '用工失败', key: 'employFailed', align: 'center', width: 220,
-            render: (h, params) => {
-              return h('a', {
-                attrs:{
-                'href': params.row.dataDownload
-                },
-                style: {textAlign: 'right'},
-                on:{
-                  click:()=>{
-                    this.showInfoTw(4)
-                  }
-                }
-              }, params.row.employFailed);
-            }
-          },
-          {title: '前道要求撤消用工', key: 'employCancel', align: 'center', width: 220,
-            render: (h, params) => {
-              return h('a', {
-                attrs:{
-                'href': params.row.dataDownload
-                },
-                style: {textAlign: 'right'},
-                on:{
-                  click:()=>{
-                    this.showInfoTw(5)
-                  }
-                }
-              }, params.row.employCancel);
-            }
-          },
-          {title: '其他', key: 'other', align: 'center', width: 220,
-            render: (h, params) => {
-              return h('a', {
-                attrs:{
-                'href': params.row.dataDownload
-                },
-                style: {textAlign: 'right'},
-                on:{
-                  click:()=>{
-                    this.showInfoTw(6)
-                  }
-                }
-              }, params.row.other);
-            }
-          },
-          {title: '总计', key: 'amount', align: 'center', width: 231,
-            render: (h, params) => {
-              return h('a', {
-                attrs:{
-                'href': params.row.dataDownload
-                },
-                style: {textAlign: 'right'},
-                on:{
-                click:()=>{
-                    this.showInfoTws(0)
-                }
-               }
-            }, params.row.amount);
-            }
-          }
-        ],
-        searchResultData: [],
-        // 弹出框
-        isShowStockTitle: false,
-        customerInfos: [customerInfo, customerInfo, customerInfo]
-      }
-    },
-    mounted() {
-      // this.employeeQuery({}),
-      // this.employeeCollectionQuery({})
-    },
-    methods: {
-     rowClassName (row, index) {
-        
-        if (row.outReason!=undefined&&row.outReason!='') {
-            return 'demo-table-error-row';
-        } 
-        return '';
+export default {
+  components: { employeeInfo, searchEmployment },
+  data() {
+    return {
+      initSearch: false,
+      initSearchC: false,
+      pageData: {
+        total: 0,
+        pageNum: 1,
+        pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
+        pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
       },
-     batchManagement(){ 
-        let selection = this.$refs.employmentData.getSelection();
-        if(selection.length == 0){
-          alert("没有选中的列");
-          return;
+      collapseInfo: [1],
+      searchConditions: [],
+      searchCondition: {
+        params: "",
+        taskStatus: 0
+      },
+      showHandle: {
+        show: true,
+        name: "employ"
+      },
+      isLoading: false,
+      // 当中按钮操作
+      printList: em_print,
+      // 下半部分
+      employmentColumns: [
+        { title: "", type: "selection", width: 60 },
+        {
+          title: "用工方式",
+          key: "employWay",
+          align: "center",
+          width: 150,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employWay)
+            ]);
+          }
+        },
+        {
+          title: "用工属性",
+          key: "employProperty",
+          align: "center",
+          width: 150,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employProperty)
+            ]);
+          }
+        },
+        {
+          title: "序号",
+          key: "employmentId",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employmentId)
+            ]);
+          }
+        },
+        {
+          title: "公司编号",
+          key: "companyId",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "right" } }, [
+              h("span", params.row.companyId)
+            ]);
+          }
+        },
+        {
+          title: "公司名称",
+          key: "title",
+          align: "center",
+          width: 250,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("div", params.row.title),
+              h("div", params.row.cici)
+            ]);
+          }
+        },
+        {
+          title: "雇员编码",
+          key: "employeeId",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "right" } }, [
+              h("span", params.row.employeeId)
+            ]);
+          }
+        },
+        {
+          title: "雇员姓名",
+          key: "employeeName",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employeeName)
+            ]);
+          }
+        },
+        {
+          title: "证件号",
+          key: "idNum",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "right" } }, [
+              h("span", params.row.idNum)
+            ]);
+          }
+        },
+        {
+          title: "客服经理",
+          key: "leaderShipName",
+          align: "center",
+          width: 150,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.leaderShipName)
+            ]);
+          }
+        },
+        {
+          title: "服务中心",
+          key: "serviceCenter",
+          align: "center",
+          width: 250,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.serviceCenter)
+            ]);
+          }
+        },
+        {
+          title: "公司特殊情况",
+          key: "employSpecial",
+          align: "center",
+          width: 200,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employSpecial)
+            ]);
+          }
+        },
+        {
+          title: "档案编号",
+          key: "docNum",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "right" } }, [
+              h("span", params.row.docNum)
+            ]);
+          }
+        },
+        {
+          title: "预留档案编号",
+          key: "yuliuDocNum",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "right" } }, [
+              h("span", params.row.yuliuDocNum)
+            ]);
+          }
+        },
+        {
+          title: "用工反馈操作日期",
+          key: "employFeedbackOptDate",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employFeedbackOptDate)
+            ]);
+          }
+        },
+        {
+          title: "调档反馈",
+          key: "diaodangFeedback",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.diaodangFeedback)
+            ]);
+          }
+        },
+        {
+          title: "调档反馈操作日期",
+          key: "diaodangFeedbackOptDate",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.diaodangFeedbackOptDate)
+            ]);
+          }
+        },
+        {
+          title: "是否翻牌",
+          key: "changeCompany",
+          align: "center",
+          width: 150,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.changeCompany)
+            ]);
+          }
         }
-        
-        let empTaskIds = [];
-        selection.forEach(item => {
-          empTaskIds.push(item.empTaskId);
-        });
+      ],
+      employmentData: [], //列表数据
 
-        var fromData={};
-        fromData.empTaskIds = empTaskIds;
-        const _self = this;
-        api.batchCheck(fromData).then(data => {
-            if (data.code == 200) {
-                if(data.data.empTask){
-                  var content="已经办理了" + data.data.empTask+"条数据，请重新选择数据";
-                   this.$Message.error(content);
-                   return;
+      searchResultColumns: [
+        {
+          title: "用工材料未签收",
+          key: "noSign",
+          align: "center",
+          width: 220,
+          render: (h, params) => {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: params.row.dataDownload
+                },
+                style: { textAlign: "right" },
+                on: {
+                  click: () => {
+                    this.showInfoTw(1);
+                  }
                 }
-                if(data.data.employmentCount==0)
-                {
-                    _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
-                }else{
-                  var content;
-                   if(data.data.ArchiveCount){
-                     var content="用工办理已经存在" + data.data.employmentCount+"条数据"+" , "+"用工档案已经存在" + data.data.ArchiveCount+"条数据"+" , "+"确认要覆盖吗？";
-                   }else{
-                      var content="用工办理已经存在" + data.data.employmentCount+"条数据, "+"确认要覆盖吗？";
-                   }
-                   
-                    _self.$Modal.confirm({
-                      title: '',
-                      content: content,
-                      onOk:function(){
-                        _self.$router.push({name: "employHandleEmploymentBatch", query: {empTaskIds:empTaskIds}});
-                      },
-                      error:function(error){
-                        
-                    }
-                    });
-                  
+              },
+              params.row.noSign
+            );
+          }
+        },
+        {
+          title: "用工材料已签收",
+          key: "finished",
+          align: "center",
+          width: 220,
+          render: (h, params) => {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: params.row.dataDownload
+                },
+                style: { textAlign: "right" },
+                on: {
+                  click: () => {
+                    this.showInfoTw(2);
+                  }
                 }
+              },
+              params.row.finished
+            );
+          }
+        },
+        {
+          title: "用工成功",
+          key: "employSuccess",
+          align: "center",
+          width: 220,
+          render: (h, params) => {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: params.row.dataDownload
+                },
+                style: { textAlign: "right" },
+                on: {
+                  click: () => {
+                    this.showInfoTw(3);
+                  }
+                }
+              },
+              params.row.employSuccess
+            );
+          }
+        },
+        {
+          title: "用工失败",
+          key: "employFailed",
+          align: "center",
+          width: 220,
+          render: (h, params) => {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: params.row.dataDownload
+                },
+                style: { textAlign: "right" },
+                on: {
+                  click: () => {
+                    this.showInfoTw(4);
+                  }
+                }
+              },
+              params.row.employFailed
+            );
+          }
+        },
+        {
+          title: "前道要求撤消用工",
+          key: "employCancel",
+          align: "center",
+          width: 220,
+          render: (h, params) => {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: params.row.dataDownload
+                },
+                style: { textAlign: "right" },
+                on: {
+                  click: () => {
+                    this.showInfoTw(5);
+                  }
+                }
+              },
+              params.row.employCancel
+            );
+          }
+        },
+        {
+          title: "其他",
+          key: "other",
+          align: "center",
+          width: 220,
+          render: (h, params) => {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: params.row.dataDownload
+                },
+                style: { textAlign: "right" },
+                on: {
+                  click: () => {
+                    this.showInfoTw(6);
+                  }
+                }
+              },
+              params.row.other
+            );
+          }
+        },
+        {
+          title: "总计",
+          key: "amount",
+          align: "center",
+          width: 231,
+          render: (h, params) => {
+            return h(
+              "a",
+              {
+                attrs: {
+                  href: params.row.dataDownload
+                },
+                style: { textAlign: "right" },
+                on: {
+                  click: () => {
+                    this.showInfoTws(0);
+                  }
+                }
+              },
+              params.row.amount
+            );
+          }
+        }
+      ],
+      searchResultData: [],
+      // 弹出框
+      isShowStockTitle: false,
+      customerInfos: [customerInfo, customerInfo, customerInfo]
+    };
+  },
+  mounted() {
+    // this.employeeQuery({}),
+    // this.employeeCollectionQuery({})
+  },
+  methods: {
+    rowClassName(row, index) {
+      if (row.job != undefined && row.job == "N") {
+        return "demo-table-error-row";
+      }
+      return "";
+    },
+    batchManagement() {
+      let selection = this.$refs.employmentData.getSelection();
+      if (selection.length == 0) {
+        alert("没有选中的列");
+        return;
+      }
+
+      let empTaskIds = [];
+      selection.forEach(item => {
+        empTaskIds.push(item.empTaskId);
+      });
+
+      var fromData = {};
+      fromData.empTaskIds = empTaskIds;
+      const _self = this;
+      api.batchCheck(fromData).then(data => {
+        if (data.code == 200) {
+          if (data.data.isMaterial) {
+            this.$Message.error(data.data.isMaterial);
+            return;
+          }
+          if (data.data.empTask) {
+            var content =
+              "已经办理了" + data.data.empTask + "条数据，请重新选择数据";
+            this.$Message.error(content);
+            return;
+          }
+          if (data.data.employmentCount == 0) {
+            _self.$router.push({
+              name: "employHandleEmploymentBatch",
+              query: { empTaskIds: empTaskIds }
+            });
+          } else {
+            var content;
+            if (data.data.ArchiveCount) {
+              var content =
+                "用工办理已经存在" +
+                data.data.employmentCount +
+                "条数据" +
+                " , " +
+                "用工档案已经存在" +
+                data.data.ArchiveCount +
+                "条数据" +
+                " , " +
+                "确认要覆盖吗？";
             } else {
-              this.$Message.error("批量失败！" + data.message);
+              var content =
+                "用工办理已经存在" +
+                data.data.employmentCount +
+                "条数据, " +
+                "确认要覆盖吗？";
             }
-         })
-        
-        
-     },
-     searchEmploiees(conditions,searchForm) {
-             
-            this.pageData.pageNum =1;
-            this.searchConditions =[];
-            if(searchForm.isFinish!=2)
-            {
-              var isFinish = "a.is_finish="+searchForm.isFinish;
-              this.searchConditions.push(isFinish);
-            }
-            for(var i=0;i<conditions.length;i++)
-                  this.searchConditions.push(conditions[i].exec);
 
-
-           this.searchCondition.params = this.searchConditions.toString();
-           
-           this.employeeQuery(this.searchCondition);
-           this.employeeCollectionQuery(this.searchCondition);
-           
-      }, goHandle() {
-        this.$router.push({name: "employHandleEmployment"});
-      },
-      showInfoTw (ind) {  
-           this.pageData.pageNum = 1;
-           this.searchCondition.params = this.searchConditions.toString();
-           this.searchCondition.taskStatus = ind;
-           this.employeeQuery(this.searchCondition);
-           
-
-      },
-      showInfoTws (ind) {
-           this.searchCondition.params = this.searchConditions.toString();
-           this.searchCondition.taskStatus = ind;
-           this.employeeQuery(this.searchCondition);
-
-      },
-      printLabel(){
-        let selection = this.$refs.employmentData.getSelection();
-        if(selection.length == 0){
-          alert("没有选中的列");
-          return;
+            _self.$Modal.confirm({
+              title: "",
+              content: content,
+              onOk: function() {
+                _self.$router.push({
+                  name: "employHandleEmploymentBatch",
+                  query: { empTaskIds: empTaskIds }
+                });
+              },
+              error: function(error) {}
+            });
+          }
+        } else {
+          this.$Message.error("批量失败！" + data.message);
         }
-        // console.info(selection);
-        let head = `<!doctype html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>打印贴头</title></head><body>`;
-        let foot = `</body></html>`;
-        let obj = '';
-        let isFrist = true;
-        obj +=  '<table cellpadding="0" cellspacing="0">';
-        selection.forEach(sel => {
-          let docType = '';
-          let docNum = '';
-          if(sel.docType && sel.docNum){
-            docType = sel.docType;
-            docNum = sel.docNum;
-          }else if(sel.yuliuDocType && sel.yuliuDocNum){
-            docType = sel.yuliuDocType;
-            docNum = sel.yuliuDocNum
-          }
-          if(isFrist == false){
-            //obj += '<tr><td height="50px"></td></tr>';
-          }
-          if(isFrist){
-            isFrist = false;
-          }
-          obj += 
-            '<tr>'+
-              '<td height="60px">'+
-                '<div class="lh20" style="width: 300;" float="left">&nbsp;&nbsp;<font size="6">'+ docType +'</font><font size="6">'+ docNum +'</font>&nbsp;&nbsp;&nbsp;<font size="6">'+ sel.employeeName +'</font></div>'+
-                '<div class="lh20" style="width: 60px;"><br/></div>'+
-                '<div class="lh20" style="width: 145px;" float="right">&nbsp;&nbsp;&nbsp;<font size="6">'+ sel.idNum +'</font></div>'+
-              '</td>'+
-            '</tr>';
+      });
+    },
+    searchEmploiees(conditions, searchForm) {
+      this.pageData.pageNum = 1;
+      this.searchConditions = [];
+      if (searchForm.isFinish != 2) {
+        var isFinish = "a.is_finish=" + searchForm.isFinish;
+        this.searchConditions.push(isFinish);
+      }
+      for (var i = 0; i < conditions.length; i++)
+        this.searchConditions.push(conditions[i].exec);
+
+      this.searchCondition.params = this.searchConditions.toString();
+
+      this.employeeQuery(this.searchCondition);
+      this.employeeCollectionQuery(this.searchCondition);
+    },
+    goHandle() {
+      this.$router.push({ name: "employHandleEmployment" });
+    },
+    showInfoTw(ind) {
+      this.pageData.pageNum = 1;
+      this.searchCondition.params = this.searchConditions.toString();
+      this.searchCondition.taskStatus = ind;
+      this.employeeQuery(this.searchCondition);
+    },
+    showInfoTws(ind) {
+      this.searchCondition.params = this.searchConditions.toString();
+      this.searchCondition.taskStatus = ind;
+      this.employeeQuery(this.searchCondition);
+    },
+    printLabel() {
+      let selection = this.$refs.employmentData.getSelection();
+      if (selection.length == 0) {
+        alert("没有选中的列");
+        return;
+      }
+      // console.info(selection);
+      let head = `<!doctype html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>打印贴头</title></head><body>`;
+      let foot = `</body></html>`;
+      let obj = "";
+      let isFrist = true;
+      obj += '<table cellpadding="0" cellspacing="0">';
+      selection.forEach(sel => {
+        let docType = "";
+        let docNum = "";
+        if (sel.docType && sel.docNum) {
+          docType = sel.docType;
+          docNum = sel.docNum;
+        } else if (sel.yuliuDocType && sel.yuliuDocNum) {
+          docType = sel.yuliuDocType;
+          docNum = sel.yuliuDocNum;
+        }
+        if (isFrist == false) {
+          //obj += '<tr><td height="50px"></td></tr>';
+        }
+        if (isFrist) {
+          isFrist = false;
+        }
+        obj +=
+          "<tr>" +
+          '<td height="60px">' +
+          '<div class="lh20" style="width: 300;" float="left">&nbsp;&nbsp;<font size="6">' +
+          docType +
+          '</font><font size="6">' +
+          docNum +
+          '</font>&nbsp;&nbsp;&nbsp;<font size="6">' +
+          sel.employeeName +
+          "</font></div>" +
+          '<div class="lh20" style="width: 60px;"><br/></div>' +
+          '<div class="lh20" style="width: 145px;" float="right">&nbsp;&nbsp;&nbsp;<font size="6">' +
+          sel.idNum +
+          "</font></div>" +
+          "</td>" +
+          "</tr>";
+      });
+      obj += "</table>";
+      let html = head + obj + foot;
+      let pwin = window.open("", "print");
+      pwin.document.write(html);
+      pwin.document.close();
+      pwin.print();
+    },
+    generateInStock() {},
+    sendToFileMangement() {},
+    exportData() {
+      let params = this.searchCondition;
+      api.employSearchExportOpt(params);
+    },
+    resetSearchCondition(name) {
+      this.$refs[name].resetFields();
+    },
+    showInfo(ind) {
+      this.$router.push({
+        name: "employeeSocialSecurityInfo",
+        query: { empArchiveId: ind }
+      });
+    },
+    employeeQuery(params) {
+      this.isLoading = true;
+      let self = this;
+      api
+        .employeeQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params
+        })
+        .then(data => {
+          self.employmentData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+          self.isLoading = false;
+          this.searchCondition.taskStatus = 0;
         });
-        obj += '</table>';
-        let html = head + obj + foot;
-        let pwin = window.open("","print")
-        pwin.document.write(html);
-        pwin.document.close();
-        pwin.print();
-      },
-      generateInStock() {
+    },
+    employeeCollectionQuery(params) {
+      let self = this;
+      api
+        .employeeCollectionQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params
+        })
+        .then(data => {
+          self.searchResultData = data.data.row;
+        });
+    },
+    handlePageNum(val) {
+      this.pageData.pageNum = val;
+      let params = this.searchCondition;
+      this.employeeQuery(params);
+    },
+    handlePageSize(val) {
+      this.pageData.pageSize = val;
+      let params = this.searchCondition;
+      this.employeeQuery(params);
+      this.employeeCollectionQuery(params);
+    },
+    handleData(row, index) {
+      this.$router.push({
+        name: "employHandleEmployment",
+        query: {
+          empTaskId: row.empTaskId,
+          employeeId: row.employeeId,
+          companyId: row.companyId
+        }
+      });
+    },
+    SortChange(e) {
+      this.orderConditions = [];
+      this.searchConditions = [];
+      var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
 
-      },
-      sendToFileMangement() {
+      var isFinish = JSON.parse(sessionStorage.getItem("employmentIsFinish" + userInfo.userId));
+      var conditions = JSON.parse(sessionStorage.getItem("employment" + userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem("employmentOrder" + userInfo.userId));
 
-      },
-      exportData() {
-        let params = this.searchCondition;
-        api.employSearchExportOpt(params);
-      },
-      resetSearchCondition(name) {
-        this.$refs[name].resetFields()
-      },
-      showInfo (ind) {
-        this.$router.push({name:'employeeSocialSecurityInfo', query: {empArchiveId: ind}});
+      if (conditions !== null) {
+        for (var i = 0; i < conditions.length; i++)
+          this.searchConditions.push(conditions[i].exec);
+      }
+      var dx = "";
+      if (e.key === "companyId") {
+        dx = "a.company_id";
+      } else if (e.key === "title") {
+        dx = "h.title";
+      } else if (e.key === "employeeId") {
+        dx = "a.employee_id";
+      } else if (e.key === "employmentId") {
+        dx = "b.employment_id";
+      } else if (e.key === "idNum") {
+        dx = "d.id_num";
+      } else if (e.key === "employeeName") {
+        dx = "d.employee_name";
+      } else if (e.key === "docNum") {
+        dx = "c.doc_num";
+      } else if (e.key === "yuliuDocNum") {
+        dx = "c.yuliu_doc_num";
+      } else if (e.key === "employFeedbackOptDate") {
+        dx = "c.employ_feedback_opt_date";
+      } else if (e.key === "diaodangFeedback") {
+        dx = "c.diaodang_feedback";
+      } else if (e.key === "diaodangFeedbackOptDate") {
+        dx = "c.diaodang_feedback_opt_date";
+      }
+      const searchConditionExec = `${dx} ${e.order} `;
+      if (storeOrder === null) {
+      } else {
+        this.orderConditions = storeOrder;
+      }
+      var isE = false;
+      if (this.orderConditions.length > 0) {
+        for (let index in this.orderConditions) {
+          if (
+            this.orderConditions[index].indexOf(dx) !== -1 &&
+            e.order === "normal"
+          ) {
+            //如果是取消，则删除条件
+            this.orderConditions.splice(index, 1);
+            isE = true;
+          } else if (
+            this.orderConditions[index].indexOf(dx) !== -1 &&
+            this.orderConditions[index].indexOf(e.order) === -1
+          ) {
+            //如果是切换查询顺序
+            this.orderConditions.splice(index, 1);
+            this.orderConditions.push(searchConditionExec);
+            isE = true;
+          } else if (this.orderConditions[index] === searchConditionExec) {
+            this.orderConditions.splice(index, 1);
+          }
+        }
 
-      },
-      employeeQuery(params){
-       
-            this.isLoading = true;
-            let self =this;
-            api.employeeQuery({
-              pageSize: this.pageData.pageSize,
-              pageNum: this.pageData.pageNum,
-              params: params,
-            }).then(data => {
-              self.employmentData = data.data.rows;
-              self.pageData.total = Number(data.data.total);
-              self.isLoading = false;
-              this.searchCondition.taskStatus =0;
-            })
-       
-      },
-       employeeCollectionQuery(params){
-          let self =this
-          api.employeeCollectionQuery({
-            pageSize: this.pageData.pageSize,
-            pageNum: this.pageData.pageNum,
-            params: params,
-          }).then(data => {
-          
-            self.searchResultData = data.data.row;
-          
-          })
-         
-      },
-      handlePageNum(val) {
-        this.pageData.pageNum = val;
-        let params = this.searchCondition
-        this.employeeQuery(params);
-      },
-      handlePageSize(val) {
-        this.pageData.pageSize = val;
-        let params = this.searchCondition
-        this.employeeQuery(params);
-        this.employeeCollectionQuery(params);
-      },handleData(row,index){
-         this.$router.push({name:'employHandleEmployment', query: {empTaskId:row.empTaskId,employeeId:row.employeeId,companyId:row.companyId}});
+        if (!isE) {
+          this.orderConditions.push(searchConditionExec);
+        }
+      } else {
+        this.orderConditions.push(searchConditionExec);
+      }
+
+      sessionStorage.setItem(
+        "employmentOrder" + userInfo.userId,
+        JSON.stringify(this.orderConditions)
+      );
+      if (this.orderConditions.length > 0) {
+        for (let index in this.orderConditions) {
+          this.searchConditions.push(this.orderConditions[index]);
+        }
+      }
+
+      this.searchCondition.params = this.searchConditions.toString();
+      let self = this;
+      api
+        .employeeQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: this.searchCondition
+        })
+        .then(data => {
+          self.employmentData = data.data.rows;
+
+          this.changeSortClass(this.orderConditions);
+        });
+    },
+    //生成导出文件
+    exportTable(name) {
+      this.orderConditions = [];
+      this.searchConditions = [];
+      var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+      var conditions = JSON.parse(sessionStorage.getItem("employment" + userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem("employmentOrder" + userInfo.userId));
+
+      if (conditions !== null) {
+        for (var i = 0; i < conditions.length; i++)
+          this.searchConditions.push(conditions[i].exec);
+      }
+      if (storeOrder === null) {
+      } else {
+        this.orderConditions = storeOrder;
+      }
+      if (this.orderConditions.length > 0) {
+        for (let index in this.orderConditions) {
+          this.searchConditions.push(this.orderConditions[index]);
+        }
+      }
+
+      this.searchCondition.params = this.searchConditions.toString();
+
+      switch (parseInt(name)) {
+        case 1:
+          // 用工录用名册
+          api.employSearchExportOptUseWord(this.searchCondition);
+          break;
+        case 2:
+          // 派遣录用名册
+          api.employSearchExportOptDispatchWord(this.searchCondition);
+          break;
+        case 3:
+          // 外来独立
+          api.employSearchExportOptAlonehWord(this.searchCondition);
+          break;
+        case 4:
+          // 外来派遣
+          api.employSearchExportOptExtDispatchWord(this.searchCondition);
+          break;
+        case 5:
+          // 采集表 汇总表
+          api.employSearchExportOptExtCollectWord(this.searchCondition);
+          break;
+        default:
+          break;
       }
     },
-    computed: {
+    exportData() {
+      let params = this.searchCondition;
+      api.employSearchExportOpt(params);
+    },
+    resetSearchCondition(name) {
+      this.$refs[name].resetFields();
+    },
+    showInfo(ind) {
+      this.$router.push({
+        name: "employeeSocialSecurityInfo",
+        query: { empArchiveId: ind }
+      });
 
+      if (this.orderConditions.length > 0) {
+        for (let index in this.orderConditions) {
+          this.searchConditions.push(this.orderConditions[index]);
+        }
+      }
+      this.searchCondition.params = this.searchConditions.toString();
+      if (isFinish != 2) {
+        var tempIsFinish = "a.is_finish=" + isFinish;
+        this.searchConditions.push(tempIsFinish);
+      }
+
+      this.isLoading = true;
+      let self = this;
+      api
+        .employeeQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: this.searchCondition
+        })
+        .then(data => {
+          self.employmentData = data.data.rows;
+          self.pageData.total = Number(data.data.total);
+          self.isLoading = false;
+          this.searchCondition.taskStatus = 0;
+          this.changeSortClass(this.orderConditions);
+        });
+    },
+    changeSortClass(storeOrder) {
+      this.employmentColumns.forEach((e, idx) => {
+        let order = "normal";
+        if (storeOrder == null) {
+        } else {
+          if (storeOrder.length > 0) {
+            for (var index in storeOrder) {
+              var orders = storeOrder[index].split(" ");
+              if (
+                e.key === "employeeId" &&
+                storeOrder[index].indexOf("employee_id") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "companyId" &&
+                storeOrder[index].indexOf("company_id") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "title" &&
+                storeOrder[index].indexOf("title") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "employmentId" &&
+                storeOrder[index].indexOf("employment_id") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "employeeName" &&
+                storeOrder[index].indexOf("employee_name") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "idNum" &&
+                storeOrder[index].indexOf("id_num") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "docNum" &&
+                storeOrder[index].indexOf("doc_num") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "yuliuDocNum" &&
+                storeOrder[index].indexOf("yuliu_doc_num") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "employFeedbackOptDate" &&
+                storeOrder[index].indexOf("employ_feedback_opt_date") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "diaodangFeedback" &&
+                storeOrder[index].indexOf("diaodang_feedback") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "diaodangFeedbackOptDate" &&
+                storeOrder[index].indexOf("diaodang_feedback_opt_date") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                break;
+              }
+            }
+          }
+        }
+      });
     }
-  }
+  },
+  computed: {}
+};
 </script>

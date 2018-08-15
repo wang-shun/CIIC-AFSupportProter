@@ -888,23 +888,23 @@
             this.handDateControl = false;
             this.sendDateControl=true;
             this.finishDateControl=true;
-             formObj.acceptanceDate = Date();
+             formObj.acceptanceDate =new Date();
              formObj.sendCheckDate = null;
              formObj.finishedDate =null;
         }else if(taskState=='2'){
             this.handDateControl = false;
             this.sendDateControl=false;
             this.finishDateControl=true;
-            formObj.acceptanceDate = formObj.acceptanceDate==null? Date() : formObj.acceptanceDate;
-            formObj.sendCheckDate = Date();
+            formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
+            formObj.sendCheckDate = new Date();
              formObj.finishedDate =null;
         }else if(taskState=='3'){
             this.handDateControl = false;
             this.sendDateControl=false;
             this.finishDateControl=false;
-             formObj.acceptanceDate = formObj.acceptanceDate==null? Date() : formObj.acceptanceDate;
-             formObj.sendCheckDate = formObj.sendCheckDate==null?Date() : formObj.sendCheckDate;
-             formObj.finishedDate =Date();
+             formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
+             formObj.sendCheckDate = formObj.sendCheckDate==null? new Date() : formObj.sendCheckDate;
+             formObj.finishedDate = new Date();
         }
       },
       //撤销任务单 状态(将任务单状态往回走一步)

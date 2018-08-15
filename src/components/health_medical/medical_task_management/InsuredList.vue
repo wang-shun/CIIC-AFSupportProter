@@ -18,7 +18,7 @@
                 </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="保险公司" prop="insuranceCompany">
+                <FormItem label="保险公司" prop="insuranceCompany">
                   <Select v-model="formItem.insuranceCompany" :clearable="true"
                           @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
                     <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
@@ -26,58 +26,58 @@
                       {{item.insuranceCompanyName}}
                     </Option>
                   </Select>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="保单" prop="afProductId">
+                <FormItem label="保单" prop="afProductId">
                   <Select v-model="formItem.afProductId" :clearable="true">
                     <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
                       {{item.insurancePolicyName}}
                     </Option>
                   </Select>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="标的类型" prop="keyType">
+                <FormItem label="标的类型" prop="keyType">
                   <Select v-model="formItem.keyType" :clearable="true">
                     <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
                     </Option>
                   </Select>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="大于" prop="keyValueLarge">
+                <FormItem label="大于" prop="keyValueLarge">
                   <InputNumber v-model="formItem.keyValueLarge" style="width: 100%"></InputNumber>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="小于" prop="keyValueSmall">
+                <FormItem label="小于" prop="keyValueSmall">
                   <InputNumber v-model="formItem.keyValueSmall" style="width: 100%"></InputNumber>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
                 <FormItem label="雇员编号" prop="employeeId">
-                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeId" placeholder="请输入"></Input>
                 </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
                 <FormItem label="雇员姓名" prop="employeeName">
-                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeName" placeholder="请输入"></Input>
                 </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
                 <FormItem label="证件号码" prop="idNum">
-                  <Input v-model="formItem.idNum" placeholder="请输入"/>
+                  <Input v-model="formItem.idNum" placeholder="请输入"></Input>
                 </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
                 <FormItem label="公司编号" prop="companyId">
-                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                  <Input v-model="formItem.companyId" placeholder="请输入"></Input>
                 </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
                 <FormItem label="公司名称" prop="companyName">
-                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                  <Input v-model="formItem.companyName" placeholder="请输入"></Input>
                 </FormItem>
               </Col>
             </Row>
@@ -216,7 +216,7 @@
             }
           },
           {
-            title: '标的',  sortable: true, key: 'keyValue', align: 'center', width: 150,
+            title: '标的', sortable: true, key: 'keyValue', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', task.reverseAmount(params.row.keyType, params.row.keyValue));
             }

@@ -300,7 +300,7 @@
                         on: {
                           click: () => {
                               let param={ssMonth:params.row.ssMonth,
-                              ssAccount:params.row.comAccountName,
+                              ssAccount:params.row.ssAccount,
                               ssAccountId:params.row.comAccountId}
                               this.$router.push({name:'socialSecurityEmpChangeDetailYys',query:param});
                           }
@@ -379,12 +379,11 @@
 
       },
       batchUpload(data){
-        let me = this;
-        me.isUpload=true
-        me.upLoadData.comAccountId = data.comAccountId;
-        me.upLoadData.fileType = data.impFileType;
-        me.upLoadData.ssMonth = data.ssMonth;
-        me.upLoadData.file = null;
+        this.isUpload=true
+        this.upLoadData.comAccountId = data.comAccountId;
+        this.upLoadData.fileType = 'YYS';
+        this.upLoadData.ssMonth = data.ssMonth;
+        this.upLoadData.file = null;
       },
 
       beforeUpload(file) {
@@ -438,13 +437,12 @@
       },
 
       exportInfo(){
-        let me = this;
         let params = {
-          ssMonth:me.operatorSearchData.ssMonth,
-          comAccountId:me.operatorSearchData.comAccountId,
-          impFileType:me.operatorSearchData.impFileType,
-          minDiffSumByEmp:me.operatorSearchData.minDiffSumByEmp,
-          maxDiffSumByEmp:me.operatorSearchData.maxDiffSumByEmp
+          ssMonth:this.operatorSearchData.ssMonth,
+          comAccountId:this.operatorSearchData.comAccountId,
+          impFileType:'YYS',
+          minDiffSumByEmp:this.operatorSearchData.minDiffSumByEmp,
+          maxDiffSumByEmp:this.operatorSearchData.maxDiffSumByEmp
         };
         api.statementExport(params);
       },

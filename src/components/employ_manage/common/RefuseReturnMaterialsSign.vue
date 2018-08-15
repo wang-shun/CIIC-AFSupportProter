@@ -3,10 +3,19 @@
     <Table border :columns="refuseReturnMaterialsSignColumns" :width="1000"  :data="refuseReturnMaterialsSign" class="mt20"></Table>
     <Row type="flex" justify="start" class="mt20">
       <Col class="tr">
-        <Button type="primary" @click="modal1 = true">新增</Button>
-        <Button type="primary"  @click="instance()">提交</Button>
+        <Button type="primary" @click="insertShow">新增</Button>
+        <!-- <Button type="primary"  @click="instance()">提交</Button> -->
       </Col>
     </Row>
+    <br/>
+    <Collapse v-model="collapseInfo">
+    <Form :label-width="150">
+      <Panel name="1">
+        材料流转记录
+    <Table border :columns="refuseReturnMaterialsSignColumnsLog" :width="1000"  :data="materialLogList" class="mt20"></Table>
+    </Panel>
+    </Form>
+    </Collapse>
      <Modal
         v-model="modal1"
         title="归还材料签收"
@@ -23,12 +32,16 @@
       refuseReturnMaterialsSignInfo: {
         type: Array
       },
+      materialLogList: {
+        type: Array
+      },
       refuseReturnMaterials:{
         type: Array
       }
     },
     data() {
       return {
+        collapseInfo: [1], //展开栏
          modal1: false,
         refuseReturnMaterialsSignColumns: [
           {title: '提交日期', key: 'submitterDate', align: 'center',
@@ -94,11 +107,40 @@
                 ]);
             }
          }
+        ],refuseReturnMaterialsSignColumnsLog: [
+          {title: '操作类型', key: 'operationType', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.operationType==1?"签收":params.row.operationType==2?"批退":params.row.operationType==3?"提交":"其它"),
+              ]);
+            }
+          },
+          {title: '操作人', key: 'operationName', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.operationName),
+              ]);
+            }
+          },
+          {title: '操作时间', key: 'operationTime', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.operationTime),
+              ]);
+            }
+          },
+          {title: '备注', key: 'remark', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          }
         ],refuseReturnMaterialsColumns: [
           {title: '', type: 'selection', width: 60},
           {title: '材料名称', key: 'materialName', align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.materialName),
               ]);
             }
@@ -132,6 +174,26 @@
       }
     },
     methods: {
+        
+          insertShow(){
+            if(this.materialLogList[0] != undefined){
+              if(this.materialLogList[0].operationType != undefined && this.materialLogList[0].operationType != 2)
+              {
+                this.$Message.success("材料已提交到雇员中心，雇员中心未做批退操作，不能新增！");
+                 return false;
+              }
+            }
+            // if(this.refuseReturnMaterialsSign[0] != undefined){
+            //   if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
+            //   {
+            //     this.$Message.success("有签收不能新增材料！");
+            //      return false;
+            //   }
+            // }
+            this.modal1 = true;
+            let selection = this.$refs.payComSelection; 
+            selection.selectAll(false);
+          },
           ok () {
              if(this.$route.query.empTaskResignId==undefined){
 
@@ -158,21 +220,20 @@
               if(this.refuseReturnMaterialsSign.length==0){
                  isE = false;
               }
-              for(var i = 0; i < this.refuseReturnMaterialsSign.length; i++)
-              {
-                  if(item.materialName === this.refuseReturnMaterialsSign[i].materialName)
-                  {
-                      isE = true;
-                  }
-              }
-
+              // for(var i = 0; i < this.refuseReturnMaterialsSign.length; i++)
+              // {
+              //     if(item.materialName === this.refuseReturnMaterialsSign[i].materialName)
+              //     {
+              //        isE = true;
+              //    }
+              // }
                if(!isE)
                {
                   this.refuseReturnMaterialsSign.push(fromData);
                }
                
            });
-              
+              this.instance();
             },
             cancel () {
                
@@ -183,19 +244,12 @@
                  this.$Message.success("无内容提交！");
                  return false;
               }
-               
-              if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
-              {
-                this.$Message.success("有收到人不能提交！");
-                 return false;
-              }
-        
             api.saveAmEmpMaterial(this.refuseReturnMaterialsSign).then(data => {
                 
                   if (data.data.data.data == 1) {
                     this.$Message.success("保存成功");
-                    
                     this.refuseReturnMaterialsSignInfo = data.data.data.result;
+                    this.materialLogList = data.data.data.logList;
                     
                   }else if (data.data.data == 2){
                     this.$Message.success("已签收，无法保存！");
@@ -212,11 +266,13 @@
             },
             remove (index,empMaterialId) {
                
-              if(this.refuseReturnMaterialsSign[0].receiveName != undefined)
-              {
-                this.$Message.success("有收到人不能删除！");
-                 return false;
-              }
+              if(this.materialLogList[0] != undefined){
+                if(this.materialLogList[0].operationType != undefined && this.materialLogList[0].operationType != 2)
+                {
+                  this.$Message.success("材料已提交到雇员中心，雇员中心未做批退操作，不能删除！");
+                  return false;
+                }
+            }
                 const _self = this;
                 if(!empMaterialId){
                   this.refuseReturnMaterialsSign.splice(index, 1);

@@ -14,19 +14,6 @@
         </div>
       </Panel>
       <Panel name="3">
-        雇员未做任务单
-        <div slot="content">
-          <Form :label-width=150 >
-          <Row class="mt20" type="flex" justify="start">
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Table border width="800" :columns="theSameTaskListColumns"
-                     :data="socialSecurityPayOperator.theSameTask"></Table>
-              </Col>
-          </Row>
-          </Form>
-        </div>
-      </Panel>
-      <Panel name="4">
         任务单参考信息
         <div slot="content">
           <Form :label-width=150>
@@ -50,7 +37,7 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="5">
+      <Panel name="4">
         社保{{handleTitle}}操作
         <div slot="content">
           <Form :label-width=150>
@@ -117,6 +104,25 @@
           </Form>
         </div>
       </Panel>
+      <Panel name="5">
+        历史任务单
+        <div slot="content">
+          <origin-emp-task-info :empTaskId="this.$route.query.empTaskId"></origin-emp-task-info>
+        </div>
+      </Panel>
+      <Panel name="6">
+        雇员未做任务单
+        <div slot="content">
+          <Form :label-width=150 >
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Table border width="800" :columns="theSameTaskListColumns"
+                     :data="socialSecurityPayOperator.theSameTask"></Table>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -130,17 +136,17 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
   import companyInfo from '../../components/CompanyInfo'
   import employeeInfo from '../../components/EmployeeInfo.vue'
-
-  import EventTypes from '../../../../store/event_types'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
+//  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
   const HANDLE_TITLE = "补缴";
 
   export default {
-    components: {companyInfo, employeeInfo},
+    components: {companyInfo, employeeInfo, originEmpTaskInfo},
     data() {
       return {
         handleTitle:HANDLE_TITLE,
@@ -149,7 +155,7 @@
         currentIndex: this.$route.params.index,
         isNextMonth:this.$route.query.isNextMonth,
         sourceFrom: '',
-        collapseInfo: [1, 2, 3, 4,5],
+        collapseInfo: [1, 2, 3, 4, 5, 6],
         employee: {},
         company: {},
         isLoading: false,
@@ -435,16 +441,16 @@
     },
     mounted() {
       this.initData(this.$route.query)
-      this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]()
+//      this[EventTypes.COMPANYSOCIALSECURITYNEWTYPE]()
     },
     computed: {
-      ...mapState('companySocialSecurityNew', {
-        data: state => state.data,
-        taskChangeInfo: state => state.data.taskChangeInfo,
-      })
+//      ...mapState('companySocialSecurityNew', {
+//        data: state => state.data,
+//        taskChangeInfo: state => state.data.taskChangeInfo,
+//      })
     },
     methods: {
-      ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
+//      ...mapActions('companySocialSecurityNew', [EventTypes.COMPANYSOCIALSECURITYNEWTYPE]),
       routerMethed(taskCategory,empTaskId){
 
         // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作

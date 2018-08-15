@@ -17,7 +17,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Table border :row-class-name="rowClassName" :columns="rejectedColumns" :data="rejectedData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
+      <Table border id="rejectedData" :row-class-name="rowClassName" :columns="rejectedColumns" :data="rejectedData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -78,7 +78,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.HF_DEFAULT_PAGE_SIZE_OPTS
         },
         rejectedColumns: [
           {title: '操作', fixed: 'left', width: 100, align: 'center',
@@ -139,7 +139,7 @@
           {title: '操作提示', key: 'operationRemindName', width: 150, align: 'center'},
           {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center'},
           {title: '发起时间', key: 'submitTimeFormat', width: 200, align: 'center'},
-          {title: '批退人', key: 'modifiedBy', width: 200, align: 'center'},
+          {title: '批退人', key: 'modifiedDisplayName', width: 200, align: 'center'},
           {title: '批退时间', key: 'modifiedTimeFormat', width: 200, align: 'center'},
           {title: '批退备注', key: 'rejectionRemark', width: 300, align: 'center'}
         ]
@@ -197,7 +197,9 @@
         }
       });
 
-      this.hfEmpTaskRejectQuery();
+//      this.hfEmpTaskRejectQuery();
+      var conditions = [];
+      this.searchEmploiees(conditions, this.rejectedPageData.pageNum);
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyROrder'+userInfo.userId));
@@ -237,7 +239,7 @@
       handlePageNum(val) {
         this.rejectedPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.rejectedPageData.pageNum);
       },
       handlePageSize(val) {
         this.rejectedPageData.pageNum = 1;
@@ -327,7 +329,7 @@
       },
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
-      },searchEmploiees(conditions) {
+      },searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -382,7 +384,7 @@
 
         api.hfEmpTaskRejectQuery({
           pageSize: this.rejectedPageData.pageSize,
-          pageNum: this.rejectedPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -517,7 +519,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(3, idx, order)
+          tableStyle.changeSortElementClass('rejectedData', idx, order)
         });
       },
     }

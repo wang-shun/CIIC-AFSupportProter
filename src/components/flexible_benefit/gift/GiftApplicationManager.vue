@@ -8,7 +8,7 @@
             <Row class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="礼品名称" prop="giftName">
-                  <Input v-model="formItem.giftName" placeholder="请输入"/>
+                  <Input v-model="formItem.giftName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

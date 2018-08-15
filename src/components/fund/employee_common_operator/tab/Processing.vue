@@ -19,7 +19,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :row-class-name="rowClassName" :columns="processingColumns" :data="processingData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
+        <Table border id="processingData" :row-class-name="rowClassName" :columns="processingColumns" :data="processingData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -99,7 +99,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.HF_DEFAULT_PAGE_SIZE_OPTS
         },
         processingColumns: [
 //          {
@@ -218,7 +218,9 @@
         }
       });
 
-      this.hfEmpTaskQuery();
+//      this.hfEmpTaskQuery();
+      var conditions = [];
+      this.searchEmploiees(conditions, this.processingPageData.pageNum);
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyPOrder'+userInfo.userId));
@@ -258,7 +260,7 @@
       handlePageNum(val) {
         this.processingPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.processingPageData.pageNum);
       },
       handlePageSize(val) {
         this.processingPageData.pageNum = 1;
@@ -376,7 +378,7 @@
       },
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
-      },searchEmploiees(conditions) {
+      },searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -434,7 +436,7 @@
 
         api.hfEmpTaskQuery({
           pageSize: this.processingPageData.pageSize,
-          pageNum: this.processingPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -568,7 +570,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(1, idx, order)
+          tableStyle.changeSortElementClass('processingData', idx, order)
         });
       },
     }

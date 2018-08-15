@@ -7,25 +7,25 @@
           <Form ref="formItem" :model="formItem" :label-width="150">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务单状态" prop="status">
+                <FormItem label="任务单状态" prop="status">
                   <Select v-model="formItem.status" :clearable="true" @on-change="getByPage(1)">
                     <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
                       {{item.label}}
                     </Option>
                   </Select>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务单类型" prop="taskType">
+                <FormItem label="任务单类型" prop="taskType">
                   <Select v-model="formItem.taskType" :clearable="true">
                     <Option v-for="item in taskTypeProperties" :value="item.value" :key="item.value">
                       {{item.label}}
                     </Option>
                   </Select>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="保险公司" prop="insuranceCompany">
+                <FormItem label="保险公司" prop="insuranceCompany">
                   <Select v-model="formItem.insuranceCompany" :clearable="true"
                           @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
                     <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
@@ -33,84 +33,84 @@
                       {{item.insuranceCompanyName}}
                     </Option>
                   </Select>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="保单" prop="afProductId">
+                <FormItem label="保单" prop="afProductId">
                   <Select v-model="formItem.afProductId" :clearable="true"
                           @on-change="getByPage(1)">
                     <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
                       {{item.insurancePolicyName}}
                     </Option>
                   </Select>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col v-if="formItem.taskType === '1'" :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="起始日期" prop="startConfirmDateRange">
+                <FormItem label="起始日期" prop="startConfirmDateRange">
                   <DatePicker v-model="formItem.startConfirmDateRange" type="daterange" placement="bottom"
                               placeholder="选择日期" style="width: 100%;"
                               transfer></DatePicker>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col v-if="formItem.taskType === '2'" :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="截止日期" prop="endConfirmDateRange">
+                <FormItem label="截止日期" prop="endConfirmDateRange">
                   <DatePicker v-model="formItem.endConfirmDateRange" type="daterange" placement="bottom"
                               placeholder="选择日期" style="width: 100%;"
                               transfer></DatePicker>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="保额类型">
+                <FormItem label="保额类型">
                   <Select v-model="formItem.keyType" :clearable="true">
                     <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
                     </Option>
                   </Select>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="大于" prop="keyValueLarge">
+                <FormItem label="大于" prop="keyValueLarge">
                   <InputNumber v-model="formItem.keyValueLarge" style="width: 100%"></InputNumber>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="小于" prop="keyValueSmall">
+                <FormItem label="小于" prop="keyValueSmall">
                   <InputNumber v-model="formItem.keyValueSmall" style="width: 100%"></InputNumber>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="管理方编号" prop="managementId">
+                <FormItem label="管理方编号" prop="managementId">
                   <Input v-model="formItem.managementId" placeholder="请输入"></Input>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="管理方名称" prop="managementName">
+                <FormItem label="管理方名称" prop="managementName">
                   <Input v-model="formItem.managementName" placeholder="请输入"></Input>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员编号" prop="employeeId">
+                <FormItem label="雇员编号" prop="employeeId">
                   <Input v-model="formItem.employeeId" placeholder="请输入"></Input>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员姓名" prop="employeeName">
+                <FormItem label="雇员姓名" prop="employeeName">
                   <Input v-model="formItem.employeeName" placeholder="请输入"></Input>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="证件号码" prop="idNum">
+                <FormItem label="证件号码" prop="idNum">
                   <Input v-model="formItem.idNum" placeholder="请输入"></Input>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公司编号" prop="companyId">
+                <FormItem label="公司编号" prop="companyId">
                   <Input v-model="formItem.companyId" placeholder="请输入"></Input>
-                </Form-item>
+                </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公司名称" prop="companyName">
+                <FormItem label="公司名称" prop="companyName">
                   <Input v-model="formItem.companyName" placeholder="请输入"></Input>
-                </Form-item>
+                </FormItem>
               </Col>
             </Row>
             <Row>
@@ -153,9 +153,9 @@
            v-model="modal1"
            title="审核">
       <Form ref="dealMsg" :model="dealMsg" :rules="dealMsgRules" :label-width="80">
-        <Form-item label="操作说明" prop="remark">
+        <FormItem label="操作说明" prop="remark">
           <Input v-model="dealMsg.remark" placeholder="请输入" style="width: 100%;text-align: left"></Input>
-        </Form-item>
+        </FormItem>
       </Form>
       <div slot="footer">
         <Button @click="cancel(4)">取消</Button>
@@ -167,9 +167,9 @@
            v-model="modal6"
            title="批退">
       <Form ref="dealMsg" :model="dealMsg" :rules="dealMsgRules">
-        <Form-item label="操作说明" prop="remark" :label-width="100">
+        <FormItem label="操作说明" prop="remark" :label-width="100">
           <Input v-model="dealMsg.remark" placeholder="请输入"></Input>
-        </Form-item>
+        </FormItem>
       </Form>
       <div slot="footer">
         <Button @click="cancel(6)">取消</Button>

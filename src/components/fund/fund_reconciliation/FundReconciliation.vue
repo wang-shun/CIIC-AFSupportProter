@@ -146,7 +146,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 18}">
                 <Form-item prop="comAccountName">
-                  <Input v-model="fundAccountQueryForm.comAccountName" placeholder="请输入名称..." class="ml10"></Input>
+                  <Input v-model="fundAccountQueryForm.comAccountName" placeholder="请输入【客户编号】或【公积金账户名称】" class="ml10"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 6}" class="tr">

@@ -730,6 +730,13 @@
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;
           this.operatorListData = data.data.empTaskPeriods;
+          this.operatorListData.forEach((element, index, arr) => {
+            if (this.operatorListData[index].remitWay == 2 ) {
+              if (!this.operatorListData[index].repairReason || this.operatorListData[index].repairReason == '') {
+                this.operatorListData[index].repairReason = '1';
+              }
+            }
+          });
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
           this.showButton = this.displayVO.canHandle;
@@ -800,7 +807,7 @@
           ratioCom: this.operatorListData[0].ratioCom,
           ratioEmp: this.operatorListData[0].ratioEmp,
           amount: this.operatorListData[0].amount,
-          repairReason: ''
+          repairReason: '1'
         })
       },
       handleTask() {

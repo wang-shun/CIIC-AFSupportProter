@@ -232,16 +232,18 @@
       return {
         isLoading: false,
         endTypeList: [
+          {value: '', label: ''},
           {value: '合同终止', label: '合同终止',disabled:false},
           {value: '合同解除', label: '合同解除',disabled:false}
         ],
         personPropertyList: [
-          {value: '空', label: '空'},
+          {value: '', label: ''},
           {value: '上海户籍', label: '上海户籍'},
           {value: '居住证', label: '居住证'},
           {value: '外来从业人员', label: '外来从业人员'}
         ],
         refuseFileDirectionList: [
+          {value: '', label: ''},
           {value: '户口所在地', label: '户口所在地',disabled:false},
           {value: '市区人才', label: '市区人才',disabled:false},
           {value: '徐汇', label: '徐汇',disabled:false},
@@ -251,12 +253,12 @@
           {value: '转公司用工', label: '转公司用工',disabled:false}
         ],
         transferMethodList: [
-          {value: '空', label: '空',disabled:false},
+          {value: '', label: '',disabled:false},
           {value: '职介所', label: '职介所',disabled:false},
           {value: '其他', label: '其他',disabled:false}
         ],
         transferNotesList: [
-          {value: '空', label: '空',disabled:false},
+          {value: '', label: ''},
           {value: '档案未退先退工', label: '档案未退先退工',disabled:false},
           {value: '徐职', label: '徐职',disabled:false},
           {value: '转公司', label: '转公司',disabled:false},
@@ -273,6 +275,7 @@
           {value: '自开退工单', label: '自开退工单',disabled:false}
         ],
         refuseFeedbackList: [
+          {value: '', label: ''},
           {value: '1', label: '退工任务单签收'},
           {value: '2', label: '档未到先退工'},
           {value: '3', label: '退工盖章未返回'},
@@ -293,13 +296,14 @@
          
         ],
         companyGroupTransferDirectionList: [
-          {value: '空', label: '空'},
+          {value: '', label: ''},
           {value: '公司自行管理', label: '公司自行管理'},
           {value: '外服', label: '外服'},
           {value: '四达', label: '四达'},
           {value: '北京外企', label: '北京外企'}
         ],
         LaborManualIsDeliverRefuserList: [
+          {value: '', label: ''},
           {value: '0',label: "已交"},
           {value: '1',label: "未交"}
         ]

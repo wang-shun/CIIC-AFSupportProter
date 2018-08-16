@@ -174,6 +174,7 @@ export default {
       ],
       fileNumberList: [],
       filePlaceList: [
+        {value: '', label: ''},
         { value: "外来从业人员", label: "外来从业人员" },
         { value: "居住证", label: "居住证" },
         { value: "属地管理", label: "属地管理" },
@@ -203,12 +204,12 @@ export default {
       ],
       filePlaceAddList: [],
       placeStateList: [
-        { value: "空", label: "空" },
+        {value: '', label: ''},
         { value: "无", label: "无" },
         { value: "卡为复印件", label: "卡为复印件" }
       ],
       fileOriginList: [
-        { value: "空", label: "空" },
+        {value: '', label: ''},
         { value: "户口所在地调入", label: "户口所在地调入" },
         { value: "市区人才调入", label: "市区人才调入" },
         { value: "单位转出（包括邮寄）", label: "单位转出（包括邮寄）" },
@@ -217,6 +218,7 @@ export default {
         { value: "其他", label: "其他" }
       ],
       employFeedbackList: [
+        {value: '', label: ''},
         { value: "3", label: "用工成功", disabled: false },
         { value: "10", label: "用工已办查无档", disabled: false },
         { value: "4", label: "用工失败", disabled: false },
@@ -226,7 +228,7 @@ export default {
         { value: "13", label: "用工已办,前道已中止", disabled: false }
       ],
       transferFeedbackList: [
-        { value: "空", label: "空" },
+        {value: '', label: ''},
         { value: "已告知本人转档", label: "已告知本人转档" },
         { value: "无档自查", label: "无档自查" },
         { value: "浦东职介代管", label: "浦东职介代管" },

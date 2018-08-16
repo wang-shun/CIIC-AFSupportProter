@@ -2,29 +2,9 @@
   <div>
     <div class="smList">
       <Collapse v-model="collapseInfo">
-        <Panel name="1">
-          雇员信息
-          <div slot="content">
-            <Form :label-width="150">
-              <Row justify="start">
-                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                  <Form-item label="雇员编号：">
-                    {{employeeInfo.employeeNumber}}
-                  </Form-item>
-                </Col>
-                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                  <Form-item label="雇员姓名：">
-                    {{employeeInfo.employeeName}}
-                  </Form-item>
-                </Col>
-              </Row>
-            </Form>
-          </div>
-        </Panel>
         <Panel name="2">
           材料使用
           <div slot="content">
-            
             <Modal
               v-model="modal1"
               title="档案材料使用"
@@ -73,11 +53,11 @@
                 </Row>   
                </Form>
             </Modal>
-            <Table border :columns="matrialsUseColumns" :data="matrialsUseData" class="mt20"></Table>
+            <Table border :columns="matrialsUseColumns" :data="matrialsUseData"  ref="matrialsUseData" class="mt20"></Table>
             <Row class="mt20">
               <Col :sm="{span: 24}" class="tr">
                 <Button type="primary" @click="modal1 = true">新增</Button>
-                <Button type="primary"  @click="instance()">修改</Button>
+                <Button type="primary"  @click="modify">修改</Button>
               </Col>
             </Row>
           </div>
@@ -85,7 +65,6 @@
         <Panel name="3">
           材料借出
           <div slot="content">
-           
             <Modal
               v-model="modal2"
               title="档案材料借出"
@@ -96,13 +75,6 @@
                   <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
                     <Form-item label="借出日期：" prop="useDatew">
                       <DatePicker type="date" v-model="handleInfo.useDatew" transfer></DatePicker>
-                    </Form-item>
-                  </Col>
-                </Row>
-                <Row type="flex" justify="start">
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-                    <Form-item label="归还日期：" prop="returnDate">
-                      <DatePicker type="date" v-model="handleInfo.returnDate" transfer></DatePicker>
                     </Form-item>
                   </Col>
                 </Row>
@@ -140,11 +112,16 @@
                 </Row>   
                </Form>
             </Modal>
-            <Table border ref="payComSelection" :columns="matrialsBorrowColumns" :data="matrialsBorrowData" class="mt20"></Table>
+            <Table border  :columns="matrialsBorrowColumns" :data="matrialsBorrowData"  ref="matrialsBorrowData" class="mt20"></Table>
             <Row class="mt20">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span:18}">
+                  归还日期：
+                  <DatePicker  type="date" v-model="handleInfo.returnDate" transfer></DatePicker>
+                  <Button type="primary"  @click="updateReturnDate">更新</Button>
+              </Col>
               <Col :sm="{span: 24}" class="tr">
                 <Button type="primary" @click="modal2 = true">新增</Button>
-               <Button type="primary"  @click="instance1()">提交</Button>
+                <Button type="primary"  @click="modify1">修改</Button>
               </Col>
             </Row>
           </div>
@@ -166,13 +143,29 @@ export default {
       modal1: false,
       modal2: false,
       userName: "",
-      collapseInfo: [1, 2, 3],
-      employeeInfo: {
-        employeeNumber: this.$route.query.employeeId,
-        employeeName: this.$route.query.employeeName
-      },
+      collapseInfo: [2, 3],
       matrialsUseColumns: [
         { title: "", type: "selection", width: 60 },
+        {
+          title: "雇员编号",
+          key: "employeeId",
+          align: "center",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employeeId)
+            ]);
+          }
+        },
+        {
+          title: "雇员姓名",
+          key: "employeeName",
+          align: "center",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employeeName)
+            ]);
+          }
+        },
         {
           title: "使用材料",
           key: "useMatrials",
@@ -237,6 +230,27 @@ export default {
       matrialsUseData: [],
 
       matrialsBorrowColumns: [
+        { title: "", type: "selection", width: 60 },
+        {
+          title: "雇员编号",
+          key: "employeeId",
+          align: "center",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employeeId)
+            ]);
+          }
+        },
+        {
+          title: "雇员姓名",
+          key: "employeeName",
+          align: "center",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employeeName)
+            ]);
+          }
+        },
         {
           title: "借出材料",
           key: "useMatrials",
@@ -306,31 +320,6 @@ export default {
               h("span", params.row.remark)
             ]);
           }
-        },
-        {
-          title: "操作",
-          key: "action",
-          width: 100,
-          align: "center",
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "error",
-                    size: "small"
-                  },
-                  on: {
-                    click: () => {
-                      this.remove(params.index, params.row.archiveUseId);
-                    }
-                  }
-                },
-                "删除"
-              )
-            ]);
-          }
         }
       ],
       matrialsBorrowData: [],
@@ -378,7 +367,8 @@ export default {
         remarkContentw: "",
         remarkManw: "",
         remarkDatew: "",
-        materialw: ""
+        materialw: "",
+        archiveUseId: ""
       },
       realHandInfo: {
         remarkContent: "",
@@ -410,32 +400,7 @@ export default {
     goBack() {
       this.$router.go(-1);
     },
-    goFileMatrialsUseAndBorrow() {
-      let selection = this.$refs.payComSelection.getSelection();
-
-      //判断条件
-      //是否有选中列
-      if (selection.length == 0) {
-        alert("没有选中的列");
-        return;
-      }
-
-      //已有批次的不可再添加
-      let isHaveBatch = false;
-      var tempId;
-      var tempId1;
-      selection.some(item => {
-        this.matrialsBorrowData.splice(item.render.params.index, 1);
-      });
-
-      this.$router.push({
-        name: "fileMatrialsUseAndBorrow",
-        query: { archiveId: tempId, employeeId: tempId1 }
-      });
-    },
     instance() {
-      this.modal1= true;
-      
       if (this.handleInfo.materialw == "") {
         this.$Message.info("使用材料不能为空");
         return;
@@ -459,18 +424,33 @@ export default {
 
       fromData.employeeId = this.$route.query.employeeId;
       fromData.archiveId = this.$route.query.archiveId;
+      fromData.employeeName = this.$route.query.employeeName;
 
       fromData.useBorrow = 0;
 
+      if (
+        this.handleInfo.archiveUseId != undefined &&
+        this.handleInfo.archiveUseId != ""
+      ) {
+        fromData.archiveUseId = this.handleInfo.archiveUseId;
+      }
+
       api.saveAmArchiveUse(fromData).then(data => {
-        if (data.data == true) {
+        if (data.code == 200) {
           this.$Message.success("保存成功");
+          this.matrialsUseData = data.data.amArchiveUsePageRows.rows;
+          this.handleInfo.useDatew = "";
+          this.handleInfo.returnDate = "";
+          this.handleInfo.useManw = "";
+          this.handleInfo.materialw = "";
+          this.handleInfo.purposew = "";
+          this.handleInfo.remarkw = "";
+          this.handleInfo.archiveUseId = "";
         } else {
           this.$Message.error("保存失败！");
         }
       });
 
-      
       this.handleInfo.useDatew = "";
       this.handleInfo.returnDate = "";
       this.handleInfo.useManw = "";
@@ -488,10 +468,7 @@ export default {
         this.$Message.info("借出日期不能为空");
         return;
       }
-      if (this.handleInfo.returnDate == "") {
-        this.$Message.info("归还日期不能为空");
-        return;
-      }
+
       var fromData = this.$utils.clear(this.realHandInfo, "");
 
       fromData.useDate = this.$utils.formatDate(
@@ -510,36 +487,33 @@ export default {
 
       fromData.employeeId = this.$route.query.employeeId;
       fromData.archiveId = this.$route.query.archiveId;
+      fromData.employeeName = this.$route.query.employeeName;
+
 
       fromData.useBorrow = 1;
 
-      if (this.matrialsBorrowData.length == 0) {
-        isE = false;
+      if (
+        this.handleInfo.archiveUseId != undefined &&
+        this.handleInfo.archiveUseId != ""
+      ) {
+        fromData.archiveUseId = this.handleInfo.archiveUseId;
       }
 
-      for (var i = 0; i < this.matrialsBorrowData.length; i++) {
-        if (
-          fromData.useDate === this.matrialsBorrowData[i].useDate &&
-          fromData.returnDate === this.matrialsBorrowData[i].returnDate &&
-          fromData.handleMan === this.matrialsBorrowData[i].handleMan &&
-          fromData.useMan === this.matrialsBorrowData[i].useMan &&
-          fromData.material === this.matrialsBorrowData[i].material &&
-          fromData.purpose === this.matrialsBorrowData[i].purpose
-        ) {
-          isE = true;
+      api.saveAmArchiveUse(fromData).then(data => {
+        if (data.code == 200) {
+          this.$Message.success("保存成功");
+          this.matrialsBorrowData = data.data.amArchiveUsePageRows.rows;
+          this.handleInfo.useDatew = "";
+          this.handleInfo.returnDate = "";
+          this.handleInfo.useManw = "";
+          this.handleInfo.materialw = "";
+          this.handleInfo.purposew = "";
+          this.handleInfo.remarkw = "";
+          this.handleInfo.archiveUseId = "";
+        } else {
+          this.$Message.error("保存失败！");
         }
-      }
-
-      if (!isE) {
-        this.matrialsBorrowData.push(fromData);
-      }
-
-      this.handleInfo.useDatew = "";
-      this.handleInfo.returnDate = "";
-      this.handleInfo.useManw = "";
-      this.handleInfo.materialw = "";
-      this.handleInfo.purposew = "";
-      this.handleInfo.remarkw = "";
+      });
     },
 
     cancel() {
@@ -559,14 +533,50 @@ export default {
       this.handleInfo.remarkw = "";
     },
     modify() {
-      api.saveAmArchiveUse(this.matrialsUseData).then(data => {
-        if (data.data.data == true) {
-          this.$Message.success("保存成功");
-          history.go(-1);
-        } else {
-          this.$Message.error("保存失败！");
-        }
+      let selection = this.$refs.matrialsUseData.getSelection();
+      if (selection.length == 0) {
+        alert("没有选中的列");
+        return;
+      } else if (selection.length > 1) {
+        alert("选择的列太多");
+        return;
+      }
+      let archiveUseId;
+      var fromData = this.$utils.clear(this.realHandInfo, "");
+      selection.forEach(item => {
+        this.handleInfo.archiveUseId = item.archiveUseId;
+        this.handleInfo.useDatew = item.useDate;
+        this.handleInfo.returnDate = item.returnDate;
+        this.handleInfo.useManw = item.useMan;
+        this.handleInfo.materialw = item.material;
+        this.handleInfo.purposew = item.purpose;
+        this.handleInfo.remarkw = item.remark;
       });
+
+      this.modal1 = true;
+    },
+    modify1() {
+      let selection = this.$refs.matrialsBorrowData.getSelection();
+      if (selection.length == 0) {
+        alert("没有选中的列");
+        return;
+      } else if (selection.length > 1) {
+        alert("选择的列太多");
+        return;
+      }
+      let archiveUseId;
+
+      selection.forEach(item => {
+        this.handleInfo.archiveUseId = item.archiveUseId;
+        this.handleInfo.useDatew = item.useDate;
+        this.handleInfo.returnDate = item.returnDate;
+        this.handleInfo.useManw = item.useMan;
+        this.handleInfo.materialw = item.material;
+        this.handleInfo.purposew = item.purpose;
+        this.handleInfo.remarkw = item.remark;
+      });
+
+      this.modal2 = true;
     },
     instance1() {
       api.saveAmArchiveUse(this.matrialsBorrowData).then(data => {
@@ -578,48 +588,42 @@ export default {
         }
       });
     },
-    show(index) {
-      this.$Modal.info({
-        title: "User Info",
-        content: `Name：${this.data6[index].name}<br>Age：${
-          this.data6[index].age
-        }<br>Address：${this.data6[index].address}`
-      });
-    },
-    remove(index, archiveUseId) {
-      if (!archiveUseId) {
-        this.matrialsUseData.splice(index, 1);
-      } else {
-        this.$Modal.confirm({
-          title: "",
-          content: "确认删除吗?",
-          onOk: function() {
-            let params = { archiveUseId: archiveUseId };
-
-            api.deleteAmArchiveUse(params).then(data => {
-              history.go(-1);
-            });
-          },
-          error: function(error) {
-            self.$Modal.remove();
-          }
-        });
-      }
-    },
-    del() {
-      let selection = this.$refs.payComSelection.getSelection();
-      //判断条件
-      //是否有选中列
+    updateReturnDate() {
+      let selection = this.$refs.matrialsBorrowData.getSelection();
       if (selection.length == 0) {
         alert("没有选中的列");
         return;
+      } else if (selection.length > 1) {
+        alert("选择的列太多");
+        return;
       }
-
-      selection.some(item => {
-        var ff = item;
+      let archiveUseId;
+      var fromData = this.$utils.clear(this.realHandInfo, "");
+      selection.forEach(item => {
+        this.handleInfo.archiveUseId = item.archiveUseId;
       });
-    },
-    clickRow(index) {}
+
+      var fromData = this.$utils.clear(this.realHandInfo, "");
+      fromData.archiveUseId = this.handleInfo.archiveUseId;
+      fromData.returnDate = this.$utils.formatDate(
+        this.handleInfo.returnDate,
+        "YYYY-MM-DD"
+      );
+      fromData.archiveId = this.$route.query.archiveId;
+      fromData.useBorrow = 1;
+      api.saveAmArchiveUse(fromData).then(data => {
+        if (data.code == 200) {
+          this.$Message.success("保存成功");
+          this.matrialsBorrowData = data.data.amArchiveUsePageRows.rows;
+         
+          this.handleInfo.returnDate = "";
+         
+          this.handleInfo.archiveUseId = "";
+        } else {
+          this.$Message.error("保存失败！");
+        }
+      });
+    }
   }
 };
 </script>

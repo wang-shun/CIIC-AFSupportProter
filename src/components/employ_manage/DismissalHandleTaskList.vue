@@ -341,29 +341,6 @@ export default {
           }
         },
         {
-          title: "退工任务单签收退工未成功",
-          key: "refuseFinished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(98);
-                  }
-                }
-              },
-              params.row.refuseWaitFinished
-            );
-          }
-        },
-        {
           title: "退工成功",
           key: "refuseFinished",
           align: "center",

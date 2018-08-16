@@ -431,7 +431,7 @@
         operationRemindDate: '',
         operatorListData: [],
         operatorListColumns: [
-          {title: '补缴起始月份', key: 'startMonth', align: 'left',
+          {title: '补缴起始月份', key: 'startMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
                 return h('div', [
@@ -460,7 +460,7 @@
               }
             }
           },
-          {title: '补缴截至月份', key: 'endMonth', align: 'left',
+          {title: '补缴截至月份', key: 'endMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
                 return h('div', [
@@ -481,17 +481,25 @@
               }
             }
           },
-          {title: '客户汇缴月', key: 'hfMonth', align: 'left',
+          {title: '客户汇缴月', key: 'hfMonth', width: 120, align: 'left',
             render: (h, params) => {
               return h('div', [
-                h('Input', {
-                  props: {value: params.row.hfMonth},
+                h('DatePicker', {
+                  props: {value: params.row.hfMonth, type: 'month', format: 'yyyyMM', placement: 'bottom-end', placeholder: '选择年月', style: 'width: 100%;', transfer: true},
                   on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].hfMonth = event.target.value
+                    'on-change': (val) => {
+                      this.operatorListData[params.index].hfMonth = val;
                     }
                   }
-                }, params.row.hfMonth)
+                })
+//                h('Input', {
+//                  props: {value: params.row.hfMonth},
+//                  on: {
+//                    'on-blur': (event) => {
+//                      this.operatorListData[params.index].hfMonth = event.target.value
+//                    }
+//                  }
+//                }, params.row.hfMonth)
               ]);
             }
           },
@@ -513,7 +521,7 @@
               ]);
             }
           },
-          {title: '企业比例', key: 'ratioCom', align: 'left',
+          {title: '企业比例', key: 'ratioCom', width: 85, align: 'left',
             render: (h, params) => {
 //              return h('div', [
 //                h('Input', {
@@ -531,7 +539,7 @@
               ]);
             }
           },
-          {title: '个人比例', key: 'ratioEmp', align: 'left',
+          {title: '个人比例', key: 'ratioEmp', width: 85, align: 'left',
             render: (h, params) => {
 //              return h('div', [
 //                h('Input', {
@@ -570,9 +578,9 @@
 //              }
             }
           },
-          {title: '合计补缴金额', key: 'totalAmount', align: 'left'},
+          {title: '合计金额', key: 'totalAmount', align: 'left'},
           {
-            title: '补缴原因', key: 'repairReason', align: 'left',
+            title: '补缴原因', key: 'repairReason', width: 130, align: 'left',
             render: (h, params) => {
               return h('div', [
                 h('Select', {

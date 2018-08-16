@@ -300,7 +300,7 @@
                         on: {
                           click: () => {
                               let param={ssMonth:params.row.ssMonth,
-                              ssAccount:params.row.comAccountName,
+                              ssAccount:params.row.ssAccount,
                               ssAccountId:params.row.comAccountId}
                               this.$router.push({name:'socialSecurityEmpChangeDetailYys',query:param});
                           }

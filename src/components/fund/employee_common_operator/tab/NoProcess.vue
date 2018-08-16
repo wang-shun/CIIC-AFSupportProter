@@ -11,7 +11,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="error" @click="isShowRejectBatch = true">批量批退</Button>
+        <Button type="error" @click="openReject()">批量批退</Button>
         <Button type="info"  @click="isUpload=true">批量预录入雇员公积金账号</Button>
         <Button type="info" @click="excelExport()">导出</Button>
         <Button type="info" @click="excelExportNew()">导出开户文件</Button>
@@ -178,6 +178,7 @@
         isShowRejectBatch: false,
         rejectionRemark: '',
         selectedData: [],
+        selectedNewData: [],
         selectedOutData: [],
         noProcessData: [],
         noProcessPageData: {
@@ -368,18 +369,32 @@
       resetSelectedData(selection) {
         this.selectedData.length = 0;
         this.selectedOutData.length = 0;
+        this.selectedNewData.length = 0;
         if(selection) {
           selection.forEach((element, index, array) => {
             this.selectedData.push(element.empTaskId);
             if (element.taskCategory == '4' || element.taskCategory == '5' ||
               element.taskCategory == '12' || element.taskCategory == '13') {
               this.selectedOutData.push(element.empTaskId);
+            } else if (element.taskCategory == '1' || element.taskCategory == '9') {
+              this.selectedNewData.push(element.empTaskId);
             }
           })
         }
       },
       handleSelectChange(selection) {
         this.resetSelectedData(selection);
+      },
+      openReject() {
+        if (this.selectedData.length == 0) {
+          this.$Message.error("请先勾选需要批退的任务");
+          return false;
+        }
+        if (this.selectedOutData.length > 0) {
+          this.$Message.error("转出或封存（翻牌转出或翻牌封存）类型的任务不能批退，请勿勾选");
+          return false;
+        }
+        this.isShowRejectBatch = true;
       },
       batchReject() {
         if (this.selectedData.length == 0) {
@@ -406,16 +421,24 @@
           selectedData: this.selectedData
         }).then(data => {
           if (data.code == 200) {
+            this.isLoading = false;
             this.$Message.info("批退操作成功");
             this.isShowRejectBatch = false;
             this.handlePageNum(1);
+            this.rejectionRemark = "";
             this.selectedData.length = 0;
             this.selectedOutData.length = 0;
+            this.selectedNewData.length = 0;
           } else {
+            this.isLoading = false;
             this.$Message.error(data.message)
           }
-          this.isLoading = false;
-        })
+//          this.isLoading = false;
+        }).catch(
+          error=>{
+            this.isLoading = false;
+          }
+        )
       },
       beforeSubmit(params) {
         var cparams = {}
@@ -506,6 +529,10 @@
       excelExportNew() {
         if (!this.selectedData || this.selectedData.length == 0) {
           this.$Message.error("请先勾选需要导出开户文件的任务");
+          return false;
+        }
+        if (this.selectedData.length != this.selectedNewData.length) {
+          this.$Message.error("非开户任务单无法导出开户文件");
           return false;
         }
         var params = {};

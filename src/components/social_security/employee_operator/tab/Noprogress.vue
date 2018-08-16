@@ -418,6 +418,7 @@
       },
       // 批退
       showRefuseReason() {
+
         let length = this.selectEmployeeResultData.length;
         if (length > 0) {
           for (let i = 0; i < length; i++) {
@@ -432,6 +433,7 @@
           }
         }
         if (this.checkSelectEmployeeResultData()) {
+          this.rejectionRemark ='';
           this.isRefuseReason = true
         }
       },
@@ -452,8 +454,8 @@
         }).then(data=>{
           this.$Message.info(data.message);
           this.isLoading = false;
-           this.isRefuseReason = false;
-            this.employeeOperatorQuery();
+          this.isRefuseReason = false;
+          this.handlePageNum(1);
         }).catch(
           error=>{
             this.isLoading = false;

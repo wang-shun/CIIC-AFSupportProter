@@ -8,20 +8,24 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务单状态" prop="status">
-                  <Select v-model="formItem.status" :clearable="true" @on-change="getByPage(1)">
-                    <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
-                      {{item.label}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.status" :clearable="true" @on-change="getByPage(1)">
+                      <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
+                        {{item.label}}
+                      </Option>
+                    </Select>
+                  </label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务单类型" prop="taskType">
-                  <Select v-model="formItem.taskType" :clearable="true">
-                    <Option v-for="item in taskTypeProperties" :value="item.value" :key="item.value">
-                      {{item.label}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.taskType" :clearable="true">
+                      <Option v-for="item in taskTypeProperties" :value="item.value" :key="item.value">
+                        {{item.label}}
+                      </Option>
+                    </Select>
+                  </label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -79,37 +83,37 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方编号" prop="managementId">
-                  <Input v-model="formItem.managementId" placeholder="请输入"/>
+                  <Input v-model="formItem.managementId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方名称" prop="managementName">
-                  <Input v-model="formItem.managementName" placeholder="请输入"/>
+                  <Input v-model="formItem.managementName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号" prop="employeeId">
-                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员姓名" prop="employeeName">
-                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件号码" prop="idNum">
-                  <Input v-model="formItem.idNum" placeholder="请输入"/>
+                  <Input v-model="formItem.idNum" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号" prop="companyId">
-                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                  <Input v-model="formItem.companyId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称" prop="companyName">
-                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                  <Input v-model="formItem.companyName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
             </Row>
@@ -131,8 +135,7 @@
     <Table border
            stripe
            :columns="taskColumns"
-           :data="taskData"
-           @on-selection-change="selectTableData"></Table>
+           :data="taskData"></Table>
     <Page show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
@@ -158,6 +161,7 @@
         modal10: false,
         value1: '1',
         loading: false,
+        userInfo: {},
         formItem: {
           total: 0,
           current: 1,
@@ -319,7 +323,7 @@
     created() {
       this.getByPage(1);
       this.queryInsuranceCompanyInfo();
-      this.queryIcProductRelationInfo(this.formItem.insuranceCompany);
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
     },
     methods: {
       queryTaskPage() {
@@ -341,7 +345,8 @@
             this.insuranceCompanyProperties = response.data.object;
             this.insuranceCompanyProperties.forEach(item => {
               item.insuranceCompanyId = item.insuranceCompanyId + "";
-            })
+            });
+            this.queryIcProductRelationInfo(this.insuranceCompanyProperties[0].insuranceCompanyId);
           }
         });
       },
@@ -356,8 +361,20 @@
         });
       },
       exportData() {
+        if (this.formItem.taskType === null || this.formItem.taskType === undefined || this.formItem.taskType === '') {
+          this.$Message.error("导出数据请先选择任务单类型");
+          return;
+        }
+        if (this.formItem.insuranceCompany === null || this.formItem.insuranceCompany === undefined || this.formItem.insuranceCompany === '') {
+          this.$Message.error("导出数据请先选择保险公司");
+          return;
+        }
+        if (this.formItem.afProductId === null || this.formItem.afProductId === undefined || this.formItem.afProductId === '') {
+          this.$Message.error("导出数据请先选择保单");
+          return;
+        }
         this.loading = true;
-        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportAlreadyTaskPage?" + qs.stringify(this.formItem);
+        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportAlreadyTaskPage?" + qs.stringify(this.formItem) + '&token=' + encodeURIComponent(this.userInfo.token);
         this.loading = false;
       },
       getByPage(val) {

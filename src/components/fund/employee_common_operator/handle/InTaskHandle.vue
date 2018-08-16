@@ -499,8 +499,8 @@
         operationRemindDate: '',
         operatorListData: [],
         operatorListColumns: [
-          {title: '汇缴类型', key: 'remitWayName', width: 90, align: 'left'},
-          {title: '起缴月份', key: 'startMonth', align: 'left',
+          {title: '汇缴类型', key: 'remitWayName', width: 85, align: 'left'},
+          {title: '起缴月份', key: 'startMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
                 return h('div', [
@@ -528,7 +528,7 @@
               }
             }
           },
-          {title: '截止月份', key: 'endMonth', align: 'left',
+          {title: '截止月份', key: 'endMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled && this.operatorListData[params.index].remitWay == 2) {
                 return h('div', [
@@ -556,7 +556,7 @@
               }
             }
           },
-          {title: '客户汇缴月', key: 'hfMonth', align: 'left',
+          {title: '客户汇缴月', key: 'hfMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
                 return h('div', [
@@ -605,7 +605,7 @@
 //              }
             }
           },
-          {title: '企业比例', key: 'ratioCom', align: 'left',
+          {title: '企业比例', key: 'ratioCom', width: 85, align: 'left',
             render: (h, params) => {
 //              if (!this.inputDisabled) {
 //                return h('div', [
@@ -626,7 +626,7 @@
 //              }
             }
           },
-          {title: '个人比例', key: 'ratioEmp', align: 'left',
+          {title: '个人比例', key: 'ratioEmp', width: 85, align: 'left',
             render: (h, params) => {
 //              if (!this.inputDisabled) {
 //                return h('div', [
@@ -669,7 +669,7 @@
             }
           },
           {
-            title: '补缴原因', key: 'repairReason', align: 'left',
+            title: '补缴原因', key: 'repairReason', width: 130, align: 'left',
             render: (h, params) => {
               if (this.operatorListData[params.index].remitWay == 2) {
                 return h('div', [

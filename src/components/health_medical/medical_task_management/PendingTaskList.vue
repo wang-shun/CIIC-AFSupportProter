@@ -404,6 +404,7 @@
         taskTypeProperties: task.taskTypeProperties,
         insuranceCompanyProperties: [],
         taskTypeItem: [],
+        userInfo: {},
         taskStatus: task.taskWaitStatus,
         keyTypeProperties: task.keyTypeProperties
       };
@@ -537,15 +538,19 @@
         });
       },
       exportData() {
-        if (this.formItem.taskType === null || this.formItem.taskType === '') {
+        if (this.formItem.taskType === null || this.formItem.taskType === undefined || this.formItem.taskType === '') {
           this.$Message.error("导出数据请先选择任务单类型");
           return;
         }
-        if (this.formItem.afProductId === null || this.formItem.afProductId === '') {
+        if (this.formItem.insuranceCompany === null || this.formItem.insuranceCompany === undefined || this.formItem.insuranceCompany === '') {
+          this.$Message.error("导出数据请先选择保险公司");
+          return;
+        }
+        if (this.formItem.afProductId === null || this.formItem.afProductId === undefined || this.formItem.afProductId === '') {
           this.$Message.error("导出数据请先选择保险项目");
           return;
         }
-        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" + qs.stringify(this.formItem);
+        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" + qs.stringify(this.formItem) + '&token=' + encodeURIComponent(this.userInfo.token);
       },
       selectTableData(rows) {
         this.selectData = rows;

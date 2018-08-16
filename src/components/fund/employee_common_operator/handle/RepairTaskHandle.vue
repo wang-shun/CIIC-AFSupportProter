@@ -93,6 +93,11 @@
                 </label>
               </Form-item>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="每月关账日：">
+                <label>{{displayVO.closeDay}}</label>
+              </FormItem>
+              </Col>
             </Row>
           </Form>
         </div>

@@ -143,6 +143,14 @@
             }
           },
           {
+            title: '是否更正', key: 'isChange', width: 105, align: 'center',sortable: 'custom',
+            render: (h, params) => {
+              return h('div', [
+                h('span',  params.row.isChange=='1'?"是":"否")
+              ]);
+            }
+          },
+          {
             title: '客户编号', key: 'companyId', width: 120, align: 'center',sortable: 'custom'
           },
           {
@@ -175,14 +183,6 @@
           {
             title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
           },
-          {
-            title: '是否更正', key: 'isChange', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('span',  params.row.isChange=='1'?"是":"否")
-              ]);
-            }
-          }
         ]
       }
     },
@@ -217,6 +217,10 @@
               {
                 var orders = storeOrder[index].split(' ');
                 if(e.key === 'taskCategory' && storeOrder[index].indexOf('task_category')!=-1) {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'isChange' && storeOrder[index].indexOf('is_change')!=-1) {
                   e.sortType = orders[1];
                 }
 
@@ -751,6 +755,8 @@
         var dx ='';
         if (e.key === 'taskCategory') {
           dx = 'et.task_category';
+        } else if(e.key === 'isChange') {
+          dx = 'et.is_change';
         } else if(e.key === 'companyId') {
           dx = 'c.company_id';
         } else if(e.key === 'employeeId') {
@@ -838,6 +844,11 @@
               {
                 var orders = storeOrder[index].split(' ');
                 if(e.key === 'taskCategory' && storeOrder[index].indexOf('task_category')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'isChange' && storeOrder[index].indexOf('is_change')!=-1) {
                   order = orders[1]
                   break;
                 }

@@ -17,7 +17,13 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border id="finishedData" :row-class-name="rowClassName" :columns="finishedColumns" :data="finishedData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
+        <Table border id="finishedData"
+               :row-class-name="rowClassName"
+               :columns="finishedColumns"
+               :data="finishedData"
+               @on-sort-change="SortChange"
+               @on-row-dblclick="handleDblClick"
+               :loading="isLoading"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -81,49 +87,6 @@
           pageSizeOpts: this.$utils.HF_DEFAULT_PAGE_SIZE_OPTS
         },
         finishedColumns: [
-          {title: '操作', fixed: 'left', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.finished.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.finished.finishedPageData', this.finishedPageData);
-
-                      localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
-                      localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
-                      localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
-                      localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
-                      switch (params.row.taskCategory) {
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '9':
-                        case '10':
-                        case '11':
-                          this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
-                          break;
-                        case '4':
-                        case '5':
-                        case '12':
-                        case '13':
-                          this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
-                          break;
-                        case '6':
-                          this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
-                          break;
-                        case '7':
-                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
-                          break;
-                        default:
-                          break;
-                      }
-                    }
-                  }
-                }, '查看'),
-              ]);
-            }
-          },
           {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center',sortable: 'custom'},
 //          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
@@ -248,6 +211,39 @@
         this.finishedPageData.pageSize = val;
         var conditions = [];
         this.searchEmploiees(conditions);
+      },
+      handleDblClick(row, index) {
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.finished.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.finished.finishedPageData', this.finishedPageData);
+
+        localStorage.setItem('employeeFundCommonOperator.empTaskId', row.empTaskId);
+        localStorage.setItem('employeeFundCommonOperator.hfType', row.hfType);
+        localStorage.setItem('employeeFundCommonOperator.taskCategory', row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
+        switch (row.taskCategory) {
+          case '1':
+          case '2':
+          case '3':
+          case '9':
+          case '10':
+          case '11':
+            this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+            break;
+          case '4':
+          case '5':
+          case '12':
+          case '13':
+            this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
+            break;
+          case '6':
+            this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
+            break;
+          case '7':
+            this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+            break;
+          default:
+            break;
+        }
       },
       ok () {},
       cancel () {},

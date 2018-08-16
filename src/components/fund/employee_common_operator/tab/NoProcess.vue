@@ -26,6 +26,7 @@
                :data="noProcessData"
                @on-selection-change="handleSelectChange"
                @on-sort-change="SortChange"
+               @on-row-dblclick="handleDblClick"
                :loading="isLoading"
                ></Table>
       <Page
@@ -191,50 +192,6 @@
           {
             type: 'selection', fixed: 'left', width: 60, align: 'center'
           },
-          {title: '操作', fixed: 'left', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-//                      console.log("before: " + JSON.stringify(this.noProcessPageData))
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
-
-                      localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
-                      localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
-                      localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
-                      localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
-                      switch (params.row.taskCategory) {
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '9':
-                        case '10':
-                        case '11':
-                          this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
-                          break;
-                        case '4':
-                        case '5':
-                        case '12':
-                        case '13':
-                          this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
-                          break;
-                        case '6':
-                          this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
-                          break;
-                        case '7':
-                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
-                          break;
-                        default:
-                          break;
-                      }
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
           {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center',sortable: 'custom'},
 //          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
@@ -363,6 +320,39 @@
         this.noProcessPageData.pageSize = val;
         var conditions = [];
         this.searchEmploiees(conditions);
+      },
+      handleDblClick(row, index) {
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+
+        localStorage.setItem('employeeFundCommonOperator.empTaskId', row.empTaskId);
+        localStorage.setItem('employeeFundCommonOperator.hfType', row.hfType);
+        localStorage.setItem('employeeFundCommonOperator.taskCategory', row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
+        switch (row.taskCategory) {
+          case '1':
+          case '2':
+          case '3':
+          case '9':
+          case '10':
+          case '11':
+            this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+            break;
+          case '4':
+          case '5':
+          case '12':
+          case '13':
+            this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
+            break;
+          case '6':
+            this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
+            break;
+          case '7':
+            this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+            break;
+          default:
+            break;
+        }
       },
       ok() {},
       cancel() {},

@@ -158,6 +158,7 @@
         modal10: false,
         value1: '1',
         loading: false,
+        userInfo: {},
         formItem: {
           total: 0,
           current: 1,
@@ -320,6 +321,7 @@
       this.getByPage(1);
       this.queryInsuranceCompanyInfo();
       this.queryIcProductRelationInfo(this.formItem.insuranceCompany);
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
     },
     methods: {
       queryTaskPage() {
@@ -357,7 +359,7 @@
       },
       exportData() {
         this.loading = true;
-        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportAlreadyTaskPage?" + qs.stringify(this.formItem);
+        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportAlreadyTaskPage?" + qs.stringify(this.formItem) + '&token=' + encodeURIComponent(this.userInfo.token);
         this.loading = false;
       },
       getByPage(val) {

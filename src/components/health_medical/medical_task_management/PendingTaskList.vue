@@ -404,6 +404,7 @@
         taskTypeProperties: task.taskTypeProperties,
         insuranceCompanyProperties: [],
         taskTypeItem: [],
+        userInfo: {},
         taskStatus: task.taskWaitStatus,
         keyTypeProperties: task.keyTypeProperties
       };
@@ -545,7 +546,7 @@
           this.$Message.error("导出数据请先选择保险项目");
           return;
         }
-        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" + qs.stringify(this.formItem);
+        window.location = apiAjax.basePaths + "/api/afsupportcenter/healthmedical/afTpaTask/exportWaitTaskPage?" + qs.stringify(this.formItem) + '&token=' + encodeURIComponent(this.userInfo.token);
       },
       selectTableData(rows) {
         this.selectData = rows;

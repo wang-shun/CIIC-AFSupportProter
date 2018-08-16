@@ -452,7 +452,7 @@
               }
             }
           },
-          {title: '截止月份', key: 'endMonth', width: 120, align: 'left',
+          {title: '截止月份', key: 'endMonth', align: 'left',
             render: (h, params) => {
 //              if (!this.inputDisabled && this.operatorListData[params.index].remitWay == 2) {
 //                return h('div', [
@@ -480,7 +480,7 @@
 //              }
             }
           },
-          {title: '客户汇缴月', key: 'hfMonth', width: 120, align: 'left',
+          {title: '客户汇缴月', key: 'hfMonth', align: 'left',
             render: (h, params) => {
 //              if (!this.inputDisabled) {
 //                return h('div', [

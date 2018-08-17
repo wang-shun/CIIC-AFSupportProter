@@ -730,6 +730,13 @@
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;
           this.operatorListData = data.data.empTaskPeriods;
+          this.operatorListData.forEach((element, index, arr) => {
+            if (this.operatorListData[index].remitWay == 2 ) {
+              if (!this.operatorListData[index].repairReason || this.operatorListData[index].repairReason == '') {
+                this.operatorListData[index].repairReason = '1';
+              }
+            }
+          });
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
           this.showButton = this.displayVO.canHandle;
@@ -800,7 +807,7 @@
           ratioCom: this.operatorListData[0].ratioCom,
           ratioEmp: this.operatorListData[0].ratioEmp,
           amount: this.operatorListData[0].amount,
-          repairReason: ''
+          repairReason: '1'
         })
       },
       handleTask() {
@@ -1036,12 +1043,12 @@
           }
           if (this.displayVO.hfType == 1) {
             if (this.operatorListData[i].hfMonth < this.displayVO.basicComHfMonth) {
-              this.$Message.error("操作栏客户汇缴月不能晚于末次汇缴月（基本）");
+              this.$Message.error("操作栏客户汇缴月不能小于等于末次汇缴月（基本）");
               return false;
             }
           } else {
             if (this.operatorListData[i].hfMonth < this.displayVO.addedComHfMonth) {
-              this.$Message.error("操作栏客户汇缴月不能晚于末次汇缴月（补充）");
+              this.$Message.error("操作栏客户汇缴月不能小于等于末次汇缴月（补充）");
               return false;
             }
           }

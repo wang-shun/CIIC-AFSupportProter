@@ -85,7 +85,7 @@
                 h('span', params.row.receiveDate),
               ]);
             }
-          }, 
+          },
           {
             title: '操作',
             key: 'action',
@@ -145,7 +145,7 @@
               ]);
             }
           }
-          
+
         ],handleInfo: {
           materialNamew:'',
           remarkContentw: '',
@@ -174,12 +174,12 @@
       }
     },
     methods: {
-        
+
           insertShow(){
             if(this.materialLogList[0] != undefined){
-              if(this.materialLogList[0].operationType != undefined && this.materialLogList[0].operationType != 2)
+              if(this.materialLogList[0].operationType != undefined && this.materialLogList[0].operationType == 1)
               {
-                this.$Message.success("材料已提交到雇员中心，雇员中心未做批退操作，不能新增！");
+                this.$Message.success("雇员中心已签收材料，不能新增！");
                  return false;
               }
             }
@@ -191,7 +191,7 @@
             //   }
             // }
             this.modal1 = true;
-            let selection = this.$refs.payComSelection; 
+            let selection = this.$refs.payComSelection;
             selection.selectAll(false);
           },
           ok () {
@@ -209,7 +209,7 @@
               alert("没有选中的列");
               return;
             }
-        
+
           selection.some(item => {
                var isE = false;
                var fromData = this.$utils.clear(this.realHandInfo,'');
@@ -231,12 +231,12 @@
                {
                   this.refuseReturnMaterialsSign.push(fromData);
                }
-               
+
            });
               this.instance();
             },
             cancel () {
-               
+
             },instance() {
 
               if(this.refuseReturnMaterialsSign.length==0)
@@ -245,19 +245,19 @@
                  return false;
               }
             api.saveAmEmpMaterial(this.refuseReturnMaterialsSign).then(data => {
-                
+
                   if (data.data.data.data == 1) {
                     this.$Message.success("保存成功");
                     this.refuseReturnMaterialsSignInfo = data.data.data.result;
                     this.materialLogList = data.data.data.logList;
-                    
+
                   }else if (data.data.data == 2){
                     this.$Message.success("已签收，无法保存！");
                   } else {
                     this.$Message.error("保存失败！");
                   }
             })
-          
+
        },show (index) {
                 this.$Modal.info({
                     title: 'User Info',
@@ -265,37 +265,37 @@
                 })
             },
             remove (index,empMaterialId) {
-               
+
               if(this.materialLogList[0] != undefined){
-                if(this.materialLogList[0].operationType != undefined && this.materialLogList[0].operationType != 2)
+                if(this.materialLogList[0].operationType != undefined && this.materialLogList[0].operationType == 1)
                 {
-                  this.$Message.success("材料已提交到雇员中心，雇员中心未做批退操作，不能删除！");
+                  this.$Message.success("雇员中心已签收材料，不能新增！");
                   return false;
                 }
             }
                 const _self = this;
                 if(!empMaterialId){
                   this.refuseReturnMaterialsSign.splice(index, 1);
-              
+
                 }else{
                      this.$Modal.confirm({
                       title: '',
                       content: '确认删除吗?',
                       onOk:function(){
-                       
+
                         let params = {empMaterialId:empMaterialId}
 
                         api.deleteAmEmpMaterial(params).then(data=>{
                              _self.refuseReturnMaterialsSign.splice(index, 1);;
                       })
-                       
+
                       },
                       error:function(error){
                         self.$Modal.remove();
                     }
                     });
                 }
-                
+
             },del(){
                  let selection = this.$refs.payComSelection.getSelection();
                   //判断条件
@@ -304,15 +304,15 @@
                     alert("没有选中的列");
                     return;
                   }
-                 
+
                   selection.some(item => {
                        var ff = item;
-            
+
                   });
             },clickRow (index) {
-              
+
             }
-        
+
     }
   }
 </script>

@@ -48,6 +48,11 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="汇缴年月：">
+                <DatePicker v-model="companyFundAccount.comHfMonth" type="month"  placement="bottom" placeholder="选择日期" style="width: 100%;" transfer :disabled="isCanEdit"></DatePicker>
+              </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="备注：">
                   <Input v-model="companyFundAccount.remark" placeholder="请输入..." :disabled="isCanEdit"></Input>
                 </Form-item>
@@ -156,6 +161,9 @@
          if(params.comStartMonth!=''){
            params.comStartMonthValue= Tools.formatDate(params.comStartMonth, "YYYYMM");
          }
+        if(params.comHfMonth!=''){
+          params.comHfMonthValue= Tools.formatDate(params.comHfMonth, "YYYYMM");
+        }
         api.companyFundAccountSubmit(params).then(
           data=>{
             if(data.code == 200){

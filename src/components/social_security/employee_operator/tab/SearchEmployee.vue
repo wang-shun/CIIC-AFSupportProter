@@ -20,7 +20,7 @@
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
 
-            <Input v-model="searchForm.searchContent" placeholder="请输入" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 0 || searchForm.isDate == 30 || searchForm.isDate == 40" />
+            <Input v-model="searchForm.searchContent" placeholder="请输入" :maxlength=128 :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 0 || searchForm.isDate == 30 || searchForm.isDate == 40" />
             <Date-picker  v-model="searchForm.searchContent"  type="month"  placement="right"
                              placeholder="选择年月份" style="width: 100%;" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 1"></Date-picker>
             <Select v-model="searchForm.searchContent" style="width: 100%;"  :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 2">

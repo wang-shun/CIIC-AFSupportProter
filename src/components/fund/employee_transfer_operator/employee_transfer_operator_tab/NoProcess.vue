@@ -89,7 +89,7 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem name="0">导出雇员转移清册</DropdownItem>
+            <DropdownItem name="0">导出入管清册</DropdownItem>
             <DropdownItem name="1">导出雇员转移TXT</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -162,7 +162,7 @@
             </Form-item>
            </Col> -->
           <Col :sm="{span: 12}" class="tr">
-          
+
             <Button type="primary" icon="ios-search" @click="handlePageNumNewTask(1)">查询</Button>
             <Button type="warning" @click="resetCreateTaskSearchCondition">重置</Button>
             <Button type="warning" @click="isCreateTaskTicket = false;">关闭</Button>
@@ -187,6 +187,7 @@
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../../store/event_types'
   import api from '../../../../api/house_fund/employee_task/employee_transfer'
+  import commonApi from '../../../../api/house_fund/common/common'
   import sessionData from '../../../../api/session-data'
 
   export default {
@@ -511,17 +512,40 @@
       },
       multiEmpTaskTransferExport() {
         if (!this.searchCondition.transferOutUnit) {
-          this.$Message.error("导出清册，必须在查询条件输入【转出单位】及【转入单位】");
+          this.$Message.error("导出入管清册，必须在查询条件输入【转出单位】");
           return false;
         }
-        if (!this.searchCondition.transferInUnit) {
-          this.$Message.error("导出清册，必须在查询条件输入【转出单位】及【转入单位】");
-          return false;
-        }
-        let params = this.searchCondition
-        api.multiEmpTaskTransferExport({
-          params: params,
+        commonApi.getComFundAccountClassNameList({
+          params: {
+            comAccountName: this.searchCondition.transferOutUnit.trim(),
+            hfComAccount: ''
+          }
+        }).then(data => {
+          if (data.code === 200) {
+            let total = Number(data.total);
+            if (total === 0) {
+              this.$Message.error("未匹配到任何转出单位");
+              return false;
+            } else if (total === 1) {
+              let params = this.searchCondition
+              api.multiEmpTaskTransferExport({
+                params: params,
+              })
+            } else if (total > 1) {
+              this.$Message.error("匹配出多家转出单位，请进一步明确转出单位名称");
+              return false;
+            }
+          }
         })
+
+//        if (!this.searchCondition.transferInUnit) {
+//          this.$Message.error("导出清册，必须在查询条件输入【转出单位】及【转入单位】");
+//          return false;
+//        }
+//        let params = this.searchCondition
+//        api.multiEmpTaskTransferExport({
+//          params: params,
+//        })
       },
       empTaskTransferTxtExport() {
         let params = this.searchCondition

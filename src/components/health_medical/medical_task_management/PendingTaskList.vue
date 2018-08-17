@@ -387,7 +387,7 @@
             }
           },
           {
-            title: "提交人", sortable: true, key: "createdBy", align: "center", width: 150
+            title: "提交人", sortable: true, key: "createdUser", align: "center", width: 150
           },
           {
             title: "提交时间", sortable: true, key: "createdTime", align: "center", width: 150,

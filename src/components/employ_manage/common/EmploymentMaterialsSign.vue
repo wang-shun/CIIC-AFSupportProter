@@ -1,3 +1,11 @@
+<style>
+.ivu-table .demo-table-error-row td span {
+  color: #ff6600;
+}
+.ivu-table .demo-table-error-row td div {
+  color: #ff6600;
+}
+</style>
 <template>
   <div>
     <Form :label-width="150">
@@ -13,11 +21,11 @@
           </Form-item>
         </Col>
       </Row>
-      <Table border :columns="materialsColumns" :data="materials.materialsData" class="mt20"></Table>
+      <Table border :row-class-name="rowClassName2" :columns="materialsColumns" :data="materials.materialsData" class="mt20"></Table>
       <Row type="flex" justify="start" class="mt20">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="材料批退原因：">
-            <Select v-model="materials.reasonValue" transfer>
+            <Select v-model="materials.reasonValue" transfer :disabled="getDisabled()">
               <Option v-for="item in reasonList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -25,8 +33,8 @@
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
-          <Button type="primary"  @click="instance()">材料全部签收</Button>
-          <Button type="error" @click="refuseAll">材料全部批退</Button>
+          <Button type="primary" :disabled="getDisabled()"  @click="instance()">材料全部签收</Button>
+          <Button type="error" :disabled="getDisabled()" @click="refuseAll">材料全部批退</Button>
         </Col>
       </Row>
       <br/>
@@ -35,7 +43,7 @@
     <Form :label-width="150">
       <Panel name="1">
         材料流转记录
-        <Table border :columns="materialsColumnsLog" :data="materials.logBOList" class="mt20"></Table>
+        <Table border :row-class-name="rowClassName2" :columns="materialsColumnsLog" :data="materials.logBOList" class="mt20"></Table>
       </Panel>
     </Form>
     </Collapse>
@@ -175,6 +183,26 @@ export default {
     };
   },
   methods: {
+    rowClassName2(row, index) {
+        if(this.materials.logBOList!=null&&this.materials.logBOList!=undefined){
+            if(this.materials.logBOList[0]!=null&&this.materials.logBOList[0]!=undefined){
+              if(this.materials.logBOList[0].operationType == 2){
+                return "demo-table-error-row";
+              }
+            }
+        }
+        return "";
+    },
+    getDisabled() {
+        if(this.materials.logBOList!=null&&this.materials.logBOList!=undefined){
+            if(this.materials.logBOList[0]!=null&&this.materials.logBOList[0]!=undefined){
+              if(this.materials.logBOList[0].operationType == 3){
+                return false;
+              }
+            }
+        }
+        return true;
+    },
     refuseAll() {
       
       if(this.materialsInfo.materialsData == undefined){

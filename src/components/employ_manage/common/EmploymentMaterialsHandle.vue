@@ -75,7 +75,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
-            <DatePicker @on-open-change="setCurrentDate" @on-change="changeDate" type="date" v-model="handleInfo.employFeedbackOptDate" transfer></DatePicker>
+            <DatePicker  type="date" v-model="handleInfo.employFeedbackOptDate" :readonly="true"  transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -87,20 +87,18 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="调档反馈操作日期：" prop="diaodangFeedbackOptDate">
-            <DatePicker @on-open-change="setCurrentDate1" @on-change="changeDate1" type="date" v-model="handleInfo.diaodangFeedbackOptDate" transfer></DatePicker>
+            <DatePicker  type="date" v-model="handleInfo.diaodangFeedbackOptDate" :readonly="true" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="UKey外借日期：" prop="ukeyBorrowDate">
-            <DatePicker  type="date" v-model="handleInfo.ukeyBorrowDate" transfer></DatePicker>
+            <DatePicker  type="date" v-model="handleInfo.ukeyBorrowDate" :readonly="true" transfer></DatePicker>
           </Form-item>
         </Col>
-        
-          
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
-            <DatePicker @on-open-change="setCurrentDate2" @on-change="changeDate2" type="date" v-model="handleInfo.ukeyReturnDate" transfer></DatePicker>
+            <DatePicker  type="date" v-model="handleInfo.ukeyReturnDate" :readonly="true" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -151,7 +149,7 @@ export default {
       seqMax1: 0,
       seqMax2: 0,
       reservedFileNumberList: [
-        { value: "空", label: "空" },
+        {value: '', label: ''},
         { value: "外来从业人员", label: "外来从业人员" },
         { value: "居住证", label: "居住证" },
         { value: "调档", label: "调档" },
@@ -514,45 +512,6 @@ export default {
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate;
       return currentdate;
-    },
-    setCurrentDate(e) {
-      if (e) {
-        if (
-          this.handleInfo.employFeedbackOptDate == "" ||
-          this.handleInfo.employFeedbackOptDate == undefined
-        ) {
-          this.handleInfo.employFeedbackOptDate = this.currentDate();
-        }
-      }
-    },
-    changeDate(e) {
-      this.handleInfo.employFeedbackOptDate = e;
-    },
-    setCurrentDate1(e) {
-      if (e) {
-        if (
-          this.handleInfo.diaodangFeedbackOptDate == "" ||
-          this.handleInfo.diaodangFeedbackOptDate == undefined
-        ) {
-          this.handleInfo.diaodangFeedbackOptDate = this.currentDate();
-        }
-      }
-    },
-    changeDate1(e) {
-      this.handleInfo.diaodangFeedbackOptDate = e;
-    },
-    setCurrentDate2(e) {
-      if (e) {
-        if (
-          this.handleInfo.ukeyReturnDate == "" ||
-          this.handleInfo.ukeyReturnDate == undefined
-        ) {
-          this.handleInfo.ukeyReturnDate = this.currentDate();
-        }
-      }
-    },
-    changeDate2(e) {
-      this.handleInfo.ukeyReturnDate = e;
     },
     setCurrentDate3(e) {
       if (e) {

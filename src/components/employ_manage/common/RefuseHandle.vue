@@ -206,7 +206,7 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="用工绑定：">
+          <Form-item label="">
             <Button type="primary" @click="binding">绑定</Button>
           </Form-item>
         </Col>

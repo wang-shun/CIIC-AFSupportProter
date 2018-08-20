@@ -3,16 +3,17 @@
  */
 let em_chooseField = {
   "processStatus":"未处理",
+  "sc.company_id":"客户编号",
+  "sc.title":"客户名称",
   "ee.employee_id":"雇员编号",
+  "ee.employee_name":"雇员姓名",
   "het.task_category":"任务单类型",
   "hcas.payment_bank":"缴费银行",
-  "ee.employee_name":"雇员姓名",
   "het.hf_type":"公积金类型",
   "hcas.hf_account_type":"企业账户类型",
   "ee.id_num":"证件号",
   "het.submit_time":"任务发起时间",
   "hcac.hf_com_account":"企业公积金账号",
-  "sc.company_id":"客户编号",
   "het.is_change":"是否更正",
   "preInput":"是否已预录入公积金账号",
 };

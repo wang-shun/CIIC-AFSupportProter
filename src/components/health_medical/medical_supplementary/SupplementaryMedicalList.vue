@@ -38,52 +38,52 @@
               </Col>-->
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="案卷号" prop="dossierNumber">
-                  <Input v-model="formItem.dossierNumber" placeholder="请输入"/>
+                  <Input v-model="formItem.dossierNumber" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="受理编号" prop="acceptanceId">
-                  <Input v-model="formItem.acceptanceId" placeholder="请输入"/>
+                  <Input v-model="formItem.acceptanceId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号" prop="employeeId">
-                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员姓名" prop="employeeName">
-                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号" prop="companyId">
-                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                  <Input v-model="formItem.companyId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称" prop="companyName">
-                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                  <Input v-model="formItem.companyName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <!--<Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="保单号">
-                <Input v-model="formItem.code" placeholder="请输入"/>
+                <Input v-model="formItem.code" placeholder="请输入"></Input>
               </Form-item>
               </Col>-->
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方编号" prop="managementId">
-                  <Input v-model="formItem.managementId" placeholder="请输入"/>
+                  <Input v-model="formItem.managementId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方名称" prop="managementName">
-                  <Input v-model="formItem.managementName" placeholder="请输入"/>
+                  <Input v-model="formItem.managementName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="连带人" prop="insuredName">
-                  <Input v-model="formItem.insuredName" placeholder="请输入"/>
+                  <Input v-model="formItem.insuredName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
             </Row>
@@ -143,14 +143,14 @@
       v-model="modalAccept"
       title="审核操作对话框"
       @on-ok="updateSupplementaryList(2)" :loading="loading">
-      <Input v-model="dealMeg.remark" placeholder="备注："/>
+      <Input v-model="dealMeg.remark" placeholder="备注："></Input>
     </Modal>
 
     <Modal
       v-model="modalRefuse"
       title="批退操作对话框"
       @on-ok="updateSupplementaryList(1)" :loading="loading">
-      <Input v-model="dealMeg.remark" placeholder="备注："/>
+      <Input v-model="dealMeg.remark" placeholder="备注："></Input>
     </Modal>
 
     <Modal
@@ -314,7 +314,7 @@
           this.loading = false;
           if (response.data.code === 200) {
             this.$Message.success("上传成功");
-          }else if (response.data.code === 400){
+          } else if (response.data.code === 400) {
             this.$Message.error(response.data.message);
           } else {
             this.$Message.error("服务器异常，请稍后再试");
@@ -398,7 +398,7 @@
       },
       exportData() {
         this.loading = true;
-        window.location = apiAjax.basePaths + '/supplyMedicalService/export?' + qs.stringify(this.formItem)
+        window.location = apiAjax.basePaths + '/supplyMedicalService/export?' + qs.stringify(this.formItem) + '&token=' + encodeURIComponent(this.userInfo.token);
         this.loading = false;
       }
     }

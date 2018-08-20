@@ -479,14 +479,22 @@
           {title: '客户汇缴月', key: 'hfMonth', align: 'left',
             render: (h, params) => {
               return h('div', [
-                h('Input', {
-                  props: {value: params.row.hfMonth},
+                h('DatePicker', {
+                  props: {value: params.row.hfMonth, type: 'month', format: 'yyyyMM', placement: 'bottom-end', placeholder: '选择年月', style: 'width: 100%;', transfer: true},
                   on: {
-                    'on-blur': (event) => {
-                      this.operatorListData[params.index].hfMonth = event.target.value
+                    'on-change': (val) => {
+                      this.operatorListData[params.index].hfMonth = val;
                     }
                   }
-                }, params.row.hfMonth)
+                })
+//                h('Input', {
+//                  props: {value: params.row.hfMonth},
+//                  on: {
+//                    'on-blur': (event) => {
+//                      this.operatorListData[params.index].hfMonth = event.target.value
+//                    }
+//                  }
+//                }, params.row.hfMonth)
               ]);
             }
           },
@@ -884,12 +892,12 @@
           }
           if (this.displayVO.hfType == 1) {
             if (this.operatorListData[i].hfMonth < this.displayVO.basicComHfMonth) {
-              this.$Message.error("操作栏客户汇缴月不能小于末次汇缴月（基本）");
+              this.$Message.error("操作栏客户汇缴月不能小于等于末次汇缴月（基本）");
               return false;
             }
           } else {
             if (this.operatorListData[i].hfMonth < this.displayVO.addedComHfMonth) {
-              this.$Message.error("操作栏客户汇缴月不能小于末次汇缴月（补充）");
+              this.$Message.error("操作栏客户汇缴月不能小于等于末次汇缴月（补充）");
               return false;
             }
           }

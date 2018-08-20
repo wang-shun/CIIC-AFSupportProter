@@ -211,6 +211,13 @@
               ]);
             }
           },
+          {title: '客户编号', key: 'companyId', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.companyId),
+              ]);
+            }
+          },
           {title: '支付状态', key: 'paymentStateValue', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [

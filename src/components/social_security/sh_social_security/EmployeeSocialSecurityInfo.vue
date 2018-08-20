@@ -130,6 +130,11 @@
                 <label>{{this.$decode.ssArchiveTaskStatus(employeeAndCustomer.archiveTaskStatus)}}</label>
               </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="办理月份（操作日期）：">
+                <label>{{ employeeAndCustomer.ssMonth }}</label>
+              </Form-item>
+              </Col>
             </Row>
           </Form>
         </div>
@@ -230,6 +235,7 @@
           ssSerial:'',
           education:'',
           ssAccount:'',
+          ssMonth:'',
          // empClassify:'',
           outDate:'',
           comAccountId:'',

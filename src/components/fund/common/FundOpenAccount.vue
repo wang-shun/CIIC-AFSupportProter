@@ -93,8 +93,8 @@
     </Row>
     <Row type="flex" justify="start">
       <Col :sm="{span: 24}">
-        <Form-item label="备注：">
-          <Input v-model="openAccount.notes" placeholder="请输入..." ></Input>
+        <Form-item label="办理/批退备注：">
+          <Input v-model="openAccount.notes" placeholder="这里可填写您办理的备注信息，或者批退的备注信息" ></Input>
         </Form-item>
       </Col>
     </Row>

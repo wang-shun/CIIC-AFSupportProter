@@ -115,7 +115,9 @@
     <!-- 新建任务单 -->
     <Modal
       v-model="isCreateTaskTicket"
-      width="820"
+       title="新建转移任务单"
+      width="820" 
+      :mask-closable="false"
     >
       <Form :label-width="100" :model="createTask.searchCondition" ref='createTaskSearchForm'>
         <Row>
@@ -145,7 +147,7 @@
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
-            <Form-item label="上下岗状态：" prop="status">
+            <Form-item label="入离职状态：" prop="status">
               <Select v-model="createTask.searchCondition.status" style="width: 100%;" transfer>
                 <Option v-for="item in createTask.workStatueList" :value="item.value" :key="item.value">{{item.label}}</Option>
               </Select>
@@ -226,7 +228,7 @@
             idNum: '',
             companyId: '',
             titile: '',
-            status: 2,
+            status: '',
             hfType:'',
           },
           workStatueList: [
@@ -292,7 +294,7 @@
                 ]);
               }
             },
-            {title: '上下岗状态', key: 'status', align: 'center', width: 100,
+            {title: '入离职状态', key: 'status', align: 'center', width: 100,
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h('span', this.$decode.empComStatus(params.row.status) ),
@@ -376,7 +378,7 @@
               ]);
             }
           },
-          {title: '上下岗状态', key: 'status', width: 100, align: 'center',
+          {title: '入离职状态', key: 'status', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.empComStatus(params.row.status)),
@@ -431,7 +433,6 @@
     mounted() {
       sessionData.getJsonDataFromSession('transfer.noprocess.searchCondition', this.searchCondition);
       sessionData.getJsonDataFromSession('transfer.noprocess.pageData', this.pageData);
-      console.log(this.searchCondition);
       let params = this.searchCondition
       this.queryTransfer(params);
       this.getCustomers();

@@ -21,7 +21,7 @@
           {
             title: '审批时间', key: 'approveTime', align: 'center',
             render: (h, params) => {
-              return h('div',params.row.approveTime == null ? '' : this.$utils.formatDate(params.row.approveTime,'YYYY-MM-DD HH:mm:ss'))
+              return h('div', params.row.approveTime == null ? '' : this.$utils.formatDate(params.row.approveTime, 'YYYY-MM-DD HH:mm:ss'))
             }
           },
           {

@@ -139,7 +139,7 @@
         <Row class="mt20">
           <Col :sm="{span: 12}">
             <Form-item label="支付年月：" prop="paymentMonthOfAdd">
-              <label>{{addPaymentData.paymentMonth}}</label>
+               <DatePicker v-model="addPaymentData.paymentMonth" type="month" format="yyyyMM" placement="bottom" style="width: 100%;" transfer></DatePicker>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
@@ -177,7 +177,7 @@
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
 import SocialSecurityPayVue from '../SocialSecurityPay.vue';
-
+import Tools from '../../../../lib/tools'
 
   export default {
     components: {customerModal},
@@ -382,12 +382,10 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
     mounted() {
       sessionData.getJsonDataFromSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
       sessionData.getJsonDataFromSession('paymentBatch.payBatchPageData', this.payBatchPageData);
-      let d = new Date();
       payComApi.getLastMonth().then(data=>{
         d=new Date(data.data+'/01');
         this.payBatchSearchData.paymentMonthMin=d;
       })
-
       this.paymentBatchQuery();
       //this.payBatchHandlePageNum(1);
       this.loadDict();
@@ -436,13 +434,12 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
       paymentBatchQuery() {
          sessionData.setJsonDataToSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
          sessionData.setJsonDataToSession('paymentBatch.payBatchPageData', this.payBatchPageData);
-     
         if (this.payBatchSearchData.paymentMonthMin && this.payBatchSearchData.paymentMonthMin.length != 6) {
-          this.payBatchSearchData.paymentMonthMin = this.$utils.formatDate(this.payBatchSearchData.paymentMonthMin, 'YYYYMM');
+          this.payBatchSearchData.paymentMonthMin = moment(this.payBatchSearchData.paymentMonthMin ).format('YYYYMM');
         }
 
         if (this.payBatchSearchData.paymentMonthMax && this.payBatchSearchData.paymentMonthMax.length != 6) {
-          this.payBatchSearchData.paymentMonthMax = this.$utils.formatDate(this.payBatchSearchData.paymentMonthMax, 'YYYYMM');
+          this.payBatchSearchData.paymentMonthMax = moment(this.payBatchSearchData.paymentMonthMax ).format('YYYYMM');
         }
 
         // 处理参数
@@ -587,7 +584,7 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
         this.$router.push({name:"createPaymentBatch"});
       },
       doAddPayment() {
-        let paymentMonth = this.addPaymentData.paymentMonth;
+        let paymentMonth = Tools.formatDate(this.addPaymentData.paymentMonth, 'YYYYMM');;
         let paymentBatchNum = this.addPaymentData.paymentBatchNum;
         let accountType = this.addPaymentData.accountType;
         if(paymentMonth == null || paymentMonth == ""){

@@ -136,6 +136,7 @@
           keyValueLarge: null,
           keyValueSmall: null,
         },
+        userInfo: {},
         warrantyColumns: [
           {
             title: '险种名称', sortable: true, key: 'productName', align: 'center', width: 150
@@ -250,6 +251,7 @@
     created() {
       this.getByPage(1);
       this.queryInsuranceCompanyInfo();
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.queryIcProductRelationInfo(this.formItem.insuranceCompany);
     },
     methods: {
@@ -283,8 +285,7 @@
         });
       },
       exportData() {
-
-        window.location = apiAjax.basePaths + "/warrantyService/exportWarranty?" + qs.stringify(this.formItem);
+        window.location = apiAjax.basePaths + "/warrantyService/exportWarranty?" + qs.stringify(this.formItem) + '&token=' + encodeURIComponent(this.userInfo.token);
       },
       getByPage(val) {
         this.formItem.current = val;

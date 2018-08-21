@@ -398,7 +398,7 @@
       },
       exportData() {
         this.loading = true;
-        window.location = apiAjax.basePaths + '/supplyMedicalService/export?' + qs.stringify(this.formItem)
+        window.location = apiAjax.basePaths + '/supplyMedicalService/export?' + qs.stringify(this.formItem) + '&token=' + encodeURIComponent(this.userInfo.token);
         this.loading = false;
       }
     }

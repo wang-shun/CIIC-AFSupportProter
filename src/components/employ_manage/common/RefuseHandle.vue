@@ -196,7 +196,7 @@
             <DatePicker v-model="refuse.resignMaterialDeliveryDate" @on-open-change="setCurrentDate8" @on-change="changeDate8"  type="date" placeholder=""  transfer></DatePicker>
           </Form-item>
         </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span:4 }">
           <Form-item label="对应用工序号：">
             <Input v-model="refuse.matchEmployIndex" placeholder="请输入" :maxlength="50"/>
             <input type="text" v-model="refuse.companyId" hidden>
@@ -206,7 +206,7 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="用工绑定：">
+          <Form-item label="">
             <Button type="primary" @click="binding">绑定</Button>
           </Form-item>
         </Col>

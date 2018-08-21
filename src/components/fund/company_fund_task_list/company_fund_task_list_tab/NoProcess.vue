@@ -112,77 +112,75 @@
         },
         serviceCenterData: [], //客服中心
         taskColumns: [
-          {title: '操作', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      sessionData.setJsonDataToSession('companyFundTaskList.noProcess.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('companyFundTaskList.noProcess.pageData', this.pageData);
-
-                      switch(params.row.taskCategoryName) {
-                        case '开户':
-
-                          this.$router.push({name: 'companyFundTaskCommit', params: {
-                              comTaskId: params.row.comTaskId,
-                              companyInfo: params.row.companyInfo,
-                              openAccountInfo: params.row.openAccountInfo}
-                          });
-                          break;
-                        case '转入':
-                        console.log(params.row.openAccountInfo);
-                          this.$router.push({name: 'companyFundTaskCommit', params: {
-                              comTaskId: params.row.comTaskId,
-                              companyInfo: params.row.companyInfo,
-                              openAccountInfo: params.row.openAccountInfo}
-                          });
-                          break;
-                        case '变更':
-                          this.$router.push({name: 'companyFundTaskProgressChangeInfo', params: {
-                              comTaskId: params.row.comTaskId,
-                              companyFundAccountInfo: params.row.companyFundAccountInfo,
-                              changeOperator: params.row.changeOperator}
-                          });
-                          break;
-                        case '终止':
-                          this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
-                              comTaskId: params.row.comTaskId,
-                              companyFundAccountInfo: params.row.companyFundAccountInfo,
-                              endOperator: params.row.endOperator}
-                          });
-                          break;
-                        case '销户':
-                          this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
-                              comTaskId: params.row.comTaskId,
-                              companyFundAccountInfo: params.row.companyFundAccountInfo,
-                              endOperator: params.row.endOperator}
-                          });
-                          break;
-                        default:
-                          break;
-                      }
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
-          {title: '任务类型', key: 'taskCategoryName', width: 150, align: 'center',
+          // {title: '操作', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             sessionData.setJsonDataToSession('companyFundTaskList.noProcess.operatorSearchData', this.operatorSearchData);
+          //             sessionData.setJsonDataToSession('companyFundTaskList.noProcess.pageData', this.pageData);
+          //             switch(params.row.taskCategoryName) {
+          //               case '开户':
+          //                 this.$router.push({name: 'companyFundTaskCommit', params: {
+          //                     comTaskId: params.row.comTaskId,
+          //                     companyInfo: params.row.companyInfo,
+          //                     openAccountInfo: params.row.openAccountInfo}
+          //                 });
+          //                 break;
+          //               case '转入':
+          //               console.log(params.row.openAccountInfo);
+          //                 this.$router.push({name: 'companyFundTaskCommit', params: {
+          //                     comTaskId: params.row.comTaskId,
+          //                     companyInfo: params.row.companyInfo,
+          //                     openAccountInfo: params.row.openAccountInfo}
+          //                 });
+          //                 break;
+          //               case '变更':
+          //                 this.$router.push({name: 'companyFundTaskProgressChangeInfo', params: {
+          //                     comTaskId: params.row.comTaskId,
+          //                     companyFundAccountInfo: params.row.companyFundAccountInfo,
+          //                     changeOperator: params.row.changeOperator}
+          //                 });
+          //                 break;
+          //               case '终止':
+          //                 this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
+          //                     comTaskId: params.row.comTaskId,
+          //                     companyFundAccountInfo: params.row.companyFundAccountInfo,
+          //                     endOperator: params.row.endOperator}
+          //                 });
+          //                 break;
+          //               case '销户':
+          //                 this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
+          //                     comTaskId: params.row.comTaskId,
+          //                     companyFundAccountInfo: params.row.companyFundAccountInfo,
+          //                     endOperator: params.row.endOperator}
+          //                 });
+          //                 break;
+          //               default:
+          //                 break;
+          //             }
+          //           }
+          //         }
+          //       }, '办理'),
+          //     ]);
+          //   }
+          // },
+          {title: '任务类型', key: 'taskCategoryName', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.taskCategoryName),
               ]);
             }
           },
-          {title: '公积金类型', key: 'hfTypeName', width: 150, align: 'center',
+          {title: '公积金类型', key: 'hfTypeName', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.hfTypeName),
               ]);
             }
           },
-          {title: '客户编号', key: 'companyId', width: 150, align: 'center',
+          {title: '客户编号', key: 'companyId', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyId),
@@ -210,21 +208,21 @@
               ]);
             }
           },
-          {title: '客服经理', key: 'serviceManager', width: 150, align: 'center',
+          {title: '客服经理', key: 'serviceManager', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.serviceManager),
               ]);
             }
           },
-          {title: '发起人', key: 'initiator', width: 150, align: 'center',
+          {title: '发起人', key: 'initiator', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.initiator),
               ]);
             }
           },
-          {title: '发起时间', key: 'sponsorTime', width: 200, align: 'center',
+          {title: '发起时间', key: 'sponsorTime', width: 140, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.sponsorTime),

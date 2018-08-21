@@ -70,6 +70,11 @@
                   <Input v-model="searchCondition.idNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="社保序号：" prop="ssSerial">
+                  <Input v-model="searchCondition.ssSerial" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：" prop="empClassify">
                   <Select v-model="searchCondition.empClassify" style="width: 100%;" transfer>

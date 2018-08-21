@@ -221,7 +221,7 @@
               ]);
             }
           },
-          {title: '上下岗状态', key: 'status', width: 200, align: 'center',
+          {title: '入离职状态', key: 'status', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.empComStatus(params.row.status)),

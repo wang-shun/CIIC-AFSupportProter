@@ -74,7 +74,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="taskColumns" :data="taskData" :loading="loading" :row-class-name="rowClassName"></Table>
+        <Table border :columns="taskColumns" :data="taskData" :loading="loading" :row-class-name="rowClassName" @on-row-dblclick="dbClickHandleData"></Table>
         <Page
           class="pageSize"
           @on-page-size-change="handlePageSize"

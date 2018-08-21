@@ -138,7 +138,7 @@
         <Row class="mt20">
           <Col :sm="{span: 12}">
             <Form-item label="支付年月：" prop="paymentMonthOfAdd">
-              <label>{{addPaymentData.paymentMonth}}</label>
+               <DatePicker v-model="addPaymentData.paymentMonth" type="month" format="yyyyMM" placement="bottom" style="width: 100%;" transfer></DatePicker>
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
@@ -176,7 +176,7 @@
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
 import SocialSecurityPayVue from '../SocialSecurityPay.vue';
-
+import Tools from '../../../../lib/tools'
 
   export default {
     components: {customerModal},
@@ -583,7 +583,7 @@ import SocialSecurityPayVue from '../SocialSecurityPay.vue';
         this.$router.push({name:"createPaymentBatch"});
       },
       doAddPayment() {
-        let paymentMonth = this.addPaymentData.paymentMonth;
+        let paymentMonth = Tools.formatDate(this.addPaymentData.paymentMonth, 'YYYYMM');;
         let paymentBatchNum = this.addPaymentData.paymentBatchNum;
         let accountType = this.addPaymentData.accountType;
         if(paymentMonth == null || paymentMonth == ""){

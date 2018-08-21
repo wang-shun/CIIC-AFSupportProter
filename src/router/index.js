@@ -1059,7 +1059,7 @@ const SET_DOCUMENT_INFO = (to) => {
 
 const BACK_TO_LOGIN = () => {
   window.localStorage.removeItem('userInfo')
-  window.location = process.env.LOGIN_URL
+  window.location = process.env.LOGIN_URL + '/#/?refer=' + encodeURIComponent(encodeURIComponent(window.location.href))
 }
 
 export default router

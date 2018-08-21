@@ -333,7 +333,7 @@
         this.closeLoading();
       },
       exportExcel(){
-        let params = this.getParams(1)
+        let params = this.getParams1()
         CompanyTaskListHF.expExcel(params);
       },
 

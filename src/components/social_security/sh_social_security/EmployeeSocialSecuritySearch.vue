@@ -359,6 +359,12 @@
         //   filename: '原始数据'
         // });
         let params = this.searchCondition
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         api.empSSSearchExport(params)
       },
       resetSearchCondition(name) {

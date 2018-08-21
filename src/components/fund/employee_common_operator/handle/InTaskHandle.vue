@@ -783,6 +783,7 @@
       }
     },
     mounted() {
+
       let empTaskId = localStorage.getItem('employeeFundCommonOperator.empTaskId');
       let hfType = parseInt(localStorage.getItem('employeeFundCommonOperator.hfType'));
       let taskCategory = parseInt(localStorage.getItem('employeeFundCommonOperator.taskCategory'));
@@ -826,12 +827,14 @@
             this.inputDisabled = true;
             this.taskCategoryDisable = true;
             this.showButton = false;
+            this.displayVO.canHandle = false;
           }
         } else {
           this.$Message.error(data.message);
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
+
         }
       });
       dict.getDictData().then(data => {
@@ -1221,12 +1224,12 @@
           }
           if (this.displayVO.hfType == 1) {
             if (this.operatorListData[i].hfMonth < this.displayVO.basicComHfMonth) {
-              this.$Message.error("操作栏客户汇缴月不能小于末次汇缴月（基本）");
+              this.$Message.error("操作栏客户汇缴月不能小于等于末次汇缴月（基本）");
               return false;
             }
           } else {
             if (this.operatorListData[i].hfMonth < this.displayVO.addedComHfMonth) {
-              this.$Message.error("操作栏客户汇缴月不能小于末次汇缴月（补充）");
+              this.$Message.error("操作栏客户汇缴月不能小于等于末次汇缴月（补充）");
               return false;
             }
           }

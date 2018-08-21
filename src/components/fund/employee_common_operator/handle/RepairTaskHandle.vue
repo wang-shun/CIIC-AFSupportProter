@@ -141,26 +141,26 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="缴纳至：">
-                <label>{{(displayVO.empBasEndMonth) ? displayVO.empBasEndMonth : displayVO.empBasLastMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转入年月：">
-                <label>{{displayVO.empBasStartMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转入办理年月：">
-                <label>{{displayVO.empBasHandleMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转出年月：">
                 <label>{{displayVO.empBasEndMonth}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转出办理年月：">
+              <FormItem label="转入实际年月：">
+                <label>{{displayVO.empBasStartMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入汇缴月：">
+                <label>{{displayVO.empBasHandleMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出实际年月：">
+                <label>{{displayVO.empBasEndMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出汇缴月：">
                 <label>{{displayVO.empBasStopHandleMonth}}</label>
               </FormItem>
               </Col>

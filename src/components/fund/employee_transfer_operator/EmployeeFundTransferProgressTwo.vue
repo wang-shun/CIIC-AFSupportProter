@@ -327,7 +327,6 @@
               this.transferNotice1 = data.data.empTaskTransferBo;
 //              this.$utils.copy(this.transferNotice1, this.transferNotice);
               this.getDictData();
-              this.$utils.copy(this.transferNotice1, this.transferNotice);
             }
           } else {
             this.$Message.error(data.message);
@@ -405,6 +404,7 @@
 
             console.log(JSON.stringify(this.transferOutUnitList));
             console.log(JSON.stringify(this.transferInUnitList));
+            this.$utils.copy(this.transferNotice1, this.transferNotice);
             setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);

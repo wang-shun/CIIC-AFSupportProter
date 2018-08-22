@@ -26,6 +26,8 @@
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
       </Col>
     </Row>
+    <Row type="flex" justify="start" class="mt20">
+    <Col :sm="{span: 21}" class="tr">
     <Table border id="redList" height="300" :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
      <Page
         class="pageSize"
@@ -36,8 +38,33 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table border :columns="searchResultColumns1" :data="searchResultData1" class="mt20"></Table>
-    <Table border :columns="searchResultColumns2" :data="searchResultData2" class="mt20"></Table>
+      
+     </Col>
+     <Col :sm="{span: 2, offset: 1}" class="pt10">
+       <RadioGroup v-model="jobGroup"  @on-change="showJob" vertical>
+        <Radio label="Y" >
+            <span>在职</span>
+             <span>{{jobData.job}}</span>
+        </Radio>
+        <Radio label="N">
+            <span>终止</span>
+            <span>{{jobData.noJob}}</span>
+        </Radio>
+        </RadioGroup>
+        <RadioGroup v-model="vertical"  @on-change="showInfoTw" vertical>
+           <Radio label="1" >
+             <span>未完成</span>
+             <span>{{RadioData.noSign}}</span>
+           </Radio>
+        <Radio label="3">
+            <span>已完成</span>
+            <span>{{RadioData.employSuccess}}</span>
+        </Radio>
+       </RadioGroup>
+    </Col>
+    </Row> 
+    <!-- <Table border :columns="searchResultColumns1" :data="searchResultData1" class="mt20"></Table>
+    <Table border :columns="searchResultColumns2" :data="searchResultData2" class="mt20"></Table> -->
   </div>
 </template>
 <script>
@@ -53,6 +80,17 @@ export default {
   components: { employeeInfo, searchEmployment },
   data() {
     return {
+      jobGroup:"",
+      vertical: "",
+      jobData: {
+        job: 0,
+        noJob: 100
+      },
+      RadioData: {
+        noSign: 200,
+        employSuccess: 100,
+        noRecord: 2100
+      },
       initSearch: false,
       initSearchC: false,
       initSearchR: false,

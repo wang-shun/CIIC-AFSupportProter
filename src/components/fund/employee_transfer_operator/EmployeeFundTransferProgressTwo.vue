@@ -343,30 +343,37 @@
           if (data.code == 200) {
             this.fundTypeList = data.data.FundType;
             this.transferUnitDictList = data.data.FundOutUnit;
-            let isContainOut = false;
-            let isContainIn = false;
+//            let isContainOut = false;
+//            let isContainIn = false;
             this.transferUnitDictList.forEach((element, index, array) => {
-//              this.transferOutUnitList.push(element);
-//              this.transferInUnitList.push(element);
-
-              if (element === this.transferNotice1.transferOutUnit) {
-                isContainOut = true;
-              } else {
+              if (!this.transferOutUnitList.includes(element)) {
                 this.transferOutUnitList.push(element);
               }
-              if (element === this.transferNotice1.transferInUnit) {
-                isContainIn = true;
-              } else {
+              if (!this.transferInUnitList.includes(element)) {
                 this.transferInUnitList.push(element);
               }
+
+//              if (element === this.transferNotice1.transferOutUnit) {
+//                isContainOut = true;
+//              }
+//              if (element === this.transferNotice1.transferInUnit) {
+//                isContainIn = true;
+//              }
             })
 
-            if (!isContainOut && this.transferNotice1.transferOutUnit) {
+            if (!this.transferOutUnitList.includes(this.transferNotice1.transferOutUnit)) {
               this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
             }
-            if (!isContainIn && this.transferNotice1.transferInUnit) {
+            if (!this.transferInUnitList.includes(this.transferNotice1.transferInUnit)) {
               this.transferInUnitList.push(this.transferNotice1.transferInUnit);
             }
+
+//            if (!isContainOut && this.transferNotice1.transferOutUnit) {
+//              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
+//            }
+//            if (!isContainIn && this.transferNotice1.transferInUnit) {
+//              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+//            }
           //this.setValue();
           setTimeout(this.setValue,500);
           } else {
@@ -377,11 +384,21 @@
 
       setValue(){
 //        this.transferNotice=this.transferNotice1
-//        console.log(JSON.stringify(this.transferOutUnitList));
-//        console.log(JSON.stringify(this.transferInUnitList));
+        unique(this.transferOutUnitList);
+        unique(this.transferInUnitList);
         this.$utils.copy(this.transferNotice1, this.transferNotice);
       },
-
+      unique(array){
+        array.sort();
+        var re=[array[0]];
+        for(var i = 1; i < array.length; i++){
+          if( array[i] !== re[re.length-1])
+          {
+            re.push(array[i]);
+          }
+        }
+        return re;
+      },
       goBack() {
         this.$router.go(-1);
       },

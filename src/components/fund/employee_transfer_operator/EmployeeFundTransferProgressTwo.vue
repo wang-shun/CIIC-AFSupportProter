@@ -604,8 +604,6 @@
                     unitAccountList.push(element.hfComAccount);
                   })
 
-                  console.log(data.data.length);
-
                   if (unitList.length == 1) {
                     if (type == 1) {
                       this.transferNotice.transferOutUnitAccount = unitAccountList[0];

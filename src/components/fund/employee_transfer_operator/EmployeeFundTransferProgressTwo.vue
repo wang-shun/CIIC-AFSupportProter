@@ -325,8 +325,9 @@
               this.transferNotice={};
             }else{
               this.transferNotice1 = data.data.empTaskTransferBo;
-              this.$utils.copy(this.transferNotice1, this.transferNotice);
+//              this.$utils.copy(this.transferNotice1, this.transferNotice);
               this.getDictData();
+              this.$utils.copy(this.transferNotice1, this.transferNotice);
             }
           } else {
             this.$Message.error(data.message);
@@ -399,8 +400,11 @@
 //              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
 //            }
           //this.setValue();
-//            this.transferOutUnitList = this.unique(this.transferOutUnitList);
-//            this.transferInUnitList = this.unique(this.transferInUnitList);
+            this.transferOutUnitList = this.unique(this.transferOutUnitList);
+            this.transferInUnitList = this.unique(this.transferInUnitList);
+
+            console.log(JSON.stringify(this.transferOutUnitList));
+            console.log(JSON.stringify(this.transferInUnitList));
             setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);
@@ -410,8 +414,6 @@
 
       setValue(){
 //        this.transferNotice=this.transferNotice1
-        this.transferOutUnitList = this.unique(this.transferOutUnitList);
-        this.transferInUnitList = this.unique(this.transferInUnitList);
         this.$utils.copy(this.transferNotice1, this.transferNotice);
       },
       unique(array){

@@ -322,7 +322,7 @@ export default {
       fromData.declareUnit = this.handleInfo.declareUnitw;
       fromData.ifGiveupEvaluation = this.handleInfo.ifGiveupEvaluationw;
       fromData.ifComplete = this.handleInfo.ifCompletew;
-      fromData.empTaskId = this.fileInfo1.empTaskId;
+      fromData.empTaskId = this.$route.query.empTaskId;
       fromData.remark = this.handleInfo.remarkw;
       if(fromData.empTaskId===''||fromData.empTaskId==undefined)
       {

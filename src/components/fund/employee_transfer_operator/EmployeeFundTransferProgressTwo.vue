@@ -133,7 +133,7 @@
             <Row>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金类型：" prop="hfType">
-                  <Select v-model="transferNotice.hfType" style="width: 100%;" transfer>
+                  <Select v-model="transferNotice.hfType" style="width: 100%;" @on-change="handleHfTypeChange" transfer>
                     <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
                   </Select>
                 </Form-item>
@@ -559,7 +559,11 @@
         //this.transferNotice.transferOutUnitAccount = '';
         this.transferOutUnitList.forEach((element, index, array) => {
             if (element == value) {
-              this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
+              if (this.transferOutUnitAccountList && this.transferOutUnitAccountList.length > index) {
+                this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
+              } else {
+                this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+              }
               return;
             }
           }
@@ -570,15 +574,15 @@
 
         this.transferInUnitList.forEach((element, index, array) => {
             if (element == value) {
-              this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
+              if (this.transferInUnitAccountList && this.transferInUnitAccountList.length > index) {
+                this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
+              } else {
+                this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+              }
               return;
             }
           }
         )
-
-        //    this.transferInUnitList.push(value);
-        //    this.transferNotice.transferInUnit = value;
-        //  alert(this.transferNotice.transferInUnit );
       },
       doSearch(value, unitList, unitAccountList, type) {
 
@@ -588,6 +592,7 @@
         if (value == '') {
           this.transferUnitDictList.forEach((element, index, array) => {
             unitList.push(element);
+
           })
         } else {
           api.comAccountQuery(

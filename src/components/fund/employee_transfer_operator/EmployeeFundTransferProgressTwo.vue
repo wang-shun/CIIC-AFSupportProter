@@ -1,6 +1,5 @@
 <template>
-  <Form :label-width=150>
-
+  <div>
     <Collapse v-model="collapseInfo" class="mt20">
       <Panel name="1">
         企业账户信息
@@ -232,7 +231,7 @@
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
-  </Form>
+  </div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
@@ -404,8 +403,10 @@
 
             console.log(JSON.stringify(this.transferOutUnitList));
             console.log(JSON.stringify(this.transferInUnitList));
-            this.$utils.copy(this.transferNotice1, this.transferNotice);
-            setTimeout(this.setValue,500);
+            this.transferNotice = JSON.parse(JSON.stringify(this.transferNotice1))
+            console.log('deep copy finished: ', this.transferNotice)
+//            this.$utils.copy(this.transferNotice1, this.transferNotice);
+//            setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);
           }

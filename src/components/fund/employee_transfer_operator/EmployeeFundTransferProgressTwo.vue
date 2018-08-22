@@ -302,8 +302,6 @@
 //        }
 //      });
       this.initData();
-
-
     },
     computed: {
     },
@@ -563,7 +561,11 @@
         console.log("=="+value);
         this.transferOutUnitList.forEach((element, index, array) => {
             if (element == value) {
-              this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
+              if (this.transferOutUnitAccountList && this.transferOutUnitAccountList.length > index) {
+                this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
+              } else {
+                this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+              }
               return;
             }
           }
@@ -574,7 +576,11 @@
         console.log("in=="+value);
         this.transferInUnitList.forEach((element, index, array) => {
             if (element == value) {
-              this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
+              if (this.transferInUnitAccountList && this.transferInUnitAccountList.length > index) {
+                this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
+              } else {
+                this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+              }
               return;
             }
           }

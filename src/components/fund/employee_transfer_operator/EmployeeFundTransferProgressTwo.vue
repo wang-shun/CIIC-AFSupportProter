@@ -148,7 +148,7 @@
             <Row>
 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转出单位：" prop='transferOutUnit'>
+                <Form-item label="转出单位：" prop="transferOutUnit">
                   <Select v-model="transferNotice.transferOutUnit"
                           :label="transferNotice.transferOutUnit"
                   filterable
@@ -170,7 +170,7 @@
             <Row>
 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转入单位："  prop='transferInUnit'>
+                <Form-item label="转入单位："  prop="transferInUnit">
                   <Select v-model="transferNotice.transferInUnit"
                           :label="transferNotice.transferInUnit"
                   filterable
@@ -191,12 +191,12 @@
             </Row>
             <Row>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转移日期：">
+                <Form-item label="转移日期：" prop="transferDate">
                   <DatePicker v-model="transferNotice.transferDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="回单日期：">
+                <Form-item label="回单日期：" prop="feedbackDate">
                   <DatePicker v-model="transferNotice.feedbackDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
@@ -326,7 +326,6 @@
               this.transferNotice={};
             }else{
               this.transferNotice1 = data.data.empTaskTransferBo;
-//              this.$utils.copy(this.transferNotice1, this.transferNotice);
               this.getDictData();
             }
           } else {
@@ -400,8 +399,8 @@
 //              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
 //            }
           //this.setValue();
-            this.transferOutUnitList = this.unique(this.transferOutUnitList);
-            this.transferInUnitList = this.unique(this.transferInUnitList);
+//            this.transferOutUnitList = this.unique(this.transferOutUnitList);
+//            this.transferInUnitList = this.unique(this.transferInUnitList);
 
 //            console.log(JSON.stringify(this.transferOutUnitList));
 //            console.log(JSON.stringify(this.transferInUnitList));
@@ -556,6 +555,7 @@
       },
       handleTransferOutChange(value) {
         //this.transferNotice.transferOutUnitAccount = '';
+        console.log("handleTransferOutChange:" + value);
         this.transferOutUnitList.forEach((element, index, array) => {
             if (element == value) {
               this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
@@ -584,6 +584,7 @@
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;
+        console.log("doSearch:" + value);
         if (value == '') {
           this.transferUnitDictList.forEach((element, index, array) => {
             unitList.push(element);
@@ -598,6 +599,9 @@
             data => {
               if (data.code == 200) {
                 if (data.data && data.data.length > 0) {
+                  console.log("unitList:" + JSON.stringify(unitList));
+                  console.log("unitAccountList:" + JSON.stringify(unitAccountList));
+
                   data.data.forEach((element, index, array) => {
                     unitList.push(element.comAccountName);
                     unitAccountList.push(element.hfComAccount);

@@ -345,13 +345,14 @@
             this.transferUnitDictList = data.data.FundOutUnit;
 //            let isContainOut = false;
 //            let isContainIn = false;
-            this.transferUnitDictList.forEach((element, index, array) => {
-              if (!this.transferOutUnitList.includes(element)) {
-                this.transferOutUnitList.push(element);
-              }
-              if (!this.transferInUnitList.includes(element)) {
-                this.transferInUnitList.push(element);
-              }
+            if (!this.transferNotice1.transferOutUnit || this.transferNotice1.transferOutUnit == '') {
+              this.transferUnitDictList.forEach((element, index, array) => {
+//                if (!this.transferOutUnitList.includes(element)) {
+                  this.transferOutUnitList.push(element);
+//                }
+//                if (!this.transferInUnitList.includes(element)) {
+//                  this.transferInUnitList.push(element);
+//                }
 
 //              if (element === this.transferNotice1.transferOutUnit) {
 //                isContainOut = true;
@@ -359,14 +360,37 @@
 //              if (element === this.transferNotice1.transferInUnit) {
 //                isContainIn = true;
 //              }
-            })
-
-            if (!this.transferOutUnitList.includes(this.transferNotice1.transferOutUnit)) {
+              })
+            } else {
               this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
             }
-            if (!this.transferInUnitList.includes(this.transferNotice1.transferInUnit)) {
+
+            if (!this.transferNotice1.transferInUnit || this.transferNotice1.transferInUnit == '') {
+              this.transferUnitDictList.forEach((element, index, array) => {
+//                if (!this.transferOutUnitList.includes(element)) {
+//                this.transferOutUnitList.push(element);
+//                }
+//                if (!this.transferInUnitList.includes(element)) {
+                  this.transferInUnitList.push(element);
+//                }
+
+//              if (element === this.transferNotice1.transferOutUnit) {
+//                isContainOut = true;
+//              }
+//              if (element === this.transferNotice1.transferInUnit) {
+//                isContainIn = true;
+//              }
+              })
+            } else {
               this.transferInUnitList.push(this.transferNotice1.transferInUnit);
             }
+
+//            if (!this.transferOutUnitList.includes(this.transferNotice1.transferOutUnit)) {
+//              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
+//            }
+//            if (!this.transferInUnitList.includes(this.transferNotice1.transferInUnit)) {
+//              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+//            }
 
 //            if (!isContainOut && this.transferNotice1.transferOutUnit) {
 //              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
@@ -375,8 +399,8 @@
 //              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
 //            }
           //this.setValue();
-            this.transferOutUnitList = this.unique(this.transferOutUnitList);
-            this.transferInUnitList = this.unique(this.transferInUnitList);
+//            this.transferOutUnitList = this.unique(this.transferOutUnitList);
+//            this.transferInUnitList = this.unique(this.transferInUnitList);
             setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);

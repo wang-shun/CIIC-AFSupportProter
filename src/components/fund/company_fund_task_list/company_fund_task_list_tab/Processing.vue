@@ -74,7 +74,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="taskColumns" :data="taskData" :loading="loading" :row-class-name="rowClassName"></Table>
+        <Table border :columns="taskColumns" :data="taskData" :loading="loading" :row-class-name="rowClassName" @on-row-dblclick="dbClickHandleData"></Table>
         <Page
           class="pageSize"
           @on-page-size-change="handlePageSize"
@@ -126,60 +126,59 @@
         },
         serviceCenterData: [], //客服中心
         taskColumns: [
-          {title: '操作', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      sessionData.setJsonDataToSession('companyFundTaskList.processing.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('companyFundTaskList.processing.pageData', this.pageData);
-
-                      switch(params.row.taskCategoryName) {
-                        case '开户':
-                          this.$router.push({name: 'companyFundTaskCommit', params: {
-                              comTaskId: params.row.comTaskId,
-                              companyInfo: params.row.companyInfo,
-                              openAccountInfo: params.row.openAccountInfo}
-                          });
-                          break;
-                        case '转入':
-                          this.$router.push({name: 'companyFundTaskCommit', params: {
-                              comTaskId: params.row.comTaskId,
-                              companyInfo: params.row.companyInfo,
-                              openAccountInfo: params.row.openAccountInfo}
-                          });
-                          break;
-                        case '变更':
-                          this.$router.push({name: 'companyFundTaskProgressChangeInfo', params: {
-                              comTaskId: params.row.comTaskId,
-                              companyFundAccountInfo: params.row.companyFundAccountInfo,
-                              changeOperator: params.row.changeOperator}
-                          });
-                          break;
-                        case '终止':
-                          this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
-                              comTaskId: params.row.comTaskId,
-                              companyFundAccountInfo: params.row.companyFundAccountInfo,
-                              endOperator: params.row.endOperator}
-                          });
-                          break;
-                        case '销户':
-                          this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
-                              comTaskId: params.row.comTaskId,
-                              companyFundAccountInfo: params.row.companyFundAccountInfo,
-                              endOperator: params.row.endOperator}
-                          });
-                          break;
-                        default:
-                          break;
-                      }
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
+          // {title: '操作', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+                      // sessionData.setJsonDataToSession('companyFundTaskList.processing.operatorSearchData', this.operatorSearchData);
+                      // sessionData.setJsonDataToSession('companyFundTaskList.processing.pageData', this.pageData);
+                      // switch(params.row.taskCategoryName) {
+                      //   case '开户':
+                      //     this.$router.push({name: 'companyFundTaskCommit', params: {
+                      //         comTaskId: params.row.comTaskId,
+                      //         companyInfo: params.row.companyInfo,
+                      //         openAccountInfo: params.row.openAccountInfo}
+                      //     });
+                      //     break;
+                      //   case '转入':
+                      //     this.$router.push({name: 'companyFundTaskCommit', params: {
+                      //         comTaskId: params.row.comTaskId,
+                      //         companyInfo: params.row.companyInfo,
+                      //         openAccountInfo: params.row.openAccountInfo}
+                      //     });
+                      //     break;
+                      //   case '变更':
+                      //     this.$router.push({name: 'companyFundTaskProgressChangeInfo', params: {
+                      //         comTaskId: params.row.comTaskId,
+                      //         companyFundAccountInfo: params.row.companyFundAccountInfo,
+                      //         changeOperator: params.row.changeOperator}
+                      //     });
+                      //     break;
+                      //   case '终止':
+                      //     this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
+                      //         comTaskId: params.row.comTaskId,
+                      //         companyFundAccountInfo: params.row.companyFundAccountInfo,
+                      //         endOperator: params.row.endOperator}
+                      //     });
+                      //     break;
+                      //   case '销户':
+                      //     this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
+                      //         comTaskId: params.row.comTaskId,
+                      //         companyFundAccountInfo: params.row.companyFundAccountInfo,
+                      //         endOperator: params.row.endOperator}
+                      //     });
+                      //     break;
+                      //   default:
+                      //     break;
+          //             }
+          //           }
+          //         }
+          //       }, '办理'),
+          //     ]);
+          //   }
+          // },
           {title: '任务类型', key: 'taskCategoryName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -336,8 +335,51 @@
         let params = this.getParams1()
         CompanyTaskListHF.expExcel(params);
       },
+      dbClickHandleData(row, index){
 
+              sessionData.setJsonDataToSession('companyFundTaskList.processing.operatorSearchData', this.operatorSearchData);
+              sessionData.setJsonDataToSession('companyFundTaskList.processing.pageData', this.pageData);
+              switch(row.taskCategoryName) {
+                case '开户':
+                  this.$router.push({name: 'companyFundTaskCommit', params: {
+                      comTaskId: row.comTaskId,
+                      companyInfo: row.companyInfo,
+                      openAccountInfo: row.openAccountInfo}
+                  });
+                  break;
+                case '转入':
+                  this.$router.push({name: 'companyFundTaskCommit', params: {
+                      comTaskId: row.comTaskId,
+                      companyInfo: row.companyInfo,
+                      openAccountInfo: row.openAccountInfo}
+                  });
+                  break;
+                case '变更':
+                  this.$router.push({name: 'companyFundTaskProgressChangeInfo', params: {
+                      comTaskId: row.comTaskId,
+                      companyFundAccountInfo: row.companyFundAccountInfo,
+                      changeOperator: row.changeOperator}
+                  });
+                  break;
+                case '终止':
+                  this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
+                      comTaskId: row.comTaskId,
+                      companyFundAccountInfo: row.companyFundAccountInfo,
+                      endOperator: row.endOperator}
+                  });
+                  break;
+                case '销户':
+                  this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
+                      comTaskId: row.comTaskId,
+                      companyFundAccountInfo: row.companyFundAccountInfo,
+                      endOperator: row.endOperator}
+                  });
+                  break;
+                default:
+                  break;
+              }
 
+      },
       //获得列表请求参数
       getParams(page){
         return {

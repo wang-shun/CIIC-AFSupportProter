@@ -302,6 +302,8 @@
 //        }
 //      });
       this.initData();
+
+
     },
     computed: {
     },
@@ -625,7 +627,6 @@
         this.loading = false;
       },
       doSearch(value, unitList, unitAccountList, type) {
-
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;

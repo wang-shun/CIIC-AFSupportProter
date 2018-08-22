@@ -12,13 +12,6 @@
         @on-ok="ok"
         @on-cancel="cancel">
       <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-       <Row type="flex" justify="start">
-         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-          <Form-item label="操作日期：" prop="remarkDatew">
-            <DatePicker type="date" v-model="handleInfo.remarkDatew" transfer></DatePicker>
-          </Form-item>
-         </Col>
-      </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="备注：" prop="remarkContentw" transfer>
@@ -145,18 +138,11 @@ export default {
     ok() {
       var fromData = this.$utils.clear(this.realHandInfo, "");
 
-      if (this.handleInfo.remarkDatew == "") {
-        this.$Message.info("操作日期不能为空");
-        return;
-      }
       if (this.handleInfo.remarkContentw == "") {
         this.$Message.info("备注内容不能为空");
         return;
       }
-      fromData.remarkDate = this.$utils.formatDate(
-        this.handleInfo.remarkDatew,
-        "YYYY-MM-DD"
-      );
+
       fromData.remarkContent = this.handleInfo.remarkContentw;
       fromData.remarkMan = this.userInfo.userName;
       fromData.employeeId = this.$route.query.employeeId;

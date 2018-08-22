@@ -72,13 +72,13 @@
         noticeData:[],
         noticeInfo: {
           noticeColumns: [
-            // {title: '序号', key: 'seq', align: 'center', width: 100, className: 'mw100',
-            //   render: (h, params) => {
-            //     return h('div', {style: {textAlign: 'right'}}, [
-            //       h('span', params.row.seq),
-            //     ]);
-            //   }
-            // },
+            {title: '序号', key: 'seq', align: 'center', width: 60, className: 'mw100',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'right'}}, [
+                  h('span', params.row.seq),
+                ]);
+              }
+            },
             {title: '项目', key: 'paymentItem', align: 'center', width: 240, className: 'mw240',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [

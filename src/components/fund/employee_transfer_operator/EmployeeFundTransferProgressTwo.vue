@@ -375,7 +375,9 @@
 //              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
 //            }
           //this.setValue();
-          setTimeout(this.setValue,500);
+            this.transferOutUnitList = this.unique(this.transferOutUnitList);
+            this.transferInUnitList = this.unique(this.transferInUnitList);
+            setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);
           }

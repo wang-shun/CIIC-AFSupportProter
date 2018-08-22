@@ -141,7 +141,6 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务：">
-
                   {{this.$decode.hf_taskCategory(transferNotice.taskCategory) }}
                 </Form-item>
               </Col>
@@ -156,7 +155,7 @@
                   :remote-method="handleTransferOutSearch"
                   @on-change="handleTransferOutChange"
                   :loading="loading"
-                  style="width: 100%;" transfer>
+                  style="width: 100%;" clearable transfer>
                      <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
                   </Select>
                 </Form-item>
@@ -172,12 +171,12 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转入单位："  prop='transferInUnit'>
                   <Select v-model="transferNotice.transferInUnit"
-                  filterable
+                filterable
                 remote
                 :remote-method="handleTransferInSearch"
-               @on-change="handleTransferInChange"
+                @on-change="handleTransferInChange"
                 :loading="loading"
-                  style="width: 100%;" transfer>
+                  style="width: 100%;" clearable transfer>
                      <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
                   </Select>
                 </Form-item>
@@ -295,12 +294,14 @@
     },
 
     mounted() {
-//      dict.getDictData().then(data => {
-//        if (data.code == 200) {
-//          this.fundTypeList = data.data.FundType;
-//        }
-//      });
+      dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.fundTypeList = data.data.FundType;
+        }
+      });
       this.initData();
+
+      
     },
     computed: {
     },
@@ -313,10 +314,10 @@
 
     initData(){
         let params = {employeeId:this.$route.query.employeeId,
-        companyId:this.$route.query.companyId,
-        hfType:this.$route.query.hfType,
-        empTaskId:this.$route.query.empTaskId,
-        };
+                      companyId:this.$route.query.companyId,
+                      hfType:this.$route.query.hfType,
+                      empTaskId:this.$route.query.empTaskId,
+                      };
           api.queryComEmpTransferForm(params).then(data => {
           if (data.code == 200) {
             this.displayVO = data.data;
@@ -325,7 +326,6 @@
               this.transferNotice={};
             }else{
               this.transferNotice1 = data.data.empTaskTransferBo;
-              this.$utils.copy(this.transferNotice1, this.transferNotice);
               this.getDictData();
             }
           } else {
@@ -341,40 +341,30 @@
       getDictData(){
         dict.getDictData().then(data => {
           if (data.code == 200) {
-            this.fundTypeList = data.data.FundType;
             this.transferUnitDictList = data.data.FundOutUnit;
-//            let isContainOut = false;
-//            let isContainIn = false;
-            this.transferUnitDictList.forEach((element, index, array) => {
-              if (!this.transferOutUnitList.includes(element)) {
-                this.transferOutUnitList.push(element);
-              }
-              if (!this.transferInUnitList.includes(element)) {
-                this.transferInUnitList.push(element);
-              }
+            let isContainOut = false;
+            let isContainIn = false;
 
-//              if (element === this.transferNotice1.transferOutUnit) {
-//                isContainOut = true;
-//              }
-//              if (element === this.transferNotice1.transferInUnit) {
-//                isContainIn = true;
-//              }
+            this.transferUnitDictList.forEach((element, index, array) => {
+              this.transferOutUnitList.push(element);
+              this.transferInUnitList.push(element);
+
+              if (element === this.transferNotice1.transferOutUnit) {
+                isContainOut = true;
+              }
+              if (element === this.transferNotice1.transferInUnit) {
+                isContainIn = true;
+              }
             })
 
-            if (!this.transferOutUnitList.includes(this.transferNotice1.transferOutUnit)) {
+            if (!isContainOut) {
               this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
             }
-            if (!this.transferInUnitList.includes(this.transferNotice1.transferInUnit)) {
+            if (!isContainIn) {
               this.transferInUnitList.push(this.transferNotice1.transferInUnit);
             }
-
-//            if (!isContainOut && this.transferNotice1.transferOutUnit) {
-//              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
-//            }
-//            if (!isContainIn && this.transferNotice1.transferInUnit) {
-//              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
-//            }
-          //this.setValue();
+           
+          
           setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);
@@ -383,22 +373,13 @@
       },
 
       setValue(){
-//        this.transferNotice=this.transferNotice1
-        this.transferOutUnitList = this.unique(this.transferOutUnitList);
-        this.transferInUnitList = this.unique(this.transferInUnitList);
-        this.$utils.copy(this.transferNotice1, this.transferNotice);
+        //
+       this.$utils.copy(this.transferNotice1,this.transferNotice);
+       if(this.transferNotice.hfType==undefined){
+            this.transferNotice.hfType='1';
+       }
       },
-      unique(array){
-        array.sort();
-        var re=[array[0]];
-        for(var i = 1; i < array.length; i++){
-          if( array[i] !== re[re.length-1])
-          {
-            re.push(array[i]);
-          }
-        }
-        return re;
-      },
+
       goBack() {
         this.$router.go(-1);
       },
@@ -431,12 +412,7 @@
         }
       },
       printTransferTask(){
-        let rows = [
-          {"year":"2018","month":"04","day":21,"employeeName":"张三","fundAccount":"CA21525","transferInUnitName":"上海我爱你家","transferInAccount":"SS2212121","transferOutUnitName":"上海你家爱我","transferOutAccount":"XX12254","totalNum":54},
-          {"year":"2018","month":"04","day":22,"employeeName":"李四","fundAccount":"CA21568","transferInUnitName":"上海移动","transferInAccount":"SS878556","transferOutUnitName":"上海电信","transferOutAccount":"XX56455","totalNum":100}
-        ];
-
-
+        let rows = [];
         if(this.checkData()==false){
           return false;
         }
@@ -509,7 +485,7 @@
       },
       handleTransferInSearch(value) {
 
-        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
 //        if (this.transferNotice.transferInUnitAccount != '') {
 //          return true;
 //        }
@@ -517,7 +493,7 @@
       },
       handleTransferOutSearch(value) {
 
-        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
 //        if (this.transferNotice.transferOutUnitAccount != '') {
 //          return true;
 //        }
@@ -525,6 +501,7 @@
       },
       handleTransferOutChange(value) {
         //this.transferNotice.transferOutUnitAccount = '';
+        console.log("=="+value);
         this.transferOutUnitList.forEach((element, index, array) => {
             if (element == value) {
               this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
@@ -535,7 +512,7 @@
       },
       handleTransferInChange(value) {
        // this.transferNotice.transferInUnitAccount = '';
-
+        console.log("in=="+value);
         this.transferInUnitList.forEach((element, index, array) => {
             if (element == value) {
               this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
@@ -543,13 +520,55 @@
             }
           }
         )
-
-        //    this.transferInUnitList.push(value);
-        //    this.transferNotice.transferInUnit = value;
-        //  alert(this.transferNotice.transferInUnit );
       },
-      doSearch(value, unitList, unitAccountList, type) {
 
+     doSelect(value, unitList, unitAccountList, type) {
+        this.loading = true;
+       // unitList.length = 0;
+       // unitAccountList.length = 0;
+        if (value == '') {
+          this.transferUnitDictList.forEach((element, index, array) => {
+            unitList.push(element);
+          })
+        } else {
+          api.comAccountQuery(
+            {
+              comAccountName: value,
+              hfType: this.transferNotice.hfType,
+              companyId:this.$route.query.companyId,
+            }
+          ).then(
+            data => {
+              if (data.code == 200) {
+                if (data.data && data.data.length == 1) {
+                  let isDuplicate=false;
+                  unitList.forEach((element, index, array) => {
+                      if( data.data[0].comAccountName == element){
+                        isDuplicate = true;
+                      }
+                  })
+                  if(isDuplicate==false){
+                    unitList.push(data.data[0].comAccountName);
+                    unitAccountList.push(data.data[0].hfComAccount);
+                  }
+                    if (type == 1) {
+                      this.transferNotice.transferOutUnit = data.data[0].comAccountName;
+                      this.transferNotice.transferOutUnitAccount = data.data[0].hfComAccount;
+                    } else {
+                      this.transferNotice.transferInUnit = data.data[0].comAccountName;
+                      this.transferNotice.transferInUnitAccount = data.data[0].hfComAccount;
+                    }
+                } 
+              } else {
+                this.$Message.error(data.message);
+              }
+            }
+          )
+        }
+        this.loading = false;
+      },
+
+      doSearch(value, unitList, unitAccountList, type) {
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;

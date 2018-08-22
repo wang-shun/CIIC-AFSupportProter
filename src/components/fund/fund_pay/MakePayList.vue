@@ -20,11 +20,7 @@
                   </Select>
                 </Form-item>
               </Col>
-              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="服务中心：" prop="serviceCenterValue">
-                  <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
-                </Form-item>
-              </Col> -->
+             
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="支付状态：" prop="paymentStatus">
                   <Select v-model="operatorSearchData.paymentStatus" style="width: 100%;" transfer @on-change="paymentStatusChange()">
@@ -47,6 +43,17 @@
                   <DatePicker v-model="operatorSearchData.paymentMonth" type="month" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
+               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="服务中心：" prop="serviceCenterValue">
+                  <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
+                </Form-item>
+              </Col> 
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客服经理：" prop="leaderShipName">
+                  <Input v-model="operatorSearchData.leaderShipName" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
+              
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -122,6 +129,7 @@
 <script>
   import {FundPay} from '../../../api/house_fund/fund_pay/fund_pay'
   import Tools from '../../../lib/tools'
+  import api from "../../../api/house_fund/employee_operator";
 
   export default {
     data() {
@@ -140,6 +148,8 @@
           paymentStatus: 3, //支付状态默认为可付
           fundAccountType: '3',
           paymentBank: '15',
+          serviceCenterValue:[],
+          leaderShipName: "",
         },
         selectedData: [],
         selectedData1:[],
@@ -171,12 +181,7 @@
 
         //todo: 菜单值统一存储维护
 
-        serviceCenterData: [
-          {value: 1, label: '大客户', children: [{value: '1-1', label: '大客户1'}, {value: '1-2', label: '大客户2'}]},
-          {value: 2, label: '日本客户'},
-          {value: 3, label: '虹桥'},
-          {value: 4, label: '浦东'}
-        ],
+        serviceCenterData: [],
         paymentStatusList: [
           {label: "未到帐", value: 1},
           {label: "无需支付", value: 2},
@@ -206,6 +211,13 @@
               ]);
             }
           },
+          {title: '客户编号', key: 'companyId', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.companyId),
+              ]);
+            }
+          },
           {title: '支付状态', key: 'paymentStateValue', align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
@@ -231,14 +243,13 @@
       }
     },
     mounted() {
-
+      this.getCustomers();
     },
     computed: {
     },
     methods: {
       clickQuery(name){
         this.loading=true;
-
         this.$refs[name].validate((valid)=>{
           if(valid) {
             this.operatorSearchData.paymentMonthValue=Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
@@ -259,11 +270,24 @@
         this.$refs[name].resetFields()
       },
       getParams(page) {
+        let params = this.operatorSearchData;
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         return {
           pageSize: this.size,
           pageNum: page,
-          params: this.operatorSearchData
+          params: params
         }
+      },
+      getCustomers(){
+        let params = null;
+        api.getCustomers({params:params}).then(data=>{
+          this.serviceCenterData = data.data;
+        })
       },
       refresh(data){
         this.makePayListData = data.data.makePayListData;

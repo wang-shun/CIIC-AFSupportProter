@@ -733,15 +733,27 @@
         }
         let handleType = 'handle'==type || 'save'==type;
 
-        if (handleType && (!this.socialSecurityPayOperator.empSsSerial || this.socialSecurityPayOperator.empSsSerial.trim() == '')) {
-          this.$Message.error("社保序号不能为空.");
-          return;
-        }
-
-        var reg = /(^[1-9]([0-9]{1,9})?$)/;
-        if (handleType && (!reg.test(this.socialSecurityPayOperator.empSsSerial))) {
-          this.$Message.error("社保序号输入不正确.");
-          return;
+//        if (handleType && (!this.socialSecurityPayOperator.empSsSerial || this.socialSecurityPayOperator.empSsSerial.trim() == '')) {
+//          this.$Message.error("社保序号不能为空.");
+//          return;
+//        }
+//
+//        var reg = /(^[1-9]([0-9]{1,9})?$)/;
+//        if (handleType && (!reg.test(this.socialSecurityPayOperator.empSsSerial))) {
+//          this.$Message.error("社保序号输入不正确.");
+//          return;
+//        }
+        if ((!this.socialSecurityPayOperator.empSsSerial || this.socialSecurityPayOperator.empSsSerial.trim() == '')) {
+          if ('handle' == type) {
+            this.$Message.error("社保序号不能为空.");
+            return;
+          }
+        } else {
+          var reg = /(^[1-9]([0-9]{1,9})?$)/;
+          if (handleType && (!reg.test(this.socialSecurityPayOperator.empSsSerial))) {
+            this.$Message.error("社保序号输入不正确.");
+            return;
+          }
         }
 
         let handleMonth = this.yyyyMM(this.socialSecurityPayOperator.handleMonth)

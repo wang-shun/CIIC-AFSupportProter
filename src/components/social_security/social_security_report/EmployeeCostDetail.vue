@@ -36,7 +36,7 @@
                 <Button type="warning" @click="goBack" >返回</Button>
               </Col>
             </Row>
-            <Table   :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData" :loading="loading" ></Table>
+            <Table   :columns="noticeInfo.noticeColumns" :data="noticeInfo.noticeData" :loading="loading" height=600 ></Table>
           
         </div>
       </Panel>
@@ -50,7 +50,7 @@
   export default {
     data() {
       return{
-        ssMonth:this.$route.query.ssMonth,
+         ssMonth:this.$route.query.ssMonth,
          ssAccount:this.$route.query.ssAccount,
          comAccountId:this.$route.query.ssAccountId,
         collapseInfo: [1], //展开栏
@@ -290,7 +290,11 @@
 
       },
       queryEmlpyeeMonthFeeDetail(){
-        let params = {ssMonth:this.ssMonth,ssAccount:this.ssAccount}
+        let params = {
+          ssMonth:this.ssMonth,
+          ssAccount:this.ssAccount,
+          companyId:this.$route.query.companyId,
+          }
               api.queryEmlpyeeMonthFeeDetail(params).then(data=>{
                   if(data.code==500){
                     this.loading=false;

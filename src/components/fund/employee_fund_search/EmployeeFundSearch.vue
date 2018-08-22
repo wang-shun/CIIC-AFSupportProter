@@ -93,7 +93,7 @@
         <Button type="info" class="ml10" @click="isShowImportFundAccount = true;">批量导入公积金账号</Button>
       </Col>
     </Row>
-    <Table border class="mt20" :row-class-name="rowClassName" :columns="employeeFundColumns" :data="employeeFundData"></Table>
+    <Table border class="mt20" :row-class-name="rowClassName" :columns="employeeFundColumns" :data="employeeFundData"  @on-row-dblclick="dbClickHandleData"></Table>
 
     <Page
         class="pageSize"
@@ -188,7 +188,7 @@ export default {
       pageData: {
         total: 0,
         pageNum: 1,
-        pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+        pageSize: 10,
         pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
       },
       operationRemindList: [],
@@ -248,58 +248,55 @@ export default {
       uploadFileList: [],
       isShowImportFundAccount: false,
       employeeFundColumns: [
-        {
-          title: "操作",
-          align: "center",
-          width: 120,
-          render: (h, params) => {
-
-            if(params.row.empArchiveId == null || params.row.empArchiveId=='' ){
-              return h("div", [
-                h(
-                  "Button",
-                  {
-                    props: { type: "success", size: "small" },
-                    style: { margin: "0 auto" },
-                    on: {
-                      click: () => {
-                        sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
-                        sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
-                        this.$router.push({
-                          name: "employeeFundBasicInfo",
-                          query: { companyId: params.row.companyId,employeeId:params.row.employeeId }
-                        });
-                      }
-                    }
-                  },
-                  "查看"
-                )
-              ]);
-            }else{
-              return h("div", [
-                h(
-                  "Button",
-                  {
-                    props: { type: "success", size: "small" },
-                    style: { margin: "0 auto" },
-                    on: {
-                      click: () => {
-                        this.showInfo(
-                          params.row.empArchiveId,
-                          params.row.companyId,
-                          params.row.employeeId
-                        );
-                      }
-                    }
-                  },
-                  "查看/修改"
-                )
-              ]);
-            }
-
-
-          }
-        },
+      //   {
+      //     title: "操作",
+      //     align: "center",
+      //     width: 120,
+      //     render: (h, params) => {
+      //       if(params.row.empArchiveId == null || params.row.empArchiveId=='' ){
+      //         return h("div", [
+      //           h(
+      //             "Button",
+      //             {
+      //               props: { type: "success", size: "small" },
+      //               style: { margin: "0 auto" },
+      //               on: {
+      //                 click: () => {
+      //                   sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
+      //                   sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
+      //                   this.$router.push({
+      //                     name: "employeeFundBasicInfo",
+      //                     query: { companyId: params.row.companyId,employeeId:params.row.employeeId }
+      //                   });
+      //                 }
+      //               }
+      //             },
+      //             "查看"
+      //           )
+      //         ]);
+      //       }else{
+      //         return h("div", [
+      //           h(
+      //             "Button",
+      //             {
+      //               props: { type: "success", size: "small" },
+      //               style: { margin: "0 auto" },
+      //               on: {
+      //                 click: () => {
+      //                   this.showInfo(
+      //                     params.row.empArchiveId,
+      //                     params.row.companyId,
+      //                     params.row.employeeId
+      //                   );
+      //                 }
+      //               }
+      //             },
+      //             "查看/修改"
+      //           )
+      //         ]);
+      //       }
+      //     }
+      //   },
         {
           title: "客户编号",
           key: "companyId",
@@ -322,17 +319,17 @@ export default {
             ]);
           }
         },
-        {
-          title: "企业账户类型",
-          key: "hfAccountType",
-          align: "center",
-          width: 150,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", this.$decode.accountType(params.row.hfAccountType))
-            ]);
-          }
-        },
+        // {
+        //   title: "企业账户类型",
+        //   key: "hfAccountType",
+        //   align: "center",
+        //   width: 150,
+        //   render: (h, params) => {
+        //     return h("div", { style: { textAlign: "left" } }, [
+        //       h("span", this.$decode.accountType(params.row.hfAccountType))
+        //     ]);
+        //   }
+        // },
         {
           title: "雇员编码",
           key: "employeeId",
@@ -413,25 +410,20 @@ export default {
             ]);
           }
         },
-        {
-          title: "上下岗状态",
-          key: "empStatus",
-          align: "center",
-          width: 150,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h(
-                "span",
-//                {
-//                  style: {
-//                    color: params.row.empStatus === "3" ? "red" : "#495060"
-//                  }
-//                },
-                this.$decode.empStatus(params.row.empStatus)
-              )
-            ]);
-          }
-        },
+        // {
+        //   title: "上下岗状态",
+        //   key: "empStatus",
+        //   align: "center",
+        //   width: 150,
+        //   render: (h, params) => {
+        //     return h("div", { style: { textAlign: "left" } }, [
+        //       h(
+        //         "span",
+        //         this.$decode.empStatus(params.row.empStatus)
+        //       )
+        //     ]);
+        //   }
+        // },
         {
           title: "客服中心",
           key: "serviceCenter",
@@ -613,7 +605,50 @@ export default {
         query: { empArchiveId: empArchiveId, companyId: companyId, employeeId: employeeId }
       });
     },
-
+    dbClickHandleData(row, index){
+      
+          sessionData.setJsonDataToSession('companyFundTaskList.noProcess.operatorSearchData', this.operatorSearchData);
+          sessionData.setJsonDataToSession('companyFundTaskList.noProcess.pageData', this.pageData);
+          switch(params.row.taskCategoryName) {
+            case '开户':
+              this.$router.push({name: 'companyFundTaskCommit', params: {
+                  comTaskId: params.row.comTaskId,
+                  companyInfo: params.row.companyInfo,
+                  openAccountInfo: params.row.openAccountInfo}
+              });
+              break;
+            case '转入':
+              this.$router.push({name: 'companyFundTaskCommit', params: {
+                  comTaskId: params.row.comTaskId,
+                  companyInfo: params.row.companyInfo,
+                  openAccountInfo: params.row.openAccountInfo}
+              });
+              break;
+            case '变更':
+              this.$router.push({name: 'companyFundTaskProgressChangeInfo', params: {
+                  comTaskId: params.row.comTaskId,
+                  companyFundAccountInfo: params.row.companyFundAccountInfo,
+                  changeOperator: params.row.changeOperator}
+              });
+              break;
+            case '终止':
+              this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
+                  comTaskId: params.row.comTaskId,
+                  companyFundAccountInfo: params.row.companyFundAccountInfo,
+                  endOperator: params.row.endOperator}
+              });
+              break;
+            case '销户':
+              this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
+                  comTaskId: params.row.comTaskId,
+                  companyFundAccountInfo: params.row.companyFundAccountInfo,
+                  endOperator: params.row.endOperator}
+              });
+              break;
+            default:
+              break;
+          }
+      },
     gotoHistoryList() {
       this.$router.push({ name: "employeeFundHistory" });
     },

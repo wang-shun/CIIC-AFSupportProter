@@ -26,6 +26,8 @@ export default {
 
   exportStatementDetail:(params)=>{
     AJAX.download('/api/fundcommandservice/statement/exportStatementDetail', params)
+  },
+  downTemplate:()=>{
+    AJAX.download('/api/fundcommandservice/statement/downTemplate')
   }
-
 }

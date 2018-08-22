@@ -156,8 +156,7 @@
           if(operateStartMonth!='' && operateStartMonth!=null){
              operateStartMonth = Tools.formatDate(operateStartMonth, "YYYYMM")
           }
-          console.log('-----');
-        console.log(this.$refs.openAccount.openAccountInfo.acceptDate);
+
         return {
           //comTask
           comTaskId: this.$route.params.comTaskId,
@@ -188,7 +187,7 @@
 
         }
       },
-
+ 
     }
   }
 </script>

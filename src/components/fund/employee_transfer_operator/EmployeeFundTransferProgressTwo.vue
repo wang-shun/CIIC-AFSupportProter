@@ -363,6 +363,7 @@
               })
             } else {
               this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
+              this.transferOutUnitAccountList.push(this.transferNotice1.transferOutUnitAccount);
             }
 
             if (!this.transferNotice1.transferInUnit || this.transferNotice1.transferInUnit == '') {
@@ -383,6 +384,7 @@
               })
             } else {
               this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+              this.transferInUnitAccountList.push(this.transferNotice1.transferInUnitAccount);
             }
 
 //            if (!this.transferOutUnitList.includes(this.transferNotice1.transferOutUnit)) {
@@ -555,7 +557,6 @@
       },
       handleTransferOutChange(value) {
         //this.transferNotice.transferOutUnitAccount = '';
-        console.log("handleTransferOutChange:" + value);
         this.transferOutUnitList.forEach((element, index, array) => {
             if (element == value) {
               this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
@@ -584,7 +585,6 @@
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;
-        console.log("doSearch:" + value);
         if (value == '') {
           this.transferUnitDictList.forEach((element, index, array) => {
             unitList.push(element);
@@ -599,9 +599,6 @@
             data => {
               if (data.code == 200) {
                 if (data.data && data.data.length > 0) {
-                  console.log("unitList:" + JSON.stringify(unitList));
-                  console.log("unitAccountList:" + JSON.stringify(unitAccountList));
-
                   data.data.forEach((element, index, array) => {
                     unitList.push(element.comAccountName);
                     unitAccountList.push(element.hfComAccount);

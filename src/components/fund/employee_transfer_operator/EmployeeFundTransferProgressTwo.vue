@@ -129,17 +129,17 @@
       <Panel name="4">
         转移操作
         <div slot="content">
-          <Form :label-width=150>
+          <Form :label-width=150 v-model="transferNotice">
             <Row>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金类型：">
+                <Form-item label="公积金类型：" prop="hfType">
                   <Select v-model="transferNotice.hfType" style="width: 100%;" transfer>
                     <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务：">
+                <Form-item label="任务：" prop="taskCategory">
 
                   {{this.$decode.hf_taskCategory(transferNotice.taskCategory) }}
                 </Form-item>
@@ -621,6 +621,13 @@
                       this.transferNotice.transferInUnitAccount = unitAccountList[0];
                     }
                   }
+                }
+
+                if (type === 1) {
+                  console.log('in type 1')
+                  this.transferNotice.transferInUnit = '中智大库'
+
+                  console.log(this.transferNotice)
                 }
               } else {
                 this.$Message.error(data.message);

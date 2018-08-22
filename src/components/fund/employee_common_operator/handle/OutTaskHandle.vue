@@ -454,10 +454,14 @@
       }).then(data => {
         if (data.code == 200) {
           this.displayVO = data.data;
-          if (hfType == 1) {
-            this.displayVO.hfMonth = this.displayVO.basicComHfMonth;
+          if (!data.data.empTaskPeriods || data.data.empTaskPeriods.length === 0) {
+            if (hfType == 1) {
+              this.displayVO.hfMonth = this.displayVO.basicComHfMonth;
+            } else {
+              this.displayVO.hfMonth = this.displayVO.addedComHfMonth;
+            }
           } else {
-            this.displayVO.hfMonth = this.displayVO.addedComHfMonth;
+            this.displayVO.hfMonth = data.data.empTaskPeriods[0].hfMonth;
           }
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;

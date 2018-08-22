@@ -384,8 +384,8 @@
 
       setValue(){
 //        this.transferNotice=this.transferNotice1
-        unique(this.transferOutUnitList);
-        unique(this.transferInUnitList);
+        this.transferOutUnitList = this.unique(this.transferOutUnitList);
+        this.transferInUnitList = this.unique(this.transferInUnitList);
         this.$utils.copy(this.transferNotice1, this.transferNotice);
       },
       unique(array){

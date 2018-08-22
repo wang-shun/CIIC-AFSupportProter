@@ -172,6 +172,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转入单位："  prop='transferInUnit'>
                   <Select v-model="transferNotice.transferInUnit"
+                          :label="transferNotice.transferInUnit"
                   filterable
                 remote
                 :remote-method="handleTransferInSearch"
@@ -402,11 +403,11 @@
             this.transferOutUnitList = this.unique(this.transferOutUnitList);
             this.transferInUnitList = this.unique(this.transferInUnitList);
 
-            console.log(JSON.stringify(this.transferOutUnitList));
-            console.log(JSON.stringify(this.transferInUnitList));
-            this.transferNotice = JSON.parse(JSON.stringify(this.transferNotice1))
-            console.log('deep copy finished: ', this.transferNotice)
-//            this.$utils.copy(this.transferNotice1, this.transferNotice);
+//            console.log(JSON.stringify(this.transferOutUnitList));
+//            console.log(JSON.stringify(this.transferInUnitList));
+//            this.transferNotice = JSON.parse(JSON.stringify(this.transferNotice1))
+//            console.log('deep copy finished: ', this.transferNotice)
+            this.$utils.copy(this.transferNotice1, this.transferNotice);
 //            setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);
@@ -622,13 +623,6 @@
                       this.transferNotice.transferInUnitAccount = unitAccountList[0];
                     }
                   }
-                }
-
-                if (type === 1) {
-                  console.log('in type 1')
-                  this.transferNotice.transferInUnit = '中智大库'
-
-                  console.log(this.transferNotice)
                 }
               } else {
                 this.$Message.error(data.message);

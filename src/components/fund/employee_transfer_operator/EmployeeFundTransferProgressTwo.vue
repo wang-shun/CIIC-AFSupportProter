@@ -133,7 +133,7 @@
             <Row>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金类型：" prop="hfType">
-                  <Select v-model="transferNotice.hfType" style="width: 100%;" @on-change="handleHfTypeChange" transfer>
+                  <Select v-model="transferNotice.hfType" style="width: 100%;" transfer>
                     <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
                   </Select>
                 </Form-item>

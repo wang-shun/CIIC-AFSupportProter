@@ -150,6 +150,7 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转出单位：" prop='transferOutUnit'>
                   <Select v-model="transferNotice.transferOutUnit"
+                          :label="transferNotice.transferOutUnit"
                   filterable
                   remote
                   :remote-method="handleTransferOutSearch"

@@ -162,7 +162,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转出单位账号：">
+                <Form-item label="转出单位账号：" prop="transferOutUnitAccount">
                   <Input v-model="transferNotice.transferOutUnitAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -184,7 +184,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转入单位账号：">
+                <Form-item label="转入单位账号：" prop="transferInUnitAccount">
                   <Input v-model="transferNotice.transferInUnitAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>

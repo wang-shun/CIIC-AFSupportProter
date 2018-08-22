@@ -26,6 +26,8 @@
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
     </Row>
+    <Row type="flex" justify="start" class="mt20">
+      <Col :sm="{span: 20}" class="tr">
     <Table border id="dissList" height="300" :row-class-name="rowClassName" :columns="dismissalColumns" :data="dismissalData" ref="dismissalData" :loading="isLoading"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
        <Page
         class="pageSize"
@@ -36,7 +38,55 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table border :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" class="mt20"></Table>
+      </Col>
+      <Col :sm="{span: 3, offset: 1}" class="pt10">
+        <RadioGroup v-model="jobGroup"  @on-change="showJob" vertical>
+        <Radio label="Y" >
+            <span>在职</span>
+             <span>{{jobData.job}}</span>
+        </Radio>
+        <Radio label="N">
+            <span>终止</span>
+            <span>{{jobData.noJob}}</span>
+        </Radio>
+        </RadioGroup>
+        <RadioGroup v-model="vertical"  @on-change="showInfoTw" vertical>
+        <Radio label="99" >
+            <span>未反馈</span>
+             <span>{{RadioData.noFeedback}}</span>
+        </Radio>
+        <Radio label="1">
+            <span>退工成功</span>
+            <span>{{RadioData.refuseFinished}}</span>
+        </Radio>
+        <Radio label="2">
+            <span>档未到先退工</span>
+            <span>{{RadioData.refuseBeforeWithFile}}</span>
+        </Radio>
+        <Radio label="3">
+            <span>退工单盖章未返回</span>
+             <span>{{RadioData.refuseTicketStampNoReturn}}</span>
+        </Radio>
+        <Radio label="4">
+            <span>退工失败</span>
+            <span>{{RadioData.refuseFailed}}</span>
+        </Radio>
+        <Radio label="5">
+            <span>前道要求批退</span>
+            <span>{{RadioData.beforeBatchNeedRefuse}}</span>
+        </Radio>
+        <Radio label="6">
+            <span>其他</span>
+            <span>{{RadioData.other}}</span>
+        </Radio>
+        <Radio label="0">
+            <span>TOTAL</span>
+            <span>{{RadioData.amount}}</span>
+        </Radio>
+    </RadioGroup>
+      </Col>
+    </Row>
+    <!-- <Table border :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" class="mt20"></Table> -->
   </div>
 </template>
 <script>
@@ -54,6 +104,17 @@ export default {
   components: { searchEmployment },
   data() {
     return {
+      jobGroup:"",
+      vertical: "",
+      jobData: {
+        job: 0,
+        noJob: 100
+      },
+      RadioData: {
+        noSign: 200,
+        employSuccess: 100,
+        noRecord: 2100
+      },
       initSearch: false,
       initSearchC: false,
       isLoading: false,
@@ -316,192 +377,6 @@ export default {
         }
       ],
       dismissalData: [],
-      searchResultColumns: [
-        {
-          title: "未反馈",
-          key: "noFeedback",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(99);
-                  }
-                }
-              },
-              params.row.noFeedback
-            );
-          }
-        },
-        {
-          title: "退工成功",
-          key: "refuseFinished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(1);
-                  }
-                }
-              },
-              params.row.refuseFinished
-            );
-          }
-        },
-        {
-          title: "档未到先退工",
-          key: "refuseBeforeWithFile",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(2);
-                  }
-                }
-              },
-              params.row.refuseBeforeWithFile
-            );
-          }
-        },
-        {
-          title: "退工单盖章未返回",
-          key: "refuseTicketStampNoReturn",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(3);
-                  }
-                }
-              },
-              params.row.refuseTicketStampNoReturn
-            );
-          }
-        },
-        {
-          title: "退工失败",
-          key: "refuseFailed",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(4);
-                  }
-                }
-              },
-              params.row.refuseFailed
-            );
-          }
-        },
-        {
-          title: "前道要求批退",
-          key: "beforeBatchNeedRefuse",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(5);
-                  }
-                }
-              },
-              params.row.beforeBatchNeedRefuse
-            );
-          }
-        },
-        {
-          title: "其他",
-          key: "other",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(6);
-                  }
-                }
-              },
-              params.row.other
-            );
-          }
-        },
-        {
-          title: "总计",
-          key: "amount",
-          align: "center",
-          width: 231,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTws(0);
-                  }
-                }
-              },
-              params.row.amount
-            );
-          }
-        }
-      ],
       searchResultData: []
     };
   },
@@ -564,18 +439,27 @@ export default {
           params: params
         })
         .then(data => {
-          self.searchResultData = data.data.row;
+          self.RadioData = data.data.row[0];
+          self.jobData = data.data.amTaskStatusBO;
         });
     },
     showInfoTw(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
       this.searchCondition.taskStatus = ind;
+      if(this.jobGroup!=''){
+        this.searchCondition.job = `${this.jobGroup}`;
+      }
       this.queryAmResign(this.searchCondition);
     },
-    showInfoTws(ind) {
+    showJob(ind) {
+      this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = ind;
+      if(this.vertical!='')
+      {
+         this.searchCondition.taskStatus = this.vertical;
+      }
+      this.searchCondition.job = ind;
       this.queryAmResign(this.searchCondition);
     },
     handlePageNum(val) {

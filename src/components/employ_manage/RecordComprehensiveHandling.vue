@@ -1051,8 +1051,9 @@ export default {
         });
     },
     printReturnList(){
-      let params = this.searchCondition;
-      api.archiveSearchExportReturnList(params);
+      api.archiveSearchExportReturnList({pageSize: 1000,
+          pageNum: 1,
+          params: this.searchCondition});
     },
     changeSortClass(storeOrder) {
       this.recordComprehensiveHandlingColumns.forEach((e, idx) => {

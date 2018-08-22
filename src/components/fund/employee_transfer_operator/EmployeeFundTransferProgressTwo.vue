@@ -175,7 +175,7 @@
                   filterable
                 remote
                 :remote-method="handleTransferInSearch"
-               @on-change="transferNotice.transferInUnit=$event"
+               @on-change="handleTransferInChange"
                 :loading="loading"
                   style="width: 100%;" transfer>
                      <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
@@ -295,11 +295,11 @@
     },
 
     mounted() {
-      dict.getDictData().then(data => {
-        if (data.code == 200) {
-          this.fundTypeList = data.data.FundType;
-        }
-      });
+//      dict.getDictData().then(data => {
+//        if (data.code == 200) {
+//          this.fundTypeList = data.data.FundType;
+//        }
+//      });
       this.initData();
     },
     computed: {
@@ -324,8 +324,9 @@
               this.transferNotice.companyId=params.companyId;
               this.transferNotice={};
             }else{
-            this.transferNotice1 = data.data.empTaskTransferBo;
-            this.getDictData();
+              this.transferNotice1 = data.data.empTaskTransferBo;
+              this.$utils.copy(this.transferNotice1, this.transferNotice);
+              this.getDictData();
             }
           } else {
             this.$Message.error(data.message);
@@ -340,28 +341,39 @@
       getDictData(){
         dict.getDictData().then(data => {
           if (data.code == 200) {
+            this.fundTypeList = data.data.FundType;
             this.transferUnitDictList = data.data.FundOutUnit;
-            let isContainOut = false;
-            let isContainIn = false;
-
+//            let isContainOut = false;
+//            let isContainIn = false;
             this.transferUnitDictList.forEach((element, index, array) => {
-              this.transferOutUnitList.push(element);
-              this.transferInUnitList.push(element);
+              if (!this.transferOutUnitList.includes(element)) {
+                this.transferOutUnitList.push(element);
+              }
+              if (!this.transferInUnitList.includes(element)) {
+                this.transferInUnitList.push(element);
+              }
 
-              if (element === this.transferNotice1.transferOutUnit) {
-                isContainOut = true;
-              }
-              if (element === this.transferNotice1.transferInUnit) {
-                isContainIn = true;
-              }
+//              if (element === this.transferNotice1.transferOutUnit) {
+//                isContainOut = true;
+//              }
+//              if (element === this.transferNotice1.transferInUnit) {
+//                isContainIn = true;
+//              }
             })
 
-            if (!isContainOut) {
+            if (!this.transferOutUnitList.includes(this.transferNotice1.transferOutUnit)) {
               this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
             }
-            if (!isContainIn) {
+            if (!this.transferInUnitList.includes(this.transferNotice1.transferInUnit)) {
               this.transferInUnitList.push(this.transferNotice1.transferInUnit);
             }
+
+//            if (!isContainOut && this.transferNotice1.transferOutUnit) {
+//              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
+//            }
+//            if (!isContainIn && this.transferNotice1.transferInUnit) {
+//              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+//            }
           //this.setValue();
           setTimeout(this.setValue,500);
           } else {
@@ -372,9 +384,21 @@
 
       setValue(){
 //        this.transferNotice=this.transferNotice1
-        this.$utils.copy(this.transferNotice1,this.transferNotice);
+        this.transferOutUnitList = this.unique(this.transferOutUnitList);
+        this.transferInUnitList = this.unique(this.transferInUnitList);
+        this.$utils.copy(this.transferNotice1, this.transferNotice);
       },
-
+      unique(array){
+        array.sort();
+        var re=[array[0]];
+        for(var i = 1; i < array.length; i++){
+          if( array[i] !== re[re.length-1])
+          {
+            re.push(array[i]);
+          }
+        }
+        return re;
+      },
       goBack() {
         this.$router.go(-1);
       },

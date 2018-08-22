@@ -72,13 +72,13 @@
         noticeData:[],
         noticeInfo: {
           noticeColumns: [
-            // {title: '序号', key: 'seq', align: 'center', width: 100, className: 'mw100',
-            //   render: (h, params) => {
-            //     return h('div', {style: {textAlign: 'right'}}, [
-            //       h('span', params.row.seq),
-            //     ]);
-            //   }
-            // },
+            {title: '序号', key: 'seq', align: 'center', width: 60, className: 'mw100',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'right'}}, [
+                  h('span', params.row.seq),
+                ]);
+              }
+            },
             {title: '项目', key: 'paymentItem', align: 'center', width: 240, className: 'mw240',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
@@ -157,7 +157,7 @@
           this.noticeData = data.data;
           let response = data.data;
           if(response != null){
-            let obj = response.filter(x=>x.paymentItemName == '缴纳合计')[0];
+            let obj = response.filter(x=>x.paymentItemName == '缴纳合计（1+2+3+4+5+6-8）')[0];
             if(obj != null){
               let amount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
               this.lowerTotalAmount = amount.toFixed(2)

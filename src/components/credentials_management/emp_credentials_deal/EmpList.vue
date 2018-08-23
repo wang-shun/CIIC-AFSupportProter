@@ -42,7 +42,7 @@
       </Panel>
     </Collapse>
 
-    <Row style="margin: 10px; 0px; 5px; 0px;">
+    <Row style="margin: 10px 0px 5px 0px">
       <i-col style="text-align: right">
         <Button type="primary" @click="add">新增雇员</Button>
       </i-col>
@@ -115,7 +115,7 @@ export default {
       modal1: false,
       labelinvalue: true,
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 10,
       total: null,
       idCardType: "",
       templateType: "",
@@ -268,9 +268,11 @@ export default {
                   },
                   on: {
                     click: () => {
+                      this.findTaskType(params.row.companyId);
                       this.formItem.data = { ...params.row };
                       this.formItem.empName = params.row.employeeName;
                       this.formItem.companyName = params.row.companyName;
+                      this.formItem.companyCode = params.row.companyId;
                       this.modal1 = true;
                     }
                   }
@@ -295,7 +297,7 @@ export default {
                     }
                   }
                 },
-                "查看"
+                "编辑"
               )
             );
             return h("div", renderDiv);
@@ -307,32 +309,30 @@ export default {
   },
   created() {
     this.find();
-    this.findTaskType();
   },
   methods: {
     find() {
       var params = {};
-      params.params = {};
-      params.params.pageNum = this.pageNum;
-      params.params.pageSize = this.pageSize;
-      params.params.employeeId = this.queryItem.empCode;
-      params.params.employeeName = this.queryItem.empName;
-      params.params.idNum = this.queryItem.IDNum;
-      params.params.companyId = this.queryItem.companyCode;
-      params.params.type = this.queryItem.status[0];
-      params.params.status = this.queryItem.status[1];
-      AJAX.get(host + "/api/emp/find", params).then(response => {
+      params.pageNum = this.pageNum;
+      params.pageSize = this.pageSize;
+      params.employeeId = this.queryItem.empCode;
+      params.employeeName = this.queryItem.empName;
+      params.idNum = this.queryItem.IDNum;
+      params.companyId = this.queryItem.companyCode;
+      params.type = this.queryItem.status[0];
+      params.status = this.queryItem.status[1];
+      AJAX.postJSON(`${host}/api/emp/find`, params).then(response => {
         this.employeePage = response.data.data.records;
         this.total = response.data.data.total;
       });
     },
-    findTaskType() {
-      AJAX.get(host + "/api/emp/findTaskType/0").then(response => {
+    findTaskType(companyId) {
+      AJAX.get(host + "/api/emp/findTaskType?pid=0&companyId="+companyId).then(response => {
         this.taskType = response.data.data;
       });
     },
     taskTypeChange(val) {
-      AJAX.get(host + "/api/emp/findTaskType/" + val.value).then(response => {
+      AJAX.get(host + "/api/emp/findTaskType?pid=" + val.value+"&companyId="+this.formItem.companyCode).then(response => {
         this.taskDealType = response.data.data;
       });
     },
@@ -368,7 +368,7 @@ export default {
         if (valid) {
           this.$router.push({
             name: "empCredentialsTask",
-            
+
           });
           let credentialsTaskData = {}
           credentialsTaskData.data = data,
@@ -384,7 +384,6 @@ export default {
 
           sessionStorage.setItem('credentialsTaskData', JSON.stringify(credentialsTaskData))
           this.modal1 = false;
-          console.log("isDealZZZZZ"+sessionStorage.getItem('credentialsTaskData'))
         } else {
           this.$Message.error("请选择办证类型!");
         }

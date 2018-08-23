@@ -1,6 +1,7 @@
 export default {
-  changeSortElementClass(tableIndex, idx, sortType) {
-    let tableElement = this.getByClass(document, 'ivu-table-header')[tableIndex];
+  changeSortElementClass(tableId, idx, sortType) {
+    let tabElement = document.getElementById(tableId); // this.getByClass(document, 'ivu-table-header')[tableIndex];
+    let tableElement = this.getByClass(tabElement, 'ivu-table-header')[0];
     let columnElement = this.getByClass(tableElement, 'ivu-table-column-center')[idx];
     let divElement = this.getByClass(columnElement, 'ivu-table-cell')[0]
     let spanElement = this.getByClass(divElement, 'ivu-table-sort')[0];

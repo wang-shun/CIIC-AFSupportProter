@@ -80,7 +80,7 @@
                 <br>
                   <row>
                    <i-col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-                     <div class="floatRightBtns">
+                     <div class="tr mt20 mb20">
                         <router-link to="/InsurancePolicyNumList">
                             <Button type="primary">提交</Button>
                         </router-link>

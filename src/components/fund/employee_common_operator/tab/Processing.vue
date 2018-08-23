@@ -4,7 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
+          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDailyP"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -19,7 +19,13 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :row-class-name="rowClassName" :columns="processingColumns" :data="processingData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
+        <Table border id="processingData"
+               :row-class-name="rowClassName"
+               :columns="processingColumns"
+               :data="processingData"
+               @on-sort-change="SortChange"
+               @on-row-dblclick="handleDblClick"
+               :loading="isLoading" height=400></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -31,24 +37,6 @@
           show-sizer show-total></Page>
       </Col>
     </Row>
-
-    <!--&lt;!&ndash; 批退理由 &ndash;&gt;-->
-    <!--<Modal-->
-      <!--v-model="isShowRejectBatch"-->
-      <!--@on-ok="ok"-->
-      <!--@on-cancel="cancel">-->
-      <!--<Form>-->
-        <!--<p>-->
-          <!--<Form-item>-->
-            <!--<Input v-model="rejectionRemark" type="textarea" :rows=4 placeholder="请填写批退备注..."></Input>-->
-          <!--</Form-item>-->
-        <!--</p>-->
-      <!--</Form>-->
-      <!--<div slot="footer">-->
-        <!--<Button type="primary" @click="batchReject()">确认批退</Button>-->
-        <!--<Button type="warning" @click="isShowRejectBatch = false">取消</Button>-->
-      <!--</div>-->
-    <!--</Modal>-->
   </div>
 </template>
 <script>
@@ -57,7 +45,7 @@
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
   import sessionData from '../../../../api/session-data'
-  import searchEmployee from "./SearchEmployeeP.vue"
+  import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
 
   export default {
@@ -99,56 +87,10 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.HF_DEFAULT_PAGE_SIZE_OPTS
         },
         processingColumns: [
-//          {
-//            type: 'selection', fixed: 'left', width: 60, align: 'center'
-//          },
-          {title: '操作', fixed: 'left', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.processing.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.processing.processingPageData', this.processingPageData);
-
-                      localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
-                      localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
-                      localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
-                      localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
-                      switch (params.row.taskCategory) {
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '9':
-                        case '10':
-                        case '11':
-                          this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
-                          break;
-                        case '4':
-                        case '5':
-                        case '12':
-                        case '13':
-                          this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
-                          break;
-                        case '6':
-                          this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
-                          break;
-                        case '7':
-                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
-                          break;
-                        default:
-                          break;
-                      }
-                    }
-                  }
-                }, '查看'),
-              ]);
-            }
-          },
-          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
+          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center',sortable: 'custom'},
 //          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center',sortable: 'custom'},
@@ -181,16 +123,21 @@
         {
           for(var index  in storeOrder)
           {
-             var orders = storeOrder[index].split(' ');
-             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            var orders = storeOrder[index].split(' ');
+            if(e.key === 'taskCategoryName'&&storeOrder[index].indexOf('task_category')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+
+            if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
             if(e.key === 'hfEmpAccount'&&storeOrder[index].indexOf('hf_emp_account')!=-1)
             {
@@ -218,7 +165,9 @@
         }
       });
 
-      this.hfEmpTaskQuery();
+//      this.hfEmpTaskQuery();
+      var conditions = [];
+      this.searchEmploiees(conditions, this.processingPageData.pageNum);
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyPOrder'+userInfo.userId));
@@ -258,13 +207,46 @@
       handlePageNum(val) {
         this.processingPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.processingPageData.pageNum);
       },
       handlePageSize(val) {
         this.processingPageData.pageNum = 1;
         this.processingPageData.pageSize = val;
         var conditions = [];
         this.searchEmploiees(conditions);
+      },
+      handleDblClick(row, index) {
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.processing.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.processing.processingPageData', this.processingPageData);
+
+        localStorage.setItem('employeeFundCommonOperator.empTaskId', row.empTaskId);
+        localStorage.setItem('employeeFundCommonOperator.hfType', row.hfType);
+        localStorage.setItem('employeeFundCommonOperator.taskCategory', row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
+        switch (row.taskCategory) {
+          case '1':
+          case '2':
+          case '3':
+          case '9':
+          case '10':
+          case '11':
+            this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+            break;
+          case '4':
+          case '5':
+          case '12':
+          case '13':
+            this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
+            break;
+          case '6':
+            this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
+            break;
+          case '7':
+            this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+            break;
+          default:
+            break;
+        }
       },
       ok() {},
       cancel() {},
@@ -371,12 +353,12 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
         api.hfEmpTaskExport({ params: this.searchCondition });
       },
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
-      },searchEmploiees(conditions) {
+      },searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -430,11 +412,11 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.processingPageData.pageSize,
-          pageNum: this.processingPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -460,7 +442,9 @@
         }
 
         var dx ='';
-        if(e.key === 'companyId'){
+        if(e.key === 'taskCategoryName') {
+          dx = 'tmp.task_category';
+        }else if(e.key === 'companyId'){
             dx = 'tmp.company_id';
         }else if(e.key === 'employeeId'){
             dx = 'tmp.employee_id';
@@ -517,7 +501,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.processingPageData.pageSize,
@@ -546,6 +530,11 @@
               for(var index  in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
+                if(e.key === 'taskCategoryName' && storeOrder[index].indexOf('task_category')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
                 if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
                   order = orders[1]
                   break;
@@ -568,7 +557,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(1, idx, order)
+          tableStyle.changeSortElementClass('processingData', idx, order)
         });
       },
     }

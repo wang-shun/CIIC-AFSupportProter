@@ -34,10 +34,10 @@
 
       }
     },
-    mounted() {
+    created() {
 
-      if(typeof(sessionStorage.employeeOperatorTab)!="undefined"){
-        this.tab = sessionStorage.employeeOperatorTab
+      if(typeof(sessionStorage.fundEmployeeOperatorTab)!="undefined"){
+        this.tab = sessionStorage.fundEmployeeOperatorTab
       }
       this.controlShow(this.tab)
     },
@@ -48,7 +48,7 @@
       },
       onClickO(name){
         //将tab类型 缓存
-        sessionStorage.employeeOperatorTab = this.tab
+        sessionStorage.fundEmployeeOperatorTab = this.tab
         this.controlShow(name)
       },
       //控制处理中 tab 显示

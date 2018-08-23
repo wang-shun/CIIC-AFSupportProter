@@ -59,9 +59,10 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="提示操作：" prop="operationRemind">
+              <Form-item label="操作提示：" prop="operationRemind">
                 <Select v-model="searchCondition.operationRemind" style="width: 100%;" transfer>
-                  <Option v-for="item in operatorTipsList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  <Option value="" label="全部"></Option>
+                  <Option v-for="item in operationRemindList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
               </Form-item>
               </Col>
@@ -92,7 +93,7 @@
         <Button type="info" class="ml10" @click="isShowImportFundAccount = true;">批量导入公积金账号</Button>
       </Col>
     </Row>
-    <Table border class="mt20" :row-class-name="rowClassName" :columns="employeeFundColumns" :data="employeeFundData"></Table>
+    <Table border class="mt20" :row-class-name="rowClassName" :columns="employeeFundColumns" :data="employeeFundData"  @on-row-dblclick="dbClickHandleData"></Table>
 
     <Page
         class="pageSize"
@@ -172,6 +173,7 @@ import api from "../../../api/house_fund/employee_operator";
 import InputAccount from "../common/input_account";
 import InputCompany from "../common/input_company";
 import sessionData from '../../../api/session-data'
+import dict from '../../../api/dict_access/house_fund_dict'
 
 export default {
   components: {
@@ -186,9 +188,10 @@ export default {
       pageData: {
         total: 0,
         pageNum: 1,
-        pageSize: this.$utils.DEFAULT_PAGE_SIZE,
+        pageSize: 10,
         pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
       },
+      operationRemindList: [],
       searchCondition: {
         serviceCenterValue:[],
         employeeId: "",
@@ -245,57 +248,55 @@ export default {
       uploadFileList: [],
       isShowImportFundAccount: false,
       employeeFundColumns: [
-        {
-          title: "操作",
-          align: "center",
-          width: 120,
-          render: (h, params) => {
-
-            if(params.row.empArchiveId == null || params.row.empArchiveId=='' ){
-              return h("div", [
-                h(
-                  "Button",
-                  {
-                    props: { type: "success", size: "small" },
-                    style: { margin: "0 auto" },
-                    on: {
-                      click: () => {
-                        sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
-                        sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
-                        this.$router.push({
-                          name: "employeeFundBasicInfo",
-                          query: { companyId: params.row.companyId,employeeId:params.row.employeeId }
-                        });
-                      }
-                    }
-                  },
-                  "查看"
-                )
-              ]);
-            }else{
-              return h("div", [
-                h(
-                  "Button",
-                  {
-                    props: { type: "success", size: "small" },
-                    style: { margin: "0 auto" },
-                    on: {
-                      click: () => {
-                        this.showInfo(
-                          params.row.empArchiveId,
-                          params.row.companyId
-                        );
-                      }
-                    }
-                  },
-                  "查看/修改"
-                )
-              ]);
-            }
-
-
-          }
-        },
+      //   {
+      //     title: "操作",
+      //     align: "center",
+      //     width: 120,
+      //     render: (h, params) => {
+      //       if(params.row.empArchiveId == null || params.row.empArchiveId=='' ){
+      //         return h("div", [
+      //           h(
+      //             "Button",
+      //             {
+      //               props: { type: "success", size: "small" },
+      //               style: { margin: "0 auto" },
+      //               on: {
+      //                 click: () => {
+      //                   sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
+      //                   sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
+      //                   this.$router.push({
+      //                     name: "employeeFundBasicInfo",
+      //                     query: { companyId: params.row.companyId,employeeId:params.row.employeeId }
+      //                   });
+      //                 }
+      //               }
+      //             },
+      //             "查看"
+      //           )
+      //         ]);
+      //       }else{
+      //         return h("div", [
+      //           h(
+      //             "Button",
+      //             {
+      //               props: { type: "success", size: "small" },
+      //               style: { margin: "0 auto" },
+      //               on: {
+      //                 click: () => {
+      //                   this.showInfo(
+      //                     params.row.empArchiveId,
+      //                     params.row.companyId,
+      //                     params.row.employeeId
+      //                   );
+      //                 }
+      //               }
+      //             },
+      //             "查看/修改"
+      //           )
+      //         ]);
+      //       }
+      //     }
+      //   },
         {
           title: "客户编号",
           key: "companyId",
@@ -318,17 +319,17 @@ export default {
             ]);
           }
         },
-        {
-          title: "企业账户类型",
-          key: "hfAccountType",
-          align: "center",
-          width: 150,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", this.$decode.accountType(params.row.hfAccountType))
-            ]);
-          }
-        },
+        // {
+        //   title: "企业账户类型",
+        //   key: "hfAccountType",
+        //   align: "center",
+        //   width: 150,
+        //   render: (h, params) => {
+        //     return h("div", { style: { textAlign: "left" } }, [
+        //       h("span", this.$decode.accountType(params.row.hfAccountType))
+        //     ]);
+        //   }
+        // },
         {
           title: "雇员编码",
           key: "employeeId",
@@ -409,25 +410,20 @@ export default {
             ]);
           }
         },
-        {
-          title: "上下岗状态",
-          key: "empStatus",
-          align: "center",
-          width: 150,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h(
-                "span",
-//                {
-//                  style: {
-//                    color: params.row.empStatus === "3" ? "red" : "#495060"
-//                  }
-//                },
-                this.$decode.empStatus(params.row.empStatus)
-              )
-            ]);
-          }
-        },
+        // {
+        //   title: "上下岗状态",
+        //   key: "empStatus",
+        //   align: "center",
+        //   width: 150,
+        //   render: (h, params) => {
+        //     return h("div", { style: { textAlign: "left" } }, [
+        //       h(
+        //         "span",
+        //         this.$decode.empStatus(params.row.empStatus)
+        //       )
+        //     ]);
+        //   }
+        // },
         {
           title: "客服中心",
           key: "serviceCenter",
@@ -574,6 +570,21 @@ export default {
       let params = this.searchCondition;
     this.employeeQuery(params);
     this.getCustomers();
+
+    dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.taskCategoryList = data.data.HFLocalTaskCategory;
+          this.operationRemindList = data.data.OperationRemind;
+          this.transferUnitDictList = data.data.FundOutUnit;
+          this.repairReason = data.data.RepairReason;
+          this.taskCategoryDisable = true;
+        } else {
+          this.$Message.error(data.message);
+          this.inputDisabled = true;
+          this.taskCategoryDisable = true;
+          this.showButton = false;
+        }
+      })
   },
   computed: {
     // ...mapState('employeeFundSearch', {
@@ -586,15 +597,32 @@ export default {
       this.$refs[name].resetFields();
       this.searchCondition.serviceCenterValue='';
     },
-    showInfo(empArchiveId, companyId) {
+    showInfo(empArchiveId, companyId, employeeId) {
        sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
       sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
       this.$router.push({
         name: "employeeFundBasicInfo",
-        query: { empArchiveId: empArchiveId, companyId: companyId }
+        query: { empArchiveId: empArchiveId, companyId: companyId, employeeId: employeeId }
       });
     },
+    dbClickHandleData(row, index){
+      sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
+      sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
+    if(row.empArchiveId == null || row.empArchiveId=='' ){
+      this.$router.push({
+        name: "employeeFundBasicInfo",
+        query: { companyId: row.companyId,employeeId:row.employeeId }
+      });
+    }else{
+      this.showInfo(
+        row.empArchiveId,
+        row.companyId,
+        row.employeeId
+      );
+    }
+   
 
+    },
     gotoHistoryList() {
       this.$router.push({ name: "employeeFundHistory" });
     },
@@ -645,7 +673,7 @@ export default {
           this.isImported = true;
           this.retStr = data.message;
           this.isUpload = false;
-          
+
         })
         .catch(error => {
           this.$Message.error("系统异常！");
@@ -655,6 +683,13 @@ export default {
 
       api.impTemplateFile({});
     },
+    loadDict(){
+       dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.SocialSecurityEmployeeClassifyList = data.data.SocialSecurityEmployeeClassify;
+        }
+      });
+      },
     cancel() {},
     beforeUpload(file) {
       this.upLoadData.file = file;

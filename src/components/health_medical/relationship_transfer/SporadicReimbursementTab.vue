@@ -8,35 +8,35 @@
           <Form ref="reimbursementItem" :model="reimbursementItem" :label-width="140">
             <Row type="flex" justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员编号" prop="employeeId">
-                <Input v-model="reimbursementItem.employeeId" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="雇员编号" prop="employeeId">
+                  <Input v-model="reimbursementItem.employeeId" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员姓名" prop="employeeName">
-                <Input v-model="reimbursementItem.employeeName" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="雇员姓名" prop="employeeName">
+                  <Input v-model="reimbursementItem.employeeName" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="证件号码" prop="idNum">
-                <Input v-model="reimbursementItem.idNum" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="证件号码" prop="idNum">
+                  <Input v-model="reimbursementItem.idNum" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="公司编号" prop="companyId">
-                <Input v-model="reimbursementItem.companyId" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="公司编号" prop="companyId">
+                  <Input v-model="reimbursementItem.companyId" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="公司名称" prop="companyName">
-                <Input v-model="reimbursementItem.companyName" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="公司名称" prop="companyName">
+                  <Input v-model="reimbursementItem.companyName" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
             </row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" @click="getByPage(1)" size="large">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('reimbursementItem')">重置</Button>
+                <Button type="primary" @click="getByPage(1)" size="large">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('reimbursementItem')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -80,6 +80,7 @@
           companyId: null,
           companyName: null,
         },
+        userInfo: {},
         reimbursementColumns: [
           {
             title: '雇员编号', sortable: true, key: 'employeeId', align: "center",
@@ -142,6 +143,7 @@
     },
     created() {
       this.getByPage(1);
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
     },
     methods: {
       ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_LIST]),
@@ -169,7 +171,7 @@
       },
       // 导出csv
       exportData() {
-        window.location = ajax.basePaths + '/api/afsupportcenter/healthmedical/FragmentaryReimbursement/export?' + qs.stringify(this.reimbursementItem)
+        window.location = ajax.basePaths + '/api/afsupportcenter/healthmedical/FragmentaryReimbursement/export?' + qs.stringify(this.reimbursementItem) + '&token=' + encodeURIComponent(this.userInfo.token);
       }
     }
   }

@@ -112,7 +112,8 @@
           phone: "",
           materialsData: [],
           reasonValue: "",
-          reasonList: []
+          reasonList: [],
+          logBOList: []
         },
         handleInfo: {
           employDate: '',
@@ -147,9 +148,9 @@
           docCode:'',
           docFrom:'',
           employFeedback:'',
-          employFeedbackOptDate:this.$utils.formatDate(new Date(), 'YYYY-MM-DD'),
+          employFeedbackOptDate:'',
           diaodangFeedback:'',
-          diaodangFeedbackOptDate:this.$utils.formatDate(new Date(), 'YYYY-MM-DD'),
+          diaodangFeedbackOptDate:'',
           ukeyBorrowDate:'',
           ukeyReturnDate:'',
           hukouCode:'',

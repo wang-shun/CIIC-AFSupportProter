@@ -43,6 +43,12 @@
             <employment-notes-view :employIndependentInfo="employIndependentInfo"></employment-notes-view>
           </div>
         </Panel>
+        <Panel name="7">
+           公司名称变更情况
+          <div slot="content">
+            <employment-company-updates :companyNameList="companyNameList"></employment-company-updates>
+          </div>
+        </Panel>
       
       </Collapse>
       <Row type="flex" justify="start" class="mt20 mb20">
@@ -60,13 +66,14 @@
   import refuseHandle from "./common/ArchiveIndependent.vue"
   import refuseNotes from "./common/RefuseIndependent.vue"
   import employmentNotesView from "./common/SocialIndependent.vue"
+  import employmentCompanyUpdates from "./common/EmploymentCompanyUpdates.vue"
   import materialsBorrowInfoView from "./common/MaterialsBorrowInfoView.vue"
   import fileNotesView from "./common/FileNotesView.vue"
   import employmentDataManagementTaskList from "./common/EmployeeHistoryTaskList.vue"
   import api from '../../api/employ_manage/hire_operator'
 
   export default {
-    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, refuseNotes, employmentNotesView, materialsBorrowInfoView, fileNotesView, employmentDataManagementTaskList},
+    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, refuseNotes, employmentNotesView,employmentCompanyUpdates, materialsBorrowInfoView, fileNotesView, employmentDataManagementTaskList},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8],
@@ -122,7 +129,14 @@
           employMethod: "",
           employCommissioner: "",
           employNotes: ""
-        }
+        },
+        companyNameList: [{
+          companyId: "",
+          companyName: "",
+          changeDate: Date(),
+          remark: "",
+          createdBy: ""
+        }]
       }
     },
     async mounted() {
@@ -139,6 +153,10 @@
 
             if(data.data.salCompanyBO){
               this.customerInfo = data.data.salCompanyBO;
+            }
+
+            if(data.data.companyNameList){
+              this.companyNameList = data.data.companyNameList;
             }
 
           })

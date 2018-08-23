@@ -6,17 +6,11 @@
         <div slot="content">
           <Form :label-width=200>
             <Row type="flex" justify="start">
-              <!-- <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
-                <Form-item label="最近计算人：">
-                  <label>{{data.recentlyCalculatedPerson}}</label>
-                </Form-item>
-              </Col> -->
               <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
                 <Form-item label="社保年月：">
                   <label>{{ssMonth}}</label>
                 </Form-item>
               </Col>
-
               <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
                 <Form-item label="企业社保账户名称：">
                   <label>{{accountName}}</label>
@@ -27,8 +21,13 @@
                   <label>{{account}}</label>
                 </Form-item>
               </Col>
+             <Col :sm="{span:22}" :md="{span: 16}" :lg="{span: 12}">
+                <Form-item label="客户编号：">
+                  <label>{{companyId}}</label>
+                </Form-item>
+              </Col>
             </Row>
-            <Table border :columns="noticeInfo.noticeColumns" :data="noticeData"></Table>
+            <Table border :columns="noticeInfo.noticeColumns" :data="noticeData" ></Table>
             <Row class="mt20" type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="应缴纳合计（小写）：">
@@ -65,6 +64,7 @@
         comAccountId:this.$route.query.ssAccountId,
         accountName:'',
         account:'',
+        companyId:'',
         lowerTotalAmount:'',
         capitalTotalAmount:'',
         //recentlyCalculatedPerson:'张三',//最近计算人
@@ -72,13 +72,13 @@
         noticeData:[],
         noticeInfo: {
           noticeColumns: [
-            // {title: '序号', key: 'seq', align: 'center', width: 100, className: 'mw100',
-            //   render: (h, params) => {
-            //     return h('div', {style: {textAlign: 'right'}}, [
-            //       h('span', params.row.seq),
-            //     ]);
-            //   }
-            // },
+            {title: '序号', key: 'seq', align: 'center', width: 60, className: 'mw100',
+              render: (h, params) => {
+                return h('div', {style: {textAlign: 'right'}}, [
+                  h('span', params.row.seq),
+                ]);
+              }
+            },
             {title: '项目', key: 'paymentItem', align: 'center', width: 240, className: 'mw240',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
@@ -150,13 +150,15 @@
       },
       paymentDetailQuery(){
         api.getPaymentDetail({
-          comAccountId: this.comAccountId,
-          paymentMonth: this.ssMonth
+         // comAccountId: this.comAccountId,
+          ssAccount:this.$route.query.ssAccount,
+          paymentMonth: this.ssMonth,
+          companyId:this.$route.query.companyId,
         }).then(data => {
           this.noticeData = data.data;
           let response = data.data;
           if(response != null){
-            let obj = response.filter(x=>x.paymentItemName == '缴纳合计')[0];
+            let obj = response.filter(x=>x.paymentItemName == '缴纳合计（1+2+3+4+5+6-8）')[0];
             if(obj != null){
               let amount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
               this.lowerTotalAmount = amount.toFixed(2)
@@ -171,10 +173,13 @@
 
       getAccountCompanay(){
         api.getAccountById({
-          comAccountId: this.comAccountId
+          //comAccountId: this.comAccountId,
+          //companyId:this.$route.query.companyId,
+          ssAccount:this.$route.query.ssAccount,
         }).then(data=>{
           this.accountName = data.data.comAccountName;
           this.account = data.data.ssAccount;
+          this.companyId =data.data.companyId;
         })
       },
 

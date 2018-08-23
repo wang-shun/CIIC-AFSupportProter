@@ -112,7 +112,7 @@
               </Select>
             </Form-item>
           </Col>
-          <Col :sm="{span:24}">
+          <Col :sm="{span:12}">
             <Form-item label="选择对账文件：" :label-width="150">
               <Upload
                 action="-"
@@ -124,6 +124,9 @@
                 文件名称: {{reconciliateFile.name}} <span>{{loadingStatus ? '上传中' : ''}}</span>
               </div>
             </Form-item>
+          </Col>
+          <Col :sm="{span:12}">
+            <Button type="primary" icon="ios-search" @click="downTemplate">下载导入模板</Button>
           </Col>
           <Col :sm="{span: 24}">
             <Form-item label="公积金账户类型：" prop="hfAccountType">
@@ -146,7 +149,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 18}">
                 <Form-item prop="comAccountName">
-                  <Input v-model="fundAccountQueryForm.comAccountName" placeholder="请输入名称..." class="ml10"></Input>
+                  <Input v-model="fundAccountQueryForm.comAccountName" placeholder="请输入【客户编号】或【公积金账户名称】" class="ml10"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 6}" class="tr">
@@ -537,6 +540,9 @@
       exportData() {
         var params = {statementId : this.currentStatementId};
         api.exportStatementDetail(params);
+      },
+      downTemplate() {
+        api.downTemplate();
       },
       setFundMonth(month) {
         this.newReconciliation.hfMonth = month.replace('-', '');

@@ -1,10 +1,10 @@
 <template>
-  <div class="smList" style="height: 1050px;">
+  <div class="smList" style="height: 1000px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
         <div slot="content">
-            <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
+            <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDaily"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -12,14 +12,15 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
       <!--<Button type="primary" style="width: 100px;" @click="batchAllHandle">批量全选</Button>-->
-      <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button>
+      <!-- <Button type="primary" style="width: 100px;" @click="checkHandle">批量办理</Button> -->
       <Button type="error" @click="showRefuseReason">批退</Button>
       <Button type="info" @click="exprotExcel">导出</Button>
       </Col>
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Table border ref="selection" :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
+      <Table border id="noProcessData" ref="selection"  :columns="employeeResultColumns" :data="employeeResultData"
+       @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading" height=400></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -64,6 +65,7 @@
   import dict from '../../../../api/dict_access/social_security_dict'
   import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
+  import sessionData from '../../../../api/session-data'
 
   export default {
     components: {InputAccount, InputCompany,InputCompanyName,searchEmployee},
@@ -108,7 +110,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.SS_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
           {
@@ -125,6 +127,7 @@
                   props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                   on: {
                     click: () => {
+                      sessionData.setJsonDataToSession('employeeCommonOperator.noProcess.employeeResultPageData', this.employeeResultPageData);
                       this.batchHandle(params.row);
                     }
                   }
@@ -133,10 +136,18 @@
             }
           },
           {
-            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
-          render: (h, params) => {
+            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',sortable: 'custom',
+            render: (h, params) => {
               return h('div', [
                 h('span',  this.$decode.taskCategory(params.row.taskCategory))
+              ]);
+            }
+          },
+          {
+            title: '是否更正', key: 'isChange', width: 105, align: 'center',sortable: 'custom',
+            render: (h, params) => {
+              return h('div', [
+                h('span',  params.row.isChange=='1'?"是":"否")
               ]);
             }
           },
@@ -173,21 +184,17 @@
           {
             title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
           },
-          {
-            title: '是否更正', key: 'isChange', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('span',  params.row.isChange=='1'?"是":"否")
-              ]);
-            }
-          }
         ]
       }
     },
     async mounted() {
        this.searchConditions =[];
-       this.searchEmploiees(this.searchConditions);
+       this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
        this.loadDict();
+
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
 
@@ -198,6 +205,7 @@
       loadSortType() {
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
+        sessionData.getJsonDataFromSession('employeeCommonOperator.noProcess.employeeResultPageData', this.employeeResultPageData);
 
         this.employeeResultColumns.filter((e) => {
           if(storeOrder==null)
@@ -206,25 +214,33 @@
           }else{
             if(storeOrder.length>0)
             {
-              for(var index  in storeOrder)
+              for(var index in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
-                if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+                if(e.key === 'taskCategory' && storeOrder[index].indexOf('task_category')!=-1) {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'isChange' && storeOrder[index].indexOf('is_change')!=-1) {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1)
                 {
                   e.sortType = orders[1];
                 }
 
-                if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+                if(e.key === 'companyId' && storeOrder[index].indexOf('company_id')!=-1)
                 {
                   e.sortType = orders[1];
                 }
 
-                if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
+                if(e.key === 'ssAccount' && storeOrder[index].indexOf('ss_account')!=-1)
                 {
                   e.sortType = orders[1];
                 }
 
-                if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
+                if(e.key === 'idNum' && storeOrder[index].indexOf('id_num')!=-1)
                 {
                   e.sortType = orders[1];
                 }
@@ -289,7 +305,7 @@
 //            params.startMonth = this.$utils.formatDate(params.startMonth, 'YYYYMM');
 //          }
 //        }
-        var isStatus = false;
+        var isStatus = null;
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
@@ -306,10 +322,16 @@
           {
              if(conditions[i].exec.indexOf("taskStatus")!=-1)
               {
-                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
-                  {
-                    isStatus = true;
-                  }
+//                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
+//                  {
+//                    isStatus = true;
+//                  }
+                if(conditions[i].desc.indexOf("下月未处理")!=-1)
+                {
+                  isStatus = -2;
+                } else if (conditions[i].desc.indexOf("本月未处理")!=-1) {
+                  isStatus = -1;
+                }
               }else{
                  this.searchConditions.push(conditions[i].exec);
               }
@@ -328,9 +350,15 @@
               {
                 if(searchEmploiees[index].exec.indexOf("taskStatus")!=-1)
                 {
+//                  if(searchEmploiees[index].desc.indexOf("下月未处理")!=-1)
+//                  {
+//                    isStatus = true;
+//                  }
                   if(searchEmploiees[index].desc.indexOf("下月未处理")!=-1)
                   {
-                    isStatus = true;
+                    isStatus = -2;
+                  } else if (searchEmploiees[index].desc.indexOf("本月未处理")!=-1) {
+                    isStatus = -1;
                   }
                 }else{
                     this.searchConditions.push(searchEmploiees[index].exec);
@@ -341,7 +369,7 @@
 
         }
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
-        
+
         if(storeOrder==null)
         {
 
@@ -355,13 +383,14 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
-        if(isStatus)
-        {
-            this.searchCondition.taskStatus = -2;
-        }else{
-            this.searchCondition.taskStatus = -1;
-        }
+        this.searchCondition.taskStatus = isStatus;
+        this.searchCondition.params = this.searchConditions.join(';');
+//        if(isStatus)
+//        {
+//            this.searchCondition.taskStatus = -2;
+//        }else{
+//            this.searchCondition.taskStatus = -1;
+//        }
         api.employeeOperatorQueryExport({
           pageSize: 999999,
           pageNum: 0,
@@ -371,7 +400,7 @@
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.employeeResultPageData.pageNum);
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
@@ -394,6 +423,7 @@
       },
       // 批退
       showRefuseReason() {
+
         let length = this.selectEmployeeResultData.length;
         if (length > 0) {
           for (let i = 0; i < length; i++) {
@@ -408,6 +438,7 @@
           }
         }
         if (this.checkSelectEmployeeResultData()) {
+          this.rejectionRemark ='';
           this.isRefuseReason = true
         }
       },
@@ -428,8 +459,8 @@
         }).then(data=>{
           this.$Message.info(data.message);
           this.isLoading = false;
-           this.isRefuseReason = false;
-            this.employeeOperatorQuery();
+          this.isRefuseReason = false;
+          this.handlePageNum(1);
         }).catch(
           error=>{
             this.isLoading = false;
@@ -599,9 +630,9 @@
           });
         }
       },
-      searchEmploiees(conditions) {
-        var isStatus = false;
-      
+      searchEmploiees(conditions, pageNum = 1) {
+        var isStatus = null;
+
         if (this.isLoading) {
           return;
         }
@@ -618,18 +649,24 @@
         if(conditions.length>0)
         {//如果是点击查询事件，则取出去执行的值
            for(var i=0;i<conditions.length;i++)
-           {  
+           {
               if(conditions[i].exec.indexOf("taskStatus")!=-1)
               {
-                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
-                  {
-                    isStatus = true;
-                  }
+//                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
+//                  {
+//                    isStatus = true;
+//                  }
+                if(conditions[i].desc.indexOf("下月未处理")!=-1)
+                {
+                  isStatus = -2;
+                } else if (conditions[i].desc.indexOf("本月未处理")!=-1) {
+                  isStatus = -1;
+                }
               }else{
                  this.searchConditions.push(conditions[i].exec);
               }
            }
-             
+
         }else{
           // 否则从session 里边去缓存的表单查询值
           var temp = sessionStorage.getItem('socialDaily'+userInfo.userId);
@@ -644,9 +681,15 @@
                 {
                     if(searchEmploiees[index].exec.indexOf("taskStatus")!=-1)
                     {
+//                  if(conditions[i].desc.indexOf("下月未处理")!=-1)
+//                  {
+//                    isStatus = true;
+//                  }
                       if(searchEmploiees[index].desc.indexOf("下月未处理")!=-1)
                       {
-                        isStatus = true;
+                        isStatus = -2;
+                      } else if (searchEmploiees[index].desc.indexOf("本月未处理")!=-1) {
+                        isStatus = -1;
                       }
                     }else{
                         this.searchConditions.push(searchEmploiees[index].exec);
@@ -670,17 +713,18 @@
         }
       }
 
-       if(isStatus)
-       {
-          this.searchCondition.taskStatus = -2;
-       }else{
-          this.searchCondition.taskStatus = -1;
-       }
-        this.searchCondition.params = this.searchConditions.toString();
+//       if(isStatus)
+//       {
+//          this.searchCondition.taskStatus = -2;
+//       }else{
+//          this.searchCondition.taskStatus = -1;
+//       }
+        this.searchCondition.taskStatus = isStatus;
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
-          pageNum: this.employeeResultPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -710,14 +754,18 @@
         }
 
         var dx ='';
-        if(e.key === 'companyId'){
-            dx = 'c.company_id';
-        }else if(e.key === 'employeeId'){
-            dx = 'e.employee_id';
-        }else if(e.key === 'ssAccount'){
-            dx = 'ca.ss_account';
-        }else if(e.key === 'idNum'){
-            dx = 'e.id_num';
+        if (e.key === 'taskCategory') {
+          dx = 'et.task_category';
+        } else if(e.key === 'isChange') {
+          dx = 'et.is_change';
+        } else if(e.key === 'companyId') {
+          dx = 'c.company_id';
+        } else if(e.key === 'employeeId') {
+          dx = 'e.employee_id';
+        } else if(e.key === 'ssAccount') {
+          dx = 'ca.ss_account';
+        } else if(e.key === 'idNum') {
+          dx = 'e.id_num';
         }
         const searchConditionExec = `${dx} ${e.order} `;
         if(storeOrder===null){
@@ -764,7 +812,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
@@ -796,6 +844,16 @@
               for(var index  in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
+                if(e.key === 'taskCategory' && storeOrder[index].indexOf('task_category')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'isChange' && storeOrder[index].indexOf('is_change')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
                 if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
                   order = orders[1]
                   break;
@@ -818,7 +876,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(0, idx, order)
+          tableStyle.changeSortElementClass('noProcessData', idx, order)
         });
       },
     }

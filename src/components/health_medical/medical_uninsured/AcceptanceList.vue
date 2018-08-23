@@ -161,6 +161,7 @@
           rejectType: null,
           remark: null,
         },
+        userInfo: {},
         selectData: [],
         moneyTypes: admissibility.moneyTypes,
         caseTypes: admissibility.caseTypes,
@@ -357,7 +358,7 @@
       // 导出csv
       exportData() {
         this.loading = true;
-        window.location = apiAjax.basePaths + '/uninsuredService/export?' + qs.stringify(this.formItem)
+        window.location = apiAjax.basePaths + '/uninsuredService/export?' + qs.stringify(this.formItem) + '&token=' + encodeURIComponent(this.userInfo.token);
         this.loading = false;
       }
     }

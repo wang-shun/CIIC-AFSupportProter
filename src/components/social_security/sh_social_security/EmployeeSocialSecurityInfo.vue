@@ -81,7 +81,7 @@
                   <label>{{employeeAndCustomer.ssAccount}}</label>
                 </Form-item>
               </Col>
-              
+
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：">
                   <label>{{getEmpClassify(employeeAndCustomer.empClassify)}}</label>
@@ -130,11 +130,16 @@
                 <label>{{this.$decode.ssArchiveTaskStatus(employeeAndCustomer.archiveTaskStatus)}}</label>
               </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="办理月份（操作日期）：">
+                <label>{{ employeeAndCustomer.ssMonth }}</label>
+              </Form-item>
+              </Col>
             </Row>
           </Form>
         </div>
       </Panel>
-      <Panel name="2.5">
+      <Panel name="3">
         用退工信息
         <div slot="content">
           <Form :label-width=120>
@@ -163,30 +168,36 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="3">
+      <Panel name="4">
         社保汇缴信息
         <div slot="content">
           <Form :label-width=120>
             <Row>
-              <Col :sm="{span: 20}">
-                <Table width="731" border :columns="socialSecurityInfoListColumns" :data="socialSecurityInfoListData"></Table>
+              <Col :sm="{span: 12}">
+                <Table border :columns="socialSecurityInfoListColumns" :data="socialSecurityInfoListData"></Table>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
-      <Panel name="4">
-        变动历史
+      <Panel name="5">
+        雇员任务单
         <div slot="content">
-          <Form :label-width=100>
-            <Row class="mt20">
-              <Col :sm="{span: 20}">
-                <Table width="731" border :columns="changeListColumns" :data="changeListData"></Table>
-              </Col>
-            </Row>
-          </Form>
+          <origin-emp-task-info :empArchiveId="this.$route.query.empArchiveId"></origin-emp-task-info>
         </div>
       </Panel>
+      <!--<Panel name="4">-->
+        <!--变动历史-->
+        <!--<div slot="content">-->
+          <!--<Form :label-width=100>-->
+            <!--<Row class="mt20">-->
+              <!--<Col :sm="{span: 20}">-->
+                <!--<Table width="731" border :columns="changeListColumns" :data="changeListData"></Table>-->
+              <!--</Col>-->
+            <!--</Row>-->
+          <!--</Form>-->
+        <!--</div>-->
+      <!--</Panel>-->
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -197,17 +208,21 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../../../store/event_types'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
+  import dict from '../../../api/dict_access/house_fund_dict'
 
   export default {
+    components: {originEmpTaskInfo},
     data() {
       return {
-        collapseInfo: [1, 2, 3, 4,2.5], //展开栏
+        collapseInfo: [1, 2, 3, 4, 5], //展开栏
         customer:{
 
         },
+       // SocialSecurityEmployeeClassifyList:[],
         //用退工信息
         reworkInfo:{},
         employeeAndCustomer:{
@@ -220,6 +235,7 @@
           ssSerial:'',
           education:'',
           ssAccount:'',
+          ssMonth:'',
          // empClassify:'',
           outDate:'',
           comAccountId:'',
@@ -236,7 +252,7 @@
             }
           },
           {
-            title: '基数', key: 'baseAmount', align: 'center', width: 162,
+            title: '基数', key: 'baseAmount', align: 'center', width: 183,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.baseAmount),
@@ -324,6 +340,9 @@
       }
     },
     async mounted() {
+
+      //this.loadDict();
+
       let params = {empArchiveId:this.$route.query.empArchiveId,
                     companyId:this.$route.query.companyId,
                     employeeId:this.$route.query.employeeId}
@@ -352,7 +371,7 @@
       // }
       saveEmpSerial(){
         var reg = /(^[1-9]([0-9]{1,9})?$)/;
-        if (!reg.test(this.employeeAndCustomer.ssSerial)) { 
+        if (!reg.test(this.employeeAndCustomer.ssSerial)) {
           this.$Message.error("社保序号输入不正确.");
           return;
         }
@@ -382,6 +401,13 @@
             })
            }
         })
+      },
+      loadDict(){
+       dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.SocialSecurityEmployeeClassifyList = data.data.SocialSecurityEmployeeClassify;
+        }
+      });
       },
       enterView(data){
         // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作

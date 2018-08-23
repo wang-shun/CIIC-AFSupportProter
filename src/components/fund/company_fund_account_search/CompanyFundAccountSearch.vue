@@ -53,7 +53,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :row-class-name="rowClassName" :columns="companyFundAccountSearchColumns" :data="fundAccountData"></Table>
+        <Table border :row-class-name="rowClassName" :columns="companyFundAccountSearchColumns" :data="fundAccountData" @on-row-dblclick="dbclickHandleData"></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -113,26 +113,26 @@
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
         companyFundAccountSearchColumns: [
-           {title: '操作', align: 'center', width: 140,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('Button', {props: {type: 'success', size: 'small'},
-                  on: {
-                    click: () => {
-                      this.nextStep(true, params.row);
-                    }
-                  }
-                }, '查看'),
-                h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
-                  on: {
-                    click: () => {
-                      this.nextStep(false, params.row);
-                    }
-                  }
-                }, '编辑')
-              ])
-            }
-          },
+          //  {title: '操作', align: 'center', width: 140,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'center'}}, [
+          //       h('Button', {props: {type: 'success', size: 'small'},
+          //         on: {
+          //           click: () => {
+          //             this.nextStep(true, params.row);
+          //           }
+          //         }
+          //       }, '查看'),
+          //       h('Button', {props: {type: 'success', size: 'small'}, style: {marginLeft: '10px'},
+          //         on: {
+          //           click: () => {
+          //             this.nextStep(false, params.row);
+          //           }
+          //         }
+          //       }, '编辑')
+          //     ])
+          //   }
+          // },
           {title: '企业公积金名称', key: 'comAccountName', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -241,6 +241,9 @@
         this.fundAccountPageData.pageSize = val;
         this.fundAccountSearch();
       },
+      dbclickHandleData(row,index){
+        this.nextStep(false,row)
+      },
       nextStep(isCanUpdate, fundAccountData) {
         let fundAccountInfo = fundAccountData;
         fundAccountInfo['isCanUpdate'] = isCanUpdate;
@@ -257,8 +260,8 @@
         }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
-
-        api.companyFundAccountExpExcel(params);
+        console.log(params)
+        api.companyFundAccountExpExcel({ params: params});
 
 
       },

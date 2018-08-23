@@ -6,29 +6,36 @@
         <div slot="content">
           <Form ref="queryItem" :model="queryItem" :rules="ruleValidate" :label-width="120">
             <Row type="flex" justify="start">
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="报表主题：" prop="formTitle">
                   <Select v-model="formTitle" placeholder="请先选择报表主题内容" transfer>
                     <Option v-for="(value,key) in this.baseDic.form_title" :value="key" :key="key">{{ value }}</Option>
                   </Select>
                 </Form-item>
-              </i-col>
+              </Col>
             </Row>
             <Row type="flex" justify="start" v-if="formTitle === '2' || formTitle === '3'">
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号：" prop="companyId">
-                  <Input v-model="queryItem.companyId" placeholder="请输入"/>
+                  <Input v-model="queryItem.companyId" placeholder="请输入"></Input>
                 </Form-item>
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称：" prop="companyName">
-                  <Input v-model="queryItem.companyName" placeholder="请输入"/>
+                  <Input v-model="queryItem.companyName" placeholder="请输入"></Input>
                 </Form-item>
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="服务产品：" prop="product">
+                  <Select v-model="queryItem.product" placeholder="请选择" transfer>
+                    <Option v-for="item in birthProducts" :value="item.productId" :key="item.productId">
+                      {{item.productName}}
+                    </Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员出生日期：" prop="birthday" key="1">
-                <!--  <DatePicker type="daterange" split-panels v-model="queryItem.birthday" placeholder="请选择"
-                              transfer></DatePicker>  -->
                   <Select v-model="queryItem.birthday" placeholder="请先选择月份" transfer>
                     <Option value="1">一月</Option>
                     <Option value="2">二月</Option>
@@ -44,20 +51,20 @@
                     <Option value="12">十二月</Option>
                   </Select>
                 </Form-item>
-              </i-col>
+              </Col>
             </Row>
             <Row type="flex" justify="start" v-if="formTitle === '4' || formTitle === '5'">
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号：" prop="companyId">
-                  <Input v-model="queryItem.companyId" placeholder="请输入"/>
+                  <Input v-model="queryItem.companyId" placeholder="请输入"></Input>
                 </Form-item>
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称：" prop="companyName">
-                  <Input v-model="queryItem.companyName" placeholder="请输入"/>
+                  <Input v-model="queryItem.companyName" placeholder="请输入"></Input>
                 </Form-item>
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="服务产品：" prop="product" key="2">
                   <Select v-model="queryItem.product" placeholder="请选择" transfer>
                     <Option v-for="item in products" :value="item.productId" :key="item.productId">
@@ -65,47 +72,47 @@
                     </Option>
                   </Select>
                 </Form-item>
-              </i-col>
+              </Col>
             </Row>
             <Row type="flex" justify="start" v-if="formTitle === '7'">
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号：" prop="companyId">
-                  <Input v-model="queryItem.companyId" placeholder="请输入"/>
+                  <Input v-model="queryItem.companyId" placeholder="请输入"></Input>
                 </Form-item>
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称：" prop="companyName">
-                  <Input v-model="queryItem.companyName" placeholder="请输入"/>
+                  <Input v-model="queryItem.companyName" placeholder="请输入"></Input>
                 </Form-item>
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号：" prop="empId" key="3">
-                  <Input v-model="queryItem.empId" placeholder="请输入"/>
+                  <Input v-model="queryItem.empId" placeholder="请输入"></Input>
                 </Form-item>
-              </i-col>
+              </Col>
             </Row>
             <Row type="flex" justify="start" v-if="formTitle === '8'">
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号：" prop="companyId">
-                  <Input v-model="queryItem.companyId" placeholder="请输入"/>
+                  <Input v-model="queryItem.companyId" placeholder="请输入"></Input>
                 </Form-item>
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称：" prop="companyName">
-                  <Input v-model="queryItem.companyName" placeholder="请输入"/>
+                  <Input v-model="queryItem.companyName" placeholder="请输入"></Input>
                 </Form-item>
-              </i-col>
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号：" prop="empId" key="3">
-                  <Input v-model="queryItem.empId" placeholder="请输入"/>
+                  <Input v-model="queryItem.empId" placeholder="请输入"></Input>
                 </Form-item>
-              </i-col>
+              </Col>
             </Row>
             <Row type="flex" justify="start" class="tr">
-              <i-col :sm="{span: 24}">
-                <Button type="primary" @click="exportform(queryItem)" class="ml10" icon="ios-search">导出报表</Button>
+              <Col :sm="{span: 24}">
+                <Button type="primary" @click="exportForm(queryItem)" class="ml10" icon="ios-search">导出报表</Button>
                 <Button type="warning" @click="$refs['queryItem'].resetFields()" class="ml10">重置</Button>
-              </i-col>
+              </Col>
             </Row>
           </Form>
         </div>
@@ -125,6 +132,7 @@
         collapseInfo: [1],
         queryParam: {},
         products: [],
+        birthProducts: [],
         formTitle: '2',
         queryItem: {
           companyId: '',
@@ -141,28 +149,30 @@
       }
     },
     created() {
-      this.findProducts()
+      this.findProducts();
+      this.findBirthProducts()
     },
     methods: {
       findProducts() {
         axios.get(host + '/api/reportform/findProducts').then(response => {
-          if (response.data.errCode == "0") {
+          if (response.data.errCode === "0") {
             this.products = response.data.data
           }
         })
       },
-      exportform(form) {
+      findBirthProducts() {
+        axios.get(host + '/api/reportform/findBirthProducts').then(response => {
+          if (response.data.errCode === "0") {
+            this.birthProducts = response.data.data
+          }
+        })
+      },
+      exportForm(form) {
         if (this.formTitle === '2') {
-          let birStart = "";
-          let birEnd = "";
-       //   if (form.birthday != null && form.birthday[0] !== "") {
-            birStart = this.queryItem.birthday
-           // birEnd = Tools.reportFormatDate(form.birthday[1], "YYYY-MM-DD")
-       //   }
           window.location = host + '/api/reportform/get2?companyId=' + form.companyId +
             '&companyName=' + form.companyName +
-            '&manager=' + form.manager +
-            '&birStart=' + birStart + '&birEnd=' + birEnd
+            '&productId=' + form.product +
+            '&birthday=' + form.birthday
         } else if (this.formTitle === '3') {
           let birStart = "";
           let birEnd = "";

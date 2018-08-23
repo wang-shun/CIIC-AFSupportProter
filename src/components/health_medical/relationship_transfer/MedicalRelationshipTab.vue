@@ -8,35 +8,35 @@
           <Form ref="transferItem" :model="transferItem" :label-width="140">
             <Row type="flex" justify="start" class="mt20 mr10">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员编号" prop="employeeId">
-                <Input v-model="transferItem.employeeId" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="雇员编号" prop="employeeId">
+                  <Input v-model="transferItem.employeeId" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员姓名" prop="employeeName">
-                <Input v-model="transferItem.employeeName" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="雇员姓名" prop="employeeName">
+                  <Input v-model="transferItem.employeeName" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="证件号码" prop="idNum">
-                <Input v-model="transferItem.idNum" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="证件号码" prop="idNum">
+                  <Input v-model="transferItem.idNum" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="公司编号" prop="companyCode">
-                <Input v-model="transferItem.companyCode" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="公司编号" prop="companyCode">
+                  <Input v-model="transferItem.companyCode" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="公司名称" prop="companyName">
-                <Input v-model="transferItem.companyName" placeholder="请输入"/>
-              </FormItem>
+                <FormItem label="公司名称" prop="companyName">
+                  <Input v-model="transferItem.companyName" placeholder="请输入"></Input>
+                </FormItem>
               </Col>
             </row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <Button type="primary" @click="getTransferByPage(1)" size="large">查询</Button>
-              <Button type="warning" @click="resetSearchCondition('transferItem')">重置</Button>
+                <Button type="primary" @click="getTransferByPage(1)" size="large">查询</Button>
+                <Button type="warning" @click="resetSearchCondition('transferItem')">重置</Button>
               </Col>
             </Row>
           </Form>
@@ -82,6 +82,7 @@
           companyCode: null,
           companyName: null,
         },
+        userInfo: {},
         transferColumns: [
           {
             title: '雇员编号', sortable: true, key: 'employeeId', align: "center",
@@ -142,6 +143,7 @@
       }),
     },
     created() {
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.getTransferByPage(1);
     },
     methods: {
@@ -171,7 +173,7 @@
       },
       // 导出csv
       exportDataTransfer() {
-        window.location = ajax.basePaths + '/api/afsupportcenter/healthmedical/MedicalRelationTransform/export?' + qs.stringify(this.transferItem)
+        window.location = ajax.basePaths + '/api/afsupportcenter/healthmedical/MedicalRelationTransform/export?' + qs.stringify(this.transferItem) + '&token=' + encodeURIComponent(this.userInfo.token);
       }
     }
   };

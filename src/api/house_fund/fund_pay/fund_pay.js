@@ -7,7 +7,9 @@ function getFundPayNoteObj(row){
   var html = `<div style="page-break-after:always;">
   <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; width: 600px; height: 336px;margin-left:30px;margin-top:0px ">
     <tr>
-      <td height="40px" style="vertical-align: bottom;"></td>
+      <td height="40px" style="vertical-align: top;">
+      <div style="text-align: right;  float: right; width: 500px;">${row.companyId}</div>
+      </td>
     </tr>
     <tr>
       <td height="30px" style="vertical-align: top;">
@@ -75,15 +77,13 @@ function getFundPayNoteObj(row){
 return html;
 }
 
-
-export class FundPay {
+ 
+export  class FundPay {
   constructor() {
   }
 
   //post fund pays
   static getFundPaysTableData(params){
-    console.log("===");
-    console.log(params);
     let url = domainJson.getFundPaysUrl
     return new Promise(function(resolve,reject){
       ajax.post(url, params).then(function (response) {
@@ -451,6 +451,25 @@ export class FundPay {
   static operateDetailExcelExport(params) {
     return new Promise(function(resolve,reject){
       ajax.download('/api/fundcommandservice/hfMonthCharge/operateDetailExcelExport', params);
+    })
+  }
+
+   //询问财务是否可付
+   static enquireFinanceComAccount (params){
+    const AJAXMsg=utils.ajaxHfMessage;
+    let url ="/hf/messageservice/summarycalculate";
+    return new Promise(function(resolve,reject){
+      AJAXMsg.post(url, params).then(function (response) {
+        let responseData = {
+            code:response.data.code,
+            message:response.data.message,
+            data:response.data.data,
+        }
+        resolve(responseData)
+      }).catch(function (error) {
+          console.log(error);
+          reject(error);
+        });
     })
   }
 }

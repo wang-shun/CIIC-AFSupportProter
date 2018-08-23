@@ -320,35 +320,42 @@ import sessionData from '../../../../api/session-data'
               ]);
             }
           },
-          {title: '上下岗状态', key: 'status', width: 200, align: 'center',
+          {title: '上下岗状态', key: 'status', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.empComStatus(params.row.status)),
               ]);
             }
           },
-          {title: '状态', key: 'taskStatus', width: 200, align: 'center',
+          {title: '状态', key: 'taskStatus', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.hf_archiveStatus(params.row.archiveStatus)),
               ]);
             }
           },
-          {title: '入职日期', key: 'inDate', width: 200, align: 'center',
+          {title: '入职日期', key: 'inDate', width: 130, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.inDate),
               ]);
             }
           },
-          {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center',
+          {title: '打印人', key: 'handleUserName', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.handleUserName),
+              ]);
+            }
+          },
+          {title: '发起人', key: 'createdDisplayName', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.createdDisplayName),
               ]);
             }
           },
-          {title: '发起时间', key: 'submitTime', width: 200, align: 'center',
+          {title: '发起时间', key: 'submitTime', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.submitTime),

@@ -41,7 +41,7 @@
       </Collapse>
     </div>
   
-    <Table border :columns="dismissalColumns" :data="dismissalData" class="mt20"></Table>
+    <Table border :columns="dismissalColumns" @on-row-dblclick="handleData" :data="dismissalData" class="mt20"></Table>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -99,73 +99,73 @@
           // {value: '0', label: '已删除'}
         ],
         dismissalColumns: [
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 130,
-            render: (h, params) => {
-              if(params.row.status == 0 || params.row.status == 2){//删除 或 已匹配  状态
-                return h('div', [
-                  h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
-                                      params.row.reservedArchiveNo,params.row.employeeName,
-                                      params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivalPlace,
-                                      params.row.createdBy,params.row.remark
-                      )
-                    }
-                  }
-                }, '查看'),
-              ]);
-              }
-              else if(params.row.status == 1){// 未匹配状态
-                return h('div', [
-                  h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
-                                      params.row.reservedArchiveNo,params.row.employeeName,
-                                      params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivalPlace,
-                                      params.row.createdBy,params.row.remark
-                      )
-                    }
-                  }
-                }, '查看'),
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.archiveAdvanceId,params.row.reservedArchiveType,
-                                      params.row.reservedArchiveNo,params.row.employeeName,
-                                      params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivalPlace,
-                                      params.row.createdBy,params.row.remark
-                      )
-                    }
-                  }
-                }, '修改'),
-                /*h('Button', {
-                  props: {type: 'error', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      this.showDeleteReason(params.row.archiveAdvanceId);
-                    }
-                  }
-                }, '删除'),*/
-              ]);
-              }
-            },
-          },
+          // {
+          //   title: '操作',
+          //   key: 'action',
+          //   align: 'center',
+          //   width: 130,
+          //   render: (h, params) => {
+          //     if(params.row.status == 0 || params.row.status == 2){//删除 或 已匹配  状态
+          //       return h('div', [
+          //         h('Button', {
+          //         props: {type: 'success', size: 'small'},
+          //         style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
+          //                             params.row.reservedArchiveNo,params.row.employeeName,
+          //                             params.row.employeeIdcardNo,params.row.enteringDate,
+          //                             params.row.archiveSource,params.row.archivePlace,
+          //                             params.row.createdBy,params.row.remark
+          //             )
+          //           }
+          //         }
+          //       }, '查看'),
+          //     ]);
+          //     }
+          //     else if(params.row.status == 1){// 未匹配状态
+          //       return h('div', [
+          //         h('Button', {
+          //         props: {type: 'success', size: 'small'},
+          //         style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
+          //                             params.row.reservedArchiveNo,params.row.employeeName,
+          //                             params.row.employeeIdcardNo,params.row.enteringDate,
+          //                             params.row.archiveSource,params.row.archivePlace,
+          //                             params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
+          //             )
+          //           }
+          //         }
+          //       }, '查看'),
+          //       h('Button', {
+          //         props: {type: 'success', size: 'small'},
+          //         style: {margin: '0 auto 0 10px'},
+          //         on: {
+          //           click: () => {
+          //             this.showInfoT(params.row.archiveAdvanceId,params.row.reservedArchiveType,
+          //                             params.row.reservedArchiveNo,params.row.employeeName,
+          //                             params.row.employeeIdcardNo,params.row.enteringDate,
+          //                             params.row.archiveSource,params.row.archivePlace,
+          //                             params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
+          //             )
+          //           }
+          //         }
+          //       }, '修改'),
+          //       /*h('Button', {
+          //         props: {type: 'error', size: 'small'},
+          //         style: {margin: '0 auto 0 10px'},
+          //         on: {
+          //           click: () => {
+          //             this.showDeleteReason(params.row.archiveAdvanceId);
+          //           }
+          //         }
+          //       }, '删除'),*/
+          //     ]);
+          //     }
+          //   },
+          // },
           {title: '状态', key: 'status', align: 'center', width: 90,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -173,14 +173,14 @@
               ]);
             }
           },
-          {title: '预留档案类型', key: 'reservedArchiveType', align: 'center', width: 130,sortable: true,
+          {title: '档案类型', key: 'reservedArchiveType', align: 'center', width: 130,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.reservedArchiveType),
               ]);
             }
           },
-          {title: '预留档案编号', key: 'reservedArchiveNo', align: 'center', width: 135,sortable: true,
+          {title: '档案编号', key: 'reservedArchiveNo', align: 'center', width: 135,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.reservedArchiveNo),
@@ -215,10 +215,10 @@
               ]);
             }
           },
-          {title: '存档地', key: 'archivalPlace', align: 'center', width: 150,sortable: true,
+          {title: '存档地', key: 'archivePlace', align: 'center', width: 150,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.archivalPlace),
+                h('span', params.row.archivePlace),
               ]);
             }
           },
@@ -229,7 +229,7 @@
               ]);
             }
           },
-          {title: '备注', key: 'remark', align: 'center', width: 230,sortable: true,
+          {title: '备注', key: 'remark', align: 'center', width: 460,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remark),
@@ -250,6 +250,30 @@
         this.querySalCompany(this.searchCondition);
           
       },
+      handleData(row, index) {
+        if(row.status == 1){
+
+          this.$router.push({
+            name: "advanceFile",
+            query: {archiveAdvanceId:row.companyId,reservedArchiveType:row.reservedArchiveType,
+                                                            reservedArchiveNo:row.reservedArchiveNo,employeeName:row.employeeName,
+                                                            employeeIdcardNo:row.employeeIdcardNo,enteringDate:row.enteringDate,
+                                                            archiveSource:row.archiveSource,archivePlace:row.archivePlace,
+                                                            createdBy:row.createdBy,remark:row.remark,exitThePlaceDate:row.exitThePlaceDate
+            }
+          });
+        }else{
+          this.$router.push({
+            name: "advanceFileView",
+            query: {archiveAdvanceId:row.companyId,reservedArchiveType:row.reservedArchiveType,
+                                                        reservedArchiveNo:row.reservedArchiveNo,employeeName:row.employeeName,
+                                                        employeeIdcardNo:row.employeeIdcardNo,enteringDate:row.enteringDate,
+                                                        archiveSource:row.archiveSource,archivePlace:row.archivePlace,
+                                                        createdBy:row.createdBy,remark:row.remark,exitThePlaceDate:row.exitThePlaceDate
+            }
+          });
+        }
+    },
       querySalCompany(params){
         let self =this
         api.queryAmArchiveAdvanceList({
@@ -261,23 +285,23 @@
           self.pageData.total = Number(data.data.total);
         })
       },
-      showInfoT (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace,createdBy,remark) {
+      showInfoT (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivePlace,createdBy,remark,exitThePlaceDate) {
         
         this.$router.push({name:'advanceFile', query: {archiveAdvanceId:companyId,reservedArchiveType:reservedArchiveType,
                                                         reservedArchiveNo:reservedArchiveNo,employeeName:employeeName,
                                                         employeeIdcardNo:employeeIdcardNo,enteringDate:enteringDate,
-                                                        archiveSource:archiveSource,archivalPlace:archivalPlace,
-                                                        createdBy:createdBy,remark:remark
+                                                        archiveSource:archiveSource,archivePlace:archivePlace,
+                                                        createdBy:createdBy,remark:remark,exitThePlaceDate:exitThePlaceDate
         }});
 
       },
-      showInfoTView (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivalPlace,createdBy,remark) {
+      showInfoTView (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivePlace,createdBy,remark,exitThePlaceDate) {
         
         this.$router.push({name:'advanceFileView', query: {archiveAdvanceId:companyId,reservedArchiveType:reservedArchiveType,
                                                         reservedArchiveNo:reservedArchiveNo,employeeName:employeeName,
                                                         employeeIdcardNo:employeeIdcardNo,enteringDate:enteringDate,
-                                                        archiveSource:archiveSource,archivalPlace:archivalPlace,
-                                                        createdBy:createdBy,remark:remark
+                                                        archiveSource:archiveSource,archivePlace:archivePlace,
+                                                        createdBy:createdBy,remark:remark,exitThePlaceDate:exitThePlaceDate
         }});
 
       },

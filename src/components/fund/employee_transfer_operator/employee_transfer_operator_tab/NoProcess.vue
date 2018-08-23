@@ -89,7 +89,7 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem name="0">导出雇员转移清册</DropdownItem>
+            <DropdownItem name="0">导出入管清册</DropdownItem>
             <DropdownItem name="1">导出雇员转移TXT</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -99,7 +99,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="noProcessColumns" :data="empTaskTransferData" width></Table>
+        <Table border :columns="noProcessColumns" :data="empTaskTransferData" @on-row-dblclick="dbClickHandleData" width></Table>
         <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -115,7 +115,9 @@
     <!-- 新建任务单 -->
     <Modal
       v-model="isCreateTaskTicket"
+       title="新建转移任务单"
       width="820"
+      :mask-closable="false"
     >
       <Form :label-width="100" :model="createTask.searchCondition" ref='createTaskSearchForm'>
         <Row>
@@ -145,7 +147,7 @@
             </Form-item>
           </Col>
           <Col :sm="{span: 12}">
-            <Form-item label="上下岗状态：" prop="status">
+            <Form-item label="入离职状态：" prop="status">
               <Select v-model="createTask.searchCondition.status" style="width: 100%;" transfer>
                 <Option v-for="item in createTask.workStatueList" :value="item.value" :key="item.value">{{item.label}}</Option>
               </Select>
@@ -162,7 +164,7 @@
             </Form-item>
            </Col> -->
           <Col :sm="{span: 12}" class="tr">
-          
+
             <Button type="primary" icon="ios-search" @click="handlePageNumNewTask(1)">查询</Button>
             <Button type="warning" @click="resetCreateTaskSearchCondition">重置</Button>
             <Button type="warning" @click="isCreateTaskTicket = false;">关闭</Button>
@@ -226,7 +228,7 @@
             idNum: '',
             companyId: '',
             titile: '',
-            status: 2,
+            status: '',
             hfType:'',
           },
           workStatueList: [
@@ -292,7 +294,7 @@
                 ]);
               }
             },
-            {title: '上下岗状态', key: 'status', align: 'center', width: 100,
+            {title: '入离职状态', key: 'status', align: 'center', width: 100,
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'left'}}, [
                   h('span', this.$decode.empComStatus(params.row.status) ),
@@ -315,25 +317,25 @@
         ],
         empTaskTransferData:[],
         noProcessColumns: [
-          {title: '操作', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      sessionData.setJsonDataToSession('transfer.noprocess.searchCondition', this.searchCondition);
-                      sessionData.setJsonDataToSession('transfer.noprocess.pageData', this.pageData);
-                      let employeeId=params.row.employeeId;
-                      let companyId=params.row.companyId;
-                      let hfType=params.row.hfType;
-                      let empTaskId=params.row.empTaskId;
-                      this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId}});
-                    }
-                  }
-                }, '转移'),
-              ]);
-            }
-          },
+          // {title: '操作', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             sessionData.setJsonDataToSession('transfer.noprocess.searchCondition', this.searchCondition);
+          //             sessionData.setJsonDataToSession('transfer.noprocess.pageData', this.pageData);
+          //             let employeeId=params.row.employeeId;
+          //             let companyId=params.row.companyId;
+          //             let hfType=params.row.hfType;
+          //             let empTaskId=params.row.empTaskId;
+          //             this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId}});
+          //           }
+          //         }
+          //       }, '转移'),
+          //     ]);
+          //   }
+          // },
           {title: '公积金类型', key: 'hfType', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -362,7 +364,7 @@
               ]);
             }
           },
-          {title: '雇员姓名', key: 'employeeName', width: 150, align: 'center',
+          {title: '雇员姓名', key: 'employeeName', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeName),
@@ -376,28 +378,35 @@
               ]);
             }
           },
-          {title: '上下岗状态', key: 'status', width: 200, align: 'center',
+          {title: '入离职状态', key: 'status', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.empComStatus(params.row.status)),
               ]);
             }
           },
-          {title: '状态', key: 'taskStatus', width: 200, align: 'center',
+          {title: '状态', key: 'taskStatus', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.hf_archiveStatus(params.row.archiveStatus)),
               ]);
             }
           },
-          {title: '入职日期', key: 'inDate', width: 200, align: 'center',
+          {title: '入职日期', key: 'inDate', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.inDate),
               ]);
             }
           },
-          {title: '发起人', key: 'createdDisplayName', width: 150, align: 'center',
+          {title: '打印人', key: 'handleUserName', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.handleUserName),
+              ]);
+            }
+          },
+          {title: '发起人', key: 'createdDisplayName', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.createdDisplayName),
@@ -424,7 +433,6 @@
     mounted() {
       sessionData.getJsonDataFromSession('transfer.noprocess.searchCondition', this.searchCondition);
       sessionData.getJsonDataFromSession('transfer.noprocess.pageData', this.pageData);
-      console.log(this.searchCondition);
       let params = this.searchCondition
       this.queryTransfer(params);
       this.getCustomers();
@@ -466,7 +474,15 @@
         let params = this.searchCondition
         this.queryTransfer(params);
       },
-
+      dbClickHandleData(row, index){
+        sessionData.setJsonDataToSession('transfer.noprocess.searchCondition', this.searchCondition);
+        sessionData.setJsonDataToSession('transfer.noprocess.pageData', this.pageData);
+        let employeeId=row.employeeId;
+        let companyId=row.companyId;
+        let hfType=row.hfType;
+        let empTaskId=row.empTaskId;
+        this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId}});
+      },
       getCustomers(){
         let params = null;
         api.getCustomers({params:params}).then(data=>{
@@ -511,17 +527,40 @@
       },
       multiEmpTaskTransferExport() {
         if (!this.searchCondition.transferOutUnit) {
-          this.$Message.error("导出清册，必须在查询条件输入【转出单位】及【转入单位】");
+          this.$Message.error("导出入管清册，必须在查询条件输入【转出单位】");
           return false;
         }
-        if (!this.searchCondition.transferInUnit) {
-          this.$Message.error("导出清册，必须在查询条件输入【转出单位】及【转入单位】");
-          return false;
-        }
-        let params = this.searchCondition
-        api.multiEmpTaskTransferExport({
-          params: params,
+        commonApi.getComFundAccountClassNameList({
+          params: {
+            comAccountName: this.searchCondition.transferOutUnit.trim(),
+            hfComAccount: ''
+          }
+        }).then(data => {
+          if (data.code === 200) {
+            let total = Number(data.total);
+            if (total === 0) {
+              this.$Message.error("未匹配到任何转出单位");
+              return false;
+            } else if (total === 1) {
+              let params = this.searchCondition
+              api.multiEmpTaskTransferExport({
+                params: params,
+              })
+            } else if (total > 1) {
+              this.$Message.error("匹配出多家转出单位，请进一步明确转出单位名称");
+              return false;
+            }
+          }
         })
+
+//        if (!this.searchCondition.transferInUnit) {
+//          this.$Message.error("导出清册，必须在查询条件输入【转出单位】及【转入单位】");
+//          return false;
+//        }
+//        let params = this.searchCondition
+//        api.multiEmpTaskTransferExport({
+//          params: params,
+//        })
       },
       empTaskTransferTxtExport() {
         let params = this.searchCondition

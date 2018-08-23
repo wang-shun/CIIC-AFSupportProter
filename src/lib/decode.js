@@ -286,9 +286,9 @@ export default {
     paymentType: (type) => {
         switch (type) {
         case '1':
-            return '我司代付款'
+            return '委托扣款'
         case '2':
-            return '客户自付'
+            return '制卡缴费'
         default:
             return ''
         }
@@ -386,7 +386,7 @@ export default {
             return ''
         }
     },
-    //公积金操作提示 1要做、2 中心、3 中智、4 原单位、5 其他独立开户公司、6 外包
+   // 1, 要做2, 中心3, 中智4, 原单位5, 外服6, 不做7, 外包8, 其他独立开户公司 
     hfOperationRemind: (type) => {
         switch (type) {
         case '1':
@@ -403,10 +403,16 @@ export default {
             return '原单位'
         case '5':
         case 5:
-            return '其他独立开户公司'
+            return '外服'
         case '6':
         case 6:
+            return '不做'
+        case '7':
+        case 7:
             return '外包'
+        case '8':
+        case 8:
+            return '其他独立开户公司'   
         default:
             return ''
         }
@@ -607,6 +613,18 @@ export default {
             return ''
         }
     },
+    hf_payment_paymentWay: (v) => {
+        switch (v) {
+        case '0':
+            return '无需支付'
+        case '2':
+            return '支票'
+        case '3':
+            return '转账'
+        default: 
+            return ''
+        }
+    },
     hf_accountType: (v) => {
         switch (v) {
         case '1':
@@ -684,7 +702,6 @@ export default {
         }
     },
     hf_paymentBank: (v) => {
-    // 1 徐汇—X、2 西郊—C、3 东方路—P、4 卢湾—L、5 黄浦—H
     switch (v) {
       case '15':
         return '徐汇—X'

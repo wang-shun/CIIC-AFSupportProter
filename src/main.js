@@ -9,7 +9,9 @@ import commons from "./lib/commons";
 import Validator from '@/validator/flexible_benefit'
 
 import 'iview/dist/styles/iview.css'
-import '../static/css/style.css' //修改全局樣式
+import '../static/css/common.css'
+import '../static/css/style.css'
+import '../static/css/overwrite.css'
 
 import Dic from './lib/dic.js'
 import moment from 'moment'
@@ -32,15 +34,12 @@ const response = {
   'message': 'OK'
 }
 window.addEventListener('message', (event) => {
-  const userInfo = window.localStorage.getItem('userInfo')
   const currentGoTo = window.localStorage.getItem('currentGoTo')
   const message = !event.data ? {} : JSON.parse(event.data)
   const isToken = message.token !== undefined
   if (isToken && (currentGoTo === null || currentGoTo === '')) {
-    if ((userInfo === null) || (userInfo === '')) {
-      window.localStorage.setItem('userInfo', event.data)
-    }
-    window.parent.postMessage(JSON.stringify(response), event.origin)
+    window.localStorage.setItem('userInfo', event.data)
+    top.postMessage(JSON.stringify(response), event.origin)
   } else {
     if ((currentGoTo !== null) && (currentGoTo !== '')) {
       window.localStorage.removeItem('currentGoTo')

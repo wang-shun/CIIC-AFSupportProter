@@ -4,14 +4,14 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-           <search-employee @on-search="searchEmploiees" :showHandle="showHandle"></search-employee>
+           <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDaily"></search-employee>
         </div>
       </Panel>
     </Collapse>
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="error" @click="isShowRejectBatch = true">批量批退</Button>
+        <Button type="error" @click="openReject()">批量批退</Button>
         <Button type="info"  @click="isUpload=true">批量预录入雇员公积金账号</Button>
         <Button type="info" @click="excelExport()">导出</Button>
         <Button type="info" @click="excelExportNew()">导出开户文件</Button>
@@ -20,13 +20,15 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}" >
-        <Table border ref="noProcessData"
+        <Table border id="noProcessData"
                :row-class-name="rowClassName"
                :columns="noProcessColumns"
                :data="noProcessData"
                @on-selection-change="handleSelectChange"
                @on-sort-change="SortChange"
+               @on-row-dblclick="handleDblClick"
                :loading="isLoading"
+               height=400
                ></Table>
       <Page
         class="pageSize"
@@ -178,63 +180,20 @@
         isShowRejectBatch: false,
         rejectionRemark: '',
         selectedData: [],
+        selectedNewData: [],
         selectedOutData: [],
         noProcessData: [],
         noProcessPageData: {
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.HF_DEFAULT_PAGE_SIZE_OPTS
         },
         noProcessColumns: [
           {
             type: 'selection', fixed: 'left', width: 60, align: 'center'
           },
-          {title: '操作', fixed: 'left', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-//                      console.log("before: " + JSON.stringify(this.noProcessPageData))
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
-
-                      localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
-                      localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
-                      localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
-                      localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
-                      switch (params.row.taskCategory) {
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '9':
-                        case '10':
-                        case '11':
-                          this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
-                          break;
-                        case '4':
-                        case '5':
-                        case '12':
-                        case '13':
-                          this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
-                          break;
-                        case '6':
-                          this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
-                          break;
-                        case '7':
-                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
-                          break;
-                        default:
-                          break;
-                      }
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
-          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
+          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center',sortable: 'custom'},
 //          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center',sortable: 'custom'},
@@ -267,16 +226,21 @@
         {
           for(var index  in storeOrder)
           {
-             var orders = storeOrder[index].split(' ');
-             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            var orders = storeOrder[index].split(' ');
+            if(e.key === 'taskCategoryName'&&storeOrder[index].indexOf('task_category')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+
+            if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
             if(e.key === 'hfEmpAccount'&&storeOrder[index].indexOf('hf_emp_account')!=-1)
             {
@@ -305,7 +269,13 @@
         }
       });
 //      console.log("after: " + JSON.stringify(this.noProcessPageData))
-       this.hfEmpTaskQuery();
+//       this.hfEmpTaskQuery();
+
+      var conditions = [];
+      this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
     },
@@ -341,7 +311,7 @@
       handlePageNum(val) {
         this.noProcessPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
       },
       handlePageSize(val) {
 //        if (val === this.noProcessPageData.pageSize) {
@@ -352,23 +322,70 @@
         var conditions = [];
         this.searchEmploiees(conditions);
       },
+      handleDblClick(row, index) {
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+
+        localStorage.setItem('employeeFundCommonOperator.empTaskId', row.empTaskId);
+        localStorage.setItem('employeeFundCommonOperator.hfType', row.hfType);
+        localStorage.setItem('employeeFundCommonOperator.taskCategory', row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
+        switch (row.taskCategory) {
+          case '1':
+          case '2':
+          case '3':
+          case '9':
+          case '10':
+          case '11':
+            this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+            break;
+          case '4':
+          case '5':
+          case '12':
+          case '13':
+            this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
+            break;
+          case '6':
+            this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
+            break;
+          case '7':
+            this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+            break;
+          default:
+            break;
+        }
+      },
       ok() {},
       cancel() {},
       resetSelectedData(selection) {
         this.selectedData.length = 0;
         this.selectedOutData.length = 0;
+        this.selectedNewData.length = 0;
         if(selection) {
           selection.forEach((element, index, array) => {
             this.selectedData.push(element.empTaskId);
             if (element.taskCategory == '4' || element.taskCategory == '5' ||
               element.taskCategory == '12' || element.taskCategory == '13') {
               this.selectedOutData.push(element.empTaskId);
+            } else if (element.taskCategory == '1' || element.taskCategory == '9') {
+              this.selectedNewData.push(element.empTaskId);
             }
           })
         }
       },
       handleSelectChange(selection) {
         this.resetSelectedData(selection);
+      },
+      openReject() {
+        if (this.selectedData.length == 0) {
+          this.$Message.error("请先勾选需要批退的任务");
+          return false;
+        }
+        if (this.selectedOutData.length > 0) {
+          this.$Message.error("转出或封存（翻牌转出或翻牌封存）类型的任务不能批退，请勿勾选");
+          return false;
+        }
+        this.isShowRejectBatch = true;
       },
       batchReject() {
         if (this.selectedData.length == 0) {
@@ -395,16 +412,24 @@
           selectedData: this.selectedData
         }).then(data => {
           if (data.code == 200) {
+            this.isLoading = false;
             this.$Message.info("批退操作成功");
             this.isShowRejectBatch = false;
             this.handlePageNum(1);
+            this.rejectionRemark = "";
             this.selectedData.length = 0;
             this.selectedOutData.length = 0;
+            this.selectedNewData.length = 0;
           } else {
+            this.isLoading = false;
             this.$Message.error(data.message)
           }
-          this.isLoading = false;
-        })
+//          this.isLoading = false;
+        }).catch(
+          error=>{
+            this.isLoading = false;
+          }
+        )
       },
       beforeSubmit(params) {
         var cparams = {}
@@ -489,12 +514,16 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
         api.hfEmpTaskExport({ params: this.searchCondition });
       },
       excelExportNew() {
         if (!this.selectedData || this.selectedData.length == 0) {
           this.$Message.error("请先勾选需要导出开户文件的任务");
+          return false;
+        }
+        if (this.selectedData.length != this.selectedNewData.length) {
+          this.$Message.error("非开户任务单无法导出开户文件");
           return false;
         }
         var params = {};
@@ -512,7 +541,7 @@
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
 
-      },searchEmploiees(conditions) {
+      },searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -563,11 +592,11 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.noProcessPageData.pageSize,
-          pageNum: this.noProcessPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -595,14 +624,16 @@
 
 
         var dx ='';
-        if(e.key === 'companyId'){
-            dx = 'tmp.company_id';
+        if(e.key === 'taskCategoryName') {
+          dx = 'tmp.task_category';
+        }else if(e.key === 'companyId'){
+          dx = 'tmp.company_id';
         }else if(e.key === 'employeeId'){
-            dx = 'tmp.employee_id';
+          dx = 'tmp.employee_id';
         }else if(e.key === 'hfEmpAccount'){
-            dx = 'tmp.hf_emp_account';
+          dx = 'tmp.hf_emp_account';
         }else if(e.key === 'idNum'){
-            dx = 'tmp.id_num';
+          dx = 'tmp.id_num';
         }
 
         const searchConditionExec = `${dx} ${e.order} `;
@@ -652,7 +683,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.noProcessPageData.pageSize,
@@ -681,6 +712,11 @@
               for(var index  in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
+                if(e.key === 'taskCategoryName' && storeOrder[index].indexOf('task_category')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
                 if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
                   order = orders[1]
                   break;
@@ -703,7 +739,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(0, idx, order)
+          tableStyle.changeSortElementClass('noProcessData', idx, order)
         });
       },
       beforeUpload(file) {
@@ -716,11 +752,17 @@
           if (this.importResultData) {
             this.importResultData.length = 0;
           }
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.uploadFileList.push({name: file.name, url: ''});
             this.importResultData = data.data;
+
             this.$Message.info("上传成功");
 //            this.isSubmit = false;
+          } else if (data.code === 222) {
+            this.uploadFileList.push({name: file.name, url: ''});
+            this.importResultData = data.data;
+
+            this.$Message.error(data.message);
           } else {
             this.$Message.error(data.message);
           }

@@ -149,7 +149,7 @@
         <div slot="content">
           <Form :label-width='150'>
             <Row type="flex" justify="start">
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}"
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="基本公积金账号：">
                   <Input v-model="viewEmpArchive.hfEmpAccount" ></Input>
                 </Form-item>
@@ -161,7 +161,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴纳至月份：">
-                  <label>{{viewEmpPeriod.endMonth}}</label>
+                  <label>{{viewEmpArchive.endMonth}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -179,10 +179,26 @@
                   <label>{{viewEmpPeriod.ratio}}</label>
                 </Form-item>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="缴费比例：">
+                  <label>{{viewEmpPeriod.ratio}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转入实际年月：">
+                  <label>{{viewEmpArchive.startMonth}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转出实际年月：">
+                  <label>{{viewEmpArchive.endMonth}}</label>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}">
-                <Table border class="mt20" :columns="columnsEmpTaskPeriod" :data="listEmpTaskPeriod"></Table>
+                <!--<Table border class="mt20" :columns="columnsEmpTaskPeriod" :data="listEmpTaskPeriod"></Table>-->
+                <origin-emp-task-info :companyId="this.$route.query.companyId" :employeeId="this.$route.query.employeeId" :hfType=1></origin-emp-task-info>
               </Col>
             </Row>
           </Form>
@@ -223,15 +239,32 @@
                   <label>{{viewEmpPeriodAdd.ratio}}</label>
                 </Form-item>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转入实际年月：">
+                  <label>{{viewEmpArchive.startMonthBc}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转出实际年月：">
+                  <label>{{viewEmpArchive.endMonthBc}}</label>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}">
-                <Table border class="mt20" :columns="columnsEmpTaskPeriodAdd" :data="listEmpTaskPeriodAdd"></Table>
+                <!--<Table border class="mt20" :columns="columnsEmpTaskPeriodAdd" :data="listEmpTaskPeriodAdd"></Table>-->
+                <origin-emp-task-info :companyId="this.$route.query.companyId" :employeeId="this.$route.query.employeeId" :hfType=2></origin-emp-task-info>
               </Col>
             </Row>
           </Form>
         </div>
       </Panel>
+      <!--<Panel name="5">-->
+        <!--雇员任务单-->
+        <!--<div slot="content">-->
+          <!--<origin-emp-task-info :empArchiveId="this.$route.query.empArchiveId"></origin-emp-task-info>-->
+        <!--</div>-->
+      <!--</Panel>-->
        <Panel name="5">
         雇员基本/补充公积金转移
         <div slot="content">
@@ -260,17 +293,18 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
-  import EventTypes from '../../../store/event_types'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import EventTypes from '../../../store/event_types'
   import basicInfo from '../common/BasicInfo.vue'
   import companyFundAccountInfo from '../common/CompanyFundAccountInfo.vue'
   import fundInfo from '../common/FundInfo.vue'
   import fundTransfer from '../common/FundTransfer.vue'
   import fundNotes from '../common/FundNotes.vue'
   import api from '../../../api/house_fund/employee_operator'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
 
   export default {
-    components: {basicInfo, fundNotes},
+    components: {basicInfo, fundNotes, originEmpTaskInfo},
     data() {
       return {
         viewEmpArchive:{
@@ -505,24 +539,24 @@
       });
     },
     computed: {
-      ...mapState('employeeFundBasicInfo', {
-        data: state => state.data
-      })
+//      ...mapState('employeeFundBasicInfo', {
+//        data: state => state.data
+//      })
     },
     methods: {
-      ...mapActions('employeeFundBasicInfo', [EventTypes.EMPLOYEEFUNDBASICINFO]),
+//      ...mapActions('employeeFundBasicInfo', [EventTypes.EMPLOYEEFUNDBASICINFO]),
       back() {
         this.$router.go(-1)
       },
       saveEmpAccount(){
-        var reg = /(^[1-9]([0-9]{1,19})?$)/;
+        var reg = /(^[0-9]{9}$)/;
 
-        if (!reg.test(this.viewEmpArchive.hfEmpAccount)) { 
-          this.$Message.error("【基本公积金账号】输入不正确，必须要求数字类型，并且不超过20位。");
+        if (!reg.test(this.viewEmpArchive.hfEmpAccount)) {
+          this.$Message.error("【基本公积金账号】输入不正确，必须要求9位的数字。");
           return;
         }
-        if (this.viewEmpArchive.empArchiveIdBc && !reg.test(this.viewEmpArchive.hfEmpAccountBc)) { 
-          this.$Message.error("【补充公积金账号】输入不正确，必须要求数字类型，并且不超过20位。");
+        if (this.viewEmpArchive.empArchiveIdBc && !reg.test(this.viewEmpArchive.hfEmpAccountBc)) {
+          this.$Message.error("【补充公积金账号】输入不正确，必须要求9位的数字。");
           return;
         }
           var formData={

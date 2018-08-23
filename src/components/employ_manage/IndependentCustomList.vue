@@ -30,7 +30,7 @@
       </Collapse>
     </div>
   
-    <Table border :columns="dismissalColumns" :data="dismissalData" class="mt20"></Table>
+    <Table border :columns="dismissalColumns" :data="dismissalData" @on-row-dblclick="handleData" class="mt20"></Table>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -64,25 +64,6 @@
         },
         collapseInfo: [1],
         dismissalColumns: [
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 120,
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.companyId)
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
           {title: '公司编码', key: 'companyId', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -145,11 +126,6 @@
           self.pageData.total = Number(data.data.total);
         })
       },
-      showInfoT (companyId) {
-        
-        this.$router.push({name:'independentHandleCustom', query: {companyId:companyId}});
-
-      },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -162,7 +138,15 @@
         this.pageData.pageSize = val;
         let params = this.searchCondition
         this.querySalCompany(params);
-      }
+      },
+      handleData(row, index) {
+      this.$router.push({
+        name: "independentHandleCustom",
+        query: {
+          companyId: row.companyId
+        }
+      });
+    },
     }
   }
 </script>

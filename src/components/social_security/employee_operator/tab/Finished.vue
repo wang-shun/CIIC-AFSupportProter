@@ -1,22 +1,22 @@
 <template>
-  <div style="height: 850px;">
+  <div style="height: 1000px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
         <div slot="content">
-          <search-employee @on-search="searchEmploiees" :showHandle="showHandle"></search-employee>
+          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDailyF"></search-employee>
         </div>
       </Panel>
     </Collapse>
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Table border ref="selection"
+      <Table border id="finishedData" ref="selection"
              :columns="employeeResultColumns"
              :data="employeeResultData"
              @on-selection-change="selectionChange"
              @on-sort-change="SortChange"
-             :loading="isLoading"></Table>
+             :loading="isLoading" height=400></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -51,7 +51,7 @@
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
-  import searchEmployee from "./SearchEmployeeF.vue"
+  import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
 
   export default {
@@ -95,7 +95,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.SS_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
           {
@@ -117,10 +117,18 @@
             }
           },
           {
-            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
+            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',sortable: 'custom',
             render: (h, params) => {
               return h('div', [
                 h('span',  this.$decode.taskCategory(params.row.taskCategory))
+              ]);
+            }
+          },
+          {
+            title: '是否更正', key: 'isChange', width: 105, align: 'center',sortable: 'custom',
+            render: (h, params) => {
+              return h('div', [
+                h('span',  params.row.isChange=='1'?"是":"否")
               ]);
             }
           },
@@ -157,14 +165,6 @@
           {
             title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
           },
-          {
-            title: '是否更正', key: 'isChange', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('span',  params.row.isChange=='1'?"是":"否")
-              ]);
-            }
-          },
         ]
       }
     },
@@ -183,26 +183,34 @@
         {
           for(var index  in storeOrder)
           {
-             var orders = storeOrder[index].split(' ');
-             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            var orders = storeOrder[index].split(' ');
+            if(e.key === 'taskCategory' && storeOrder[index].indexOf('task_category')!=-1) {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'isChange' && storeOrder[index].indexOf('is_change')!=-1) {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'employeeId'&& storeOrder[index].indexOf('employee_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'companyId'&& storeOrder[index].indexOf('company_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+
+            if(e.key === 'ssAccount'&& storeOrder[index].indexOf('ss_account')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+
+            if(e.key === 'idNum'&& storeOrder[index].indexOf('id_num')!=-1)
+            {
+              e.sortType = orders[1];
+            }
           }
         }
       }
@@ -221,7 +229,7 @@
        }
 
 
-      this.searchEmploiees(this.searchConditions);
+      this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
       this.loadDict();
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
@@ -278,7 +286,7 @@
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.employeeResultPageData.pageNum);
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
@@ -426,7 +434,7 @@
       },
       exprotExcel() {
       },
-      searchEmploiees(conditions) {
+      searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -445,7 +453,7 @@
            for(var i=0;i<conditions.length;i++)
            {
                this.searchConditions.push(conditions[i].exec);
-           }  
+           }
         }else{
           // 否则从session 里边去缓存的表单查询值
           var temp = sessionStorage.getItem('socialDailyF'+userInfo.userId);
@@ -478,11 +486,11 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
-          pageNum: this.employeeResultPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -511,14 +519,18 @@
         }
 
         var dx ='';
-        if(e.key === 'companyId'){
-            dx = 'c.company_id';
-        }else if(e.key === 'employeeId'){
-            dx = 'e.employee_id';
-        }else if(e.key === 'ssAccount'){
-            dx = 'ca.ss_account';
-        }else if(e.key === 'idNum'){
-            dx = 'e.id_num';
+        if (e.key === 'taskCategory') {
+          dx = 'et.task_category';
+        } else if(e.key === 'isChange') {
+          dx = 'et.is_change';
+        } else if (e.key === 'companyId') {
+          dx = 'c.company_id';
+        } else if (e.key === 'employeeId') {
+          dx = 'e.employee_id';
+        } else if (e.key === 'ssAccount') {
+          dx = 'ca.ss_account';
+        } else if(e.key === 'idNum') {
+          dx = 'e.id_num';
         }
         const searchConditionExec = `${dx} ${e.order} `;
         if(storeOrder==null){
@@ -564,7 +576,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
@@ -595,6 +607,16 @@
               for(var index  in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
+                if(e.key === 'taskCategory' && storeOrder[index].indexOf('task_category')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'isChange' && storeOrder[index].indexOf('is_change')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
                 if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
                   order = orders[1]
                   break;
@@ -617,7 +639,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(1, idx, order)
+          tableStyle.changeSortElementClass('finishedData', idx, order)
         });
       },
     }

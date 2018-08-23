@@ -39,13 +39,13 @@
           </Form-item>
         </Col>
 
-         <Col :sm="{span: 22}" :md="{span: 20}" :lg="{span: 12}" v-if="showHandle.show">
+         <!-- <Col :sm="{span: 22}" :md="{span: 20}" :lg="{span: 12}" v-if="showHandle.show">
           <Form-item label="任务单状态：" prop="employFeedback">
             <Select v-model="searchForm.isFinish" transfer>
               <Option v-for="item in finishStatus" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
-        </Col>
+        </Col> -->
       </Row>
       </Col>
       <Col :sm="{span: 2, offset: 1}">
@@ -59,7 +59,7 @@
       </Col>
     </Row>
     <Row justify="start">
-      <Col :sm="{span: 24}" class="mt20 tr">
+      <Col :sm="{span: 24}" class="mt14 tr">
         <Button type="primary" icon="ios-search" :loading="isLoading"  @click="searchEmploiees">查询</Button>
         
         <Button type="warning" @click="resetForm('searchForm')">重置</Button>
@@ -99,7 +99,7 @@
           relationship: em_relationship,
           searchContent: "",
           isDate:0,
-          isFinish:0,
+          isFinish:2,
         },
         searchConditions: [],
         currentField: {},

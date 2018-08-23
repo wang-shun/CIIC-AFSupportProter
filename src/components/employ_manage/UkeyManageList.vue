@@ -10,7 +10,7 @@
         </Panel>
       </Collapse>
     </div>
-    <Table border :columns="dismissalColumns" :data="dismissalData" class="mt20"></Table>
+    <Table border :columns="dismissalColumns" @on-row-dblclick="handleData" :data="dismissalData" class="mt20"></Table>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -55,26 +55,26 @@
           {value:'未绑定公司',label:'未绑定公司'}
         ],
         dismissalColumns: [
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 100,
-            render: (h, params) => {
-                return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.id)
+          // {
+          //   title: '操作',
+          //   key: 'action',
+          //   align: 'center',
+          //   width: 100,
+          //   render: (h, params) => {
+          //       return h('div', [
+          //       h('Button', {
+          //         props: {type: 'success', size: 'small'},
+          //         style: {margin: '0 auto 0 10px'},
+          //         on: {
+          //           click: () => {
+          //             this.showInfoT(params.row.id)
                       
-                    }
-                  }
-                }, '维护详情'),
-              ]);
-            },
-          },
+          //           }
+          //         }
+          //       }, '维护详情'),
+          //     ]);
+          //   },
+          // },
           {title: '材料签收日期', key: 'materialReceiveDate', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -145,7 +145,7 @@
               ]);
             }
           },
-          {title: '序列号', key: 'keySeq', align: 'center', width: 105,
+          {title: '序列号', key: 'keySeq', align: 'center', width: 205,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.keySeq),
@@ -168,6 +168,14 @@
       this.querySalCompany({});
     },
     methods: {
+      handleData(row, index) {
+      this.$router.push({
+        name: "UkeyManage",
+        query: {
+          id: row.id
+        }
+      });
+    },
       searchUkey(conditions,searchForm,type) {
            // 查询
               this.pageData.pageNum =1;

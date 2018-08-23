@@ -606,49 +606,23 @@ export default {
       });
     },
     dbClickHandleData(row, index){
-      
-          sessionData.setJsonDataToSession('companyFundTaskList.noProcess.operatorSearchData', this.operatorSearchData);
-          sessionData.setJsonDataToSession('companyFundTaskList.noProcess.pageData', this.pageData);
-          switch(params.row.taskCategoryName) {
-            case '开户':
-              this.$router.push({name: 'companyFundTaskCommit', params: {
-                  comTaskId: params.row.comTaskId,
-                  companyInfo: params.row.companyInfo,
-                  openAccountInfo: params.row.openAccountInfo}
-              });
-              break;
-            case '转入':
-              this.$router.push({name: 'companyFundTaskCommit', params: {
-                  comTaskId: params.row.comTaskId,
-                  companyInfo: params.row.companyInfo,
-                  openAccountInfo: params.row.openAccountInfo}
-              });
-              break;
-            case '变更':
-              this.$router.push({name: 'companyFundTaskProgressChangeInfo', params: {
-                  comTaskId: params.row.comTaskId,
-                  companyFundAccountInfo: params.row.companyFundAccountInfo,
-                  changeOperator: params.row.changeOperator}
-              });
-              break;
-            case '终止':
-              this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
-                  comTaskId: params.row.comTaskId,
-                  companyFundAccountInfo: params.row.companyFundAccountInfo,
-                  endOperator: params.row.endOperator}
-              });
-              break;
-            case '销户':
-              this.$router.push({name: 'companyFundTaskProgressEndInfo', params: {
-                  comTaskId: params.row.comTaskId,
-                  companyFundAccountInfo: params.row.companyFundAccountInfo,
-                  endOperator: params.row.endOperator}
-              });
-              break;
-            default:
-              break;
-          }
-      },
+      sessionData.setJsonDataToSession('empHFsearch.searchCondition', this.searchCondition);
+      sessionData.setJsonDataToSession('empHFsearch.pageData', this.pageData);
+    if(row.empArchiveId == null || row.empArchiveId=='' ){
+      this.$router.push({
+        name: "employeeFundBasicInfo",
+        query: { companyId: row.companyId,employeeId:row.employeeId }
+      });
+    }else{
+      this.showInfo(
+        row.empArchiveId,
+        row.companyId,
+        row.employeeId
+      );
+    }
+   
+
+    },
     gotoHistoryList() {
       this.$router.push({ name: "employeeFundHistory" });
     },

@@ -294,7 +294,7 @@
           {value: '15', label: '退工成功,改社保'},
           {value: '16', label: '重复任务单'},
           {value: '17', label: '退工自办'}
-         
+
         ],
         companyGroupTransferDirectionList: [
           {value: '', label: ''},
@@ -328,7 +328,7 @@
          }
 
          this.isLoading = true;
-        
+
         var fromData = this.$utils.clear(this.refuseInfo,'');
         if(this.refuseInfo.resignMaterialDeliveryDate){
             fromData.employDate = this.$utils.formatDate(this.refuseInfo.resignMaterialDeliveryDate, 'YYYY-MM-DD');
@@ -366,7 +366,7 @@
         if(this.refuseInfo.jobCentreFeedbackDate){
              fromData.jobCentreFeedbackDate = this.$utils.formatDate(this.refuseInfo.jobCentreFeedbackDate, 'YYYY-MM-DD');
         }
-       
+
         api.saveAmResign(fromData).then(data => {
               if (data.code == 200) {
                   this.$Message.success("保存成功");
@@ -377,9 +377,9 @@
                 }
                 this.isLoading = false;
         })
-         
+
        },binding(){
-         
+
           if(this.refuseInfo.matchEmployIndex==undefined||this.refuseInfo.matchEmployIndex==''){
               this.$Message.success("对应用工序号为空");
               return;
@@ -429,24 +429,24 @@
         if(this.refuseInfo.jobCentreFeedbackDate){
              fromData.jobCentreFeedbackDate = this.$utils.formatDate(this.refuseInfo.jobCentreFeedbackDate, 'YYYY-MM-DD');
         }
-        
+
           api.bindEmploymentId(fromData).then(data => {
               if (data.code == 200) {
                 if(data.data.result==true){
                    this.refuseInfo.resignId = data.data.entity.resignId;
                    this.$Message.success("绑定成功");
-                 
+
                 }else{
                    this.$Message.error("绑定失败！" + data.data.result);
                 }
-                
+
               } else {
                 this.$Message.error("绑定失败！" + data.data.result);
               }
           })
 
        },callbackValue(val){
-         
+
          switch(val){
            case '1':
              return true;
@@ -462,28 +462,28 @@
              break;
            case '15':
              return true;
-             break; 
+             break;
            case '16':
              return true;
              break;
            case '17':
              return true;
-             break;  
+             break;
            default:
              return false;
-             break;   
+             break;
 
          }
        },changeEndType(val){
-        
+
         var isCon = this.callbackValue(val);
-        
+
           if(isCon){
              this.endTypeList[0].disabled=true;
              this.endTypeList[1].disabled=true;
 
              this.refuse.printDateR = true;
-            
+
              this.refuseFileDirectionList[0].disabled = true;
              this.refuseFileDirectionList[1].disabled = true;
              this.refuseFileDirectionList[2].disabled = true;
@@ -511,11 +511,11 @@
              this.transferNotesList[12].disabled = true;
              this.transferNotesList[13].disabled = true;
              this.transferNotesList[14].disabled = true;
-            
+
           }else{
              this.endTypeList[0].disabled=false;
              this.endTypeList[1].disabled=false;
-            
+
              this.refuse.printDateR = false;
 
              this.refuseFileDirectionList[0].disabled = false;
@@ -545,7 +545,7 @@
              this.transferNotesList[12].disabled = false;
              this.transferNotesList[13].disabled = false;
              this.transferNotesList[14].disabled = false;
-            
+
           }
 
           if(val=='17')
@@ -562,11 +562,11 @@
                   strDate = "0" + strDate;
               }
               var currentdate = year + seperator1 + month + seperator1 + strDate;
-              
+
               this.refuse.resignFeedbackDate=currentdate;
           }
 
-          alert(this.oldResignFeedback);
+          //alert(this.oldResignFeedback);
           if(this.oldResignFeedback == '11'){
             if(val!='11'){
               this.refuse.ukeyReturnDate = this.currentDate();
@@ -599,15 +599,15 @@
               var currentdate = year + seperator1 + month + seperator1 + strDate;
               return currentdate;
        },setCurrentDate(e) {
-       
+
         if(e){
-          
+
           if(this.refuse.printDate==''||this.refuse.printDate==undefined)
           {
              this.refuse.printDate = this.currentDate();
           }
         }
-        
+
       },changeDate(e) {
         this.refuse.printDate = e;
       },setCurrentDate1(e) {
@@ -617,7 +617,7 @@
              this.refuse.returnDocDate = this.currentDate();
           }
         }
-        
+
       },changeDate1(e) {
         this.refuse.returnDocDate = e;
       },setCurrentDate2(e) {
@@ -627,7 +627,7 @@
              this.refuse.cacheDate = this.currentDate();
           }
         }
-        
+
       },changeDate2(e) {
         this.refuse.cacheDate = e;
       },setCurrentDate3(e) {
@@ -637,7 +637,7 @@
              this.refuse.resignHandleDate = this.currentDate();
           }
         }
-        
+
       },changeDate3(e) {
         this.refuse.resignHandleDate = e;
       },setCurrentDate4(e) {
@@ -647,7 +647,7 @@
              this.refuse.resignFeedbackDate = this.currentDate();
           }
         }
-        
+
       },changeDate4(e) {
         this.refuse.resignFeedbackDate = e;
       },setCurrentDate5(e) {
@@ -657,7 +657,7 @@
              this.refuse.ukeyBorrowDate = this.currentDate();
           }
         }
-        
+
       },changeDate5(e) {
         this.refuse.ukeyBorrowDate = e;
       },setCurrentDate6(e) {
@@ -667,7 +667,7 @@
              this.refuse.ukeyReturnDate = this.currentDate();
           }
         }
-        
+
       },changeDate6(e) {
         this.refuse.ukeyReturnDate = e;
       },setCurrentDate7(e) {
@@ -677,7 +677,7 @@
              this.refuse.jobCentreFeedbackDate = this.currentDate();
           }
         }
-        
+
       },changeDate7(e) {
         this.refuse.jobCentreFeedbackDate = e;
       },setCurrentDate8(e) {
@@ -687,11 +687,11 @@
              this.refuse.resignMaterialDeliveryDate = this.currentDate();
           }
         }
-        
+
       },changeDate8(e) {
         this.refuse.resignMaterialDeliveryDate = e;
       }
-       
+
     }
   }
 </script>

@@ -76,8 +76,8 @@
              <!--v-for="(condition, index) in searchConditions">{{condition.desc}}<Icon style="float:right;margin-top: 10px;" type="close" @click="delCondition(index)"/></a>-->
           <div :class="{'selected': index === currentSelectIndex}" v-for="(condition, index) in searchConditions" @click="currentSelectIndex = index">
             {{condition.desc}}
-            <div style="position: absolute;top:0;right:0">
-              <Icon type="close" @click="delCondition(index)"/>
+            <div style="position: absolute;bottom:-2.5px;right:-5px">
+              <Button type="text" size="small" icon="close" @click="delCondition(index)"/>
             </div>
           </div>
         </div>

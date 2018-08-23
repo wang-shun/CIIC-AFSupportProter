@@ -364,7 +364,7 @@
           }
         }
       },
-      delCondition() {
+      delCondition(idx) {
         if(typeof idx === 'number' && idx !== -1) {
           this.searchConditions.splice(idx, 1);
         } else {

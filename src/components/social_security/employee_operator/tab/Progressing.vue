@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 5400px;">
+  <div style="height: 1000px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
@@ -25,7 +25,7 @@
              :data="employeeResultData"
              @on-selection-change="selectionChange"
              @on-sort-change="SortChange"
-             :loading="isLoading"></Table>
+             :loading="isLoading" height=400></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"

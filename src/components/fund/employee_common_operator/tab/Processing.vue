@@ -25,7 +25,7 @@
                :data="processingData"
                @on-sort-change="SortChange"
                @on-row-dblclick="handleDblClick"
-               :loading="isLoading"></Table>
+               :loading="isLoading" height=400></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"

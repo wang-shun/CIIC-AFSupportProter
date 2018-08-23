@@ -42,11 +42,6 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="注销日期：">
-          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.logoutDate"  style="width: 100%;" transfer></DatePicker>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="类别：">
           <Select transfer v-model="uekyFile.keyType" :disabled="(uekyFile.companyId=='')">
               <Option v-for="item in transferFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -64,6 +59,11 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="到期日期：">
+          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.dueDate"  style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="序列号：">
           <Input placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.keySeq" :maxlength="50"></Input>
         </Form-item>
@@ -71,6 +71,11 @@
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="收费标准：">
           <Input placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.keyFee" :maxlength="18"></Input>
+        </Form-item>
+      </Col>
+       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="注销日期：">
+          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.logoutDate"  style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
     </Row>
@@ -273,6 +278,7 @@ import Vue from 'vue'
               this.$Message.success("续签成功");
               this.renewUkey.type = '';
               this.renewUkey.renewDueDate = '';
+              this.uekyFile.dueDate = fromData.renewDueDate;
               this.queryRenew(this.$route.query.id);
               this.modal1 = false;
             }

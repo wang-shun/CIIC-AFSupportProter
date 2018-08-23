@@ -245,7 +245,7 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" @click="confirm">办理</Button>
+                <Button type="primary" @click="confirm">保存</Button>
                 <Button type="primary" @click="revoke">撤销</Button>
                 <Button type="error" @click="refuseTask">批退</Button>
                 <Button type="warning" @click="goBack">返回</Button>
@@ -675,19 +675,23 @@
             // 这时应该自动页面回到顶部，暂时找不到代码。
             return;
         }
-        res=this.validateRequired();
-        if(res == false )return;
+        let taskState = this.companyOpenAccountOperator.taskTypeValue;
+        if(taskState==3){
+           res=this.validateRequired();
+           if(res == false )return;
 
+        }
+        
         let self = this;
-        self.$Modal.confirm({
+        this.$Modal.confirm({
             title: '',
             content: '确认办理吗?',
             //loading:true,
             onOk:function(){
-                let params = self.getParams()
+                let params = this.getParams()
                 CompanyTaskList.addOrUpdate(params).then(result=>{
                   if(result.result){
-                      let taskState = self.companyOpenAccountOperator.taskTypeValue;
+                      let taskState = this.companyOpenAccountOperator.taskTypeValue;
                       if(taskState==1 || taskState==2){
                         sessionStorage.companyTaskTab = "progressing";
                       }else if(taskState==3){
@@ -695,14 +699,14 @@
                       }
                       //下面代码感觉怪怪的，有空再改
                       if(result.message=='正常'){
-                        self.$Message.success('办理成功!');
-                        self.goBack()
+                        this.$Message.success('办理成功!');
+                        this.goBack()
                       }else{
-                        self.$Message.success(result.message);
-                        self.goBack()
+                        this.$Message.success(result.message);
+                        this.goBack()
                       }
                   }else{
-                    self.$Message.error('办理失败!');
+                    this.$Message.error('办理失败!');
                   }
                 }).catch(error=>{
                   console.log(error)
@@ -710,8 +714,8 @@
 
             },
               error:function(error){
-                self.$Message.error('办理失败!');
-                self.$Modal.remove();
+                this.$Message.error('办理失败!');
+                this.$Modal.remove();
             }
         });
       },

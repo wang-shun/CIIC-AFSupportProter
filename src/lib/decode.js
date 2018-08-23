@@ -702,7 +702,6 @@ export default {
         }
     },
     hf_paymentBank: (v) => {
-    // 1 徐汇—X、2 西郊—C、3 东方路—P、4 卢湾—L、5 黄浦—H
     switch (v) {
       case '15':
         return '徐汇—X'

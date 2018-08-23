@@ -71,11 +71,12 @@ import api from '../../../api/employ_manage/hire_operator'
       return {
         isLoading: false,
         employmentFormList: [
+          {value: '', label: ''},
           {value: '1', label: '全日制'},
           {value: '2', label: '非全日制'}
         ],
         handleTypeList: [
-          {value: '空', label: '空'},
+          {value: '', label: ''},
           {value: '外来从业人员', label: '外来从业人员'},
           {value: '居住证', label: '居住证'},
           {value: '调档', label: '调档'},
@@ -100,16 +101,15 @@ import api from '../../../api/employ_manage/hire_operator'
           {value: '公司自行保管', label: '公司自行保管'}
         ],                            
         employmentPropertyList: [
-           {value: '空', label: '空'},
+           {value: '', label: ''},
            {value: '中智', label: '中智'},
            {value: '外包', label: '外包'},
            {value: '独立', label: '独立'}
         ],
         employmentMethodList: [
-           {value: '空', label: '空'},
+           {value: '', label: ''},
            {value: 'Ukey', label: 'Ukey'},
-           {value: '集体转入', label: '集体转入'},
-           {value: '用工自办', label: '用工自办'},
+           {value: '集体转入，用工自办', label: '集体转入，用工自办'},
            {value: '翻牌', label: '翻牌'},
            {value: '无材料用工', label: '无材料用工'},
            {value: '网办无材料', label: '网办无材料'},

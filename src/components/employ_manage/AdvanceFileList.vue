@@ -41,7 +41,7 @@
       </Collapse>
     </div>
   
-    <Table border :columns="dismissalColumns" :data="dismissalData" class="mt20"></Table>
+    <Table border :columns="dismissalColumns" @on-row-dblclick="handleData" :data="dismissalData" class="mt20"></Table>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -99,73 +99,73 @@
           // {value: '0', label: '已删除'}
         ],
         dismissalColumns: [
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 130,
-            render: (h, params) => {
-              if(params.row.status == 0 || params.row.status == 2){//删除 或 已匹配  状态
-                return h('div', [
-                  h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
-                                      params.row.reservedArchiveNo,params.row.employeeName,
-                                      params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivePlace,
-                                      params.row.createdBy,params.row.remark
-                      )
-                    }
-                  }
-                }, '查看'),
-              ]);
-              }
-              else if(params.row.status == 1){// 未匹配状态
-                return h('div', [
-                  h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
-                                      params.row.reservedArchiveNo,params.row.employeeName,
-                                      params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivePlace,
-                                      params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
-                      )
-                    }
-                  }
-                }, '查看'),
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.archiveAdvanceId,params.row.reservedArchiveType,
-                                      params.row.reservedArchiveNo,params.row.employeeName,
-                                      params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivePlace,
-                                      params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
-                      )
-                    }
-                  }
-                }, '修改'),
-                /*h('Button', {
-                  props: {type: 'error', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      this.showDeleteReason(params.row.archiveAdvanceId);
-                    }
-                  }
-                }, '删除'),*/
-              ]);
-              }
-            },
-          },
+          // {
+          //   title: '操作',
+          //   key: 'action',
+          //   align: 'center',
+          //   width: 130,
+          //   render: (h, params) => {
+          //     if(params.row.status == 0 || params.row.status == 2){//删除 或 已匹配  状态
+          //       return h('div', [
+          //         h('Button', {
+          //         props: {type: 'success', size: 'small'},
+          //         style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
+          //                             params.row.reservedArchiveNo,params.row.employeeName,
+          //                             params.row.employeeIdcardNo,params.row.enteringDate,
+          //                             params.row.archiveSource,params.row.archivePlace,
+          //                             params.row.createdBy,params.row.remark
+          //             )
+          //           }
+          //         }
+          //       }, '查看'),
+          //     ]);
+          //     }
+          //     else if(params.row.status == 1){// 未匹配状态
+          //       return h('div', [
+          //         h('Button', {
+          //         props: {type: 'success', size: 'small'},
+          //         style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
+          //                             params.row.reservedArchiveNo,params.row.employeeName,
+          //                             params.row.employeeIdcardNo,params.row.enteringDate,
+          //                             params.row.archiveSource,params.row.archivePlace,
+          //                             params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
+          //             )
+          //           }
+          //         }
+          //       }, '查看'),
+          //       h('Button', {
+          //         props: {type: 'success', size: 'small'},
+          //         style: {margin: '0 auto 0 10px'},
+          //         on: {
+          //           click: () => {
+          //             this.showInfoT(params.row.archiveAdvanceId,params.row.reservedArchiveType,
+          //                             params.row.reservedArchiveNo,params.row.employeeName,
+          //                             params.row.employeeIdcardNo,params.row.enteringDate,
+          //                             params.row.archiveSource,params.row.archivePlace,
+          //                             params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
+          //             )
+          //           }
+          //         }
+          //       }, '修改'),
+          //       /*h('Button', {
+          //         props: {type: 'error', size: 'small'},
+          //         style: {margin: '0 auto 0 10px'},
+          //         on: {
+          //           click: () => {
+          //             this.showDeleteReason(params.row.archiveAdvanceId);
+          //           }
+          //         }
+          //       }, '删除'),*/
+          //     ]);
+          //     }
+          //   },
+          // },
           {title: '状态', key: 'status', align: 'center', width: 90,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -229,7 +229,7 @@
               ]);
             }
           },
-          {title: '备注', key: 'remark', align: 'center', width: 230,sortable: true,
+          {title: '备注', key: 'remark', align: 'center', width: 460,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remark),
@@ -250,6 +250,30 @@
         this.querySalCompany(this.searchCondition);
           
       },
+      handleData(row, index) {
+        if(row.status == 1){
+
+          this.$router.push({
+            name: "advanceFile",
+            query: {archiveAdvanceId:row.companyId,reservedArchiveType:row.reservedArchiveType,
+                                                            reservedArchiveNo:row.reservedArchiveNo,employeeName:row.employeeName,
+                                                            employeeIdcardNo:row.employeeIdcardNo,enteringDate:row.enteringDate,
+                                                            archiveSource:row.archiveSource,archivePlace:row.archivePlace,
+                                                            createdBy:row.createdBy,remark:row.remark,exitThePlaceDate:row.exitThePlaceDate
+            }
+          });
+        }else{
+          this.$router.push({
+            name: "advanceFileView",
+            query: {archiveAdvanceId:row.companyId,reservedArchiveType:row.reservedArchiveType,
+                                                        reservedArchiveNo:row.reservedArchiveNo,employeeName:row.employeeName,
+                                                        employeeIdcardNo:row.employeeIdcardNo,enteringDate:row.enteringDate,
+                                                        archiveSource:row.archiveSource,archivePlace:row.archivePlace,
+                                                        createdBy:row.createdBy,remark:row.remark,exitThePlaceDate:row.exitThePlaceDate
+            }
+          });
+        }
+    },
       querySalCompany(params){
         let self =this
         api.queryAmArchiveAdvanceList({

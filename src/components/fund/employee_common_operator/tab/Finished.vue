@@ -4,7 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-           <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
+           <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDailyF"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -17,7 +17,15 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border id="finishedData" :row-class-name="rowClassName" :columns="finishedColumns" :data="finishedData"  @on-sort-change="SortChange" :loading="isLoading"></Table>
+        <Table border id="finishedData"
+               :row-class-name="rowClassName"
+               :columns="finishedColumns"
+               :data="finishedData"
+               @on-sort-change="SortChange"
+               @on-row-dblclick="handleDblClick"
+               :loading="isLoading"
+               height=400
+               ></Table>
         <Page
           class="pageSize"
           @on-change="handlePageNum"
@@ -37,7 +45,7 @@
   import InputCompany from '../../../common_control/form/input_company'
   import dict from '../../../../api/dict_access/house_fund_dict'
   import sessionData from '../../../../api/session-data'
-  import searchEmployee from "./SearchEmployeeF.vue"
+  import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
 
   export default {
@@ -81,50 +89,7 @@
           pageSizeOpts: this.$utils.HF_DEFAULT_PAGE_SIZE_OPTS
         },
         finishedColumns: [
-          {title: '操作', fixed: 'left', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.finished.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.finished.finishedPageData', this.finishedPageData);
-
-                      localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
-                      localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
-                      localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
-                      localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
-                      switch (params.row.taskCategory) {
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '9':
-                        case '10':
-                        case '11':
-                          this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
-                          break;
-                        case '4':
-                        case '5':
-                        case '12':
-                        case '13':
-                          this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
-                          break;
-                        case '6':
-                          this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
-                          break;
-                        case '7':
-                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
-                          break;
-                        default:
-                          break;
-                      }
-                    }
-                  }
-                }, '查看'),
-              ]);
-            }
-          },
-          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
+          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center',sortable: 'custom'},
 //          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center',sortable: 'custom'},
@@ -157,16 +122,21 @@
         {
           for(var index  in storeOrder)
           {
-             var orders = storeOrder[index].split(' ');
-             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            var orders = storeOrder[index].split(' ');
+            if(e.key === 'taskCategoryName'&&storeOrder[index].indexOf('task_category')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+
+            if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
             if(e.key === 'hfEmpAccount'&&storeOrder[index].indexOf('hf_emp_account')!=-1)
             {
@@ -243,6 +213,39 @@
         this.finishedPageData.pageSize = val;
         var conditions = [];
         this.searchEmploiees(conditions);
+      },
+      handleDblClick(row, index) {
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.finished.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.finished.finishedPageData', this.finishedPageData);
+
+        localStorage.setItem('employeeFundCommonOperator.empTaskId', row.empTaskId);
+        localStorage.setItem('employeeFundCommonOperator.hfType', row.hfType);
+        localStorage.setItem('employeeFundCommonOperator.taskCategory', row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
+        switch (row.taskCategory) {
+          case '1':
+          case '2':
+          case '3':
+          case '9':
+          case '10':
+          case '11':
+            this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+            break;
+          case '4':
+          case '5':
+          case '12':
+          case '13':
+            this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
+            break;
+          case '6':
+            this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
+            break;
+          case '7':
+            this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+            break;
+          default:
+            break;
+        }
       },
       ok () {},
       cancel () {},
@@ -325,7 +328,7 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
         api.hfEmpTaskExport({ params: this.searchCondition });
       },
       rowClassName(row, index) {
@@ -385,7 +388,7 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.finishedPageData.pageSize,
@@ -415,7 +418,9 @@
         }
 
         var dx ='';
-        if(e.key === 'companyId'){
+        if(e.key === 'taskCategoryName') {
+          dx = 'tmp.task_category';
+        }else if(e.key === 'companyId'){
             dx = 'tmp.company_id';
         }else if(e.key === 'employeeId'){
             dx = 'tmp.employee_id';
@@ -471,7 +476,7 @@
              this.searchConditions.push(this.orderConditions[index]);
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.finishedPageData.pageSize,
@@ -502,6 +507,11 @@
               for(var index  in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
+                if(e.key === 'taskCategoryName' && storeOrder[index].indexOf('task_category')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
                 if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
                   order = orders[1]
                   break;

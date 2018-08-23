@@ -69,8 +69,8 @@
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="任务状态：">
-            <Select v-model="openAccount.taskStatus" style="width: 100%;" transfer>
+          <Form-item label="任务状态：" >
+            <Select v-model="openAccount.taskStatus" style="width: 100%;" transfer @on-change="taskTypeChange">
               <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" >{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -93,8 +93,8 @@
     </Row>
     <Row type="flex" justify="start">
       <Col :sm="{span: 24}">
-        <Form-item label="备注：">
-          <Input v-model="openAccount.notes" placeholder="请输入..." ></Input>
+        <Form-item label="办理/批退备注：">
+          <Input v-model="openAccount.notes" placeholder="这里可填写您办理的备注信息，或者批退的备注信息" ></Input>
         </Form-item>
       </Col>
     </Row>
@@ -114,11 +114,11 @@
           {label: "转入", value: '2'}
         ],
         paymentBankList: [
-          {label: "徐汇--X", value: '15'},
-          {label: "西郊--C", value: '16'},
-          {label: "东方路--P", value: '17'},
-          {label: "卢湾--L", value: '18'},
-          {label: "黄浦--H", value: '0'},
+          {label: "徐汇—X", value: '15'},
+          {label: "西郊—C", value: '16'},
+          {label: "东方路—P", value: '17'},
+          {label: "卢湾—L", value: '18'},
+          {label: "黄浦—H", value: '0'},
         ],
         payMethodList: [
           {value: '1',label: "客户自付", },
@@ -156,7 +156,25 @@
       },
   changeDispatchType() {
 
-  }
+  },
+  //任务类型发生变化
+      taskTypeChange(){
+        let taskState = this.openAccount.taskStatus;
+        let formObj = this.openAccount;
+        if(taskState=='1'){
+             formObj.acceptDate =new Date();
+             formObj.deliveredDate = null;
+             formObj.finishDate =null;
+        }else if(taskState=='2'){
+            formObj.acceptDate = formObj.acceptDate==null? new Date() : formObj.acceptDate;
+            formObj.deliveredDate = new Date();
+             formObj.finishDate =null;
+        }else if(taskState=='3'){
+             formObj.acceptDate = formObj.acceptDate==null? new Date() : formObj.acceptDate;
+             formObj.deliveredDate = formObj.deliveredDate==null? new Date() : formObj.deliveredDate;
+             formObj.finishDate = new Date();
+        }
+      },
 
     }
   }

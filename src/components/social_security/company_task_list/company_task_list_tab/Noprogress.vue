@@ -182,13 +182,13 @@
               ]);
             }
           },
-          {title: '任务单编号', key: 'tid', width: 150, fixed: 'left', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.tid),
-              ]);
-            }
-          },
+          // {title: '任务单编号', key: 'tid', width: 150, fixed: 'left', align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'center'}}, [
+          //       h('span', params.row.tid),
+          //     ]);
+          //   }
+          // },
           {title: '任务单类型', key: 'type', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [

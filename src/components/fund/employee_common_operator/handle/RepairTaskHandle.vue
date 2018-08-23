@@ -93,6 +93,11 @@
                 </label>
               </Form-item>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="每月关账日：">
+                <label>{{displayVO.closeDay}}</label>
+              </FormItem>
+              </Col>
             </Row>
           </Form>
         </div>
@@ -136,26 +141,26 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="缴纳至：">
-                <label>{{(displayVO.empBasEndMonth) ? displayVO.empBasEndMonth : displayVO.empBasLastMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转入年月：">
-                <label>{{displayVO.empBasStartMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转入办理年月：">
-                <label>{{displayVO.empBasHandleMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转出年月：">
                 <label>{{displayVO.empBasEndMonth}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转出办理年月：">
+              <FormItem label="转入实际年月：">
+                <label>{{displayVO.empBasStartMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入汇缴月：">
+                <label>{{displayVO.empBasHandleMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出实际年月：">
+                <label>{{displayVO.empBasEndMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出汇缴月：">
                 <label>{{displayVO.empBasStopHandleMonth}}</label>
               </FormItem>
               </Col>
@@ -426,7 +431,7 @@
         operationRemindDate: '',
         operatorListData: [],
         operatorListColumns: [
-          {title: '补缴起始月份', key: 'startMonth', align: 'left',
+          {title: '补缴起始月份', key: 'startMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
                 return h('div', [
@@ -455,7 +460,7 @@
               }
             }
           },
-          {title: '补缴截至月份', key: 'endMonth', align: 'left',
+          {title: '补缴截至月份', key: 'endMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
                 return h('div', [
@@ -476,7 +481,7 @@
               }
             }
           },
-          {title: '客户汇缴月', key: 'hfMonth', align: 'left',
+          {title: '客户汇缴月', key: 'hfMonth', width: 120, align: 'left',
             render: (h, params) => {
               return h('div', [
                 h('DatePicker', {
@@ -516,7 +521,7 @@
               ]);
             }
           },
-          {title: '企业比例', key: 'ratioCom', align: 'left',
+          {title: '企业比例', key: 'ratioCom', width: 85, align: 'left',
             render: (h, params) => {
 //              return h('div', [
 //                h('Input', {
@@ -534,7 +539,7 @@
               ]);
             }
           },
-          {title: '个人比例', key: 'ratioEmp', align: 'left',
+          {title: '个人比例', key: 'ratioEmp', width: 85, align: 'left',
             render: (h, params) => {
 //              return h('div', [
 //                h('Input', {
@@ -573,9 +578,9 @@
 //              }
             }
           },
-          {title: '合计补缴金额', key: 'totalAmount', align: 'left'},
+          {title: '合计金额', key: 'totalAmount', align: 'left'},
           {
-            title: '补缴原因', key: 'repairReason', align: 'left',
+            title: '补缴原因', key: 'repairReason', width: 130, align: 'left',
             render: (h, params) => {
               return h('div', [
                 h('Select', {

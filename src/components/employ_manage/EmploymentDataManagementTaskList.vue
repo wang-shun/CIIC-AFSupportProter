@@ -18,8 +18,8 @@
         </Panel>
       </Collapse>
     </div>
-    <Row class="mt20" type="flex" justify="start">
-      <Col :sm="{span: 24}" class="tr">
+    <Row class="mt14" type="flex" justify="start">
+      <Col :sm="{span: 20}" class="tr">
           <DropdownMenu slot="list">
             <DropdownItem v-for="(print, index) in printList" :key="index">{{print}}</DropdownItem>
           </DropdownMenu>
@@ -42,7 +42,9 @@
         <Button type="primary" @click="batchManagement">批理办理</Button>
       </Col>
     </Row>
-    <Table border id="employList" height="300" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
+    <Row class="mt14" type="flex" justify="start">
+      <Col :sm="{span: 20}" class="tr">
+        <Table border id="employList" height="390" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt14"></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -52,8 +54,58 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table  border  :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt20"></Table>
-
+    
+      </Col>
+      <Col :sm="{span: 3, offset: 1}" class="pt10">
+        <RadioGroup v-model="jobGroup"  @on-change="showJob" vertical>
+        <Radio label="Y" >
+            <span>在职</span>
+             <span>{{jobData.job}}</span>
+        </Radio>
+        <Radio label="N">
+            <span>终止</span>
+            <span>{{jobData.noJob}}</span>
+        </Radio>
+        </RadioGroup>
+        <RadioGroup v-model="vertical"  @on-change="showInfoTw" vertical>
+        <Radio label="1" >
+            <span>未反馈</span>
+             <span>{{RadioData.noSign}}</span>
+        </Radio>
+        <Radio label="3">
+            <span>用工成功</span>
+            <span>{{RadioData.employSuccess}}</span>
+        </Radio>
+        <Radio label="10">
+            <span>用工已办查无档</span>
+            <span>{{RadioData.noRecord}}</span>
+        </Radio>
+        <Radio label="4">
+            <span>用工失败</span>
+             <span>{{RadioData.employFailed}}</span>
+        </Radio>
+        <Radio label="5">
+            <span>前道要求撤消用工</span>
+            <span>{{RadioData.employCancel}}</span>
+        </Radio>
+        <Radio label="11">
+            <span>ukey外借</span>
+            <span>{{RadioData.borrowKey}}</span>
+        </Radio>
+        <Radio label="6">
+            <span>其他</span>
+            <span>{{RadioData.other}}</span>
+        </Radio>
+        <Radio label="0">
+            <span>TOTAL</span>
+            <span>{{RadioData.amount}}</span>
+        </Radio>
+    </RadioGroup>
+        <!-- <Table  border  :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt14"></Table> -->
+      </Col>
+    </Row>
+    
+    
     <Modal
       v-model="isShowStockTitle"
       title="生成入库贴头"
@@ -80,8 +132,19 @@ export default {
   components: { employeeInfo, searchEmployment },
   data() {
     return {
+      jobGroup:"",
+      vertical: "",
       initSearch: false,
       initSearchC: false,
+      jobData: {
+        job: 0,
+        noJob: 100
+      },
+      RadioData: {
+        noSign: 200,
+        employSuccess: 100,
+        noRecord: 2100
+      },
       pageData: {
         total: 0,
         pageNum: 1,
@@ -92,7 +155,8 @@ export default {
       searchConditions: [],
       searchCondition: {
         params: "",
-        taskStatus: 0
+        taskStatus: 0,
+        job:""
       },
       showHandle: {
         show: true,
@@ -305,170 +369,6 @@ export default {
         }
       ],
       employmentData: [], //列表数据
-
-      searchResultColumns: [
-        {
-          title: "用工材料未签收",
-          key: "noSign",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(1);
-                  }
-                }
-              },
-              params.row.noSign
-            );
-          }
-        },
-        {
-          title: "用工材料已签收",
-          key: "finished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(2);
-                  }
-                }
-              },
-              params.row.finished
-            );
-          }
-        },
-        {
-          title: "用工成功",
-          key: "employSuccess",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(3);
-                  }
-                }
-              },
-              params.row.employSuccess
-            );
-          }
-        },
-        {
-          title: "用工失败",
-          key: "employFailed",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(4);
-                  }
-                }
-              },
-              params.row.employFailed
-            );
-          }
-        },
-        {
-          title: "前道要求撤消用工",
-          key: "employCancel",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(5);
-                  }
-                }
-              },
-              params.row.employCancel
-            );
-          }
-        },
-        {
-          title: "其他",
-          key: "other",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(6);
-                  }
-                }
-              },
-              params.row.other
-            );
-          }
-        },
-        {
-          title: "总计",
-          key: "amount",
-          align: "center",
-          width: 231,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTws(0);
-                  }
-                }
-              },
-              params.row.amount
-            );
-          }
-        }
-      ],
       searchResultData: [],
       // 弹出框
       isShowStockTitle: false,
@@ -578,11 +478,19 @@ export default {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
       this.searchCondition.taskStatus = ind;
+      if(this.jobGroup!=''){
+        this.searchCondition.job = `${this.jobGroup}`;
+      }
       this.employeeQuery(this.searchCondition);
     },
-    showInfoTws(ind) {
+    showJob(ind) {
+      this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = ind;
+      if(this.vertical!='')
+      {
+         this.searchCondition.taskStatus = this.vertical;
+      }
+      this.searchCondition.job = this.jobGroup;
       this.employeeQuery(this.searchCondition);
     },
     printLabel() {
@@ -677,7 +585,8 @@ export default {
           params: params
         })
         .then(data => {
-          self.searchResultData = data.data.row;
+          self.RadioData = data.data.row[0];
+          self.jobData = data.data.amTaskStatusBO;
         });
     },
     handlePageNum(val) {
@@ -706,9 +615,15 @@ export default {
       this.searchConditions = [];
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
 
-      var isFinish = JSON.parse(sessionStorage.getItem("employmentIsFinish" + userInfo.userId));
-      var conditions = JSON.parse(sessionStorage.getItem("employment" + userInfo.userId));
-      var storeOrder = JSON.parse(sessionStorage.getItem("employmentOrder" + userInfo.userId));
+      var isFinish = JSON.parse(
+        sessionStorage.getItem("employmentIsFinish" + userInfo.userId)
+      );
+      var conditions = JSON.parse(
+        sessionStorage.getItem("employment" + userInfo.userId)
+      );
+      var storeOrder = JSON.parse(
+        sessionStorage.getItem("employmentOrder" + userInfo.userId)
+      );
 
       if (conditions !== null) {
         for (var i = 0; i < conditions.length; i++)
@@ -802,8 +717,12 @@ export default {
       this.orderConditions = [];
       this.searchConditions = [];
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-      var conditions = JSON.parse(sessionStorage.getItem("employment" + userInfo.userId));
-      var storeOrder = JSON.parse(sessionStorage.getItem("employmentOrder" + userInfo.userId));
+      var conditions = JSON.parse(
+        sessionStorage.getItem("employment" + userInfo.userId)
+      );
+      var storeOrder = JSON.parse(
+        sessionStorage.getItem("employmentOrder" + userInfo.userId)
+      );
 
       if (conditions !== null) {
         for (var i = 0; i < conditions.length; i++)
@@ -899,7 +818,7 @@ export default {
                 storeOrder[index].indexOf("employee_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
 
@@ -908,7 +827,7 @@ export default {
                 storeOrder[index].indexOf("company_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
 
@@ -917,7 +836,7 @@ export default {
                 storeOrder[index].indexOf("title") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
 
@@ -926,7 +845,7 @@ export default {
                 storeOrder[index].indexOf("employment_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
 
@@ -935,7 +854,7 @@ export default {
                 storeOrder[index].indexOf("employee_name") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
 
@@ -944,7 +863,7 @@ export default {
                 storeOrder[index].indexOf("id_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
 
@@ -953,7 +872,7 @@ export default {
                 storeOrder[index].indexOf("doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
 
@@ -962,7 +881,7 @@ export default {
                 storeOrder[index].indexOf("yuliu_doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
 
@@ -971,7 +890,7 @@ export default {
                 storeOrder[index].indexOf("employ_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
 
@@ -980,7 +899,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
 
@@ -989,7 +908,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('employList', idx - 1, order);
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
             }

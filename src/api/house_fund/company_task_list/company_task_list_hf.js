@@ -48,6 +48,7 @@ export class CompanyTaskListHF{
                     obj.customerPayStartDate= i.comStartMonth
                     obj.comAccountId=i.comAccountId
                     obj.comAccountClassId=i.comAccountClassId
+                    obj.paymentBank=i.paymentBank
                   
                     //开户-companyInfo传参
                     companyInfo.customerNumber = i.companyId
@@ -133,6 +134,7 @@ export class CompanyTaskListHF{
                     //已完成任务单参数
                     // companyTaskInfo.changeTypeValue = i.changeTypeValue
                     companyTaskInfo.paymentBankValue = i.paymentBankValue
+                    companyTaskInfo.paymentBank = i.paymentBank
                     companyTaskInfo.payMethodValue = i.comTaskPaymentWayName
                     companyTaskInfo.endTypeValue = i.endTypeValue
                     companyTaskInfo.companyFundAccountName = i.comAccountName

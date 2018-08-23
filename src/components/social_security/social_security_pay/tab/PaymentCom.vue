@@ -86,6 +86,7 @@
         <Col :sm="{span: 24}">
           <Button type="primary" @click="gotoAddBatch()">添加到出账批次号</Button>
           <Button type="primary" @click="gotoDelBatch()">从出账批次号中移除</Button>
+          <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button>
           <Button type="info" @click="exportData">导出</Button>
         </Col>
       </Row>
@@ -198,7 +199,7 @@
             </Form-item>
           </Col> -->
           <Col :sm="{span: 24}">
-            <Form-item label="备注说明：">
+            <Form-item label="额外金备注：">
               <Input v-model="changeInfo.remark" type="textarea" :rows="5"  placeholder="请输入..."></Input>
             </Form-item>
           </Col>
@@ -219,6 +220,7 @@
   import payComApi from '../../../../api/social_security/payment_com'
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
+  import payBatchApi from '../../../../api/social_security/payment_batch'
   const progressStop = 33.3;
 
   export default {
@@ -237,7 +239,7 @@
           paymentMonthMinShow: '',
           paymentMonthMax: '',
           paymentMonthMaxShow: '',
-          paymentState: '3',
+          paymentState: '',
           comAccountId: '',
           ssAccount:'',
           paymentBatchNum:'',
@@ -288,7 +290,7 @@
               ]);
             }
           },
-            {title: '出账批次号', key: 'paymentBatchNum', width: 140, align: 'center',
+            {title: '出账批次号', key: 'paymentBatchNum', width: 130, align: 'center',
               render: (h, params) => {
                 return h('div', {style: {textAlign: 'right'}}, [
                   h('span', params.row.paymentBatchNum),
@@ -426,14 +428,14 @@
 
         payComColumns: [
           {title: '', key: 'id', width: 55, fixed: 'left', type: 'selection'},
-          {title: '出账批次号', key: 'paymentBatchNum', width: 120, align: 'center',fixed: 'left',
+          {title: '出账批次号', key: 'paymentBatchNum', width: 140, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.paymentBatchNum),
               ]);
             }
           },
-          {title: '支付年月', key: 'paymentMonth', width: 100, align: 'center',fixed: 'left',
+          {title: '支付年月', key: 'paymentMonth', width: 85, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentMonth),
@@ -479,36 +481,29 @@
           },          
           {title: '操作', key: 'operator', width: 180, align: 'center',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      let paymentComId = params.row.paymentComId;
-                      let oughtAmount = params.row.oughtAmount;
-                      let refundDeducted = params.row.refundDeducted;
-                      let adjustDeducted = params.row.adjustDeducted;
-                      let ifDeductedIntoPay = params.row.ifDeductedIntoPay;
-                      let extraAmount = params.row.extraAmount;
-                      let totalPayAmount = params.row.totalPayAmount;
-                      let remark = params.row.remark;
-                      let paymentState = params.row.paymentState;
-                      this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState)
+              let paymentState = params.row.paymentState;
+              let b=[];
+              if(!(paymentState != "3" && paymentState != "5" && paymentState != "7")){
+                b.push( h('Button', {
+                    props: {type: 'success', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        let paymentComId = params.row.paymentComId;
+                        let oughtAmount = params.row.oughtAmount;
+                        let refundDeducted = params.row.refundDeducted;
+                        let adjustDeducted = params.row.adjustDeducted;
+                        let ifDeductedIntoPay = params.row.ifDeductedIntoPay;
+                        let extraAmount = params.row.extraAmount;
+                        let totalPayAmount = params.row.totalPayAmount;
+                        let remark = params.row.remark;
+                        let paymentState = params.row.paymentState;
+                        this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState)
+                      }
                     }
-                  }
-                }, '调整'),
-                // h('Button', {
-                //   props: {type: 'success', size: 'small'},
-                //   style: {margin: '0 auto 0 10px'},
-                //   on: {
-                //     click: () => {
-                //       this.isShowProgress = true;
-                //     }
-                //   }
-                // }
-                // , '进度'),
-               h('Button', {
+                  }, '调整'));
+              }
+                b.push(h('Button', {
                  props: {type: 'success', size: 'small'},
                  style: {margin: '0 auto 0 10px'},
                  on: {
@@ -522,8 +517,8 @@
                    }
                  }
                }
-                , '付款通知书')
-              ]);
+                , '付款通知书'));
+              return h('div', b);
             }
           },
           {title: '是否一致', key: 'ifCheck', width: 100, align: 'center',
@@ -625,13 +620,21 @@
               ]);
             }
           },
+          {title: '抵扣金额是否纳入支付', key: 'ifDeductedIntoPay', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.ifDeductedIntoPay==1?'是':''),
+              ]);
+            }
+          },
           {title: '额外金备注', key: 'remark', width: 250, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remark),
               ]);
             }
-          }
+          },
+       
         ],
         payComData: [],
         payComPageData: {
@@ -642,23 +645,34 @@
         }
       }
     },
+ 
     mounted() {
       this.getCustomers()
       this.loadDict();
       let paymentId=sessionStorage.getItem("PaymentBatch_paymentId");
-      if(paymentId){
+      if(paymentId!='null'){
+
         this.payComSearchData.paymentId=paymentId;
         this.paymentComQuery();
+        this.payComSearchData.paymentBatchNum=sessionStorage.getItem("PaymentBatch_paymentBatchNum");
+        this.payComSearchData.paymentMonthMin=sessionStorage.getItem("PaymentBatch_paymentMonth");
+        this.payComSearchData.paymentMonthMax=sessionStorage.getItem("PaymentBatch_paymentMonth");
+        //this.payComSearchData.paymentState=sessionStorage.getItem("PaymentBatch_paymentState");
         sessionStorage.setItem("PaymentBatch_paymentId",null);
+        sessionStorage.setItem("PaymentBatch_paymentBatchNum",null);
+        sessionStorage.setItem("PaymentBatch_paymentMonth",null);
+        sessionStorage.setItem("PaymentBatch_paymentState",null);
         this.payComSearchData.paymentId='';
         return;
       }
+     
       let queryMonth = new Date()
       queryMonth.setMonth(queryMonth.getMonth()-1);
       this.payComSearchData.paymentMonthMin=queryMonth;
-      this.paymentComQuery();
+      setTimeout( this.paymentComQuery(),500);
     },
     computed: {
+      
     },
     methods: {
      
@@ -682,6 +696,7 @@
             this.accountTypeList = data.data.SocialSecurityAccountType;
             sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
             sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
+           // this.payComSearchData.paymentState=3;
           }
         });
       },
@@ -739,7 +754,6 @@
         payComApi.paymentComQueryExport(params)
       },
       paymentComQuery() {
-
         if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
           this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
         }
@@ -1065,7 +1079,31 @@
         this.delBatchData.isShowDelBatch = false;
       },
 
-
+      enquireFinanceComAccount(){
+          let y;
+          let m=new Date().getMonth()+1;
+        this.$Modal.confirm({
+              title: '手动询问结算中心是否可付',
+              closable:true,
+              content: `系统将执行${new Date().getFullYear()}年${new Date().getMonth()}月份所有未到款企业账户的财务询问，执行时间较长，您确认操作吗？`,
+              onOk:function(){
+                let userInfo = localStorage.getItem('userInfo');
+                let params = {
+                  comAccountId:'0',
+                  ssMonth:'ss',
+                  generalMethod:'enquireFinanceComAccount',
+                };
+                payBatchApi.enquireFinanceComAccount(params).then(data=>{
+                  if(data.code==0)
+                  {
+                    this.$Message.success("操作成功！请等待几分钟后，再到查询您要支付的企业账户");
+                  }else{
+                    this.$Message.error("系统正在执行中，请等待！");
+                  }
+              })
+              }
+          });
+      },
     }
   }
 </script>

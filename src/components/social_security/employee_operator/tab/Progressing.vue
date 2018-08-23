@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 850px;">
+  <div style="height: 5400px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
@@ -20,7 +20,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-      <Table border ref="selection"
+      <Table border id="processingData" ref="selection"
              :columns="employeeResultColumns"
              :data="employeeResultData"
              @on-selection-change="selectionChange"
@@ -104,7 +104,7 @@
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.SS_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
 //          {
@@ -227,8 +227,8 @@
       // this.employeeOperatorQuery();
       // this.loadDict();
       this.searchConditions =[];
-    
-      this.searchEmploiees(this.searchConditions);
+
+      this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
       this.loadDict();
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
@@ -285,7 +285,7 @@
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.employeeResultPageData.pageNum);
       },
       handlePageSite(val) {
         this.employeeResultPageData.pageSize = val;
@@ -486,8 +486,8 @@
           taskStatus: 2
         }})
       },
-      searchEmploiees(conditions) {
-        
+      searchEmploiees(conditions, pageNum = 1) {
+
         if (this.isLoading) {
           return;
         }
@@ -544,12 +544,12 @@
           }
         }
       }
-     
+
         this.searchCondition.params = this.searchConditions.toString();
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
-          pageNum: this.employeeResultPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -692,7 +692,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(1, idx, order)
+          tableStyle.changeSortElementClass('processingData', idx, order)
         });
       },
     }

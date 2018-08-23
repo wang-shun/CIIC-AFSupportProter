@@ -123,6 +123,7 @@
         value1: '1',
         employeeInfo: {},
         acceptanceData: {},
+        userInfo: {},
         invoiceColumns: [
           {
             type: 'expand', width: 50,
@@ -180,6 +181,7 @@
     },
     created() {
       let acceptanceId = JSON.parse(sessionStorage.getItem('acceptanceId'));
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.queryDetailInfo(acceptanceId)
     },
     methods: {
@@ -204,7 +206,7 @@
       },
       exportData() {
         let acceptanceId = JSON.parse(sessionStorage.getItem('acceptanceId'));
-        window.location = apiAjax.basePaths + '/supplyMedicalService/export/' + acceptanceId
+        window.location = apiAjax.basePaths + '/supplyMedicalService/export?acceptanceId=' + acceptanceId + '&token=' + encodeURIComponent(this.userInfo.token);
       }
     },
   }

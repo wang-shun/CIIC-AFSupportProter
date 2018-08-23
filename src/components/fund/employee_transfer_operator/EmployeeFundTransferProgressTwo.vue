@@ -1,6 +1,5 @@
 <template>
-  <Form :label-width=150>
-
+  <div>
     <Collapse v-model="collapseInfo" class="mt20">
       <Panel name="1">
         企业账户信息
@@ -130,17 +129,17 @@
       <Panel name="4">
         转移操作
         <div slot="content">
-          <Form :label-width=150>
+          <Form :label-width=150 v-model="transferNotice">
             <Row>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="公积金类型：">
+                <Form-item label="公积金类型：" prop="hfType">
                   <Select v-model="transferNotice.hfType" style="width: 100%;" transfer>
                     <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
                   </Select>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="任务：">
+                <Form-item label="任务：" prop="taskCategory">
 
                   {{this.$decode.hf_taskCategory(transferNotice.taskCategory) }}
                 </Form-item>
@@ -149,8 +148,9 @@
             <Row>
 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转出单位：" prop='transferOutUnit'>
+                <Form-item label="转出单位：" prop="transferOutUnit">
                   <Select v-model="transferNotice.transferOutUnit"
+                          :label="transferNotice.transferOutUnit"
                   filterable
                   remote
                   :remote-method="handleTransferOutSearch"
@@ -162,7 +162,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转出单位账号：">
+                <Form-item label="转出单位账号：" prop="transferOutUnitAccount">
                   <Input v-model="transferNotice.transferOutUnitAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -170,12 +170,13 @@
             <Row>
 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转入单位："  prop='transferInUnit'>
+                <Form-item label="转入单位："  prop="transferInUnit">
                   <Select v-model="transferNotice.transferInUnit"
+                          :label="transferNotice.transferInUnit"
                   filterable
                 remote
                 :remote-method="handleTransferInSearch"
-               @on-change="transferNotice.transferInUnit=$event"
+               @on-change="handleTransferInChange"
                 :loading="loading"
                   style="width: 100%;" transfer>
                      <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
@@ -183,19 +184,19 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转入单位账号：">
+                <Form-item label="转入单位账号：" prop="transferInUnitAccount">
                   <Input v-model="transferNotice.transferInUnitAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
             </Row>
             <Row>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="转移日期：">
+                <Form-item label="转移日期：" prop="transferDate">
                   <DatePicker v-model="transferNotice.transferDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="回单日期：">
+                <Form-item label="回单日期：" prop="feedbackDate">
                   <DatePicker v-model="transferNotice.feedbackDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
                 </Form-item>
               </Col>
@@ -232,7 +233,7 @@
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
-  </Form>
+  </div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
@@ -295,11 +296,11 @@
     },
 
     mounted() {
-      dict.getDictData().then(data => {
-        if (data.code == 200) {
-          this.fundTypeList = data.data.FundType;
-        }
-      });
+//      dict.getDictData().then(data => {
+//        if (data.code == 200) {
+//          this.fundTypeList = data.data.FundType;
+//        }
+//      });
       this.initData();
     },
     computed: {
@@ -324,8 +325,8 @@
               this.transferNotice.companyId=params.companyId;
               this.transferNotice={};
             }else{
-            this.transferNotice1 = data.data.empTaskTransferBo;
-            this.getDictData();
+              this.transferNotice1 = data.data.empTaskTransferBo;
+              this.getDictData();
             }
           } else {
             this.$Message.error(data.message);
@@ -340,30 +341,75 @@
       getDictData(){
         dict.getDictData().then(data => {
           if (data.code == 200) {
+            this.fundTypeList = data.data.FundType;
             this.transferUnitDictList = data.data.FundOutUnit;
-            let isContainOut = false;
-            let isContainIn = false;
+//            let isContainOut = false;
+//            let isContainIn = false;
+            if (!this.transferNotice1.transferOutUnit || this.transferNotice1.transferOutUnit == '') {
+              this.transferUnitDictList.forEach((element, index, array) => {
+//                if (!this.transferOutUnitList.includes(element)) {
+                  this.transferOutUnitList.push(element);
+//                }
+//                if (!this.transferInUnitList.includes(element)) {
+//                  this.transferInUnitList.push(element);
+//                }
 
-            this.transferUnitDictList.forEach((element, index, array) => {
-              this.transferOutUnitList.push(element);
-              this.transferInUnitList.push(element);
-
-              if (element === this.transferNotice1.transferOutUnit) {
-                isContainOut = true;
-              }
-              if (element === this.transferNotice1.transferInUnit) {
-                isContainIn = true;
-              }
-            })
-
-            if (!isContainOut) {
+//              if (element === this.transferNotice1.transferOutUnit) {
+//                isContainOut = true;
+//              }
+//              if (element === this.transferNotice1.transferInUnit) {
+//                isContainIn = true;
+//              }
+              })
+            } else {
               this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
+              this.transferOutUnitAccountList.push(this.transferNotice1.transferOutUnitAccount);
             }
-            if (!isContainIn) {
+
+            if (!this.transferNotice1.transferInUnit || this.transferNotice1.transferInUnit == '') {
+              this.transferUnitDictList.forEach((element, index, array) => {
+//                if (!this.transferOutUnitList.includes(element)) {
+//                this.transferOutUnitList.push(element);
+//                }
+//                if (!this.transferInUnitList.includes(element)) {
+                  this.transferInUnitList.push(element);
+//                }
+
+//              if (element === this.transferNotice1.transferOutUnit) {
+//                isContainOut = true;
+//              }
+//              if (element === this.transferNotice1.transferInUnit) {
+//                isContainIn = true;
+//              }
+              })
+            } else {
               this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+              this.transferInUnitAccountList.push(this.transferNotice1.transferInUnitAccount);
             }
+
+//            if (!this.transferOutUnitList.includes(this.transferNotice1.transferOutUnit)) {
+//              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
+//            }
+//            if (!this.transferInUnitList.includes(this.transferNotice1.transferInUnit)) {
+//              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+//            }
+
+//            if (!isContainOut && this.transferNotice1.transferOutUnit) {
+//              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
+//            }
+//            if (!isContainIn && this.transferNotice1.transferInUnit) {
+//              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+//            }
           //this.setValue();
-          setTimeout(this.setValue,500);
+//            this.transferOutUnitList = this.unique(this.transferOutUnitList);
+//            this.transferInUnitList = this.unique(this.transferInUnitList);
+
+//            console.log(JSON.stringify(this.transferOutUnitList));
+//            console.log(JSON.stringify(this.transferInUnitList));
+//            this.transferNotice = JSON.parse(JSON.stringify(this.transferNotice1))
+//            console.log('deep copy finished: ', this.transferNotice)
+            this.$utils.copy(this.transferNotice1, this.transferNotice);
+//            setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);
           }
@@ -372,9 +418,19 @@
 
       setValue(){
 //        this.transferNotice=this.transferNotice1
-        this.$utils.copy(this.transferNotice1,this.transferNotice);
+        this.$utils.copy(this.transferNotice1, this.transferNotice);
       },
-
+      unique(array){
+        array.sort();
+        var re=[array[0]];
+        for(var i = 1; i < array.length; i++){
+          if( array[i] !== re[re.length-1])
+          {
+            re.push(array[i]);
+          }
+        }
+        return re;
+      },
       goBack() {
         this.$router.go(-1);
       },
@@ -503,7 +559,11 @@
         //this.transferNotice.transferOutUnitAccount = '';
         this.transferOutUnitList.forEach((element, index, array) => {
             if (element == value) {
-              this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
+              if (this.transferOutUnitAccountList && this.transferOutUnitAccountList.length > index) {
+                this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
+              } else {
+                this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+              }
               return;
             }
           }
@@ -514,15 +574,15 @@
 
         this.transferInUnitList.forEach((element, index, array) => {
             if (element == value) {
-              this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
+              if (this.transferInUnitAccountList && this.transferInUnitAccountList.length > index) {
+                this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
+              } else {
+                this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+              }
               return;
             }
           }
         )
-
-        //    this.transferInUnitList.push(value);
-        //    this.transferNotice.transferInUnit = value;
-        //  alert(this.transferNotice.transferInUnit );
       },
       doSearch(value, unitList, unitAccountList, type) {
 
@@ -532,6 +592,7 @@
         if (value == '') {
           this.transferUnitDictList.forEach((element, index, array) => {
             unitList.push(element);
+
           })
         } else {
           api.comAccountQuery(

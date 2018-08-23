@@ -2,7 +2,7 @@
   <div class="smList">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        社保支付
+        月缴费通知
         <div slot="content">
           <Form :label-width=200>
             <Row type="flex" justify="start">
@@ -22,19 +22,38 @@
         </div>
       </Panel>
     </Collapse>
-    <Table
-        :columns="noticeColumns"
-        :data="noticeData">
-    </Table>
+ 
+      <div slot="content">
+          <Form :label-width=200>
+      <Table :columns="noticeColumns" :data="noticeData"></Table>
+
+    <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="应缴纳合计（小写）：">
+                  <label>{{lowerTotalAmount}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="应缴纳合计（大写）：">
+                  <label>{{capitalTotalAmount}}</label>
+                </Form-item>
+              </Col>
+
+            </Row>
     <Button type="primary" @click="calculate" v-show="this.ifShowSumButton">重新汇总</Button>
     <Button type="warning" @click="goBack">返回</Button>
+
+
+          </Form>
+        </div>
+   
   </div>
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/payment_notice'
-
+  import tools from "../../../lib/tools";
   export default {
     data() {
       return{
@@ -100,6 +119,8 @@
         noticeData:[],
         comAccountId :'',
         paymentMonth :'',
+        lowerTotalAmount:'',
+        capitalTotalAmount:'',
         paymentComData: {
           comAccountName: '',
           comAccountId: '',
@@ -156,6 +177,18 @@
           paymentMonth: paymentMonth
         }).then(data => {
           this.noticeData = data.data;
+          let response = data.data;
+          if(response != null){
+            let obj = response.filter(x=>x.paymentItemName == '缴纳合计（1+2+3+4+5+6-8）')[0];
+            if(obj != null){
+              let amount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
+              this.lowerTotalAmount = amount.toFixed(2)
+              this.lowerTotalAmount = this.lowerTotalAmount*1;
+              if(this.lowerTotalAmount != null){
+                this.capitalTotalAmount = tools.dx(this.lowerTotalAmount);
+              }
+            }
+          }
         })
       },
       calculate(){

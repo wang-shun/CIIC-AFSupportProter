@@ -289,11 +289,17 @@
         </div>
       </Panel>
       <Panel name="5">
-        任务单备注
+        历史任务单
         <div slot="content">
-          <Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>
+          <origin-emp-task-info></origin-emp-task-info>
         </div>
       </Panel>
+      <!--<Panel name="6">-->
+        <!--任务单备注-->
+        <!--<div slot="content">-->
+          <!--<Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>-->
+        <!--</div>-->
+      <!--</Panel>-->
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -311,9 +317,11 @@
 <script>
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
   import axios from "axios";
 
   export default {
+    components: {originEmpTaskInfo},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
@@ -722,6 +730,13 @@
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;
           this.operatorListData = data.data.empTaskPeriods;
+          this.operatorListData.forEach((element, index, arr) => {
+            if (this.operatorListData[index].remitWay == 2 ) {
+              if (!this.operatorListData[index].repairReason || this.operatorListData[index].repairReason == '') {
+                this.operatorListData[index].repairReason = '1';
+              }
+            }
+          });
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
           this.showButton = this.displayVO.canHandle;
@@ -792,7 +807,7 @@
           ratioCom: this.operatorListData[0].ratioCom,
           ratioEmp: this.operatorListData[0].ratioEmp,
           amount: this.operatorListData[0].amount,
-          repairReason: ''
+          repairReason: '1'
         })
       },
       handleTask() {
@@ -1028,12 +1043,12 @@
           }
           if (this.displayVO.hfType == 1) {
             if (this.operatorListData[i].hfMonth < this.displayVO.basicComHfMonth) {
-              this.$Message.error("操作栏客户汇缴月不能晚于末次汇缴月（基本）");
+              this.$Message.error("操作栏客户汇缴月不能小于等于末次汇缴月（基本）");
               return false;
             }
           } else {
             if (this.operatorListData[i].hfMonth < this.displayVO.addedComHfMonth) {
-              this.$Message.error("操作栏客户汇缴月不能晚于末次汇缴月（补充）");
+              this.$Message.error("操作栏客户汇缴月不能小于等于末次汇缴月（补充）");
               return false;
             }
           }

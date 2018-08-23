@@ -11,7 +11,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="error" @click="isShowRejectBatch = true">批量批退</Button>
+        <Button type="error" @click="openReject()">批量批退</Button>
         <Button type="info"  @click="isUpload=true">批量预录入雇员公积金账号</Button>
         <Button type="info" @click="excelExport()">导出</Button>
         <Button type="info" @click="excelExportNew()">导出开户文件</Button>
@@ -20,7 +20,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}" >
-        <Table border ref="noProcessData"
+        <Table border id="noProcessData"
                :row-class-name="rowClassName"
                :columns="noProcessColumns"
                :data="noProcessData"
@@ -178,13 +178,14 @@
         isShowRejectBatch: false,
         rejectionRemark: '',
         selectedData: [],
+        selectedNewData: [],
         selectedOutData: [],
         noProcessData: [],
         noProcessPageData: {
           total: 0,
           pageNum: 1,
           pageSize: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.EMPLOYEE_DEFAULT_PAGE_SIZE_OPTS
+          pageSizeOpts: this.$utils.HF_DEFAULT_PAGE_SIZE_OPTS
         },
         noProcessColumns: [
           {
@@ -305,7 +306,13 @@
         }
       });
 //      console.log("after: " + JSON.stringify(this.noProcessPageData))
-       this.hfEmpTaskQuery();
+//       this.hfEmpTaskQuery();
+
+      var conditions = [];
+      this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
     },
@@ -341,7 +348,7 @@
       handlePageNum(val) {
         this.noProcessPageData.pageNum = val;
         var conditions = [];
-        this.searchEmploiees(conditions);
+        this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
       },
       handlePageSize(val) {
 //        if (val === this.noProcessPageData.pageSize) {
@@ -357,18 +364,32 @@
       resetSelectedData(selection) {
         this.selectedData.length = 0;
         this.selectedOutData.length = 0;
+        this.selectedNewData.length = 0;
         if(selection) {
           selection.forEach((element, index, array) => {
             this.selectedData.push(element.empTaskId);
             if (element.taskCategory == '4' || element.taskCategory == '5' ||
               element.taskCategory == '12' || element.taskCategory == '13') {
               this.selectedOutData.push(element.empTaskId);
+            } else if (element.taskCategory == '1' || element.taskCategory == '9') {
+              this.selectedNewData.push(element.empTaskId);
             }
           })
         }
       },
       handleSelectChange(selection) {
         this.resetSelectedData(selection);
+      },
+      openReject() {
+        if (this.selectedData.length == 0) {
+          this.$Message.error("请先勾选需要批退的任务");
+          return false;
+        }
+        if (this.selectedOutData.length > 0) {
+          this.$Message.error("转出或封存（翻牌转出或翻牌封存）类型的任务不能批退，请勿勾选");
+          return false;
+        }
+        this.isShowRejectBatch = true;
       },
       batchReject() {
         if (this.selectedData.length == 0) {
@@ -395,16 +416,24 @@
           selectedData: this.selectedData
         }).then(data => {
           if (data.code == 200) {
+            this.isLoading = false;
             this.$Message.info("批退操作成功");
             this.isShowRejectBatch = false;
             this.handlePageNum(1);
+            this.rejectionRemark = "";
             this.selectedData.length = 0;
             this.selectedOutData.length = 0;
+            this.selectedNewData.length = 0;
           } else {
+            this.isLoading = false;
             this.$Message.error(data.message)
           }
-          this.isLoading = false;
-        })
+//          this.isLoading = false;
+        }).catch(
+          error=>{
+            this.isLoading = false;
+          }
+        )
       },
       beforeSubmit(params) {
         var cparams = {}
@@ -497,6 +526,10 @@
           this.$Message.error("请先勾选需要导出开户文件的任务");
           return false;
         }
+        if (this.selectedData.length != this.selectedNewData.length) {
+          this.$Message.error("非开户任务单无法导出开户文件");
+          return false;
+        }
         var params = {};
         {
 //          this.beforeSubmit();
@@ -512,7 +545,7 @@
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);
 
-      },searchEmploiees(conditions) {
+      },searchEmploiees(conditions, pageNum = 1) {
         if (this.isLoading) {
           return;
         }
@@ -567,7 +600,7 @@
 
         api.hfEmpTaskQuery({
           pageSize: this.noProcessPageData.pageSize,
-          pageNum: this.noProcessPageData.pageNum,
+          pageNum: pageNum,
           params: this.searchCondition,
         }).then(data => {
           if (data.code == 200) {
@@ -703,7 +736,7 @@
               }
             }
           }
-          tableStyle.changeSortElementClass(0, idx, order)
+          tableStyle.changeSortElementClass('noProcessData', idx, order)
         });
       },
       beforeUpload(file) {
@@ -716,11 +749,17 @@
           if (this.importResultData) {
             this.importResultData.length = 0;
           }
-          if (data.code == 200) {
+          if (data.code === 200) {
             this.uploadFileList.push({name: file.name, url: ''});
             this.importResultData = data.data;
+
             this.$Message.info("上传成功");
 //            this.isSubmit = false;
+          } else if (data.code === 222) {
+            this.uploadFileList.push({name: file.name, url: ''});
+            this.importResultData = data.data;
+
+            this.$Message.error(data.message);
           } else {
             this.$Message.error(data.message);
           }

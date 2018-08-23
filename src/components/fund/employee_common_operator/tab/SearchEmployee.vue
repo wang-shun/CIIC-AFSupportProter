@@ -19,34 +19,34 @@
         </Col>
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
-            <Input v-model="searchForm.searchContent" placeholder="请输入" v-if="searchForm.isDate == 0" />
+            <Input v-model="searchForm.searchContent" placeholder="请输入" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 0" />
 
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 1">
-                  <Option value="" label="全部"></Option>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 1">
+                  <!--<Option value="" label="全部"></Option>-->
                   <Option v-for="item in processStatusList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 2">
-                  <Option value="" label="全部"></Option>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 2">
+                  <!--<Option value="" label="全部"></Option>-->
                   <Option v-for="item in taskTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 3">
-                    <Option value="" label="全部"></Option>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 3">
+                    <!--<Option value="" label="全部"></Option>-->
                     <Option v-for="item in payBankList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 4">
-                    <Option value="" label="全部"></Option>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 4">
+                    <!--<Option value="" label="全部"></Option>-->
                     <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 5">
-                    <Option value="" label="全部"></Option>
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 5">
+                    <!--<Option value="" label="全部"></Option>-->
                     <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-            <DatePicker v-model="searchForm.searchContent" type="date" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer v-if="searchForm.isDate == 6"></DatePicker>
+            <DatePicker v-model="searchForm.searchContent" type="date" placement="bottom" placeholder="选择日期" style="width: 100%;" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 6"></DatePicker>
 
-            <input-company v-model="searchForm.searchContent" v-if="searchForm.isDate == 7"></input-company>
+            <input-company v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 7"></input-company>
 
-             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true"  @on-change="categroryChange" transfer v-if="searchForm.isDate == 8">
-                    <Option value="" label="全部"></Option>
+             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true"  @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 8">
+                    <!--<Option value="" label="全部"></Option>-->
                     <Option value="0" label="否"></Option>
                     <Option value="1" label="是"></Option>
              </Select>
@@ -109,7 +109,8 @@
           searchContent: "",
           isDate:0,
           searchContentDesc: "",
-          disabled: false
+          disabled: false,
+          contentDisabled: false
         },
         processStatusList: [],
         taskTypeList: [],
@@ -148,8 +149,9 @@
     methods: {
       // 选择字段或关系
       setOption(content, type){
-        if(type === chooseType.field) {
+        this.searchForm.contentDisabled = false;
 
+        if(type === chooseType.field) {
           this.searchForm.disabled = false;
           this.searchForm.relationshipValue = "";
 
@@ -180,10 +182,14 @@
           this.currentField = content;
         } else {
           this.currentShip = content;
+
+          if (this.currentShip && this.currentShip.value === "is null") {
+            this.searchForm.contentDisabled = true;
+          }
         }
       },
       addCondition() {
-        if(COMMON_METHODS.IS_EMPTY(this.currentField) || COMMON_METHODS.IS_EMPTY(this.currentShip) || COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent)) {
+        if(COMMON_METHODS.IS_EMPTY(this.currentField) || COMMON_METHODS.IS_EMPTY(this.currentShip) || (!this.searchForm.contentDisabled && COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent))) {
           this.$Message.error("请选择字段、关系并输入查询内容");
           return;
         } else {
@@ -204,7 +210,7 @@
           }
 
           var temp_searchContent = this.searchForm.searchContent;
-          if(this.currentShip.value=='like'){
+          if(this.currentShip.value==='like'){
               temp_searchContent = '%'+this.searchForm.searchContent+'%';
           }
 
@@ -214,7 +220,11 @@
           }
 
           const searchConditionDesc = `${this.currentField.label} ${this.currentShip.label} ${this.searchForm.searchContent}`;
-          const searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${temp_searchContent}'`;
+          var searchConditionExec = `${this.currentField.value} ${this.currentShip.value} '${temp_searchContent}'`;
+
+          if (COMMON_METHODS.IS_EMPTY(temp_searchContent)) {
+            searchConditionExec = `${this.currentField.value} ${this.currentShip.value}`;
+          }
 
           const searchCondition = {
             desc: searchConditionDesc,

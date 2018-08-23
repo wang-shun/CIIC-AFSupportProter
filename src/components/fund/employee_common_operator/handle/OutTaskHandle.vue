@@ -273,11 +273,17 @@
         </div>
       </Panel>
       <Panel name="5">
-        任务单备注
+        历史任务单
         <div slot="content">
-          <Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>
+          <origin-emp-task-info></origin-emp-task-info>
         </div>
       </Panel>
+      <!--<Panel name="5">-->
+        <!--任务单备注-->
+        <!--<div slot="content">-->
+          <!--<Table border :columns="taskListNotesColumns" :data="taskListNotesChangeData"></Table>-->
+        <!--</div>-->
+      <!--</Panel>-->
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -296,8 +302,10 @@
 <script>
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
 
   export default {
+    components: {originEmpTaskInfo},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
@@ -446,10 +454,14 @@
       }).then(data => {
         if (data.code == 200) {
           this.displayVO = data.data;
-          if (hfType == 1) {
-            this.displayVO.hfMonth = this.displayVO.basicComHfMonth;
+          if (!data.data.empTaskPeriods || data.data.empTaskPeriods.length === 0) {
+            if (hfType == 1) {
+              this.displayVO.hfMonth = this.displayVO.basicComHfMonth;
+            } else {
+              this.displayVO.hfMonth = this.displayVO.addedComHfMonth;
+            }
           } else {
-            this.displayVO.hfMonth = this.displayVO.addedComHfMonth;
+            this.displayVO.hfMonth = data.data.empTaskPeriods[0].hfMonth;
           }
           this.basicFundData = data.data.basicArchiveBasePeriods;
           this.addedFundData = data.data.addedArchiveBasePeriods;

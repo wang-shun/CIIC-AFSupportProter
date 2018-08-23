@@ -4,7 +4,7 @@ const AJAX = ajax.ajaxGyg;
 
 // const saveAmRemark = params => AJAX.postJSON("/api/employservice/amEmpTask/saveAmRemark", params);
 
-const  saveAmInjury  = params => AJAX.postJSON("/api/employservice/amArchiveTask/saveAmInjury", params);
+//const  saveAmInjury  = params => AJAX.postJSON("/api/employservice/amArchiveTask/saveAmInjury", params);
 
 const  saveAmEmpMaterial = params => AJAX.postJSON("/api/employservice/amArchiveTask/saveAmEmpMaterial", params);
 
@@ -88,8 +88,14 @@ export default {
   archiveDetailInfoQuery:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/archiveDetailInfoQuery', params);
     return await response.data;
-  },saveAmInjury
-  ,saveAmEmpMaterial
+  },saveAmInjury:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveTask/saveAmInjury', params);
+    return await response.data;
+  },queryAmInjury:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveTask/queryAmInjury', params);
+    return await response.data;
+  },
+   saveAmEmpMaterial
   , deleteAmInjury:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/deleteAmInjury', params);
     return await response.data;
@@ -115,6 +121,24 @@ export default {
   },
   employSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOpt', params);
+  },
+  employSearchExportOptUseWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptUseWord', params);
+  },
+  employSearchExportOptDispatchWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptDispatchWord', params);
+  },
+  employSearchExportOptAlonehWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptAlonehWord', params);
+  },
+  employSearchExportOptExtDispatchWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtDispatchWord', params);
+  },
+  archiveSearchExportReturnList:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturnList', params);
+  },//批量打印退工单
+  employSearchExportOptExtCollectWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtCollectWord', params);
   },
   resignSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amResignTask/resignSearchExportOpt', params);
@@ -203,6 +227,11 @@ export default {
     let response = await AJAX.post('/api/employservice/amArchiveUkey/amArchiveUkeyRenew', params);
     return await response.data;
   },
+   // 根据公司编号名称查询组织机构代码
+   queryOrganizationCodeByCid:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveUkey/queryOrganizationCodeByCid', params);
+    return await response.data;
+  },
   saveBatchEmploy,
   batchSaveEmployment:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/batchSaveEmployment', params);
@@ -210,6 +239,13 @@ export default {
   },
   batchCheck:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/batchCheck', params);
+    return await response.data;
+  },saveAmResignBatch:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amResignTask/saveAmResignBatch', params);
+    return await response.data;
+  },
+  batchResignCheck:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amResignTask/batchResignCheck', params);
     return await response.data;
   }
 

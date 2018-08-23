@@ -257,8 +257,8 @@
         }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
-
-        api.companyFundAccountExpExcel(params);
+        console.log(params)
+        api.companyFundAccountExpExcel({ params: params});
 
 
       },

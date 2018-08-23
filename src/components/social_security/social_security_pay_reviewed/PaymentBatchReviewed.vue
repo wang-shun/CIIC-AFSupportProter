@@ -461,7 +461,10 @@
       doRejection() {
         let paymentId = this.rejectionData.paymentId;
         let rejectionRemark = this.rejectionData.rejectionRemark;
-
+        if(rejectionRemark.trim()=='' || rejectionRemark==null){
+          this.$Message.info("请填写批退备注！");
+          return;
+        }
         reviewedBatchApi.doRejection({
           paymentId: paymentId,
           rejectionRemark: rejectionRemark,

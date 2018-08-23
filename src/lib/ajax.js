@@ -165,7 +165,7 @@ const createAjax = config => {
       if (response.status === 200 || response.status === 304 || response.status === 500) { // 后端业务处理返回的内部错误
         if (response.data && response.data.code === '2') {
           localStorage.removeItem('userInfo')
-          window.location.href = process.env.LOCAL_URL + ':8070/#/'
+          window.location.href = process.env.LOGIN_URL + '/#/?refer=' + encodeURIComponent(encodeURIComponent(window.location.href))
           return
         }
         return response
@@ -278,6 +278,7 @@ AJAX.createProxyAjaxForName = createProxyAjaxForName
 
 AJAX.basePaths = BASE_PATHS['health-c']
 AJAX.fbqBasePaths = BASE_PATHS['fb-q'];
+AJAX.fbcBasePaths = BASE_PATHS['fb-c'];
 AJAX.ajaxFbq = createProxyAjaxForName('fb-q')
 AJAX.ajaxFbc = createProxyAjaxForName('fb-c')
 AJAX.ajaxSsq = createProxyAjaxForName('ss-q')
@@ -293,6 +294,7 @@ AJAX.ajaxSiteLetterService = createProxyAjaxForName('SiteLetterService')
 AJAX.ajaxSSPService = createProxyAjaxForName('SSPService')
 AJAX.ajaxSpecialOperationService = createProxyAjaxForName('SpecialOperationService')
 AJAX.ajaxSocMessage = createProxyAjaxForName('soc')
+AJAX.ajaxHfMessage = createProxyAjaxForName('hf-m')
 AJAX.ajaxCM = createProxyAjaxForName('cm')
 
 export default AJAX

@@ -42,33 +42,34 @@
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">缴费明细</Button>
+                    <!-- <Dropdown @on-click="exportTable">
+                    <Button type="info">
+                      汇缴书
+                      <Icon type="arrow-down-b"></Icon>
+                    </Button>
+                    <DropdownMenu slot="list">
+                      <DropdownItem name="5">基本公积金汇缴书</DropdownItem>
+                      <DropdownItem name="6">补充公积金汇缴书</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown> -->
+                <Button type="primary" @click="chgDetailListExport(1)">基本公积金汇缴变更清册</Button>
+                <Button type="primary" @click="repairDetailListExport(1)">基本公积金补缴清册</Button>
+                <Button type="primary" @click="chgDetailListExport(2)">补充公积金汇缴变更清册</Button>
+                <Button type="primary" @click="repairDetailListExport(2)">补充公积金补缴清册</Button>
+                <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
+      
           </Form>
         </div>
       </Panel>
     </Collapse>
-    <Row class="mt20">
-      <Col :sm="{span: 24}" class="tr">
-      <!-- <Dropdown @on-click="exportTable">
-            <Button type="info">
-              汇缴书
-              <Icon type="arrow-down-b"></Icon>
-            </Button>
-            <DropdownMenu slot="list">
-              <DropdownItem name="5">基本公积金汇缴书</DropdownItem>
-              <DropdownItem name="6">补充公积金汇缴书</DropdownItem>
-            </DropdownMenu>
-        </Dropdown> -->
-        <Button type="primary" @click="chgDetailListExport(1)">基本公积金汇缴变更清册</Button>
-        <Button type="primary" @click="repairDetailListExport(1)">基本公积金补缴清册</Button>
-        <Button type="primary" @click="chgDetailListExport(2)">补充公积金汇缴变更清册</Button>
-        <Button type="primary" @click="repairDetailListExport(2)">补充公积金补缴清册</Button>
-        <Button type="info" @click="excelExport()">导出</Button>
-      </Col>
-    </Row>
+        <Row class="mt20">
+              <Col :sm="{span: 24}" class="tr">
+                <Button type="info" @click="excelExport()">导出</Button>
+              </Col>
+            </Row>
     <Row class="mt20">
       <Col :sm="{span:24}">
         <Table border :columns="customerColumns" :data="customerData"></Table>
@@ -89,6 +90,8 @@
 import api from '../../../../api/house_fund/fund_report/fund_report'
 import InputCompany from '../../../common_control/form/input_company'
 import dict from '../../../../api/dict_access/house_fund_dict'
+import Decode from "../../../../lib/decode";
+import {FundPay} from '../../../../api/house_fund/fund_pay/fund_pay'
 
   export default {
     components: {InputCompany},
@@ -108,104 +111,141 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         accountTypeList: [],
         customerData: [],
         customerColumns: [
-          {title: '公积金类型', key: 'hfTypeName', width: 100, align: 'center',
+          {
+          title: "打印",
+          align: "center",
+          width: 80,
+          render: (h, params) => {
+              return h("div", [
+                h(
+                  "Button",
+                  {
+                    props: { type: "success", size: "small" },
+                    style: { margin: "0 auto" },
+                    on: {
+                      click: () => {
+                         this.printPayNote(params.row.comAccountClassId,params.row.paymentMonth);
+                      }
+                    }
+                  },
+                  "汇缴书"
+                )
+              ]);
+          }
+        },
+          {title: '公积金类型', key: 'hfType', width: 100, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.hfTypeName),
+                h('span', this.$decode.hfType(params.row.hfType)),
               ]);
             }
           },
-          {title: '雇员编号', key: 'employeeId', width: 120, align: 'center',
+          {title: '企业账户名称', key: 'comAccountName', width: 110, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeId),
-              ]);
-            }
-          },
-          {title: '雇员姓名', key: 'employeeName', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeName),
-              ]);
-            }
-          },
-          {title: '基本/补充公积金账号', key: 'hfEmpAccount', width: 150, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.hfEmpAccount),
-              ]);
-            }
-          },
-          {title: '证件号码', key: 'idNum', width: 200, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.idNum),
-              ]);
-            }
-          },
-          {title: '缴费月份', key: 'hfMonth', width: 120, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.hfMonth),
-              ]);
-            }
-          },
-          {title: '所属公积金月份', key: 'ssMonthBelong', width: 130, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.ssMonthBelong),
-              ]);
-            }
-          },
-          {title: '缴费类型', key: 'paymentTypeName', width: 120, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.paymentTypeName),
-              ]);
-            }
-          },
-          {title: '公积金基数', key: 'base', width: 120, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.base),
-              ]);
-            }
-          },
-          {title: '公积金比例', key: 'ratio', width: 120, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.ratio),
-              ]);
-            }
-          },
-          {title: '公积金金额', key: 'amount', width: 120, align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.amount),
+                h('span', params.row.comAccountName),
               ]);
             }
           },
           {title: '客户编号', key: 'companyId', width: 120, align: 'center',
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
+              return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyId),
               ]);
             }
           },
-          {title: '客户名称', key: 'companyName', width: 250, align: 'center',
+          {title: '缴费月份', key: 'paymentMonth', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
+                h('span', params.row.paymentMonth),
               ]);
             }
           },
-          {title: '企业基本/补充公积金账号', key: 'hfComAccount', width: 180, align: 'center',
+          {title: '上月汇缴金额', key: 'remittedAmountLast', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedAmountLast),
+              ]);
+            }
+          },
+          {title: '本月增加汇缴金额', key: 'remittedAmountAdd', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedAmountAdd),
+              ]);
+            }
+          },
+          {title: '本月减少汇缴金额', key: 'remittedAmountReduce', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedAmountReduce),
+              ]);
+            }
+          },
+          {title: '本月汇缴金额', key: 'remittedAmount', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedAmount),
+              ]);
+            }
+          },
+          {title: '补缴金额', key: 'repairAmount', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.repairAmount),
+              ]);
+            }
+          },
+          {title: '上月汇缴人数', key: 'remittedCountEmpLast', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedCountEmpLast),
+              ]);
+            }
+          },
+          {title: '本月增加人数', key: 'remittedCountEmpAdd', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedCountEmpAdd),
+              ]);
+            }
+          },
+          {title: '本月减少人数', key: 'remittedCountEmpReduce', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedCountEmpReduce),
+              ]);
+            }
+          },
+          {title: '本月汇缴人数', key: 'remittedCountEmp', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remittedCountEmp),
+              ]);
+            }
+          },
+          {title: '补缴人数', key: 'repairCountEmp', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.repairCountEmp),
+              ]);
+            }
+          },
+          {title: '企业公积金账号', key: 'hfComAccount', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.hfComAccount),
               ]);
             }
           },
+           {title: '企业账户类型', key: 'hfAccountType', width: 180, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', this.$decode.accountType(params.row.hfAccountType)),
+              ]);
+            }
+          },
+
         ],
         customerSearchPageData: {
           total: 0,
@@ -216,9 +256,11 @@ import dict from '../../../../api/dict_access/house_fund_dict'
       }
     },
     mounted() {
+      this.operatorSearchData.hfMonth = new Date();
       dict.getDictData().then(data => {
         if (data.code == 200) {
           this.accountTypeList = data.data.SocialSecurityAccountType;
+          this.operatorSearchData.hfAccountType='3';
         }
       });
     },
@@ -239,6 +281,11 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         this.hfMonthChargeQuery();
       },
       hfMonthChargeQuery() {
+         if (!this.operatorSearchData.hfMonth){
+           this.$Message.info("缴费月份必填");
+            return false;
+         }
+
         if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth.length != 6) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
@@ -251,7 +298,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           params = this.$utils.clear(params, '');
         }
         this.isLoading = true;
-        api.hfMonthChargeQuery({
+        api.queryHfRimittedBookReport({
           pageSize: this.customerSearchPageData.pageSize,
           pageNum: this.customerSearchPageData.pageNum,
           params: params,
@@ -264,6 +311,10 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         })
       },
       excelExport() {
+        if (!this.operatorSearchData.hfMonth){
+           this.$Message.info("缴费月份必填");
+            return false;
+         }
         if (this.operatorSearchData.hfMonth && this.operatorSearchData.hfMonth.length != 6) {
           this.operatorSearchData.hfMonth = this.$utils.formatDate(this.operatorSearchData.hfMonth, "YYYYMM");
         }
@@ -275,7 +326,7 @@ import dict from '../../../../api/dict_access/house_fund_dict'
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
-        api.hfMonthChargeExport({
+        api.queryHfRimittedBookReportExport({
           pageSize: this.customerSearchPageData.pageSize,
           pageNum: this.customerSearchPageData.pageNum,
           params: params,
@@ -332,44 +383,12 @@ import dict from '../../../../api/dict_access/house_fund_dict'
         })
       },
        //生成汇缴书打印
-      exportTable(name) {
-        switch(parseInt(name)) {
-          case 5:
-            this.printPayNote(1);
-            break;
-          case 6:
-            this.printPayNote(2);
-            break;
-          default:
-            break;
-        }
-      },
-      printPayNote(hfType){
-          if(this.operatorSearchData.hfAccountType == ''){
-            this.$Message.info("查询条件中的【账户类型】不能为空");
-            return false;
-          }
-          if(this.operatorSearchData.hfMonth==null || this.operatorSearchData.hfMonth==''){
-            this.$Message.info("查询条件中的【缴费月份】不能为空");
-            return false;
-          }
-          if(this.operatorSearchData.hfAccountType == 3){
-            if(this.operatorSearchData.companyId==null || this.operatorSearchData.companyId==''){
-              this.$Message.info("查询条件中的【客户编号】不能为空");
-              return false;
-            }
-          }
-          
-         
+      printPayNote(comAccountClassId,paymentMonth){
           let results=[];
-          let params={hfAccountType:this.operatorSearchData.hfAccountType,
-                      hfType:hfType,
-                      companyId:this.operatorSearchData.companyId,
-                      hfMonth:this.operatorSearchData.hfMonth
-                      }
+          let params={comAccountClassId:comAccountClassId,paymentMonth:paymentMonth}
           api.getRemittedBook(params).then(data=>{
             results=data.data;
-            api.printPayNote(results);
+            FundPay.printPayNote(results);
           }).catch(error=>{
             console.log(error)
           })

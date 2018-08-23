@@ -14,19 +14,6 @@
         </div>
       </Panel>
       <Panel name="3">
-        雇员未做任务单
-        <div slot="content">
-          <Form :label-width=150 >
-          <Row class="mt20" type="flex" justify="start">
-            <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Table border width="800" :columns="theSameTaskListColumns"
-                     :data="socialSecurityPayOperator.theSameTask"></Table>
-              </Col>
-          </Row>
-          </Form>
-        </div>
-      </Panel>
-      <Panel name="4">
         任务单参考信息
         <div slot="content">
           <Form :label-width=150>
@@ -50,7 +37,7 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="5">
+      <Panel name="4">
         社保转出操作
         <div slot="content">
           <Form ref="socialSecurityPayOperator" :model="socialSecurityPayOperator" :rules="ruleValidate" :label-width=150>
@@ -135,6 +122,25 @@
           </Form>
         </div>
       </Panel>
+      <Panel name="5">
+        历史任务单
+        <div slot="content">
+          <origin-emp-task-info :empTaskId="this.$route.query.empTaskId"></origin-emp-task-info>
+        </div>
+      </Panel>
+      <Panel name="6">
+        雇员未做任务单
+        <div slot="content">
+          <Form :label-width=150 >
+            <Row class="mt20" type="flex" justify="start">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Table border width="800" :columns="theSameTaskListColumns"
+                     :data="socialSecurityPayOperator.theSameTask"></Table>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
@@ -148,15 +154,15 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
+//  import {mapState, mapGetters, mapActions} from 'vuex'
   import companyInfo from '../../components/CompanyInfo.vue'
   import employeeInfo from '../../components/EmployeeInfo.vue'
-
-  import EventTypes from '../../../../store/event_types'
+  import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
+//  import EventTypes from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
   export default {
-    components: {companyInfo, employeeInfo},
+    components: {companyInfo, employeeInfo, originEmpTaskInfo},
     data() {
       //办理日期
       const validateHandleMonth =(rule, value, callback)=>{
@@ -201,7 +207,7 @@
         currentIndex: this.$route.params.index,
         isNextMonth:this.$route.query.isNextMonth,
         sourceFrom: '',
-        collapseInfo: [1, 2, 3, 4,5],
+        collapseInfo: [1, 2, 3, 4, 5, 6],
         employee: {},
         company: {},
         taskCategoryType: [

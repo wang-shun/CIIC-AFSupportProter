@@ -140,6 +140,7 @@ const giftGrant = r => require.ensure([], () => r(require('@/components/flexible
 const marketGrant = r => require.ensure([], () => r(require('@/components/flexible_benefit/grant/MarketGrant')), 'marketGrant') //活动发放
 
 const reportFormManager = r => require.ensure([], () => r(require('@/components/flexible_benefit/report_form/ReportFormManager')), 'reportFormManager') //报表查询
+const seniorEmployeeList = r => require.ensure([], () => r(require('@/components/flexible_benefit/senior_employee/SeniorEmployeeList')), 'seniorEmployeeList') //资深雇员
 
 Vue.use(Router)
 let router = new Router({
@@ -933,6 +934,18 @@ let router = new Router({
             activeName: '5-4'
           }
         },
+        {
+          path: '/seniorEmployeeList',
+          name: 'seniorEmployeeList',
+          component: seniorEmployeeList,
+          meta: {
+            level1: '首页',
+            level2: '弹性福利',
+            level3: '资深雇员',
+            openNames: ['5'],
+            activeName: '5-5'
+          }
+        },
         /**
          * 证件管理
          */
@@ -1023,7 +1036,9 @@ router.beforeEach((to, from, next) => {
         SET_DOCUMENT_INFO(to)
         next()
       } else {
-        BACK_TO_LOGIN()
+        if (self === top) {
+          BACK_TO_LOGIN()
+        }
       }
     })
   } else {
@@ -1044,7 +1059,7 @@ const SET_DOCUMENT_INFO = (to) => {
 
 const BACK_TO_LOGIN = () => {
   window.localStorage.removeItem('userInfo')
-  window.location = process.env.LOGIN_URL
+  window.location = process.env.LOGIN_URL + '/#/?refer=' + encodeURIComponent(encodeURIComponent(window.location.href))
 }
 
 export default router

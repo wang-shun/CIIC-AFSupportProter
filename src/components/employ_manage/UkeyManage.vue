@@ -7,65 +7,70 @@
   <Form :label-width=150 ref="uekyFile" :model="uekyFile">
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="材料签收日期：">
-          <DatePicker  type='date' placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialReceiveDate"  style="width: 100%;" transfer></DatePicker>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="材料送办日期：">
-          <DatePicker  type='date' placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialDeliveryDate"  style="width: 100%;" transfer></DatePicker>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="材料反馈日期：">
-          <DatePicker  type='date' placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialFeedbackDate"  style="width: 100%;" transfer></DatePicker>
+        <Form-item label="公司编号：">
+          <input-company v-model="uekyFile.companyId" v-on:input="updateData" :only="true"></input-company>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="公司名称：">
-          <input-company-name v-model="uekyFile.companyName"></input-company-name>
+          <Input  placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.companyName" :maxlength="30" ></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-      <Form-item label="组织机构代码：">
-        <Input  placeholder="请输入..." v-model="uekyFile.organizationCode" :maxlength="30" ></Input>
-      </Form-item>
-      </Col>
-      <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="到期日期：">
-          <DatePicker  type='date' placement="bottom-end" placeholder="选择日期" v-model="uekyFile.dueDate"  style="width: 100%;" transfer></DatePicker>
+        <Form-item label="组织机构代码：">
+          <Input  placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.organizationCode" :maxlength="30" ></Input>
         </Form-item>
-      </Col> -->
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="服务中心：">
+          <Input  placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.serviceCenter" :maxlength="30" ></Input>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="材料签收日期：">
+          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialReceiveDate"  style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="材料送办日期：">
+          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialDeliveryDate"  style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="材料反馈日期：">
+          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialFeedbackDate"  style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="注销日期：">
-          <DatePicker  type='date' placement="bottom-end" placeholder="选择日期" v-model="uekyFile.logoutDate"  style="width: 100%;" transfer></DatePicker>
+          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.logoutDate"  style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="类别：">
-          <Select transfer v-model="uekyFile.keyType">
+          <Select transfer v-model="uekyFile.keyType" :disabled="(uekyFile.companyId=='')">
               <Option v-for="item in transferFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
           </Select>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="编号：">
-          <Input  placeholder="请输入..." v-model="uekyFile.keyCode" :maxlength="9" ></Input>
+          <Input  placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.keyCode" :maxlength="9" ></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="密码：">
-          <Input  placeholder="请输入..." v-model="uekyFile.keyPwd" :maxlength="9" ></Input>
+          <Input  placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.keyPwd" :maxlength="9" ></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="序列号：">
-          <Input placeholder="请输入..." v-model="uekyFile.keySeq" :maxlength="50"></Input>
+          <Input placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.keySeq" :maxlength="50"></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="收费标准：">
-          <Input placeholder="请输入..." v-model="uekyFile.keyFee" :maxlength="18"></Input>
+          <Input placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.keyFee" :maxlength="18"></Input>
         </Form-item>
       </Col>
     </Row>
@@ -125,12 +130,11 @@
 
 import Utils from '../../lib/utils'
 import api from '../../api/employ_manage/hire_operator'
-import customerModal from '../common_control/CustomerModal.vue'
 import InputCompanyName from '../common_control/form/input_company/InputCompanyName.vue'
-import InputCompany from '../common_control/form/input_company'
+import InputCompany from '../common_control/form/input_company/InputCompany.vue'
 import Vue from 'vue'
   export default {
-    components: {customerModal,InputCompanyName,InputCompany},
+    components: {InputCompanyName,InputCompany},
     data() {
       return {
         modal1: false,
@@ -138,6 +142,7 @@ import Vue from 'vue'
         notesData: [],
         isDisable: false,
         isLoading: true,
+        isFrist: true,
         uekyFile: {
           renewDueDate: '',
           renewDate: '',
@@ -155,7 +160,9 @@ import Vue from 'vue'
           keySeq: '',
           keyPwd: '',
           keyFee: '',
-          companyName: ''
+          companyName: '',
+          companyId: '',
+          serviceCenter: ''
         },
         renewUkey:{
           id: '',
@@ -285,6 +292,11 @@ import Vue from 'vue'
           this.isDisable = false;
           return;
         }
+        if(this.uekyFile.companyId == '' || this.uekyFile.companyId == undefined){
+          this.$Message.error("公司编号必须填写！");
+          this.isDisable = false;
+          return;
+        }
         if(this.uekyFile.organizationCode == '' || this.uekyFile.organizationCode == undefined){
           this.$Message.error("组织机构代码必须填写！");
           this.isDisable = false;
@@ -332,7 +344,26 @@ import Vue from 'vue'
       goBack () {
         this.$router.go(-1);
       },
-
+      updateData(val){
+        if(val == '' || val == undefined){
+          return;
+        }
+        if(this.$route.query.id != 0){
+          if(this.isFrist){
+            this.isFrist = false;
+            return;
+          }
+        } 
+        api.queryOrganizationCodeByCid({companyId:val}).then(data => {
+          if (data.code == 200) {
+            this.uekyFile.companyName = data.data.companyName;
+            this.uekyFile.organizationCode = data.data.organizationCode;
+            this.uekyFile.serviceCenter = data.data.serviceCenter;
+          } else {
+            this.$Message.error("查询组织机构和服务中心失败请联系管理员！" + data.message);
+          }
+        })
+      }
     }
   }
 </script>

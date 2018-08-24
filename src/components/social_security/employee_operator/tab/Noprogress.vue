@@ -562,6 +562,7 @@
             case '2':
             case '12':
             case '13':
+            case '99':
               name = 'empTaskBatchHandleView';
               break;
             case '3':
@@ -597,6 +598,7 @@
             case '2':
             case '12':
             case '13':
+            case '99':
               name = 'empTaskHandleView';
               break;
             case '3':

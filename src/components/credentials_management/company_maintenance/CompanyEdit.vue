@@ -36,15 +36,15 @@
         </Row>
         <h4>收费信息</h4>
         <Row type="flex" justify="start">
-          <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
-            <Form-item label="费用类型：" prop="chargeType">
-              <Select v-model="formItem.chargeType" placeholder="请选择" transfer>
-                <Option value="1">免费</Option>
-                <Option value="2">常规收费</Option>
-                <Option value="3">特殊收费</Option>
-              </Select>
-            </Form-item>
-          </i-col>
+          <!--<i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">-->
+            <!--<Form-item label="费用类型：" prop="chargeType">-->
+              <!--<Select v-model="formItem.chargeType" placeholder="请选择" transfer>-->
+                <!--<Option value="1">免费</Option>-->
+                <!--<Option value="2">常规收费</Option>-->
+                <!--<Option value="3">特殊收费</Option>-->
+              <!--</Select>-->
+            <!--</Form-item>-->
+          <!--</i-col>-->
           <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
             <Form-item label="支付方式：" prop="payType">
               <Select v-model="formItem.payType" placeholder="请选择" transfer>
@@ -175,18 +175,18 @@ export default {
           title: "操作方式",
           key: "operateTypeN"
         },
-        {
-          title: "费用类型",
-          key: "chargeTypeN"
-        },
+//        {
+//          title: "费用类型",
+//          key: "chargeTypeN"
+//        },
         {
           title: "支付方式",
           key: "payTypeN"
         },
-        {
-          title: "特殊收费备注",
-          key: "specialChargeRemark"
-        },
+//        {
+//          title: "特殊收费备注",
+//          key: "specialChargeRemark"
+//        },
         {
           title: "操作",
           key: "action",
@@ -218,7 +218,6 @@ export default {
   },
   created() {
     this.find();
-
   },
   methods: {
     find() {
@@ -240,7 +239,7 @@ export default {
             }
           }
         }
-        
+
         this.data1 = labs;
         this.formItem = labs[0];
         this.selectedRow(this.formItem)

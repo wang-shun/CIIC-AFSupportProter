@@ -55,9 +55,11 @@
            :data="transferData"
            ref="transferTable"></Table>
     <Page :total="transferTotal"
+          show-total
           show-elevator
           @on-change="getTransferByPage"
-          @on-page-size-change="pageSizeChangeTransfer" :current.sync="transferItem.pageNum"
+          @on-page-size-change="pageSizeChangeTransfer"
+          :current.sync="transferItem.pageNum"
           :page-size="transferItem.pageSize"></Page>
   </div>
 </template>

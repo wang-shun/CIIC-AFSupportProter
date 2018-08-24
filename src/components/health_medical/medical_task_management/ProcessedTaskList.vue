@@ -137,6 +137,7 @@
            :columns="taskColumns"
            :data="taskData"></Table>
     <Page show-elevator
+          show-total
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
           :total="formItem.total"

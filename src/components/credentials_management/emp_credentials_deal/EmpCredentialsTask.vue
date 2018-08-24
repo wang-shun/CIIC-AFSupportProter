@@ -360,8 +360,8 @@
       callBack(value) {
         if (value != null) {
           this.formItem = {...value};
-          this.formItem.degree = String(this.formItem.degree)
-          this.formItem.qualification = String(this.formItem.qualification)
+          this.formItem.degree = String(this.formItem.degree) == 'undefined' ? "" : String(this.formItem.degree)
+          this.formItem.qualification = String(this.formItem.qualification) == 'undefined' ? "" : String(this.formItem.qualification)
           if (this.formItem.permitCompanyName == undefined) {
             this.formItem.permitCompanyName = value.companyName
           }

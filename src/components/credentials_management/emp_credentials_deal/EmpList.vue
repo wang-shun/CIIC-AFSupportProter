@@ -120,6 +120,7 @@ export default {
       idCardType: "",
       templateType: "",
       productId: "",
+      basicProductId: "",
       taskType: {
         taskTypeId: "",
         taskTypeName: "",
@@ -368,7 +369,6 @@ export default {
         if (valid) {
           this.$router.push({
             name: "empCredentialsTask",
-
           });
           let credentialsTaskData = {}
           credentialsTaskData.data = data,
@@ -379,7 +379,8 @@ export default {
             parseInt(this.formItem.dealType)
           ),
           credentialsTaskData.companyId = data.companyCode,
-          credentialsTaskData.basicProductId = this.productId,
+          credentialsTaskData.productId = this.productId,
+          credentialsTaskData.basicProductId = this.basicProductId,
           credentialsTaskData.isDeal = true
 
           sessionStorage.setItem('credentialsTaskData', JSON.stringify(credentialsTaskData))
@@ -395,7 +396,9 @@ export default {
           host + "/api/empCredentialsDeal/findTaskTypeDetial?taskTypeId=" + id
         )
         .then(response => {
-          this.productId = response.data.data.basicProductId;
+          this.productId = response.data.data.productId;
+          this.basicProductId = response.data.data.basicProductId;
+          console.log(response.data.data)
         });
     }
   }

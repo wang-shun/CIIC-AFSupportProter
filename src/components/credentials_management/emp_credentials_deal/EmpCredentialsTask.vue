@@ -267,7 +267,7 @@
         contractEndTime: "",
         credentialsType: "",
         credentialsDealType: "",
-        basicProductId: "",
+        productId: "",
         templateType: "",
         qualifications: [],
         degrees: [],
@@ -318,7 +318,7 @@
           telephone: "",
           remark: "",
           materialIds: "",
-          basicProductId: "",
+          productId: "",
           chargeType: ''
         }
       };
@@ -544,17 +544,12 @@
             "YYYY-MM-DD hh:mm"
           );
         }
-        params.materialIds = params.materialIds;
-        params.comp = params.comp;
         params.employeeId = params.empCode;
         params.companyId = params.companyCode;
-        params.credentialsType = params.credentialsType;
-        params.credentialsDealType = params.credentialsDealType;
-        params.basicProductId =
-          params.basicProductId == null
-            ? credentialsTaskData.basicProductId
-            : params.basicProductId;
         params.templateType = this.templateType;
+        params.productId = credentialsTaskData.productId;
+        params.basicProductId = credentialsTaskData.basicProductId;
+        console.log(params)
         AJAX
           .postJSON(host + "/api/empCredentialsDeal/saveOrUpdate/task", params)
           .then(response => {

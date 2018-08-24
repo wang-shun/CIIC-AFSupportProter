@@ -3,62 +3,50 @@
     <Collapse v-model="value1" accordion>
       <Panel name="1">
         <div slot="content">
-          <Row>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }">
-              <Form :model="formItem" :label-width="100">
+          <Form :model="formItem" :label-width="100">
+            <Row type="flex" justify="start" class="mt20 mr10">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号">
                   <Input v-model="formItem.code" placeholder="请输入"></Input>
                 </Form-item>
-              </Form>
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
                 <Form-item label="雇员姓名">
                   <Input v-model="formItem.code" placeholder="请输入"></Input>
                 </Form-item>
-              </Form>
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
                 <Form-item label="公司编号">
                   <Input v-model="formItem.code" placeholder="请输入"></Input>
                 </Form-item>
-              </Form>
-
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
                 <Form-item label="公司名称">
                   <Input v-model="formItem.code" placeholder="请输入"></Input>
                 </Form-item>
-              </Form>
-
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
                 <Form-item label="证件号码">
                   <Input v-model="formItem.code" placeholder="请输入"></Input>
                 </Form-item>
-              </Form>
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
                 <Form-item label="受理编号">
                   <Input v-model="formItem.code" placeholder="请输入"></Input>
                 </Form-item>
-              </Form>
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 0 }" class="checkBtn">
-              <Form :model="formItem" :label-width="100">
-                <Form-item label="受理日期">
-                  <Input v-model="formItem.code" placeholder="请输入"></Input>
-                </Form-item>
-              </Form>
-            </Col>
-            <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 5 }" class="checkBtn">
-              <Button type="primary" size="large">查询</Button>
-            </Col>
-          </Row>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" class="checkBtn">
+                <Form :model="formItem" :label-width="100">
+                  <Form-item label="受理日期">
+                    <Input v-model="formItem.code" placeholder="请输入"></Input>
+                  </Form-item>
+                </Form>
+              </Col>
+              <Col :xs="{ span: 6, offset: 1 }" :lg="{ span: 6, offset: 5 }" class="checkBtn">
+                <Button type="primary" size="large">查询</Button>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </Panel>
     </Collapse>

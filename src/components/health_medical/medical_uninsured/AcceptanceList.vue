@@ -37,37 +37,37 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方编号" prop="managementId">
-                  <Input v-model="formItem.managementId" placeholder="请输入"/>
+                  <Input v-model="formItem.managementId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方名称" prop="managementName">
-                  <Input v-model="formItem.managementName" placeholder="请输入"/>
+                  <Input v-model="formItem.managementName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号" prop="companyId">
-                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                  <Input v-model="formItem.companyId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称" prop="companyName">
-                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                  <Input v-model="formItem.companyName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号" prop="employeeId">
-                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员姓名" prop="employeeName">
-                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件号码" prop="idNum">
-                  <Input v-model="formItem.idNum" placeholder="请输入"/>
+                  <Input v-model="formItem.idNum" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
             </Row>
@@ -99,6 +99,7 @@
            :data="acceptanceData"
            @on-selection-change="selectTableData"></Table>
     <Page show-elevator
+          show-total
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
           :total="formItem.total"
@@ -110,7 +111,7 @@
            ok-text="受理"
            @on-ok="updateAcceptanceList(1)" :loading="loading"
            :mask-closable="true">
-      <Input v-model="dealMeg.remark" placeholder="请输入操作说明："/>
+      <Input v-model="dealMeg.remark" placeholder="请输入操作说明："></Input>
     </Modal>
 
     <Modal v-model="modalRefuse"
@@ -118,7 +119,7 @@
            ok-text="拒赔"
            @on-ok="updateAcceptanceList(2)" :loading="loading"
            :mask-closable="true">
-      <Input v-model="dealMeg.remark" placeholder="请输入拒赔原因：" class="mt15"/>
+      <Input v-model="dealMeg.remark" placeholder="请输入拒赔原因：" class="mt15"></Input>
       <Select v-model="dealMeg.rejectType" :clearable="true" placeholder="请选择拒赔类型：" class="mt15">
         <Option v-for="item in rejectTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>

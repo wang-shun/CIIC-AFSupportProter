@@ -8,7 +8,7 @@ function getFundPayNoteObj(row){
   <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; width: 600px; height: 336px;margin-left:30px;margin-top:0px ">
     <tr>
       <td height="40px" style="vertical-align: top;">
-      <div style="text-align: right;  float: right; width: 500px;">${row.companyId}</div>
+      <div style="text-align: right;  float: right; width: 500px;">${row.companyId==null?'':row.companyId}</div>
       </td>
     </tr>
     <tr>

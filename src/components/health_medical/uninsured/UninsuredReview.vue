@@ -74,10 +74,10 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <FormItem label="审核" prop="status">
-                  <i-switch  v-model="formItem.status" size="large" @on-change="getByPage(1)">
+                  <i-switch v-model="formItem.status" size="large" @on-change="getByPage(1)">
                     <span slot="open">Yes</span>
                     <span slot="close">No</span>
-                  </i-switch >
+                  </i-switch>
                 </FormItem>
               </Col>
             </Row>
@@ -206,6 +206,7 @@
                     on: {
                       click: () => {
                         sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('printFlag', true);
                         this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
                     }
@@ -218,6 +219,7 @@
                     on: {
                       click: () => {
                         sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('printFlag', true);
                         this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
                     }

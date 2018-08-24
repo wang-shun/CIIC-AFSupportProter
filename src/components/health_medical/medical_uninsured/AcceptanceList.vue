@@ -223,6 +223,9 @@
             title: '受理人', sortable: true, key: 'handler', align: 'center'
           },
           {
+            title: '处理备注', sortable: true, key: 'remark', align: 'center'
+          },
+          {
             title: '操作', key: 'action', width: 125, align: 'center',
             render: (h, params) => {
               if (params.row.status === 0) {

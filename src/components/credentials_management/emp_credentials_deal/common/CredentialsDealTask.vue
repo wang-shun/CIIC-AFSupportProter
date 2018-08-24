@@ -7,7 +7,7 @@
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="办理机构：" prop="name">
-              <Poptip trigger="hover" placement="right" width="600" transfer='true'>
+              <Poptip trigger="hover" placement="right" width="600" transfer>
                 <h6>{{formItem.name}}</h6>
                 <div slot="content">
                    <Table :columns="policyCol" :data="policyData"></Table>
@@ -16,12 +16,12 @@
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="操作方式：" prop="operateType">
+            <Form-item label="操作方式：">
               {{formItem.operateTypeN}}
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="支付方式：" prop="payType">
+            <Form-item label="支付方式：">
               {{formItem.payTypeN}}
             </Form-item>
           </i-col>
@@ -31,12 +31,12 @@
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="操作密码：" prop="operatePwd">
+            <Form-item label="操作密码：">
               {{formItem.operatePwd}}
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="费用类型：" prop="chargeType">
+            <Form-item label="费用类型：">
               {{formItem.chargeTypeN}}
             </Form-item>
           </i-col>
@@ -49,17 +49,17 @@
         <h4>留存材料信息</h4>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <Form-item>
               <Checkbox v-model="formItem.introduceMail" disabled>介绍信</Checkbox>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <Form-item>
               <Checkbox v-model="formItem.onlineContactIdCard" disabled>网上联系人身份证复印件</Checkbox>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <Form-item>
               <Checkbox v-model="formItem.onlineContactIsSecretariat" disabled>网上联系人是否秘书台人员</Checkbox>
             </Form-item>
           </i-col>
@@ -71,12 +71,12 @@
         </Row>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <Form-item>
               <Checkbox v-model="formItem.businessLicence" disabled>营业执照复印件或三证合一复印件</Checkbox>
             </Form-item>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <Form-item>
               <Checkbox v-model="formItem.organizationCode" disabled>机构代码证复印件</Checkbox>
             </Form-item>
           </i-col>
@@ -223,7 +223,9 @@ export default {
         operateTypeN: "",
         operateAccount: "",
         operatePwd: "",
+        chargeType:'',
         chargeTypeN: "",
+        payType: '',
         payTypeN: "",
         specialChargeRemark: "",
         introduceMail: "",
@@ -361,9 +363,11 @@ export default {
     clickRow(value) {
       this.formItem.name = "";
       this.formItem.operateTypeN = "";
+      this.formItem.chargeType = "";
       this.formItem.chargeTypeN = "";
       this.formItem.operateAccount = "";
       this.formItem.operatePwd = "";
+      this.formItem.payType = "";
       this.formItem.payTypeN = "";
       this.formItem.specialChargeRemark = "";
       this.formItem.introduceMail = false;
@@ -404,7 +408,6 @@ export default {
       AJAX.get(host + "/api/orgPolicy/find", params).then(response => {
         this.policyData = response.data.data.records;
       });
-      console.log("policyData:"+this.policyData[0].policyDescription)
     },
     findMaterialMenu(taskId) {
       AJAX.get(host + "/api/materials/findMenu/" + taskId).then(response => {
@@ -495,6 +498,7 @@ export default {
         .then(response => {
           Object.assign(this.formItem, response.data.data);
         });
+        this.$emit("companyExtData", this.formItem);
         this.selectPolicy(this.formItem.name,this.formItem.credentialsType)
     },
     ok() {

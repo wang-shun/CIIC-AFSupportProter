@@ -175,18 +175,18 @@ export default {
           title: "操作方式",
           key: "operateTypeN"
         },
-        {
-          title: "费用类型",
-          key: "chargeTypeN"
-        },
+//        {
+//          title: "费用类型",
+//          key: "chargeTypeN"
+//        },
         {
           title: "支付方式",
           key: "payTypeN"
         },
-        {
-          title: "特殊收费备注",
-          key: "specialChargeRemark"
-        },
+//        {
+//          title: "特殊收费备注",
+//          key: "specialChargeRemark"
+//        },
         {
           title: "操作",
           key: "action",
@@ -218,7 +218,6 @@ export default {
   },
   created() {
     this.find();
-
   },
   methods: {
     find() {

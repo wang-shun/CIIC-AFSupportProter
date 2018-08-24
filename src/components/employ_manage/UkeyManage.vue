@@ -22,8 +22,18 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="社保登记码：">
+          <Input  placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.ssAccount" :maxlength="30" ></Input>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="服务中心：">
           <Input  placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.serviceCenter" :maxlength="30" ></Input>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="客户经理：">
+          <Input  placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.teamName" :maxlength="30" ></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -149,6 +159,8 @@ import Vue from 'vue'
         isLoading: true,
         isFrist: true,
         uekyFile: {
+          teamName: '',
+          ssAccount: '',
           renewDueDate: '',
           renewDate: '',
           materialReceiveDate: '',
@@ -365,6 +377,8 @@ import Vue from 'vue'
             this.uekyFile.companyName = data.data.companyName;
             this.uekyFile.organizationCode = data.data.organizationCode;
             this.uekyFile.serviceCenter = data.data.serviceCenter;
+            this.uekyFile.ssAccount = data.data.ssAccount;
+            this.uekyFile.teamName = data.data.teamName;
           } else {
             this.$Message.error("查询组织机构和服务中心失败请联系管理员！" + data.message);
           }

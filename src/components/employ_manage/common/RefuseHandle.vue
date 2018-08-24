@@ -231,7 +231,7 @@
     data() {
       return {
         isLoading: false,
-        oldResignFeedback: '',
+        oldResignFeedback: undefined,
         endTypeList: [
           {value: '', label: ''},
           {value: '合同终止', label: '合同终止',disabled:false},
@@ -316,7 +316,6 @@
       },
     },
     mounted(){
-       this.oldResignFeedback = this.refuse.resignFeedback;
     },
     methods: {
 
@@ -565,24 +564,18 @@
 
               this.refuse.resignFeedbackDate=currentdate;
           }
-
-          //alert(this.oldResignFeedback);
-          if(this.oldResignFeedback == '11'){
-            if(val!='11'){
-              this.refuse.ukeyReturnDate = this.currentDate();
-            }else{
-              this.refuse.ukeyReturnDate = '';
+          // alert(this.oldResignFeedback);
+          // alert(this.refuse.resignFeedback);
+          if(this.oldResignFeedback!=undefined){
+            
+            if(this.oldResignFeedback == '11'){
+              if(val!='11'){
+                this.refuse.ukeyReturnDate = this.currentDate();
+              }
             }
-          }
-          if(val=='11'){
-            this.refuse.ukeyBorrowDate = this.currentDate();
-          }else{
-            this.refuse.ukeyBorrowDate = '';
-          }
-          if(val!=''){
             this.refuse.resignFeedbackDate = this.currentDate();
           }else{
-            this.refuse.resignFeedbackDate = '';
+            this.oldResignFeedback = this.refuse.resignFeedback;
           }
        },currentDate(){
               var date = new Date();

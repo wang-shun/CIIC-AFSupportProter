@@ -105,7 +105,7 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="变更类型：">
-                <Select v-model="socialSecurityPayOperator.taskCategory" style="width: 100%;"  transfer>
+                <Select v-model="socialSecurityPayOperator.taskCategory" style="width: 100%;"  @on-change="taskCategoryChg"  transfer>
                   <Option v-for="item in taskCategoryType" :value="item.value" :key="item.value"
                           :label="item.label"></Option>
                 </Select>
@@ -255,6 +255,7 @@
       return {
         empTaskId: '',
         operatorType: '',
+        processCategory: '',
         currentIndex: this.$route.params.index,
         isNextMonth:this.$route.query.isNextMonth,
         sourceFrom: '',
@@ -344,12 +345,13 @@
             title: '任务单ID', key: 'empTaskId', align: 'center', width: 100,
             render: (h, params) => {
               let taskCategory = params.row.taskCategory
+              let processCategory = params.row.processCategory
               let empTaskId  =params.row.empTaskId
               return h('a', {
                 style: {textAlign: 'right'},
                 on:{
                   click:()=>{
-                    this.routerMethed(taskCategory,empTaskId)
+                    this.routerMethed(taskCategory, processCategory, empTaskId)
                   }
                 }
               }, params.row.empTaskId);
@@ -490,15 +492,22 @@
       this.initData(this.$route.query)
       if(this.operatorType=='12'||this.operatorType=='13'){
         this.taskCategoryType=[{value: '12', label: '翻牌新进'},{value: '13', label: '翻牌转入'}]
-      }else{
+      } else if (this.operatorType=='1'||this.operatorType=='2'){
         this.taskCategoryType=[{value: '1', label: '新进'},{value: '2', label: '转入'}]
+      } else {
+        if (this.processCategory=='1') {
+          this.taskCategoryType=[{value: '1', label: '新进'},{value: '2', label: '转入'},{value: '99', label: '不做'}]
+        } else if (this.processCategory=='4') {
+          this.taskCategoryType=[{value: '12', label: '翻牌新进'},{value: '13', label: '翻牌转入'},{value: '99', label: '不做'}]
+        }
+        this.showButton = false;
       }
     },
     computed: {
 
     },
     methods: {
-      routerMethed(taskCategory,empTaskId){
+      routerMethed(taskCategory,processCategory,empTaskId){
 
           // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var name = 'empTaskHandleView';
@@ -507,6 +516,7 @@
             case '2':
             case '12':
             case '13':
+            case '99':
               name = 'empTaskHandleView';
               break;
             case '3':
@@ -528,7 +538,7 @@
               name = 'empTaskHandleView'
           }
           if(this.$route.name == name){
-              this.$router.push({name:'emprefresh',query:{operatorType:taskCategory,empTaskId: empTaskId,isNextMonth:0,name:name}})
+              this.$router.push({name:'emprefresh',query:{operatorType:taskCategory,processCategory:processCategory,empTaskId: empTaskId,isNextMonth:0,name:name}})
           }else{
             // 根据任务类型跳转
           this.$router.push({
@@ -567,6 +577,7 @@
       initData(data) {
         this.empTaskId = data.empTaskId;
         this.operatorType = data.operatorType;
+        this.processCategory = data.processCategory;
         this.sourceFrom = data.sourceFrom;
         this.socialSecurityPayOperator.empTaskId = this.empTaskId;
         var empTaskId = data.empTaskId;
@@ -863,6 +874,13 @@
         });
 
       },
+      taskCategoryChg(option) {
+        if (!option || option.value === '99') {
+          this.showButton = false;
+        } else {
+          this.showButton = true;
+        }
+      }
     }
   }
 </script>

@@ -3,27 +3,27 @@
     <Collapse v-model="value1" accordion>
       <Panel name="1">
         <div slot="content">
-          <Form ref="queryItem" :model="queryItem" :label-width="120"> 
+          <Form ref="queryItem" :model="queryItem" :label-width="120">
             <Row type="flex" justify="start">
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                      
+              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="companyCode">
                   <Input v-model="queryItem.companyCode" placeholder="请输入"/>
-                </Form-item>   
-              </i-col>  
-              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">                                                                                   
+                </Form-item>
+              </i-col>
+              <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户姓名：" prop="companyName">
                   <Input v-model="queryItem.companyName" placeholder="请输入"/>
                 </Form-item>
-              </i-col>                                   
-            </Row>   
-            <Row type="flex" justify="start" class="tr">  
+              </i-col>
+            </Row>
+            <Row type="flex" justify="start" class="tr">
               <i-col :sm="{span: 24}">
                 <Button type="primary" @click="handleCurrentChange(1)" class="ml10" icon="ios-search">查询</Button>
                 <Button type="warning" @click="$refs['queryItem'].resetFields()" class="ml10">重置</Button>
               </i-col>
-            </Row>                                  
-          </Form>                                 
-        </div>           
+            </Row>
+          </Form>
+        </div>
       </Panel>
     </Collapse>
 
@@ -49,7 +49,7 @@ export default {
     return {
       value1: "1",
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 10,
       total: null,
       queryItem: {
         companyCode: "",
@@ -110,7 +110,7 @@ export default {
       params.params.pageSize = this.pageSize;
       params.params.companyName = this.queryItem.companyName;
       params.params.companyId = this.queryItem.companyCode;
-      AJAX.get(host + "/api/company/get", params).then(response => {
+      AJAX.get(host + "/api/companyExt/get", params).then(response => {
         this.companyPage = response.data.data.records;
         this.total = response.data.data.total;
       });

@@ -70,8 +70,8 @@
             <!--<a href="javascript:;">-->
               {{condition.desc}}
             <!--</a>-->
-            <div style="position: absolute;top:0;right:0">
-              <Icon type="close" @click="delCondition(index)"/>
+            <div style="position: absolute;bottom:-2.5px;right:-5px">
+              <Button type="text" size="small" icon="close" @click="delCondition(index)"/>
             </div>
           </div>
         </div>

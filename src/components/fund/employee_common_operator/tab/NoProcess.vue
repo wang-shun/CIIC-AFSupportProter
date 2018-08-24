@@ -28,6 +28,7 @@
                @on-sort-change="SortChange"
                @on-row-dblclick="handleDblClick"
                :loading="isLoading"
+               height=400
                ></Table>
       <Page
         class="pageSize"

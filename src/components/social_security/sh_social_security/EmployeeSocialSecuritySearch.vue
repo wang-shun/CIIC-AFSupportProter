@@ -100,7 +100,10 @@
       </Col>
     </Row>
 
-    <Table border :columns="employeeSocialSecurityColumns" :data="employeeSocialSecurityData" ref="employeeSocialSecurityData"></Table>
+    <Table border :row-class-name="rowClassName" :columns="employeeSocialSecurityColumns" 
+    :data="employeeSocialSecurityData" ref="employeeSocialSecurityData"
+    @on-sort-change="SortChange"
+    ></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -127,6 +130,7 @@
   import InputCompanyName from '../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../api/dict_access/social_security_dict'
   import sessionData from '../../../api/session-data'
+  import ts from '../../../api/house_fund/table_style'
 
   export default {
     components: {ICol, customerModal, companyAccountSearchModal,InputAccount,InputCompany,InputCompanyName},
@@ -234,7 +238,7 @@
               ])
             }
           },
-          {title: '雇员编码', key: 'employeeId', align: 'center', width: 120,
+          {title: '雇员编号', key: 'employeeId', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.employeeId),
@@ -343,7 +347,8 @@
       }
     },
     mounted() {
-
+      sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
+      sessionData.getJsonDataFromSession('empSSsearch.pageData', this.pageData);
       this.loadDict();
       let params = this.searchCondition;
       this.employeeQuery(params);
@@ -416,6 +421,16 @@
         this.pageData.pageSize = val
         let params = this.searchCondition
         this.employeeQuery(params)
+      },
+      rowClassName(row, index) {
+        return ts.empRowClassName(row, index)
+      },
+      SortChange(e){
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
+       
       },
       ok () {
 

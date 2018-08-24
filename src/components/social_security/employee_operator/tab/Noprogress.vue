@@ -1,5 +1,5 @@
 <template>
-  <div class="smList" style="height: 5400px;">
+  <div class="smList" style="height: 1000px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
@@ -19,7 +19,8 @@
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Table border id="noProcessData" ref="selection"  :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
+      <Table border id="noProcessData" ref="selection"  :columns="employeeResultColumns" :data="employeeResultData"
+       @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading" height=400></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"

@@ -13,6 +13,9 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际寄信日期：">
             <DatePicker v-model="stockAndMail.postLetterDate" type="date" placeholder="" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
           </Form-item>
@@ -134,6 +137,7 @@ import api from '../../../api/employ_manage/hire_operator'
           if(this.stockAndMail.storageOutDate==''||this.stockAndMail.storageOutDate==undefined)
           {
              this.stockAndMail.storageOutDate = this.currentDate();
+             this.stockAndMail.storageOutMan = JSON.parse(localStorage.getItem('userInfo')).displayName;
           }
         }
       },changeDate(e) {
@@ -143,6 +147,7 @@ import api from '../../../api/employ_manage/hire_operator'
           if(this.stockAndMail.postLetterDate==''||this.stockAndMail.postLetterDate==undefined)
           {
              this.stockAndMail.postLetterDate = this.currentDate();
+             this.stockAndMail.postLetterMan = JSON.parse(localStorage.getItem('userInfo')).displayName;
           }
         }
       },changeDate2(e) {

@@ -21,7 +21,7 @@
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="printLabel">打印贴头</Button>
-        <Button type="info" @click="printReturnList">批量打印退工单</Button>
+        <!--<Button type="info" @click="printReturnList">批量打印退工单</Button>-->
         <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
       </Col>

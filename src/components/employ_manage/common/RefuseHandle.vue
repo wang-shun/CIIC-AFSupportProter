@@ -564,8 +564,8 @@
 
               this.refuse.resignFeedbackDate=currentdate;
           }
-          alert(this.oldResignFeedback);
-          alert(this.refuse.resignFeedback);
+          // alert(this.oldResignFeedback);
+          // alert(this.refuse.resignFeedback);
           if(this.oldResignFeedback!=undefined){
             
             if(this.oldResignFeedback == '11'){

@@ -190,6 +190,7 @@
   import EventType from '../../../../store/event_types'
   import api from '../../../../api/house_fund/employee_task/employee_transfer'
   import sessionData from '../../../../api/session-data'
+  import commonApi from '../../../../api/house_fund/common/common'
 
   export default {
     data() {

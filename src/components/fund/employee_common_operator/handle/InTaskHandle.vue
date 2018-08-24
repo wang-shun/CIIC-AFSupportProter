@@ -336,7 +336,7 @@
                 :remote-method="handleTransferOutSearch"
                 @on-change="handleTransferOutChange"
                 :loading="loading"
-                style="width: 100%;" transfer>
+                style="width: 100%;" clearable transfer>
                 <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
               </Select>
             </FormItem>
@@ -355,7 +355,7 @@
                 :remote-method="handleTransferInSearch"
                 @on-change="handleTransferInChange"
                 :loading="loading"
-                style="width: 100%;" transfer>
+                style="width: 100%;" clearable transfer>
                 <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
               </Select>
             </FormItem>
@@ -1014,44 +1014,67 @@
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
       },
       handleTransferInSearch(value) {
-        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
-//        if (this.transferNotice.transferInUnitAccount != '') {
-//          return true;
-//        }
-//        return false;
+        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
       },
       handleTransferOutSearch(value) {
-        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
-//        if (this.transferNotice.transferOutUnitAccount != '') {
-//          return true;
-//        }
-//        return false;
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
       handleTransferOutChange(value) {
-        this.transferNotice.transferOutUnitAccount = '';
-        this.transferOutUnitList.forEach((element, index, array) => {
-            if (element == value) {
-              this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
-              return;
-            }
-          }
-        )
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
       handleTransferInChange(value) {
-        this.transferNotice.transferInUnitAccount = '';
-        this.transferInUnitList.forEach((element, index, array) => {
-            if (element == value) {
-              this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
-              return;
+        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+      },
+      doSelect(value, unitList, unitAccountList, type) {
+        this.loading = true;
+       // unitAccountList.length = 0;
+        unitList.length=0;
+        if (value == '' || value == undefined) {
+          this.transferUnitDictList.forEach((element, index, array) => {
+            unitList.push(element);
+          })
+        } else {
+          api.comAccountQuery(
+            {
+              comAccountName: value,
+              hfType: this.displayVO.hfType,
+              companyId:this.displayVO.companyId,
             }
-          }
-        )
+          ).then(
+            data => {
+              if (data.code == 200) {
+                if (data.data && data.data.length == 1) {
+                  let isDuplicate=false;
+                  unitList.forEach((element, index, array) => {
+                      if( data.data[0].comAccountName == element){
+                        isDuplicate = true;
+                      }
+                  })
+                  if(isDuplicate==false){
+                    unitList.push(data.data[0].comAccountName);
+                    unitAccountList.push(data.data[0].hfComAccount);
+                  }
+                    if (type == 1) {
+                      this.transferNotice.transferOutUnit = data.data[0].comAccountName;
+                      this.transferNotice.transferOutUnitAccount = data.data[0].hfComAccount;
+                    } else {
+                      this.transferNotice.transferInUnit = data.data[0].comAccountName;
+                      this.transferNotice.transferInUnitAccount = data.data[0].hfComAccount;
+                    }
+                }
+              } else {
+                this.$Message.error(data.message);
+              }
+            }
+          )
+        }
+        this.loading = false;
       },
       doSearch(value, unitList, unitAccountList, type) {
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;
-        if (value == '') {
+        if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
             unitList.push(element);
           })
@@ -1351,6 +1374,18 @@
           if (data.code == 200) {
             if (!data.data || data.data.length == 0) {
               this.isShowPrint = true;
+              //赋值 转入和转出的默认值
+              this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+              this.transferNotice.transferOutUnitAccount = '881383288';
+              this.transferInUnitList.push(this.displayVO.comAccountName);
+              this.transferNotice.transferInUnit = this.displayVO.comAccountName;
+              if(this.displayVO.hfType==1){
+                this.transferNotice.transferInUnitAccount = this.displayVO.basicHfComAccount;
+              }else{
+                this.transferNotice.transferInUnitAccount = this.displayVO.addedHfComAccount;
+              }
+              this.transferNotice.transferDate=new Date();
+
             } else {
               //transapi.printTransferTask({empTaskId: data.data.empTaskId})
               let params={empTaskId: data.data.empTaskId};

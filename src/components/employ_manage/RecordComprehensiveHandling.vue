@@ -54,17 +54,15 @@
         <RadioGroup v-model="vertical"  @on-change="showInfoTw" vertical>
            <Radio label="1" >
              <span>未完成</span>
-             <span>{{RadioData.noSign}}</span>
+             <span>{{RadioData.noHandleEnd}}</span>
            </Radio>
         <Radio label="3">
             <span>已完成</span>
-            <span>{{RadioData.employSuccess}}</span>
+            <span>{{RadioData.handleEnd}}</span>
         </Radio>
        </RadioGroup>
     </Col>
     </Row> 
-    <!-- <Table border :columns="searchResultColumns1" :data="searchResultData1" class="mt20"></Table>
-    <Table border :columns="searchResultColumns2" :data="searchResultData2" class="mt20"></Table> -->
   </div>
 </template>
 <script>
@@ -87,9 +85,8 @@ export default {
         noJob: 100
       },
       RadioData: {
-        noSign: 200,
-        employSuccess: 100,
-        noRecord: 2100
+        handleEnd: 200,
+        noHandleEnd: 100
       },
       initSearch: false,
       initSearchC: false,
@@ -396,382 +393,6 @@ export default {
         }
       ],
       recordComprehensiveHandlingData: [],
-
-      searchResultColumns1: [
-        {
-          title: "用工材料未签收",
-          key: "noSign",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(1, 1);
-                  }
-                }
-              },
-              params.row.noSign
-            );
-          }
-        },
-        {
-          title: "用工材料已签收",
-          key: "finished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(2, 1);
-                  }
-                }
-              },
-              params.row.finished
-            );
-          }
-        },
-        {
-          title: "用工成功",
-          key: "employSuccess",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(3, 1);
-                  }
-                }
-              },
-              params.row.employSuccess
-            );
-          }
-        },
-        {
-          title: "用工失败",
-          key: "employFailed",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(4, 1);
-                  }
-                }
-              },
-              params.row.employFailed
-            );
-          }
-        },
-        {
-          title: "前道要求撤消用工",
-          key: "employCancel",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(5, 1);
-                  }
-                }
-              },
-              params.row.employCancel
-            );
-          }
-        },
-        {
-          title: "其他",
-          key: "other",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(6, 1);
-                  }
-                }
-              },
-              params.row.other
-            );
-          }
-        },
-        {
-          title: "总计",
-          key: "amount",
-          align: "center",
-          width: 231,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTws(0, 1);
-                  }
-                }
-              },
-              params.row.amount
-            );
-          }
-        }
-      ],
-      searchResultData1: [],
-
-      searchResultColumns2: [
-        {
-          title: "未反馈",
-          key: "noFeedback",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(99, 2);
-                  }
-                }
-              },
-              params.row.noFeedback
-            );
-          }
-        },
-        {
-          title: "退工任务单签收退工未成功",
-          key: "refuseWaitFinished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(98, 2);
-                  }
-                }
-              },
-              params.row.refuseWaitFinished
-            );
-          }
-        },
-        {
-          title: "退工成功",
-          key: "refuseFinished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(1, 2);
-                  }
-                }
-              },
-              params.row.refuseFinished
-            );
-          }
-        },
-        {
-          title: "档未到先退工",
-          key: "refuseBeforeWithFile",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(2, 2);
-                  }
-                }
-              },
-              params.row.refuseBeforeWithFile
-            );
-          }
-        },
-        {
-          title: "退工单盖章未返回",
-          key: "refuseTicketStampNoReturn",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(3, 2);
-                  }
-                }
-              },
-              params.row.refuseTicketStampNoReturn
-            );
-          }
-        },
-        {
-          title: "退工失败",
-          key: "refuseFailed",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(4, 2);
-                  }
-                }
-              },
-              params.row.refuseFailed
-            );
-          }
-        },
-        {
-          title: "前道要求批退",
-          key: "beforeBatchNeedRefuse",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(5, 2);
-                  }
-                }
-              },
-              params.row.beforeBatchNeedRefuse
-            );
-          }
-        },
-        {
-          title: "其他",
-          key: "other",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(6, 2);
-                  }
-                }
-              },
-              params.row.other
-            );
-          }
-        },
-        {
-          title: "总计",
-          key: "amount",
-          align: "center",
-          width: 231,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwsr(0, 2);
-                  }
-                }
-              },
-              params.row.amount
-            );
-          }
-        }
-      ],
-      searchResultData2: [],
       // 弹出框
       isShowStockTitle: false,
       customerInfos: [customerInfo, customerInfo, customerInfo]
@@ -798,8 +419,8 @@ export default {
 
       this.searchCondition.params = this.searchConditions.toString();
       this.archiveQuery(this.searchCondition);
-      this.employeeArchiveCollection(this.searchCondition);
-      this.resignArchiveCollection(this.searchCondition);
+      this.taskCountArchive(this.searchCondition);
+      // this.resignArchiveCollection(this.searchCondition);
     },
     goHandle() {
       this.$router.push({ name: "recordComprehensive" });
@@ -903,60 +524,37 @@ export default {
           self.recordComprehensiveHandlingData = data.data.rows;
           self.pageData.total = Number(data.data.total);
           self.isLoading = false;
-          self.searchCondition.taskStatus = "";
-          self.searchCondition.taskResignStatus = "";
+          // self.searchCondition.taskStatus = "";
+          // self.searchCondition.taskResignStatus = "";
         });
     },
-    employeeArchiveCollection(params) {
+    taskCountArchive(params) {
       this.isLoading = true;
       let self = this;
-      api
-        .employeeArchiveCollection({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
+      api.taskCountArchive({
           params: params
         })
         .then(data => {
-          self.searchResultData1 = data.data.row;
+          self.jobData = data.data.amTaskStatusBO;
+          self.RadioData = data.data.amArchiveStatusBO;
         });
     },
-    resignArchiveCollection(params) {
-      let self = this;
-      api
-        .resignArchiveCollection({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
-          params: params
-        })
-        .then(data => {
-          self.searchResultData2 = data.data.row;
-        });
-    },
-    showInfoTw(ind, category) {
+    showInfoTw(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
       this.searchCondition.taskStatus = ind;
-      this.searchCondition.taskCategory = category;
+      //this.searchCondition.taskCategory = category;
       this.archiveQuery(this.searchCondition);
     },
-    showInfoTwr(ind, category) {
+    showJob(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskResignStatus = ind;
-      this.searchCondition.taskCategory = category;
-      this.archiveQuery(this.searchCondition);
-    },
-    showInfoTws(ind, category) {
-      this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = ind;
-      this.searchCondition.taskCategory = category;
-      this.archiveQuery(this.searchCondition);
-    },
-    showInfoTwsr(ind, category) {
-      this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskResignStatus = ind;
-      this.searchCondition.taskCategory = category;
-      this.archiveQuery(this.searchCondition);
+      if(this.vertical!='')
+      {
+         this.searchCondition.taskStatus = this.vertical;
+      }
+      this.searchCondition.job = ind;
+       this.archiveQuery(this.searchCondition);
     },
     handlePageNum(val) {
       this.pageData.pageNum = val;

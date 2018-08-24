@@ -251,6 +251,10 @@ export default {
   batchResignCheck:async (params)=>{
     let response = await AJAX.post('/api/employservice/amResignTask/batchResignCheck', params);
     return await response.data;
+  },
+  taskCountArchive:async (params)=>{
+    let response = await AJAX.get('/api/employservice/amArchiveTask/taskCountArchive', params);
+    return await response.data;
   }
 
 }

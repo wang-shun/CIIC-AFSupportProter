@@ -272,7 +272,7 @@
           (!this.searchForm.contentDisabled && COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent) && COMMON_METHODS.IS_EMPTY(this.searchForm.searchContentArr))) {
           this.$Message.error("请选择字段、关系并输入查询内容");
         } else {
-          if(this.searchForm.isDate===1){
+          if(this.searchForm.isDate===1 && !COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent)){
             let d = new Date(this.searchForm.searchContent);
             let year = d.getFullYear();
             let month = d.getMonth() + 1;

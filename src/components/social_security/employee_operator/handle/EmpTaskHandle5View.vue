@@ -226,6 +226,7 @@
             title: '任务单ID', key: 'empTaskId', align: 'center', width: 100,
             render: (h, params) => {
               let taskCategory = params.row.taskCategory
+              let processCategory = params.row.processCategory
               let empTaskId  =params.row.empTaskId
               return h('a', {
                 style: {textAlign: 'right'},
@@ -240,6 +241,7 @@
                       case '2':
                       case '12':
                       case '13':
+                      case '99':
                         name = 'empTaskHandleView';
                         break;
                       case '3':
@@ -262,7 +264,7 @@
                     }
 
                     let params = {}
-                      params = {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}
+                      params = {operatorType: taskCategory, processCategory:processCategory,empTaskId: empTaskId,isNextMonth:0}
                     // 根据任务类型跳转
                     this.$router.push({
                       name: name,
@@ -398,7 +400,7 @@
     computed: {
     },
     methods: {
-      routerMethed(taskCategory,empTaskId){
+      routerMethed(taskCategory,processCategory,empTaskId){
 
         // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
         var name = 'empTaskHandleView';
@@ -407,6 +409,7 @@
           case '2':
           case '12':
           case '13':
+          case '99':
             name = 'empTaskHandleView';
             break;
           case '3':
@@ -428,12 +431,12 @@
             name = 'empTaskHandleView'
         }
         if(this.$route.name == name){
-          this.$router.push({name:'emprefresh',query:{operatorType:taskCategory,empTaskId: empTaskId,isNextMonth:0,name:name}})
+          this.$router.push({name:'emprefresh',query:{operatorType:taskCategory,processCategory:processCategory,empTaskId: empTaskId,isNextMonth:0,name:name}})
         }else{
           // 根据任务类型跳转
           this.$router.push({
             name: name,
-            query: {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}
+            query: {operatorType: taskCategory, processCategory:processCategory,empTaskId: empTaskId,isNextMonth:0}
           });
         }
       },
@@ -619,7 +622,7 @@
                 if(taskStatus=='2'){
                   if(self.socialSecurityPayOperator.theSameTask.length>0){
                     let taskObj = self.socialSecurityPayOperator.theSameTask[0]
-                    this.routerMethed(taskObj.taskCategory,taskObj.empTaskId);
+                    this.routerMethed(taskObj.taskCategory,taskObj.processCategory,taskObj.empTaskId);
                   }else{
                      // 返回任务列表页面
                     this.$router.push({name:'employeeOperatorView',})

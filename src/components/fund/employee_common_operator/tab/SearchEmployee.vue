@@ -260,8 +260,8 @@
           this.$Message.error("请选择字段、关系并输入查询内容");
           return;
         } else {
-          if(this.searchForm.isDate===6){
-            var d = new Date(this.searchForm.searchContent.trim());
+          if(this.searchForm.isDate===6 && !COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent)){
+            var d = new Date(this.searchForm.searchContent);
             var seperator1 = "-";
             var year = d.getFullYear();
             var month = d.getMonth() + 1;

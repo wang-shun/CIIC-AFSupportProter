@@ -543,7 +543,7 @@
             // 根据任务类型跳转
           this.$router.push({
             name: name,
-            query: {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}
+            query: {operatorType: taskCategory, processCategory:processCategory,empTaskId: empTaskId,isNextMonth:0}
           });
           }
       },
@@ -857,7 +857,7 @@
                 if(taskStatus=='2'){
                   if(self.socialSecurityPayOperator.theSameTask.length>0){
                     let taskObj = self.socialSecurityPayOperator.theSameTask[0]
-                    this.routerMethed(taskObj.taskCategory,taskObj.empTaskId);
+                    this.routerMethed(taskObj.taskCategory,taskObj.processCategory,taskObj.empTaskId);
                   }else{
                      // 返回任务列表页面
                     this.$router.push({name:'employeeOperatorView',})

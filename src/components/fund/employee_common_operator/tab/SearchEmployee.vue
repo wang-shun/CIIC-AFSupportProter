@@ -196,6 +196,7 @@
 
         if(type === chooseType.field) {
           this.searchForm.disabled = false;
+          this.searchForm.isDate=0;
           this.searchForm.relationshipValue = "";
           delete this.searchForm.relationship["包含"];
 
@@ -230,7 +231,7 @@
             this.searchForm.isDate=0;
           }
           this.searchForm.searchContent="";
-          this.searchForm.searchContentArr.length=0;
+          this.searchForm.searchContentArr=[];
           this.currentField = content;
         } else {
           this.currentShip = content;

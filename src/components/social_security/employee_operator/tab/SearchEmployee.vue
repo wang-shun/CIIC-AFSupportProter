@@ -203,6 +203,7 @@
 
         if(type === chooseType.field) {
           this.searchForm.disabled = false;
+          this.searchForm.isDate=0;
           this.searchForm.relationshipValue = "";
           this.searchForm.searchContent ="";
           this.searchForm.searchContentArr =[];

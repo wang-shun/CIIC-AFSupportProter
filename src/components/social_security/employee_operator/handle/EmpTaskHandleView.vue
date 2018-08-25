@@ -181,12 +181,12 @@
               </Col>
               <Col span="4">
               <Form-item label="备注人：">
-                <label>{{socialSecurityPayOperator.handleRemarkMan}}</label>
+                <label>{{(socialSecurityPayOperator.handleRemark && socialSecurityPayOperator.handleRemark.trim() != '')? socialSecurityPayOperator.handleRemarkMan : ''}}</label>
               </Form-item>
               </Col>
               <Col span="4">
               <Form-item label="备注时间：">
-                <label>{{socialSecurityPayOperator.handleRemarkDate}}</label>
+                <label>{{(socialSecurityPayOperator.handleRemark && socialSecurityPayOperator.handleRemark.trim() != '')? socialSecurityPayOperator.handleRemarkDate : ''}}</label>
               </Form-item>
               </Col>
               <Col span="16">
@@ -196,12 +196,12 @@
               </Col>
               <Col span="4">
               <Form-item label="备注人：">
-                <label>{{socialSecurityPayOperator.rejectionRemarkMan}}</label>
+                <label>{{(socialSecurityPayOperator.rejectionRemark && socialSecurityPayOperator.rejectionRemark.trim() != '')? socialSecurityPayOperator.rejectionRemarkMan : ''}}</label>
               </Form-item>
               </Col>
               <Col span="4">
               <Form-item label="备注时间：">
-                <label>{{socialSecurityPayOperator.rejectionRemarkDate}}</label>
+                <label>{{(socialSecurityPayOperator.rejectionRemark && socialSecurityPayOperator.rejectionRemark.trim() != '')? socialSecurityPayOperator.rejectionRemarkDate : ''}}</label>
               </Form-item>
               </Col>
             </Row>

@@ -144,6 +144,7 @@
       }
     },
     async mounted() {
+      this.initOptions();
       let userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
       let fu = sessionStorage.getItem(this.sessionKey + userInfo.userId);
@@ -151,7 +152,7 @@
       if(fu!=null)
       {
         this.searchConditions = JSON.parse(fu);
-        if(this.showHandle.name!='noprogress')
+        if(sessionStorage.employeeOperatorTab !== "noprogress")
         {
             for(let i=0;i<this.searchConditions.length;i++)
             {
@@ -185,6 +186,16 @@
       }
     },
     methods: {
+      initOptions() {
+        console.log(sessionStorage.employeeOperatorTab)
+        if(sessionStorage.employeeOperatorTab && sessionStorage.employeeOperatorTab !== "noprogress")
+        {
+          delete this.searchForm.chooseField["taskStatus"];
+          console.log(JSON.stringify(this.searchForm.chooseField))
+        } else {
+          this.searchForm.chooseField = em_chooseField;
+        }
+      },
       getServiceCenters(){
         let params = null;
         api.getCustomers({params:params}).then(data=>{

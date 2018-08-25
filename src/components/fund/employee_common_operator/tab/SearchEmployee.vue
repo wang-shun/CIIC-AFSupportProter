@@ -399,7 +399,7 @@
           }
         });
       },
-      arrChange(option) {
+      arrChange(option, selectedData) {
         this.searchForm.searchContentDesc = ''
         if (selectedData) {
           if (selectedData.length > 0) {

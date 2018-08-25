@@ -191,6 +191,7 @@
     methods: {
       // 选择字段或关系
       setOption(content, type){
+        console.log(content)
         this.searchForm.contentDisabled = false;
         if (!content) return;
 
@@ -231,6 +232,7 @@
           }
           this.searchForm.searchContent ="";
           this.searchForm.searchContentArr =[];
+          console.log(this.searchForm.searchContentArr)
           this.currentField = content;
         } else {
           this.currentShip = content;
@@ -399,7 +401,16 @@
       },
       arrChange(option) {
         this.searchForm.searchContentDesc = ''
-        if (option && option.length > 0) {
+        if (selectedData) {
+          if (selectedData.length > 0) {
+            let desc = '';
+            selectedData.forEach((v, idx, arr) => {
+              desc = desc.concat(v.label)
+              desc = desc.concat(',')
+            })
+            this.searchForm.searchContentDesc = desc.substring(0, desc.length - 1);
+          }
+        } else if (option && option.length > 0) {
           let desc = '';
           option.forEach((v, idx, arr) => {
             desc = desc.concat(v.label)
@@ -409,7 +420,9 @@
         }
       },
       categroryChange(option) {
-         this.searchForm.searchContentDesc = option.label;
+        if (option) {
+          this.searchForm.searchContentDesc = option.label;
+        }
       }
     },
     computed: {

@@ -204,6 +204,8 @@
         if(type === chooseType.field) {
           this.searchForm.disabled = false;
           this.searchForm.relationshipValue = "";
+          this.searchForm.searchContent ="";
+          this.searchForm.searchContentArr =[];
           delete this.searchForm.relationship["包含"];
 
           if(content.value.indexOf("month")>0){
@@ -238,8 +240,6 @@
             this.searchForm.isDate=0;
           }
 
-          this.searchForm.searchContent ="";
-          this.searchForm.searchContentArr =[];
           this.currentField = content;
         } else {
           this.currentShip = content;

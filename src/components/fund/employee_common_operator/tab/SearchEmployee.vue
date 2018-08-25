@@ -191,7 +191,6 @@
     methods: {
       // 选择字段或关系
       setOption(content, type){
-        console.log(content)
         this.searchForm.contentDisabled = false;
         if (!content) return;
 
@@ -230,9 +229,8 @@
           }else{
             this.searchForm.isDate=0;
           }
-          this.searchForm.searchContent ="";
-          this.searchForm.searchContentArr =[];
-          console.log(this.searchForm.searchContentArr)
+          this.searchForm.searchContent="";
+          this.searchForm.searchContentArr.length=0;
           this.currentField = content;
         } else {
           this.currentShip = content;

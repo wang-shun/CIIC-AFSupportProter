@@ -4,7 +4,7 @@
       <Panel name="1">
         查询条件
         <div slot="content">
-            <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDaily"></search-employee>
+            <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDaily" sessionKeyAdd="socialDailyAdd"></search-employee>
         </div>
       </Panel>
     </Collapse>

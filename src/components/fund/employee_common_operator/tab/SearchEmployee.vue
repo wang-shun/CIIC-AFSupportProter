@@ -1,5 +1,5 @@
 <template>
-  <Form :model="searchForm" ref="searchForm" :label-width="100" @submit.native.prevent>
+  <Form :model="searchForm" ref="searchForm" :label-width="60" :id="sessionKey" @submit.native.prevent>
     <Row justify="start">
       <Col :sm="{span: 8}">
       <Row>
@@ -77,7 +77,7 @@
       </Row>
       </Col>
       <Col :sm="{span: 1, offset: 1}">
-        <Button :id="sessionKey" type="primary" @click="addCondition" >新增</Button>
+        <Button :id="sessionKeyAdd" type="primary" @click="addCondition" >新增</Button>
         <Button type="error" @click="delCondition" class="mt20" >删除</Button>
         <!--<Row>-->
           <!--<Col><Form-item>&nbsp;</Form-item></Col>-->
@@ -134,6 +134,10 @@
         type: Object
       },
       sessionKey: {
+        type: String,
+        required: true
+      },
+      sessionKeyAdd: {
         type: String,
         required: true
       }
@@ -195,15 +199,15 @@
         var key = window.event.keyCode;
         if (key === 13) {
           if (sessionStorage.fundEmployeeOperatorTab === "noprocess") {
-            document.getElementById("fundDaily").click()
+            document.getElementById("fundDailyAdd").click()
           } else if (sessionStorage.fundEmployeeOperatorTab === "progressing") {
-            document.getElementById("fundDailyP").click()
+            document.getElementById("fundDailyPAdd").click()
           } else if (sessionStorage.fundEmployeeOperatorTab === "finished") {
-            document.getElementById("fundDailyF").click()
+            document.getElementById("fundDailyFAdd").click()
           } else if (sessionStorage.fundEmployeeOperatorTab === "refused") {
-            document.getElementById("fundDailyR").click()
+            document.getElementById("fundDailyRAdd").click()
           } else {
-            document.getElementById("fundDaily").click()
+            document.getElementById("fundDailyAdd").click()
           }
         }
       }
@@ -222,7 +226,7 @@
         this.searchForm.searchContentDesc = '';
         this.searchForm.searchContent="";
         this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length);
-        let divElements = tableStyle.getByClass(document, "ivu-tag-checked");
+        let divElements = tableStyle.getByClass(document.getElementById(this.sessionKey), "ivu-tag-checked");
         if (divElements && divElements.length > 0) {
           let parentElement = divElements[0].parentNode;
 

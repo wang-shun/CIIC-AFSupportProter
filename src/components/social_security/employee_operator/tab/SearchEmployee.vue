@@ -1,5 +1,5 @@
 <template>
-  <Form :model="searchForm" ref="searchForm" :label-width="60" @submit.native.prevent>
+  <Form :model="searchForm" ref="searchForm" :label-width="60" :id="sessionKey" @submit.native.prevent>
     <Row justify="start">
       <Col :sm="{span: 9}">
       <Row>
@@ -62,7 +62,7 @@
       </Row>
       </Col>
       <Col :sm="{span: 1, offset: 1}">
-        <Button :id="sessionKey" type="primary" @click="addCondition" >新增</Button>
+        <Button :id="sessionKeyAdd" type="primary" @click="addCondition" >新增</Button>
         <Button type="error" @click="delCondition" class="mt20" >删除</Button>
       </Col>
       <Col :sm="{span: 12, offset: 1}">
@@ -173,15 +173,15 @@
         let key = window.event.keyCode;
         if (key === 13) {
           if (sessionStorage.employeeOperatorTab === "noprogress") {
-            document.getElementById("socialDaily").click()
+            document.getElementById("socialDailyAdd").click()
           } else if (sessionStorage.employeeOperatorTab === "progressing") {
-            document.getElementById("socialDailyP").click()
+            document.getElementById("socialDailyPAdd").click()
           } else if (sessionStorage.employeeOperatorTab === "finished") {
-            document.getElementById("socialDailyF").click()
+            document.getElementById("socialDailyFAdd").click()
           } else if (sessionStorage.employeeOperatorTab === "refused") {
-            document.getElementById("socialDailyR").click()
+            document.getElementById("socialDailyRAdd").click()
           } else {
-            document.getElementById("socialDaily").click()
+            document.getElementById("socialDailyAdd").click()
           }
         }
       }

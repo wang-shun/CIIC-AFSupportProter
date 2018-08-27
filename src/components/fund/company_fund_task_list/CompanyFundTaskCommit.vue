@@ -85,6 +85,11 @@
               this.$Message.error('企业账号必填');
               return false;
           }
+          params.comAccountNum = params.comAccountNum.trim();
+          if(params.comAccountNum=='') {
+            this.$Message.error('企业账号必填');
+            return false;
+          }
           if(params.closeDay=='' || params.closeDay==null){
               this.$Message.error('每月关账日必填');
               return false;
@@ -187,7 +192,7 @@
 
         }
       },
- 
+
     }
   }
 </script>

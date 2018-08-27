@@ -311,7 +311,7 @@
         <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
-        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton" :loading="isLoading">批退</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showReject" :loading="isLoading">批退</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
@@ -332,6 +332,7 @@
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
         showButton: true,
         showCancel: false,
+        showReject: true,
         inputDisabled: false,
         isShowPrint: false,
         loading: false,
@@ -755,12 +756,14 @@
             this.inputDisabled = true;
             this.taskCategoryDisable = true;
             this.showButton = false;
+            this.showReject = false;
           }
         } else {
           this.$Message.error(data.message);
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
+          this.showReject = false;
         }
       });
       dict.getDictData().then(data => {
@@ -779,6 +782,7 @@
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
+          this.showReject = false;
         }
       })
     },
@@ -841,6 +845,7 @@
           if (data.code == 200) {
             this.$Message.info("办理成功");
             this.showButton = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -855,6 +860,7 @@
           if (data.code == 200) {
             this.$Message.info("不需处理操作成功");
             this.showButton = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -869,6 +875,7 @@
           if (data.code == 200) {
             this.$Message.info("转下月处理操作成功");
             this.showButton = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -893,6 +900,7 @@
           if (data.code == 200) {
             this.$Message.info("批退成功");
             this.showButton = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -908,6 +916,7 @@
             this.$Message.info("撤销成功");
             this.showButton = false;
             this.showCancel = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -1122,6 +1131,7 @@
         localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
         localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
         localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.processCategory', params.row.processCategory);
         localStorage.setItem('employeeFundCommonOperator.taskStatus', params.row.taskStatus);
         if (currentTaskCategory === params.row.taskCategory) {
           location.reload()
@@ -1133,6 +1143,7 @@
             case '9':
             case '10':
             case '11':
+            case '99':
               this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
               break;
             case '4':

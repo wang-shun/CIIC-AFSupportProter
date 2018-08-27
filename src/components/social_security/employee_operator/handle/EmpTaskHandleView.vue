@@ -181,12 +181,12 @@
               </Col>
               <Col span="4">
               <Form-item label="备注人：">
-                <label>{{socialSecurityPayOperator.handleRemarkMan}}</label>
+                <label>{{(socialSecurityPayOperator.handleRemark && socialSecurityPayOperator.handleRemark.trim() != '')? socialSecurityPayOperator.handleRemarkMan : ''}}</label>
               </Form-item>
               </Col>
               <Col span="4">
               <Form-item label="备注时间：">
-                <label>{{socialSecurityPayOperator.handleRemarkDate}}</label>
+                <label>{{(socialSecurityPayOperator.handleRemark && socialSecurityPayOperator.handleRemark.trim() != '')? socialSecurityPayOperator.handleRemarkDate : ''}}</label>
               </Form-item>
               </Col>
               <Col span="16">
@@ -196,12 +196,12 @@
               </Col>
               <Col span="4">
               <Form-item label="备注人：">
-                <label>{{socialSecurityPayOperator.rejectionRemarkMan}}</label>
+                <label>{{(socialSecurityPayOperator.rejectionRemark && socialSecurityPayOperator.rejectionRemark.trim() != '')? socialSecurityPayOperator.rejectionRemarkMan : ''}}</label>
               </Form-item>
               </Col>
               <Col span="4">
               <Form-item label="备注时间：">
-                <label>{{socialSecurityPayOperator.rejectionRemarkDate}}</label>
+                <label>{{(socialSecurityPayOperator.rejectionRemark && socialSecurityPayOperator.rejectionRemark.trim() != '')? socialSecurityPayOperator.rejectionRemarkDate : ''}}</label>
               </Form-item>
               </Col>
             </Row>
@@ -543,7 +543,7 @@
             // 根据任务类型跳转
           this.$router.push({
             name: name,
-            query: {operatorType: taskCategory, empTaskId: empTaskId,isNextMonth:0}
+            query: {operatorType: taskCategory, processCategory:processCategory,empTaskId: empTaskId,isNextMonth:0}
           });
           }
       },
@@ -587,47 +587,48 @@
           isNeedSerial:1//是否需要社保序号
         }).then(data => {
 
-          if(data.data!=null){
-          if (data.data.empTaskPeriods.length > 0) {
-            this.operatorListData = data.data.empTaskPeriods;
-          }else{
-            let operatorListData =[]
-            let periodObj ={}
-             periodObj.remitWay='1';
-             periodObj.startMonth=data.data.startMonth;
-             periodObj.endMonth=data.data.endMonth;
-             periodObj.baseAmount = data.data.empBase
-             operatorListData.push(periodObj)
-             this.operatorListData = operatorListData
-          }
-          this.showButton = data.data.taskStatus == '1' || data.data.taskStatus=='2';
-          this.$utils.copy(data.data, this.socialSecurityPayOperator);
-          let handleMonth = this.socialSecurityPayOperator.handleMonth;
+          if(data.data!=null) {
+            if (data.data.empTaskPeriods.length > 0) {
+              this.operatorListData = data.data.empTaskPeriods;
+            } else {
+              let operatorListData = []
+              let periodObj = {}
+              periodObj.remitWay = '1';
+              periodObj.startMonth = data.data.startMonth;
+              periodObj.endMonth = data.data.endMonth;
+              periodObj.baseAmount = data.data.empBase
+              operatorListData.push(periodObj)
+              this.operatorListData = operatorListData
+            }
+            this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
+            this.$utils.copy(data.data, this.socialSecurityPayOperator);
+            let handleMonth = this.socialSecurityPayOperator.handleMonth;
 
-          if(handleMonth==null ||handleMonth=='' || typeof(handleMonth)=='undefined'){
-            let date = new Date();
-            handleMonth=this.getYearMonth(date,'show');
+            if (handleMonth == null || handleMonth == '' || typeof(handleMonth) == 'undefined') {
+              let date = new Date();
+              handleMonth = this.getYearMonth(date, 'show');
 
-            this.socialSecurityPayOperator.handleMonth=handleMonth;
-          }
-             let periodArr = []
-             let period ={}
+              this.socialSecurityPayOperator.handleMonth = handleMonth;
+            }
+            let periodArr = []
+            let period = {}
             period.base = this.socialSecurityPayOperator.empBase
             period.startMonth = this.socialSecurityPayOperator.startMonth
-            period.endMonth=this.socialSecurityPayOperator.endMonth
+            period.endMonth = this.socialSecurityPayOperator.endMonth
             this.taskNewInfoData.push(period)
             //获取用退工信息
             this.reworkInfo = data.data.amEmpTaskDTO
             this.reworkInfo.salary = data.data.salary
 
             if (!this.reworkInfo.taskStatus || (
-              this.reworkInfo.taskStatus !== '3' && this.reworkInfo.taskStatus !== '10' && this.reworkInfo.taskStatus !== '12' && this.reworkInfo.taskStatus !== '13')) {
-                this.reworkInfo.employFeedbackOptDate = '';
+                this.reworkInfo.taskStatus !== '3' && this.reworkInfo.taskStatus !== '10' && this.reworkInfo.taskStatus !== '12' && this.reworkInfo.taskStatus !== '13')) {
+              this.reworkInfo.employFeedbackOptDate = '';
             }
 
-            if (this.socialSecurityPayOperator.taskStatus == 4) {
+            if (!this.socialSecurityPayOperator.rejectionRemarkMan || this.socialSecurityPayOperator.rejectionRemarkMan == '') {
               this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
-            } else {
+            }
+            if (!this.socialSecurityPayOperator.handleRemarkMan || this.socialSecurityPayOperator.handleRemarkMan == '') {
               this.socialSecurityPayOperator.handleRemarkMan = data.data.modifiedDisplayName;
             }
 
@@ -857,7 +858,7 @@
                 if(taskStatus=='2'){
                   if(self.socialSecurityPayOperator.theSameTask.length>0){
                     let taskObj = self.socialSecurityPayOperator.theSameTask[0]
-                    this.routerMethed(taskObj.taskCategory,taskObj.empTaskId);
+                    this.routerMethed(taskObj.taskCategory,taskObj.processCategory,taskObj.empTaskId);
                   }else{
                      // 返回任务列表页面
                     this.$router.push({name:'employeeOperatorView',})

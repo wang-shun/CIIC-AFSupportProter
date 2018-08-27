@@ -18,17 +18,13 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 24}">
-          <Form-item label="查询内容" prop="searchContent">
-
+          <Form-item label="查询内容" prop="searchContent" v-if="searchForm.isDate != 20 && searchForm.isDate != 50 && searchForm.isDate != 70 && searchForm.isDate != 9">
             <Input v-model="searchForm.searchContent" placeholder="请输入" :maxlength=128 :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 0 || searchForm.isDate == 30 || searchForm.isDate == 40" />
             <Date-picker  v-model="searchForm.searchContent"  type="month"  placement="right"
                              placeholder="选择年月份" style="width: 100%;" :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 1"></Date-picker>
             <Select v-model="searchForm.searchContent" style="width: 100%;"  :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 2">
                   <!--<Option value="[全部]" label="全部"></Option>-->
                   <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
-            </Select>
-            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 20">
-              <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
             </Select>
             <input-account v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 3" ></input-account>
             <input-company v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-if="searchForm.isDate == 4"></input-company>
@@ -37,20 +33,25 @@
               <!--<Option value="" label="全部"></Option>-->
               <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
             </Select>
-            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer  v-if="searchForm.isDate == 50">
-              <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
-            </Select>
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 7">
                 <!--<Option value="" label="全部"></Option>-->
                 <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
-            </Select>
-            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 70">
-              <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
             </Select>
             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" transfer v-if="searchForm.isDate == 8">
                 <!--<Option value="0" label="全部"></Option>-->
                 <Option value="-1" label="本月未处理"></Option>
                 <Option value="-2" label="下月未处理"></Option>
+            </Select>
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContentArr" v-if="searchForm.isDate == 20 || searchForm.isDate == 50 || searchForm.isDate == 70 || searchForm.isDate == 9">
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 20">
+              <Option v-for="item in ssAccountTypedict" :value="item.key" :key="item.key" :label="item.value"></Option>
+            </Select>
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer  v-if="searchForm.isDate == 50">
+              <Option v-for="item in taskCategorydict" :value="item.key" :key="item.key" :label="item.value"></Option>
+            </Select>
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 70">
+              <Option v-for="(value,key) in this.baseDic.dic_settle_area" :value="value" :key="key">{{value}}</Option>
             </Select>
             <Cascader :data="serviceCenterData" v-model="searchForm.searchContentArr" trigger="hover" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 9"></Cascader>
 
@@ -143,6 +144,7 @@
       }
     },
     async mounted() {
+      this.initOptions();
       let userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
       let fu = sessionStorage.getItem(this.sessionKey + userInfo.userId);
@@ -150,7 +152,7 @@
       if(fu!=null)
       {
         this.searchConditions = JSON.parse(fu);
-        if(this.showHandle.name!='noprogress')
+        if(sessionStorage.employeeOperatorTab !== "noprogress")
         {
             for(let i=0;i<this.searchConditions.length;i++)
             {
@@ -184,6 +186,16 @@
       }
     },
     methods: {
+      initOptions() {
+        console.log(sessionStorage.employeeOperatorTab)
+        if(sessionStorage.employeeOperatorTab && sessionStorage.employeeOperatorTab !== "noprogress")
+        {
+          delete this.searchForm.chooseField["taskStatus"];
+          console.log(JSON.stringify(this.searchForm.chooseField))
+        } else {
+          this.searchForm.chooseField = em_chooseField;
+        }
+      },
       getServiceCenters(){
         let params = null;
         api.getCustomers({params:params}).then(data=>{
@@ -199,6 +211,9 @@
       // 选择字段或关系
       setOption(content, type){
         this.searchForm.contentDisabled = false;
+        this.searchForm.searchContent ="";
+        this.searchForm.searchContentArr=[];
+        this.searchForm.searchContentDesc='';
         if (!content) return;
 
         if(type === chooseType.field) {
@@ -238,8 +253,6 @@
             this.searchForm.isDate=0;
           }
 
-          this.searchForm.searchContent ="";
-          this.searchForm.searchContentArr =[];
           this.currentField = content;
         } else {
           this.currentShip = content;
@@ -272,7 +285,7 @@
           (!this.searchForm.contentDisabled && COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent) && COMMON_METHODS.IS_EMPTY(this.searchForm.searchContentArr))) {
           this.$Message.error("请选择字段、关系并输入查询内容");
         } else {
-          if(this.searchForm.isDate===1){
+          if(this.searchForm.isDate===1 && !COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent)){
             let d = new Date(this.searchForm.searchContent);
             let year = d.getFullYear();
             let month = d.getMonth() + 1;

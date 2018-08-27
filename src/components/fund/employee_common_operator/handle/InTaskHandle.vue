@@ -311,7 +311,7 @@
         <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
-        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton" :loading="isLoading">批退</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showReject && this.displayVO.taskCategory != 99" :loading="isLoading">批退</Button>
         <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="this.displayVO.canHandle && this.displayVO.taskCategory != 99" :loading="isLoading">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
@@ -397,6 +397,7 @@
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
         showButton: true,
         showCancel: false,
+        showReject: true,
         inputDisabled: false,
         isShowPrint: false,
         loading: false,
@@ -832,6 +833,7 @@
 
           if (taskCategory === 99) {
             this.showButton = false;
+            this.showReject = false;
           }
 
           if (!this.displayVO.taskStatus || this.displayVO.taskStatus == 1) {
@@ -844,13 +846,14 @@
             this.taskCategoryDisable = true;
             this.showButton = false;
             this.displayVO.canHandle = false;
+            this.showReject = false;
           }
         } else {
           this.$Message.error(data.message);
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
-
+          this.showReject = false;
         }
       });
       dict.getDictData().then(data => {
@@ -889,6 +892,7 @@
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
+          this.showReject = false;
         }
       })
     },
@@ -955,6 +959,7 @@
           if (data.code == 200) {
             this.$Message.info("办理成功");
             this.showButton = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -970,6 +975,7 @@
             this.$Message.info("不需处理操作成功");
             this.showButton = false;
             this.displayVO.canHandle = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -985,6 +991,7 @@
             this.$Message.info("转下月处理操作成功");
             this.showButton = false;
             this.displayVO.canHandle = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -1014,6 +1021,7 @@
             this.$Message.info("批退成功");
             this.showButton = false;
             this.displayVO.canHandle = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -1028,6 +1036,7 @@
             this.$Message.info("撤销成功");
             this.showButton = false;
             this.showCancel = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }

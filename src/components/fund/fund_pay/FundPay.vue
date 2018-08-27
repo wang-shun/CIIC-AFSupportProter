@@ -648,6 +648,7 @@
       },
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
+        this.operatorSearchData.totalApplicationAmonut='';
       },
       goMakePayList() {
         sessionData.setJsonDataToSession('fundPay.operatorSearchData', this.operatorSearchData);

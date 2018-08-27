@@ -48,7 +48,7 @@
       },
       onClickO(name){
         //将tab类型 缓存
-        sessionStorage.fundEmployeeOperatorTab = this.tab
+        sessionStorage.fundEmployeeOperatorTab = name
         this.controlShow(name)
       },
       //控制处理中 tab 显示

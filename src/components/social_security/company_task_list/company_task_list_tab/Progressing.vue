@@ -229,6 +229,13 @@
               ]);
             }
           },
+          {title: '处理状态', key: 'taskStatus', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.taskStatus),
+              ]);
+            }
+          },
           {title: '客户编号', key: 'customerId', width: 110, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [

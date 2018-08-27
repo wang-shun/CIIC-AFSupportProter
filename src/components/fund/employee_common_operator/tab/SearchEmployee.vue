@@ -198,7 +198,7 @@
       setOption(content, type){
         this.searchForm.contentDisabled = false;
         this.searchForm.searchContentDesc = '';
-//        this.$refs.searchForm.resetFields();
+        this.$refs.searchForm.resetFields();
         this.searchForm.searchContent="";
         this.searchForm.searchContentArr=[];
         if (!content) return;

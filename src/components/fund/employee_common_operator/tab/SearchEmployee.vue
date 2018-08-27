@@ -209,36 +209,34 @@
       }
     },
     methods: {
-      initOptions(v) {
-        console.log(v)
-        if (v) {
-          this.searchForm.searchContent = "";
-          this.searchForm.searchContentArr = [];
-        }
-      },
+//      initOptions(v) {
+//        console.log(v)
+//        if (v) {
+//          this.searchForm.searchContent = "";
+//          this.searchForm.searchContentArr = [];
+//        }
+//      },
       // 选择字段或关系
       setOption(content, type){
-        console.log('in setOption')
         this.searchForm.contentDisabled = false;
         this.searchForm.searchContentDesc = '';
+        this.searchForm.searchContent="";
+        this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length);
+        let divElements = tableStyle.getByClass(document, "ivu-tag-checked");
+        if (divElements && divElements.length > 0) {
+          let parentElement = divElements[0].parentNode;
 
-        console.log(this.searchForm)
+          for (let i = divElements.length - 1; i >= 0; i--) {
+            parentElement.removeChild(divElements[i]);
+          }
+        }
+
         if (!content) return;
 
         if(type === chooseType.field) {
           this.searchForm.disabled = false;
           this.searchForm.isDate=0;
           this.searchForm.relationshipValue = "";
-          this.searchForm.searchContent="";
-          this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length);
-          let divElements = tableStyle.getByClass(document, "ivu-tag-checked");
-          if (divElements && divElements.length > 0) {
-            let parentElement = divElements[0].parentNode;
-            console.log(divElements.length);
-            for (let i = divElements.length - 1; i >= 0; i--) {
-              parentElement.removeChild(divElements[i]);
-            }
-          }
 
           delete this.searchForm.relationship["包含"];
 

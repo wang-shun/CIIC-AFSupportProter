@@ -95,6 +95,7 @@
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/social_security_dict'
   import api from '../../../../api/social_security/employee_operator'
+  import tableStyle from '../../../../api/table_style'
 
   const chooseType = {
     field: 1001,
@@ -211,9 +212,17 @@
       // 选择字段或关系
       setOption(content, type){
         this.searchForm.contentDisabled = false;
-        this.searchForm.searchContent ="";
-        this.searchForm.searchContentArr=[];
         this.searchForm.searchContentDesc='';
+        this.searchForm.searchContent="";
+        this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length);
+        let divElements = tableStyle.getByClass(document, "ivu-tag-checked");
+        if (divElements && divElements.length > 0) {
+          let parentElement = divElements[0].parentNode;
+
+          for (let i = divElements.length - 1; i >= 0; i--) {
+            parentElement.removeChild(divElements[i]);
+          }
+        }
         if (!content) return;
 
         if(type === chooseType.field) {

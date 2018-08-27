@@ -688,10 +688,10 @@
             content: '确认办理吗?',
             //loading:true,
             onOk:function(){
-                let params = this.getParams()
+                let params = self.getParams();
                 CompanyTaskList.addOrUpdate(params).then(result=>{
                   if(result.result){
-                      let taskState = this.companyOpenAccountOperator.taskTypeValue;
+                      let taskState = self.companyOpenAccountOperator.taskTypeValue;
                       if(taskState==1 || taskState==2){
                         sessionStorage.companyTaskTab = "progressing";
                       }else if(taskState==3){
@@ -699,14 +699,14 @@
                       }
                       //下面代码感觉怪怪的，有空再改
                       if(result.message=='正常'){
-                        this.$Message.success('办理成功!');
-                        this.goBack()
+                        self.$Message.success('办理成功!');
+                        self.goBack()
                       }else{
-                        this.$Message.success(result.message);
-                        this.goBack()
+                        self.$Message.success(result.message);
+                        self.goBack()
                       }
                   }else{
-                    this.$Message.error('办理失败!');
+                    self.$Message.error('办理失败!');
                   }
                 }).catch(error=>{
                   console.log(error)

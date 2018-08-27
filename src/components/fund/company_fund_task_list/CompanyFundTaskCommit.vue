@@ -130,6 +130,11 @@
         })
       },
       rejection(){
+        let notes=this.$refs.openAccount.openAccountInfo.notes;
+          if(notes=='' || notes==null){
+              this.$Message.info('请填写批退备注');
+              return false;
+          }
            this.$Modal.confirm({
               title: "您确认批退操作？",
               cancelText: "取消",
@@ -176,7 +181,7 @@
           paymentWay: this.$refs.openAccount.openAccountInfo.payMethodValue,
           paymentBank: this.$refs.openAccount.openAccountInfo.paymentBankValue,
           closeDay: this.$refs.openAccount.openAccountInfo.closeAccountEveryMonth,
-          comAccountName: this.$refs.openAccount.openAccountInfo.companyFundAccountName,
+          comAccountName: this.$refs.openAccount.openAccountInfo.companyFundAccountName.trim(),
           comAccountNum: this.$refs.openAccount.openAccountInfo.companyFundAccountNum,
           uKeyStore: this.$refs.openAccount.openAccountInfo.UKeyValue,
           comStartMonth: comStartMonth,

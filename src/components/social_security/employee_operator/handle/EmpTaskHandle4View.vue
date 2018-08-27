@@ -536,9 +536,10 @@
               this.socialSecurityPayOperator.handleMonth=handleMonth;
             }
 
-            if (this.socialSecurityPayOperator.taskStatus == 4) {
+            if (!this.socialSecurityPayOperator.rejectionRemarkMan || this.socialSecurityPayOperator.rejectionRemarkMan == '') {
               this.socialSecurityPayOperator.rejectionRemarkMan = data.data.modifiedDisplayName;
-            } else {
+            }
+            if (!this.socialSecurityPayOperator.handleRemarkMan || this.socialSecurityPayOperator.handleRemarkMan == '') {
               this.socialSecurityPayOperator.handleRemarkMan = data.data.modifiedDisplayName;
             }
 

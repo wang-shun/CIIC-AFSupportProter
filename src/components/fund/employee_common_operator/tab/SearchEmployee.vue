@@ -117,6 +117,8 @@
   import InputCompany from '../../../common_control/form/input_company'
   import InputCompanyName from '../../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import tableStyle from '../../../../api/table_style'
+
   const chooseType = {
     field: 1001,
     relationship: 1002
@@ -219,9 +221,6 @@
         console.log('in setOption')
         this.searchForm.contentDisabled = false;
         this.searchForm.searchContentDesc = '';
-        this.searchForm.searchContent="";
-        this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length)
-
 
         console.log(this.searchForm)
         if (!content) return;
@@ -230,6 +229,15 @@
           this.searchForm.disabled = false;
           this.searchForm.isDate=0;
           this.searchForm.relationshipValue = "";
+          this.searchForm.searchContent="";
+          this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length);
+          let divElements = tableStyle.getByClass(document, "ivu-tag-checked");
+          if (divElements && divElements.length > 0) {
+            let parentElement = divElements[0].parentNode;
+            for (let i = 0; i < divElements.length; i++) {
+              parentElement.removeChild(divElements[i]);
+            }
+          }
 
           delete this.searchForm.relationship["包含"];
 

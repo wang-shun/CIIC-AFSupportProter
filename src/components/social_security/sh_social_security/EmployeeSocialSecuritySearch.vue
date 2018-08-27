@@ -350,8 +350,7 @@
     mounted() {
       this.loadDict();
       this.getCustomers();
-      let params = this.searchCondition;
-      this.employeeQuery(params);
+      
     },
     computed: {
 
@@ -391,6 +390,8 @@
             this.accountTypeList = data.data.SocialSecurityAccountType;
             sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
             sessionData.getJsonDataFromSession('empSSsearch.pageData', this.pageData);
+            let params = this.searchCondition;
+            this.employeeQuery(params);
           }
         });
       },

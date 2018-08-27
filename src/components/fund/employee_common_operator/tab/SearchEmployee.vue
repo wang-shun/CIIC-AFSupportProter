@@ -226,14 +226,14 @@
         this.searchForm.searchContentDesc = '';
         this.searchForm.searchContent="";
         this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length);
-//        let divElements = tableStyle.getByClass(document.getElementById(this.sessionKey), "ivu-tag-checked");
-//        if (divElements && divElements.length > 0) {
-//          let parentElement = divElements[0].parentNode;
-//
-//          for (let i = divElements.length - 1; i >= 0; i--) {
-//            parentElement.removeChild(divElements[i]);
-//          }
-//        }
+        let divElements = tableStyle.getByClass(document.getElementById(this.sessionKey), "ivu-tag-checked");
+        if (divElements && divElements.length > 0) {
+          let parentElement = divElements[0].parentNode;
+
+          for (let i = divElements.length - 1; i >= 0; i--) {
+            parentElement.removeChild(divElements[i]);
+          }
+        }
 
         if (!content) return;
 

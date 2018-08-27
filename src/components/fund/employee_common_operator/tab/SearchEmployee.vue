@@ -198,6 +198,7 @@
       setOption(content, type){
         this.searchForm.contentDisabled = false;
         this.searchForm.searchContentDesc = '';
+//        this.$refs.searchForm.resetFields();
         this.searchForm.searchContent="";
         this.searchForm.searchContentArr=[];
         if (!content) return;
@@ -206,7 +207,9 @@
           this.searchForm.disabled = false;
           this.searchForm.isDate=0;
           this.searchForm.relationshipValue = "";
+
           delete this.searchForm.relationship["包含"];
+          this.$refs.searchForm.resetFields();
 
           if(content.value==='processStatus'){
             this.searchForm.isDate=1;
@@ -367,6 +370,7 @@
           }
           if(hasRepeatObj === -1) {
             this.searchConditions.push(searchCondition);
+            this.$refs['searchForm'].resetFields();
           } else {
             this.$Message.error("请不要重复添加");
           }

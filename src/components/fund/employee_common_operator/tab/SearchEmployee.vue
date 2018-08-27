@@ -18,45 +18,58 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 24}">
-          <Form-item label="查询内容" prop="searchContent" v-if="searchForm.isDate != 20 && searchForm.isDate != 30 && searchForm.isDate != 50">
-            <Input v-model="searchForm.searchContent" placeholder="请输入" :maxlength=128 :disabled="searchForm.contentDisabled" v-if="searchForm.isDate == 0 || searchForm.isDate == 70" />
-
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-else-if="searchForm.isDate == 1">
+          <Form-item label="查询内容" prop="searchContent" v-if="searchForm.isDate == 0 || searchForm.isDate == 70">
+            <Input v-model="searchForm.searchContent" placeholder="请输入" :maxlength=128 :disabled="searchForm.contentDisabled" />
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContent" v-else-if="searchForm.isDate == 1">
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer>
                   <Option v-for="item in processStatusList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-else-if="searchForm.isDate == 2">
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContent" v-else-if="searchForm.isDate == 2">
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer>
                   <Option v-for="item in taskTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-else-if="searchForm.isDate == 3">
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContent" v-else-if="searchForm.isDate == 3">
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer>
                     <Option v-for="item in payBankList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-else-if="searchForm.isDate == 4">
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContent" v-else-if="searchForm.isDate == 4">
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer>
                     <Option v-for="item in fundTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-
-            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-else-if="searchForm.isDate == 5">
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContent" v-else-if="searchForm.isDate == 5">
+            <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true" @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer>
                     <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-
-            <DatePicker v-model="searchForm.searchContent" type="date" placement="bottom" placeholder="选择日期" style="width: 100%;" :disabled="searchForm.contentDisabled" transfer v-else-if="searchForm.isDate == 6"></DatePicker>
-
-            <input-company v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled" v-else-if="searchForm.isDate == 7"></input-company>
-
-             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true"  @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer v-else>
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContent" v-else-if="searchForm.isDate == 6">
+            <DatePicker v-model="searchForm.searchContent" type="date" placement="bottom" placeholder="选择日期" style="width: 100%;" :disabled="searchForm.contentDisabled" transfer></DatePicker>
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContent" v-else-if="searchForm.isDate == 7">
+            <input-company v-model="searchForm.searchContent" :alDisabled="searchForm.contentDisabled"></input-company>
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContent" v-else-if="searchForm.isDate == 8">
+             <Select v-model="searchForm.searchContent" style="width: 100%;" :label-in-value="true"  @on-change="categroryChange" :disabled="searchForm.contentDisabled" transfer>
                     <Option value="0" label="否"></Option>
                     <Option value="1" label="是"></Option>
              </Select>
           </Form-item>
-          <Form-item label="查询内容" prop="searchContentArr" v-if="searchForm.isDate == 20 || searchForm.isDate == 30 || searchForm.isDate == 50">
-            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-if="searchForm.isDate == 20">
+          <Form-item label="查询内容" prop="searchContentArr" v-else-if="searchForm.isDate == 20">
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer>
               <Option v-for="item in taskTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-else-if="searchForm.isDate == 30">
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContentArr" v-else-if="searchForm.isDate == 30">
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer">
               <Option v-for="item in payBankList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
-            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer v-else>
+          </Form-item>
+          <Form-item label="查询内容" prop="searchContentArr" v-else-if="searchForm.isDate == 50">
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer>
               <Option v-for="item in accountTypeList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
           </Form-item>

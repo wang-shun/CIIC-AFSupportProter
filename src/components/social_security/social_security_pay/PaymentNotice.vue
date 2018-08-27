@@ -141,11 +141,13 @@
       this.comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
       this.paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
       let paymentState = window.sessionStorage.getItem("paymentnotice_paymentState");
+      this.ssAccount = window.sessionStorage.getItem("paymentnotice_ssAccount");
+      
       if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
           this.ifShowSumButton= false;
         }
       this.getPaymentComDtoByPaymentId(paymentComId);
-      this.statementResultQuery(this.comAccountId,this.paymentMonth);
+      this.statementResultQuery(this.ssAccount,this.paymentMonth);
     },
     computed: {
       ...mapState('paymentNotice', {
@@ -171,9 +173,9 @@
           this.paymentComData = data.data;
         })
       },
-      statementResultQuery(comAccountId,paymentMonth){
+      statementResultQuery(ssAccount,paymentMonth){
         api.statementResultQuery({
-          comAccountId: comAccountId,
+          ssAccount: ssAccount,
           paymentMonth: paymentMonth
         }).then(data => {
           this.noticeData = data.data;

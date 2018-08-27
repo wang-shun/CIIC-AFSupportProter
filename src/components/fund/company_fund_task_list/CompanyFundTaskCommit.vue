@@ -85,6 +85,11 @@
               this.$Message.error('企业账号必填');
               return false;
           }
+          params.comAccountNum = params.comAccountNum.trim();
+          if(params.comAccountNum=='') {
+            this.$Message.error('企业账号必填');
+            return false;
+          }
           if(params.closeDay=='' || params.closeDay==null){
               this.$Message.error('每月关账日必填');
               return false;
@@ -125,6 +130,11 @@
         })
       },
       rejection(){
+        let notes=this.$refs.openAccount.openAccountInfo.notes;
+          if(notes=='' || notes==null){
+              this.$Message.info('请填写批退备注');
+              return false;
+          }
            this.$Modal.confirm({
               title: "您确认批退操作？",
               cancelText: "取消",
@@ -171,7 +181,7 @@
           paymentWay: this.$refs.openAccount.openAccountInfo.payMethodValue,
           paymentBank: this.$refs.openAccount.openAccountInfo.paymentBankValue,
           closeDay: this.$refs.openAccount.openAccountInfo.closeAccountEveryMonth,
-          comAccountName: this.$refs.openAccount.openAccountInfo.companyFundAccountName,
+          comAccountName: this.$refs.openAccount.openAccountInfo.companyFundAccountName.trim(),
           comAccountNum: this.$refs.openAccount.openAccountInfo.companyFundAccountNum,
           uKeyStore: this.$refs.openAccount.openAccountInfo.UKeyValue,
           comStartMonth: comStartMonth,
@@ -187,7 +197,7 @@
 
         }
       },
- 
+
     }
   }
 </script>

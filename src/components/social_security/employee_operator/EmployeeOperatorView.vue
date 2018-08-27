@@ -48,13 +48,13 @@
       },
       onClickO(name){
        //将tab类型 缓存
-       sessionStorage.employeeOperatorTab = this.tab
+       sessionStorage.employeeOperatorTab = name
         this.controlShow(name)
       },
       //控制处理中 tab 显示
       controlShow(name){
         if(name=="noprogress"&&!this.isNoprogress) this.isNoprogress=true
-          if(name=="progressing"&&!this.isProgressing) this.isProgressing=true
+        if(name=="progressing"&&!this.isProgressing) this.isProgressing=true
         if(name=="finished" && !this.isFinished)this.isFinished=true
         if(name=="refused" && !this.isRefused)this.isRefused=true
       }

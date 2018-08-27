@@ -249,14 +249,7 @@
               return h('div', task.statusToChina(params.row.status));
             }
           },
-          {
-            title: "审核时间", sortable: true, key: "hearTime", align: "center", width: 150,
-            render: (h, params) => {
-              if (params.row.hearTime != null) {
-                return h('div', this.$utils.formatDate(params.row.hearTime, "YYYY-MM-DD HH:mm:ss"));
-              }
-            }
-          },
+
           {
             title: "离职日期", sortable: true, key: "departuredDate", align: "center", width: 150,
             render: (h, params) => {
@@ -298,6 +291,17 @@
                 return h('div', this.$utils.formatDate(params.row.endConfirmDate, "YYYY-MM-DD"));
               }
             }
+          },
+          {
+            title: "操作时间", sortable: true, key: "modifiedTime", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.modifiedTime != null) {
+                return h('div', this.$utils.formatDate(params.row.modifiedTime, "YYYY-MM-DD HH:mm:ss"));
+              }
+            }
+          },
+          {
+            title: "备注", sortable: true, key: "remark", align: "center", width: 150
           },
           {
             title: "提交人", sortable: true, key: "createdUser", align: "center", width: 150

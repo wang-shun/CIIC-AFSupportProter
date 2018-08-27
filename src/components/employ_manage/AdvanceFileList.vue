@@ -255,7 +255,7 @@
 
           this.$router.push({
             name: "advanceFile",
-            query: {archiveAdvanceId:row.companyId,reservedArchiveType:row.reservedArchiveType,
+            query: {archiveAdvanceId:row.archiveAdvanceId,reservedArchiveType:row.reservedArchiveType,
                                                             reservedArchiveNo:row.reservedArchiveNo,employeeName:row.employeeName,
                                                             employeeIdcardNo:row.employeeIdcardNo,enteringDate:row.enteringDate,
                                                             archiveSource:row.archiveSource,archivePlace:row.archivePlace,
@@ -265,7 +265,7 @@
         }else{
           this.$router.push({
             name: "advanceFileView",
-            query: {archiveAdvanceId:row.companyId,reservedArchiveType:row.reservedArchiveType,
+            query: {archiveAdvanceId:row.archiveAdvanceId,reservedArchiveType:row.reservedArchiveType,
                                                         reservedArchiveNo:row.reservedArchiveNo,employeeName:row.employeeName,
                                                         employeeIdcardNo:row.employeeIdcardNo,enteringDate:row.enteringDate,
                                                         archiveSource:row.archiveSource,archivePlace:row.archivePlace,

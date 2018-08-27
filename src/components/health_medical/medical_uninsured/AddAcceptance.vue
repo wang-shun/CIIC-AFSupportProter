@@ -6,7 +6,7 @@
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <!--TODO: 数据待确认-->
             <FormItem label="业务顾问：">
-              <span class="expand-value">{{this.employeeInfo.employeeName}}</span>
+              <span class="expand-value">{{this.employeeInfo.consultantName}}</span>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -21,7 +21,7 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="证件号码：">
-              <span class="expand-value">310105198505305026</span>
+              <span class="expand-value">{{this.employeeInfo.idNum}}</span>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -113,10 +113,12 @@
           medicalRemark: null,
         },
         employeeInfo: {
-          employeeId: null,
-          employeeName: null,
-          companyId: null,
-          companyName: null,
+          consultantName: '',
+          employeeId: '',
+          employeeName: '',
+          companyId: '',
+          idNum: '',
+          companyName: '',
         },
         moneyTypes: admissibility.moneyTypes,
         caseTypes: admissibility.caseTypes,
@@ -129,11 +131,20 @@
       //雇员数据
       this.employeeInfo = JSON.parse(sessionStorage.getItem('acceptanceEmployee'));
       this.queryEmpMember();
+      this.queryBusinessConsultant();
     },
     methods: {
       queryEmpMember() {
         apiAjax.queryEmpMember(this.employeeInfo).then(response => {
           this.jointPersonNameList = response.data.object;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      queryBusinessConsultant() {
+        apiAjax.queryBusinessConsultant(this.employeeInfo).then(response => {
+          this.employeeInfo.consultantName = response.data.object;
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");

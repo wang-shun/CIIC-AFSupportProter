@@ -24,6 +24,7 @@
         <!--<Button type="info" @click="printReturnList">批量打印退工单</Button>-->
         <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
+        <Button type="primary" @click="batchManagement">档案批量办理</Button>
       </Col>
     </Row>
     <Row type="flex" justify="start" class="mt20">
@@ -78,7 +79,7 @@ export default {
   components: { employeeInfo, searchEmployment },
   data() {
     return {
-      jobGroup:"",
+      jobGroup: "",
       vertical: "",
       jobData: {
         job: 0,
@@ -431,7 +432,12 @@ export default {
       //判断条件
       //是否有选中列
       if (selection.length == 0) {
-        alert("没有选中的列");
+        this.$Message.error("没有选中的列");
+        return;
+      }
+
+      if (selection.length > 1) {
+        this.$Message.error("选择的列太多");
         return;
       }
 
@@ -524,14 +530,13 @@ export default {
           self.recordComprehensiveHandlingData = data.data.rows;
           self.pageData.total = Number(data.data.total);
           self.isLoading = false;
-          // self.searchCondition.taskStatus = "";
-          // self.searchCondition.taskResignStatus = "";
         });
     },
     taskCountArchive(params) {
       this.isLoading = true;
       let self = this;
-      api.taskCountArchive({
+      api
+        .taskCountArchive({
           params: params
         })
         .then(data => {
@@ -543,18 +548,21 @@ export default {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
       this.searchCondition.taskStatus = ind;
-      //this.searchCondition.taskCategory = category;
+      if (this.jobGroup != "") {
+        this.searchCondition.job = this.jobGroup;
+      }
       this.archiveQuery(this.searchCondition);
+      this.taskCountArchive(this.searchCondition);
     },
     showJob(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      if(this.vertical!='')
-      {
-         this.searchCondition.taskStatus = this.vertical;
+      if (this.vertical != "") {
+        this.searchCondition.taskStatus = this.vertical;
       }
       this.searchCondition.job = ind;
-       this.archiveQuery(this.searchCondition);
+      this.archiveQuery(this.searchCondition);
+      this.taskCountArchive(this.searchCondition);
     },
     handlePageNum(val) {
       this.pageData.pageNum = val;
@@ -584,7 +592,9 @@ export default {
       this.orderConditions = [];
       this.searchConditions = [];
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-      var conditions = JSON.parse(sessionStorage.getItem("archive" + userInfo.userId));
+      var conditions = JSON.parse(
+        sessionStorage.getItem("archive" + userInfo.userId)
+      );
       var storeOrder = JSON.parse(
         sessionStorage.getItem("archiveOrder" + userInfo.userId)
       );
@@ -686,10 +696,12 @@ export default {
           this.changeSortClass(this.orderConditions);
         });
     },
-    printReturnList(){
-      api.archiveSearchExportReturnList({pageSize: 1000,
-          pageNum: 1,
-          params: this.searchCondition});
+    printReturnList() {
+      api.archiveSearchExportReturnList({
+        pageSize: 1000,
+        pageNum: 1,
+        params: this.searchCondition
+      });
     },
     changeSortClass(storeOrder) {
       this.recordComprehensiveHandlingColumns.forEach((e, idx) => {
@@ -704,7 +716,7 @@ export default {
                 storeOrder[index].indexOf("employee_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -713,7 +725,7 @@ export default {
                 storeOrder[index].indexOf("company_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -722,7 +734,7 @@ export default {
                 storeOrder[index].indexOf("title") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -731,7 +743,7 @@ export default {
                 storeOrder[index].indexOf("employment_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -740,7 +752,7 @@ export default {
                 storeOrder[index].indexOf("employee_name") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -749,7 +761,7 @@ export default {
                 storeOrder[index].indexOf("id_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -758,7 +770,7 @@ export default {
                 storeOrder[index].indexOf("doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -767,7 +779,7 @@ export default {
                 storeOrder[index].indexOf("yuliu_doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -776,7 +788,7 @@ export default {
                 storeOrder[index].indexOf("job_centre_feedback_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -785,7 +797,7 @@ export default {
                 storeOrder[index].indexOf("employ_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -794,7 +806,7 @@ export default {
                 storeOrder[index].indexOf("storage_out_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -803,7 +815,7 @@ export default {
                 storeOrder[index].indexOf("return_doc_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -812,12 +824,28 @@ export default {
                 storeOrder[index].indexOf("resign_handle_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
             }
           }
         }
+      });
+    },
+    batchManagement() {
+      let selection = this.$refs.payComSelection.getSelection();
+      if (selection.length == 0) {
+        this.$Message.error("没有选中的列");
+        return;
+      }
+      let empTaskIds = [];
+      selection.forEach(item => {
+        empTaskIds.push(item.empTaskId);
+      });
+      const _self = this;
+      _self.$router.push({
+        name: "archiveHandleBatch",
+        query: { empTaskIds: empTaskIds }
       });
     }
   },

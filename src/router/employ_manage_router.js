@@ -23,6 +23,7 @@ const refuseHandleBatch = r => require.ensure([], () => r(require('@/components/
 const recordComprehensiveHandling = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensiveHandling')), 'recordComprehensiveHandling');
 const recordComprehensive = r => require.ensure([], () => r(require('@/components/employ_manage/RecordComprehensive')), 'recordComprehensive');
 const fileMatrialsUseAndBorrow = r => require.ensure([], () => r(require('@/components/employ_manage/FileMatrialsUseAndBorrow')), 'fileMatrialsUseAndBorrow');
+const archiveHandleBatch = r => require.ensure([], () => r(require('@/components/employ_manage/ArchiveHandleBatch')), 'archiveHandleBatch');
 
 const recordMatch = r => require.ensure([], () => r(require('@/components/employ_manage/RecordMatch')), 'recordMatch');
 const matchImportFile = r => require.ensure([], () => r(require('@/components/employ_manage/MatchImportFile')), 'matchImportFile');
@@ -146,6 +147,18 @@ export default [
       level1:'首页',
       level2:"雇佣管理",
       level3:"档案材料利用与借出",
+      openNames:['3'],
+      activeName: '3-3'
+    }
+  },
+  {
+    path: '/archive_handle_batch',
+    name:'archiveHandleBatch',
+    component: archiveHandleBatch,
+    meta:{
+      level1:'首页',
+      level2:"雇佣管理",
+      level3:"档案批量办理",
       openNames:['3'],
       activeName: '3-3'
     }

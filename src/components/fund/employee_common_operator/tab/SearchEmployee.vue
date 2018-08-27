@@ -5,7 +5,7 @@
       <Row>
         <Col :sm="{span: 24}">
           <Form-item label="选择字段" prop="chooseFieldValue">
-            <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" transfer>
+            <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" @on-open-change="initOptions" transfer>
               <Option v-for="(field, index) in searchForm.chooseField" :value="index" :key="index">{{field}}</Option>
             </Select>
           </Form-item>
@@ -194,13 +194,19 @@
       }
     },
     methods: {
+      initOptions(v) {
+        if (v) {
+          this.searchForm.searchContent = "";
+          this.searchForm.searchContentArr = [];
+          this.$refs["searchForm"].resetFields();
+        }
+      },
       // 选择字段或关系
       setOption(content, type){
         this.searchForm.contentDisabled = false;
         this.searchForm.searchContentDesc = '';
-        this.$refs.searchForm.resetFields();
-        this.searchForm.searchContent="";
-        this.searchForm.searchContentArr=[];
+//        this.searchForm.searchContent="";
+//        this.searchForm.searchContentArr=[];
         if (!content) return;
 
         if(type === chooseType.field) {
@@ -209,7 +215,6 @@
           this.searchForm.relationshipValue = "";
 
           delete this.searchForm.relationship["包含"];
-          this.$refs.searchForm.resetFields();
 
           if(content.value==='processStatus'){
             this.searchForm.isDate=1;

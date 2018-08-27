@@ -207,7 +207,8 @@
         this.searchForm.contentDisabled = false;
         this.searchForm.searchContentDesc = '';
         this.searchForm.searchContent="";
-        this.searchForm.searchContentArr=[];
+        this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length)
+
 
         console.log(this.searchForm)
         if (!content) return;

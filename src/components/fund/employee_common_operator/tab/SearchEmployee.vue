@@ -234,7 +234,8 @@
           let divElements = tableStyle.getByClass(document, "ivu-tag-checked");
           if (divElements && divElements.length > 0) {
             let parentElement = divElements[0].parentNode;
-            for (let i = 0; i < divElements.length; i++) {
+            console.log(divElements.length);
+            for (let i = divElements.length - 1; i >= 0; i--) {
               parentElement.removeChild(divElements[i]);
             }
           }

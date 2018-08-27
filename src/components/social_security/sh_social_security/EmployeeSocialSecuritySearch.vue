@@ -147,7 +147,7 @@
           serviceCenterValue:[],
           companyId: '', //客户编号
           title: '', //客户名称
-         // companyAccountType: '', //社保账户类型
+          companyAccountType: '', //社保账户类型
           settlementArea: '', //结算区域
           ssAccountType: '',  //社保账户类型
           employeeId: '', //雇员编号
@@ -155,6 +155,7 @@
           idNum: '', //证件号
           ssAccount:'',//企业社保账号
           archiveTaskStatus: '',//社保状态
+          ssSerial:'',
           //empClassify: '' //人员分类
         },
         serviceCenterData: [], //客服中心
@@ -347,13 +348,10 @@
       }
     },
     mounted() {
-      sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
-      sessionData.getJsonDataFromSession('empSSsearch.pageData', this.pageData);
       this.loadDict();
+      this.getCustomers();
       let params = this.searchCondition;
       this.employeeQuery(params);
-    
-      this.getCustomers();
     },
     computed: {
 

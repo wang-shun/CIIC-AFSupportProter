@@ -239,7 +239,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="办理类型：">
-                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
+                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable" @on-change="taskCategoryChg">
                   <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
               </FormItem>
@@ -312,7 +312,7 @@
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
         <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton" :loading="isLoading">批退</Button>
-        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="this.displayVO.canHandle" :loading="isLoading">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="this.displayVO.canHandle && this.displayVO.taskCategory != 99" :loading="isLoading">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
@@ -336,7 +336,7 @@
                 :remote-method="handleTransferOutSearch"
                 @on-change="handleTransferOutChange"
                 :loading="loading"
-                style="width: 100%;" transfer>
+                style="width: 100%;" clearable transfer>
                 <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
               </Select>
             </FormItem>
@@ -355,7 +355,7 @@
                 :remote-method="handleTransferInSearch"
                 @on-change="handleTransferInChange"
                 :loading="loading"
-                style="width: 100%;" transfer>
+                style="width: 100%;" clearable transfer>
                 <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
               </Select>
             </FormItem>
@@ -793,6 +793,11 @@
       let hfType = parseInt(localStorage.getItem('employeeFundCommonOperator.hfType'));
       let taskCategory = parseInt(localStorage.getItem('employeeFundCommonOperator.taskCategory'));
       let taskStatus = parseInt(localStorage.getItem('employeeFundCommonOperator.taskStatus'));
+      let processCategory;
+      if (localStorage.getItem('employeeFundCommonOperator.processCategory')) {
+        processCategory = parseInt(localStorage.getItem('employeeFundCommonOperator.processCategory'));
+      }
+
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
         hfType: hfType,
@@ -817,11 +822,17 @@
               if (!this.operatorListData[index].repairReason || this.operatorListData[index].repairReason == '') {
                 this.operatorListData[index].repairReason = '1';
               }
+            } else {
+              this.operatorListData[index].endMonth = '';
             }
           });
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
           this.showButton = this.displayVO.canHandle;
+
+          if (taskCategory === 99) {
+            this.showButton = false;
+          }
 
           if (!this.displayVO.taskStatus || this.displayVO.taskStatus == 1) {
             this.inputDisabled = false;
@@ -852,11 +863,19 @@
             this.transferOutUnitList.push(element);
             this.transferInUnitList.push(element);
           })
-          if (taskCategory <= 3 || (taskCategory >= 9 && taskCategory <= 11)) {
+
+          if (taskCategory <= 3 || (taskCategory >= 9 && taskCategory <= 11) || taskCategory === 99) {
             this.taskCategoryDisable = false;
 
             if (taskCategory <= 3) {
-              this.taskCategoryList.splice(3, this.taskCategoryList.length - 3);
+                this.taskCategoryList.splice(3, this.taskCategoryList.length - 3);
+            } else if (taskCategory === 99) {
+              if (processCategory === 1) {
+                this.taskCategoryList.splice(3, this.taskCategoryList.length - 4);
+              } else if (processCategory === 4) {
+                this.taskCategoryList.splice(11, this.taskCategoryList.length - 12);
+                this.taskCategoryList.splice(0, 8);
+              }
             } else {
               this.taskCategoryList.splice(11, this.taskCategoryList.length - 11);
               this.taskCategoryList.splice(0, 8);
@@ -973,6 +992,10 @@
         })
       },
       handleTaskReject() {
+        if (this.displayVO.taskCategory === 99) {
+          this.$Message.error("不做类型不能批退");
+          return false;
+        }
         if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark.trim() == '') {
           this.$Message.error("批退备注不能为空");
           return false;
@@ -1014,44 +1037,67 @@
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
       },
       handleTransferInSearch(value) {
-        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
-//        if (this.transferNotice.transferInUnitAccount != '') {
-//          return true;
-//        }
-//        return false;
+        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
       },
       handleTransferOutSearch(value) {
-        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
-//        if (this.transferNotice.transferOutUnitAccount != '') {
-//          return true;
-//        }
-//        return false;
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
       handleTransferOutChange(value) {
-        this.transferNotice.transferOutUnitAccount = '';
-        this.transferOutUnitList.forEach((element, index, array) => {
-            if (element == value) {
-              this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
-              return;
-            }
-          }
-        )
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
       handleTransferInChange(value) {
-        this.transferNotice.transferInUnitAccount = '';
-        this.transferInUnitList.forEach((element, index, array) => {
-            if (element == value) {
-              this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
-              return;
+        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+      },
+      doSelect(value, unitList, unitAccountList, type) {
+        this.loading = true;
+       // unitAccountList.length = 0;
+        unitList.length=0;
+        if (value == '' || value == undefined) {
+          this.transferUnitDictList.forEach((element, index, array) => {
+            unitList.push(element);
+          })
+        } else {
+          api.comAccountQuery(
+            {
+              comAccountName: value,
+              hfType: this.displayVO.hfType,
+              companyId:this.displayVO.companyId,
             }
-          }
-        )
+          ).then(
+            data => {
+              if (data.code == 200) {
+                if (data.data && data.data.length == 1) {
+                  let isDuplicate=false;
+                  unitList.forEach((element, index, array) => {
+                      if( data.data[0].comAccountName == element){
+                        isDuplicate = true;
+                      }
+                  })
+                  if(isDuplicate==false){
+                    unitList.push(data.data[0].comAccountName);
+                    unitAccountList.push(data.data[0].hfComAccount);
+                  }
+                    if (type == 1) {
+                      this.transferNotice.transferOutUnit = data.data[0].comAccountName;
+                      this.transferNotice.transferOutUnitAccount = data.data[0].hfComAccount;
+                    } else {
+                      this.transferNotice.transferInUnit = data.data[0].comAccountName;
+                      this.transferNotice.transferInUnitAccount = data.data[0].hfComAccount;
+                    }
+                }
+              } else {
+                this.$Message.error(data.message);
+              }
+            }
+          )
+        }
+        this.loading = false;
       },
       doSearch(value, unitList, unitAccountList, type) {
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;
-        if (value == '') {
+        if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
             unitList.push(element);
           })
@@ -1121,6 +1167,7 @@
         this.isLoading = true;
         api.empTaskHandleDataSave(params).then(data => {
           if (data.code == 200) {
+            this.taskCategoryList.splice(3, this.taskCategoryList.length - 3);
             this.$Message.info("保存成功");
           } else {
             this.$Message.error(data.message);
@@ -1129,7 +1176,7 @@
         })
       },
       inputDataCheck() {
-        if (this.displayVO.taskCategory != 1 && this.displayVO.taskCategory != 9 && (!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
+        if (this.displayVO.taskCategory != 1 && this.displayVO.taskCategory != 9  && this.displayVO.taskCategory != 99 && (!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
           this.$Message.error("公积金账号不能为空");
           return false;
         }
@@ -1351,6 +1398,18 @@
           if (data.code == 200) {
             if (!data.data || data.data.length == 0) {
               this.isShowPrint = true;
+              //赋值 转入和转出的默认值
+              this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+              this.transferNotice.transferOutUnitAccount = '881383288';
+              this.transferInUnitList.push(this.displayVO.comAccountName);
+              this.transferNotice.transferInUnit = this.displayVO.comAccountName;
+              if(this.displayVO.hfType==1){
+                this.transferNotice.transferInUnitAccount = this.displayVO.basicHfComAccount;
+              }else{
+                this.transferNotice.transferInUnitAccount = this.displayVO.addedHfComAccount;
+              }
+              this.transferNotice.transferDate=new Date();
+
             } else {
               //transapi.printTransferTask({empTaskId: data.data.empTaskId})
               let params={empTaskId: data.data.empTaskId};
@@ -1435,6 +1494,7 @@
         localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
         localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
         localStorage.setItem('employeeFundCommonOperator.taskStatus', params.row.taskStatus);
+        localStorage.setItem('employeeFundCommonOperator.processCategory', params.row.processCategory);
         if (currentTaskCategory === params.row.taskCategory) {
           location.reload()
         } else {
@@ -1445,6 +1505,7 @@
             case '9':
             case '10':
             case '11':
+            case '99':
               this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
               break;
             case '4':
@@ -1462,6 +1523,13 @@
             default:
               break;
           }
+        }
+      },
+      taskCategoryChg(option) {
+        if (!option || option === '99') {
+          this.showButton = false;
+        } else {
+          this.showButton = this.displayVO.canHandle;
         }
       }
     },

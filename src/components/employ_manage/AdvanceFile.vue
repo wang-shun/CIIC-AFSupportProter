@@ -212,6 +212,7 @@ export default {
         this.isDisable = false;
         return;
       }
+      this.advanceFile.employeeName = this.advanceFile.employeeName.replace(/(^\s*)|(\s*$)/g, "");
       if (
         this.advanceFile.employeeIdcardNo == "" ||
         this.advanceFile.employeeIdcardNo == undefined

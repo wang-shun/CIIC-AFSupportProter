@@ -171,13 +171,14 @@
 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转入单位："  prop="transferInUnit">
-                  <Select v-model="transferNotice.transferInUnit"
-                          :label="transferNotice.transferInUnit"
+                  <Select 
+                  v-model="transferNotice.transferInUnit"
+                  :label="transferNotice.transferInUnit"
                   filterable
-                remote
-                :remote-method="handleTransferInSearch"
-               @on-change="handleTransferInChange"
-                :loading="loading"
+                  remote
+                  :remote-method="handleTransferInSearch"
+                  @on-change="handleTransferInChange"
+                  :loading="loading"
                   style="width: 100%;" clearable transfer>
                      <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
                   </Select>
@@ -227,9 +228,9 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}" class="tr">
-        <Button type="primary" @click="submitTransferTask">保存</Button>
+        <Button type="primary" @click="submitTransferTask" :disabled="saveDisabled">保存</Button>
         <Button type="info" @click="printTransferTask">打印转移单</Button>
-        <Button type="default" @click="notHandleTransfer" v-if="this.transferNotice.empTaskId!=null" >不需处理</Button>
+        <Button type="default" @click="notHandleTransfer" v-if="this.transferNotice.empTaskId!=null" :disabled="saveDisabled" >不需处理</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
     </Row>
@@ -253,6 +254,7 @@
           transferInUnit:'',
           transferOutUnit:'',
         },
+        saveDisabled:false,
         fundTypeList: [],
         transferUnitDictList:[],
         transferInUnitList:[],
@@ -294,24 +296,17 @@
         },
       }
     },
-
     mounted() {
-//      dict.getDictData().then(data => {
-//        if (data.code == 200) {
-//          this.fundTypeList = data.data.FundType;
-//        }
-//      });
       this.initData();
+ 
+     
     },
     computed: {
     },
     methods: {
-
       nextStep() {
         this.$router.push({name: 'employeeFundSpecialProgressThree'});
       },
-
-
     initData(){
         let params = {employeeId:this.$route.query.employeeId,
                       companyId:this.$route.query.companyId,
@@ -328,11 +323,13 @@
               this.transferNotice1 = data.data.empTaskTransferBo;
               this.getDictData();
             }
+            if(this.transferNotice1.feedbackDate!=''){
+              this.saveDisabled=true;
+            }
           } else {
             this.$Message.error(data.message);
           }
           if(this.transferNotice!=null){
-              this.transferNotice.hfType=this.$route.query.hfType;
               this.transferNotice.transferDate=new Date();
           }
         });
@@ -343,23 +340,10 @@
           if (data.code == 200) {
             this.fundTypeList = data.data.FundType;
             this.transferUnitDictList = data.data.FundOutUnit;
-//            let isContainOut = false;
-//            let isContainIn = false;
+            
             if (!this.transferNotice1.transferOutUnit || this.transferNotice1.transferOutUnit == '') {
               this.transferUnitDictList.forEach((element, index, array) => {
-//                if (!this.transferOutUnitList.includes(element)) {
                   this.transferOutUnitList.push(element);
-//                }
-//                if (!this.transferInUnitList.includes(element)) {
-//                  this.transferInUnitList.push(element);
-//                }
-
-//              if (element === this.transferNotice1.transferOutUnit) {
-//                isContainOut = true;
-//              }
-//              if (element === this.transferNotice1.transferInUnit) {
-//                isContainIn = true;
-//              }
               })
             } else {
               this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
@@ -368,47 +352,15 @@
 
             if (!this.transferNotice1.transferInUnit || this.transferNotice1.transferInUnit == '') {
               this.transferUnitDictList.forEach((element, index, array) => {
-//                if (!this.transferOutUnitList.includes(element)) {
-//                this.transferOutUnitList.push(element);
-//                }
-//                if (!this.transferInUnitList.includes(element)) {
                   this.transferInUnitList.push(element);
-//                }
-
-//              if (element === this.transferNotice1.transferOutUnit) {
-//                isContainOut = true;
-//              }
-//              if (element === this.transferNotice1.transferInUnit) {
-//                isContainIn = true;
-//              }
               })
             } else {
               this.transferInUnitList.push(this.transferNotice1.transferInUnit);
               this.transferInUnitAccountList.push(this.transferNotice1.transferInUnitAccount);
             }
 
-//            if (!this.transferOutUnitList.includes(this.transferNotice1.transferOutUnit)) {
-//              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
-//            }
-//            if (!this.transferInUnitList.includes(this.transferNotice1.transferInUnit)) {
-//              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
-//            }
-
-//            if (!isContainOut && this.transferNotice1.transferOutUnit) {
-//              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
-//            }
-//            if (!isContainIn && this.transferNotice1.transferInUnit) {
-//              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
-//            }
-          //this.setValue();
-//            this.transferOutUnitList = this.unique(this.transferOutUnitList);
-//            this.transferInUnitList = this.unique(this.transferInUnitList);
-
-//            console.log(JSON.stringify(this.transferOutUnitList));
-//            console.log(JSON.stringify(this.transferInUnitList));
-//            this.transferNotice = JSON.parse(JSON.stringify(this.transferNotice1))
-//            console.log('deep copy finished: ', this.transferNotice)
             this.$utils.copy(this.transferNotice1, this.transferNotice);
+            this.transferNotice.hfType=this.$route.query.hfType;
             if(this.transferNotice.hfType==undefined){
               this.transferNotice.hfType='1';
             }
@@ -420,7 +372,6 @@
       },
 
       setValue(){
-        //
        this.$utils.copy(this.transferNotice1,this.transferNotice);
        if(this.transferNotice.hfType==undefined){
             this.transferNotice.hfType='1';
@@ -496,6 +447,7 @@
                             let rows =[];
                             rows=data.data;
                             api.printTransferNote(rows);
+                            this.saveDisabled=true;
                           }
                         }
                       )
@@ -506,7 +458,6 @@
            }
         })
       },
-
       checkData(){
           if (!this.transferNotice.transferInUnit || this.transferNotice.transferInUnit==''  ) {
             this.$Message.error("转入单位不能为空！");
@@ -558,40 +509,40 @@
       },
       handleTransferOutChange(value) {
         //this.transferNotice.transferOutUnitAccount = '';
-        console.log("=="+value);
-        this.transferOutUnitList.forEach((element, index, array) => {
-            if (element == value) {
-              if (this.transferOutUnitAccountList && this.transferOutUnitAccountList.length > index) {
-                this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
-              } else {
-                this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
-              }
-              return;
-            }
-          }
-        )
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+        // this.transferOutUnitList.forEach((element, index, array) => {
+        //     if (element == value) {
+        //       if (this.transferOutUnitAccountList && this.transferOutUnitAccountList.length > index) {
+        //         this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
+        //       } else {
+        //         this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+        //       }
+        //       return;
+        //     }
+        //   }
+        // )
+
       },
       handleTransferInChange(value) {
-       // this.transferNotice.transferInUnitAccount = '';
-        console.log("in=="+value);
-        this.transferInUnitList.forEach((element, index, array) => {
-            if (element == value) {
-              if (this.transferInUnitAccountList && this.transferInUnitAccountList.length > index) {
-                this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
-              } else {
-                this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
-              }
-              return;
-            }
-          }
-        )
+        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+        // this.transferInUnitList.forEach((element, index, array) => {
+        //     if (element == value) {
+        //       if (this.transferInUnitAccountList && this.transferInUnitAccountList.length > index) {
+        //         this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
+        //       } else {
+        //         this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+        //       }
+        //       return;
+        //     }
+        //   }
+        // )
       },
 
      doSelect(value, unitList, unitAccountList, type) {
         this.loading = true;
-       // unitList.length = 0;
        // unitAccountList.length = 0;
-        if (value == '') {
+        unitList.length=0;
+        if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
             unitList.push(element);
           })

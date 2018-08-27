@@ -22,7 +22,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="受理单编号" prop="umAcceptanceId">
-                  <Input v-model="formItem.umAcceptanceId" placeholder="请输入"/>
+                  <Input v-model="formItem.umAcceptanceId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col v-if="formItem.status === true" :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -36,50 +36,49 @@
                   <DatePicker v-model="formItem.handlerDateRange" type="daterange" placement="bottom-end"
                               placeholder="选择日期" style="width: 100%" transfer></DatePicker>
                 </Form-item>
-                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方编号" prop="managementId">
-                  <Input v-model="formItem.managementId" placeholder="请输入"/>
+                  <Input v-model="formItem.managementId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方名称" prop="managementName">
-                  <Input v-model="formItem.managementName" placeholder="请输入"/>
+                  <Input v-model="formItem.managementName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号" prop="companyId">
-                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                  <Input v-model="formItem.companyId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称" prop="companyName">
-                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                  <Input v-model="formItem.companyName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号" prop="employeeId">
-                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员姓名" prop="employeeName">
-                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件号码" prop="idNum">
-                  <Input v-model="formItem.idNum" placeholder="请输入"/>
+                  <Input v-model="formItem.idNum" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="审核" prop="status">
+                <FormItem label="审核" prop="status">
                   <i-switch v-model="formItem.status" size="large" @on-change="getByPage(1)">
                     <span slot="open">Yes</span>
                     <span slot="close">No</span>
                   </i-switch>
-                </Form-item>
+                </FormItem>
               </Col>
             </Row>
             <Row type="flex" justify="start">
@@ -95,9 +94,11 @@
 
     <Table border stripe ref="uninsuredTable" :columns="uninsuredColumns" :data="uninsuredData"></Table>
     <Page :total="formItem.total"
+          show-total
           show-elevator
           @on-change="getByPage"
-          @on-page-size-change="pageSizeChange" :current.sync="formItem.current"
+          @on-page-size-change="pageSizeChange"
+          :current.sync="formItem.current"
           :page-size="formItem.size"></Page>
   </div>
 </template>
@@ -205,6 +206,7 @@
                     on: {
                       click: () => {
                         sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('printFlag', true);
                         this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
                     }
@@ -217,6 +219,7 @@
                     on: {
                       click: () => {
                         sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('printFlag', true);
                         this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
                     }

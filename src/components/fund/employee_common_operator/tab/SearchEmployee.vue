@@ -5,7 +5,7 @@
       <Row>
         <Col :sm="{span: 24}">
           <Form-item label="选择字段" prop="chooseFieldValue">
-            <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" @on-open-change="initOptions" transfer>
+            <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" transfer>
               <Option v-for="(field, index) in searchForm.chooseField" :value="index" :key="index">{{field}}</Option>
             </Select>
           </Form-item>
@@ -203,10 +203,13 @@
       },
       // 选择字段或关系
       setOption(content, type){
+        console.log('in setOption')
         this.searchForm.contentDisabled = false;
         this.searchForm.searchContentDesc = '';
-//        this.searchForm.searchContent="";
-//        this.searchForm.searchContentArr=[];
+        this.searchForm.searchContent="";
+        this.searchForm.searchContentArr=[];
+
+        console.log(this.searchForm)
         if (!content) return;
 
         if(type === chooseType.field) {

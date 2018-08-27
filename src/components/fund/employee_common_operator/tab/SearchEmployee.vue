@@ -195,10 +195,11 @@
     },
     methods: {
       initOptions(v) {
+        console.log(v)
         if (v) {
+          this.$refs["searchForm"].resetFields();
           this.searchForm.searchContent = "";
           this.searchForm.searchContentArr = [];
-          this.$refs["searchForm"].resetFields();
         }
       },
       // 选择字段或关系

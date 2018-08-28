@@ -124,6 +124,8 @@
           employNotes: ""
         },
         refuseInfo: {
+          oldResignFeedback: "",
+          resignFeedback: "",
           resignDate: "",
           firstInDate: "",
           endTypeValue: "",

@@ -127,7 +127,7 @@ export default {
       searchConditions: [],
       searchCondition: {
         params: "",
-        taskStatus: 0
+        taskStatus: ""
       },
       collapseInfo: [1],
       showHandle: {
@@ -427,7 +427,6 @@ export default {
           self.dismissalData = data.data.rows;
           self.pageData.total = Number(data.data.total);
           self.isLoading = false;
-          this.searchCondition.taskStatus = 0;
         });
     },
     queryResignTaskCount(params) {
@@ -451,6 +450,7 @@ export default {
         this.searchCondition.job = `${this.jobGroup}`;
       }
       this.queryAmResign(this.searchCondition);
+      this.queryResignTaskCount(this.searchCondition);
     },
     showJob(ind) {
       this.pageData.pageNum = 1;
@@ -461,6 +461,7 @@ export default {
       }
       this.searchCondition.job = ind;
       this.queryAmResign(this.searchCondition);
+      this.queryResignTaskCount(this.searchCondition);
     },
     handlePageNum(val) {
       this.pageData.pageNum = val;

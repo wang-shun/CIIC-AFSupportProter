@@ -208,6 +208,9 @@ const payTypes = [
   {
     value: '1', label: '打卡'
   },
+  {
+    value: '2', label: '现金'
+  },
 ];
 
 /**
@@ -302,7 +305,7 @@ function getUninsuredObj(row) {
               }
           </style>
       </head><body>`;
-        let foot = `</body><script>
+  let foot = `</body><script>
           function convertCurrency(money) {
               //汉字的数字
               let cnNums = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];

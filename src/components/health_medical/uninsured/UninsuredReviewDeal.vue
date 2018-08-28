@@ -5,7 +5,7 @@
         <Row justify="start" class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="就诊医院：" prop="clinicHospital">
-              <Input v-model="formItem.clinicHospital" placeholder="请输入"/>
+              <Input v-model="formItem.clinicHospital" placeholder="请输入"></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -40,7 +40,7 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="诊断：" prop="diagnose">
-              <Input v-model="formItem.diagnose" placeholder="请输入"/>
+              <Input v-model="formItem.diagnose" placeholder="请输入"></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -56,7 +56,7 @@
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="备注：" prop="remark">
               <Input v-model="formItem.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                     placeholder="请输入..."/>
+                     placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

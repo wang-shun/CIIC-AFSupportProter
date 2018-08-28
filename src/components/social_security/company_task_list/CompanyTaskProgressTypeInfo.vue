@@ -816,9 +816,9 @@
         let ssComAccountDTO={
               comAccountId: this.comAccountId,
               companyId:this.companyInfo.customerNumber,
-              ssAccount: this.companyOpenAccountOperator.joinSafeguardRegister,//参保户登记码
+              ssAccount: this.companyOpenAccountOperator.joinSafeguardRegister.trim(),//参保户登记码
               bankAccount: this.companyOpenAccountOperator.bankCardNumber,
-              comAccountName: this.companyOpenAccountOperator.pensionMoneyUseCompanyName,
+              comAccountName: this.companyOpenAccountOperator.pensionMoneyUseCompanyName.trim(),
               settlementArea: this.companyOpenAccountOperator.socialSecurityCenterValue,
               paymentBank: this.companyOpenAccountOperator.payBank,
               paymentWay: this.beforeSendInfo.payMethodValue,

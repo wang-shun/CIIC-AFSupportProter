@@ -379,7 +379,7 @@
                     this.newReconciliation.fundComCurrentValue = params.row.comAccountName;
                     this.newReconciliation.comAccountId = params.row.comAccountId;
                     this.newReconciliation.hfComAccount = params.row.hfComAccount;
-                    this.newReconciliation.hfAccountType = params.row.hfAccountType;
+                   // this.newReconciliation.hfAccountType = params.row.hfAccountType;
                     this.isShowFundAccountSearch=false;
                   }
                 }

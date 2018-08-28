@@ -80,6 +80,14 @@
                   <Input v-model="formItem.companyName" placeholder="请输入"></Input>
                 </FormItem>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="在保" prop="insured">
+                <i-switch v-model="formItem.insured" size="large" @on-change="getByPage(1)">
+                  <span slot="open">Yes</span>
+                  <span slot="close">No</span>
+                </i-switch>
+              </Form-item>
+              </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">

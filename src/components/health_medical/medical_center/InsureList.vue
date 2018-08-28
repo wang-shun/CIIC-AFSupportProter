@@ -91,7 +91,7 @@
             title: '公司编号', sortable: true, key: 'companyId'
           },
           {
-            title: '类型', sortable: true, key: 'Type'
+            title: '关系', sortable: true, key: 'Type'
           },
           {
             title: '款项', sortable: true, key: 'MoneyType'

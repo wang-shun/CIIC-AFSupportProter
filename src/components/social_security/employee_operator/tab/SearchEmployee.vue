@@ -114,6 +114,10 @@
       sessionKey: {
         type: String,
         required: true
+      },
+      sessionKeyAdd: {
+        type: String,
+        required: true
       }
     },
     data() {
@@ -143,6 +147,9 @@
         serviceCenterData: [],
         leaderShipData: []
       }
+    },
+    created() {
+      this.initOptions();
     },
     async mounted() {
       this.initOptions();
@@ -215,14 +222,14 @@
         this.searchForm.searchContentDesc='';
         this.searchForm.searchContent="";
         this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length);
-        let divElements = tableStyle.getByClass(document, "ivu-tag-checked");
-        if (divElements && divElements.length > 0) {
-          let parentElement = divElements[0].parentNode;
-
-          for (let i = divElements.length - 1; i >= 0; i--) {
-            parentElement.removeChild(divElements[i]);
-          }
-        }
+//        let divElements = tableStyle.getByClass(document, "ivu-tag-checked");
+//        if (divElements && divElements.length > 0) {
+//          let parentElement = divElements[0].parentNode;
+//
+//          for (let i = divElements.length - 1; i >= 0; i--) {
+//            parentElement.removeChild(divElements[i]);
+//          }
+//        }
         if (!content) return;
 
         if(type === chooseType.field) {

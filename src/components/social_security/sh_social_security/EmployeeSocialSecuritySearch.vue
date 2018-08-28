@@ -103,6 +103,7 @@
     <Table border :row-class-name="rowClassName" :columns="employeeSocialSecurityColumns" 
     :data="employeeSocialSecurityData" ref="employeeSocialSecurityData"
     @on-sort-change="SortChange"
+    height=340
     ></Table>
     <Page
         class="pageSize"
@@ -140,8 +141,8 @@
         pageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: 100,
+          pageSizeOpts: [100, 500 ]
         },
         searchCondition: {
           serviceCenterValue:[],
@@ -239,14 +240,14 @@
               ])
             }
           },
-          {title: '雇员编号', key: 'employeeId', align: 'center', width: 120,
+          {title: '雇员编号', key: 'employeeId', align: 'center', width: 120,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.employeeId),
               ]);
             }
           },
-          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 140,
+          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 140,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeName),

@@ -277,6 +277,22 @@
             title: "证件号码", sortable: true, key: "idNum", align: "center", width: 150
           },
           {
+            title: "投保日期", sortable: true, key: "insuranceDate", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.insuranceDate != null) {
+                return h('div', this.$utils.formatDate(params.row.insuranceDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: "退保日期", sortable: true, key: "surrenderDate", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.surrenderDate != null) {
+                return h('div', this.$utils.formatDate(params.row.surrenderDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
             title: "保险起始日期", sortable: true, key: "startConfirmDate", align: "center", width: 150,
             render: (h, params) => {
               if (params.row.startConfirmDate != null) {

@@ -4,7 +4,7 @@
       <Panel name="1">
         查询条件
         <div slot="content">
-          <search-employee ref="searchEmployeeR" @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDailyR" sessionKeyAdd="socialDailyRAdd"></search-employee>
+          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDailyR" sessionKeyAdd="socialDailyRAdd"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -634,9 +634,9 @@
           tableStyle.changeSortElementClass('rejectedData', idx, order)
         });
       },
-      searchEmployeeInit() {
-        this.$refs.searchEmployeeR.initOptions();
-      }
+//      searchEmployeeInit() {
+//        this.$refs.searchEmployeeR.initOptions();
+//      }
     }
   }
 </script>

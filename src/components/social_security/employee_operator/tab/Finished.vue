@@ -4,7 +4,7 @@
       <Panel name="1">
         查询条件
         <div slot="content">
-          <search-employee ref="searchEmployeeF" @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDailyF" sessionKeyAdd="socialDailyFAdd"></search-employee>
+          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDailyF" sessionKeyAdd="socialDailyFAdd"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -642,9 +642,9 @@
           tableStyle.changeSortElementClass('finishedData', idx, order)
         });
       },
-      searchEmployeeInit() {
-        this.$refs.searchEmployeeF.initOptions();
-      }
+//      searchEmployeeInit() {
+//        this.$refs.searchEmployeeF.initOptions();
+//      }
     }
   }
 </script>

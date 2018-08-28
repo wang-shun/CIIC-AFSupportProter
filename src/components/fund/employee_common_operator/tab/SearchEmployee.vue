@@ -64,7 +64,7 @@
             </Select>
           </Form-item>
           <Form-item label="查询内容" prop="searchContentArr" v-else-if="searchForm.isDate == 30">
-            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer">
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer>
               <Option v-for="item in payBankList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
           </Form-item>
@@ -403,7 +403,7 @@
           }
           if(hasRepeatObj === -1) {
             this.searchConditions.push(searchCondition);
-            this.$refs['searchForm'].resetFields();
+//            this.$refs['searchForm'].resetFields();
           } else {
             this.$Message.error("请不要重复添加");
           }

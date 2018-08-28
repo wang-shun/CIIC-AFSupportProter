@@ -717,9 +717,6 @@
           tableStyle.changeSortElementClass('processingData', idx, order)
         });
       },
-//      searchEmployeeInit() {
-//        this.$refs.searchEmployeeP.initOptions();
-//      }
     }
   }
 </script>

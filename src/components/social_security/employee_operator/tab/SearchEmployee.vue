@@ -152,7 +152,7 @@
       this.initOptions();
     },
     async mounted() {
-      this.initOptions();
+//      this.initOptions();
       let userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
       let fu = sessionStorage.getItem(this.sessionKey + userInfo.userId);
@@ -195,13 +195,11 @@
     },
     methods: {
       initOptions() {
-        console.log(sessionStorage.employeeOperatorTab)
         if(sessionStorage.employeeOperatorTab && sessionStorage.employeeOperatorTab !== "noprogress")
         {
           delete this.searchForm.chooseField["taskStatus"];
-          console.log(JSON.stringify(this.searchForm.chooseField))
         } else {
-          this.searchForm.chooseField = em_chooseField;
+          this.searchForm.chooseField["taskStatus"] = "未处理";
         }
       },
       getServiceCenters(){
@@ -235,6 +233,7 @@
         if(type === chooseType.field) {
           this.searchForm.disabled = false;
           this.searchForm.relationshipValue = "";
+          this.currentShip = {};
           delete this.searchForm.relationship["包含"];
 
           if(content.value.indexOf("month")>0){
@@ -260,6 +259,8 @@
             this.searchForm.isDate = 8;
             this.searchForm.disabled = true;
             this.searchForm.relationshipValue = "=";
+            this.currentShip.value = "=";
+            this.currentShip.label = "等于";
           }else if(content.value === 'e.employee_id') {
             this.searchForm.isDate = 0;
             this.searchForm.relationship["包含"] = "in";

@@ -634,9 +634,6 @@
           tableStyle.changeSortElementClass('rejectedData', idx, order)
         });
       },
-//      searchEmployeeInit() {
-//        this.$refs.searchEmployeeR.initOptions();
-//      }
     }
   }
 </script>

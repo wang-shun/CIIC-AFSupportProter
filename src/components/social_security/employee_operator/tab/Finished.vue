@@ -642,9 +642,6 @@
           tableStyle.changeSortElementClass('finishedData', idx, order)
         });
       },
-//      searchEmployeeInit() {
-//        this.$refs.searchEmployeeF.initOptions();
-//      }
     }
   }
 </script>

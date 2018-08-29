@@ -10,7 +10,7 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="受理金额：" prop="acceptAmount">
-              <InputNumber :min="1" v-model="formItem.acceptAmount" style="width: 100%"></InputNumber>
+              {{formItem.acceptAmount}}
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -114,7 +114,8 @@
       }
     },
     created() {
-      this.formItem.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
+      this.formItem.umAcceptanceId = sessionStorage.getItem('umAcceptanceId');
+      this.formItem.acceptAmount = sessionStorage.getItem('caseMoney');
       this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.formItem.auditor = this.userInfo.displayName;
     },

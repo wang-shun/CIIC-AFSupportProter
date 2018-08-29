@@ -193,7 +193,8 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('umAcceptanceId', params.row.umAcceptanceId);
+                        sessionStorage.setItem('caseMoney', params.row.caseMoney);
                         this.$router.push({name: 'uninsuredReviewDeal'});
                       }
                     }
@@ -205,7 +206,7 @@
                     },
                     on: {
                       click: () => {
-                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('umAcceptanceId', params.row.umAcceptanceId);
                         sessionStorage.setItem('printFlag', true);
                         this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
@@ -218,7 +219,7 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('umAcceptanceId', params.row.umAcceptanceId);
                         sessionStorage.setItem('printFlag', true);
                         this.$router.push({name: 'lookAcceptanceUninsured'});
                       }

@@ -124,6 +124,19 @@
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
             console.info(JSON.stringify(this.formItem));
+            if (!this.formItem.attachment) {
+              delete this.formItem.attachment
+            }
+            if (!this.formItem.diagnoseDate || this.formItem.diagnoseDate === '') {
+              delete this.formItem.diagnoseDate
+            }
+            if (!this.formItem.hospitalizationEndDate || this.formItem.hospitalizationEndDate === '') {
+              delete this.formItem.hospitalizationEndDate
+            }
+            if (!this.formItem.hospitalizationStartDate || this.formItem.hospitalizationStartDate === '') {
+              delete this.formItem.hospitalizationStartDate
+            }
+            console.info(JSON.stringify(this.formItem));
             this.loading = true;
             apiAjax.addUninsuredAudit(this.formItem).then(response => {
               this.loading = false;

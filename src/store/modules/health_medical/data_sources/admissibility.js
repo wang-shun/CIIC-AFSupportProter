@@ -228,7 +228,19 @@ function payTypeToChina(status) {
  * 未投保审核表单校验
  */
 const uninsuredReviewDealRules = {
-  diagnoseDate: [
+  auditAmount: [
+    {required: true, type: 'number', message: '请输入审核金额', trigger: 'change'}
+  ],
+  remark: [
+    {type: 'string', max: 66, message: '字段太长', trigger: 'blur'},
+  ],
+  diagnose: [
+    {type: 'string', max: 16, message: '字段太长', trigger: 'blur'},
+  ],
+  clinicHospital: [
+    {type: 'string', max: 16, message: '字段太长', trigger: 'blur'},
+  ],
+  /*diagnoseDate: [
     {required: true, type: 'date', message: '请选择就诊日期', trigger: 'change'}
   ],
   hospitalizationStartDate: [
@@ -237,28 +249,14 @@ const uninsuredReviewDealRules = {
   hospitalizationEndDate: [
     {required: true, type: 'date', message: '请选择住院结束日期', trigger: 'change'}
   ],
-  clinicHospital: [
-    // {required: true, message: '请输入就诊医院', trigger: 'change'},
-    {type: 'string', max: 16, message: '字段太长', trigger: 'blur'},
-  ],
   acceptAmount: [
     {required: true, type: 'number', message: '请输入受理金额', trigger: 'change'}
   ],
   payType: [
     {required: true, message: '请选择付款方式', trigger: 'change'}
   ],
-  diagnose: [
-    // {required: true, message: '请输入诊断', trigger: 'change'},
-    {type: 'string', max: 16, message: '字段太长', trigger: 'blur'},
-  ],
   hospitalizationDays: [
     {required: true, type: 'integer', message: '请输入住院天数', trigger: 'change'}
-  ],
-  auditAmount: [
-    {required: true, type: 'number', message: '请输入审核金额', trigger: 'change'}
-  ],
-  remark: [
-    {type: 'string', max: 66, message: '字段太长', trigger: 'blur'},
   ],
   attachment: [
     {
@@ -272,7 +270,7 @@ const uninsuredReviewDealRules = {
       },
       trigger: 'change'
     },
-  ],
+  ],*/
 };
 
 /**

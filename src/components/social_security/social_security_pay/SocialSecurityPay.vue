@@ -7,8 +7,8 @@
       </TabPane>
     </Tabs>
 
-     <paymentBatch v-show="tabNames.paymentBatch" @switchTab='switchTab'></paymentBatch>
-     <paymentCom v-show="tabNames.paymentCom"></paymentCom>
+     <paymentBatch v-if="tabNames.paymentBatch" @switchTab='switchTab'></paymentBatch>
+     <paymentCom v-if="tabNames.paymentCom"></paymentCom>
   </div>
 </template>
 <script>

@@ -617,6 +617,9 @@
     },
     mounted() {
       this.queryPageInfo()
+      this.handDateControl = true;
+      this.sendDateControl=true;
+      this.finishDateControl=true;
     },
     computed: {
 
@@ -877,7 +880,6 @@
       },
       //任务类型发生变化
       taskTypeChange(){
-
         let taskState = this.companyOpenAccountOperator.taskTypeValue
          //acceptanceDate sendCheckDate finishedDate
          let formObj = this.companyOpenAccountOperator

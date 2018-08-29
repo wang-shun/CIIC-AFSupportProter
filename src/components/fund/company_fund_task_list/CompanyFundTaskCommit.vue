@@ -10,7 +10,94 @@
       <Panel name="2">
         企业任务单办理 ({{this.hfTypeName}})
         <div slot="content">
-          <fund-open-account ref="openAccount" :openAccountInfo="this.$route.params.openAccountInfo"></fund-open-account>
+          <!-- <fund-open-account ref="openAccount" :openAccountInfo="this.$route.params.openAccountInfo"></fund-open-account> -->
+          <Form :label-width=150 ref="openAccount" :model="openAccount"  >
+              <Row type="flex" justify="start">
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="变更类型：">
+                    <Select v-model="openAccount.changeTypeValue" style="width: 100%;"  transfer>
+                      <Option v-for="item in changeTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    </Select>
+                  </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="缴费银行：">
+                    <Select v-model="openAccount.paymentBankValue" style="width: 100%;"  transfer>
+                      <Option v-for="item in paymentBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    </Select>
+                  </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="付款方式：">
+                    <Select v-model="openAccount.payMethodValue" style="width: 100%;"  transfer>
+                      <Option v-for="item in payMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    </Select>
+                  </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="企业公积金账户名称：">
+                  <Input v-model="openAccount.companyFundAccountName" placeholder="请输入..." ></Input>
+                </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="企业公积金账号：">
+                    <Input v-model="openAccount.companyFundAccountNum" placeholder="请输入..."></Input>
+                  </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="公积金企业U盾：">
+                    <Select v-model="openAccount.UKeyValue" style="width: 100%;" transfer>
+                      <Option v-for="item in UKeyList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                    </Select>
+                  </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="客户缴费起始年月：">
+                    <DatePicker v-model="openAccount.customerPayStartDate" type='month' placement="bottom-end"  style="width: 100%;" transfer></DatePicker>
+                  </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="每月关账日：">
+                    <Input v-model="openAccount.closeAccountEveryMonth" placeholder="请输入..." ></Input>
+                  </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="专员操作起始年月：">
+                    <DatePicker v-model="openAccount.operateStartMonth" type='month' placement="bottom-end" placeholder="选择日期"  style="width: 100%;" transfer></DatePicker>
+                  </Form-item>
+                </Col>
+                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                    <Form-item label="任务状态：" prop="taskStatus" >
+                      <Select v-model="openAccount.taskStatus" style="width: 100%;" transfer @on-change="taskTypeChange">
+                        <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" >{{item.label}}</Option>
+                      </Select>
+                    </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="受理日期：">
+                    <DatePicker v-model="openAccount.acceptDate" placement="bottom-end" placeholder="选择日期"  style="width: 100%;" transfer></DatePicker>
+                  </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="送审日期：">
+                    <DatePicker v-model="openAccount.deliveredDate" placement="bottom-end" placeholder="选择日期"  style="width: 100%;" transfer></DatePicker>
+                  </Form-item>
+                </Col>
+                <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                  <Form-item label="完成日期：">
+                    <DatePicker v-model="openAccount.finishDate" placement="bottom-end" placeholder="选择日期" style="width: 100%;" transfer></DatePicker>
+                  </Form-item>
+                </Col>
+              </Row>
+              <Row type="flex" justify="start">
+                <Col :sm="{span: 24}">
+                  <Form-item label="办理/批退备注：">
+                    <Input v-model="openAccount.notes" placeholder="这里可填写您办理的备注信息，或者批退的备注信息" ></Input>
+                  </Form-item>
+                </Col>
+              </Row>
+            </Form>
+
         </div>
       </Panel>
     </Collapse>
@@ -35,18 +122,52 @@
     data() {
       return {
         collapseInfo: [1, 2],
-        hfTypeName:this.$route.params.companyInfo.hfTypeName
+        hfTypeName:this.$route.params.companyInfo.hfTypeName,
+        openAccount:{
+        },
+         changeTypeList: [
+          {label: "开户", value: '1'},
+          {label: "转入", value: '2'}
+        ],
+        paymentBankList: [
+          {label: "徐汇—X", value: '15'},
+          {label: "西郊—C", value: '16'},
+          {label: "东方路—P", value: '17'},
+          {label: "卢湾—L", value: '18'},
+          {label: "黄浦—H", value: '0'},
+        ],
+        payMethodList: [
+          {value: '1',label: "客户自付", },
+          {value: '2',label: "我司付款(客户预付)"},
+          {value: '3',label: "垫付"},
+        ],
+        endTypeList: [
+          {label: "销户", value: '1'},
+          {label: "公司自做", value: '2'},
+          {label: "转其他代理商", value: '3'}
+        ],
+        taskTypeList:[
+          {value: '1', label: '受理中'},
+          {value: '2', label: '送审中'},
+          {value: '3', label: '已完成'},
+        ],
+        UKeyList: [
+          {label: "有(中智代办)", value: '2'},
+          {label: "有(客户自办)", value: '1'},
+          {label: "没有", value: '0'},
+        ],
+        accountTempStoreTypeList: [
+          {label: "是", value: 1},
+          {label: "否", value: 0}
+        ]
+     
       }
     },
     mounted() {
-
       // if(this.$refs.openAccount.openAccountInfo.taskStatus==0){
-
       //  this.$route.params.openAccountInfo.taskStatus==1;
       // }
-
-      console.log(this.$route.params);
-
+      this.openAccount=this.$route.params.openAccountInfo;
     },
     computed: {
     },
@@ -54,7 +175,24 @@
       goBack() {
         this.$router.go(-1);
       },
-
+       //任务类型发生变化
+      taskTypeChange(){
+        let taskState = this.openAccount.taskStatus;
+        let formObj = this.openAccount;
+        if(taskState=='1'){
+             formObj.acceptDate =new Date();
+             formObj.deliveredDate = null;
+             formObj.finishDate =null;
+        }else if(taskState=='2'){
+            formObj.acceptDate = formObj.acceptDate==null? new Date() : formObj.acceptDate;
+            formObj.deliveredDate = new Date();
+             formObj.finishDate =null;
+        }else if(taskState=='3'){
+             formObj.acceptDate = formObj.acceptDate==null? new Date() : formObj.acceptDate;
+             formObj.deliveredDate = formObj.deliveredDate==null? new Date() : formObj.deliveredDate;
+             formObj.finishDate = new Date();
+        }
+      },
       //点击提交按钮
       commit(){
         let params = this.getParams()
@@ -102,12 +240,12 @@
               this.$Message.error('付款方式必填');
               return false;
           }
-          let comStartMonth=this.$refs.openAccount.openAccountInfo.customerPayStartDate;
+          let comStartMonth=this.openAccount.customerPayStartDate;
           if(comStartMonth=='' || comStartMonth==null){
               this.$Message.error('客户缴费起始年月必填');
               return false;
           }
-          let operateStartMonth=this.$refs.openAccount.openAccountInfo.operateStartMonth;
+          let operateStartMonth=this.openAccount.operateStartMonth;
           if(operateStartMonth=='' || operateStartMonth==null){
               this.$Message.error('专员操作起始年月必填');
               return false;
@@ -130,7 +268,7 @@
         })
       },
       rejection(){
-        let notes=this.$refs.openAccount.openAccountInfo.notes;
+        let notes=this.openAccount.notes;
           if(notes=='' || notes==null){
               this.$Message.info('请填写批退备注');
               return false;
@@ -158,11 +296,11 @@
       //获得更新任务单请求参数
       getParams(){
 
-          let comStartMonth=this.$refs.openAccount.openAccountInfo.customerPayStartDate;
+          let comStartMonth=this.openAccount.customerPayStartDate;
           if(comStartMonth!='' && comStartMonth!=null){
               comStartMonth = Tools.formatDate(comStartMonth, "YYYYMM")
           }
-          let operateStartMonth=this.$refs.openAccount.openAccountInfo.operateStartMonth;
+          let operateStartMonth=this.openAccount.operateStartMonth;
           if(operateStartMonth!='' && operateStartMonth!=null){
              operateStartMonth = Tools.formatDate(operateStartMonth, "YYYYMM")
           }
@@ -175,25 +313,25 @@
           initiatorNotes: this.$refs.company.customerInfo.initiaterNotes,
 
           //openAccountInfo
-          comAccountId:this.$refs.openAccount.openAccountInfo.comAccountId,
-          comAccountClassId:this.$refs.openAccount.openAccountInfo.comAccountClassId,
-          taskChangeTypeValue: this.$refs.openAccount.openAccountInfo.changeTypeValue,
-          paymentWay: this.$refs.openAccount.openAccountInfo.payMethodValue,
-          paymentBank: this.$refs.openAccount.openAccountInfo.paymentBankValue,
-          closeDay: this.$refs.openAccount.openAccountInfo.closeAccountEveryMonth,
-          comAccountName: this.$refs.openAccount.openAccountInfo.companyFundAccountName.trim(),
-          comAccountNum: this.$refs.openAccount.openAccountInfo.companyFundAccountNum,
-          uKeyStore: this.$refs.openAccount.openAccountInfo.UKeyValue,
+          comAccountId:this.openAccount.comAccountId,
+          comAccountClassId:this.openAccount.comAccountClassId,
+          taskChangeTypeValue: this.openAccount.changeTypeValue,
+          paymentWay: this.openAccount.payMethodValue,
+          paymentBank: this.openAccount.paymentBankValue,
+          closeDay: this.openAccount.closeAccountEveryMonth,
+          comAccountName: this.openAccount.companyFundAccountName.trim(),
+          comAccountNum: this.openAccount.companyFundAccountNum,
+          uKeyStore: this.openAccount.UKeyValue,
           comStartMonth: comStartMonth,
           operateStartMonth: operateStartMonth,
-          endType: this.$refs.openAccount.openAccountInfo.endTypeValue,
-          accountTempStore: this.$refs.openAccount.openAccountInfo.accountTempStoreTypeValue,
-          taskStatus: this.$refs.openAccount.openAccountInfo.taskStatus,
+          endType: this.openAccount.endTypeValue,
+          accountTempStore: this.openAccount.accountTempStoreTypeValue,
+          taskStatus: this.openAccount.taskStatus,
 
-          acceptDate: this.$refs.openAccount.openAccountInfo.acceptDate,
-          approvalDate: this.$refs.openAccount.openAccountInfo.deliveredDate,
-          finishDate: this.$refs.openAccount.openAccountInfo.finishDate,
-          comAccountRemark: this.$refs.openAccount.openAccountInfo.notes,
+          acceptDate: this.openAccount.acceptDate,
+          approvalDate: this.openAccount.deliveredDate,
+          finishDate: this.openAccount.finishDate,
+          comAccountRemark: this.openAccount.notes,
 
         }
       },

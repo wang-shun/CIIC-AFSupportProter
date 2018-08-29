@@ -74,7 +74,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="taskColumns" :data="taskData" :loading="loading" :row-class-name="rowClassName"></Table>
+        <Table border :columns="taskColumns" :data="taskData" :loading="loading" :row-class-name="rowClassName" @on-row-dblclick="dbClickHandleData"></Table>
         <Page
           class="pageSize"
           @on-page-size-change="handlePageSize"
@@ -98,6 +98,7 @@
   import {Finished} from '../../../../api/house_fund/company_task_list/company_task_list_tab/finished'
   import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
   import ts from '../../../../api/house_fund/table_style'
+  import sessionData from '../../../../api/session-data'
   export default {
     components: {InputAccount, InputCompany},
     data() {
@@ -125,6 +126,25 @@
         },
         serviceCenterData: [], //客服中心
         taskColumns: [
+          {title: '操作', width: 100, align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+                      sessionData.setJsonDataToSession('companyFundTaskList.refused.operatorSearchData', this.operatorSearchData);
+                      sessionData.setJsonDataToSession('companyFundTaskList.refused.pageData', this.pageData);
+                      this.$router.push({name: 'companyFundTaskInfo', params: {
+                          comTaskId: params.row.comTaskId,
+                          companyInfo: params.row.companyInfo,
+                          companyTaskInfo: params.row.companyTaskInfo}
+                      });
+                    }
+                  }
+                }, '查看'),
+              ]);
+            }
+          },
           {title: '任务类型', key: 'taskCategoryName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [

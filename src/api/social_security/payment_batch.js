@@ -40,7 +40,7 @@ export default {
   },
 
   printFinancePayVoucher: async(params)=>{
-    AJAX.download('/api/soccommandservice/ssPaymenty/printFinancePayVoucher', params);
+    AJAX.download('/api/soccommandservice/ssPayment/printFinancePayVoucher', params);
   },
 
 }

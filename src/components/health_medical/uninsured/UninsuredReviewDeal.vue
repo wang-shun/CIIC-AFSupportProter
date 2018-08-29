@@ -123,7 +123,6 @@
       addUninsuredReviewDeal() {
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
-            console.info(JSON.stringify(this.formItem));
             if (!this.formItem.attachment) {
               delete this.formItem.attachment
             }
@@ -136,7 +135,6 @@
             if (!this.formItem.hospitalizationStartDate || this.formItem.hospitalizationStartDate === '') {
               delete this.formItem.hospitalizationStartDate
             }
-            console.info(JSON.stringify(this.formItem));
             this.loading = true;
             apiAjax.addUninsuredAudit(this.formItem).then(response => {
               this.loading = false;

@@ -52,7 +52,7 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="连带人：" prop="jointPersonName">
-              <Select v-model="formItem.jointPersonName" placeholder="请输入" :clearable="true">
+              <Select v-model="formItem.jointPersonName" placeholder="请选择" :clearable="true">
                 <Option v-for="item in jointPersonNameList" :value="item.name" :key="item.empMemberId">
                   {{ item.name }}
                 </Option>
@@ -61,8 +61,8 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="连带人出生日期：" prop="jointPersonBirthDate">
-              <DatePicker v-model="formItem.jointPersonBirthDate" type="date" placeholder="请输入"
-                          style="width: 100%"></DatePicker>
+              <DatePicker v-model="formItem.jointPersonBirthDate" type="date" style="width: 100%"
+                          :readonly="true"></DatePicker>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -138,6 +138,7 @@
       queryEmpMember() {
         apiAjax.queryEmpMember(this.employeeInfo).then(response => {
           this.jointPersonNameList = response.data.object;
+          console.info(JSON.stringify(this.jointPersonNameList))
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");

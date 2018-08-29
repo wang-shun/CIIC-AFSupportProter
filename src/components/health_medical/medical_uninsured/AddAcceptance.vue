@@ -26,14 +26,14 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="退保日期：" prop="surrenderDate">
-              <DatePicker type="date" v-model="formItem.surrenderDate" placeholder="请输入"
-                          style="width: 100%"></DatePicker>
+              <DatePicker type="date" v-model="formItem.surrenderDate" style="width: 100%"
+                          :readonly="true"></DatePicker>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="中止日期：" prop="dimissionDate">
-              <DatePicker type="date" v-model="formItem.dimissionDate" placeholder="请输入"
-                          style="width: 100%"></DatePicker>
+              <DatePicker type="date" v-model="formItem.dimissionDate" style="width: 100%"
+                          :readonly="true"></DatePicker>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -132,6 +132,7 @@
       this.employeeInfo = JSON.parse(sessionStorage.getItem('acceptanceEmployee'));
       this.queryEmpMember();
       this.queryBusinessConsultant();
+      this.querySupplyInfo();
     },
     methods: {
       queryEmpMember() {
@@ -145,6 +146,15 @@
       queryBusinessConsultant() {
         apiAjax.queryBusinessConsultant(this.employeeInfo).then(response => {
           this.employeeInfo.consultantName = response.data.object;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      querySupplyInfo() {
+        apiAjax.querySupplyInfo(this.employeeInfo.employeeId).then(response => {
+          this.formItem.surrenderDate = response.data.object.surrenderDate;
+          this.formItem.dimissionDate = response.data.object.endDate;
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");

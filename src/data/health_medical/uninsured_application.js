@@ -6,6 +6,7 @@ const ajaxApi = ajax.ajaxHmc;
 const basePaths = ajax.basePaths;
 const queryEmployeeList = params => ajaxApi.postJSON("/uninsuredService/queryEmployeeList", params);
 const queryBusinessConsultant = params => ajaxApi.postJSON("/uninsuredService/queryBusinessConsultant", params);
+const querySupplyInfo = params => ajaxApi.getJSON("/uninsuredService/querySupplyInfo/" + params);
 const queryEmpMember = params => ajaxApi.postJSON("/uninsuredService/queryEmpMember", params);
 const addAcceptance = params => ajaxApi.postJSON("/uninsuredService/addAcceptance", params);
 const queryAcceptanceList = params => ajaxApi.postJSON("/uninsuredService/queryAcceptanceList", params);
@@ -23,6 +24,7 @@ export default {
   basePaths,
   queryEmployeeList,
   queryBusinessConsultant,
+  querySupplyInfo,
   queryEmpMember,
   addAcceptance,
   queryAcceptanceList,

@@ -86,7 +86,7 @@
     </RadioGroup>
       </Col>
     </Row>
-    <!-- <Table border :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" class="mt20"></Table> -->
+   
   </div>
 </template>
 <script>
@@ -450,16 +450,15 @@ export default {
         this.searchCondition.job = `${this.jobGroup}`;
       }
       this.queryAmResign(this.searchCondition);
-      this.queryResignTaskCount(this.searchCondition);
+      
     },
     showJob(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      if(this.vertical!='')
-      {
-         this.searchCondition.taskStatus = this.vertical;
+      this.searchCondition.taskStatus = "";
+      if(this.jobGroup!=''){
+        this.searchCondition.job = `${this.jobGroup}`;
       }
-      this.searchCondition.job = ind;
       this.queryAmResign(this.searchCondition);
       this.queryResignTaskCount(this.searchCondition);
     },

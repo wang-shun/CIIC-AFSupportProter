@@ -13,7 +13,7 @@ let em_chooseField = {
   "b.handle_type":"办理类型",
   "b.employ_operate_man":"用工操作员",
   "a.employee_nature":"人员性质",
-  "a.created_time":"前端提交时间",
+  "a.created_time":"前道提交日期",
   "m.material_name":"材料名称",
   "b.employ_way":"用工方式",
   "e.settlement_area":"缴费区县",

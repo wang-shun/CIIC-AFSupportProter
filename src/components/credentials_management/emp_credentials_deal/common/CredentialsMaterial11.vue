@@ -51,7 +51,7 @@
         </i-col>
         </div>
       </Row>
-      
+
      <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
           <span style="font-weight:bold;font-size:14px">主要材料</span>
@@ -204,7 +204,7 @@
         </div>
       </Row>
       </div>
-      
+
       <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <span style="font-weight:bold;font-size:14px">住所证明材料</span>

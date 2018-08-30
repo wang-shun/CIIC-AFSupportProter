@@ -101,40 +101,40 @@
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="学历认证通过时间：" prop="" educationTime>
                 <DatePicker v-model="formItem.educationTime" type="date" placeholder="请输入" style="width: 100%"
-                            transfer/>
+                            transfer @on-open-change="loadCurrentDate('educationTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="材料退回时间：" prop="">
                 <DatePicker v-model="formItem.materialBackTime" type="date" placeholder="请输入" style="width: 100%"
-                            transfer/>
+                            transfer @on-open-change="loadCurrentDate('materialBackTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="催交日期：" prop="">
-                <DatePicker v-model="formItem.callsTime" type="date" placeholder="请输入" style="width: 100%" transfer/>
+                <DatePicker v-model="formItem.callsTime" type="date" placeholder="请输入" style="width: 100%" transfer @on-open-change="loadCurrentDate('callsTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="申报日期：" prop="">
-                <DatePicker v-model="formItem.applyTime" type="date" placeholder="请输入" style="width: 100%" transfer/>
+                <DatePicker v-model="formItem.applyTime" type="date" placeholder="请输入" style="width: 100%" transfer @on-open-change="loadCurrentDate('applyTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="居住证年限：" prop="liveAgeLimit">
-                <InputNumber v-model="formItem.liveAgeLimit" :min="0" :max="99" style="width: 100%"></InputNumber>
+                <InputNumber v-model="formItem.liveAgeLimit" placeholder="请输入" :min="0" :max="99" style="width: 100%"></InputNumber>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="调档函开出时间：" prop="">
                 <DatePicker v-model="formItem.shiftLetterSendTime" type="date" placeholder="请输入" style="width: 100%"
-                            transfer/>
+                            transfer @on-open-change="loadCurrentDate('shiftLetterSendTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="人才退回时间：" prop="">
                 <DatePicker v-model="formItem.talentBackTime" type="date" placeholder="请输入" style="width: 100%"
-                            transfer/>
+                            transfer @on-open-change="loadCurrentDate('talentBackTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -144,24 +144,24 @@
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="办理日期：" prop="">
-                <DatePicker v-model="formItem.dealTime" type="date" placeholder="请输入" style="width: 100%" transfer/>
+                <DatePicker v-model="formItem.dealTime" type="date" placeholder="请输入" style="width: 100%" transfer @on-open-change="loadCurrentDate('dealTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="收费日期：" prop="">
-                <DatePicker v-model="formItem.chargeTime" type="date" placeholder="请输入" style="width: 100%" transfer/>
+                <DatePicker v-model="formItem.chargeTime" type="date" placeholder="请输入" style="width: 100%" transfer @on-open-change="loadCurrentDate('chargeTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="到档时间：" prop="">
                 <DatePicker v-model="formItem.receiveFileTime" type="date" placeholder="请输入" style="width: 100%"
-                            transfer/>
+                            transfer @on-open-change="loadCurrentDate('receiveFileTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="材料退回时间：" prop="">
                 <DatePicker v-model="formItem.originalBackTime" type="date" placeholder="请输入" style="width: 100%"
-                            transfer/>
+                            transfer @on-open-change="loadCurrentDate('originalBackTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -172,18 +172,18 @@
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="积分单打印日期：" prop="integralBillPrintTime">
                 <DatePicker v-model="formItem.integralBillPrintTime" type="date" placeholder="请输入" style="width: 100%"
-                            transfer/>
+                            transfer @on-open-change="loadCurrentDate('integralBillPrintTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="积分单通知日期：" prop="integralBillCallTime">
                 <DatePicker v-model="formItem.integralBillCallTime" type="date" placeholder="请输入" style="width: 100%"
-                            transfer/>
+                            transfer @on-open-change="loadCurrentDate('integralBillCallTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员批复领取时间：" prop="empBackTime">
-                <DatePicker v-model="formItem.empBackTime" type="date" placeholder="请输入" style="width: 100%" transfer/>
+                <DatePicker v-model="formItem.empBackTime" type="date" placeholder="请输入" style="width: 100%" transfer @on-open-change="loadCurrentDate('empBackTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -330,6 +330,8 @@
       this.companyCode = data.companyId;
       this.empCode = data.employeeId;
       this.empName = data.employeeName;
+      this.credentialsType = data.credentialsType
+      this.credentialsDealType = data.credentialsDealType
     },
     created() {
       let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
@@ -340,6 +342,11 @@
       this.loadDicItems();
     },
     methods: {
+      loadCurrentDate(val) {
+        if (this.formItem[val] == '') {
+          this.formItem[val]=new Date()
+        }
+      },
       getEmpBasePeriodInfo() {
         let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
         let params = {}
@@ -359,9 +366,9 @@
       },
       callBack(value) {
         if (value != null) {
-          this.formItem = {...value};
-          this.formItem.degree = String(this.formItem.degree) == 'undefined' ? "" : String(this.formItem.degree)
-          this.formItem.qualification = String(this.formItem.qualification) == 'undefined' ? "" : String(this.formItem.qualification)
+          Tools.union(value,this.formItem)
+          this.credentialsType = value.credentialsType
+          this.credentialsDealType = value.credentialsDealType
           if (this.formItem.permitCompanyName == undefined) {
             this.formItem.permitCompanyName = value.companyName
           }
@@ -369,7 +376,7 @@
       },
       companyExtData(data) {
         if (data != null) {
-          this.formItem.chargeType = data.payTypeN == '员工自付' ? '2' : '1'
+          this.formItem.chargeType = data.payTypeN == '' ? '' : data.payTypeN == '员工自付' ? '2' : '1'
           if (this.formItem.chargeType == '1') {
             this.formItem.payType = '1'
           }
@@ -442,103 +449,77 @@
         let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
         let params = {};
         params = {...this.formItem};
-        if (
-          params.integralBillCallTime !== undefined &&
-          params.integralBillCallTime !== null
-        ) {
+
+        if (!this._.isNil(params.integralBillCallTime) && params.integralBillCallTime != '') {
           params.integralBillCallTime = Tools.formatDate(
             params.integralBillCallTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (
-          params.empBackTime !== undefined &&
-          params.empBackTime !== null
-        ) {
+        if (!this._.isNil(params.empBackTime) && params.empBackTime != '') {
           params.empBackTime = Tools.formatDate(
             params.empBackTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (
-          params.educationTime !== undefined &&
-          params.educationTime !== null
-        ) {
+        if (!this._.isNil(params.educationTime) && params.educationTime != '') {
           params.educationTime = Tools.formatDate(
             params.educationTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (
-          params.materialBackTime !== undefined &&
-          params.materialBackTime !== null
-        ) {
+        if (!this._.isNil(params.materialBackTime) && params.materialBackTime != '') {
           params.materialBackTime = Tools.formatDate(
             params.materialBackTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (params.callsTime !== undefined && params.callsTime !== null) {
+        if (!this._.isNil(params.callsTime) && params.callsTime != '') {
           params.callsTime = Tools.formatDate(
             params.callsTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (params.applyTime !== undefined && params.applyTime !== null) {
+        if (!this._.isNil(params.applyTime) && params.applyTime != '') {
           params.applyTime = Tools.formatDate(
             params.applyTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (
-          params.shiftLetterSendTime !== undefined &&
-          params.shiftLetterSendTime !== null
-        ) {
+        if (!this._.isNil(params.shiftLetterSendTime) && params.shiftLetterSendTime != '') {
           params.shiftLetterSendTime = Tools.formatDate(
             params.shiftLetterSendTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (
-          params.talentBackTime !== undefined &&
-          params.talentBackTime !== null
-        ) {
+        if (!this._.isNil(params.talentBackTime) && params.talentBackTime != '') {
           params.talentBackTime = Tools.formatDate(
             params.talentBackTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (params.dealTime !== undefined && params.dealTime !== null) {
+        if (!this._.isNil(params.dealTime) && params.dealTime != '') {
           params.dealTime = Tools.formatDate(params.dealTime, "YYYY-MM-DD hh:mm");
         }
-        if (params.chargeTime !== undefined && params.chargeTime !== null) {
+        if (!this._.isNil(params.chargeTime) && params.chargeTime != '') {
           params.chargeTime = Tools.formatDate(
             params.chargeTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (
-          params.receiveFileTime !== undefined &&
-          params.receiveFileTime !== null
-        ) {
+        if (!this._.isNil(params.receiveFileTime) && params.receiveFileTime != '') {
           params.receiveFileTime = Tools.formatDate(
             params.receiveFileTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (
-          params.originalBackTime !== undefined &&
-          params.originalBackTime !== null
-        ) {
+        if (!this._.isNil(params.originalBackTime) && params.originalBackTime != '') {
           params.originalBackTime = Tools.formatDate(
             params.originalBackTime,
             "YYYY-MM-DD hh:mm"
           );
         }
-        if (
-          params.integralBillPrintTime !== undefined &&
-          params.integralBillPrintTime !== null
-        ) {
+        if (!this._.isNil(params.integralBillPrintTime) && params.integralBillPrintTime != '') {
           params.integralBillPrintTime = Tools.formatDate(
             params.integralBillPrintTime,
             "YYYY-MM-DD hh:mm"
@@ -549,6 +530,8 @@
         params.templateType = this.templateType;
         params.productId = credentialsTaskData.productId;
         params.basicProductId = credentialsTaskData.basicProductId;
+        params.credentialsDealType = this.credentialsDealType
+        params.credentialsType = this.credentialsType
         console.log(params)
         AJAX
           .postJSON(host + "/api/empCredentialsDeal/saveOrUpdate/task", params)

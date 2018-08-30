@@ -17,6 +17,17 @@ tools.copy = (source, target) => {
   }
 }
 
+/**
+ * union 属性
+ * @param source
+ * @param target
+ */
+tools.union = (source, target) => {
+  // copy attr
+  for (var attr in source) {
+    target[attr] = source[attr];
+  }
+}
 
 /**
  * 格式化日期

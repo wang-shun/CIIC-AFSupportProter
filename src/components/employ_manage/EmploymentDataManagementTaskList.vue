@@ -481,16 +481,15 @@ export default {
         this.searchCondition.job = `${this.jobGroup}`;
       }
       this.employeeQuery(this.searchCondition);
-      this.employeeCollectionQuery(this.searchCondition);
+      
     },
     showJob(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      if(this.vertical!='')
-      {
-         this.searchCondition.taskStatus = this.vertical;
+      this.searchCondition.taskStatus = "";
+      if(this.jobGroup!=''){
+        this.searchCondition.job = `${this.jobGroup}`;
       }
-      this.searchCondition.job = this.jobGroup;
       this.employeeQuery(this.searchCondition);
       this.employeeCollectionQuery(this.searchCondition);
     },

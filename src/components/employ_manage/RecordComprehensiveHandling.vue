@@ -53,11 +53,11 @@
         </Radio>
         </RadioGroup>
         <RadioGroup v-model="vertical"  @on-change="showInfoTw" vertical>
-           <Radio label="1" >
+           <Radio label="0" >
              <span>未完成</span>
              <span>{{RadioData.noHandleEnd}}</span>
            </Radio>
-        <Radio label="3">
+        <Radio label="1">
             <span>已完成</span>
             <span>{{RadioData.handleEnd}}</span>
         </Radio>
@@ -552,14 +552,12 @@ export default {
         this.searchCondition.job = this.jobGroup;
       }
       this.archiveQuery(this.searchCondition);
-      this.taskCountArchive(this.searchCondition);
     },
     showJob(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      if (this.vertical != "") {
-        this.searchCondition.taskStatus = this.vertical;
-      }
+      this.searchCondition.taskStatus = "";
+      this.vertical = "";
       this.searchCondition.job = ind;
       this.archiveQuery(this.searchCondition);
       this.taskCountArchive(this.searchCondition);

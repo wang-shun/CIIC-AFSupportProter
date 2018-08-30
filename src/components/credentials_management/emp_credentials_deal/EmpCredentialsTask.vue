@@ -313,7 +313,7 @@
           empBackTime: null,
           payType: "",
           chargeAmount: null,
-          peopleNum: 2,
+          peopleNum: 1,
           permitCompanyName: "",
           telephone: "",
           remark: "",

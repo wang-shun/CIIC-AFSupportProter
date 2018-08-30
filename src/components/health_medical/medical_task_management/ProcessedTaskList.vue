@@ -310,6 +310,14 @@
             }
           },
           {
+            title: "操作时间", sortable: true, key: "modifiedTime", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.modifiedTime) {
+                return h('div', this.$utils.formatDate(params.row.modifiedTime, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
             title: "提交人", sortable: true, key: "createdUser", align: "center", width: 150
           },
           {

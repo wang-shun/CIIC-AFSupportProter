@@ -38,6 +38,12 @@
                               style="width: 100%" transfer></DatePicker>
                 </FormItem>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <FormItem label="受理日期：" prop="modifiedTime">
+                  <DatePicker v-model="reimbursementItem.modifiedTime" placeholder="请输入"
+                              style="width: 100%" transfer></DatePicker>
+                </FormItem>
+              </Col>
             </row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
@@ -90,6 +96,7 @@
           companyId: null,
           companyName: null,
           fragmentaryDate: null,
+          modifiedTime: null,
         },
         userInfo: {},
         reimbursementColumns: [

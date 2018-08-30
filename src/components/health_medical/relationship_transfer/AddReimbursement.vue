@@ -29,12 +29,6 @@
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <FormItem label="零星报销日期：" prop="fragmentaryDate">
-              <DatePicker v-model="reimbursementItem.fragmentaryDate" placeholder="请输入"
-                          style="width: 100%" transfer></DatePicker>
-            </FormItem>
-          </Col>
-          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="受理金额：" prop="caseMoney">
               <InputNumber v-model="reimbursementItem.caseMoney" placeholder="请输入" style="width: 100%"></InputNumber>
             </FormItem>
@@ -87,7 +81,6 @@
           employeeName: '',
           companyId: '',
           companyName: '',
-          fragmentaryDate: null,
           caseMoney: 0,
           idNum: '',
           invoiceNumber: 0,

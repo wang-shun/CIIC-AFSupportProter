@@ -31,7 +31,7 @@
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="零星报销日期：" prop="fragmentaryDate">
               <DatePicker v-model="reimbursementItem.fragmentaryDate" placeholder="请输入"
-                          style="width: 100%" transfer></DatePicker>
+                          style="width: 100%" :readonly="true" transfer></DatePicker>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -88,7 +88,7 @@
     },
     created() {
       this.reimbursementItem = JSON.parse(sessionStorage.getItem('reimbursementFormItem'));
-      this.reimbursementItem.fragmentaryDate = new Date(this.reimbursementItem.fragmentaryDate);
+      this.reimbursementItem.fragmentaryDate = new Date();
     },
     methods: {
       ...mapActions("TRANSFER", [EventTypes.REIMBURSEMENT_UPDATE]),

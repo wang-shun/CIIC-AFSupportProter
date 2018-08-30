@@ -152,7 +152,7 @@
     <Modal class="warn-back"
            v-model="modal1"
            title="审核">
-      <Form ref="dealMsg" :model="dealMsg" :rules="dealMsgRules" :label-width="80">
+      <Form ref="dealMsg" :model="dealMsg" :label-width="80">
         <FormItem label="操作说明" prop="remark">
           <Input v-model="dealMsg.remark" placeholder="请输入" style="width: 100%;text-align: left"></Input>
         </FormItem>
@@ -439,7 +439,7 @@
             item.hearTime = new Date();
           }
         });
-        if (val === 4 || val === 6) {
+        if (val === 6) {
           this.$refs['dealMsg'].validate((valid) => {
             if (valid) {
               this.loading = true;

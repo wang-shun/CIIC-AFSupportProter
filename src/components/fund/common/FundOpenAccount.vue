@@ -69,7 +69,7 @@
         </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="任务状态：" >
+          <Form-item label="任务状态：" prop="taskStatus" >
             <Select v-model="openAccount.taskStatus" style="width: 100%;" transfer @on-change="taskTypeChange">
               <Option v-for="item in taskTypeList" :value="item.value" :key="item.value" >{{item.label}}</Option>
             </Select>
@@ -159,8 +159,10 @@
   },
   //任务类型发生变化
       taskTypeChange(){
+        alert();
         let taskState = this.openAccount.taskStatus;
         let formObj = this.openAccount;
+        alert(taskState)
         if(taskState=='1'){
              formObj.acceptDate =new Date();
              formObj.deliveredDate = null;

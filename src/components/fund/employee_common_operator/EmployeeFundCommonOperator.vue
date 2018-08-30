@@ -2,7 +2,7 @@
   <div class="smList">
     <Tabs v-model="tab" @on-click="onClickO">
       <TabPane label="未处理" name="noprocess">
-        <noprocess v-if="isNoProcess"></noprocess>
+        <noprocess ref="noprogress" v-if="isNoProcess"></noprocess>
       </TabPane>
       <TabPane label="处理中" name="processing">
         <processing v-if="isProcessing"></processing>
@@ -48,8 +48,9 @@
       },
       onClickO(name){
         //将tab类型 缓存
-        sessionStorage.fundEmployeeOperatorTab = this.tab
+        sessionStorage.fundEmployeeOperatorTab = name
         this.controlShow(name)
+        this.$refs.noprogress.searchEmployeeInit();
       },
       //控制处理中 tab 显示
       controlShow(name){

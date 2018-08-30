@@ -4,7 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-           <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDaily"></search-employee>
+           <search-employee ref="searchEmployee" @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDaily" sessionKeyAdd="fundDailyAdd"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -330,6 +330,7 @@
         localStorage.setItem('employeeFundCommonOperator.hfType', row.hfType);
         localStorage.setItem('employeeFundCommonOperator.taskCategory', row.taskCategory);
         localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
+        localStorage.setItem('employeeFundCommonOperator.processCategory', row.processCategory);
         switch (row.taskCategory) {
           case '1':
           case '2':
@@ -337,6 +338,7 @@
           case '9':
           case '10':
           case '11':
+          case '99':
             this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
             break;
           case '4':
@@ -776,9 +778,12 @@
       },
       impTemplate() {
         api.downloadEmpPreInputTemplate({});
+      },
+      searchEmployeeInit() {
+        this.$refs.searchEmployee.initOptions();
       }
 
-      }
+    }
 
   }
 </script>

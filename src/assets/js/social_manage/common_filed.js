@@ -15,7 +15,7 @@ let em_chooseField = {
   "c.title":"客户名称",
   "e.employee_name":"雇员姓名",
   "ca.settlement_area":"结算区县",
-  "taskStatus":"未处理",
+  // "taskStatus":"未处理",
 };
 let em_relationship = {
   "等于": "=",

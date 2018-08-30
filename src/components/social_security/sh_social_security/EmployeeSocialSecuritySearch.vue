@@ -103,6 +103,7 @@
     <Table border :row-class-name="rowClassName" :columns="employeeSocialSecurityColumns" 
     :data="employeeSocialSecurityData" ref="employeeSocialSecurityData"
     @on-sort-change="SortChange"
+    height=340
     ></Table>
     <Page
         class="pageSize"
@@ -140,14 +141,14 @@
         pageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: 100,
+          pageSizeOpts: [100, 500 ]
         },
         searchCondition: {
           serviceCenterValue:[],
           companyId: '', //客户编号
           title: '', //客户名称
-         // companyAccountType: '', //社保账户类型
+          companyAccountType: '', //社保账户类型
           settlementArea: '', //结算区域
           ssAccountType: '',  //社保账户类型
           employeeId: '', //雇员编号
@@ -155,6 +156,7 @@
           idNum: '', //证件号
           ssAccount:'',//企业社保账号
           archiveTaskStatus: '',//社保状态
+          ssSerial:'',
           //empClassify: '' //人员分类
         },
         serviceCenterData: [], //客服中心
@@ -238,14 +240,14 @@
               ])
             }
           },
-          {title: '雇员编号', key: 'employeeId', align: 'center', width: 120,
+          {title: '雇员编号', key: 'employeeId', align: 'center', width: 120,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.employeeId),
               ]);
             }
           },
-          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 140,
+          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 140,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeName),
@@ -347,13 +349,9 @@
       }
     },
     mounted() {
-      sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
-      sessionData.getJsonDataFromSession('empSSsearch.pageData', this.pageData);
       this.loadDict();
-      let params = this.searchCondition;
-      this.employeeQuery(params);
-    
       this.getCustomers();
+      
     },
     computed: {
 
@@ -393,6 +391,8 @@
             this.accountTypeList = data.data.SocialSecurityAccountType;
             sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
             sessionData.getJsonDataFromSession('empSSsearch.pageData', this.pageData);
+            let params = this.searchCondition;
+            this.employeeQuery(params);
           }
         });
       },

@@ -1,10 +1,10 @@
 <template>
-  <div style="height: 1000px;">
+  <div style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
         <div slot="content">
-          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDailyR"></search-employee>
+          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDailyR" sessionKeyAdd="socialDailyRAdd"></search-employee>
         </div>
       </Panel>
     </Collapse>

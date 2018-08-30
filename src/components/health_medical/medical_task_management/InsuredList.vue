@@ -19,30 +19,36 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <FormItem label="保险公司" prop="insuranceCompany">
-                  <Select v-model="formItem.insuranceCompany" :clearable="true"
-                          @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
-                    <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
-                            :key="item.insuranceCompanyId">
-                      {{item.insuranceCompanyName}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.insuranceCompany" :clearable="true"
+                            @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
+                      <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
+                              :key="item.insuranceCompanyId">
+                        {{item.insuranceCompanyName}}
+                      </Option>
+                    </Select>
+                  </label>
                 </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <FormItem label="保单" prop="afProductId">
-                  <Select v-model="formItem.afProductId" :clearable="true">
-                    <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
-                      {{item.insurancePolicyName}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.afProductId" :clearable="true">
+                      <Option v-for="item in taskTypeItem" :value="item.insurancePolicyId" :key="item.insurancePolicyId">
+                        {{item.insurancePolicyName}}
+                      </Option>
+                    </Select>
+                  </label>
                 </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <FormItem label="标的类型" prop="keyType">
-                  <Select v-model="formItem.keyType" :clearable="true">
-                    <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.keyType" :clearable="true">
+                      <Option v-for="item in keyTypeProperties" :value="item.value" :key="item.value">{{item.label}}
+                      </Option>
+                    </Select>
+                  </label>
                 </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -80,6 +86,14 @@
                   <Input v-model="formItem.companyName" placeholder="请输入"></Input>
                 </FormItem>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="在保" prop="insured">
+                <i-switch v-model="formItem.insured" size="large" @on-change="getByPage(1)">
+                  <span slot="open">Yes</span>
+                  <span slot="close">No</span>
+                </i-switch>
+              </Form-item>
+              </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
@@ -99,6 +113,7 @@
            :columns="warrantyColumns"
            :data="warrantyData"></Table>
     <Page show-elevator
+          show-total
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
           :total="formItem.total"

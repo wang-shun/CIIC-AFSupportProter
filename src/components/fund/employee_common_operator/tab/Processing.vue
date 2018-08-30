@@ -4,7 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDailyP"></search-employee>
+          <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDailyP" sessionKeyAdd="fundDailyPAdd"></search-employee>
         </div>
       </Panel>
     </Collapse>

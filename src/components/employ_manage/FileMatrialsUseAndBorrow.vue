@@ -425,6 +425,10 @@ export default {
       fromData.employeeId = this.$route.query.employeeId;
       fromData.archiveId = this.$route.query.archiveId;
       fromData.employeeName = this.$route.query.employeeName;
+      if(fromData.archiveId==undefined||fromData.archiveId==''){
+        this.$Message.info("请先办理保存档案");
+        return;
+      }
 
       fromData.useBorrow = 0;
 
@@ -488,7 +492,10 @@ export default {
       fromData.employeeId = this.$route.query.employeeId;
       fromData.archiveId = this.$route.query.archiveId;
       fromData.employeeName = this.$route.query.employeeName;
-
+       if(fromData.archiveId==undefined||fromData.archiveId==''){
+        this.$Message.info("请先办理保存档案");
+        return;
+      }
 
       fromData.useBorrow = 1;
 
@@ -599,8 +606,10 @@ export default {
       }
       let archiveUseId;
       var fromData = this.$utils.clear(this.realHandInfo, "");
+      var useDate;
       selection.forEach(item => {
         this.handleInfo.archiveUseId = item.archiveUseId;
+        useDate = item.useDate;
       });
 
       var fromData = this.$utils.clear(this.realHandInfo, "");
@@ -609,6 +618,14 @@ export default {
         this.handleInfo.returnDate,
         "YYYY-MM-DD"
       );
+      if(this.handleInfo.returnDate==undefined||this.handleInfo.returnDate==''){
+        this.$Message.info("更新日期为空");
+        return;
+      }
+      if(fromData.returnDate<useDate){
+        this.$Message.info("归还日期不能小于使用日期");
+        return;
+      }
       fromData.archiveId = this.$route.query.archiveId;
       fromData.useBorrow = 1;
       api.saveAmArchiveUse(fromData).then(data => {

@@ -153,6 +153,13 @@ export default {
   advanceSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amArchiveAdvance/advanceSearchExportOpt', params);
   },
+  impTemplateFile: async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/impTemplateFile', params);
+  },
+  xlsImportEmpAdvance: async (params) => {
+    let response = await AJAX.upload('/api/employservice/amArchiveTask/xlsImportEmpAdvance', params);
+    return await response.data;
+  },
   uekySearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amArchiveUkey/uekySearchExportOpt', params);
   },
@@ -250,6 +257,10 @@ export default {
   },
   batchResignCheck:async (params)=>{
     let response = await AJAX.post('/api/employservice/amResignTask/batchResignCheck', params);
+    return await response.data;
+  },
+  taskCountArchive:async (params)=>{
+    let response = await AJAX.get('/api/employservice/amArchiveTask/taskCountArchive', params);
     return await response.data;
   }
 

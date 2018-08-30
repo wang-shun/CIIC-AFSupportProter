@@ -231,7 +231,7 @@
     data() {
       return {
         isLoading: false,
-        oldResignFeedback: '',
+        isFrist: true,
         endTypeList: [
           {value: '', label: ''},
           {value: '合同终止', label: '合同终止',disabled:false},
@@ -316,7 +316,6 @@
       },
     },
     mounted(){
-       this.oldResignFeedback = this.refuse.resignFeedback;
     },
     methods: {
 
@@ -565,24 +564,23 @@
 
               this.refuse.resignFeedbackDate=currentdate;
           }
-
-          //alert(this.oldResignFeedback);
-          if(this.oldResignFeedback == '11'){
-            if(val!='11'){
+          if(this.isFrist == false){
+            this.refuse.resignFeedbackDate = this.currentDate();
+            if(val=="11"){
+              this.refuse.ukeyBorrowDate = this.currentDate();
+            }
+            if(this.refuse.oldResignFeedback == '11' && val != "11"){
               this.refuse.ukeyReturnDate = this.currentDate();
-            }else{
+            }
+            if(this.refuse.oldResignFeedback != '11'){
+              this.refuse.ukeyReturnDate = '';
+            }
+            if(this.refuse.oldResignFeedback == '11' && val == "11"){
               this.refuse.ukeyReturnDate = '';
             }
           }
-          if(val=='11'){
-            this.refuse.ukeyBorrowDate = this.currentDate();
-          }else{
-            this.refuse.ukeyBorrowDate = '';
-          }
-          if(val!=''){
-            this.refuse.resignFeedbackDate = this.currentDate();
-          }else{
-            this.refuse.resignFeedbackDate = '';
+          if(this.isFrist==true && this.refuse.oldResignFeedback!=undefined && this.refuse.oldResignFeedback!=''){
+            this.isFrist=false;
           }
        },currentDate(){
               var date = new Date();

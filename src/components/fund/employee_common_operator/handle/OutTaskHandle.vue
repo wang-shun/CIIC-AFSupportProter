@@ -183,7 +183,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="缴纳至：">
-                <label>{{(displayVO.empAddEndMonth) ? displayVO.empAddEndMonth : displayVO.empAddLastMonth}}</label>
+                <label>{{displayVO.empAddEndMonth}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -696,6 +696,7 @@
         localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
         localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
         localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.processCategory', params.row.processCategory);
         localStorage.setItem('employeeFundCommonOperator.taskStatus', params.row.taskStatus);
         if (currentTaskCategory === params.row.taskCategory) {
           location.reload()
@@ -707,6 +708,7 @@
             case '9':
             case '10':
             case '11':
+            case '99':
               this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
               break;
             case '4':

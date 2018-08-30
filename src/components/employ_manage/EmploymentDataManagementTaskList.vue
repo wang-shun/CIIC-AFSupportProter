@@ -34,9 +34,9 @@
           <DropdownMenu slot="list">
             <DropdownItem name="1">用工录用名册</DropdownItem>
             <DropdownItem name="2">派遣录用名册</DropdownItem>
-            <!--<DropdownItem name="3">外来独立</DropdownItem>-->
-            <!--<DropdownItem name="4">外来派遣</DropdownItem>-->
-            <!--<DropdownItem name="5">采集表汇总表</DropdownItem>-->
+            <DropdownItem name="3">外来独立</DropdownItem>
+            <DropdownItem name="4">外来派遣</DropdownItem>
+            <DropdownItem name="5">采集表汇总表</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Button type="primary" @click="batchManagement">批理办理</Button>
@@ -101,7 +101,6 @@
             <span>{{RadioData.amount}}</span>
         </Radio>
     </RadioGroup>
-        <!-- <Table  border  :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" ref="searchResultData" class="mt14"></Table> -->
       </Col>
     </Row>
     
@@ -155,7 +154,7 @@ export default {
       searchConditions: [],
       searchCondition: {
         params: "",
-        taskStatus: 0,
+        taskStatus:"",
         job:""
       },
       showHandle: {
@@ -467,7 +466,7 @@ export default {
         this.searchConditions.push(conditions[i].exec);
 
       this.searchCondition.params = this.searchConditions.toString();
-
+     
       this.employeeQuery(this.searchCondition);
       this.employeeCollectionQuery(this.searchCondition);
     },
@@ -482,6 +481,7 @@ export default {
         this.searchCondition.job = `${this.jobGroup}`;
       }
       this.employeeQuery(this.searchCondition);
+      this.employeeCollectionQuery(this.searchCondition);
     },
     showJob(ind) {
       this.pageData.pageNum = 1;
@@ -492,6 +492,7 @@ export default {
       }
       this.searchCondition.job = this.jobGroup;
       this.employeeQuery(this.searchCondition);
+      this.employeeCollectionQuery(this.searchCondition);
     },
     printLabel() {
       let selection = this.$refs.employmentData.getSelection();
@@ -573,7 +574,6 @@ export default {
           self.employmentData = data.data.rows;
           self.pageData.total = Number(data.data.total);
           self.isLoading = false;
-          this.searchCondition.taskStatus = 0;
         });
     },
     employeeCollectionQuery(params) {
@@ -801,7 +801,6 @@ export default {
           self.employmentData = data.data.rows;
           self.pageData.total = Number(data.data.total);
           self.isLoading = false;
-          this.searchCondition.taskStatus = 0;
           this.changeSortClass(this.orderConditions);
         });
     },

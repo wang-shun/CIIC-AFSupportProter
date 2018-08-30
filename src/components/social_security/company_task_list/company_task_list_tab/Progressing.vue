@@ -229,6 +229,13 @@
               ]);
             }
           },
+          {title: '处理状态', key: 'taskStatus', width: 120, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.taskStatus),
+              ]);
+            }
+          },
           {title: '客户编号', key: 'customerId', width: 110, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
@@ -275,11 +282,11 @@
       }
     },
     created() {
-      sessionData.getJsonDataFromSession('companyTaskList.Progressing.companyTaskInfo', this.companyTaskInfo);
-      sessionData.getJsonDataFromSession('companyTaskList.Progressing.pageData', this.pageData);
+       sessionData.getJsonDataFromSession('companyTaskList.Progressing.companyTaskInfo', this.companyTaskInfo);
+       sessionData.getJsonDataFromSession('companyTaskList.Progressing.pageData', this.pageData);
     },
     mounted() {
-
+     
 //      let sessionPageNum = sessionStorage.taskPageNum
 //      let sessionPageSize = sessionStorage.taskPageSize
 //      if(sessionPageNum && sessionPageSize){
@@ -289,14 +296,15 @@
 //         sessionStorage.removeItem("taskPageSize")
 //      }
      let self= this
-      let params = {
-        pageSize:this.pageData.pageSize,
-        pageNum:this.pageData.pageNum,
-        params:{}
-      }
-      Progressing.getTableData(params).then(data=>{
+      // let params = {
+      //   pageSize:this.pageData.pageSize,
+      //   pageNum:this.pageData.pageNum,
+      //   params:this.getParams(this.pageData.pageNum)
+      // }
+     let params=this.getParams(this.pageData.pageNum);
+      Progressing.postTableData(params).then(data=>{
           self.loading=true;
-           self.refreash(data)
+          self.refreash(data)
         }
       ).catch(error=>{
         console.log(error);

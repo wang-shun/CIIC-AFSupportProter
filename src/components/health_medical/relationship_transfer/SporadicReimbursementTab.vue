@@ -50,8 +50,12 @@
       </router-link>
       <Button icon="ios-download-outline" type="info" @click="exportData()">导出数据</Button>
     </div>
-    <Table border :columns="reimbursementColumns" :data="reimbursementData" ref="reimbursementTable"></Table>
+    <Table border
+           :columns="reimbursementColumns"
+           :data="reimbursementData"
+           ref="reimbursementTable"></Table>
     <Page :total="reimbursementTotal"
+          show-total
           show-elevator
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"

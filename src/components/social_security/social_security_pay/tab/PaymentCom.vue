@@ -513,7 +513,7 @@
                      let comAccountId = params.row.comAccountId;
                      let paymentMonth = params.row.paymentMonth;
                      let paymentState = params.row.paymentState;
-                     this.goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState);
+                     this.goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState,params.row.ssAccount);
                    }
                  }
                }
@@ -700,13 +700,14 @@
           }
         });
       },
-      goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState) {
+      goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState,ssAccount) {
         sessionData.setJsonDataToSession('paymentCom.payComSearchData', this.payComSearchData);
         sessionData.setJsonDataToSession('paymentCom.payComPageData', this.payComPageData);
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId);
         window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId);
         window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth);
         window.sessionStorage.setItem("paymentnotice_paymentState", paymentState);
+        window.sessionStorage.setItem("paymentnotice_ssAccount", ssAccount);
         this.$router.push({name: 'paymentNotice'})
       },
       ok () {

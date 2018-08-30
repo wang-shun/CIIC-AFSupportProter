@@ -7,7 +7,7 @@
   <Form :label-width=150 ref="advanceFile" :model="advanceFile">
     <Row type="flex" justify="start">
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="档案类型：">
+        <Form-item label="预留档案类型：">
           <Select transfer @on-change="changeTypeYuliu" v-model="advanceFile.reservedArchiveType">
             <Option value="" key="">空</Option>
               <Option v-for="item in docTypeList" :value="item.value" :key="item.value">
@@ -17,7 +17,7 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-      <Form-item label="档案编号：">
+      <Form-item label="预留档案编号：">
         <Input  placeholder="请输入..." v-model="advanceFile.reservedArchiveNo" :maxlength="9" ></Input>
       </Form-item>
       </Col>
@@ -179,7 +179,7 @@ export default {
       this.queryDocSeqByDocType(val);
     },
     queryDocSeqByDocType(val) {
-      api.queryDocSeqByDocType({ type: 2, docType: val }).then(data => {
+      api.queryDocSeqByDocType({ type: 1, docType: val }).then(data => {
         if (data.code == 200) {
           Vue.set(
             this.advanceFile,
@@ -212,6 +212,7 @@ export default {
         this.isDisable = false;
         return;
       }
+      this.advanceFile.employeeName = this.advanceFile.employeeName.replace(/(^\s*)|(\s*$)/g, "");
       if (
         this.advanceFile.employeeIdcardNo == "" ||
         this.advanceFile.employeeIdcardNo == undefined

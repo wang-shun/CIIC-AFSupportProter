@@ -1,15 +1,12 @@
 <template>
   <div class="smList">
-    <Tabs v-model="tabName" @on-click="switchTab" >
-
+    <Tabs v-model="tabName"  @on-click='onClickO' >
       <TabPane label="支付批次申请" name="paymentBatch">
-
       </TabPane>
      <TabPane label="企业账户支付管理" name="paymentCom" >
-
       </TabPane>
-
     </Tabs>
+
      <paymentBatch v-if="tabNames.paymentBatch" @switchTab='switchTab'></paymentBatch>
      <paymentCom v-if="tabNames.paymentCom"></paymentCom>
   </div>
@@ -30,10 +27,18 @@
       }
     },
     mounted() {
-
+      if(typeof(sessionStorage.ssPaymentTab)!="undefined"){
+          this.tabName = sessionStorage.ssPaymentTab
+      }
+       this.switchTab(this.tabName)
     },
     computed: {},
     methods: {
+      onClickO(name){
+       //将tab类型 缓存
+       sessionStorage.ssPaymentTab = this.tabName
+       this.switchTab(name)
+      },
       switchTab(name) {
         if(name =='paymentCom'){
             this.tabNames['paymentCom'] = true;

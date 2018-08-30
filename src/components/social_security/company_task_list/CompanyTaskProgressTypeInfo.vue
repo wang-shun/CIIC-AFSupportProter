@@ -617,6 +617,9 @@
     },
     mounted() {
       this.queryPageInfo()
+      this.handDateControl = true;
+      this.sendDateControl=true;
+      this.finishDateControl=true;
     },
     computed: {
 
@@ -688,10 +691,10 @@
             content: '确认办理吗?',
             //loading:true,
             onOk:function(){
-                let params = this.getParams()
+                let params = self.getParams();
                 CompanyTaskList.addOrUpdate(params).then(result=>{
                   if(result.result){
-                      let taskState = this.companyOpenAccountOperator.taskTypeValue;
+                      let taskState = self.companyOpenAccountOperator.taskTypeValue;
                       if(taskState==1 || taskState==2){
                         sessionStorage.companyTaskTab = "progressing";
                       }else if(taskState==3){
@@ -699,14 +702,14 @@
                       }
                       //下面代码感觉怪怪的，有空再改
                       if(result.message=='正常'){
-                        this.$Message.success('办理成功!');
-                        this.goBack()
+                        self.$Message.success('办理成功!');
+                        self.goBack()
                       }else{
-                        this.$Message.success(result.message);
-                        this.goBack()
+                        self.$Message.success(result.message);
+                        self.goBack()
                       }
                   }else{
-                    this.$Message.error('办理失败!');
+                    self.$Message.error('办理失败!');
                   }
                 }).catch(error=>{
                   console.log(error)
@@ -816,9 +819,9 @@
         let ssComAccountDTO={
               comAccountId: this.comAccountId,
               companyId:this.companyInfo.customerNumber,
-              ssAccount: this.companyOpenAccountOperator.joinSafeguardRegister,//参保户登记码
+              ssAccount: this.companyOpenAccountOperator.joinSafeguardRegister.trim(),//参保户登记码
               bankAccount: this.companyOpenAccountOperator.bankCardNumber,
-              comAccountName: this.companyOpenAccountOperator.pensionMoneyUseCompanyName,
+              comAccountName: this.companyOpenAccountOperator.pensionMoneyUseCompanyName.trim(),
               settlementArea: this.companyOpenAccountOperator.socialSecurityCenterValue,
               paymentBank: this.companyOpenAccountOperator.payBank,
               paymentWay: this.beforeSendInfo.payMethodValue,
@@ -877,7 +880,6 @@
       },
       //任务类型发生变化
       taskTypeChange(){
-
         let taskState = this.companyOpenAccountOperator.taskTypeValue
          //acceptanceDate sendCheckDate finishedDate
          let formObj = this.companyOpenAccountOperator

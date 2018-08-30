@@ -655,6 +655,14 @@
            this.$Message.warning('【工伤比例开始月份】要求必填！')
            return false;
         }
+        if(!this.companyOpenAccountOperator.bankCardNumber){
+           this.$Message.warning('【牡丹卡号】要求必填！')
+           return false;
+        }
+        if(!this.companyOpenAccountOperator.payBank){
+           this.$Message.warning('【付款行】要求必填！')
+           return false;
+        }
         return true;
       },
       //办理
@@ -819,9 +827,9 @@
         let ssComAccountDTO={
               comAccountId: this.comAccountId,
               companyId:this.companyInfo.customerNumber,
-              ssAccount: this.companyOpenAccountOperator.joinSafeguardRegister.trim(),//参保户登记码
+              ssAccount: (this.companyOpenAccountOperator.joinSafeguardRegister+"").trim(),//参保户登记码
               bankAccount: this.companyOpenAccountOperator.bankCardNumber,
-              comAccountName: this.companyOpenAccountOperator.pensionMoneyUseCompanyName.trim(),
+              comAccountName: (this.companyOpenAccountOperator.pensionMoneyUseCompanyName+"").trim(),
               settlementArea: this.companyOpenAccountOperator.socialSecurityCenterValue,
               paymentBank: this.companyOpenAccountOperator.payBank,
               paymentWay: this.beforeSendInfo.payMethodValue,
@@ -898,15 +906,15 @@
              formObj.sendCheckDate = null;
              formObj.finishedDate =null;
         }else if(taskState=='2'){
-            this.handDateControl = false;
+            this.handDateControl = true;
             this.sendDateControl=false;
             this.finishDateControl=true;
             formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
             formObj.sendCheckDate = new Date();
              formObj.finishedDate =null;
         }else if(taskState=='3'){
-            this.handDateControl = false;
-            this.sendDateControl=false;
+            this.handDateControl = true;
+            this.sendDateControl=true;
             this.finishDateControl=false;
              formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
              formObj.sendCheckDate = formObj.sendCheckDate==null? new Date() : formObj.sendCheckDate;

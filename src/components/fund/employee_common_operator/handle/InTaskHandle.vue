@@ -331,6 +331,7 @@
             <FormItem label="转出单位">
               <Select
                 v-model="transferNotice.transferOutUnit"
+                :label="transferNotice.transferOutUnit"
                 filterable
                 remote
                 :remote-method="handleTransferOutSearch"
@@ -350,6 +351,7 @@
             <FormItem label="转入单位">
               <Select
                 v-model="transferNotice.transferInUnit"
+                :label="transferNotice.transferInUnit"
                 filterable
                 remote
                 :remote-method="handleTransferInSearch"

@@ -246,7 +246,7 @@ let createProxyAjaxForName = name => {
 
     var downloadElement = document.createElement('a')
     downloadElement.href = baseURL + url
-    downloadElement.target='_blank'
+    //downloadElement.target='_blank'
     document.body.appendChild(downloadElement)
     downloadElement.click() //点击下载
     document.body.removeChild(downloadElement)

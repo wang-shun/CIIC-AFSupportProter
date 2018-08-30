@@ -27,6 +27,9 @@ export const reimbursementValidator = {
   companyId: [
     {required: true, message: '请输入公司编号', trigger: 'blur'}
   ],
+  fragmentaryDate: [
+    {required: true, type: 'date', message: '请选择零星报销日期', trigger: 'change'}
+  ],
   caseMoney: [
     {type: 'number', message: '请输入正确的金额', trigger: 'blur'}
   ],

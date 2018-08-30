@@ -77,32 +77,25 @@ const statusProperties = [
 function statusToChina(status) {
   switch (status) {
     case 0:
-      return "未受理";
-      break;
+      return '未受理';
     case 1:
-      return "已受理";
-      break;
+      return '已受理';
     case 2:
-      return "拒赔";
-      break;
+      return '拒赔';
     case 3:
-      return "已审核未同步";
-      break;
+      return '已审核未同步';
     case 4:
-      return "已同步未支付";
-      break;
+      return '已同步未支付';
     case 5:
-      return "财务退回";
-      break;
+      return '财务退回';
     case 6:
-      return "已同步已支付";
-      break;
+      return '已同步已支付';
     case 7:
-      return "已退票";
-      break;
+      return '已退票';
     case 8:
-      return "已完成";
-      break;
+      return '已完成';
+    default:
+      return '';
   }
 }
 
@@ -114,20 +107,17 @@ function statusToChina(status) {
 function moneyTypeToChina(status) {
   switch (status) {
     case 1:
-      return "医疗费";
-      break;
+      return '医疗费';
     case 2:
-      return "体检费用";
-      break;
+      return '体检费用';
     case 3:
-      return "住院补贴";
-      break;
+      return '住院补贴';
     case 4:
-      return "大额理赔款";
-      break;
+      return '大额理赔款';
     case 5:
-      return "其他";
-      break;
+      return '其他';
+    default:
+      return '';
   }
 }
 
@@ -138,11 +128,11 @@ function moneyTypeToChina(status) {
  */
 function caseTypeToChina(status) {
   if (status === 1) {
-    return "雇员";
+    return '雇员';
   } else if (status === 2) {
-    return "子女";
+    return '子女';
   } else if (status === 3) {
-    return "配偶";
+    return '配偶';
   }
 }
 
@@ -220,7 +210,7 @@ const payTypes = [
  */
 function payTypeToChina(status) {
   if (status === 1) {
-    return "打卡";
+    return '打卡';
   }
 }
 
@@ -281,23 +271,19 @@ const uninsuredReviewDealRules = {
 function employeeStatusProperties(status) {
   switch (status) {
     case 0:
-      return "预录用";
-      break;
+      return '预录用';
     case 1:
-      return "雇员信息确认中";
-      break;
+      return '雇员信息确认中';
     case 2:
-      return "在职";
-      break;
+      return '在职';
     case 3:
-      return "离职";
-      break;
+      return '离职';
   }
 }
 
 function getUninsuredObj(row) {
   let head = `<html><head>
-          <style type="text/css">
+          <style type='text/css'>
               .headStyle h2, h3 {
                   display: inline;
               }
@@ -398,12 +384,12 @@ function getUninsuredObj(row) {
       </script></html>`;
   let obj =
     `<div>
-            <div class="headStyle" style="border-bottom: 1px solid black;width: 200px;margin-bottom: 30px;">
+            <div class='headStyle' style='border-bottom: 1px solid black;width: 200px;margin-bottom: 30px;'>
                 <h2>CIIC</h2>
                 <h3>A1606056</h3>
             </div>
             <div>
-                <table border="1" cellspacing="0" style="text-align: center;">
+                <table border='1' cellspacing='0' style='text-align: center;'>
                     <tr>
                         <td>
                             收款人<br>
@@ -418,38 +404,38 @@ function getUninsuredObj(row) {
                     </tr>
                     <tr>
                         <td>付款方式</td>
-                        <td style="color: red">现金</td>
+                        <td style='color: red'>现金</td>
                     </tr>
                     <tr>
                         <td>付款地区</td>
-                        <td style="color: red">中国</td>
+                        <td style='color: red'>中国</td>
                     </tr>
                     <tr>
                         <td>金额</td>
                         <td>
-                            人民币 <span id="auditAmountUpper"></span>（大写）<br>
-                            ￥ <span id="auditAmount">${row.auditAmount}</span>
+                            人民币 <span id='auditAmountUpper'></span>（大写）<br>
+                            ￥ <span id='auditAmount'>${row.auditAmount}</span>
                         </td>
                     </tr>
                 </table>
                 <p>说明：${row.remark}</p>
 
             </div>
-            <div style="border-bottom: 1px dashed black;width: 300px;">
+            <div style='border-bottom: 1px dashed black;width: 300px;'>
                 <p>
                     部门主管&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     收款人签收&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </p>
-                <p style="text-align: right">制单人：${row.username}</p>
-                <p style="text-align: right">雇员付款编号：230221</p>
+                <p style='text-align: right'>制单人：${row.username}</p>
+                <p style='text-align: right'>雇员付款编号：230221</p>
                 <p>备注：</p>
-                <p style="text-indent: 2em">
+                <p style='text-indent: 2em'>
                       1、前来领款时请携带本付款凭单及雇员证件
                     (身份证或雇员证)，取他人带领的，还必须由
                     雇员本人写好委托书方可带领并出示代领人证
                     件。
                 </p>
-                <p style="text-indent: 2em">
+                <p style='text-indent: 2em'>
                       2、领款金额3000.00元以上者，请电话预约：54594545*804 朱小姐
                 </p>
             </div>

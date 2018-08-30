@@ -258,11 +258,12 @@
 //        //  sessionStorage.removeItem("taskFiPageSize")
 //      }
 
-      let params = {
-        pageSize:this.pageData.pageSize,
-        pageNum:this.pageData.pageNum,
-        params:{}
-      }
+      // let params = {
+      //   pageSize:this.pageData.pageSize,
+      //   pageNum:this.pageData.pageNum,
+      //   params:{}
+      // }
+      let params=this.getParams(this.pageData.pageNum);
        let self= this
       Finished.postTableData(params).then(data=>{
           self.loading=true;

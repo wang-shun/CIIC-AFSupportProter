@@ -4,7 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-           <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDaily" sessionKeyAdd="fundDailyAdd"></search-employee>
+           <search-employee ref="searchEmployee" @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDaily" sessionKeyAdd="fundDailyAdd"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -778,9 +778,12 @@
       },
       impTemplate() {
         api.downloadEmpPreInputTemplate({});
+      },
+      searchEmployeeInit() {
+        this.$refs.searchEmployee.initOptions();
       }
 
-      }
+    }
 
   }
 </script>

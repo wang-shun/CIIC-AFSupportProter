@@ -114,6 +114,10 @@
       sessionKey: {
         type: String,
         required: true
+      },
+      sessionKeyAdd: {
+        type: String,
+        required: true
       }
     },
     data() {
@@ -144,8 +148,11 @@
         leaderShipData: []
       }
     },
-    async mounted() {
+    created() {
       this.initOptions();
+    },
+    async mounted() {
+//      this.initOptions();
       let userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
 
       let fu = sessionStorage.getItem(this.sessionKey + userInfo.userId);
@@ -188,13 +195,11 @@
     },
     methods: {
       initOptions() {
-        console.log(sessionStorage.employeeOperatorTab)
         if(sessionStorage.employeeOperatorTab && sessionStorage.employeeOperatorTab !== "noprogress")
         {
           delete this.searchForm.chooseField["taskStatus"];
-          console.log(JSON.stringify(this.searchForm.chooseField))
         } else {
-          this.searchForm.chooseField = em_chooseField;
+          this.searchForm.chooseField["taskStatus"] = "未处理";
         }
       },
       getServiceCenters(){
@@ -215,19 +220,20 @@
         this.searchForm.searchContentDesc='';
         this.searchForm.searchContent="";
         this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length);
-        let divElements = tableStyle.getByClass(document, "ivu-tag-checked");
-        if (divElements && divElements.length > 0) {
-          let parentElement = divElements[0].parentNode;
-
-          for (let i = divElements.length - 1; i >= 0; i--) {
-            parentElement.removeChild(divElements[i]);
-          }
-        }
+//        let divElements = tableStyle.getByClass(document, "ivu-tag-checked");
+//        if (divElements && divElements.length > 0) {
+//          let parentElement = divElements[0].parentNode;
+//
+//          for (let i = divElements.length - 1; i >= 0; i--) {
+//            parentElement.removeChild(divElements[i]);
+//          }
+//        }
         if (!content) return;
 
         if(type === chooseType.field) {
           this.searchForm.disabled = false;
           this.searchForm.relationshipValue = "";
+          this.currentShip = {};
           delete this.searchForm.relationship["包含"];
 
           if(content.value.indexOf("month")>0){
@@ -253,6 +259,8 @@
             this.searchForm.isDate = 8;
             this.searchForm.disabled = true;
             this.searchForm.relationshipValue = "=";
+            this.currentShip.value = "=";
+            this.currentShip.label = "等于";
           }else if(content.value === 'e.employee_id') {
             this.searchForm.isDate = 0;
             this.searchForm.relationship["包含"] = "in";

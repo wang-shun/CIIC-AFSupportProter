@@ -323,7 +323,7 @@
               this.transferNotice1 = data.data.empTaskTransferBo;
               this.getDictData();
             }
-            if(this.transferNotice1.feedbackDate!=''){
+            if(this.transferNotice1.feedbackDate!=undefined ){
               this.saveDisabled=true;
             }
           } else {

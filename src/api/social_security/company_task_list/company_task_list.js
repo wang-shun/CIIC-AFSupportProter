@@ -30,6 +30,11 @@ export class CompanyTaskList{
                       else if (i.taskCategory==2) obj.type='转入'
                       else if (i.taskCategory==3) obj.type='变更'
                       else if(i.taskCategory==4)  obj.type='终止'
+                      if(i.taskStatus==1){
+                        obj.taskStatus = '已受理'
+                      }else{
+                        obj.taskStatus = '已送审'
+                      }
                       obj.customerId = i.companyId
                       obj.companyCustomer = i.companyName
                       obj.sponsorTime = i.submitTime

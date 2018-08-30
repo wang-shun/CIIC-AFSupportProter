@@ -64,7 +64,7 @@
             </Select>
           </Form-item>
           <Form-item label="查询内容" prop="searchContentArr" v-else-if="searchForm.isDate == 30">
-            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer">
+            <Select v-model="searchForm.searchContentArr" multiple style="width: 100%;" :label-in-value="true" @on-change="arrChange" :disabled="searchForm.contentDisabled" transfer>
               <Option v-for="item in payBankList" :value="item.key" :key="item.key">{{item.value}}</Option>
             </Select>
           </Form-item>
@@ -172,6 +172,9 @@
         currentSelectIndex: -1,
       }
     },
+    created() {
+      this.initOptions();
+    },
     async mounted() {
 
        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
@@ -221,19 +224,27 @@
 //        }
 //      },
       // 选择字段或关系
+      initOptions() {
+        if(sessionStorage.fundEmployeeOperatorTab && sessionStorage.fundEmployeeOperatorTab !== "noprocess")
+        {
+          delete this.searchForm.chooseField["processStatus"];
+        } else {
+          this.searchForm.chooseField["processStatus"] = "未处理";
+        }
+      },
       setOption(content, type){
         this.searchForm.contentDisabled = false;
         this.searchForm.searchContentDesc = '';
         this.searchForm.searchContent="";
         this.searchForm.searchContentArr.splice(0, this.searchForm.searchContentArr.length);
-        let divElements = tableStyle.getByClass(document.getElementById(this.sessionKey), "ivu-tag-checked");
-        if (divElements && divElements.length > 0) {
-          let parentElement = divElements[0].parentNode;
-
-          for (let i = divElements.length - 1; i >= 0; i--) {
-            parentElement.removeChild(divElements[i]);
-          }
-        }
+//        let divElements = tableStyle.getByClass(document.getElementById(this.sessionKey), "ivu-tag-checked");
+//        if (divElements && divElements.length > 0) {
+//          let parentElement = divElements[0].parentNode;
+//
+//          for (let i = divElements.length - 1; i >= 0; i--) {
+//            parentElement.removeChild(divElements[i]);
+//          }
+//        }
 
         if (!content) return;
 
@@ -241,13 +252,15 @@
           this.searchForm.disabled = false;
           this.searchForm.isDate=0;
           this.searchForm.relationshipValue = "";
-
+          this.currentShip = {};
           delete this.searchForm.relationship["包含"];
 
           if(content.value==='processStatus'){
             this.searchForm.isDate=1;
             this.searchForm.disabled = true;
             this.searchForm.relationshipValue = "=";
+            this.currentShip.value = "=";
+            this.currentShip.label = "等于";
           }else if(content.value==='het.task_category'){
             this.searchForm.isDate=2;
             this.searchForm.relationship["包含"] = "in";
@@ -268,6 +281,8 @@
             this.searchForm.isDate=8;
             this.searchForm.disabled = true;
             this.searchForm.relationshipValue = "=";
+            this.currentShip.value = "=";
+            this.currentShip.label = "等于";
           }else if(content.value === 'ee.employee_id') {
             this.searchForm.isDate=0;
             this.searchForm.relationship["包含"] = "in";
@@ -403,7 +418,7 @@
           }
           if(hasRepeatObj === -1) {
             this.searchConditions.push(searchCondition);
-            this.$refs['searchForm'].resetFields();
+//            this.$refs['searchForm'].resetFields();
           } else {
             this.$Message.error("请不要重复添加");
           }

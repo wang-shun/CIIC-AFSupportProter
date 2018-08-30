@@ -22,6 +22,7 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="printLabel">打印贴头</Button>
         <!--<Button type="info" @click="printReturnList">批量打印退工单</Button>-->
+        <Button type="info" @click="isShowImportAdvance = true;">档案配对</Button>
         <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
         <Button type="primary" @click="batchManagement">档案批量办理</Button>
@@ -39,6 +40,54 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
+
+
+    <Modal
+      v-model="isShowImportAdvance"
+      title="档案配对批量导入操作">
+      <Form :label-width=100>
+        <Row type="flex" justify="start">
+          <Col :sm="{span: 12, offset: 6}" class="tc">
+            <Form-item label="上传Excel：">
+              <Upload ref="upload"
+                :show-upload-list="true"
+                :data="upLoadData"
+                :action="uploadAttr.actionUrl"
+                :before-upload="beforeUpload"
+                :accept="uploadAttr.acceptFileExtension"
+                :format="['xlsx','xls']"
+                :on-format-error="handleFormatError"
+                :default-file-list="uploadFileList"
+                :on-error="handleError">
+                <Button type="ghost" icon="ios-cloud-upload-outline">选择文件上传</Button>
+              </Upload>
+            </Form-item>
+          </Col>
+        </Row>
+        <!-- <Alert type="error" closable show-icon v-show="isImported">导入文件格式验证失败！</Alert> -->
+        <Alert type="warning" closable show-icon v-show="isImported">
+          请注意导入结果反馈
+          <template slot="desc"  >
+              <div >{{retStr}}</div>
+          <!-- <a href="javascript:;" @click="isShowImportFundAccount = false; isShowHistoryImported = true;">查看失败详细</a> | <a href="javascript:;" @click="isShowImportFundAccount = false;">结束操作</a> -->
+        </template>
+        </Alert>
+        <Row>
+          <Col :sm="{span: 22, offset: 1}" class="tr">
+            <Button type="info" @click="impTemplate">下载导入模板</Button>
+            <Button type="info" @click="impOk">导入数据</Button>
+
+            <!-- <Button type="primary" @click="gotoHistoryList">查看历史导入</Button> -->
+          </Col>
+        </Row>
+      </Form>
+      <div slot="footer">
+        <!-- <Button type="warning" @click="isShowImportFundAccount = false">返回</Button> -->
+      </div>
+    </Modal>
+
+
+
       
      </Col>
      <Col :sm="{span: 2, offset: 1}" class="pt10">
@@ -79,6 +128,17 @@ export default {
   components: { employeeInfo, searchEmployment },
   data() {
     return {
+      isShowImportAdvance: false,
+      uploadAttr: {
+        actionUrl: "",
+        acceptFileExtension: ".xls,.xlsx"
+      },
+      uploadFileList: [],
+      isImported: false,
+      upLoadData: {
+        file: ""
+      },
+      retStr: "",
       jobGroup: "",
       vertical: "",
       jobData: {
@@ -405,6 +465,46 @@ export default {
     //  this.resignArchiveCollection({})
   },
   methods: {
+    impTemplate() {
+      
+      api.impTemplateFile({});
+    },
+    impOk() {
+      if(this.upLoadData.file==null ||this.upLoadData.file=='' ){
+        this.$Message.info("请选择导入文件");
+        return false;
+      }
+      api.xlsImportEmpAdvance(this.upLoadData)
+        .then(data => {
+          this.uploadFileList = [];
+          this.isImported = true;
+          this.retStr = data.message;
+          this.isUpload = false;
+
+        })
+        .catch(error => {
+          this.$Message.error("系统异常！");
+        });
+    },
+    handleError(error, file) {
+      this.$Notice.warning({
+        title: "文件上传失败",
+        desc: "文件 " + file.name + " 上传失败！"
+      });
+    },
+    handleFormatError(file) {
+      this.$Notice.warning({
+        title: "文件格式不正确",
+        desc:
+          "文件 " + file.name + " 格式不正确，请上传 xls 或 xlsx 格式的文档。"
+      });
+    },
+    beforeUpload(file) {
+      this.upLoadData.file = file;
+      this.uploadFileList.push({ name: file.name, url: "" });
+      //this.$refs['upload'].clearFiles();
+      return false;
+    },
     rowClassName(row, index) {
       if (row.job != undefined && row.job == "N") {
         return "demo-table-error-row";

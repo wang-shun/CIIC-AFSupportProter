@@ -1,10 +1,10 @@
 <template>
-  <div class="smList" style="height: 1000px;">
+  <div class="smList" style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
         <div slot="content">
-            <search-employee @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDaily" sessionKeyAdd="socialDailyAdd"></search-employee>
+            <search-employee ref="searchEmployee" @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDaily" sessionKeyAdd="socialDailyAdd"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -881,6 +881,9 @@
           tableStyle.changeSortElementClass('noProcessData', idx, order)
         });
       },
+      searchEmployeeInit() {
+        this.$refs.searchEmployee.initOptions();
+      }
     }
   }
 </script>

@@ -170,7 +170,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴纳至月份：">
+                <Form-item label="前道缴纳至月份：">
                   <label>{{viewEmpArchive.endMonth}}</label>
                 </Form-item>
               </Col>
@@ -225,7 +225,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴纳至月份：">
+                <Form-item label="前道缴纳至月份：">
                   <label>{{viewEmpPeriodAdd.endMonth}}</label>
                 </Form-item>
               </Col>

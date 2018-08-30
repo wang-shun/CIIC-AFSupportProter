@@ -2,7 +2,7 @@
   <div class="smList" >
     <Tabs v-model="tab" @on-click="onClickO">
       <TabPane label="未处理" name="noprogress">
-        <noprogress v-if="isNoprogress"></noprogress>
+        <noprogress ref="noprogress" v-if="isNoprogress"></noprogress>
       </TabPane>
       <TabPane label="处理中" name="progressing">
         <progressing v-if="isProgressing"></progressing>
@@ -39,7 +39,7 @@
       if(typeof(sessionStorage.employeeOperatorTab)!="undefined"){
           this.tab = sessionStorage.employeeOperatorTab
       }
-       this.controlShow(this.tab)
+      this.controlShow(this.tab)
     },
     computed: {},
     methods: {
@@ -48,15 +48,24 @@
       },
       onClickO(name){
        //将tab类型 缓存
-       sessionStorage.employeeOperatorTab = name
+        sessionStorage.employeeOperatorTab = name
         this.controlShow(name)
+        this.$refs.noprogress.searchEmployeeInit();
       },
       //控制处理中 tab 显示
       controlShow(name){
-        if(name=="noprogress"&&!this.isNoprogress) this.isNoprogress=true
-        if(name=="progressing"&&!this.isProgressing) this.isProgressing=true
-        if(name=="finished" && !this.isFinished)this.isFinished=true
-        if(name=="refused" && !this.isRefused)this.isRefused=true
+        if(name=="noprogress"&&!this.isNoprogress) {
+          this.isNoprogress=true;
+        }
+        if(name=="progressing"&&!this.isProgressing) {
+          this.isProgressing=true;
+        }
+        if(name=="finished"&&!this.isFinished) {
+          this.isFinished=true;
+        }
+        if(name=="refused"&&!this.isRefused) {
+          this.isRefused=true;
+        }
       }
     }
   }

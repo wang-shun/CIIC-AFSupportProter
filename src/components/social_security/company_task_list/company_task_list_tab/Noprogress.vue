@@ -254,12 +254,12 @@
 //         sessionStorage.removeItem("taskPageNum")
 //         sessionStorage.removeItem("taskPageSize")
 //      }
-      let params = {
-          pageSize:this.pageData.pageSize,
-          pageNum:this.pageData.pageNum,
-        params:{}
-      }
-
+      // let params = {
+      //     pageSize:this.pageData.pageSize,
+      //     pageNum:this.pageData.pageNum,
+      //   params:{}
+      // }
+      let params=this.getParams(this.pageData.pageNum);
       let self= this
       NoProgress.postTableData(params).then(data=>{
           self.loading=true;

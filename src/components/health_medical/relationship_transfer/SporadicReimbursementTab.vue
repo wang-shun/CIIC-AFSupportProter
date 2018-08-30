@@ -32,6 +32,12 @@
                   <Input v-model="reimbursementItem.companyName" placeholder="请输入"></Input>
                 </FormItem>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <FormItem label="零星报销日期：" prop="fragmentaryDate">
+                  <DatePicker v-model="reimbursementItem.fragmentaryDate" placeholder="请输入"
+                              style="width: 100%" transfer></DatePicker>
+                </FormItem>
+              </Col>
             </row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
@@ -83,6 +89,7 @@
           idNum: null,
           companyId: null,
           companyName: null,
+          fragmentaryDate: null,
         },
         userInfo: {},
         reimbursementColumns: [

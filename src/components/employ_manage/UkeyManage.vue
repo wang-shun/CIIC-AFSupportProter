@@ -33,7 +33,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客户经理：">
-          <Input  placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.teamName" :maxlength="30" ></Input>
+          <Input  placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.team" :maxlength="30" ></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -52,9 +52,14 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="注销日期：">
+          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.logoutDate"  style="width: 100%;" transfer></DatePicker>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="类别：">
-          <Select transfer v-model="uekyFile.keyType" :disabled="(uekyFile.companyId=='')">
-              <Option v-for="item in transferFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
+          <Select transfer v-model="uekyFile.keyType" @on-change="changeType" :disabled="(uekyFile.companyId=='')">
+              <Option v-for="item in transferFeedbackList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
       </Col>
@@ -69,8 +74,8 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="到期日期：">
-          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.dueDate"  style="width: 100%;" transfer></DatePicker>
+        <Form-item label="收费标准：">
+          <Input placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.keyFee" :maxlength="18"></Input>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -79,13 +84,8 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="收费标准：">
-          <Input placeholder="请输入..." :disabled="(uekyFile.companyId=='')" v-model="uekyFile.keyFee" :maxlength="18"></Input>
-        </Form-item>
-      </Col>
-       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="注销日期：">
-          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.logoutDate"  style="width: 100%;" transfer></DatePicker>
+        <Form-item label="到期日期：">
+          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.dueDate"  style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
     </Row>
@@ -119,6 +119,13 @@
          </Col>
       </Row>
       <Row type="flex" justify="start">
+         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+          <Form-item label="序列号：" prop="keySeq">
+            <Input  placeholder="请输入..."  v-model="renewUkey.keySeq" transfer ></Input>
+          </Form-item>
+         </Col>
+      </Row>
+      <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
           <Form-item label="更新方式：" prop="type" transfer>
             <Select transfer v-model="renewUkey.type">
@@ -135,7 +142,7 @@
   <Panel name="2" v-if="$route.query.id!=0">
     续签记录 
     <div slot="content">
-      <Table border :width="800" :columns="notesColumns" :data="notesData" class="mt20"></Table>
+      <Table border :width="880" :columns="notesColumns" :data="notesData" class="mt20"></Table>
     </div>
   </Panel>
 </Collapse>
@@ -152,6 +159,10 @@ import Vue from 'vue'
     components: {InputCompanyName,InputCompany},
     data() {
       return {
+        oldDocType: '',
+        oldDocNum: '',
+        seqMax1: 0,
+        isFast: true,
         modal1: false,
         collapseInfo: [1,2], //展开栏
         notesData: [],
@@ -159,7 +170,7 @@ import Vue from 'vue'
         isLoading: true,
         isFrist: true,
         uekyFile: {
-          teamName: '',
+          team: '',
           ssAccount: '',
           renewDueDate: '',
           renewDate: '',
@@ -182,25 +193,13 @@ import Vue from 'vue'
           serviceCenter: ''
         },
         renewUkey:{
+          keySeq: '',
           id: '',
           type: '',
           renewDueDate: '',
           renewDate: ''
         },
-        transferFeedbackList: [
-          {value:'',label:'空'},
-          {value:'1X',label:'1X'},
-          {value:'2X',label:'2X'},
-          {value:'1K',label:'1K'},
-          {value:'2K',label:'2K'},
-          {value:'1D',label:'1D'},
-          {value:'2D',label:'2D'},
-          {value:'H',label:'H'},
-          {value:'R',label:'R'},
-          {value:'S',label:'S'},
-          {value:'Z',label:'Z'},
-          {value:'C',label:'C'}
-        ],
+        transferFeedbackList: [],
         typeList: [
           {value:'网办',label:'网办'},
           {value:'柜面',label:'柜面'}
@@ -234,10 +233,33 @@ import Vue from 'vue'
               ]);
             }
           },
+          {
+            title: '操作',
+            align: 'center',
+            width: 80,
+            key: 'operat',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {type: 'error', size: 'small'},
+                  style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+
+                      this.deleteRenew(params.row.id)
+                    }
+                  }
+                }, '删除'),
+              ]);
+            }
+          }
         ],
       }
     },
     mounted() {
+      api.queryDocSeqList({type: 3}).then(data => {
+            this.transferFeedbackList = data.data.docList;
+        })
 
       let id = this.$route.query.id;
 
@@ -245,14 +267,74 @@ import Vue from 'vue'
         api.queryAmArchiveUkey({id: id}).then(data => {
             this.uekyFile = data.data;
             this.uekyFile.oldOrganizationCode = data.data.organizationCode;
+            this.oldDocType = data.data.keyType;
+            this.oldDocNum = data.data.keyCode;
         })
 
-      this.queryRenew(this.$route.query.id);
+        this.queryRenew(this.$route.query.id);
         
       }
     }
     ,
     methods: {
+      deleteRenew(id){
+        const _self = this;
+        this.$Modal.confirm({
+          title: "",
+          content: "确认删除吗?",
+          onOk: function() {
+            api.delAmArchiveUkeyRenew({id: id}).then(data => {
+            if(data.data==true){
+              this.$Message.success("删除成功");
+              _self.queryRenew(_self.$route.query.id);
+            }else{
+              this.$Message.error("删除失败！");
+            }
+          })
+          },
+          error: function(error) {
+            self.$Modal.remove();
+          }
+        });
+      },
+      changeType(val) {
+      if (this.isFast) {
+        this.isFast = false;
+        if (
+          this.oldDocType == undefined ||
+          this.oldDocType == ""
+        ) {
+          this.queryDocSeqByDocType(val);
+        }
+        return;
+      }
+      if (val == "") {
+        Vue.set(this.uekyFile, "keyCode", "");
+        return;
+      }
+
+      if (val == this.oldDocType) {
+        //用原有的 number
+        Vue.set(this.uekyFile, "keyCode", this.oldDocNum);
+        return;
+      }
+      this.queryDocSeqByDocType(val);
+    },
+    queryDocSeqByDocType(val) {
+      api.queryDocSeqByDocType({ type: 3, docType: val }).then(data => {
+        if (data.code == 200) {
+          Vue.set(
+            this.uekyFile,
+            "keyCode",
+            parseInt(data.data.docBo.docSeq) + 1
+          );
+          this.uekyFile.keyCode = parseInt(data.data.docBo.docSeq) + 1;
+          this.seqMax1 = data.data.docBo.docSeq;
+        } else {
+          this.$Message.error("服务器异常" + data.message);
+        }
+      });
+    },
       queryRenew(id){
         api.queryAmArchiveUkeyRenew({id: id}).then(data => {
             this.notesData = data.data;
@@ -291,6 +373,7 @@ import Vue from 'vue'
               this.renewUkey.type = '';
               this.renewUkey.renewDueDate = '';
               this.uekyFile.dueDate = fromData.renewDueDate;
+              this.uekyFile.keySeq = fromData.keySeq;
               this.queryRenew(this.$route.query.id);
               this.modal1 = false;
             }
@@ -378,7 +461,7 @@ import Vue from 'vue'
             this.uekyFile.organizationCode = data.data.organizationCode;
             this.uekyFile.serviceCenter = data.data.serviceCenter;
             this.uekyFile.ssAccount = data.data.ssAccount;
-            this.uekyFile.teamName = data.data.teamName;
+            this.uekyFile.team = data.data.team;
           } else {
             this.$Message.error("查询组织机构和服务中心失败请联系管理员！" + data.message);
           }

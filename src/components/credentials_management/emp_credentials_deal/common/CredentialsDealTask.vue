@@ -35,16 +35,6 @@
               {{formItem.operatePwd}}
             </Form-item>
           </i-col>
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="费用类型：">
-              {{formItem.chargeTypeN}}
-            </Form-item>
-          </i-col>
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="特殊收费备注：" prop="specialChargeRemark" v-if="formItem.chargeTypeN === '特殊收费'">
-              {{formItem.specialChargeRemark}}
-            </Form-item>
-          </i-col>
         </Row>
         <h4>留存材料信息</h4>
         <Row type="flex" justify="start">
@@ -175,6 +165,7 @@ import CredentialsMaterial13 from "./CredentialsMaterial13";
 import CredentialsMaterial14 from "./CredentialsMaterial14";
 import ajax from "../../../../lib/ajax";
 import axios from "axios";
+import Tools from "../../../../lib/tools";
 const host = process.env.SITE_HOST;
 const AJAX = ajax.ajaxCM;
 export default {
@@ -224,7 +215,6 @@ export default {
         operateAccount: "",
         operatePwd: "",
         chargeType:'',
-        chargeTypeN: "",
         payType: '',
         payTypeN: "",
         specialChargeRemark: "",
@@ -310,8 +300,7 @@ export default {
                       click: () => {}
                     }
                   },
-                  "编辑"
-                ),
+                  "编辑"),
                 h(
                   "Button",
                   {
@@ -329,8 +318,7 @@ export default {
                       }
                     }
                   },
-                  "跟进"
-                )
+                  "跟进")
               ]);
             }
           }
@@ -364,7 +352,6 @@ export default {
       this.formItem.name = "";
       this.formItem.operateTypeN = "";
       this.formItem.chargeType = "";
-      this.formItem.chargeTypeN = "";
       this.formItem.operateAccount = "";
       this.formItem.operatePwd = "";
       this.formItem.payType = "";
@@ -378,10 +365,10 @@ export default {
       this.formItem.organizationCode = false;
       this.formItem.foreignBusinessApprovalCertificate = false;
       this.formItem.businessRenameNotice = false;
-      this.formItem.specialMaterialRemark = "";
       if (value !== null) {
         this.formItem.credentialsType = value.credentialsType;
         this.formItem.credentialsDealType = value.credentialsDealType;
+        value.companyId = value.companyCode
         this.rowdata = { ...value };
         this.$emit("backRow", this.rowdata);
         this.selectCompanyExt(value.credentialsType, value.companyCode);

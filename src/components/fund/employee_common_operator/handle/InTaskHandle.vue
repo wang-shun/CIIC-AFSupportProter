@@ -331,6 +331,7 @@
             <FormItem label="转出单位">
               <Select
                 v-model="transferNotice.transferOutUnit"
+                :label="transferNotice.transferOutUnit"
                 filterable
                 remote
                 :remote-method="handleTransferOutSearch"
@@ -350,6 +351,7 @@
             <FormItem label="转入单位">
               <Select
                 v-model="transferNotice.transferInUnit"
+                :label="transferNotice.transferInUnit"
                 filterable
                 remote
                 :remote-method="handleTransferInSearch"
@@ -1408,6 +1410,7 @@
             if (!data.data || data.data.length == 0) {
               this.isShowPrint = true;
               //赋值 转入和转出的默认值
+              this.transferOutUnitList.push('市公积金封存办(中心)');
               this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
               this.transferNotice.transferOutUnitAccount = '881383288';
               this.transferInUnitList.push(this.displayVO.comAccountName);
@@ -1427,6 +1430,8 @@
                   if(data.code==200){
                     let rows =[];
                     rows=data.data;
+                    rows[0].hfEmpAccount=this.displayVO.hfEmpAccount;
+                    rows[0].paymentBank=this.displayVO.paymentBankName;
                     transapi.printTransferNote(rows);
                   }
                 }
@@ -1463,9 +1468,7 @@
             this.transferNotice.transferInUnit = '';
             this.transferNotice.transferInUnitAccount = '';
             this.transferNotice.transferDate = '';
-
             this.isShowPrint = false;
-//            console.log(data.data);
             //transapi.printTransferTask({empTaskId: data.data.empTaskId});
             let params={empTaskId: data.data.empTaskId};
             transapi.getPrintTransfer(params).then(
@@ -1473,15 +1476,15 @@
                   if(data.code==200){
                     let rows =[];
                     rows=data.data;
+                    rows[0].hfEmpAccount=this.displayVO.hfEmpAccount;
+                    rows[0].paymentBank=this.displayVO.paymentBankName;
                     transapi.printTransferNote(rows);
                   }
                 }
               )
-
           } else {
             this.$Message.error(data.message);
           }
-
           this.isLoading = false;
         })
       },

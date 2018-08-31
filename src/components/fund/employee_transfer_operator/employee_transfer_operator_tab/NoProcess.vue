@@ -205,6 +205,7 @@
         searchCondition: {
           serviceCenterValue: [],
           employeeId: '',
+          companyId: '',
           transferInUnit: '',
           transferOutUnit: '',
           employeeName: '',

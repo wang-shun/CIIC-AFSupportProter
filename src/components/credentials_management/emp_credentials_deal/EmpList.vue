@@ -398,7 +398,6 @@ export default {
         .then(response => {
           this.productId = response.data.data.productId;
           this.basicProductId = response.data.data.basicProductId;
-          console.log(response.data.data)
         });
     }
   }

@@ -552,6 +552,7 @@
           this.currentIndex = -1;
         }
         this.$refs[name].resetFields();
+        this.fundAccountQueryForm.comAccountName='';
       },
       handlePageNum(val) {
         this.page.pageNum = val;

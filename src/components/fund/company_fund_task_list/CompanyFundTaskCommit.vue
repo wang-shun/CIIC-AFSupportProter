@@ -319,7 +319,7 @@
           paymentWay: this.openAccount.payMethodValue,
           paymentBank: this.openAccount.paymentBankValue,
           closeDay: this.openAccount.closeAccountEveryMonth,
-          comAccountName: this.openAccount.companyFundAccountName.trim(),
+          comAccountName: (this.openAccount.companyFundAccountName+"").trim(),
           comAccountNum: this.openAccount.companyFundAccountNum,
           uKeyStore: this.openAccount.UKeyValue,
           comStartMonth: comStartMonth,

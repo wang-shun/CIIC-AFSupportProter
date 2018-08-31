@@ -188,6 +188,10 @@ export default {
     let response = await AJAX.post('/api/employservice/amArchiveTask/queryDocSeqByDocType', params);
     return await response.data;
   },
+  queryDocSeqList:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveTask/queryDocSeqList', params);
+    return await response.data;
+  },
   // 查询预留档案编号list
   queryAmArchiveDocType:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/queryAmArchiveDocType', params);
@@ -226,6 +230,11 @@ export default {
   // 查询Ukey续签记录
   queryAmArchiveUkeyRenew:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveUkey/queryAmArchiveUkeyRenew', params);
+    return await response.data;
+  },
+   // 删除Ukey续签记录
+   delAmArchiveUkeyRenew:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveUkey/delAmArchiveUkeyRenew', params);
     return await response.data;
   },
   // 新增Ukey

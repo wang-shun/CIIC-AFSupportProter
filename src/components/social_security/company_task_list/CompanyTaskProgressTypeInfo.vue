@@ -211,19 +211,19 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="受理日期：" prop="acceptanceDate">
-                  <DatePicker v-if="handDateIsDateOrLabel" v-model="companyOpenAccountOperator.acceptanceDate" placeholder="选择日期" :disabled="handDateControl"  style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-if="handDateIsDateOrLabel" v-model="companyOpenAccountOperator.acceptanceDate" placeholder="选择日期" :readonly="handDateControl" :disabled="handDateControl" style="width: 100%;" transfer></DatePicker>
                   <label v-else>{{companyOpenAccountOperator.acceptanceDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="送审日期：" prop="sendCheckDate">
-                  <DatePicker v-if="sendDateIsDateOrLabel" v-model="companyOpenAccountOperator.sendCheckDate" placement="bottom-end" placeholder="选择日期" :disabled="sendDateControl" style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-if="sendDateIsDateOrLabel" v-model="companyOpenAccountOperator.sendCheckDate" placement="bottom-end" placeholder="选择日期" :readonly="sendDateControl" :disabled="sendDateControl"  style="width: 100%;" transfer></DatePicker>
                    <label v-else>{{companyOpenAccountOperator.sendCheckDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="完成日期："  prop="finishedDate">
-                  <DatePicker v-if="finishDateIsDateOrLabel" v-model="companyOpenAccountOperator.finishedDate" placement="bottom-end" placeholder="选择日期" :disabled="finishDateControl" style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-if="finishDateIsDateOrLabel" v-model="companyOpenAccountOperator.finishedDate" placement="bottom-end" placeholder="选择日期" :readonly="finishDateControl" :disabled="finishDateControl" style="width: 100%;" transfer></DatePicker>
                   <label v-else>{{companyOpenAccountOperator.finishedDate}}</label>
                 </Form-item>
               </Col>
@@ -655,6 +655,14 @@
            this.$Message.warning('【工伤比例开始月份】要求必填！')
            return false;
         }
+        if(!this.companyOpenAccountOperator.bankCardNumber){
+           this.$Message.warning('【牡丹卡号】要求必填！')
+           return false;
+        }
+        if(!this.companyOpenAccountOperator.payBank){
+           this.$Message.warning('【付款行】要求必填！')
+           return false;
+        }
         return true;
       },
       //办理
@@ -705,8 +713,8 @@
                         self.$Message.success('办理成功!');
                         self.goBack()
                       }else{
-                        self.$Message.success(result.message);
-                        self.goBack()
+                        self.$Message.error(result.message);
+                        //self.goBack()
                       }
                   }else{
                     self.$Message.error('办理失败!');
@@ -819,9 +827,9 @@
         let ssComAccountDTO={
               comAccountId: this.comAccountId,
               companyId:this.companyInfo.customerNumber,
-              ssAccount: this.companyOpenAccountOperator.joinSafeguardRegister.trim(),//参保户登记码
+              ssAccount: (this.companyOpenAccountOperator.joinSafeguardRegister+"").trim(),//参保户登记码
               bankAccount: this.companyOpenAccountOperator.bankCardNumber,
-              comAccountName: this.companyOpenAccountOperator.pensionMoneyUseCompanyName.trim(),
+              comAccountName: (this.companyOpenAccountOperator.pensionMoneyUseCompanyName+"").trim(),
               settlementArea: this.companyOpenAccountOperator.socialSecurityCenterValue,
               paymentBank: this.companyOpenAccountOperator.payBank,
               paymentWay: this.beforeSendInfo.payMethodValue,
@@ -898,15 +906,15 @@
              formObj.sendCheckDate = null;
              formObj.finishedDate =null;
         }else if(taskState=='2'){
-            this.handDateControl = false;
+            this.handDateControl = true;
             this.sendDateControl=false;
             this.finishDateControl=true;
             formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
             formObj.sendCheckDate = new Date();
              formObj.finishedDate =null;
         }else if(taskState=='3'){
-            this.handDateControl = false;
-            this.sendDateControl=false;
+            this.handDateControl = true;
+            this.sendDateControl=true;
             this.finishDateControl=false;
              formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
              formObj.sendCheckDate = formObj.sendCheckDate==null? new Date() : formObj.sendCheckDate;

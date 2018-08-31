@@ -55,6 +55,10 @@
             <span>未反馈</span>
              <span>{{RadioData.noFeedback}}</span>
         </Radio>
+        <Radio label="98" >
+            <span>退工任务单签收退工未成功</span>
+             <span>{{RadioData.refuseWaitFinished}}</span>
+        </Radio>
         <Radio label="1">
             <span>退工成功</span>
             <span>{{RadioData.refuseFinished}}</span>

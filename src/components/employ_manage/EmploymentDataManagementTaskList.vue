@@ -76,10 +76,10 @@
             <span>用工成功</span>
             <span>{{RadioData.employSuccess}}</span>
         </Radio>
-        <Radio label="10">
+        <!-- <Radio label="10">
             <span>用工已办查无档</span>
             <span>{{RadioData.noRecord}}</span>
-        </Radio>
+        </Radio> -->
         <Radio label="4">
             <span>用工失败</span>
              <span>{{RadioData.employFailed}}</span>

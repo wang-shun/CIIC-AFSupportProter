@@ -938,9 +938,30 @@ export default {
         empTaskIds.push(item.empTaskId);
       });
       const _self = this;
-      _self.$router.push({
-        name: "archiveHandleBatch",
-        query: { empTaskIds: empTaskIds }
+      var fromData = {};
+      fromData.empTaskIds = empTaskIds;
+      api.batchCheckArchive(fromData).then(data => {
+        if (data.code == 200) {
+          if (data.data.empTask) {
+            var content =
+              "已经办理了" + data.data.empTask + "条数据，请重新选择数据";
+            this.$Message.error(content);
+            return;
+          }
+          if (data.data.employmentCount) {
+             var content =
+              "有" + data.data.employmentCount + "条数据没有办理用工，请重新选择数据";
+            this.$Message.error(content);
+            return;
+          } else {
+            _self.$router.push({
+              name: "archiveHandleBatch",
+              query: { empTaskIds: empTaskIds }
+            });
+          }
+        } else {
+          this.$Message.error("批量失败！" + data.message);
+        }
       });
     }
   },

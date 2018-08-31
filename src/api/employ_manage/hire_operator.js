@@ -271,6 +271,14 @@ export default {
   taskCountArchive:async (params)=>{
     let response = await AJAX.get('/api/employservice/amArchiveTask/taskCountArchive', params);
     return await response.data;
+  },
+  saveBatchArchive:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amEmpTask/saveBatchArchive', params);
+    return await response.data;
+  },
+  batchCheckArchive:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amEmpTask/batchCheckArchive', params);
+    return await response.data;
   }
 
 }

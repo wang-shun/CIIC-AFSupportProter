@@ -428,10 +428,10 @@
         if (length > 0) {
           for (let i = 0; i < length; i++) {
             let category = this.selectEmployeeResultData[i].taskCategory;
-            if ( category=='5' || category=='6' || category=='11'|| category=='14'|| category=='15') {
+            if ( category=='5' || category=='6' || category=='11'|| category=='14'|| category=='15' || category=='99') {
               this.$Modal.warning({
                 title: '任务批退',
-                content: '您选择的任务单存在转出类型，不允许批量批退办理'
+                content: '您选择的任务单存在转出或不做类型，不允许批量批退办理'
               });
               return false;
             }

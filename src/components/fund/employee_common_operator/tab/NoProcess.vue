@@ -182,6 +182,7 @@
         selectedData: [],
         selectedNewData: [],
         selectedOutData: [],
+        selectedNoHandleData: [],
         noProcessData: [],
         noProcessPageData: {
           total: 0,
@@ -363,6 +364,7 @@
         this.selectedData.length = 0;
         this.selectedOutData.length = 0;
         this.selectedNewData.length = 0;
+        this.selectedNoHandleData.length = 0;
         if(selection) {
           selection.forEach((element, index, array) => {
             this.selectedData.push(element.empTaskId);
@@ -371,6 +373,8 @@
               this.selectedOutData.push(element.empTaskId);
             } else if (element.taskCategory == '1' || element.taskCategory == '9') {
               this.selectedNewData.push(element.empTaskId);
+            } else if (element.taskCategory == '99') {
+              this.selectedNoHandleData.push(element.empTaskId);
             }
           })
         }
@@ -383,8 +387,8 @@
           this.$Message.error("请先勾选需要批退的任务");
           return false;
         }
-        if (this.selectedOutData.length > 0) {
-          this.$Message.error("转出或封存（翻牌转出或翻牌封存）类型的任务不能批退，请勿勾选");
+        if (this.selectedOutData.length > 0 || this.selectedNoHandleData.length > 0) {
+          this.$Message.error("转出或封存（翻牌转出或翻牌封存）或不做类型的任务不能批退，请勿勾选");
           return false;
         }
         this.isShowRejectBatch = true;
@@ -394,8 +398,8 @@
           this.$Message.error("请先勾选需要批退的任务");
           return false;
         }
-        if (this.selectedOutData.length > 0) {
-          this.$Message.error("转出或封存（翻牌转出或翻牌封存）类型的任务不能批退，请勿勾选");
+        if (this.selectedOutData.length > 0 || this.selectedNoHandleData.length > 0) {
+          this.$Message.error("转出或封存（翻牌转出或翻牌封存）或不做类型类型的任务不能批退，请勿勾选");
           return false;
         }
 
@@ -422,6 +426,7 @@
             this.selectedData.length = 0;
             this.selectedOutData.length = 0;
             this.selectedNewData.length = 0;
+            this.selectedNoHandleData.length = 0;
           } else {
             this.isLoading = false;
             this.$Message.error(data.message)

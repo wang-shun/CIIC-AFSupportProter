@@ -2,68 +2,6 @@
   <div class="smList">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        用工办理
-        <div slot="content">
-          <Form :label-width="100">
-            <Row type="flex" justify="start">
-              
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="实际录用日期：">
-                  <DatePicker v-model="employmentInfo.employDate" @on-open-change="setCurrentDate1" @on-change="changeDate1" type="date" placeholder="" transfer></DatePicker>
-                </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="开F单日期：">
-                  <DatePicker v-model="employmentInfo.openAfDate" @on-open-change="setCurrentDate2" @on-change="changeDate2" type="date"  placeholder="" transfer></DatePicker>
-                </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="用工形式：">
-                  <Select v-model="employmentInfo.employStyle" transfer>
-                    <Option v-for="item in employmentFormList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-             
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="办理类型：">
-                  <Select v-model="employmentInfo.handleType"  transfer>
-                    <Option v-for="item in handleTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="用工属性：">
-                  <Select v-model="employmentInfo.employProperty" transfer>
-                    <Option v-for="item in employmentPropertyList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="用工方式：">
-                  <Select v-model="employmentInfo.employWay" transfer>
-                    <Option v-for="item in employmentMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                  </Select>
-                </Form-item>
-              </Col>
-             
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                 <Form-item label="用工备注：" >
-                  <Input placeholder="请输入" :maxlength="50" v-model="employmentInfo.remarkContent"/>
-                 </Form-item>
-              </Col>
-             
-            </Row>
-          <Row type="flex" justify="start">
-            <Col :sm="{span: 24}" class="tr">
-              <Button type="primary"  :loading="isLoadingC"   @click="instanceEmployment()"  >保存</Button>
-            </Col>
-          </Row>
-          </Form>
-        </div>
-      </Panel>
-      <Panel name="2">
         用工材料办理
         <div slot="content">
           <Form :model="materialHandleInfo" ref="materialHandleInfo" :label-width="100">
@@ -119,11 +57,7 @@
                 </Select>
               </Form-item>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
-              <Form-item label="档案号：" prop="docCode">
-                <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.docCode"/>
-              </Form-item>
-              </Col>
+            
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案来源：" prop="docFrom">
                 <Select  v-model="materialHandleInfo.docFrom" transfer>
@@ -168,11 +102,6 @@
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
-              <Form-item label="户口号：" prop="hukouCode">
-                <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.hukouCode"/>
-              </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工档案缴费至：" prop="employDocPaymentTo">
                 <DatePicker type="date" transfer v-model="materialHandleInfo.employDocPaymentTo" @on-open-change="setCurrentDate6" @on-change="changeDate6"></DatePicker>
               </Form-item>
@@ -198,7 +127,7 @@
           </Form>
         </div>
       </Panel>
-      <Panel name="3">
+      <Panel name="2">
         退工批量办理
         <div slot="content">
           <Form :model="materialHandleInfo" ref="materialHandleInfo" :label-width="100">
@@ -350,7 +279,7 @@ export default {
     return {
       isLoading: false,
       isLoadingC: false,
-      collapseInfo: [1, 2, 3], //展开栏
+      collapseInfo: [1, 2], //展开栏
       docTypeList: [],
       yuliuDocTypeList: [],
       employmentInfo: {
@@ -390,7 +319,7 @@ export default {
         { value: "2", label: "非全日制" }
       ],
       handleTypeList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "外来从业人员", label: "外来从业人员" },
         { value: "居住证", label: "居住证" },
         { value: "调档", label: "调档" },

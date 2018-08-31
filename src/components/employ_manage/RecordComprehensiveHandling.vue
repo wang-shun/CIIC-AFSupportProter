@@ -647,7 +647,7 @@ export default {
     showInfoTw(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = ind;
+      this.searchCondition.luyong_handle_end = ind;
       if (this.jobGroup != "") {
         this.searchCondition.job = this.jobGroup;
       }
@@ -656,7 +656,7 @@ export default {
     showJob(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = "";
+      this.searchCondition.luyong_handle_end = "";
       this.vertical = "";
       this.searchCondition.job = ind;
       this.archiveQuery(this.searchCondition);

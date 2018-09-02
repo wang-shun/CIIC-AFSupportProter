@@ -364,6 +364,12 @@
             if(this.transferNotice.hfType==undefined){
               this.transferNotice.hfType='1';
             }
+            //赋默认值
+           
+          // this.transferNotice.transferOutUnit = '222';
+           // this.transferOutUnitList.push('222')
+
+
 //            setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);

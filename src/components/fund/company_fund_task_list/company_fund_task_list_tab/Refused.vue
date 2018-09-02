@@ -219,10 +219,10 @@
       }
     },
     created() {
+        },
+    mounted() {
       sessionData.getJsonDataFromSession('companyFundTaskList.refused.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('companyFundTaskList.refused.pageData', this.pageData);
-    },
-    mounted() {
 //      let sessionPageNum = sessionStorage.taskPageNum
 //      let sessionPageSize = sessionStorage.taskPageSize
 //
@@ -232,21 +232,8 @@
 //        sessionStorage.removeItem("taskPageNum")
 //        sessionStorage.removeItem("taskPageSize")
 //      }
-      let params = {
-        pageSize: this.pageData.pageSize,
-        pageNum: this.pageData.pageNum,
-        params:{
-          taskStatusString: '4', //已批退
-        }
-      }
-      let self= this
-      Refused.postTableData(params).then(data=>{
-          self.loading=true;
-          self.refresh(data)
-        }
-      ).catch(error=>{
-        console.log(error);
-      })
+       
+    this.hfComTaskQuery();
     this.getCustomers();
     },
     computed: {
@@ -255,16 +242,16 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      hfComTaskQuery(){
-          let params = this.getParams1();
-        Refused.postTableData(params).then(data=>{
-            this.refresh(data)
-            this.pageData.total = Number(data.data.totalSize);
-          }
-        ).catch(error=>{
-          console.log(error);
-        });
-      },
+    hfComTaskQuery(){
+        let params = this.getParams1();
+      Refused.postTableData(params).then(data=>{
+          this.refresh(data)
+          this.pageData.total = Number(data.data.totalSize);
+        }
+      ).catch(error=>{
+        console.log(error);
+      });
+    },
       handlePageNum(page){
         this.pageData.pageNum = page
         this.hfComTaskQuery();
@@ -284,6 +271,21 @@
         }).catch(error=>{
           console.log(error)
         })
+      },
+      //获得列表请求参数
+      getParams1(){
+        let params={};
+        let arrayServiceCenter=this.operatorSearchData.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(this.operatorSearchData));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
+        return {
+          pageSize:this.pageData.pageSize,
+          pageNum:this.pageData.pageNum,
+          params:params,
+        }
       },
       dbClickHandleData(row, index){
         sessionData.setJsonDataToSession('companyFundTaskList.refused.operatorSearchData', this.operatorSearchData);

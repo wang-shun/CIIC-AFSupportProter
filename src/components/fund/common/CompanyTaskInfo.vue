@@ -51,6 +51,11 @@
           <label>{{companyTask.finishDate}}</label>
         </Form-item>
       </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="办理/批退备注：">
+          <label>{{companyTask.submitRemark}}</label>
+        </Form-item>
+      </Col>
     </Row>
   </Form>
 </template>

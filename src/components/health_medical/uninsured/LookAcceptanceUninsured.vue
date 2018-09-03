@@ -77,6 +77,11 @@
               <span>{{ detail.caseMoney }}</span>
             </Form-item>
           </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="处理备注">
+              <span>{{ detail.remark }}</span>
+            </Form-item>
+          </Col>
 
         </Row>
       </Form>
@@ -177,7 +182,7 @@
       this.queryAcceptanceUninsured();
       this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.printFlag = sessionStorage.getItem('printFlag');
-      console.info(this.printFlag)
+      sessionStorage.removeItem('printFlag')
     },
     methods: {
       queryAcceptanceUninsured() {

@@ -1411,8 +1411,9 @@
               this.isShowPrint = true;
               //赋值 转入和转出的默认值
             // this.transferOutUnitList.push('市公积金封存办(中心)');
+              console.log(this.transferNotice.transferOutUnit);
               this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
-
+              console.log(this.transferNotice.transferOutUnit);
               this.transferNotice.transferOutUnitAccount = '881383288';
               this.transferInUnitList.push(this.displayVO.comAccountName);
               this.transferNotice.transferInUnit = this.displayVO.comAccountName;
@@ -1462,9 +1463,9 @@
           if (data.code == 200) {
             this.transferOutUnitList.length = 0;
             this.transferInUnitList.length = 0;
-            this.transferOutUnitAccountList.length = 0;
+           // this.transferOutUnitAccountList.length = 0;
             this.transferInUnitAccountList.length = 0;
-            this.transferNotice.transferOutUnit = '';
+           // this.transferNotice.transferOutUnit = '';
             this.transferNotice.transferOutUnitAccount = '';
             this.transferNotice.transferInUnit = '';
             this.transferNotice.transferInUnitAccount = '';
@@ -1492,9 +1493,9 @@
       cancel() {
         this.transferOutUnitList.length = 0;
         this.transferInUnitList.length = 0;
-        this.transferOutUnitAccountList.length = 0;
+       // this.transferOutUnitAccountList.length = 0;
         this.transferInUnitAccountList.length = 0;
-        this.transferNotice.transferOutUnit = '';
+       // this.transferNotice.transferOutUnit = '';
         this.transferNotice.transferOutUnitAccount = '';
         this.transferNotice.transferInUnit = '';
         this.transferNotice.transferInUnitAccount = '';

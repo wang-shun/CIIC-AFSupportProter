@@ -4,56 +4,56 @@
       <Form :model="transferItem" ref="transferItem" :rules="transferValidate" :label-width="120">
         <Row type="flex" justify="start" class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="雇员编号：" prop="employeeId">
-            <Input v-model="transferItem.employeeId" placeholder="请输入" @on-blur="queryEmployeeInfo"/>
-          </FormItem>
+            <FormItem label="雇员编号：" prop="employeeId">
+              <Input v-model="transferItem.employeeId" placeholder="请输入" @on-blur="queryEmployeeInfo"></Input>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="公司编号：" prop="companyId">
-            <Input v-model="transferItem.companyId" placeholder="请输入"/>
-          </FormItem>
+            <FormItem label="公司编号：" prop="companyId">
+              <Input v-model="transferItem.companyId" placeholder="请输入"></Input>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="雇员姓名：">
-            <span>{{transferItem.employeeName}}</span>
-          </FormItem>
+            <FormItem label="雇员姓名：">
+              <span>{{transferItem.employeeName}}</span>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="公司名称：">
-            <span>{{transferItem.companyName}}</span>
-          </FormItem>
+            <FormItem label="公司名称：">
+              <span>{{transferItem.companyName}}</span>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="证件号码：">
-            <span>{{transferItem.idNum}}</span>
-          </FormItem>
+            <FormItem label="证件号码：">
+              <span>{{transferItem.idNum}}</span>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="转出日期：" prop="turnOutDate">
-            <DatePicker v-model="transferItem.turnOutDate" placeholder="请输入" transfer></DatePicker>
-          </FormItem>
+            <FormItem label="转出日期：" prop="turnOutDate">
+              <DatePicker v-model="transferItem.turnOutDate" placeholder="请输入" transfer></DatePicker>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="转回日期：" prop="turnBackDate">
-            <DatePicker v-model="transferItem.turnBackDate" placeholder="请输入" transfer></DatePicker>
-          </FormItem>
+            <FormItem label="转回日期：" prop="turnBackDate">
+              <DatePicker v-model="transferItem.turnBackDate" placeholder="请输入" transfer></DatePicker>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="转出地点：" prop="turnOutAddress">
-            <Input v-model="transferItem.turnOutAddress" placeholder="请输入"/>
-          </FormItem>
+            <FormItem label="转出地点：" prop="turnOutAddress">
+              <Input v-model="transferItem.turnOutAddress" placeholder="请输入"></Input>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="备注：">
-            <Input type="textarea" v-model="transferItem.remark" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入..."/>
-          </FormItem>
+            <FormItem label="备注：">
+              <Input type="textarea" v-model="transferItem.remark" :autosize="{minRows: 2,maxRows: 5}"
+                     placeholder="请输入..."></Input>
+            </FormItem>
           </Col>
         </row>
         <Row type="flex" justify="start">
           <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="addTransfer" :loading="loading">提交</Button>
-          <Button type="success" @click="back">返回</Button>
+            <Button type="primary" @click="addTransfer" :loading="loading">提交</Button>
+            <Button type="success" @click="back">返回</Button>
           </Col>
         </Row>
       </Form>
@@ -69,15 +69,15 @@
       return {
         loading: false,
         transferItem: {
-          employeeId: null,
-          employeeName: null,
-          companyId: null,
-          companyName: null,
-          idNum: null,
+          employeeId: '',
+          employeeName: '',
+          companyId: '',
+          companyName: '',
+          idNum: '',
           turnOutDate: null,
-          turnOutAddress: null,
+          turnOutAddress: '',
           turnBackDate: null,
-          remark: ""
+          remark: ''
         },
         transferValidate: this.$Validator.transferValidator,
       }
@@ -147,6 +147,4 @@
       }
     },
   }
-
-
 </script>

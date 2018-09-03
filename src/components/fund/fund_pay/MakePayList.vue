@@ -257,6 +257,12 @@
               FundPay.getMakePayListsTableData(params).then(data=>{
                this.refresh(data);
                this.makePayListInfo.payDate= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
+              if(this.operatorSearchData.paymentBank==0){
+                  this.payee='上海市公积金管理中心（黄浦支行（1））'
+              }else{
+                  this.payee='住房资金归集待结算户'
+              }
+
             }).catch(error=>{
               console.log(error)
             })

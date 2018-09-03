@@ -116,6 +116,12 @@
             title: '公司名称', sortable: true, key: 'companyName', align: "center",
           },
           {
+            title: '受理日期', sortable: true, key: 'createdTime', align: "center",
+            render: (h, params) => {
+              return h('div', this.$utils.formatDate(params.row.createdTime, 'YYYY-MM-DD'));
+            }
+          },
+          {
             title: '零星报销日期', sortable: true, key: 'fragmentaryDate', align: "center",
             render: (h, params) => {
               return h('div', this.$utils.formatDate(params.row.fragmentaryDate, 'YYYY-MM-DD'));

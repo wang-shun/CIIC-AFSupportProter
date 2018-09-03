@@ -144,7 +144,7 @@ export class CompanyTaskListHF{
                     companyTaskInfo.acceptDate = i.strartHandleDate
                     companyTaskInfo.deliveredDate = i.sendCheckDate
                     companyTaskInfo.finishDate = i.finishDate
-                    companyTaskInfo.submitRemark = i.submitRemark
+                    companyTaskInfo.taskRemark = i.taskRemark
                  
                     obj.companyTaskInfo = companyTaskInfo
                     responseData.data.taskData.push(obj)

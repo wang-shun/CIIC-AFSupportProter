@@ -62,7 +62,7 @@ function getFundPayNoteObj(row){
       <td height="45px" style="vertical-align: top;">
         <div style="height: 35px;">
             <div>
-            <div style="text-align: right;  float: left; width: 200px;">${row.bankName}</div>
+            <div style="text-align: right;  float: left; width: 200px;">${row.bankName==null?'　':row.bankName}</div>
             <div style="text-align: right;  float: left; width: 105px;"></div>
             <div style="text-align: right;  float: left; width: 70px;"></div>
           </div>

@@ -345,7 +345,7 @@ export default {
       api.saveAmInjury(fromData).then(data => {
         if (data.data.result == true) {
           this.$Message.success("保存成功");
-          this.injuryReportManageInfo = data.data.data;
+          this.injuryReportManageInfo.push(data.data.data);
         } else {
           this.$Message.error("保存失败！");
         }

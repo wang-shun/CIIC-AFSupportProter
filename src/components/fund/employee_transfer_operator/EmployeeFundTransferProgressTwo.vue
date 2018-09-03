@@ -366,10 +366,14 @@
             }
             //赋默认值
            
-          // this.transferNotice.transferOutUnit = '222';
-           // this.transferOutUnitList.push('222')
-
-
+          this.transferNotice.transferOutUnit = this.displayVO.comAccountName;
+          this.transferOutUnitList.push(this.displayVO.comAccountName);
+          if(this.transferNotice.hfType == 1){
+            this.transferNotice.transferOutUnitAccount=this.displayVO.basicHfComAccount;
+          }else{
+            this.transferNotice.transferOutUnitAccount=this.displayVO.addedHfComAccount;
+          }
+          
 //            setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);

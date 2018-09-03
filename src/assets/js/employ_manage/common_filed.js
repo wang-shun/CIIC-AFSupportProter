@@ -25,8 +25,12 @@ let em_chooseField = {
   "c.employ_feedback_opt_date":"用工反馈操作日期",
   "c.ukey_borrow_date":"用工UKey外借日期",
   "c.ukey_return_date":"用工Ukey返回日期",
-  
   "a.change_company":"是否翻牌",
+  "b.employment_id":"序号",
+  "h.leader_ship_name":"客服经理",
+  "c.diaodang_feedback":"调档反馈",
+  "c.diaodang_feedback_opt_date":"调档反馈操作日期",
+  
 };
 let em_resign_chooseField = {
   "a.company_id":"公司编号",
@@ -51,7 +55,14 @@ let em_resign_chooseField = {
   "e.settlement_area":"缴费区县",
   "f.ukey_borrow_date":"退工UKey外借日期",
   "f.ukey_return_date":"退工Ukey返回日期",
-  "f.created_time":"退工材料任务单提交日期"
+  "f.created_time":"退工材料任务单提交日期",
+  "b.employ_date":"实际录用日期",
+  "a.out_date":"退工日期",
+  "f.resign_feedback":"退工反馈",
+  "h.leader_ship_name":"客服经理",
+  "b.handle_type":"办理类型",
+  "c.employ_feedback":"用工反馈",
+  "a.change_company":"是否翻牌",
 };
 let em_arc_chooseField = {
   "a.company_id":"公司编号",
@@ -104,6 +115,7 @@ let em_arc_chooseField = {
   // "c.ukey_return_date":"不寄退工单",
   // "c.ukey_return_date":"实际缴费日期",
   "e.settlement_area":"缴费区县",
+  "a.change_company":"是否翻牌",
   // "c.ukey_return_date":"退工材料任务单提交日期"
 };
 let ukey_chooseField = {

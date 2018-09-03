@@ -237,7 +237,15 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employeeName)
+              h(
+                "span",
+                {
+                  style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.employeeName
+              )
             ]);
           }
         },
@@ -249,7 +257,15 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.idNum)
+              h(
+                "span",
+                {
+                  style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.idNum
+              )
             ]);
           }
         },
@@ -452,31 +468,31 @@ export default {
     //  this.resignArchiveCollection({})
   },
   methods: {
-    showXslConsole(){
+    showXslConsole() {
       this.isShowImportAdvance = true;
       this.uploadFileList = [];
       this.isImported = false;
-      this.retStr = '';
+      this.retStr = "";
       this.isUpload = false;
-      this.upLoadData.file='';
+      this.upLoadData.file = "";
     },
     impTemplate() {
       api.impTemplateFile({});
     },
     impOk() {
-      if(this.upLoadData.file==null ||this.upLoadData.file=='' ){
+      if (this.upLoadData.file == null || this.upLoadData.file == "") {
         this.$Message.info("请选择导入文件");
         return false;
       }
       this.isImported = true;
-      this.retStr = '系统正在导入中，请耐心等待';
-      api.xlsImportEmpAdvance(this.upLoadData)
+      this.retStr = "系统正在导入中，请耐心等待";
+      api
+        .xlsImportEmpAdvance(this.upLoadData)
         .then(data => {
           this.uploadFileList = [];
           this.isImported = true;
           this.retStr = data.message;
           this.isUpload = false;
-
         })
         .catch(error => {
           this.$Message.error("系统异常！");
@@ -949,8 +965,10 @@ export default {
             return;
           }
           if (data.data.employmentCount) {
-             var content =
-              "有" + data.data.employmentCount + "条数据没有办理用工，请重新选择数据";
+            var content =
+              "有" +
+              data.data.employmentCount +
+              "条数据没有办理用工，请重新选择数据";
             this.$Message.error(content);
             return;
           } else {

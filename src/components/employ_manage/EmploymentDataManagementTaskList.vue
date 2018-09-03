@@ -131,7 +131,7 @@ export default {
   components: { employeeInfo, searchEmployment },
   data() {
     return {
-      jobGroup:"",
+      jobGroup: "",
       vertical: "",
       initSearch: false,
       initSearchC: false,
@@ -154,8 +154,8 @@ export default {
       searchConditions: [],
       searchCondition: {
         params: "",
-        taskStatus:"",
-        job:""
+        taskStatus: "",
+        job: ""
       },
       showHandle: {
         show: true,
@@ -246,7 +246,15 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employeeName)
+              h(
+                "span",
+                {
+                  style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.employeeName
+              )
             ]);
           }
         },
@@ -258,7 +266,15 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.idNum)
+              h(
+                "span",
+                {
+                  style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.idNum
+              )
             ]);
           }
         },
@@ -466,7 +482,7 @@ export default {
         this.searchConditions.push(conditions[i].exec);
 
       this.searchCondition.params = this.searchConditions.toString();
-     
+
       this.employeeQuery(this.searchCondition);
       this.employeeCollectionQuery(this.searchCondition);
     },
@@ -477,17 +493,16 @@ export default {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
       this.searchCondition.taskStatus = ind;
-      if(this.jobGroup!=''){
+      if (this.jobGroup != "") {
         this.searchCondition.job = `${this.jobGroup}`;
       }
       this.employeeQuery(this.searchCondition);
-      
     },
     showJob(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
       this.searchCondition.taskStatus = "";
-      if(this.jobGroup!=''){
+      if (this.jobGroup != "") {
         this.searchCondition.job = `${this.jobGroup}`;
       }
       this.employeeQuery(this.searchCondition);

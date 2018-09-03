@@ -51,8 +51,9 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="连带人：" prop="jointPersonName">
-              <Select v-model="formItem.jointPersonName" placeholder="请选择" :clearable="true">
-                <Option v-for="item in jointPersonNameList" :value="item.name" :key="item.empMemberId">
+              <Select v-model="formItem.jointPersonName" placeholder="请选择" :clearable="true"
+                      @on-change="v=>{checkBirthday(v.value)}" :label-in-value="true">
+                <Option v-for="item in jointPersonNameList" :value="item.empMemberId" :key="item.empMemberId">
                   {{ item.name }}
                 </Option>
               </Select>
@@ -182,6 +183,10 @@
             });
           }
         });
+      },
+      checkBirthday(item) {
+        let select = this.jointPersonNameList.find(person => person.empMemberId = item);
+        this.formItem.jointPersonBirthDate = new Date(select.birthday)
       },
       back() {
         this.$local.back();

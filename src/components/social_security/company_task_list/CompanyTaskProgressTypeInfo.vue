@@ -709,7 +709,7 @@
                         sessionStorage.companyTaskTab = "finished";
                       }
                       //下面代码感觉怪怪的，有空再改
-                      if(result.message=='正常'){
+                      if(result.message=='正常' || result.message=='操作成功'){
                         self.$Message.success('办理成功!');
                         self.goBack()
                       }else{

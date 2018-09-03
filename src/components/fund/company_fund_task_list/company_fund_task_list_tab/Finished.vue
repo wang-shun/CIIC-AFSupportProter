@@ -115,7 +115,7 @@
         },
         loading: false,
         operatorSearchData: {
-           serviceCenterValue: [],
+          serviceCenterValue: [],
           companyId: '',
           hfAccountType:'',
           paymentBank: '',
@@ -241,16 +241,16 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-       hfComTaskQuery(){
-          let params = this.getParams1();
+      hfComTaskQuery(){
+        let params = this.getParams1();
         Finished.postTableData(params).then(data=>{
-            this.refresh(data)
-            this.pageData.total = Number(data.data.totalSize);
-          }
-        ).catch(error=>{
-          console.log(error);
-        });
-      },
+        this.refresh(data)
+        this.pageData.total = Number(data.data.totalSize);
+        }
+      ).catch(error=>{
+        console.log(error);
+      });
+    },
       handlePageNum(page){
         this.pageData.pageNum = page
         this.hfComTaskQuery();
@@ -330,7 +330,6 @@
         })
       },
       rowClassName(row, index) {
-        console.log(row.paymentBank);
         return ts.comRowClassName(row, index);
       }
     }

@@ -1463,9 +1463,9 @@
           if (data.code == 200) {
             this.transferOutUnitList.length = 0;
             this.transferInUnitList.length = 0;
-            this.transferOutUnitAccountList.length = 0;
+           // this.transferOutUnitAccountList.length = 0;
             this.transferInUnitAccountList.length = 0;
-            this.transferNotice.transferOutUnit = '';
+           // this.transferNotice.transferOutUnit = '';
             this.transferNotice.transferOutUnitAccount = '';
             this.transferNotice.transferInUnit = '';
             this.transferNotice.transferInUnitAccount = '';
@@ -1493,9 +1493,9 @@
       cancel() {
         this.transferOutUnitList.length = 0;
         this.transferInUnitList.length = 0;
-        this.transferOutUnitAccountList.length = 0;
+       // this.transferOutUnitAccountList.length = 0;
         this.transferInUnitAccountList.length = 0;
-        this.transferNotice.transferOutUnit = '';
+       // this.transferNotice.transferOutUnit = '';
         this.transferNotice.transferOutUnitAccount = '';
         this.transferNotice.transferInUnit = '';
         this.transferNotice.transferInUnitAccount = '';

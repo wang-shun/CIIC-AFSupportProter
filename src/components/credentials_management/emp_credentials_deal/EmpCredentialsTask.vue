@@ -6,24 +6,30 @@
         <Form :label-width="120" slot="content">
           <Row type="flex" justify="start">
             <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
-              <Form-item label="客户编号：">
-                {{companyCode}}
-              </Form-item>
+              <div style="margin-left: 50px">
+                <span style="font-weight: bold">客户编号：</span>{{companyCode}}
+              </div>
             </i-col>
             <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
-              <Form-item label="客户名称：">
-                {{companyName}}
-              </Form-item>
+              <!--<Form-item label="客户名称：">-->
+              <div style="margin-left: 50px">
+                <span style="font-weight: bold">客户名称：</span>{{companyName}}
+              <!--</Form-item>-->
+              </div>
             </i-col>
             <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
-              <Form-item label="客户地址：">
-                {{companyAddr}}
-              </Form-item>
+              <!--<Form-item label="客户地址：">-->
+              <div style="margin-left: 50px;margin-top: 10px">
+                <span style="font-weight: bold">客户地址：</span>{{companyAddr}}
+              <!--</Form-item>-->
+              </div>
             </i-col>
             <i-col :sm="{span: 24}" :md="{span: 20}" :lg="{span: 10}">
-              <Form-item label="客户电话：">
-                {{companyTel}}
-              </Form-item>
+              <!--<Form-item label="客户电话：">-->
+              <div style="margin-left: 50px;margin-top: 10px">
+                <span style="font-weight: bold">客户电话：</span>{{companyTel}}
+              <!--</Form-item>-->
+              </div>
             </i-col>
           </Row>
         </Form>
@@ -32,38 +38,71 @@
         雇员信息
         <Form :label-width="120" slot="content">
           <Row type="flex" justify="start">
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员编号：">{{empCode}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="雇员编号：">{{empCode}}</Form-item>-->
+              <div style="margin-left: 50px">
+                <span style="font-weight: bold">雇员编号：</span>{{empCode}}
+              </div>
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="雇员姓名：">{{empName}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="雇员姓名：">{{empName}}</Form-item>-->
+              <div style="margin-left: 50px">
+                <span style="font-weight: bold">雇员姓名：</span>{{empName}}
+              </div>
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="证件号码：">{{idNum}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="证件号码：">{{idNum}}</Form-item>-->
+              <div style="margin-left: 50px">
+                <span style="font-weight: bold">证件号码：</span>{{idNum}}
+              </div>
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="人员性质：">{{templateName}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="人员性质：">{{templateName}}</Form-item>-->
+              <div style="margin-left: 50px">
+                <span style="font-weight: bold">人员性质：</span>{{templateName}}
+              </div>
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="婚姻状况：">{{marriage}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="婚姻状况：">{{marriage}}</Form-item>-->
+              <div style="margin-left: 50px;margin-top: 10px">
+                <span style="font-weight: bold">婚姻状况：</span>{{marriage}}
+              </div>
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="性别：">{{sex}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="性别：">{{sex}}</Form-item>-->
+              <div style="margin-left: 50px;margin-top: 10px">
+                <span style="font-weight: bold">性别：</span>{{sex}}
+              </div>
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="出生日期：">{{birthday}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="出生日期：">{{birthday}}</Form-item>-->
+              <div style="margin-left: 50px;margin-top: 10px">
+                <span style="font-weight: bold">出生日期：</span>{{birthday}}
+              </div>
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="联系地址：">{{address}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="联系地址：">{{address}}</Form-item>-->
+              <div style="margin-left: 50px;margin-top: 10px">
+                <span style="font-weight: bold">联系地址：</span>{{address}}
+              </div>
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="首次进入日期：">{{firstInTime}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="首次进入日期：">{{firstInTime}}</Form-item>-->
+              <div style="margin-left: 50px;margin-top: 10px">
+                <span style="font-weight: bold">首次进入日期：</span>{{firstInTime}}
+              </div>
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="合同开始日期：">{{contractStartTime}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="合同开始日期：">{{contractStartTime}}</Form-item>-->
+              <div style="margin-left: 50px;margin-top: 10px">
+                <span style="font-weight: bold">合同开始日期：</span>{{contractStartTime}}
+              </div>
             </i-col>
-            <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="合同结束日期：">{{contractEndTime}}</Form-item>
+            <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}">
+              <!--<Form-item label="合同结束日期：">{{contractEndTime}}</Form-item>-->
+              <div style="margin-left: 50px;margin-top: 10px;margin-bottom: 10px">
+                <span style="font-weight: bold">合同结束日期：</span>{{contractEndTime}}
+              </div>
             </i-col>
           </Row>
           <Table border :columns="ssColum" :data="ssData"></Table>
@@ -203,7 +242,7 @@
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="人数：" prop="peopleNum">
-                <InputNumber v-model="formItem.peopleNum" placeholder="请输入" :min="-99999" :max="99999" style="width: 100%"/>
+                <InputNumber v-model="formItem.peopleNum" placeholder="请输入" :min="1" :max="100" style="width: 100%"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -343,7 +382,7 @@
     },
     methods: {
       loadCurrentDate(val) {
-        if (this.formItem[val] == '') {
+        if (this.formItem[val] == '' || this.formItem[val] == null) {
           this.formItem[val]=new Date()
         }
       },
@@ -369,7 +408,7 @@
           Tools.union(value,this.formItem)
           this.credentialsType = value.credentialsType
           this.credentialsDealType = value.credentialsDealType
-          if (this.formItem.permitCompanyName == undefined) {
+          if (this.formItem.permitCompanyName == '') {
             this.formItem.permitCompanyName = value.companyName
           }
         }
@@ -532,7 +571,6 @@
         params.basicProductId = credentialsTaskData.basicProductId;
         params.credentialsDealType = this.credentialsDealType
         params.credentialsType = this.credentialsType
-        console.log(params)
         AJAX
           .postJSON(host + "/api/empCredentialsDeal/saveOrUpdate/task", params)
           .then(response => {
@@ -581,9 +619,9 @@
                 data[i].companyCode = this.companyCode;
                 data[i].companyName = this.companyName;
               }
-              let temp = {};
               let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
               if (credentialsTaskData.isDeal == true) {
+                let temp = {};
                 let data1 = credentialsTaskData.data;
                 temp.empCode = data1.employeeId;
                 temp.empName = data1.employeeName;

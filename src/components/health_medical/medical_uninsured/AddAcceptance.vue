@@ -4,7 +4,6 @@
       <Form ref="formItem" :model="formItem" :rules="acceptanceRules" :label-width="140">
         <Row class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <!--TODO: 数据待确认-->
             <FormItem label="业务顾问：">
               <span class="expand-value">{{this.employeeInfo.consultantName}}</span>
             </FormItem>

@@ -92,6 +92,11 @@
       </Panel>
     </Collapse>
 
+    <div class="tr m20">
+      <Button v-if="this.formItem.status" type="primary" icon="ios-upload-outline" @click="exportUninsuredData">导出
+      </Button>
+    </div>
+
     <Table border stripe ref="uninsuredTable" :columns="uninsuredColumns" :data="uninsuredData"></Table>
     <Page :total="formItem.total"
           show-total
@@ -105,26 +110,28 @@
 <script>
   import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
   import apiAjax from "../../../data/health_medical/uninsured_application.js";
+  import qs from "qs";
 
   export default {
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
+        userInfo: {},
         formItem: {
           total: 0,
           current: 1,
           size: 10,
-          umAcceptanceId: null,
-          moneyType: null,
-          caseType: null,
+          umAcceptanceId: '',
+          moneyType: '',
+          caseType: '',
           status: false,
-          managementId: null,
-          managementName: null,
-          companyId: null,
-          companyName: null,
-          employeeId: null,
-          employeeName: null,
-          idNum: null,
+          managementId: '',
+          managementName: '',
+          companyId: '',
+          companyName: '',
+          employeeId: '',
+          employeeName: '',
+          idNum: '',
           handlerDateRange: [],
           auditDateRange: [],
         },
@@ -165,7 +172,7 @@
           {
             title: '审核日期', sortable: true, key: 'auditDate', align: 'center',
             render: (h, params) => {
-              return h('div', this.$utils.formatDate(params.row.auditDate, 'YYYY-MM-DD HH:mm:ss'));
+              return h('div', this.$utils.formatDate(params.row.auditDate, 'YYYY-MM-DD'));
             }
           },
           {
@@ -193,7 +200,8 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('umAcceptanceId', params.row.umAcceptanceId);
+                        sessionStorage.setItem('caseMoney', params.row.caseMoney);
                         this.$router.push({name: 'uninsuredReviewDeal'});
                       }
                     }
@@ -205,7 +213,7 @@
                     },
                     on: {
                       click: () => {
-                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('umAcceptanceId', params.row.umAcceptanceId);
                         sessionStorage.setItem('printFlag', true);
                         this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
@@ -218,7 +226,7 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('umAcceptanceId', params.row.umAcceptanceId);
                         sessionStorage.setItem('printFlag', true);
                         this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
@@ -236,6 +244,7 @@
       }
     },
     created() {
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.getByPage(1);
     },
     methods: {
@@ -247,6 +256,9 @@
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
+      },
+      exportUninsuredData() {
+        window.location = apiAjax.basePaths + '/uninsuredAuditService/exportUninsuredAuditExcel?' + qs.stringify(this.formItem) + '&token=' + encodeURIComponent(this.userInfo.token);
       },
       getByPage(val) {
         this.formItem.current = val;

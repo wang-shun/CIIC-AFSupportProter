@@ -5,12 +5,12 @@
         <Row justify="start" class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="就诊医院：" prop="clinicHospital">
-              <Input v-model="formItem.clinicHospital" placeholder="请输入"/>
+              <Input v-model="formItem.clinicHospital" placeholder="请输入"></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="受理金额：" prop="acceptAmount">
-              <InputNumber :min="1" v-model="formItem.acceptAmount" style="width: 100%"></InputNumber>
+              {{formItem.acceptAmount}}
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -40,7 +40,7 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="诊断：" prop="diagnose">
-              <Input v-model="formItem.diagnose" placeholder="请输入"/>
+              <Input v-model="formItem.diagnose" placeholder="请输入"></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -56,7 +56,7 @@
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="备注：" prop="remark">
               <Input v-model="formItem.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
-                     placeholder="请输入..."/>
+                     placeholder="请输入..."></Input>
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -114,7 +114,8 @@
       }
     },
     created() {
-      this.formItem.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
+      this.formItem.umAcceptanceId = sessionStorage.getItem('umAcceptanceId');
+      this.formItem.acceptAmount = sessionStorage.getItem('caseMoney');
       this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.formItem.auditor = this.userInfo.displayName;
     },
@@ -122,7 +123,18 @@
       addUninsuredReviewDeal() {
         this.$refs['formItem'].validate((valid) => {
           if (valid) {
-            console.info(JSON.stringify(this.formItem));
+            if (!this.formItem.attachment) {
+              delete this.formItem.attachment
+            }
+            if (!this.formItem.diagnoseDate || this.formItem.diagnoseDate === '') {
+              delete this.formItem.diagnoseDate
+            }
+            if (!this.formItem.hospitalizationEndDate || this.formItem.hospitalizationEndDate === '') {
+              delete this.formItem.hospitalizationEndDate
+            }
+            if (!this.formItem.hospitalizationStartDate || this.formItem.hospitalizationStartDate === '') {
+              delete this.formItem.hospitalizationStartDate
+            }
             this.loading = true;
             apiAjax.addUninsuredAudit(this.formItem).then(response => {
               this.loading = false;

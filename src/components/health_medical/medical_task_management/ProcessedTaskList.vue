@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="value1" accordion>
       <Panel name="1">
-        已处理任务单查询
+        待处理任务单查询
         <div slot="content">
           <Form ref="formItem" :model="formItem" :label-width="150">
             <Row type="flex" justify="start">
@@ -202,6 +202,9 @@
             title: "产品名称", sortable: true, key: "productName", align: "center", width: 150
           },
           {
+            title: "操作说明", sortable: true, key: "remark", align: "center", width: 150
+          },
+          {
             title: "雇员编号", sortable: true, key: "employeeId", align: "center", width: 150
           },
           {
@@ -256,7 +259,14 @@
               return h('div', task.statusToChina(params.row.status));
             }
           },
-
+          {
+            title: "审核时间", sortable: true, key: "hearTime", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.hearTime != null) {
+                return h('div', this.$utils.formatDate(params.row.hearTime, "YYYY-MM-DD HH:mm:ss"));
+              }
+            }
+          },
           {
             title: "离职日期", sortable: true, key: "departuredDate", align: "center", width: 150,
             render: (h, params) => {
@@ -284,22 +294,6 @@
             title: "证件号码", sortable: true, key: "idNum", align: "center", width: 150
           },
           {
-            title: "投保日期", sortable: true, key: "insuranceDate", align: "center", width: 150,
-            render: (h, params) => {
-              if (params.row.insuranceDate != null) {
-                return h('div', this.$utils.formatDate(params.row.insuranceDate, "YYYY-MM-DD"));
-              }
-            }
-          },
-          {
-            title: "退保日期", sortable: true, key: "surrenderDate", align: "center", width: 150,
-            render: (h, params) => {
-              if (params.row.surrenderDate != null) {
-                return h('div', this.$utils.formatDate(params.row.surrenderDate, "YYYY-MM-DD"));
-              }
-            }
-          },
-          {
             title: "保险起始日期", sortable: true, key: "startConfirmDate", align: "center", width: 150,
             render: (h, params) => {
               if (params.row.startConfirmDate != null) {
@@ -318,13 +312,10 @@
           {
             title: "操作时间", sortable: true, key: "modifiedTime", align: "center", width: 150,
             render: (h, params) => {
-              if (params.row.modifiedTime != null) {
-                return h('div', this.$utils.formatDate(params.row.modifiedTime, "YYYY-MM-DD HH:mm:ss"));
+              if (params.row.modifiedTime) {
+                return h('div', this.$utils.formatDate(params.row.modifiedTime, "YYYY-MM-DD"));
               }
             }
-          },
-          {
-            title: "备注", sortable: true, key: "remark", align: "center", width: 150
           },
           {
             title: "提交人", sortable: true, key: "createdUser", align: "center", width: 150

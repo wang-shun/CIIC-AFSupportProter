@@ -177,7 +177,7 @@
       this.queryAcceptanceUninsured();
       this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.printFlag = sessionStorage.getItem('printFlag');
-      console.info(this.printFlag)
+      sessionStorage.removeItem('printFlag')
     },
     methods: {
       queryAcceptanceUninsured() {

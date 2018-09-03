@@ -32,6 +32,18 @@
                   <Input v-model="reimbursementItem.companyName" placeholder="请输入"></Input>
                 </FormItem>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <FormItem label="零星报销日期：" prop="fragmentaryDate">
+                  <DatePicker v-model="reimbursementItem.fragmentaryDate" placeholder="请输入"
+                              style="width: 100%" transfer></DatePicker>
+                </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <FormItem label="受理日期：" prop="modifiedTime">
+                  <DatePicker v-model="reimbursementItem.modifiedTime" placeholder="请输入"
+                              style="width: 100%" transfer></DatePicker>
+                </FormItem>
+              </Col>
             </row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
@@ -83,6 +95,8 @@
           idNum: null,
           companyId: null,
           companyName: null,
+          fragmentaryDate: null,
+          modifiedTime: null,
         },
         userInfo: {},
         reimbursementColumns: [
@@ -100,6 +114,12 @@
           },
           {
             title: '公司名称', sortable: true, key: 'companyName', align: "center",
+          },
+          {
+            title: '零星报销日期', sortable: true, key: 'fragmentaryDate', align: "center",
+            render: (h, params) => {
+              return h('div', this.$utils.formatDate(params.row.fragmentaryDate, 'YYYY-MM-DD'));
+            }
           },
           {
             title: '受理金额', sortable: true, key: 'caseMoney', align: "center",

@@ -6,7 +6,7 @@
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <!--TODO: 数据待确认-->
             <FormItem label="业务顾问：">
-              <span class="expand-value">{{this.employeeInfo.employeeName}}</span>
+              <span class="expand-value">{{this.employeeInfo.consultantName}}</span>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -21,19 +21,19 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="证件号码：">
-              <span class="expand-value">310105198505305026</span>
+              <span class="expand-value">{{this.employeeInfo.idNum}}</span>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="退保日期：" prop="surrenderDate">
-              <DatePicker type="date" v-model="formItem.surrenderDate" placeholder="请输入"
-                          style="width: 100%"></DatePicker>
+              <DatePicker type="date" v-model="formItem.surrenderDate" style="width: 100%"
+                          :readonly="true"></DatePicker>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="中止日期：" prop="dimissionDate">
-              <DatePicker type="date" v-model="formItem.dimissionDate" placeholder="请输入"
-                          style="width: 100%"></DatePicker>
+              <DatePicker type="date" v-model="formItem.dimissionDate" style="width: 100%"
+                          :readonly="true"></DatePicker>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -52,7 +52,7 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="连带人：" prop="jointPersonName">
-              <Select v-model="formItem.jointPersonName" placeholder="请输入" :clearable="true">
+              <Select v-model="formItem.jointPersonName" placeholder="请选择" :clearable="true">
                 <Option v-for="item in jointPersonNameList" :value="item.name" :key="item.empMemberId">
                   {{ item.name }}
                 </Option>
@@ -61,8 +61,8 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="连带人出生日期：" prop="jointPersonBirthDate">
-              <DatePicker v-model="formItem.jointPersonBirthDate" type="date" placeholder="请输入"
-                          style="width: 100%"></DatePicker>
+              <DatePicker v-model="formItem.jointPersonBirthDate" type="date" style="width: 100%"
+                          :readonly="true"></DatePicker>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -113,10 +113,12 @@
           medicalRemark: null,
         },
         employeeInfo: {
-          employeeId: null,
-          employeeName: null,
-          companyId: null,
-          companyName: null,
+          consultantName: '',
+          employeeId: '',
+          employeeName: '',
+          companyId: '',
+          idNum: '',
+          companyName: '',
         },
         moneyTypes: admissibility.moneyTypes,
         caseTypes: admissibility.caseTypes,
@@ -129,11 +131,31 @@
       //雇员数据
       this.employeeInfo = JSON.parse(sessionStorage.getItem('acceptanceEmployee'));
       this.queryEmpMember();
+      this.queryBusinessConsultant();
+      this.querySupplyInfo();
     },
     methods: {
       queryEmpMember() {
         apiAjax.queryEmpMember(this.employeeInfo).then(response => {
           this.jointPersonNameList = response.data.object;
+          console.info(JSON.stringify(this.jointPersonNameList))
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      queryBusinessConsultant() {
+        apiAjax.queryBusinessConsultant(this.employeeInfo).then(response => {
+          this.employeeInfo.consultantName = response.data.object;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      querySupplyInfo() {
+        apiAjax.querySupplyInfo(this.employeeInfo.employeeId).then(response => {
+          this.formItem.surrenderDate = response.data.object.surrenderDate;
+          this.formItem.dimissionDate = response.data.object.endDate;
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");

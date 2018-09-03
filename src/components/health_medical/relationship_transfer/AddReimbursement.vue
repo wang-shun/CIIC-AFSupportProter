@@ -4,63 +4,64 @@
       <Form :model="reimbursementItem" ref="reimbursementItem" :rules="reimbursementValidator" :label-width="120">
         <Row type="flex" justify="start" class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="雇员编号：" prop="employeeId">
-            <Input v-model="reimbursementItem.employeeId" placeholder="请输入"/>
-          </FormItem>
+            <FormItem label="雇员编号：" prop="employeeId">
+              <Input v-model="reimbursementItem.employeeId" placeholder="请输入"></Input>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="公司编号：" prop="companyId">
-            <Input v-model="reimbursementItem.companyId" placeholder="请输入" @on-blur="queryEmployeeInfo"/>
-          </FormItem>
+            <FormItem label="公司编号：" prop="companyId">
+              <Input v-model="reimbursementItem.companyId" placeholder="请输入" @on-blur="queryEmployeeInfo"></Input>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="雇员姓名：">
-            <span>{{reimbursementItem.employeeName}}</span>
-          </FormItem>
+            <FormItem label="雇员姓名：">
+              <span>{{reimbursementItem.employeeName}}</span>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="公司名称：">
-            <span>{{reimbursementItem.companyName}}</span>
-          </FormItem>
+            <FormItem label="公司名称：">
+              <span>{{reimbursementItem.companyName}}</span>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="证件号码：">
-            <span>{{reimbursementItem.idNum}}</span>
-          </FormItem>
+            <FormItem label="证件号码：">
+              <span>{{reimbursementItem.idNum}}</span>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="受理金额：" prop="caseMoney">
-            <InputNumber v-model="reimbursementItem.caseMoney" placeholder="请输入" style="width: 100%"></InputNumber>
-          </FormItem>
+            <FormItem label="受理金额：" prop="caseMoney">
+              <InputNumber v-model="reimbursementItem.caseMoney" placeholder="请输入" style="width: 100%"></InputNumber>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="发票数：" prop="invoiceNumber">
-            <InputNumber v-model="reimbursementItem.invoiceNumber" placeholder="请输入" style="width: 100%"></InputNumber>
-          </FormItem>
+            <FormItem label="发票数：" prop="invoiceNumber">
+              <InputNumber v-model="reimbursementItem.invoiceNumber" placeholder="请输入"
+                           style="width: 100%"></InputNumber>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="医保结算金额：" prop="medicalClearingMoney">
-            <InputNumber v-model="reimbursementItem.medicalClearingMoney" placeholder="请输入"
-                         style="width: 100%"></InputNumber>
-          </FormItem>
+            <FormItem label="医保结算金额：" prop="medicalClearingMoney">
+              <InputNumber v-model="reimbursementItem.medicalClearingMoney" placeholder="请输入"
+                           style="width: 100%"></InputNumber>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="医疗备注：" prop="medicalRemark">
-            <Input type="textarea" v-model="reimbursementItem.medicalRemark" :autosize="{minRows: 2,maxRows: 5}"
-                   placeholder="请输入..."/>
-          </FormItem>
+            <FormItem label="医疗备注：" prop="medicalRemark">
+              <Input type="textarea" v-model="reimbursementItem.medicalRemark" :autosize="{minRows: 2,maxRows: 5}"
+                     placeholder="请输入..."></Input>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <FormItem label="医疗结算反馈：" prop="medicalClearingFeedBack">
-            <Input type="textarea" v-model="reimbursementItem.medicalClearingFeedBack"
-                   :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."/>
-          </FormItem>
+            <FormItem label="医疗结算反馈：" prop="medicalClearingFeedBack">
+              <Input type="textarea" v-model="reimbursementItem.medicalClearingFeedBack"
+                     :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+            </FormItem>
           </Col>
         </row>
         <Row type="flex" justify="start">
           <Col :sm="{span: 24}" class="tr">
-          <Button type="primary" @click="addReimbursement" :loading="loading">提交</Button>
-          <Button type="success" @click="back">返回</Button>
+            <Button type="primary" @click="addReimbursement" :loading="loading">提交</Button>
+            <Button type="success" @click="back">返回</Button>
           </Col>
         </Row>
       </Form>
@@ -76,16 +77,16 @@
       return {
         loading: false,
         reimbursementItem: {
-          employeeId: null,
-          employeeName: null,
-          companyId: "",
-          companyName: null,
-          caseMoney: null,
-          idNum: null,
-          invoiceNumber: null,
-          medicalRemark: null,
-          medicalClearingMoney: null,
-          medicalClearingFeedBack: null,
+          employeeId: '',
+          employeeName: '',
+          companyId: '',
+          companyName: '',
+          caseMoney: 0,
+          idNum: '',
+          invoiceNumber: 0,
+          medicalRemark: '',
+          medicalClearingMoney: 0,
+          medicalClearingFeedBack: '',
         },
         reimbursementValidator: this.$Validator.reimbursementValidator
       };
@@ -97,9 +98,7 @@
         this.$local.back();
       },
       addReimbursement() {
-        console.info("==============")
         this.$refs['reimbursementItem'].validate((valid) => {
-          console.info("=====+++++++++++++")
           if (valid) {
             this.loading = true;
             this[EventTypes.REIMBURSEMENT_INSERT]({
@@ -148,6 +147,4 @@
       }
     },
   }
-
-
 </script>

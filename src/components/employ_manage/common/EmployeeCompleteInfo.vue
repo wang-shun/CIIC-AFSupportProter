@@ -133,8 +133,8 @@
           </Form-item>
         </Col>
          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-show="employee.show">
-          <Form-item label="寄退工单：">
-              <Checkbox  v-model="employee.mailContinue" ></Checkbox>
+          <Form-item label="寄退工单：" >
+              <Checkbox  v-model="employee.mailContinue"  :disabled="true"></Checkbox>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-show="employee.show">

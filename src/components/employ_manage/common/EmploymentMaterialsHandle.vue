@@ -491,9 +491,13 @@ export default {
     changeType(val) {
       if (val == 11) {
         this.handleInfo.ukeyBorrowDate = this.currentDate();
+      }else{
+        if(this.handleInfo.ukeyBorrowDate){
+         
+            this.handleInfo.ukeyReturnDate = this.currentDate();
+        }
+         this.handleInfo.employFeedbackOptDate = this.currentDate();
       }
-
-      this.handleInfo.employFeedbackOptDate = this.currentDate();
     },
     changeTypeDd(val) {
       this.handleInfo.diaodangFeedbackOptDate = this.currentDate();

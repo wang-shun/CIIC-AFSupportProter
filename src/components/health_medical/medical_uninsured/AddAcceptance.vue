@@ -44,7 +44,8 @@
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="受理类型：" prop="caseType">
-              <Select v-model="formItem.caseType" placeholder="请选择" :clearable="true">
+              <Select v-model="formItem.caseType" placeholder="请选择" :clearable="true"
+                      @on-change="v=>{queryEmpMember(v.value)}" :label-in-value="true">
                 <Option v-for="item in caseTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </FormItem>
@@ -119,6 +120,7 @@
           companyId: '',
           idNum: '',
           companyName: '',
+          caseType: '',
         },
         moneyTypes: admissibility.moneyTypes,
         caseTypes: admissibility.caseTypes,
@@ -130,15 +132,25 @@
     created() {
       //雇员数据
       this.employeeInfo = JSON.parse(sessionStorage.getItem('acceptanceEmployee'));
-      this.queryEmpMember();
       this.queryBusinessConsultant();
       this.querySupplyInfo();
     },
     methods: {
-      queryEmpMember() {
+      queryEmpMember(val) {
+        // 1:配偶 2:子女
+        if (val === '1') {
+          this.jointPersonNameList = [];
+          return;
+        } else if (val === '2') {
+          this.employeeInfo.caseType = 2;
+        } else if (val === '3') {
+          this.employeeInfo.caseType = 1;
+        }
         apiAjax.queryEmpMember(this.employeeInfo).then(response => {
-          this.jointPersonNameList = response.data.object;
-          console.info(JSON.stringify(this.jointPersonNameList))
+          let responseDate = response.data.object;
+          if (responseDate) {
+            this.jointPersonNameList = responseDate;
+          }
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
@@ -154,8 +166,8 @@
       },
       querySupplyInfo() {
         apiAjax.querySupplyInfo(this.employeeInfo.employeeId).then(response => {
-          this.formItem.surrenderDate = response.data.object.surrenderDate;
-          this.formItem.dimissionDate = response.data.object.endDate;
+          this.formItem.surrenderDate = new Date(response.data.object.surrenderDate);
+          this.formItem.dimissionDate = new Date(response.data.object.endDate);
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");

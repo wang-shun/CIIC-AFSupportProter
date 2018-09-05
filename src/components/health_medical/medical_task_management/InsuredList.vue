@@ -174,9 +174,9 @@
           {
             title: '公司名称', sortable: true, key: 'companyName', align: 'center', width: 150
           },
-          {
-            title: '投保对象', sortable: true, key: 'employeeName', align: 'center', width: 150
-          },
+//          {
+//            title: '投保对象', sortable: true, key: 'employeeName', align: 'center', width: 150
+//          },
           {
             title: '保险名称', sortable: true, key: 'productName', align: 'center', width: 150
           },

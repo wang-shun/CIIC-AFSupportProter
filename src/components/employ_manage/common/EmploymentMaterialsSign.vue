@@ -152,7 +152,7 @@ export default {
         }
       ],
       reasonList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "前道要求批退", label: "前道要求批退" },
         { value: "提交材料与AF库不一致", label: "提交材料与AF库不一致" },
         { value: "未提交联系单", label: "未提交联系单" },

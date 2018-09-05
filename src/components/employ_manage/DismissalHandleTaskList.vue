@@ -112,12 +112,12 @@ export default {
       vertical: "",
       jobData: {
         job: 0,
-        noJob: 100
+        noJob:0
       },
       RadioData: {
-        noSign: 200,
-        employSuccess: 100,
-        noRecord: 2100
+        noSign: "",
+        employSuccess: "",
+        noRecord: ""
       },
       initSearch: false,
       initSearchC: false,

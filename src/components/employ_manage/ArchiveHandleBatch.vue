@@ -108,11 +108,6 @@
               </Form-item>
             </Col>
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="">
-                <Checkbox v-model="materialHandleInfo.docHalfwayOut" true-value="1" false-value="0">档案集体转出</Checkbox>
-              </Form-item>
-             </Col>
-            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="" prop="luyongHandleEnd">
                 <Checkbox v-model="materialHandleInfo.luyongHandleEnd">录用处理结束</Checkbox>
               </Form-item>

@@ -70,8 +70,6 @@
             </Select>
           </Form-item>
         </Col>
-        
-          
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">

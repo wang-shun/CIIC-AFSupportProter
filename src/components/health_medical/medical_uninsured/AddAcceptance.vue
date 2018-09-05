@@ -166,8 +166,12 @@
       },
       querySupplyInfo() {
         apiAjax.querySupplyInfo(this.employeeInfo.employeeId).then(response => {
-          this.formItem.surrenderDate = new Date(response.data.object.surrenderDate);
-          this.formItem.dimissionDate = new Date(response.data.object.endDate);
+          if (response.data.object.surrenderDate) {
+            this.formItem.surrenderDate = new Date(response.data.object.surrenderDate);
+          }
+          if (response.data.object.endDate) {
+            this.formItem.dimissionDate = new Date(response.data.object.endDate);
+          }
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");

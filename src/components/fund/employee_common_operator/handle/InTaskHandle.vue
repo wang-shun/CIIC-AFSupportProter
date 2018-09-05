@@ -321,7 +321,7 @@
 
     <!-- 打印转移通知书 模态框 -->
     <Modal
-      v-model="isShowPrint"
+      v-model="isShowPrintVM"
       v-if="isShowPrint"
       title="打印转移通知书"
       width="720"
@@ -403,6 +403,7 @@
         showReject: true,
         inputDisabled: false,
         isShowPrint: false,
+        isShowPrintVM: false,
         loading: false,
         isLoading: false,
         displayVO: {
@@ -1449,6 +1450,7 @@
             this.$Message.error(data.message);
           }
           this.isLoading = false;
+          this.isShowPrintVM = true;
           this.isShowPrint = true;
           this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
         })
@@ -1479,6 +1481,7 @@
             this.transferNotice.transferInUnitAccount = '';
             this.transferNotice.transferDate = '';
             this.isShowPrint = false;
+            this.isShowPrintVM = false;
             //transapi.printTransferTask({empTaskId: data.data.empTaskId});
             let params={empTaskId: data.data.empTaskId};
             transapi.getPrintTransfer(params).then(
@@ -1509,6 +1512,7 @@
         this.transferNotice.transferInUnitAccount = '';
         this.transferNotice.transferDate = '';
         this.isShowPrint = false;
+        this.isShowPrintVM = false;
       },
       routerMethod(params) {
         let currentTaskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');

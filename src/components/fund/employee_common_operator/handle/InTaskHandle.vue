@@ -1412,7 +1412,7 @@
               //赋值 转入和转出的默认值
               this.transferOutUnitList.push('市公积金封存办(中心)');
               console.log(this.transferNotice.transferOutUnit);
-              setTimeout(this.transferNotice.transferOutUnit = '市公积金封存办(中心)',500);
+              setTimeout(function(){this.transferNotice.transferOutUnit = '市公积金封存办(中心)';},1000);
               console.log(this.transferNotice.transferOutUnit);
               this.transferNotice.transferOutUnitAccount = '881383288';
               this.transferInUnitList.push(this.displayVO.comAccountName);

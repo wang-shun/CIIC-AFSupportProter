@@ -21,6 +21,10 @@ export default {
   },
   companyFundAccountExpExcel:(params)=>{
       AJAX.download('/api/fundcommandservice/companyFundAccount/getComFundAccountListExp', params);
-  }
-
+  },
+//获取服务中心数字
+getCustomers:async (params)=>{
+  let response = await AJAX.post('/api/fundcommandservice/hfauthority/getHfCustomerData', params);
+  return await response.data;
+},
 }

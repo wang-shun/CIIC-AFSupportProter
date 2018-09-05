@@ -322,7 +322,7 @@
     <!-- 打印转移通知书 模态框 -->
     <Modal
       v-model="isShowPrintVM"
-      v-if="isShowPrint"
+
       title="打印转移通知书"
       width="720"
     >
@@ -898,7 +898,34 @@
           this.showButton = false;
           this.showReject = false;
         }
-      })
+      });
+//      this.isShowPrintVM = true;
+      api.transEmpTaskQuery({
+        companyId: this.displayVO.companyId,
+        employeeId: this.displayVO.employeeId,
+        hfType: this.displayVO.hfType,
+      }).then(data => {
+        if (data.code == 200) {
+          if (!data.data || data.data.length == 0) {
+            this.isShowPrintVM = true;
+            //赋值 转入和转出的默认值
+            this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+
+            this.transferNotice.transferOutUnitAccount = '881383288';
+            if (this.displayVO.comAccountName != '') {
+              this.transferInUnitList.push(this.displayVO.comAccountName);
+            }
+            this.transferNotice.transferInUnit = this.displayVO.comAccountName;
+            if (this.displayVO.hfType == 1) {
+              this.transferNotice.transferInUnitAccount = this.displayVO.basicHfComAccount;
+            } else {
+              this.transferNotice.transferInUnitAccount = this.displayVO.addedHfComAccount;
+            }
+            this.transferNotice.transferDate = new Date();
+          }
+        }
+        this.isShowPrintVM = false;
+      });
     },
     computed: {
     },
@@ -1416,7 +1443,7 @@
               console.log(this.transferNotice.transferOutUnit);
               let self=this;
 
-              //this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+              this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
 
               console.log(this.transferNotice.transferOutUnit);
               this.transferNotice.transferOutUnitAccount = '881383288';

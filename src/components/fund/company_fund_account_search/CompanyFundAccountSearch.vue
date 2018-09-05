@@ -257,8 +257,14 @@
           },
           {title: '终止', key: 'comHfMonth', align: 'center', width: 100,
             render: (h, params) => {
+              let state='';
+              if(params.row.state == 2){
+                state='终止';
+              }else{
+                state='有效'
+              }
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.state),
+                h('span', state),
               ]);
             }
           },

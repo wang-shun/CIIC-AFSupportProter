@@ -565,6 +565,9 @@
 
               this.refuse.resignFeedbackDate=currentdate;
           }
+          if(this.isFrist==true && this.refuse.oldResignFeedback==undefined){
+            this.isFrist = false;
+          }
           if(this.isFrist == false){
             this.refuse.resignFeedbackDate = this.currentDate();
             if(val=="11"){

@@ -170,6 +170,7 @@ import Vue from 'vue'
         isLoading: true,
         isFrist: true,
         uekyFile: {
+          renewId: '',
           team: '',
           ssAccount: '',
           renewDueDate: '',
@@ -246,10 +247,10 @@ import Vue from 'vue'
                   on: {
                     click: () => {
 
-                      this.deleteRenew(params.row.id)
+                      this.deleteRenew(params.row.id,params.row.dueDate,params.row.type)
                     }
                   }
-                }, '删除'),
+                }, '修改'),
               ]);
             }
           }
@@ -277,25 +278,14 @@ import Vue from 'vue'
     }
     ,
     methods: {
-      deleteRenew(id){
-        const _self = this;
-        this.$Modal.confirm({
-          title: "",
-          content: "确认删除吗?",
-          onOk: function() {
-            api.delAmArchiveUkeyRenew({id: id}).then(data => {
-            if(data.data==true){
-              this.$Message.success("删除成功");
-              _self.queryRenew(_self.$route.query.id);
-            }else{
-              this.$Message.error("删除失败！");
-            }
-          })
-          },
-          error: function(error) {
-            self.$Modal.remove();
-          }
-        });
+      deleteRenew(id,dueDate,type){
+        let d = new Date();
+        this.renewUkey.renewDate = d;//d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+        this.modal1 = true;
+        this.renewUkey.type = type;
+        this.renewUkey.renewDueDate = dueDate;
+        this.renewUkey.keySeq = this.uekyFile.keySeq;
+        this.renewUkey.renewId=id;
       },
       changeType(val) {
       if (this.isFast) {
@@ -346,8 +336,12 @@ import Vue from 'vue'
         this.modal1 = true;
         this.renewUkey.type = '';
         this.renewUkey.renewDueDate = '';
+        this.renewUkey.keySeq = '';
+        this.uekyFile.renewId='';
+        this.renewUkey.renewId='';
       },
       ok(){
+        
         this.isLoading = true;
         if(this.renewUkey.renewDueDate == '' || this.renewUkey.renewDueDate == undefined){
           this.$Message.error("请填写到期日期！");
@@ -366,10 +360,12 @@ import Vue from 'vue'
         if(this.renewUkey.renewDate){
           fromData.renewDate = this.$utils.formatDate(this.renewUkey.renewDate, 'YYYY-MM-DD');
         }
+        fromData.renewId = this.renewUkey.renewId;
         api.amArchiveUkeyRenew(fromData).then(data => {
           if (data.code == 200) {
             if(data.data == true){
-              this.$Message.success("续签成功");
+              this.$Message.success("保存成功");
+              this.uekyFile.renewId='';
               this.renewUkey.type = '';
               this.renewUkey.renewDueDate = '';
               this.uekyFile.dueDate = fromData.renewDueDate;

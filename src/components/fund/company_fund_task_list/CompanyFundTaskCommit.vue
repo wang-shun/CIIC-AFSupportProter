@@ -278,7 +278,8 @@
               cancelText: "取消",
               onOk: () => {
                   let params={
-                    comTaskId:this.$route.params.comTaskId
+                    comTaskId:this.$route.params.comTaskId,
+                    remark:notes
                   }
                   CompanyTaskListHF.rejection(params).then(data=>{
                     if(data){

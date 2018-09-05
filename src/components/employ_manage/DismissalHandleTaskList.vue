@@ -474,7 +474,7 @@ export default {
     showJob(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = "";
+      //this.searchCondition.taskStatus = "";
       if (this.jobGroup != "") {
         this.searchCondition.job = `${this.jobGroup}`;
       }

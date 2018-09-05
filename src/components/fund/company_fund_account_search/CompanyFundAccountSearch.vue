@@ -227,28 +227,28 @@
               ]);
             }
           },
-          {title: '缴费银行', key: 'paymentBank', align: 'center', width: 130,
+          {title: '缴费银行', key: 'paymentBank', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.hf_paymentBank(params.row.paymentBank)),
               ]);
             }
           },
-          {title: '客户编号', key: 'companyIds', align: 'center', width: 100,
+          {title: '客户编号', key: 'companyIds', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyIds),
               ]);
             }
           },
-          {title: '组织机构代码', key: 'orgCode', align: 'center', width: 100,
+          {title: '组织机构代码', key: 'orgCode', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.orgCode),
               ]);
             }
           },
-          {title: '客服经理', key: 'kf', align: 'center', width: 100,
+          {title: '客服', key: 'kf', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.kf),

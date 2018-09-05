@@ -1413,12 +1413,17 @@
               //this.transferOutUnitList.push('市公积金封存办(中心)');
               console.log(this.transferNotice.transferOutUnit);
               let self=this;
-              //setTimeout(function(){self.transferNotice.transferOutUnit = '市公积金封存办(中心)';},1000);
-              this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+              setTimeout(()=>{
+                self.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+                this.isShowPrint = true;
+              },500);
+              //this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
 
               console.log(this.transferNotice.transferOutUnit);
               this.transferNotice.transferOutUnitAccount = '881383288';
-              this.transferInUnitList.push(this.displayVO.comAccountName);
+              if(this.displayVO.comAccountName!=''){
+                this.transferInUnitList.push(this.displayVO.comAccountName);
+              }
               this.transferNotice.transferInUnit = this.displayVO.comAccountName;
               if(this.displayVO.hfType==1){
                 this.transferNotice.transferInUnitAccount = this.displayVO.basicHfComAccount;
@@ -1426,7 +1431,7 @@
                 this.transferNotice.transferInUnitAccount = this.displayVO.addedHfComAccount;
               }
               this.transferNotice.transferDate=new Date();
-              this.isShowPrint = true;
+              
             } else {
               //transapi.printTransferTask({empTaskId: data.data.empTaskId})
               let params={empTaskId: data.data.empTaskId};

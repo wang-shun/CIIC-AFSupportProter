@@ -7,6 +7,11 @@
           <Form :label-width=150 ref="operatorSearchData" :model="operatorSearchData">
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="服务中心：" prop="serviceCenterValue">
+                  <Cascader :data="serviceCenterData" v-model="operatorSearchData.serviceCenterValue" trigger="hover" transfer></Cascader>
+                </Form-item>
+              </Col> 
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="客户编号：" prop="companyId">
                   <Input v-model="operatorSearchData.companyId" placeholder="请输入..."></Input>
                 </Form-item>
@@ -31,6 +36,18 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公积金账号：" prop="accountNumber">
                   <InputAccount v-model="operatorSearchData.accountNumber"></InputAccount>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="缴费银行：" prop="payBankValue">
+                  <Select v-model="operatorSearchData.payBankValue" style="width: 100%;" transfer>
+                    <Option v-for="item in paymentBankList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客服经理：" prop="leaderShipName">
+                  <Input v-model="operatorSearchData.leaderShipName" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
             </Row>
@@ -86,23 +103,35 @@
   import companyBindAndUnbind from "../common/CompanyBindAndUnbind.vue"
   import InputAccount from "../common/input_account"
   import ts from '../../../api/house_fund/table_style'
-
+  import sessionData from '../../../api/session-data'
+ 
   export default {
     components: {InputCompany, companyBindAndUnbind,InputAccount},
     data() {
       return {
         collapseInfo: [1],
+        serviceCenterData: [],
         operatorSearchData: {
           companyId: "",
           companyName: "",
           comHfMonth: "",
           hfType: "",
-          accountNumber: ""
+          accountNumber: "",
+          leaderShipName:"",
+          serviceCenterValue: [],
         },
         hfTypeList: [
           {label: "全部", value: ''},
           {label: "基本公积金", value: 1},
           {label: "补充公积金", value: 2},
+        ],
+        paymentBankList: [
+          {label: "", value: ''},
+          {label: "徐汇—X", value: '15'},
+          {label: "西郊—C", value: '16'},
+          {label: "东方路—P", value: '17'},
+          {label: "卢湾—L", value: '18'},
+          {label: "黄浦—H", value: '0'},
         ],
         isShowBindAndUnbind: false,
         fundAccountData: [],
@@ -142,9 +171,18 @@
           },
           {title: '公积金账号', key: 'comAccount', align: 'center', width: 130,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.comAccount),
-              ]);
+              switch (params.row.hfType) {
+                case '1':
+                  return h('div', {style: {textAlign: 'left'}}, [
+                    h('span', params.row.comAccount),
+                  ]);
+                  break;
+                case '2':
+                  return h('div', {style: {textAlign: 'left',color:'red'}}, [
+                    h('span', params.row.comAccount),
+                  ]);
+                  break;
+              }
             }
           },
           {title: '公积金类型', key: 'hfType', align: 'center', width: 120,
@@ -196,6 +234,40 @@
               ]);
             }
           },
+          {title: '客户编号', key: 'companyIds', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.companyIds),
+              ]);
+            }
+          },
+          {title: '组织机构代码', key: 'orgCode', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.orgCode),
+              ]);
+            }
+          },
+          {title: '客服经理', key: 'kf', align: 'center', width: 100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.kf),
+              ]);
+            }
+          },
+          {title: '终止', key: 'comHfMonth', align: 'center', width: 100,
+            render: (h, params) => {
+              let state='';
+              if(params.row.state == 2){
+                state='终止';
+              }else{
+                state='有效'
+              }
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', state),
+              ]);
+            }
+          },
           {title: '备注说明', key: 'remark', align: 'center', width: 419,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -208,7 +280,10 @@
       }
     },
     mounted() {
+      this.getCustomers();
       window.sessionStorage.removeItem('fundAccountInfo');
+      sessionData.getJsonDataFromSession('hfCompanyManage.comAccountSearch', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('hfCompanyManage.resultPageData', this.fundAccountPageData);
       this.fundAccountSearch();
     },
     methods: {
@@ -242,6 +317,8 @@
         this.fundAccountSearch();
       },
       dbclickHandleData(row,index){
+        sessionData.setJsonDataToSession('hfCompanyManage.comAccountSearch', this.operatorSearchData);
+        sessionData.setJsonDataToSession('hfCompanyManage.resultPageData', this.fundAccountPageData);
         this.nextStep(false,row)
       },
       nextStep(isCanUpdate, fundAccountData) {
@@ -264,6 +341,11 @@
         api.companyFundAccountExpExcel({ params: params});
 
 
+      },
+      getCustomers(){
+        api.getCustomers({}).then(data=>{
+          this.serviceCenterData = data.data;
+        })
       },
       rowClassName(row, index) {
         return ts.comRowClassName(row, index);

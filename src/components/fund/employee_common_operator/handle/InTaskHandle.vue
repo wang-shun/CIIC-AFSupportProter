@@ -322,6 +322,7 @@
     <!-- 打印转移通知书 模态框 -->
     <Modal
       v-model="isShowPrint"
+      v-if="isShowPrint"
       title="打印转移通知书"
       width="720"
     >
@@ -1408,14 +1409,19 @@
         }).then(data => {
           if (data.code == 200) {
             if (!data.data || data.data.length == 0) {
-              this.isShowPrint = true;
+
               //赋值 转入和转出的默认值
-              this.transferOutUnitList.push('市公积金封存办(中心)');
+              //this.transferOutUnitList.push('市公积金封存办(中心)');
               console.log(this.transferNotice.transferOutUnit);
-              this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+              let self=this;
+
+              //this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+
               console.log(this.transferNotice.transferOutUnit);
               this.transferNotice.transferOutUnitAccount = '881383288';
-              this.transferInUnitList.push(this.displayVO.comAccountName);
+              if(this.displayVO.comAccountName!=''){
+                this.transferInUnitList.push(this.displayVO.comAccountName);
+              }
               this.transferNotice.transferInUnit = this.displayVO.comAccountName;
               if(this.displayVO.hfType==1){
                 this.transferNotice.transferInUnitAccount = this.displayVO.basicHfComAccount;
@@ -1423,7 +1429,7 @@
                 this.transferNotice.transferInUnitAccount = this.displayVO.addedHfComAccount;
               }
               this.transferNotice.transferDate=new Date();
-              this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+
             } else {
               //transapi.printTransferTask({empTaskId: data.data.empTaskId})
               let params={empTaskId: data.data.empTaskId};
@@ -1443,6 +1449,8 @@
             this.$Message.error(data.message);
           }
           this.isLoading = false;
+          this.isShowPrint = true;
+          this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
         })
       },
       ok () {

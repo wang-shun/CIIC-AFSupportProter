@@ -322,6 +322,7 @@
     <!-- 打印转移通知书 模态框 -->
     <Modal
       v-model="isShowPrint"
+      v-if="isShowPrint"
       title="打印转移通知书"
       width="720"
     >
@@ -1408,15 +1409,12 @@
         }).then(data => {
           if (data.code == 200) {
             if (!data.data || data.data.length == 0) {
-              
+
               //赋值 转入和转出的默认值
               //this.transferOutUnitList.push('市公积金封存办(中心)');
               console.log(this.transferNotice.transferOutUnit);
               let self=this;
-              setTimeout(()=>{
-                self.transferNotice.transferOutUnit = '市公积金封存办(中心)';
-                this.isShowPrint = true;
-              },500);
+
               //this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
 
               console.log(this.transferNotice.transferOutUnit);
@@ -1431,7 +1429,7 @@
                 this.transferNotice.transferInUnitAccount = this.displayVO.addedHfComAccount;
               }
               this.transferNotice.transferDate=new Date();
-              
+
             } else {
               //transapi.printTransferTask({empTaskId: data.data.empTaskId})
               let params={empTaskId: data.data.empTaskId};
@@ -1451,6 +1449,8 @@
             this.$Message.error(data.message);
           }
           this.isLoading = false;
+          this.isShowPrint = true;
+          this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
         })
       },
       ok () {

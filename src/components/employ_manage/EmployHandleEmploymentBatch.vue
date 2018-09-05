@@ -188,10 +188,15 @@
                 <Checkbox v-model="materialHandleInfo.luyongHandleEnd">录用处理结束</Checkbox>
               </Form-item>
               </Col>
+
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                 <Form-item label="档案备注：" >
+                  <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.remark"/>
+                 </Form-item>
+              </Col>
             </Row>
             <Row type="flex" justify="start">
               <Col :sm="{span: 24}" class="tr">
-              <!-- <Button type="warning" @click="resetForm('materialHandleInfo')">重置</Button> -->
               <Button type="primary"  :loading="isLoading"  @click="instance()" :disabled="materialHandleInfo.end" >批理办理</Button>
               </Col>
             </Row>

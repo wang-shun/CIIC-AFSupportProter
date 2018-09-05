@@ -296,6 +296,12 @@
         }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         api.companyFundAccountSearch({
           pageSize: this.fundAccountPageData.pageSize,
           pageNum: this.fundAccountPageData.pageNum,
@@ -331,16 +337,18 @@
         this.$refs[name].resetFields()
       },
       exportExcel(){
-
-      if (this.operatorSearchData.comHfMonth) {
+        if(this.operatorSearchData.comHfMonth) {
           this.operatorSearchData.comHfMonth = this.$utils.formatDate(this.operatorSearchData.comHfMonth, 'YYYYMM');
         }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
-        console.log(params)
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         api.companyFundAccountExpExcel({ params: params});
-
-
       },
       getCustomers(){
         api.getCustomers({}).then(data=>{

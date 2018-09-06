@@ -44,6 +44,10 @@ export default {
     let response = await AJAX.post('/api/employservice/amEmpTask/saveAmArchive', params);
     return await response.data;
   },
+  saveAmArchiveSend:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amEmpTask/saveAmArchiveSend', params);
+    return await response.data;
+  },
   //保存用工档案
   saveAmRemark:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/saveAmRemark', params);
@@ -70,6 +74,10 @@ export default {
   },//查询退工详细信息
   saveAmResign:async (params)=>{
     let response = await AJAX.post('/api/employservice/amResignTask/saveAmResign', params);
+    return await response.data;
+  },
+  saveAmSend:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amResignTask/saveAmSend', params);
     return await response.data;
   }
   ,//查询档案信息

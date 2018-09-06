@@ -958,12 +958,6 @@ export default {
       fromData.empTaskIds = empTaskIds;
       api.batchCheckArchive(fromData).then(data => {
         if (data.code == 200) {
-          if (data.data.empTask) {
-            var content =
-              "已经办理了" + data.data.empTask + "条数据，请重新选择数据";
-            this.$Message.error(content);
-            return;
-          }
           if (data.data.employmentCount) {
             var content =
               "有" +

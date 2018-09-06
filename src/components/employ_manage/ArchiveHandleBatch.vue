@@ -74,7 +74,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate" @on-open-change="setCurrentDate3" @on-change="changeDate3"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate" ></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -84,7 +84,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate"  @on-open-change="setCurrentDate5" @on-change="changeDate5"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate"  ></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -114,7 +114,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                  <Form-item label="档案备注：" >
-                  <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.remark"/>
+                  <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.remarkContent"/>
                  </Form-item>
               </Col>
             </Row>
@@ -590,6 +590,20 @@ export default {
           "YYYY-MM-DD"
         );
       }
+      if (this.materialHandleInfo.budiaoDocDate1) {
+        fromData.budiaoDocDate1 = this.$utils.formatDate(
+          this.materialHandleInfo.budiaoDocDate1,
+          "YYYY-MM-DD"
+        );
+      }
+      if (this.materialHandleInfo.budiaoDocDate2) {
+        fromData.budiaoDocDate2 = this.$utils.formatDate(
+          this.materialHandleInfo.budiaoDocDate2,
+          "YYYY-MM-DD"
+        );
+      }
+
+      
 
       fromData.empTaskIds = this.$route.query.empTaskIds;
       this.isLoading = true;
@@ -725,6 +739,19 @@ export default {
     changeTypeDd(val) {
       this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
     },
+     setCurrentDate(e) {
+      if (e) {
+        if (
+          this.stockAndMail.storageOutDate == "" ||
+          this.stockAndMail.storageOutDate == undefined
+        ) {
+          this.stockAndMail.storageOutDate = this.currentDate();
+        }
+      }
+    },
+    changeDate(e) {
+      this.stockAndMail.storageOutDate = e;
+    },
     setCurrentDate1(e) {
       if (e) {
         if (
@@ -750,19 +777,6 @@ export default {
     },
     changeDate2(e) {
       this.employmentInfo.openAfDate = e;
-    },
-    setCurrentDate3(e) {
-      if (e) {
-        if (
-          this.materialHandleInfo.employFeedbackOptDate == "" ||
-          this.materialHandleInfo.employFeedbackOptDate == undefined
-        ) {
-          this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
-        }
-      }
-    },
-    changeDate3(e) {
-      this.materialHandleInfo.employFeedbackOptDate = e;
     },
     setCurrentDate4(e) {
       if (e) {

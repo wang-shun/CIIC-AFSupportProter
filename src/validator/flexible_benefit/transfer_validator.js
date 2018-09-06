@@ -7,7 +7,7 @@ export const transferValidator = {
     {required: true, pattern: /^.*[^\s]+.*$/, message: '请输入雇员编号', trigger: 'blur'}
   ],
   companyId: [
-    {required: true, message: '请输入公司编号', trigger: 'blur'}
+    {required: true, message: '请选择公司信息', trigger: 'blur'}
   ],
   turnOutDate: [
     {required: true, type: 'date', message: '请选择转出日期', trigger: 'change'}

@@ -207,6 +207,7 @@
         });
       },
       queryAccount() {
+        
         var params = {
           pageNum:  this.resultPageData.pageNum ,
           pageSize:  this.resultPageData.pageSize,

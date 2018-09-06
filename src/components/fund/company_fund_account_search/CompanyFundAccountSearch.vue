@@ -227,28 +227,28 @@
               ]);
             }
           },
-          {title: '缴费银行', key: 'paymentBank', align: 'center', width: 130,
+          {title: '缴费银行', key: 'paymentBank', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.hf_paymentBank(params.row.paymentBank)),
               ]);
             }
           },
-          {title: '客户编号', key: 'companyIds', align: 'center', width: 100,
+          {title: '客户编号', key: 'companyIds', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.companyIds),
               ]);
             }
           },
-          {title: '组织机构代码', key: 'orgCode', align: 'center', width: 100,
+          {title: '组织机构代码', key: 'orgCode', align: 'center', width: 120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.orgCode),
               ]);
             }
           },
-          {title: '客服经理', key: 'kf', align: 'center', width: 100,
+          {title: '客服', key: 'kf', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.kf),
@@ -296,6 +296,12 @@
         }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         api.companyFundAccountSearch({
           pageSize: this.fundAccountPageData.pageSize,
           pageNum: this.fundAccountPageData.pageNum,
@@ -331,16 +337,18 @@
         this.$refs[name].resetFields()
       },
       exportExcel(){
-
-      if (this.operatorSearchData.comHfMonth) {
+        if(this.operatorSearchData.comHfMonth) {
           this.operatorSearchData.comHfMonth = this.$utils.formatDate(this.operatorSearchData.comHfMonth, 'YYYYMM');
         }
         var params = this.$utils.clear(this.operatorSearchData);
         params = this.$utils.clear(params, '');
-        console.log(params)
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(params));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
         api.companyFundAccountExpExcel({ params: params});
-
-
       },
       getCustomers(){
         api.getCustomers({}).then(data=>{

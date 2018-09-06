@@ -3,87 +3,114 @@
     <Table border :columns="colums" :data="emp" @on-row-click="clickRow" :highlight-row="highlight"></Table>
     <Card>
        <Form ref="formItem" :model="formItem"  :label-width="120">
-        <h4>办理与收费信息</h4>
+        <h3>办理与收费信息</h3>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="办理机构：" prop="name">
+            <!--<Form-item label="办理机构：">-->
+            <div style="margin-left: 50px">
+              <span style="font-weight: bold;margin-bottom: 10px">办理机构：</span>
               <Poptip trigger="hover" placement="right" width="600" transfer>
                 <h6>{{formItem.name}}</h6>
                 <div slot="content">
                    <Table :columns="policyCol" :data="policyData"></Table>
                 </div>
               </Poptip>
-            </Form-item>
+            </div>
+            <!--</Form-item>-->
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="操作方式：">
-              {{formItem.operateTypeN}}
-            </Form-item>
+            <!--<Form-item label="操作方式：">-->
+            <div style="margin-left: 50px;margin-bottom: 10px">
+              <span style="font-weight: bold">操作方式：</span>{{formItem.operateTypeN}}
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="支付方式：">
-              {{formItem.payTypeN}}
-            </Form-item>
+            <!--<Form-item label="支付方式：">-->
+            <div style="margin-left: 50px;margin-bottom: 10px">
+              <span style="font-weight: bold">支付方式：</span>{{formItem.payTypeN}}
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="操作账号：" prop="operateAccount">
-              {{formItem.operateAccount}}
-            </Form-item>
+            <!--<Form-item label="操作账号：" prop="operateAccount">-->
+            <div style="margin-left: 50px;margin-bottom: 10px">
+            <span style="font-weight: bold">操作账号：</span>{{formItem.operateAccount}}
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="操作密码：">
-              {{formItem.operatePwd}}
-            </Form-item>
+            <!--<Form-item label="操作密码：">-->
+            <div style="margin-left: 50px;margin-bottom: 10px">
+              <span style="font-weight: bold">操作密码：</span>{{formItem.operatePwd}}
+            <!--</Form-item>-->
+            </div>
           </i-col>
         </Row>
-        <h4>留存材料信息</h4>
+        <h3>留存材料信息</h3>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.introduceMail" disabled>介绍信</Checkbox>
-            </Form-item>
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
+            <!--<Form-item>-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.onlineContactIdCard" disabled>网上联系人身份证复印件</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
+            <!--<Form-item>-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.onlineContactIsSecretariat" disabled>网上联系人是否秘书台人员</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="网上联系人：">
-              <Input v-model="formItem.onlineContact" placeholder="请输入" disabled/>
-            </Form-item>
+            <!--<Form-item label="网上联系人：">-->
+            <div style="margin-left: 50px">
+              <span>网上联系人：</span><Input v-model="formItem.onlineContact"  style="width: 70%" disabled/>
+            <!--</Form-item>-->
+            </div>
           </i-col>
         </Row>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
+            <!--<Form-item>-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.businessLicence" disabled>营业执照复印件或三证合一复印件</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item>
+            <!--<Form-item>-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.organizationCode" disabled>机构代码证复印件</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <!--<Form-item >-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.foreignBusinessApprovalCertificate" disabled>外商企业批准证书复印件</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <!--<Form-item >-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.businessRenameNotice" disabled>工商局企业更名通知复印件</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="特殊情况备注：">
-              <Input v-model="formItem.specialMaterialRemark" placeholder="请输入" type="textarea" disabled/>
-            </Form-item>
+            <!--<Form-item label="特殊情况备注：">-->
+            <div style="margin-left: 50px">
+              <span>特殊情况备注：</span><Input v-model="formItem.specialMaterialRemark" style="width: 70%" type="textarea" disabled/>
+            <!--</Form-item>-->
+            </div>
           </i-col>
         </Row>
         <div class="create"></div>

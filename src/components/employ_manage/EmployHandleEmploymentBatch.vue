@@ -191,7 +191,7 @@
 
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                  <Form-item label="档案备注：" >
-                  <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.remark"/>
+                  <Input placeholder="请输入" :maxlength="50" v-model="materialHandleInfo.remarkContent"/>
                  </Form-item>
               </Col>
             </Row>

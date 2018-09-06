@@ -67,7 +67,7 @@
         </Row>
         <Row >
            <i-col span="12">
-            <Form-item label="政策内容：" style="width:400px;margin-top:10px" prop="policyDescription">
+            <Form-item label="操作口径：" style="width:400px;margin-top:10px" prop="policyDescription">
               <Input v-model="formItem.policyDescription" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="请输入" style="width:260px" />
             </Form-item>
           </i-col>
@@ -147,7 +147,7 @@ export default {
           sortable: true
         },
         {
-          title: "政策内容",
+          title: "操作口径",
           key: "policyDescription",
           ellipsis: true,
           render: (h, params) => {

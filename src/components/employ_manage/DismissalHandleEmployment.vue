@@ -32,12 +32,18 @@
           </div>
         </Panel>
         <Panel name="5">
+          寄信办理
+          <div slot="content">
+            <send :refuseInfo="refuseInfo" ></send>
+          </div>
+        </Panel>
+        <Panel name="6">
           退工备注
           <div slot="content">
             <refuse-notes :refuseNotesData="refuseNotesData" :userInfo="userInfo"></refuse-notes>
           </div>
         </Panel>
-        <Panel name="6">
+        <Panel name="7">
           用工备注查看
           <div slot="content">
             <employment-notes-view :employmentViewData="employmentViewData"></employment-notes-view>
@@ -63,6 +69,7 @@
   import employeeCompleteInfo from "./common/EmployeeCompleteInfo.vue"
   import employmentInfo from "./common/EmploymentInfo.vue"
   import refuseHandle from "./common/RefuseHandle.vue"
+  import send from "./common/Send.vue"
   import refuseNotes from "./common/RefuseNotes.vue"
   import employmentNotesView from "./common/EmploymentNotesView.vue"
   import materialsBorrowInfoView from "./common/MaterialsBorrowInfoView.vue"
@@ -71,7 +78,7 @@
   import api from '../../api/employ_manage/hire_operator'
 
   export default {
-    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, refuseNotes, employmentNotesView, materialsBorrowInfoView, fileNotesView, employmentDataManagementTaskList},
+    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, send, refuseNotes, employmentNotesView, materialsBorrowInfoView, fileNotesView, employmentDataManagementTaskList},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8],
@@ -124,6 +131,7 @@
           employNotes: ""
         },
         refuseInfo: {
+          post: 0,
           oldResignFeedback: "",
           resignFeedback: "",
           resignDate: "",
@@ -185,7 +193,7 @@
           api.queryAmResignDetail(params).then(data=>{
 
             if(data.data.customerInfo){
-             
+
                 this.customerInfo = data.data.customerInfo;//客户信息
             }
 
@@ -198,23 +206,23 @@
                 this.refuseInfo.empTaskId = this.$route.query.empTaskId;
                 this.refuseInfo.employeeId = this.$route.query.employeeId;
                 this.refuseInfo.companyId = this.$route.query.companyId;
-        
+
             }else{
                this.refuseInfo.empTaskId = this.$route.query.empTaskId;
             }
-            
+
             if(data.data.amRemarkBo){
                this.refuseNotesData = data.data.amRemarkBo;//退工备注
-            } 
+            }
 
             if(data.data.amRemarkBo1){
                 this.employmentViewData = data.data.amRemarkBo1;//用工备注
             }
-            
+
             if(data.data.amRemarkBo2){
                  this.fileNotesViewData = data.data.amRemarkBo2;//档案备注
             }
-            
+
             if(data.data.amEmploymentBO){
                  this.employmentInfo = data.data.amEmploymentBO;
             }

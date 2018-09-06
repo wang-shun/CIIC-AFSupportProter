@@ -115,7 +115,7 @@
         },
         loading: false,
         operatorSearchData: {
-           serviceCenterValue: [],
+          serviceCenterValue: [],
           companyId: '',
           hfAccountType:'',
           paymentBank: '',
@@ -126,25 +126,25 @@
         },
         serviceCenterData: [], //客服中心
         taskColumns: [
-          {title: '操作', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      sessionData.setJsonDataToSession('companyFundTaskList.refused.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('companyFundTaskList.refused.pageData', this.pageData);
-                      this.$router.push({name: 'companyFundTaskInfo', params: {
-                          comTaskId: params.row.comTaskId,
-                          companyInfo: params.row.companyInfo,
-                          companyTaskInfo: params.row.companyTaskInfo}
-                      });
-                    }
-                  }
-                }, '查看'),
-              ]);
-            }
-          },
+          // {title: '操作', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             sessionData.setJsonDataToSession('companyFundTaskList.finished.operatorSearchData', this.operatorSearchData);
+          //             sessionData.setJsonDataToSession('companyFundTaskList.finished.pageData', this.pageData);
+          //             this.$router.push({name: 'companyFundTaskInfo', params: {
+          //                 comTaskId: params.row.comTaskId,
+          //                 companyInfo: params.row.companyInfo,
+          //                 companyTaskInfo: params.row.companyTaskInfo}
+          //             });
+          //           }
+          //         }
+          //       }, '查看'),
+          //     ]);
+          //   }
+          // },
           {title: '任务类型', key: 'taskCategoryName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -219,6 +219,9 @@
       }
     },
     mounted() {
+
+      sessionData.getJsonDataFromSession('companyFundTaskList.finished.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('companyFundTaskList.finished.pageData', this.pageData);
 //      let sessionPageNum = sessionStorage.taskPageNum
 //      let sessionPageSize = sessionStorage.taskPageSize
 //
@@ -228,7 +231,7 @@
 //        sessionStorage.removeItem("taskPageNum")
 //        sessionStorage.removeItem("taskPageSize")
 //      }
-        this.hfComTaskQuery();
+      this.hfComTaskQuery();
       this.getCustomers();
 
     },
@@ -238,16 +241,16 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-       hfComTaskQuery(){
-          let params = this.getParams1();
+      hfComTaskQuery(){
+        let params = this.getParams1();
         Finished.postTableData(params).then(data=>{
-            this.refresh(data)
-            this.pageData.total = Number(data.data.totalSize);
-          }
-        ).catch(error=>{
-          console.log(error);
-        });
-      },
+        this.refresh(data)
+        this.pageData.total = Number(data.data.totalSize);
+        }
+      ).catch(error=>{
+        console.log(error);
+      });
+    },
       handlePageNum(page){
         this.pageData.pageNum = page
         this.hfComTaskQuery();
@@ -268,6 +271,7 @@
           console.log(error)
         })
       },
+      
     //获得列表请求参数
       getParams1(){
         let params={};
@@ -298,8 +302,15 @@
         let params = this.getParams1()
         CompanyTaskListHF.expExcel(params);
       },
-
-
+      dbClickHandleData(row, index){
+        sessionData.setJsonDataToSession('companyFundTaskList.finished.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('companyFundTaskList.finished.pageData', this.pageData);
+        this.$router.push({name: 'companyFundTaskInfo', params: {
+            comTaskId: row.comTaskId,
+            companyInfo: row.companyInfo,
+            companyTaskInfo: row.companyTaskInfo}
+        });
+      },
       //获得列表请求参数
       getParams(page){
         return {
@@ -319,7 +330,6 @@
         })
       },
       rowClassName(row, index) {
-        console.log(row.paymentBank);
         return ts.comRowClassName(row, index);
       }
     }

@@ -131,7 +131,7 @@ export class CompanyTaskListHF{
                     endOperator.remark = i.taskRemark
                     obj.endOperator = endOperator
 
-                    //已完成任务单参数
+                    //已完成   已批退
                     // companyTaskInfo.changeTypeValue = i.changeTypeValue
                     companyTaskInfo.paymentBankValue = i.paymentBankValue
                     companyTaskInfo.paymentBank = i.paymentBank
@@ -144,6 +144,14 @@ export class CompanyTaskListHF{
                     companyTaskInfo.acceptDate = i.strartHandleDate
                     companyTaskInfo.deliveredDate = i.sendCheckDate
                     companyTaskInfo.finishDate = i.finishDate
+                    if(i.taskStatus == 3){
+                      companyTaskInfo.taskRemark = i.comAccountRemark
+                    }else{
+                      companyTaskInfo.taskRemark = i.taskRemark
+                    }
+
+                    
+                 
                     obj.companyTaskInfo = companyTaskInfo
                     responseData.data.taskData.push(obj)
                 }

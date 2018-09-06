@@ -89,7 +89,7 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem name="0">导出入管清册</DropdownItem>
+            <DropdownItem name="0">导出雇员转移清册</DropdownItem>
             <DropdownItem name="1">导出雇员转移TXT</DropdownItem>
           </DropdownMenu>
         </Dropdown>
@@ -205,6 +205,7 @@
         searchCondition: {
           serviceCenterValue: [],
           employeeId: '',
+          companyId: '',
           transferInUnit: '',
           transferOutUnit: '',
           employeeName: '',
@@ -526,6 +527,66 @@
       cancel () {
 
       },
+      empToCenterTransferExport() {
+        if (!this.searchCondition.transferOutUnit || !this.searchCondition.transferInUnit) {
+          this.$Message.error("导出雇员转移清册，必须在查询条件输入明确的【转出单位】及【转入单位】");
+          return false;
+        }
+        commonApi.checkTransferUnitIsOnly({
+          params: {
+            transferOutUnit: this.searchCondition.transferOutUnit.trim(),
+            transferInUnit: this.searchCondition.transferInUnit.trim()
+          }
+        }).then(data => {
+          if (data.code === 200) {
+            let rtn = Number(data.data);
+            if (rtn > 0) {
+              let rtnMessage = "";
+              if (rtn === 1) {
+                rtnMessage = "未匹配到任何转出单位";
+              } else if (rtn === 2) {
+                rtnMessage = "未匹配到任何转入单位";
+              } else if (rtn === 3) {
+                rtnMessage = "未匹配到任何转出单位和转入单位";
+              } else if (rtn === 4) {
+                rtnMessage = "匹配出了多家转出单位";
+              } else if (rtn === 6) {
+                rtnMessage = "匹配出了多家转出单位，且未匹配到任何转入单位";
+              } else if (rtn === 8) {
+                rtnMessage = "匹配出了多家转入单位";
+              } else if (rtn === 9) {
+                rtnMessage = "未匹配到任何转出单位，且匹配出了多家转入单位";
+              } else if (rtn === 12) {
+                rtnMessage = "匹配出了多家转出转入单位";
+              } else if (rtn === 16) {
+                rtnMessage = "转出单位不能是市公积金封存办(中心)";
+              } else if (rtn === 18) {
+                rtnMessage = "转出单位不能是市公积金封存办(中心)，且未匹配到任何转入单位";
+              } else if (rtn === 24) {
+                rtnMessage = "转出单位不能是市公积金封存办(中心)，且匹配出了多家转入单位";
+              } else if (rtn === 32) {
+                rtnMessage = "转入单位不能是市公积金封存办(中心)";
+              } else if (rtn === 33) {
+                rtnMessage = "未匹配到任何转出单位，且转入单位不能是市公积金封存办(中心)";
+              } else if (rtn === 36) {
+                rtnMessage = "匹配出了多家转出单位，且转入单位不能是市公积金封存办(中心)";
+              } else if (rtn === 48) {
+                rtnMessage = "转出转入单位不能是市公积金封存办(中心)";
+              } else if (rtn === 5) {
+                rtnMessage = "转出单位和转入单位不能是同一家单位";
+              }
+              this.$Message.error(rtnMessage);
+
+              return false;
+            } else {
+              let params = this.searchCondition
+              api.multiEmpTaskTransferExport({
+                params: params,
+              })
+            }
+          }
+        })
+      },
       multiEmpTaskTransferExport() {
         if (!this.searchCondition.transferOutUnit) {
           this.$Message.error("导出入管清册，必须在查询条件输入【转出单位】");
@@ -543,12 +604,18 @@
               this.$Message.error("未匹配到任何转出单位");
               return false;
             } else if (total === 1) {
+              if (data.data) {
+                if (data.data.hfComAccount === '881383287'|| data.data.hfComAccount === '881383288') {
+                  this.$Message.error("转出单位不能是市公积金封存办(中心)");
+                  return false
+                }
+              }
               let params = this.searchCondition
               api.multiEmpTaskTransferExport({
                 params: params,
               })
             } else if (total > 1) {
-              this.$Message.error("匹配出多家转出单位，请进一步明确转出单位名称");
+              this.$Message.error("匹配出了多家转出单位，请进一步明确转出单位名称");
               return false;
             }
           }
@@ -572,7 +639,8 @@
       fileExport(name) {
         switch(parseInt(name)) {
           case 0:
-            this.multiEmpTaskTransferExport();
+//            this.multiEmpTaskTransferExport();
+            this.empToCenterTransferExport();
             break;
           case 1:
             this.empTaskTransferTxtExport();

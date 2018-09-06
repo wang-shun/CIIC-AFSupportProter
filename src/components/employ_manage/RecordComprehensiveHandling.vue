@@ -22,7 +22,7 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="printLabel">打印贴头</Button>
         <!--<Button type="info" @click="printReturnList">批量打印退工单</Button>-->
-        <Button type="info" @click="isShowImportAdvance = true;">档案配对</Button>
+        <Button type="info" @click="showXslConsole();">档案配对</Button>
         <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
         <Button type="primary" @click="batchManagement">档案批量办理</Button>
@@ -40,8 +40,6 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-
-
     <Modal
       v-model="isShowImportAdvance"
       title="档案配对批量导入操作">
@@ -50,12 +48,11 @@
           <Col :sm="{span: 12, offset: 6}" class="tc">
             <Form-item label="上传Excel：">
               <Upload ref="upload"
-                :show-upload-list="true"
+                :show-upload-list="false"
                 :data="upLoadData"
                 :action="uploadAttr.actionUrl"
                 :before-upload="beforeUpload"
                 :accept="uploadAttr.acceptFileExtension"
-                :format="['xlsx','xls']"
                 :on-format-error="handleFormatError"
                 :default-file-list="uploadFileList"
                 :on-error="handleError">
@@ -64,31 +61,21 @@
             </Form-item>
           </Col>
         </Row>
-        <!-- <Alert type="error" closable show-icon v-show="isImported">导入文件格式验证失败！</Alert> -->
-        <Alert type="warning" closable show-icon v-show="isImported">
+        <Alert type="warning" show-icon v-show="isImported">
           请注意导入结果反馈
           <template slot="desc"  >
               <div >{{retStr}}</div>
-          <!-- <a href="javascript:;" @click="isShowImportFundAccount = false; isShowHistoryImported = true;">查看失败详细</a> | <a href="javascript:;" @click="isShowImportFundAccount = false;">结束操作</a> -->
         </template>
         </Alert>
         <Row>
           <Col :sm="{span: 22, offset: 1}" class="tr">
             <Button type="info" @click="impTemplate">下载导入模板</Button>
-            <Button type="info" @click="impOk">导入数据</Button>
-
-            <!-- <Button type="primary" @click="gotoHistoryList">查看历史导入</Button> -->
           </Col>
         </Row>
       </Form>
       <div slot="footer">
-        <!-- <Button type="warning" @click="isShowImportFundAccount = false">返回</Button> -->
       </div>
     </Modal>
-
-
-
-      
      </Col>
      <Col :sm="{span: 2, offset: 1}" class="pt10">
        <RadioGroup v-model="jobGroup"  @on-change="showJob" vertical>
@@ -143,11 +130,11 @@ export default {
       vertical: "",
       jobData: {
         job: 0,
-        noJob: 100
+        noJob: 0
       },
       RadioData: {
-        handleEnd: 200,
-        noHandleEnd: 100
+        handleEnd: "",
+        noHandleEnd: ""
       },
       initSearch: false,
       initSearchC: false,
@@ -250,7 +237,15 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employeeName)
+              h(
+                "span",
+                {
+                  style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.employeeName
+              )
             ]);
           }
         },
@@ -262,7 +257,15 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.idNum)
+              h(
+                "span",
+                {
+                  style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.idNum
+              )
             ]);
           }
         },
@@ -465,22 +468,31 @@ export default {
     //  this.resignArchiveCollection({})
   },
   methods: {
+    showXslConsole() {
+      this.isShowImportAdvance = true;
+      this.uploadFileList = [];
+      this.isImported = false;
+      this.retStr = "";
+      this.isUpload = false;
+      this.upLoadData.file = "";
+    },
     impTemplate() {
-      
       api.impTemplateFile({});
     },
     impOk() {
-      if(this.upLoadData.file==null ||this.upLoadData.file=='' ){
+      if (this.upLoadData.file == null || this.upLoadData.file == "") {
         this.$Message.info("请选择导入文件");
         return false;
       }
-      api.xlsImportEmpAdvance(this.upLoadData)
+      this.isImported = true;
+      this.retStr = "系统正在导入中，请耐心等待";
+      api
+        .xlsImportEmpAdvance(this.upLoadData)
         .then(data => {
           this.uploadFileList = [];
           this.isImported = true;
           this.retStr = data.message;
           this.isUpload = false;
-
         })
         .catch(error => {
           this.$Message.error("系统异常！");
@@ -503,7 +515,8 @@ export default {
       this.upLoadData.file = file;
       this.uploadFileList.push({ name: file.name, url: "" });
       //this.$refs['upload'].clearFiles();
-      return false;
+      this.impOk();
+      return true;
     },
     rowClassName(row, index) {
       if (row.job != undefined && row.job == "N") {
@@ -647,7 +660,7 @@ export default {
     showInfoTw(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = ind;
+      this.searchCondition.luyong_handle_end = ind;
       if (this.jobGroup != "") {
         this.searchCondition.job = this.jobGroup;
       }
@@ -656,7 +669,7 @@ export default {
     showJob(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = "";
+      this.searchCondition.luyong_handle_end = "";
       this.vertical = "";
       this.searchCondition.job = ind;
       this.archiveQuery(this.searchCondition);
@@ -941,9 +954,32 @@ export default {
         empTaskIds.push(item.empTaskId);
       });
       const _self = this;
-      _self.$router.push({
-        name: "archiveHandleBatch",
-        query: { empTaskIds: empTaskIds }
+      var fromData = {};
+      fromData.empTaskIds = empTaskIds;
+      api.batchCheckArchive(fromData).then(data => {
+        if (data.code == 200) {
+          if (data.data.empTask) {
+            var content =
+              "已经办理了" + data.data.empTask + "条数据，请重新选择数据";
+            this.$Message.error(content);
+            return;
+          }
+          if (data.data.employmentCount) {
+            var content =
+              "有" +
+              data.data.employmentCount +
+              "条数据没有办理用工，请重新选择数据";
+            this.$Message.error(content);
+            return;
+          } else {
+            _self.$router.push({
+              name: "archiveHandleBatch",
+              query: { empTaskIds: empTaskIds }
+            });
+          }
+        } else {
+          this.$Message.error("批量失败！" + data.message);
+        }
       });
     }
   },

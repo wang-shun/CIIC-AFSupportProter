@@ -364,6 +364,17 @@
             if(this.transferNotice.hfType==undefined){
               this.transferNotice.hfType='1';
             }
+            //赋默认值
+           
+          this.transferNotice.transferOutUnit = this.displayVO.comAccountName;
+          this.transferOutUnitList.push(this.displayVO.comAccountName);
+          if(this.$route.query.hfType ==undefined ||this.$route.query.hfType== '1'){ //基本公积金
+            let self =this;
+            setTimeout(function(){self.transferNotice.transferOutUnitAccount=this.displayVO.basicHfComAccount;},500);
+          }else{
+            setTimeout(function(){self.transferNotice.transferOutUnitAccount=this.displayVO.addedHfComAccount;},500);
+          }
+          
 //            setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);

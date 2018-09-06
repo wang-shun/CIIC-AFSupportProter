@@ -277,7 +277,7 @@
           }else if(content.value==='sc.company_id'){
             this.searchForm.isDate=7;
             this.searchForm.relationship["包含"] = "in";
-          }else if(content.value==='het.is_change' || content.value==='preInput'){
+          }else if(content.value==='het.is_change' || content.value==='preInput' || content.value==='af_ec.employee_id'){
             this.searchForm.isDate=8;
             this.searchForm.disabled = true;
             this.searchForm.relationshipValue = "=";
@@ -301,13 +301,15 @@
           if (this.currentShip && this.currentShip.value === "in") {
             if (this.searchForm.isDate===2 ||
               this.searchForm.isDate===3 ||
-              this.searchForm.isDate===5
+              this.searchForm.isDate===5 ||
+              this.searchForm.isDate===7
             ) {
               this.searchForm.isDate=this.searchForm.isDate * 10;
             }
           } else if (this.searchForm.isDate===20 ||
             this.searchForm.isDate===30 ||
-            this.searchForm.isDate===50
+            this.searchForm.isDate===50 ||
+            this.searchForm.isDate===70
           ) {
             this.searchForm.isDate=this.searchForm.isDate / 10;
           }

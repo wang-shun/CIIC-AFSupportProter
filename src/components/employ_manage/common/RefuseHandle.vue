@@ -187,6 +187,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="">
+            <Checkbox v-model="refuse.ifSend" true-value="1" false-value="0">寄信</Checkbox>
             <Checkbox v-model="refuse.ifNetwork" true-value="1" false-value="0">是否网办</Checkbox>
             <Checkbox v-model="refuse.ifLaborManualReturn" true-value="1" false-value="0">劳动手册是否交被退人员</Checkbox>
           </Form-item>
@@ -563,6 +564,9 @@
               var currentdate = year + seperator1 + month + seperator1 + strDate;
 
               this.refuse.resignFeedbackDate=currentdate;
+          }
+          if(this.isFrist==true && this.refuse.oldResignFeedback==undefined){
+            this.isFrist = false;
           }
           if(this.isFrist == false){
             this.refuse.resignFeedbackDate = this.currentDate();

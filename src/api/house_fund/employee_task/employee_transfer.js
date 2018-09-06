@@ -51,10 +51,10 @@ function getFundTransferNoteObj(row){
     </tr>
   </table>
 </div>`;
- 
+
   return html;
 }
- 
+
 
 export default {
 
@@ -129,5 +129,4 @@ export default {
     pwin.document.close();
     pwin.print();
  }
-
 }

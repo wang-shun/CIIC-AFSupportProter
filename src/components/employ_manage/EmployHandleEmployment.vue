@@ -105,7 +105,8 @@
           UKeyPasswordD: "",
           UKeyPasswordF: "",
           companySpecialCase: "",
-          mailContinueStr:""
+          mailContinueStr:"",
+          show:false
         },
         employmentMaterial: {
           submitName: "",

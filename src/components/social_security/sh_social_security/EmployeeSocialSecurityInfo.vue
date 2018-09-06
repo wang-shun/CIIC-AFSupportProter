@@ -94,9 +94,9 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员属性：">
-                  <Select style="width: 200px"  v-model="employeeAndCustomer.empClassify"  :disabled="this.$route.query.empArchiveId==null"  placeholder="" >
+                  <Select style="width: 200px"  v-model="employeeAndCustomer.empClassify" transfer :disabled="this.$route.query.empArchiveId==null"  placeholder="" >
                     <Option value="" > </Option>
-                    <Option v-for="(value,key) in this.baseDic.ssEmpProperty" :value="key" :key="key">{{value}}</Option>
+                    <Option v-for="item in SocialSecurityEmployeeClassifyList" :value="item.key" :key="item.key" :label="item.value"></Option>
                   </Select>
                 </Form-item>
               </Col>
@@ -212,7 +212,7 @@
 //  import EventTypes from '../../../store/event_types'
   import api from '../../../api/social_security/employee_operator'
   import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
-  import dict from '../../../api/dict_access/house_fund_dict'
+  import dict from '../../../api/dict_access/social_security_dict'
 
   export default {
     components: {originEmpTaskInfo},
@@ -222,7 +222,7 @@
         customer:{
 
         },
-       // SocialSecurityEmployeeClassifyList:[],
+        SocialSecurityEmployeeClassifyList:[],
         //用退工信息
         reworkInfo:{},
         employeeAndCustomer:{
@@ -341,7 +341,7 @@
     },
     async mounted() {
 
-      //this.loadDict();
+      this.loadDict();
 
       let params = {empArchiveId:this.$route.query.empArchiveId,
                     companyId:this.$route.query.companyId,

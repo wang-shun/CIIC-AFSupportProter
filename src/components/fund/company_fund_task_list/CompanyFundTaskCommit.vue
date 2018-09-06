@@ -278,7 +278,8 @@
               cancelText: "取消",
               onOk: () => {
                   let params={
-                    comTaskId:this.$route.params.comTaskId
+                    comTaskId:this.$route.params.comTaskId,
+                    remark:notes
                   }
                   CompanyTaskListHF.rejection(params).then(data=>{
                     if(data){
@@ -319,7 +320,7 @@
           paymentWay: this.openAccount.payMethodValue,
           paymentBank: this.openAccount.paymentBankValue,
           closeDay: this.openAccount.closeAccountEveryMonth,
-          comAccountName: this.openAccount.companyFundAccountName.trim(),
+          comAccountName: (this.openAccount.companyFundAccountName+"").trim(),
           comAccountNum: this.openAccount.companyFundAccountNum,
           uKeyStore: this.openAccount.UKeyValue,
           comStartMonth: comStartMonth,

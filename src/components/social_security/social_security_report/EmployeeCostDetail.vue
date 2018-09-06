@@ -267,7 +267,8 @@
       exp () {
         api.monthChargeExport({
           ssMonth:this.ssMonth,
-          ssAccount:this.ssAccount
+          ssAccount:this.ssAccount,
+          companyId:this.$route.query.companyId,
         });
       },
       cancel () {

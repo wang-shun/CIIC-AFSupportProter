@@ -55,26 +55,41 @@
           {value:'未绑定公司',label:'未绑定公司'}
         ],
         dismissalColumns: [
-          // {
-          //   title: '操作',
-          //   key: 'action',
-          //   align: 'center',
-          //   width: 100,
-          //   render: (h, params) => {
-          //       return h('div', [
-          //       h('Button', {
-          //         props: {type: 'success', size: 'small'},
-          //         style: {margin: '0 auto 0 10px'},
-          //         on: {
-          //           click: () => {
-          //             this.showInfoT(params.row.id)
-                      
-          //           }
-          //         }
-          //       }, '维护详情'),
-          //     ]);
-          //   },
-          // },
+          {title: '公司编号', key: 'companyId', align: 'center', width: 110,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.companyId),
+              ]);
+            }
+          },
+          {title: '公司名称', key: 'companyName', align: 'center', width: 185,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.companyName),
+              ]);
+            }
+          },
+          {title: '组织机构代码', key: 'organizationCode', align: 'center', width: 110,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.organizationCode),
+              ]);
+            }
+          },
+          {title: '服务中心', key: 'serviceCenter', align: 'center', width: 150,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.serviceCenter),
+              ]);
+            }
+          },
+          {title: 'team', key: 'team', align: 'center', width: 110,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.team),
+              ]);
+            }
+          },
           {title: '材料签收日期', key: 'materialReceiveDate', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -93,27 +108,6 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.materialFeedbackDate),
-              ]);
-            }
-          },
-          {title: '公司名称', key: 'companyName', align: 'center', width: 185,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.companyName),
-              ]);
-            }
-          },
-          {title: '组织机构代码', key: 'organizationCode', align: 'center', width: 210,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.organizationCode),
-              ]);
-            }
-          },
-          {title: '到期日期', key: 'dueDate', align: 'center', width: 110,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.dueDate),
               ]);
             }
           },
@@ -145,13 +139,6 @@
               ]);
             }
           },
-          {title: '序列号', key: 'keySeq', align: 'center', width: 205,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.keySeq),
-              ]);
-            }
-          },
           {title: '收费标准', key: 'keyFee', align: 'center', width: 105,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -159,6 +146,20 @@
               ]);
             }
           },
+          {title: '序列号', key: 'keySeq', align: 'center', width: 205,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.keySeq),
+              ]);
+            }
+          },
+          {title: '到期日期', key: 'dueDate', align: 'center', width: 110,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.dueDate),
+              ]);
+            }
+          }
         ],
         dismissalData: []
     

@@ -55,6 +55,10 @@
             <span>未反馈</span>
              <span>{{RadioData.noFeedback}}</span>
         </Radio>
+        <Radio label="98" >
+            <span>退工任务单签收退工未成功</span>
+             <span>{{RadioData.refuseWaitFinished}}</span>
+        </Radio>
         <Radio label="1">
             <span>退工成功</span>
             <span>{{RadioData.refuseFinished}}</span>
@@ -104,16 +108,16 @@ export default {
   components: { searchEmployment },
   data() {
     return {
-      jobGroup:"",
+      jobGroup: "",
       vertical: "",
       jobData: {
         job: 0,
-        noJob: 100
+        noJob:0
       },
       RadioData: {
-        noSign: 200,
-        employSuccess: 100,
-        noRecord: 2100
+        noSign: "",
+        employSuccess: "",
+        noRecord: ""
       },
       initSearch: false,
       initSearchC: false,
@@ -186,7 +190,7 @@ export default {
           key: "employeeId",
           align: "center",
           width: 150,
-          sortable: 'custom',
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
               h("span", params.row.employeeId)
@@ -200,7 +204,15 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employeeName)
+              h(
+                "span",
+                {
+                  style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.employeeName
+              )
             ]);
           }
         },
@@ -209,10 +221,18 @@ export default {
           key: "idNum",
           align: "center",
           width: 150,
-          sortable: 'custom',
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.idNum)
+              h(
+                "span",
+                {
+                  style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.idNum
+              )
             ]);
           }
         },
@@ -221,7 +241,7 @@ export default {
           key: "companyId",
           align: "center",
           width: 150,
-          sortable: 'custom',
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
               h("span", params.row.companyId)
@@ -267,7 +287,7 @@ export default {
           key: "docNum",
           align: "center",
           width: 150,
-          sortable: 'custom',
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
               h("span", params.row.docNum)
@@ -279,7 +299,7 @@ export default {
           key: "yuliuDocNum",
           align: "center",
           width: 150,
-          sortable:'custom',
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
               h("span", params.row.yuliuDocNum)
@@ -313,7 +333,7 @@ export default {
           key: "outDate",
           align: "center",
           width: 150,
-          sortable: 'custom',
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", params.row.outDate)
@@ -446,17 +466,16 @@ export default {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
       this.searchCondition.taskStatus = ind;
-      if(this.jobGroup!=''){
+      if (this.jobGroup != "") {
         this.searchCondition.job = `${this.jobGroup}`;
       }
       this.queryAmResign(this.searchCondition);
-      
     },
     showJob(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = "";
-      if(this.jobGroup!=''){
+      //this.searchCondition.taskStatus = "";
+      if (this.jobGroup != "") {
         this.searchCondition.job = `${this.jobGroup}`;
       }
       this.queryAmResign(this.searchCondition);
@@ -527,35 +546,42 @@ export default {
               },
               error: function(error) {}
             });
-          }else{
-               _self.$router.push({
-                  name: "refuseHandleBatch",
-                  query: { empTaskIds: empTaskIds }
-                });
+          } else {
+            _self.$router.push({
+              name: "refuseHandleBatch",
+              query: { empTaskIds: empTaskIds }
+            });
           }
         } else {
           this.$Message.error("批量失败！" + data.message);
         }
       });
-    },SortChange(e){
+    },
+    SortChange(e) {
       this.orderConditions = [];
       this.searchConditions = [];
-     
+
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-      var conditions = JSON.parse(sessionStorage.getItem("resign" + userInfo.userId));
-      
-      var isFinish = JSON.parse(sessionStorage.getItem("resignIsFinish" + userInfo.userId));
-      var storeOrder = JSON.parse(sessionStorage.getItem("resignOrder" + userInfo.userId));
-      if (conditions !== null&&conditions.length>0) {
+      var conditions = JSON.parse(
+        sessionStorage.getItem("resign" + userInfo.userId)
+      );
+
+      var isFinish = JSON.parse(
+        sessionStorage.getItem("resignIsFinish" + userInfo.userId)
+      );
+      var storeOrder = JSON.parse(
+        sessionStorage.getItem("resignOrder" + userInfo.userId)
+      );
+      if (conditions !== null && conditions.length > 0) {
         for (var i = 0; i < conditions.length; i++)
           this.searchConditions.push(conditions[i].exec);
       }
       var dx = "";
-      if(e.key==="jobCentreFeedbackDate"){
+      if (e.key === "jobCentreFeedbackDate") {
         dx = "f.job_centre_feedback_date";
-      }else if(e.key==="outDate"){
+      } else if (e.key === "outDate") {
         dx = "a.out_date";
-      }else if (e.key === "companyId") {
+      } else if (e.key === "companyId") {
         dx = "a.company_id";
       } else if (e.key === "title") {
         dx = "h.title";
@@ -623,7 +649,7 @@ export default {
           this.searchConditions.push(this.orderConditions[index]);
         }
       }
-      
+
       if (isFinish != 2) {
         var tempIsFinish = "a.is_finish=" + isFinish;
         this.searchConditions.push(tempIsFinish);
@@ -634,7 +660,7 @@ export default {
       this.isLoading = true;
       let self = this;
       api
-      .queryAmResign({
+        .queryAmResign({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
           params: this.searchCondition
@@ -646,8 +672,8 @@ export default {
           // this.searchCondition.taskStatus = 0;
           this.changeSortClass(this.orderConditions);
         });
-    },changeSortClass(storeOrder) {
-      
+    },
+    changeSortClass(storeOrder) {
       this.dismissalColumns.forEach((e, idx) => {
         let order = "normal";
         if (storeOrder == null) {
@@ -660,7 +686,7 @@ export default {
                 storeOrder[index].indexOf("job_centre_feedback_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
               if (
@@ -668,7 +694,7 @@ export default {
                 storeOrder[index].indexOf("out_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
               if (
@@ -676,7 +702,7 @@ export default {
                 storeOrder[index].indexOf("employee_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -685,7 +711,7 @@ export default {
                 storeOrder[index].indexOf("company_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -694,7 +720,7 @@ export default {
                 storeOrder[index].indexOf("title") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -703,7 +729,7 @@ export default {
                 storeOrder[index].indexOf("employment_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -712,7 +738,7 @@ export default {
                 storeOrder[index].indexOf("employee_name") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -721,7 +747,7 @@ export default {
                 storeOrder[index].indexOf("id_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -730,7 +756,7 @@ export default {
                 storeOrder[index].indexOf("doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -739,7 +765,7 @@ export default {
                 storeOrder[index].indexOf("yuliu_doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -748,7 +774,7 @@ export default {
                 storeOrder[index].indexOf("employ_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -757,7 +783,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -766,7 +792,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
             }

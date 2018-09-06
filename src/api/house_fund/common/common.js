@@ -11,4 +11,8 @@ export default {
     let response = await AJAX.postJSON('/api/fundcommandservice/companyFundAccount/getComFundAccountNameList', params);
     return await response.data;
   },
+  checkTransferUnitIsOnly: async (params) => {
+    let response = await AJAX.postJSON('/api/fundcommandservice/companyFundAccount/checkTransferUnitIsOnly', params);
+    return await response.data;
+  }
 }

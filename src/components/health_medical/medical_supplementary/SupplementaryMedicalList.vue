@@ -238,7 +238,7 @@
             }
           },
           {
-            title: '处理日期', sortable: true, key: 'auditTime',
+            title: '审核日期', sortable: true, key: 'auditTime',
             render: (h, params) => {
               if (params.row.auditTime !== null) {
                 return h('div', this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss'));

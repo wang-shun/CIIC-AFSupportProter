@@ -70,8 +70,6 @@
             </Select>
           </Form-item>
         </Col>
-        
-          
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
@@ -491,9 +489,13 @@ export default {
     changeType(val) {
       if (val == 11) {
         this.handleInfo.ukeyBorrowDate = this.currentDate();
+      }else{
+        if(this.handleInfo.ukeyBorrowDate){
+         
+            this.handleInfo.ukeyReturnDate = this.currentDate();
+        }
+         this.handleInfo.employFeedbackOptDate = this.currentDate();
       }
-
-      this.handleInfo.employFeedbackOptDate = this.currentDate();
     },
     changeTypeDd(val) {
       this.handleInfo.diaodangFeedbackOptDate = this.currentDate();

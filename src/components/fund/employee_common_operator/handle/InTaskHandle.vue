@@ -321,7 +321,8 @@
 
     <!-- 打印转移通知书 模态框 -->
     <Modal
-      v-model="isShowPrint"
+      v-model="isShowPrintVM"
+
       title="打印转移通知书"
       width="720"
     >
@@ -402,6 +403,7 @@
         showReject: true,
         inputDisabled: false,
         isShowPrint: false,
+        isShowPrintVM: false,
         loading: false,
         isLoading: false,
         displayVO: {
@@ -867,6 +869,18 @@
           this.transferUnitDictList.forEach((element, index, array) => {
             this.transferOutUnitList.push(element);
             this.transferInUnitList.push(element);
+            this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+            this.transferNotice.transferOutUnitAccount = '881383288';
+            if (this.displayVO.comAccountName != '' && !this.transferInUnitList.includes(this.displayVO.comAccountName)) {
+              this.transferInUnitList.push(this.displayVO.comAccountName);
+            }
+            this.transferNotice.transferInUnit = this.displayVO.comAccountName;
+            if (this.displayVO.hfType == 1) {
+              this.transferNotice.transferInUnitAccount = this.displayVO.basicHfComAccount;
+            } else {
+              this.transferNotice.transferInUnitAccount = this.displayVO.addedHfComAccount;
+            }
+            this.transferNotice.transferDate = new Date();
           })
 
           if (taskCategory <= 3 || (taskCategory >= 9 && taskCategory <= 11) || taskCategory === 99) {
@@ -896,7 +910,7 @@
           this.showButton = false;
           this.showReject = false;
         }
-      })
+      });
     },
     computed: {
     },
@@ -1408,17 +1422,14 @@
         }).then(data => {
           if (data.code == 200) {
             if (!data.data || data.data.length == 0) {
-              this.isShowPrint = true;
+
               //赋值 转入和转出的默认值
               //this.transferOutUnitList.push('市公积金封存办(中心)');
-              console.log(this.transferNotice.transferOutUnit);
-              let self=this;
-              setTimeout(function(){self.transferNotice.transferOutUnit = '市公积金封存办(中心)';},1000);
-
-
-              console.log(this.transferNotice.transferOutUnit);
+              this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
               this.transferNotice.transferOutUnitAccount = '881383288';
-              this.transferInUnitList.push(this.displayVO.comAccountName);
+              if(this.displayVO.comAccountName!='' && !this.transferInUnitList.includes(this.displayVO.comAccountName)){
+                this.transferInUnitList.push(this.displayVO.comAccountName);
+              }
               this.transferNotice.transferInUnit = this.displayVO.comAccountName;
               if(this.displayVO.hfType==1){
                 this.transferNotice.transferInUnitAccount = this.displayVO.basicHfComAccount;
@@ -1426,7 +1437,7 @@
                 this.transferNotice.transferInUnitAccount = this.displayVO.addedHfComAccount;
               }
               this.transferNotice.transferDate=new Date();
-              
+              this.isShowPrintVM = true;
             } else {
               //transapi.printTransferTask({empTaskId: data.data.empTaskId})
               let params={empTaskId: data.data.empTaskId};
@@ -1446,6 +1457,8 @@
             this.$Message.error(data.message);
           }
           this.isLoading = false;
+//          this.isShowPrint = true;
+//          this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
         })
       },
       ok () {
@@ -1474,6 +1487,7 @@
             this.transferNotice.transferInUnitAccount = '';
             this.transferNotice.transferDate = '';
             this.isShowPrint = false;
+            this.isShowPrintVM = false;
             //transapi.printTransferTask({empTaskId: data.data.empTaskId});
             let params={empTaskId: data.data.empTaskId};
             transapi.getPrintTransfer(params).then(
@@ -1504,6 +1518,7 @@
         this.transferNotice.transferInUnitAccount = '';
         this.transferNotice.transferDate = '';
         this.isShowPrint = false;
+        this.isShowPrintVM = false;
       },
       routerMethod(params) {
         let currentTaskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');

@@ -130,11 +130,11 @@ export default {
       vertical: "",
       jobData: {
         job: 0,
-        noJob: 100
+        noJob: 0
       },
       RadioData: {
-        handleEnd: 200,
-        noHandleEnd: 100
+        handleEnd: "",
+        noHandleEnd: ""
       },
       initSearch: false,
       initSearchC: false,

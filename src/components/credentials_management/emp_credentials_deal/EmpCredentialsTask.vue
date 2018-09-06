@@ -237,7 +237,7 @@
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="收费金额：" prop="chargeAmount">
-                <InputNumber v-model="formItem.chargeAmount" placeholder="请输入" :min="-99999" :max="99999" style="width: 100%"/>
+                <InputNumber v-model="formItem.chargeAmount" placeholder="请输入" :min="-99999" :max="99999" disabled style="width: 100%"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -247,7 +247,7 @@
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="办证公司名称：" prop="permitCompanyName">
-                <Input v-model="formItem.permitCompanyName" placeholder="请输入"/>
+                <Input v-model="formItem.permitCompanyName" disabled placeholder="请输入"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -310,6 +310,8 @@
         templateType: "",
         qualifications: [],
         degrees: [],
+        money: null,
+        temp: {},
         ssColum: [
           {
             title: "工资基数",
@@ -410,6 +412,9 @@
           this.credentialsDealType = value.credentialsDealType
           if (this.formItem.permitCompanyName == '') {
             this.formItem.permitCompanyName = value.companyName
+          }
+          if (this._.isNil(this.formItem.chargeAmount)) {
+            this.formItem.chargeAmount = value.money
           }
         }
       },
@@ -587,6 +592,10 @@
                     title: "保存成功",
                     desc: ''
                   });
+                  let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
+                  sessionStorage.removeItem('credentialsTaskData');
+                  credentialsTaskData.isDeal = false;
+                  sessionStorage.setItem('credentialsTaskData', JSON.stringify(credentialsTaskData))
                   this.findAll(this.empCode);
                 }
               });
@@ -608,6 +617,23 @@
         this.$router.go(-1);
       },
       findAll(empCode) {
+        let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
+        if (credentialsTaskData.isDeal == true) {
+          let data1 = credentialsTaskData.data;
+          this.temp.empCode = data1.employeeId;
+          this.temp.empName = data1.employeeName;
+          this.temp.companyCode = data1.companyId;
+          this.temp.companyName = data1.companyName;
+          this.temp.credentialsTypeN = credentialsTaskData.typeN;
+          this.temp.credentialsType = credentialsTaskData.type;
+          this.temp.companyId = credentialsTaskData.companyId;
+          if (credentialsTaskData.dealType != "") {
+            this.temp.credentialsDealType = credentialsTaskData.dealType;
+            this.temp.credentialsDealTypeN = credentialsTaskData.dealTypeN;
+          }
+          this.temp.action = "1";
+          this.findPrice(data1.companyId,credentialsTaskData.type,credentialsTaskData.dealType);
+        }
         AJAX
           .get(host + "/api/empCredentialsDeal/find/task/" + empCode)
           .then(response => {
@@ -621,26 +647,20 @@
               }
               let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
               if (credentialsTaskData.isDeal == true) {
-                let temp = {};
-                let data1 = credentialsTaskData.data;
-                temp.empCode = data1.employeeId;
-                temp.empName = data1.employeeName;
-                temp.companyCode = data1.companyId;
-                temp.companyName = data1.companyName;
-                temp.credentialsTypeN = credentialsTaskData.typeN;
-                temp.credentialsType = credentialsTaskData.type;
-                temp.companyId = credentialsTaskData.companyId;
-                if (credentialsTaskData.dealType != "") {
-                  temp.credentialsDealType = credentialsTaskData.dealType;
-                  temp.credentialsDealTypeN = credentialsTaskData.dealTypeN;
-                }
-                temp.action = "1";
-                response.data.data.splice(0, 0, temp);
+                response.data.data.splice(0, 0, this.temp);
               }
               data[0]._highlight = true
               this.empInfo = data;
             }
           });
+      },
+      async findPrice (companyId,type,dealType) {
+        await AJAX.get(host + "/api/empCredentialsDeal/getProductPrice?companyId="+companyId+"&taskType="+type+"&taskDealType="+dealType).then(response => {
+          if (response.data.success) {
+            this.money = response.data.data.money
+            this.temp.money = response.data.data.money
+          }
+        })
       }
     }
   };

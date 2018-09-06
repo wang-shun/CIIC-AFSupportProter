@@ -71,7 +71,7 @@
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <!--<Form-item label="网上联系人：">-->
             <div style="margin-left: 50px">
-              <span>网上联系人：</span><Input v-model="formItem.onlineContact" placeholder="请输入" type="textarea" style="width: 70%" disabled/>
+              <span>网上联系人：</span><Input v-model="formItem.onlineContact"  style="width: 70%" disabled/>
             <!--</Form-item>-->
             </div>
           </i-col>
@@ -108,7 +108,7 @@
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <!--<Form-item label="特殊情况备注：">-->
             <div style="margin-left: 50px">
-              <span>特殊情况备注：</span><Input v-model="formItem.specialMaterialRemark" placeholder="请输入" style="width: 70%" type="textarea" disabled/>
+              <span>特殊情况备注：</span><Input v-model="formItem.specialMaterialRemark" style="width: 70%" type="textarea" disabled/>
             <!--</Form-item>-->
             </div>
           </i-col>

@@ -280,9 +280,13 @@
       queryDocSeqByDocType(val){
         api.queryDocSeqByDocType({type : 1,docType : val}).then(data => {
           if (data.code == 200) {
-            Vue.set(this.file1,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1)
+            if(data.docBo.docSeq==undefined){
+              Vue.set(this.file1,'yuliuDocNum','');
+            }else{
+              Vue.set(this.file1,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1);
               this.file1.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
               this.seqMax1 = data.data.docBo.docSeq;
+            }
           } else {
               this.$Message.error("服务器异常" + data.message);
           }
@@ -312,9 +316,13 @@
       queryDocSeqByDocType2(val){
         api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
           if (data.code == 200) {
-            Vue.set(this.file1,'docNum',parseInt(data.data.docBo.docSeq)+1)
-            this.file1.docNum = parseInt(data.data.docBo.docSeq)+1;
-            this.seqMax2 = data.data.docBo.docSeq;
+            if(data.docBo.docSeq==undefined){
+              Vue.set(this.file1,'docNum','');
+            }else{
+              Vue.set(this.file1,'docNum',parseInt(data.data.docBo.docSeq)+1)
+              this.file1.docNum = parseInt(data.data.docBo.docSeq)+1;
+              this.seqMax2 = data.data.docBo.docSeq;
+            }
           } else {
             this.$Message.error("服务器异常" + data.message);
           }

@@ -51,19 +51,21 @@
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <FormItem label="连带人：" prop="jointPersonName">
-              <Select v-model="formItem.jointPersonName" placeholder="请选择" :clearable="true"
-                      @on-change="v=>{checkBirthday(v.value)}" :label-in-value="true">
-                <Option v-for="item in jointPersonNameList" :value="item.empMemberId" :key="item.empMemberId">
+            <FormItem label="连带人：" prop="jointPersonName" v-if="!!this.jointPersonNameList && this.jointPersonNameList.length>0">
+              <Select v-model="formItem.jointPersonName" placeholder="请选择" :clearable="true" @on-change="v=>{checkBirthday(v)}" :label-in-value="true">
+                <Option v-for="item in jointPersonNameList" :value="item.empMemberId" :key="item.name">
                   {{ item.name }}
                 </Option>
               </Select>
+            </FormItem>
+            <FormItem label="连带人：" prop="jointPersonName" v-if="!!this.jointPersonNameList && !this.jointPersonNameList.length>0">
+              <Input v-model="formItem.jointPersonName" placeholder="请输入..."></Input>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <FormItem label="连带人出生日期：" prop="jointPersonBirthDate">
               <DatePicker v-model="formItem.jointPersonBirthDate" type="date" style="width: 100%"
-                          :readonly="true"></DatePicker>
+                          :readonly="false"></DatePicker>
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -137,6 +139,8 @@
     },
     methods: {
       queryEmpMember(val) {
+        this.formItem.jointPersonName = null
+        this.formItem.jointPersonBirthDate = null
         // 1:配偶 2:子女
         if (val === '1') {
           this.jointPersonNameList = [];
@@ -150,6 +154,8 @@
           let responseDate = response.data.object;
           if (responseDate) {
             this.jointPersonNameList = responseDate;
+          } else {
+            this.jointPersonNameList = []
           }
         }).catch(e => {
           console.info(e.message);
@@ -201,8 +207,11 @@
         });
       },
       checkBirthday(item) {
-        let select = this.jointPersonNameList.find(person => person.empMemberId = item);
-        this.formItem.jointPersonBirthDate = new Date(select.birthday)
+        if (!!item) {
+          let empId = item.value
+          let select = this.jointPersonNameList.find(person => person.empMemberId = empId);
+          this.formItem.jointPersonBirthDate = new Date(select.birthday)
+        }
       },
       back() {
         this.$local.back();

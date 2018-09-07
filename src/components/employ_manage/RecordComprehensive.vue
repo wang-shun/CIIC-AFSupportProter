@@ -43,6 +43,12 @@
             <file-handle :fileInfo1="fileInfo1" :fileInfo2="fileInfo2"></file-handle>
           </div>
         </Panel>
+        <Panel name="6">
+          寄信办理
+          <div slot="content">
+            <file-send :fileInfo1="fileInfo1"></file-send>
+          </div>
+        </Panel>
         <Panel name="8">
           档案备注
           <div slot="content">
@@ -95,6 +101,7 @@
   import refuseHandle from "./common/RefuseHandleArchive.vue"
   import useHandle from "./common/UseHandleArchive.vue"
   import fileHandle from "./common/FileHandle.vue"
+  import fileSend from "./common/FileSend.vue"
   import modifyFileNumber from "./common/ModifyFileNumber.vue"
   import refuseMaterialsHandle from "./common/RefuseMaterialsHandle.vue"
   import fileNotes from "./common/FileNotes.vue"
@@ -107,7 +114,7 @@
   import api from '../../api/employ_manage/hire_operator'
 
   export default {
-    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, useHandle, fileHandle, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage},
+    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, useHandle, fileHandle, fileSend, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
@@ -201,6 +208,7 @@
           matchEmployIndex: ""
         },
         fileInfo1: {
+          post:0,
           archiveId:'',
           reservedFileNumberValue: "",
           fileNumberValue: "",

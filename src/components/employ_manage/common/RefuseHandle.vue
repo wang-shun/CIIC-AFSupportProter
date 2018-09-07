@@ -187,7 +187,6 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="">
-            <Checkbox v-model="refuse.ifSend" true-value="1" false-value="0">寄信</Checkbox>
             <Checkbox v-model="refuse.ifNetwork" true-value="1" false-value="0">是否网办</Checkbox>
             <Checkbox v-model="refuse.ifLaborManualReturn" true-value="1" false-value="0">劳动手册是否交被退人员</Checkbox>
           </Form-item>
@@ -575,6 +574,10 @@
             }
             if(this.refuse.oldResignFeedback == '11' && val != "11"){
               this.refuse.ukeyReturnDate = this.currentDate();
+            }
+            // add
+            if(this.refuse.oldResignFeedback != '11' && val != '11'){
+              this.refuse.ukeyBorrowDate = '';
             }
             if(this.refuse.oldResignFeedback != '11'){
               this.refuse.ukeyReturnDate = '';

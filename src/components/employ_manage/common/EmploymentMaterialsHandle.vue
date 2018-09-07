@@ -490,11 +490,17 @@ export default {
       if (val == 11) {
         this.handleInfo.ukeyBorrowDate = this.currentDate();
       }else{
-        if(this.handleInfo.ukeyBorrowDate){
-         
-            this.handleInfo.ukeyReturnDate = this.currentDate();
+        if(this.handleInfo.archiveId)
+        {
+            if(this.handleInfo.ukeyBorrowDate)
+            {
+              this.handleInfo.ukeyReturnDate = this.currentDate();
+            }
+           
+        }else{
+            this.handleInfo.ukeyBorrowDate='';
         }
-         this.handleInfo.employFeedbackOptDate = this.currentDate();
+        this.handleInfo.employFeedbackOptDate = this.currentDate();
       }
     },
     changeTypeDd(val) {

@@ -141,7 +141,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate" @on-open-change="setCurrentDate3" @on-change="changeDate3"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate" :readonly="true"></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span:6}">
@@ -159,12 +159,12 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="UKey外借日期：" prop="ukeyBorrowDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyBorrowDate"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyBorrowDate" :readonly="true"></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate"  @on-open-change="setCurrentDate5" @on-change="changeDate5"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate" @on-open-change="setCurrentDate3" @on-change="changeDate3" ></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -659,11 +659,11 @@ export default {
       return currentdate;
     },
     changeType(val) {
-      if (val == 11) {
+       if (val == 11) {
         this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
+      }else{
+          this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
       }
-
-      this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
     },
     changeTypeDd(val) {
       this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
@@ -697,15 +697,15 @@ export default {
     setCurrentDate3(e) {
       if (e) {
         if (
-          this.materialHandleInfo.employFeedbackOptDate == "" ||
-          this.materialHandleInfo.employFeedbackOptDate == undefined
+          this.materialHandleInfo.ukeyReturnDate == "" ||
+          this.materialHandleInfo.ukeyReturnDate == undefined
         ) {
-          this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+          this.materialHandleInfo.ukeyReturnDate = this.currentDate();
         }
       }
     },
     changeDate3(e) {
-      this.materialHandleInfo.employFeedbackOptDate = e;
+      this.materialHandleInfo.ukeyReturnDate = e;
     },
     setCurrentDate4(e) {
       if (e) {

@@ -157,7 +157,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="" prop="post">
-                <Checkbox v-model="mail.post">寄信</Checkbox>
+                <Checkbox v-model="mail.post" true-value="1" false-value="0">寄信</Checkbox>
               </Form-item>
               </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

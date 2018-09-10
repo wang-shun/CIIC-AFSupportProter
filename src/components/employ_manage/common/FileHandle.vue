@@ -80,9 +80,9 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="用工反馈：">
             {{fileInfo1.employFeedback === '0' ? '空' : fileInfo1.employFeedback === '3' ? '用工成功' :
-             fileInfo1.employFeedback === '10' ? '用工已办查无档' : fileInfo1.employFeedback === '4' ? '用工失败' 
+             fileInfo1.employFeedback === '10' ? '用工已办查无档' : fileInfo1.employFeedback === '4' ? '用工失败'
              : fileInfo1.employFeedback === '11' ? 'Ukey外借' : fileInfo1.employFeedback === '5' ? '前道要求撤销用工'
-              : fileInfo1.employFeedback === '12' ? '用工成功,重复任务单' : 
+              : fileInfo1.employFeedback === '12' ? '用工成功,重复任务单' :
               fileInfo1.employFeedback === '13' ? '用工已办,前道已中止' : ''}}
           </Form-item>
         </Col>
@@ -280,12 +280,12 @@
       queryDocSeqByDocType(val){
         api.queryDocSeqByDocType({type : 1,docType : val}).then(data => {
           if (data.code == 200) {
-            if(data.docBo.docSeq==undefined){
-              Vue.set(this.file1,'yuliuDocNum','');
-            }else{
+            if(data.data.docBo.docSeq){
               Vue.set(this.file1,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1);
               this.file1.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
               this.seqMax1 = data.data.docBo.docSeq;
+            }else{
+              Vue.set(this.file1,'yuliuDocNum','');
             }
           } else {
               this.$Message.error("服务器异常" + data.message);
@@ -316,12 +316,12 @@
       queryDocSeqByDocType2(val){
         api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
           if (data.code == 200) {
-            if(data.docBo.docSeq==undefined){
-              Vue.set(this.file1,'docNum','');
-            }else{
+            if(data.data.docBo.docSeq){
               Vue.set(this.file1,'docNum',parseInt(data.data.docBo.docSeq)+1)
               this.file1.docNum = parseInt(data.data.docBo.docSeq)+1;
               this.seqMax2 = data.data.docBo.docSeq;
+            }else{
+              Vue.set(this.file1,'docNum','');
             }
           } else {
             this.$Message.error("服务器异常" + data.message);

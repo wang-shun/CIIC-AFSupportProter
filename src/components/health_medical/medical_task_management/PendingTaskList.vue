@@ -8,31 +8,37 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <FormItem label="任务单状态" prop="status">
-                  <Select v-model="formItem.status" :clearable="true" @on-change="getByPage(1)">
-                    <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
-                      {{item.label}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.status" :clearable="true" @on-change="getByPage(1)">
+                      <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
+                        {{item.label}}
+                      </Option>
+                    </Select>
+                  </label>
                 </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <FormItem label="任务单类型" prop="taskType">
-                  <Select v-model="formItem.taskType" :clearable="true">
-                    <Option v-for="item in taskTypeProperties" :value="item.value" :key="item.value">
-                      {{item.label}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.taskType" :clearable="true">
+                      <Option v-for="item in taskTypeProperties" :value="item.value" :key="item.value">
+                        {{item.label}}
+                      </Option>
+                    </Select>
+                  </label>
                 </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <FormItem label="保险公司" prop="insuranceCompany">
-                  <Select v-model="formItem.insuranceCompany" :clearable="true"
-                          @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
-                    <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
-                            :key="item.insuranceCompanyId">
-                      {{item.insuranceCompanyName}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.insuranceCompany" :clearable="true"
+                            @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
+                      <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
+                              :key="item.insuranceCompanyId">
+                        {{item.insuranceCompanyName}}
+                      </Option>
+                    </Select>
+                  </label>
                 </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

@@ -74,17 +74,17 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate" ></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate" :readonly="true"></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="UKey外借日期：" prop="ukeyBorrowDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyBorrowDate"></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyBorrowDate" :readonly="true"></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
-                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate"  ></DatePicker>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.ukeyReturnDate"  @on-open-change="setCurrentDate5" @on-change="changeDate5" ></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -99,12 +99,12 @@
               </Col>
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="补调档案日期1：">
-                <DatePicker v-model="materialHandleInfo.budiaoDocDate1" type="date" placeholder="" transfer></DatePicker>
+                <DatePicker v-model="materialHandleInfo.budiaoDocDate1" type="date" placeholder="" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
               </Form-item>
             </Col>
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="补调档案日期2：">
-                <DatePicker v-model="materialHandleInfo.budiaoDocDate2" type="date" placeholder="" transfer></DatePicker>
+                <DatePicker v-model="materialHandleInfo.budiaoDocDate2" type="date" placeholder="" @on-open-change="setCurrentDate1" @on-change="changeDate1" transfer></DatePicker>
               </Form-item>
             </Col>
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -157,7 +157,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="" prop="post">
-                <Checkbox v-model="mail.post">寄信</Checkbox>
+                <Checkbox v-model="mail.post" true-value="1" false-value="0">寄信</Checkbox>
               </Form-item>
               </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -280,12 +280,12 @@ export default {
         { value: "公司自行保管", label: "公司自行保管" }
       ],
       placeStateList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "无", label: "无" },
         { value: "卡为复印件", label: "卡为复印件" }
       ],
       fileOriginList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "户口所在地调入", label: "户口所在地调入" },
         { value: "市区人才调入", label: "市区人才调入" },
         { value: "单位转出（包括邮寄）", label: "单位转出（包括邮寄）" },
@@ -294,7 +294,7 @@ export default {
         { value: "其他", label: "其他" }
       ],
       filePlaceList: [
-        { value: "", label: "空" },
+        { value: "", label: "" },
         { value: "外来从业人员", label: "外来从业人员" },
         { value: "居住证", label: "居住证" },
         { value: "属地管理", label: "属地管理" },
@@ -322,12 +322,13 @@ export default {
         { value: "翻牌转下一条任务单", label: "翻牌转下一条任务单" }
       ],
       employmentPropertyList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "中智", label: "中智" },
         { value: "外包", label: "外包" },
         { value: "独立", label: "独立" }
       ],
       employFeedbackList: [
+        { value: "", label: "" },
         { value: "3", label: "用工成功" },
         { value: "10", label: "用工已办查无档" },
         { value: "4", label: "用工失败" },
@@ -337,7 +338,7 @@ export default {
         { value: "13", label: "用工已办,前道已中止" }
       ],
       employmentMethodList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "Ukey", label: "Ukey" },
         { value: "集体转入", label: "集体转入" },
         { value: "用工自办", label: "用工自办" },
@@ -352,7 +353,7 @@ export default {
         { value: "外来转入", label: "外来转入" }
       ],
       transferFeedbackList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "已告知本人转档", label: "已告知本人转档" },
         { value: "无档自查", label: "无档自查" },
         { value: "浦东职介代管", label: "浦东职介代管" },
@@ -370,7 +371,7 @@ export default {
         { value: "合同解除", label: "合同解除", disabled: false }
       ],
       personPropertyList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "上海户籍", label: "上海户籍" },
         { value: "居住证", label: "居住证" },
         { value: "外来从业人员", label: "外来从业人员" }
@@ -385,12 +386,12 @@ export default {
         { value: "转公司用工", label: "转公司用工", disabled: false }
       ],
       transferMethodList: [
-        { value: "空", label: "空", disabled: false },
+        { value: "", label: "", disabled: false },
         { value: "职介所", label: "职介所", disabled: false },
         { value: "其他", label: "其他", disabled: false }
       ],
       transferNotesList: [
-        { value: "空", label: "空", disabled: false },
+        { value: "", label: "", disabled: false },
         { value: "档案未退先退工", label: "档案未退先退工", disabled: false },
         { value: "徐职", label: "徐职", disabled: false },
         { value: "转公司", label: "转公司", disabled: false },
@@ -418,25 +419,7 @@ export default {
         { value: "农村富裕劳动力", label: "农村富裕劳动力", disabled: false },
         { value: "自开退工单", label: "自开退工单", disabled: false }
       ],
-      refuseFeedbackList: [
-        { value: "1", label: "退工任务单签收" },
-        { value: "2", label: "档未到先退工" },
-        { value: "3", label: "退工盖章未返回" },
-        { value: "4", label: "退工失败" },
-        { value: "5", label: "前道要求批退" },
-        { value: "6", label: "撤销退工" },
-        { value: "7", label: "等修改备案表" },
-        { value: "8", label: "自开退工单,未交" },
-        { value: "9", label: "用工已办未反馈" },
-        { value: "10", label: "等翻牌联系单" },
-        { value: "11", label: "退工Ukey外借" },
-        { value: "12", label: "单项服务,原退工成功" },
-        { value: "13", label: "转外地社保,原退工成功" },
-        { value: "14", label: "转人员性质无需退工" },
-        { value: "15", label: "退工成功,改社保" },
-        { value: "16", label: "重复任务单" },
-        { value: "17", label: "退工自办" }
-      ],
+     
       companyGroupTransferDirectionList: [
         { value: "空", label: "空" },
         { value: "公司自行管理", label: "公司自行管理" },
@@ -732,9 +715,9 @@ export default {
     changeType(val) {
       if (val == 11) {
         this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
+      }else{
+          this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
       }
-
-      this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
     },
     changeTypeDd(val) {
       this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
@@ -755,23 +738,23 @@ export default {
     setCurrentDate1(e) {
       if (e) {
         if (
-          this.employmentInfo.employDate == "" ||
-          this.employmentInfo.employDate == undefined
+          this.materialHandleInfo.budiaoDocDate2 == "" ||
+          this.materialHandleInfo.budiaoDocDate2 == undefined
         ) {
-          this.employmentInfo.employDate = this.currentDate();
+          this.materialHandleInfo.budiaoDocDate2 = this.currentDate();
         }
       }
     },
     changeDate1(e) {
-      this.employmentInfo.employDate = e;
+      this.materialHandleInfo.budiaoDocDate2 = e;
     },
     setCurrentDate2(e) {
       if (e) {
         if (
-          this.employmentInfo.openAfDate == "" ||
-          this.employmentInfo.openAfDate == undefined
+          this.materialHandleInfo.budiaoDocDate1 == "" ||
+          this.materialHandleInfo.budiaoDocDate1 == undefined
         ) {
-          this.employmentInfo.openAfDate = this.currentDate();
+          this.materialHandleInfo.budiaoDocDate1 = this.currentDate();
         }
       }
     },

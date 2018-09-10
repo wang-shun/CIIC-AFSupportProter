@@ -287,13 +287,22 @@ export default {
     queryDocSeqByDocType(val) {
       api.queryDocSeqByDocType({ type: 1, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.handleInfo,
-            "yuliuDocNum",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.handleInfo.yuliuDocNum = parseInt(data.data.docBo.docSeq) + 1;
-          this.seqMax1 = data.data.docBo.docSeq;
+          if(data.data.docBo.docSeq){
+            Vue.set(
+              this.handleInfo,
+              "yuliuDocNum",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.handleInfo.yuliuDocNum = parseInt(data.data.docBo.docSeq) + 1;
+            this.seqMax1 = data.data.docBo.docSeq;
+          }else{
+            Vue.set(
+              this.handleInfo,
+              "yuliuDocNum",
+              ''
+            );
+            this.handleInfo.yuliuDocNum='';
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }
@@ -326,13 +335,22 @@ export default {
     queryDocSeqByDocType2(val) {
       api.queryDocSeqByDocType({ type: 2, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.handleInfo,
-            "docNum",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.handleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
-          this.seqMax2 = data.data.docBo.docSeq;
+          if(data.data.docBo.docSeq){
+            Vue.set(
+              this.handleInfo,
+              "docNum",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.handleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
+            this.seqMax2 = data.data.docBo.docSeq;
+          }else{
+            Vue.set(
+              this.handleInfo,
+              "docNum",
+              ''
+            );
+            this.handleInfo.docNum = '';
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }
@@ -490,11 +508,17 @@ export default {
       if (val == 11) {
         this.handleInfo.ukeyBorrowDate = this.currentDate();
       }else{
-        if(this.handleInfo.ukeyBorrowDate){
-         
-            this.handleInfo.ukeyReturnDate = this.currentDate();
+        if(this.handleInfo.archiveId)
+        {
+            if(this.handleInfo.ukeyBorrowDate)
+            {
+              this.handleInfo.ukeyReturnDate = this.currentDate();
+            }
+           
+        }else{
+            this.handleInfo.ukeyBorrowDate='';
         }
-         this.handleInfo.employFeedbackOptDate = this.currentDate();
+        this.handleInfo.employFeedbackOptDate = this.currentDate();
       }
     },
     changeTypeDd(val) {

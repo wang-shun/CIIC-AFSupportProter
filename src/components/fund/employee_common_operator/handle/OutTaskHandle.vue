@@ -507,6 +507,7 @@
             this.taskCategoryDisable = false;
 
             if (taskCategory >= 12) {
+              this.taskCategoryList.splice(this.taskCategoryList.length - 1, 1);
               this.taskCategoryList.splice(0, 11);
             } else {
               this.taskCategoryList.splice(5, this.taskCategoryList.length - 5);
@@ -678,7 +679,7 @@
           return false;
         }
         if (this.inputData.endMonth && this.inputData.endMonth != api.minusMonths(this.displayVO.hfMonth, 1)) {
-          this.$Message.error("客户汇缴月非汇缴截止缴费月的次月");
+          this.$Message.error("客户汇缴月必须为汇缴截止缴费月的下一月");
           return false;
         }
         if (this.inputData.handleRemark && this.inputData.handleRemark.length > 200) {

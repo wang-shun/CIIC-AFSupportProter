@@ -4,7 +4,7 @@
 //let em_chooseField = ["公司编号", "公司名称", "雇员编号", "雇员姓名", "身份证号码", "开F单日期", "服务中心", "办理类型", "用工操作员", "用工方式", "缴费区县", "用工属性", "用工材料批退日期", "档案编号", "预留档案编号", "存档地", "用工反馈操作日期", "档案操作员", "入库日期", "出库日期", "手册入库日期", "补调档案1", "补调档案2", "UKey外借日期", "UKey返回日期", "高校调档日期", "寄回执日期", "修改档案编号提交日期", "完成改号日期", "前道提交退工任务单日期", "退工原因", "出库人", "档案材料借出日期", "档案材料借阅日期"];
 let em_chooseField = {
   "a.company_id":"公司编号",
-  "h.title":"公司名称",
+  "sal.title":"公司名称",
   "a.employee_id":"雇员编号",
   "d.employee_name":"雇员姓名",
   "d.id_num":"身份证号码",
@@ -34,7 +34,7 @@ let em_chooseField = {
 };
 let em_resign_chooseField = {
   "a.company_id":"公司编号",
-  "h.title":"公司名称",
+  "sal.title":"公司名称",
   "a.employee_id":"雇员编号",
   "d.employee_name":"雇员姓名",
   "d.id_num":"身份证号码",
@@ -66,7 +66,7 @@ let em_resign_chooseField = {
 };
 let em_arc_chooseField = {
   "a.company_id":"公司编号",
-  "h.title":"公司名称",
+  "sal.title":"公司名称",
   "a.employee_id":"雇员编号",
   "d.employee_name":"雇员姓名",
   "d.id_num":"身份证号码",

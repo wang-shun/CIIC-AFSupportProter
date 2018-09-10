@@ -253,6 +253,8 @@
           canHandle: false,
           transferInUnit:'',
           transferOutUnit:'',
+          basicHfComAccount:'',
+          addedHfComAccount:'',
         },
         saveDisabled:false,
         fundTypeList: [],
@@ -368,11 +370,11 @@
            
           this.transferNotice.transferOutUnit = this.displayVO.comAccountName;
           this.transferOutUnitList.push(this.displayVO.comAccountName);
+          let self =this;
           if(this.$route.query.hfType ==undefined ||this.$route.query.hfType== '1'){ //基本公积金
-            let self =this;
-            setTimeout(function(){self.transferNotice.transferOutUnitAccount=this.displayVO.basicHfComAccount;},500);
+            setTimeout(function(){self.transferNotice.transferOutUnitAccount=self.displayVO.basicHfComAccount;},500);
           }else{
-            setTimeout(function(){self.transferNotice.transferOutUnitAccount=this.displayVO.addedHfComAccount;},500);
+            setTimeout(function(){self.transferNotice.transferOutUnitAccount=self.displayVO.addedHfComAccount;},500);
           }
           
 //            setTimeout(this.setValue,500);

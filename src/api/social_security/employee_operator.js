@@ -171,5 +171,13 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/queryHistoryEmpTask', params);
     return await response.data;
   },
+  //导出个人社会保险登记表
+  exportRegisterForm: async (params) => {
+    AJAX.download('/api/soccommandservice/ssEmpPrintInfo/exportRegisterForm', params);
+  },
+  //导出社会保险业务变更项目申报表
+  exportChangeDeclarationForm: async (params) => {
+    AJAX.download('/api/soccommandservice/ssEmpPrintInfo/exportChangeDeclarationForm', params);
+  }
 }
 

@@ -184,36 +184,39 @@ export default {
           }
         },
         {
-          title: "退工成功日期",
-          key: "jobCentreFeedbackDate",
+          title: "序号",
+          key: "empTaskId",
+          align: "center",
+          width: 100,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.empTaskId)
+            ]);
+          }
+        },
+        {
+          title: "客户编号",
+          key: "companyId",
           align: "center",
           width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.jobCentreFeedbackDate)
+            return h("div", { style: { textAlign: "right" } }, [
+              h("span", params.row.companyId)
             ]);
           }
         },
         {
-          title: "退工原因",
-          key: "outReason",
+          title: "公司名称",
+          key: "title",
           align: "center",
           width: 250,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.outReason)
-            ]);
-          }
-        },
-        {
-          title: "办理类型",
-          key: "handleType",
-          align: "center",
-          width: 100,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.handleType)
+              h("span", params.row.title),
+              h("span", params.row.cici)
             ]);
           }
         },
@@ -270,27 +273,38 @@ export default {
           }
         },
         {
-          title: "客户编号",
-          key: "companyId",
+          title: "实际录用日期",
+          key: "employDate",
           align: "center",
           width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.companyId)
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employDate)
             ]);
           }
         },
-        {
-          title: "公司名称",
-          key: "title",
+          {
+          title: "退工日期",
+          key: "outDate",
           align: "center",
-          width: 250,
+          width: 150,
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.title),
-              h("span", params.row.cici)
+              h("span", params.row.outDate)
+            ]);
+          }
+        },
+       
+        {
+          title: "退工原因",
+          key: "outReason",
+          align: "center",
+          width: 250,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.outReason)
             ]);
           }
         },
@@ -306,13 +320,24 @@ export default {
           }
         },
         {
-          title: "客服中心",
+          title: "服务中心",
           key: "serviceCenter",
           align: "center",
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", params.row.serviceCenter)
+            ]);
+          }
+        },
+        {
+          title: "存档地",
+          key: "archivePlace",
+          align: "center",
+          width: 150,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.archivePlace)
             ]);
           }
         },
@@ -341,37 +366,48 @@ export default {
           }
         },
         {
-          title: "存档地",
-          key: "archivePlace",
+          title: "用工反馈操作日期",
+          key: "employFeedbackOptDate",
           align: "center",
-          width: 150,
+          width: 200,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.archivePlace)
+              h("span", params.row.employFeedbackOptDate)
             ]);
           }
         },
         {
-          title: "实际录用日期",
-          key: "employDate",
+          title: "退工成功日期",
+          key: "jobCentreFeedbackDate",
           align: "center",
           width: 150,
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employDate)
+              h("span", params.row.jobCentreFeedbackDate)
             ]);
           }
         },
         {
-          title: "退工日期",
-          key: "outDate",
+          title: "调档反馈",
+          key: "handleType",
           align: "center",
-          width: 150,
-          sortable: "custom",
+          width: 100,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.outDate)
+              h("span", params.row.handleType)
+            ]);
+          }
+        },
+        {
+          title: "调档反馈操作日期",
+          key: "diaodangFeedbackOptDate",
+          align: "center",
+          width: 100,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.diaodangFeedbackOptDate)
             ]);
           }
         },

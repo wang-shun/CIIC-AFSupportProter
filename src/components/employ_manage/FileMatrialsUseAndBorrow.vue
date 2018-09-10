@@ -610,10 +610,22 @@ export default {
       selection.forEach(item => {
         this.handleInfo.archiveUseId = item.archiveUseId;
         useDate = item.useDate;
+        this.handleInfo.useMan = item.useMan;
+        this.handleInfo.material = item.material;
+        this.handleInfo.purpose = item.purpose;
+        this.handleInfo.remark = item.remark;
       });
 
       var fromData = this.$utils.clear(this.realHandInfo, "");
       fromData.archiveUseId = this.handleInfo.archiveUseId;
+      fromData.useMan = this.handleInfo.useMan;
+      fromData.material = this.handleInfo.material;
+      fromData.purpose = this.handleInfo.purpose;
+      fromData.remark = this.handleInfo.remark;
+      fromData.employeeId = this.$route.query.employeeId;
+      fromData.employeeName = this.$route.query.employeeName;
+      fromData.useDate = useDate;
+
       fromData.returnDate = this.$utils.formatDate(
         this.handleInfo.returnDate,
         "YYYY-MM-DD"

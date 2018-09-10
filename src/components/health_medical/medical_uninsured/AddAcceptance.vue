@@ -138,7 +138,9 @@
     created() {
       //雇员数据
       this.employeeInfo = JSON.parse(sessionStorage.getItem('acceptanceEmployee'));
-      this.formItem.dimissionDate = new Date(this.employeeInfo.outDate);
+      if (this.employeeInfo.outDate) {
+        this.formItem.dimissionDate = new Date(this.employeeInfo.outDate);
+      }
       this.queryBusinessConsultant();
       this.querySupplyInfo();
     },

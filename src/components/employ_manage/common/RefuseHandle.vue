@@ -564,6 +564,8 @@
 
               this.refuse.resignFeedbackDate=currentdate;
           }
+
+          console.info("change start isFrist=" + this.isFrist + " resignFeedBackDate="+this.refuse.oldResignFeedback + " val="+val);
           if(this.isFrist==true && this.refuse.oldResignFeedback==undefined){
             this.isFrist = false;
           }
@@ -586,6 +588,8 @@
               this.refuse.ukeyReturnDate = '';
             }
           }
+          console.info("change end isFrist=" + this.isFrist + " resignFeedBackDate="+this.refuse.oldResignFeedback + " val="+val);
+          console.info(this.refuse);
           if(this.isFrist==true && this.refuse.oldResignFeedback!=undefined && this.refuse.oldResignFeedback!=''){
             this.isFrist=false;
           }

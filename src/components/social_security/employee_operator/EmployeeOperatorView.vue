@@ -15,7 +15,7 @@
       </TabPane>
      <!-- <TabPane label="打印信息" name="printInfo">
         <print-info v-if="isPrintInfo"></print-info>
-      </TabPane>-->
+      </TabPane> -->
     </Tabs>
   </div>
 </template>

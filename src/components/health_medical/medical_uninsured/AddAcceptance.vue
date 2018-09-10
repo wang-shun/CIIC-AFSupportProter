@@ -51,14 +51,17 @@
             </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <FormItem label="连带人：" prop="jointPersonName" v-if="!!this.jointPersonNameList && this.jointPersonNameList.length>0">
-              <Select v-model="formItem.jointPersonName" placeholder="请选择" :clearable="true" @on-change="v=>{checkBirthday(v)}" :label-in-value="true">
+            <FormItem label="连带人：" prop="jointPersonName"
+                      v-if="!!this.jointPersonNameList && this.jointPersonNameList.length>0">
+              <Select v-model="formItem.jointPersonName" placeholder="请选择" :clearable="true"
+                      @on-change="v=>{checkBirthday(v)}" :label-in-value="true">
                 <Option v-for="item in jointPersonNameList" :value="item.empMemberId" :key="item.name">
                   {{ item.name }}
                 </Option>
               </Select>
             </FormItem>
-            <FormItem label="连带人：" prop="jointPersonName" v-if="!!this.jointPersonNameList && !this.jointPersonNameList.length>0">
+            <FormItem label="连带人：" prop="jointPersonName"
+                      v-if="!!this.jointPersonNameList && !this.jointPersonNameList.length>0">
               <Input v-model="formItem.jointPersonName" placeholder="请输入..."></Input>
             </FormItem>
           </Col>
@@ -123,6 +126,7 @@
           idNum: '',
           companyName: '',
           caseType: '',
+          outDate: null,
         },
         moneyTypes: admissibility.moneyTypes,
         caseTypes: admissibility.caseTypes,
@@ -134,6 +138,7 @@
     created() {
       //雇员数据
       this.employeeInfo = JSON.parse(sessionStorage.getItem('acceptanceEmployee'));
+      this.formItem.dimissionDate = new Date(this.employeeInfo.outDate);
       this.queryBusinessConsultant();
       this.querySupplyInfo();
     },
@@ -174,9 +179,6 @@
         apiAjax.querySupplyInfo(this.employeeInfo.employeeId).then(response => {
           if (response.data.object.surrenderDate) {
             this.formItem.surrenderDate = new Date(response.data.object.surrenderDate);
-          }
-          if (response.data.object.endDate) {
-            this.formItem.dimissionDate = new Date(response.data.object.endDate);
           }
         }).catch(e => {
           console.info(e.message);

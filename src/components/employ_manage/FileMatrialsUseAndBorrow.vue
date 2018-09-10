@@ -9,41 +9,30 @@
               v-model="modal1"
               title="档案材料使用"
               @on-ok="instance()"
-              @on-cancel="cancel">
+              @on-cancel="cancel" width="820">
               <Form :model="handleInfo" ref="handleInfo" :label-width="150">
                
-                <Row type="flex" justify="start">
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                <Row >
+                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                     <Form-item label="使用日期：" prop="useDatew">
                       <DatePicker type="date" v-model="handleInfo.useDatew" transfer></DatePicker>
                     </Form-item>
                   </Col>
-                </Row>
-                <Row type="flex" justify="start">
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-                    <Form-item label="备注：" prop="remarkw" transfer>
-                      <Input v-model="handleInfo.remarkw" placeholder="请输入" :maxlength="50"/>
-                    </Form-item>
-                  </Col>
-                </Row>
-                <Row type="flex" justify="start">
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                  <Col :sm="{span: 15}" :md="{span: 12}" :lg="{span: 8}">
                     <Form-item label="使用借出材料人：" prop="useManw" transfer>
                       <Input v-model="handleInfo.useManw" placeholder="请输入" :maxlength="50"/>
                     </Form-item>
                   </Col>
                 </Row>
                 <Row>
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                   <Form-item label="使用材料：">
                     <Select v-model="handleInfo.materialw" transfer>
                       <Option v-for="item in handleTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
                     </Select>
                    </Form-item>
                   </Col>
-                </Row> 
-                <Row>
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                   <Form-item label="用途：">
                     <Select v-model="handleInfo.purposew" transfer>
                       <Option v-for="item in handleTypeList1" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -51,6 +40,14 @@
                    </Form-item>
                   </Col>
                 </Row>   
+                <Row type="flex" justify="start">
+                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                    <Form-item label="备注：" prop="remarkw" transfer>
+                      <Input v-model="handleInfo.remarkw" placeholder="请输入" :maxlength="50"/>
+                    </Form-item>
+                  </Col>
+                </Row>
+                
                </Form>
             </Modal>
             <Table border :columns="matrialsUseColumns" :data="matrialsUseData"  ref="matrialsUseData" class="mt20"></Table>
@@ -69,40 +66,30 @@
               v-model="modal2"
               title="档案材料借出"
               @on-ok="ok1"
-              @on-cancel="cancel1">
+              @on-cancel="cancel1" width="820">
               <Form :model="handleInfo" ref="handleInfo" :label-width="150">
-                <Row type="flex" justify="start">
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                <Row>
+                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                     <Form-item label="借出日期：" prop="useDatew">
                       <DatePicker type="date" v-model="handleInfo.useDatew" transfer></DatePicker>
                     </Form-item>
                   </Col>
-                </Row>
-                <Row type="flex" justify="start">
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
-                    <Form-item label="备注：" prop="remarkw" transfer>
-                      <Input v-model="handleInfo.remarkw" placeholder="请输入" :maxlength="50"/>
-                    </Form-item>
-                  </Col>
-                </Row>
-                <Row type="flex" justify="start">
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                     <Form-item label="借出材料人：" prop="useManw" transfer>
                       <Input v-model="handleInfo.useManw" placeholder="请输入" :maxlength="50"/>
                     </Form-item>
                   </Col>
                 </Row>
+                
                 <Row>
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                   <Form-item label="借出材料：">
                     <Select v-model="handleInfo.materialw" transfer>
                       <Option v-for="item in  handleTypeList2" :value="item.value" :key="item.value">{{item.label}}</Option>
                     </Select>
                    </Form-item>
                   </Col>
-                </Row> 
-                <Row>
-                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                   <Form-item label="用途：">
                     <Select v-model="handleInfo.purposew" transfer>
                       <Option v-for="item in handleTypeList3" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -110,6 +97,13 @@
                    </Form-item>
                   </Col>
                 </Row>   
+                <Row>
+                  <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 18}">
+                    <Form-item label="备注：" prop="remarkw" transfer>
+                      <Input v-model="handleInfo.remarkw" placeholder="请输入" :maxlength="50"/>
+                    </Form-item>
+                  </Col>
+                </Row>
                </Form>
             </Modal>
             <Table border  :columns="matrialsBorrowColumns" :data="matrialsBorrowData"  ref="matrialsBorrowData" class="mt20"></Table>

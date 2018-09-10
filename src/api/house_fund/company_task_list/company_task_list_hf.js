@@ -145,7 +145,8 @@ export class CompanyTaskListHF{
                     companyTaskInfo.deliveredDate = i.sendCheckDate
                     companyTaskInfo.finishDate = i.finishDate
                     if(i.taskStatus == 3){
-                      companyTaskInfo.taskRemark = i.comAccountRemark
+                      //companyTaskInfo.taskRemark = i.comAccountRemark
+                      companyTaskInfo.taskRemark = i.taskRemark
                     }else{
                       companyTaskInfo.taskRemark = i.taskRemark
                     }

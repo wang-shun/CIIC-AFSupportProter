@@ -9,7 +9,7 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="预留档案类别：">
                 <Select transfer @on-change="changeTypeYuliu" v-model="materialHandleInfo.yuliuDocType">
-                  <Option value="" key="">空</Option>
+                  
                   <Option v-for="item in docTypeList" :value="item.docType" :key="item.docType">
                     {{item.docType}}
                   </Option>
@@ -24,7 +24,7 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案类别：">
                 <Select transfer @on-change="changeTypeNumber" v-model="materialHandleInfo.docType">
-                  <Option value="" key="">空</Option>
+                  
                     <Option v-for="item in yuliuDocTypeList" :value="item.docType" :key="item.docType">
                       {{item.docType}}
                   </Option>
@@ -421,7 +421,7 @@ export default {
       ],
      
       companyGroupTransferDirectionList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "公司自行管理", label: "公司自行管理" },
         { value: "外服", label: "外服" },
         { value: "四达", label: "四达" },

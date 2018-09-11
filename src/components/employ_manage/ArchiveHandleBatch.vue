@@ -475,13 +475,21 @@ export default {
     queryDocSeqByDocType(val) {
       api.queryDocSeqByDocType({ type: 1, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.materialHandleInfo,
-            "yuliuDocNum",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.materialHandleInfo.yuliuDocNum =
-            parseInt(data.data.docBo.docSeq) + 1;
+          if(data.data.docBo.docSeq){
+            Vue.set(
+              this.materialHandleInfo,
+              "yuliuDocNum",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.materialHandleInfo.yuliuDocNum =
+              parseInt(data.data.docBo.docSeq) + 1;
+          }else{
+            Vue.set(
+              this.materialHandleInfo,
+              "yuliuDocNum",""
+            );
+            this.materialHandleInfo.yuliuDocNum ="";
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }
@@ -499,12 +507,20 @@ export default {
     queryDocSeqByDocType2(val) {
       api.queryDocSeqByDocType({ type: 2, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.materialHandleInfo,
-            "docNum",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.materialHandleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
+          if(data.data.docBo.docSeq){
+            Vue.set(
+              this.materialHandleInfo,
+              "docNum",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.materialHandleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
+          }else{
+            Vue.set(
+              this.materialHandleInfo,
+              "docNum",""
+            );
+            this.materialHandleInfo.docNum = "";
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }

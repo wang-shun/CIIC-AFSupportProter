@@ -89,8 +89,9 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem name="0">导出雇员转移清册</DropdownItem>
-            <DropdownItem name="1">导出雇员转移TXT</DropdownItem>
+            <DropdownItem name="0">导出入管清册</DropdownItem>
+            <DropdownItem name="1">导出雇员转移清册</DropdownItem>
+            <DropdownItem name="2">导出雇员转移TXT</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <!-- <Button type="primary" @click="">扫描校验</Button> -->
@@ -527,7 +528,7 @@
       cancel () {
 
       },
-      empToCenterTransferExport() {
+      multiEmpTaskTransferExport() {
         if (!this.searchCondition.transferOutUnit || !this.searchCondition.transferInUnit) {
           this.$Message.error("导出雇员转移清册，必须在查询条件输入明确的【转出单位】及【转入单位】");
           return false;
@@ -587,9 +588,13 @@
           }
         })
       },
-      multiEmpTaskTransferExport() {
+      empToCenterTransferExport() {
         if (!this.searchCondition.transferOutUnit) {
           this.$Message.error("导出入管清册，必须在查询条件输入【转出单位】");
+          return false;
+        }
+        if (!this.searchCondition.hfType || this.searchCondition.hfType === '') {
+          this.$Message.error("导出入管清册，必须在查询条件选择某一公积金类型");
           return false;
         }
         commonApi.getComFundAccountClassNameList({
@@ -611,8 +616,26 @@
                 }
               }
               let params = this.searchCondition
-              api.multiEmpTaskTransferExport({
+              api.checkEmpTransferEndMonthSame({
                 params: params,
+              }).then(data => {
+                if (data.code === 200) {
+                  let rtn = Number(data.data);
+                  if (rtn > 0) {
+                    let rtnMessage = "";
+                    if (rtn === 1) {
+                      rtnMessage = "未匹配到任何转移任务单";
+                    } else if (rtn === 2) {
+                      rtnMessage = "匹配到的转移任务单中的封存年月不相同";
+                    }
+                    this.$Message.error(rtnMessage);
+                    return false;
+                  } else {
+                    api.empToCenterTransferExport({
+                      params: params,
+                    })
+                  }
+                }
               })
             } else if (total > 1) {
               this.$Message.error("匹配出了多家转出单位，请进一步明确转出单位名称");
@@ -643,6 +666,9 @@
             this.empToCenterTransferExport();
             break;
           case 1:
+            this.multiEmpTaskTransferExport();
+            break;
+          case 2:
             this.empTaskTransferTxtExport();
             break;
           default:

@@ -53,6 +53,8 @@ utils.formatDate = (date, fmt) => {
       return moment(date).format(fmt);
     } else if ((typeof date) === "number") {
       return moment(date).format(fmt);
+    } else if ((typeof date) === "string") {
+      return moment(date).format(fmt);
     } else {
       return date;
     }

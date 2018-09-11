@@ -475,10 +475,45 @@
           {title: '申请支付总金额', key: 'totalPayAmount', width: 140, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.totalPayAmount),
+//                h('span', params.row.totalPayAmount),
+                h('Input', {
+                    style: {
+                      border: '0px',
+                      width: '84px',
+                    },
+                    attrs: {
+                      name: 'totalPayAmount',
+                      value: params.row.totalPayAmount
+                    },
+                    on: {
+                      'on-enter': (event) => {
+                        let totalPayAmount = 0.0;
+                        if (totalPayAmount !== '') {
+                          totalPayAmount = event.target.value;
+                          var reg = /(^[1-9]([0-9]{1,10})?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/;
+                          if (!reg.test(totalPayAmount)) {
+                            this.$Message.error("申请支付总金额输入有误");
+                            return false;
+                          }
+                        } else {
+                          params.row.totalPayAmount = totalPayAmount;
+                        }
+                        params.row.paymentBalance = params.row.oughtAmount - params.row.totalPayAmount;
+
+                      }
+                    }
+                  }
+                )
               ]);
             }
-          },          
+          },
+          {title: '差额', key: 'paymentBalance', width: 70, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'right'}}, [
+                h('span', params.row.paymentBalance),
+              ]);
+            }
+          },
           {title: '操作', key: 'operator', width: 180, align: 'center',
             render: (h, params) => {
               let paymentState = params.row.paymentState;
@@ -548,7 +583,7 @@
                   }, '一致'),
                 ]);
               }
-            
+
             }
           },
           {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
@@ -590,7 +625,7 @@
           //     ]);
           //   }
           // },
-          
+
           {title: '额外金', key: 'extraAmount', width: 130, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
@@ -612,7 +647,7 @@
               ]);
             }
           },
-          
+
           {title: '财务支付日期', key: 'financePaymentDate', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -634,7 +669,7 @@
               ]);
             }
           },
-       
+
         ],
         payComData: [],
         payComPageData: {
@@ -645,37 +680,48 @@
         }
       }
     },
- 
+
     mounted() {
       this.getCustomers()
       this.loadDict();
+
+      if (sessionStorage.getItem('paymentCom.payComSearchData') === null) {
+        let queryMonth = new Date();
+        queryMonth.setMonth(queryMonth.getMonth()-1);
+        this.payComSearchData.paymentMonthMin=queryMonth;
+      } else {
+        sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
+        sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
+      }
+
       let paymentId=sessionStorage.getItem("PaymentBatch_paymentId");
       if(paymentId!='null'){
-
         this.payComSearchData.paymentId=paymentId;
-        this.paymentComQuery();
+//        this.paymentComQuery();
         this.payComSearchData.paymentBatchNum=sessionStorage.getItem("PaymentBatch_paymentBatchNum");
         this.payComSearchData.paymentMonthMin=sessionStorage.getItem("PaymentBatch_paymentMonth");
         this.payComSearchData.paymentMonthMax=sessionStorage.getItem("PaymentBatch_paymentMonth");
-        //this.payComSearchData.paymentState=sessionStorage.getItem("PaymentBatch_paymentState");
+        this.payComSearchData.paymentState=sessionStorage.getItem("PaymentBatch_paymentState");
+        this.paymentComQuery();
         sessionStorage.setItem("PaymentBatch_paymentId",null);
         sessionStorage.setItem("PaymentBatch_paymentBatchNum",null);
         sessionStorage.setItem("PaymentBatch_paymentMonth",null);
         sessionStorage.setItem("PaymentBatch_paymentState",null);
         this.payComSearchData.paymentId='';
+
         return;
       }
-     
-      let queryMonth = new Date()
-      queryMonth.setMonth(queryMonth.getMonth()-1);
-      this.payComSearchData.paymentMonthMin=queryMonth;
+
+//      let queryMonth = new Date()
+//      queryMonth.setMonth(queryMonth.getMonth()-1);
+//      this.payComSearchData.paymentMonthMin=queryMonth;
       setTimeout( this.paymentComQuery(),500);
     },
     computed: {
-      
+
     },
     methods: {
-     
+
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
@@ -694,8 +740,6 @@
         dict.getDictData().then(data => {
           if (data.code == 200) {
             this.accountTypeList = data.data.SocialSecurityAccountType;
-            sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
-            sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
            // this.payComSearchData.paymentState=3;
           }
         });
@@ -736,7 +780,7 @@
         if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
           this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
         }
-   
+
         // 处理参数
         var params = {};
         {
@@ -757,9 +801,13 @@
       paymentComQuery() {
         if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
           this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
+        } else if (!this.payComSearchData.paymentMonthMin) {
+          this.payComSearchData.paymentMonthMin = '';
         }
         if (this.payComSearchData.paymentMonthMax && this.payComSearchData.paymentMonthMax.length != 6) {
           this.payComSearchData.paymentMonthMax = this.$utils.formatDate(this.payComSearchData.paymentMonthMax, 'YYYYMM');
+        } else if (!this.payComSearchData.paymentMonthMax) {
+          this.payComSearchData.paymentMonthMax = '';
         }
         // 处理参数
         var params = {};
@@ -769,6 +817,7 @@
           // 清除空字符串
           params = this.$utils.clear(params, '');
         }
+
         let arrayServiceCenter=params.serviceCenterValue;
         if(arrayServiceCenter!=null){
             params=JSON.parse(JSON.stringify(params));
@@ -1105,6 +1154,10 @@
               }
           });
       },
+      beforeLeave() {
+        sessionData.setJsonDataToSession('paymentCom.payComSearchData', this.payComSearchData);
+        sessionData.setJsonDataToSession('paymentCom.payComPageData', this.payComPageData);
+      }
     }
   }
 </script>

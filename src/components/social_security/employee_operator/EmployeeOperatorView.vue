@@ -13,6 +13,9 @@
       <TabPane label="已批退" name="refused">
         <refused v-if="isRefused"></refused>
       </TabPane>
+     <!-- <TabPane label="打印信息" name="printInfo">
+        <print-info v-if="isPrintInfo"></print-info>
+      </TabPane> -->
     </Tabs>
   </div>
 </template>
@@ -21,9 +24,10 @@
   import progressing from './tab/Progressing'//雇员日常操作 -- 处理中
   import finished from './tab/Finished'//雇员日常操作 -- 已完成
   import refused from './tab/Refused'//雇员日常操作 --批退
+  import printInfo from './tab/PrintInfo'//雇员日常操作 --打印信息
 
   export default {
-    components: {noprogress, progressing, finished, refused},
+    components: {noprogress, progressing, finished, refused, printInfo},
     data() {
       return {
         tab: 'noprogress',
@@ -31,7 +35,7 @@
           isProgressing: false,
           isFinished: false,
           isRefused: false,
-
+          isPrintInfo:false
       }
     },
     created() {
@@ -65,6 +69,9 @@
         }
         if(name=="refused"&&!this.isRefused) {
           this.isRefused=true;
+        }
+        if(name=="printInfo"&&!this.isPrintInfo) {
+          this.isPrintInfo=true;
         }
       }
     }

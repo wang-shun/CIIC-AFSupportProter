@@ -71,7 +71,7 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="预留档案类别：">
                 <Select transfer @on-change="changeTypeYuliu" v-model="materialHandleInfo.yuliuDocType">
-                  <Option value="" key="">空</Option>
+                  
                   <Option v-for="item in docTypeList" :value="item.docType" :key="item.docType">
                     {{item.docType}}
                   </Option>
@@ -86,7 +86,7 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案类别：">
                 <Select transfer @on-change="changeTypeNumber" v-model="materialHandleInfo.docType">
-                  <Option value="" key="">空</Option>
+                  
                     <Option v-for="item in yuliuDocTypeList" :value="item.docType" :key="item.docType">
                       {{item.docType}}
                   </Option>
@@ -260,11 +260,12 @@ export default {
         employWay: ""
       },
       employmentFormList: [
+        { value: "", label: "" },
         { value: "1", label: "全日制" },
         { value: "2", label: "非全日制" }
       ],
       handleTypeList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "外来从业人员", label: "外来从业人员" },
         { value: "居住证", label: "居住证" },
         { value: "调档", label: "调档" },
@@ -289,12 +290,12 @@ export default {
         { value: "公司自行保管", label: "公司自行保管" }
       ],
       placeStateList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "无", label: "无" },
         { value: "卡为复印件", label: "卡为复印件" }
       ],
       fileOriginList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "户口所在地调入", label: "户口所在地调入" },
         { value: "市区人才调入", label: "市区人才调入" },
         { value: "单位转出（包括邮寄）", label: "单位转出（包括邮寄）" },
@@ -303,7 +304,7 @@ export default {
         { value: "其他", label: "其他" }
       ],
       filePlaceList: [
-        { value: "", label: "空" },
+        { value: "", label: "" },
         { value: "外来从业人员", label: "外来从业人员" },
         { value: "居住证", label: "居住证" },
         { value: "属地管理", label: "属地管理" },
@@ -331,12 +332,13 @@ export default {
         { value: "翻牌转下一条任务单", label: "翻牌转下一条任务单" }
       ],
       employmentPropertyList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "中智", label: "中智" },
         { value: "外包", label: "外包" },
         { value: "独立", label: "独立" }
       ],
       employFeedbackList: [
+         { value: "", label: "" },
         { value: "3", label: "用工成功" },
         { value: "10", label: "用工已办查无档" },
         { value: "4", label: "用工失败" },
@@ -346,7 +348,7 @@ export default {
         { value: "13", label: "用工已办,前道已中止" }
       ],
       employmentMethodList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "Ukey", label: "Ukey" },
         { value: "集体转入", label: "集体转入" },
         { value: "用工自办", label: "用工自办" },
@@ -361,7 +363,7 @@ export default {
         { value: "外来转入", label: "外来转入" }
       ],
       transferFeedbackList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "已告知本人转档", label: "已告知本人转档" },
         { value: "无档自查", label: "无档自查" },
         { value: "浦东职介代管", label: "浦东职介代管" },
@@ -410,13 +412,21 @@ export default {
     queryDocSeqByDocType(val) {
       api.queryDocSeqByDocType({ type: 1, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.materialHandleInfo,
-            "yuliuDocNum",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.materialHandleInfo.yuliuDocNum =
-            parseInt(data.data.docBo.docSeq) + 1;
+          if(data.data.docBo.docSeq){
+            Vue.set(
+              this.materialHandleInfo,
+              "yuliuDocNum",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.materialHandleInfo.yuliuDocNum =
+              parseInt(data.data.docBo.docSeq) + 1;
+          }else{
+            Vue.set(
+              this.materialHandleInfo,
+              "yuliuDocNum",''
+            );
+            this.materialHandleInfo.yuliuDocNum='';
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }
@@ -434,12 +444,20 @@ export default {
     queryDocSeqByDocType2(val) {
       api.queryDocSeqByDocType({ type: 2, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.materialHandleInfo,
-            "docNum",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.materialHandleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
+          if(data.data.docBo.docSeq){
+            Vue.set(
+              this.materialHandleInfo,
+              "docNum",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.materialHandleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
+          }else{
+            Vue.set(
+              this.materialHandleInfo,
+              "docNum",""
+            );
+            this.materialHandleInfo.docNum = "";
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }
@@ -659,10 +677,14 @@ export default {
       return currentdate;
     },
     changeType(val) {
-       if (val == 11) {
-        this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
-      }else{
+      if (val == 11) {
+          this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
+      }else if(val != ''){
           this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+          this.materialHandleInfo.ukeyBorrowDate = '';
+      }else{
+          this.materialHandleInfo.ukeyBorrowDate = '';
+          this.materialHandleInfo.employFeedbackOptDate ='';
       }
     },
     changeTypeDd(val) {

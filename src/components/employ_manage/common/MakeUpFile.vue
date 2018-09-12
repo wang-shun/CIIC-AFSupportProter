@@ -139,6 +139,7 @@ import api from '../../../api/employ_manage/hire_operator'
           if(this.makeUpFile.budiaoDocDate1==''||this.makeUpFile.budiaoDocDate1==undefined)
           {
              this.makeUpFile.budiaoDocDate1 = this.currentDate();
+             this.makeUpFile.budiaoDocMan1 = JSON.parse(localStorage.getItem('userInfo')).displayName;
           }
         }
       },changeDate(e) {
@@ -148,6 +149,7 @@ import api from '../../../api/employ_manage/hire_operator'
           if(this.makeUpFile.budiaoDocDate2==''||this.makeUpFile.budiaoDocDate2==undefined)
           {
              this.makeUpFile.budiaoDocDate2 = this.currentDate();
+             this.makeUpFile.budiaoDocMan2 = JSON.parse(localStorage.getItem('userInfo')).displayName;
           }
         }
       },changeDate2(e) {

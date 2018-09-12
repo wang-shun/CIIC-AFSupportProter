@@ -9,7 +9,7 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="预留档案类别：">
                 <Select transfer @on-change="changeTypeYuliu" v-model="materialHandleInfo.yuliuDocType">
-                  <Option value="" key="">空</Option>
+                  
                   <Option v-for="item in docTypeList" :value="item.docType" :key="item.docType">
                     {{item.docType}}
                   </Option>
@@ -24,7 +24,7 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="档案类别：">
                 <Select transfer @on-change="changeTypeNumber" v-model="materialHandleInfo.docType">
-                  <Option value="" key="">空</Option>
+                  
                     <Option v-for="item in yuliuDocTypeList" :value="item.docType" :key="item.docType">
                       {{item.docType}}
                   </Option>
@@ -421,7 +421,7 @@ export default {
       ],
      
       companyGroupTransferDirectionList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "公司自行管理", label: "公司自行管理" },
         { value: "外服", label: "外服" },
         { value: "四达", label: "四达" },
@@ -475,13 +475,21 @@ export default {
     queryDocSeqByDocType(val) {
       api.queryDocSeqByDocType({ type: 1, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.materialHandleInfo,
-            "yuliuDocNum",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.materialHandleInfo.yuliuDocNum =
-            parseInt(data.data.docBo.docSeq) + 1;
+          if(data.data.docBo.docSeq){
+            Vue.set(
+              this.materialHandleInfo,
+              "yuliuDocNum",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.materialHandleInfo.yuliuDocNum =
+              parseInt(data.data.docBo.docSeq) + 1;
+          }else{
+            Vue.set(
+              this.materialHandleInfo,
+              "yuliuDocNum",""
+            );
+            this.materialHandleInfo.yuliuDocNum ="";
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }
@@ -499,12 +507,20 @@ export default {
     queryDocSeqByDocType2(val) {
       api.queryDocSeqByDocType({ type: 2, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.materialHandleInfo,
-            "docNum",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.materialHandleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
+          if(data.data.docBo.docSeq){
+            Vue.set(
+              this.materialHandleInfo,
+              "docNum",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.materialHandleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
+          }else{
+            Vue.set(
+              this.materialHandleInfo,
+              "docNum",""
+            );
+            this.materialHandleInfo.docNum = "";
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }
@@ -715,8 +731,12 @@ export default {
     changeType(val) {
       if (val == 11) {
         this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
-      }else{
+      }else if(val != ''){
           this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+          this.materialHandleInfo.ukeyBorrowDate = '';
+      }else{
+          this.materialHandleInfo.ukeyBorrowDate = '';
+          this.materialHandleInfo.employFeedbackOptDate ='';
       }
     },
     changeTypeDd(val) {

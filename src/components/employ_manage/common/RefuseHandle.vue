@@ -71,7 +71,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈：">
-            <Select v-model="refuse.resignFeedback" transfer @on-change="changeEndType">
+            <Select @on-open-change="onOpenChange" v-model="refuse.resignFeedback" transfer @on-change="changeEndType">
               <Option v-for="item in refuseFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -473,6 +473,10 @@
              break;
 
          }
+       },onOpenChange(e){
+         if(e){
+          this.isFrist = false;
+         }
        },changeEndType(val){
 
         var isCon = this.callbackValue(val);
@@ -564,11 +568,6 @@
 
               this.refuse.resignFeedbackDate=currentdate;
           }
-
-          console.info("change start isFrist=" + this.isFrist + " resignFeedBackDate="+this.refuse.oldResignFeedback + " val="+val);
-          if(this.isFrist==true && this.refuse.oldResignFeedback==undefined){
-            this.isFrist = false;
-          }
           if(this.isFrist == false){
             this.refuse.resignFeedbackDate = this.currentDate();
             if(val=="11"){
@@ -577,7 +576,6 @@
             if(this.refuse.oldResignFeedback == '11' && val != "11"){
               this.refuse.ukeyReturnDate = this.currentDate();
             }
-            // add
             if(this.refuse.oldResignFeedback != '11' && val != '11'){
               this.refuse.ukeyBorrowDate = '';
             }
@@ -587,11 +585,6 @@
             if(this.refuse.oldResignFeedback == '11' && val == "11"){
               this.refuse.ukeyReturnDate = '';
             }
-          }
-          console.info("change end isFrist=" + this.isFrist + " resignFeedBackDate="+this.refuse.oldResignFeedback + " val="+val);
-          console.info(this.refuse);
-          if(this.isFrist==true && this.refuse.oldResignFeedback!=undefined && this.refuse.oldResignFeedback!=''){
-            this.isFrist=false;
           }
        },currentDate(){
               var date = new Date();

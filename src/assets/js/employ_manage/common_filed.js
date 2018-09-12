@@ -17,8 +17,8 @@ let em_chooseField = {
   "m.material_name":"材料名称",
   "b.employ_way":"用工方式",
   "e.settlement_area":"缴费区县",
-  "b.employ_property":"用工属性",
-  "b.employ_property":"用工材料批退日期",
+  "a.employ_property":"用工属性",
+  "m.reject_date":"用工材料批退日期",
   "c.doc_num":"档案编号",
   "c.yuliu_doc_num":"预留档案编号",
   "c.archive_place":"存档地",
@@ -44,7 +44,7 @@ let em_resign_chooseField = {
   "a.out_reason":"退工原因",
   "c.doc_num":"档案编号",
   "c.yuliu_doc_num":"预留档案编号",
-  "b.employ_property":"用工属性",
+  "a.employ_property":"用工属性",
   "f.resign_handle_date":"退工送办日期",
   "a.return_doc_date":"退档日期",
   "c.archive_place":"存档地",
@@ -76,7 +76,7 @@ let em_arc_chooseField = {
   "b.employ_operate_man":"用工操作员",
   "b.employ_way":"用工方式",
   "e.settlement_area":"缴费区县",
-  "b.employ_property":"用工属性",
+  "a.employ_property":"用工属性",
   "e.settlement_area":"用工材料批退日期",
   "c.doc_num":"档案编号",
   "c.yuliu_doc_num":"预留档案编号",
@@ -123,7 +123,10 @@ let ukey_chooseField = {
   "u.material_delivery_date":"材料送办日期",
   "u.material_feedback_date":"材料反馈日期",
   "u.company_name":"公司名称",
+  "u.company_id":"公司编号",
   "u.organization_code":"组织机构代码",
+  "u.service_center":"服务中心",
+  "u.team":"team",
   "u.due_date":"到期日期",
   "u.logout_date":"注销日期",
   "u.key_type":"类别",
@@ -131,6 +134,18 @@ let ukey_chooseField = {
   "u.key_pwd":"密码",
   "u.key_seq":"序列号",
   "u.key_fee":"收费标准"
+};
+let advance_chooseField = {
+  "a.status":"状态",
+  "a.reserved_archive_type":"档案类型",
+  "a.reserved_archive_no":"档案编号",
+  "a.employee_name":"雇员姓名",
+  "a.employee_idcard_no":"身份证号",
+  "a.created_time":"入库日期",
+  "a.archive_source":"档案来源",
+  "a.archive_place":"存档地",
+  "a.created_by":"操作人",
+  "a.remark":"备注"
 };
 let em_relationship = {
   "等于": "=",
@@ -143,6 +158,15 @@ let em_relationship = {
   "为空": "is null"
 };
 let ukey_relationship = {
+  "等于": "=",
+  "大于": ">",
+  "大于等于": ">=",
+  "小于": "<",
+  "小于等于": "<=",
+  "类似于": "like",
+  "不等于": "<>"
+};
+let advance_relationship = {
   "等于": "=",
   "大于": ">",
   "大于等于": ">=",
@@ -165,4 +189,4 @@ let customerInfo = {
 
 let batchOperate = ["退材料交付日期", "转移备注", "转移方式", "退工反馈", "退工反馈2", "退档日期", "档案转出方向", "档案转出日期", "手册转出日期", "公司集体转出方向", "网办", "劳动手册是否交被退人员", "已交", "未交", "职介反馈日期", "打印退工单", "UKey外借日期", "UKey返回日期"];
 
-export {ukey_chooseField,ukey_relationship, em_chooseField, em_relationship, em_print, customerInfo, batchOperate,em_resign_chooseField,em_arc_chooseField}
+export {advance_relationship,advance_chooseField,ukey_chooseField,ukey_relationship, em_chooseField, em_relationship, em_print, customerInfo, batchOperate,em_resign_chooseField,em_arc_chooseField}

@@ -332,7 +332,8 @@
           acceptDate: this.openAccount.acceptDate,
           approvalDate: this.openAccount.deliveredDate,
           finishDate: this.openAccount.finishDate,
-          comAccountRemark: this.openAccount.notes,
+          //comAccountRemark: this.openAccount.notes,
+          taskRemark: this.openAccount.notes,
 
         }
       },

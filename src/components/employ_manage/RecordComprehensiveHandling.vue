@@ -112,7 +112,7 @@
         </Radio>
        </RadioGroup>
     </Col>
-    </Row> 
+    </Row>
   </div>
 </template>
 <script>
@@ -309,7 +309,7 @@ export default {
             ]);
           }
         },
-       
+
         {
           title: "退工原因",
           key: "outReason",

@@ -58,7 +58,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="类别：">
-          <Select transfer v-model="uekyFile.keyType" @on-change="changeType" :disabled="(uekyFile.companyId=='')">
+          <Select transfer v-model="uekyFile.keyType" @on-open-change="openChangeType" @on-change="changeType" :disabled="(uekyFile.companyId=='')">
               <Option v-for="item in transferFeedbackList" :value="item.docType" :key="item.docType">{{item.docType}}</Option>
           </Select>
         </Form-item>
@@ -287,39 +287,52 @@ import Vue from 'vue'
         this.renewUkey.keySeq = this.uekyFile.keySeq;
         this.renewUkey.renewId=id;
       },
+      openChangeType(isOpen){
+        this.isFast=false;
+      },
       changeType(val) {
-      if (this.isFast) {
-        this.isFast = false;
+      if(this.isFast){
+        return;
+      }
+          if (val == "") {
+            Vue.set(this.uekyFile, "keyCode", "");
+            return;
+          }
+
+          if (val == this.oldDocType) {
+            //用原有的 number
+            Vue.set(this.uekyFile, "keyCode", this.oldDocNum);
+            return;
+          }
         if (
           this.oldDocType == undefined ||
           this.oldDocType == ""
         ) {
           this.queryDocSeqByDocType(val);
         }
-        return;
-      }
-      if (val == "") {
-        Vue.set(this.uekyFile, "keyCode", "");
-        return;
-      }
 
-      if (val == this.oldDocType) {
-        //用原有的 number
-        Vue.set(this.uekyFile, "keyCode", this.oldDocNum);
-        return;
-      }
+      
       this.queryDocSeqByDocType(val);
     },
     queryDocSeqByDocType(val) {
       api.queryDocSeqByDocType({ type: 3, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.uekyFile,
-            "keyCode",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.uekyFile.keyCode = parseInt(data.data.docBo.docSeq) + 1;
-          this.seqMax1 = data.data.docBo.docSeq;
+          if(data.data.docBo.docSeq){
+            Vue.set(
+              this.uekyFile,
+              "keyCode",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.uekyFile.keyCode = parseInt(data.data.docBo.docSeq) + 1;
+            this.seqMax1 = data.data.docBo.docSeq;
+          }else{
+            Vue.set(
+              this.uekyFile,
+              "keyCode",
+              ''
+            );
+            this.uekyFile.keyCode='';
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }

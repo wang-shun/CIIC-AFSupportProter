@@ -86,7 +86,7 @@ export class CompanyTaskListHF{
                       openAccountInfo.finishDate = i.finishDate
                     }
                     
-                    openAccountInfo.notes = i.comAccountRemark
+                    openAccountInfo.notes = i.taskRemark
                     obj.openAccountInfo = openAccountInfo
 
                     //变更-companyFundAccountInfo传参

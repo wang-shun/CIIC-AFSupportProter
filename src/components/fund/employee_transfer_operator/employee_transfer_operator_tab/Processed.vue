@@ -62,6 +62,21 @@
                   </Select>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="入离职状态：" prop="status">
+                  <Select v-model="searchCondition.status" style="width: 100%;" transfer>
+                    <Option v-for="item in workStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="公积金状态：" prop="archiveTaskStatus">
+                  <Select v-model="searchCondition.archiveTaskStatus" style="width: 100%;" transfer>
+                    <Option value="" key="">全部</Option>
+                    <Option v-for="item in EmpArchiveStatus" :value="item.key" :key="item.key">{{item.value}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -164,8 +179,9 @@
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../../store/event_types'
-import api from '../../../../api/house_fund/employee_task/employee_transfer'
-import sessionData from '../../../../api/session-data'
+  import api from '../../../../api/house_fund/employee_task/employee_transfer'
+  import sessionData from '../../../../api/session-data'
+  import dict from '../../../../api/dict_access/house_fund_dict'
 
   export default {
   data() {
@@ -190,7 +206,14 @@ import sessionData from '../../../../api/session-data'
           hfEmpAccount: '',
           hfAccountType: '',
           taskStatus: '3',
+          status:'',
+          archiveTaskStatus:'',
         },
+        workStatusList: [
+          {label: '全部', value: ''},
+          {label: '在职', value: 2},
+          {label: '离职', value: 3}
+        ],
         feedbackDate: '',
         isCreateTaskTicket: false,
         isShowFeedbackDateBatch: false,
@@ -373,11 +396,19 @@ import sessionData from '../../../../api/session-data'
       }
     },
     mounted() {
-      sessionData.getJsonDataFromSession('transfer.processed.searchCondition', this.searchCondition);
-      sessionData.getJsonDataFromSession('transfer.processed.pageData', this.pageData);
+      dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.EmpArchiveStatus = data.data.EmpArchiveStatus;
+          sessionData.getJsonDataFromSession('transfer.processed.searchCondition', this.searchCondition);
+          sessionData.getJsonDataFromSession('transfer.processed.pageData', this.pageData);
+        } else {
+          this.$Message.error(data.message);
+        }
+      })
       let params = this.searchCondition
       this.queryTransfer(params);
       this.getCustomers();
+  
     },
     computed: {
       ...mapState('tProcessed',{
@@ -420,13 +451,15 @@ import sessionData from '../../../../api/session-data'
         this.queryTransfer(params);
       },
       dbClickHandleData(row, index){
+        console.log(this.searchCondition)
         sessionData.setJsonDataToSession('transfer.processed.searchCondition', this.searchCondition);
         sessionData.setJsonDataToSession('transfer.processed.pageData', this.pageData);
         let employeeId=row.employeeId;
         let companyId=row.companyId;
         let hfType=row.hfType;
         let empTaskId=row.empTaskId;
-        this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId}});
+        let empArchiveId=row.empArchiveId;
+        this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId,empArchiveId:empArchiveId}});
       },
       getCustomers(){
         let params = null;
@@ -499,21 +532,44 @@ import sessionData from '../../../../api/session-data'
         this.resetSelectedData(selection);
       },
       batchUpdateFeedbackDate() {
-        if (this.selectedData.length == 0) {
-          this.$Message.error("请先勾选需要更新回单日期的任务");
-          return false;
-        }
         if (!this.feedbackDate) {
           this.$Message.error("请设置回单日期");
           return false;
         }
         this.feedbackDate = this.$utils.formatDate(this.feedbackDate, "YYYY-MM-DD");
-        api.batchUpdateFeedbackDate({
-          feedbackDate: this.feedbackDate,
-          selectedData: this.selectedData
-        }).then(data => {
+        let params={
+            feedbackDate: this.feedbackDate,
+            selectedData: this.selectedData,
+            empTaskTransferBo: this.searchCondition
+        }
+        let self = this;
+        if (this.selectedData.length == 0) {
+           self.$Modal.confirm({
+              title: "",
+              content: "您当前没有选择记录，系统默认根据现有的查询条件查询到的结果全部覆盖更新回单日期，您确认操作吗?",
+              onOk: function() {
+                  self.batchUpdateFeedbackDateAction(params);
+              },
+              error: function(error) {
+                this.$Modal.remove();
+              }
+         });
+        }else{
+          self.batchUpdateFeedbackDateAction(params);
+        }
+      },
+      batchUpdateFeedbackDateAction(params) {
+        let params1=params.empTaskTransferBo;
+        let arrayServiceCenter=params1.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+          params1=JSON.parse(JSON.stringify(params1));
+          delete params1.serviceCenterValue;
+          params1.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
+        params.empTaskTransferBo=params1;
+        api.batchUpdateFeedbackDate(params).then(data => {
           if (data.code == 200) {
-            this.$Message.info("更新回单日期操作成功");
+            this.$Message.success("更新回单日期操作成功");
             this.isShowFeedbackDateBatch = false;
             this.handlePageNum(1);
             this.selectedData.length = 0;
@@ -524,7 +580,6 @@ import sessionData from '../../../../api/session-data'
       },
       beforeUpload(file) {
         let loading = document.getElementById("loading");
-
         loading.style.display = "inline-block";
         this.uploadFileList.length = 0;
         this.uploadData.file = file;

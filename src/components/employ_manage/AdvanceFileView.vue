@@ -48,13 +48,18 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="操作人：">
+                <Form-item label="退回寄出地日期：">
+                  <label>{{$route.query.exitThePlaceDate}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="档案操作人：">
                   <label>{{$route.query.createdBy}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="退回寄出地日期：">
-                  <label>{{$route.query.exitThePlaceDate}}</label>
+                <Form-item label="档案操作时间：">
+                  <label>{{$route.query.createdTime}}</label>
                 </Form-item>
               </Col>
             </Row>

@@ -22,6 +22,19 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="printLabel">打印贴头</Button>
         <!--<Button type="info" @click="printReturnList">批量打印退工单</Button>-->
+        <Dropdown @on-click="exportTable" transfer>
+          <Button type="info">
+            生成导出文件
+            <Icon type="arrow-down-b"></Icon>
+          </Button>
+          <DropdownMenu slot="list">
+            <DropdownItem name="1">用工录用名册</DropdownItem>
+            <DropdownItem name="2">派遣录用名册</DropdownItem>
+            <DropdownItem name="3">外来独立</DropdownItem>
+            <DropdownItem name="4">外来派遣</DropdownItem>
+            <DropdownItem name="5">采集表汇总表</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
         <Button type="info" @click="showXslConsole();">档案配对</Button>
         <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
@@ -99,7 +112,7 @@
         </Radio>
        </RadioGroup>
     </Col>
-    </Row> 
+    </Row>
   </div>
 </template>
 <script>
@@ -296,7 +309,7 @@ export default {
             ]);
           }
         },
-       
+
         {
           title: "退工原因",
           key: "outReason",
@@ -514,6 +527,35 @@ export default {
     },
     impTemplate() {
       api.impTemplateFile({});
+    },
+    //生成导出文件
+    exportTable(name) {
+      this.searchCondition.params = this.searchConditions.toString();
+
+      switch (parseInt(name)) {
+        case 1:
+          // 用工录用名册
+          api.archiveEmploySearchExportOptUseWord(this.searchCondition);
+          break;
+        case 2:
+          // 派遣录用名册
+          api.archiveSearchExportOptDispatchWord(this.searchCondition);
+          break;
+        case 3:
+          // 外来独立
+          api.archiveSearchExportOptAlonehWord(this.searchCondition);
+          break;
+        case 4:
+          // 外来派遣
+          api.archiveSearchExportOptExtDispatchWord(this.searchCondition);
+          break;
+        case 5:
+          // 采集表 汇总表
+          api.archiveSearchExportOptExtCollectWord(this.searchCondition);
+          break;
+        default:
+          break;
+      }
     },
     impOk() {
       if (this.upLoadData.file == null || this.upLoadData.file == "") {

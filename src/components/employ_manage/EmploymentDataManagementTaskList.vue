@@ -78,10 +78,6 @@
             <span>用工成功</span>
             <span>{{RadioData.employSuccess}}</span>
         </Radio>
-        <!-- <Radio label="10">
-            <span>用工已办查无档</span>
-            <span>{{RadioData.noRecord}}</span>
-        </Radio> -->
         <Radio label="4">
             <span>用工失败</span>
              <span>{{RadioData.employFailed}}</span>
@@ -144,7 +140,7 @@ export default {
       RadioData: {
         noSign: "",
         employSuccess: "",
-        noRecord: "",
+        noRecord: ""
       },
       pageData: {
         total: 0,
@@ -178,11 +174,11 @@ export default {
               h("Checkbox", {
                 props: { value: params.row.checked },
                 style: { margin: "0 auto 0 0px" },
-                 on: {
-                  'on-change': (e) => {
+                on: {
+                  "on-change": e => {
                     params.row.checked = e;
-                    this.$set(this.employmentData[params.index], 'checked', e);
-                    console.log(this.employmentData[params.index])
+                    this.$set(this.employmentData[params.index], "checked", e);
+                    console.log(this.employmentData[params.index]);
                   }
                 }
               })
@@ -428,10 +424,9 @@ export default {
       var arrTmp = this.employmentData;
 
       for (let value of arrTmp) {
-         if(value.checked)
-         {
-            empTaskIds.push(value.empTaskId);
-         }
+        if (value.checked) {
+          empTaskIds.push(value.empTaskId);
+        }
       }
 
       if (empTaskIds.length == 0) {
@@ -956,26 +951,21 @@ export default {
       });
     },
     handleSelectAll(status) {
-      
       var arrTmp = this.employmentData;
 
       for (let value of arrTmp) {
-        
         value.checked = true;
       }
-
-      // for (var i = 0; i < arrTmp.length; i++) {
-      //   arrTmp[i].checked = true;
-      // }
-    },otherSelectAll(){
+    },
+    otherSelectAll() {
       var arrTmp = this.employmentData;
 
       for (let value of arrTmp) {
-         if(value.checked){
-             value.checked = false;
-         }else{
-            value.checked = true;
-         }
+        if (value.checked) {
+          value.checked = false;
+        } else {
+          value.checked = true;
+        }
       }
     }
   },

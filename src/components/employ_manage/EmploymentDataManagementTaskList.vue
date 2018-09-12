@@ -44,7 +44,9 @@
     </Row>
     <Row class="mt14" type="flex" justify="start">
       <Col :sm="{span: 20}" class="tr">
-        <Table border id="employList" height="390" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt14"></Table>
+        <Table border id="employList" height="390" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" @on-sort-change="SortChange"  class="mt14"></Table>
+        <Button @click="handleSelectAll(false)">全选</Button>
+        <Button @click="otherSelectAll(false)">反选</Button>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -76,10 +78,6 @@
             <span>用工成功</span>
             <span>{{RadioData.employSuccess}}</span>
         </Radio>
-        <!-- <Radio label="10">
-            <span>用工已办查无档</span>
-            <span>{{RadioData.noRecord}}</span>
-        </Radio> -->
         <Radio label="4">
             <span>用工失败</span>
              <span>{{RadioData.employFailed}}</span>
@@ -142,7 +140,7 @@ export default {
       RadioData: {
         noSign: "",
         employSuccess: "",
-        noRecord: "",
+        noRecord: ""
       },
       pageData: {
         total: 0,
@@ -166,7 +164,27 @@ export default {
       printList: em_print,
       // 下半部分
       employmentColumns: [
-        { title: "", type: "selection", width: 60 },
+        {
+          title: "",
+          key: "_checkbox",
+          align: "center",
+          width: 50,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "center" } }, [
+              h("Checkbox", {
+                props: { value: params.row.checked },
+                style: { margin: "0 auto 0 0px" },
+                on: {
+                  "on-change": e => {
+                    params.row.checked = e;
+                    this.$set(this.employmentData[params.index], "checked", e);
+                    console.log(this.employmentData[params.index]);
+                  }
+                }
+              })
+            ]);
+          }
+        },
         {
           title: "用工方式",
           key: "employWay",
@@ -402,16 +420,19 @@ export default {
       return "";
     },
     batchManagement() {
-      let selection = this.$refs.employmentData.getSelection();
-      if (selection.length == 0) {
-        alert("没有选中的列");
-        return;
+      let empTaskIds = [];
+      var arrTmp = this.employmentData;
+
+      for (let value of arrTmp) {
+        if (value.checked) {
+          empTaskIds.push(value.empTaskId);
+        }
       }
 
-      let empTaskIds = [];
-      selection.forEach(item => {
-        empTaskIds.push(item.empTaskId);
-      });
+      if (empTaskIds.length == 0) {
+        this.$Message.error("没有选中的列");
+        return;
+      }
 
       var fromData = {};
       fromData.empTaskIds = empTaskIds;
@@ -928,6 +949,24 @@ export default {
           }
         }
       });
+    },
+    handleSelectAll(status) {
+      var arrTmp = this.employmentData;
+
+      for (let value of arrTmp) {
+        value.checked = true;
+      }
+    },
+    otherSelectAll() {
+      var arrTmp = this.employmentData;
+
+      for (let value of arrTmp) {
+        if (value.checked) {
+          value.checked = false;
+        } else {
+          value.checked = true;
+        }
+      }
     }
   },
   computed: {}

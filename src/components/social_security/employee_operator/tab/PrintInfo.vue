@@ -20,12 +20,12 @@
 
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客户编号" prop="companyId">
-                 <input-company v-model="queryForm.companyId"></input-company>
+                 <input-company v-model="queryForm1.companyId"></input-company>
               </FormItem>
               </Col> 
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员编号：" prop="employeeId">
-                <Input placeholder="请输入" v-model.trim="queryForm.employeeId" :maxlength="20"></Input>
+                <Input placeholder="请输入" v-model.trim="queryForm1.employeeId" :maxlength="20"></Input>
               </Form-item>
               </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -62,32 +62,34 @@
             <Row justify="start">
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="企业社保登记码" prop="comAccount">
-                <Input placeholder="请输入" v-model.trim="queryForm.comAccount" :maxlength="20"></Input>
+            
+                <input-account v-model="queryForm2.ssAccount" @listenToChildEvent="listenToChild"></input-account>
               </FormItem>
+
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员社保序号起" prop="ssSerialStart">
-                <Input placeholder="请输入" v-model.trim="queryForm.ssSerialStart" :maxlength="20"></Input>
+              <FormItem label="雇员社保序号起" prop="ssSerialBegin">
+                <Input placeholder="请输入" v-model.trim="queryForm2.ssSerialBegin" :maxlength="20"></Input>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="雇员社保序号止" prop="ssSerialEnd">
-                <Input placeholder="请输入" v-model.trim="queryForm.ssSerialEnd" :maxlength="20"></Input>
+                <Input placeholder="请输入" v-model.trim="queryForm2.ssSerialEnd" :maxlength="20"></Input>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="客户编号" prop="companyId">
-                <Input placeholder="请输入" v-model.trim="queryForm.companyId" :maxlength="20"></Input>
+                 <input-company v-model="queryForm2.companyId"></input-company>
               </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="雇员编号：" prop="employeeId">
-                <Input placeholder="请输入" v-model.trim="queryForm.employeeId" :maxlength="20"></Input>
+                <Input placeholder="请输入" v-model.trim="queryForm2.employeeId" :maxlength="20"></Input>
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保状态：" prop="socialSecurityStatus">
-                 <Select v-model="queryForm.archiveTaskStatus" style="width: 100%;" transfer>
+                 <Select v-model="queryForm2.archiveTaskStatus" style="width: 100%;" transfer>
                     <Option v-for="item in sSecurityStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
               </Form-item>
@@ -110,15 +112,17 @@
   import api from '../../../../api/social_security/employee_operator'
   import dict from '../../../../api/dict_access/social_security_dict'
   import InputCompany from '../../../common_control/form/input_company'
+  import InputAccount from '../../../common_control/form/input_account'
 
   export default {
+    components: {InputAccount,InputCompany},
     data() {
       return {
         changeContentList: [],
         socialSecurityStatusList: [],
         operatorList: [],
-        queryForm: {
-        },
+        queryForm1: {},
+        queryForm2: {},
         collapseInfo: [1, 2],
         sSecurityStateList: [ //1-已办  2-已做 3-转出
           {value: '', label: '全部'},
@@ -133,10 +137,22 @@
     },
     methods: {
       exportRegisterForm() {
-        api.exportRegisterForm(this.queryForm)
+        if(this.queryForm1.companyId==null || this.queryForm1.companyId==''){
+            this.$Message.info('请选择客户编号');
+            return false;
+        }
+        if(this.queryForm1.employeeId==null || this.queryForm1.employeeId==''){
+            this.$Message.info('请输入雇员编号');
+            return false;
+        }
+        api.exportRegisterForm(this.queryForm1)
       },
       exportChangeDeclarationForm() {
-        api.exportChangeDeclarationForm(this.queryForm)
+        if(this.queryForm2.ssAccount==null || this.queryForm2.ssAccount==''){
+            this.$Message.info('请选择企业社保登记码');
+            return false;
+        }
+        api.exportChangeDeclarationForm(this.queryForm2)
       },
       loadDict(){
         dict.getDictData().then(data => {

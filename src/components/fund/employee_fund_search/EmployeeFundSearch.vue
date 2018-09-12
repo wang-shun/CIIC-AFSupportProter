@@ -52,7 +52,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="上下岗状态：" prop="empStatus">
+                <Form-item label="入离职状态：" prop="empStatus">
                   <Select v-model="searchCondition.empStatus" style="width: 100%;" transfer>
                     <Option v-for="item in workStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>

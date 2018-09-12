@@ -126,7 +126,76 @@
           </Form>
         </div>
       </Panel>
+       <Panel name="3">
+        雇员基本公积金信息
+        <div slot="content">
+          <Form :label-width='150'>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="基本公积金账号：">
+                  <label>{{viewEmpArchive.hfEmpAccount}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
+                <Form-item label="基本公积金状态：">
+                  <label>{{this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatus)}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="前道缴纳至月份：">
+                  <label>{{viewEmpArchive.taskEndMonth}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转入实际年月：">
+                  <label>{{viewEmpArchive.startMonth}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转出实际年月：">
+                  <label>{{viewEmpArchive.endMonth}}</label>
+                </Form-item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
       <Panel name="4">
+        雇员补充公积金信息
+        <div slot="content">
+           <Form :label-width='150'>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
+                <Form-item label="补充公积金账号：">
+                  <label>{{viewEmpArchive.hfEmpAccountBc}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
+                <Form-item label="补充公积金状态：">
+                  <label>{{this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatusBc)}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="前道缴纳至月份：">
+                  <label>{{viewEmpArchive.taskEndMonthBC}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转入实际年月：">
+                  <label>{{viewEmpArchive.startMonthBc}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转出实际年月：">
+                  <label>{{viewEmpArchive.endMonthBc}}</label>
+                </Form-item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+
+      <Panel name="5">
         转移操作
         <div slot="content">
           <Form :label-width=150 v-model="transferNotice">
@@ -140,13 +209,11 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务：" prop="taskCategory">
-
                   {{this.$decode.hf_taskCategory(transferNotice.taskCategory) }}
                 </Form-item>
               </Col>
             </Row>
             <Row>
-
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转出单位：" prop="transferOutUnit">
                   <Select v-model="transferNotice.transferOutUnit"
@@ -168,7 +235,6 @@
               </Col>
             </Row>
             <Row>
-
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转入单位："  prop="transferInUnit">
                   <Select 
@@ -208,11 +274,6 @@
                   {{transferNotice.operateDate}}
                 </Form-item>
               </Col>
-              <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="打印日期：">
-                  {{transferNotice.printDate}}
-                </Form-item>
-              </Col> -->
             </Row>
             <Row>
               <Col :sm="{span: 16}">
@@ -241,12 +302,14 @@
   //import EventType from '../../../store/event_types'
   import api from '../../../api/house_fund/employee_task/employee_transfer'
   import dict from '../../../api/dict_access/house_fund_dict'
+  import hfQueryApi from '../../../api/house_fund/employee_operator'
   export default {
     data() {
       return {
         currentStep: 2,
-        collapseInfo: [1, 2, 3, 4], //展开栏
+        collapseInfo: [1, 2, 3, 4, 5], //展开栏
         loading: false,
+        viewEmpArchive:{},
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -300,7 +363,14 @@
     },
     mounted() {
       this.initData();
- 
+
+      let params = {empArchiveId:this.$route.query.empArchiveId,
+                    companyId:this.$route.query.companyId,
+                    employeeId:this.$route.query.employeeId,
+                    };
+      hfQueryApi.employeeDetailInfoQuery(params).then(data=>{
+          this.viewEmpArchive=data.data.viewEmpArchive
+      });
      
     },
     computed: {
@@ -310,11 +380,11 @@
         this.$router.push({name: 'employeeFundSpecialProgressThree'});
       },
     initData(){
-        let params = {employeeId:this.$route.query.employeeId,
-                      companyId:this.$route.query.companyId,
-                      hfType:this.$route.query.hfType,
-                      empTaskId:this.$route.query.empTaskId,
-                      };
+          let params = {employeeId:this.$route.query.employeeId,
+                        companyId:this.$route.query.companyId,
+                        hfType:this.$route.query.hfType,
+                        empTaskId:this.$route.query.empTaskId,
+                        };
           api.queryComEmpTransferForm(params).then(data => {
           if (data.code == 200) {
             this.displayVO = data.data;

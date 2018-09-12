@@ -67,6 +67,23 @@
                   </Select>
                 </Form-item>
               </Col>
+
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="入离职状态：" prop="status">
+                  <Select v-model="searchCondition.status" style="width: 100%;" transfer>
+                    <Option v-for="item in workStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="公积金状态：" prop="archiveTaskStatus">
+                  <Select v-model="searchCondition.archiveTaskStatus" style="width: 100%;" transfer>
+                    <Option value="" key="">全部</Option>
+                    <Option v-for="item in EmpArchiveStatus" :value="item.key" :key="item.key">{{item.value}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -149,7 +166,7 @@
           <Col :sm="{span: 12}">
             <Form-item label="入离职状态：" prop="status">
               <Select v-model="createTask.searchCondition.status" style="width: 100%;" transfer>
-                <Option v-for="item in createTask.workStatueList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Option v-for="item in createTask.workStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
               </Select>
             </Form-item>
           </Col>
@@ -191,6 +208,7 @@
   import api from '../../../../api/house_fund/employee_task/employee_transfer'
   import sessionData from '../../../../api/session-data'
   import commonApi from '../../../../api/house_fund/common/common'
+  import dict from '../../../../api/dict_access/house_fund_dict'
 
   export default {
     data() {
@@ -215,6 +233,8 @@
           hfEmpAccount: '',
           hfAccountType: '',
           taskStatus: '1',
+          status:'',
+          archiveTaskStatus:'',
         },
         isCreateTaskTicket: false,
         pageDataNewTask: {
@@ -223,6 +243,12 @@
           pageSize: this.$utils.DEFAULT_PAGE_SIZE,
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
+        workStatusList: [
+            {label: '全部', value: ''},
+            {label: '在职', value: 2},
+            {label: '离职', value: 3}
+        ],
+        EmpArchiveStatus:[],
         createTask: {
           searchCondition: {
             employeeId: '',
@@ -233,7 +259,7 @@
             status: '',
             hfType:'',
           },
-          workStatueList: [
+          workStatusList: [
             {label: '全部', value: ''},
             {label: '在职', value: 2},
             {label: '离职', value: 3}
@@ -433,11 +459,22 @@
       }
     },
     mounted() {
-      sessionData.getJsonDataFromSession('transfer.noprocess.searchCondition', this.searchCondition);
-      sessionData.getJsonDataFromSession('transfer.noprocess.pageData', this.pageData);
+        dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.EmpArchiveStatus = data.data.EmpArchiveStatus;
+          sessionData.getJsonDataFromSession('transfer.noprocess.searchCondition', this.searchCondition);
+          sessionData.getJsonDataFromSession('transfer.noprocess.pageData', this.pageData);
+        } else {
+          this.$Message.error(data.message);
+        }
+      })
+
       let params = this.searchCondition
       this.queryTransfer(params);
       this.getCustomers();
+
+    
+
     },
     computed: {
       ...mapState('tNoProcess',{
@@ -483,7 +520,8 @@
         let companyId=row.companyId;
         let hfType=row.hfType;
         let empTaskId=row.empTaskId;
-        this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId}});
+        let empArchiveId=row.empArchiveId;
+        this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId,empArchiveId:empArchiveId}});
       },
       getCustomers(){
         let params = null;

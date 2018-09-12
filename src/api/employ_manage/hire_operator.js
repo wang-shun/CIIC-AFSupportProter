@@ -137,20 +137,35 @@ export default {
   employSearchExportOptUseWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptUseWord', params);
   },
+  archiveEmploySearchExportOptUseWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptUseWord', params);
+  },
   employSearchExportOptDispatchWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptDispatchWord', params);
+  },
+  archiveSearchExportOptDispatchWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptDispatchWord', params);
   },
   employSearchExportOptAlonehWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptAlonehWord', params);
   },
+  archiveSearchExportOptAlonehWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptAlonehWord', params);
+  },
   employSearchExportOptExtDispatchWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtDispatchWord', params);
+  },
+  archiveSearchExportOptExtDispatchWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptExtDispatchWord', params);
   },
   archiveSearchExportReturnList:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturnList', params);
   },//批量打印退工单
   employSearchExportOptExtCollectWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtCollectWord', params);
+  },
+  archiveSearchExportOptExtCollectWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptExtCollectWord', params);
   },
   resignSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amResignTask/resignSearchExportOpt', params);

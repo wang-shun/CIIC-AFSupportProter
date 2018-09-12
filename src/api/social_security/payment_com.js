@@ -49,5 +49,9 @@ export default {
     let response = await AJAX.post('/api/soccommandservice/ssPayment/getLastMonth', params);
     return await response.data;
   },
+  updatePaymentCom: async(params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssPaymentCom/updatePaymentCom', params);
+    return await response.data;
+  }
 }
 

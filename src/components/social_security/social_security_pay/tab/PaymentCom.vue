@@ -94,15 +94,16 @@
         <Row class="mt20">
             <Col :sm="{span:24}">
                 <Table stripe
-                    border ref="payComSelection"
+                    border id="payComTable" ref="payComSelection"
                     :columns="payComColumns"
-                    :data="payComData"
+                    :data="payComData" :loading="isLoading" @on-sort-change="sortChange"
                     >
                 </Table>
                 <Page
                     class="pageSize"
                     @on-change="payComHandlePageNum"
                     @on-page-size-change="payComHandlePageSite"
+
                     :total="payComPageData.total"
                     :page-size="payComPageData.pageSize"
                     :page-size-opts="payComPageData.pageSizeOpts"
@@ -189,7 +190,7 @@
             </Form-item>
           </Col>
           <Col :sm="{span: 24}">
-            <Form-item label="申请支付金额合计：">
+            <Form-item label="应缴纳金额合计：">
               <label>{{changeInfo.totalPayAmount}}</label>
             </Form-item>
           </Col>
@@ -221,6 +222,8 @@
   import dict from '../../../../api/dict_access/social_security_dict'
   import sessionData from '../../../../api/session-data'
   import payBatchApi from '../../../../api/social_security/payment_batch'
+  import tableStyle from '../../../../api/table_style'
+
   const progressStop = 33.3;
 
   export default {
@@ -243,8 +246,10 @@
           comAccountId: '',
           ssAccount:'',
           paymentBatchNum:'',
-          ifCheck: false
+          ifCheck: false,
+          orderParams: ''
         },
+        orderConditions: [],
         staticPayComSearchData: {
           paymentStateList: [
             //{value: '', label: '清空'},
@@ -262,6 +267,7 @@
         },
         isShowCustomerName: false,
         isShowProgress: false,
+        isLoading: false,
         progressStop: progressStop,
         steps: [
           {isOver: 1, title: '创建支付', author: '迎曦', date: '2016-12-12 12:32', action: {name: '', action: ''}},
@@ -318,7 +324,7 @@
                 ]);
               }
             },
-            {title: '账户/客户总数', key: 'paymentMonth', width: 120, align: 'center',
+            {title: '账户/客户总数', key: 'totalAccount', width: 120, align: 'center',
               render: (h, params) => {
                 let totalAccount = params.row.totalAccount;
                 let totalCom = params.row.totalCom;
@@ -379,8 +385,6 @@
           ],
           payBatchData:[],
           paymentComIdList:[],
-
-
         },
         //从批次移除功能数据结构
         delBatchData:{
@@ -427,7 +431,7 @@
         },
 
         payComColumns: [
-          {title: '', key: 'id', width: 55, fixed: 'left', type: 'selection'},
+          {title: '', key: 'id', width: 55, align: 'center', fixed: 'left', type: 'selection'},
           {title: '出账批次号', key: 'paymentBatchNum', width: 140, align: 'center',fixed: 'left',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
@@ -465,14 +469,14 @@
               ]);
             }
           },
-          {title: '应缴纳金额', key: 'oughtAmount', width: 120, align: 'center',
+          {title: '应缴纳金额', key: 'oughtExtraAmount', width: 120, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.oughtAmount),
+                h('span', params.row.oughtExtraAmount),
               ]);
             }
           },
-          {title: '申请支付总金额', key: 'totalPayAmount', width: 140, align: 'center',
+          {title: '申请支付总金额', key: 'totalPayAmount', width: 125, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
 //                h('span', params.row.totalPayAmount),
@@ -495,11 +499,35 @@
                             this.$Message.error("申请支付总金额输入有误");
                             return false;
                           }
-                        } else {
-                          params.row.totalPayAmount = totalPayAmount;
                         }
-                        params.row.paymentBalance = params.row.oughtAmount - params.row.totalPayAmount;
+                        params.row.totalPayAmount = totalPayAmount;
+                        params.row.paymentBalance = parseFloat(params.row.oughtExtraAmount - params.row.totalPayAmount).toFixed(2);
+                        let ele = document.getElementsByName('paymentBalance')[params.index];
+                        if (ele) {
+                          ele.innerText = params.row.paymentBalance;
+                        }
 
+                        payComApi.updatePaymentCom({
+                          paymentComId: params.row.paymentComId,
+                          totalPayAmount: params.row.totalPayAmount,
+                          paymentBalance: params.row.paymentBalance
+                        }).then(
+                          data => {
+                            if (data.code === 200) {
+                              this.$Message.info("申请支付总额更新成功");
+                              let size = document.getElementsByName('totalPayAmount').length / 2;
+                              let curEle = document.getElementsByName('totalPayAmount')[params.index];
+                              let nextEle = document.getElementsByName('totalPayAmount')[params.index + 1];
+                              if (nextEle && size > params.index + 1) {
+                                nextEle.focus();
+                              } else if (curEle) {
+                                curEle.blur();
+                              }
+                            } else {
+                              this.$Message.error(data.message);
+                            }
+                          }
+                        )
                       }
                     }
                   }
@@ -507,10 +535,10 @@
               ]);
             }
           },
-          {title: '差额', key: 'paymentBalance', width: 70, align: 'center',
+          {title: '差额', key: 'paymentBalance', width: 100, align: 'center', sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
-                h('span', params.row.paymentBalance),
+                h('span', {attrs: {name: 'paymentBalance'}}, (params.row.paymentBalance)?params.row.paymentBalance:'0.0'),
               ]);
             }
           },
@@ -530,10 +558,10 @@
                         let adjustDeducted = params.row.adjustDeducted;
                         let ifDeductedIntoPay = params.row.ifDeductedIntoPay;
                         let extraAmount = params.row.extraAmount;
-                        let totalPayAmount = params.row.totalPayAmount;
+                        let oughtExtraAmount = params.row.oughtExtraAmount;
                         let remark = params.row.remark;
                         let paymentState = params.row.paymentState;
-                        this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState)
+                        this.doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,oughtExtraAmount,remark,paymentState)
                       }
                     }
                   }, '调整'));
@@ -680,10 +708,40 @@
         }
       }
     },
+    created() {
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+      this.payComColumns.filter((e) => {
+        if(storeOrder==null)
+        {
 
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(var index in storeOrder)
+            {
+              var orders = storeOrder[index].split(' ');
+              if(e.key === 'paymentBalance' && storeOrder[index].indexOf('payment_balance')!=-1) {
+                e.sortType = orders[1];
+              }
+            }
+          }
+        }
+
+      })
+    },
     mounted() {
       this.getCustomers()
       this.loadDict();
+
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+//      this.changeSortClass(storeOrder);
+      if(storeOrder===null){
+
+      }else{
+        this.orderConditions = storeOrder;
+      }
 
       if (sessionStorage.getItem('paymentCom.payComSearchData') === null) {
         let queryMonth = new Date();
@@ -695,7 +753,7 @@
       }
 
       let paymentId=sessionStorage.getItem("PaymentBatch_paymentId");
-      if(paymentId!='null'){
+      if(paymentId!=null && paymentId!='null'){
         this.payComSearchData.paymentId=paymentId;
 //        this.paymentComQuery();
         this.payComSearchData.paymentBatchNum=sessionStorage.getItem("PaymentBatch_paymentBatchNum");
@@ -711,7 +769,6 @@
 
         return;
       }
-
 //      let queryMonth = new Date()
 //      queryMonth.setMonth(queryMonth.getMonth()-1);
 //      this.payComSearchData.paymentMonthMin=queryMonth;
@@ -799,6 +856,11 @@
         payComApi.paymentComQueryExport(params)
       },
       paymentComQuery() {
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
+
         if (this.payComSearchData.paymentMonthMin && this.payComSearchData.paymentMonthMin.length != 6) {
           this.payComSearchData.paymentMonthMin = this.$utils.formatDate(this.payComSearchData.paymentMonthMin, 'YYYYMM');
         } else if (!this.payComSearchData.paymentMonthMin) {
@@ -832,6 +894,8 @@
         }).then(data => {
           this.payComData = data.data;
           this.payComPageData.total = data.total;
+          this.isLoading = false;
+          this.changeSortClass(this.orderConditions);
         })
 
       },
@@ -850,7 +914,7 @@
         return paymentStateMap.get(paymentState);
       },
       //调整按钮弹出框
-      doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,totalPayAmount,remark,paymentState){
+      doAdjustment(paymentComId,oughtAmount,refundDeducted,adjustDeducted,ifDeductedIntoPay,extraAmount,oughtExtraAmount,remark,paymentState){
         //基本数据填充数据填充
         this.changeInfo.paymentComId = paymentComId;
         // if(ifDeductedIntoPay == 0){
@@ -860,7 +924,7 @@
         // }
         this.changeInfo.ifDeductedIntoPay = ifDeductedIntoPay;
         this.changeInfo.extraAmount = extraAmount;
-        this.changeInfo.totalPayAmount = totalPayAmount;
+        this.changeInfo.totalPayAmount = oughtExtraAmount;
 
         this.changeInfo.remark = remark;
         this.changeInfo.changeData = [
@@ -971,8 +1035,6 @@
             this.$Message.info("已有出账批次的数据不可以再加入批次");
             return;
         }
-
-
 
         //判断选中列是否都是同一个社保账户分类
         let ssAccountType = selection[0].ssAccountType;
@@ -1157,7 +1219,82 @@
       beforeLeave() {
         sessionData.setJsonDataToSession('paymentCom.payComSearchData', this.payComSearchData);
         sessionData.setJsonDataToSession('paymentCom.payComPageData', this.payComPageData);
-      }
+      },
+      sortChange(e){
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+        var dx ='';
+        if (e.key === 'paymentBalance') {
+          dx = 'SPC.payment_balance';
+        }
+        const searchConditionExec = `${dx} ${e.order} `;
+        if(storeOrder===null){
+
+        }else{
+          this.orderConditions = storeOrder;
+        }
+        var isE = false;
+        if(this.orderConditions.length>0)
+        {
+          for(let index in this.orderConditions)
+          {
+            if(this.orderConditions[index].indexOf(dx)!== -1 && e.order==='normal')
+            {  //如果是取消，则删除条件
+              this.orderConditions.splice(index,1);
+              isE = true;
+            }else if(this.orderConditions[index].indexOf(dx)!== -1 && this.orderConditions[index].indexOf(e.order)=== -1 ) {
+              //如果是切换查询顺序
+              this.orderConditions.splice(index,1);
+              this.orderConditions.push(searchConditionExec);
+              isE = true;
+            }else if(this.orderConditions[index]===searchConditionExec){
+              this.orderConditions.splice(index,1);
+            }
+
+          }
+
+          if(!isE)
+          {
+            this.orderConditions.push(searchConditionExec);
+          }
+
+        }else{
+          this.orderConditions.push(searchConditionExec);
+        }
+
+        sessionStorage.setItem('paymentComOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+
+        if(this.orderConditions.length>0)
+        {
+          this.payComSearchData.orderParams = this.orderConditions.join(',');
+        } else {
+          this.payComSearchData.orderParams = '';
+        }
+        this.paymentComQuery();
+      },
+
+      changeSortClass(storeOrder) {
+        this.payComColumns.forEach((e, idx) => {
+          let order = 'normal'
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+                if(e.key === 'paymentBalance' && storeOrder[index].indexOf('payment_balance')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+              }
+            }
+          }
+          tableStyle.changeSortElementClass('payComTable', idx, order)
+        });
+      },
     }
   }
 </script>

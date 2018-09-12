@@ -661,10 +661,14 @@ export default {
       return currentdate;
     },
     changeType(val) {
-       if (val == 11) {
-        this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
-      }else{
+      if (val == 11) {
+          this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
+      }else if(val != ''){
           this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+          this.materialHandleInfo.ukeyBorrowDate = '';
+      }else{
+          this.materialHandleInfo.ukeyBorrowDate = '';
+          this.materialHandleInfo.employFeedbackOptDate ='';
       }
     },
     changeTypeDd(val) {

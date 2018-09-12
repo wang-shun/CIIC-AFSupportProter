@@ -13,9 +13,9 @@
       <TabPane label="已批退" name="refused">
         <refused v-if="isRefused"></refused>
       </TabPane>
-     <!-- <TabPane label="打印信息" name="printInfo">
+     <TabPane label="打印信息" name="printInfo">
         <print-info v-if="isPrintInfo"></print-info>
-      </TabPane> -->
+      </TabPane>
     </Tabs>
   </div>
 </template>

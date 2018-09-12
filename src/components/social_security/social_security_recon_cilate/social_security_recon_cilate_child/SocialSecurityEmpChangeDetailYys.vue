@@ -48,7 +48,7 @@
     </Collapse>
     <Table
         :columns="empChangeDetailDataColumns"
-        :data="empChangeDetailData">
+        :data="empChangeDetailData" height=500>
     </Table>
 
     <Row class="mt20">

@@ -61,8 +61,13 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-if="$route.query.createdBy!=''&&$route.query.createdBy!=undefined">
-        <Form-item label="操作人：">
+        <Form-item label="档案操作员：">
           <label>{{$route.query.createdBy}}</label>
+        </Form-item>
+      </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-if="$route.query.createdBy!=''&&$route.query.createdBy!=undefined">
+        <Form-item label="档案操作日期：">
+          <label>{{$route.query.createdTime}}</label>
         </Form-item>
       </Col>
     </Row>

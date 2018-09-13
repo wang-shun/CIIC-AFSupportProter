@@ -66,7 +66,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="打印日期：">
-            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder="" :readonly="refuse.printDateR" transfer ></DatePicker>
+            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder="" :readonly="true" transfer ></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

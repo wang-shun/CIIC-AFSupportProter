@@ -206,6 +206,10 @@
                 this.refuseInfo.empTaskId = this.$route.query.empTaskId;
                 this.refuseInfo.employeeId = this.$route.query.employeeId;
                 this.refuseInfo.companyId = this.$route.query.companyId;
+                if(this.refuseInfo.printDate == '' || this.refuseInfo.printDate == undefined){
+                  let d = new Date();
+                  this.refuseInfo.printDate = d;
+                }
 
             }else{
                this.refuseInfo.empTaskId = this.$route.query.empTaskId;

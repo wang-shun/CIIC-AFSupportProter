@@ -184,7 +184,8 @@
                                                             reservedArchiveNo:row.reservedArchiveNo,employeeName:row.employeeName,
                                                             employeeIdcardNo:row.employeeIdcardNo,enteringDate:row.enteringDate,
                                                             archiveSource:row.archiveSource,archivePlace:row.archivePlace,
-                                                            createdBy:row.createdBy,remark:row.remark,exitThePlaceDate:row.exitThePlaceDate
+                                                            createdBy:row.createdBy,remark:row.remark,exitThePlaceDate:row.exitThePlaceDate,
+                                                            createdTime:moment(Number(row.createdTime)).format("YYYY-MM-DD")
             }
           });
         }else{
@@ -194,7 +195,8 @@
                                                         reservedArchiveNo:row.reservedArchiveNo,employeeName:row.employeeName,
                                                         employeeIdcardNo:row.employeeIdcardNo,enteringDate:row.enteringDate,
                                                         archiveSource:row.archiveSource,archivePlace:row.archivePlace,
-                                                        createdBy:row.createdBy,remark:row.remark,exitThePlaceDate:row.exitThePlaceDate
+                                                        createdBy:row.createdBy,remark:row.remark,exitThePlaceDate:row.exitThePlaceDate,
+                                                        createdTime:moment(Number(row.createdTime)).format("YYYY-MM-DD")
             }
           });
         }

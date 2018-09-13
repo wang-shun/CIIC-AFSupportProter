@@ -530,18 +530,23 @@ export default {
       this.employeeCollectionQuery(this.searchCondition);
     },
     printLabel() {
-      let selection = this.$refs.employmentData.getSelection();
-      if (selection.length == 0) {
-        alert("没有选中的列");
+      let empTaskIds = [];
+      var arrTmp = this.employmentData;
+      for (let value of arrTmp) {
+        if (value.checked) {
+          empTaskIds.push(value);
+        }
+      }
+      if (empTaskIds.length == 0) {
+        this.$Message.error("没有选中的列");
         return;
       }
-      // console.info(selection);
       let head = `<!doctype html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>打印贴头</title></head><body>`;
       let foot = `</body></html>`;
       let obj = "";
       let isFrist = true;
       obj += '<table cellpadding="0" cellspacing="0">';
-      selection.forEach(sel => {
+      empTaskIds.forEach(sel => {
         let docType = "";
         let docNum = "";
         if (sel.docType && sel.docNum) {

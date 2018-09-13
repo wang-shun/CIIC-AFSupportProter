@@ -680,7 +680,7 @@ export default {
       if (val == 11) {
           this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
           this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
-      }else if(val != ''){
+      }else if(val != ''&&val!=undefined){
           this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
           this.materialHandleInfo.ukeyBorrowDate = '';
       }else{

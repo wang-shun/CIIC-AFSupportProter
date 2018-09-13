@@ -167,22 +167,20 @@
   </div>
 </template>
 <script>
-  export default {
-    props: {
-      employeeInfo: {
-        type: Object,
-        required: true
-      }
-    },
-    data() {
-      return {
-
-      }
-    },
-    computed: {
-      employee() {
-        return this.employeeInfo;
-      }
+export default {
+  props: {
+    employeeInfo: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    employee() {
+      return this.employeeInfo;
     }
   }
+};
 </script>

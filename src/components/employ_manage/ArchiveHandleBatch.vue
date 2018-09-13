@@ -107,6 +107,11 @@
                 <DatePicker v-model="materialHandleInfo.budiaoDocDate2" type="date" placeholder="" @on-open-change="setCurrentDate1" @on-change="changeDate1" transfer></DatePicker>
               </Form-item>
             </Col>
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
+              <Form-item label="手册入库日期：" prop="manualStorageDate">
+                <DatePicker type="date"  transfer v-model="materialHandleInfo.manualStorageDate" @on-open-change="setCurrentDate8" @on-change="changeDate8"></DatePicker>
+              </Form-item>
+            </Col>
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="" prop="luyongHandleEnd">
                 <Checkbox v-model="materialHandleInfo.luyongHandleEnd">录用处理结束</Checkbox>
@@ -163,11 +168,6 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际寄信日期：">
             <DatePicker v-model="mail.postLetterDate" type="date" placeholder="" transfer></DatePicker>
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="实际寄信人：">
-            <Input v-model="mail.postLetterMan" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -601,6 +601,12 @@ export default {
           "YYYY-MM-DD"
         );
       }
+      if (this.materialHandleInfo.manualStorageDate) {
+        fromData.manualStorageDate = this.$utils.formatDate(
+          this.materialHandleInfo.manualStorageDate,
+          "YYYY-MM-DD"
+        );
+      }
 
       
 
@@ -731,6 +737,7 @@ export default {
     changeType(val) {
       if (val == 11) {
         this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
+        this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
       }else if(val != ''){
           this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
           this.materialHandleInfo.ukeyBorrowDate = '';
@@ -832,6 +839,19 @@ export default {
     },
     changeDate7(e) {
       this.materialHandleInfo.storageDate = e;
+    },
+    setCurrentDate8(e) {
+      if (e) {
+        if (
+          this.materialHandleInfo.manualStorageDate == "" ||
+          this.materialHandleInfo.manualStorageDate == undefined
+        ) {
+          this.materialHandleInfo.manualStorageDate = this.currentDate();
+        }
+      }
+    },
+    changeDate8(e) {
+      this.materialHandleInfo.manualStorageDate = e;
     }
   }
 };

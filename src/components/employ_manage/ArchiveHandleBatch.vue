@@ -74,7 +74,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
               <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
-                <Input placeholder="" :maxlength="50" v-model="materialHandleInfo.employFeedbackOptDate" :readonly="true"/>
+                <DatePicker type="date" transfer v-model="materialHandleInfo.employFeedbackOptDate" :readonly="true"></DatePicker>
               </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">

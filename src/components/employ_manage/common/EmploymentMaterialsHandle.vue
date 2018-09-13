@@ -501,7 +501,7 @@ export default {
         this.handleInfo.ukeyBorrowDate = this.currentDate();
         this.handleInfo.employFeedbackOptDate = this.currentDate();
       } else {
-        if (val != "") {
+        if (val != ""&&val!=undefined) {
           if (this.handleInfo.archiveId) {
             if (this.handleInfo.ukeyBorrowDate) {
               this.handleInfo.ukeyReturnDate = this.currentDate();

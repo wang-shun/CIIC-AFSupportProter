@@ -741,9 +741,10 @@ export default {
       }else if(val != ''){
           this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
           this.materialHandleInfo.ukeyBorrowDate = '';
-      }else{
+      }else{    
           this.materialHandleInfo.ukeyBorrowDate = '';
           this.materialHandleInfo.employFeedbackOptDate ='';
+          console.info(this.materialHandleInfo);
       }
     },
     changeTypeDd(val) {

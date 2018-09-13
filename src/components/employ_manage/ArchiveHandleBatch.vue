@@ -735,22 +735,18 @@ export default {
       return currentdate;
     },
     changeType(val) {
+      
       if (val == 11) {
         this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
         this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
-      }else if(val != ''){
+      }else if(val != ''&&val!=undefined){
           this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
           this.materialHandleInfo.ukeyBorrowDate = '';
       }else{    
+          this.materialHandleInfo.employFeedbackOptDate = '';
           this.materialHandleInfo.ukeyBorrowDate = '';
-          this.materialHandleInfo.employFeedbackOptDate ='';
-          console.info(this.materialHandleInfo);
       }
-    },
-    changeTypeDd(val) {
-      this.materialHandleInfo.diaodangFeedbackOptDate = this.currentDate();
-    },
-     setCurrentDate(e) {
+    },setCurrentDate(e) {
       if (e) {
         if (
           this.stockAndMail.storageOutDate == "" ||

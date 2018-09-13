@@ -257,11 +257,11 @@
             workStatueValue: '',
             hfType:'1',
           },
-             workStatueList: [
-              {label: '全部', value: ''},
-              {label: '在职', value: 0},
-              {label: '离职', value: 1}
-            ],
+          workStatueList: [
+            {label: '全部', value: ''},
+            {label: '在职', value: 0},
+            {label: '离职', value: 1}
+          ],
         },
         customerCenterData:[],
        

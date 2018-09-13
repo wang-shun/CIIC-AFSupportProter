@@ -48,7 +48,7 @@
     </Collapse>
     <Table
         :columns="empChangeDetailDataColumns"
-        :data="empChangeDetailData">
+        :data="empChangeDetailData" height=500>
     </Table>
 
     <Row class="mt20">
@@ -130,6 +130,29 @@
               ]);
             }
           },
+          {title: '身份证号', key: 'idNum',  align: 'center',width:100,
+             render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.idNum),
+              ]);
+            }
+          },
+          {title: '结算区县', key: 'settlementArea',  align: 'center',width:100,
+             render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.settlementArea),
+              ]);
+            }
+          },
+          {title: '人员属性', key: 'empClassify',  align: 'center',width:100,
+             render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', this.$Decode.empClassify(params.row.empClassify)),
+              ]);
+            }
+          },
+
+
           {title: '变更类型', key: 'changeTypeName', align: 'center',width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
@@ -238,6 +261,36 @@
               ]);
             }
           },
+
+          {title: '工伤单位缴费额', key: 'gsComAmount',  align: 'center',width:100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.gsComAmount),
+              ]);
+            }
+          },
+          {title: '工伤单位补缴', key: 'gsComRepayAmount',  align: 'center',width:100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.gsComRepayAmount),
+              ]);
+            }
+          },
+          {title: '生育单位缴费额', key: 'syComAmount',  align: 'center',width:100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.syComAmount),
+              ]);
+            }
+          },
+          {title: '生育单位补缴', key: 'syComRepayAmount',  align: 'center',width:100,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.syComRepayAmount),
+              ]);
+            }
+          },
+          
         ],
         // pagParam: {
         //   //对账主表ID

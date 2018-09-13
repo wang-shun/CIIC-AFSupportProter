@@ -126,7 +126,76 @@
           </Form>
         </div>
       </Panel>
+       <Panel name="3">
+        雇员基本公积金信息
+        <div slot="content">
+          <Form :label-width='150'>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="基本公积金账号：">
+                  <label>{{viewEmpArchive.hfEmpAccount}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
+                <Form-item label="基本公积金状态：">
+                  <label>{{this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatus)}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="前道缴纳至月份：">
+                  <label>{{viewEmpArchive.taskEndMonth}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转入实际年月：">
+                  <label>{{viewEmpArchive.startMonth}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转出实际年月：">
+                  <label>{{viewEmpArchive.endMonth}}</label>
+                </Form-item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
       <Panel name="4">
+        雇员补充公积金信息
+        <div slot="content">
+           <Form :label-width='150'>
+            <Row type="flex" justify="start">
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
+                <Form-item label="补充公积金账号：">
+                  <label>{{viewEmpArchive.hfEmpAccountBc}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
+                <Form-item label="补充公积金状态：">
+                  <label>{{this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatusBc)}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="前道缴纳至月份：">
+                  <label>{{viewEmpArchive.taskEndMonthBC}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转入实际年月：">
+                  <label>{{viewEmpArchive.startMonthBc}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转出实际年月：">
+                  <label>{{viewEmpArchive.endMonthBc}}</label>
+                </Form-item>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+
+      <Panel name="5">
         转移操作
         <div slot="content">
           <Form :label-width=150 v-model="transferNotice">
@@ -140,25 +209,41 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="任务：" prop="taskCategory">
-
                   {{this.$decode.hf_taskCategory(transferNotice.taskCategory) }}
                 </Form-item>
               </Col>
             </Row>
             <Row>
-
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转出单位：" prop="transferOutUnit">
-                  <Select v-model="transferNotice.transferOutUnit"
+
+                  <Select style="width: 100%;" transfer 
+                  @on-change="handleTransferOutChangeSelect"
+                  v-show="showUnitOutSelect">
+                    <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+
+                 <AutoComplete 
+                  v-model="transferNotice.transferOutUnit"
+                  :label="transferNotice.transferOutUnit"
+                  @on-focus="showUnitOutSelect=true"
+                  :data="transferOutUnitList"
+                  @on-search="handleTransferOutChange"
+                  style="width: 100%;" clearable transfer>
+                  </AutoComplete>
+
+                  <!-- <Select v-model="transferNotice.transferOutUnit"
                           :label="transferNotice.transferOutUnit"
                   filterable
                   remote
                   :remote-method="handleTransferOutSearch"
                   @on-change="handleTransferOutChange"
+                  
                   :loading="loading"
                   style="width: 100%;" clearable transfer>
                      <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
-                  </Select>
+                  </Select> -->
+
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -168,10 +253,23 @@
               </Col>
             </Row>
             <Row>
-
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转入单位："  prop="transferInUnit">
-                  <Select 
+
+                  <Select style="width: 100%;" transfer 
+                  @on-change="handleTransferInChangeSelect"
+                  v-show="showUnitInSelect">
+                    <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                  <AutoComplete 
+                    v-model="transferNotice.transferInUnit"
+                    :label="transferNotice.transferInUnit"
+                    @on-focus="showUnitInSelect=true"
+                    :data="transferInUnitList"
+                    @on-search="handleTransferInChange"
+                  style="width: 100%;" clearable transfer>
+                  </AutoComplete>
+                  <!-- <Select 
                   v-model="transferNotice.transferInUnit"
                   :label="transferNotice.transferInUnit"
                   filterable
@@ -181,7 +279,7 @@
                   :loading="loading"
                   style="width: 100%;" clearable transfer>
                      <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
-                  </Select>
+                  </Select> -->
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -208,11 +306,6 @@
                   {{transferNotice.operateDate}}
                 </Form-item>
               </Col>
-              <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="打印日期：">
-                  {{transferNotice.printDate}}
-                </Form-item>
-              </Col> -->
             </Row>
             <Row>
               <Col :sm="{span: 16}">
@@ -241,12 +334,16 @@
   //import EventType from '../../../store/event_types'
   import api from '../../../api/house_fund/employee_task/employee_transfer'
   import dict from '../../../api/dict_access/house_fund_dict'
+  import hfQueryApi from '../../../api/house_fund/employee_operator'
   export default {
     data() {
       return {
         currentStep: 2,
-        collapseInfo: [1, 2, 3, 4], //展开栏
+        collapseInfo: [1, 2, 3, 4, 5], //展开栏
         loading: false,
+        viewEmpArchive:{},
+        showUnitOutSelect:false,
+        showUnitInSelect:false,
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -258,6 +355,12 @@
         },
         saveDisabled:false,
         fundTypeList: [],
+        fundUnitSelect:[
+          {label: '原单位', value: '原单位'},
+          {label: '市公积金封存办(中心)', value: '市公积金封存办(中心)'},
+          {label: '中智大库', value: '中智大库'},
+          {label: '中智外包', value: '中智外包'}
+        ],
         transferUnitDictList:[],
         transferInUnitList:[],
         transferOutUnitList:[],
@@ -300,7 +403,14 @@
     },
     mounted() {
       this.initData();
- 
+
+      let params = {empArchiveId:this.$route.query.empArchiveId,
+                    companyId:this.$route.query.companyId,
+                    employeeId:this.$route.query.employeeId,
+                    };
+      hfQueryApi.employeeDetailInfoQuery(params).then(data=>{
+          this.viewEmpArchive=data.data.viewEmpArchive
+      });
      
     },
     computed: {
@@ -310,11 +420,11 @@
         this.$router.push({name: 'employeeFundSpecialProgressThree'});
       },
     initData(){
-        let params = {employeeId:this.$route.query.employeeId,
-                      companyId:this.$route.query.companyId,
-                      hfType:this.$route.query.hfType,
-                      empTaskId:this.$route.query.empTaskId,
-                      };
+          let params = {employeeId:this.$route.query.employeeId,
+                        companyId:this.$route.query.companyId,
+                        hfType:this.$route.query.hfType,
+                        empTaskId:this.$route.query.empTaskId,
+                        };
           api.queryComEmpTransferForm(params).then(data => {
           if (data.code == 200) {
             this.displayVO = data.data;
@@ -336,7 +446,7 @@
           }
         });
       },
-
+     
       getDictData(){
         dict.getDictData().then(data => {
           if (data.code == 200) {
@@ -520,9 +630,16 @@
 //        }
 //        return false;
       },
+      handleTransferOutChangeSelect(value) {
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);  
+        this.showUnitOutSelect=false;
+      },
+      handleTransferInChangeSelect(value) {
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 2);  
+        this.showUnitInSelect=false;
+      },
       handleTransferOutChange(value) {
-        //this.transferNotice.transferOutUnitAccount = '';
-        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
         // this.transferOutUnitList.forEach((element, index, array) => {
         //     if (element == value) {
         //       if (this.transferOutUnitAccountList && this.transferOutUnitAccountList.length > index) {
@@ -534,10 +651,10 @@
         //     }
         //   }
         // )
-
       },
+
       handleTransferInChange(value) {
-        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
         // this.transferInUnitList.forEach((element, index, array) => {
         //     if (element == value) {
         //       if (this.transferInUnitAccountList && this.transferInUnitAccountList.length > index) {
@@ -615,10 +732,11 @@
               if (data.code == 200) {
                 if (data.data && data.data.length > 0) {
                   data.data.forEach((element, index, array) => {
-                    unitList.push(element.comAccountName);
-                    unitAccountList.push(element.hfComAccount);
+                    if(element.comAccountName!='undefined'){
+                      unitList.push(element.comAccountName);
+                      unitAccountList.push(element.hfComAccount);
+                    }
                   })
-
                   if (unitList.length == 1) {
                     if (type == 1) {
                       this.transferNotice.transferOutUnitAccount = unitAccountList[0];
@@ -627,7 +745,6 @@
                     }
                   }
                 } else {
-                  unitList.push(value);
                   if (type == 1) {
                     if (value == this.transferNotice1.transferOutUnit) {
                       unitAccountList.push(this.transferNotice1.transferOutUnitAccount);

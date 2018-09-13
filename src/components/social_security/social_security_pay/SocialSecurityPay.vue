@@ -7,8 +7,8 @@
       </TabPane>
     </Tabs>
 
-     <paymentBatch v-if="tabNames.paymentBatch" @switchTab='switchTab'></paymentBatch>
-     <paymentCom v-if="tabNames.paymentCom"></paymentCom>
+     <paymentBatch ref="paymentBatch" v-if="tabNames.paymentBatch" @switchTab='switchTab'></paymentBatch>
+     <paymentCom ref="paymentCom" v-if="tabNames.paymentCom"></paymentCom>
   </div>
 </template>
 <script>
@@ -41,9 +41,15 @@
       },
       switchTab(name) {
         if(name =='paymentCom'){
+            if (this.$refs.paymentBatch) {
+              this.$refs.paymentBatch.beforeLeave();
+            }
             this.tabNames['paymentCom'] = true;
             this.tabNames['paymentBatch'] = false;
         }else{
+            if (this.$refs.paymentCom) {
+              this.$refs.paymentCom.beforeLeave();
+            }
             this.tabNames['paymentCom'] = false;
             this.tabNames['paymentBatch'] = true;
         }

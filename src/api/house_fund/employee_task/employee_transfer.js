@@ -104,6 +104,13 @@ export default {
   multiEmpTaskTransferExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfEmpTask/multiEmpTaskTransferExport', params);
   },
+  checkEmpTransferEndMonthSame: async (params) => {
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpTask/checkEmpTransferEndMonthSame', params);
+    return await response.data;
+  },
+  empToCenterTransferExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpTask/empToCenterTransferExport', params);
+  },
   empTaskTransferTxtExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfEmpTask/empTaskTransferTxtExport', params);
   },

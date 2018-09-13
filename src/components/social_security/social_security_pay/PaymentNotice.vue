@@ -211,7 +211,7 @@
       this.comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
       this.paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
       this.getPaymentComDtoByPaymentId(paymentComId);
-      this.statementResultQuery(this.comAccountId,this.paymentMonth);
+      this.statementResultQuery(this.ssAccount,this.paymentMonth);
       }
     }
   }

@@ -159,7 +159,9 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 16}">
           <Form-item label="公司特殊情况：">
-            {{employee.employSpecial}}
+            <RadioGroup v-model="employee.speacilStr" type="button" >
+               <Radio v-for="item in employee.speacilStr" :label="item" :key="item" :disabled=true></Radio>
+            </RadioGroup>
           </Form-item>
         </Col>
       </Row>
@@ -167,22 +169,20 @@
   </div>
 </template>
 <script>
-  export default {
-    props: {
-      employeeInfo: {
-        type: Object,
-        required: true
-      }
-    },
-    data() {
-      return {
-
-      }
-    },
-    computed: {
-      employee() {
-        return this.employeeInfo;
-      }
+export default {
+  props: {
+    employeeInfo: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {};
+  },
+  computed: {
+    employee() {
+      return this.employeeInfo;
     }
   }
+};
 </script>

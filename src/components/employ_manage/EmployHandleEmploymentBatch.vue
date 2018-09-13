@@ -679,7 +679,8 @@ export default {
     changeType(val) {
       if (val == 11) {
           this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
-      }else if(val != ''){
+          this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+      }else if(val != ''&&val!=undefined){
           this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
           this.materialHandleInfo.ukeyBorrowDate = '';
       }else{

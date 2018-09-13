@@ -147,7 +147,7 @@ export default {
       seqMax1: 0,
       seqMax2: 0,
       reservedFileNumberList: [
-        {value: '', label: ''},
+        { value: "", label: "" },
         { value: "外来从业人员", label: "外来从业人员" },
         { value: "居住证", label: "居住证" },
         { value: "调档", label: "调档" },
@@ -170,7 +170,7 @@ export default {
       ],
       fileNumberList: [],
       filePlaceList: [
-        {value: '', label: ''},
+        { value: "", label: "" },
         { value: "外来从业人员", label: "外来从业人员" },
         { value: "居住证", label: "居住证" },
         { value: "属地管理", label: "属地管理" },
@@ -200,12 +200,12 @@ export default {
       ],
       filePlaceAddList: [],
       placeStateList: [
-        {value: '', label: ''},
+        { value: "", label: "" },
         { value: "无", label: "无" },
         { value: "卡为复印件", label: "卡为复印件" }
       ],
       fileOriginList: [
-        {value: '', label: ''},
+        { value: "", label: "" },
         { value: "户口所在地调入", label: "户口所在地调入" },
         { value: "市区人才调入", label: "市区人才调入" },
         { value: "单位转出（包括邮寄）", label: "单位转出（包括邮寄）" },
@@ -214,7 +214,7 @@ export default {
         { value: "其他", label: "其他" }
       ],
       employFeedbackList: [
-        {value: '', label: ''},
+        { value: "", label: "" },
         { value: "3", label: "用工成功", disabled: false },
         { value: "10", label: "用工已办查无档", disabled: false },
         { value: "4", label: "用工失败", disabled: false },
@@ -224,7 +224,7 @@ export default {
         { value: "13", label: "用工已办,前道已中止", disabled: false }
       ],
       transferFeedbackList: [
-        {value: '', label: ''},
+        { value: "", label: "" },
         { value: "已告知本人转档", label: "已告知本人转档" },
         { value: "无档自查", label: "无档自查" },
         { value: "浦东职介代管", label: "浦东职介代管" },
@@ -240,7 +240,7 @@ export default {
     };
   },
   watch: {
-   handleInfo() {
+    handleInfo() {
       this.employFeedbackList[0].disabled = this.handleInfo.end;
       this.employFeedbackList[1].disabled = this.handleInfo.end;
       this.employFeedbackList[2].disabled = this.handleInfo.end;
@@ -287,7 +287,7 @@ export default {
     queryDocSeqByDocType(val) {
       api.queryDocSeqByDocType({ type: 1, docType: val }).then(data => {
         if (data.code == 200) {
-          if(data.data.docBo.docSeq){
+          if (data.data.docBo.docSeq) {
             Vue.set(
               this.handleInfo,
               "yuliuDocNum",
@@ -295,13 +295,9 @@ export default {
             );
             this.handleInfo.yuliuDocNum = parseInt(data.data.docBo.docSeq) + 1;
             this.seqMax1 = data.data.docBo.docSeq;
-          }else{
-            Vue.set(
-              this.handleInfo,
-              "yuliuDocNum",
-              ''
-            );
-            this.handleInfo.yuliuDocNum='';
+          } else {
+            Vue.set(this.handleInfo, "yuliuDocNum", "");
+            this.handleInfo.yuliuDocNum = "";
           }
         } else {
           this.$Message.error("服务器异常" + data.message);
@@ -335,7 +331,7 @@ export default {
     queryDocSeqByDocType2(val) {
       api.queryDocSeqByDocType({ type: 2, docType: val }).then(data => {
         if (data.code == 200) {
-          if(data.data.docBo.docSeq){
+          if (data.data.docBo.docSeq) {
             Vue.set(
               this.handleInfo,
               "docNum",
@@ -343,13 +339,9 @@ export default {
             );
             this.handleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
             this.seqMax2 = data.data.docBo.docSeq;
-          }else{
-            Vue.set(
-              this.handleInfo,
-              "docNum",
-              ''
-            );
-            this.handleInfo.docNum = '';
+          } else {
+            Vue.set(this.handleInfo, "docNum", "");
+            this.handleInfo.docNum = "";
           }
         } else {
           this.$Message.error("服务器异常" + data.message);
@@ -473,7 +465,7 @@ export default {
           this.$Message.success("保存成功");
           this.isLoading = false;
           this.handleInfo.archiveId = data.data.archiveId;
-         
+
           this.handleInfo.oldYuLiuType = data.data.yuliuDocType;
           this.handleInfo.oldYuLiuNum = data.data.yuliuDocNum;
           this.handleInfo.oldType = data.data.docType;
@@ -507,18 +499,21 @@ export default {
     changeType(val) {
       if (val == 11) {
         this.handleInfo.ukeyBorrowDate = this.currentDate();
-      }else{
-        if(this.handleInfo.archiveId)
-        {
-            if(this.handleInfo.ukeyBorrowDate)
-            {
+        this.handleInfo.employFeedbackOptDate = this.currentDate();
+      } else {
+        if (val != ""&&val!=undefined) {
+          if (this.handleInfo.archiveId) {
+            if (this.handleInfo.ukeyBorrowDate) {
               this.handleInfo.ukeyReturnDate = this.currentDate();
             }
-           
-        }else{
-            this.handleInfo.ukeyBorrowDate='';
+          } else {
+            this.handleInfo.ukeyBorrowDate = "";
+          }
+          this.handleInfo.employFeedbackOptDate = this.currentDate();
+        } else {
+          this.handleInfo.ukeyBorrowDate = "";
+          this.handleInfo.employFeedbackOptDate = "";
         }
-        this.handleInfo.employFeedbackOptDate = this.currentDate();
       }
     },
     changeTypeDd(val) {

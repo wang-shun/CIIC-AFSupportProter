@@ -178,7 +178,6 @@ export default {
                   "on-change": e => {
                     params.row.checked = e;
                     this.$set(this.employmentData[params.index], "checked", e);
-                    console.log(this.employmentData[params.index]);
                   }
                 }
               })
@@ -192,7 +191,15 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employWay)
+              h("i-input", {
+                props: { value: params.row.employWay, readonly: true },
+                on: {
+                  click: () => {
+                    debugger
+                    alert('sdf');
+                  }
+                }
+              })
             ]);
           }
         },

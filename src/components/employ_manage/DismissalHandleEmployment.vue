@@ -32,24 +32,30 @@
           </div>
         </Panel>
         <Panel name="5">
+          退档日期操作区域
+          <div slot="content">
+            <return-doc-date :refuseInfo="refuseInfo" ></return-doc-date>
+          </div>
+        </Panel>
+        <Panel name="6">
           寄信办理
           <div slot="content">
             <send :refuseInfo="refuseInfo" ></send>
           </div>
         </Panel>
-        <Panel name="6">
+        <Panel name="7">
           退工备注
           <div slot="content">
             <refuse-notes :refuseNotesData="refuseNotesData" :userInfo="userInfo"></refuse-notes>
           </div>
         </Panel>
-        <Panel name="7">
+        <Panel name="8">
           用工备注查看
           <div slot="content">
             <employment-notes-view :employmentViewData="employmentViewData"></employment-notes-view>
           </div>
         </Panel>
-        <Panel name="8">
+        <Panel name="9">
           档案备注查看
           <div slot="content">
             <file-notes-view :fileNotesViewData="fileNotesViewData"></file-notes-view>
@@ -70,6 +76,7 @@
   import employmentInfo from "./common/EmploymentInfo.vue"
   import refuseHandle from "./common/RefuseHandle.vue"
   import send from "./common/Send.vue"
+  import returnDocDate from "./common/ReturnDocDate.vue"
   import refuseNotes from "./common/RefuseNotes.vue"
   import employmentNotesView from "./common/EmploymentNotesView.vue"
   import materialsBorrowInfoView from "./common/MaterialsBorrowInfoView.vue"
@@ -78,10 +85,10 @@
   import api from '../../api/employ_manage/hire_operator'
 
   export default {
-    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, send, refuseNotes, employmentNotesView, materialsBorrowInfoView, fileNotesView, employmentDataManagementTaskList},
+    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, send,returnDocDate, refuseNotes, employmentNotesView, materialsBorrowInfoView, fileNotesView, employmentDataManagementTaskList},
     data() {
       return {
-        collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8],
+        collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8,9],
         customerInfo: {
           serviceCenter: "",
           customerNumber: "",
@@ -175,7 +182,13 @@
           employmentId:this.$route.query.employmentId,
           empTaskId:this.$route.query.empTaskId,
           printDateR:false,
-          resignMaterialDeliveryDateR:false
+          resignMaterialDeliveryDateR:false,
+          returnDocDate:"",
+          returnDocMan:""
+        },
+        returnDoc:{
+          returnDocDate:"",
+          returnDocMan:""
         },
         refuseNotesData: [],
         employmentViewData: [],
@@ -209,6 +222,11 @@
                 if(this.refuseInfo.printDate == '' || this.refuseInfo.printDate == undefined){
                   let d = new Date();
                   this.refuseInfo.printDate = d;
+                }
+                if(data.data.resignBO.returnDocDate){
+                   
+                }else{
+                  data.data.resignBO.returnDocDate = "";
                 }
 
             }else{

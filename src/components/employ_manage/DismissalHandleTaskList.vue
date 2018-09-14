@@ -362,17 +362,17 @@ export default {
             ]);
           }
         },
-        {
-          title: "综保退工日期",
-          key: "comprehensiveInsuranceRefuseDate",
-          align: "center",
-          width: 150,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.comprehensiveInsuranceRefuseDate)
-            ]);
-          }
-        },
+        // {
+        //   title: "综保退工日期",
+        //   key: "comprehensiveInsuranceRefuseDate",
+        //   align: "center",
+        //   width: 150,
+        //   render: (h, params) => {
+        //     return h("div", { style: { textAlign: "left" } }, [
+        //       h("span", params.row.comprehensiveInsuranceRefuseDate)
+        //     ]);
+        //   }
+        // },
         {
           title: "公司特殊情况",
           key: "refuseSpecial",

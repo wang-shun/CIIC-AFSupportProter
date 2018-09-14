@@ -396,6 +396,7 @@
           empTaskIds+=d.empTaskId+',';
         }
         let expParam={};
+        expParam = this.searchCondition;
         this.$utils.copy(this.searchCondition, expParam);
         expParam.empTaskIds=empTaskIds;
 

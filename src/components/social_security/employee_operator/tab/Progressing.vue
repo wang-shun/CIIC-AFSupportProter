@@ -107,12 +107,12 @@
           pageSizeOpts: this.$utils.SS_DEFAULT_PAGE_SIZE_OPTS
         },
         employeeResultColumns: [
-//          {
-//            type: 'selection',
-//            fixed: 'left',
-//            width: 60,
-//            align: 'center'
-//          },
+         {
+           type: 'selection',
+           fixed: 'left',
+           width: 60,
+           align: 'center'
+         },
           {
             title: '操作', key: 'action', fixed: 'left', width: 80, align: 'center',
             render: (h, params) => {
@@ -482,6 +482,16 @@
         }
 
         this.searchCondition.params = this.searchConditions.join(';');
+
+        let empTaskIds = '';
+        for (var d of this.selectEmployeeResultData) {
+          empTaskIds+=d.empTaskId+',';
+        }
+        let expParam={};
+        expParam = this.searchCondition;
+        this.$utils.copy(this.searchCondition, expParam);
+        expParam.empTaskIds=empTaskIds;
+
         api.employeeOperatorQueryExport({
           pageSize: 999999,
           pageNum: 0,

@@ -322,7 +322,6 @@
     <!-- 打印转移通知书 模态框 -->
     <Modal
       v-model="isShowPrintVM"
-
       title="打印转移通知书"
       width="720"
     >
@@ -330,7 +329,20 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 12}">
             <FormItem label="转出单位">
-              <Select
+              <Select style="width: 100%;" transfer 
+                  @on-change="handleTransferOutChangeSelect"
+                  v-show="showUnitOutSelect">
+                    <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                  <AutoComplete 
+                  v-model="transferNotice.transferOutUnit"
+                  :label="transferNotice.transferOutUnit"
+                  @on-focus="showUnitOutSelect=true"
+                  :data="transferOutUnitList"
+                  @on-search="handleTransferOutChange"
+                  style="width: 100%;" clearable transfer>
+                  </AutoComplete>
+              <!-- <Select
                 v-model="transferNotice.transferOutUnit"
                 :label="transferNotice.transferOutUnit"
                 filterable
@@ -340,7 +352,7 @@
                 :loading="loading"
                 style="width: 100%;" clearable transfer>
                 <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
-              </Select>
+              </Select> -->
             </FormItem>
           </Col>
           <Col :sm="{span: 12}">
@@ -350,7 +362,21 @@
           </Col>
           <Col :sm="{span: 12}">
             <FormItem label="转入单位">
-              <Select
+
+              <Select style="width: 100%;" transfer 
+                  @on-change="handleTransferInChangeSelect"
+                  v-show="showUnitInSelect">
+                    <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                  <AutoComplete 
+                    v-model="transferNotice.transferInUnit"
+                    :label="transferNotice.transferInUnit"
+                    @on-focus="showUnitInSelect=true"
+                    :data="transferInUnitList"
+                    @on-search="handleTransferInChange"
+                  style="width: 100%;" clearable transfer>
+                  </AutoComplete>
+              <!-- <Select
                 v-model="transferNotice.transferInUnit"
                 :label="transferNotice.transferInUnit"
                 filterable
@@ -360,7 +386,7 @@
                 :loading="loading"
                 style="width: 100%;" clearable transfer>
                 <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
-              </Select>
+              </Select> -->
             </FormItem>
           </Col>
           <Col :sm="{span: 12}">
@@ -406,6 +432,14 @@
         isShowPrintVM: false,
         loading: false,
         isLoading: false,
+        showUnitOutSelect:false,
+        showUnitInSelect:false,
+        fundUnitSelect:[
+          {label: '原单位', value: '原单位'},
+          {label: '市公积金封存办(中心)', value: '市公积金封存办(中心)'},
+          {label: '中智大库', value: '中智大库'},
+          {label: '中智外包', value: '中智外包'}
+        ],
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -1067,11 +1101,21 @@
       handleTransferOutSearch(value) {
         this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
+
+      handleTransferOutChangeSelect(value) {
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);  
+        this.showUnitOutSelect=false;
+      },
+      handleTransferInChangeSelect(value) {
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 2);  
+        this.showUnitInSelect=false;
+      },
+
       handleTransferOutChange(value) {
-        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
       handleTransferInChange(value) {
-        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
       },
       doSelect(value, unitList, unitAccountList, type) {
         this.loading = true;

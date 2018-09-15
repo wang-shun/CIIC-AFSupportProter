@@ -68,12 +68,18 @@
           </div>
         </Panel>
         <Panel name="11">
+          退档日期操作区域
+          <div slot="content">
+            <return-doc-date :refuseInfo="refuseInfo" ></return-doc-date>
+          </div>
+        </Panel>
+        <Panel name="12">
           补调档案
           <div slot="content">
             <make-up-file :makeUpFileInfo="makeUpFileInfo"></make-up-file>
           </div>
         </Panel>
-        <Panel name="12">
+        <Panel name="13">
           退工归还材料签收
           <div slot="content">
             <refuse-return-materials-sign :materialLogList="materialLogList" :refuseReturnMaterialsSignInfo="refuseReturnMaterialsSignInfo" :refuseReturnMaterials="refuseReturnMaterials"></refuse-return-materials-sign>
@@ -111,10 +117,11 @@
   import refuseReturnMaterialsSign from "./common/RefuseReturnMaterialsSign.vue"
   import companyNameChangeMatrialsPrint from "./common/CompanyNameChangeMatrialsPrint.vue"
   import injuryReportManage from "./common/InjuryReportManage.vue"
+  import returnDocDate from "./common/ReturnDocDate.vue"
   import api from '../../api/employ_manage/hire_operator'
 
   export default {
-    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, useHandle, fileHandle, fileSend, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage},
+    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, useHandle, fileHandle, fileSend, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage,returnDocDate},
     data() {
       return {
         collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],

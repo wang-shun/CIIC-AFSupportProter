@@ -151,11 +151,11 @@
             {{refuse.handleType}}
           </Form-item>
         </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退档日期：">
             <DatePicker v-model="refuse.returnDocDate" @on-open-change="setCurrentDate1" @on-change="changeDate1"  type="date" placeholder="" transfer></DatePicker>
           </Form-item>
-        </Col>
+        </Col> -->
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工UKey外借日期：">
             <DatePicker v-model="refuse.ukeyBorrowDate" :readonly="true" @on-open-change="setCurrentDate5" @on-change="changeDate5"  type="date" placeholder="" transfer></DatePicker>
@@ -612,16 +612,6 @@
 
       },changeDate(e) {
         this.refuse.printDate = e;
-      },setCurrentDate1(e) {
-        if(e){
-          if(this.refuse.returnDocDate==''||this.refuse.returnDocDate==undefined)
-          {
-             this.refuse.returnDocDate = this.currentDate();
-          }
-        }
-
-      },changeDate1(e) {
-        this.refuse.returnDocDate = e;
       },setCurrentDate2(e) {
         if(e){
           if(this.refuse.cacheDate==''||this.refuse.cacheDate==undefined)

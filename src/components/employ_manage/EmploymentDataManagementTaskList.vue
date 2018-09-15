@@ -465,7 +465,10 @@ export default {
           } else {
             var content;
             if (data.data.ArchiveCount) {
-              var content =
+              if(data.data.yuLiu){
+
+                content =
+                "预留档案编号Cc号已经存在"+ data.data.yuLiu +"条数据"+","+
                 "用工办理已经存在" +
                 data.data.employmentCount +
                 "条数据" +
@@ -475,6 +478,18 @@ export default {
                 "条数据" +
                 " , " +
                 "确认要覆盖吗？";
+              }else{
+                content = "用工办理已经存在" +
+                data.data.employmentCount +
+                "条数据" +
+                " , " +
+                "用工档案已经存在" +
+                data.data.ArchiveCount +
+                "条数据" +
+                " , " +
+                "确认要覆盖吗？";
+              }
+              
             } else {
               var content =
                 "用工办理已经存在" +
@@ -486,6 +501,7 @@ export default {
             _self.$Modal.confirm({
               title: "",
               content: content,
+              width:700,
               onOk: function() {
                 _self.$router.push({
                   name: "employHandleEmploymentBatch",

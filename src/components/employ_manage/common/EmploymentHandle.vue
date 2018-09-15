@@ -108,17 +108,15 @@ import api from '../../../api/employ_manage/hire_operator'
         ],
         employmentMethodList: [
            {value: '', label: ''},
-           {value: 'Ukey', label: 'Ukey'},
-           {value: '集体转入，用工自办', label: '集体转入，用工自办'},
-           {value: '翻牌', label: '翻牌'},
-           {value: '无材料用工', label: '无材料用工'},
-           {value: '网办无材料', label: '网办无材料'},
+           {value: 'Ukey有材料（k有）', label: 'Ukey有材料（k有）'},
+           {value: 'Ukey无材料（k无）', label: 'Ukey无材料（k无）'},
+           {value: '柜面有材料（柜有）', label: '柜面有材料（柜有）'},
+           {value: '柜面无材料（柜无）', label: '柜面无材料（柜无）'},
            {value: '转人员性质', label: '转人员性质'},
-           {value: '新进转人员性质', label: '新进转人员性质'},
            {value: '送外区办', label: '送外区办'},
            {value: '修改信息', label: '修改信息'},
-           {value: '外来新进', label: '外来新进'},
-           {value: '外来转入', label: '外来转入'}
+           {value: '翻牌', label: '翻牌'},
+           {value: '集体转入,用工自办', label: '集体转入,用工自办'}
         ]
       }
     },

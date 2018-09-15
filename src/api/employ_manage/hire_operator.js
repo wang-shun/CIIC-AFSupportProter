@@ -173,6 +173,9 @@ export default {
   resignSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amResignTask/resignSearchExportOpt', params);
   },
+  resignSearchExplainWord:async (params) => {
+    AJAX.download('/api/employservice/amResignTask/resignSearchExplainWord', params);
+  },
   archiveSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportOpt', params);
   },//查询雇员详细信息

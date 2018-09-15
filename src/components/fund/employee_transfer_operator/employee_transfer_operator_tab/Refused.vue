@@ -1,5 +1,5 @@
 <template>
-  <div style="height:850px">
+  <div style="height:900px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员转移操作

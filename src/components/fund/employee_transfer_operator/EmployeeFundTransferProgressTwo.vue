@@ -71,18 +71,16 @@
               </FormItem>
               </Col>
 
-
-
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="末次汇缴月（基本）：">
+              <FormItem label="末次汇缴月：">
                 <label>{{displayVO.basicComHfMonth}}</label>
               </FormItem>
               </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="末次汇缴月（补充）：">
                 <label>{{displayVO.addedComHfMonth}}</label>
               </FormItem>
-              </Col>
+              </Col> -->
               
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="每月关账日：">
@@ -91,7 +89,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="截单年月：">
-                  <label>{{displayVO.endMonth}}</label>
+                  <label>{{displayVO.state==1 ?'':displayVO.endMonth}}</label>
                 </Form-item>
               </Col>
 

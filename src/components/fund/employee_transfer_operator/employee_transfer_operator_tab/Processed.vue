@@ -1,5 +1,5 @@
 <template>
-  <div style="height:850px">
+  <div style="height:900px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员转移操作
@@ -451,14 +451,18 @@
         this.queryTransfer(params);
       },
       dbClickHandleData(row, index){
-        console.log(this.searchCondition)
         sessionData.setJsonDataToSession('transfer.processed.searchCondition', this.searchCondition);
         sessionData.setJsonDataToSession('transfer.processed.pageData', this.pageData);
         let employeeId=row.employeeId;
         let companyId=row.companyId;
         let hfType=row.hfType;
         let empTaskId=row.empTaskId;
-        let empArchiveId=row.empArchiveId;
+        let empArchiveId='';
+        if(hfType == 1){
+          empArchiveId = row.empArchiveId;
+        }else{
+          empArchiveId = row.belongEmpArchiveId;
+        }
         this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId,empArchiveId:empArchiveId}});
       },
       getCustomers(){

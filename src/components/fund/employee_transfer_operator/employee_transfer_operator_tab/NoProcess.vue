@@ -1,5 +1,5 @@
 <template>
-  <div style="height:850px">
+  <div style="height:900px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员转移查询条件
@@ -460,22 +460,18 @@
       }
     },
     mounted() {
+        this.getCustomers();
         dict.getDictData().then(data => {
         if (data.code == 200) {
           this.EmpArchiveStatus = data.data.EmpArchiveStatus;
           sessionData.getJsonDataFromSession('transfer.noprocess.searchCondition', this.searchCondition);
           sessionData.getJsonDataFromSession('transfer.noprocess.pageData', this.pageData);
+          let params = this.searchCondition
+          this.queryTransfer(params);
         } else {
           this.$Message.error(data.message);
         }
       })
-
-      let params = this.searchCondition
-      this.queryTransfer(params);
-      this.getCustomers();
-
-    
-
     },
     computed: {
       ...mapState('tNoProcess',{
@@ -521,7 +517,13 @@
         let companyId=row.companyId;
         let hfType=row.hfType;
         let empTaskId=row.empTaskId;
-        let empArchiveId=row.empArchiveId;
+        let empArchiveId='';
+        if(hfType == 1){
+          empArchiveId = row.empArchiveId;
+        }else{
+          empArchiveId = row.belongEmpArchiveId;
+        }
+        
         this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId,empArchiveId:empArchiveId}});
       },
       getCustomers(){

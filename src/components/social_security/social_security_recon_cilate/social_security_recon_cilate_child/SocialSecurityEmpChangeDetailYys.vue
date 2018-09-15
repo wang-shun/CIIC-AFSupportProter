@@ -2,7 +2,7 @@
   <div>
     <Collapse v-model="collapseInfo">
       <Panel name="1">
-        城镇社会保险变更总汇明细(养保、医保、失保)
+        城镇社会保险变更总汇明细
         <div slot="content">
             <!-- <Form :label-width=150 ref="pagParam" :model="pagParam">
               <Form-item label="" >
@@ -147,7 +147,7 @@
           {title: '人员属性', key: 'empClassify',  align: 'center',width:100,
              render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
-                h('span', this.$Decode.empClassify(params.row.empClassify)),
+                h('span', params.row.empClassify),
               ]);
             }
           },

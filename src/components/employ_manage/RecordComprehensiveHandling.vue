@@ -21,7 +21,7 @@
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="printLabel">打印贴头</Button>
-        <!--<Button type="info" @click="printReturnList">批量打印退工单</Button>-->
+        <Button type="info" @click="printReturnList">批量打印退工单</Button>
         <Dropdown @on-click="exportTable" transfer>
           <Button type="info">
             生成导出文件

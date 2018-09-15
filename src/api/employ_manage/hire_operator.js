@@ -160,9 +160,12 @@ export default {
   },
   archiveSearchExportReturnList:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturnList', params);
-  },//批量打印退工单
+  },
   employSearchExportOptExtCollectWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtCollectWord', params);
+  },
+  employSearchExportOptExtExplainWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtExplainWord', params);
   },
   archiveSearchExportOptExtCollectWord:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptExtCollectWord', params);

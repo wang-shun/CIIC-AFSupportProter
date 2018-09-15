@@ -546,7 +546,7 @@
             render: (h, params) => {
               let paymentState = params.row.paymentState;
               let b=[];
-              if(!(paymentState != "3" && paymentState != "5" && paymentState != "7")){
+              if(paymentState == "1" || paymentState == "3" || paymentState == "5" || paymentState == "7"){ //1 未到账 2 可付  3 内部批退 7 财务批退
                 b.push( h('Button', {
                     props: {type: 'success', size: 'small'},
                     style: {margin: '0 auto'},

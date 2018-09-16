@@ -33,6 +33,8 @@
             <DropdownItem name="3">外来独立</DropdownItem>
             <DropdownItem name="4">外来派遣</DropdownItem>
             <DropdownItem name="5">采集表汇总表</DropdownItem>
+            <DropdownItem name="6">外来情况说明/入职</DropdownItem>
+            <DropdownItem name="7">外来情况说明/离职</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Button type="info" @click="showXslConsole();">档案配对</Button>
@@ -169,7 +171,8 @@ export default {
         params: "",
         taskStatus: "",
         taskCategory: "",
-        taskResignStatus: ""
+        taskResignStatus: "",
+        isEntry: ""
       },
       // 下半部分
       recordComprehensiveHandlingColumns: [
@@ -552,6 +555,16 @@ export default {
         case 5:
           // 采集表 汇总表
           api.archiveSearchExportOptExtCollectWord(this.searchCondition);
+          break;
+          case 6:
+          // 外来情况说明 入职
+          this.searchCondition.isEntry = 1;
+          api.archiveSearchExportOptExtExplainWord(this.searchCondition);
+          break;
+          case 7:
+          // 外来情况说明 离职
+          this.searchCondition.isEntry = 0;
+          api.archiveSearchExportOptExtExplainWord(this.searchCondition);
           break;
         default:
           break;

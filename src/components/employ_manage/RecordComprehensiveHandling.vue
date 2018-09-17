@@ -22,6 +22,8 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="printLabel">打印贴头</Button>
         <Button type="info" @click="printReturnList">批量打印退工单</Button>
+        <Button type="info" @click="printReturn">打印退工单</Button>
+        <Button type="info" @click="printReturnForeign">打印外来退工单</Button>
         <Dropdown @on-click="exportTable" transfer>
           <Button type="info">
             生成导出文件
@@ -904,6 +906,35 @@ export default {
         pageNum: 1,
         params: this.searchCondition
       });
+    },
+    printReturnForeign() {
+      api.archiveSearchExportReturnList({
+        pageSize: 1000,
+        pageNum: 1,
+        params: this.searchCondition
+      });
+    },
+    printReturn() {
+      let selection = this.$refs.payComSelection.getSelection();
+      //判断条件
+      //是否有选中列
+      if (selection.length == 0) {
+        this.$Message.error("没有选中的列");
+        return;
+      }
+
+      if (selection.length > 1) {
+        this.$Message.error("选择的列太多");
+        return;
+      }
+
+
+
+      console.info(selection[0]);
+
+
+
+      api.archiveSearchExportReturn(selection[0]);
     },
     changeSortClass(storeOrder) {
       this.recordComprehensiveHandlingColumns.forEach((e, idx) => {

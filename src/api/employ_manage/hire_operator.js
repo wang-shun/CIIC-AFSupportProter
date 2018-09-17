@@ -161,6 +161,16 @@ export default {
   archiveSearchExportReturnList:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturnList', params);
   },
+
+  
+  archiveSearchExportReturnForeign:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturnForeign', params);
+  },
+
+
+  archiveSearchExportReturn:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturn', params);
+  },
   employSearchExportOptExtCollectWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtCollectWord', params);
   },

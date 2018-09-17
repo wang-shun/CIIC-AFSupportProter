@@ -4,6 +4,7 @@
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="goBack">返回</Button>
+          <Button type="info" @click="printInfo">打印退工单</Button>
         </Col>
       </Row>
       <Collapse v-model="collapseInfo">
@@ -398,6 +399,9 @@
     },
     methods: {
       goBack() {
+        this.$router.go(-1);
+      },
+      printInfo() {
         this.$router.go(-1);
       }
     }

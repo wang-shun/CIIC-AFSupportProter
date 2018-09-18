@@ -924,13 +924,6 @@ export default {
         this.$Message.error("选择的列太多");
         return;
       }
-
-
-
-      console.info(selection[0]);
-
-
-
       api.archiveSearchExportReturn(selection[0]);
     },
     changeSortClass(storeOrder) {

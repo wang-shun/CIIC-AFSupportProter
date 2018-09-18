@@ -135,6 +135,12 @@
           employeeServicer: "李XX",
           serviceManager: "王XX"
         },
+        amEmploymentBO: {
+          employeeId: "",
+          companyId: "",
+          empTaskId: "",
+          employmentId: ''
+        },
         employeeInfo: {
           employeeNumber: "",
           employeeName: "",
@@ -402,7 +408,12 @@
         this.$router.go(-1);
       },
       printInfo() {
-        this.$router.go(-1);
+        this.amEmploymentBO.companyId = this.$route.query.companyId;
+        this.amEmploymentBO.employeeId = this.$route.query.employeeId;
+        this.amEmploymentBO.empTaskId = this.$route.query.empTaskId;
+        this.amEmploymentBO.employmentId = this.$route.query.employmentId;
+
+        api.archiveSearchExportReturn(this.amEmploymentBO);
       }
     }
   }

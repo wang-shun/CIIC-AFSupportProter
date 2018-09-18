@@ -273,7 +273,7 @@
                   h('Button',{props:{type:'success',size:'small'},style:{margin:'0 auto'},
                     on:{
                       click:()=>{
-                        this.dealTransfer(params.row.employeeId,params.row.companyId,params.row.hfType);
+                        this.dealTransfer(params.row.employeeId,params.row.companyId,params.row.hfType,params.row.empCompanyId);
                       }
                     }
                   },'选择'),
@@ -559,8 +559,8 @@
         let params = this.createTask.searchCondition
         this.queryTransferForNewTask(params);
       },
-      dealTransfer(employeeId,companyId,hfType){
-        this.$router.push({name:'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType}});
+      dealTransfer(employeeId,companyId,hfType,empCompanyId){
+        this.$router.push({name:'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empCompanyId:empCompanyId}});
       },
       ok () {
 

@@ -400,6 +400,7 @@
           operateDate:'',
           handleRemark:'',
           taskStatus:1,
+          empCompanyId:this.$route.query.empCompanyId,
         },
         transferNotice1:{
           employeeId: '',

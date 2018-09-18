@@ -908,11 +908,8 @@ export default {
       });
     },
     printReturnForeign() {
-      api.archiveSearchExportReturnList({
-        pageSize: 1000,
-        pageNum: 1,
-        params: this.searchCondition
-      });
+      this.searchCondition.params = this.searchConditions.toString();
+      api.archiveSearchExportReturnForeign(this.searchCondition);
     },
     printReturn() {
       let selection = this.$refs.payComSelection.getSelection();

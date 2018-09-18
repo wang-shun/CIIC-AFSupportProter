@@ -329,7 +329,7 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton && false" :loading="isLoading">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showReject" :loading="isLoading">批退</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->

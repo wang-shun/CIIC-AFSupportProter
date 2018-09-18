@@ -235,21 +235,23 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转出单位：" prop="transferOutUnit">
 
-                  <Select style="width: 100%;" transfer 
+                  
+       <Select  v-model="transferOutUnitSelect"  style="width: 100%;" transfer 
                   @on-change="handleTransferOutChangeSelect"
-                  v-show="showUnitOutSelect">
+                  v-show="showUnitOutSelect" placeholder="">
                     <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
-
                  <AutoComplete 
                   v-model="transferNotice.transferOutUnit"
                   :label="transferNotice.transferOutUnit"
                   @on-focus="showUnitOutSelect=true"
                   :data="transferOutUnitList"
                   @on-search="handleTransferOutChange"
+                  @on-change="transferOutChange"
                   style="width: 100%;" clearable transfer>
                   </AutoComplete>
 
+           
                   <!-- <Select v-model="transferNotice.transferOutUnit"
                           :label="transferNotice.transferOutUnit"
                   filterable
@@ -274,19 +276,22 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转入单位："  prop="transferInUnit">
 
-                  <Select style="width: 100%;" transfer 
-                  @on-change="handleTransferInChangeSelect"
-                  v-show="showUnitInSelect">
+                  <Select v-model="transferInUnitSelect" style="width: 100%;" transfer 
+                  @on-change="handleTransferInChangeSelect" 
+                  v-show="showUnitInSelect" placeholder="">
                     <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
+
                   <AutoComplete 
                     v-model="transferNotice.transferInUnit"
                     :label="transferNotice.transferInUnit"
                     @on-focus="showUnitInSelect=true"
                     :data="transferInUnitList"
+                    @on-change="transferInChange"
                     @on-search="handleTransferInChange"
                   style="width: 100%;" clearable transfer>
                   </AutoComplete>
+              
                   <!-- <Select 
                   v-model="transferNotice.transferInUnit"
                   :label="transferNotice.transferInUnit"
@@ -362,6 +367,8 @@
         viewEmpArchive:{},
         showUnitOutSelect:false,
         showUnitInSelect:false,
+        transferOutUnitSelect:'',
+        transferInUnitSelect:'',
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -632,6 +639,16 @@
         if (this.transferNotice.transferDate) {
           this.transferNotice.transferDate = this.$utils.formatDate(this.transferNotice.transferDate, "YYYY-MM-DD");
         }
+      },
+      transferOutChange(value){
+        if(value=='' || value==undefined){
+          this.transferOutUnitSelect='';
+        }
+      },
+       transferInChange(value){
+         if(value=='' || value==undefined ){
+           this.transferInUnitSelect='';
+         }
       },
       handleTransferInSearch(value) {
 

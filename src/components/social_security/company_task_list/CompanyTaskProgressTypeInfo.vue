@@ -909,15 +909,16 @@
             this.handDateControl = true;
             this.sendDateControl=false;
             this.finishDateControl=true;
-            formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
+            formObj.acceptanceDate = formObj.acceptanceDate==''? new Date() : formObj.acceptanceDate;
             formObj.sendCheckDate = new Date();
              formObj.finishedDate =null;
         }else if(taskState=='3'){
             this.handDateControl = true;
             this.sendDateControl=true;
             this.finishDateControl=false;
-             formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
-             formObj.sendCheckDate = formObj.sendCheckDate==null? new Date() : formObj.sendCheckDate;
+            
+             formObj.acceptanceDate = (formObj.acceptanceDate==''? new Date() : formObj.acceptanceDate);
+             formObj.sendCheckDate = (formObj.sendCheckDate==''? new Date() : formObj.sendCheckDate);
              formObj.finishedDate = new Date();
         }
       },

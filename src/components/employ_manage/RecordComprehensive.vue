@@ -4,6 +4,7 @@
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="goBack">返回</Button>
+          <Button type="info" @click="printInfo">打印退工单</Button>
         </Col>
       </Row>
       <Collapse v-model="collapseInfo">
@@ -133,6 +134,12 @@
           centerServicer: "李XX",
           employeeServicer: "李XX",
           serviceManager: "王XX"
+        },
+        amEmploymentBO: {
+          employeeId: "",
+          companyId: "",
+          empTaskId: "",
+          employmentId: ''
         },
         employeeInfo: {
           employeeNumber: "",
@@ -399,6 +406,14 @@
     methods: {
       goBack() {
         this.$router.go(-1);
+      },
+      printInfo() {
+        this.amEmploymentBO.companyId = this.$route.query.companyId;
+        this.amEmploymentBO.employeeId = this.$route.query.employeeId;
+        this.amEmploymentBO.empTaskId = this.$route.query.empTaskId;
+        this.amEmploymentBO.employmentId = this.$route.query.employmentId;
+
+        api.archiveSearchExportReturn(this.amEmploymentBO);
       }
     }
   }

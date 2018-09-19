@@ -243,7 +243,7 @@
                   </Select>
                  <AutoComplete 
                   v-model="transferNotice.transferOutUnit"
-                  :label="transferNotice.transferOutUnit"
+                 
                   @on-focus="showUnitOutSelect=true"
                   :data="transferOutUnitList"
                   @on-search="handleTransferOutChange"
@@ -284,7 +284,7 @@
 
                   <AutoComplete 
                     v-model="transferNotice.transferInUnit"
-                    :label="transferNotice.transferInUnit"
+                   
                     @on-focus="showUnitInSelect=true"
                     :data="transferInUnitList"
                     @on-change="transferInChange"
@@ -652,12 +652,12 @@
            this.transferNotice.transferInUnitAccount='';
          }
       },
-      handleTransferInSearch(value) {
-        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
-      },
-      handleTransferOutSearch(value) {
-        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
-      },
+      // handleTransferInSearch(value) {
+      //   this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+      // },
+      // handleTransferOutSearch(value) {
+      //   this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+      // },
       handleTransferOutChangeSelect(value) {
         this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);  
         this.showUnitOutSelect=false;
@@ -680,7 +680,10 @@
         unitList.length=0;
         if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
-            unitList.push(element);
+             if(unitList.indexOf(element)<=0){
+                unitList.push(element);
+             }
+            
           })
         } else {
           api.comAccountQuery(
@@ -725,7 +728,9 @@
         unitAccountList.length = 0;
         if (value == '') {
           this.transferUnitDictList.forEach((element, index, array) => {
-            unitList.push(element);
+             if(unitList.indexOf(element)<=0){
+              unitList.push(element);
+             }
           })
         } else {
           api.comAccountQuery(
@@ -742,8 +747,10 @@
                   unitAccountList.length = 0;
                   data.data.forEach((element, index, array) => {
                     if(element.comAccountName!='undefined'){
-                      unitList.push(element.comAccountName);
-                      unitAccountList.push(element.hfComAccount);
+                        if(unitList.indexOf(element.comAccountName)<=0){
+                          unitList.push(element.comAccountName);
+                        }
+                        unitAccountList.push(element.hfComAccount);
                     }
                   })
                   if (unitList.length == 1) {

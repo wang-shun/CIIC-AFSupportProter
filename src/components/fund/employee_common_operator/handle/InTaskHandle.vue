@@ -1137,7 +1137,9 @@
         unitList.length=0;
         if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
-            unitList.push(element);
+            if(unitList.indexOf(element)<=0){
+              unitList.push(element);
+            }
           })
         } else {
           api.comAccountQuery(
@@ -1182,7 +1184,9 @@
         unitAccountList.length = 0;
         if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
-            unitList.push(element);
+            if(unitList.indexOf(element)<=0){
+              unitList.push(element);
+            }
           })
         } else {
           api.comAccountQuery(
@@ -1195,7 +1199,9 @@
               if (data.code == 200) {
                 if (data.data && data.data.length > 0) {
                   data.data.forEach((element, index, array) => {
-                    unitList.push(element.comAccountName);
+                    if(unitList.indexOf(element.comAccountName)<=0){
+                      unitList.push(element.comAccountName);
+                    }
                     unitAccountList.push(element.hfComAccount);
                   })
 
@@ -1207,7 +1213,9 @@
                     }
                   }
                 } else {
-                  unitList.push(value);
+                  if(unitList.indexOf(value)<=0){
+                    unitList.push(value);
+                  }
                 }
               } else {
                 this.$Message.error(data.message);

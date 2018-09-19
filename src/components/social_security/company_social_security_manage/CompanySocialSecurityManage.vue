@@ -182,9 +182,11 @@
     mounted() {
       this.ajax = this.$ajax.ajaxSsc;
       this.loadDict();
+      sessionData.getJsonDataFromSession('ssCompanyManage.comAccountSearch', this.comAccountSearch);
+      sessionData.getJsonDataFromSession('ssCompanyManage.resultPageData', this.resultPageData);
       //this[EventType.COMPANYSOCIALSECURITYMANAGETYPE]()
       this.queryAccount();
-      
+
     },
     computed: {
       ...mapState('companySocialSecurityManage',{
@@ -201,13 +203,11 @@
         dict.getDictData().then(data => {
           if (data.code == 200) {
             this.accountTypeList = data.data.SocialSecurityAccountType;
-            sessionData.getJsonDataFromSession('ssCompanyManage.comAccountSearch', this.comAccountSearch);
-            sessionData.getJsonDataFromSession('ssCompanyManage.resultPageData', this.resultPageData);
           }
         });
       },
       queryAccount() {
-        
+
         var params = {
           pageNum:  this.resultPageData.pageNum ,
           pageSize:  this.resultPageData.pageSize,

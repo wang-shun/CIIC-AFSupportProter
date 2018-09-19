@@ -12,7 +12,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="牡丹卡号：" prop="bankAccount">
+                <Form-item label="扣款账号：" prop="bankAccount">
                   <Input v-model="companySocialSecurityInfo.bankAccount" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -22,7 +22,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-            
+
                 <Form-item label="社保中心(结算区县)：" prop="settlementArea">
                   	<AutoComplete
                       v-model="companySocialSecurityInfo.settlementArea"
@@ -46,6 +46,13 @@
                     <Option v-for="item in payMethodList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                 </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="付款类型：" prop="paymentType">
+                <Select v-model="companySocialSecurityInfo.paymentType" style="width: 100%;" transfer>
+                  <Option v-for="item in paymentTypeList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                </Select>
+              </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="账单接收方：" prop="billReceiver">
@@ -231,6 +238,7 @@
           settlementArea: '',//结算区县
           paymentBank: '',//付款行
           paymentWay: '',//支付方式
+          paymentType: '',//付款类型
           billReceiver:'',//账单接收方
           queryAccount: '',//工行查询账号
           expireDate: '',//社保截止日
@@ -272,7 +280,7 @@ payMethodList: [
             {value: '2', label: '转入'},
           ], //任务
            socialSecurityCenterList: [
-            
+
             {value: '徐汇', label: '徐汇'},
             {value: '长宁', label: '长宁'},
             {value: '浦东', label: '浦东'},
@@ -481,6 +489,7 @@ payMethodList: [
           settlementArea : form.settlementArea,
           paymentBank : form.paymentBank,
           paymentWay : form.paymentWay,
+          paymentType : form.paymentType,
           billReceiver : form.billReceiver,
           queryAccount : form.queryAccount,
           ssPwd : form.ssPwd,

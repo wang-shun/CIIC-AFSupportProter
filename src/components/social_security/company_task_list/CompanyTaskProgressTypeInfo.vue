@@ -70,7 +70,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="付款账号：" prop="bankCardNumber">
+                <Form-item label="扣款账号：" prop="bankCardNumber">
                   <Input v-model="companyOpenAccountOperator.bankCardNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>

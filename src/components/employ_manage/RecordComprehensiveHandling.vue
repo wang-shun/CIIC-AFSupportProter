@@ -314,7 +314,7 @@ export default {
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", params.row.title),
-              h("span", params.row.cici)
+              h("span", params.row.ciCi)
             ]);
           }
         },

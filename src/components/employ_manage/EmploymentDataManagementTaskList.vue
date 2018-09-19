@@ -206,9 +206,9 @@ export default {
           title: "用工属性",
           key: "employProperty",
           align: "center",
-          width: 150,
+          width: 120,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -223,10 +223,10 @@ export default {
           title: "序号",
           key: "employmentId",
           align: "center",
-          width: 150,
+          width: 95,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -241,10 +241,10 @@ export default {
           title: "公司编号",
           key: "companyId",
           align: "center",
-          width: 150,
+          width: 120,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -276,7 +276,7 @@ export default {
                      this.copyClick(event);
                    }
                 }            
-              }, params.row.cici)
+              }, params.row.ciCi)
             ]);
           }
         },
@@ -284,10 +284,10 @@ export default {
           title: "雇员编码",
           key: "employeeId",
           align: "center",
-          width: 150,
+          width: 120,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -302,10 +302,10 @@ export default {
           title: "雇员姓名",
           key: "employeeName",
           align: "center",
-          width: 150,
+          width: 120,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h(
                 "span",
                 {
@@ -327,10 +327,10 @@ export default {
           title: "证件号",
           key: "idNum",
           align: "center",
-          width: 150,
+          width: 170,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "left" } }, [
               h(
                 "span",
                 {
@@ -352,9 +352,9 @@ export default {
           title: "客服经理",
           key: "leaderShipName",
           align: "center",
-          width: 150,
+          width: 100,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -386,9 +386,9 @@ export default {
           title: "公司特殊情况",
           key: "employSpecial",
           align: "center",
-          width: 200,
+          width: 75,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -403,10 +403,10 @@ export default {
           title: "档案编号",
           key: "docNum",
           align: "center",
-          width: 150,
+          width: 110,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -421,10 +421,10 @@ export default {
           title: "预留档案编号",
           key: "yuliuDocNum",
           align: "center",
-          width: 150,
+          width: 130,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -442,7 +442,7 @@ export default {
           width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -460,7 +460,7 @@ export default {
           width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -478,7 +478,7 @@ export default {
           width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -493,9 +493,9 @@ export default {
           title: "是否翻牌",
           key: "changeCompany",
           align: "center",
-          width: 150,
+          width: 90,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {

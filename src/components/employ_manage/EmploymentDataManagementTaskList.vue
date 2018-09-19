@@ -192,15 +192,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("i-input", {
-                props: { value: params.row.employWay, readonly: true },
+              h("span", {
                 on: {
-                  click: () => {
-                    debugger
-                    alert('sdf');
-                  }
-                }
-              })
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              },params.row.employWay)
             ]);
           }
         },
@@ -211,7 +209,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employProperty)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employProperty)
             ]);
           }
         },
@@ -223,7 +227,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employmentId)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employmentId)
             ]);
           }
         },
@@ -235,7 +245,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.companyId)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.companyId)
             ]);
           }
         },
@@ -247,8 +263,20 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("div", params.row.title),
-              h("div", params.row.cici)
+              h("div", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.title),
+              h("div", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.cici)
             ]);
           }
         },
@@ -260,7 +288,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.employeeId)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employeeId)
             ]);
           }
         },
@@ -275,6 +309,11 @@ export default {
               h(
                 "span",
                 {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                },         
                   style: {
                     "font-weight": "bold"
                   }
@@ -295,6 +334,11 @@ export default {
               h(
                 "span",
                 {
+                  on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                },  
                   style: {
                     "font-weight": "bold"
                   }
@@ -311,7 +355,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.leaderShipName)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.leaderShipName)
             ]);
           }
         },
@@ -322,7 +372,13 @@ export default {
           width: 250,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.serviceCenter)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.serviceCenter)
             ]);
           }
         },
@@ -333,7 +389,13 @@ export default {
           width: 200,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employSpecial)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employSpecial)
             ]);
           }
         },
@@ -345,7 +407,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.docNum)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.docNum)
             ]);
           }
         },
@@ -357,7 +425,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.yuliuDocNum)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.yuliuDocNum)
             ]);
           }
         },
@@ -369,7 +443,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employFeedbackOptDate)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employFeedbackOptDate)
             ]);
           }
         },
@@ -381,7 +461,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.diaodangFeedback)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.diaodangFeedback)
             ]);
           }
         },
@@ -393,7 +479,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.diaodangFeedbackOptDate)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.diaodangFeedbackOptDate)
             ]);
           }
         },
@@ -404,7 +496,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.changeCompany)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.changeCompany)
             ]);
           }
         }
@@ -1000,6 +1098,21 @@ export default {
           value.checked = true;
         }
       }
+    },copyClick(event){
+        var text = event.target;
+        if (document.body.createTextRange) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(text);
+            range.select();
+        } else if (window.getSelection) {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(text);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        } else {
+            alert("浏览器不支持");
+        }
     }
   },
   computed: {}

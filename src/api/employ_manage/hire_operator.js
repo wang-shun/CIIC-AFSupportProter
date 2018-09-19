@@ -96,6 +96,9 @@ export default {
   archiveDetailInfoQuery:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/archiveDetailInfoQuery', params);
     return await response.data;
+  },queryCompanyNameUpdateHistory:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveTask/queryCompanyNameUpdateHistory', params);
+    return await response.data;
   },saveAmInjury:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/saveAmInjury', params);
     return await response.data;

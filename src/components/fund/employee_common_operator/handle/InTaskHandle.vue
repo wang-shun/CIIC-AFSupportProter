@@ -310,7 +310,7 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton && false" :loading="isLoading">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showReject && this.displayVO.taskCategory != 99" :loading="isLoading">批退</Button>
         <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="this.displayVO.canHandle && this.displayVO.taskCategory != 99" :loading="isLoading">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
@@ -329,16 +329,17 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 12}">
             <FormItem label="转出单位">
-              <Select style="width: 100%;" transfer 
+              <Select v-model="transferOutUnitSelect" style="width: 100%;" transfer
                   @on-change="handleTransferOutChangeSelect"
                   v-show="showUnitOutSelect">
                     <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
-                  <AutoComplete 
+                  <AutoComplete
                   v-model="transferNotice.transferOutUnit"
                   :label="transferNotice.transferOutUnit"
                   @on-focus="showUnitOutSelect=true"
                   :data="transferOutUnitList"
+                  @on-change="transferOutChange"
                   @on-search="handleTransferOutChange"
                   style="width: 100%;" clearable transfer>
                   </AutoComplete>
@@ -363,16 +364,17 @@
           <Col :sm="{span: 12}">
             <FormItem label="转入单位">
 
-              <Select style="width: 100%;" transfer 
+              <Select v-model="transferInUnitSelect" style="width: 100%;" transfer
                   @on-change="handleTransferInChangeSelect"
                   v-show="showUnitInSelect">
                     <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
-                  <AutoComplete 
+                  <AutoComplete
                     v-model="transferNotice.transferInUnit"
                     :label="transferNotice.transferInUnit"
                     @on-focus="showUnitInSelect=true"
                     :data="transferInUnitList"
+                    @on-change="transferInChange"
                     @on-search="handleTransferInChange"
                   style="width: 100%;" clearable transfer>
                   </AutoComplete>
@@ -789,7 +791,8 @@
           {title: '备注内容', key: 'remark', align: 'left'}
         ],
         taskListNotesChangeData: [],
-
+        transferOutUnitSelect:'',
+        transferInUnitSelect:'',
         transferOutUnitList: [],
         transferInUnitList: [],
         transferUnitDictList: [],
@@ -1101,13 +1104,22 @@
       handleTransferOutSearch(value) {
         this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
-
+      transferOutChange(value){
+        if(value=='' || value==undefined){
+          this.transferOutUnitSelect='';
+        }
+      },
+       transferInChange(value){
+         if(value=='' || value==undefined ){
+           this.transferInUnitSelect='';
+         }
+      },
       handleTransferOutChangeSelect(value) {
-        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);  
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
         this.showUnitOutSelect=false;
       },
       handleTransferInChangeSelect(value) {
-        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 2);  
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 2);
         this.showUnitInSelect=false;
       },
 

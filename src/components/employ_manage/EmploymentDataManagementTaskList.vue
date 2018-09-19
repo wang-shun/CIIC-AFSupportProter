@@ -37,6 +37,7 @@
             <DropdownItem name="3">外来独立</DropdownItem>
             <DropdownItem name="4">外来派遣</DropdownItem>
             <DropdownItem name="5">采集表汇总表</DropdownItem>
+            <DropdownItem name="6">外来情况说明</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Button type="primary" @click="batchManagement">批理办理</Button>
@@ -919,8 +920,12 @@ export default {
           api.employSearchExportOptExtDispatchWord(this.searchCondition);
           break;
         case 5:
-          // 采集表 汇总表
+          // 采集表汇总表
           api.employSearchExportOptExtCollectWord(this.searchCondition);
+          break;
+          case 6:
+          // 外来情况说明
+          api.employSearchExportOptExtExplainWord(this.searchCondition);
           break;
         default:
           break;

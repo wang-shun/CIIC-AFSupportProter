@@ -22,6 +22,8 @@
       <Col :sm="{span: 24}" class="tr">
         <!-- <Button type="primary" @click="goHandle">办理</Button> -->
          <Button type="primary" @click="batchManagement">批理办理</Button>
+         <Button type="primary" @click="explain">外来情况说明</Button>
+         <Button type="primary" @click="printReturn">打印外来退工单</Button>
         <!-- <Button type="primary" @click="batchOperating">批量操作</Button> -->
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
@@ -508,6 +510,14 @@ export default {
     // this.queryResignTaskCount({})
   },
   methods: {
+    explain(){
+      let params = this.searchCondition;
+      api.resignSearchExplainWord(params);
+    },
+    printReturn(){
+      let params = this.searchCondition;
+      api.resignSearchPrintReturnWord(params);
+    },
     rowClassName(row, index) {
       if (row.job != undefined && row.job == "N") {
         return "demo-table-error-row";

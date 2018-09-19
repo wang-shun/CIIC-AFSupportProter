@@ -21,7 +21,9 @@
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="printLabel">打印贴头</Button>
-        <!--<Button type="info" @click="printReturnList">批量打印退工单</Button>-->
+        <Button type="info" @click="printReturnList">批量打印退工单</Button>
+        <Button type="info" @click="printReturn">打印退工单</Button>
+        <Button type="info" @click="printReturnForeign">打印外来退工单</Button>
         <Dropdown @on-click="exportTable" transfer>
           <Button type="info">
             生成导出文件
@@ -33,6 +35,8 @@
             <DropdownItem name="3">外来独立</DropdownItem>
             <DropdownItem name="4">外来派遣</DropdownItem>
             <DropdownItem name="5">采集表汇总表</DropdownItem>
+            <DropdownItem name="6">外来情况说明/入职</DropdownItem>
+            <DropdownItem name="7">外来情况说明/离职</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Button type="info" @click="showXslConsole();">档案配对</Button>
@@ -249,7 +253,8 @@ export default {
         params: "",
         taskStatus: "",
         taskCategory: "",
-        taskResignStatus: ""
+        taskResignStatus: "",
+        isEntry: ""
       },
       // 下半部分
       recordComprehensiveHandlingColumns: [
@@ -633,6 +638,16 @@ export default {
           // 采集表 汇总表
           api.archiveSearchExportOptExtCollectWord(this.searchCondition);
           break;
+          case 6:
+          // 外来情况说明 入职
+          this.searchCondition.isEntry = 1;
+          api.archiveSearchExportOptExtExplainWord(this.searchCondition);
+          break;
+          case 7:
+          // 外来情况说明 离职
+          this.searchCondition.isEntry = 0;
+          api.archiveSearchExportOptExtExplainWord(this.searchCondition);
+          break;
         default:
           break;
       }
@@ -1006,6 +1021,25 @@ export default {
         pageNum: 1,
         params: this.searchCondition
       });
+    },
+    printReturnForeign() {
+      this.searchCondition.params = this.searchConditions.toString();
+      api.archiveSearchExportReturnForeign(this.searchCondition);
+    },
+    printReturn() {
+      let selection = this.$refs.payComSelection.getSelection();
+      //判断条件
+      //是否有选中列
+      if (selection.length == 0) {
+        this.$Message.error("没有选中的列");
+        return;
+      }
+
+      if (selection.length > 1) {
+        this.$Message.error("选择的列太多");
+        return;
+      }
+      api.archiveSearchExportReturn(selection[0]);
     },
     changeSortClass(storeOrder) {
       this.recordComprehensiveHandlingColumns.forEach((e, idx) => {

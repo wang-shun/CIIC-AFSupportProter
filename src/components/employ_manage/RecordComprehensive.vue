@@ -93,6 +93,14 @@
           </div>
         </Panel>
       </Collapse>
+      <Modal
+        :width="700"
+        v-model="modal1"
+        title="选择公司变更记录"
+        @on-ok="ok"
+        @on-cancel="cancel">
+        <Table border  ref="payComSelection" :columns="companyColumns" :width="620"  :data="refuseReturnCompanys" class="mt20"></Table>
+      </Modal>
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="goBack">返回</Button>
@@ -125,6 +133,7 @@
     components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, useHandle, fileHandle, fileSend, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage,returnDocDate},
     data() {
       return {
+        modal1: false,
         collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
         customerInfo: {
           serviceCenter: "",
@@ -139,7 +148,8 @@
           employeeId: "",
           companyId: "",
           empTaskId: "",
-          employmentId: ''
+          employmentId: '',
+          companyNameList:[],
         },
         employeeInfo: {
           employeeNumber: "",
@@ -319,10 +329,34 @@
         companyNameChangeMatrialsPrintInfo: [],
         injuryReportManageInfo: [],
         refuseReturnMaterials:[],
+        refuseReturnCompanys:[],
         materialLogList:[],
         userInfo:{
           userName:''
-        }
+        },companyColumns: [
+          {title: '', type: 'selection', width: 60},
+          {title: '变更公司名称', key: 'companyName', align: 'center',width: 250,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.companyName),
+              ]);
+            }
+          },
+          {title: '变更时间', key: 'changeDate', align: 'center',width: 120,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span',   moment(Number(params.row.changeDate)).format("YYYY-MM-DD")),
+              ]);
+            }
+          },
+          {title: '备注', key: 'remark', align: 'center',width: 180,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          }
+        ],
       }
     },
      async mounted() {
@@ -407,13 +441,41 @@
       goBack() {
         this.$router.go(-1);
       },
+      ok () {
+              let selection = this.$refs.payComSelection.getSelection();
+
+          selection.some(item => {
+               this.amEmploymentBO.companyNameList.push('原公司名称：' + item.companyName);
+           });
+                this.amEmploymentBO.companyId = this.$route.query.companyId;
+                this.amEmploymentBO.employeeId = this.$route.query.employeeId;
+                this.amEmploymentBO.empTaskId = this.$route.query.empTaskId;
+                this.amEmploymentBO.employmentId = this.$route.query.employmentId;
+                api.archiveSearchExportReturn(this.amEmploymentBO);
+            },
+            cancel () {
+              
+            },
       printInfo() {
+        this.amEmploymentBO.companyNameList = [];
         this.amEmploymentBO.companyId = this.$route.query.companyId;
         this.amEmploymentBO.employeeId = this.$route.query.employeeId;
         this.amEmploymentBO.empTaskId = this.$route.query.empTaskId;
         this.amEmploymentBO.employmentId = this.$route.query.employmentId;
 
-        api.archiveSearchExportReturn(this.amEmploymentBO);
+        api.queryCompanyNameUpdateHistory({companyId:this.$route.query.companyId}).then(data=>{
+            console.info(data.data);
+            if(data.data.length > 0){
+              this.modal1 = true;
+              let selection = this.$refs.payComSelection;
+              selection.selectAll(false);
+              this.refuseReturnCompanys = data.data;
+            }else{
+              api.archiveSearchExportReturn(this.amEmploymentBO);
+            }
+        })
+
+
       }
     }
   }

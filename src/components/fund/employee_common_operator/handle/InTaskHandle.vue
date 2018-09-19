@@ -1107,11 +1107,13 @@
       transferOutChange(value){
         if(value=='' || value==undefined){
           this.transferOutUnitSelect='';
+          this.transferNotice.transferOutUnitAccount='';
         }
       },
        transferInChange(value){
          if(value=='' || value==undefined ){
            this.transferInUnitSelect='';
+           this.transferNotice.transferInUnitAccount='';
          }
       },
       handleTransferOutChangeSelect(value) {

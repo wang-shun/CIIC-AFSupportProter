@@ -23,6 +23,7 @@
         <!-- <Button type="primary" @click="goHandle">办理</Button> -->
          <Button type="primary" @click="batchManagement">批理办理</Button>
          <Button type="primary" @click="explain">外来情况说明</Button>
+         <Button type="primary" @click="printReturn">打印外来退工单</Button>
         <!-- <Button type="primary" @click="batchOperating">批量操作</Button> -->
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
@@ -142,14 +143,37 @@ export default {
       dismissalColumns: [
         { title: "", type: "selection", width: 60 },
         {
+          title: "序号",
+          key: "empTaskId",
+          align: "center",
+          width: 90,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.empTaskId)
+            ]);
+          }
+        },
+        {
           title: "退工成功日期",
           key: "jobCentreFeedbackDate",
           align: "center",
-          width: 150,
+          width: 130,
           sortable: true,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.jobCentreFeedbackDate)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.jobCentreFeedbackDate)
             ]);
           }
         },
@@ -160,7 +184,13 @@ export default {
           width: 250,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.outReason)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.outReason)
             ]);
           }
         },
@@ -171,7 +201,13 @@ export default {
           width: 100,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employProperty)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employProperty)
             ]);
           }
         },
@@ -182,7 +218,13 @@ export default {
           width: 100,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.handleType)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.handleType)
             ]);
           }
         },
@@ -190,11 +232,17 @@ export default {
           title: "雇员编号",
           key: "employeeId",
           align: "center",
-          width: 150,
+          width: 120,
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.employeeId)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employeeId)
             ]);
           }
         },
@@ -208,7 +256,11 @@ export default {
               h(
                 "span",
                 {
-                  style: {
+                  on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }, style: {
                     "font-weight": "bold"
                   }
                 },
@@ -228,7 +280,11 @@ export default {
               h(
                 "span",
                 {
-                  style: {
+                  on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }, style: {
                     "font-weight": "bold"
                   }
                 },
@@ -241,11 +297,17 @@ export default {
           title: "公司编号",
           key: "companyId",
           align: "center",
-          width: 150,
+          width: 120,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.companyId)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.companyId)
             ]);
           }
         },
@@ -255,9 +317,13 @@ export default {
           align: "center",
           width: 250,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }, style: { textAlign: "left" } }, [
               h("span", params.row.title),
-              h("span", params.row.cici)
+              h("span", params.row.ciCi)
             ]);
           }
         },
@@ -265,10 +331,16 @@ export default {
           title: "客服经理",
           key: "leaderShipName",
           align: "center",
-          width: 150,
+          width: 100,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.leaderShipName)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.leaderShipName)
             ]);
           }
         },
@@ -279,7 +351,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.serviceCenter)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.serviceCenter)
             ]);
           }
         },
@@ -287,11 +365,17 @@ export default {
           title: "档案编号",
           key: "docNum",
           align: "center",
-          width: 150,
+          width: 120,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.docNum)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.docNum)
             ]);
           }
         },
@@ -302,8 +386,14 @@ export default {
           width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.yuliuDocNum)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.yuliuDocNum)
             ]);
           }
         },
@@ -314,7 +404,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.archivePlace)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.archivePlace)
             ]);
           }
         },
@@ -322,10 +418,16 @@ export default {
           title: "实际录用日期",
           key: "employDate",
           align: "center",
-          width: 150,
+          width: 120,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employDate)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employDate)
             ]);
           }
         },
@@ -333,11 +435,17 @@ export default {
           title: "退工日期",
           key: "outDate",
           align: "center",
-          width: 150,
+          width: 120,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.outDate)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.outDate)
             ]);
           }
         },
@@ -348,7 +456,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.resignFeedback1)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.resignFeedback1)
             ]);
           }
         },
@@ -359,29 +473,30 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employFeedback)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employFeedback)
             ]);
           }
         },
-        // {
-        //   title: "综保退工日期",
-        //   key: "comprehensiveInsuranceRefuseDate",
-        //   align: "center",
-        //   width: 150,
-        //   render: (h, params) => {
-        //     return h("div", { style: { textAlign: "left" } }, [
-        //       h("span", params.row.comprehensiveInsuranceRefuseDate)
-        //     ]);
-        //   }
-        // },
         {
           title: "公司特殊情况",
           key: "refuseSpecial",
           align: "center",
-          width: 150,
+          width: 110,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.refuseSpecial)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.refuseSpecial)
             ]);
           }
         },
@@ -389,10 +504,16 @@ export default {
           title: "是否翻牌",
           key: "changeCompany",
           align: "center",
-          width: 150,
+          width: 100,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.changeCompany)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.changeCompany)
             ]);
           }
         }
@@ -409,6 +530,10 @@ export default {
     explain(){
       let params = this.searchCondition;
       api.resignSearchExplainWord(params);
+    },
+    printReturn(){
+      let params = this.searchCondition;
+      api.resignSearchPrintReturnWord(params);
     },
     rowClassName(row, index) {
       if (row.job != undefined && row.job == "N") {
@@ -804,6 +929,21 @@ export default {
           }
         }
       });
+    },copyClick(event){
+        var text = event.target;
+        if (document.body.createTextRange) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(text);
+            range.select();
+        } else if (window.getSelection) {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(text);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        } else {
+            alert("浏览器不支持");
+        }
     }
   }
 };

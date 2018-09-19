@@ -235,21 +235,23 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转出单位：" prop="transferOutUnit">
 
-                  <Select style="width: 100%;" transfer 
+                  
+       <Select  v-model="transferOutUnitSelect"  style="width: 100%;" transfer 
                   @on-change="handleTransferOutChangeSelect"
-                  v-show="showUnitOutSelect">
+                  v-show="showUnitOutSelect" placeholder="">
                     <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
-
                  <AutoComplete 
                   v-model="transferNotice.transferOutUnit"
                   :label="transferNotice.transferOutUnit"
                   @on-focus="showUnitOutSelect=true"
                   :data="transferOutUnitList"
                   @on-search="handleTransferOutChange"
+                  @on-change="transferOutChange"
                   style="width: 100%;" clearable transfer>
                   </AutoComplete>
 
+           
                   <!-- <Select v-model="transferNotice.transferOutUnit"
                           :label="transferNotice.transferOutUnit"
                   filterable
@@ -274,19 +276,22 @@
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="转入单位："  prop="transferInUnit">
 
-                  <Select style="width: 100%;" transfer 
-                  @on-change="handleTransferInChangeSelect"
-                  v-show="showUnitInSelect">
+                  <Select v-model="transferInUnitSelect" style="width: 100%;" transfer 
+                  @on-change="handleTransferInChangeSelect" 
+                  v-show="showUnitInSelect" placeholder="">
                     <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
+
                   <AutoComplete 
                     v-model="transferNotice.transferInUnit"
                     :label="transferNotice.transferInUnit"
                     @on-focus="showUnitInSelect=true"
                     :data="transferInUnitList"
+                    @on-change="transferInChange"
                     @on-search="handleTransferInChange"
                   style="width: 100%;" clearable transfer>
                   </AutoComplete>
+              
                   <!-- <Select 
                   v-model="transferNotice.transferInUnit"
                   :label="transferNotice.transferInUnit"
@@ -362,6 +367,8 @@
         viewEmpArchive:{},
         showUnitOutSelect:false,
         showUnitInSelect:false,
+        transferOutUnitSelect:'',
+        transferInUnitSelect:'',
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -474,19 +481,19 @@
             
             if (!this.transferNotice1.transferOutUnit || this.transferNotice1.transferOutUnit == '') {
               this.transferUnitDictList.forEach((element, index, array) => {
-                  this.transferOutUnitList.push(element);
+                //  this.transferOutUnitList.push(element);
               })
             } else {
-              this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
+              //this.transferOutUnitList.push(this.transferNotice1.transferOutUnit);
               this.transferOutUnitAccountList.push(this.transferNotice1.transferOutUnitAccount);
             }
 
             if (!this.transferNotice1.transferInUnit || this.transferNotice1.transferInUnit == '') {
               this.transferUnitDictList.forEach((element, index, array) => {
-                  this.transferInUnitList.push(element);
+                 // this.transferInUnitList.push(element);
               })
             } else {
-              this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+              //this.transferInUnitList.push(this.transferNotice1.transferInUnit);
               this.transferInUnitAccountList.push(this.transferNotice1.transferInUnitAccount);
             }
 
@@ -498,7 +505,7 @@
             //赋默认值
            
           this.transferNotice.transferOutUnit = this.displayVO.comAccountName;
-          this.transferOutUnitList.push(this.displayVO.comAccountName);
+         // this.transferOutUnitList.push(this.displayVO.comAccountName);   
           let self =this;
           if(this.$route.query.hfType ==undefined ||this.$route.query.hfType== '1'){ //基本公积金
             setTimeout(function(){self.transferNotice.transferOutUnitAccount=self.displayVO.basicHfComAccount;},500);
@@ -633,21 +640,21 @@
           this.transferNotice.transferDate = this.$utils.formatDate(this.transferNotice.transferDate, "YYYY-MM-DD");
         }
       },
+      transferOutChange(value){
+        if(value=='' || value==undefined){
+          this.transferOutUnitSelect='';
+        }
+      },
+       transferInChange(value){
+         if(value=='' || value==undefined ){
+           this.transferInUnitSelect='';
+         }
+      },
       handleTransferInSearch(value) {
-
         this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
-//        if (this.transferNotice.transferInUnitAccount != '') {
-//          return true;
-//        }
-//        return false;
       },
       handleTransferOutSearch(value) {
-
         this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
-//        if (this.transferNotice.transferOutUnitAccount != '') {
-//          return true;
-//        }
-//        return false;
       },
       handleTransferOutChangeSelect(value) {
         this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);  
@@ -659,32 +666,10 @@
       },
       handleTransferOutChange(value) {
         this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
-        // this.transferOutUnitList.forEach((element, index, array) => {
-        //     if (element == value) {
-        //       if (this.transferOutUnitAccountList && this.transferOutUnitAccountList.length > index) {
-        //         this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
-        //       } else {
-        //         this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
-        //       }
-        //       return;
-        //     }
-        //   }
-        // )
       },
 
       handleTransferInChange(value) {
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
-        // this.transferInUnitList.forEach((element, index, array) => {
-        //     if (element == value) {
-        //       if (this.transferInUnitAccountList && this.transferInUnitAccountList.length > index) {
-        //         this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
-        //       } else {
-        //         this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
-        //       }
-        //       return;
-        //     }
-        //   }
-        // )
       },
 
      doSelect(value, unitList, unitAccountList, type) {
@@ -750,6 +735,9 @@
             data => {
               if (data.code == 200) {
                 if (data.data && data.data.length > 0) {
+                  
+                  unitList.length = 0;
+                  unitAccountList.length = 0;
                   data.data.forEach((element, index, array) => {
                     if(element.comAccountName!='undefined'){
                       unitList.push(element.comAccountName);

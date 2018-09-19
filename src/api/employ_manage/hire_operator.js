@@ -96,6 +96,9 @@ export default {
   archiveDetailInfoQuery:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/archiveDetailInfoQuery', params);
     return await response.data;
+  },queryCompanyNameUpdateHistory:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveTask/queryCompanyNameUpdateHistory', params);
+    return await response.data;
   },saveAmInjury:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/saveAmInjury', params);
     return await response.data;
@@ -161,13 +164,9 @@ export default {
   archiveSearchExportReturnList:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturnList', params);
   },
-
-  
   archiveSearchExportReturnForeign:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturnForeign', params);
   },
-
-
   archiveSearchExportReturn:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturn', params);
   },
@@ -188,6 +187,9 @@ export default {
   },
   resignSearchExplainWord:async (params) => {
     AJAX.download('/api/employservice/amResignTask/resignSearchExplainWord', params);
+  },
+  resignSearchPrintReturnWord:async (params) => {
+    AJAX.download('/api/employservice/amResignTask/resignSearchPrintReturnWord', params);
   },
   archiveSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportOpt', params);

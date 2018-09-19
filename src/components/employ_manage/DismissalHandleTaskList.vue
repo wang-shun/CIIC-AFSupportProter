@@ -148,7 +148,13 @@ export default {
           sortable: true,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.jobCentreFeedbackDate)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.jobCentreFeedbackDate)
             ]);
           }
         },
@@ -159,7 +165,13 @@ export default {
           width: 250,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.outReason)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.outReason)
             ]);
           }
         },
@@ -170,7 +182,13 @@ export default {
           width: 100,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employProperty)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employProperty)
             ]);
           }
         },
@@ -181,7 +199,13 @@ export default {
           width: 100,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.handleType)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.handleType)
             ]);
           }
         },
@@ -193,7 +217,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.employeeId)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employeeId)
             ]);
           }
         },
@@ -207,7 +237,11 @@ export default {
               h(
                 "span",
                 {
-                  style: {
+                  on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }, style: {
                     "font-weight": "bold"
                   }
                 },
@@ -227,7 +261,11 @@ export default {
               h(
                 "span",
                 {
-                  style: {
+                  on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }, style: {
                     "font-weight": "bold"
                   }
                 },
@@ -244,7 +282,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.companyId)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.companyId)
             ]);
           }
         },
@@ -254,7 +298,11 @@ export default {
           align: "center",
           width: 250,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }, style: { textAlign: "left" } }, [
               h("span", params.row.title),
               h("span", params.row.cici)
             ]);
@@ -267,7 +315,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.leaderShipName)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.leaderShipName)
             ]);
           }
         },
@@ -278,7 +332,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.serviceCenter)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.serviceCenter)
             ]);
           }
         },
@@ -290,7 +350,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.docNum)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.docNum)
             ]);
           }
         },
@@ -302,7 +368,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.yuliuDocNum)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.yuliuDocNum)
             ]);
           }
         },
@@ -313,7 +385,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.archivePlace)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.archivePlace)
             ]);
           }
         },
@@ -324,7 +402,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employDate)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employDate)
             ]);
           }
         },
@@ -336,7 +420,13 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.outDate)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.outDate)
             ]);
           }
         },
@@ -347,7 +437,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.resignFeedback1)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.resignFeedback1)
             ]);
           }
         },
@@ -358,21 +454,16 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employFeedback)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employFeedback)
             ]);
           }
         },
-        // {
-        //   title: "综保退工日期",
-        //   key: "comprehensiveInsuranceRefuseDate",
-        //   align: "center",
-        //   width: 150,
-        //   render: (h, params) => {
-        //     return h("div", { style: { textAlign: "left" } }, [
-        //       h("span", params.row.comprehensiveInsuranceRefuseDate)
-        //     ]);
-        //   }
-        // },
         {
           title: "公司特殊情况",
           key: "refuseSpecial",
@@ -380,7 +471,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.refuseSpecial)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.refuseSpecial)
             ]);
           }
         },
@@ -391,7 +488,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.changeCompany)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.changeCompany)
             ]);
           }
         }
@@ -799,6 +902,21 @@ export default {
           }
         }
       });
+    },copyClick(event){
+        var text = event.target;
+        if (document.body.createTextRange) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(text);
+            range.select();
+        } else if (window.getSelection) {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(text);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        } else {
+            alert("浏览器不支持");
+        }
     }
   }
 };

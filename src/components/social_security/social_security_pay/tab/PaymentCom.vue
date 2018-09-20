@@ -426,7 +426,7 @@
           totalPayAmountUpper: '',
           remark: '',
           isImport: false,
-          ifAdjustSave:false,
+          ifAdjustSave:true,
           changeData:[],
         },
 
@@ -934,8 +934,8 @@
             adjustDeducted : adjustDeducted
           }
         ];
-        if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
-          this.changeInfo.ifAdjustSave= true;
+        if(paymentState == "1" || paymentState == "3" || paymentState == "5" || paymentState == "7"){
+          this.changeInfo.ifAdjustSave= false;
         }
         //展现
         this.changeInfo.isShowChange = true;
@@ -1008,6 +1008,7 @@
       },
       //关闭调整框
       closeAdjustment(){
+        this.changeInfo.ifAdjustSave = true;
         this.changeInfo.isShowChange = false;
       },
       gotoAddBatch(){

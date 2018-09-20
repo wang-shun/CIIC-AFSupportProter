@@ -340,7 +340,7 @@
                   :data="transferOutUnitList"
                   @on-change="transferOutChange"
                   @on-search="handleTransferOutChange"
-                  style="width: 100%;" clearable transfer>
+                  style="width: 100%;" transfer>
                   </AutoComplete>
               <!-- <Select
                 v-model="transferNotice.transferOutUnit"
@@ -374,7 +374,7 @@
                     :data="transferInUnitList"
                     @on-change="transferInChange"
                     @on-search="handleTransferInChange"
-                  style="width: 100%;" clearable transfer>
+                  style="width: 100%;" transfer>
                   </AutoComplete>
               <!-- <Select
                 v-model="transferNotice.transferInUnit"

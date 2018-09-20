@@ -247,7 +247,7 @@
                   :data="transferOutUnitList"
                   @on-search="handleTransferOutChange"
                   @on-change="transferOutChange"
-                  style="width: 100%;" clearable transfer>
+                  style="width: 100%;"  transfer>
                   </AutoComplete>
 
            
@@ -288,7 +288,7 @@
                     :data="transferInUnitList"
                     @on-change="transferInChange"
                     @on-search="handleTransferInChange"
-                  style="width: 100%;" clearable transfer>
+                  style="width: 100%;"  transfer>
                   </AutoComplete>
               
                   <!-- <Select 

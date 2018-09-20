@@ -3,8 +3,8 @@
     <Tabs v-model="tab" @on-click='onClickO'>
       <TabPane label="未处理" name="noprogress">
       </TabPane>
-      <!-- <TabPane label="处理中" name="progressing">
-      </TabPane> -->
+      <TabPane label="处理中" name="progressing">
+      </TabPane>
       <TabPane label="已完成" name="finished">
       </TabPane>
       <TabPane label="已批退" name="refused">

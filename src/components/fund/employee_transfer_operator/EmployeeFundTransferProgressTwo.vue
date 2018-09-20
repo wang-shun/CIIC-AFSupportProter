@@ -238,12 +238,11 @@
                   
        <Select  v-model="transferOutUnitSelect"  style="width: 100%;" transfer 
                   @on-change="handleTransferOutChangeSelect"
-                  v-show="showUnitOutSelect" placeholder="">
+                  placeholder="">
                     <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                  <AutoComplete 
                   v-model="transferNotice.transferOutUnit"
-                 
                   @on-focus="showUnitOutSelect=true"
                   :data="transferOutUnitList"
                   @on-search="handleTransferOutChange"
@@ -278,7 +277,7 @@
 
                   <Select v-model="transferInUnitSelect" style="width: 100%;" transfer 
                   @on-change="handleTransferInChangeSelect" 
-                  v-show="showUnitInSelect" placeholder="">
+                   placeholder="">
                     <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
 
@@ -726,7 +725,8 @@
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;
-        if (value == '') {
+        if (value == '' || value == undefined) {
+          return;
           this.transferUnitDictList.forEach((element, index, array) => {
              if(unitList.indexOf(element)<=0){
               unitList.push(element);
@@ -738,11 +738,9 @@
               comAccountName: value,
               hfType: this.transferNotice.hfType,
             }
-          ).then(
-            data => {
+          ).then(data => {
               if (data.code == 200) {
                 if (data.data && data.data.length > 0) {
-                  
                   unitList.length = 0;
                   unitAccountList.length = 0;
                   data.data.forEach((element, index, array) => {

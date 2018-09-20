@@ -1008,6 +1008,7 @@
       },
       //关闭调整框
       closeAdjustment(){
+        this.changeInfo.ifAdjustSave = true;
         this.changeInfo.isShowChange = false;
       },
       gotoAddBatch(){

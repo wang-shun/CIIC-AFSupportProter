@@ -87,13 +87,13 @@
                 <Input placeholder="请输入" v-model.trim="queryForm2.employeeId" :maxlength="20"></Input>
               </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保状态：" prop="socialSecurityStatus">
                  <Select v-model="queryForm2.archiveTaskStatus" style="width: 100%;" transfer>
                     <Option v-for="item in sSecurityStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
               </Form-item>
-              </Col>
+              </Col> -->
                
             </Row>
             <Row>

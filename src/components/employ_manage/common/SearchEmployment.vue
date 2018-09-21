@@ -133,6 +133,8 @@
            
           }else if(this.showHandle.name==='archive'){
             fu = sessionStorage.getItem('archive'+userInfo.userId);
+          }else if(this.showHandle.name==='independentCustom'){
+             fu = sessionStorage.getItem('independentCustom'+userInfo.userId);
           }
           if(fu!=null)
           {
@@ -237,6 +239,8 @@
                 window.sessionStorage.setItem('resignIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
               }else if(this.showHandle.name==='archive'){
                 window.sessionStorage.setItem('archive'+userInfo.userId, JSON.stringify(this.searchConditions));
+              }else if(this.showHandle.name==='independentCustom'){
+                 window.sessionStorage.setItem('independentCustom'+userInfo.userId, JSON.stringify(this.searchConditions));
               }
          }
          

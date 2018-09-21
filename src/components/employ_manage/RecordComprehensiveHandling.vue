@@ -57,6 +57,7 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
+      
     <Modal
       v-model="isShowImportAdvance"
       title="档案配对批量导入操作">
@@ -187,6 +188,14 @@
     </RadioGroup> 
     </Col>
     </Row>
+    <Modal
+        :width="700"
+        v-model="modal1"
+        title="选择公司变更记录"
+        @on-ok="ok"
+        @on-cancel="cancel">
+        <Table border  ref="payComUpdateSelection" :columns="companyColumns" :width="620"  :data="refuseReturnCompanys" class="mt20"></Table>
+      </Modal>
   </div>
 </template>
 <script>
@@ -202,6 +211,39 @@ export default {
   components: { employeeInfo, searchEmployment },
   data() {
     return {
+      modal1: false,
+      companyColumns: [
+          {title: '', type: 'selection', width: 60},
+          {title: '变更公司名称', key: 'companyName', align: 'center',width: 250,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.companyName),
+              ]);
+            }
+          },
+          {title: '变更时间', key: 'changeDate', align: 'center',width: 120,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span',   moment(Number(params.row.changeDate)).format("YYYY-MM-DD")),
+              ]);
+            }
+          },
+          {title: '备注', key: 'remark', align: 'center',width: 180,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          }
+        ],
+        refuseReturnCompanys:[],
+        amEmploymentBO: {
+          employeeId: "",
+          companyId: "",
+          empTaskId: "",
+          employmentId: '',
+          companyNameList:[],
+        },
       isShowImportAdvance: false,
       uploadAttr: {
         actionUrl: "",
@@ -1027,20 +1069,50 @@ export default {
       api.archiveSearchExportReturnForeign(this.searchCondition);
     },
     printReturn() {
-      let selection = this.$refs.payComSelection.getSelection();
+      let selectionRow = this.$refs.payComSelection.getSelection();
       //判断条件
       //是否有选中列
-      if (selection.length == 0) {
+      if (selectionRow.length == 0) {
         this.$Message.error("没有选中的列");
         return;
       }
 
-      if (selection.length > 1) {
+      if (selectionRow.length > 1) {
         this.$Message.error("选择的列太多");
         return;
       }
-      api.archiveSearchExportReturn(selection[0]);
+
+      api.queryCompanyNameUpdateHistory({companyId:selectionRow[0].companyId}).then(data=>{
+            if(data.data.length > 0){
+              this.modal1 = true;
+              let selection = this.$refs.payComUpdateSelection;
+              selection.selectAll(false);
+              this.refuseReturnCompanys = data.data;
+            }else{
+              this.amEmploymentBO.companyId = selectionRow[0].companyId;
+              this.amEmploymentBO.employeeId = selectionRow[0].employeeId;
+              this.amEmploymentBO.empTaskId = selectionRow[0].empTaskId;
+              this.amEmploymentBO.employmentId = selectionRow[0].employmentId;
+              api.archiveSearchExportReturn(this.amEmploymentBO);
+            }
+        })
     },
+    ok () {
+              let selection = this.$refs.payComUpdateSelection.getSelection();
+
+               selection.some(item => {
+               this.amEmploymentBO.companyNameList.push('原公司名称：' + item.companyName);
+           });
+                let selectionRow = this.$refs.payComSelection.getSelection();
+                this.amEmploymentBO.companyId = selectionRow[0].companyId;
+                this.amEmploymentBO.employeeId = selectionRow[0].employeeId;
+                this.amEmploymentBO.empTaskId = selectionRow[0].empTaskId;
+                this.amEmploymentBO.employmentId = selectionRow[0].employmentId;
+                api.archiveSearchExportReturn(this.amEmploymentBO);
+            },
+            cancel () {
+              
+            },
     changeSortClass(storeOrder) {
       this.recordComprehensiveHandlingColumns.forEach((e, idx) => {
         let order = "normal";
@@ -1202,7 +1274,7 @@ export default {
           this.$Message.error("批量失败！" + data.message);
         }
       });
-    }
+    },
   },
   computed: {}
 };

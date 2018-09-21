@@ -141,7 +141,7 @@ let advance_chooseField = {
   "a.reserved_archive_no":"档案编号",
   "a.employee_name":"雇员姓名",
   "a.employee_idcard_no":"身份证号",
-  "a.created_time":"入库日期",
+  "a.entering_date":"入库日期",
   "a.archive_source":"档案来源",
   "a.archive_place":"存档地",
   "a.created_by":"操作人",

@@ -2,10 +2,14 @@
   <div>
     <Form :label-width="150">
       <Row type="flex" justify="start">
-        
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
              <Form-item label="">
             <Checkbox v-model="refuse.post" true-value="1" false-value="0">寄信</Checkbox>
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="操作员：">
+            <Input v-model="refuse.postSaver" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
       </Row>
@@ -52,7 +56,7 @@
         var fromData = this.$utils.clear(this.refuseInfo,'');
 
         api.saveAmSend({employmentId: this.refuseInfo.employmentId,
-                        post: this.refuseInfo.post}).then(data => {
+                        post: this.refuseInfo.post,postSaver:this.refuseInfo.postSaver}).then(data => {
               if (data.data == true) {
                   this.$Message.success("保存成功");
                 } else {

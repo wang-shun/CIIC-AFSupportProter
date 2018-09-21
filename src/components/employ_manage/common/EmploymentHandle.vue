@@ -186,6 +186,10 @@ import api from '../../../api/employ_manage/hire_operator'
               this.handleInfo.employProperty = data.data.employProperty;
            }
 
+           if(data.data.employWay){
+              this.handleInfo.employWay = data.data.employWay;
+           }
+
          })
        },handleChange(val){
         

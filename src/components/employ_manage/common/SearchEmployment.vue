@@ -24,6 +24,13 @@
             </Select>
           </Form-item>
         </Col>
+        <Col :sm="{span: 24}" v-if="showHandle.name==='independentCustom'">
+          <Form-item label="选择字段" prop="chooseFieldValue">
+            <Select v-model="searchForm.chooseFieldValue" :label-in-value="true" @on-change="v=>{setOption(v, 1001)}" transfer>
+              <Option v-for="(field, index) in searchForm.chooseInpendentField" :value="index" :key="index">{{field}}</Option>
+            </Select>
+          </Form-item>
+        </Col>
         <Col :sm="{span: 24}">
           <Form-item label="关系" prop="relationshipValue">
             <Select v-model="searchForm.relationshipValue" :label-in-value="true" @on-change="v=>{setOption(v, 1002)}" transfer>
@@ -68,7 +75,7 @@
   </Form>
 </template>
 <script>
-  import {em_chooseField,em_resign_chooseField,em_arc_chooseField,em_relationship} from "../../../assets/js/employ_manage/common_filed"
+  import {em_chooseField,em_resign_chooseField,em_arc_chooseField,em_relationship,independent_chooseField} from "../../../assets/js/employ_manage/common_filed"
   import COMMON_METHODS from "../../../assets/js/common_methods"
   const chooseType = {
     field: 1001,
@@ -95,6 +102,7 @@
           chooseField: em_chooseField,
           chooseResignField: em_resign_chooseField,
           chooseArchiveField: em_arc_chooseField,
+          chooseInpendentField: independent_chooseField,
           relationshipValue: "",
           relationship: em_relationship,
           searchContent: "",
@@ -142,8 +150,10 @@
     methods: {
       // 选择字段或关系
       setOption(content, type){
-       
-        if(type === chooseType.field) {
+        
+        if(content)
+        {
+           if(type === chooseType.field) {
          
           if(content.value.indexOf("date")>0||content.value.indexOf("created_time")>0){
             this.searchForm.isDate=1;
@@ -152,9 +162,11 @@
           }
           this.searchForm.searchContent ="";
           this.currentField = content;
-        } else {
+         } else {
           this.currentShip = content;
+         }
         }
+        
       },
       addCondition() {
         if(COMMON_METHODS.IS_EMPTY(this.currentField) || COMMON_METHODS.IS_EMPTY(this.currentShip) || COMMON_METHODS.IS_EMPTY(this.searchForm.searchContent)) {

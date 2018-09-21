@@ -294,7 +294,7 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton && false" :loading="isLoading">转下月处理</Button>
         <!--<Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton">批退</Button>-->
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
@@ -507,6 +507,7 @@
             this.taskCategoryDisable = false;
 
             if (taskCategory >= 12) {
+              this.taskCategoryList.splice(this.taskCategoryList.length - 1, 1);
               this.taskCategoryList.splice(0, 11);
             } else {
               this.taskCategoryList.splice(5, this.taskCategoryList.length - 5);
@@ -678,7 +679,7 @@
           return false;
         }
         if (this.inputData.endMonth && this.inputData.endMonth != api.minusMonths(this.displayVO.hfMonth, 1)) {
-          this.$Message.error("客户汇缴月非汇缴截止缴费月的次月");
+          this.$Message.error("客户汇缴月必须为汇缴截止缴费月的下一月");
           return false;
         }
         if (this.inputData.handleRemark && this.inputData.handleRemark.length > 200) {

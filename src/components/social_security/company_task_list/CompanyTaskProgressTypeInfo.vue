@@ -25,7 +25,7 @@
                   </Select>
                   <!-- <Input v-model="beforeSendInfo.customerSocialSecurityEndDate" placeholder="每月18号"></Input> -->
                 </Form-item>
-                
+
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="付款方式：" prop="payMethodValue">
@@ -70,7 +70,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="牡丹卡号：" prop="bankCardNumber">
+                <Form-item label="扣款账号：" prop="bankCardNumber">
                   <Input v-model="companyOpenAccountOperator.bankCardNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -459,7 +459,7 @@
             {value: '2', label: '转入'},
           ], //任务
            socialSecurityCenterList: [
-            
+
             {value: '徐汇', label: '徐汇'},
             {value: '长宁', label: '长宁'},
             {value: '浦东', label: '浦东'},
@@ -538,7 +538,7 @@
                     ],
                     taskValue: [
                         { required: true, message: '请选择任务状态！', trigger: 'blur' }
-                    ], 
+                    ],
                     // joinSafeguardRegister: [
                     //     { required: true, message: '该项不能为空!', trigger: 'blur' },
                     //     { max:20, message: '最多不超过20个.', trigger: 'blur' }
@@ -571,7 +571,7 @@
                     //     { required: true, validator: validateUserNameAndPsw, trigger: 'blur' },
 
                     // ],
-    
+
                     // resourceValue: [
                     //     { required: true, message: '请选择来源地!', trigger: 'change' }
                     // ],
@@ -692,7 +692,7 @@
            if(res == false )return;
 
         }
-        
+
         let self = this;
         this.$Modal.confirm({
             title: '',
@@ -769,7 +769,7 @@
         }
         let self = this
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
- 
+
           if(typeof(result.comAccountId)!='undefined' && !result.comAccountId!=null && result.comAccountId!='' && result.companyOpenAccountOperator.state==1){
            this.$Notice.config({
                 top:80
@@ -909,15 +909,16 @@
             this.handDateControl = true;
             this.sendDateControl=false;
             this.finishDateControl=true;
-            formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
+            formObj.acceptanceDate = formObj.acceptanceDate==''? new Date() : formObj.acceptanceDate;
             formObj.sendCheckDate = new Date();
              formObj.finishedDate =null;
         }else if(taskState=='3'){
             this.handDateControl = true;
             this.sendDateControl=true;
             this.finishDateControl=false;
-             formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
-             formObj.sendCheckDate = formObj.sendCheckDate==null? new Date() : formObj.sendCheckDate;
+            
+             formObj.acceptanceDate = (formObj.acceptanceDate==''? new Date() : formObj.acceptanceDate);
+             formObj.sendCheckDate = (formObj.sendCheckDate==''? new Date() : formObj.sendCheckDate);
              formObj.finishedDate = new Date();
         }
       },

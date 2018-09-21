@@ -1,5 +1,5 @@
 <template>
-  <div style="height:850px">
+  <div style="height:900px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员转移查询条件
@@ -67,6 +67,23 @@
                   </Select>
                 </Form-item>
               </Col>
+
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="入离职状态：" prop="status">
+                  <Select v-model="searchCondition.status" style="width: 100%;" transfer>
+                    <Option v-for="item in workStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="公积金状态：" prop="archiveTaskStatus">
+                  <Select v-model="searchCondition.archiveTaskStatus" style="width: 100%;" transfer>
+                    <Option value="" key="">全部</Option>
+                    <Option v-for="item in EmpArchiveStatus" :value="item.key" :key="item.key">{{item.value}}</Option>
+                  </Select>
+                </Form-item>
+              </Col>
+
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -89,8 +106,9 @@
             <Icon type="arrow-down-b"></Icon>
           </Button>
           <DropdownMenu slot="list">
-            <DropdownItem name="0">导出雇员转移清册</DropdownItem>
-            <DropdownItem name="1">导出雇员转移TXT</DropdownItem>
+            <DropdownItem name="0">导出入管清册</DropdownItem>
+            <DropdownItem name="1">导出雇员转移清册</DropdownItem>
+            <DropdownItem name="2">导出雇员转移TXT</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <!-- <Button type="primary" @click="">扫描校验</Button> -->
@@ -149,7 +167,7 @@
           <Col :sm="{span: 12}">
             <Form-item label="入离职状态：" prop="status">
               <Select v-model="createTask.searchCondition.status" style="width: 100%;" transfer>
-                <Option v-for="item in createTask.workStatueList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                <Option v-for="item in createTask.workStatusList" :value="item.value" :key="item.value">{{item.label}}</Option>
               </Select>
             </Form-item>
           </Col>
@@ -191,6 +209,7 @@
   import api from '../../../../api/house_fund/employee_task/employee_transfer'
   import sessionData from '../../../../api/session-data'
   import commonApi from '../../../../api/house_fund/common/common'
+  import dict from '../../../../api/dict_access/house_fund_dict'
 
   export default {
     data() {
@@ -215,6 +234,8 @@
           hfEmpAccount: '',
           hfAccountType: '',
           taskStatus: '1',
+          status:'',
+          archiveTaskStatus:'',
         },
         isCreateTaskTicket: false,
         pageDataNewTask: {
@@ -223,6 +244,12 @@
           pageSize: this.$utils.DEFAULT_PAGE_SIZE,
           pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
         },
+        workStatusList: [
+            {label: '全部', value: ''},
+            {label: '在职', value: 2},
+            {label: '离职', value: 3}
+        ],
+        EmpArchiveStatus:[],
         createTask: {
           searchCondition: {
             employeeId: '',
@@ -233,7 +260,7 @@
             status: '',
             hfType:'',
           },
-          workStatueList: [
+          workStatusList: [
             {label: '全部', value: ''},
             {label: '在职', value: 2},
             {label: '离职', value: 3}
@@ -246,7 +273,7 @@
                   h('Button',{props:{type:'success',size:'small'},style:{margin:'0 auto'},
                     on:{
                       click:()=>{
-                        this.dealTransfer(params.row.employeeId,params.row.companyId,params.row.hfType);
+                        this.dealTransfer(params.row.employeeId,params.row.companyId,params.row.hfType,params.row.empCompanyId);
                       }
                     }
                   },'选择'),
@@ -433,11 +460,19 @@
       }
     },
     mounted() {
-      sessionData.getJsonDataFromSession('transfer.noprocess.searchCondition', this.searchCondition);
-      sessionData.getJsonDataFromSession('transfer.noprocess.pageData', this.pageData);
-      let params = this.searchCondition
-      this.queryTransfer(params);
-      this.getCustomers();
+        this.getCustomers();
+        dict.getDictData().then(data => {
+        if (data.code == 200) {
+          this.EmpArchiveStatus = data.data.EmpArchiveStatus;
+          this.EmpArchiveStatus.splice(0,1);//去掉未办理选项
+          sessionData.getJsonDataFromSession('transfer.noprocess.searchCondition', this.searchCondition);
+          sessionData.getJsonDataFromSession('transfer.noprocess.pageData', this.pageData);
+          let params = this.searchCondition
+          this.queryTransfer(params);
+        } else {
+          this.$Message.error(data.message);
+        }
+      })
     },
     computed: {
       ...mapState('tNoProcess',{
@@ -483,7 +518,14 @@
         let companyId=row.companyId;
         let hfType=row.hfType;
         let empTaskId=row.empTaskId;
-        this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId}});
+        let empArchiveId='';
+        if(hfType == 1){
+          empArchiveId = row.empArchiveId;
+        }else{
+          empArchiveId = row.belongEmpArchiveId;
+        }
+        
+        this.$router.push({name: 'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empTaskId:empTaskId,empArchiveId:empArchiveId}});
       },
       getCustomers(){
         let params = null;
@@ -518,8 +560,8 @@
         let params = this.createTask.searchCondition
         this.queryTransferForNewTask(params);
       },
-      dealTransfer(employeeId,companyId,hfType){
-        this.$router.push({name:'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType}});
+      dealTransfer(employeeId,companyId,hfType,empCompanyId){
+        this.$router.push({name:'employeeFundTransferProgressTwo', query: {employeeId: employeeId,companyId:companyId,hfType:hfType,empCompanyId:empCompanyId}});
       },
       ok () {
 
@@ -527,7 +569,7 @@
       cancel () {
 
       },
-      empToCenterTransferExport() {
+      multiEmpTaskTransferExport() {
         if (!this.searchCondition.transferOutUnit || !this.searchCondition.transferInUnit) {
           this.$Message.error("导出雇员转移清册，必须在查询条件输入明确的【转出单位】及【转入单位】");
           return false;
@@ -587,9 +629,13 @@
           }
         })
       },
-      multiEmpTaskTransferExport() {
+      empToCenterTransferExport() {
         if (!this.searchCondition.transferOutUnit) {
           this.$Message.error("导出入管清册，必须在查询条件输入【转出单位】");
+          return false;
+        }
+        if (!this.searchCondition.hfType || this.searchCondition.hfType === '') {
+          this.$Message.error("导出入管清册，必须在查询条件选择某一公积金类型");
           return false;
         }
         commonApi.getComFundAccountClassNameList({
@@ -611,8 +657,26 @@
                 }
               }
               let params = this.searchCondition
-              api.multiEmpTaskTransferExport({
+              api.checkEmpTransferEndMonthSame({
                 params: params,
+              }).then(data => {
+                if (data.code === 200) {
+                  let rtn = Number(data.data);
+                  if (rtn > 0) {
+                    let rtnMessage = "";
+                    if (rtn === 1) {
+                      rtnMessage = "未匹配到任何转移任务单";
+                    } else if (rtn === 2) {
+                      rtnMessage = "匹配到的转移任务单中的封存年月不相同";
+                    }
+                    this.$Message.error(rtnMessage);
+                    return false;
+                  } else {
+                    api.empToCenterTransferExport({
+                      params: params,
+                    })
+                  }
+                }
               })
             } else if (total > 1) {
               this.$Message.error("匹配出了多家转出单位，请进一步明确转出单位名称");
@@ -643,6 +707,9 @@
             this.empToCenterTransferExport();
             break;
           case 1:
+            this.multiEmpTaskTransferExport();
+            break;
+          case 2:
             this.empTaskTransferTxtExport();
             break;
           default:

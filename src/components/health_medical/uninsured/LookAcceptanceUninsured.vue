@@ -152,6 +152,11 @@
               <span>{{ detail.remark }}</span>
             </Form-item>
           </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="付款日期">
+              <span>{{ detail.paymentDate }}</span>
+            </Form-item>
+          </Col>
         </Row>
       </Form>
     </Card>

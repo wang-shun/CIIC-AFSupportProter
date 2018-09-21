@@ -66,12 +66,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="打印日期：">
-            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder="" :readonly="refuse.printDateR" transfer ></DatePicker>
+            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder="" :readonly="true" transfer ></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈：">
-            <Select v-model="refuse.resignFeedback" transfer @on-change="changeEndType">
+            <Select @on-open-change="onOpenChange" v-model="refuse.resignFeedback" transfer @on-change="changeEndType">
               <Option v-for="item in refuseFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -151,11 +151,11 @@
             {{refuse.handleType}}
           </Form-item>
         </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退档日期：">
             <DatePicker v-model="refuse.returnDocDate" @on-open-change="setCurrentDate1" @on-change="changeDate1"  type="date" placeholder="" transfer></DatePicker>
           </Form-item>
-        </Col>
+        </Col> -->
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工UKey外借日期：">
             <DatePicker v-model="refuse.ukeyBorrowDate" :readonly="true" @on-open-change="setCurrentDate5" @on-change="changeDate5"  type="date" placeholder="" transfer></DatePicker>
@@ -187,7 +187,6 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="">
-            <Checkbox v-model="refuse.ifSend" true-value="1" false-value="0">寄信</Checkbox>
             <Checkbox v-model="refuse.ifNetwork" true-value="1" false-value="0">是否网办</Checkbox>
             <Checkbox v-model="refuse.ifLaborManualReturn" true-value="1" false-value="0">劳动手册是否交被退人员</Checkbox>
           </Form-item>
@@ -474,6 +473,10 @@
              break;
 
          }
+       },onOpenChange(e){
+         if(e){
+          this.isFrist = false;
+         }
        },changeEndType(val){
 
         var isCon = this.callbackValue(val);
@@ -565,9 +568,6 @@
 
               this.refuse.resignFeedbackDate=currentdate;
           }
-          if(this.isFrist==true && this.refuse.oldResignFeedback==undefined){
-            this.isFrist = false;
-          }
           if(this.isFrist == false){
             this.refuse.resignFeedbackDate = this.currentDate();
             if(val=="11"){
@@ -576,15 +576,15 @@
             if(this.refuse.oldResignFeedback == '11' && val != "11"){
               this.refuse.ukeyReturnDate = this.currentDate();
             }
+            if(this.refuse.oldResignFeedback != '11' && val != '11'){
+              this.refuse.ukeyBorrowDate = '';
+            }
             if(this.refuse.oldResignFeedback != '11'){
               this.refuse.ukeyReturnDate = '';
             }
             if(this.refuse.oldResignFeedback == '11' && val == "11"){
               this.refuse.ukeyReturnDate = '';
             }
-          }
-          if(this.isFrist==true && this.refuse.oldResignFeedback!=undefined && this.refuse.oldResignFeedback!=''){
-            this.isFrist=false;
           }
        },currentDate(){
               var date = new Date();
@@ -612,16 +612,6 @@
 
       },changeDate(e) {
         this.refuse.printDate = e;
-      },setCurrentDate1(e) {
-        if(e){
-          if(this.refuse.returnDocDate==''||this.refuse.returnDocDate==undefined)
-          {
-             this.refuse.returnDocDate = this.currentDate();
-          }
-        }
-
-      },changeDate1(e) {
-        this.refuse.returnDocDate = e;
       },setCurrentDate2(e) {
         if(e){
           if(this.refuse.cacheDate==''||this.refuse.cacheDate==undefined)

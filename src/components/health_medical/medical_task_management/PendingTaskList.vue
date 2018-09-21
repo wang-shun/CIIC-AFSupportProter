@@ -8,31 +8,37 @@
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <FormItem label="任务单状态" prop="status">
-                  <Select v-model="formItem.status" :clearable="true" @on-change="getByPage(1)">
-                    <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
-                      {{item.label}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.status" :clearable="true" @on-change="getByPage(1)">
+                      <Option v-for="item in taskStatus" :value="item.value" :key="item.value">
+                        {{item.label}}
+                      </Option>
+                    </Select>
+                  </label>
                 </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <FormItem label="任务单类型" prop="taskType">
-                  <Select v-model="formItem.taskType" :clearable="true">
-                    <Option v-for="item in taskTypeProperties" :value="item.value" :key="item.value">
-                      {{item.label}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.taskType" :clearable="true">
+                      <Option v-for="item in taskTypeProperties" :value="item.value" :key="item.value">
+                        {{item.label}}
+                      </Option>
+                    </Select>
+                  </label>
                 </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <FormItem label="保险公司" prop="insuranceCompany">
-                  <Select v-model="formItem.insuranceCompany" :clearable="true"
-                          @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
-                    <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
-                            :key="item.insuranceCompanyId">
-                      {{item.insuranceCompanyName}}
-                    </Option>
-                  </Select>
+                  <label>
+                    <Select v-model="formItem.insuranceCompany" :clearable="true"
+                            @on-change="queryIcProductRelationInfo(formItem.insuranceCompany)">
+                      <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
+                              :key="item.insuranceCompanyId">
+                        {{item.insuranceCompanyName}}
+                      </Option>
+                    </Select>
+                  </label>
                 </FormItem>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
@@ -125,6 +131,9 @@
     </Collapse>
 
     <div class="tr m20">
+      <Button type="info" v-if="formItem.afProductId===19 || formItem.afProductId===11" @click="modalCom = true">
+        切换公司
+      </Button>
       <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2'"
               @click="modal1 = true">审核
       </Button>
@@ -148,6 +157,23 @@
               icon="ios-download-outline">导出数据
       </Button>
     </div>
+
+    <Modal class="warn-back"
+           v-model="modalCom"
+           title="切换公司">
+      <label>
+        <Select v-model="companyId">
+          <Option v-for="item in insuranceCompanyProperties" :value="item.insuranceCompanyId"
+                  :key="item.insuranceCompanyId">
+            {{item.insuranceCompanyName}}
+          </Option>
+        </Select>
+      </label>
+      <div slot="footer">
+        <Button @click="cancelCom()">取消</Button>
+        <Button type="primary" @click="switchCompany" :loading="loading">提交</Button>
+      </div>
+    </Modal>
 
     <Modal class="warn-back"
            v-model="modal1"
@@ -229,6 +255,7 @@
   export default {
     data() {
       return {
+        modalCom: false,
         modal1: false,
         modal2: false,
         modal3: false,
@@ -258,6 +285,7 @@
           insuranceCompany: null
         },
         syncDate: null,
+        companyId: '1',
         dealMsg: {
           remark: ''
         },
@@ -467,6 +495,38 @@
           });
         }
       },
+      switchCompany() {
+        if (this.formItem.afProductId === 11 && this.companyId === '1') {
+          this.$Message.info("不能切换到相同的保险公司");
+          return;
+        }
+        if (this.formItem.afProductId === 19 && this.companyId === '2') {
+          this.$Message.info("不能切换到相同的保险公司");
+          return;
+        }
+        if (this.selectData.length === 0) {
+          this.$Message.error("请选择数据");
+          return;
+        }
+        let date = {};
+        date.insurancePolicyID = this.formItem.afProductId;
+        date.insuranceCompanyID = this.companyId;
+        date.afTpaTasks = this.selectData;
+        apiAjax.changeInsuranceCompany(date).then(response => {
+          if (response.data.code === 200) {
+            this.getByPage(1);
+            this.cancelCom();
+            this.selectData = [];
+            this.$Message.success("更新成功");
+          } else {
+            this.$Message.error("服务器异常，请稍后再试");
+          }
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+
+      },
       cancel(val) {
         if (val === 4) {
           this.modal1 = false;
@@ -478,6 +538,9 @@
           this.modal2 = false;
         }
         this.dealMsg.remark = ''
+      },
+      cancelCom() {
+        this.modalCom = false;
       },
       syncToWarranty() {
         if (!this.syncDate) {
@@ -530,6 +593,10 @@
         });
       },
       queryIcProductRelationInfo(val) {
+        //如果传入没值则返回
+        if (!val) {
+          return;
+        }
         apiAjax.queryIcProductRelation(val).then(response => {
           if (response.data.code === 200) {
             this.taskTypeItem = response.data.object;

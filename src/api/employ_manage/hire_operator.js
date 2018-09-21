@@ -44,6 +44,10 @@ export default {
     let response = await AJAX.post('/api/employservice/amEmpTask/saveAmArchive', params);
     return await response.data;
   },
+  saveAmArchiveSend:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amEmpTask/saveAmArchiveSend', params);
+    return await response.data;
+  },
   //保存用工档案
   saveAmRemark:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/saveAmRemark', params);
@@ -71,6 +75,10 @@ export default {
   saveAmResign:async (params)=>{
     let response = await AJAX.post('/api/employservice/amResignTask/saveAmResign', params);
     return await response.data;
+  },
+  saveAmSend:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amResignTask/saveAmSend', params);
+    return await response.data;
   }
   ,//查询档案信息
   queryAmArchive:async (params)=>{
@@ -87,6 +95,9 @@ export default {
   },//查询雇员详细信息
   archiveDetailInfoQuery:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/archiveDetailInfoQuery', params);
+    return await response.data;
+  },queryCompanyNameUpdateHistory:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amArchiveTask/queryCompanyNameUpdateHistory', params);
     return await response.data;
   },saveAmInjury:async (params)=>{
     let response = await AJAX.post('/api/employservice/amArchiveTask/saveAmInjury', params);
@@ -129,23 +140,56 @@ export default {
   employSearchExportOptUseWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptUseWord', params);
   },
+  archiveEmploySearchExportOptUseWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptUseWord', params);
+  },
   employSearchExportOptDispatchWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptDispatchWord', params);
+  },
+  archiveSearchExportOptDispatchWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptDispatchWord', params);
   },
   employSearchExportOptAlonehWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptAlonehWord', params);
   },
+  archiveSearchExportOptAlonehWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptAlonehWord', params);
+  },
   employSearchExportOptExtDispatchWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtDispatchWord', params);
   },
+  archiveSearchExportOptExtDispatchWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptExtDispatchWord', params);
+  },
   archiveSearchExportReturnList:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturnList', params);
-  },//批量打印退工单
+  },
+  archiveSearchExportReturnForeign:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturnForeign', params);
+  },
+  archiveSearchExportReturn:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportReturn', params);
+  },
   employSearchExportOptExtCollectWord:async (params) => {
     AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtCollectWord', params);
   },
+  employSearchExportOptExtExplainWord:async (params) => {
+    AJAX.download('/api/employservice/amEmpTask/employSearchExportOptExtExplainWord', params);
+  },
+  archiveSearchExportOptExtCollectWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/employSearchExportOptExtCollectWord', params);
+  },
+  archiveSearchExportOptExtExplainWord:async (params) => {
+    AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportOptExtExplainWord', params);
+  },
   resignSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amResignTask/resignSearchExportOpt', params);
+  },
+  resignSearchExplainWord:async (params) => {
+    AJAX.download('/api/employservice/amResignTask/resignSearchExplainWord', params);
+  },
+  resignSearchPrintReturnWord:async (params) => {
+    AJAX.download('/api/employservice/amResignTask/resignSearchPrintReturnWord', params);
   },
   archiveSearchExportOpt:async (params) => {
     AJAX.download('/api/employservice/amArchiveTask/archiveSearchExportOpt', params);

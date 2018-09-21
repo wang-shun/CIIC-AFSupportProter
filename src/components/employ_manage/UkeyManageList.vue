@@ -191,7 +191,6 @@
            }else if(type == 1){
              // 导出
               let params = this.searchCondition;
-              console.info(params);
               api.uekySearchExportOpt(params);
            }
             

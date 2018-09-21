@@ -246,6 +246,14 @@
             }
           },
           {
+            title: '付款日期', sortable: true, key: 'paymentDate',
+            render: (h, params) => {
+              if (params.row.paymentDate !== null) {
+                return h('div', this.$utils.formatDate(params.row.paymentDate, 'YYYY-MM-DD'));
+              }
+            }
+          },
+          {
             title: '发票合计', sortable: true, key: 'invoiceNumber'
           },
           {

@@ -310,7 +310,7 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton && false" :loading="isLoading">转下月处理</Button>
         <Button type="error" class="ml10" @click="handleTaskReject" v-if="showReject && this.displayVO.taskCategory != 99" :loading="isLoading">批退</Button>
         <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="this.displayVO.canHandle && this.displayVO.taskCategory != 99" :loading="isLoading">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
@@ -322,7 +322,6 @@
     <!-- 打印转移通知书 模态框 -->
     <Modal
       v-model="isShowPrintVM"
-
       title="打印转移通知书"
       width="720"
     >
@@ -330,7 +329,20 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 12}">
             <FormItem label="转出单位">
-              <Select
+              <Select v-model="transferOutUnitSelect" style="width: 100%;" transfer placeholder=""
+                  @on-change="handleTransferOutChangeSelect">
+                    <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                  <AutoComplete
+                  v-model="transferNotice.transferOutUnit"
+                  :label="transferNotice.transferOutUnit"
+                  @on-focus="showUnitOutSelect=true"
+                  :data="transferOutUnitList"
+                  @on-change="transferOutChange"
+                  @on-search="handleTransferOutChange"
+                  style="width: 100%;" transfer>
+                  </AutoComplete>
+              <!-- <Select
                 v-model="transferNotice.transferOutUnit"
                 :label="transferNotice.transferOutUnit"
                 filterable
@@ -340,7 +352,7 @@
                 :loading="loading"
                 style="width: 100%;" clearable transfer>
                 <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
-              </Select>
+              </Select> -->
             </FormItem>
           </Col>
           <Col :sm="{span: 12}">
@@ -350,7 +362,21 @@
           </Col>
           <Col :sm="{span: 12}">
             <FormItem label="转入单位">
-              <Select
+
+              <Select v-model="transferInUnitSelect" style="width: 100%;" transfer placeholder=""
+                  @on-change="handleTransferInChangeSelect">
+                    <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                  <AutoComplete
+                    v-model="transferNotice.transferInUnit"
+                    :label="transferNotice.transferInUnit"
+                    @on-focus="showUnitInSelect=true"
+                    :data="transferInUnitList"
+                    @on-change="transferInChange"
+                    @on-search="handleTransferInChange"
+                  style="width: 100%;" transfer>
+                  </AutoComplete>
+              <!-- <Select
                 v-model="transferNotice.transferInUnit"
                 :label="transferNotice.transferInUnit"
                 filterable
@@ -360,7 +386,7 @@
                 :loading="loading"
                 style="width: 100%;" clearable transfer>
                 <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
-              </Select>
+              </Select> -->
             </FormItem>
           </Col>
           <Col :sm="{span: 12}">
@@ -406,6 +432,14 @@
         isShowPrintVM: false,
         loading: false,
         isLoading: false,
+        showUnitOutSelect:false,
+        showUnitInSelect:false,
+        fundUnitSelect:[
+          {label: '原单位', value: '原单位'},
+          {label: '市公积金封存办(中心)', value: '市公积金封存办(中心)'},
+          {label: '中智大库', value: '中智大库'},
+          {label: '中智外包', value: '中智外包'}
+        ],
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -755,7 +789,8 @@
           {title: '备注内容', key: 'remark', align: 'left'}
         ],
         taskListNotesChangeData: [],
-
+        transferOutUnitSelect:'',
+        transferInUnitSelect:'',
         transferOutUnitList: [],
         transferInUnitList: [],
         transferUnitDictList: [],
@@ -1067,11 +1102,32 @@
       handleTransferOutSearch(value) {
         this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
-      handleTransferOutChange(value) {
+      transferOutChange(value){
+        if(value=='' || value==undefined){
+          this.transferOutUnitSelect='';
+          this.transferNotice.transferOutUnitAccount='';
+        }
+      },
+       transferInChange(value){
+         if(value=='' || value==undefined ){
+           this.transferInUnitSelect='';
+           this.transferNotice.transferInUnitAccount='';
+         }
+      },
+      handleTransferOutChangeSelect(value) {
         this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+        this.showUnitOutSelect=false;
+      },
+      handleTransferInChangeSelect(value) {
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 2);
+        this.showUnitInSelect=false;
+      },
+
+      handleTransferOutChange(value) {
+        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
       handleTransferInChange(value) {
-        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
       },
       doSelect(value, unitList, unitAccountList, type) {
         this.loading = true;
@@ -1079,7 +1135,9 @@
         unitList.length=0;
         if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
-            unitList.push(element);
+            if(unitList.indexOf(element)<=0){
+              unitList.push(element);
+            }
           })
         } else {
           api.comAccountQuery(
@@ -1124,7 +1182,9 @@
         unitAccountList.length = 0;
         if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
-            unitList.push(element);
+            if(unitList.indexOf(element)<=0){
+              unitList.push(element);
+            }
           })
         } else {
           api.comAccountQuery(
@@ -1137,7 +1197,9 @@
               if (data.code == 200) {
                 if (data.data && data.data.length > 0) {
                   data.data.forEach((element, index, array) => {
-                    unitList.push(element.comAccountName);
+                    if(unitList.indexOf(element.comAccountName)<=0){
+                      unitList.push(element.comAccountName);
+                    }
                     unitAccountList.push(element.hfComAccount);
                   })
 
@@ -1149,7 +1211,9 @@
                     }
                   }
                 } else {
-                  unitList.push(value);
+                  if(unitList.indexOf(value)<=0){
+                    unitList.push(value);
+                  }
                 }
               } else {
                 this.$Message.error(data.message);

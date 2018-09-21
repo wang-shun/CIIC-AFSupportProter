@@ -37,6 +37,7 @@
             <DropdownItem name="3">外来独立</DropdownItem>
             <DropdownItem name="4">外来派遣</DropdownItem>
             <DropdownItem name="5">采集表汇总表</DropdownItem>
+            <DropdownItem name="6">外来情况说明</DropdownItem>
           </DropdownMenu>
         </Dropdown>
         <Button type="primary" @click="batchManagement">批理办理</Button>
@@ -44,7 +45,9 @@
     </Row>
     <Row class="mt14" type="flex" justify="start">
       <Col :sm="{span: 20}" class="tr">
-        <Table border id="employList" height="390" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt14"></Table>
+        <Table border id="employList" height="390" :row-class-name="rowClassName" :columns="employmentColumns" :data="employmentData"  :loading="isLoading" ref="employmentData"  @on-row-dblclick="handleData" @on-sort-change="SortChange"  class="mt14"></Table>
+        <Button @click="handleSelectAll(false)">全选</Button>
+        <Button @click="otherSelectAll(false)">反选</Button>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -76,10 +79,6 @@
             <span>用工成功</span>
             <span>{{RadioData.employSuccess}}</span>
         </Radio>
-        <!-- <Radio label="10">
-            <span>用工已办查无档</span>
-            <span>{{RadioData.noRecord}}</span>
-        </Radio> -->
         <Radio label="4">
             <span>用工失败</span>
              <span>{{RadioData.employFailed}}</span>
@@ -142,7 +141,7 @@ export default {
       RadioData: {
         noSign: "",
         employSuccess: "",
-        noRecord: "",
+        noRecord: ""
       },
       pageData: {
         total: 0,
@@ -166,7 +165,26 @@ export default {
       printList: em_print,
       // 下半部分
       employmentColumns: [
-        { title: "", type: "selection", width: 60 },
+        {
+          title: "",
+          key: "_checkbox",
+          align: "center",
+          width: 50,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "center" } }, [
+              h("Checkbox", {
+                props: { value: params.row.checked },
+                style: { margin: "0 auto 0 0px" },
+                on: {
+                  "on-change": e => {
+                    params.row.checked = e;
+                    this.$set(this.employmentData[params.index], "checked", e);
+                  }
+                }
+              })
+            ]);
+          }
+        },
         {
           title: "用工方式",
           key: "employWay",
@@ -174,7 +192,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employWay)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              },params.row.employWay)
             ]);
           }
         },
@@ -182,10 +206,16 @@ export default {
           title: "用工属性",
           key: "employProperty",
           align: "center",
-          width: 150,
+          width: 120,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employProperty)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employProperty)
             ]);
           }
         },
@@ -193,11 +223,17 @@ export default {
           title: "序号",
           key: "employmentId",
           align: "center",
-          width: 150,
+          width: 95,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employmentId)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employmentId)
             ]);
           }
         },
@@ -205,11 +241,17 @@ export default {
           title: "公司编号",
           key: "companyId",
           align: "center",
-          width: 150,
+          width: 120,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.companyId)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.companyId)
             ]);
           }
         },
@@ -221,8 +263,20 @@ export default {
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("div", params.row.title),
-              h("div", params.row.cici)
+              h("div", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.title),
+              h("div", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.ciCi)
             ]);
           }
         },
@@ -230,11 +284,17 @@ export default {
           title: "雇员编码",
           key: "employeeId",
           align: "center",
-          width: 150,
+          width: 120,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.employeeId)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employeeId)
             ]);
           }
         },
@@ -242,13 +302,18 @@ export default {
           title: "雇员姓名",
           key: "employeeName",
           align: "center",
-          width: 150,
+          width: 120,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h(
                 "span",
                 {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                },         
                   style: {
                     "font-weight": "bold"
                   }
@@ -262,13 +327,18 @@ export default {
           title: "证件号",
           key: "idNum",
           align: "center",
-          width: 150,
+          width: 170,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "left" } }, [
               h(
                 "span",
                 {
+                  on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                },  
                   style: {
                     "font-weight": "bold"
                   }
@@ -282,10 +352,16 @@ export default {
           title: "客服经理",
           key: "leaderShipName",
           align: "center",
-          width: 150,
+          width: 100,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.leaderShipName)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.leaderShipName)
             ]);
           }
         },
@@ -296,7 +372,13 @@ export default {
           width: 250,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.serviceCenter)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.serviceCenter)
             ]);
           }
         },
@@ -304,10 +386,16 @@ export default {
           title: "公司特殊情况",
           key: "employSpecial",
           align: "center",
-          width: 200,
+          width: 75,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employSpecial)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employSpecial)
             ]);
           }
         },
@@ -315,11 +403,17 @@ export default {
           title: "档案编号",
           key: "docNum",
           align: "center",
-          width: 150,
+          width: 110,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.docNum)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.docNum)
             ]);
           }
         },
@@ -327,11 +421,17 @@ export default {
           title: "预留档案编号",
           key: "yuliuDocNum",
           align: "center",
-          width: 150,
+          width: 130,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.yuliuDocNum)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.yuliuDocNum)
             ]);
           }
         },
@@ -342,8 +442,14 @@ export default {
           width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employFeedbackOptDate)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employFeedbackOptDate)
             ]);
           }
         },
@@ -354,8 +460,14 @@ export default {
           width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.diaodangFeedback)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.diaodangFeedback)
             ]);
           }
         },
@@ -366,8 +478,14 @@ export default {
           width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.diaodangFeedbackOptDate)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.diaodangFeedbackOptDate)
             ]);
           }
         },
@@ -375,10 +493,16 @@ export default {
           title: "是否翻牌",
           key: "changeCompany",
           align: "center",
-          width: 150,
+          width: 90,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.changeCompany)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.changeCompany)
             ]);
           }
         }
@@ -402,16 +526,19 @@ export default {
       return "";
     },
     batchManagement() {
-      let selection = this.$refs.employmentData.getSelection();
-      if (selection.length == 0) {
-        alert("没有选中的列");
-        return;
+      let empTaskIds = [];
+      var arrTmp = this.employmentData;
+
+      for (let value of arrTmp) {
+        if (value.checked) {
+          empTaskIds.push(value.empTaskId);
+        }
       }
 
-      let empTaskIds = [];
-      selection.forEach(item => {
-        empTaskIds.push(item.empTaskId);
-      });
+      if (empTaskIds.length == 0) {
+        this.$Message.error("没有选中的列");
+        return;
+      }
 
       var fromData = {};
       fromData.empTaskIds = empTaskIds;
@@ -436,7 +563,10 @@ export default {
           } else {
             var content;
             if (data.data.ArchiveCount) {
-              var content =
+              if(data.data.yuLiu){
+
+                content =
+                "预留档案编号Cc号已经存在"+ data.data.yuLiu +"条数据"+","+
                 "用工办理已经存在" +
                 data.data.employmentCount +
                 "条数据" +
@@ -446,6 +576,18 @@ export default {
                 "条数据" +
                 " , " +
                 "确认要覆盖吗？";
+              }else{
+                content = "用工办理已经存在" +
+                data.data.employmentCount +
+                "条数据" +
+                " , " +
+                "用工档案已经存在" +
+                data.data.ArchiveCount +
+                "条数据" +
+                " , " +
+                "确认要覆盖吗？";
+              }
+              
             } else {
               var content =
                 "用工办理已经存在" +
@@ -457,6 +599,7 @@ export default {
             _self.$Modal.confirm({
               title: "",
               content: content,
+              width:700,
               onOk: function() {
                 _self.$router.push({
                   name: "employHandleEmploymentBatch",
@@ -509,18 +652,23 @@ export default {
       this.employeeCollectionQuery(this.searchCondition);
     },
     printLabel() {
-      let selection = this.$refs.employmentData.getSelection();
-      if (selection.length == 0) {
-        alert("没有选中的列");
+      let empTaskIds = [];
+      var arrTmp = this.employmentData;
+      for (let value of arrTmp) {
+        if (value.checked) {
+          empTaskIds.push(value);
+        }
+      }
+      if (empTaskIds.length == 0) {
+        this.$Message.error("没有选中的列");
         return;
       }
-      // console.info(selection);
       let head = `<!doctype html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><title>打印贴头</title></head><body>`;
       let foot = `</body></html>`;
       let obj = "";
       let isFrist = true;
       obj += '<table cellpadding="0" cellspacing="0">';
-      selection.forEach(sel => {
+      empTaskIds.forEach(sel => {
         let docType = "";
         let docNum = "";
         if (sel.docType && sel.docNum) {
@@ -772,8 +920,12 @@ export default {
           api.employSearchExportOptExtDispatchWord(this.searchCondition);
           break;
         case 5:
-          // 采集表 汇总表
+          // 采集表汇总表
           api.employSearchExportOptExtCollectWord(this.searchCondition);
+          break;
+          case 6:
+          // 外来情况说明
+          api.employSearchExportOptExtExplainWord(this.searchCondition);
           break;
         default:
           break;
@@ -928,6 +1080,39 @@ export default {
           }
         }
       });
+    },
+    handleSelectAll(status) {
+      var arrTmp = this.employmentData;
+
+      for (let value of arrTmp) {
+        value.checked = true;
+      }
+    },
+    otherSelectAll() {
+      var arrTmp = this.employmentData;
+
+      for (let value of arrTmp) {
+        if (value.checked) {
+          value.checked = false;
+        } else {
+          value.checked = true;
+        }
+      }
+    },copyClick(event){
+        var text = event.target;
+        if (document.body.createTextRange) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(text);
+            range.select();
+        } else if (window.getSelection) {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(text);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        } else {
+            alert("浏览器不支持");
+        }
     }
   },
   computed: {}

@@ -62,7 +62,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="牡丹卡号：">
+                <Form-item label="扣款账号：">
                     <label>{{companyOpenAccountOperator.bankCardNumber}}</label>
                 </Form-item>
               </Col>
@@ -254,7 +254,7 @@
           serviceCenter: '',
           serviceManager: ''
         },
-     
+
          payMethodList: [
             {value: '1', label: '我司代付款'},
             {value: '2', label: '客户自付'},
@@ -278,7 +278,7 @@
             {value: '1', label: '开户'},
             {value: '2', label: '转入'},
           ], //任务
-           
+
            giveMethodList: [
             {value: '1', label: '交客服'},
             {value: '2', label: '传真'},
@@ -420,7 +420,7 @@
         self.companyOpenAccountOperator  =result.companyOpenAccountOperator
          })
       },
-      
+
       //任务状态
       getTaskTypeValue(){
           let taskType = this.companyOpenAccountOperator.taskTypeValue
@@ -433,8 +433,8 @@
            }
            return taskTypeStr
       },
-  
-  
+
+
 
     }
   }

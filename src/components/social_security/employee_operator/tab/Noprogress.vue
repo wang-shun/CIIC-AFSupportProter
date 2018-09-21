@@ -20,7 +20,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
       <Table border id="noProcessData" ref="selection"  :columns="employeeResultColumns" :data="employeeResultData"
-       @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading" height=400></Table>
+       @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading" height=400 ></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -104,7 +104,6 @@
         isLoading: false,
         rejectionRemark: '',
         selectEmployeeResultData: [],
-
         employeeResultData: [],
         employeeResultPageData: {
           total: 0,
@@ -391,10 +390,20 @@
 //        }else{
 //            this.searchCondition.taskStatus = -1;
 //        }
+
+        let empTaskIds = '';
+        for (var d of this.selectEmployeeResultData) {
+          empTaskIds+=d.empTaskId+',';
+        }
+        let expParam={};
+        expParam = this.searchCondition;
+        this.$utils.copy(this.searchCondition, expParam);
+        expParam.empTaskIds=empTaskIds;
+
         api.employeeOperatorQueryExport({
           pageSize: 999999,
           pageNum: 0,
-          params: this.searchCondition,
+          params: expParam,
         });
       },
       handlePageNum(val) {
@@ -883,7 +892,7 @@
       },
       searchEmployeeInit() {
         this.$refs.searchEmployee.initOptions();
-      }
+      },
     }
   }
 </script>

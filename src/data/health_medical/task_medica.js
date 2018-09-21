@@ -12,6 +12,7 @@ const updateTpaTask = params => ajaxApi.postJSON("/api/afsupportcenter/healthmed
 const syncToWarranty = params => ajaxApi.postJSON("/api/afsupportcenter/healthmedical/afTpaTask/syncToWarranty", params);
 const queryInsuranceCompany = () => ajaxApi.get("/api/afsupportcenter/healthmedical/afTpaTask/queryInsuranceCompany");
 const queryIcProductRelation = params => ajaxApi.get("/api/afsupportcenter/healthmedical/afTpaTask/queryIcProductRelation/" + params);
+const changeInsuranceCompany = params => ajaxApi.postJSON("/api/afsupportcenter/healthmedical/afTpaTask/changeInsuranceCompany", params);
 
 export default {
   basePaths,
@@ -21,4 +22,5 @@ export default {
   syncToWarranty,
   queryInsuranceCompany,
   queryIcProductRelation,
+  changeInsuranceCompany,
 }

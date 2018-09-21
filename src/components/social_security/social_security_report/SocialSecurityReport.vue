@@ -78,7 +78,7 @@
             <br/>
             <Row type="flex" justify="start">
               <Col :sm="{span: 20}" offset='2'>
-              <Button type="info" @click="monthEmpChange">月缴变更汇总表（养医失）</Button>
+              <Button type="info" @click="monthEmpChange">月缴变更汇总表</Button>
               </Col>
             </Row>
           </Form>

@@ -147,6 +147,17 @@ let advance_chooseField = {
   "a.created_by":"操作人",
   "a.remark":"备注"
 };
+let independent_chooseField = {
+  "a.company_id":"公司编号",
+  "d.title":"公司名称",
+  "a.employee_id":"雇员编号",
+  "b.employee_name":"雇员姓名",
+  "d.id_num":"身份证号码",
+  "c.service_center":"服务中心",
+  "d.organization_code":"组织机构代码",
+  "u.key_code":"Ukey编号",
+  "e.company_special8":"具有档案保管资质"
+};
 let em_relationship = {
   "等于": "=",
   "大于": ">",
@@ -189,4 +200,4 @@ let customerInfo = {
 
 let batchOperate = ["退材料交付日期", "转移备注", "转移方式", "退工反馈", "退工反馈2", "退档日期", "档案转出方向", "档案转出日期", "手册转出日期", "公司集体转出方向", "网办", "劳动手册是否交被退人员", "已交", "未交", "职介反馈日期", "打印退工单", "UKey外借日期", "UKey返回日期"];
 
-export {advance_relationship,advance_chooseField,ukey_chooseField,ukey_relationship, em_chooseField, em_relationship, em_print, customerInfo, batchOperate,em_resign_chooseField,em_arc_chooseField}
+export {advance_relationship,advance_chooseField,ukey_chooseField,ukey_relationship, em_chooseField, em_relationship, em_print, customerInfo, batchOperate,em_resign_chooseField,em_arc_chooseField,independent_chooseField}

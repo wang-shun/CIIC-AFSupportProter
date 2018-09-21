@@ -232,7 +232,7 @@ export default {
         menu: null,
         comp: ""
       },
-      rowdata: { basicProductId: "" },
+      rowdata: { money: null },
       policyData: [],
       formItem: {
         credentialsType: "",
@@ -241,8 +241,8 @@ export default {
         operateTypeN: "",
         operateAccount: "",
         operatePwd: "",
-        chargeType:'',
-        payType: '',
+        chargeType: "",
+        payType: "",
         payTypeN: "",
         specialChargeRemark: "",
         introduceMail: "",
@@ -310,10 +310,11 @@ export default {
           title: "操作",
           key: "action",
           align: "center",
+          width: 200,
           render: (h, params) => {
             if (params.row.action == null || params.row.action == "") {
-              return h("div", [
-                h(
+              let arr = []
+              arr.push(h(
                   "Button",
                   {
                     props: {
@@ -326,9 +327,8 @@ export default {
                     on: {
                       click: () => {}
                     }
-                  },
-                  "编辑"),
-                h(
+                  },"编辑"))
+                arr.push(h(
                   "Button",
                   {
                     props: {
@@ -344,9 +344,35 @@ export default {
                         this.taskFollowShow(params.row.taskId);
                       }
                     }
-                  },
-                  "跟进")
-              ]);
+                  }, "跟进"))
+                let st = new Date().getTime() - 24*60*60*1000;
+                let cr = new Date(params.row.createdTime).getTime();
+                if (params.row.implement === false && cr>st) {
+                  arr.push(h(
+                  "Button",
+                  {
+                    props: {
+                      type: "error",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {
+                        this.$Modal.confirm({
+                          title: "警告",
+                          content: "您真的要删除吗？",
+                          okText: "删除",
+                          onOk: () => {
+                            this.delTask(params.row.taskId)
+                          }
+                        });
+                      }
+                    }
+                  }, "删除"))
+                }
+              return h("div", arr)
             }
           }
         }
@@ -370,8 +396,9 @@ export default {
     };
   },
   watch: {
-    emp: function (val,oldVal) {
-        this.clickRow(val[0])
+    emp: function(val, oldVal) {
+      console.log("taskList");
+      this.clickRow(val[0]);
     }
   },
   methods: {
@@ -395,9 +422,12 @@ export default {
       if (value !== null) {
         this.formItem.credentialsType = value.credentialsType;
         this.formItem.credentialsDealType = value.credentialsDealType;
-        value.companyId = value.companyCode
+        value.companyId = value.companyCode;
         this.rowdata = { ...value };
-        this.$emit("backRow", this.rowdata);
+        // console.log(value);
+        // console.log(value.money);
+        console.log("click row")
+        this.$emit("backRow", value);
         this.selectCompanyExt(value.credentialsType, value.companyCode);
         if (
           value.credentialsDealType != null &&
@@ -414,7 +444,7 @@ export default {
         this.findMaterials(value.taskId);
       }
     },
-    selectPolicy(name,type) {
+    selectPolicy(name, type) {
       var params = {};
       params.params = {};
       params.params.name = name;
@@ -448,38 +478,35 @@ export default {
       });
     },
     findMaterials(taskId) {
-      AJAX
-        .get(host + "/api/materials/find/" + taskId)
+      AJAX.get(host + "/api/materials/find/" + taskId)
         .then(response => {
           if (response.data.errCode == "0") {
             this.meterials.info = response.data.data;
+            // console.log("已选材料")
+            // console.log(this.meterials.info)
           } else {
             this.meterials.info = "";
           }
         })
-        .catch(error => {
-          this.meterials.info = response.data.data;
-        });
     },
     createMeterialsMenu(credentialsType, credentialsDealType) {
-      AJAX
-        .get(
-          host +
-            "/api/materials/create?credentialsType=" +
-            credentialsType +
-            "&credentialsDealType=" +
-            credentialsDealType
-        )
-        .then(response => {
-          if (response.data.errCode == "0") {
-            this.meterials.menu = response.data.data;
-          }
-        });
+      AJAX.get(
+        host +
+          "/api/materials/create?credentialsType=" +
+          credentialsType +
+          "&credentialsDealType=" +
+          credentialsDealType
+      ).then(response => {
+        if (response.data.errCode == "0") {
+          this.meterials.menu = response.data.data;
+          // console.log("材料模板")
+          // console.log(this.meterials.menu)
+        }
+      });
     },
     taskFollowShow(taskId) {
       if (taskId != null) {
-        AJAX
-          .get(host + "/api/empCredentialsDeal/find/taskFollow/" + taskId)
+        AJAX.get(host + "/api/empCredentialsDeal/find/taskFollow/" + taskId)
           .then(response => {
             if (response.data.errCode == "0") {
               this.data2 = response.data.data;
@@ -501,19 +528,17 @@ export default {
       }
     },
     async selectCompanyExt(credentialsType, companyId) {
-      await AJAX
-        .get(
-          host +
-            "/api/empCredentialsDeal/find/companyExt/" +
-            companyId +
-            "/" +
-            credentialsType
-        )
-        .then(response => {
-          Object.assign(this.formItem, response.data.data);
-        });
-        this.$emit("companyExtData", this.formItem);
-        this.selectPolicy(this.formItem.name,this.formItem.credentialsType)
+      await AJAX.get(
+        host +
+          "/api/empCredentialsDeal/find/companyExt/" +
+          companyId +
+          "/" +
+          credentialsType
+      ).then(response => {
+        Object.assign(this.formItem, response.data.data);
+      });
+      this.$emit("companyExtData", this.formItem);
+      this.selectPolicy(this.formItem.name, this.formItem.credentialsType);
     },
     ok() {
       if (this.followDescription != "" && this.followDescription != null) {
@@ -521,11 +546,10 @@ export default {
         params.followDescription = this.followDescription;
         params.taskId = this.taskId;
         params.createdBy = "gu";
-        AJAX
-          .postJSON(
-            host + "/api/empCredentialsDeal/saveOrUpdate/taskFollow",
-            params
-          )
+        AJAX.postJSON(
+          host + "/api/empCredentialsDeal/saveOrUpdate/taskFollow",
+          params
+        )
           .then(response => {
             if (response.data.errCode === "0") {
               this.$Notice.success({
@@ -570,11 +594,28 @@ export default {
       this.rowdata.followMaterials = info.followMaterials;
       this.rowdata.notFollowMaterials = info.notFollowMaterials;
       this.$emit("backRow", this.rowdata);
+    },
+    delTask(taskId) {
+       AJAX.postJSON(
+          host + "/api/empCredentialsDeal/del/" + taskId
+        ).then(response => {
+          if(response.data.success) {
+            this.$Notice.success({
+                title: "删除成功",
+                desc: ""
+              });
+            window.location.reload();
+          } else {
+            this.$Notice.error({
+                title: "删除失败",
+                desc: ""
+              });
+          }
+        })
     }
   }
 };
 </script>
 
 <style scoped>
-
 </style>

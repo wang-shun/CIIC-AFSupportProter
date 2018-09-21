@@ -138,24 +138,24 @@
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="学历认证通过时间：" prop="" educationTime>
+              <Form-item label="学历认证通过时间："  educationTime>
                 <DatePicker v-model="formItem.educationTime" type="date" placeholder="请输入" style="width: 100%"
                             transfer @on-open-change="loadCurrentDate('educationTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="材料退回时间：" prop="">
+              <Form-item label="材料退回时间：" >
                 <DatePicker v-model="formItem.materialBackTime" type="date" placeholder="请输入" style="width: 100%"
                             transfer @on-open-change="loadCurrentDate('materialBackTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="催交日期：" prop="">
+              <Form-item label="催交日期：" >
                 <DatePicker v-model="formItem.callsTime" type="date" placeholder="请输入" style="width: 100%" transfer @on-open-change="loadCurrentDate('callsTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="申报日期：" prop="">
+              <Form-item label="申报日期：" >
                 <DatePicker v-model="formItem.applyTime" type="date" placeholder="请输入" style="width: 100%" transfer @on-open-change="loadCurrentDate('applyTime')"/>
               </Form-item>
             </i-col>
@@ -165,46 +165,46 @@
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="调档函开出时间：" prop="">
+              <Form-item label="调档函开出时间：" >
                 <DatePicker v-model="formItem.shiftLetterSendTime" type="date" placeholder="请输入" style="width: 100%"
                             transfer @on-open-change="loadCurrentDate('shiftLetterSendTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="人才退回时间：" prop="">
+              <Form-item label="人才退回时间：" >
                 <DatePicker v-model="formItem.talentBackTime" type="date" placeholder="请输入" style="width: 100%"
                             transfer @on-open-change="loadCurrentDate('talentBackTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="人才退回原因：" prop="">
+              <Form-item label="人才退回原因：" >
                 <Input v-model="formItem.talentBackReason" placeholder="请输入"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="办理日期：" prop="">
+              <Form-item label="办理日期：" >
                 <DatePicker v-model="formItem.dealTime" type="date" placeholder="请输入" style="width: 100%" transfer @on-open-change="loadCurrentDate('dealTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="收费日期：" prop="">
+              <Form-item label="收费日期：" >
                 <DatePicker v-model="formItem.chargeTime" type="date" placeholder="请输入" style="width: 100%" transfer @on-open-change="loadCurrentDate('chargeTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="到档时间：" prop="">
+              <Form-item label="到档时间：" >
                 <DatePicker v-model="formItem.receiveFileTime" type="date" placeholder="请输入" style="width: 100%"
                             transfer @on-open-change="loadCurrentDate('receiveFileTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="材料退回时间：" prop="">
+              <Form-item label="原件退回时间：" >
                 <DatePicker v-model="formItem.originalBackTime" type="date" placeholder="请输入" style="width: 100%"
                             transfer @on-open-change="loadCurrentDate('originalBackTime')"/>
               </Form-item>
             </i-col>
             <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="原件退回原因：" prop="">
+              <Form-item label="材料退回原因：" >
                 <Input v-model="formItem.originalBackReason" placeholder="请输入"/>
               </Form-item>
             </i-col>
@@ -276,396 +276,448 @@
 </template>
 
 <script>
-  import CredentialsDealInfo from "./common/CredentialsDealTask";
-  import Tools from "../../../lib/tools";
-  import Decode from "../../../lib/decode";
-  import ajax from "../../../lib/ajax";
+import CredentialsDealInfo from "./common/CredentialsDealTask";
+import Tools from "../../../lib/tools";
+import Decode from "../../../lib/decode";
+import ajax from "../../../lib/ajax";
 
-  const host = process.env.SITE_HOST;
-  const AJAX = ajax.ajaxCM;
-  export default {
-    components: {CredentialsDealInfo},
-    data() {
-      return {
-        value1: ["2", "3"],
-        empInfo: [],
-        companyCode: "",
-        companyName: "",
-        companyAddr: "",
-        companyTel: "",
-        empCode: "",
-        empName: "",
-        idNum: "",
-        marriage: "",
-        sex: "",
-        birthday: "",
-        templateName: '',
-        address: "",
-        firstInTime: "",
-        contractStartTime: "",
-        contractEndTime: "",
-        credentialsType: "",
-        credentialsDealType: "",
+const host = process.env.SITE_HOST;
+const AJAX = ajax.ajaxCM;
+export default {
+  components: { CredentialsDealInfo },
+  data() {
+    return {
+      value1: ["2", "3", "4"],
+      empInfo: [],
+      companyCode: "",
+      companyName: "",
+      companyAddr: "",
+      companyTel: "",
+      empCode: "",
+      empName: "",
+      idNum: "",
+      marriage: "",
+      sex: "",
+      birthday: "",
+      templateName: "",
+      address: "",
+      firstInTime: "",
+      contractStartTime: "",
+      contractEndTime: "",
+      credentialsType: "",
+      credentialsDealType: "",
+      productId: "",
+      templateType: "",
+      qualifications: [],
+      degrees: [],
+      money: null,
+      temp: {},
+      ssColum: [
+        {
+          title: "工资基数",
+          key: "baseAmount"
+        },
+        {
+          title: "执行日期",
+          key: "startMonth"
+        },
+        {
+          title: "修改日期",
+          key: "endMonth"
+        },
+        {
+          title: "变更内容",
+          key: "chgContent"
+        }
+      ],
+      ssData: [],
+      formItem: {
+        qualification: "",
+        qualificationName: "",
+        degree: "",
+        degreeName: "",
+        educationTime: null,
+        materialBackTime: null,
+        callsTime: null,
+        applyTime: null,
+        liveAgeLimit: 1,
+        shiftLetterSendTime: null,
+        talentBackTime: null,
+        talentBackReason: "",
+        dealTime: null,
+        chargeTime: null,
+        receiveFileTime: null,
+        originalBackTime: null,
+        originalBackReason: "",
+        integralBillPrintTime: null,
+        integralBillCallTime: null,
+        empBackTime: null,
+        payType: "",
+        chargeAmount: null,
+        peopleNum: 1,
+        permitCompanyName: "",
+        telephone: "",
+        remark: "",
+        materialIds: "",
         productId: "",
-        templateType: "",
-        qualifications: [],
-        degrees: [],
-        money: null,
-        temp: {},
-        ssColum: [
-          {
-            title: "工资基数",
-            key: "baseAmount"
-          },
-          {
-            title: "执行日期",
-            key: "startMonth"
-          },
-          {
-            title: "修改日期",
-            key: "endMonth"
-          },
-          {
-            title: "变更内容",
-            key: "chgContent"
-          }
-        ],
-        ssData: [],
-        formItem: {
-          qualification: '',
-          qualificationName: '',
-          degree: '',
-          degreeName: '',
-          educationTime: null,
-          materialBackTime: null,
-          callsTime: null,
-          applyTime: null,
-          liveAgeLimit: null,
-          shiftLetterSendTime: null,
-          talentBackTime: null,
-          talentBackReason: "",
-          dealTime: null,
-          chargeTime: null,
-          receiveFileTime: null,
-          originalBackTime: null,
-          originalBackReason: "",
-          integralBillPrintTime: null,
-          integralBillCallTime: null,
-          empBackTime: null,
-          payType: "",
-          chargeAmount: null,
-          peopleNum: 1,
-          permitCompanyName: "",
-          telephone: "",
-          remark: "",
-          materialIds: "",
-          productId: "",
-          chargeType: ''
-        }
-      };
+        chargeType: ""
+      }
+    };
+  },
+  mounted() {
+    const credentialsTaskData = JSON.parse(
+      sessionStorage.getItem("credentialsTaskData")
+    );
+    let data = credentialsTaskData.data;
+    Tools.copy(data, this);
+    this.companyCode = data.companyId;
+    this.empCode = data.employeeId;
+    this.empName = data.employeeName;
+    this.credentialsType = data.credentialsType;
+    this.credentialsDealType = data.credentialsDealType;
+    this.templateType = data.templateType;
+    console.log(data)
+  },
+  created() {
+    let credentialsTaskData = JSON.parse(
+      sessionStorage.getItem("credentialsTaskData")
+    );
+    this.findAll(credentialsTaskData.data.employeeId);
+    this.findEmpDetial(credentialsTaskData.data);
+    this.findCompanyDetial(credentialsTaskData.data.companyId);
+    this.getEmpBasePeriodInfo();
+    this.loadDicItems();
+  },
+  methods: {
+    loadCurrentDate(val) {
+      if (this.formItem[val] == "" || this.formItem[val] == null) {
+        this.formItem[val] = new Date();
+      }
     },
-    mounted() {
-      const credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
-      let data = credentialsTaskData.data;
-      Tools.copy(data, this);
-      this.companyCode = data.companyId;
-      this.empCode = data.employeeId;
-      this.empName = data.employeeName;
-      this.credentialsType = data.credentialsType
-      this.credentialsDealType = data.credentialsDealType
+    getEmpBasePeriodInfo() {
+      let credentialsTaskData = JSON.parse(
+        sessionStorage.getItem("credentialsTaskData")
+      );
+      let params = {};
+      params.companyId = credentialsTaskData.data.companyId;
+      params.employeeId = credentialsTaskData.data.employeeId;
+      AJAX.postJSON(
+        `${host}/api/empCredentialsDeal/getEmpBasePeriodInfo`,
+        params
+      ).then(response => {
+        this.ssData = response.data.data;
+      });
     },
-    created() {
-      let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
-      this.findAll(credentialsTaskData.data.employeeId);
-      this.findEmpDetial(credentialsTaskData.data);
-      this.findCompanyDetial(credentialsTaskData.data.companyId);
-      this.getEmpBasePeriodInfo();
-      this.loadDicItems();
+    async loadDicItems() {
+      await AJAX.get(`${host}/api/baseData/dic/education`).then(response => {
+        this.qualifications = response.data;
+      });
+      await AJAX.get(`${host}/api/baseData/dic/degree`).then(response => {
+        this.degrees = response.data;
+      });
     },
-    methods: {
-      loadCurrentDate(val) {
-        if (this.formItem[val] == '' || this.formItem[val] == null) {
-          this.formItem[val]=new Date()
+    callBack(value) {
+      if (value != null) {
+        Tools.union(value, this.formItem);
+        // console.log(value);
+        this.credentialsType = value.credentialsType;
+        this.credentialsDealType = value.credentialsDealType;
+        if (this.formItem.permitCompanyName == "") {
+          this.formItem.permitCompanyName = value.companyName;
         }
-      },
-      getEmpBasePeriodInfo() {
-        let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
-        let params = {}
-        params.companyId = credentialsTaskData.data.companyId
-        params.employeeId = credentialsTaskData.data.employeeId
-        AJAX.postJSON(`${host}/api/empCredentialsDeal/getEmpBasePeriodInfo`, params).then(response => {
-          this.ssData = response.data.data
-        })
-      },
-      async loadDicItems() {
-        await AJAX.get(`${host}/api/baseData/dic/education`).then(response => {
-          this.qualifications = response.data
-        })
-        await AJAX.get(`${host}/api/baseData/dic/degree`).then(response => {
-          this.degrees = response.data
-        })
-      },
-      callBack(value) {
-        if (value != null) {
-          Tools.union(value,this.formItem)
-          this.credentialsType = value.credentialsType
-          this.credentialsDealType = value.credentialsDealType
-          if (this.formItem.permitCompanyName == '') {
-            this.formItem.permitCompanyName = value.companyName
-          }
-          if (this._.isNil(this.formItem.chargeAmount)) {
-            this.formItem.chargeAmount = value.money
-          }
+        // console.log("money:" + value.money);
+        if (this._.isNil(this.formItem.chargeAmount)) {
+          this.formItem.chargeAmount = value.money;
         }
-      },
-      companyExtData(data) {
-        if (data != null) {
-          this.formItem.chargeType = data.payTypeN == '' ? '' : data.payTypeN == '员工自付' ? '2' : '1'
-          if (this.formItem.chargeType == '1') {
-            this.formItem.payType = '1'
-          }
+      }
+    },
+    companyExtData(data) {
+      if (data != null) {
+        this.formItem.chargeType =
+          data.payTypeN == "" ? "" : data.payTypeN == "员工自付" ? "2" : "1";
+        if (this.formItem.chargeType == "1") {
+          this.formItem.payType = "1";
         }
-      },
-      findCompanyDetial(companyId) {
-        let params = {};
-        params.params = {};
-        params.params.companyId = companyId;
-        AJAX
-          .get(host + "/api/baseData/getCompanyInfo", params)
-          .then(response => {
-            if (response.data.errCode == "0") {
-              this.companyCode = response.data.data.companyId;
-              this.companyName = response.data.data.companyName;
-              this.companyAddr = response.data.data.registeredAddress;
-              this.companyTel = "";
-            }
-          });
-      },
-      findEmpDetial(employee) {
-        let params = {};
-        params.params = {};
-        params.params.companyId = employee.companyId;
-        params.params.employeeId = employee.employeeId;
-        params.params.idCardType = employee.idCardType;
-        params.params.idNum = employee.idNum;
-        params.params.type = employee.type;
-        AJAX.get(host + "/api/baseData/getEmpInfo", params).then(response => {
-          if (response.data.errCode == "0") {
-            let item = response.data.data;
-            this.empCode = item.employeeId;
-            this.empName = item.employeeName;
-            this.idNum = item.idNum;
-            this.education = "";
-            this.templateName =
-              item.templateType == 1
-                ? "派遣"
-                : item.templateType == 2
+      }
+    },
+    findCompanyDetial(companyId) {
+      let params = {};
+      params.params = {};
+      params.params.companyId = companyId;
+      AJAX.get(host + "/api/baseData/getCompanyInfo", params).then(response => {
+        if (response.data.errCode == "0") {
+          this.companyCode = response.data.data.companyId;
+          this.companyName = response.data.data.companyName;
+          this.companyAddr = response.data.data.registeredAddress;
+          this.companyTel = "";
+        }
+      });
+    },
+    findEmpDetial(employee) {
+      let params = {};
+      params.params = {};
+      params.params.companyId = employee.companyId;
+      params.params.employeeId = employee.employeeId;
+      params.params.idCardType = employee.idCardType;
+      params.params.idNum = employee.idNum;
+      params.params.type = employee.type;
+      AJAX.get(host + "/api/baseData/getEmpInfo", params).then(response => {
+        if (response.data.errCode == "0") {
+          let item = response.data.data;
+          this.empCode = item.employeeId;
+          this.empName = item.employeeName;
+          this.idNum = item.idNum;
+          this.education = "";
+          this.templateName =
+            this.templateType == 1
+              ? "派遣"
+              : this.templateType == 2
                 ? "代理"
-                : item.templateType == 3 ? "外包" : "单项雇员";
-            this.marriage =
-              item.marriageStatus == 1
-                ? "未婚"
-                : item.marriageStatus == 2
+                : this.templateType == 3 ? "外包" : "单项雇员";
+          this.marriage =
+            item.marriageStatus == 1
+              ? "未婚"
+              : item.marriageStatus == 2
                 ? "已婚"
                 : item.marriageStatus == 3 ? "离异" : "";
-            this.sex = item.gender == 1 ? "男" : "女";
-            this.birthday =
-              item.birthday == null
-                ? ""
-                : Tools.formatDate(item.birthday, "YYYY年MM月DD日");
-            this.address = item.address;
-            this.firstInTime =
-              item.firstInDate == null
-                ? ""
-                : Tools.formatDate(item.firstInDate, "YYYY年MM月DD日");
-            this.contractStartTime =
-              item.laborStartDate == null
-                ? ""
-                : Tools.formatDate(item.laborStartDate, "YYYY年MM月DD日");
-            this.contractEndTime =
-              item.laborEndDate == null
-                ? ""
-                : Tools.formatDate(item.laborEndDate, "YYYY年MM月DD日");
-          }
-        });
-      },
-      save() {
-        let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
-        let params = {};
-        params = {...this.formItem};
+          this.sex = item.gender == 1 ? "男" : "女";
+          this.birthday =
+            item.birthday == null
+              ? ""
+              : Tools.formatDate(item.birthday, "YYYY年MM月DD日");
+          this.address = item.address;
+          this.firstInTime =
+            item.firstInDate == null
+              ? ""
+              : Tools.formatDate(item.firstInDate, "YYYY年MM月DD日");
+          this.contractStartTime =
+            item.laborStartDate == null
+              ? ""
+              : Tools.formatDate(item.laborStartDate, "YYYY年MM月DD日");
+          this.contractEndTime =
+            item.laborEndDate == null
+              ? ""
+              : Tools.formatDate(item.laborEndDate, "YYYY年MM月DD日");
+        }
+      });
+    },
+    save() {
+      let credentialsTaskData = JSON.parse(
+        sessionStorage.getItem("credentialsTaskData")
+      );
+      let params = {};
+      params = { ...this.formItem };
 
-        if (!this._.isNil(params.integralBillCallTime) && params.integralBillCallTime != '') {
-          params.integralBillCallTime = Tools.formatDate(
-            params.integralBillCallTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.empBackTime) && params.empBackTime != '') {
-          params.empBackTime = Tools.formatDate(
-            params.empBackTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.educationTime) && params.educationTime != '') {
-          params.educationTime = Tools.formatDate(
-            params.educationTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.materialBackTime) && params.materialBackTime != '') {
-          params.materialBackTime = Tools.formatDate(
-            params.materialBackTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.callsTime) && params.callsTime != '') {
-          params.callsTime = Tools.formatDate(
-            params.callsTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.applyTime) && params.applyTime != '') {
-          params.applyTime = Tools.formatDate(
-            params.applyTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.shiftLetterSendTime) && params.shiftLetterSendTime != '') {
-          params.shiftLetterSendTime = Tools.formatDate(
-            params.shiftLetterSendTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.talentBackTime) && params.talentBackTime != '') {
-          params.talentBackTime = Tools.formatDate(
-            params.talentBackTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.dealTime) && params.dealTime != '') {
-          params.dealTime = Tools.formatDate(params.dealTime, "YYYY-MM-DD hh:mm");
-        }
-        if (!this._.isNil(params.chargeTime) && params.chargeTime != '') {
-          params.chargeTime = Tools.formatDate(
-            params.chargeTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.receiveFileTime) && params.receiveFileTime != '') {
-          params.receiveFileTime = Tools.formatDate(
-            params.receiveFileTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.originalBackTime) && params.originalBackTime != '') {
-          params.originalBackTime = Tools.formatDate(
-            params.originalBackTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        if (!this._.isNil(params.integralBillPrintTime) && params.integralBillPrintTime != '') {
-          params.integralBillPrintTime = Tools.formatDate(
-            params.integralBillPrintTime,
-            "YYYY-MM-DD hh:mm"
-          );
-        }
-        params.employeeId = params.empCode;
-        params.companyId = params.companyCode;
-        params.templateType = this.templateType;
-        params.productId = credentialsTaskData.productId;
-        params.basicProductId = credentialsTaskData.basicProductId;
-        params.credentialsDealType = this.credentialsDealType
-        params.credentialsType = this.credentialsType
-        AJAX
-          .postJSON(host + "/api/empCredentialsDeal/saveOrUpdate/task", params)
-          .then(response => {
-            if (response.data.errCode === "0") {
-              this.$Modal.confirm({
-                title: "保存成功",
-                cancelText: "返回前页",
-                onCancel: () => {
-                  this.$router.push("/emp_credentials_deal/emp_list");
-                },
-                okText: "留在本页",
-                onOk: () => {
-                  this.$Notice.success({
-                    title: "保存成功",
-                    desc: ''
-                  });
-                  let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
-                  sessionStorage.removeItem('credentialsTaskData');
-                  credentialsTaskData.isDeal = false;
-                  sessionStorage.setItem('credentialsTaskData', JSON.stringify(credentialsTaskData))
-                  this.findAll(this.empCode);
-                }
-              });
-            } else {
-              this.$Notice.error({
-                title: "保存失败",
-                desc: response.data.message
-              });
-            }
-          })
-          .catch(error => {
+      if (
+        !this._.isNil(params.integralBillCallTime) &&
+        params.integralBillCallTime != ""
+      ) {
+        params.integralBillCallTime = Tools.formatDate(
+          params.integralBillCallTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (!this._.isNil(params.empBackTime) && params.empBackTime != "") {
+        params.empBackTime = Tools.formatDate(
+          params.empBackTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (!this._.isNil(params.educationTime) && params.educationTime != "") {
+        params.educationTime = Tools.formatDate(
+          params.educationTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (
+        !this._.isNil(params.materialBackTime) &&
+        params.materialBackTime != ""
+      ) {
+        params.materialBackTime = Tools.formatDate(
+          params.materialBackTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (!this._.isNil(params.callsTime) && params.callsTime != "") {
+        params.callsTime = Tools.formatDate(
+          params.callsTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (!this._.isNil(params.applyTime) && params.applyTime != "") {
+        params.applyTime = Tools.formatDate(
+          params.applyTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (
+        !this._.isNil(params.shiftLetterSendTime) &&
+        params.shiftLetterSendTime != ""
+      ) {
+        params.shiftLetterSendTime = Tools.formatDate(
+          params.shiftLetterSendTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (!this._.isNil(params.talentBackTime) && params.talentBackTime != "") {
+        params.talentBackTime = Tools.formatDate(
+          params.talentBackTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (!this._.isNil(params.dealTime) && params.dealTime != "") {
+        params.dealTime = Tools.formatDate(params.dealTime, "YYYY-MM-DD hh:mm");
+      }
+      if (!this._.isNil(params.chargeTime) && params.chargeTime != "") {
+        params.chargeTime = Tools.formatDate(
+          params.chargeTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (
+        !this._.isNil(params.receiveFileTime) &&
+        params.receiveFileTime != ""
+      ) {
+        params.receiveFileTime = Tools.formatDate(
+          params.receiveFileTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (
+        !this._.isNil(params.originalBackTime) &&
+        params.originalBackTime != ""
+      ) {
+        params.originalBackTime = Tools.formatDate(
+          params.originalBackTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      if (
+        !this._.isNil(params.integralBillPrintTime) &&
+        params.integralBillPrintTime != ""
+      ) {
+        params.integralBillPrintTime = Tools.formatDate(
+          params.integralBillPrintTime,
+          "YYYY-MM-DD hh:mm"
+        );
+      }
+      params.employeeId = params.empCode;
+      params.companyId = params.companyCode;
+      params.templateType = this.templateType;
+      params.productId = credentialsTaskData.productId;
+      params.basicProductId = credentialsTaskData.basicProductId;
+      params.credentialsDealType = this.credentialsDealType;
+      params.credentialsType = this.credentialsType;
+      AJAX.postJSON(host + "/api/empCredentialsDeal/saveOrUpdate/task", params)
+        .then(response => {
+          if (response.data.errCode === "0") {
+            this.$Modal.confirm({
+              title: "保存成功",
+              cancelText: "返回前页",
+              onCancel: () => {
+                this.$router.push("/emp_credentials_deal/emp_list");
+              },
+              okText: "留在本页",
+              onOk: () => {
+                this.$Notice.success({
+                  title: "保存成功",
+                  desc: ""
+                });
+                let credentialsTaskData = JSON.parse(
+                  sessionStorage.getItem("credentialsTaskData")
+                );
+                sessionStorage.removeItem("credentialsTaskData");
+                credentialsTaskData.isDeal = false;
+                sessionStorage.setItem(
+                  "credentialsTaskData",
+                  JSON.stringify(credentialsTaskData)
+                );
+                this.findAll(this.empCode);
+              }
+            });
+          } else {
             this.$Notice.error({
               title: "保存失败",
-              desc: "系统繁忙"
+              desc: response.data.message
             });
-          });
-      },
-      back() {
-        this.$router.go(-1);
-      },
-      findAll(empCode) {
-        let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
-        if (credentialsTaskData.isDeal == true) {
-          let data1 = credentialsTaskData.data;
-          this.temp.empCode = data1.employeeId;
-          this.temp.empName = data1.employeeName;
-          this.temp.companyCode = data1.companyId;
-          this.temp.companyName = data1.companyName;
-          this.temp.credentialsTypeN = credentialsTaskData.typeN;
-          this.temp.credentialsType = credentialsTaskData.type;
-          this.temp.companyId = credentialsTaskData.companyId;
-          if (credentialsTaskData.dealType != "") {
-            this.temp.credentialsDealType = credentialsTaskData.dealType;
-            this.temp.credentialsDealTypeN = credentialsTaskData.dealTypeN;
-          }
-          this.temp.action = "1";
-          this.findPrice(data1.companyId,credentialsTaskData.type,credentialsTaskData.dealType);
-        }
-        AJAX
-          .get(host + "/api/empCredentialsDeal/find/task/" + empCode)
-          .then(response => {
-            if (response.data.errCode === "0") {
-              let data = response.data.data;
-              for (let i in data) {
-                data[i].empCode = this.empCode;
-                data[i].empName = this.empName;
-                data[i].companyCode = this.companyCode;
-                data[i].companyName = this.companyName;
-              }
-              let credentialsTaskData = JSON.parse(sessionStorage.getItem('credentialsTaskData'));
-              if (credentialsTaskData.isDeal == true) {
-                response.data.data.splice(0, 0, this.temp);
-              }
-              data[0]._highlight = true
-              this.empInfo = data;
-            }
-          });
-      },
-      async findPrice (companyId,type,dealType) {
-        await AJAX.get(host + "/api/empCredentialsDeal/getProductPrice?companyId="+companyId+"&taskType="+type+"&taskDealType="+dealType).then(response => {
-          if (response.data.success) {
-            this.money = response.data.data.money
-            this.temp.money = response.data.data.money
           }
         })
+        .catch(error => {
+          this.$Notice.error({
+            title: "保存失败",
+            desc: "系统繁忙"
+          });
+        });
+    },
+    back() {
+      this.$router.go(-1);
+    },
+    findAll(empCode) {
+      let credentialsTaskData = JSON.parse(
+        sessionStorage.getItem("credentialsTaskData")
+      );
+      if (credentialsTaskData.isDeal == true) {
+        let data1 = credentialsTaskData.data;
+        this.temp.empCode = data1.employeeId;
+        this.temp.empName = data1.employeeName;
+        this.temp.companyCode = data1.companyId;
+        this.temp.companyName = data1.companyName;
+        this.temp.credentialsTypeN = credentialsTaskData.typeN;
+        this.temp.credentialsType = credentialsTaskData.type;
+        this.temp.companyId = credentialsTaskData.companyId;
+        if (credentialsTaskData.dealType != "") {
+          this.temp.credentialsDealType = credentialsTaskData.dealType;
+          this.temp.credentialsDealTypeN = credentialsTaskData.dealTypeN;
+        }
+        this.temp.action = "1";
+        this.findPrice(
+          data1.companyId,
+          credentialsTaskData.type,
+          credentialsTaskData.dealType
+        );
       }
+      AJAX.get(host + "/api/empCredentialsDeal/find/task/" + empCode).then(
+        response => {
+          if (response.data.errCode === "0") {
+            let data = response.data.data;
+            for (let i in data) {
+              data[i].empCode = this.empCode;
+              data[i].empName = this.empName;
+              data[i].companyCode = this.companyCode;
+              data[i].companyName = this.companyName;
+            }
+            let credentialsTaskData = JSON.parse(
+              sessionStorage.getItem("credentialsTaskData")
+            );
+            if (credentialsTaskData.isDeal == true) {
+              data.splice(0, 0, this.temp);
+            }
+            data[0]._highlight = true;
+            this.empInfo = data;
+            // console.log(this.empInfo)
+          }
+        }
+      );
+    },
+    async findPrice(companyId, type, dealType) {
+      await AJAX.get(
+        host +
+          "/api/empCredentialsDeal/getProductPrice?companyId=" +
+          companyId +
+          "&taskType=" +
+          type +
+          "&taskDealType=" +
+          dealType
+      ).then(response => {
+        if (response.data.success) {
+          this.money = response.data.data.money;
+          this.temp.money = response.data.data.money;
+        }
+      });
     }
-  };
+  }
+};
 </script>
 
 <style scoped>
-
 </style>

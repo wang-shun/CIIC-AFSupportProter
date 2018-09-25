@@ -168,13 +168,6 @@ export default {
               ]);
             }
           },
-          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 110,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.employeeName),
-              ]);
-            }
-          },
           {title: '证件号码', key: 'idNum', align: 'center', width: 170,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -200,7 +193,7 @@ export default {
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h("Checkbox", {
-                props: { value: params.row.archiveAble },
+                props: { value: params.row.archiveAble,disabled:true},
                 style: { margin: "0 auto 0 0px" }
               })
               ]);
@@ -449,6 +442,7 @@ export default {
       });
     },
     handleSelectAll(status) {
+    
       var arrTmp = this.employmentData;
 
       for (let value of arrTmp) {

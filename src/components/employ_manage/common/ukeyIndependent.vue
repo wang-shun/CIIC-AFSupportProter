@@ -30,6 +30,13 @@
             {{employSpecial.keySeq}}
           </Form-item>
         </Col>
+
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label=" 福利部ukey密码：">
+            {{employSpecial.ssPwd}}
+          </Form-item>
+        </Col>
+       
       </Row>
     </Form>
   </div>

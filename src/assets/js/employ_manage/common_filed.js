@@ -152,7 +152,7 @@ let independent_chooseField = {
   "d.title":"公司名称",
   "a.employee_id":"雇员编号",
   "b.employee_name":"雇员姓名",
-  "d.id_num":"身份证号码",
+  "b.id_num":"身份证号码",
   "c.service_center":"服务中心",
   "d.organization_code":"组织机构代码",
   "u.key_code":"Ukey编号",

@@ -568,7 +568,7 @@
     mounted() {
       this.$Message.config({
         top: 50,
-        duration: 6
+        duration: 5
       });
       this.operatorSearchData.totalApplicationAmonut='';
       sessionData.getJsonDataFromSession('fundPay.operatorSearchData', this.operatorSearchData);

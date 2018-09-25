@@ -508,6 +508,19 @@
           this.$Message.error("请选择数据");
           return;
         }
+        //排除退保任务单
+        let flag = true;
+        this.selectData.every(item => {
+          if (item.taskType === '2') {
+            flag = false;
+            return false;
+          }
+        });
+        if (!flag) {
+          this.$Message.info("退保任务单不能切换公司");
+          return
+        }
+
         let date = {};
         date.insurancePolicyID = this.formItem.afProductId;
         date.insuranceCompanyID = this.companyId;

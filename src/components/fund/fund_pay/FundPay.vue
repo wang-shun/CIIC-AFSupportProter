@@ -62,7 +62,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
 
-        <Button type="info" @click="enquireFinanceComAccount()">询问财务可付状态</Button>
+        <!-- <Button type="info" @click="enquireFinanceComAccount()">询问财务可付状态</Button> -->
         <Button type="primary" @click="goMakePayList">制作汇缴名单</Button>
         <Dropdown @on-click="exportTable">
           <Button type="info">
@@ -242,7 +242,7 @@
         paymentStateList: [
           {label: "全部", value: ''},
           {label: "无需支付", value: 0},
-          {label: "可付", value: 1},
+          {label: "未到账", value: 1},
           {label: "送审", value: 2},
           {label: "汇缴(已申请到财务部 ) ", value: 3},
           {label: "财务部批退", value: 4},
@@ -566,6 +566,10 @@
       }
     },
     mounted() {
+      this.$Message.config({
+        top: 50,
+        duration: 5
+      });
       this.operatorSearchData.totalApplicationAmonut='';
       sessionData.getJsonDataFromSession('fundPay.operatorSearchData', this.operatorSearchData);
 
@@ -791,13 +795,13 @@
             operator:""
           };
           FundPay.processApproval(params).then(data=>{
-            this.$Message.success(data.message);
+            this.$Message.info(data.message);
             this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         }else{
-          this.$Message.info("该记录不能送审，请检查!");
+          this.$Message.error("该记录不能送审，请检查!");
         }
       },
       processPayment(){
@@ -810,13 +814,13 @@
             operator:""
           };
           FundPay.processPayment(params).then(data=>{
-            this.$Message.success(data.message);
+            this.$Message.info(data.message);
             this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         }else{
-          this.$Message.info("该记录不能汇缴，请检查!");
+          this.$Message.error("该记录不能汇缴，请检查!");
         }
       },
       processTicket(){
@@ -829,13 +833,13 @@
             operator:""
           };
           FundPay.processTicket(params).then(data=>{
-            this.$Message.success(data.message);
+            this.$Message.info(data.message);
             this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         }else{
-          this.$Message.info("该记录不能出票，请检查!");
+          this.$Message.error("该记录不能出票，请检查!");
         }
       },
       processReceipt(){
@@ -848,13 +852,13 @@
             operator:""
           };
           FundPay.processReceipt(params).then(data=>{
-            this.$Message.success(data.message);
+            this.$Message.info(data.message);
             this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         } else{
-          this.$Message.info("该记录不能回单，请检查!");
+          this.$Message.error("该记录不能回单，请检查!");
         }
       },
       //操作
@@ -895,8 +899,8 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        // 支付状态: 1 ,可付(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
-        // 可付和送审才允许编辑
+        // 支付状态: 1 ,未到账(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
+        // 未到账和送审才允许编辑
         if(row.paymentState != 1 && row.paymentState != 2){
           this.$Message.info("当前状态，不允许编辑！");
           return false;

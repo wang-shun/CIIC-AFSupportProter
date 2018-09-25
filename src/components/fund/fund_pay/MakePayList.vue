@@ -116,6 +116,15 @@
           </Select>
         </Form-item>
         </Col>
+        
+      </Row>
+
+      <Row class="mt20">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 16}">
+        <Form-item label="备注：" prop="remark">
+          <Input v-model="remark" placeholder=""></Input>
+        </Form-item>
+        </Col>
       </Row>
       <Row class="mt20">
         <Col :sm="{span: 24}" class="tr">
@@ -141,6 +150,7 @@
         size:99999,//默认单页记录数
         pageNum:1,//默认页数
         payee: '',
+        remark:'',
         paymentWay:3,
         showPaymentWay:true,
         showPayee:true,
@@ -378,9 +388,9 @@
                           payee:this.payee,
                           paymentWay:this.paymentWay,
                           paymentMonth:this.makePayListInfo.payDate,
-                          listData:this.selectedData  //
+                          listData:this.selectedData,  //
+                          remark:this.remark,
                         };
-                        console.log(params);
                         FundPay.createPaymentComList(params).then(data=>{
                           if(data.code==200){
                             this.$Message.success(data.message);

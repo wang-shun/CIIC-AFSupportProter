@@ -355,17 +355,17 @@
               ]);
             }
           },
-          {title: '送审日期', key: 'financePaymentDateString', align: 'center', width: 110,
+          {title: '送审日期', key: 'sendAuditDateString', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.financePaymentDateString),
+                h('span', params.row.sendAuditDateString),
               ]);
             }
           },
           {title: '汇缴日期', key: 'financePaymentDateString', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.financePaymentDateString),
+                h('span', params.row.requestDateString),
               ]);
             }
           },
@@ -387,6 +387,13 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.accountTypeValue),
+              ]);
+            }
+          },
+          {title: '备注', key: 'remark', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remark),
               ]);
             }
           }
@@ -427,28 +434,28 @@
               ]);
             }
           },
-          {title: '汇缴银行', key: 'paymentBank', align: 'center', width: 200,
+          {title: '汇缴银行', key: 'paymentBank', align: 'center', width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.hf_paymentBank(params.row.paymentBank)),
               ]);
             }
           },
-          {title: '汇缴金额', key: 'remittedAmount', align: 'center', width: 200,
+          {title: '汇缴金额', key: 'remittedAmount', align: 'center', width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remittedAmount),
               ]);
             }
           },
-          {title: '补缴金额', key: 'repairAmount', align: 'center', width: 200,
+          {title: '补缴金额', key: 'repairAmount', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.repairAmount),
               ]);
             }
           },
-          {title: '汇缴人数', key: 'remittedCountEmp', align: 'center', width: 200,
+          {title: '汇缴人数', key: 'remittedCountEmp', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remittedCountEmp),

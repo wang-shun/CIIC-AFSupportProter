@@ -397,8 +397,7 @@ export default {
   },
   watch: {
     emp: function(val, oldVal) {
-      console.log("taskList");
-      this.clickRow(val[0]);
+      window.setTimeout(this.clickRow(val[0]),1000);
     }
   },
   methods: {
@@ -424,9 +423,6 @@ export default {
         this.formItem.credentialsDealType = value.credentialsDealType;
         value.companyId = value.companyCode;
         this.rowdata = { ...value };
-        // console.log(value);
-        // console.log(value.money);
-        console.log("click row")
         this.$emit("backRow", value);
         this.selectCompanyExt(value.credentialsType, value.companyCode);
         if (
@@ -482,8 +478,6 @@ export default {
         .then(response => {
           if (response.data.errCode == "0") {
             this.meterials.info = response.data.data;
-            // console.log("已选材料")
-            // console.log(this.meterials.info)
           } else {
             this.meterials.info = "";
           }
@@ -499,8 +493,6 @@ export default {
       ).then(response => {
         if (response.data.errCode == "0") {
           this.meterials.menu = response.data.data;
-          // console.log("材料模板")
-          // console.log(this.meterials.menu)
         }
       });
     },

@@ -329,6 +329,10 @@ export default {
     return await response.data;
   },depentExportOpt:async (params) => {
     AJAX.download('/api/employservice/salCompany/indSearchExportOpt', params);
+  },
+  saveAmReturn:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amResignTask/saveAmReturn', params);
+    return await response.data;
   }
 
 }

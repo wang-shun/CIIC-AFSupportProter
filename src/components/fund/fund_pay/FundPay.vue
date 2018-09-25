@@ -566,6 +566,10 @@
       }
     },
     mounted() {
+      this.$Message.config({
+        top: 50,
+        duration: 6
+      });
       this.operatorSearchData.totalApplicationAmonut='';
       sessionData.getJsonDataFromSession('fundPay.operatorSearchData', this.operatorSearchData);
 

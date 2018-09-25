@@ -42,6 +42,13 @@ export default {
   printFinancePayVoucher: async(params)=>{
     AJAX.download('/api/soccommandservice/ssPayment/printFinancePayVoucher', params);
   },
+  downTemplate:async()=>{
+    AJAX.download('/api/soccommandservice/ssPayment/downTemplate')
+  },
+  payAmountImpUpload: async(params) => {
+    let response = await AJAX.upload('/api/soccommandservice/ssPayment/payAmountImpUpload', params);
+    return await response.data;
+  },
 
 }
 

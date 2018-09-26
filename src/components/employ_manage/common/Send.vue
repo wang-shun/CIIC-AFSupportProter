@@ -4,12 +4,12 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
              <Form-item label="">
-            <Checkbox v-model="refuse.post" true-value="1" false-value="0">寄信</Checkbox>
+            <Checkbox v-model="refuse.post" true-value="1" false-value="0" @on-change="Changebox">寄信</Checkbox>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="操作员：">
-            <Input v-model="refuse.postSaver" placeholder="请输入" :maxlength="50"/>
+            {{refuse.postSaver}}
           </Form-item>
         </Col>
       </Row>
@@ -65,6 +65,12 @@
                 this.isLoading = false;
         })
 
+       },Changebox(value){
+           if(value==1){
+             this.refuseInfo.postSaver = JSON.parse(localStorage.getItem('userInfo')).displayName;
+           }else{
+             this.refuseInfo.postSaver = "";
+           }
        }
 
     }

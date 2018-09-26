@@ -287,42 +287,42 @@ let router = new Router({
             activeName: '2-2'
           }
         },
-        {
-          path: '/employee_fund_common_operator_out_task_batch_handle',
-          name: 'employeeFundCommonOperatorOutTaskBatchHandle',
-          component: employeeFundCommonOperatorOutTaskBatchHandle,
-          meta: {
-            level1: '首页',
-            level2: '上海公积金',
-            level3: '雇员公积金日常操作',
-            openNames: ['2'],
-            activeName: '2-2'
-          }
-        },
-        {
-          path: '/employee_fund_common_operator_repair_task_batch_handle',
-          name: 'employeeFundCommonOperatorRepairTaskBatchHandle',
-          component: employeeFundCommonOperatorRepairTaskBatchHandle,
-          meta: {
-            level1: '首页',
-            level2: '上海公积金',
-            level3: '雇员公积金日常操作',
-            openNames: ['2'],
-            activeName: '2-2'
-          }
-        },
-        {
-          path: '/employee_fund_common_operator_adjust_task_batch_handle',
-          name: 'employeeFundCommonOperatorAdjustTaskBatchHandle',
-          component: employeeFundCommonOperatorAdjustTaskBatchHandle,
-          meta: {
-            level1: '首页',
-            level2: '上海公积金',
-            level3: '雇员公积金日常操作',
-            openNames: ['2'],
-            activeName: '2-2'
-          }
-        },
+        // {
+        //   path: '/employee_fund_common_operator_out_task_batch_handle',
+        //   name: 'employeeFundCommonOperatorOutTaskBatchHandle',
+        //   component: employeeFundCommonOperatorOutTaskBatchHandle,
+        //   meta: {
+        //     level1: '首页',
+        //     level2: '上海公积金',
+        //     level3: '雇员公积金日常操作',
+        //     openNames: ['2'],
+        //     activeName: '2-2'
+        //   }
+        // },
+        // {
+        //   path: '/employee_fund_common_operator_repair_task_batch_handle',
+        //   name: 'employeeFundCommonOperatorRepairTaskBatchHandle',
+        //   component: employeeFundCommonOperatorRepairTaskBatchHandle,
+        //   meta: {
+        //     level1: '首页',
+        //     level2: '上海公积金',
+        //     level3: '雇员公积金日常操作',
+        //     openNames: ['2'],
+        //     activeName: '2-2'
+        //   }
+        // },
+        // {
+        //   path: '/employee_fund_common_operator_adjust_task_batch_handle',
+        //   name: 'employeeFundCommonOperatorAdjustTaskBatchHandle',
+        //   component: employeeFundCommonOperatorAdjustTaskBatchHandle,
+        //   meta: {
+        //     level1: '首页',
+        //     level2: '上海公积金',
+        //     level3: '雇员公积金日常操作',
+        //     openNames: ['2'],
+        //     activeName: '2-2'
+        //   }
+        // },
         {
           path: '/employee_fund_special_operator',
           name: 'employeeFundSpecialOperator',

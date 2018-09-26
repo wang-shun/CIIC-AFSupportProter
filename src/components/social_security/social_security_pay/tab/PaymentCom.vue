@@ -88,7 +88,7 @@
           <Button type="primary" @click="gotoDelBatch()">从出账批次号中移除</Button>
           <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button>
           <Button type="info" @click="exportData">导出</Button>
-          <Button type="info" @click="impPayAmount">导入申请支付总金额</Button>
+          <!-- <Button type="info" @click="impPayAmount">导入申请支付总金额</Button> -->
         </Col>
       </Row>
 

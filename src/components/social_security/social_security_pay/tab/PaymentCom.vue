@@ -1373,10 +1373,6 @@
         return false;
       },
       doUpload(){
-        if (this.upLoadData.comAccountId == '' || this.upLoadData.ssMonth == '') {
-          this.$Message.error("请选择社保账户");
-        }
-        else{
           //this.upLoadData.file = file;
           payBatchApi.payAmountImpUpload(this.upLoadData).then(data=>{
               if (data.code == 0) {
@@ -1392,7 +1388,6 @@
             this.$Message.error('系统异常！');
           });
           this.$refs['upload'].clearFiles();
-        }
       },
       handleError(error, file){
         this.$Notice.warning({

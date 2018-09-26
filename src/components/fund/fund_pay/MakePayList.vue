@@ -116,7 +116,17 @@
           </Select>
         </Form-item>
         </Col>
+        
       </Row>
+
+      <!-- <Row class="mt20">
+      <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 16}">
+        <Form-item label="备注：" prop="remark">
+          <Input v-model="remark" placeholder=""></Input>
+        </Form-item>
+        </Col>
+      </Row> -->
+      
       <Row class="mt20">
         <Col :sm="{span: 24}" class="tr">
           <Button type="info" @click="createPaymentComList()">生成汇缴支付批次</Button>
@@ -141,6 +151,7 @@
         size:99999,//默认单页记录数
         pageNum:1,//默认页数
         payee: '',
+        remark:'',
         paymentWay:3,
         showPaymentWay:true,
         showPayee:true,
@@ -259,10 +270,10 @@
                this.makePayListInfo.payDate= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
               if(this.operatorSearchData.paymentBank==0){
                   this.payee='上海市公积金管理中心（黄浦支行（1））'
+                  this.paymentWay =2;
               }else{
                   this.payee='住房资金归集待结算户'
               }
-
             }).catch(error=>{
               console.log(error)
             })
@@ -369,6 +380,16 @@
             this.paymentWay=0;  
         }
 
+
+        if(this.payee =='上海市公积金管理中心（黄浦支行（1））'){
+            if(this.paymentWay !=2){
+              this.$Message.error('如果收款方为‘上海市公积金管理中心（黄浦支行（1））’,那么付款方式必须为支票');
+              return false;
+            }
+        }
+        
+ 
+
         this.$Modal.confirm({
                     title: '确认',
                     content: '您确认生成支付批次吗？',
@@ -378,9 +399,9 @@
                           payee:this.payee,
                           paymentWay:this.paymentWay,
                           paymentMonth:this.makePayListInfo.payDate,
-                          listData:this.selectedData  //
+                          listData:this.selectedData,  //
+                          remark:this.remark,
                         };
-                        console.log(params);
                         FundPay.createPaymentComList(params).then(data=>{
                           if(data.code==200){
                             this.$Message.success(data.message);

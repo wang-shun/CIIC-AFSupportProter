@@ -37,9 +37,9 @@ const employeeFundCommonOperatorOutTaskHandle = r => require.ensure([], () => r(
 const employeeFundCommonOperatorRepairTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/RepairTaskHandle')), 'employeeFundCommonOperatorRepairTaskHandle')
 const employeeFundCommonOperatorAdjustTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/AdjustTaskHandle')), 'employeeFundCommonOperatorAdjustTaskHandle')
 const employeeFundCommonOperatorInTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/InTaskBatchHandle')), 'employeeFundCommonOperatorInTaskBatchHandle')
-const employeeFundCommonOperatorOutTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/OutTaskBatchHandle')), 'employeeFundCommonOperatorOutTaskBatchHandle')
-const employeeFundCommonOperatorRepairTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/RepairTaskBatchHandle')), 'employeeFundCommonOperatorRepairTaskBatchHandle')
-const employeeFundCommonOperatorAdjustTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/AdjustTaskBatchHandle')), 'employeeFundCommonOperatorAdjustTaskBatchHandle')
+// const employeeFundCommonOperatorOutTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/OutTaskBatchHandle')), 'employeeFundCommonOperatorOutTaskBatchHandle')
+// const employeeFundCommonOperatorRepairTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/RepairTaskBatchHandle')), 'employeeFundCommonOperatorRepairTaskBatchHandle')
+// const employeeFundCommonOperatorAdjustTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/AdjustTaskBatchHandle')), 'employeeFundCommonOperatorAdjustTaskBatchHandle')
 
 const employeeFundSpecialOperator = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialOperator')), 'employeeFundSpecialOperator')
 const employeeFundSpecialProgressTwo = r => require.ensure([], () => r(require('@/components/fund/employee_special_operator/EmployeeFundSpecialProgressTwo')), 'employeeFundSpecialProgressTwo')

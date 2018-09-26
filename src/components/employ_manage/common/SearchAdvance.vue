@@ -1,5 +1,5 @@
 <template>
-  <Form :model="searchForm" ref="searchForm" :label-width="100">
+  <Form :model="searchForm" ref="searchForm" :label-width="100" @submit.native.prevent>
     <Row justify="start">
       <Col :sm="{span: 8}">
       <Row>
@@ -19,11 +19,11 @@
         </Col>
         <Col :sm="{span: 24}">
           <Form-item label="查询内容" prop="searchContent">
-            
+
             <Input v-model="searchForm.searchContent" placeholder="请输入" v-if="searchForm.isDate !== 1" />
             <Date-picker  v-model="searchForm.searchContent"  type="date"  placement="right"
-                             placeholder="选择年月份" style="width: 100%;" v-else></Date-picker> 
-                         
+                             placeholder="选择年月份" style="width: 100%;" v-else></Date-picker>
+
           </Form-item>
         </Col>
 
@@ -94,6 +94,21 @@
         currentSelectIndex: -1
       }
     },
+    mounted() {
+
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var fu;
+      if(userInfo!=null&&userInfo!=undefined){
+
+          fu = sessionStorage.getItem('advance'+userInfo.userId);
+          if(fu!=null)
+          {
+            this.searchConditions = JSON.parse(fu);
+            this.$emit("on-search", this.searchConditions,this.searchForm,0);
+          }
+      }
+
+    },
     methods: {
       exportXLS() {
         this.$emit("on-search", this.searchConditions,this.searchForm,1);
@@ -104,7 +119,7 @@
       // 选择字段或关系
       setOption(content, type){
         if(type === chooseType.field) {
-         
+
           if(content.value.indexOf("date")>0){
             this.searchForm.isDate=1;
           }else{
@@ -122,7 +137,7 @@
           return;
         } else {
           if(this.searchForm.isDate==1){
-             var d = new Date(this.searchForm.searchContent);  
+             var d = new Date(this.searchForm.searchContent);
              this.searchForm.searchContent=d.getFullYear() + '-' + (d.getMonth() + 1)+'-'+d.getDate();
           }
 
@@ -162,6 +177,10 @@
         this.$refs[form].resetFields();
       },
       searchEmploiees() {
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+         if(userInfo!=null&&userInfo!=undefined){
+            window.sessionStorage.setItem('advance'+userInfo.userId, JSON.stringify(this.searchConditions));
+         }
          this.$emit("on-search", this.searchConditions,this.searchForm,0);
       }
     },

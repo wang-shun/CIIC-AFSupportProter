@@ -587,6 +587,10 @@
       }
     },
     mounted() {
+      this.$Message.config({
+        top: 50,
+        duration: 5
+      });
       this.operatorSearchData.totalApplicationAmonut='';
       sessionData.getJsonDataFromSession('fundPay.operatorSearchData', this.operatorSearchData);
 
@@ -812,13 +816,13 @@
             operator:""
           };
           FundPay.processApproval(params).then(data=>{
-            this.$Message.success(data.message);
+            this.$Message.info(data.message);
             this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         }else{
-          this.$Message.info("该记录不能送审，请检查!");
+          this.$Message.error("该记录不能送审，请检查!");
         }
       },
       processPayment(){
@@ -831,13 +835,13 @@
             operator:""
           };
           FundPay.processPayment(params).then(data=>{
-            this.$Message.success(data.message);
+            this.$Message.info(data.message);
             this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         }else{
-          this.$Message.info("该记录不能汇缴，请检查!");
+          this.$Message.error("该记录不能汇缴，请检查!");
         }
       },
       processTicket(){
@@ -850,13 +854,13 @@
             operator:""
           };
           FundPay.processTicket(params).then(data=>{
-            this.$Message.success(data.message);
+            this.$Message.info(data.message);
             this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         }else{
-          this.$Message.info("该记录不能出票，请检查!");
+          this.$Message.error("该记录不能出票，请检查!");
         }
       },
       processReceipt(){
@@ -869,13 +873,13 @@
             operator:""
           };
           FundPay.processReceipt(params).then(data=>{
-            this.$Message.success(data.message);
+            this.$Message.info(data.message);
             this.queryData();
           }).catch(error=>{
             console.log(error)
           })
         } else{
-          this.$Message.info("该记录不能回单，请检查!");
+          this.$Message.error("该记录不能回单，请检查!");
         }
       },
       //操作

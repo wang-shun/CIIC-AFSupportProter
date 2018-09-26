@@ -5,7 +5,7 @@
           <Panel name="1">
         档案预增管理
         <div slot="content">
-          <search-advance @on-search="searchAdvance" :isLoading='isLoading' :showHandle="showHandle" ></search-advance>
+          <search-advance @on-search="searchEmploiees" :isLoading='isLoading' :showHandle="showHandle" ></search-advance>
         </div>
       </Panel>
       </Collapse>
@@ -149,15 +149,16 @@
       }
     },
     mounted() {
-      this.querySalCompany({})
+      // this.querySalCompany({})
     },
     methods: {
-      searchAdvance(conditions,searchForm,type) {
+      searchEmploiees(conditions,searchForm,type) {
            // 查询
               this.pageData.pageNum =1;
              this.searchConditions =[];
-             for(var i=0;i<conditions.length;i++)
-                   this.searchConditions.push(conditions[i].exec);
+             for(var i=0;i<conditions.length;i++){
+               this.searchConditions.push(conditions[i].exec);
+             }
 
              this.searchCondition.params = this.searchConditions.toString();
            if(type == 0){
@@ -168,11 +169,6 @@
               let params = this.searchCondition;
               api.advanceSearchExportOpt(params);
            }
-
-      },
-      searchEmploiees(conditions) {
-
-        this.querySalCompany(this.searchCondition);
 
       },
       handleData(row, index) {

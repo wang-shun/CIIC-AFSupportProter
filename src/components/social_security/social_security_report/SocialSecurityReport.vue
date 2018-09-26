@@ -25,11 +25,11 @@
                   <input-account v-model="operatorSearchDataFirst.ssAccount" @listenToChildEvent="listenToChild"></input-account>
                 </Form-item>
               </Col>
-               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户编号：" prop="companyId">
                 <input-company v-model="operatorSearchDataFirst.companyId"></input-company>
               </Form-item>
-              </Col> -->
+              </Col>  
             </Row>
             <br/>
             <br/>
@@ -78,7 +78,7 @@
             <br/>
             <Row type="flex" justify="start">
               <Col :sm="{span: 20}" offset='2'>
-              <Button type="info" @click="monthEmpChange">月缴变更汇总表（养医失）</Button>
+              <Button type="info" @click="monthEmpChange">月缴变更汇总表</Button>
               </Col>
             </Row>
           </Form>
@@ -181,9 +181,9 @@
           ssMonth:[
             {required:true,type:'date',message: '选择报表日期.',trigger:'change'},
           ],
-          ssAccount:[
-            {required:true,type:'string',message: '选择社保账户.',trigger:'change'},
-          ]
+          // ssAccount:[
+          //   {required:true,type:'string',message: '选择社保账户.',trigger:'change'},
+          // ]
         },
         ruleValidate:{
           ssMonth:[
@@ -238,7 +238,14 @@
       monthlypaymentnotice(){
         let result = this.validConditionFirst();
         if(!result)return;
-        let ssMonth = this.$utils.formatDate(this.operatorSearchDataFirst.ssMonth, 'YYYYMM')
+
+        if(this.operatorSearchDataFirst.ssAccount=='' && this.operatorSearchDataFirst.companyId==''){
+          this.$Message.info("条件【企业社保账号】和【客户编号】请二选一输入！");
+          return;
+        }
+        
+        let ssMonth = this.$utils.formatDate(this.operatorSearchDataFirst.ssMonth, 'YYYYMM');
+
         let param={
           ssMonth:ssMonth,
           ssAccountType:this.operatorSearchDataFirst.ssAccountType,
@@ -251,6 +258,10 @@
       employeeCostDetail(){
         let result = this.validConditionFirst();
         if(!result)return;
+        if(this.operatorSearchDataFirst.ssAccount=='' && this.operatorSearchDataFirst.companyId==''){
+          this.$Message.info("条件【企业社保账号】和【客户编号】请二选一输入！");
+          return;
+        }
         let ssMonth = this.$utils.formatDate(this.operatorSearchDataFirst.ssMonth, 'YYYYMM')
         let param={
           ssMonth:ssMonth,
@@ -264,6 +275,11 @@
       refundDetails(){
         let result = this.validConditionFirst();
         if(!result)return;
+
+        if(this.operatorSearchDataFirst.ssAccount=='' && this.operatorSearchDataFirst.companyId==''){
+          this.$Message.info("条件【企业社保账号】和【客户编号】请二选一输入！");
+          return;
+        }
          let ssMonth = this.$utils.formatDate(this.operatorSearchDataFirst.ssMonth, 'YYYYMM')
          let param={
           ssMonth:ssMonth,

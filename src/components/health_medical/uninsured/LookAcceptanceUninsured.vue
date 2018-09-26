@@ -77,6 +77,11 @@
               <span>{{ detail.caseMoney }}</span>
             </Form-item>
           </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="处理备注">
+              <span>{{ detail.remark }}</span>
+            </Form-item>
+          </Col>
 
         </Row>
       </Form>
@@ -147,12 +152,17 @@
               <span>{{ detail.remark }}</span>
             </Form-item>
           </Col>
+          <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+            <Form-item label="付款日期">
+              <span>{{ detail.paymentDate }}</span>
+            </Form-item>
+          </Col>
         </Row>
       </Form>
     </Card>
     <Row class="mt10">
       <Col :sm="{span: 24}" class="tr">
-        <Button v-if="detail.status" type="primary" @click="printUninsuredReview()">打印</Button>
+        <Button v-if="printFlag" type="primary" @click="printUninsuredReview()">打印</Button>
         <Button type="warning" @click="back()">返回</Button>
       </Col>
     </Row>
@@ -167,6 +177,7 @@
     data() {
       return {
         umAcceptanceId: '',
+        printFlag: false,
         detail: {},
         userInfo: {}
       }
@@ -175,11 +186,13 @@
       this.umAcceptanceId = JSON.parse(sessionStorage.getItem('umAcceptanceId'));
       this.queryAcceptanceUninsured();
       this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      this.printFlag = sessionStorage.getItem('printFlag');
+      sessionStorage.removeItem('printFlag')
     },
     methods: {
       queryAcceptanceUninsured() {
         apiAjax.acceptanceDetail(this.umAcceptanceId).then(response => {
-          let data = response.data
+          let data = response.data;
           if (data.code === 200) {
             this.detail = data.object
           } else {

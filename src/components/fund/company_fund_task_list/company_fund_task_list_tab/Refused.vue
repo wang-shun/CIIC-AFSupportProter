@@ -75,7 +75,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="taskColumns" :data="taskData" :loading="loading"></Table>
+        <Table border :columns="taskColumns" :data="taskData" :loading="loading" :row-class-name="rowClassName" @on-row-dblclick="dbClickHandleData"></Table>
        <Page
           class="pageSize"
           @on-page-size-change="handlePageSize"
@@ -98,7 +98,7 @@
   import {Refused} from '../../../../api/house_fund/company_task_list/company_task_list_tab/refused'
   import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
   import sessionData from '../../../../api/session-data'
-
+  import ts from '../../../../api/house_fund/table_style'
   export default {
     components: {InputAccount, InputCompany},
     data() {
@@ -126,26 +126,25 @@
         },
         serviceCenterData: [], //客服中心
         taskColumns: [
-          {title: '操作', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      sessionData.setJsonDataToSession('companyFundTaskList.refused.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('companyFundTaskList.refused.pageData', this.pageData);
-
-                      this.$router.push({name: 'companyFundTaskInfo', params: {
-                          comTaskId: params.row.comTaskId,
-                          companyInfo: params.row.companyInfo,
-                          companyTaskInfo: params.row.companyTaskInfo}
-                      });
-                    }
-                  }
-                }, '查看'),
-              ]);
-            }
-          },
+          // {title: '操作', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             sessionData.setJsonDataToSession('companyFundTaskList.refused.operatorSearchData', this.operatorSearchData);
+          //             sessionData.setJsonDataToSession('companyFundTaskList.refused.pageData', this.pageData);
+          //             this.$router.push({name: 'companyFundTaskInfo', params: {
+          //                 comTaskId: params.row.comTaskId,
+          //                 companyInfo: params.row.companyInfo,
+          //                 companyTaskInfo: params.row.companyTaskInfo}
+          //             });
+          //           }
+          //         }
+          //       }, '查看'),
+          //     ]);
+          //   }
+          // },
           {title: '任务类型', key: 'taskCategoryName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -220,10 +219,10 @@
       }
     },
     created() {
+        },
+    mounted() {
       sessionData.getJsonDataFromSession('companyFundTaskList.refused.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('companyFundTaskList.refused.pageData', this.pageData);
-    },
-    mounted() {
 //      let sessionPageNum = sessionStorage.taskPageNum
 //      let sessionPageSize = sessionStorage.taskPageSize
 //
@@ -233,21 +232,8 @@
 //        sessionStorage.removeItem("taskPageNum")
 //        sessionStorage.removeItem("taskPageSize")
 //      }
-      let params = {
-        pageSize: this.pageData.pageSize,
-        pageNum: this.pageData.pageNum,
-        params:{
-          taskStatusString: '4', //已批退
-        }
-      }
-      let self= this
-      Refused.postTableData(params).then(data=>{
-          self.loading=true;
-          self.refresh(data)
-        }
-      ).catch(error=>{
-        console.log(error);
-      })
+       
+    this.hfComTaskQuery();
     this.getCustomers();
     },
     computed: {
@@ -256,16 +242,16 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-      hfComTaskQuery(){
-          let params = this.getParams1();
-        Refused.postTableData(params).then(data=>{
-            this.refresh(data)
-            this.pageData.total = Number(data.data.totalSize);
-          }
-        ).catch(error=>{
-          console.log(error);
-        });
-      },
+    hfComTaskQuery(){
+        let params = this.getParams1();
+      Refused.postTableData(params).then(data=>{
+          this.refresh(data)
+          this.pageData.total = Number(data.data.totalSize);
+        }
+      ).catch(error=>{
+        console.log(error);
+      });
+    },
       handlePageNum(page){
         this.pageData.pageNum = page
         this.hfComTaskQuery();
@@ -285,6 +271,30 @@
         }).catch(error=>{
           console.log(error)
         })
+      },
+      //获得列表请求参数
+      getParams1(){
+        let params={};
+        let arrayServiceCenter=this.operatorSearchData.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+            params=JSON.parse(JSON.stringify(this.operatorSearchData));
+            delete params.serviceCenterValue;
+            params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
+        return {
+          pageSize:this.pageData.pageSize,
+          pageNum:this.pageData.pageNum,
+          params:params,
+        }
+      },
+      dbClickHandleData(row, index){
+        sessionData.setJsonDataToSession('companyFundTaskList.refused.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('companyFundTaskList.refused.pageData', this.pageData);
+        this.$router.push({name: 'companyFundTaskInfo', params: {
+            comTaskId: row.comTaskId,
+            companyInfo: row.companyInfo,
+            companyTaskInfo: row.companyTaskInfo}
+        });
       },
     //获得列表请求参数
       getParams1(){
@@ -334,6 +344,9 @@
           this.serviceCenterData = data.data;
         })
       },
+      rowClassName(row, index) {
+        return ts.comRowClassName(row, index);
+      }
     }
   }
 </script>

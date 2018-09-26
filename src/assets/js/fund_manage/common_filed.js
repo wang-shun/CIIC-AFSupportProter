@@ -2,7 +2,7 @@
  * Created by huangye on 2018/1/8.
  */
 let em_chooseField = {
-  "processStatus":"未处理",
+  // "processStatus":"未处理",
   "sc.company_id":"客户编号",
   "sc.title":"客户名称",
   "ee.employee_id":"雇员编号",
@@ -11,6 +11,7 @@ let em_chooseField = {
   "hcas.payment_bank":"缴费银行",
   "het.hf_type":"公积金类型",
   "hcas.hf_account_type":"企业账户类型",
+  "af_ec.status":"是否终止",
   "ee.id_num":"证件号",
   "het.submit_time":"任务发起时间",
   "hcac.hf_com_account":"企业公积金账号",

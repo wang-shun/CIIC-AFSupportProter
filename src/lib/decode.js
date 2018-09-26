@@ -18,36 +18,38 @@ export default {
     //1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作  10 集体转入   11 集体转出 12 翻牌 14 翻牌转出 15 翻牌封存
 
         switch (taskCategory) {
-        case '1':
-            return '新进'
-        case '2':
-            return '转入'
-        case '3':
-            return '调整'
-        case '4':
-            return '补缴'
-        case '5':
-            return '转出'
-        case '6':
-            return '封存'
-        case '7':
-            return '退账'
-        case '9':
-            return '特殊操作'
-        case '10':
-            return '集体转入'
-        case '11':
-            return '集体转出'
-        case '12': //12翻牌转入13翻牌转出14翻牌转出15翻牌封存
-            return '翻牌新进'
-        case '13':
-            return '翻牌转入'
-        case '14':
-            return '翻牌转出'
-        case '15':
-            return '翻牌封存'
-        default: // 默认 1
-            return ''
+          case '1':
+              return '新进'
+          case '2':
+              return '转入'
+          case '3':
+              return '调整'
+          case '4':
+              return '补缴'
+          case '5':
+              return '转出'
+          case '6':
+              return '封存'
+          case '7':
+              return '退账'
+          case '9':
+              return '特殊操作'
+          case '10':
+              return '集体转入'
+          case '11':
+              return '集体转出'
+          case '12': //12翻牌转入13翻牌转出14翻牌转出15翻牌封存
+              return '翻牌新进'
+          case '13':
+              return '翻牌转入'
+          case '14':
+              return '翻牌转出'
+          case '15':
+              return '翻牌封存'
+          case '99':
+              return '不做'
+          default: // 默认 1
+              return ''
         }
     },
 
@@ -386,7 +388,7 @@ export default {
             return ''
         }
     },
-   // 1, 要做2, 中心3, 中智4, 原单位5, 外服6, 不做7, 外包8, 其他独立开户公司 
+   // 1, 要做2, 中心3, 中智4, 原单位5, 外服6, 不做7, 外包8, 其他独立开户公司
     hfOperationRemind: (type) => {
         switch (type) {
         case '1':
@@ -412,7 +414,7 @@ export default {
             return '外包'
         case '8':
         case 8:
-            return '其他独立开户公司'   
+            return '其他独立开户公司'
         default:
             return ''
         }
@@ -621,7 +623,7 @@ export default {
             return '支票'
         case '3':
             return '转账'
-        default: 
+        default:
             return ''
         }
     },
@@ -702,7 +704,6 @@ export default {
         }
     },
     hf_paymentBank: (v) => {
-    // 1 徐汇—X、2 西郊—C、3 东方路—P、4 卢湾—L、5 黄浦—H
     switch (v) {
       case '15':
         return '徐汇—X'

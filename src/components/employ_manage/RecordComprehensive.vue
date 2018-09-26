@@ -4,6 +4,7 @@
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="goBack">返回</Button>
+          <Button type="info" @click="printInfo">打印退工单</Button>
         </Col>
       </Row>
       <Collapse v-model="collapseInfo">
@@ -43,6 +44,12 @@
             <file-handle :fileInfo1="fileInfo1" :fileInfo2="fileInfo2"></file-handle>
           </div>
         </Panel>
+        <Panel name="6">
+          寄信办理
+          <div slot="content">
+            <file-send :fileInfo1="fileInfo1"></file-send>
+          </div>
+        </Panel>
         <Panel name="8">
           档案备注
           <div slot="content">
@@ -62,12 +69,18 @@
           </div>
         </Panel>
         <Panel name="11">
+          退档日期操作区域
+          <div slot="content">
+            <return-doc-date :refuseInfo="refuseInfo" ></return-doc-date>
+          </div>
+        </Panel>
+        <Panel name="12">
           补调档案
           <div slot="content">
             <make-up-file :makeUpFileInfo="makeUpFileInfo"></make-up-file>
           </div>
         </Panel>
-        <Panel name="12">
+        <Panel name="13">
           退工归还材料签收
           <div slot="content">
             <refuse-return-materials-sign :materialLogList="materialLogList" :refuseReturnMaterialsSignInfo="refuseReturnMaterialsSignInfo" :refuseReturnMaterials="refuseReturnMaterials"></refuse-return-materials-sign>
@@ -80,6 +93,14 @@
           </div>
         </Panel>
       </Collapse>
+      <Modal
+        :width="700"
+        v-model="modal1"
+        title="选择公司变更记录"
+        @on-ok="ok"
+        @on-cancel="cancel">
+        <Table border  ref="payComSelection" :columns="companyColumns" :width="620"  :data="refuseReturnCompanys" class="mt20"></Table>
+      </Modal>
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
           <Button type="warning" @click="goBack">返回</Button>
@@ -95,6 +116,7 @@
   import refuseHandle from "./common/RefuseHandleArchive.vue"
   import useHandle from "./common/UseHandleArchive.vue"
   import fileHandle from "./common/FileHandle.vue"
+  import fileSend from "./common/FileSend.vue"
   import modifyFileNumber from "./common/ModifyFileNumber.vue"
   import refuseMaterialsHandle from "./common/RefuseMaterialsHandle.vue"
   import fileNotes from "./common/FileNotes.vue"
@@ -104,12 +126,14 @@
   import refuseReturnMaterialsSign from "./common/RefuseReturnMaterialsSign.vue"
   import companyNameChangeMatrialsPrint from "./common/CompanyNameChangeMatrialsPrint.vue"
   import injuryReportManage from "./common/InjuryReportManage.vue"
+  import returnDocDate from "./common/ReturnDocDate.vue"
   import api from '../../api/employ_manage/hire_operator'
 
   export default {
-    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, useHandle, fileHandle, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage},
+    components: {customerInfo, employeeCompleteInfo, employmentInfo, refuseHandle, useHandle, fileHandle, fileSend, modifyFileNumber, refuseMaterialsHandle, fileNotes, outStockAndMail, fileSettle, makeUpFile, refuseReturnMaterialsSign, companyNameChangeMatrialsPrint, injuryReportManage,returnDocDate},
     data() {
       return {
+        modal1: false,
         collapseInfo: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
         customerInfo: {
           serviceCenter: "",
@@ -119,6 +143,13 @@
           centerServicer: "李XX",
           employeeServicer: "李XX",
           serviceManager: "王XX"
+        },
+        amEmploymentBO: {
+          employeeId: "",
+          companyId: "",
+          empTaskId: "",
+          employmentId: '',
+          companyNameList:[],
         },
         employeeInfo: {
           employeeNumber: "",
@@ -201,6 +232,7 @@
           matchEmployIndex: ""
         },
         fileInfo1: {
+          post:0,
           archiveId:'',
           reservedFileNumberValue: "",
           fileNumberValue: "",
@@ -297,10 +329,34 @@
         companyNameChangeMatrialsPrintInfo: [],
         injuryReportManageInfo: [],
         refuseReturnMaterials:[],
+        refuseReturnCompanys:[],
         materialLogList:[],
         userInfo:{
           userName:''
-        }
+        },companyColumns: [
+          {title: '', type: 'selection', width: 60},
+          {title: '变更公司名称', key: 'companyName', align: 'center',width: 250,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.companyName),
+              ]);
+            }
+          },
+          {title: '变更时间', key: 'changeDate', align: 'center',width: 120,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span',   moment(Number(params.row.changeDate)).format("YYYY-MM-DD")),
+              ]);
+            }
+          },
+          {title: '备注', key: 'remark', align: 'center',width: 180,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          }
+        ],
       }
     },
      async mounted() {
@@ -384,6 +440,42 @@
     methods: {
       goBack() {
         this.$router.go(-1);
+      },
+      ok () {
+              let selection = this.$refs.payComSelection.getSelection();
+
+          selection.some(item => {
+               this.amEmploymentBO.companyNameList.push('原公司名称：' + item.companyName);
+           });
+                this.amEmploymentBO.companyId = this.$route.query.companyId;
+                this.amEmploymentBO.employeeId = this.$route.query.employeeId;
+                this.amEmploymentBO.empTaskId = this.$route.query.empTaskId;
+                this.amEmploymentBO.employmentId = this.$route.query.employmentId;
+                api.archiveSearchExportReturn(this.amEmploymentBO);
+            },
+            cancel () {
+              
+            },
+      printInfo() {
+        this.amEmploymentBO.companyNameList = [];
+        this.amEmploymentBO.companyId = this.$route.query.companyId;
+        this.amEmploymentBO.employeeId = this.$route.query.employeeId;
+        this.amEmploymentBO.empTaskId = this.$route.query.empTaskId;
+        this.amEmploymentBO.employmentId = this.$route.query.employmentId;
+
+        api.queryCompanyNameUpdateHistory({companyId:this.$route.query.companyId}).then(data=>{
+            console.info(data.data);
+            if(data.data.length > 0){
+              this.modal1 = true;
+              let selection = this.$refs.payComSelection;
+              selection.selectAll(false);
+              this.refuseReturnCompanys = data.data;
+            }else{
+              api.archiveSearchExportReturn(this.amEmploymentBO);
+            }
+        })
+
+
       }
     }
   }

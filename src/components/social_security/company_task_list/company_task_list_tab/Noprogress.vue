@@ -182,13 +182,13 @@
               ]);
             }
           },
-          {title: '任务单编号', key: 'tid', width: 150, fixed: 'left', align: 'center',
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [
-                h('span', params.row.tid),
-              ]);
-            }
-          },
+          // {title: '任务单编号', key: 'tid', width: 150, fixed: 'left', align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'center'}}, [
+          //       h('span', params.row.tid),
+          //     ]);
+          //   }
+          // },
           {title: '任务单类型', key: 'type', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
@@ -254,12 +254,12 @@
 //         sessionStorage.removeItem("taskPageNum")
 //         sessionStorage.removeItem("taskPageSize")
 //      }
-      let params = {
-          pageSize:this.pageData.pageSize,
-          pageNum:this.pageData.pageNum,
-        params:{}
-      }
-
+      // let params = {
+      //     pageSize:this.pageData.pageSize,
+      //     pageNum:this.pageData.pageNum,
+      //   params:{}
+      // }
+      let params=this.getParams(this.pageData.pageNum);
       let self= this
       NoProgress.postTableData(params).then(data=>{
           self.loading=true;

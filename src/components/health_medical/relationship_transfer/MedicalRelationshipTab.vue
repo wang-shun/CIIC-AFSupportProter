@@ -55,9 +55,11 @@
            :data="transferData"
            ref="transferTable"></Table>
     <Page :total="transferTotal"
+          show-total
           show-elevator
           @on-change="getTransferByPage"
-          @on-page-size-change="pageSizeChangeTransfer" :current.sync="transferItem.pageNum"
+          @on-page-size-change="pageSizeChangeTransfer"
+          :current.sync="transferItem.pageNum"
           :page-size="transferItem.pageSize"></Page>
   </div>
 </template>
@@ -98,6 +100,12 @@
           },
           {
             title: '公司名称', sortable: true, key: 'companyName', align: "center",
+          },
+          {
+            title: '受理日期', sortable: true, key: 'createdTime', align: "center",
+            render: (h, params) => {
+              return h('div', this.$utils.formatDate(params.row.createdTime, 'YYYY-MM-DD'));
+            }
           },
           {
             title: '转出日期', sortable: true, key: 'turnOutDate', align: "center",

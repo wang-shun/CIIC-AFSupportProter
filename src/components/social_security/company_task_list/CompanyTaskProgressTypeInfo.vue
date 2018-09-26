@@ -25,7 +25,7 @@
                   </Select>
                   <!-- <Input v-model="beforeSendInfo.customerSocialSecurityEndDate" placeholder="每月18号"></Input> -->
                 </Form-item>
-                
+
               </Col>
                <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="付款方式：" prop="payMethodValue">
@@ -70,7 +70,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="牡丹卡号：" prop="bankCardNumber">
+                <Form-item label="扣款账号：" prop="bankCardNumber">
                   <Input v-model="companyOpenAccountOperator.bankCardNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
@@ -211,19 +211,19 @@
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="受理日期：" prop="acceptanceDate">
-                  <DatePicker v-if="handDateIsDateOrLabel" v-model="companyOpenAccountOperator.acceptanceDate" placeholder="选择日期" :disabled="handDateControl"  style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-if="handDateIsDateOrLabel" v-model="companyOpenAccountOperator.acceptanceDate" placeholder="选择日期" :readonly="handDateControl" :disabled="handDateControl" style="width: 100%;" transfer></DatePicker>
                   <label v-else>{{companyOpenAccountOperator.acceptanceDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="送审日期：" prop="sendCheckDate">
-                  <DatePicker v-if="sendDateIsDateOrLabel" v-model="companyOpenAccountOperator.sendCheckDate" placement="bottom-end" placeholder="选择日期" :disabled="sendDateControl" style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-if="sendDateIsDateOrLabel" v-model="companyOpenAccountOperator.sendCheckDate" placement="bottom-end" placeholder="选择日期" :readonly="sendDateControl" :disabled="sendDateControl"  style="width: 100%;" transfer></DatePicker>
                    <label v-else>{{companyOpenAccountOperator.sendCheckDate}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="完成日期："  prop="finishedDate">
-                  <DatePicker v-if="finishDateIsDateOrLabel" v-model="companyOpenAccountOperator.finishedDate" placement="bottom-end" placeholder="选择日期" :disabled="finishDateControl" style="width: 100%;" transfer></DatePicker>
+                  <DatePicker v-if="finishDateIsDateOrLabel" v-model="companyOpenAccountOperator.finishedDate" placement="bottom-end" placeholder="选择日期" :readonly="finishDateControl" :disabled="finishDateControl" style="width: 100%;" transfer></DatePicker>
                   <label v-else>{{companyOpenAccountOperator.finishedDate}}</label>
                 </Form-item>
               </Col>
@@ -245,7 +245,7 @@
             </Row>
             <Row>
               <Col :sm="{span:24}" class="tr">
-                <Button type="primary" @click="confirm">办理</Button>
+                <Button type="primary" @click="confirm">保存</Button>
                 <Button type="primary" @click="revoke">撤销</Button>
                 <Button type="error" @click="refuseTask">批退</Button>
                 <Button type="warning" @click="goBack">返回</Button>
@@ -459,7 +459,7 @@
             {value: '2', label: '转入'},
           ], //任务
            socialSecurityCenterList: [
-            
+
             {value: '徐汇', label: '徐汇'},
             {value: '长宁', label: '长宁'},
             {value: '浦东', label: '浦东'},
@@ -538,7 +538,7 @@
                     ],
                     taskValue: [
                         { required: true, message: '请选择任务状态！', trigger: 'blur' }
-                    ], 
+                    ],
                     // joinSafeguardRegister: [
                     //     { required: true, message: '该项不能为空!', trigger: 'blur' },
                     //     { max:20, message: '最多不超过20个.', trigger: 'blur' }
@@ -571,7 +571,7 @@
                     //     { required: true, validator: validateUserNameAndPsw, trigger: 'blur' },
 
                     // ],
-    
+
                     // resourceValue: [
                     //     { required: true, message: '请选择来源地!', trigger: 'change' }
                     // ],
@@ -617,6 +617,9 @@
     },
     mounted() {
       this.queryPageInfo()
+      this.handDateControl = true;
+      this.sendDateControl=true;
+      this.finishDateControl=true;
     },
     computed: {
 
@@ -652,6 +655,14 @@
            this.$Message.warning('【工伤比例开始月份】要求必填！')
            return false;
         }
+        if(!this.companyOpenAccountOperator.bankCardNumber){
+           this.$Message.warning('【牡丹卡号】要求必填！')
+           return false;
+        }
+        if(!this.companyOpenAccountOperator.payBank){
+           this.$Message.warning('【付款行】要求必填！')
+           return false;
+        }
         return true;
       },
       //办理
@@ -675,16 +686,20 @@
             // 这时应该自动页面回到顶部，暂时找不到代码。
             return;
         }
-        res=this.validateRequired();
-        if(res == false )return;
+        let taskState = this.companyOpenAccountOperator.taskTypeValue;
+        if(taskState==3){
+           res=this.validateRequired();
+           if(res == false )return;
+
+        }
 
         let self = this;
-        self.$Modal.confirm({
+        this.$Modal.confirm({
             title: '',
             content: '确认办理吗?',
             //loading:true,
             onOk:function(){
-                let params = self.getParams()
+                let params = self.getParams();
                 CompanyTaskList.addOrUpdate(params).then(result=>{
                   if(result.result){
                       let taskState = self.companyOpenAccountOperator.taskTypeValue;
@@ -694,12 +709,12 @@
                         sessionStorage.companyTaskTab = "finished";
                       }
                       //下面代码感觉怪怪的，有空再改
-                      if(result.message=='正常'){
+                      if(result.message=='正常' || result.message=='操作成功'){
                         self.$Message.success('办理成功!');
                         self.goBack()
                       }else{
-                        self.$Message.success(result.message);
-                        self.goBack()
+                        self.$Message.error(result.message);
+                        //self.goBack()
                       }
                   }else{
                     self.$Message.error('办理失败!');
@@ -710,8 +725,8 @@
 
             },
               error:function(error){
-                self.$Message.error('办理失败!');
-                self.$Modal.remove();
+                this.$Message.error('办理失败!');
+                this.$Modal.remove();
             }
         });
       },
@@ -754,7 +769,7 @@
         }
         let self = this
         CompanyTaskList.getComInfoAndPayWay(params).then(result=>{
- 
+
           if(typeof(result.comAccountId)!='undefined' && !result.comAccountId!=null && result.comAccountId!='' && result.companyOpenAccountOperator.state==1){
            this.$Notice.config({
                 top:80
@@ -812,9 +827,9 @@
         let ssComAccountDTO={
               comAccountId: this.comAccountId,
               companyId:this.companyInfo.customerNumber,
-              ssAccount: this.companyOpenAccountOperator.joinSafeguardRegister,//参保户登记码
+              ssAccount: (this.companyOpenAccountOperator.joinSafeguardRegister+"").trim(),//参保户登记码
               bankAccount: this.companyOpenAccountOperator.bankCardNumber,
-              comAccountName: this.companyOpenAccountOperator.pensionMoneyUseCompanyName,
+              comAccountName: (this.companyOpenAccountOperator.pensionMoneyUseCompanyName+"").trim(),
               settlementArea: this.companyOpenAccountOperator.socialSecurityCenterValue,
               paymentBank: this.companyOpenAccountOperator.payBank,
               paymentWay: this.beforeSendInfo.payMethodValue,
@@ -873,7 +888,6 @@
       },
       //任务类型发生变化
       taskTypeChange(){
-
         let taskState = this.companyOpenAccountOperator.taskTypeValue
          //acceptanceDate sendCheckDate finishedDate
          let formObj = this.companyOpenAccountOperator
@@ -892,18 +906,19 @@
              formObj.sendCheckDate = null;
              formObj.finishedDate =null;
         }else if(taskState=='2'){
-            this.handDateControl = false;
+            this.handDateControl = true;
             this.sendDateControl=false;
             this.finishDateControl=true;
-            formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
+            formObj.acceptanceDate = formObj.acceptanceDate==''? new Date() : formObj.acceptanceDate;
             formObj.sendCheckDate = new Date();
              formObj.finishedDate =null;
         }else if(taskState=='3'){
-            this.handDateControl = false;
-            this.sendDateControl=false;
+            this.handDateControl = true;
+            this.sendDateControl=true;
             this.finishDateControl=false;
-             formObj.acceptanceDate = formObj.acceptanceDate==null? new Date() : formObj.acceptanceDate;
-             formObj.sendCheckDate = formObj.sendCheckDate==null? new Date() : formObj.sendCheckDate;
+            
+             formObj.acceptanceDate = (formObj.acceptanceDate==''? new Date() : formObj.acceptanceDate);
+             formObj.sendCheckDate = (formObj.sendCheckDate==''? new Date() : formObj.sendCheckDate);
              formObj.finishedDate = new Date();
         }
       },

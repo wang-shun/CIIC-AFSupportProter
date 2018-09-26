@@ -105,7 +105,8 @@
           UKeyPasswordD: "",
           UKeyPasswordF: "",
           companySpecialCase: "",
-          mailContinueStr:""
+          mailContinueStr:"",
+          show:false
         },
         employmentMaterial: {
           submitName: "",
@@ -148,9 +149,9 @@
           docCode:'',
           docFrom:'',
           employFeedback:'',
-          employFeedbackOptDate:this.$utils.formatDate(new Date(), 'YYYY-MM-DD'),
+          employFeedbackOptDate:'',
           diaodangFeedback:'',
-          diaodangFeedbackOptDate:this.$utils.formatDate(new Date(), 'YYYY-MM-DD'),
+          diaodangFeedbackOptDate:'',
           ukeyBorrowDate:'',
           ukeyReturnDate:'',
           hukouCode:'',

@@ -22,7 +22,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="受理单编号" prop="umAcceptanceId">
-                  <Input v-model="formItem.umAcceptanceId" placeholder="请输入"/>
+                  <Input v-model="formItem.umAcceptanceId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col v-if="formItem.status === true" :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -36,50 +36,49 @@
                   <DatePicker v-model="formItem.handlerDateRange" type="daterange" placement="bottom-end"
                               placeholder="选择日期" style="width: 100%" transfer></DatePicker>
                 </Form-item>
-                </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方编号" prop="managementId">
-                  <Input v-model="formItem.managementId" placeholder="请输入"/>
+                  <Input v-model="formItem.managementId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="管理方名称" prop="managementName">
-                  <Input v-model="formItem.managementName" placeholder="请输入"/>
+                  <Input v-model="formItem.managementName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司编号" prop="companyId">
-                  <Input v-model="formItem.companyId" placeholder="请输入"/>
+                  <Input v-model="formItem.companyId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="公司名称" prop="companyName">
-                  <Input v-model="formItem.companyName" placeholder="请输入"/>
+                  <Input v-model="formItem.companyName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员编号" prop="employeeId">
-                  <Input v-model="formItem.employeeId" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeId" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="雇员姓名" prop="employeeName">
-                  <Input v-model="formItem.employeeName" placeholder="请输入"/>
+                  <Input v-model="formItem.employeeName" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件号码" prop="idNum">
-                  <Input v-model="formItem.idNum" placeholder="请输入"/>
+                  <Input v-model="formItem.idNum" placeholder="请输入"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="审核" prop="status">
+                <FormItem label="审核" prop="status">
                   <i-switch v-model="formItem.status" size="large" @on-change="getByPage(1)">
                     <span slot="open">Yes</span>
                     <span slot="close">No</span>
                   </i-switch>
-                </Form-item>
+                </FormItem>
               </Col>
             </Row>
             <Row type="flex" justify="start">
@@ -93,37 +92,46 @@
       </Panel>
     </Collapse>
 
+    <div class="tr m20">
+      <Button v-if="this.formItem.status" type="primary" icon="ios-upload-outline" @click="exportUninsuredData">导出
+      </Button>
+    </div>
+
     <Table border stripe ref="uninsuredTable" :columns="uninsuredColumns" :data="uninsuredData"></Table>
     <Page :total="formItem.total"
+          show-total
           show-elevator
           @on-change="getByPage"
-          @on-page-size-change="pageSizeChange" :current.sync="formItem.current"
+          @on-page-size-change="pageSizeChange"
+          :current.sync="formItem.current"
           :page-size="formItem.size"></Page>
   </div>
 </template>
 <script>
   import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
   import apiAjax from "../../../data/health_medical/uninsured_application.js";
+  import qs from "qs";
 
   export default {
     data() {
       return {
         collapseInfo: [1, 2, 3], //展开栏
+        userInfo: {},
         formItem: {
           total: 0,
           current: 1,
           size: 10,
-          umAcceptanceId: null,
-          moneyType: null,
-          caseType: null,
+          umAcceptanceId: '',
+          moneyType: '',
+          caseType: '',
           status: false,
-          managementId: null,
-          managementName: null,
-          companyId: null,
-          companyName: null,
-          employeeId: null,
-          employeeName: null,
-          idNum: null,
+          managementId: '',
+          managementName: '',
+          companyId: '',
+          companyName: '',
+          employeeId: '',
+          employeeName: '',
+          idNum: '',
           handlerDateRange: [],
           auditDateRange: [],
         },
@@ -164,7 +172,7 @@
           {
             title: '审核日期', sortable: true, key: 'auditDate', align: 'center',
             render: (h, params) => {
-              return h('div', this.$utils.formatDate(params.row.auditDate, 'YYYY-MM-DD HH:mm:ss'));
+              return h('div', this.$utils.formatDate(params.row.auditDate, 'YYYY-MM-DD'));
             }
           },
           {
@@ -192,7 +200,8 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('umAcceptanceId', params.row.umAcceptanceId);
+                        sessionStorage.setItem('caseMoney', params.row.caseMoney);
                         this.$router.push({name: 'uninsuredReviewDeal'});
                       }
                     }
@@ -204,7 +213,8 @@
                     },
                     on: {
                       click: () => {
-                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('umAcceptanceId', params.row.umAcceptanceId);
+                        sessionStorage.setItem('printFlag', true);
                         this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
                     }
@@ -216,7 +226,8 @@
                     props: {type: 'success', size: 'small'},
                     on: {
                       click: () => {
-                        sessionStorage.setItem('umAcceptanceId', JSON.stringify(params.row.umAcceptanceId));
+                        sessionStorage.setItem('umAcceptanceId', params.row.umAcceptanceId);
+                        sessionStorage.setItem('printFlag', true);
                         this.$router.push({name: 'lookAcceptanceUninsured'});
                       }
                     }
@@ -233,6 +244,7 @@
       }
     },
     created() {
+      this.userInfo = JSON.parse(localStorage.getItem('userInfo'));
       this.getByPage(1);
     },
     methods: {
@@ -244,6 +256,9 @@
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
         });
+      },
+      exportUninsuredData() {
+        window.location = apiAjax.basePaths + '/uninsuredAuditService/exportUninsuredAuditExcel?' + qs.stringify(this.formItem) + '&token=' + encodeURIComponent(this.userInfo.token);
       },
       getByPage(val) {
         this.formItem.current = val;

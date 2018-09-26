@@ -1,10 +1,10 @@
 <template>
-  <div class="smList" style="height: 5400px;">
+  <div class="smList" style="height: 850px;">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         查询条件
         <div slot="content">
-            <search-employee @on-search="searchEmploiees" :showHandle="showHandle" ></search-employee>
+            <search-employee ref="searchEmployee" @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="socialDaily" sessionKeyAdd="socialDailyAdd"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -19,7 +19,8 @@
     </Row>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-      <Table border id="noProcessData" ref="selection"  :columns="employeeResultColumns" :data="employeeResultData" @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading"></Table>
+      <Table border id="noProcessData" ref="selection"  :columns="employeeResultColumns" :data="employeeResultData"
+       @on-selection-change="selectionChange" @on-sort-change="SortChange" :loading="isLoading" height=400 ></Table>
       <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -103,7 +104,6 @@
         isLoading: false,
         rejectionRemark: '',
         selectEmployeeResultData: [],
-
         employeeResultData: [],
         employeeResultPageData: {
           total: 0,
@@ -135,10 +135,18 @@
             }
           },
           {
-            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',
-          render: (h, params) => {
+            title: '任务单类型', key: 'taskCategory', width: 120, fixed: 'left', align: 'center',sortable: 'custom',
+            render: (h, params) => {
               return h('div', [
                 h('span',  this.$decode.taskCategory(params.row.taskCategory))
+              ]);
+            }
+          },
+          {
+            title: '是否更正', key: 'isChange', width: 105, align: 'center',sortable: 'custom',
+            render: (h, params) => {
+              return h('div', [
+                h('span',  params.row.isChange=='1'?"是":"否")
               ]);
             }
           },
@@ -175,14 +183,6 @@
           {
             title: '办理备注', key: 'handleRemark', width: 300, align: 'center'
           },
-          {
-            title: '是否更正', key: 'isChange', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('span',  params.row.isChange=='1'?"是":"否")
-              ]);
-            }
-          }
         ]
       }
     },
@@ -213,25 +213,33 @@
           }else{
             if(storeOrder.length>0)
             {
-              for(var index  in storeOrder)
+              for(var index in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
-                if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+                if(e.key === 'taskCategory' && storeOrder[index].indexOf('task_category')!=-1) {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'isChange' && storeOrder[index].indexOf('is_change')!=-1) {
+                  e.sortType = orders[1];
+                }
+
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1)
                 {
                   e.sortType = orders[1];
                 }
 
-                if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+                if(e.key === 'companyId' && storeOrder[index].indexOf('company_id')!=-1)
                 {
                   e.sortType = orders[1];
                 }
 
-                if(e.key === 'ssAccount'&&storeOrder[index].indexOf('ss_account')!=-1)
+                if(e.key === 'ssAccount' && storeOrder[index].indexOf('ss_account')!=-1)
                 {
                   e.sortType = orders[1];
                 }
 
-                if(e.key === 'idNum'&&storeOrder[index].indexOf('id_num')!=-1)
+                if(e.key === 'idNum' && storeOrder[index].indexOf('id_num')!=-1)
                 {
                   e.sortType = orders[1];
                 }
@@ -375,17 +383,27 @@
         }
 
         this.searchCondition.taskStatus = isStatus;
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 //        if(isStatus)
 //        {
 //            this.searchCondition.taskStatus = -2;
 //        }else{
 //            this.searchCondition.taskStatus = -1;
 //        }
+
+        let empTaskIds = '';
+        for (var d of this.selectEmployeeResultData) {
+          empTaskIds+=d.empTaskId+',';
+        }
+        let expParam={};
+        expParam = this.searchCondition;
+        this.$utils.copy(this.searchCondition, expParam);
+        expParam.empTaskIds=empTaskIds;
+
         api.employeeOperatorQueryExport({
           pageSize: 999999,
           pageNum: 0,
-          params: this.searchCondition,
+          params: expParam,
         });
       },
       handlePageNum(val) {
@@ -419,10 +437,10 @@
         if (length > 0) {
           for (let i = 0; i < length; i++) {
             let category = this.selectEmployeeResultData[i].taskCategory;
-            if ( category=='5' || category=='6' || category=='11'|| category=='14'|| category=='15') {
+            if ( category=='5' || category=='6' || category=='11'|| category=='14'|| category=='15' || category=='99') {
               this.$Modal.warning({
                 title: '任务批退',
-                content: '您选择的任务单存在转出类型，不允许批量批退办理'
+                content: '您选择的任务单存在转出或不做类型，不允许批量批退办理'
               });
               return false;
             }
@@ -553,6 +571,7 @@
             case '2':
             case '12':
             case '13':
+            case '99':
               name = 'empTaskBatchHandleView';
               break;
             case '3':
@@ -588,6 +607,7 @@
             case '2':
             case '12':
             case '13':
+            case '99':
               name = 'empTaskHandleView';
               break;
             case '3':
@@ -711,7 +731,7 @@
 //          this.searchCondition.taskStatus = -1;
 //       }
         this.searchCondition.taskStatus = isStatus;
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
@@ -745,14 +765,18 @@
         }
 
         var dx ='';
-        if(e.key === 'companyId'){
-            dx = 'c.company_id';
-        }else if(e.key === 'employeeId'){
-            dx = 'e.employee_id';
-        }else if(e.key === 'ssAccount'){
-            dx = 'ca.ss_account';
-        }else if(e.key === 'idNum'){
-            dx = 'e.id_num';
+        if (e.key === 'taskCategory') {
+          dx = 'et.task_category';
+        } else if(e.key === 'isChange') {
+          dx = 'et.is_change';
+        } else if(e.key === 'companyId') {
+          dx = 'c.company_id';
+        } else if(e.key === 'employeeId') {
+          dx = 'e.employee_id';
+        } else if(e.key === 'ssAccount') {
+          dx = 'ca.ss_account';
+        } else if(e.key === 'idNum') {
+          dx = 'e.id_num';
         }
         const searchConditionExec = `${dx} ${e.order} `;
         if(storeOrder===null){
@@ -799,7 +823,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.employeeOperatorQuery({
           pageSize: this.employeeResultPageData.pageSize,
@@ -831,6 +855,16 @@
               for(var index  in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
+                if(e.key === 'taskCategory' && storeOrder[index].indexOf('task_category')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'isChange' && storeOrder[index].indexOf('is_change')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
                 if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
                   order = orders[1]
                   break;
@@ -855,6 +889,9 @@
           }
           tableStyle.changeSortElementClass('noProcessData', idx, order)
         });
+      },
+      searchEmployeeInit() {
+        this.$refs.searchEmployee.initOptions();
       },
     }
   }

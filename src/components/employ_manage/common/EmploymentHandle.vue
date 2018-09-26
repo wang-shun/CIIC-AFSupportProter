@@ -71,11 +71,12 @@ import api from '../../../api/employ_manage/hire_operator'
       return {
         isLoading: false,
         employmentFormList: [
+          {value: '', label: ''},
           {value: '1', label: '全日制'},
           {value: '2', label: '非全日制'}
         ],
         handleTypeList: [
-          {value: '空', label: '空'},
+          {value: '', label: ''},
           {value: '外来从业人员', label: '外来从业人员'},
           {value: '居住证', label: '居住证'},
           {value: '调档', label: '调档'},
@@ -100,25 +101,22 @@ import api from '../../../api/employ_manage/hire_operator'
           {value: '公司自行保管', label: '公司自行保管'}
         ],                            
         employmentPropertyList: [
-           {value: '空', label: '空'},
+           {value: '', label: ''},
            {value: '中智', label: '中智'},
            {value: '外包', label: '外包'},
            {value: '独立', label: '独立'}
         ],
         employmentMethodList: [
-           {value: '空', label: '空'},
-           {value: 'Ukey', label: 'Ukey'},
-           {value: '集体转入', label: '集体转入'},
-           {value: '用工自办', label: '用工自办'},
-           {value: '翻牌', label: '翻牌'},
-           {value: '无材料用工', label: '无材料用工'},
-           {value: '网办无材料', label: '网办无材料'},
+           {value: '', label: ''},
+           {value: 'Ukey有材料（k有）', label: 'Ukey有材料（k有）'},
+           {value: 'Ukey无材料（k无）', label: 'Ukey无材料（k无）'},
+           {value: '柜面有材料（柜有）', label: '柜面有材料（柜有）'},
+           {value: '柜面无材料（柜无）', label: '柜面无材料（柜无）'},
            {value: '转人员性质', label: '转人员性质'},
-           {value: '新进转人员性质', label: '新进转人员性质'},
            {value: '送外区办', label: '送外区办'},
            {value: '修改信息', label: '修改信息'},
-           {value: '外来新进', label: '外来新进'},
-           {value: '外来转入', label: '外来转入'}
+           {value: '翻牌', label: '翻牌'},
+           {value: '集体转入,用工自办', label: '集体转入,用工自办'}
         ]
       }
     },
@@ -186,6 +184,10 @@ import api from '../../../api/employ_manage/hire_operator'
 
            if(data.data.employProperty){
               this.handleInfo.employProperty = data.data.employProperty;
+           }
+
+           if(data.data.employWay){
+              this.handleInfo.employWay = data.data.employWay;
            }
 
          })

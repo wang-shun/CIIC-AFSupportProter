@@ -22,6 +22,9 @@
   background-color: #ccccff;
   color: #ff0000;
 }
+.ivu-table .only-has-out td{
+  color: #ff0000;
+}
 .ivu-table .dependency-has-out td{
   background-color: #ccffcc;
   color: #ff0000;

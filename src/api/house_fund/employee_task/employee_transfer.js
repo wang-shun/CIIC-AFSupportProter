@@ -9,7 +9,9 @@ function getFundTransferNoteObj(row){
   <div style="page-break-after:always;">
   <table cellpadding="0" cellspacing="0"  style="border-collapse: collapse; border-spacing: 0; width: 600px; margin-left:22px;margin-top:-95px" >
     <tr>
-      <td height="140px"> &nbsp;</td>
+      <td height="140px" style="vertical-align: bottom;">  
+      <div style="text-align: left;  float: right; width: 150px;">${row.paymentBank}</div>
+      </td>
     </tr>
     <tr>
       <td height="35px" style="vertical-align: center;">
@@ -49,10 +51,10 @@ function getFundTransferNoteObj(row){
     </tr>
   </table>
 </div>`;
- 
+
   return html;
 }
- 
+
 
 export default {
 
@@ -102,6 +104,13 @@ export default {
   multiEmpTaskTransferExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfEmpTask/multiEmpTaskTransferExport', params);
   },
+  checkEmpTransferEndMonthSame: async (params) => {
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpTask/checkEmpTransferEndMonthSame', params);
+    return await response.data;
+  },
+  empToCenterTransferExport: (params) => {
+    AJAX.download('/api/fundcommandservice/hfEmpTask/empToCenterTransferExport', params);
+  },
   empTaskTransferTxtExport: (params) => {
     AJAX.download('/api/fundcommandservice/hfEmpTask/empTaskTransferTxtExport', params);
   },
@@ -127,5 +136,4 @@ export default {
     pwin.document.close();
     pwin.print();
  }
-
 }

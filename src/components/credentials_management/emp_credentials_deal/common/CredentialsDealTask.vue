@@ -3,97 +3,114 @@
     <Table border :columns="colums" :data="emp" @on-row-click="clickRow" :highlight-row="highlight"></Table>
     <Card>
        <Form ref="formItem" :model="formItem"  :label-width="120">
-        <h4>办理与收费信息</h4>
+        <h3>办理与收费信息</h3>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="办理机构：" prop="name">
-              <Poptip trigger="hover" placement="right" width="600" transfer='true'>
+            <!--<Form-item label="办理机构：">-->
+            <div style="margin-left: 50px">
+              <span style="font-weight: bold;margin-bottom: 10px">办理机构：</span>
+              <Poptip trigger="hover" placement="right" width="600" transfer>
                 <h6>{{formItem.name}}</h6>
                 <div slot="content">
                    <Table :columns="policyCol" :data="policyData"></Table>
                 </div>
               </Poptip>
-            </Form-item>
+            </div>
+            <!--</Form-item>-->
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="操作方式：" prop="operateType">
-              {{formItem.operateTypeN}}
-            </Form-item>
+            <!--<Form-item label="操作方式：">-->
+            <div style="margin-left: 50px;margin-bottom: 10px">
+              <span style="font-weight: bold">操作方式：</span>{{formItem.operateTypeN}}
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="支付方式：" prop="payType">
-              {{formItem.payTypeN}}
-            </Form-item>
+            <!--<Form-item label="支付方式：">-->
+            <div style="margin-left: 50px;margin-bottom: 10px">
+              <span style="font-weight: bold">支付方式：</span>{{formItem.payTypeN}}
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="操作账号：" prop="operateAccount">
-              {{formItem.operateAccount}}
-            </Form-item>
+            <!--<Form-item label="操作账号：" prop="operateAccount">-->
+            <div style="margin-left: 50px;margin-bottom: 10px">
+            <span style="font-weight: bold">操作账号：</span>{{formItem.operateAccount}}
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="操作密码：" prop="operatePwd">
-              {{formItem.operatePwd}}
-            </Form-item>
-          </i-col>
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="费用类型：" prop="chargeType">
-              {{formItem.chargeTypeN}}
-            </Form-item>
-          </i-col>
-          <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="特殊收费备注：" prop="specialChargeRemark" v-if="formItem.chargeTypeN === '特殊收费'">
-              {{formItem.specialChargeRemark}}
-            </Form-item>
+            <!--<Form-item label="操作密码：">-->
+            <div style="margin-left: 50px;margin-bottom: 10px">
+              <span style="font-weight: bold">操作密码：</span>{{formItem.operatePwd}}
+            <!--</Form-item>-->
+            </div>
           </i-col>
         </Row>
-        <h4>留存材料信息</h4>
+        <h3>留存材料信息</h3>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.introduceMail" disabled>介绍信</Checkbox>
-            </Form-item>
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <!--<Form-item>-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.onlineContactIdCard" disabled>网上联系人身份证复印件</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <!--<Form-item>-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.onlineContactIsSecretariat" disabled>网上联系人是否秘书台人员</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="网上联系人：">
-              <Input v-model="formItem.onlineContact" placeholder="请输入" disabled/>
-            </Form-item>
+            <!--<Form-item label="网上联系人：">-->
+            <div style="margin-left: 50px">
+              <span>网上联系人：</span><Input v-model="formItem.onlineContact"  style="width: 70%" disabled/>
+            <!--</Form-item>-->
+            </div>
           </i-col>
         </Row>
         <Row type="flex" justify="start">
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <!--<Form-item>-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.businessLicence" disabled>营业执照复印件或三证合一复印件</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <!--<Form-item>-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.organizationCode" disabled>机构代码证复印件</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <!--<Form-item >-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.foreignBusinessApprovalCertificate" disabled>外商企业批准证书复印件</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item >
+            <!--<Form-item >-->
+            <div style="margin-left: 50px">
               <Checkbox v-model="formItem.businessRenameNotice" disabled>工商局企业更名通知复印件</Checkbox>
-            </Form-item>
+            <!--</Form-item>-->
+            </div>
           </i-col>
           <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="特殊情况备注：">
-              <Input v-model="formItem.specialMaterialRemark" placeholder="请输入" type="textarea" disabled/>
-            </Form-item>
+            <!--<Form-item label="特殊情况备注：">-->
+            <div style="margin-left: 50px">
+              <span>特殊情况备注：</span><Input v-model="formItem.specialMaterialRemark" style="width: 70%" type="textarea" disabled/>
+            <!--</Form-item>-->
+            </div>
           </i-col>
         </Row>
         <div class="create"></div>
@@ -175,6 +192,7 @@ import CredentialsMaterial13 from "./CredentialsMaterial13";
 import CredentialsMaterial14 from "./CredentialsMaterial14";
 import ajax from "../../../../lib/ajax";
 import axios from "axios";
+import Tools from "../../../../lib/tools";
 const host = process.env.SITE_HOST;
 const AJAX = ajax.ajaxCM;
 export default {
@@ -214,7 +232,7 @@ export default {
         menu: null,
         comp: ""
       },
-      rowdata: { basicProductId: "" },
+      rowdata: { money: null },
       policyData: [],
       formItem: {
         credentialsType: "",
@@ -223,7 +241,8 @@ export default {
         operateTypeN: "",
         operateAccount: "",
         operatePwd: "",
-        chargeTypeN: "",
+        chargeType: "",
+        payType: "",
         payTypeN: "",
         specialChargeRemark: "",
         introduceMail: "",
@@ -291,10 +310,11 @@ export default {
           title: "操作",
           key: "action",
           align: "center",
+          width: 200,
           render: (h, params) => {
             if (params.row.action == null || params.row.action == "") {
-              return h("div", [
-                h(
+              let arr = []
+              arr.push(h(
                   "Button",
                   {
                     props: {
@@ -307,10 +327,8 @@ export default {
                     on: {
                       click: () => {}
                     }
-                  },
-                  "编辑"
-                ),
-                h(
+                  },"编辑"))
+                arr.push(h(
                   "Button",
                   {
                     props: {
@@ -326,10 +344,35 @@ export default {
                         this.taskFollowShow(params.row.taskId);
                       }
                     }
-                  },
-                  "跟进"
-                )
-              ]);
+                  }, "跟进"))
+                let st = new Date().getTime() - 24*60*60*1000;
+                let cr = new Date(params.row.createdTime).getTime();
+                if (params.row.implement === false && cr>st) {
+                  arr.push(h(
+                  "Button",
+                  {
+                    props: {
+                      type: "error",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {
+                        this.$Modal.confirm({
+                          title: "警告",
+                          content: "您真的要删除吗？",
+                          okText: "删除",
+                          onOk: () => {
+                            this.delTask(params.row.taskId)
+                          }
+                        });
+                      }
+                    }
+                  }, "删除"))
+                }
+              return h("div", arr)
             }
           }
         }
@@ -353,17 +396,19 @@ export default {
     };
   },
   watch: {
-    emp: function (val,oldVal) {
-        this.clickRow(val[0])
+    emp: function(val, oldVal) {
+      this.clickRow(val[0])
+      // window.setTimeout(this.clickRow(val[0]),1000);
     }
   },
   methods: {
     clickRow(value) {
       this.formItem.name = "";
       this.formItem.operateTypeN = "";
-      this.formItem.chargeTypeN = "";
+      this.formItem.chargeType = "";
       this.formItem.operateAccount = "";
       this.formItem.operatePwd = "";
+      this.formItem.payType = "";
       this.formItem.payTypeN = "";
       this.formItem.specialChargeRemark = "";
       this.formItem.introduceMail = false;
@@ -374,12 +419,12 @@ export default {
       this.formItem.organizationCode = false;
       this.formItem.foreignBusinessApprovalCertificate = false;
       this.formItem.businessRenameNotice = false;
-      this.formItem.specialMaterialRemark = "";
       if (value !== null) {
         this.formItem.credentialsType = value.credentialsType;
         this.formItem.credentialsDealType = value.credentialsDealType;
+        value.companyId = value.companyCode;
         this.rowdata = { ...value };
-        this.$emit("backRow", this.rowdata);
+        this.$emit("backRow", value);
         this.selectCompanyExt(value.credentialsType, value.companyCode);
         if (
           value.credentialsDealType != null &&
@@ -396,7 +441,7 @@ export default {
         this.findMaterials(value.taskId);
       }
     },
-    selectPolicy(name,type) {
+    selectPolicy(name, type) {
       var params = {};
       params.params = {};
       params.params.name = name;
@@ -404,7 +449,6 @@ export default {
       AJAX.get(host + "/api/orgPolicy/find", params).then(response => {
         this.policyData = response.data.data.records;
       });
-      console.log("policyData:"+this.policyData[0].policyDescription)
     },
     findMaterialMenu(taskId) {
       AJAX.get(host + "/api/materials/findMenu/" + taskId).then(response => {
@@ -431,8 +475,7 @@ export default {
       });
     },
     findMaterials(taskId) {
-      AJAX
-        .get(host + "/api/materials/find/" + taskId)
+      AJAX.get(host + "/api/materials/find/" + taskId)
         .then(response => {
           if (response.data.errCode == "0") {
             this.meterials.info = response.data.data;
@@ -440,29 +483,23 @@ export default {
             this.meterials.info = "";
           }
         })
-        .catch(error => {
-          this.meterials.info = response.data.data;
-        });
     },
     createMeterialsMenu(credentialsType, credentialsDealType) {
-      AJAX
-        .get(
-          host +
-            "/api/materials/create?credentialsType=" +
-            credentialsType +
-            "&credentialsDealType=" +
-            credentialsDealType
-        )
-        .then(response => {
-          if (response.data.errCode == "0") {
-            this.meterials.menu = response.data.data;
-          }
-        });
+      AJAX.get(
+        host +
+          "/api/materials/create?credentialsType=" +
+          credentialsType +
+          "&credentialsDealType=" +
+          credentialsDealType
+      ).then(response => {
+        if (response.data.errCode == "0") {
+          this.meterials.menu = response.data.data;
+        }
+      });
     },
     taskFollowShow(taskId) {
       if (taskId != null) {
-        AJAX
-          .get(host + "/api/empCredentialsDeal/find/taskFollow/" + taskId)
+        AJAX.get(host + "/api/empCredentialsDeal/find/taskFollow/" + taskId)
           .then(response => {
             if (response.data.errCode == "0") {
               this.data2 = response.data.data;
@@ -484,18 +521,17 @@ export default {
       }
     },
     async selectCompanyExt(credentialsType, companyId) {
-      await AJAX
-        .get(
-          host +
-            "/api/empCredentialsDeal/find/companyExt/" +
-            companyId +
-            "/" +
-            credentialsType
-        )
-        .then(response => {
-          Object.assign(this.formItem, response.data.data);
-        });
-        this.selectPolicy(this.formItem.name,this.formItem.credentialsType)
+      await AJAX.get(
+        host +
+          "/api/empCredentialsDeal/find/companyExt/" +
+          companyId +
+          "/" +
+          credentialsType
+      ).then(response => {
+        Object.assign(this.formItem, response.data.data);
+      });
+      this.$emit("companyExtData", this.formItem);
+      this.selectPolicy(this.formItem.name, this.formItem.credentialsType);
     },
     ok() {
       if (this.followDescription != "" && this.followDescription != null) {
@@ -503,11 +539,10 @@ export default {
         params.followDescription = this.followDescription;
         params.taskId = this.taskId;
         params.createdBy = "gu";
-        AJAX
-          .postJSON(
-            host + "/api/empCredentialsDeal/saveOrUpdate/taskFollow",
-            params
-          )
+        AJAX.postJSON(
+          host + "/api/empCredentialsDeal/saveOrUpdate/taskFollow",
+          params
+        )
           .then(response => {
             if (response.data.errCode === "0") {
               this.$Notice.success({
@@ -552,11 +587,28 @@ export default {
       this.rowdata.followMaterials = info.followMaterials;
       this.rowdata.notFollowMaterials = info.notFollowMaterials;
       this.$emit("backRow", this.rowdata);
+    },
+    delTask(taskId) {
+       AJAX.postJSON(
+          host + "/api/empCredentialsDeal/del/" + taskId
+        ).then(response => {
+          if(response.data.success) {
+            this.$Notice.success({
+                title: "删除成功",
+                desc: ""
+              });
+            window.location.reload();
+          } else {
+            this.$Notice.error({
+                title: "删除失败",
+                desc: ""
+              });
+          }
+        })
     }
   }
 };
 </script>
 
 <style scoped>
-
 </style>

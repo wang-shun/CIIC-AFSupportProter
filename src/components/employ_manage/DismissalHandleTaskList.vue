@@ -22,10 +22,14 @@
       <Col :sm="{span: 24}" class="tr">
         <!-- <Button type="primary" @click="goHandle">办理</Button> -->
          <Button type="primary" @click="batchManagement">批理办理</Button>
+         <Button type="primary" @click="explain">外来情况说明</Button>
+         <Button type="primary" @click="printReturn">打印外来退工单</Button>
         <!-- <Button type="primary" @click="batchOperating">批量操作</Button> -->
         <Button type="info" @click="exportXLS">导出XLS</Button>
       </Col>
     </Row>
+    <Row type="flex" justify="start" class="mt20">
+      <Col :sm="{span: 20}" class="tr">
     <Table border id="dissList" height="300" :row-class-name="rowClassName" :columns="dismissalColumns" :data="dismissalData" ref="dismissalData" :loading="isLoading"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
        <Page
         class="pageSize"
@@ -36,7 +40,59 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table border :columns="searchResultColumns" :data="searchResultData" :loading="isLoading" class="mt20"></Table>
+      </Col>
+      <Col :sm="{span: 3, offset: 1}" class="pt10">
+        <RadioGroup v-model="jobGroup"  @on-change="showJob" vertical>
+        <Radio label="Y" >
+            <span>在职</span>
+             <span>{{jobData.job}}</span>
+        </Radio>
+        <Radio label="N">
+            <span>终止</span>
+            <span>{{jobData.noJob}}</span>
+        </Radio>
+        </RadioGroup>
+        <RadioGroup v-model="vertical"  @on-change="showInfoTw" vertical>
+        <Radio label="99" >
+            <span>未反馈</span>
+             <span>{{RadioData.noFeedback}}</span>
+        </Radio>
+        <Radio label="98" >
+            <span>退工任务单签收退工未成功</span>
+             <span>{{RadioData.refuseWaitFinished}}</span>
+        </Radio>
+        <Radio label="1">
+            <span>退工成功</span>
+            <span>{{RadioData.refuseFinished}}</span>
+        </Radio>
+        <Radio label="2">
+            <span>档未到先退工</span>
+            <span>{{RadioData.refuseBeforeWithFile}}</span>
+        </Radio>
+        <Radio label="3">
+            <span>退工单盖章未返回</span>
+             <span>{{RadioData.refuseTicketStampNoReturn}}</span>
+        </Radio>
+        <Radio label="4">
+            <span>退工失败</span>
+            <span>{{RadioData.refuseFailed}}</span>
+        </Radio>
+        <Radio label="5">
+            <span>前道要求批退</span>
+            <span>{{RadioData.beforeBatchNeedRefuse}}</span>
+        </Radio>
+        <Radio label="6">
+            <span>其他</span>
+            <span>{{RadioData.other}}</span>
+        </Radio>
+        <Radio label="0">
+            <span>TOTAL</span>
+            <span>{{RadioData.amount}}</span>
+        </Radio>
+    </RadioGroup>
+      </Col>
+    </Row>
+   
   </div>
 </template>
 <script>
@@ -54,6 +110,17 @@ export default {
   components: { searchEmployment },
   data() {
     return {
+      jobGroup: "",
+      vertical: "",
+      jobData: {
+        job: 0,
+        noJob:0
+      },
+      RadioData: {
+        noSign: "",
+        employSuccess: "",
+        noRecord: ""
+      },
       initSearch: false,
       initSearchC: false,
       isLoading: false,
@@ -66,7 +133,7 @@ export default {
       searchConditions: [],
       searchCondition: {
         params: "",
-        taskStatus: 0
+        taskStatus: ""
       },
       collapseInfo: [1],
       showHandle: {
@@ -76,14 +143,37 @@ export default {
       dismissalColumns: [
         { title: "", type: "selection", width: 60 },
         {
+          title: "序号",
+          key: "empTaskId",
+          align: "center",
+          width: 90,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.empTaskId)
+            ]);
+          }
+        },
+        {
           title: "退工成功日期",
           key: "jobCentreFeedbackDate",
           align: "center",
-          width: 150,
+          width: 130,
           sortable: true,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.jobCentreFeedbackDate)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.jobCentreFeedbackDate)
             ]);
           }
         },
@@ -94,7 +184,13 @@ export default {
           width: 250,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.outReason)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.outReason)
             ]);
           }
         },
@@ -105,7 +201,13 @@ export default {
           width: 100,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employProperty)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employProperty)
             ]);
           }
         },
@@ -116,7 +218,13 @@ export default {
           width: 100,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.handleType)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.handleType)
             ]);
           }
         },
@@ -124,11 +232,17 @@ export default {
           title: "雇员编号",
           key: "employeeId",
           align: "center",
-          width: 150,
-          sortable: 'custom',
+          width: 120,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.employeeId)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employeeId)
             ]);
           }
         },
@@ -139,7 +253,19 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employeeName)
+              h(
+                "span",
+                {
+                  on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }, style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.employeeName
+              )
             ]);
           }
         },
@@ -148,10 +274,22 @@ export default {
           key: "idNum",
           align: "center",
           width: 150,
-          sortable: 'custom',
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.idNum)
+              h(
+                "span",
+                {
+                  on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }, style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.idNum
+              )
             ]);
           }
         },
@@ -159,11 +297,17 @@ export default {
           title: "公司编号",
           key: "companyId",
           align: "center",
-          width: 150,
-          sortable: 'custom',
+          width: 120,
+          sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.companyId)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.companyId)
             ]);
           }
         },
@@ -173,9 +317,13 @@ export default {
           align: "center",
           width: 250,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }, style: { textAlign: "left" } }, [
               h("span", params.row.title),
-              h("span", params.row.cici)
+              h("span", params.row.ciCi)
             ]);
           }
         },
@@ -183,10 +331,16 @@ export default {
           title: "客服经理",
           key: "leaderShipName",
           align: "center",
-          width: 150,
+          width: 100,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.leaderShipName)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.leaderShipName)
             ]);
           }
         },
@@ -197,7 +351,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.serviceCenter)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.serviceCenter)
             ]);
           }
         },
@@ -205,11 +365,17 @@ export default {
           title: "档案编号",
           key: "docNum",
           align: "center",
-          width: 150,
-          sortable: 'custom',
+          width: 120,
+          sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.docNum)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.docNum)
             ]);
           }
         },
@@ -218,10 +384,16 @@ export default {
           key: "yuliuDocNum",
           align: "center",
           width: 150,
-          sortable:'custom',
+          sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.yuliuDocNum)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.yuliuDocNum)
             ]);
           }
         },
@@ -232,7 +404,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.archivePlace)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.archivePlace)
             ]);
           }
         },
@@ -240,10 +418,16 @@ export default {
           title: "实际录用日期",
           key: "employDate",
           align: "center",
-          width: 150,
+          width: 120,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employDate)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employDate)
             ]);
           }
         },
@@ -251,11 +435,17 @@ export default {
           title: "退工日期",
           key: "outDate",
           align: "center",
-          width: 150,
-          sortable: 'custom',
+          width: 120,
+          sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.outDate)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.outDate)
             ]);
           }
         },
@@ -266,7 +456,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.resignFeedback1)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.resignFeedback1)
             ]);
           }
         },
@@ -277,18 +473,13 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employFeedback)
-            ]);
-          }
-        },
-        {
-          title: "综保退工日期",
-          key: "comprehensiveInsuranceRefuseDate",
-          align: "center",
-          width: 150,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.comprehensiveInsuranceRefuseDate)
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.employFeedback)
             ]);
           }
         },
@@ -296,10 +487,16 @@ export default {
           title: "公司特殊情况",
           key: "refuseSpecial",
           align: "center",
-          width: 150,
+          width: 110,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.refuseSpecial)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.refuseSpecial)
             ]);
           }
         },
@@ -307,224 +504,21 @@ export default {
           title: "是否翻牌",
           key: "changeCompany",
           align: "center",
-          width: 150,
+          width: 100,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.changeCompany)
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.changeCompany)
             ]);
           }
         }
       ],
       dismissalData: [],
-      searchResultColumns: [
-        {
-          title: "未反馈",
-          key: "noFeedback",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(99);
-                  }
-                }
-              },
-              params.row.noFeedback
-            );
-          }
-        },
-        {
-          title: "退工任务单签收退工未成功",
-          key: "refuseFinished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(98);
-                  }
-                }
-              },
-              params.row.refuseWaitFinished
-            );
-          }
-        },
-        {
-          title: "退工成功",
-          key: "refuseFinished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(1);
-                  }
-                }
-              },
-              params.row.refuseFinished
-            );
-          }
-        },
-        {
-          title: "档未到先退工",
-          key: "refuseBeforeWithFile",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(2);
-                  }
-                }
-              },
-              params.row.refuseBeforeWithFile
-            );
-          }
-        },
-        {
-          title: "退工单盖章未返回",
-          key: "refuseTicketStampNoReturn",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(3);
-                  }
-                }
-              },
-              params.row.refuseTicketStampNoReturn
-            );
-          }
-        },
-        {
-          title: "退工失败",
-          key: "refuseFailed",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(4);
-                  }
-                }
-              },
-              params.row.refuseFailed
-            );
-          }
-        },
-        {
-          title: "前道要求批退",
-          key: "beforeBatchNeedRefuse",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(5);
-                  }
-                }
-              },
-              params.row.beforeBatchNeedRefuse
-            );
-          }
-        },
-        {
-          title: "其他",
-          key: "other",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(6);
-                  }
-                }
-              },
-              params.row.other
-            );
-          }
-        },
-        {
-          title: "总计",
-          key: "amount",
-          align: "center",
-          width: 231,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTws(0);
-                  }
-                }
-              },
-              params.row.amount
-            );
-          }
-        }
-      ],
       searchResultData: []
     };
   },
@@ -533,6 +527,14 @@ export default {
     // this.queryResignTaskCount({})
   },
   methods: {
+    explain(){
+      let params = this.searchCondition;
+      api.resignSearchExplainWord(params);
+    },
+    printReturn(){
+      let params = this.searchCondition;
+      api.resignSearchPrintReturnWord(params);
+    },
     rowClassName(row, index) {
       if (row.job != undefined && row.job == "N") {
         return "demo-table-error-row";
@@ -575,7 +577,6 @@ export default {
           self.dismissalData = data.data.rows;
           self.pageData.total = Number(data.data.total);
           self.isLoading = false;
-          this.searchCondition.taskStatus = 0;
         });
     },
     queryResignTaskCount(params) {
@@ -587,19 +588,28 @@ export default {
           params: params
         })
         .then(data => {
-          self.searchResultData = data.data.row;
+          self.RadioData = data.data.row[0];
+          self.jobData = data.data.amTaskStatusBO;
         });
     },
     showInfoTw(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
       this.searchCondition.taskStatus = ind;
+      if (this.jobGroup != "") {
+        this.searchCondition.job = `${this.jobGroup}`;
+      }
       this.queryAmResign(this.searchCondition);
     },
-    showInfoTws(ind) {
+    showJob(ind) {
+      this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = ind;
+      //this.searchCondition.taskStatus = "";
+      if (this.jobGroup != "") {
+        this.searchCondition.job = `${this.jobGroup}`;
+      }
       this.queryAmResign(this.searchCondition);
+      this.queryResignTaskCount(this.searchCondition);
     },
     handlePageNum(val) {
       this.pageData.pageNum = val;
@@ -666,35 +676,42 @@ export default {
               },
               error: function(error) {}
             });
-          }else{
-               _self.$router.push({
-                  name: "refuseHandleBatch",
-                  query: { empTaskIds: empTaskIds }
-                });
+          } else {
+            _self.$router.push({
+              name: "refuseHandleBatch",
+              query: { empTaskIds: empTaskIds }
+            });
           }
         } else {
           this.$Message.error("批量失败！" + data.message);
         }
       });
-    },SortChange(e){
+    },
+    SortChange(e) {
       this.orderConditions = [];
       this.searchConditions = [];
-     
+
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-      var conditions = JSON.parse(sessionStorage.getItem("resign" + userInfo.userId));
-      
-      var isFinish = JSON.parse(sessionStorage.getItem("resignIsFinish" + userInfo.userId));
-      var storeOrder = JSON.parse(sessionStorage.getItem("resignOrder" + userInfo.userId));
-      if (conditions !== null&&conditions.length>0) {
+      var conditions = JSON.parse(
+        sessionStorage.getItem("resign" + userInfo.userId)
+      );
+
+      var isFinish = JSON.parse(
+        sessionStorage.getItem("resignIsFinish" + userInfo.userId)
+      );
+      var storeOrder = JSON.parse(
+        sessionStorage.getItem("resignOrder" + userInfo.userId)
+      );
+      if (conditions !== null && conditions.length > 0) {
         for (var i = 0; i < conditions.length; i++)
           this.searchConditions.push(conditions[i].exec);
       }
       var dx = "";
-      if(e.key==="jobCentreFeedbackDate"){
+      if (e.key === "jobCentreFeedbackDate") {
         dx = "f.job_centre_feedback_date";
-      }else if(e.key==="outDate"){
+      } else if (e.key === "outDate") {
         dx = "a.out_date";
-      }else if (e.key === "companyId") {
+      } else if (e.key === "companyId") {
         dx = "a.company_id";
       } else if (e.key === "title") {
         dx = "h.title";
@@ -762,7 +779,7 @@ export default {
           this.searchConditions.push(this.orderConditions[index]);
         }
       }
-      
+
       if (isFinish != 2) {
         var tempIsFinish = "a.is_finish=" + isFinish;
         this.searchConditions.push(tempIsFinish);
@@ -773,7 +790,7 @@ export default {
       this.isLoading = true;
       let self = this;
       api
-      .queryAmResign({
+        .queryAmResign({
           pageSize: this.pageData.pageSize,
           pageNum: this.pageData.pageNum,
           params: this.searchCondition
@@ -785,8 +802,8 @@ export default {
           // this.searchCondition.taskStatus = 0;
           this.changeSortClass(this.orderConditions);
         });
-    },changeSortClass(storeOrder) {
-      
+    },
+    changeSortClass(storeOrder) {
       this.dismissalColumns.forEach((e, idx) => {
         let order = "normal";
         if (storeOrder == null) {
@@ -799,7 +816,7 @@ export default {
                 storeOrder[index].indexOf("job_centre_feedback_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
               if (
@@ -807,7 +824,7 @@ export default {
                 storeOrder[index].indexOf("out_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
               if (
@@ -815,7 +832,7 @@ export default {
                 storeOrder[index].indexOf("employee_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -824,7 +841,7 @@ export default {
                 storeOrder[index].indexOf("company_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -833,7 +850,7 @@ export default {
                 storeOrder[index].indexOf("title") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -842,7 +859,7 @@ export default {
                 storeOrder[index].indexOf("employment_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -851,7 +868,7 @@ export default {
                 storeOrder[index].indexOf("employee_name") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -860,7 +877,7 @@ export default {
                 storeOrder[index].indexOf("id_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -869,7 +886,7 @@ export default {
                 storeOrder[index].indexOf("doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -878,7 +895,7 @@ export default {
                 storeOrder[index].indexOf("yuliu_doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -887,7 +904,7 @@ export default {
                 storeOrder[index].indexOf("employ_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -896,7 +913,7 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
 
@@ -905,13 +922,28 @@ export default {
                 storeOrder[index].indexOf("diaodang_feedback_opt_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('dissList', idx-1, order);
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
             }
           }
         }
       });
+    },copyClick(event){
+        var text = event.target;
+        if (document.body.createTextRange) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(text);
+            range.select();
+        } else if (window.getSelection) {
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(text);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        } else {
+            alert("浏览器不支持");
+        }
     }
   }
 };

@@ -3,31 +3,31 @@
     <Collapse v-model="value1" accordion>
       <Panel name="1">
         <div slot="content">
-          <Form ref="queryItem" :model="queryItem" :label-width="120"> 
+          <Form ref="queryItem" :model="queryItem" :label-width="120">
             <Row type="flex" justify="start">
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="证件类型" prop="type">
                   <Select v-model="queryItem.type" placeholder="请选择" transfer>
                     <Option v-for="(value,key) in this.baseDic.credentialsType" :value="key" :key="key">{{ value }}</Option>
                   </Select>
-                </Form-item>    
+                </Form-item>
               </i-col>
               <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="办理机构：" prop="name">
                   <Select v-model="queryItem.name" placeholder="请选择" transfer>
                     <Option v-for="(value,key) in this.baseDic.DealOrg" :value="value" :key="key">{{ value }}</Option>
                   </Select>
-                </Form-item>     
-              </i-col>                            
-            </Row>   
-            <Row type="flex" justify="start" class="tr">  
+                </Form-item>
+              </i-col>
+            </Row>
+            <Row type="flex" justify="start" class="tr">
               <i-col :sm="{span: 24}">
                 <Button type="primary" @click="handleCurrentChange(1)" class="ml10" icon="ios-search">查询</Button>
                 <Button type="warning" @click="$refs['queryItem'].resetFields();" class="ml10">重置</Button>
               </i-col>
-            </Row>                                  
-          </Form>                                 
-        </div>           
+            </Row>
+          </Form>
+        </div>
       </Panel>
     </Collapse>
 
@@ -46,14 +46,14 @@
     <Modal
       v-model="modal1"
       title="办理机构政策">
-      <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="120"> 
+      <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="120">
         <Row >
           <i-col span="12">
             <Form-item label="证件类型：" style="width:400px;" prop="type">
               <Select v-model="formItem.type" placeholder="请选择" style="width:260px" transfer>
                 <Option v-for="(value,key) in this.baseDic.credentialsType" :value="key" :key="key">{{ value }}</Option>
               </Select>
-            </Form-item>    
+            </Form-item>
           </i-col>
         </Row>
         <Row  >
@@ -62,24 +62,24 @@
               <Select v-model="formItem.name" placeholder="请选择" style="width:260px" transfer>
                 <Option v-for="(value,key) in this.baseDic.DealOrg" :value="value" :key="key">{{ value }}</Option>
               </Select>
-            </Form-item>    
-          </i-col> 
+            </Form-item>
+          </i-col>
         </Row>
         <Row >
            <i-col span="12">
-            <Form-item label="政策内容：" style="width:400px;margin-top:10px" prop="policyDescription">
+            <Form-item label="操作口径：" style="width:400px;margin-top:10px" prop="policyDescription">
               <Input v-model="formItem.policyDescription" type="textarea" :autosize="{minRows: 5,maxRows: 10}" placeholder="请输入" style="width:260px" />
-            </Form-item>    
-          </i-col> 
+            </Form-item>
+          </i-col>
         </Row>
       </Form>
       <div slot="footer">
-        <Row type="flex" justify="start" class="tr">  
+        <Row type="flex" justify="start" class="tr">
           <i-col :sm="{span: 24}">
             <Button type="primary" @click="ok('formItem')" class="ml10">保存</Button>
             <Button type="warning" @click="$refs['formItem'].resetFields();modal1 = false" class="ml10">取消</Button>
           </i-col>
-        </Row> 
+        </Row>
       </div>
     </Modal>
   </div>
@@ -99,7 +99,7 @@ export default {
       modal1: false,
       disablehover: true,
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 10,
       total: null,
       queryItem: {
         type: "",
@@ -147,7 +147,7 @@ export default {
           sortable: true
         },
         {
-          title: "政策内容",
+          title: "操作口径",
           key: "policyDescription",
           ellipsis: true,
           render: (h, params) => {

@@ -9,11 +9,11 @@
       </Row>
       <Row>
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
-          <Form-item v-if="item.level === '0-0'">
+        <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  >
+          <div style="margin-left: 50px" v-if="item.level === '0-0'">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev00" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
-          </Form-item>
+          </div>
         </i-col>
         </div>
       </Row>
@@ -33,25 +33,25 @@
       </Row>
       <Row v-if="material.comp === '上海公司'">
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  v-if="item.level === '1-1'">
-          <Form-item>
+        <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  v-if="item.level === '1-1'">
+          <div style="margin-left: 100px">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev11" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
-          </Form-item>
+          </div>
         </i-col>
         </div>
       </Row>
       <Row v-if="material.comp === '上海分公司'" >
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
-          <Form-item  v-if="item.level === '1-2'">
+        <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
+          <div style="margin-left: 100px" v-if="item.level === '1-2'">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev12" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
-          </Form-item>
+          </div>
         </i-col>
         </div>
       </Row>
-      
+
      <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
           <span style="font-weight:bold;font-size:14px">主要材料</span>
@@ -59,11 +59,11 @@
       </Row>
       <Row>
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
-          <Form-item v-if="item.level === '2-0'">
+        <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  >
+          <div style="margin-left: 50px" v-if="item.level === '2-0'">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev20" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
-          </Form-item>
+          </div>
         </i-col>
         </div>
       </Row>
@@ -76,11 +76,11 @@
       </Row>
       <Row>
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}"  >
-          <Form-item v-if="item.level === '3-0'">
+        <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  >
+          <div style="margin-left: 50px" v-if="item.level === '3-0'">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev30" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
-          </Form-item>
+          </div>
         </i-col>
         </div>
       </Row>
@@ -101,35 +101,35 @@
       </Row>
       <Row v-if="material.follower === '随员情况'">
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
-          <Form-item v-if="item.level === '4-1'">
+        <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
+          <div style="margin-left: 100px" v-if="item.level === '4-1'">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev41" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
-          </Form-item>
+          </div>
         </i-col>
         </div>
       </Row>
        <Row v-if="material.follower === '随员身份证明'">
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
-          <Form-item v-if="item.level === '4-2'">
+        <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
+          <div style="margin-left: 100px" v-if="item.level === '4-2'">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev42" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
-          </Form-item>
+          </div>
         </i-col>
         </div>
       </Row>
       <Row v-if="material.follower === '随员其他材料'">
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
-          <Form-item v-if="item.level === '4-3'">
+        <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
+          <div style="margin-left: 100px" v-if="item.level === '4-3'">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev43" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
-          </Form-item>
+          </div>
         </i-col>
         </div>
       </Row>
-      
+
     </Form>
   </div>
 </template>

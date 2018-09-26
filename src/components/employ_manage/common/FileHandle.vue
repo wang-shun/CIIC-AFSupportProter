@@ -75,6 +75,34 @@
           <Checkbox v-model="file1.luyongHandleEnd">录用处理结束</Checkbox>
         </Form-item>
         </Col>
+
+
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="用工反馈：">
+            {{fileInfo1.employFeedback === '0' ? '空' : fileInfo1.employFeedback === '3' ? '用工成功' :
+             fileInfo1.employFeedback === '10' ? '用工已办查无档' : fileInfo1.employFeedback === '4' ? '用工失败'
+             : fileInfo1.employFeedback === '11' ? 'Ukey外借' : fileInfo1.employFeedback === '5' ? '前道要求撤销用工'
+              : fileInfo1.employFeedback === '12' ? '用工成功,重复任务单' :
+              fileInfo1.employFeedback === '13' ? '用工已办,前道已中止' : ''}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="用工反馈日期：">
+            {{fileInfo1.employFeedbackOptDate}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="调档反馈：">
+            {{fileInfo1.diaodangFeedback}}
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="调档反馈日期：">
+          {{fileInfo1.diaodangFeedbackOptDate}}
+          </Form-item>
+        </Col>
+
+
       </Row>
       <Row type="flex" justify="start">
         <Col :sm="{span: 24}" class="tr">
@@ -110,18 +138,13 @@
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="用工后收到手册入库人：">
-          <Input v-model="file2.afterEmployManualStorageMan" placeholder="请输入" :maxlength="50"/>
-        </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="用工后收到手册日期：">
           <DatePicker v-model="file2.afterEmployManualReceiveDate" type="date" placeholder="" @on-open-change="setCurrentDate6" @on-change="changeDate6" transfer></DatePicker>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="恢复用工手册入库人：">
-          <Input v-model="file2.recoverEmployManualStorageMan" placeholder="请输入" :maxlength="50"/>
+        <Form-item label="用工后收到手册入库人：">
+          <Input v-model="file2.afterEmployManualStorageMan" placeholder="请输入" :maxlength="50"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -130,8 +153,8 @@
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="寄档案回执人：">
-          <Input v-model="file2.mailDocReturnMan" placeholder="请输入" :maxlength="50"/>
+        <Form-item label="恢复用工手册入库人：">
+          <Input v-model="file2.recoverEmployManualStorageMan" placeholder="请输入" :maxlength="50"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -140,14 +163,19 @@
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-        <Form-item label="开存档证明人：">
-          <Input v-model="file2.openDocProofMan" placeholder="请输入" :maxlength="50"/>
-          <input type="text" v-model="file2.archiveId" hidden>
+        <Form-item label="寄档案回执人：">
+          <Input v-model="file2.mailDocReturnMan" placeholder="请输入" :maxlength="50"/>
         </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="开存档证明日期：">
           <DatePicker v-model="file2.openDocProofDate" type="date" placeholder="" @on-open-change="setCurrentDate9" @on-change="changeDate9" transfer></DatePicker>
+        </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <Form-item label="开存档证明人：">
+          <Input v-model="file2.openDocProofMan" placeholder="请输入" :maxlength="50"/>
+          <input type="text" v-model="file2.archiveId" hidden>
         </Form-item>
         </Col>
       </Row>
@@ -252,9 +280,13 @@
       queryDocSeqByDocType(val){
         api.queryDocSeqByDocType({type : 1,docType : val}).then(data => {
           if (data.code == 200) {
-            Vue.set(this.file1,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1)
+            if(data.data.docBo.docSeq){
+              Vue.set(this.file1,'yuliuDocNum',parseInt(data.data.docBo.docSeq)+1);
               this.file1.yuliuDocNum = parseInt(data.data.docBo.docSeq)+1;
               this.seqMax1 = data.data.docBo.docSeq;
+            }else{
+              Vue.set(this.file1,'yuliuDocNum','');
+            }
           } else {
               this.$Message.error("服务器异常" + data.message);
           }
@@ -284,9 +316,13 @@
       queryDocSeqByDocType2(val){
         api.queryDocSeqByDocType({type : 2,docType : val}).then(data => {
           if (data.code == 200) {
-            Vue.set(this.file1,'docNum',parseInt(data.data.docBo.docSeq)+1)
-            this.file1.docNum = parseInt(data.data.docBo.docSeq)+1;
-            this.seqMax2 = data.data.docBo.docSeq;
+            if(data.data.docBo.docSeq){
+              Vue.set(this.file1,'docNum',parseInt(data.data.docBo.docSeq)+1)
+              this.file1.docNum = parseInt(data.data.docBo.docSeq)+1;
+              this.seqMax2 = data.data.docBo.docSeq;
+            }else{
+              Vue.set(this.file1,'docNum','');
+            }
           } else {
             this.$Message.error("服务器异常" + data.message);
           }
@@ -530,6 +566,7 @@
           if(this.file1.manualStorageDate==''||this.file1.manualStorageDate==undefined)
           {
              this.file1.manualStorageDate = this.currentDate();
+             this.file1.manualStorageMan = this.file1.username;
           }
         }
       },changeDate5(e) {
@@ -539,6 +576,7 @@
           if(this.file1.afterEmployManualReceiveDate==''||this.file1.afterEmployManualReceiveDate==undefined)
           {
              this.file1.afterEmployManualReceiveDate = this.currentDate();
+              this.file1.afterEmployManualStorageMan = this.file1.username;
           }
         }
       },changeDate6(e) {
@@ -548,6 +586,7 @@
           if(this.file1.recoverEmployManualStorageDate==''||this.file1.recoverEmployManualStorageDate==undefined)
           {
              this.file1.recoverEmployManualStorageDate = this.currentDate();
+             this.file1.recoverEmployManualStorageMan = this.file1.username;
           }
         }
       },changeDate7(e) {
@@ -557,6 +596,7 @@
           if(this.file1.mailDocReturnDate==''||this.file1.mailDocReturnDate==undefined)
           {
              this.file1.mailDocReturnDate = this.currentDate();
+             this.file1.mailDocReturnMan = this.file1.username;
           }
         }
       },changeDate8(e) {
@@ -566,6 +606,7 @@
           if(this.file1.openDocProofDate==''||this.file1.openDocProofDate==undefined)
           {
              this.file1.openDocProofDate = this.currentDate();
+             this.file1.openDocProofMan = this.file1.username;
           }
         }
       },changeDate9(e) {
@@ -578,6 +619,8 @@
     },
     computed: {
       file1() {
+         var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+         this.fileInfo1.username = userInfo.displayName;
         return this.fileInfo1;
       },
       file2() {

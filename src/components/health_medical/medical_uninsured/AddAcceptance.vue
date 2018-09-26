@@ -4,81 +4,88 @@
       <Form ref="formItem" :model="formItem" :rules="acceptanceRules" :label-width="140">
         <Row class="mt20 mr10">
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="业务顾问：">
-              <span class="expand-value">{{this.employeeInfo.employeeName}}</span>
-            </Form-item>
+            <FormItem label="业务顾问：">
+              <span class="expand-value">{{this.employeeInfo.consultantName}}</span>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="雇员编号：">
+            <FormItem label="雇员编号：">
               <span class="expand-value">{{this.employeeInfo.employeeId}}</span>
-            </Form-item>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="雇员姓名：">
+            <FormItem label="雇员姓名：">
               <span class="expand-value">{{this.employeeInfo.employeeName}}</span>
-            </Form-item>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="证件号码：">
-              <span class="expand-value">310105198505305026</span>
-            </Form-item>
+            <FormItem label="证件号码：">
+              <span class="expand-value">{{this.employeeInfo.idNum}}</span>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="退保日期：" prop="surrenderDate">
-              <DatePicker type="date" v-model="formItem.surrenderDate" placeholder="请输入"
-                          style="width: 100%"></DatePicker>
-            </Form-item>
+            <FormItem label="退保日期：" prop="surrenderDate">
+              <DatePicker type="date" v-model="formItem.surrenderDate" style="width: 100%"
+                          :readonly="true"></DatePicker>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="中止日期：" prop="dimissionDate">
-              <DatePicker type="date" v-model="formItem.dimissionDate" placeholder="请输入"
-                          style="width: 100%"></DatePicker>
-            </Form-item>
+            <FormItem label="中止日期：" prop="dimissionDate">
+              <DatePicker type="date" v-model="formItem.dimissionDate" style="width: 100%"
+                          :readonly="true"></DatePicker>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="款项类型：" prop="moneyType">
+            <FormItem label="款项类型：" prop="moneyType">
               <Select v-model="formItem.moneyType" placeholder="请选择" :clearable="true">
                 <Option v-for="item in moneyTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
-            </Form-item>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="受理类型：" prop="caseType">
-              <Select v-model="formItem.caseType" placeholder="请选择" :clearable="true">
+            <FormItem label="受理类型：" prop="caseType">
+              <Select v-model="formItem.caseType" placeholder="请选择" :clearable="true"
+                      @on-change="v=>{queryEmpMember(v.value)}" :label-in-value="true">
                 <Option v-for="item in caseTypes" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
-            </Form-item>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="连带人：" prop="jointPersonName">
-              <Select v-model="formItem.jointPersonName" placeholder="请输入" :clearable="true">
-                <Option v-for="item in jointPersonNameList" :value="item.name" :key="item.empMemberId">
+            <FormItem label="连带人：" prop="jointPersonName"
+                      v-if="!!this.jointPersonNameList && this.jointPersonNameList.length>0">
+              <Select v-model="formItem.jointPersonName" placeholder="请选择" :clearable="true"
+                      @on-change="v=>{checkBirthday(v)}" :label-in-value="true">
+                <Option v-for="item in jointPersonNameList" :value="item.empMemberId" :key="item.name">
                   {{ item.name }}
                 </Option>
               </Select>
-            </Form-item>
+            </FormItem>
+            <FormItem label="连带人：" prop="jointPersonName"
+                      v-if="!!this.jointPersonNameList && !this.jointPersonNameList.length>0">
+              <Input v-model="formItem.jointPersonName" placeholder="请输入..."></Input>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="连带人出生日期：" prop="jointPersonBirthDate">
-              <DatePicker v-model="formItem.jointPersonBirthDate" type="date" placeholder="请输入"
-                          style="width: 100%"></DatePicker>
-            </Form-item>
+            <FormItem label="连带人出生日期：" prop="jointPersonBirthDate">
+              <DatePicker v-model="formItem.jointPersonBirthDate" type="date" style="width: 100%"
+                          :readonly="false"></DatePicker>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="受理金额：" prop="caseMoney">
+            <FormItem label="受理金额：" prop="caseMoney">
               <InputNumber :min="1" v-model="formItem.caseMoney" style="width: 100%"></InputNumber>
-            </Form-item>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="发票张数：" prop="invoiceNumber">
+            <FormItem label="发票张数：" prop="invoiceNumber">
               <InputNumber :min="1" v-model="formItem.invoiceNumber" style="width: 100%"></InputNumber>
-            </Form-item>
+            </FormItem>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="医疗备注：" prop="medicalRemark">
+            <FormItem label="医疗备注：" prop="medicalRemark">
               <Input type="textarea" v-model="formItem.medicalRemark" :autosize="{minRows: 2,maxRows: 5}"
-                     placeholder="请输入..."/>
-            </Form-item>
+                     placeholder="请输入..."></Input>
+            </FormItem>
           </Col>
         </Row>
       </Form>
@@ -112,10 +119,14 @@
           medicalRemark: null,
         },
         employeeInfo: {
-          employeeId: null,
-          employeeName: null,
-          companyId: null,
-          companyName: null,
+          consultantName: '',
+          employeeId: '',
+          employeeName: '',
+          companyId: '',
+          idNum: '',
+          companyName: '',
+          caseType: '',
+          outDate: null,
         },
         moneyTypes: admissibility.moneyTypes,
         caseTypes: admissibility.caseTypes,
@@ -127,12 +138,50 @@
     created() {
       //雇员数据
       this.employeeInfo = JSON.parse(sessionStorage.getItem('acceptanceEmployee'));
-      this.queryEmpMember();
+      if (this.employeeInfo.outDate) {
+        this.formItem.dimissionDate = new Date(this.employeeInfo.outDate);
+      }
+      this.queryBusinessConsultant();
+      this.querySupplyInfo();
     },
     methods: {
-      queryEmpMember() {
+      queryEmpMember(val) {
+        this.formItem.jointPersonName = null
+        this.formItem.jointPersonBirthDate = null
+        // 1:配偶 2:子女
+        if (val === '1') {
+          this.jointPersonNameList = [];
+          return;
+        } else if (val === '2') {
+          this.employeeInfo.caseType = 2;
+        } else if (val === '3') {
+          this.employeeInfo.caseType = 1;
+        }
         apiAjax.queryEmpMember(this.employeeInfo).then(response => {
-          this.jointPersonNameList = response.data.object;
+          let responseDate = response.data.object;
+          if (responseDate) {
+            this.jointPersonNameList = responseDate;
+          } else {
+            this.jointPersonNameList = []
+          }
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      queryBusinessConsultant() {
+        apiAjax.queryBusinessConsultant(this.employeeInfo).then(response => {
+          this.employeeInfo.consultantName = response.data.object;
+        }).catch(e => {
+          console.info(e.message);
+          this.$Message.error("服务器异常，请稍后再试");
+        });
+      },
+      querySupplyInfo() {
+        apiAjax.querySupplyInfo(this.employeeInfo.employeeId).then(response => {
+          if (response.data.object.surrenderDate) {
+            this.formItem.surrenderDate = new Date(response.data.object.surrenderDate);
+          }
         }).catch(e => {
           console.info(e.message);
           this.$Message.error("服务器异常，请稍后再试");
@@ -160,6 +209,13 @@
             });
           }
         });
+      },
+      checkBirthday(item) {
+        if (!!item) {
+          let empId = item.value
+          let select = this.jointPersonNameList.find(person => person.empMemberId = empId);
+          this.formItem.jointPersonBirthDate = new Date(select.birthday)
+        }
       },
       back() {
         this.$local.back();

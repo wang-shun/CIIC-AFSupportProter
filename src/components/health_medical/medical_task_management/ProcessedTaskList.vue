@@ -137,6 +137,7 @@
            :columns="taskColumns"
            :data="taskData"></Table>
     <Page show-elevator
+          show-total
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
           :total="formItem.total"
@@ -192,7 +193,16 @@
             align: "center"
           },
           {
-            title: "投保类型", sortable: true, key: "productName", align: "center", width: 150
+            title: "投保类型", sortable: true, key: "taskType", align: "center", width: 120,
+            render: (h, params) => {
+              return h('div', task.taskTypeToChinese(params.row.taskType));
+            }
+          },
+          {
+            title: "产品名称", sortable: true, key: "productName", align: "center", width: 150
+          },
+          {
+            title: "操作说明", sortable: true, key: "remark", align: "center", width: 150
           },
           {
             title: "雇员编号", sortable: true, key: "employeeId", align: "center", width: 150
@@ -296,6 +306,14 @@
             render: (h, params) => {
               if (params.row.endConfirmDate != null) {
                 return h('div', this.$utils.formatDate(params.row.endConfirmDate, "YYYY-MM-DD"));
+              }
+            }
+          },
+          {
+            title: "操作时间", sortable: true, key: "modifiedTime", align: "center", width: 150,
+            render: (h, params) => {
+              if (params.row.modifiedTime) {
+                return h('div', this.$utils.formatDate(params.row.modifiedTime, "YYYY-MM-DD"));
               }
             }
           },

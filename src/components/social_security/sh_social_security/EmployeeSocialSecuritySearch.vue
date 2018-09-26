@@ -70,6 +70,11 @@
                   <Input v-model="searchCondition.idNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="社保序号：" prop="ssSerial">
+                  <Input v-model="searchCondition.ssSerial" placeholder="请输入..."></Input>
+                </Form-item>
+              </Col>
               <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="人员分类：" prop="empClassify">
                   <Select v-model="searchCondition.empClassify" style="width: 100%;" transfer>
@@ -95,7 +100,11 @@
       </Col>
     </Row>
 
-    <Table border :columns="employeeSocialSecurityColumns" :data="employeeSocialSecurityData" ref="employeeSocialSecurityData"></Table>
+    <Table border id="searchSocialSecurityData" :row-class-name="rowClassName" :columns="employeeSocialSecurityColumns"
+    :data="employeeSocialSecurityData" ref="employeeSocialSecurityData"
+    @on-sort-change="SortChange" :loading="isLoading"
+    height=340
+    ></Table>
     <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -122,6 +131,8 @@
   import InputCompanyName from '../../common_control/form/input_company/InputCompanyName.vue'
   import dict from '../../../api/dict_access/social_security_dict'
   import sessionData from '../../../api/session-data'
+  import ts from '../../../api/house_fund/table_style'
+  import tableStyle from '../../../api/table_style'
 
   export default {
     components: {ICol, customerModal, companyAccountSearchModal,InputAccount,InputCompany,InputCompanyName},
@@ -131,14 +142,14 @@
         pageData: {
           total: 0,
           pageNum: 1,
-          pageSize: this.$utils.DEFAULT_PAGE_SIZE,
-          pageSizeOpts: this.$utils.DEFAULT_PAGE_SIZE_OPTS
+          pageSize: 100,
+          pageSizeOpts: [100, 500 ]
         },
         searchCondition: {
           serviceCenterValue:[],
           companyId: '', //客户编号
           title: '', //客户名称
-         // companyAccountType: '', //社保账户类型
+          companyAccountType: '', //社保账户类型
           settlementArea: '', //结算区域
           ssAccountType: '',  //社保账户类型
           employeeId: '', //雇员编号
@@ -146,8 +157,11 @@
           idNum: '', //证件号
           ssAccount:'',//企业社保账号
           archiveTaskStatus: '',//社保状态
+          ssSerial:'',
           //empClassify: '' //人员分类
+          orderParam: ''
         },
+        orderConditions: [],
         serviceCenterData: [], //客服中心
         employeeSocialSecurityData:[],//列表数据
         isShowCustomerName: false, //客户名称Modal
@@ -177,6 +191,8 @@
 
         ], //人员分类
 
+        isLoading: false,
+
         employeeSocialSecurityColumns: [
           {
             title: '操作',
@@ -184,7 +200,7 @@
             align: 'center',
             width: 120,fixed: 'left',
             render: (h, params) => {
-  
+
               if(params.row.empArchiveId == null || params.row.empArchiveId=='' ){
                 return h('div', [
                   h('Button', {
@@ -199,7 +215,7 @@
                     }
                   }, '查看'),
                 ])
-             
+
               }else{
                   return h('div', [
                   h('Button', {
@@ -229,14 +245,14 @@
               ])
             }
           },
-          {title: '雇员编码', key: 'employeeId', align: 'center', width: 120,
+          {title: '雇员编号', key: 'employeeId', align: 'center', width: 120,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
                 h('span', params.row.employeeId),
               ]);
             }
           },
-          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 140,
+          {title: '雇员姓名', key: 'employeeName', align: 'center', width: 140,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.employeeName),
@@ -337,13 +353,41 @@
         ]
       }
     },
-    mounted() {
+    created() {
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('searchSocialSecurityOrder'+userInfo.userId));
 
+      this.employeeSocialSecurityColumns.filter((e) => {
+        if(storeOrder !==null)
+        {
+          if(storeOrder.length>0)
+          {
+            for(var index in storeOrder)
+            {
+              var orders = storeOrder[index].split(' ');
+
+              if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1)
+              {
+                e.sortType = orders[1];
+              }
+
+              if(e.key === 'employeeName' && storeOrder[index].indexOf('employee_name')!=-1)
+              {
+                e.sortType = orders[1];
+              }
+            }
+          }
+        }
+
+      })
+    },
+    mounted() {
       this.loadDict();
-      let params = this.searchCondition;
-      this.employeeQuery(params);
-    
       this.getCustomers();
+
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('searchSocialSecurityOrder'+userInfo.userId));
+      this.changeSortClass(storeOrder);
     },
     computed: {
 
@@ -375,7 +419,7 @@
         sessionData.setJsonDataToSession('empSSsearch.searchCondition', this.searchCondition);
         sessionData.setJsonDataToSession('empSSsearch.pageData', this.pageData);
         this.$router.push({name:'employeeSocialSecurityInfo', query: {empArchiveId: ind}});
-        
+
       },
       loadDict(){
         dict.getDictData().then(data => {
@@ -383,6 +427,9 @@
             this.accountTypeList = data.data.SocialSecurityAccountType;
             sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
             sessionData.getJsonDataFromSession('empSSsearch.pageData', this.pageData);
+            let params = this.searchCondition;
+            console.log(params)
+            this.employeeQuery(params);
           }
         });
       },
@@ -398,8 +445,10 @@
           pageNum: this.pageData.pageNum,
           params: params,
         }).then(data => {
-          this.employeeSocialSecurityData = data.data.rows;
-          this.pageData.total = Number(data.data.total);
+          if (data.data) {
+            this.employeeSocialSecurityData = data.data.rows;
+            this.pageData.total = Number(data.data.total);
+          }
         })
       },
       handlePageNum(val) {
@@ -411,6 +460,113 @@
         this.pageData.pageSize = val
         let params = this.searchCondition
         this.employeeQuery(params)
+      },
+      rowClassName(row, index) {
+        return ts.empRowClassName(row, index)
+      },
+      SortChange(e){
+        if (this.isLoading) {
+          return;
+        }
+        this.isLoading = true;
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        let storeOrder = JSON.parse(sessionStorage.getItem('searchSocialSecurityOrder'+userInfo.userId));
+//        sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
+
+        var dx ='';
+        if (e.key === 'employeeId') {
+          dx = 'emp.employee_id';
+        } else if(e.key === 'employeeName') {
+          dx = 'emp.employee_name';
+        }
+        const searchConditionExec = `${dx} ${e.order}`;
+        if(storeOrder!==null){
+          this.orderConditions = storeOrder;
+        }
+        let isE = false;
+        if(this.orderConditions.length>0)
+        {
+          for(let index in this.orderConditions)
+          {
+            if(this.orderConditions[index].indexOf(dx)!== -1 && e.order==='normal')
+            {  //如果是取消，则删除条件
+              this.orderConditions.splice(index,1);
+              isE = true;
+            }else if(this.orderConditions[index].indexOf(dx)!== -1
+              && this.orderConditions[index].indexOf(e.order)=== -1 ) {
+              //如果是切换查询顺序
+              this.orderConditions.splice(index,1);
+              this.orderConditions.push(searchConditionExec);
+              isE = true;
+            }else if(this.orderConditions[index]===searchConditionExec){
+              this.orderConditions.splice(index,1);
+            }
+
+          }
+
+          if(!isE)
+          {
+            this.orderConditions.push(searchConditionExec);
+          }
+
+        }else{
+          this.orderConditions.push(searchConditionExec);
+        }
+
+        this.searchCondition.orderParam = "";
+        if (this.orderConditions && this.orderConditions.length > 0) {
+          this.searchCondition.orderParam = this.orderConditions.join(',');
+        }
+        sessionStorage.setItem('searchSocialSecurityOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+        sessionData.setJsonDataToSession('empSSsearch.searchCondition', this.searchCondition);
+
+        let params = this.searchCondition;
+        let arrayServiceCenter=params.serviceCenterValue;
+        if(arrayServiceCenter!=null){
+          params=JSON.parse(JSON.stringify(params));
+          delete params.serviceCenterValue;
+          params.serviceCenterValue=arrayServiceCenter[arrayServiceCenter.length-1];
+        }
+
+        api.employeeQuery({
+          pageSize: this.pageData.pageSize,
+          pageNum: this.pageData.pageNum,
+          params: params,
+        }).then(data => {
+          this.employeeSocialSecurityData = data.data.rows;
+          this.pageData.total = Number(data.data.total);
+
+          this.isLoading = false;
+
+          this.changeSortClass(this.orderConditions);
+        })
+      },
+      changeSortClass(storeOrder) {
+        this.employeeSocialSecurityColumns.forEach((e, idx) => {
+          let order = 'normal'
+
+          if(storeOrder!==null)
+          {
+            if(storeOrder.length>0)
+            {
+              for(var index  in storeOrder)
+              {
+                var orders = storeOrder[index].split(' ');
+
+                if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
+                if(e.key === 'employeeName' && storeOrder[index].indexOf('employee_name')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+              }
+            }
+          }
+          tableStyle.changeSortElementClass('searchSocialSecurityData', idx, order)
+        });
       },
       ok () {
 

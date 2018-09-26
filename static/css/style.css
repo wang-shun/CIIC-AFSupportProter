@@ -266,8 +266,8 @@ html,body, .ivu-row-flex, .layout{
 /*滚动条样式*/
 *::-webkit-scrollbar {
   position: absolute;
-  width: 5px !important;
-  height: 5px !important;
+  width: 10px !important;
+  height: 12px !important;
   background-color: #5cadff;
 }
 *::-webkit-scrollbar-track {

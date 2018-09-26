@@ -66,12 +66,12 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="打印日期：">
-            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder="" :readonly="refuse.printDateR" transfer ></DatePicker>
+            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder="" :readonly="true" transfer ></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈：">
-            <Select v-model="refuse.resignFeedback" transfer @on-change="changeEndType">
+            <Select @on-open-change="onOpenChange" v-model="refuse.resignFeedback" transfer @on-change="changeEndType">
               <Option v-for="item in refuseFeedbackList" :value="item.value" :key="item.value">{{item.label}}</Option>
             </Select>
           </Form-item>
@@ -90,7 +90,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工反馈日期：">
-            <DatePicker v-model="refuse.resignFeedbackDate" @on-open-change="setCurrentDate4" @on-change="changeDate4" type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.resignFeedbackDate" :readonly="true" type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -151,14 +151,14 @@
             {{refuse.handleType}}
           </Form-item>
         </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+        <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退档日期：">
             <DatePicker v-model="refuse.returnDocDate" @on-open-change="setCurrentDate1" @on-change="changeDate1"  type="date" placeholder="" transfer></DatePicker>
           </Form-item>
-        </Col>
+        </Col> -->
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工UKey外借日期：">
-            <DatePicker v-model="refuse.ukeyBorrowDate" @on-open-change="setCurrentDate5" @on-change="changeDate5"  type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.ukeyBorrowDate" :readonly="true" @on-open-change="setCurrentDate5" @on-change="changeDate5"  type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col><Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="调档反馈：">
@@ -172,7 +172,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工UKey返回日期：">
-            <DatePicker v-model="refuse.ukeyReturnDate" @on-open-change="setCurrentDate6" @on-change="changeDate6"  type="date" placeholder="" transfer></DatePicker>
+            <DatePicker v-model="refuse.ukeyReturnDate" :readonly="true" @on-open-change="setCurrentDate6" @on-change="changeDate6"  type="date" placeholder="" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -231,17 +231,20 @@
     data() {
       return {
         isLoading: false,
+        isFrist: true,
         endTypeList: [
+          {value: '', label: ''},
           {value: '合同终止', label: '合同终止',disabled:false},
           {value: '合同解除', label: '合同解除',disabled:false}
         ],
         personPropertyList: [
-          {value: '空', label: '空'},
+          {value: '', label: ''},
           {value: '上海户籍', label: '上海户籍'},
           {value: '居住证', label: '居住证'},
           {value: '外来从业人员', label: '外来从业人员'}
         ],
         refuseFileDirectionList: [
+          {value: '', label: ''},
           {value: '户口所在地', label: '户口所在地',disabled:false},
           {value: '市区人才', label: '市区人才',disabled:false},
           {value: '徐汇', label: '徐汇',disabled:false},
@@ -251,12 +254,12 @@
           {value: '转公司用工', label: '转公司用工',disabled:false}
         ],
         transferMethodList: [
-          {value: '空', label: '空',disabled:false},
+          {value: '', label: '',disabled:false},
           {value: '职介所', label: '职介所',disabled:false},
           {value: '其他', label: '其他',disabled:false}
         ],
         transferNotesList: [
-          {value: '空', label: '空',disabled:false},
+          {value: '', label: ''},
           {value: '档案未退先退工', label: '档案未退先退工',disabled:false},
           {value: '徐职', label: '徐职',disabled:false},
           {value: '转公司', label: '转公司',disabled:false},
@@ -273,6 +276,7 @@
           {value: '自开退工单', label: '自开退工单',disabled:false}
         ],
         refuseFeedbackList: [
+          {value: '', label: ''},
           {value: '1', label: '退工任务单签收'},
           {value: '2', label: '档未到先退工'},
           {value: '3', label: '退工盖章未返回'},
@@ -290,16 +294,17 @@
           {value: '15', label: '退工成功,改社保'},
           {value: '16', label: '重复任务单'},
           {value: '17', label: '退工自办'}
-         
+
         ],
         companyGroupTransferDirectionList: [
-          {value: '空', label: '空'},
+          {value: '', label: ''},
           {value: '公司自行管理', label: '公司自行管理'},
           {value: '外服', label: '外服'},
           {value: '四达', label: '四达'},
           {value: '北京外企', label: '北京外企'}
         ],
         LaborManualIsDeliverRefuserList: [
+          {value: '', label: ''},
           {value: '0',label: "已交"},
           {value: '1',label: "未交"}
         ]
@@ -308,7 +313,9 @@
     computed: {
       refuse() {
         return this.refuseInfo;
-      }
+      },
+    },
+    mounted(){
     },
     methods: {
 
@@ -320,7 +327,7 @@
          }
 
          this.isLoading = true;
-        
+
         var fromData = this.$utils.clear(this.refuseInfo,'');
         if(this.refuseInfo.resignMaterialDeliveryDate){
             fromData.employDate = this.$utils.formatDate(this.refuseInfo.resignMaterialDeliveryDate, 'YYYY-MM-DD');
@@ -358,7 +365,7 @@
         if(this.refuseInfo.jobCentreFeedbackDate){
              fromData.jobCentreFeedbackDate = this.$utils.formatDate(this.refuseInfo.jobCentreFeedbackDate, 'YYYY-MM-DD');
         }
-       
+
         api.saveAmResign(fromData).then(data => {
               if (data.code == 200) {
                   this.$Message.success("保存成功");
@@ -369,9 +376,9 @@
                 }
                 this.isLoading = false;
         })
-         
+
        },binding(){
-         
+
           if(this.refuseInfo.matchEmployIndex==undefined||this.refuseInfo.matchEmployIndex==''){
               this.$Message.success("对应用工序号为空");
               return;
@@ -421,24 +428,24 @@
         if(this.refuseInfo.jobCentreFeedbackDate){
              fromData.jobCentreFeedbackDate = this.$utils.formatDate(this.refuseInfo.jobCentreFeedbackDate, 'YYYY-MM-DD');
         }
-        
+
           api.bindEmploymentId(fromData).then(data => {
               if (data.code == 200) {
                 if(data.data.result==true){
                    this.refuseInfo.resignId = data.data.entity.resignId;
                    this.$Message.success("绑定成功");
-                 
+
                 }else{
                    this.$Message.error("绑定失败！" + data.data.result);
                 }
-                
+
               } else {
                 this.$Message.error("绑定失败！" + data.data.result);
               }
           })
 
        },callbackValue(val){
-         
+
          switch(val){
            case '1':
              return true;
@@ -454,28 +461,32 @@
              break;
            case '15':
              return true;
-             break; 
+             break;
            case '16':
              return true;
              break;
            case '17':
              return true;
-             break;  
+             break;
            default:
              return false;
-             break;   
+             break;
 
          }
+       },onOpenChange(e){
+         if(e){
+          this.isFrist = false;
+         }
        },changeEndType(val){
-        
+
         var isCon = this.callbackValue(val);
-        
+
           if(isCon){
              this.endTypeList[0].disabled=true;
              this.endTypeList[1].disabled=true;
 
              this.refuse.printDateR = true;
-            
+
              this.refuseFileDirectionList[0].disabled = true;
              this.refuseFileDirectionList[1].disabled = true;
              this.refuseFileDirectionList[2].disabled = true;
@@ -503,11 +514,11 @@
              this.transferNotesList[12].disabled = true;
              this.transferNotesList[13].disabled = true;
              this.transferNotesList[14].disabled = true;
-            
+
           }else{
              this.endTypeList[0].disabled=false;
              this.endTypeList[1].disabled=false;
-            
+
              this.refuse.printDateR = false;
 
              this.refuseFileDirectionList[0].disabled = false;
@@ -537,7 +548,7 @@
              this.transferNotesList[12].disabled = false;
              this.transferNotesList[13].disabled = false;
              this.transferNotesList[14].disabled = false;
-            
+
           }
 
           if(val=='17')
@@ -554,8 +565,26 @@
                   strDate = "0" + strDate;
               }
               var currentdate = year + seperator1 + month + seperator1 + strDate;
-              
+
               this.refuse.resignFeedbackDate=currentdate;
+          }
+          if(this.isFrist == false){
+            this.refuse.resignFeedbackDate = this.currentDate();
+            if(val=="11"){
+              this.refuse.ukeyBorrowDate = this.currentDate();
+            }
+            if(this.refuse.oldResignFeedback == '11' && val != "11"){
+              this.refuse.ukeyReturnDate = this.currentDate();
+            }
+            if(this.refuse.oldResignFeedback != '11' && val != '11'){
+              this.refuse.ukeyBorrowDate = '';
+            }
+            if(this.refuse.oldResignFeedback != '11'){
+              this.refuse.ukeyReturnDate = '';
+            }
+            if(this.refuse.oldResignFeedback == '11' && val == "11"){
+              this.refuse.ukeyReturnDate = '';
+            }
           }
        },currentDate(){
               var date = new Date();
@@ -572,27 +601,17 @@
               var currentdate = year + seperator1 + month + seperator1 + strDate;
               return currentdate;
        },setCurrentDate(e) {
-       
+
         if(e){
-          
+
           if(this.refuse.printDate==''||this.refuse.printDate==undefined)
           {
              this.refuse.printDate = this.currentDate();
           }
         }
-        
+
       },changeDate(e) {
         this.refuse.printDate = e;
-      },setCurrentDate1(e) {
-        if(e){
-          if(this.refuse.returnDocDate==''||this.refuse.returnDocDate==undefined)
-          {
-             this.refuse.returnDocDate = this.currentDate();
-          }
-        }
-        
-      },changeDate1(e) {
-        this.refuse.returnDocDate = e;
       },setCurrentDate2(e) {
         if(e){
           if(this.refuse.cacheDate==''||this.refuse.cacheDate==undefined)
@@ -600,7 +619,7 @@
              this.refuse.cacheDate = this.currentDate();
           }
         }
-        
+
       },changeDate2(e) {
         this.refuse.cacheDate = e;
       },setCurrentDate3(e) {
@@ -610,7 +629,7 @@
              this.refuse.resignHandleDate = this.currentDate();
           }
         }
-        
+
       },changeDate3(e) {
         this.refuse.resignHandleDate = e;
       },setCurrentDate4(e) {
@@ -620,7 +639,7 @@
              this.refuse.resignFeedbackDate = this.currentDate();
           }
         }
-        
+
       },changeDate4(e) {
         this.refuse.resignFeedbackDate = e;
       },setCurrentDate5(e) {
@@ -630,7 +649,7 @@
              this.refuse.ukeyBorrowDate = this.currentDate();
           }
         }
-        
+
       },changeDate5(e) {
         this.refuse.ukeyBorrowDate = e;
       },setCurrentDate6(e) {
@@ -640,7 +659,7 @@
              this.refuse.ukeyReturnDate = this.currentDate();
           }
         }
-        
+
       },changeDate6(e) {
         this.refuse.ukeyReturnDate = e;
       },setCurrentDate7(e) {
@@ -650,7 +669,7 @@
              this.refuse.jobCentreFeedbackDate = this.currentDate();
           }
         }
-        
+
       },changeDate7(e) {
         this.refuse.jobCentreFeedbackDate = e;
       },setCurrentDate8(e) {
@@ -660,11 +679,11 @@
              this.refuse.resignMaterialDeliveryDate = this.currentDate();
           }
         }
-        
+
       },changeDate8(e) {
         this.refuse.resignMaterialDeliveryDate = e;
       }
-       
+
     }
   }
 </script>

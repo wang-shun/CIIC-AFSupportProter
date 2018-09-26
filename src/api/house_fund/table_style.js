@@ -16,7 +16,11 @@ export default {
       className += '-remark';
     }
     if (row.hasOut && parseInt(row.hasOut) == 1) {
-      className += '-has-out';
+      if (className != '') {
+        className += '-has-out';
+      } else {
+        className = "only-has-out";
+      }
     }
     return className;
   },

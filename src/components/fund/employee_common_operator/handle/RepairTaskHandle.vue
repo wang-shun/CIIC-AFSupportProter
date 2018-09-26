@@ -93,6 +93,11 @@
                 </label>
               </Form-item>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="每月关账日：">
+                <label>{{displayVO.closeDay}}</label>
+              </FormItem>
+              </Col>
             </Row>
           </Form>
         </div>
@@ -136,26 +141,26 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="缴纳至：">
-                <label>{{(displayVO.empBasEndMonth) ? displayVO.empBasEndMonth : displayVO.empBasLastMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转入年月：">
-                <label>{{displayVO.empBasStartMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转入办理年月：">
-                <label>{{displayVO.empBasHandleMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转出年月：">
                 <label>{{displayVO.empBasEndMonth}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转出办理年月：">
+              <FormItem label="转入实际年月：">
+                <label>{{displayVO.empBasStartMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入汇缴月：">
+                <label>{{displayVO.empBasHandleMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出实际年月：">
+                <label>{{displayVO.empBasEndMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出汇缴月：">
                 <label>{{displayVO.empBasStopHandleMonth}}</label>
               </FormItem>
               </Col>
@@ -178,7 +183,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="缴纳至：">
-                <label>{{(displayVO.empAddEndMonth) ? displayVO.empAddEndMonth : displayVO.empAddLastMonth}}</label>
+                <label>{{displayVO.empAddEndMonth}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -324,8 +329,8 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
-        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton" :loading="isLoading">批退</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton && false" :loading="isLoading">转下月处理</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showReject" :loading="isLoading">批退</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
@@ -345,6 +350,7 @@
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
         showButton: true,
         showCancel: false,
+        showReject: true,
         inputDisabled: false,
         isShowPrint: false,
         isLoading: false,
@@ -426,7 +432,7 @@
         operationRemindDate: '',
         operatorListData: [],
         operatorListColumns: [
-          {title: '补缴起始月份', key: 'startMonth', align: 'left',
+          {title: '补缴起始月份', key: 'startMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
                 return h('div', [
@@ -455,7 +461,7 @@
               }
             }
           },
-          {title: '补缴截至月份', key: 'endMonth', align: 'left',
+          {title: '补缴截至月份', key: 'endMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
                 return h('div', [
@@ -476,7 +482,7 @@
               }
             }
           },
-          {title: '客户汇缴月', key: 'hfMonth', align: 'left',
+          {title: '客户汇缴月', key: 'hfMonth', width: 120, align: 'left',
             render: (h, params) => {
               return h('div', [
                 h('DatePicker', {
@@ -516,7 +522,7 @@
               ]);
             }
           },
-          {title: '企业比例', key: 'ratioCom', align: 'left',
+          {title: '企业比例', key: 'ratioCom', width: 85, align: 'left',
             render: (h, params) => {
 //              return h('div', [
 //                h('Input', {
@@ -534,7 +540,7 @@
               ]);
             }
           },
-          {title: '个人比例', key: 'ratioEmp', align: 'left',
+          {title: '个人比例', key: 'ratioEmp', width: 85, align: 'left',
             render: (h, params) => {
 //              return h('div', [
 //                h('Input', {
@@ -573,9 +579,9 @@
 //              }
             }
           },
-          {title: '合计补缴金额', key: 'totalAmount', align: 'left'},
+          {title: '合计金额', key: 'totalAmount', align: 'left'},
           {
-            title: '补缴原因', key: 'repairReason', align: 'left',
+            title: '补缴原因', key: 'repairReason', width: 130, align: 'left',
             render: (h, params) => {
               return h('div', [
                 h('Select', {
@@ -688,12 +694,14 @@
             this.inputDisabled = true;
             this.taskCategoryDisable = true;
             this.showButton = false;
+            this.showReject = false;
           }
         } else {
           this.$Message.error(data.message);
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
+          this.showReject = false;
         }
       });
       dict.getDictData().then(data => {
@@ -707,6 +715,7 @@
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
+          this.showReject = false;
         }
       })
     },
@@ -743,6 +752,7 @@
           if (data.code == 200) {
             this.$Message.info("办理成功");
             this.showButton = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -757,6 +767,7 @@
           if (data.code == 200) {
             this.$Message.info("不需处理操作成功");
             this.showButton = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -771,6 +782,7 @@
           if (data.code == 200) {
             this.$Message.info("转下月处理操作成功");
             this.showButton = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -795,6 +807,7 @@
           if (data.code == 200) {
             this.$Message.info("批退成功");
             this.showButton = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -810,6 +823,7 @@
             this.$Message.info("撤销成功");
             this.showButton = false;
             this.showCancel = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -1005,6 +1019,7 @@
         localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
         localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
         localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.processCategory', params.row.processCategory);
         localStorage.setItem('employeeFundCommonOperator.taskStatus', params.row.taskStatus);
         if (currentTaskCategory === params.row.taskCategory) {
           location.reload()
@@ -1016,6 +1031,7 @@
             case '9':
             case '10':
             case '11':
+            case '99':
               this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
               break;
             case '4':

@@ -48,6 +48,7 @@ export class CompanyTaskListHF{
                     obj.customerPayStartDate= i.comStartMonth
                     obj.comAccountId=i.comAccountId
                     obj.comAccountClassId=i.comAccountClassId
+                    obj.paymentBank=i.paymentBank
                   
                     //开户-companyInfo传参
                     companyInfo.customerNumber = i.companyId
@@ -85,7 +86,7 @@ export class CompanyTaskListHF{
                       openAccountInfo.finishDate = i.finishDate
                     }
                     
-                    openAccountInfo.notes = i.comAccountRemark
+                    openAccountInfo.notes = i.taskRemark
                     obj.openAccountInfo = openAccountInfo
 
                     //变更-companyFundAccountInfo传参
@@ -130,9 +131,10 @@ export class CompanyTaskListHF{
                     endOperator.remark = i.taskRemark
                     obj.endOperator = endOperator
 
-                    //已完成任务单参数
+                    //已完成   已批退
                     // companyTaskInfo.changeTypeValue = i.changeTypeValue
                     companyTaskInfo.paymentBankValue = i.paymentBankValue
+                    companyTaskInfo.paymentBank = i.paymentBank
                     companyTaskInfo.payMethodValue = i.comTaskPaymentWayName
                     companyTaskInfo.endTypeValue = i.endTypeValue
                     companyTaskInfo.companyFundAccountName = i.comAccountName
@@ -142,6 +144,15 @@ export class CompanyTaskListHF{
                     companyTaskInfo.acceptDate = i.strartHandleDate
                     companyTaskInfo.deliveredDate = i.sendCheckDate
                     companyTaskInfo.finishDate = i.finishDate
+                    if(i.taskStatus == 3){
+                      //companyTaskInfo.taskRemark = i.comAccountRemark
+                      companyTaskInfo.taskRemark = i.taskRemark
+                    }else{
+                      companyTaskInfo.taskRemark = i.taskRemark
+                    }
+
+                    
+                 
                     obj.companyTaskInfo = companyTaskInfo
                     responseData.data.taskData.push(obj)
                 }

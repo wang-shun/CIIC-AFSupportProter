@@ -1,5 +1,5 @@
 <template>
-  <div style="height:850px">
+  <div style="height:900px">
     <Collapse v-model="collapseInfo">
       <Panel name="1">
         雇员转移操作
@@ -221,7 +221,7 @@
               ]);
             }
           },
-          {title: '上下岗状态', key: 'status', width: 200, align: 'center',
+          {title: '入离职状态', key: 'status', width: 200, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.empComStatus(params.row.status)),

@@ -5,43 +5,13 @@
           <Panel name="1">
         档案预增管理
         <div slot="content">
-          <Form :label-width=150 ref="searchCondition" :model="searchCondition">
-            <Row type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="雇员姓名：" prop="employeeName">
-                  <Input v-model="searchCondition.employeeName" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="身份证号：" prop="employeeIdcardNo">
-                  <Input v-model="searchCondition.employeeIdcardNo" placeholder="请输入..."></Input>
-                </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-              <Form-item label="状态" prop="status">
-                <Select style="width: 100%;" v-model="searchCondition.status"  transfer>
-                  <Option v-for="item in statusList" :value="item.value" :key="item.value">{{item.label}}</Option>
-                </Select>
-              </Form-item>
-              </Col>
-            </Row>
-            <Row>
-              <Col :sm="{span:24}" class="tr">
-                <Button type="primary" icon="ios-search" @click="handlePageNum(1)">查询</Button>
-                <Button type="primary" @click="showInfoT(0)">新增</Button>
-                <Button type="primary" @click="exportXLS">导出XLS</Button>
-                <Button type="warning" @click="resetSearchCondition('searchCondition')" class="ml10">重置</Button>
-              </Col>
-            </Row>
-          </Form>
+          <search-advance @on-search="searchEmploiees" :isLoading='isLoading' :showHandle="showHandle" ></search-advance>
         </div>
       </Panel>
       </Collapse>
     </div>
-  
-    <Table border :columns="dismissalColumns" :data="dismissalData" class="mt20"></Table>
+
+    <Table border :columns="dismissalColumns" @on-row-dblclick="handleData" :data="dismissalData" class="mt20"></Table>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -72,11 +42,16 @@
 </template>
 <script>
   import api from '../../api/employ_manage/hire_operator'
+  import searchAdvance from "./common/SearchAdvance.vue"
 
   export default {
+    components: { searchAdvance},
     data() {
       return {
         isLoading: false,
+        showHandle:{
+           show:false
+        },
         isRefuseReason: false,
          pageData: {
           total: 0,
@@ -95,77 +70,9 @@
         statusList: [
           {value: '', label: '全部'},
           {value: '1', label: '未匹配'},
-          {value: '2', label: '已匹配'},
-          // {value: '0', label: '已删除'}
+          {value: '2', label: '已匹配'}
         ],
         dismissalColumns: [
-          {
-            title: '操作',
-            key: 'action',
-            align: 'center',
-            width: 130,
-            render: (h, params) => {
-              if(params.row.status == 0 || params.row.status == 2){//删除 或 已匹配  状态
-                return h('div', [
-                  h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
-                                      params.row.reservedArchiveNo,params.row.employeeName,
-                                      params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivePlace,
-                                      params.row.createdBy,params.row.remark
-                      )
-                    }
-                  }
-                }, '查看'),
-              ]);
-              }
-              else if(params.row.status == 1){// 未匹配状态
-                return h('div', [
-                  h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.showInfoTView(params.row.archiveAdvanceId,params.row.reservedArchiveType,
-                                      params.row.reservedArchiveNo,params.row.employeeName,
-                                      params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivePlace,
-                                      params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
-                      )
-                    }
-                  }
-                }, '查看'),
-                h('Button', {
-                  props: {type: 'success', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      this.showInfoT(params.row.archiveAdvanceId,params.row.reservedArchiveType,
-                                      params.row.reservedArchiveNo,params.row.employeeName,
-                                      params.row.employeeIdcardNo,params.row.enteringDate,
-                                      params.row.archiveSource,params.row.archivePlace,
-                                      params.row.createdBy,params.row.remark,params.row.exitThePlaceDate
-                      )
-                    }
-                  }
-                }, '修改'),
-                /*h('Button', {
-                  props: {type: 'error', size: 'small'},
-                  style: {margin: '0 auto 0 10px'},
-                  on: {
-                    click: () => {
-                      this.showDeleteReason(params.row.archiveAdvanceId);
-                    }
-                  }
-                }, '删除'),*/
-              ]);
-              }
-            },
-          },
           {title: '状态', key: 'status', align: 'center', width: 90,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -229,27 +136,67 @@
               ]);
             }
           },
-          {title: '备注', key: 'remark', align: 'center', width: 230,sortable: true,
+          {title: '备注', key: 'remark', align: 'center', width: 460,sortable: true,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remark),
               ]);
-            } 
+            }
           }
         ],
         dismissalData: []
-    
+
       }
     },
     mounted() {
-      this.querySalCompany({})
+      // this.querySalCompany({})
     },
     methods: {
-      searchEmploiees(conditions) {
-           
-        this.querySalCompany(this.searchCondition);
-          
+      searchEmploiees(conditions,searchForm,type) {
+           // 查询
+              this.pageData.pageNum =1;
+             this.searchConditions =[];
+             for(var i=0;i<conditions.length;i++){
+               this.searchConditions.push(conditions[i].exec);
+             }
+
+             this.searchCondition.params = this.searchConditions.toString();
+           if(type == 0){
+
+              this.querySalCompany(this.searchCondition);
+           }else if(type == 1){
+             // 导出
+              let params = this.searchCondition;
+              api.advanceSearchExportOpt(params);
+           }
+
       },
+      handleData(row, index) {
+        if(row.status == 1){
+
+          this.$router.push({
+            name: "advanceFile",
+            query: {archiveAdvanceId:row.archiveAdvanceId,reservedArchiveType:row.reservedArchiveType,
+                                                            reservedArchiveNo:row.reservedArchiveNo,employeeName:row.employeeName,
+                                                            employeeIdcardNo:row.employeeIdcardNo,enteringDate:row.enteringDate,
+                                                            archiveSource:row.archiveSource,archivePlace:row.archivePlace,
+                                                            createdBy:row.createdBy,remark:row.remark,exitThePlaceDate:row.exitThePlaceDate,
+                                                            createdTime:moment(Number(row.createdTime)).format("YYYY-MM-DD")
+            }
+          });
+        }else{
+          this.$router.push({
+            name: "advanceFileView",
+            query: {archiveAdvanceId:row.archiveAdvanceId,reservedArchiveType:row.reservedArchiveType,
+                                                        reservedArchiveNo:row.reservedArchiveNo,employeeName:row.employeeName,
+                                                        employeeIdcardNo:row.employeeIdcardNo,enteringDate:row.enteringDate,
+                                                        archiveSource:row.archiveSource,archivePlace:row.archivePlace,
+                                                        createdBy:row.createdBy,remark:row.remark,exitThePlaceDate:row.exitThePlaceDate,
+                                                        createdTime:moment(Number(row.createdTime)).format("YYYY-MM-DD")
+            }
+          });
+        }
+    },
       querySalCompany(params){
         let self =this
         api.queryAmArchiveAdvanceList({
@@ -262,7 +209,7 @@
         })
       },
       showInfoT (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivePlace,createdBy,remark,exitThePlaceDate) {
-        
+
         this.$router.push({name:'advanceFile', query: {archiveAdvanceId:companyId,reservedArchiveType:reservedArchiveType,
                                                         reservedArchiveNo:reservedArchiveNo,employeeName:employeeName,
                                                         employeeIdcardNo:employeeIdcardNo,enteringDate:enteringDate,
@@ -272,7 +219,7 @@
 
       },
       showInfoTView (companyId,reservedArchiveType,reservedArchiveNo,employeeName,employeeIdcardNo,enteringDate,archiveSource,archivePlace,createdBy,remark,exitThePlaceDate) {
-        
+
         this.$router.push({name:'advanceFileView', query: {archiveAdvanceId:companyId,reservedArchiveType:reservedArchiveType,
                                                         reservedArchiveNo:reservedArchiveNo,employeeName:employeeName,
                                                         employeeIdcardNo:employeeIdcardNo,enteringDate:enteringDate,

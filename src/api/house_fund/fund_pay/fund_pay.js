@@ -7,7 +7,9 @@ function getFundPayNoteObj(row){
   var html = `<div style="page-break-after:always;">
   <table cellpadding="0" cellspacing="0" style="border-collapse: collapse; border-spacing: 0; width: 600px; height: 336px;margin-left:30px;margin-top:0px ">
     <tr>
-      <td height="40px" style="vertical-align: bottom;"></td>
+      <td height="40px" style="vertical-align: top;">
+      <div style="text-align: right;  float: right; width: 500px;">${row.companyId==null?'':row.companyId}</div>
+      </td>
     </tr>
     <tr>
       <td height="30px" style="vertical-align: top;">
@@ -60,7 +62,7 @@ function getFundPayNoteObj(row){
       <td height="45px" style="vertical-align: top;">
         <div style="height: 35px;">
             <div>
-            <div style="text-align: right;  float: left; width: 200px;">${row.bankName}</div>
+            <div style="text-align: right;  float: left; width: 200px;">${row.bankName==null?'　':row.bankName}</div>
             <div style="text-align: right;  float: left; width: 105px;"></div>
             <div style="text-align: right;  float: left; width: 70px;"></div>
           </div>

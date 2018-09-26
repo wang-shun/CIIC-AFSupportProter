@@ -132,7 +132,7 @@
           totalPayAmountUP: '',
           remark: '',
         },
-        ifShowSumButton:true,
+        ifShowSumButton:false,
       }
     },
     mounted() {
@@ -141,11 +141,14 @@
       this.comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
       this.paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
       let paymentState = window.sessionStorage.getItem("paymentnotice_paymentState");
-      if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
-          this.ifShowSumButton= false;
-        }
+      this.ssAccount = window.sessionStorage.getItem("paymentnotice_ssAccount");
+     
+      if(paymentState == "1" || paymentState == "3" || paymentState == "5" || paymentState == "7"){ //1 未到账 2 可付  3 内部批退 7 财务批退
+      //if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
+          this.ifShowSumButton= true;
+      }
       this.getPaymentComDtoByPaymentId(paymentComId);
-      this.statementResultQuery(this.comAccountId,this.paymentMonth);
+      this.statementResultQuery(this.ssAccount,this.paymentMonth);
     },
     computed: {
       ...mapState('paymentNotice', {
@@ -171,9 +174,9 @@
           this.paymentComData = data.data;
         })
       },
-      statementResultQuery(comAccountId,paymentMonth){
+      statementResultQuery(ssAccount,paymentMonth){
         api.statementResultQuery({
-          comAccountId: comAccountId,
+          ssAccount: ssAccount,
           paymentMonth: paymentMonth
         }).then(data => {
           this.noticeData = data.data;
@@ -198,7 +201,6 @@
           generalMethod:'generatePaymentDetailReport'
         };
         api.summaryCalculate(params).then(data=>{
-            console.log(data.code);
             if(data.code==1){
               this.$Message.error(data.message);
             }
@@ -210,7 +212,7 @@
       this.comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
       this.paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
       this.getPaymentComDtoByPaymentId(paymentComId);
-      this.statementResultQuery(this.comAccountId,this.paymentMonth);
+      this.statementResultQuery(this.ssAccount,this.paymentMonth);
       }
     }
   }

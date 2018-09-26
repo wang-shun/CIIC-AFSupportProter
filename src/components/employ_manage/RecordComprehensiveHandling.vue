@@ -22,11 +22,32 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="info" @click="printLabel">打印贴头</Button>
         <Button type="info" @click="printReturnList">批量打印退工单</Button>
+        <Button type="info" @click="printReturn">打印退工单</Button>
+        <Button type="info" @click="printReturnForeign">打印外来退工单</Button>
+        <Dropdown @on-click="exportTable" transfer>
+          <Button type="info">
+            生成导出文件
+            <Icon type="arrow-down-b"></Icon>
+          </Button>
+          <DropdownMenu slot="list">
+            <DropdownItem name="1">用工录用名册</DropdownItem>
+            <DropdownItem name="2">派遣录用名册</DropdownItem>
+            <DropdownItem name="3">外来独立</DropdownItem>
+            <DropdownItem name="4">外来派遣</DropdownItem>
+            <DropdownItem name="5">采集表汇总表</DropdownItem>
+            <DropdownItem name="6">外来情况说明/入职</DropdownItem>
+            <DropdownItem name="7">外来情况说明/离职</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+        <Button type="info" @click="showXslConsole();">档案配对</Button>
         <Button type="info" @click="exportXLS">导出XLS</Button>
         <Button type="primary" @click="goFileMatrialsUseAndBorrow">档案材料利用与借出</Button>
+        <Button type="primary" @click="batchManagement">档案批量办理</Button>
       </Col>
     </Row>
-    <Table border id="redList" height="300" :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
+    <Row type="flex" justify="start" class="mt20">
+    <Col :sm="{span: 18}" class="tr">
+    <Table border id="redList" height="340"  :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
      <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -36,8 +57,145 @@
         :page-size-opts="pageData.pageSizeOpts"
         :current="pageData.pageNum"
         show-sizer show-total></Page>
-    <Table border :columns="searchResultColumns1" :data="searchResultData1" class="mt20"></Table>
-    <Table border :columns="searchResultColumns2" :data="searchResultData2" class="mt20"></Table>
+      
+    <Modal
+      v-model="isShowImportAdvance"
+      title="档案配对批量导入操作">
+      <Form :label-width=100>
+        <Row type="flex" justify="start">
+          <Col :sm="{span: 12, offset: 6}" class="tc">
+            <Form-item label="上传Excel：">
+              <Upload ref="upload"
+                :show-upload-list="false"
+                :data="upLoadData"
+                :action="uploadAttr.actionUrl"
+                :before-upload="beforeUpload"
+                :accept="uploadAttr.acceptFileExtension"
+                :on-format-error="handleFormatError"
+                :default-file-list="uploadFileList"
+                :on-error="handleError">
+                <Button type="ghost" icon="ios-cloud-upload-outline">选择文件上传</Button>
+              </Upload>
+            </Form-item>
+          </Col>
+        </Row>
+        <Alert type="warning" show-icon v-show="isImported">
+          请注意导入结果反馈
+          <template slot="desc"  >
+              <div >{{retStr}}</div>
+        </template>
+        </Alert>
+        <Row>
+          <Col :sm="{span: 22, offset: 1}" class="tr">
+            <Button type="info" @click="impTemplate">下载导入模板</Button>
+          </Col>
+        </Row>
+      </Form>
+      <div slot="footer">
+      </div>
+    </Modal>
+     </Col>
+     <Col :sm="{span: 1, offset: 1}" class="pt10">
+        <RadioGroup v-model="jobGroup"  @on-change="showJob" vertical>
+        <Radio label="Y" >
+            <span>在职</span>
+             <span>{{jobData.job}}</span>
+        </Radio>
+        <Radio label="N">
+            <span>终止</span>
+            <span>{{jobData.noJob}}</span>
+        </Radio>
+        </RadioGroup>
+        <RadioGroup v-model="vertical"  @on-change="showInfoTw" vertical>
+        <Radio label="1" >
+            <span>未反馈</span>
+             <span>{{RadioData.noSign}}</span>
+        </Radio>
+        <Radio label="3">
+            <span>用工成功</span>
+            <span>{{RadioData.employSuccess}}</span>
+        </Radio>
+        <Radio label="4">
+            <span>用工失败</span>
+             <span>{{RadioData.employFailed}}</span>
+        </Radio>
+        <Radio label="5">
+            <span>前道要求撤消用工</span>
+            <span>{{RadioData.employCancel}}</span>
+        </Radio>
+        <Radio label="11">
+            <span>ukey外借</span>
+            <span>{{RadioData.borrowKey}}</span>
+        </Radio>
+        <Radio label="6">
+            <span>其他</span>
+            <span>{{RadioData.other}}</span>
+        </Radio>
+        <Radio label="0">
+            <span>TOTAL</span>
+            <span>{{RadioData.amount}}</span>
+        </Radio>
+    </RadioGroup>  
+    </Col>
+    <Col :sm="{span: 1, offset: 1}" class="pt10">
+        <RadioGroup v-model="rJobGroup"  @on-change="showReJob" vertical>
+        <Radio label="Y" >
+            <span>在职</span>
+             <span>{{rJobData.job}}</span>
+        </Radio>
+        <Radio label="N">
+            <span>终止</span>
+            <span>{{rJobData.noJob}}</span>
+        </Radio>
+        </RadioGroup>
+        <RadioGroup v-model="resignStatus"  @on-change="showInfoTwR" vertical>
+        <Radio label="99" >
+            <span>未反馈</span>
+             <span>{{reRadioData.noFeedback}}</span>
+        </Radio>
+        <Radio label="98" >
+            <span>退工任务单签收退工未成功</span>
+             <span>{{reRadioData.refuseWaitFinished}}</span>
+        </Radio>
+        <Radio label="1">
+            <span>退工成功</span>
+            <span>{{reRadioData.refuseFinished}}</span>
+        </Radio>
+        <Radio label="2">
+            <span>档未到先退工</span>
+            <span>{{reRadioData.refuseBeforeWithFile}}</span>
+        </Radio>
+        <Radio label="3">
+            <span>退工单盖章未返回</span>
+             <span>{{reRadioData.refuseTicketStampNoReturn}}</span>
+        </Radio>
+        <Radio label="4">
+            <span>退工失败</span>
+            <span>{{reRadioData.refuseFailed}}</span>
+        </Radio>
+        <Radio label="5">
+            <span>前道要求批退</span>
+            <span>{{reRadioData.beforeBatchNeedRefuse}}</span>
+        </Radio>
+        <Radio label="6">
+            <span>其他</span>
+            <span>{{reRadioData.other}}</span>
+        </Radio>
+        <Radio label="0">
+            <span>TOTAL</span>
+            <span>{{reRadioData.amount}}</span>
+        </Radio>
+    </RadioGroup> 
+    </Col>
+    </Row>
+    <Modal
+        :width="700"
+        v-model="modal1"
+        title="选择公司变更记录"
+        @on-ok="ok"
+        @on-cancel="cancel">
+        <Table border  ref="payComUpdateSelection" :columns="companyColumns" :width="620"  :data="refuseReturnCompanys" class="mt20"></Table>
+      </Modal>
   </div>
 </template>
 <script>
@@ -53,6 +211,70 @@ export default {
   components: { employeeInfo, searchEmployment },
   data() {
     return {
+      modal1: false,
+      companyColumns: [
+          {title: '', type: 'selection', width: 60},
+          {title: '变更公司名称', key: 'companyName', align: 'center',width: 250,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.companyName),
+              ]);
+            }
+          },
+          {title: '变更时间', key: 'changeDate', align: 'center',width: 120,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span',   moment(Number(params.row.changeDate)).format("YYYY-MM-DD")),
+              ]);
+            }
+          },
+          {title: '备注', key: 'remark', align: 'center',width: 180,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          }
+        ],
+        refuseReturnCompanys:[],
+        amEmploymentBO: {
+          employeeId: "",
+          companyId: "",
+          empTaskId: "",
+          employmentId: '',
+          companyNameList:[],
+        },
+      isShowImportAdvance: false,
+      uploadAttr: {
+        actionUrl: "",
+        acceptFileExtension: ".xls,.xlsx"
+      },
+      uploadFileList: [],
+      isImported: false,
+      upLoadData: {
+        file: ""
+      },
+      retStr: "",
+      jobGroup: "",
+      rJobGroup: "",
+      vertical: "",
+      resignStatus:"",
+      jobData: {
+        job: 0,
+        noJob: 0
+      },
+      rJobData: {
+        job: 0,
+        noJob: 0
+      },
+      RadioData: {
+        noSign: "",
+        employSuccess: "",
+        noRecord: ""
+      },
+      reRadioData: {
+        
+      },
       initSearch: false,
       initSearchC: false,
       initSearchR: false,
@@ -73,7 +295,8 @@ export default {
         params: "",
         taskStatus: "",
         taskCategory: "",
-        taskResignStatus: ""
+        taskResignStatus: "",
+        isEntry: ""
       },
       // 下半部分
       recordComprehensiveHandlingColumns: [
@@ -101,72 +324,14 @@ export default {
           }
         },
         {
-          title: "退工成功日期",
-          key: "jobCentreFeedbackDate",
-          align: "center",
-          width: 150,
-          sortable: "custom",
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.jobCentreFeedbackDate)
-            ]);
-          }
-        },
-        {
-          title: "退工原因",
-          key: "outReason",
-          align: "center",
-          width: 250,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.outReason)
-            ]);
-          }
-        },
-        {
-          title: "办理类型",
-          key: "handleType",
+          title: "序号",
+          key: "empTaskId",
           align: "center",
           width: 100,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.handleType)
-            ]);
-          }
-        },
-        {
-          title: "雇员编号",
-          key: "employeeId",
-          align: "center",
-          width: 150,
-          sortable: "custom",
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.employeeId)
-            ]);
-          }
-        },
-        {
-          title: "雇员姓名",
-          key: "employeeName",
-          align: "center",
-          width: 150,
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employeeName)
-            ]);
-          }
-        },
-        {
-          title: "证件号码",
-          key: "idNum",
-          align: "center",
-          width: 150,
-          sortable: "custom",
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
-              h("span", params.row.idNum)
+              h("span", params.row.empTaskId)
             ]);
           }
         },
@@ -191,7 +356,95 @@ export default {
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", params.row.title),
-              h("span", params.row.cici)
+              h("span", params.row.ciCi)
+            ]);
+          }
+        },
+        {
+          title: "雇员编号",
+          key: "employeeId",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "right" } }, [
+              h("span", params.row.employeeId)
+            ]);
+          }
+        },
+        {
+          title: "雇员姓名",
+          key: "employeeName",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h(
+                "span",
+                {
+                  style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.employeeName
+              )
+            ]);
+          }
+        },
+        {
+          title: "证件号码",
+          key: "idNum",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "right" } }, [
+              h(
+                "span",
+                {
+                  style: {
+                    "font-weight": "bold"
+                  }
+                },
+                params.row.idNum
+              )
+            ]);
+          }
+        },
+        {
+          title: "实际录用日期",
+          key: "employDate",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.employDate)
+            ]);
+          }
+        },
+          {
+          title: "退工日期",
+          key: "outDate",
+          align: "center",
+          width: 150,
+          sortable: "custom",
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.outDate)
+            ]);
+          }
+        },
+
+        {
+          title: "退工原因",
+          key: "outReason",
+          align: "center",
+          width: 250,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.outReason)
             ]);
           }
         },
@@ -207,13 +460,24 @@ export default {
           }
         },
         {
-          title: "客服中心",
+          title: "服务中心",
           key: "serviceCenter",
           align: "center",
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", params.row.serviceCenter)
+            ]);
+          }
+        },
+        {
+          title: "存档地",
+          key: "archivePlace",
+          align: "center",
+          width: 150,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.archivePlace)
             ]);
           }
         },
@@ -242,37 +506,48 @@ export default {
           }
         },
         {
-          title: "存档地",
-          key: "archivePlace",
+          title: "用工反馈操作日期",
+          key: "employFeedbackOptDate",
           align: "center",
-          width: 150,
+          width: 200,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.archivePlace)
+              h("span", params.row.employFeedbackOptDate)
             ]);
           }
         },
         {
-          title: "实际录用日期",
-          key: "employDate",
+          title: "退工成功日期",
+          key: "jobCentreFeedbackDate",
           align: "center",
           width: 150,
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.employDate)
+              h("span", params.row.jobCentreFeedbackDate)
             ]);
           }
         },
         {
-          title: "退工日期",
-          key: "outDate",
+          title: "调档反馈",
+          key: "handleType",
           align: "center",
-          width: 150,
-          sortable: "custom",
+          width: 100,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.outDate)
+              h("span", params.row.handleType)
+            ]);
+          }
+        },
+        {
+          title: "调档反馈操作日期",
+          key: "diaodangFeedbackOptDate",
+          align: "center",
+          width: 100,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "left" } }, [
+              h("span", params.row.diaodangFeedbackOptDate)
             ]);
           }
         },
@@ -358,382 +633,6 @@ export default {
         }
       ],
       recordComprehensiveHandlingData: [],
-
-      searchResultColumns1: [
-        {
-          title: "用工材料未签收",
-          key: "noSign",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(1, 1);
-                  }
-                }
-              },
-              params.row.noSign
-            );
-          }
-        },
-        {
-          title: "用工材料已签收",
-          key: "finished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(2, 1);
-                  }
-                }
-              },
-              params.row.finished
-            );
-          }
-        },
-        {
-          title: "用工成功",
-          key: "employSuccess",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(3, 1);
-                  }
-                }
-              },
-              params.row.employSuccess
-            );
-          }
-        },
-        {
-          title: "用工失败",
-          key: "employFailed",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(4, 1);
-                  }
-                }
-              },
-              params.row.employFailed
-            );
-          }
-        },
-        {
-          title: "前道要求撤消用工",
-          key: "employCancel",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(5, 1);
-                  }
-                }
-              },
-              params.row.employCancel
-            );
-          }
-        },
-        {
-          title: "其他",
-          key: "other",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTw(6, 1);
-                  }
-                }
-              },
-              params.row.other
-            );
-          }
-        },
-        {
-          title: "总计",
-          key: "amount",
-          align: "center",
-          width: 231,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTws(0, 1);
-                  }
-                }
-              },
-              params.row.amount
-            );
-          }
-        }
-      ],
-      searchResultData1: [],
-
-      searchResultColumns2: [
-        {
-          title: "未反馈",
-          key: "noFeedback",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(99, 2);
-                  }
-                }
-              },
-              params.row.noFeedback
-            );
-          }
-        },
-        {
-          title: "退工任务单签收退工未成功",
-          key: "refuseWaitFinished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(98, 2);
-                  }
-                }
-              },
-              params.row.refuseWaitFinished
-            );
-          }
-        },
-        {
-          title: "退工成功",
-          key: "refuseFinished",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(1, 2);
-                  }
-                }
-              },
-              params.row.refuseFinished
-            );
-          }
-        },
-        {
-          title: "档未到先退工",
-          key: "refuseBeforeWithFile",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(2, 2);
-                  }
-                }
-              },
-              params.row.refuseBeforeWithFile
-            );
-          }
-        },
-        {
-          title: "退工单盖章未返回",
-          key: "refuseTicketStampNoReturn",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(3, 2);
-                  }
-                }
-              },
-              params.row.refuseTicketStampNoReturn
-            );
-          }
-        },
-        {
-          title: "退工失败",
-          key: "refuseFailed",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(4, 2);
-                  }
-                }
-              },
-              params.row.refuseFailed
-            );
-          }
-        },
-        {
-          title: "前道要求批退",
-          key: "beforeBatchNeedRefuse",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(5, 2);
-                  }
-                }
-              },
-              params.row.beforeBatchNeedRefuse
-            );
-          }
-        },
-        {
-          title: "其他",
-          key: "other",
-          align: "center",
-          width: 220,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwr(6, 2);
-                  }
-                }
-              },
-              params.row.other
-            );
-          }
-        },
-        {
-          title: "总计",
-          key: "amount",
-          align: "center",
-          width: 231,
-          render: (h, params) => {
-            return h(
-              "a",
-              {
-                attrs: {
-                  href: params.row.dataDownload
-                },
-                style: { textAlign: "right" },
-                on: {
-                  click: () => {
-                    this.showInfoTwsr(0, 2);
-                  }
-                }
-              },
-              params.row.amount
-            );
-          }
-        }
-      ],
-      searchResultData2: [],
       // 弹出框
       isShowStockTitle: false,
       customerInfos: [customerInfo, customerInfo, customerInfo]
@@ -745,6 +644,95 @@ export default {
     //  this.resignArchiveCollection({})
   },
   methods: {
+    showXslConsole() {
+      this.isShowImportAdvance = true;
+      this.uploadFileList = [];
+      this.isImported = false;
+      this.retStr = "";
+      this.isUpload = false;
+      this.upLoadData.file = "";
+    },
+    impTemplate() {
+      api.impTemplateFile({});
+    },
+    //生成导出文件
+    exportTable(name) {
+      this.searchCondition.params = this.searchConditions.toString();
+
+      switch (parseInt(name)) {
+        case 1:
+          // 用工录用名册
+          api.archiveEmploySearchExportOptUseWord(this.searchCondition);
+          break;
+        case 2:
+          // 派遣录用名册
+          api.archiveSearchExportOptDispatchWord(this.searchCondition);
+          break;
+        case 3:
+          // 外来独立
+          api.archiveSearchExportOptAlonehWord(this.searchCondition);
+          break;
+        case 4:
+          // 外来派遣
+          api.archiveSearchExportOptExtDispatchWord(this.searchCondition);
+          break;
+        case 5:
+          // 采集表 汇总表
+          api.archiveSearchExportOptExtCollectWord(this.searchCondition);
+          break;
+          case 6:
+          // 外来情况说明 入职
+          this.searchCondition.isEntry = 1;
+          api.archiveSearchExportOptExtExplainWord(this.searchCondition);
+          break;
+          case 7:
+          // 外来情况说明 离职
+          this.searchCondition.isEntry = 0;
+          api.archiveSearchExportOptExtExplainWord(this.searchCondition);
+          break;
+        default:
+          break;
+      }
+    },
+    impOk() {
+      if (this.upLoadData.file == null || this.upLoadData.file == "") {
+        this.$Message.info("请选择导入文件");
+        return false;
+      }
+      this.isImported = true;
+      this.retStr = "系统正在导入中，请耐心等待";
+      api
+        .xlsImportEmpAdvance(this.upLoadData)
+        .then(data => {
+          this.uploadFileList = [];
+          this.isImported = true;
+          this.retStr = data.message;
+          this.isUpload = false;
+        })
+        .catch(error => {
+          this.$Message.error("系统异常！");
+        });
+    },
+    handleError(error, file) {
+      this.$Notice.warning({
+        title: "文件上传失败",
+        desc: "文件 " + file.name + " 上传失败！"
+      });
+    },
+    handleFormatError(file) {
+      this.$Notice.warning({
+        title: "文件格式不正确",
+        desc:
+          "文件 " + file.name + " 格式不正确，请上传 xls 或 xlsx 格式的文档。"
+      });
+    },
+    beforeUpload(file) {
+      this.upLoadData.file = file;
+      this.uploadFileList.push({ name: file.name, url: "" });
+      //this.$refs['upload'].clearFiles();
+      this.impOk();
+      return true;
+    },
     rowClassName(row, index) {
       if (row.job != undefined && row.job == "N") {
         return "demo-table-error-row";
@@ -760,8 +748,8 @@ export default {
 
       this.searchCondition.params = this.searchConditions.toString();
       this.archiveQuery(this.searchCondition);
-      this.employeeArchiveCollection(this.searchCondition);
-      this.resignArchiveCollection(this.searchCondition);
+      this.taskCountArchive(this.searchCondition);
+      // this.resignArchiveCollection(this.searchCondition);
     },
     goHandle() {
       this.$router.push({ name: "recordComprehensive" });
@@ -772,7 +760,12 @@ export default {
       //判断条件
       //是否有选中列
       if (selection.length == 0) {
-        alert("没有选中的列");
+        this.$Message.error("没有选中的列");
+        return;
+      }
+
+      if (selection.length > 1) {
+        this.$Message.error("选择的列太多");
         return;
       }
 
@@ -865,60 +858,72 @@ export default {
           self.recordComprehensiveHandlingData = data.data.rows;
           self.pageData.total = Number(data.data.total);
           self.isLoading = false;
-          self.searchCondition.taskStatus = "";
-          self.searchCondition.taskResignStatus = "";
         });
     },
-    employeeArchiveCollection(params) {
-      this.isLoading = true;
+    taskCountArchive(params) {
       let self = this;
       api
-        .employeeArchiveCollection({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
+        .taskCountArchive({
           params: params
         })
         .then(data => {
-          self.searchResultData1 = data.data.row;
+          self.jobData = data.data.amTaskStatusBO;
+          self.rJobData = data.data.amTaskStatusResignBO;
         });
-    },
-    resignArchiveCollection(params) {
+    },employeeArchiveCollection(params){
       let self = this;
-      api
-        .resignArchiveCollection({
-          pageSize: this.pageData.pageSize,
-          pageNum: this.pageData.pageNum,
+      api.employeeArchiveCollection({
           params: params
         })
         .then(data => {
-          self.searchResultData2 = data.data.row;
+         self.RadioData = data.data.row[0];
+        });
+    },resignArchiveCollection(params){
+         let self = this;
+      api.resignArchiveCollection({
+          params: params
+        })
+        .then(data => {
+         self.reRadioData = data.data.row[0];
         });
     },
-    showInfoTw(ind, category) {
+    showInfoTw(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
       this.searchCondition.taskStatus = ind;
-      this.searchCondition.taskCategory = category;
+      if (this.jobGroup != "") {
+        this.searchCondition.job = this.jobGroup;
+      }
       this.archiveQuery(this.searchCondition);
     },
-    showInfoTwr(ind, category) {
+     showInfoTwR(ind) {
       this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
       this.searchCondition.taskResignStatus = ind;
-      this.searchCondition.taskCategory = category;
+      if (this.rJobGroup != "") {
+        this.searchCondition.rJob = this.rJobGroup;
+      }
       this.archiveQuery(this.searchCondition);
     },
-    showInfoTws(ind, category) {
+    showJob(ind) {
+      
+      this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskStatus = ind;
-      this.searchCondition.taskCategory = category;
+      
+     
+      this.searchCondition.job = ind;
       this.archiveQuery(this.searchCondition);
+      this.employeeArchiveCollection(this.searchCondition);
     },
-    showInfoTwsr(ind, category) {
+    showReJob(ind) {
+     
+      this.pageData.pageNum = 1;
       this.searchCondition.params = this.searchConditions.toString();
-      this.searchCondition.taskResignStatus = ind;
-      this.searchCondition.taskCategory = category;
+      this.searchCondition.luyong_handle_end = "";
+     // this.vertical = "";
+      this.searchCondition.rJob = ind;
       this.archiveQuery(this.searchCondition);
+      this.resignArchiveCollection(this.searchCondition);
     },
     handlePageNum(val) {
       this.pageData.pageNum = val;
@@ -948,7 +953,9 @@ export default {
       this.orderConditions = [];
       this.searchConditions = [];
       var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-      var conditions = JSON.parse(sessionStorage.getItem("archive" + userInfo.userId));
+      var conditions = JSON.parse(
+        sessionStorage.getItem("archive" + userInfo.userId)
+      );
       var storeOrder = JSON.parse(
         sessionStorage.getItem("archiveOrder" + userInfo.userId)
       );
@@ -1050,11 +1057,62 @@ export default {
           this.changeSortClass(this.orderConditions);
         });
     },
-    printReturnList(){
-      api.archiveSearchExportReturnList({pageSize: 1000,
-          pageNum: 1,
-          params: this.searchCondition});
+    printReturnList() {
+      api.archiveSearchExportReturnList({
+        pageSize: 1000,
+        pageNum: 1,
+        params: this.searchCondition
+      });
     },
+    printReturnForeign() {
+      this.searchCondition.params = this.searchConditions.toString();
+      api.archiveSearchExportReturnForeign(this.searchCondition);
+    },
+    printReturn() {
+      let selectionRow = this.$refs.payComSelection.getSelection();
+      //判断条件
+      //是否有选中列
+      if (selectionRow.length == 0) {
+        this.$Message.error("没有选中的列");
+        return;
+      }
+
+      if (selectionRow.length > 1) {
+        this.$Message.error("选择的列太多");
+        return;
+      }
+
+      api.queryCompanyNameUpdateHistory({companyId:selectionRow[0].companyId}).then(data=>{
+            if(data.data.length > 0){
+              this.modal1 = true;
+              let selection = this.$refs.payComUpdateSelection;
+              selection.selectAll(false);
+              this.refuseReturnCompanys = data.data;
+            }else{
+              this.amEmploymentBO.companyId = selectionRow[0].companyId;
+              this.amEmploymentBO.employeeId = selectionRow[0].employeeId;
+              this.amEmploymentBO.empTaskId = selectionRow[0].empTaskId;
+              this.amEmploymentBO.employmentId = selectionRow[0].employmentId;
+              api.archiveSearchExportReturn(this.amEmploymentBO);
+            }
+        })
+    },
+    ok () {
+              let selection = this.$refs.payComUpdateSelection.getSelection();
+
+               selection.some(item => {
+               this.amEmploymentBO.companyNameList.push('原公司名称：' + item.companyName);
+           });
+                let selectionRow = this.$refs.payComSelection.getSelection();
+                this.amEmploymentBO.companyId = selectionRow[0].companyId;
+                this.amEmploymentBO.employeeId = selectionRow[0].employeeId;
+                this.amEmploymentBO.empTaskId = selectionRow[0].empTaskId;
+                this.amEmploymentBO.employmentId = selectionRow[0].employmentId;
+                api.archiveSearchExportReturn(this.amEmploymentBO);
+            },
+            cancel () {
+              
+            },
     changeSortClass(storeOrder) {
       this.recordComprehensiveHandlingColumns.forEach((e, idx) => {
         let order = "normal";
@@ -1068,7 +1126,7 @@ export default {
                 storeOrder[index].indexOf("employee_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1077,7 +1135,7 @@ export default {
                 storeOrder[index].indexOf("company_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1086,7 +1144,7 @@ export default {
                 storeOrder[index].indexOf("title") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1095,7 +1153,7 @@ export default {
                 storeOrder[index].indexOf("employment_id") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1104,7 +1162,7 @@ export default {
                 storeOrder[index].indexOf("employee_name") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1113,7 +1171,7 @@ export default {
                 storeOrder[index].indexOf("id_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1122,7 +1180,7 @@ export default {
                 storeOrder[index].indexOf("doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1131,7 +1189,7 @@ export default {
                 storeOrder[index].indexOf("yuliu_doc_num") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1140,7 +1198,7 @@ export default {
                 storeOrder[index].indexOf("job_centre_feedback_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1149,7 +1207,7 @@ export default {
                 storeOrder[index].indexOf("employ_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1158,7 +1216,7 @@ export default {
                 storeOrder[index].indexOf("storage_out_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1167,7 +1225,7 @@ export default {
                 storeOrder[index].indexOf("return_doc_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
 
@@ -1176,14 +1234,47 @@ export default {
                 storeOrder[index].indexOf("resign_handle_date") != -1
               ) {
                 order = orders[1];
-                tableStyle.changeSortElementClass('redList', idx - 1, order);
+                tableStyle.changeSortElementClass("redList", idx - 1, order);
                 break;
               }
             }
           }
         }
       });
-    }
+    },
+    batchManagement() {
+      let selection = this.$refs.payComSelection.getSelection();
+      if (selection.length == 0) {
+        this.$Message.error("没有选中的列");
+        return;
+      }
+      let empTaskIds = [];
+      selection.forEach(item => {
+        empTaskIds.push(item.empTaskId);
+      });
+      const _self = this;
+      var fromData = {};
+      fromData.empTaskIds = empTaskIds;
+      api.batchCheckArchive(fromData).then(data => {
+        if (data.code == 200) {
+          if (data.data.employmentCount) {
+            var content =
+              "有" +
+              data.data.employmentCount +
+              "条数据没有办理用工，请重新选择数据";
+            this.$Message.error(content);
+            return;
+          } else {
+            _self.$router.push({
+              name: "archiveHandleBatch",
+              query: { empTaskIds: empTaskIds }
+            });
+          }
+        } else {
+          this.$Message.error("批量失败！" + data.message);
+        }
+      });
+    },
   },
   computed: {}
 };

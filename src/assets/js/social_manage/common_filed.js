@@ -2,17 +2,20 @@
  * Created by huangye on 2018/1/8.
  */
 let em_chooseField = {
-  "taskStatus":"未处理",
+  "c.company_id":"客户编号",
+  "e.employee_id":"雇员编号",
+  "ca.ss_account":"企业社保账户",
+  "e.id_num":"证件号",
+  "et.start_month":"社保起缴月份",
+  "et.end_month":"缴纳至",
+  "et.service_center_id":"服务中心",
+  "et.leader_ship_name":"客服经理",
+  "et.task_category":"任务单类型",
+  "ca.ss_account_type":"社保账户类型",
+  "c.title":"客户名称",
   "e.employee_name":"雇员姓名",
   "ca.settlement_area":"结算区县",
-  "ca.ss_account_type":"社保账户类型",
-  "ca.ss_account":"企业社保账户",
-  "c.company_id":"客户编号",
-  "e.id_num":"证件号",
-  "et.task_category":"任务单类型",
-  "c.title":"客户名称",
-  "e.employee_id":"雇员编号",
-  "et.start_month":"社保起缴月份"
+  // "taskStatus":"未处理",
 };
 let em_relationship = {
   "等于": "=",

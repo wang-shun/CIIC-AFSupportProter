@@ -70,12 +70,10 @@
             </Select>
           </Form-item>
         </Col>
-        
-          
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
-            <DatePicker @on-open-change="setCurrentDate" @on-change="changeDate" type="date" v-model="handleInfo.employFeedbackOptDate" transfer></DatePicker>
+            <DatePicker  type="date" v-model="handleInfo.employFeedbackOptDate" :readonly="true"  transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -87,20 +85,18 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="调档反馈操作日期：" prop="diaodangFeedbackOptDate">
-            <DatePicker @on-open-change="setCurrentDate1" @on-change="changeDate1" type="date" v-model="handleInfo.diaodangFeedbackOptDate" transfer></DatePicker>
+            <DatePicker  type="date" v-model="handleInfo.diaodangFeedbackOptDate" :readonly="true" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="UKey外借日期：" prop="ukeyBorrowDate">
-            <DatePicker  type="date" v-model="handleInfo.ukeyBorrowDate" transfer></DatePicker>
+            <DatePicker  type="date" v-model="handleInfo.ukeyBorrowDate" :readonly="true" transfer></DatePicker>
           </Form-item>
         </Col>
-        
-          
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
-            <DatePicker @on-open-change="setCurrentDate2" @on-change="changeDate2" type="date" v-model="handleInfo.ukeyReturnDate" transfer></DatePicker>
+            <DatePicker  type="date" v-model="handleInfo.ukeyReturnDate" :readonly="true" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
@@ -151,7 +147,7 @@ export default {
       seqMax1: 0,
       seqMax2: 0,
       reservedFileNumberList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "外来从业人员", label: "外来从业人员" },
         { value: "居住证", label: "居住证" },
         { value: "调档", label: "调档" },
@@ -174,6 +170,7 @@ export default {
       ],
       fileNumberList: [],
       filePlaceList: [
+        { value: "", label: "" },
         { value: "外来从业人员", label: "外来从业人员" },
         { value: "居住证", label: "居住证" },
         { value: "属地管理", label: "属地管理" },
@@ -203,12 +200,12 @@ export default {
       ],
       filePlaceAddList: [],
       placeStateList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "无", label: "无" },
         { value: "卡为复印件", label: "卡为复印件" }
       ],
       fileOriginList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "户口所在地调入", label: "户口所在地调入" },
         { value: "市区人才调入", label: "市区人才调入" },
         { value: "单位转出（包括邮寄）", label: "单位转出（包括邮寄）" },
@@ -217,6 +214,7 @@ export default {
         { value: "其他", label: "其他" }
       ],
       employFeedbackList: [
+        { value: "", label: "" },
         { value: "3", label: "用工成功", disabled: false },
         { value: "10", label: "用工已办查无档", disabled: false },
         { value: "4", label: "用工失败", disabled: false },
@@ -226,7 +224,7 @@ export default {
         { value: "13", label: "用工已办,前道已中止", disabled: false }
       ],
       transferFeedbackList: [
-        { value: "空", label: "空" },
+        { value: "", label: "" },
         { value: "已告知本人转档", label: "已告知本人转档" },
         { value: "无档自查", label: "无档自查" },
         { value: "浦东职介代管", label: "浦东职介代管" },
@@ -242,7 +240,7 @@ export default {
     };
   },
   watch: {
-   handleInfo() {
+    handleInfo() {
       this.employFeedbackList[0].disabled = this.handleInfo.end;
       this.employFeedbackList[1].disabled = this.handleInfo.end;
       this.employFeedbackList[2].disabled = this.handleInfo.end;
@@ -289,13 +287,18 @@ export default {
     queryDocSeqByDocType(val) {
       api.queryDocSeqByDocType({ type: 1, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.handleInfo,
-            "yuliuDocNum",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.handleInfo.yuliuDocNum = parseInt(data.data.docBo.docSeq) + 1;
-          this.seqMax1 = data.data.docBo.docSeq;
+          if (data.data.docBo.docSeq) {
+            Vue.set(
+              this.handleInfo,
+              "yuliuDocNum",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.handleInfo.yuliuDocNum = parseInt(data.data.docBo.docSeq) + 1;
+            this.seqMax1 = data.data.docBo.docSeq;
+          } else {
+            Vue.set(this.handleInfo, "yuliuDocNum", "");
+            this.handleInfo.yuliuDocNum = "";
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }
@@ -328,13 +331,18 @@ export default {
     queryDocSeqByDocType2(val) {
       api.queryDocSeqByDocType({ type: 2, docType: val }).then(data => {
         if (data.code == 200) {
-          Vue.set(
-            this.handleInfo,
-            "docNum",
-            parseInt(data.data.docBo.docSeq) + 1
-          );
-          this.handleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
-          this.seqMax2 = data.data.docBo.docSeq;
+          if (data.data.docBo.docSeq) {
+            Vue.set(
+              this.handleInfo,
+              "docNum",
+              parseInt(data.data.docBo.docSeq) + 1
+            );
+            this.handleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
+            this.seqMax2 = data.data.docBo.docSeq;
+          } else {
+            Vue.set(this.handleInfo, "docNum", "");
+            this.handleInfo.docNum = "";
+          }
         } else {
           this.$Message.error("服务器异常" + data.message);
         }
@@ -457,7 +465,7 @@ export default {
           this.$Message.success("保存成功");
           this.isLoading = false;
           this.handleInfo.archiveId = data.data.archiveId;
-         
+
           this.handleInfo.oldYuLiuType = data.data.yuliuDocType;
           this.handleInfo.oldYuLiuNum = data.data.yuliuDocNum;
           this.handleInfo.oldType = data.data.docType;
@@ -491,9 +499,22 @@ export default {
     changeType(val) {
       if (val == 11) {
         this.handleInfo.ukeyBorrowDate = this.currentDate();
+        this.handleInfo.employFeedbackOptDate = this.currentDate();
+      } else {
+        if (val != ""&&val!=undefined) {
+          if (this.handleInfo.archiveId) {
+            if (this.handleInfo.ukeyBorrowDate) {
+              this.handleInfo.ukeyReturnDate = this.currentDate();
+            }
+          } else {
+            this.handleInfo.ukeyBorrowDate = "";
+          }
+          this.handleInfo.employFeedbackOptDate = this.currentDate();
+        } else {
+          this.handleInfo.ukeyBorrowDate = "";
+          this.handleInfo.employFeedbackOptDate = "";
+        }
       }
-
-      this.handleInfo.employFeedbackOptDate = this.currentDate();
     },
     changeTypeDd(val) {
       this.handleInfo.diaodangFeedbackOptDate = this.currentDate();
@@ -512,45 +533,6 @@ export default {
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate;
       return currentdate;
-    },
-    setCurrentDate(e) {
-      if (e) {
-        if (
-          this.handleInfo.employFeedbackOptDate == "" ||
-          this.handleInfo.employFeedbackOptDate == undefined
-        ) {
-          this.handleInfo.employFeedbackOptDate = this.currentDate();
-        }
-      }
-    },
-    changeDate(e) {
-      this.handleInfo.employFeedbackOptDate = e;
-    },
-    setCurrentDate1(e) {
-      if (e) {
-        if (
-          this.handleInfo.diaodangFeedbackOptDate == "" ||
-          this.handleInfo.diaodangFeedbackOptDate == undefined
-        ) {
-          this.handleInfo.diaodangFeedbackOptDate = this.currentDate();
-        }
-      }
-    },
-    changeDate1(e) {
-      this.handleInfo.diaodangFeedbackOptDate = e;
-    },
-    setCurrentDate2(e) {
-      if (e) {
-        if (
-          this.handleInfo.ukeyReturnDate == "" ||
-          this.handleInfo.ukeyReturnDate == undefined
-        ) {
-          this.handleInfo.ukeyReturnDate = this.currentDate();
-        }
-      }
-    },
-    changeDate2(e) {
-      this.handleInfo.ukeyReturnDate = e;
     },
     setCurrentDate3(e) {
       if (e) {

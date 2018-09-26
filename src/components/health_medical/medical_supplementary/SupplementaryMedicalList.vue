@@ -133,6 +133,7 @@
            :data="supplementData"
            @on-selection-change="selectTableData"></Table>
     <Page show-elevator
+          show-total
           @on-change="getByPage"
           @on-page-size-change="pageSizeChange"
           :total="formItem.total"
@@ -237,10 +238,18 @@
             }
           },
           {
-            title: '处理日期', sortable: true, key: 'auditTime',
+            title: '审核日期', sortable: true, key: 'auditTime',
             render: (h, params) => {
               if (params.row.auditTime !== null) {
                 return h('div', this.$utils.formatDate(params.row.auditTime, 'YYYY-MM-DD HH:mm:ss'));
+              }
+            }
+          },
+          {
+            title: '付款日期', sortable: true, key: 'paymentDate',
+            render: (h, params) => {
+              if (params.row.paymentDate !== null) {
+                return h('div', this.$utils.formatDate(params.row.paymentDate, 'YYYY-MM-DD'));
               }
             }
           },

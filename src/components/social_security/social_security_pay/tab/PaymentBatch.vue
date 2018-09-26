@@ -6,7 +6,7 @@
         <div slot="content">
           <Form ref="payBatchSearchData" :model="payBatchSearchData" :label-width=150>
             <Row type="flex" justify="start">
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="社保账户类型：" prop="accountType">
                   <Select v-model="payBatchSearchData.accountType" clearable style="width: 100%;" transfer>
                     <Option value="" label="全部"></Option>
@@ -14,14 +14,13 @@
                   </Select>
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="出账批号：" prop="paymentBatchNum">
                   <Input v-model="payBatchSearchData.paymentBatchNum" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>
-              <Col :sm="{span:0}" :md="{span: 0}" :lg="{span: 8}">
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="支付年月：">
                   <Row>
                     <Col span="10">
@@ -41,7 +40,7 @@
                   <!-- <DatePicker v-model="payBatchInfo.payDate" type="daterange" format="yyyy-MM" placement="bottom" placeholder="选择日期" style="width: 100%;" transfer></DatePicker> -->
                 </Form-item>
               </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
                 <Form-item label="支付状态：" prop="paymentState">
                   <Select v-model="payBatchSearchData.paymentState" clearable style="width: 100%;" transfer>
                     <Option v-for="item in staticPayBatchSearchData.paymentStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
@@ -63,11 +62,11 @@
     <Form>
       <Row class="mt20">
         <Col :sm="{span: 24}">
-        
+
           <!-- <Button type="primary" @click="goAddPayment()">创建支付批次</Button> -->
           <Button type="primary" @click="goCreatePaymentBatch()">创建支付批次</Button>
           <!-- <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button> -->
-          <!-- <Button type="primary" @click="printFinancePayVoucher()">打印付款凭证</Button> -->
+          <Button type="primary" @click="printFinancePayVoucher()">打印付款凭证</Button>
         </Col>
       </Row>
 
@@ -348,7 +347,7 @@ import Tools from '../../../../lib/tools'
               ]);
             }
           },
-          
+
         ],
         currentIndex:-1,
         payBatchData: [],
@@ -380,15 +379,22 @@ import Tools from '../../../../lib/tools'
       }
     },
     mounted() {
-      sessionData.getJsonDataFromSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
-      sessionData.getJsonDataFromSession('paymentBatch.payBatchPageData', this.payBatchPageData);
-      payComApi.getLastMonth().then(data=>{
-        d=new Date(data.data+'/01');
-        this.payBatchSearchData.paymentMonthMin=d;
-      })
-      this.paymentBatchQuery();
-      //this.payBatchHandlePageNum(1);
+
       this.loadDict();
+
+      if (sessionStorage.getItem('paymentBatch.payBatchSearchData') === null) {
+        payComApi.getLastMonth().then(data => {
+          let d = new Date(data.data + '/01');
+          this.payBatchSearchData.paymentMonthMin = d;
+          this.paymentBatchQuery();
+        })
+      } else {
+        sessionData.getJsonDataFromSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
+        sessionData.getJsonDataFromSession('paymentBatch.payBatchPageData', this.payBatchPageData);
+        this.paymentBatchQuery();
+      }
+
+      //this.payBatchHandlePageNum(1);
     },
     computed: {
 
@@ -432,14 +438,18 @@ import Tools from '../../../../lib/tools'
       },
       //查询页面数据
       paymentBatchQuery() {
-         sessionData.setJsonDataToSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
-         sessionData.setJsonDataToSession('paymentBatch.payBatchPageData', this.payBatchPageData);
+//         sessionData.setJsonDataToSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
+//         sessionData.setJsonDataToSession('paymentBatch.payBatchPageData', this.payBatchPageData);
         if (this.payBatchSearchData.paymentMonthMin && this.payBatchSearchData.paymentMonthMin.length != 6) {
           this.payBatchSearchData.paymentMonthMin = moment(this.payBatchSearchData.paymentMonthMin ).format('YYYYMM');
+        } else if (!this.payBatchSearchData.paymentMonthMin) {
+          this.payBatchSearchData.paymentMonthMin = '';
         }
 
         if (this.payBatchSearchData.paymentMonthMax && this.payBatchSearchData.paymentMonthMax.length != 6) {
           this.payBatchSearchData.paymentMonthMax = moment(this.payBatchSearchData.paymentMonthMax ).format('YYYYMM');
+        } else if (!this.payBatchSearchData.paymentMonthMax) {
+          this.payBatchSearchData.paymentMonthMax = '';
         }
 
         // 处理参数
@@ -643,6 +653,10 @@ import Tools from '../../../../lib/tools'
               }
           });
       },
+      beforeLeave() {
+        sessionData.setJsonDataToSession('paymentBatch.payBatchSearchData', this.payBatchSearchData);
+        sessionData.setJsonDataToSession('paymentBatch.payBatchPageData', this.payBatchPageData);
+      }
     }
   }
 </script>

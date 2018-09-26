@@ -71,18 +71,13 @@
           <Form :label-width='150'>
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户基本公积金账号：">
-                  <label>{{viewComAccount.hfComAccount}}</label>
+                <Form-item label="客户编号：">
+                  <label>{{viewComAccount.companyId}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户补充公积金账号：">
-                  <label>{{viewComAccount.addComAccount}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户中心：">
-                  <label>{{viewComAccount.serviceCenter}}</label>
+                <Form-item label="客户名称：">
+                  <label>{{viewComAccount.title}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -90,14 +85,10 @@
                   <label>{{this.$decode.hf_paymentBank(viewComAccount.paymentBank)}}</label>
                 </Form-item>
               </Col>
+
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业公积金账户状态：">
-                  <label>{{this.$decode.hf_state(viewComAccount.state)}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="末次汇缴月：">
-                  <label>{{viewComAccount.comHfMonth}}</label>
+                <Form-item label="客户中心：">
+                  <label>{{viewComAccount.serviceCenter}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -110,12 +101,24 @@
                   <label>{{viewComAccount.serviceSpecialist}}</label>
                 </Form-item>
               </Col>
+
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="截单年月：">
-                  <label>{{viewComAccount.endMonth}}</label>
+                <Form-item label="客户基本公积金账号：">
+                  <label>{{viewComAccount.hfComAccount}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="客户补充公积金账号：">
+                  <label>{{viewComAccount.addComAccount}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="企业公积金账户状态：">
+                  <label>{{this.$decode.hf_state(viewComAccount.state)}}</label>
+                </Form-item>
+              </Col>
+
+            <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="付款方式：">
                   <label>{{this.$decode.hf_paymentWay(viewComAccount.paymentWay)}}</label>
                 </Form-item>
@@ -126,20 +129,27 @@
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户编号：">
-                  <label>{{viewComAccount.companyId}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户名称：">
-                  <label>{{viewComAccount.title}}</label>
-                </Form-item>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="企业账户类型：">
                   <label>{{ this.$decode.hf_accountType(viewComAccount.hfAccountType)}}</label>
                 </Form-item>
               </Col>
+
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="末次汇缴月：">
+                  <label>{{viewComAccount.comHfMonth}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="每月关账日：">
+                  <label>{{viewComAccount.closeDay}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="截单年月：">
+                  <label>{{viewComAccount.endMonth}}</label>
+                </Form-item>
+              </Col>
+              
             </Row>
           </Form>
         </div>
@@ -160,8 +170,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴纳至月份：">
-                  <label>{{viewEmpPeriod.endMonth}}</label>
+                <Form-item label="前道缴纳至月份：">
+                  <label>{{viewEmpArchive.taskEndMonth}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -177,6 +187,16 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费比例：">
                   <label>{{viewEmpPeriod.ratio}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转入实际年月：">
+                  <label>{{viewEmpArchive.startMonth}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转出实际年月：">
+                  <label>{{viewEmpArchive.endMonth}}</label>
                 </Form-item>
               </Col>
             </Row>
@@ -205,8 +225,8 @@
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="缴纳至月份：">
-                  <label>{{viewEmpPeriodAdd.endMonth}}</label>
+                <Form-item label="前道缴纳至月份：">
+                  <label>{{viewEmpArchive.taskEndMonthBC}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -222,6 +242,16 @@
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费比例：">
                   <label>{{viewEmpPeriodAdd.ratio}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转入实际年月：">
+                  <label>{{viewEmpArchive.startMonthBc}}</label>
+                </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="转出实际年月：">
+                  <label>{{viewEmpArchive.endMonthBc}}</label>
                 </Form-item>
               </Col>
             </Row>

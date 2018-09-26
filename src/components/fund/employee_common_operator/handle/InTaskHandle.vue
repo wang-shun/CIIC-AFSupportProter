@@ -93,6 +93,11 @@
                 </label>
               </FormItem>
               </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="每月关账日：">
+                <label>{{displayVO.closeDay}}</label>
+              </FormItem>
+              </Col>
             </Row>
           </Form>
         </div>
@@ -136,26 +141,26 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="缴纳至：">
-                <label>{{(displayVO.empBasEndMonth) ? displayVO.empBasEndMonth : displayVO.empBasLastMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转入年月：">
-                <label>{{displayVO.empBasStartMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转入办理年月：">
-                <label>{{displayVO.empBasHandleMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转出年月：">
                 <label>{{displayVO.empBasEndMonth}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转出办理年月：">
+              <FormItem label="转入实际年月：">
+                <label>{{displayVO.empBasStartMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入汇缴月：">
+                <label>{{displayVO.empBasHandleMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出实际年月：">
+                <label>{{displayVO.empBasEndMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出汇缴月：">
                 <label>{{displayVO.empBasStopHandleMonth}}</label>
               </FormItem>
               </Col>
@@ -178,26 +183,26 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="缴纳至：">
-                <label>{{(displayVO.empAddEndMonth) ? displayVO.empAddEndMonth : displayVO.empAddLastMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转入年月：">
-                <label>{{displayVO.empAddStartMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转入办理年月：">
-                <label>{{displayVO.empAddHandleMonth}}</label>
-              </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转出年月：">
                 <label>{{displayVO.empAddEndMonth}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="转出办理年月：">
+              <FormItem label="转入实际年月：">
+                <label>{{displayVO.empAddStartMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转入汇缴月：">
+                <label>{{displayVO.empAddHandleMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出实际年月：">
+                <label>{{displayVO.empAddEndMonth}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="转出汇缴月：">
                 <label>{{displayVO.empAddStopHandleMonth}}</label>
               </FormItem>
               </Col>
@@ -234,7 +239,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="办理类型：">
-                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable">
+                <Select v-model="displayVO.taskCategory" style="width: 100%;" transfer :disabled="taskCategoryDisable" @on-change="taskCategoryChg">
                   <Option v-for="item in taskCategoryList" :value="item.key" :key="item.key">{{item.value}}</Option>
                 </Select>
               </FormItem>
@@ -305,9 +310,9 @@
       <Col :sm="{span: 24}" class="tr">
         <Button type="primary" @click="handleTask" v-if="showButton" :loading="isLoading">已处理</Button>
         <Button type="primary" class="ml10" @click="notHandleTask" v-if="showButton" :loading="isLoading">不需处理</Button>
-        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton" :loading="isLoading">转下月处理</Button>
-        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showButton" :loading="isLoading">批退</Button>
-        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="this.displayVO.canHandle" :loading="isLoading">打印转移通知书</Button>
+        <Button type="primary" class="ml10" @click="handleTaskDelay" v-if="showButton && false" :loading="isLoading">转下月处理</Button>
+        <Button type="error" class="ml10" @click="handleTaskReject" v-if="showReject && this.displayVO.taskCategory != 99" :loading="isLoading">批退</Button>
+        <Button type="primary" class="ml10" @click="transEmpTaskQuery" v-if="this.displayVO.canHandle && this.displayVO.taskCategory != 99" :loading="isLoading">打印转移通知书</Button>
         <Button type="primary" class="ml10" @click="saveTask" v-if="showButton" :loading="isLoading">保存</Button>
         <!--<Button type="primary" class="ml10" @click="handleTaskCancel" v-if="showCancel">撤销</Button>-->
         <Button type="warning" class="ml10" @click="back">返回</Button>
@@ -316,7 +321,7 @@
 
     <!-- 打印转移通知书 模态框 -->
     <Modal
-      v-model="isShowPrint"
+      v-model="isShowPrintVM"
       title="打印转移通知书"
       width="720"
     >
@@ -324,16 +329,30 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 12}">
             <FormItem label="转出单位">
-              <Select
+              <Select v-model="transferOutUnitSelect" style="width: 100%;" transfer placeholder=""
+                  @on-change="handleTransferOutChangeSelect">
+                    <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                  <AutoComplete
+                  v-model="transferNotice.transferOutUnit"
+                  :label="transferNotice.transferOutUnit"
+                  @on-focus="showUnitOutSelect=true"
+                  :data="transferOutUnitList"
+                  @on-change="transferOutChange"
+                  @on-search="handleTransferOutChange"
+                  style="width: 100%;" transfer>
+                  </AutoComplete>
+              <!-- <Select
                 v-model="transferNotice.transferOutUnit"
+                :label="transferNotice.transferOutUnit"
                 filterable
                 remote
                 :remote-method="handleTransferOutSearch"
                 @on-change="handleTransferOutChange"
                 :loading="loading"
-                style="width: 100%;" transfer>
+                style="width: 100%;" clearable transfer>
                 <Option v-for="item in transferOutUnitList" :value="item" :key="item">{{ item }}</Option>
-              </Select>
+              </Select> -->
             </FormItem>
           </Col>
           <Col :sm="{span: 12}">
@@ -343,16 +362,31 @@
           </Col>
           <Col :sm="{span: 12}">
             <FormItem label="转入单位">
-              <Select
+
+              <Select v-model="transferInUnitSelect" style="width: 100%;" transfer placeholder=""
+                  @on-change="handleTransferInChangeSelect">
+                    <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+                  <AutoComplete
+                    v-model="transferNotice.transferInUnit"
+                    :label="transferNotice.transferInUnit"
+                    @on-focus="showUnitInSelect=true"
+                    :data="transferInUnitList"
+                    @on-change="transferInChange"
+                    @on-search="handleTransferInChange"
+                  style="width: 100%;" transfer>
+                  </AutoComplete>
+              <!-- <Select
                 v-model="transferNotice.transferInUnit"
+                :label="transferNotice.transferInUnit"
                 filterable
                 remote
                 :remote-method="handleTransferInSearch"
                 @on-change="handleTransferInChange"
                 :loading="loading"
-                style="width: 100%;" transfer>
+                style="width: 100%;" clearable transfer>
                 <Option v-for="item in transferInUnitList" :value="item" :key="item">{{ item }}</Option>
-              </Select>
+              </Select> -->
             </FormItem>
           </Col>
           <Col :sm="{span: 12}">
@@ -392,10 +426,20 @@
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
         showButton: true,
         showCancel: false,
+        showReject: true,
         inputDisabled: false,
         isShowPrint: false,
+        isShowPrintVM: false,
         loading: false,
         isLoading: false,
+        showUnitOutSelect:false,
+        showUnitInSelect:false,
+        fundUnitSelect:[
+          {label: '原单位', value: '原单位'},
+          {label: '市公积金封存办(中心)', value: '市公积金封存办(中心)'},
+          {label: '中智大库', value: '中智大库'},
+          {label: '中智外包', value: '中智外包'}
+        ],
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -494,8 +538,8 @@
         operationRemindDate: '',
         operatorListData: [],
         operatorListColumns: [
-          {title: '汇缴类型', key: 'remitWayName', width: 90, align: 'left'},
-          {title: '起缴月份', key: 'startMonth', align: 'left',
+          {title: '汇缴类型', key: 'remitWayName', width: 85, align: 'left'},
+          {title: '起缴月份', key: 'startMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
                 return h('div', [
@@ -523,7 +567,7 @@
               }
             }
           },
-          {title: '截止月份', key: 'endMonth', align: 'left',
+          {title: '截止月份', key: 'endMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled && this.operatorListData[params.index].remitWay == 2) {
                 return h('div', [
@@ -551,7 +595,7 @@
               }
             }
           },
-          {title: '客户汇缴月', key: 'hfMonth', align: 'left',
+          {title: '客户汇缴月', key: 'hfMonth', width: 120, align: 'left',
             render: (h, params) => {
               if (!this.inputDisabled) {
                 return h('div', [
@@ -600,7 +644,7 @@
 //              }
             }
           },
-          {title: '企业比例', key: 'ratioCom', align: 'left',
+          {title: '企业比例', key: 'ratioCom', width: 85, align: 'left',
             render: (h, params) => {
 //              if (!this.inputDisabled) {
 //                return h('div', [
@@ -621,7 +665,7 @@
 //              }
             }
           },
-          {title: '个人比例', key: 'ratioEmp', align: 'left',
+          {title: '个人比例', key: 'ratioEmp', width: 85, align: 'left',
             render: (h, params) => {
 //              if (!this.inputDisabled) {
 //                return h('div', [
@@ -664,7 +708,7 @@
             }
           },
           {
-            title: '补缴原因', key: 'repairReason', align: 'left',
+            title: '补缴原因', key: 'repairReason', width: 130, align: 'left',
             render: (h, params) => {
               if (this.operatorListData[params.index].remitWay == 2) {
                 return h('div', [
@@ -745,7 +789,8 @@
           {title: '备注内容', key: 'remark', align: 'left'}
         ],
         taskListNotesChangeData: [],
-
+        transferOutUnitSelect:'',
+        transferInUnitSelect:'',
         transferOutUnitList: [],
         transferInUnitList: [],
         transferUnitDictList: [],
@@ -788,6 +833,11 @@
       let hfType = parseInt(localStorage.getItem('employeeFundCommonOperator.hfType'));
       let taskCategory = parseInt(localStorage.getItem('employeeFundCommonOperator.taskCategory'));
       let taskStatus = parseInt(localStorage.getItem('employeeFundCommonOperator.taskStatus'));
+      let processCategory;
+      if (localStorage.getItem('employeeFundCommonOperator.processCategory')) {
+        processCategory = parseInt(localStorage.getItem('employeeFundCommonOperator.processCategory'));
+      }
+
       api.empTaskHandleDataQuery({
         empTaskId: empTaskId,
         hfType: hfType,
@@ -812,11 +862,18 @@
               if (!this.operatorListData[index].repairReason || this.operatorListData[index].repairReason == '') {
                 this.operatorListData[index].repairReason = '1';
               }
+            } else {
+              this.operatorListData[index].endMonth = '';
             }
           });
           this.taskListNotesChangeData = data.data.empTaskRemarks;
 
           this.showButton = this.displayVO.canHandle;
+
+          if (taskCategory === 99) {
+            this.showButton = false;
+            this.showReject = false;
+          }
 
           if (!this.displayVO.taskStatus || this.displayVO.taskStatus == 1) {
             this.inputDisabled = false;
@@ -828,13 +885,14 @@
             this.taskCategoryDisable = true;
             this.showButton = false;
             this.displayVO.canHandle = false;
+            this.showReject = false;
           }
         } else {
           this.$Message.error(data.message);
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
-
+          this.showReject = false;
         }
       });
       dict.getDictData().then(data => {
@@ -846,12 +904,32 @@
           this.transferUnitDictList.forEach((element, index, array) => {
             this.transferOutUnitList.push(element);
             this.transferInUnitList.push(element);
+            this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+            this.transferNotice.transferOutUnitAccount = '881383288';
+            if (this.displayVO.comAccountName != '' && !this.transferInUnitList.includes(this.displayVO.comAccountName)) {
+              this.transferInUnitList.push(this.displayVO.comAccountName);
+            }
+            this.transferNotice.transferInUnit = this.displayVO.comAccountName;
+            if (this.displayVO.hfType == 1) {
+              this.transferNotice.transferInUnitAccount = this.displayVO.basicHfComAccount;
+            } else {
+              this.transferNotice.transferInUnitAccount = this.displayVO.addedHfComAccount;
+            }
+            this.transferNotice.transferDate = new Date();
           })
-          if (taskCategory <= 3 || (taskCategory >= 9 && taskCategory <= 11)) {
+
+          if (taskCategory <= 3 || (taskCategory >= 9 && taskCategory <= 11) || taskCategory === 99) {
             this.taskCategoryDisable = false;
 
             if (taskCategory <= 3) {
-              this.taskCategoryList.splice(3, this.taskCategoryList.length - 3);
+                this.taskCategoryList.splice(3, this.taskCategoryList.length - 3);
+            } else if (taskCategory === 99) {
+              if (processCategory === 1) {
+                this.taskCategoryList.splice(3, this.taskCategoryList.length - 4);
+              } else if (processCategory === 4) {
+                this.taskCategoryList.splice(11, this.taskCategoryList.length - 12);
+                this.taskCategoryList.splice(0, 8);
+              }
             } else {
               this.taskCategoryList.splice(11, this.taskCategoryList.length - 11);
               this.taskCategoryList.splice(0, 8);
@@ -865,8 +943,9 @@
           this.inputDisabled = true;
           this.taskCategoryDisable = true;
           this.showButton = false;
+          this.showReject = false;
         }
-      })
+      });
     },
     computed: {
     },
@@ -931,6 +1010,7 @@
           if (data.code == 200) {
             this.$Message.info("办理成功");
             this.showButton = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -946,6 +1026,7 @@
             this.$Message.info("不需处理操作成功");
             this.showButton = false;
             this.displayVO.canHandle = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -961,6 +1042,7 @@
             this.$Message.info("转下月处理操作成功");
             this.showButton = false;
             this.displayVO.canHandle = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -968,6 +1050,10 @@
         })
       },
       handleTaskReject() {
+        if (this.displayVO.taskCategory === 99) {
+          this.$Message.error("不做类型不能批退");
+          return false;
+        }
         if (!this.displayVO.rejectionRemark || this.displayVO.rejectionRemark.trim() == '') {
           this.$Message.error("批退备注不能为空");
           return false;
@@ -986,6 +1072,7 @@
             this.$Message.info("批退成功");
             this.showButton = false;
             this.displayVO.canHandle = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -1000,6 +1087,7 @@
             this.$Message.info("撤销成功");
             this.showButton = false;
             this.showCancel = false;
+            this.showReject = false;
           } else {
             this.$Message.error(data.message);
           }
@@ -1009,46 +1097,94 @@
         return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
       },
       handleTransferInSearch(value) {
-        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
-//        if (this.transferNotice.transferInUnitAccount != '') {
-//          return true;
-//        }
-//        return false;
+        this.doSelect(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
       },
       handleTransferOutSearch(value) {
-        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
-//        if (this.transferNotice.transferOutUnitAccount != '') {
-//          return true;
-//        }
-//        return false;
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
+      transferOutChange(value){
+        if(value=='' || value==undefined){
+          this.transferOutUnitSelect='';
+          this.transferNotice.transferOutUnitAccount='';
+        }
+      },
+       transferInChange(value){
+         if(value=='' || value==undefined ){
+           this.transferInUnitSelect='';
+           this.transferNotice.transferInUnitAccount='';
+         }
+      },
+      handleTransferOutChangeSelect(value) {
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
+        this.showUnitOutSelect=false;
+      },
+      handleTransferInChangeSelect(value) {
+        this.doSelect(value, this.transferOutUnitList, this.transferOutUnitAccountList, 2);
+        this.showUnitInSelect=false;
+      },
+
       handleTransferOutChange(value) {
-        this.transferNotice.transferOutUnitAccount = '';
-        this.transferOutUnitList.forEach((element, index, array) => {
-            if (element == value) {
-              this.transferNotice.transferOutUnitAccount = this.transferOutUnitAccountList[index];
-              return;
-            }
-          }
-        )
+        this.doSearch(value, this.transferOutUnitList, this.transferOutUnitAccountList, 1);
       },
       handleTransferInChange(value) {
-        this.transferNotice.transferInUnitAccount = '';
-        this.transferInUnitList.forEach((element, index, array) => {
-            if (element == value) {
-              this.transferNotice.transferInUnitAccount = this.transferInUnitAccountList[index];
-              return;
+        this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
+      },
+      doSelect(value, unitList, unitAccountList, type) {
+        this.loading = true;
+       // unitAccountList.length = 0;
+        unitList.length=0;
+        if (value == '' || value == undefined) {
+          this.transferUnitDictList.forEach((element, index, array) => {
+            if(unitList.indexOf(element)<=0){
+              unitList.push(element);
             }
-          }
-        )
+          })
+        } else {
+          api.comAccountQuery(
+            {
+              comAccountName: value,
+              hfType: this.displayVO.hfType,
+              companyId:this.displayVO.companyId,
+            }
+          ).then(
+            data => {
+              if (data.code == 200) {
+                if (data.data && data.data.length == 1) {
+                  let isDuplicate=false;
+                  unitList.forEach((element, index, array) => {
+                      if( data.data[0].comAccountName == element){
+                        isDuplicate = true;
+                      }
+                  })
+                  if(isDuplicate==false){
+                    unitList.push(data.data[0].comAccountName);
+                    unitAccountList.push(data.data[0].hfComAccount);
+                  }
+                    if (type == 1) {
+                      this.transferNotice.transferOutUnit = data.data[0].comAccountName;
+                      this.transferNotice.transferOutUnitAccount = data.data[0].hfComAccount;
+                    } else {
+                      this.transferNotice.transferInUnit = data.data[0].comAccountName;
+                      this.transferNotice.transferInUnitAccount = data.data[0].hfComAccount;
+                    }
+                }
+              } else {
+                this.$Message.error(data.message);
+              }
+            }
+          )
+        }
+        this.loading = false;
       },
       doSearch(value, unitList, unitAccountList, type) {
         this.loading = true;
         unitList.length = 0;
         unitAccountList.length = 0;
-        if (value == '') {
+        if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
-            unitList.push(element);
+            if(unitList.indexOf(element)<=0){
+              unitList.push(element);
+            }
           })
         } else {
           api.comAccountQuery(
@@ -1061,7 +1197,9 @@
               if (data.code == 200) {
                 if (data.data && data.data.length > 0) {
                   data.data.forEach((element, index, array) => {
-                    unitList.push(element.comAccountName);
+                    if(unitList.indexOf(element.comAccountName)<=0){
+                      unitList.push(element.comAccountName);
+                    }
                     unitAccountList.push(element.hfComAccount);
                   })
 
@@ -1073,7 +1211,9 @@
                     }
                   }
                 } else {
-                  unitList.push(value);
+                  if(unitList.indexOf(value)<=0){
+                    unitList.push(value);
+                  }
                 }
               } else {
                 this.$Message.error(data.message);
@@ -1116,6 +1256,7 @@
         this.isLoading = true;
         api.empTaskHandleDataSave(params).then(data => {
           if (data.code == 200) {
+            this.taskCategoryList.splice(3, this.taskCategoryList.length - 3);
             this.$Message.info("保存成功");
           } else {
             this.$Message.error(data.message);
@@ -1124,7 +1265,7 @@
         })
       },
       inputDataCheck() {
-        if (this.displayVO.taskCategory != 1 && this.displayVO.taskCategory != 9 && (!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
+        if (this.displayVO.taskCategory != 1 && this.displayVO.taskCategory != 9  && this.displayVO.taskCategory != 99 && (!this.inputData.hfEmpAccount || this.inputData.hfEmpAccount == '')) {
           this.$Message.error("公积金账号不能为空");
           return false;
         }
@@ -1345,7 +1486,22 @@
         }).then(data => {
           if (data.code == 200) {
             if (!data.data || data.data.length == 0) {
-              this.isShowPrint = true;
+
+              //赋值 转入和转出的默认值
+              //this.transferOutUnitList.push('市公积金封存办(中心)');
+              this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
+              this.transferNotice.transferOutUnitAccount = '881383288';
+              if(this.displayVO.comAccountName!='' && !this.transferInUnitList.includes(this.displayVO.comAccountName)){
+                this.transferInUnitList.push(this.displayVO.comAccountName);
+              }
+              this.transferNotice.transferInUnit = this.displayVO.comAccountName;
+              if(this.displayVO.hfType==1){
+                this.transferNotice.transferInUnitAccount = this.displayVO.basicHfComAccount;
+              }else{
+                this.transferNotice.transferInUnitAccount = this.displayVO.addedHfComAccount;
+              }
+              this.transferNotice.transferDate=new Date();
+              this.isShowPrintVM = true;
             } else {
               //transapi.printTransferTask({empTaskId: data.data.empTaskId})
               let params={empTaskId: data.data.empTaskId};
@@ -1354,6 +1510,8 @@
                   if(data.code==200){
                     let rows =[];
                     rows=data.data;
+                    rows[0].hfEmpAccount=this.displayVO.hfEmpAccount;
+                    rows[0].paymentBank=this.displayVO.paymentBankName;
                     transapi.printTransferNote(rows);
                   }
                 }
@@ -1363,6 +1521,8 @@
             this.$Message.error(data.message);
           }
           this.isLoading = false;
+//          this.isShowPrint = true;
+//          this.transferNotice.transferOutUnit = '市公积金封存办(中心)';
         })
       },
       ok () {
@@ -1383,16 +1543,15 @@
           if (data.code == 200) {
             this.transferOutUnitList.length = 0;
             this.transferInUnitList.length = 0;
-            this.transferOutUnitAccountList.length = 0;
+           // this.transferOutUnitAccountList.length = 0;
             this.transferInUnitAccountList.length = 0;
-            this.transferNotice.transferOutUnit = '';
+           // this.transferNotice.transferOutUnit = '';
             this.transferNotice.transferOutUnitAccount = '';
             this.transferNotice.transferInUnit = '';
             this.transferNotice.transferInUnitAccount = '';
             this.transferNotice.transferDate = '';
-
             this.isShowPrint = false;
-//            console.log(data.data);
+            this.isShowPrintVM = false;
             //transapi.printTransferTask({empTaskId: data.data.empTaskId});
             let params={empTaskId: data.data.empTaskId};
             transapi.getPrintTransfer(params).then(
@@ -1400,29 +1559,30 @@
                   if(data.code==200){
                     let rows =[];
                     rows=data.data;
+                    rows[0].hfEmpAccount=this.displayVO.hfEmpAccount;
+                    rows[0].paymentBank=this.displayVO.paymentBankName;
                     transapi.printTransferNote(rows);
                   }
                 }
               )
-
           } else {
             this.$Message.error(data.message);
           }
-
           this.isLoading = false;
         })
       },
       cancel() {
         this.transferOutUnitList.length = 0;
         this.transferInUnitList.length = 0;
-        this.transferOutUnitAccountList.length = 0;
+       // this.transferOutUnitAccountList.length = 0;
         this.transferInUnitAccountList.length = 0;
-        this.transferNotice.transferOutUnit = '';
+       // this.transferNotice.transferOutUnit = '';
         this.transferNotice.transferOutUnitAccount = '';
         this.transferNotice.transferInUnit = '';
         this.transferNotice.transferInUnitAccount = '';
         this.transferNotice.transferDate = '';
         this.isShowPrint = false;
+        this.isShowPrintVM = false;
       },
       routerMethod(params) {
         let currentTaskCategory = localStorage.getItem('employeeFundCommonOperator.taskCategory');
@@ -1430,6 +1590,7 @@
         localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
         localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
         localStorage.setItem('employeeFundCommonOperator.taskStatus', params.row.taskStatus);
+        localStorage.setItem('employeeFundCommonOperator.processCategory', params.row.processCategory);
         if (currentTaskCategory === params.row.taskCategory) {
           location.reload()
         } else {
@@ -1440,6 +1601,7 @@
             case '9':
             case '10':
             case '11':
+            case '99':
               this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
               break;
             case '4':
@@ -1457,6 +1619,13 @@
             default:
               break;
           }
+        }
+      },
+      taskCategoryChg(option) {
+        if (!option || option === '99') {
+          this.showButton = false;
+        } else {
+          this.showButton = this.displayVO.canHandle;
         }
       }
     },

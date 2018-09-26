@@ -74,7 +74,7 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="taskColumns" :data="taskData" :loading="loading"></Table>
+        <Table border :columns="taskColumns" :data="taskData" :loading="loading" :row-class-name="rowClassName" @on-row-dblclick="dbClickHandleData"></Table>
         <Page
           class="pageSize"
           @on-page-size-change="handlePageSize"
@@ -97,7 +97,8 @@
   import InputCompany from '../../../common_control/form/input_company'
   import {Finished} from '../../../../api/house_fund/company_task_list/company_task_list_tab/finished'
   import {CompanyTaskListHF} from '../../../../api/house_fund/company_task_list/company_task_list_hf'
-
+  import ts from '../../../../api/house_fund/table_style'
+  import sessionData from '../../../../api/session-data'
   export default {
     components: {InputAccount, InputCompany},
     data() {
@@ -114,7 +115,7 @@
         },
         loading: false,
         operatorSearchData: {
-           serviceCenterValue: [],
+          serviceCenterValue: [],
           companyId: '',
           hfAccountType:'',
           paymentBank: '',
@@ -125,6 +126,25 @@
         },
         serviceCenterData: [], //客服中心
         taskColumns: [
+          // {title: '操作', width: 100, align: 'center',
+          //   render: (h, params) => {
+          //     return h('div', [
+          //       h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
+          //         on: {
+          //           click: () => {
+          //             sessionData.setJsonDataToSession('companyFundTaskList.finished.operatorSearchData', this.operatorSearchData);
+          //             sessionData.setJsonDataToSession('companyFundTaskList.finished.pageData', this.pageData);
+          //             this.$router.push({name: 'companyFundTaskInfo', params: {
+          //                 comTaskId: params.row.comTaskId,
+          //                 companyInfo: params.row.companyInfo,
+          //                 companyTaskInfo: params.row.companyTaskInfo}
+          //             });
+          //           }
+          //         }
+          //       }, '查看'),
+          //     ]);
+          //   }
+          // },
           {title: '任务类型', key: 'taskCategoryName', width: 150, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -199,6 +219,9 @@
       }
     },
     mounted() {
+
+      sessionData.getJsonDataFromSession('companyFundTaskList.finished.operatorSearchData', this.operatorSearchData);
+      sessionData.getJsonDataFromSession('companyFundTaskList.finished.pageData', this.pageData);
 //      let sessionPageNum = sessionStorage.taskPageNum
 //      let sessionPageSize = sessionStorage.taskPageSize
 //
@@ -208,7 +231,7 @@
 //        sessionStorage.removeItem("taskPageNum")
 //        sessionStorage.removeItem("taskPageSize")
 //      }
-        this.hfComTaskQuery();
+      this.hfComTaskQuery();
       this.getCustomers();
 
     },
@@ -218,16 +241,16 @@
       resetSearchCondition(name) {
         this.$refs[name].resetFields()
       },
-       hfComTaskQuery(){
-          let params = this.getParams1();
+      hfComTaskQuery(){
+        let params = this.getParams1();
         Finished.postTableData(params).then(data=>{
-            this.refresh(data)
-            this.pageData.total = Number(data.data.totalSize);
-          }
-        ).catch(error=>{
-          console.log(error);
-        });
-      },
+        this.refresh(data)
+        this.pageData.total = Number(data.data.totalSize);
+        }
+      ).catch(error=>{
+        console.log(error);
+      });
+    },
       handlePageNum(page){
         this.pageData.pageNum = page
         this.hfComTaskQuery();
@@ -248,6 +271,7 @@
           console.log(error)
         })
       },
+      
     //获得列表请求参数
       getParams1(){
         let params={};
@@ -278,8 +302,15 @@
         let params = this.getParams1()
         CompanyTaskListHF.expExcel(params);
       },
-
-
+      dbClickHandleData(row, index){
+        sessionData.setJsonDataToSession('companyFundTaskList.finished.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('companyFundTaskList.finished.pageData', this.pageData);
+        this.$router.push({name: 'companyFundTaskInfo', params: {
+            comTaskId: row.comTaskId,
+            companyInfo: row.companyInfo,
+            companyTaskInfo: row.companyTaskInfo}
+        });
+      },
       //获得列表请求参数
       getParams(page){
         return {
@@ -298,6 +329,9 @@
           this.serviceCenterData = data.data;
         })
       },
+      rowClassName(row, index) {
+        return ts.comRowClassName(row, index);
+      }
     }
   }
 </script>

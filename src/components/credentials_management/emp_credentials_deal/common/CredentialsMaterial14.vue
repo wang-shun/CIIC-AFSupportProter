@@ -102,7 +102,7 @@
         </div>
       </Row>
 
-       <Row style="margin: 10px 20px">
+      <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
           <span style="font-weight:bold;font-size:14px">教育经历证明材料</span>
         </i-col>
@@ -127,7 +127,7 @@
         </i-col>
         </div>
       </Row>
-       <Row v-if="material.educate === '学历学位证书（国外）'">
+      <Row v-if="material.educate === '学历学位证书（国外）'">
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
           <div style="margin-left: 100px" v-if="item.level === '4-2'">
@@ -139,7 +139,7 @@
       </Row>
       <Row v-if="material.educate === '国外学历学位成绩单'">
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
-        <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
+        <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 6}" >
           <div style="margin-left: 100px" v-if="item.level === '4-3'">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev43" @change="change(material.info)"/>
             <label>{{item.materialName}}</label>
@@ -475,6 +475,10 @@ export default {
       this.material.notFollowMaterials = val;
       this.$emit("materialsInfo", this.material);
     },
+    addrChange(val) {
+      this.material.addr = val;
+      this.$emit("materialsInfo", this.material);
+    },
     change(info) {
       let materialsIds = "";
       if (info.lev00.toString() != "") {
@@ -518,29 +522,26 @@ export default {
       if (info.lev50.toString() != "") {
         materialsIds = materialsIds + info.lev50.toString() + ",";
       }
-      if ((this.material.marryStatus = "未婚")) {
+      // if ((this.material.marryStatus = "未婚")) {
         if (info.lev61.toString() != "") {
           materialsIds = materialsIds + info.lev61.toString() + ",";
         }
-      }
-
-      if ((this.material.marryStatus = "已婚")) {
+      // }
+      // if ((this.material.marryStatus = "已婚")) {
         if (info.lev62.toString() != "") {
           materialsIds = materialsIds + info.lev62.toString() + ",";
         }
-      }
-
-      if ((this.material.marryStatus = "离婚")) {
+      // }
+      // if ((this.material.marryStatus = "离婚")) {
         if (info.lev63.toString() != "") {
           materialsIds = materialsIds + info.lev63.toString() + ",";
         }
-      }
-
-      if ((this.material.marryStatus = "再婚")) {
+      // }
+      // if ((this.material.marryStatus = "再婚")) {
         if (info.lev64.toString() != "") {
           materialsIds = materialsIds + info.lev64.toString() + ",";
         }
-      }
+      // }
       if ((this.material.hasFollower = "是")) {
         if (info.lev71.toString() != "") {
           materialsIds = materialsIds + info.lev71.toString() + ",";

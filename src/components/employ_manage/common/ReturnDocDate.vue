@@ -9,7 +9,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="操作员：">
-            <Input v-model="refuse.returnDocMan" placeholder="请输入" :maxlength="50"/>
+            {{refuse.returnDocMan}}
           </Form-item>
         </Col>
       </Row>
@@ -52,8 +52,6 @@
             return;
          }
 
-         this.isLoading = true;
-
         var fromData={};
         if(this.refuseInfo.returnDocDate){
             fromData.returnDocDate = this.$utils.formatDate(this.refuseInfo.returnDocDate, 'YYYY-MM-DD');
@@ -63,13 +61,15 @@
         fromData.resignId = this.refuseInfo.resignId;
         fromData.isReturn = 0;
       
-        api.saveAmResign(fromData).then(data => {
+        api.saveAmReturn(fromData).then(data => {
               if (data.code == 200) {
                   this.$Message.success("保存成功");
+                 
+                  this.refuseInfo.returnDocMan = data.data.returnDocMan;
                 } else {
                   this.$Message.error("保存失败！" + data.message);
                 }
-                this.isLoading = false;
+                
         })
 
        },currentDate(){
@@ -93,7 +93,7 @@
           if(this.refuse.returnDocDate==''||this.refuse.returnDocDate==undefined)
           {
              this.refuse.returnDocDate = this.currentDate();
-             alert(this.refuse.returnDocDate);
+             
              this.refuse.returnDocMan = JSON.parse(localStorage.getItem('userInfo')).displayName;
           }
         }

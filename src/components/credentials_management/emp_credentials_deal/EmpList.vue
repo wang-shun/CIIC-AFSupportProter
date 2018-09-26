@@ -135,7 +135,7 @@ export default {
         empCode: "",
         empName: "",
         IDNum: "",
-        status: ["",""],
+        status: ["", ""],
         companyCode: ""
       },
       formItem: {
@@ -328,12 +328,20 @@ export default {
       });
     },
     findTaskType(companyId) {
-      AJAX.get(host + "/api/emp/findTaskType?pid=0&companyId="+companyId).then(response => {
+      AJAX.get(
+        host + "/api/emp/findTaskType?pid=0&companyId=" + companyId
+      ).then(response => {
         this.taskType = response.data.data;
       });
     },
     taskTypeChange(val) {
-      AJAX.get(host + "/api/emp/findTaskType?pid=" + val.value+"&companyId="+this.formItem.companyCode).then(response => {
+      AJAX.get(
+        host +
+          "/api/emp/findTaskType?pid=" +
+          val.value +
+          "&companyId=" +
+          this.formItem.companyCode
+      ).then(response => {
         this.taskDealType = response.data.data;
       });
     },
@@ -343,20 +351,23 @@ export default {
     },
     reset(value) {
       this.$refs[value].resetFields();
-      this.queryItem.status = status
+      this.queryItem.status = status;
     },
     add() {
       this.$router.push({ name: "empAdd" });
     },
     lookInfo(v) {
-      let credentialsTaskData = {}
-      credentialsTaskData.data = v
-      credentialsTaskData.type = ""
-      credentialsTaskData.dealType = ""
-      credentialsTaskData.isDeal = false
-      sessionStorage.setItem('credentialsTaskData', JSON.stringify(credentialsTaskData))
+      let credentialsTaskData = {};
+      credentialsTaskData.data = v;
+      credentialsTaskData.type = "";
+      credentialsTaskData.dealType = "";
+      credentialsTaskData.isDeal = false;
+      sessionStorage.setItem(
+        "credentialsTaskData",
+        JSON.stringify(credentialsTaskData)
+      );
       this.$router.push({
-        name: "empCredentialsTask",
+        name: "empCredentialsTask"
       });
     },
     ok(value, data) {
@@ -368,22 +379,27 @@ export default {
         );
         if (valid) {
           this.$router.push({
-            name: "empCredentialsTask",
+            name: "empCredentialsTask"
           });
-          let credentialsTaskData = {}
-          credentialsTaskData.data = data,
-          credentialsTaskData.type = parseInt(this.formItem.type),
-          credentialsTaskData.typeN = this.$decode.sel_type(parseInt(this.formItem.type)),
-          credentialsTaskData.dealType = parseInt(this.formItem.dealType),
-          credentialsTaskData.dealTypeN = this.$decode.deal_type(
-            parseInt(this.formItem.dealType)
-          ),
-          credentialsTaskData.companyId = data.companyCode,
-          credentialsTaskData.productId = this.productId,
-          credentialsTaskData.basicProductId = this.basicProductId,
-          credentialsTaskData.isDeal = true
+          let credentialsTaskData = {};
+          (credentialsTaskData.data = data),
+            (credentialsTaskData.type = parseInt(this.formItem.type)),
+            (credentialsTaskData.typeN = this.$decode.sel_type(
+              parseInt(this.formItem.type)
+            )),
+            (credentialsTaskData.dealType = parseInt(this.formItem.dealType)),
+            (credentialsTaskData.dealTypeN = this.$decode.deal_type(
+              parseInt(this.formItem.dealType)
+            )),
+            (credentialsTaskData.companyId = data.companyCode),
+            (credentialsTaskData.productId = this.productId),
+            (credentialsTaskData.basicProductId = this.basicProductId),
+            (credentialsTaskData.isDeal = true);
 
-          sessionStorage.setItem('credentialsTaskData', JSON.stringify(credentialsTaskData))
+          sessionStorage.setItem(
+            "credentialsTaskData",
+            JSON.stringify(credentialsTaskData)
+          );
           this.modal1 = false;
         } else {
           this.$Message.error("请选择办证类型!");
@@ -391,19 +407,16 @@ export default {
       });
     },
     async findTaskTypeDetial(id) {
-      await AJAX
-        .get(
-          host + "/api/empCredentialsDeal/findTaskTypeDetial?taskTypeId=" + id
-        )
-        .then(response => {
-          this.productId = response.data.data.productId;
-          this.basicProductId = response.data.data.basicProductId;
-        });
+      await AJAX.get(
+        host + "/api/empCredentialsDeal/findTaskTypeDetial?taskTypeId=" + id
+      ).then(response => {
+        this.productId = response.data.data.productId;
+        this.basicProductId = response.data.data.basicProductId;
+      });
     }
   }
 };
 </script>
 
 <style scoped>
-
 </style>

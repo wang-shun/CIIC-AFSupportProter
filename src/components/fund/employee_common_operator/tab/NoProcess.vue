@@ -794,7 +794,7 @@
       },
       searchEmployeeInit() {
         this.$refs.searchEmployee.initOptions();
-      }
+      },
       openBatchHandle() {
         this.isShowBatchHandle = true;
       },

@@ -280,6 +280,7 @@ import CredentialsDealInfo from "./common/CredentialsDealTask";
 import Tools from "../../../lib/tools";
 import Decode from "../../../lib/decode";
 import ajax from "../../../lib/ajax";
+import tools from '../../../lib/tools';
 
 const host = process.env.SITE_HOST;
 const AJAX = ajax.ajaxCM;
@@ -417,19 +418,12 @@ export default {
     },
     callBack(value) {
       if (value != null) {
+        tools.union(value,this.formItem)
         this.credentialsType = value.credentialsType;
         this.credentialsDealType = value.credentialsDealType;
-        this.formItem.action = value.action
-        this.formItem.companyCode = value.companyCode
-        this.formItem.companyId = value.companyId
-        this.formItem.companyName = value.companyName
-        this.formItem.credentialsType = value.credentialsType
-        this.formItem.credentialsTypeN = value.credentialsTypeN
-        this.formItem.credentialsDealType = value.credentialsDealType
-        this.formItem.credentialsDealTypeN =  value.credentialsDealTypeN
-        this.formItem.empCode = value.empCode
-        this.formItem.empName = value.empName
-        this.formItem.chargeAmount = this.money
+        if (!this._.isNil(value.money)) {
+          this.formItem.chargeAmount = value.money
+        }
         if (this.formItem.permitCompanyName == "") {
           this.formItem.permitCompanyName = value.companyName;
         }

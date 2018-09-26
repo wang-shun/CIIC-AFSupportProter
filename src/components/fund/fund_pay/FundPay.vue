@@ -413,6 +413,13 @@
               ]);
             }
           },
+          {title: '财务反馈状态', key: 'comPaymentStatus', align: 'center', width: 110,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.comPaymentStatus),
+              ]);
+            }
+          },
           {title: '汇缴银行', key: 'paymentBank', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -484,10 +491,10 @@
                ]);
              }
            },
-          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 100,
+          {title: '财务反馈状态', key: 'comPaymentStatus', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.paymentStateValue),
+                h('span', params.row.comPaymentStatus),
               ]);
             }
           },
@@ -997,7 +1004,8 @@
          row.paymentBank = this.operateEditData[0].paymentBank;
          row.fundAccountType = this.operateEditData[0].fundAccountType;
          row.paymentMonthValue = this.operateEditData[0].paymentMonth;
-         row.paymentStatus = this.operateEditData[0].paymentStatus;
+         //row.paymentStatus = this.operateEditData[0].paymentStatus;
+         row.paymentStatus = 1;
          let params = {
            pageSize: 99999,//暂时这么改，后续把分页去掉
            pageNum: 1,

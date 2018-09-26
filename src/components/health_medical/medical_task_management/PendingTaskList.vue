@@ -463,7 +463,7 @@
         this.selectData.forEach(item => {
           item.status = val;
           item.remark = this.dealMsg.remark;
-          item.modifiedBy = this.userInfo.displayName;
+          item.modifiedBy = this.userInfo.userId;
           item.modifiedTime = new Date();
           if (val === 4) {
             item.hearTime = new Date();

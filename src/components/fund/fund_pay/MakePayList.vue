@@ -259,10 +259,10 @@
                this.makePayListInfo.payDate= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
               if(this.operatorSearchData.paymentBank==0){
                   this.payee='上海市公积金管理中心（黄浦支行（1））'
+                  this.paymentWay =2;
               }else{
                   this.payee='住房资金归集待结算户'
               }
-
             }).catch(error=>{
               console.log(error)
             })
@@ -368,6 +368,16 @@
         if(dc==nopayC){ //如果是无需支付
             this.paymentWay=0;  
         }
+
+
+        if(this.payee =='上海市公积金管理中心（黄浦支行（1））'){
+            if(this.paymentWay !=2){
+              this.$Message.error('如果收款方为‘上海市公积金管理中心（黄浦支行（1））’,那么付款方式必须为支票');
+              return false;
+            }
+        }
+        
+ 
 
         this.$Modal.confirm({
                     title: '确认',

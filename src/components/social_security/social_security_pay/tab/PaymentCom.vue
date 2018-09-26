@@ -88,7 +88,7 @@
           <Button type="primary" @click="gotoDelBatch()">从出账批次号中移除</Button>
           <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button>
           <Button type="info" @click="exportData">导出</Button>
-          <Button type="info" @click="impPayAmount">导入申请支付总金额</Button>
+          <!-- <Button type="info" @click="impPayAmount">导入申请支付总金额</Button> -->
         </Col>
       </Row>
 
@@ -1373,10 +1373,6 @@
         return false;
       },
       doUpload(){
-        if (this.upLoadData.comAccountId == '' || this.upLoadData.ssMonth == '') {
-          this.$Message.error("请选择社保账户");
-        }
-        else{
           //this.upLoadData.file = file;
           payBatchApi.payAmountImpUpload(this.upLoadData).then(data=>{
               if (data.code == 0) {
@@ -1392,7 +1388,6 @@
             this.$Message.error('系统异常！');
           });
           this.$refs['upload'].clearFiles();
-        }
       },
       handleError(error, file){
         this.$Notice.warning({

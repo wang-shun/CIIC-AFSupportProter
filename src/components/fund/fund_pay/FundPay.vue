@@ -434,7 +434,14 @@
               ]);
             }
           },
-          {title: '汇缴银行', key: 'paymentBank', align: 'center', width: 150,
+          {title: '财务反馈状态', key: 'comPaymentStatus', align: 'center', width: 110,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.comPaymentStatus),
+              ]);
+            }
+          },
+          {title: '汇缴银行', key: 'paymentBank', align: 'center', width: 200,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.hf_paymentBank(params.row.paymentBank)),
@@ -505,10 +512,10 @@
                ]);
              }
            },
-          {title: '支付状态', key: 'paymentStateValue', align: 'center', width: 100,
+          {title: '财务反馈状态', key: 'comPaymentStatus', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.paymentStateValue),
+                h('span', params.row.comPaymentStatus),
               ]);
             }
           },

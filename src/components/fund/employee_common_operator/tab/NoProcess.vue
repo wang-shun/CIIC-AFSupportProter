@@ -4,7 +4,7 @@
       <Panel name="1">
         雇员日常操作
         <div slot="content">
-           <search-employee @on-search="searchEmploiees" :showHandle="showHandle"></search-employee>
+           <search-employee ref="searchEmployee" @on-search="searchEmploiees" :showHandle="showHandle" sessionKey="fundDaily" sessionKeyAdd="fundDailyAdd"></search-employee>
         </div>
       </Panel>
     </Collapse>
@@ -186,11 +186,11 @@
         ],
 
         isShowRejectBatch: false,
-        isShowBatchHandle: false,
         rejectionRemark: '',
         selectedData: [],
         selectedNewData: [],
         selectedOutData: [],
+        selectedNoHandleData: [],
         noProcessData: [],
         noProcessPageData: {
           total: 0,
@@ -202,51 +202,7 @@
           {
             type: 'selection', fixed: 'left', width: 60, align: 'center'
           },
-          {title: '操作', fixed: 'left', width: 100, align: 'center',
-            render: (h, params) => {
-              return h('div', [
-                h('Button', {props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-//                      console.log("before: " + JSON.stringify(this.noProcessPageData))
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
-                      sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
-
-                      localStorage.setItem('employeeFundCommonOperator.empTaskId', params.row.empTaskId);
-                      localStorage.setItem('employeeFundCommonOperator.hfType', params.row.hfType);
-                      localStorage.setItem('employeeFundCommonOperator.taskCategory', params.row.taskCategory);
-                      localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
-                      switch (params.row.taskCategory) {
-                        case '1':
-                        case '2':
-                        case '3':
-                        case '9':
-                        case '10':
-                        case '11':
-                          this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
-                          break;
-                        case '4':
-                        case '5':
-                        case '12':
-                        case '13':
-                          this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
-                          break;
-                        case '6':
-                          this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
-                          break;
-                        case '7':
-                          this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
-                          break;
-                        default:
-                          break;
-                      }
-                    }
-                  }
-                }, '办理'),
-              ]);
-            }
-          },
-          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center'},
+          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center',sortable: 'custom'},
 //          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center',sortable: 'custom'},
@@ -279,16 +235,21 @@
         {
           for(var index  in storeOrder)
           {
-             var orders = storeOrder[index].split(' ');
-             if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            var orders = storeOrder[index].split(' ');
+            if(e.key === 'taskCategoryName'&&storeOrder[index].indexOf('task_category')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
-             if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
-             {
-                e.sortType = orders[1];
-             }
+            if(e.key === 'employeeId'&&storeOrder[index].indexOf('employee_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
+
+            if(e.key === 'companyId'&&storeOrder[index].indexOf('company_id')!=-1)
+            {
+              e.sortType = orders[1];
+            }
 
             if(e.key === 'hfEmpAccount'&&storeOrder[index].indexOf('hf_emp_account')!=-1)
             {
@@ -370,12 +331,48 @@
         var conditions = [];
         this.searchEmploiees(conditions);
       },
+      handleDblClick(row, index) {
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
+        sessionData.setJsonDataToSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
+
+        localStorage.setItem('employeeFundCommonOperator.empTaskId', row.empTaskId);
+        localStorage.setItem('employeeFundCommonOperator.hfType', row.hfType);
+        localStorage.setItem('employeeFundCommonOperator.taskCategory', row.taskCategory);
+        localStorage.setItem('employeeFundCommonOperator.taskStatus', this.operatorSearchData.taskStatus);
+        localStorage.setItem('employeeFundCommonOperator.processCategory', row.processCategory);
+        switch (row.taskCategory) {
+          case '1':
+          case '2':
+          case '3':
+          case '9':
+          case '10':
+          case '11':
+          case '99':
+            this.$router.push({name: 'employeeFundCommonOperatorInTaskHandle'});
+            break;
+          case '4':
+          case '5':
+          case '12':
+          case '13':
+            this.$router.push({name: 'employeeFundCommonOperatorOutTaskHandle'});
+            break;
+          case '6':
+            this.$router.push({name: 'employeeFundCommonOperatorRepairTaskHandle'});
+            break;
+          case '7':
+            this.$router.push({name: 'employeeFundCommonOperatorAdjustTaskHandle'});
+            break;
+          default:
+            break;
+        }
+      },
       ok() {},
       cancel() {},
       resetSelectedData(selection) {
         this.selectedData.length = 0;
         this.selectedOutData.length = 0;
         this.selectedNewData.length = 0;
+        this.selectedNoHandleData.length = 0;
         if(selection) {
           selection.forEach((element, index, array) => {
             this.selectedData.push(element.empTaskId);
@@ -384,6 +381,8 @@
               this.selectedOutData.push(element.empTaskId);
             } else if (element.taskCategory == '1' || element.taskCategory == '9') {
               this.selectedNewData.push(element.empTaskId);
+            } else if (element.taskCategory == '99') {
+              this.selectedNoHandleData.push(element.empTaskId);
             }
           })
         }
@@ -396,8 +395,8 @@
           this.$Message.error("请先勾选需要批退的任务");
           return false;
         }
-        if (this.selectedOutData.length > 0) {
-          this.$Message.error("转出或封存（翻牌转出或翻牌封存）类型的任务不能批退，请勿勾选");
+        if (this.selectedOutData.length > 0 || this.selectedNoHandleData.length > 0) {
+          this.$Message.error("转出或封存（翻牌转出或翻牌封存）或不做类型的任务不能批退，请勿勾选");
           return false;
         }
         this.isShowRejectBatch = true;
@@ -407,8 +406,8 @@
           this.$Message.error("请先勾选需要批退的任务");
           return false;
         }
-        if (this.selectedOutData.length > 0) {
-          this.$Message.error("转出或封存（翻牌转出或翻牌封存）类型的任务不能批退，请勿勾选");
+        if (this.selectedOutData.length > 0 || this.selectedNoHandleData.length > 0) {
+          this.$Message.error("转出或封存（翻牌转出或翻牌封存）或不做类型类型的任务不能批退，请勿勾选");
           return false;
         }
 
@@ -435,6 +434,7 @@
             this.selectedData.length = 0;
             this.selectedOutData.length = 0;
             this.selectedNewData.length = 0;
+            this.selectedNoHandleData.length = 0;
           } else {
             this.isLoading = false;
             this.$Message.error(data.message)
@@ -529,7 +529,7 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
         api.hfEmpTaskExport({ params: this.searchCondition });
       },
       excelExportNew() {
@@ -607,7 +607,7 @@
             }
           }
         }
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.noProcessPageData.pageSize,
@@ -639,14 +639,16 @@
 
 
         var dx ='';
-        if(e.key === 'companyId'){
-            dx = 'tmp.company_id';
+        if(e.key === 'taskCategoryName') {
+          dx = 'tmp.task_category';
+        }else if(e.key === 'companyId'){
+          dx = 'tmp.company_id';
         }else if(e.key === 'employeeId'){
-            dx = 'tmp.employee_id';
+          dx = 'tmp.employee_id';
         }else if(e.key === 'hfEmpAccount'){
-            dx = 'tmp.hf_emp_account';
+          dx = 'tmp.hf_emp_account';
         }else if(e.key === 'idNum'){
-            dx = 'tmp.id_num';
+          dx = 'tmp.id_num';
         }
 
         const searchConditionExec = `${dx} ${e.order} `;
@@ -696,7 +698,7 @@
           }
         }
 
-        this.searchCondition.params = this.searchConditions.toString();
+        this.searchCondition.params = this.searchConditions.join(';');
 
         api.hfEmpTaskQuery({
           pageSize: this.noProcessPageData.pageSize,
@@ -725,6 +727,11 @@
               for(var index  in storeOrder)
               {
                 var orders = storeOrder[index].split(' ');
+                if(e.key === 'taskCategoryName' && storeOrder[index].indexOf('task_category')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+
                 if(e.key === 'employeeId' && storeOrder[index].indexOf('employee_id')!=-1) {
                   order = orders[1]
                   break;
@@ -785,6 +792,9 @@
       impTemplate() {
         api.downloadEmpPreInputTemplate({});
       },
+      searchEmployeeInit() {
+        this.$refs.searchEmployee.initOptions();
+      }
       openBatchHandle() {
         this.isShowBatchHandle = true;
       },

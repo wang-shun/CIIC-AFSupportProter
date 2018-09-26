@@ -241,6 +241,13 @@
               </Form-item>
             </Col>
           </Row>
+        <Alert type="warning" closable show-icon v-show="isImported">
+          请注意导入结果反馈
+          <template slot="desc"  >
+              <div >{{retStr}}</div>
+        </template>
+        </Alert>
+
         </Form>
       </div>
       <div slot="footer">
@@ -272,7 +279,9 @@
     components: {customerModal},
     data() {
       return{
-        isUpload:false,
+        isUpload: false,
+        isImported: false,
+        retStr: "",
          upLoadData: {
           ssMonth:'',//社保月份
           file:''
@@ -1372,6 +1381,7 @@
           payBatchApi.payAmountImpUpload(this.upLoadData).then(data=>{
               if (data.code == 0) {
                 this.$Message.info(data.message);
+                 
                 this.isUpload=false;
                 this.statementQuery();
               }

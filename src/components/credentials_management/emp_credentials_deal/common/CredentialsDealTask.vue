@@ -397,7 +397,8 @@ export default {
   },
   watch: {
     emp: function(val, oldVal) {
-      window.setTimeout(this.clickRow(val[0]),1000);
+      this.clickRow(val[0])
+      // window.setTimeout(this.clickRow(val[0]),1000);
     }
   },
   methods: {

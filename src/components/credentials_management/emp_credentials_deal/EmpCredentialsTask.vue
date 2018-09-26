@@ -376,7 +376,6 @@ export default {
     this.credentialsType = data.credentialsType;
     this.credentialsDealType = data.credentialsDealType;
     this.templateType = data.templateType;
-    console.log(data)
   },
   created() {
     let credentialsTaskData = JSON.parse(
@@ -430,7 +429,7 @@ export default {
         this.formItem.credentialsDealTypeN =  value.credentialsDealTypeN
         this.formItem.empCode = value.empCode
         this.formItem.empName = value.empName
-        this.formItem.chargeAmount = value.money
+        this.formItem.chargeAmount = this.money
         if (this.formItem.permitCompanyName == "") {
           this.formItem.permitCompanyName = value.companyName;
         }
@@ -716,6 +715,7 @@ export default {
         if (response.data.success) {
           this.money = response.data.data.money;
           this.temp.money = response.data.data.money;
+          this.formItem.chargeAmount = this.money
         }
       });
     }

@@ -103,6 +103,18 @@ export default {
  saveEmpSerial: (params) => {
     return AJAX.post('/api/soccommandservice/ssEmpArchive/saveEmpSerial', params);
   },
+ // 添加社保备注
+ saveEmpRemark: (params) => {
+  return AJAX.post('/api/soccommandservice/ssEmpArchive/saveEmpRemark', params);
+},
+// 查询社保备注
+queryEmpRemark: (params) => {
+  return AJAX.post('/api/soccommandservice/ssEmpArchive/queryEmpRemark', params);
+},
+// 删除社保备注
+delEmpRemark: (params) => {
+  return AJAX.post('/api/soccommandservice/ssEmpArchive/delEmpRemark', params);
+},
   //雇员新进任务 获得用退工信息
   queryReworkInfo:(params)=>{
      let res = AJAX.post('/api/soccommandservice/amEmpTask/queryReworkInfo', params);

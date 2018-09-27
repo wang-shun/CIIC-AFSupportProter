@@ -323,6 +323,16 @@ export default {
   batchCheckArchive:async (params)=>{
     let response = await AJAX.post('/api/employservice/amEmpTask/batchCheckArchive', params);
     return await response.data;
+  },
+  independentCollectionQuery:async (params)=>{
+    let response = await AJAX.post('/api/employservice/salCompany/queryTaskCount', params);
+    return await response.data;
+  },depentExportOpt:async (params) => {
+    AJAX.download('/api/employservice/salCompany/indSearchExportOpt', params);
+  },
+  saveAmReturn:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amResignTask/saveAmReturn', params);
+    return await response.data;
   }
 
 }

@@ -14,7 +14,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="公司名称：">
-            {{customer.title}}
+            {{customer.companyName}}
             <br>
             {{customer.ciCi}}
           </Form-item>

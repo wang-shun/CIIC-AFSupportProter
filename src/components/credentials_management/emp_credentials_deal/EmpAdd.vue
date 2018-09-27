@@ -165,29 +165,29 @@ export default {
             "YYYY-MM-DD hh:mm"
           );
           isLoading: true,
-          AJAX.postJSON(host + "/api/emp/add", params).then(response => {
-            if (response.data.errCode === "0") {
-              this.$Notice.success({
-                title: "保存成功",
-                desc: ""
-              });
-              this.find();
-              this.$router.push({ name: "empList" });
-              isLoading: false;
-            } else if (response.data.errCode === "1") {
-              this.$Notice.error({
-                title: "保存失败",
-                desc: response.data.message
-              });
-              isLoading: false;
-            } else {
-              this.$Notice.error({
-                title: "保存失败",
-                desc: ""
-              });
-              isLoading: false;
-            }
-          });
+            AJAX.postJSON(host + "/api/emp/add", params).then(response => {
+              if (response.data.errCode === "0") {
+                this.$Notice.success({
+                  title: "保存成功",
+                  desc: ""
+                });
+                this.find();
+                this.$router.push({ name: "empList" });
+                isLoading: false;
+              } else if (response.data.errCode === "1") {
+                this.$Notice.error({
+                  title: "保存失败",
+                  desc: response.data.message
+                });
+                isLoading: false;
+              } else {
+                this.$Notice.error({
+                  title: "保存失败",
+                  desc: ""
+                });
+                isLoading: false;
+              }
+            });
         } else {
           this.$Message.error("校验失败!");
         }
@@ -208,7 +208,6 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
 
 

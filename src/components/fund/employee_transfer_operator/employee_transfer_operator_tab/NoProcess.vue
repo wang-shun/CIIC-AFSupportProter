@@ -464,6 +464,7 @@
         dict.getDictData().then(data => {
         if (data.code == 200) {
           this.EmpArchiveStatus = data.data.EmpArchiveStatus;
+          this.EmpArchiveStatus.splice(0,1);//去掉未办理选项
           sessionData.getJsonDataFromSession('transfer.noprocess.searchCondition', this.searchCondition);
           sessionData.getJsonDataFromSession('transfer.noprocess.pageData', this.pageData);
           let params = this.searchCondition

@@ -145,7 +145,7 @@
         showPaymentWay:true,
         showPayee:true,
         operatorSearchData: {
-          paymentStatus: 3, //支付状态默认为可付
+          paymentStatus: 1, //支付状态默认为未到账
           fundAccountType: '3',
           paymentBank: '15',
           serviceCenterValue:[],
@@ -185,7 +185,7 @@
         paymentStatusList: [
           {label: "未到帐", value: 1},
           {label: "无需支付", value: 2},
-          {label: "可付", value: 3},
+          // {label: "可付", value: 3},
         ],
         payeeList: [
           {label: "住房资金归集待结算户", value: "住房资金归集待结算户"},
@@ -259,10 +259,10 @@
                this.makePayListInfo.payDate= Tools.formatDate(this.operatorSearchData.paymentMonth, 'YYYYMM');
               if(this.operatorSearchData.paymentBank==0){
                   this.payee='上海市公积金管理中心（黄浦支行（1））'
+                  this.paymentWay =2;
               }else{
                   this.payee='住房资金归集待结算户'
               }
-
             }).catch(error=>{
               console.log(error)
             })
@@ -352,11 +352,11 @@
             wdzC++;
           }
         })
-        if((dc!=kfC && dc!=nopayC) || wdzC>0 ){
+        if((dc!=wdzC && dc!=nopayC)){
           ifPay=true;
         }
         if(ifPay){
-            this.$Message.error('您选择的账户必须为全部【可付】或全部【无需支付】状态！');
+            this.$Message.error('您选择的账户必须为全部【未到账】或全部【无需支付】状态！');
             return false;
         }
 
@@ -368,6 +368,16 @@
         if(dc==nopayC){ //如果是无需支付
             this.paymentWay=0;  
         }
+
+
+        if(this.payee =='上海市公积金管理中心（黄浦支行（1））'){
+            if(this.paymentWay !=2){
+              this.$Message.error('如果收款方为‘上海市公积金管理中心（黄浦支行（1））’,那么付款方式必须为支票');
+              return false;
+            }
+        }
+        
+ 
 
         this.$Modal.confirm({
                     title: '确认',

@@ -88,12 +88,19 @@
               </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="办理方式：" prop="handleWay">
+                 <Select v-model="queryForm2.handleWay" style="width: 100%;" transfer>
+                    <Option v-for="item in handleWayList" :value="item.value" :key="item.value">{{item.label}}</Option>
+                  </Select>
+              </Form-item>
+              </Col>
+              <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="社保状态：" prop="socialSecurityStatus">
                  <Select v-model="queryForm2.archiveTaskStatus" style="width: 100%;" transfer>
                     <Option v-for="item in sSecurityStateList" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
               </Form-item>
-              </Col>
+              </Col> -->
                
             </Row>
             <Row>
@@ -129,6 +136,11 @@
           {value: '1', label: '已办'},
           {value: '2', label: '已做'},
           {value: '3', label: '转出'},
+        ], //社保状态
+        handleWayList: [ //1-已办  2-已做 3-转出
+          {value: '', label: '全部'},
+          {value: '1', label: '网上申报'},
+          {value: '2', label: '柜面办理'},
         ], //社保状态
       }
     },

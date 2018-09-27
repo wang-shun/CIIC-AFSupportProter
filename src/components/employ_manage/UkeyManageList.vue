@@ -166,7 +166,7 @@
       }
     },
     mounted() {
-      this.querySalCompany({});
+      // this.querySalCompany({});
     },
     methods: {
       handleData(row, index) {

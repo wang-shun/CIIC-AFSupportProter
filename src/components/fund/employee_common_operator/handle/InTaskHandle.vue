@@ -329,9 +329,8 @@
         <Row type="flex" justify="start">
           <Col :sm="{span: 12}">
             <FormItem label="转出单位">
-              <Select v-model="transferOutUnitSelect" style="width: 100%;" transfer
-                  @on-change="handleTransferOutChangeSelect"
-                  v-show="showUnitOutSelect">
+              <Select v-model="transferOutUnitSelect" style="width: 100%;" transfer placeholder=""
+                  @on-change="handleTransferOutChangeSelect">
                     <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                   <AutoComplete
@@ -341,7 +340,7 @@
                   :data="transferOutUnitList"
                   @on-change="transferOutChange"
                   @on-search="handleTransferOutChange"
-                  style="width: 100%;" clearable transfer>
+                  style="width: 100%;" transfer>
                   </AutoComplete>
               <!-- <Select
                 v-model="transferNotice.transferOutUnit"
@@ -364,9 +363,8 @@
           <Col :sm="{span: 12}">
             <FormItem label="转入单位">
 
-              <Select v-model="transferInUnitSelect" style="width: 100%;" transfer
-                  @on-change="handleTransferInChangeSelect"
-                  v-show="showUnitInSelect">
+              <Select v-model="transferInUnitSelect" style="width: 100%;" transfer placeholder=""
+                  @on-change="handleTransferInChangeSelect">
                     <Option v-for="item in fundUnitSelect" :value="item.value" :key="item.value">{{item.label}}</Option>
                   </Select>
                   <AutoComplete
@@ -376,7 +374,7 @@
                     :data="transferInUnitList"
                     @on-change="transferInChange"
                     @on-search="handleTransferInChange"
-                  style="width: 100%;" clearable transfer>
+                  style="width: 100%;" transfer>
                   </AutoComplete>
               <!-- <Select
                 v-model="transferNotice.transferInUnit"
@@ -1107,11 +1105,13 @@
       transferOutChange(value){
         if(value=='' || value==undefined){
           this.transferOutUnitSelect='';
+          this.transferNotice.transferOutUnitAccount='';
         }
       },
        transferInChange(value){
          if(value=='' || value==undefined ){
            this.transferInUnitSelect='';
+           this.transferNotice.transferInUnitAccount='';
          }
       },
       handleTransferOutChangeSelect(value) {
@@ -1135,7 +1135,9 @@
         unitList.length=0;
         if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
-            unitList.push(element);
+            if(unitList.indexOf(element)<=0){
+              unitList.push(element);
+            }
           })
         } else {
           api.comAccountQuery(
@@ -1180,7 +1182,9 @@
         unitAccountList.length = 0;
         if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
-            unitList.push(element);
+            if(unitList.indexOf(element)<=0){
+              unitList.push(element);
+            }
           })
         } else {
           api.comAccountQuery(
@@ -1193,7 +1197,9 @@
               if (data.code == 200) {
                 if (data.data && data.data.length > 0) {
                   data.data.forEach((element, index, array) => {
-                    unitList.push(element.comAccountName);
+                    if(unitList.indexOf(element.comAccountName)<=0){
+                      unitList.push(element.comAccountName);
+                    }
                     unitAccountList.push(element.hfComAccount);
                   })
 
@@ -1205,7 +1211,9 @@
                     }
                   }
                 } else {
-                  unitList.push(value);
+                  if(unitList.indexOf(value)<=0){
+                    unitList.push(value);
+                  }
                 }
               } else {
                 this.$Message.error(data.message);

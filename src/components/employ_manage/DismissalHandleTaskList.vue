@@ -451,7 +451,7 @@ export default {
         },
         {
           title: "退工反馈",
-          key: "resignFeedback1",
+          key: "resignFeedback",
           align: "center",
           width: 150,
           render: (h, params) => {
@@ -462,7 +462,7 @@ export default {
                      this.copyClick(event);
                    }
                 }            
-              }, params.row.resignFeedback1)
+              }, params.row.resignFeedback)
             ]);
           }
         },

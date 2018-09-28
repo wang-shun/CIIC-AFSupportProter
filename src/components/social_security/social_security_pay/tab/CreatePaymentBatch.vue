@@ -50,7 +50,7 @@
                   </i-switch>
                 </Form-item>
               </Col> -->
-               
+
             </Row>
             <Row>
               <Col :sm="{span: 24}" class="tr">
@@ -75,7 +75,7 @@
                 </Table>
             </Col>
         </Row>
-        
+
         <Row class="mt20">
         <Col :sm="{span: 24}" class="tr">
           <Button type="info" @click="createPaymentBatch()">生成支付批次</Button>
@@ -181,7 +181,7 @@
         isShowCustomerName: false,
         isShowProgress: false,
         progressStop: progressStop,
-        
+
 
         //加入批次功能数据结构
         addBatchData:{
@@ -378,8 +378,8 @@
                 h('span', params.row.totalPayAmount),
               ]);
             }
-          },          
-         
+          },
+
           {title: '企业社保账号', key: 'ssAccount', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -419,7 +419,7 @@
           //     ]);
           //   }
           // },
-          
+
           {title: '额外金', key: 'extraAmount', width: 130, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'right'}}, [
@@ -441,7 +441,7 @@
               ]);
             }
           },
-          
+
           {title: '财务支付日期', key: 'financePaymentDate', width: 180, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -482,15 +482,15 @@
         this.payComSearchData.paymentMonth=d;
         this.paymentComQuery();
       })
-      
+
       this.getCustomers()
     },
     computed: {
     },
     methods: {
-     
+
       resetSearchCondition(name) {
-        let t =this.payComSearchData.paymentMonth; 
+        let t =this.payComSearchData.paymentMonth;
         console.log(t)
         this.$refs[name].resetFields();
         this.payComSearchData.paymentMonth=t;
@@ -510,15 +510,15 @@
         dict.getDictData().then(data => {
           if (data.code == 200) {
             this.accountTypeList = data.data.SocialSecurityAccountType;
-            sessionData.getJsonDataFromSession('paymentCom.payComSearchData', this.payComSearchData);
-            sessionData.getJsonDataFromSession('paymentCom.payComPageData', this.payComPageData);
+            sessionData.getJsonDataFromSession('createPaymentBatch.payComSearchData', this.payComSearchData);
+            sessionData.getJsonDataFromSession('createPaymentBatch.payComPageData', this.payComPageData);
             this.payComSearchData.ssAccountType = '3';
           }
         });
       },
       goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState) {
-        sessionData.setJsonDataToSession('paymentCom.payComSearchData', this.payComSearchData);
-        sessionData.setJsonDataToSession('paymentCom.payComPageData', this.payComPageData);
+        sessionData.setJsonDataToSession('createPaymentBatch.payComSearchData', this.payComSearchData);
+        sessionData.setJsonDataToSession('createPaymentBatch.payComPageData', this.payComPageData);
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId);
         window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId);
         window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth);
@@ -762,7 +762,7 @@
             this.$Message.info("只有可付和批退状态的记录可以进行添加批次操作");
             return;
         }
-  
+
         //将数据传给子画面
         this.addBatchData.paymentComIdList = [];
         selection.forEach(item => {
@@ -892,7 +892,7 @@
       goBack () {
         this.$router.go(-1);
       },
-      
+
     }
   }
 </script>

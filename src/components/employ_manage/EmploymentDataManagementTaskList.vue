@@ -190,6 +190,7 @@ export default {
           key: "employWay",
           align: "center",
           width: 150,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", {
@@ -207,6 +208,7 @@ export default {
           key: "employProperty",
           align: "center",
           width: 120,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "center" } }, [
               h("span", {
@@ -814,6 +816,10 @@ export default {
         dx = "c.diaodang_feedback";
       } else if (e.key === "diaodangFeedbackOptDate") {
         dx = "c.diaodang_feedback_opt_date";
+      } else if(e.key === "employWay"){
+        dx = "b.employ_way";
+      } else if(e.key === "employProperty"){
+        dx = "a.employ_property";
       }
       const searchConditionExec = `${dx} ${e.order} `;
       if (storeOrder === null) {
@@ -1076,6 +1082,25 @@ export default {
                 tableStyle.changeSortElementClass("employList", idx - 1, order);
                 break;
               }
+
+              if (
+                e.key === "employWay" &&
+                storeOrder[index].indexOf("employ_way") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
+                break;
+              }
+
+               if (
+                e.key === "employProperty" &&
+                storeOrder[index].indexOf("employ_property") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("employList", idx - 1, order);
+                break;
+              }
+
             }
           }
         }

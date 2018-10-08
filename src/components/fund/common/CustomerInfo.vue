@@ -11,6 +11,11 @@
           <label>{{customer.customerName}}</label>
         </Form-item>
       </Col>
+      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-show="isShowComplete">
+        <Form-item label="任务发起人：">
+          <label>{{customer.initiater}}</label>
+        </Form-item>
+      </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="客服经理：">
           <label>{{customer.serviceManager}}</label>
@@ -22,18 +27,13 @@
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-show="isShowComplete">
-        <Form-item label="任务发起人：">
-          <label>{{customer.initiater}}</label>
+        <Form-item label="发起人备注：">
+          <label>{{customer.initiaterNotes}}</label>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-show="isShowComplete">
         <Form-item label="任务发起时间：">
           <label>{{customer.sponsorTime}}</label>
-        </Form-item>
-      </Col>
-      <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" v-show="isShowComplete">
-        <Form-item label="发起人备注：">
-          <label>{{customer.initiaterNotes}}</label>
         </Form-item>
       </Col>
     </Row>

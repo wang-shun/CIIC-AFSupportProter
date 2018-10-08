@@ -512,7 +512,7 @@
                ]);
              }
            },
-          {title: '财务反馈状态', key: 'comPaymentStatus', align: 'center', width: 110,
+          {title: '财务反馈状态1', key: 'comPaymentStatus', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.comPaymentStatus),
@@ -940,6 +940,7 @@
         }
         FundPay.getFundPaysOperateEditData(params).then(data=>{
           if(data.data.code == 200){
+            console.log(data.data);
             this.operateEditData = data.data.operateEditData;
             this.isShowOperateEdit = true;
           } else {

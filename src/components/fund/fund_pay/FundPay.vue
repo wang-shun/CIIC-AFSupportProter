@@ -49,7 +49,7 @@
                    <InputNumber  v-model="operatorSearchData.totalApplicationAmonut" placeholder="请输入..."  style="width: 100%;"  ></InputNumber >
                 </Form-item>
               </Col>
-          
+
               <Col :sm="{span: 22}"  :md="{span: 12}" :lg="{span: 8}" class="tr">
                 <Button type="primary" icon="ios-search" @click="clickQuery">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
@@ -71,8 +71,8 @@
           </Button>
           <DropdownMenu slot="list">
             <!-- <DropdownItem name="0">Excel输出</DropdownItem> -->
-            <DropdownItem name="1">基本公积金变更清册</DropdownItem>
-            <DropdownItem name="2">补充公积金变更清册</DropdownItem>
+            <DropdownItem name="1">基本公积金变更清册(外部)</DropdownItem>
+            <DropdownItem name="2">补充公积金变更清册(外部)</DropdownItem>
             <DropdownItem name="3">基本公积金补缴清册</DropdownItem>
             <DropdownItem name="4">补充公积金补缴清册</DropdownItem>
             <DropdownItem name="5">基本公积金汇缴书</DropdownItem>
@@ -512,7 +512,7 @@
                ]);
              }
            },
-          {title: '财务反馈状态', key: 'comPaymentStatus', align: 'center', width: 110,
+          {title: '财务反馈状态1', key: 'comPaymentStatus', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.comPaymentStatus),
@@ -816,7 +816,7 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-       
+
         if(row.paymentState == 0 || row.paymentState == 1 || row.paymentState == 4 ){
           let params = {
             paymentId:row.paymentId,
@@ -940,6 +940,7 @@
         }
         FundPay.getFundPaysOperateEditData(params).then(data=>{
           if(data.data.code == 200){
+            console.log(data.data);
             this.operateEditData = data.data.operateEditData;
             this.isShowOperateEdit = true;
           } else {
@@ -977,7 +978,7 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        
+
         switch(parseInt(name)) {
           case 0:
             this.generateBankRepair();
@@ -1037,7 +1038,7 @@
            }).catch(error=>{
              console.log(error)
            })
- 
+
        },
        goBack() {
          this.isShowOperateAdd = false;
@@ -1169,7 +1170,7 @@
                     this.$Message.error("系统正在执行中，请等待！");
                   }
               })
-              }, 
+              },
           });
       },
     }

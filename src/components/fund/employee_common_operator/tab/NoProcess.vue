@@ -11,6 +11,7 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+        <Button type="info" @click="openBatchHandle()">批量办理</Button>
         <Button type="error" @click="openReject()">批量批退</Button>
         <Button type="info"  @click="isUpload=true">批量预录入雇员公积金账号</Button>
         <Button type="info" @click="excelExport()">导出</Button>
@@ -26,9 +27,7 @@
                :data="noProcessData"
                @on-selection-change="handleSelectChange"
                @on-sort-change="SortChange"
-               @on-row-dblclick="handleDblClick"
                :loading="isLoading"
-               height=400
                ></Table>
       <Page
         class="pageSize"
@@ -103,6 +102,14 @@
         <Button type="warning" @click="isShowRejectBatch = false">取消</Button>
       </div>
     </Modal>
+
+    <Modal
+      :width="1000"
+      v-model="isShowBatchHandle"
+      @on-ok="batchOk"
+      @on-cancel="batchCancel">
+      <inBatchHandle></inBatchHandle>
+    </Modal>
   </div>
 </template>
 <script>
@@ -113,9 +120,10 @@
   import sessionData from '../../../../api/session-data'
   import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
+  import inBatchHandle from "../batch_handle/InTaskBatchHandle.vue"
 
   export default {
-    components: {InputCompany,searchEmployee},
+    components: {InputCompany,searchEmployee,inBatchHandle},
     data() {
       return {
         collapseInfo: [1], //展开栏
@@ -786,8 +794,12 @@
       },
       searchEmployeeInit() {
         this.$refs.searchEmployee.initOptions();
-      }
-
+      },
+      openBatchHandle() {
+        this.isShowBatchHandle = true;
+      },
+      batchOk() {},
+      batchCancel() {this.isShowBatchHandle = false;},
     }
 
   }

@@ -147,6 +147,7 @@ export default {
           key: "empTaskId",
           align: "center",
           width: 90,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", {
@@ -182,6 +183,7 @@ export default {
           key: "outReason",
           align: "center",
           width: 250,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", {
@@ -199,6 +201,7 @@ export default {
           key: "employProperty",
           align: "center",
           width: 100,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", {
@@ -216,6 +219,7 @@ export default {
           key: "handleType",
           align: "center",
           width: 100,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", {
@@ -251,6 +255,7 @@ export default {
           key: "employeeName",
           align: "center",
           width: 150,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h(
@@ -316,6 +321,7 @@ export default {
           key: "title",
           align: "center",
           width: 250,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { on: {
                   "click": (event) => {
@@ -332,6 +338,7 @@ export default {
           key: "leaderShipName",
           align: "center",
           width: 100,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", {
@@ -349,6 +356,7 @@ export default {
           key: "serviceCenter",
           align: "center",
           width: 150,
+          sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", {
@@ -402,6 +410,7 @@ export default {
           key: "archivePlace",
           align: "center",
           width: 150,
+           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", {
@@ -419,6 +428,7 @@ export default {
           key: "employDate",
           align: "center",
           width: 120,
+           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "center" } }, [
               h("span", {
@@ -451,9 +461,10 @@ export default {
         },
         {
           title: "退工反馈",
-          key: "resignFeedback1",
+          key: "resignFeedback",
           align: "center",
           width: 150,
+           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", {
@@ -462,7 +473,7 @@ export default {
                      this.copyClick(event);
                    }
                 }            
-              }, params.row.resignFeedback1)
+              }, params.row.resignFeedback)
             ]);
           }
         },
@@ -471,6 +482,7 @@ export default {
           key: "employFeedback",
           align: "center",
           width: 150,
+           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", {
@@ -733,6 +745,26 @@ export default {
         dx = "c.diaodang_feedback";
       } else if (e.key === "diaodangFeedbackOptDate") {
         dx = "c.diaodang_feedback_opt_date";
+      } else if(e.key ==="empTaskId"){
+        dx = "a.emp_task_id";
+      } else if(e.key ==="outReason"){
+        dx = "a.out_reason";
+      }else if(e.key ==="employProperty"){
+        dx = "a.employ_property";
+      }else if(e.key ==="handleType"){
+        dx = "b.handle_type";
+      }else if(e.key ==="leaderShipName"){
+        dx = "h.leader_ship_name";
+      }else if(e.key ==="serviceCenter"){
+        dx = "h.service_center";
+      }else if(e.key ==="archivePlace"){
+        dx = "c.archive_place";
+      }else if(e.key ==="employDate"){
+        dx = "b.employ_date";
+      }else if(e.key ==="resignFeedback"){
+        dx = "f.resign_feedback";
+      }else if(e.key === "employFeedback"){
+         dx = "c.employ_feedback";
       }
       const searchConditionExec = `${dx} ${e.order} `;
       if (storeOrder === null) {
@@ -925,6 +957,107 @@ export default {
                 tableStyle.changeSortElementClass("dissList", idx - 1, order);
                 break;
               }
+
+              if (
+                e.key === "empTaskId" &&
+                storeOrder[index].indexOf("emp_task_id") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "outReason" &&
+                storeOrder[index].indexOf("out_reason") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "employProperty" &&
+                storeOrder[index].indexOf("employ_property") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "handleType" &&
+                storeOrder[index].indexOf("handle_type") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "title" &&
+                storeOrder[index].indexOf("title") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "leaderShipName" &&
+                storeOrder[index].indexOf("leader_ship_name") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "serviceCenter" &&
+                storeOrder[index].indexOf("service_center") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "archivePlace" &&
+                storeOrder[index].indexOf("archive_place") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "employDate" &&
+                storeOrder[index].indexOf("employ_date") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "resignFeedback" &&
+                storeOrder[index].indexOf("resign_feedback") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              if (
+                e.key === "employFeedback" &&
+                storeOrder[index].indexOf("employ_feedback") != -1
+              ) {
+                order = orders[1];
+                tableStyle.changeSortElementClass("dissList", idx - 1, order);
+                break;
+              }
+
+              
             }
           }
         }

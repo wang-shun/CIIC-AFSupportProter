@@ -396,20 +396,19 @@
       }
     },
     mounted() {
+      this.getCustomers();
       dict.getDictData().then(data => {
         if (data.code == 200) {
           this.EmpArchiveStatus = data.data.EmpArchiveStatus;
           this.EmpArchiveStatus.splice(0,1);//去掉未办理选项
           sessionData.getJsonDataFromSession('transfer.processed.searchCondition', this.searchCondition);
           sessionData.getJsonDataFromSession('transfer.processed.pageData', this.pageData);
+          let params = this.searchCondition
+          this.queryTransfer(params);
         } else {
           this.$Message.error(data.message);
         }
       })
-      let params = this.searchCondition
-      this.queryTransfer(params);
-      this.getCustomers();
-  
     },
     computed: {
       ...mapState('tProcessed',{

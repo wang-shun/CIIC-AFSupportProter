@@ -79,7 +79,7 @@
             </Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <Form-item label="付款日期："></Form-item>
+            <Form-item label="付款日期：">{{this.$utils.formatDate(acceptanceData.paymentDate, 'YYYY-MM-DD')}}</Form-item>
           </Col>
           <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
             <Form-item label="付款方式："></Form-item>

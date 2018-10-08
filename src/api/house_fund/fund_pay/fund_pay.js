@@ -192,29 +192,7 @@ export  class FundPay {
           }
         }
         if(response.data.code=="200"){
-          for(let i of response.data.data){
-            let obj ={}
-            obj.comAccountName = i.comAccountName
-            obj.hfTypeName = i.hfTypeName
-            obj.paymentStateValue = i.paymentStateValue
-            obj.accountTypeValue = i.accountTypeValue
-            obj.paymentBankValue = i.paymentBankValue
-            obj.companyId = i.companyId
-            obj.fCount = i.fCount
-            // 删除汇缴名单操作中的编辑页面中选中的列时需要传入以下参数列
-            obj.paymentId = i.paymentId
-            obj.paymentBank = i.paymentBank
-            obj.hfType = i.hfType
-            obj.paymentStatus = i.paymentStatus
-            obj.paymentMonth = i.paymentMonth
-            obj.comAccountId = i.comAccountId
-            obj.paymentMonthValue = i.paymentMonth
-            obj.fundAccountType = i.fundAccountType
-            obj.companyName = i.companyName
-            obj.title = i.title
-
-            responseData.data.operateEditData.push(obj)
-          }
+          responseData.data.operateEditData=response.data.data
           responseData.data.totalSize=response.data.total
           responseData.data.code=response.data.code
           responseData.data.message= response.data.message

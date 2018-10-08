@@ -108,35 +108,28 @@
           <Form :label-width=150>
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员编号：">
+              <Form-item label="雇员编号：">
                 <label>{{displayVO.employeeId}}</label>
-              </FormItem>
+              </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="雇员姓名：">
+              <Form-item label="雇员姓名：">
                 <label>{{displayVO.employeeName}}</label>
-              </FormItem>
+              </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="证件号码：">
+              <Form-item label="证件号码：">
                 <label>{{displayVO.idNum}}</label>
-              </FormItem>
+              </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="入职日期：">
+              <Form-item label="入职日期：">
                 <label>{{displayVO.inDate}}</label>
-              </FormItem>
-              </Col>
-            </Row>
-            <Row>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="基本公积金账号：">
-                <label>{{displayVO.basicHfEmpAccount}}</label>
-              </FormItem>
+              </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="基本公积金状态：">
-                <label>{{displayVO.basicArchiveStatusName}}</label>
+              <FormItem label="离职日期：">
+                {{(displayVO.outDate)?this.$utils.formatDate(displayVO.outDate, "YYYY-MM-DD"):""}}
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -144,12 +137,24 @@
                 <label>{{displayVO.empBasEndMonth}}</label>
               </FormItem>
               </Col>
+            </Row>
+            <Row>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="基本公积金账号：">
+                <label>{{displayVO.basicHfEmpAccount}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="基本公积金状态：">
+                <label>{{displayVO.basicArchiveStatusName}}</label>
+              </Form-item>
+              </Col>
+              <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="转入实际年月：">
                 <label>{{displayVO.empBasStartMonth}}</label>
               </FormItem>
-              </Col>
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              </Col> -->
+              <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="转入汇缴月：">
                 <label>{{displayVO.empBasHandleMonth}}</label>
               </FormItem>
@@ -163,23 +168,35 @@
               <FormItem label="转出汇缴月：">
                 <label>{{displayVO.empBasStopHandleMonth}}</label>
               </FormItem>
-              </Col>
+              </Col> -->
             </Row>
             <Row>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="补充公积金账号：">
+                <label>{{displayVO.addedHfEmpAccount}}</label>
+              </Form-item>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <Form-item label="补充公积金状态：">
+                <label>{{displayVO.addedArchiveStatusName}}</label>
+              </Form-item>
+              </Col>
+            </Row>
+            <!-- <Row>
               <Col :sm="{span: 24}">
               <Table border :columns="fundColumns" :data="basicFundData"></Table>
               </Col>
             </Row>
             <Row class="mt20">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="补充公积金账号：">
+              <Form-item label="补充公积金账号：">
                 <label>{{displayVO.addedHfEmpAccount}}</label>
-              </FormItem>
+              </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="补充公积金状态：">
+              <Form-item label="补充公积金状态：">
                 <label>{{displayVO.addedArchiveStatusName}}</label>
-              </FormItem>
+              </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="缴纳至：">
@@ -211,7 +228,7 @@
               <Col :sm="{span: 24}">
               <Table border :columns="fundColumns" :data="addedFundData"></Table>
               </Col>
-            </Row>
+            </Row> -->
           </Form>
         </div>
       </Panel>

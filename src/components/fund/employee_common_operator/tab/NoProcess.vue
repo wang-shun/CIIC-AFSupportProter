@@ -530,7 +530,16 @@
           }
         }
         this.searchCondition.params = this.searchConditions.join(';');
-        api.hfEmpTaskExport({ params: this.searchCondition });
+
+        let empTaskIds = '';
+        for (var d of this.selectedNoHandleData) {
+          empTaskIds+=d.empTaskId+',';
+        }
+        let expParam={};
+        expParam = this.searchCondition;
+        this.$utils.copy(this.searchCondition, expParam);
+        expParam.empTaskIds=empTaskIds;
+        api.hfEmpTaskExport({ params: expParam });
       },
       excelExportNew() {
         if (!this.selectedData || this.selectedData.length == 0) {

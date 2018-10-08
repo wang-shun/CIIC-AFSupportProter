@@ -200,7 +200,7 @@ export default {
           title: "用工属性",
           key: "employProperty",
           align: "center",
-          width: 100,
+          width: 106,
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
@@ -218,7 +218,7 @@ export default {
           title: "办理类型",
           key: "handleType",
           align: "center",
-          width: 100,
+          width: 116,
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
@@ -337,10 +337,10 @@ export default {
           title: "客服经理",
           key: "leaderShipName",
           align: "center",
-          width: 100,
+          width: 106,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", {
                 on: {
                   "click": (event) => {
@@ -427,7 +427,7 @@ export default {
           title: "实际录用日期",
           key: "employDate",
           align: "center",
-          width: 120,
+          width: 130,
            sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "center" } }, [

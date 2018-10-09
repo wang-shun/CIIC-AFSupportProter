@@ -355,13 +355,27 @@
               ]);
             }
           },
-          {title: '财务支付日期', key: 'financePaymentDateString', align: 'center', width: 110,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.financePaymentDateString),
-              ]);
-            }
-          },
+          // {title: '送审日期', key: 'sendAuditDateString', align: 'center', width: 110,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'left'}}, [
+          //       h('span', params.row.sendAuditDateString),
+          //     ]);
+          //   }
+          // },
+          // {title: '汇缴日期', key: 'financePaymentDateString', align: 'center', width: 110,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'left'}}, [
+          //       h('span', params.row.requestDateString),
+          //     ]);
+          //   }
+          // },
+          // {title: '财务支付日期', key: 'financePaymentDateString', align: 'center', width: 110,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'left'}}, [
+          //       h('span', params.row.financePaymentDateString),
+          //     ]);
+          //   }
+          // },
           {title: '付款方式', key: 'paymentWay', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -373,6 +387,13 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.accountTypeValue),
+              ]);
+            }
+          },
+          {title: '备注', key: 'remark', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remark),
               ]);
             }
           }
@@ -427,21 +448,21 @@
               ]);
             }
           },
-          {title: '汇缴金额', key: 'remittedAmount', align: 'center', width: 200,
+          {title: '汇缴金额', key: 'remittedAmount', align: 'center', width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remittedAmount),
               ]);
             }
           },
-          {title: '补缴金额', key: 'repairAmount', align: 'center', width: 200,
+          {title: '补缴金额', key: 'repairAmount', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.repairAmount),
               ]);
             }
           },
-          {title: '汇缴人数', key: 'remittedCountEmp', align: 'center', width: 200,
+          {title: '汇缴人数', key: 'remittedCountEmp', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remittedCountEmp),
@@ -491,7 +512,7 @@
                ]);
              }
            },
-          {title: '财务反馈状态', key: 'comPaymentStatus', align: 'center', width: 110,
+          {title: '财务反馈状态1', key: 'comPaymentStatus', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.comPaymentStatus),
@@ -919,6 +940,7 @@
         }
         FundPay.getFundPaysOperateEditData(params).then(data=>{
           if(data.data.code == 200){
+            console.log(data.data);
             this.operateEditData = data.data.operateEditData;
             this.isShowOperateEdit = true;
           } else {

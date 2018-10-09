@@ -88,6 +88,7 @@
           <Button type="primary" @click="gotoDelBatch()">从出账批次号中移除</Button>
           <Button type="primary" @click="enquireFinanceComAccount()">询问财务可付状态</Button>
           <Button type="info" @click="exportData">导出</Button>
+          <Button type="info" @click="impPayAmount">导入申请支付总金额</Button>
         </Col>
       </Row>
 
@@ -120,14 +121,12 @@
         </Row>
     </Form>
 
-
     <!-- 添加批次 -->
     <Modal
       v-model="addBatchData.isShowAddBatch"
       width="80%"
       title="加入批次">
       <Table border :columns="addBatchData.payBatchColumns" :data="addBatchData.payBatchData" ></Table>
-
       <div slot="footer">
       </div>
     </Modal>
@@ -145,7 +144,6 @@
         <Button type="error" size="large"  @click="doDelBatch()">移除</Button>
       </div>
     </Modal>
-
     <!-- 进度 -->
     <!-- <Modal
       v-model="isShowProgress"
@@ -155,7 +153,6 @@
       @on-cancel="cancel">
       <progress-bar :stepsInfo="steps"></progress-bar>
     </Modal> -->
-
     <!-- 调整 -->
     <Modal
       v-model="changeInfo.isShowChange"
@@ -211,6 +208,58 @@
           <Button type="success"  @click="saveAdjustment()" :disabled='changeInfo.ifAdjustSave'>保存</Button>
       </div>
     </Modal>
+
+     <Modal
+      v-model="isUpload"
+      title="导入更新支付总金额"
+      @on-ok="ok"
+      @on-cancel="cancel">
+      <div style="text-align: center;">
+        <Form :label-width=150 ref="upLoadData" :model="upLoadData">
+          <Row type="flex" justify="start">
+            <Col :sm="{span:15}">
+              <Form-item label="导入模板：" prop="ssMonth">
+                <Button type="primary" icon="ios-search" @click="downTemplate">下载导入模板</Button>
+              </Form-item>
+            </Col>
+          </Row>
+          <Row type="flex" justify="start">
+            <Col :sm="{span:15}">
+              <Form-item label="文件上传：" prop="uploadFile">
+                <Upload ref="upload"
+                  :show-upload-list="false"
+                  :action="uploadAttr.actionUrl"
+                  :data="upLoadData"
+                  :before-upload="beforeUpload"
+                  :accept="uploadAttr.acceptFileExtension"
+                  :format="['xlsx','xls']"
+                  :on-format-error="handleFormatError"
+                  :on-error="handleError"
+                >
+                  <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+                </Upload>
+              </Form-item>
+            </Col>
+          </Row>
+        <Alert type="warning" closable show-icon v-show="isImported">
+          请注意导入结果反馈
+          <template slot="desc"  >
+              <div >{{retStr}}</div>
+        </template>
+        </Alert>
+
+        </Form>
+      </div>
+      <div slot="footer">
+        <div v-if="this.upLoadData.file !== null">
+          <Row type="flex" justify="start">
+            上传文件名: {{ this.upLoadData.file.name }}
+          </Row>
+          <Button type="info" @click="doUpload">上传</Button>
+        </div>
+      </div>
+    </Modal>
+
   </div>
 </template>
 <script>
@@ -230,6 +279,23 @@
     components: {customerModal},
     data() {
       return{
+        isUpload: false,
+        isImported: false,
+        retStr: "",
+         upLoadData: {
+          ssMonth:'',//社保月份
+          file:''
+        },
+        upLoadData: {
+          ssMonth:'',//社保月份
+          fileType:'YYS', //文件类型
+          comAccountId: '', //企业社保账户
+          file:''
+        },
+        uploadAttr: {
+          actionUrl: '/api/soccommandservice/ssStatementImp/optImport',
+          acceptFileExtension: '.xls,.xlsx',
+        },
         collapseInfo: [1], //展开栏
         accountTypeList: [],
         serviceCenterData:[],
@@ -392,7 +458,7 @@
           paymentComIdList:[],
 
         },
-
+        
         //调整功能数据结构
         changeInfo: {
           isShowChange: false,
@@ -1296,6 +1362,49 @@
           tableStyle.changeSortElementClass('payComTable', idx, order)
         });
       },
+      impPayAmount(data){
+        this.isUpload=true
+        //this.upLoadData.ssMonth = data.ssMonth;
+        this.upLoadData.file = null;
+      },
+
+      beforeUpload(file) {
+        this.upLoadData.file = file;
+        return false;
+      },
+      doUpload(){
+          //this.upLoadData.file = file;
+          payBatchApi.payAmountImpUpload(this.upLoadData).then(data=>{
+              if (data.code == 0) {
+                this.$Message.info(data.message);
+                this.isUpload=false;
+                this.paymentComQuery();
+              } else {
+                this.$Message.error(data.message);
+              }
+          }).catch(error=>{
+            this.$Message.error('系统异常！');
+          });
+          this.$refs['upload'].clearFiles();
+      },
+      handleError(error, file){
+        this.$Notice.warning({
+          title: '文件上传失败',
+          desc: '文件 ' + file.name + ' 上传失败！'
+        });
+      },
+
+      handleFormatError (file) {
+        this.$Notice.warning({
+          title: '文件格式不正确',
+          desc: '文件 ' + file.name + ' 格式不正确，请上传 xls 或 xlsx 格式的文档。'
+        });
+      },
+      downTemplate() {
+        payBatchApi.downTemplate();
+      },
+      
+
     }
   }
 </script>

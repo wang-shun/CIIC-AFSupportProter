@@ -591,7 +591,6 @@
                     if(data.code==200){
                       this.transferNotice.empTaskId=data.data;
                       let params={empTaskId:this.transferNotice.empTaskId};
-                      //api.printTransferTask(params);
                       api.getPrintTransfer(params).then(
                         data=>{
                           if(data.code==200){
@@ -602,7 +601,6 @@
                           }
                         }
                       )
-
                     }
                   }
                 )

@@ -92,7 +92,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <!-- <Button type="info">导出</Button> -->
-        <!-- <Button type="info">打印转移通知书</Button> -->
+        <Button type="info" @click="batchPrintNote">批量打印转移通知书</Button>
         <Button type="info" @click="empTaskTransferTxtExport">导出雇员转移TXT</Button>
         <Button type="info"  @click="isUpload=true">批量导入回单日期</Button>
         <Button type="info"  @click="isShowFeedbackDateBatch=true">批量更新回单日期</Button>
@@ -101,10 +101,15 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="noProcessColumns" :data="empTaskTransferData" @on-row-dblclick="dbClickHandleData" @on-selection-change="handleSelectChange"></Table>
+        <Table border :columns="noProcessColumns" 
+        :data="empTaskTransferData"
+         :row-class-name="rowClassName"
+         @on-row-dblclick="dbClickHandleData"
+         @on-selection-change="handleSelectChange"></Table>
         <Page
         class="pageSize"
         @on-change="handlePageNum"
+      
         @on-page-size-change="handlePageSize"
         :total="pageData.total"
         :page-size="pageData.pageSize"
@@ -182,6 +187,7 @@
   import api from '../../../../api/house_fund/employee_task/employee_transfer'
   import sessionData from '../../../../api/session-data'
   import dict from '../../../../api/dict_access/house_fund_dict'
+  import ts from '../../../../api/house_fund/table_style'
 
   export default {
   data() {
@@ -602,9 +608,43 @@
         })
         return false;
       },
+      rowClassName(row, index) {
+        return ts.empRowClassName(row, index);
+      },
       importClose() {
         this.isUpload = false;
         this.isSubmit = false;
+      },
+      batchPrintNote(){
+        if (this.selectedData.length == 0) {
+          this.$Message.error("请选择需要批量打印的记录");
+        }
+        let params={
+                    selectedData: this.selectedData,
+                 }
+        this.$Modal.confirm({
+              title: "确认",
+              content: "您确认批量打印操作吗?",
+              onOk: function() {
+                
+                   api.batchPrintNote(params).then(
+                        data=>{
+                          if(data.code==200){
+                            let rows =[];
+                            rows=data.data;
+                            api.printTransferNote(rows);
+                            this.saveDisabled=true;
+                          }
+                        }
+                      )
+
+                console.log(params);
+                  //self.batchUpdateFeedbackDateAction(params);
+              },
+              error: function(error) {
+                this.$Modal.remove();
+              }
+         });
       },
     }
   }

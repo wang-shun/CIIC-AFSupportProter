@@ -117,7 +117,7 @@
       </Col>
     </Row>
 
-    <Table border ref="fundPay" class="mt20" :columns="fundPayColumns" :data="fundPayData" :loading="loading" @on-selection-change="selectChange"></Table>
+    <Table border ref="fundPay" class="mt20" :columns="fundPayColumns" :data="fundPayData" :loading="loading" @on-sort-change="sortChange" @on-selection-change="selectChange"></Table>
     <Page
       class="pageSize"
       @on-change="handlePageNum"
@@ -213,6 +213,7 @@
         pageSizeOpts:[10,20,50],
         loading: false,
         currentIndex:-1,
+        orderConditions: [],
         operatorSearchData: {
           companyId: '',
           paymentBatchNum: '',
@@ -223,6 +224,7 @@
           paymentMonth:'',
           payDate: '',
           totalApplicationAmonut:0,
+          orderParams: '',
         },
         operateAddParams:{
            paymentStatus : '',
@@ -306,7 +308,7 @@
               }, '');
             }
           },
-          {title: '出账批号', key: 'paymentBatchNum', align: 'center', width: 120,
+          {title: '出账批号', key: 'paymentBatchNum', align: 'center', width: 120,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentBatchNum),
@@ -341,7 +343,7 @@
               ]);
             }
           },
-          {title: '制单人', key: 'createPaymentUser', align: 'center', width: 100,
+          {title: '制单人', key: 'createPaymentUser', align: 'center', width: 100,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.createPaymentUser),
@@ -512,7 +514,7 @@
                ]);
              }
            },
-          {title: '财务反馈状态1', key: 'comPaymentStatus', align: 'center', width: 110,
+          {title: '财务反馈状态', key: 'comPaymentStatus', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.comPaymentStatus),
@@ -593,7 +595,42 @@
         ],
       }
     },
+    created() {
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+      this.payComColumns.filter((e) => {
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(var index in storeOrder)
+            {
+              var orders = storeOrder[index].split(' ');
+              if(e.key === 'paymentBatchNum' && storeOrder[index].indexOf('payment_batch_num')!=-1) {
+                e.sortType = orders[1];
+              }
+              if(e.key === 'createPaymentUser'&&storeOrder[index].indexOf('create_payment_user')!=-1){
+                e.sortType = orders[1];
+              }
+            }
+          }
+        }
+
+      })
+    },
     mounted() {
+
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+//      this.changeSortClass(storeOrder);
+      if(storeOrder===null){
+
+      }else{
+        this.orderConditions = storeOrder;
+      }
+
       this.$Message.config({
         top: 50,
         duration: 5
@@ -1173,6 +1210,60 @@
               },
           });
       },
+    sortChange(e){
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+        var dx ='';
+        if (e.key === 'paymentBatchNum') {
+          dx = 'hfp.payment_batch_num';
+        }else if(e.key === 'createPaymentUser'){
+          dx = 'hfp.create_payment_user';
+        }
+        const searchConditionExec = `${dx} ${e.order} `;
+        if(storeOrder===null){
+
+        }else{
+          this.orderConditions = storeOrder;
+        }
+        var isE = false;
+        if(this.orderConditions.length>0)
+        {
+          for(let index in this.orderConditions)
+          {
+            if(this.orderConditions[index].indexOf(dx)!== -1 && e.order==='normal')
+            {  //如果是取消，则删除条件
+              this.orderConditions.splice(index,1);
+              isE = true;
+            }else if(this.orderConditions[index].indexOf(dx)!== -1 && this.orderConditions[index].indexOf(e.order)=== -1 ) {
+              //如果是切换查询顺序
+              this.orderConditions.splice(index,1);
+              this.orderConditions.push(searchConditionExec);
+              isE = true;
+            }else if(this.orderConditions[index]===searchConditionExec){
+              this.orderConditions.splice(index,1);
+            }
+
+          }
+
+          if(!isE)
+          {
+            this.orderConditions.push(searchConditionExec);
+          }
+
+        }else{
+          this.orderConditions.push(searchConditionExec);
+        }
+
+        sessionStorage.setItem('paymentComOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+
+        if(this.orderConditions.length>0)
+        {
+          this.operatorSearchData.orderParams = this.orderConditions.join(',');
+        } else {
+          this.operatorSearchData.orderParams = '';
+        }
+        this.queryData();
+      },  
     }
   }
 </script>

@@ -117,7 +117,10 @@
 
     <Row class="mt20">
       <Col :sm="{span:24}">
-        <Table border :columns="noProcessColumns" :data="empTaskTransferData" @on-row-dblclick="dbClickHandleData" width></Table>
+        <Table border :columns="noProcessColumns" 
+        :row-class-name="rowClassName"
+        :data="empTaskTransferData"
+         @on-row-dblclick="dbClickHandleData" width></Table>
         <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -210,7 +213,8 @@
   import sessionData from '../../../../api/session-data'
   import commonApi from '../../../../api/house_fund/common/common'
   import dict from '../../../../api/dict_access/house_fund_dict'
-
+  import ts from '../../../../api/house_fund/table_style'
+  
   export default {
     data() {
       return {
@@ -699,6 +703,9 @@
         api.empTaskTransferTxtExport({
           params: params,
         })
+      },
+      rowClassName(row, index) {
+        return ts.empRowClassName(row, index);
       },
       fileExport(name) {
         switch(parseInt(name)) {

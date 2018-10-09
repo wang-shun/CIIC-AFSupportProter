@@ -191,6 +191,7 @@
         selectedNewData: [],
         selectedOutData: [],
         selectedNoHandleData: [],
+        selectEmployeeResultData:[],
         noProcessData: [],
         noProcessPageData: {
           total: 0,
@@ -389,6 +390,7 @@
       },
       handleSelectChange(selection) {
         this.resetSelectedData(selection);
+        this.selectEmployeeResultData = selection;
       },
       openReject() {
         if (this.selectedData.length == 0) {
@@ -532,13 +534,14 @@
         this.searchCondition.params = this.searchConditions.join(';');
 
         let empTaskIds = '';
-        for (var d of this.selectedNoHandleData) {
+        for (var d of this.selectEmployeeResultData) {
           empTaskIds+=d.empTaskId+',';
         }
         let expParam={};
         expParam = this.searchCondition;
         this.$utils.copy(this.searchCondition, expParam);
         expParam.empTaskIds=empTaskIds;
+        console.log(expParam);
         api.hfEmpTaskExport({ params: expParam });
       },
       excelExportNew() {

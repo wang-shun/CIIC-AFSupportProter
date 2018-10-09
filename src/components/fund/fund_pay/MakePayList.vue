@@ -119,13 +119,13 @@
         
       </Row>
 
-      <!-- <Row class="mt20">
+      <Row class="mt20">
       <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 16}">
         <Form-item label="备注：" prop="remark">
           <Input v-model="remark" placeholder=""></Input>
         </Form-item>
         </Col>
-      </Row> -->
+      </Row>
       
       <Row class="mt20">
         <Col :sm="{span: 24}" class="tr">

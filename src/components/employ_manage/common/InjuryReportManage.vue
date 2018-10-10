@@ -252,8 +252,8 @@ export default {
         evaluationw: "",
         evaluationDatew: "",
         declareUnitw: "",
-        ifGiveupEvaluationw: "",
-        ifCompletew: "",
+        ifGiveupEvaluationw: 0,
+        ifCompletew: 0,
         remarkw:"",
         injuryId: ""
       },
@@ -306,19 +306,27 @@ export default {
         "YYYY-MM-DD"
       );
       fromData.operateMan = this.userInfo.userName;
-      fromData.evaluationDate = this.$utils.formatDate(
-        this.handleInfo.evaluationDatew,
-        "YYYY-MM-DD"
-      );
+      if(this.handleInfo.evaluationDatew){
+           fromData.evaluationDate = this.$utils.formatDate(
+             this.handleInfo.evaluationDatew,
+             "YYYY-MM-DD"
+           );
+      }
+    
       fromData.evaluation = this.handleInfo.evaluationw;
-      fromData.injuryComfirmDate = this.$utils.formatDate(
+      if(this.handleInfo.injuryComfirmDatew){
+          fromData.injuryComfirmDate = this.$utils.formatDate(
         this.handleInfo.injuryComfirmDatew,
         "YYYY-MM-DD"
-      );
-      fromData.affirmDate = this.$utils.formatDate(
+        );
+      }
+      if(this.handleInfo.affirmDatew){
+         fromData.affirmDate = this.$utils.formatDate(
         this.handleInfo.affirmDatew,
         "YYYY-MM-DD"
-      );
+        );
+      }
+     
       fromData.declareUnit = this.handleInfo.declareUnitw;
       fromData.ifGiveupEvaluation = this.handleInfo.ifGiveupEvaluationw;
       fromData.ifComplete = this.handleInfo.ifCompletew;
@@ -329,6 +337,7 @@ export default {
         this.$Message.success("无对应的用工任务单号");
         return;
       }
+     
       if (
         this.handleInfo.injuryId != undefined &&
         this.handleInfo.injuryId != ""
@@ -345,7 +354,8 @@ export default {
       api.saveAmInjury(fromData).then(data => {
         if (data.data.result == true) {
           this.$Message.success("保存成功");
-          this.injuryReportManageInfo.push(data.data.data);
+          //this.injuryReportManageInfo.push(data.data.data);
+          this.injuryReportManageInfo = data.data.data;
         } else {
           this.$Message.error("保存失败！");
         }
@@ -358,9 +368,20 @@ export default {
         this.handleInfo.declareUnitw = "";
         this.handleInfo.ifGiveupEvaluationw = "";
         this.handleInfo.ifCompletew = "";
+        this.handleInfo.remarkw = "";
       });
     },
-    cancel() {},
+    cancel() {
+       this.handleInfo.operateDatew = "";
+        this.handleInfo.evaluationDatew = "";
+        this.handleInfo.evaluationw = "";
+        this.handleInfo.affirmDatew = "";
+        this.handleInfo.injuryId = "";
+        this.handleInfo.declareUnitw = "";
+        this.handleInfo.ifGiveupEvaluationw = 0;
+        this.handleInfo.ifCompletew = 0;
+        this.handleInfo.remarkw = "";
+    },
     show(index) {
       this.$Modal.info({
         title: "User Info",
@@ -400,8 +421,17 @@ export default {
         this.handleInfo.affirmDatew = data.data.affirmDate;
         this.handleInfo.injuryId = data.data.injuryId;
         this.handleInfo.declareUnitw = data.data.declareUnit;
-        this.handleInfo.ifGiveupEvaluationw = data.data.ifGiveupEvaluation;
-        this.handleInfo.ifCompletew = data.data.ifComplete;
+        if(data.data.ifGiveupEvaluation){
+           this.handleInfo.ifGiveupEvaluationw = data.data.ifGiveupEvaluation;
+        }
+        if(data.data.ifComplete){
+          
+           this.handleInfo.ifCompletew = data.data.ifComplete;
+        }
+        
+        this.handleInfo.remarkw = data.data.remark;
+
+      
         this.modal1 = true;
         //this.handleInfo.declareUnitw = "";
       });

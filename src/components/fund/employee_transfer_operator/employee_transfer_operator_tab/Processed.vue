@@ -617,7 +617,8 @@
       },
       batchPrintNote(){
         if (this.selectedData.length == 0) {
-          this.$Message.error("请选择需要批量打印的记录");
+          this.$Message.error("请选择需批量打印的记录");
+          return false;
         }
         let params={
                     selectedData: this.selectedData,
@@ -626,7 +627,6 @@
               title: "确认",
               content: "您确认批量打印操作吗?",
               onOk: function() {
-                
                    api.batchPrintNote(params).then(
                         data=>{
                           if(data.code==200){

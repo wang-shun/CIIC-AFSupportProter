@@ -310,7 +310,7 @@ export default {
           title: "操作",
           key: "action",
           align: "center",
-          width: 200,
+          width: 300,
           render: (h, params) => {
             if (params.row.action == null || params.row.action == "") {
               let arr = []
@@ -345,6 +345,22 @@ export default {
                       }
                     }
                   }, "跟进"))
+                  arr.push(h(
+                  "Button",
+                  {
+                    props: {
+                      type: "success",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {
+                        this.downLoadMaterials(params.row.taskId);
+                      }
+                    }
+                  }, "下载收缴材料"))
                 let st = new Date().getTime() - 24*60*60*1000;
                 let cr = new Date(params.row.createdTime).getTime();
                 if (params.row.implement === false && cr>st) {
@@ -398,7 +414,6 @@ export default {
   watch: {
     emp: function(val, oldVal) {
       this.clickRow(val[0])
-      // window.setTimeout(this.clickRow(val[0]),1000);
     }
   },
   methods: {
@@ -453,6 +468,7 @@ export default {
     findMaterialMenu(taskId) {
       AJAX.get(host + "/api/materials/findMenu/" + taskId).then(response => {
         if (response.data.errCode == "0") {
+          this.meterials.changeProject = response.data.data.changeProject;
           this.meterials.comp = response.data.data.comp;
           this.meterials.marryStatus = response.data.data.marryStatus;
           this.meterials.hasFollower = response.data.data.hasFollower;
@@ -471,6 +487,7 @@ export default {
           this.meterials.followMaterials = response.data.data.followMaterials;
           this.meterials.notFollowMaterials =
             response.data.data.notFollowMaterials;
+            console.log(this.meterials)
         }
       });
     },
@@ -479,6 +496,7 @@ export default {
         .then(response => {
           if (response.data.errCode == "0") {
             this.meterials.info = response.data.data;
+            console.log(this.meterials.info)
           } else {
             this.meterials.info = "";
           }
@@ -519,6 +537,13 @@ export default {
             });
           });
       }
+    },
+    downLoadMaterials (taskId) {
+      let param = {}
+      param.taskId = taskId
+      AJAX.download(
+          "/api/credentialsMaterial/download", param
+      )
     },
     async selectCompanyExt(credentialsType, companyId) {
       await AJAX.get(
@@ -567,9 +592,12 @@ export default {
     },
     cancel() {},
     childBack(info) {
+      // console.log("materialsInfo")
+      // console.log(info)
       this.materialsIds = info.materialsIds;
       this.rowdata.materialIds = this.materialsIds;
       this.rowdata.comp = info.comp;
+      this.rowdata.changeProject = info.changeProject;
       this.rowdata.marryStatus = info.marryStatus;
       this.rowdata.hasFollower = info.hasFollower;
       this.rowdata.familerMaterials = info.familerMaterials;
@@ -600,9 +628,9 @@ export default {
             window.location.reload();
           } else {
             this.$Notice.error({
-                title: "删除失败",
-                desc: ""
-              });
+              title: "删除失败",
+              desc: ""
+            });
           }
         })
     }

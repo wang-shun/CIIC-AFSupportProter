@@ -68,7 +68,6 @@
         </div>
       </Row>
 
-
       <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
           <span style="font-weight:bold;font-size:14px">身份证明</span>

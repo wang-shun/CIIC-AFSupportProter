@@ -224,7 +224,8 @@ let router = new Router({
             level1: '首页',
             level2: '上海公积金',
             level3: '雇员日常操作',
-            openNames: ['2']
+            openNames: ['2'],
+            activeName: '2-2'
           }
         },
         {

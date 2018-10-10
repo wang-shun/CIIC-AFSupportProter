@@ -59,6 +59,18 @@
                 <label>{{socialSecurityPayOperator.handleRemarkMan}}</label>
               </Form-item>
               </Col>
+              <Col v-if="source!='3'" :sm="{span: 16}">
+                <Form-item label="点击添加备注选项：">
+                  <Button @click="addRemark('上家未转出。')">上家未转出。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('人员属性不一致，需身份证户口簿复印件。')">人员属性不一致，需身份证户口簿复印件。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('未办理录用。')">未办理录用。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('上家已缴费。')">上家已缴费。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('录用日期与社保缴纳月不一致。')">录用日期与社保缴纳月不一致。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('缺相关材料。')">缺相关材料。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('已领失业金。')">已领失业金。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('其他。')">其他。</Button>&nbsp;&nbsp;
+                </Form-item>
+              </Col>
               <Col span="4">
               <Form-item label="备注时间：">
                 <label>{{socialSecurityPayOperator.handleRemarkDate}}</label>
@@ -376,6 +388,9 @@
           }
 
         })
+      },
+      addRemark(val){
+        this.socialSecurityPayOperator.handleRemark = this.socialSecurityPayOperator.handleRemark+val;
       },
       goBack() {
         this.sourceFrom !== 'search' ? this.$router.push({name: 'employeeOperatorView'}) : this.$router.go(-1);

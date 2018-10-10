@@ -7,6 +7,21 @@
           <Form :label-width=150>
             <Row type="flex" justify="start">
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="企业基本公积金账户：">
+                  <Input v-model="companyFundAccount.basicComAccount" placeholder="" :disabled="isCanEditBase"></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="企业补充公积金账户：">
+                  <Input v-model="companyFundAccount.compensativeComAccount" placeholder="" :disabled="isCanEditBuchong"></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
+                <Form-item label="每月关账日：">
+                  <Input v-model="companyFundAccount.closeDay" placeholder="请输入..." :disabled="isCanEdit"></Input>
+                </Form-item>
+              </Col>
+              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="缴费银行：">
                   <Select v-model="companyFundAccount.paymentBank" style="width: 100%;" transfer :disabled="isCanEdit">
                     <Option v-for="(value,key) in this.baseDic.hfPaymentBank" :value="key" :key="key">{{value}}</Option>
@@ -21,25 +36,10 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业基本公积金账户：">
-                  <Input v-model="companyFundAccount.basicComAccount" placeholder="" :disabled="isCanEditBase"></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="企业补充公积金账户：">
-                  <Input v-model="companyFundAccount.compensativeComAccount" placeholder="" :disabled="isCanEditBuchong"></Input>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="U盾代管情况：">
                   <Select v-model="companyFundAccount.ukeyStore" style="width: 100%;" transfer :disabled="isCanEdit">
                     <Option v-for="(value,key) in this.baseDic.hfUkeyStore" :value="key" :key="key">{{value}}</Option>
                   </Select>
-                </Form-item>
-              </Col>
-              <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="每月关账日：">
-                  <Input v-model="companyFundAccount.closeDay" placeholder="请输入..." :disabled="isCanEdit"></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}">

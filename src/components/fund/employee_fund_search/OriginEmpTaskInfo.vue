@@ -195,7 +195,7 @@
             title: '基数',
             key: 'empBase',
             align: 'center',
-            width: 160,
+            width: 160,sortable: true,
             render: (h, params) => {
               return h('span',params.row.empBase)
             }
@@ -204,7 +204,7 @@
             title: '企业比例',
             key: 'ratioCom',
             align: 'center',
-            width: 120,
+            width: 120,sortable: true,
             render: (h, params) => {
               return h('span',params.row.ratioCom)
             }
@@ -213,7 +213,7 @@
             title: '个人比例',
             key: 'ratioEmp',
             align: 'center',
-            width: 120,
+            width: 120,sortable: true,
             render: (h, params) => {
               return h('span',params.row.ratioEmp)
             }
@@ -222,7 +222,7 @@
             title: '金额',
             key: 'amount',
             align: 'center',
-            width: 150,
+            width: 150,sortable: true,
             render: (h, params) => {
               return h('span',params.row.amount)
             }

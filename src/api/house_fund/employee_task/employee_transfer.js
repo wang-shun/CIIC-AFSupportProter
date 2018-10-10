@@ -126,6 +126,10 @@ export default {
     let response = await AJAX.post('/api/fundcommandservice/hfEmpTask/getPrintTransfer', params);
     return await response.data;
   },
+  batchPrintNote: async (params) => {
+    let response = await AJAX.post('/api/fundcommandservice/hfEmpTask/batchPrintNote', params);
+    return await response.data;
+  },
   printTransferNote: async (rows)=> {
     let head =`<html><head><title>上海市住房公积金转移通知书</title></head><body style="margin: 0; padding: 0; border: 0;  font: inherit; vertical-align: baseline; line-height: 1; font-size: 8px;background-size: 600px 336px; background-repeat: no-repeat;">`;
     let foot = `</body></html>`;
@@ -135,5 +139,6 @@ export default {
     pwin.document.write(html);
     pwin.document.close();
     pwin.print();
- }
+ },
+
 }

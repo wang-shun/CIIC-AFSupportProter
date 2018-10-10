@@ -49,7 +49,7 @@
                    <InputNumber  v-model="operatorSearchData.totalApplicationAmonut" placeholder="请输入..."  style="width: 100%;"  ></InputNumber >
                 </Form-item>
               </Col>
-          
+
               <Col :sm="{span: 22}"  :md="{span: 12}" :lg="{span: 8}" class="tr">
                 <Button type="primary" icon="ios-search" @click="clickQuery">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
@@ -71,8 +71,8 @@
           </Button>
           <DropdownMenu slot="list">
             <!-- <DropdownItem name="0">Excel输出</DropdownItem> -->
-            <DropdownItem name="1">基本公积金变更清册</DropdownItem>
-            <DropdownItem name="2">补充公积金变更清册</DropdownItem>
+            <DropdownItem name="1">基本公积金变更清册(外部)</DropdownItem>
+            <DropdownItem name="2">补充公积金变更清册(外部)</DropdownItem>
             <DropdownItem name="3">基本公积金补缴清册</DropdownItem>
             <DropdownItem name="4">补充公积金补缴清册</DropdownItem>
             <DropdownItem name="5">基本公积金汇缴书</DropdownItem>
@@ -117,7 +117,7 @@
       </Col>
     </Row>
 
-    <Table border ref="fundPay" class="mt20" :columns="fundPayColumns" :data="fundPayData" :loading="loading" @on-selection-change="selectChange"></Table>
+    <Table border ref="fundPay" class="mt20" :columns="fundPayColumns" :data="fundPayData" :loading="loading" @on-sort-change="sortChange" @on-selection-change="selectChange"></Table>
     <Page
       class="pageSize"
       @on-change="handlePageNum"
@@ -213,6 +213,7 @@
         pageSizeOpts:[10,20,50],
         loading: false,
         currentIndex:-1,
+        orderConditions: [],
         operatorSearchData: {
           companyId: '',
           paymentBatchNum: '',
@@ -223,6 +224,7 @@
           paymentMonth:'',
           payDate: '',
           totalApplicationAmonut:0,
+          orderParams: '',
         },
         operateAddParams:{
            paymentStatus : '',
@@ -306,7 +308,7 @@
               }, '');
             }
           },
-          {title: '出账批号', key: 'paymentBatchNum', align: 'center', width: 120,
+          {title: '出账批号', key: 'paymentBatchNum', align: 'center', width: 120,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.paymentBatchNum),
@@ -341,7 +343,7 @@
               ]);
             }
           },
-          {title: '制单人', key: 'createPaymentUser', align: 'center', width: 100,
+          {title: '制单人', key: 'createPaymentUser', align: 'center', width: 100,sortable: 'custom',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.createPaymentUser),
@@ -355,13 +357,27 @@
               ]);
             }
           },
-          {title: '财务支付日期', key: 'financePaymentDateString', align: 'center', width: 110,
-            render: (h, params) => {
-              return h('div', {style: {textAlign: 'left'}}, [
-                h('span', params.row.financePaymentDateString),
-              ]);
-            }
-          },
+          // {title: '送审日期', key: 'sendAuditDateString', align: 'center', width: 110,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'left'}}, [
+          //       h('span', params.row.sendAuditDateString),
+          //     ]);
+          //   }
+          // },
+          // {title: '汇缴日期', key: 'financePaymentDateString', align: 'center', width: 110,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'left'}}, [
+          //       h('span', params.row.requestDateString),
+          //     ]);
+          //   }
+          // },
+          // {title: '财务支付日期', key: 'financePaymentDateString', align: 'center', width: 110,
+          //   render: (h, params) => {
+          //     return h('div', {style: {textAlign: 'left'}}, [
+          //       h('span', params.row.financePaymentDateString),
+          //     ]);
+          //   }
+          // },
           {title: '付款方式', key: 'paymentWay', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
@@ -373,6 +389,13 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.accountTypeValue),
+              ]);
+            }
+          },
+          {title: '备注', key: 'remark', align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.remark),
               ]);
             }
           }
@@ -427,21 +450,21 @@
               ]);
             }
           },
-          {title: '汇缴金额', key: 'remittedAmount', align: 'center', width: 200,
+          {title: '汇缴金额', key: 'remittedAmount', align: 'center', width:100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remittedAmount),
               ]);
             }
           },
-          {title: '补缴金额', key: 'repairAmount', align: 'center', width: 200,
+          {title: '补缴金额', key: 'repairAmount', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.repairAmount),
               ]);
             }
           },
-          {title: '汇缴人数', key: 'remittedCountEmp', align: 'center', width: 200,
+          {title: '汇缴人数', key: 'remittedCountEmp', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remittedCountEmp),
@@ -491,7 +514,7 @@
                ]);
              }
            },
-          {title: '财务反馈状态1', key: 'comPaymentStatus', align: 'center', width: 110,
+          {title: '财务反馈状态', key: 'comPaymentStatus', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.comPaymentStatus),
@@ -572,7 +595,42 @@
         ],
       }
     },
+    created() {
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+      this.payComColumns.filter((e) => {
+        if(storeOrder==null)
+        {
+
+        }else{
+          if(storeOrder.length>0)
+          {
+            for(var index in storeOrder)
+            {
+              var orders = storeOrder[index].split(' ');
+              if(e.key === 'paymentBatchNum' && storeOrder[index].indexOf('payment_batch_num')!=-1) {
+                e.sortType = orders[1];
+              }
+              if(e.key === 'createPaymentUser'&&storeOrder[index].indexOf('create_payment_user')!=-1){
+                e.sortType = orders[1];
+              }
+            }
+          }
+        }
+
+      })
+    },
     mounted() {
+
+      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+//      this.changeSortClass(storeOrder);
+      if(storeOrder===null){
+
+      }else{
+        this.orderConditions = storeOrder;
+      }
+
       this.$Message.config({
         top: 50,
         duration: 5
@@ -795,7 +853,7 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-       
+
         if(row.paymentState == 0 || row.paymentState == 1 || row.paymentState == 4 ){
           let params = {
             paymentId:row.paymentId,
@@ -957,7 +1015,7 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        
+
         switch(parseInt(name)) {
           case 0:
             this.generateBankRepair();
@@ -1017,7 +1075,7 @@
            }).catch(error=>{
              console.log(error)
            })
- 
+
        },
        goBack() {
          this.isShowOperateAdd = false;
@@ -1149,9 +1207,63 @@
                     this.$Message.error("系统正在执行中，请等待！");
                   }
               })
-              }, 
+              },
           });
       },
+    sortChange(e){
+        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+        var dx ='';
+        if (e.key === 'paymentBatchNum') {
+          dx = 'hfp.payment_batch_num';
+        }else if(e.key === 'createPaymentUser'){
+          dx = 'hfp.create_payment_user';
+        }
+        const searchConditionExec = `${dx} ${e.order} `;
+        if(storeOrder===null){
+
+        }else{
+          this.orderConditions = storeOrder;
+        }
+        var isE = false;
+        if(this.orderConditions.length>0)
+        {
+          for(let index in this.orderConditions)
+          {
+            if(this.orderConditions[index].indexOf(dx)!== -1 && e.order==='normal')
+            {  //如果是取消，则删除条件
+              this.orderConditions.splice(index,1);
+              isE = true;
+            }else if(this.orderConditions[index].indexOf(dx)!== -1 && this.orderConditions[index].indexOf(e.order)=== -1 ) {
+              //如果是切换查询顺序
+              this.orderConditions.splice(index,1);
+              this.orderConditions.push(searchConditionExec);
+              isE = true;
+            }else if(this.orderConditions[index]===searchConditionExec){
+              this.orderConditions.splice(index,1);
+            }
+
+          }
+
+          if(!isE)
+          {
+            this.orderConditions.push(searchConditionExec);
+          }
+
+        }else{
+          this.orderConditions.push(searchConditionExec);
+        }
+
+        sessionStorage.setItem('paymentComOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+
+        if(this.orderConditions.length>0)
+        {
+          this.operatorSearchData.orderParams = this.orderConditions.join(',');
+        } else {
+          this.operatorSearchData.orderParams = '';
+        }
+        this.queryData();
+      },  
     }
   }
 </script>

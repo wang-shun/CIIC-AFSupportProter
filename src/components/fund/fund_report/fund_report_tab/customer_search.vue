@@ -52,15 +52,15 @@
                       <DropdownItem name="6">补充公积金汇缴书</DropdownItem>
                     </DropdownMenu>
                 </Dropdown> -->
-                <Button type="primary" @click="chgDetailListExport(1)">基本公积金汇缴变更清册</Button>
+                <Button type="primary" @click="chgDetailListExport(1)">基本公积金汇缴变更清册(内部)</Button>
                 <Button type="primary" @click="repairDetailListExport(1)">基本公积金补缴清册</Button>
-                <Button type="primary" @click="chgDetailListExport(2)">补充公积金汇缴变更清册</Button>
+                <Button type="primary" @click="chgDetailListExport(2)">补充公积金汇缴变更清册(内部)</Button>
                 <Button type="primary" @click="repairDetailListExport(2)">补充公积金补缴清册</Button>
                 <Button type="primary" icon="ios-search" @click="handlePageNum(1)" :loading="isLoading">查询</Button>
                 <Button type="warning" @click="resetSearchCondition('operatorSearchData')">重置</Button>
               </Col>
             </Row>
-      
+
           </Form>
         </div>
       </Panel>

@@ -181,6 +181,35 @@
         </div>
       </Panel>
       <Panel name="5">
+        备注
+        <div slot="content">
+          <Form :label-width=120>
+            <Row>
+              <Col :sm="{span: 12}">
+                <Form-item label="备注：">
+                  <Input style="width: 500px" v-model="remarkInfo.remark" :disabled="this.$route.query.empArchiveId==null"  placeholder=""></Input>
+                      <Button type="primary" @click="saveRemark" v-show="this.$route.query.empArchiveId" >添加</Button>
+                </Form-item>
+              </Col>
+            </Row>
+            <Row>
+              <Col :sm="{span: 12}">
+              <Form-item label="点击添加固定项：">
+                <Button @click="addRemark('客服要求缴纳至')" :disabled="this.$route.query.empArchiveId==null">客服要求缴纳至</Button>&nbsp;&nbsp;
+                <Button @click="addRemark('集体转移')" :disabled="this.$route.query.empArchiveId==null">集体转移</Button>&nbsp;&nbsp;
+                <Button @click="addRemark('补缴')" :disabled="this.$route.query.empArchiveId==null">补缴</Button>&nbsp;&nbsp;
+                </Form-item>
+              </Col>
+            </Row>
+            <Row>
+              <Col :sm="{span: 12}">
+                <Table border style="width: 1080px" :columns="socialSecurityRemarkListColumns" :data="socialSecurityRemarkData"></Table>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="6">
         雇员任务单
         <div slot="content">
           <origin-emp-task-info :empArchiveId="this.$route.query.empArchiveId"></origin-emp-task-info>
@@ -218,13 +247,20 @@
     components: {originEmpTaskInfo},
     data() {
       return {
-        collapseInfo: [1, 2, 3, 4, 5], //展开栏
+        collapseInfo: [1, 2, 3, 4, 5, 6], //展开栏
         customer:{
 
         },
         SocialSecurityEmployeeClassifyList:[],
         //用退工信息
         reworkInfo:{},
+        //备注信息
+        remarkInfo:{
+          companyId:'',
+          employeeId:'',
+          remark: '',
+          empArchiveId: ''
+        },
         employeeAndCustomer:{
           companyId:'',
           title:'',
@@ -241,6 +277,7 @@
           comAccountId:'',
         },//客户和雇员基本信息
         socialSecurityInfoListData:[],//基数变更详情
+        socialSecurityRemarkData:[],//备注列表
         changeListData:[],//变动历史
         socialSecurityInfoListColumns: [
           {
@@ -272,6 +309,51 @@
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.endMonth),
+              ]);
+            }
+          }
+        ],
+        socialSecurityRemarkListColumns: [
+          {
+            title: '备注', key: 'remark', align: 'center', width: 600,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          },
+          {
+            title: '创建时间', key: 'createdTime', align: 'center', width: 183,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [ 
+                h('span', params.row.createdTime),
+              ]);
+            }
+          },
+          {
+            title: '创建人', key: 'createdDisplayName', align: 'center', width: 203,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.createdDisplayName),
+              ]);
+            }
+          },
+          {
+            title: '操作',
+            align: 'center',
+            width: 80,
+            key: 'operat',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {type: 'error', size: 'small'},
+                  style: {margin: '0 auto'},
+                  on: {
+                    click: () => {
+                      this.deleteRemark(params.row.empRemarkId)
+                    }
+                  }
+                }, '删除'),
               ]);
             }
           }
@@ -352,6 +434,7 @@
           this.socialSecurityInfoListData=data.data.empBasePeriod
           this.changeListData = data.data.ssEmpTasks
           this.reworkInfo = data.data.amEmpTask
+          this.socialSecurityRemarkData = data.data.remarks
           if (!this.reworkInfo.taskStatus || (
             this.reworkInfo.taskStatus !== '3' && this.reworkInfo.taskStatus !== '10' && this.reworkInfo.taskStatus !== '12' && this.reworkInfo.taskStatus !== '13')) {
               this.reworkInfo.employFeedbackOptDate = '';
@@ -362,6 +445,43 @@
 
     },
     methods: {
+      addRemark(val){
+        this.remarkInfo.remark = this.remarkInfo.remark+val;
+      },
+      deleteRemark(empRemarkId){
+        this.$Modal.confirm({
+          title: "你确认保存信息吗？",
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () => {
+            api.delEmpRemark({empRemarkId:empRemarkId,
+            companyId:this.employeeAndCustomer.companyId,
+            employeeId:this.employeeAndCustomer.employeeId}).then(data2 => {
+              if (data2.data.code == 200) {
+                this.socialSecurityRemarkData = data2.data.data;
+              }
+            })
+          }
+        })
+      },
+      saveRemark(){
+        this.remarkInfo.empArchiveId = this.$route.query.empArchiveId;
+        this.remarkInfo.companyId = this.employeeAndCustomer.companyId;
+        this.remarkInfo.employeeId = this.employeeAndCustomer.employeeId;
+        api.saveEmpRemark(this.remarkInfo).then(data => {
+          if (data.data.code == 200) {
+            this.$Message.success("备注保存成功");
+            this.remarkInfo.remark = '';
+            api.queryEmpRemark({companyId:this.remarkInfo.companyId,employeeId:this.remarkInfo.employeeId}).then(data2 => {
+            if (data2.data.code == 200) {
+              this.socialSecurityRemarkData = data2.data.data;
+            }
+            })
+          } else {
+            this.$Message.error("备注保存失败！" + data.message);
+          }
+        })
+      },
       goBack() {
         this.$router.push({name: 'employeeSocialSecuritySearch'});
       },

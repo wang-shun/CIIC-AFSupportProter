@@ -11,6 +11,8 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+        <Button type="info" @click="openBatchHandle()">批量办理</Button>
+        <Button type="info" @click="openBatchList()">批量办理批次</Button>
         <Button type="error" @click="openReject()">批量批退</Button>
         <Button type="info"  @click="isUpload=true">批量预录入雇员公积金账号</Button>
         <Button type="info" @click="excelExport()">导出</Button>
@@ -103,6 +105,22 @@
         <Button type="warning" @click="isShowRejectBatch = false">取消</Button>
       </div>
     </Modal>
+
+    <Modal
+      :width="1000"
+      v-model="isShowBatchHandle"
+      @on-ok="batchOk"
+      @on-cancel="batchCancel">
+      <inBatchHandle></inBatchHandle>
+    </Modal>
+
+    <Modal
+      :width="1200"
+      v-model="isShowBatchList"
+      @on-ok="batchListOk"
+      @on-cancel="batchListCancel">
+      <batchList></batchList>
+    </Modal>
   </div>
 </template>
 <script>
@@ -113,9 +131,11 @@
   import sessionData from '../../../../api/session-data'
   import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
+  import inBatchHandle from "../batch_handle/InTaskBatchHandle.vue"
+  import batchList from "../batch_handle/BatchList.vue"
 
   export default {
-    components: {InputCompany,searchEmployee},
+    components: {InputCompany,searchEmployee,inBatchHandle,batchList},
     data() {
       return {
         collapseInfo: [1], //展开栏
@@ -178,11 +198,14 @@
         ],
 
         isShowRejectBatch: false,
+        isShowBatchHandle: false,
+        isShowBatchList: false,
         rejectionRemark: '',
         selectedData: [],
         selectedNewData: [],
         selectedOutData: [],
         selectedNoHandleData: [],
+        selectEmployeeResultData:[],
         noProcessData: [],
         noProcessPageData: {
           total: 0,
@@ -381,6 +404,7 @@
       },
       handleSelectChange(selection) {
         this.resetSelectedData(selection);
+        this.selectEmployeeResultData = selection;
       },
       openReject() {
         if (this.selectedData.length == 0) {
@@ -522,7 +546,17 @@
           }
         }
         this.searchCondition.params = this.searchConditions.join(';');
-        api.hfEmpTaskExport({ params: this.searchCondition });
+
+        let empTaskIds = '';
+        for (var d of this.selectEmployeeResultData) {
+          empTaskIds+=d.empTaskId+',';
+        }
+        let expParam={};
+        expParam = this.searchCondition;
+        this.$utils.copy(this.searchCondition, expParam);
+        expParam.empTaskIds=empTaskIds;
+        console.log(expParam);
+        api.hfEmpTaskExport({ params: expParam });
       },
       excelExportNew() {
         if (!this.selectedData || this.selectedData.length == 0) {
@@ -786,8 +820,17 @@
       },
       searchEmployeeInit() {
         this.$refs.searchEmployee.initOptions();
-      }
-
+      },
+      openBatchHandle() {
+        this.isShowBatchHandle = true;
+      },
+      batchOk() {},
+      batchCancel() {this.isShowBatchHandle = false;},
+      openBatchList() {
+        this.isShowBatchList = true;
+      },
+      batchListOk() {},
+      batchListCancel() {this.isShowBatchList = false;},
     }
 
   }

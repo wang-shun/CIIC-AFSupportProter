@@ -40,7 +40,7 @@
             <DropdownItem name="6">外来情况说明</DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <Button type="primary" @click="batchManagement">批理办理</Button>
+        <Button type="primary" @click="batchManagement">批量办理</Button>
       </Col>
     </Row>
     <Row class="mt14" type="flex" justify="start">

@@ -370,7 +370,7 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.hfEmpAccount)
+              h("span", (params.row.hfEmpAccount==null && params.row.archiveTaskStatus)?'新开': params.row.hfEmpAccount )
             ]);
           }
         },

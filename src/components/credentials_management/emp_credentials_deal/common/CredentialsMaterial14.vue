@@ -446,6 +446,9 @@ export default {
       }
     };
   },
+  created() {
+    this.change(this.material.info)
+  },
   methods: {
     compChange(val) {
       this.material.comp = val;
@@ -481,7 +484,6 @@ export default {
     },
     change(info) {
       let materialsIds = "";
-      debugger
       if (info.lev00.toString() != "") {
         materialsIds = materialsIds + info.lev00.toString() + ",";
       }

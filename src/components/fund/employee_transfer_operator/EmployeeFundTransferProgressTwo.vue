@@ -12,13 +12,28 @@
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="客户名称：">
-                <label>{{displayVO.companyName}}</label>
+                <FormItem label="客户名称：">
+                  <label>{{displayVO.companyName}}</label>
+                </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="企业账户类型：">
+                <label>{{this.$decode.hf_accountType(displayVO.hfAccountType)}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="缴费区县：">
-                <label>{{this.$decode.hf_paymentBank(displayVO.paymentBank)}}</label>
+                <FormItem label="企业公积金账户名称：">
+                  <label>{{displayVO.comAccountName}}</label>
+                </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="客户基本公积金账号：">
+                <label>{{displayVO.basicHfComAccount}}</label>
+              </FormItem>
+              </Col>
+              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <FormItem label="客户补充公积金账号：">
+                <label>{{displayVO.addedHfComAccount}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -36,16 +51,14 @@
                 <label>{{displayVO.serviceSpecialist}}</label>
               </FormItem>
               </Col>
-
-
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="客户基本公积金账号：">
-                <label>{{displayVO.basicHfComAccount}}</label>
+              <FormItem label="末次汇缴月：">
+                <label>{{displayVO.basicComHfMonth}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="客户补充公积金账号：">
-                <label>{{displayVO.addedHfComAccount}}</label>
+              <FormItem label="缴费区县：">
+                <label>{{this.$decode.hf_paymentBank(displayVO.paymentBank)}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -54,7 +67,7 @@
               </FormItem>
               </Col>
 
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="付款方式：">
                 <label>{{this.$decode.hf_paymentWay(displayVO.paymentWay)}}</label>
               </FormItem>
@@ -63,26 +76,16 @@
               <FormItem label="公积金企业U盾：">
                 <label>{{this.$decode.hf_accountTempStore(displayVO.ukeyStore)}}</label>
               </FormItem>
-              </Col>
-              
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="企业账户类型：">
-                <label>{{this.$decode.hf_accountType(displayVO.hfAccountType)}}</label>
-              </FormItem>
-              </Col>
+              </Col> -->
 
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-              <FormItem label="末次汇缴月：">
-                <label>{{displayVO.basicComHfMonth}}</label>
-              </FormItem>
-              </Col>
+              
               <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="末次汇缴月（补充）：">
                 <label>{{displayVO.addedComHfMonth}}</label>
               </FormItem>
               </Col> -->
               
-              <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+              <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="每月关账日：">
                   <label>{{displayVO.closeDay}}</label>
                 </Form-item>
@@ -91,7 +94,7 @@
                 <Form-item label="截单年月：">
                   <label>{{displayVO.state==1 ?'':displayVO.endMonth}}</label>
                 </Form-item>
-              </Col>
+              </Col> -->
 
               <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="截单年月（基本）：">
@@ -151,7 +154,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="基本公积金账号：">
-                  <label>{{viewEmpArchive.hfEmpAccount}}</label>
+                  <label>{{(viewEmpArchive.hfEmpAccount==null && viewEmpArchive.archiveTaskStatus!='')?'新开':viewEmpArchive.hfEmpAccount }}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
@@ -185,7 +188,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
                 <Form-item label="补充公积金账号：">
-                  <label>{{viewEmpArchive.hfEmpAccountBc}}</label>
+                  <label>{{(viewEmpArchive.hfEmpAccountBc==null && viewEmpArchive.archiveTaskStatus!='')?'新开':viewEmpArchive.hfEmpAccountBc }}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
@@ -588,7 +591,6 @@
                     if(data.code==200){
                       this.transferNotice.empTaskId=data.data;
                       let params={empTaskId:this.transferNotice.empTaskId};
-                      //api.printTransferTask(params);
                       api.getPrintTransfer(params).then(
                         data=>{
                           if(data.code==200){
@@ -599,7 +601,6 @@
                           }
                         }
                       )
-
                     }
                   }
                 )

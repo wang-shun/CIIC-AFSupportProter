@@ -88,6 +88,7 @@
           pageSizeOpts: this.$utils.HF_DEFAULT_PAGE_SIZE_OPTS
         },
         rejectedColumns: [
+          // {type: 'selection', fixed: 'left', width: 60, align: 'center'},
           {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center',sortable: 'custom'},
 //          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},

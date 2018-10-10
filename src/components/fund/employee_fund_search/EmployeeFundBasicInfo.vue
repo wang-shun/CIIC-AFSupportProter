@@ -161,7 +161,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="基本公积金账号：">
-                  <Input v-model="viewEmpArchive.hfEmpAccount" ></Input>
+                  <Input v-model="(viewEmpArchive.hfEmpAccount==null && viewEmpArchive.archiveTaskStatus) ?'新开': viewEmpArchive.hfEmpAccount" ></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
@@ -216,7 +216,8 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
                 <Form-item label="补充公积金账号：">
-                  <Input v-model="viewEmpArchive.hfEmpAccountBc" :disabled="!viewEmpArchive.empArchiveIdBc" placeholder=""></Input>
+                  <Input v-model="(viewEmpArchive.hfEmpAccountBc==null && viewEmpArchive.archiveTaskStatusBc) ?'新开': viewEmpArchive.hfEmpAccountBc"  
+                  :disabled="!viewEmpArchive.empArchiveIdBc" placeholder=""></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >

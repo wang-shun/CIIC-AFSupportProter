@@ -178,11 +178,14 @@
         ],
 
         isShowRejectBatch: false,
+        isShowBatchHandle: false,
+        isShowBatchList: false,
         rejectionRemark: '',
         selectedData: [],
         selectedNewData: [],
         selectedOutData: [],
         selectedNoHandleData: [],
+        selectEmployeeResultData:[],
         noProcessData: [],
         noProcessPageData: {
           total: 0,
@@ -381,6 +384,7 @@
       },
       handleSelectChange(selection) {
         this.resetSelectedData(selection);
+        this.selectEmployeeResultData = selection;
       },
       openReject() {
         if (this.selectedData.length == 0) {
@@ -522,7 +526,17 @@
           }
         }
         this.searchCondition.params = this.searchConditions.join(';');
-        api.hfEmpTaskExport({ params: this.searchCondition });
+
+        let empTaskIds = '';
+        for (var d of this.selectEmployeeResultData) {
+          empTaskIds+=d.empTaskId+',';
+        }
+        let expParam={};
+        expParam = this.searchCondition;
+        this.$utils.copy(this.searchCondition, expParam);
+        expParam.empTaskIds=empTaskIds;
+        console.log(expParam);
+        api.hfEmpTaskExport({ params: expParam });
       },
       excelExportNew() {
         if (!this.selectedData || this.selectedData.length == 0) {
@@ -786,8 +800,17 @@
       },
       searchEmployeeInit() {
         this.$refs.searchEmployee.initOptions();
-      }
-
+      },
+      openBatchHandle() {
+        this.isShowBatchHandle = true;
+      },
+      batchOk() {},
+      batchCancel() {this.isShowBatchHandle = false;},
+      openBatchList() {
+        this.isShowBatchList = true;
+      },
+      batchListOk() {},
+      batchListCancel() {this.isShowBatchList = false;},
     }
 
   }

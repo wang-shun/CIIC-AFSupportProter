@@ -340,14 +340,20 @@ import Tools from '../../../../lib/tools'
               ]);
             }
           },
-          {title: '社保账户类型', key: 'ssAccountType', width: 180, align: 'center',
+          {title: '社保账户类型', key: 'ssAccountType', width: 110, align: 'center',
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', this.$decode.hf_accountType(params.row.accountType)),
               ]);
             }
           },
-
+          {title: '批退备注', key: 'rejectionRemark', width: 180, align: 'center',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.rejectionRemark),
+              ]);
+            }
+          },
         ],
         currentIndex:-1,
         payBatchData: [],

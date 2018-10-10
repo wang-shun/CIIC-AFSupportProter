@@ -316,9 +316,9 @@ export default {
           title: "用工属性",
           key: "employProperty",
           align: "center",
-          width: 150,
+          width: 100,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.employProperty)
             ]);
           }
@@ -330,7 +330,7 @@ export default {
           width: 100,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.empTaskId)
             ]);
           }
@@ -339,10 +339,10 @@ export default {
           title: "客户编号",
           key: "companyId",
           align: "center",
-          width: 150,
+          width: 116,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.companyId)
             ]);
           }
@@ -364,10 +364,10 @@ export default {
           title: "雇员编号",
           key: "employeeId",
           align: "center",
-          width: 150,
+          width: 116,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.employeeId)
             ]);
           }
@@ -376,10 +376,10 @@ export default {
           title: "雇员姓名",
           key: "employeeName",
           align: "center",
-          width: 150,
+          width: 130,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h(
                 "span",
                 {
@@ -396,10 +396,10 @@ export default {
           title: "证件号码",
           key: "idNum",
           align: "center",
-          width: 150,
+          width: 170,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "left" } }, [
               h(
                 "span",
                 {
@@ -416,10 +416,10 @@ export default {
           title: "实际录用日期",
           key: "employDate",
           align: "center",
-          width: 150,
+          width: 130,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.employDate)
             ]);
           }
@@ -428,10 +428,10 @@ export default {
           title: "退工日期",
           key: "outDate",
           align: "center",
-          width: 150,
+          width: 106,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.outDate)
             ]);
           }
@@ -441,7 +441,7 @@ export default {
           title: "退工原因",
           key: "outReason",
           align: "center",
-          width: 250,
+          width: 180,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
               h("span", params.row.outReason)
@@ -452,9 +452,9 @@ export default {
           title: "客服经理",
           key: "leaderShipName",
           align: "center",
-          width: 150,
+          width: 110,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.leaderShipName)
             ]);
           }
@@ -485,10 +485,10 @@ export default {
           title: "档案编号",
           key: "docNum",
           align: "center",
-          width: 150,
+          width: 110,
           sortable: true,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.docNum)
             ]);
           }
@@ -497,10 +497,10 @@ export default {
           title: "预留档案编号",
           key: "yuliuDocNum",
           align: "center",
-          width: 150,
+          width: 130,
           sortable: true,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "right" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.yuliuDocNum)
             ]);
           }
@@ -509,10 +509,10 @@ export default {
           title: "用工反馈操作日期",
           key: "employFeedbackOptDate",
           align: "center",
-          width: 200,
+          width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.employFeedbackOptDate)
             ]);
           }
@@ -524,7 +524,7 @@ export default {
           width: 150,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.jobCentreFeedbackDate)
             ]);
           }
@@ -535,7 +535,7 @@ export default {
           align: "center",
           width: 100,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.handleType)
             ]);
           }
@@ -546,7 +546,7 @@ export default {
           align: "center",
           width: 100,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.diaodangFeedbackOptDate)
             ]);
           }
@@ -555,10 +555,10 @@ export default {
           title: "出库日期",
           key: "storageOutDate",
           align: "center",
-          width: 150,
+          width: 110,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.storageOutDate)
             ]);
           }
@@ -569,7 +569,7 @@ export default {
           align: "center",
           width: 150,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.employFeedback)
             ]);
           }
@@ -580,7 +580,7 @@ export default {
           align: "center",
           width: 150,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.resignFeedback1)
             ]);
           }
@@ -589,10 +589,10 @@ export default {
           title: "退档日期",
           key: "returnDocDate",
           align: "center",
-          width: 200,
+          width: 106,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.returnDocDate)
             ]);
           }
@@ -601,10 +601,10 @@ export default {
           title: "退工送办日期",
           key: "resignHandleDate",
           align: "center",
-          width: 200,
+          width: 100,
           sortable: "custom",
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.resignHandleDate)
             ]);
           }
@@ -613,9 +613,9 @@ export default {
           title: "公司特殊情况",
           key: "archiveSpecial",
           align: "center",
-          width: 200,
+          width: 110,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.archiveSpecial)
             ]);
           }
@@ -624,9 +624,9 @@ export default {
           title: "是否翻牌",
           key: "changeCompany",
           align: "center",
-          width: 150,
+          width: 100,
           render: (h, params) => {
-            return h("div", { style: { textAlign: "left" } }, [
+            return h("div", { style: { textAlign: "center" } }, [
               h("span", params.row.changeCompany)
             ]);
           }

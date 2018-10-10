@@ -36,7 +36,7 @@ const employeeFundCommonOperatorInTaskHandle = r => require.ensure([], () => r(r
 const employeeFundCommonOperatorOutTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/OutTaskHandle')), 'employeeFundCommonOperatorOutTaskHandle')
 const employeeFundCommonOperatorRepairTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/RepairTaskHandle')), 'employeeFundCommonOperatorRepairTaskHandle')
 const employeeFundCommonOperatorAdjustTaskHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/handle/AdjustTaskHandle')), 'employeeFundCommonOperatorAdjustTaskHandle')
-const employeeFundCommonOperatorInTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/InTaskBatchHandle')), 'employeeFundCommonOperatorInTaskBatchHandle')
+// const employeeFundCommonOperatorInTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/InTaskBatchHandle')), 'employeeFundCommonOperatorInTaskBatchHandle')
 // const employeeFundCommonOperatorOutTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/OutTaskBatchHandle')), 'employeeFundCommonOperatorOutTaskBatchHandle')
 // const employeeFundCommonOperatorRepairTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/RepairTaskBatchHandle')), 'employeeFundCommonOperatorRepairTaskBatchHandle')
 // const employeeFundCommonOperatorAdjustTaskBatchHandle = r => require.ensure([], () => r(require('@/components/fund/employee_common_operator/batch_handle/AdjustTaskBatchHandle')), 'employeeFundCommonOperatorAdjustTaskBatchHandle')
@@ -224,7 +224,8 @@ let router = new Router({
             level1: '首页',
             level2: '上海公积金',
             level3: '雇员日常操作',
-            openNames: ['2']
+            openNames: ['2'],
+            activeName: '2-2'
           }
         },
         {
@@ -275,18 +276,18 @@ let router = new Router({
             activeName: '2-2'
           }
         },
-        {
-          path: '/employee_fund_common_operator_in_task_batch_handle',
-          name: 'employeeFundCommonOperatorInTaskBatchHandle',
-          component: employeeFundCommonOperatorInTaskBatchHandle,
-          meta: {
-            level1: '首页',
-            level2: '上海公积金',
-            level3: '雇员公积金日常操作',
-            openNames: ['2'],
-            activeName: '2-2'
-          }
-        },
+        // {
+        //   path: '/employee_fund_common_operator_in_task_batch_handle',
+        //   name: 'employeeFundCommonOperatorInTaskBatchHandle',
+        //   component: employeeFundCommonOperatorInTaskBatchHandle,
+        //   meta: {
+        //     level1: '首页',
+        //     level2: '上海公积金',
+        //     level3: '雇员公积金日常操作',
+        //     openNames: ['2'],
+        //     activeName: '2-2'
+        //   }
+        // },
         // {
         //   path: '/employee_fund_common_operator_out_task_batch_handle',
         //   name: 'employeeFundCommonOperatorOutTaskBatchHandle',

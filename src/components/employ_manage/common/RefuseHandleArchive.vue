@@ -33,11 +33,6 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退档日期：">
-             {{refuse.returnDocDateStr}}
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="转移方式：">
              {{refuse.transferWay}}
           </Form-item>

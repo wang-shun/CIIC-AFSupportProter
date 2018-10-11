@@ -39,6 +39,10 @@
       instance() {
         this.isLoading = true;
         var fromData = this.$utils.clear(this.file1,'');
+        if(this.file1.archiveId===undefined||this.file1.archiveId===''){
+          this.$Message.success("请先保存用工档案数据！");
+          return;
+        }
         api.saveAmArchiveSend({archiveId: this.file1.archiveId, post: this.file1.post,postSaver:this.file1.postSaver}).then(data => {
           if (data.data == true) {
             this.$Message.success("保存成功");

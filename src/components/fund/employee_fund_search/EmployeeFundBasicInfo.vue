@@ -161,7 +161,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="基本公积金账号：">
-                  <Input v-model="(viewEmpArchive.hfEmpAccount==null && viewEmpArchive.archiveTaskStatus) ?'新开': viewEmpArchive.hfEmpAccount" ></Input>
+                  <Input v-model="viewEmpArchive.hfEmpAccount" ></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
@@ -216,7 +216,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
                 <Form-item label="补充公积金账号：">
-                  <Input v-model="(viewEmpArchive.hfEmpAccountBc==null && viewEmpArchive.archiveTaskStatusBc) ?'新开': viewEmpArchive.hfEmpAccountBc"  
+                  <Input v-model="viewEmpArchive.hfEmpAccountBc"  
                   :disabled="!viewEmpArchive.empArchiveIdBc" placeholder=""></Input>
                 </Form-item>
               </Col>
@@ -561,7 +561,7 @@
           this.$Message.error("【基本公积金账号】输入不正确，必须要求9位的数字。");
           return;
         }
-        if (this.viewEmpArchive.empArchiveIdBc && !reg.test(this.viewEmpArchive.hfEmpAccountBc)) {
+        if (this.viewEmpArchive.empArchiveIdBc && this.viewEmpArchive.hfEmpAccountBc && !reg.test(this.viewEmpArchive.hfEmpAccountBc)) {
           this.$Message.error("【补充公积金账号】输入不正确，必须要求9位的数字。");
           return;
         }

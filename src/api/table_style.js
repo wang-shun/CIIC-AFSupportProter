@@ -8,7 +8,6 @@ export default {
 
     if (spanElement) {
       let elements = spanElement.getElementsByTagName('i');
-
       if (elements && elements.length === 2) {
         if (sortType === 'asc') {
           elements[0].setAttribute("class", "ivu-icon ivu-icon-arrow-up-b on");

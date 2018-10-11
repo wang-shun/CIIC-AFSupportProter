@@ -480,7 +480,8 @@
           if (data.code == 200) {
             this.fundTypeList = data.data.FundType;
             this.transferUnitDictList = data.data.FundOutUnit;
-            
+            this.transferInUnitList.length=0;
+            this.transferOutUnitList.length=0;
             if (!this.transferNotice1.transferOutUnit || this.transferNotice1.transferOutUnit == '') {
               this.transferUnitDictList.forEach((element, index, array) => {
                 //  this.transferOutUnitList.push(element);
@@ -495,7 +496,7 @@
                  // this.transferInUnitList.push(element);
               })
             } else {
-              //this.transferInUnitList.push(this.transferNotice1.transferInUnit);
+             // this.transferInUnitList.push(this.transferNotice1.transferInUnit);
               this.transferInUnitAccountList.push(this.transferNotice1.transferInUnitAccount);
             }
 
@@ -504,30 +505,22 @@
             if(this.transferNotice.hfType==undefined){
               this.transferNotice.hfType='1';
             }
+          if(this.$route.query.empTaskId==null){
             //赋默认值
-           
-          this.transferNotice.transferOutUnit = this.displayVO.comAccountName;
-         // this.transferOutUnitList.push(this.displayVO.comAccountName);   
-          let self =this;
-          if(this.$route.query.hfType ==undefined ||this.$route.query.hfType== '1'){ //基本公积金
-            setTimeout(function(){self.transferNotice.transferOutUnitAccount=self.displayVO.basicHfComAccount;},500);
-          }else{
-            setTimeout(function(){self.transferNotice.transferOutUnitAccount=self.displayVO.addedHfComAccount;},500);
+            this.transferNotice.transferOutUnit = this.displayVO.comAccountName;
+            let self =this;
+            if(this.$route.query.hfType ==undefined ||this.$route.query.hfType== '1'){ //基本公积金
+              setTimeout(function(){self.transferNotice.transferOutUnitAccount=self.displayVO.basicHfComAccount;},500);
+            }else{
+              setTimeout(function(){self.transferNotice.transferOutUnitAccount=self.displayVO.addedHfComAccount;},500);
+            }
           }
-          
-//            setTimeout(this.setValue,500);
           } else {
             this.$Message.error(data.message);
           }
         });
       },
 
-      setValue(){
-       this.$utils.copy(this.transferNotice1,this.transferNotice);
-       if(this.transferNotice.hfType==undefined){
-            this.transferNotice.hfType='1';
-       }
-      },
       unique(array){
         array.sort();
         var re=[array[0]];
@@ -727,7 +720,7 @@
         unitList.length = 0;
         unitAccountList.length = 0;
         if (value == '' || value == undefined) {
-          return;
+          //return;
           this.transferUnitDictList.forEach((element, index, array) => {
              if(unitList.indexOf(element)<=0){
               unitList.push(element);

@@ -1,4 +1,5 @@
 import utils from "../lib/utils";
+import {localStorage, sessionStorage} from '../assets/api/storage'
 
 export default {
   setJsonDataToSession(key, obj) {

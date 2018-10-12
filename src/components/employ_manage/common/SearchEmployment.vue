@@ -233,15 +233,15 @@
          if(userInfo!=null&&userInfo!=undefined){
              if(this.showHandle.name==='employ')
               {
-                window.sessionStorage.setItem('employment'+userInfo.userId, JSON.stringify(this.searchConditions));
-                window.sessionStorage.setItem('employmentIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
+                sessionStorage.setItem('employment'+userInfo.userId, JSON.stringify(this.searchConditions));
+                sessionStorage.setItem('employmentIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
               }else if(this.showHandle.name==='resign'){
-                window.sessionStorage.setItem('resign'+userInfo.userId, JSON.stringify(this.searchConditions));
-                window.sessionStorage.setItem('resignIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
+                sessionStorage.setItem('resign'+userInfo.userId, JSON.stringify(this.searchConditions));
+                sessionStorage.setItem('resignIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
               }else if(this.showHandle.name==='archive'){
-                window.sessionStorage.setItem('archive'+userInfo.userId, JSON.stringify(this.searchConditions));
+                sessionStorage.setItem('archive'+userInfo.userId, JSON.stringify(this.searchConditions));
               }else if(this.showHandle.name==='independentCustom'){
-                 window.sessionStorage.setItem('independentCustom'+userInfo.userId, JSON.stringify(this.searchConditions));
+                sessionStorage.setItem('independentCustom'+userInfo.userId, JSON.stringify(this.searchConditions));
               }
          }
          

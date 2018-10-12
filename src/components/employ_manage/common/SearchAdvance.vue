@@ -59,6 +59,7 @@
 <script>
   import {advance_chooseField, advance_relationship} from "../../../assets/js/employ_manage/common_filed"
   import COMMON_METHODS from "../../../assets/js/common_methods"
+  import {localStorage, sessionStorage} from '../../../assets/api/storage'
   const chooseType = {
     field: 1001,
     relationship: 1002
@@ -96,7 +97,7 @@
     },
     mounted() {
 
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var fu;
       if(userInfo!=null&&userInfo!=undefined){
 
@@ -177,9 +178,9 @@
         this.$refs[form].resetFields();
       },
       searchEmploiees() {
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
          if(userInfo!=null&&userInfo!=undefined){
-            window.sessionStorage.setItem('advance'+userInfo.userId, JSON.stringify(this.searchConditions));
+            sessionStorage.setItem('advance'+userInfo.userId, JSON.stringify(this.searchConditions));
          }
          this.$emit("on-search", this.searchConditions,this.searchForm,0);
       }

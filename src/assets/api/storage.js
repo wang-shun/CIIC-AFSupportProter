@@ -28,20 +28,7 @@ let localStorage = {
 let sessionStorage = {
   getItem: function(key) {
     var value = key !== 'userInfo' ? window.sessionStorage.getItem(`afSupportCenter_${key}`) : window.sessionStorage.getItem(key)
-    if (value) {
-      try {
-        var value_json = JSON.parse(value)
-        if (typeof value_json === 'object') {
-          return value_json
-        } else if (typeof value_json === 'number') {
-          return value_json
-        }
-      } catch(e) {
-        return value
-      }
-    } else {
-      return null
-    }
+    return value
   },
   setItem: function(key, value) {
     if (key !== 'userInfo') {

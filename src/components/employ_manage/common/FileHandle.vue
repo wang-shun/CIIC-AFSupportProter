@@ -190,6 +190,7 @@
 <script>
   import api from '../../../api/employ_manage/hire_operator'
   import Vue from 'vue'
+  import {localStorage, sessionStorage} from '../../../assets/api/storage'
   export default {
     props: {
       fileInfo1: {
@@ -619,7 +620,7 @@
     },
     computed: {
       file1() {
-         var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+         var userInfo = JSON.parse(localStorage.getItem("userInfo"));
          this.fileInfo1.username = userInfo.displayName;
         return this.fileInfo1;
       },

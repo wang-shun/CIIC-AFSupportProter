@@ -184,6 +184,7 @@
 </template>
 <script>
 //  import {mapState, mapGetters, mapActions} from 'vuex'
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import companyInfo from '../../components/CompanyInfo'
   import employeeInfo from '../../components/EmployeeInfo.vue'
   import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
@@ -337,7 +338,7 @@
           {
             title: '创建时间', key: 'createdTime', align: 'center', width: 183,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [ 
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.createdTime),
               ]);
             }
@@ -356,7 +357,7 @@
             width: 80,
             key: 'operat',
             render: (h, params) => {
-              if(params.row.createdDisplayName==JSON.parse(window.localStorage.getItem('userInfo')).displayName){
+              if(params.row.createdDisplayName==JSON.parse(localStorage.getItem('userInfo')).displayName){
                 return h('div', [
                   h('Button', {
                     props: {type: 'error', size: 'small'},

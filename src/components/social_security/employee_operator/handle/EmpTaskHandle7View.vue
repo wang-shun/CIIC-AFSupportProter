@@ -107,6 +107,7 @@
   </div>
 </template>
 <script>
+  import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import companyInfo from '../../components/CompanyInfo'
   import employeeInfo from '../../components/EmployeeInfo.vue'

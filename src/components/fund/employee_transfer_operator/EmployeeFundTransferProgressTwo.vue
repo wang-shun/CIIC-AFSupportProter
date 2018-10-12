@@ -372,8 +372,6 @@
         showUnitInSelect:false,
         transferOutUnitSelect:'',
         transferInUnitSelect:'',
-        tempInValue:false,
-        tempOutValue:false,
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -667,15 +665,13 @@
       },
 
       handleTransferInChange(value) {
-        console.log('3-----');
-        this.tempInValue=false;
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
       },
 
      doSelect(value, unitList, unitAccountList, type) {
         this.loading = true;
        // unitAccountList.length = 0;
-        //unitList.length=0;
+        unitList.length=0;
         if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
              if(unitList.indexOf(element)<=0){
@@ -707,12 +703,12 @@
                   }
                   let self =this;
                     if (type == 1) {
-                      setTimeout(function(){self.transferNotice.transferOutUnit=data.data[0].comAccountName;},500);
-                      //this.transferNotice.transferOutUnit = data.data[0].comAccountName;
+                      //setTimeout(function(){self.transferNotice.transferOutUnit=data.data[0].comAccountName;},500);
+                      this.transferNotice.transferOutUnit = data.data[0].comAccountName;
                       this.transferNotice.transferOutUnitAccount = data.data[0].hfComAccount;
                     } else {
-                      setTimeout(function(){self.transferNotice.transferInUnit=data.data[0].comAccountName;},500);
-                      //this.transferNotice.transferInUnit = data.data[0].comAccountName;
+                      //setTimeout(function(){self.transferNotice.transferInUnit=data.data[0].comAccountName;},500);
+                      this.transferNotice.transferInUnit = data.data[0].comAccountName;
                       this.transferNotice.transferInUnitAccount = data.data[0].hfComAccount;
                     }
                 }
@@ -726,7 +722,6 @@
       },
       doSearch(value, unitList, unitAccountList, type) {
         this.loading = true;
-        if(this.tempInValue) return;
         unitList.length = 0;
         unitAccountList.length = 0;
         if (value == '' || value == undefined) {
@@ -776,13 +771,7 @@
                   //     this.transferNotice.transferInUnitAccount = unitAccountList[0];
                   //   }
                   // }
-                  console.log('2=='+value);
-                  this.tempInValue = true;
-                  if (type == 1) {
-                      this.transferNotice.transferOutUnit = value;
-                    } else {
-                      this.transferNotice.transferInUnit = value;
-                    }
+              
                 }
               } else {
                 this.$Message.error(data.message);

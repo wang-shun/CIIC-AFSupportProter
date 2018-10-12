@@ -289,13 +289,13 @@
                    
                     @on-focus="showUnitInSelect=true"
                     :data="transferInUnitList"
-                    
+                    @on-change="transferInChange"
                     @on-search="handleTransferInChange"
                   style="width: 100%;"  transfer>
                   </AutoComplete>
               
                   <!--
-                    @on-change="transferInChange"
+                    
                      <Select 
                   v-model="transferNotice.transferInUnit"
                   :label="transferNotice.transferInUnit"
@@ -774,11 +774,12 @@
                   //   }
                   // }
                   console.log('2=='+value);
-                  if (type == 1) {
-                      this.transferNotice.transferOutUnit = value;
-                    } else {
-                      this.transferNotice.transferInUnit = value;
-                    }
+                  return ;
+                  // if (type == 1) {
+                  //     this.transferNotice.transferOutUnit = value;
+                  //   } else {
+                  //     this.transferNotice.transferInUnit = value;
+                  //   }
                 }
               } else {
                 this.$Message.error(data.message);

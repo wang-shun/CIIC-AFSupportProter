@@ -154,7 +154,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="基本公积金账号：">
-                  <label>{{(viewEmpArchive.hfEmpAccount==null && viewEmpArchive.archiveTaskStatus!='')?'新开':viewEmpArchive.hfEmpAccount }}</label>
+                  <label>{{(viewEmpArchive.hfEmpAccount==null && this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatus)!='')?'新开':viewEmpArchive.hfEmpAccount }}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
@@ -188,7 +188,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
                 <Form-item label="补充公积金账号：">
-                  <label>{{(viewEmpArchive.hfEmpAccountBc==null && viewEmpArchive.archiveTaskStatus!='')?'新开':viewEmpArchive.hfEmpAccountBc }}</label>
+                  <label>{{(viewEmpArchive.hfEmpAccountBc==null && this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatusBc)!='' )?'新开':viewEmpArchive.hfEmpAccountBc }}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
@@ -286,7 +286,6 @@
 
                   <AutoComplete 
                     v-model="transferNotice.transferInUnit"
-                   
                     @on-focus="showUnitInSelect=true"
                     :data="transferInUnitList"
                     @on-change="transferInChange"
@@ -294,7 +293,9 @@
                   style="width: 100%;"  transfer>
                   </AutoComplete>
               
-                  <!-- <Select 
+                  <!--
+                    
+                     <Select 
                   v-model="transferNotice.transferInUnit"
                   :label="transferNotice.transferInUnit"
                   filterable
@@ -480,8 +481,8 @@
           if (data.code == 200) {
             this.fundTypeList = data.data.FundType;
             this.transferUnitDictList = data.data.FundOutUnit;
-            this.transferInUnitList.length=0;
-            this.transferOutUnitList.length=0;
+           // this.transferInUnitList.length=0;
+           // this.transferOutUnitList.length=0;
             if (!this.transferNotice1.transferOutUnit || this.transferNotice1.transferOutUnit == '') {
               this.transferUnitDictList.forEach((element, index, array) => {
                 //  this.transferOutUnitList.push(element);
@@ -696,13 +697,17 @@
                       }
                   })
                   if(isDuplicate==false){
+                    console.log('1==='+data.data[0].comAccountName);
                     unitList.push(data.data[0].comAccountName);
                     unitAccountList.push(data.data[0].hfComAccount);
                   }
+                  let self =this;
                     if (type == 1) {
+                      //setTimeout(function(){self.transferNotice.transferOutUnit=data.data[0].comAccountName;},500);
                       this.transferNotice.transferOutUnit = data.data[0].comAccountName;
                       this.transferNotice.transferOutUnitAccount = data.data[0].hfComAccount;
                     } else {
+                      //setTimeout(function(){self.transferNotice.transferInUnit=data.data[0].comAccountName;},500);
                       this.transferNotice.transferInUnit = data.data[0].comAccountName;
                       this.transferNotice.transferInUnitAccount = data.data[0].hfComAccount;
                     }
@@ -747,23 +752,26 @@
                   })
                   if (unitList.length == 1) {
                     if (type == 1) {
+                      this.transferNotice.transferOutUnit = data.data[0].comAccountName;
                       this.transferNotice.transferOutUnitAccount = unitAccountList[0];
                     } else {
+                      this.transferNotice.transferInUnit = data.data[0].comAccountName;
                       this.transferNotice.transferInUnitAccount = unitAccountList[0];
                     }
                   }
                 } else {
-                  if (type == 1) {
-                    if (value == this.transferNotice1.transferOutUnit) {
-                      unitAccountList.push(this.transferNotice1.transferOutUnitAccount);
-                      this.transferNotice.transferOutUnitAccount = unitAccountList[0];
-                    }
-                  } else {
-                    if (value == this.transferNotice1.transferInUnit) {
-                      unitAccountList.push(this.transferNotice1.transferInUnitAccount);
-                      this.transferNotice.transferInUnitAccount = unitAccountList[0];
-                    }
-                  }
+                  // if (type == 1) {
+                  //   if (value == this.transferNotice1.transferOutUnit) {
+                  //     unitAccountList.push(this.transferNotice1.transferOutUnitAccount);
+                  //     this.transferNotice.transferOutUnitAccount = unitAccountList[0];
+                  //   }
+                  // } else {
+                  //   if (value == this.transferNotice1.transferInUnit) {
+                  //     unitAccountList.push(this.transferNotice1.transferInUnitAccount);
+                  //     this.transferNotice.transferInUnitAccount = unitAccountList[0];
+                  //   }
+                  // }
+              
                 }
               } else {
                 this.$Message.error(data.message);

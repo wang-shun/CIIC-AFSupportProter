@@ -972,9 +972,9 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        // 支付状态: 1 ,未到账(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
+        // 支付状态: 0 无需支付 1 ,未到账(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
         // 未到账和送审才允许编辑
-        if(row.paymentState != 1 && row.paymentState != 2 && row.paymentState != 4){
+        if(row.paymentState != 0 && row.paymentState != 1 && row.paymentState != 2 && row.paymentState != 4){
           this.$Message.info("当前状态，不允许编辑！");
           return false;
         }
@@ -985,7 +985,6 @@
         }
         FundPay.getFundPaysOperateEditData(params).then(data=>{
           if(data.data.code == 200){
-            console.log(data.data);
             this.operateEditData = data.data.operateEditData;
             this.isShowOperateEdit = true;
           } else {
@@ -1071,8 +1070,7 @@
          row.paymentBank = this.operateEditData[0].paymentBank;
          row.fundAccountType = this.operateEditData[0].fundAccountType;
          row.paymentMonthValue = this.operateEditData[0].paymentMonth;
-         //row.paymentStatus = this.operateEditData[0].paymentStatus;
-         row.paymentStatus = 1;
+         row.paymentStatus = this.operateEditData[0].paymentStatus;
          let params = {
            pageSize: 99999,//暂时这么改，后续把分页去掉
            pageNum: 1,

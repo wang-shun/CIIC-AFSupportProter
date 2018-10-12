@@ -147,7 +147,7 @@
         approvalStepList: [],
         approvalStepColumns: [
           {
-            title: '审批人', key: 'approverName', align: 'center',
+            title: '审批人', key: 'approveName', align: 'center',
           },
           {
             title: '审批时间', key: 'approveTime', align: 'center',
@@ -157,6 +157,9 @@
           },
           {
             title: '状态', key: 'approveAction', align: 'center',
+            render: (h, params) => {
+              return h('div', this.getApprovalStatusName(params.row.approveAction));
+            }
           },
           {
             title: '审批意见', key: 'approveRemark', align: 'center',
@@ -216,6 +219,18 @@
             return "儿童用品";
           default:
             return val;
+        }
+      },
+      getApprovalStatusName(approvalStatus) {
+        switch (approvalStatus) {
+          case 1:
+            return '审批中';
+          case 2:
+            return '同意';
+          case 3:
+            return '不同意';
+          default:
+            return approvalStatus;
         }
       },
       presentingObjectTypeList(val) {

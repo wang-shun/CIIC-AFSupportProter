@@ -381,9 +381,9 @@
         }
 
 
-        if(this.payee =='上海市公积金管理中心（黄浦支行（1））'){
+        if(this.operatorSearchData.paymentStatus == 1 && this.payee =='上海市公积金管理中心（黄浦支行（1））'){
             if(this.paymentWay !=2){
-              this.$Message.error('如果收款方为‘上海市公积金管理中心（黄浦支行（1））’,那么付款方式必须为支票');
+              this.$Message.error('如果收款方为‘上海市公积金管理中心（黄浦支行（1））’,那么付款方式必须为‘支票’');
               return false;
             }
         }

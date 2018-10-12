@@ -91,7 +91,7 @@
           {
             title: '操作', align: 'center', key: 'action', width: 200,
             render: (h, params) => {
-              if (params.row.status === '0') {
+              if (params.row.status === 0) {
                 return h('div', [
                   h('Button', {
                     props: {

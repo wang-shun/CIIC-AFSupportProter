@@ -117,7 +117,10 @@
       </Col>
     </Row>
 
-    <Table border ref="fundPay" class="mt20" :columns="fundPayColumns" :data="fundPayData" :loading="loading" @on-sort-change="sortChange" @on-selection-change="selectChange"></Table>
+    <Table border id="funPayTable" ref="fundPay" class="mt20" 
+    :columns="fundPayColumns" :data="fundPayData" 
+    :loading="loading" @on-sort-change="sortChange"
+     @on-selection-change="selectChange"></Table>
     <Page
       class="pageSize"
       @on-change="handlePageNum"
@@ -194,6 +197,7 @@
   import {FundPay} from '../../../api/house_fund/fund_pay/fund_pay'
   import Tools from '../../../lib/tools'
   import sessionData from '../../../api/session-data'
+  import tableStyle from '../../../api/table_style'
 
 
   export default {
@@ -597,7 +601,7 @@
     },
     created() {
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-      var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem('hfpaymentComOrder'+userInfo.userId));
       this.payComColumns.filter((e) => {
         if(storeOrder==null)
         {
@@ -623,7 +627,7 @@
     mounted() {
 
       var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-      var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+      var storeOrder = JSON.parse(sessionStorage.getItem('hfpaymentComOrder'+userInfo.userId));
 //      this.changeSortClass(storeOrder);
       if(storeOrder===null){
 
@@ -667,6 +671,7 @@
       clickQuery(){
         sessionData.setJsonDataToSession('fundPay.operatorSearchData', this.operatorSearchData);
         this.loading=true;
+
         let params = this.getParams(1)
         FundPay.getFundPaysTableData(params).then(data=>{
           this.refresh(data)
@@ -691,13 +696,16 @@
 
       queryData(){
         this.loading=true;
-        let params = {
-          pageSize: this.size,
-          pageNum: this.pageNum,
-          params:this.operatorSearchData
-        };
+        // let params = {
+        //   pageSize: this.size,
+        //   pageNum: this.pageNum,
+        //   params:this.operatorSearchData
+        // };
+
+        let params = this.getParams(this.pageNum) 
         FundPay.getFundPaysTableData(params).then(data=>{
           this.refresh(data)
+          this.changeSortClass(this.orderConditions);
         }).catch(error=>{
           console.log(error)
         })
@@ -964,9 +972,9 @@
         let row;
         row=this.checkSelect();
         if(!row)return false;
-        // 支付状态: 1 ,未到账(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
+        // 支付状态: 0 无需支付 1 ,未到账(默认)   2,送审   3 汇缴(已申请到财务部 ) 4  财务部批退  5,财务部审批通过  6 出票 7  回单
         // 未到账和送审才允许编辑
-        if(row.paymentState != 1 && row.paymentState != 2){
+        if(row.paymentState != 0 && row.paymentState != 1 && row.paymentState != 2 && row.paymentState != 4){
           this.$Message.info("当前状态，不允许编辑！");
           return false;
         }
@@ -977,7 +985,6 @@
         }
         FundPay.getFundPaysOperateEditData(params).then(data=>{
           if(data.data.code == 200){
-            console.log(data.data);
             this.operateEditData = data.data.operateEditData;
             this.isShowOperateEdit = true;
           } else {
@@ -1063,8 +1070,7 @@
          row.paymentBank = this.operateEditData[0].paymentBank;
          row.fundAccountType = this.operateEditData[0].fundAccountType;
          row.paymentMonthValue = this.operateEditData[0].paymentMonth;
-         //row.paymentStatus = this.operateEditData[0].paymentStatus;
-         row.paymentStatus = 1;
+         row.paymentStatus = this.operateEditData[0].paymentStatus;
          let params = {
            pageSize: 99999,//暂时这么改，后续把分页去掉
            pageNum: 1,
@@ -1210,9 +1216,35 @@
               },
           });
       },
+    changeSortClass(storeOrder) {
+        this.fundPayColumns.forEach((e, idx) => {
+          let order = 'normal'
+          if(storeOrder==null)
+          {
+
+          }else{
+            if(storeOrder.length>0)
+            {
+              for(let index  in storeOrder)
+              {
+                let orders = storeOrder[index].split(' ');
+                if(e.key === 'paymentBatchNum' && storeOrder[index].indexOf('payment_batch_num')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+                if(e.key === 'createPaymentUser' && storeOrder[index].indexOf('create_payment_user')!=-1) {
+                  order = orders[1]
+                  break;
+                }
+              }
+            }
+          }
+          tableStyle.changeSortElementClass('funPayTable', idx, order)
+        });
+      },  
     sortChange(e){
         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-        var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
+        var storeOrder = JSON.parse(sessionStorage.getItem('hfpaymentComOrder'+userInfo.userId));
         var dx ='';
         if (e.key === 'paymentBatchNum') {
           dx = 'hfp.payment_batch_num';
@@ -1254,7 +1286,7 @@
           this.orderConditions.push(searchConditionExec);
         }
 
-        sessionStorage.setItem('paymentComOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
+        sessionStorage.setItem('hfpaymentComOrder'+userInfo.userId, JSON.stringify(this.orderConditions));
 
         if(this.orderConditions.length>0)
         {

@@ -109,10 +109,11 @@
                   style: {margin: '0 auto 0 10px'},
                   on: {
                     click: () => {
-                      let paymentComId = params.row.paymentComId;
-                      let comAccountId = params.row.comAccountId;
-                      let paymentMonth = params.row.paymentMonth;
-                      this.goPaymentNotice(paymentComId,comAccountId,paymentMonth);
+                     let paymentComId = params.row.paymentComId;
+                     let comAccountId = params.row.comAccountId;
+                     let paymentMonth = params.row.paymentMonth;
+                     let paymentState = params.row.paymentState;
+                     this.goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState,params.row.ssAccount);
                     }
                   }
                 }, '付款通知书')
@@ -272,10 +273,12 @@
       goBack() {
         this.$router.push({name: 'paymentBatchReviewed'})
       },
-      goPaymentNotice(paymentComId,comAccountId,paymentMonth) {
+      goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState,ssAccount) {
         window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
         window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
         window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
+        window.sessionStorage.setItem("paymentnotice_paymentState", paymentState);
+        window.sessionStorage.setItem("paymentnotice_ssAccount", ssAccount);
         this.$router.push({name: 'paymentNotice'})
       },
       ok () {

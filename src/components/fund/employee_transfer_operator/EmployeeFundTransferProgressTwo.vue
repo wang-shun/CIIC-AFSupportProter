@@ -286,7 +286,6 @@
 
                   <AutoComplete 
                     v-model="transferNotice.transferInUnit"
-                   
                     @on-focus="showUnitInSelect=true"
                     :data="transferInUnitList"
                     @on-change="transferInChange"
@@ -373,6 +372,8 @@
         showUnitInSelect:false,
         transferOutUnitSelect:'',
         transferInUnitSelect:'',
+        tempInValue:false,
+        tempOutValue:false,
         displayVO: {
           empTaskId: 0,
           taskCategory: 0,
@@ -667,6 +668,7 @@
 
       handleTransferInChange(value) {
         console.log('3-----');
+        this.tempInValue=false;
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
       },
 
@@ -724,6 +726,7 @@
       },
       doSearch(value, unitList, unitAccountList, type) {
         this.loading = true;
+        if(this.tempInValue) return;
         unitList.length = 0;
         unitAccountList.length = 0;
         if (value == '' || value == undefined) {
@@ -774,12 +777,12 @@
                   //   }
                   // }
                   console.log('2=='+value);
-                  return true;
-                  // if (type == 1) {
-                  //     this.transferNotice.transferOutUnit = value;
-                  //   } else {
-                  //     this.transferNotice.transferInUnit = value;
-                  //   }
+                  this.tempInValue = true;
+                  if (type == 1) {
+                      this.transferNotice.transferOutUnit = value;
+                    } else {
+                      this.transferNotice.transferInUnit = value;
+                    }
                 }
               } else {
                 this.$Message.error(data.message);

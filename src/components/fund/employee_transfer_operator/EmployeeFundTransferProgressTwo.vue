@@ -774,7 +774,7 @@
                   //   }
                   // }
                   console.log('2=='+value);
-                  return ;
+                  return true;
                   // if (type == 1) {
                   //     this.transferNotice.transferOutUnit = value;
                   //   } else {

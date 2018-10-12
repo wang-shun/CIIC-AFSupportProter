@@ -87,7 +87,7 @@
               </Col>
 
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户中心：">
+                <Form-item label="客服中心：">
                   <label>{{viewComAccount.serviceCenter}}</label>
                 </Form-item>
               </Col>

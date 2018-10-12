@@ -54,6 +54,8 @@ export class CompanyTaskListHF{
                     companyInfo.customerNumber = i.companyId
                     companyInfo.customerName = i.companyName
                     companyInfo.serviceManager = i.leaderShipName
+                    companyInfo.customerCenter=i.serviceCenter
+                    companyInfo.customerServicer=i.custom
                     companyInfo.customerFundEndDate = i.closeDay
                     companyInfo.initiater = i.submitterName
                     companyInfo.sponsorTime = i.submitTimeString

@@ -77,6 +77,7 @@
 <script>
   import {em_chooseField,em_resign_chooseField,em_arc_chooseField,em_relationship,independent_chooseField} from "../../../assets/js/employ_manage/common_filed"
   import COMMON_METHODS from "../../../assets/js/common_methods"
+   import {localStorage, sessionStorage} from '../../../assets/api/storage'
   const chooseType = {
     field: 1001,
     relationship: 1002
@@ -117,7 +118,7 @@
     },
     mounted() {
     
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var fu;
       var isFinishValue;
       if(userInfo!=null&&userInfo!=undefined){
@@ -228,7 +229,7 @@
         this.searchConditions = [];
       },
       searchEmploiees() {
-         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+         var userInfo = JSON.parse(localStorage.getItem('userInfo'));
          if(userInfo!=null&&userInfo!=undefined){
              if(this.showHandle.name==='employ')
               {

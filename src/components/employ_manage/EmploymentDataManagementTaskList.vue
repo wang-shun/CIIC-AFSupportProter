@@ -129,6 +129,7 @@ import searchEmployment from "./common/SearchEmployment.vue";
 import employeeInfo from "./common/EmployeeInfo.vue";
 import api from "../../api/employ_manage/hire_operator";
 import tableStyle from "../../api/table_style";
+import {localStorage, sessionStorage} from '../../assets/api/storage'
 
 export default {
   components: { employeeInfo, searchEmployment },
@@ -781,7 +782,7 @@ export default {
     SortChange(e) {
       this.orderConditions = [];
       this.searchConditions = [];
-      var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
       var isFinish = JSON.parse(
         sessionStorage.getItem("employmentIsFinish" + userInfo.userId)
@@ -888,7 +889,7 @@ export default {
     exportTable(name) {
       this.orderConditions = [];
       this.searchConditions = [];
-      var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
       var conditions = JSON.parse(
         sessionStorage.getItem("employment" + userInfo.userId)
       );

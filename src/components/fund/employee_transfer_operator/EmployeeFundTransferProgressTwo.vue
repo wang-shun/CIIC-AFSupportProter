@@ -699,11 +699,14 @@
                     unitList.push(data.data[0].comAccountName);
                     unitAccountList.push(data.data[0].hfComAccount);
                   }
+                  let self =this;
                     if (type == 1) {
-                      this.transferNotice.transferOutUnit = data.data[0].comAccountName;
+                      setTimeout(function(){self.transferNotice.transferOutUnit=data.data[0].comAccountName;},500);
+                      //this.transferNotice.transferOutUnit = data.data[0].comAccountName;
                       this.transferNotice.transferOutUnitAccount = data.data[0].hfComAccount;
                     } else {
-                      this.transferNotice.transferInUnit = data.data[0].comAccountName;
+                      setTimeout(function(){self.transferNotice.transferInUnit=data.data[0].comAccountName;},500);
+                      //this.transferNotice.transferInUnit = data.data[0].comAccountName;
                       this.transferNotice.transferInUnitAccount = data.data[0].hfComAccount;
                     }
                 }
@@ -753,17 +756,17 @@
                     }
                   }
                 } else {
-                  if (type == 1) {
-                    if (value == this.transferNotice1.transferOutUnit) {
-                      unitAccountList.push(this.transferNotice1.transferOutUnitAccount);
-                      this.transferNotice.transferOutUnitAccount = unitAccountList[0];
-                    }
-                  } else {
-                    if (value == this.transferNotice1.transferInUnit) {
-                      unitAccountList.push(this.transferNotice1.transferInUnitAccount);
-                      this.transferNotice.transferInUnitAccount = unitAccountList[0];
-                    }
-                  }
+                  // if (type == 1) {
+                  //   if (value == this.transferNotice1.transferOutUnit) {
+                  //     unitAccountList.push(this.transferNotice1.transferOutUnitAccount);
+                  //     this.transferNotice.transferOutUnitAccount = unitAccountList[0];
+                  //   }
+                  // } else {
+                  //   if (value == this.transferNotice1.transferInUnit) {
+                  //     unitAccountList.push(this.transferNotice1.transferInUnitAccount);
+                  //     this.transferNotice.transferInUnitAccount = unitAccountList[0];
+                  //   }
+                  // }
                 }
               } else {
                 this.$Message.error(data.message);

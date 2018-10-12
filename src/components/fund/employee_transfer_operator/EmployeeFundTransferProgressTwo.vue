@@ -480,8 +480,8 @@
           if (data.code == 200) {
             this.fundTypeList = data.data.FundType;
             this.transferUnitDictList = data.data.FundOutUnit;
-            this.transferInUnitList.length=0;
-            this.transferOutUnitList.length=0;
+           // this.transferInUnitList.length=0;
+           // this.transferOutUnitList.length=0;
             if (!this.transferNotice1.transferOutUnit || this.transferNotice1.transferOutUnit == '') {
               this.transferUnitDictList.forEach((element, index, array) => {
                 //  this.transferOutUnitList.push(element);

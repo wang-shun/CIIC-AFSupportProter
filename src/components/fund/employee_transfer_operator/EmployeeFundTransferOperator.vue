@@ -14,6 +14,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import noProcess from './employee_transfer_operator_tab/NoProcess.vue'
   import processed from './employee_transfer_operator_tab/Processed.vue'
   import refused from './employee_transfer_operator_tab/Refused.vue'

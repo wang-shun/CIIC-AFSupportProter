@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import noProcess from './company_fund_task_list_tab/NoProcess.vue'
   import processing from './company_fund_task_list_tab/Processing.vue'
   import finished from './company_fund_task_list_tab/Finished.vue'

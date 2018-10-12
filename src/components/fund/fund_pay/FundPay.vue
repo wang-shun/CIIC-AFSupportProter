@@ -188,6 +188,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import progressBar from '../../common_control/progress/ProgressBar.vue'
   import fundPayChangeList from '../common/FundPayChangeList.vue'
   import addFundPayChangeList from '../common/AddFundPayChangeList.vue'
@@ -600,7 +601,7 @@
       }
     },
     created() {
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('hfpaymentComOrder'+userInfo.userId));
       this.payComColumns.filter((e) => {
         if(storeOrder==null)
@@ -626,7 +627,7 @@
     },
     mounted() {
 
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('hfpaymentComOrder'+userInfo.userId));
 //      this.changeSortClass(storeOrder);
       if(storeOrder===null){
@@ -1243,7 +1244,7 @@
         });
       },  
     sortChange(e){
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var storeOrder = JSON.parse(sessionStorage.getItem('hfpaymentComOrder'+userInfo.userId));
         var dx ='';
         if (e.key === 'paymentBatchNum') {

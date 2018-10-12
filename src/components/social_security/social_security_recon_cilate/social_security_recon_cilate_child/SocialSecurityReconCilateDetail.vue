@@ -54,6 +54,7 @@
 //  import {mapState, mapGetters, mapActions} from 'vuex'
 //  import customerModal from '../../../common_control/CustomerModal.vue'
 //  import companyAccountSearchModal from '../../../common_control/CompanyAccountSearchModal.vue'
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/statement_detail'
 
@@ -151,13 +152,13 @@
 //      this[EventType.SOCIALSECURITYRECONCILATEDETAIL]();
       // var pagParam= {
       //       //对账主表ID
-      //       statementId : window.sessionStorage.getItem("statementId")
+      //       statementId : sessionStorage.getItem("statementId")
       //     };
-      //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
+      //this.pagParam.statementId = sessionStorage.getItem("statementId");
       //this.doAlert(pagParam.statementId);
-      this.serachStatementData(window.sessionStorage.getItem("statementId"));
-      this.serachStatementResultData(window.sessionStorage.getItem("statementId"));
-      this.statementId = window.sessionStorage.getItem("statementId");
+      this.serachStatementData(sessionStorage.getItem("statementId"));
+      this.serachStatementResultData(sessionStorage.getItem("statementId"));
+      this.statementId = sessionStorage.getItem("statementId");
     },
     computed: {
 //      ...mapState('socialSecurityReconcilateDetail',{
@@ -176,7 +177,7 @@
 
       },
       diffExportData() {
-        let params ={statementId:window.sessionStorage.getItem("statementId")};
+        let params ={statementId:sessionStorage.getItem("statementId")};
         api.diffExportOpt(params);
       },
       goBack(){

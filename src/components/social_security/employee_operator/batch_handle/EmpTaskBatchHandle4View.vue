@@ -110,6 +110,7 @@
   </Form>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../../store/event_types'
  import api from '../../../../api/social_security/employee_operator'

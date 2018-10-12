@@ -124,6 +124,7 @@
   </div>
 </template>
 <script>
+  import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import api from '../../../api/social_security/year_base_applicate/annual_adjust_account'
   import InputAccount from '../../common_control/form/input_account'

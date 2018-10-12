@@ -98,6 +98,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import api from '../../../api/house_fund/company_fund_account_search/company_fund_account_search'
   import InputCompany from "../../common_control/form/input_company"
   import companyBindAndUnbind from "../common/CompanyBindAndUnbind.vue"
@@ -281,7 +282,7 @@
     },
     mounted() {
       this.getCustomers();
-      window.sessionStorage.removeItem('fundAccountInfo');
+      sessionStorage.removeItem('fundAccountInfo');
       sessionData.getJsonDataFromSession('hfCompanyManage.comAccountSearch', this.operatorSearchData);
       sessionData.getJsonDataFromSession('hfCompanyManage.resultPageData', this.fundAccountPageData);
       this.fundAccountSearch();
@@ -330,7 +331,7 @@
       nextStep(isCanUpdate, fundAccountData) {
         let fundAccountInfo = fundAccountData;
         fundAccountInfo['isCanUpdate'] = isCanUpdate;
-        window.sessionStorage.setItem('fundAccountInfo', JSON.stringify(fundAccountInfo));
+        sessionStorage.setItem('fundAccountInfo', JSON.stringify(fundAccountInfo));
         this.$router.push({name: "companyFundAccountProgressTwo"});
       },
       resetSearchCondition(name) {

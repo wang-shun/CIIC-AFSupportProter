@@ -50,6 +50,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import EventType from '../../../store/event_types'
   import api from '../../../api/social_security/payment_notice'
@@ -137,11 +138,11 @@
     },
     mounted() {
       //this[EventType.PAYMENTNOTICETYPE]();
-      let paymentComId = window.sessionStorage.getItem("paymentnotice_paymentComId");
-      this.comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
-      this.paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
-      let paymentState = window.sessionStorage.getItem("paymentnotice_paymentState");
-      this.ssAccount = window.sessionStorage.getItem("paymentnotice_ssAccount");
+      let paymentComId = sessionStorage.getItem("paymentnotice_paymentComId");
+      this.comAccountId = sessionStorage.getItem("paymentnotice_comAccountId");
+      this.paymentMonth = sessionStorage.getItem("paymentnotice_paymentMonth");
+      let paymentState = sessionStorage.getItem("paymentnotice_paymentState");
+      this.ssAccount = sessionStorage.getItem("paymentnotice_ssAccount");
      
       if(paymentState == "1" || paymentState == "3" || paymentState == "5" || paymentState == "7"){ //1 未到账 2 可付  3 内部批退 7 财务批退
       //if(paymentState != "3" && paymentState != "5" && paymentState != "7"){
@@ -208,9 +209,9 @@
           this.$Message.error('系统异常！');
         });
 
-      let paymentComId = window.sessionStorage.getItem("paymentnotice_paymentComId");
-      this.comAccountId = window.sessionStorage.getItem("paymentnotice_comAccountId");
-      this.paymentMonth = window.sessionStorage.getItem("paymentnotice_paymentMonth");
+      let paymentComId = sessionStorage.getItem("paymentnotice_paymentComId");
+      this.comAccountId = sessionStorage.getItem("paymentnotice_comAccountId");
+      this.paymentMonth = sessionStorage.getItem("paymentnotice_paymentMonth");
       this.getPaymentComDtoByPaymentId(paymentComId);
       this.statementResultQuery(this.ssAccount,this.paymentMonth);
       }

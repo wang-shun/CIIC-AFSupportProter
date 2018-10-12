@@ -106,6 +106,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import ts from '../../../../api/house_fund/table_style'
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
@@ -218,7 +219,7 @@
     created() {
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
        this.noProcessColumns.filter((e) => {
 
@@ -277,7 +278,7 @@
 
       var conditions = [];
       this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
@@ -478,7 +479,7 @@
 //          params = this.$utils.clear(params, '');
 //          cparams = this.beforeSubmit(params);
 //        }
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
 
@@ -567,7 +568,7 @@
           return;
         }
         this.isLoading = true;
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         this.searchConditions =[];
 
         for(var i=0;i<conditions.length;i++)
@@ -635,7 +636,7 @@
         this.isLoading = true;
         this.orderConditions = [];
         this.searchConditions =[];
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('fundDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
         if(conditions!=null){

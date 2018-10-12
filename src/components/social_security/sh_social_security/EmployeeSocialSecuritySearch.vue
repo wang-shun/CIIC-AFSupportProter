@@ -120,6 +120,7 @@
 
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from "../../common_control/CustomerModal.vue"
   import companyAccountSearchModal from "../../common_control/CompanyAccountSearchModal.vue"
@@ -354,7 +355,7 @@
       }
     },
     created() {
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('searchSocialSecurityOrder'+userInfo.userId));
 
       this.employeeSocialSecurityColumns.filter((e) => {
@@ -385,7 +386,7 @@
       this.loadDict();
       this.getCustomers();
 
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('searchSocialSecurityOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
@@ -469,7 +470,7 @@
           return;
         }
         this.isLoading = true;
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         let storeOrder = JSON.parse(sessionStorage.getItem('searchSocialSecurityOrder'+userInfo.userId));
 //        sessionData.getJsonDataFromSession('empSSsearch.searchCondition', this.searchCondition);
 

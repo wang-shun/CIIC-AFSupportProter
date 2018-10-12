@@ -71,6 +71,7 @@
 </template>
 <script>
   import {em_chooseField, em_relationship} from "../../../../assets/js/social_manage/common_filed_other"
+  import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import COMMON_METHODS from "../../../../assets/js/common_methods"
   import InputAccount from '../../../common_control/form/input_account'
   import InputCompany from '../../../common_control/form/input_company'
@@ -116,7 +117,7 @@
     },
     async mounted() {
 
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
       var fu = sessionStorage.getItem('socialDailyF'+userInfo.userId);
 
@@ -229,8 +230,8 @@
         this.searchConditions=[];
       },
       searchEmploiees() {
-         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-         window.sessionStorage.setItem('socialDailyF'+userInfo.userId, JSON.stringify(this.searchConditions));
+         var userInfo = JSON.parse(localStorage.getItem('userInfo'));
+         sessionStorage.setItem('socialDailyF'+userInfo.userId, JSON.stringify(this.searchConditions));
          this.$emit("on-search", this.searchConditions);
       },
       loadDict(){

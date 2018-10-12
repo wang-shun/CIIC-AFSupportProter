@@ -106,6 +106,7 @@
 <script>
 import ajax from "../../../lib/ajax";
 import axios from "axios";
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
 const host = process.env.SITE_HOST;
 const AJAX = ajax.ajaxCM;
 export default {

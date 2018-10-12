@@ -61,6 +61,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../common_control/CustomerModal.vue'
   import EventType from '../../../store/event_types'
@@ -257,7 +258,7 @@
     },
     mounted() {
       this[EventType.SOCIALSECURITYPAYTYPE]();
-      this.payComSearchData.paymentId = window.sessionStorage.getItem("paymentComReviewed_paymentId");
+      this.payComSearchData.paymentId = sessionStorage.getItem("paymentComReviewed_paymentId");
       this.payComHandlePageNum(1);
     },
     computed: {
@@ -274,11 +275,11 @@
         this.$router.push({name: 'paymentBatchReviewed'})
       },
       goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState,ssAccount) {
-        window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
-        window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
-        window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
-        window.sessionStorage.setItem("paymentnotice_paymentState", paymentState);
-        window.sessionStorage.setItem("paymentnotice_ssAccount", ssAccount);
+        sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
+        sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
+        sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
+        sessionStorage.setItem("paymentnotice_paymentState", paymentState);
+        sessionStorage.setItem("paymentnotice_ssAccount", ssAccount);
         this.$router.push({name: 'paymentNotice'})
       },
       ok () {

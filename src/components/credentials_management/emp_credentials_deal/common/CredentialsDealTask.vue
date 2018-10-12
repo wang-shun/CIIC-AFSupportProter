@@ -361,9 +361,21 @@ export default {
                       }
                     }
                   }, "下载收缴材料"))
-                let st = new Date().getTime() - 24*60*60*1000;
-                let cr = new Date(params.row.createdTime).getTime();
-                if (params.row.implement === false && cr>st) {
+              let flag = true;
+              if (params.row.payType === '1') {
+                let now = new Date();
+                let creatT = new Date(params.row.createdTime);
+                if (now.getFullYear()>creatT.getFullYear()) {
+                  flag = false;
+                }
+                if ((now.getMonth()+1)>(creatT.getMonth()+1)) {
+                  flag = false;
+                }
+                if (now.getDate()>creatT.getDate()) {
+                  flag = false;
+                }
+              }
+                if (params.row.implement === false && flag) {
                   arr.push(h(
                   "Button",
                   {

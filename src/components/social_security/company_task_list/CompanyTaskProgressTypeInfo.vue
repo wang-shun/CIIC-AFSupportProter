@@ -258,6 +258,7 @@
   </Form>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import chat from '../../common_control/chat_history/Chat.vue'
   import companyInfo from '../../common_control/CompanyInfo.vue'
   import {CompanyTaskList} from '../../../api/social_security/company_task_list/company_task_list'

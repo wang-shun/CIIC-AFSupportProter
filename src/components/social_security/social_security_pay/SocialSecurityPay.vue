@@ -12,6 +12,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import paymentBatch from './tab/PaymentBatch'//社保支付 -- 支付批次
   import paymentCom from './tab/PaymentCom'//社保支付 -- 企业账户管理
 

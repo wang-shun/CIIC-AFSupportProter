@@ -281,7 +281,7 @@ import Tools from "../../../lib/tools";
 import Decode from "../../../lib/decode";
 import ajax from "../../../lib/ajax";
 import tools from '../../../lib/tools';
-
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
 const host = process.env.SITE_HOST;
 const AJAX = ajax.ajaxCM;
 export default {

@@ -53,6 +53,7 @@
 <script>
 //  import {mapState, mapGetters, mapActions} from 'vuex'
 //  import EventType from '../../../../store/event_types'
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import api from '../../../../api/social_security/employee_operator'
 
   import InputAccount from '../../../common_control/form/input_account'
@@ -186,7 +187,7 @@
     created() {
       sessionData.getJsonDataFromSession('employeeCommonOperator.Progressing.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeCommonOperator.Progressing.employeeResultPageData', this.employeeResultPageData);
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyPOrder'+userInfo.userId));
       this.employeeResultColumns.filter((e) => {
       if(storeOrder===null)
@@ -239,7 +240,7 @@
       this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
       this.loadDict();
 
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyPOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
@@ -433,7 +434,7 @@
         }
       },
       exprotExcel() {
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
@@ -510,7 +511,7 @@
           return;
         }
         this.isLoading = true;
-         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+         var userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
         this.searchConditions =[];
 
@@ -589,7 +590,7 @@
 
          this.orderConditions = [];
 
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
         var conditions = JSON.parse(sessionStorage.getItem('socialDailyP'+userInfo.userId));
 

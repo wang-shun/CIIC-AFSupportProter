@@ -181,6 +181,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import api from '../../../api/house_fund/fund_reconciliation/fund_reconciliation'
   import commonApi from '../../../api/house_fund/common/common'
   import InputAccount from "../common/input_account"
@@ -504,7 +505,7 @@
         formData.hfAccountType= that.newReconciliation.hfAccountType;
         formData.hfType= that.newReconciliation.hfType;
         formData.hfComAccount= that.newReconciliation.hfComAccount;
-        formData.createdBy=JSON.parse(window.localStorage.getItem('userInfo')).userId;
+        formData.createdBy=JSON.parse(localStorage.getItem('userInfo')).userId;
         formData.file=that.reconciliateFile;
         api.addStatmentUpload(formData).then((data) =>{
           this.isShowCreateReconciliation = false;

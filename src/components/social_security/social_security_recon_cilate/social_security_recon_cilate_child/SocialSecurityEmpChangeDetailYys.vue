@@ -61,6 +61,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
 //  import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
   import companyAccountSearchModal from '../../../common_control/CompanyAccountSearchModal.vue'

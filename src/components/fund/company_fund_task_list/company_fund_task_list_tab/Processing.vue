@@ -92,6 +92,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import InputAccount from '../../../fund/common/input_account'
 
   import InputCompany from '../../../common_control/form/input_company'

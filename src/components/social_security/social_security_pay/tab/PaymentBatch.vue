@@ -168,7 +168,8 @@
   </div>
 </template>
 <script>
-  import {mapState, mapGetters, mapActions} from 'vuex'
+  import {localStorage, sessionStorage} from '../../../../assets/api/storage'
+  import {mapState, mapGetters, mapActions} from 'vuex'  
   import customerModal from '../../../common_control/CustomerModal.vue'
   import EventType from '../../../../store/event_types'
   import payComApi from '../../../../api/social_security/payment_com'

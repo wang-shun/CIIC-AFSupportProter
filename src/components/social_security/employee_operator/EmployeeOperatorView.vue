@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import noprogress from './tab/Noprogress'//雇员日常操作 -- 未处理
   import progressing from './tab/Progressing'//雇员日常操作 -- 处理中
   import finished from './tab/Finished'//雇员日常操作 -- 已完成

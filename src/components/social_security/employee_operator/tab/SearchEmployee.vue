@@ -88,6 +88,7 @@
   </Form>
 </template>
 <script>
+  import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import {em_chooseField, em_relationship} from "../../../../assets/js/social_manage/common_filed"
   import COMMON_METHODS from "../../../../assets/js/common_methods"
   import InputAccount from '../../../common_control/form/input_account'
@@ -153,7 +154,7 @@
     },
     async mounted() {
 //      this.initOptions();
-      let userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      let userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
       let fu = sessionStorage.getItem(this.sessionKey + userInfo.userId);
 
@@ -409,8 +410,8 @@
         this.searchConditions=[];
       },
       searchEmploiees() {
-         let userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
-         window.sessionStorage.setItem(this.sessionKey + userInfo.userId, JSON.stringify(this.searchConditions));
+         let userInfo = JSON.parse(localStorage.getItem('userInfo'));
+         sessionStorage.setItem(this.sessionKey + userInfo.userId, JSON.stringify(this.searchConditions));
          this.$emit("on-search", this.searchConditions);
       },
       loadDict(){

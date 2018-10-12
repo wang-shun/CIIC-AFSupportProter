@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import SsRouter from './ss_router'
 import EmployManageRouter from './employ_manage_router'
 import userInfoApi from '../store/modules/health_medical/data_sources/supplementary_medica.js'
+import {localStorage, sessionStorage} from '../assets/api/storage'
 
 const main = r => require.ensure([], () => r(require('@/components/main')), 'main') //首页
 const welcome = r => require.ensure([], () => r(require('@/components/Welcome')), 'Welcome') // 欢迎页
@@ -1080,7 +1081,7 @@ let router = new Router({
 import { CommonApi } from '../api/common_service'
 
 router.beforeEach((to, from, next) => {
-  const userInfo = window.localStorage.getItem('userInfo')
+  const userInfo = localStorage.getItem('userInfo')
   if ((userInfo !== null) && (userInfo !== '')) {
     let param = new URLSearchParams()
     param.append('token', JSON.parse(userInfo).token)
@@ -1111,7 +1112,7 @@ const SET_DOCUMENT_INFO = (to) => {
 }
 
 const BACK_TO_LOGIN = () => {
-  window.localStorage.removeItem('userInfo')
+  localStorage.removeItem('userInfo')
   window.location = process.env.LOGIN_URL + '/#/?refer=' + encodeURIComponent(encodeURIComponent(window.location.href))
 }
 

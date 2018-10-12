@@ -85,6 +85,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import api from '../../../api/house_fund/company_fund_account_search/company_fund_account_search'
   import companyFundAccountInfoAndOperate from "../common/CompanyFundAccountInfoAndOperate.vue"
   import companyFundAccountBindList from "../common/CompanyFundAccountBindList.vue"
@@ -103,7 +104,7 @@
       }
     },
     mounted() {
-      this.fundAccountInfo = JSON.parse(window.sessionStorage.getItem('fundAccountInfo'));
+      this.fundAccountInfo = JSON.parse(sessionStorage.getItem('fundAccountInfo'));
       this.isCanEdit = this.fundAccountInfo.isCanUpdate;
       if(this.isCanEdit==false){
          this.isCanEditBase=this.fundAccountInfo.hfType==1?false:true;

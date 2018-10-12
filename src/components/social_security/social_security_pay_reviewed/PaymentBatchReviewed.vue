@@ -128,6 +128,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../common_control/CustomerModal.vue'
   import EventType from '../../../store/event_types'
@@ -487,7 +488,7 @@
       goPaymentComReviewed(paymentId) {
         sessionData.setJsonDataToSession('paymentBatchReviewed.payBatchSearchData', this.payBatchSearchData);
         sessionData.setJsonDataToSession('paymentBatchReviewed.payBatchPageData', this.payBatchPageData);
-        window.sessionStorage.setItem("paymentComReviewed_paymentId", paymentId)
+        sessionStorage.setItem("paymentComReviewed_paymentId", paymentId)
         this.$router.push({name: 'paymentComReviewed'})
       },
     }

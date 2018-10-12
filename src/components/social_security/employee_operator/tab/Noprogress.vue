@@ -56,6 +56,7 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
+  import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
@@ -191,7 +192,7 @@
        this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
        this.loadDict();
 
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
@@ -202,7 +203,7 @@
     },
     methods: {
       loadSortType() {
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
         sessionData.getJsonDataFromSession('employeeCommonOperator.noProcess.employeeResultPageData', this.employeeResultPageData);
 
@@ -305,7 +306,7 @@
 //          }
 //        }
         var isStatus = null;
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
@@ -648,7 +649,7 @@
           return;
         }
         this.isLoading = true;
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
         {
@@ -756,7 +757,7 @@
         this.orderConditions = [];
         this.searchConditions =[];
 
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
         if(conditions!==null){

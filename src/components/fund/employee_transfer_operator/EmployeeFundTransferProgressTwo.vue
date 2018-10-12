@@ -751,8 +751,10 @@
                   })
                   if (unitList.length == 1) {
                     if (type == 1) {
+                      this.transferNotice.transferOutUnitAccount = data.data[0].hfComAccount;
                       this.transferNotice.transferOutUnitAccount = unitAccountList[0];
                     } else {
+                      this.transferNotice.transferInUnit = data.data[0].comAccountName;
                       this.transferNotice.transferInUnitAccount = unitAccountList[0];
                     }
                   }

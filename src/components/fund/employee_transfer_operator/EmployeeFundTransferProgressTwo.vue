@@ -289,12 +289,14 @@
                    
                     @on-focus="showUnitInSelect=true"
                     :data="transferInUnitList"
-                    @on-change="transferInChange"
+                    
                     @on-search="handleTransferInChange"
                   style="width: 100%;"  transfer>
                   </AutoComplete>
               
-                  <!-- <Select 
+                  <!--
+                    @on-change="transferInChange"
+                     <Select 
                   v-model="transferNotice.transferInUnit"
                   :label="transferNotice.transferInUnit"
                   filterable
@@ -664,6 +666,7 @@
       },
 
       handleTransferInChange(value) {
+        console.log('3-----');
         this.doSearch(value, this.transferInUnitList, this.transferInUnitAccountList, 2);
       },
 

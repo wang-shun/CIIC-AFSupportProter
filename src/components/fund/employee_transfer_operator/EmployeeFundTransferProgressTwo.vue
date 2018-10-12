@@ -670,7 +670,7 @@
      doSelect(value, unitList, unitAccountList, type) {
         this.loading = true;
        // unitAccountList.length = 0;
-        unitList.length=0;
+        //unitList.length=0;
         if (value == '' || value == undefined) {
           this.transferUnitDictList.forEach((element, index, array) => {
              if(unitList.indexOf(element)<=0){
@@ -696,6 +696,7 @@
                       }
                   })
                   if(isDuplicate==false){
+                    console.log('1==='+data.data[0].comAccountName);
                     unitList.push(data.data[0].comAccountName);
                     unitAccountList.push(data.data[0].hfComAccount);
                   }

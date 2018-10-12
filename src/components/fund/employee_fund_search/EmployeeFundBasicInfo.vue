@@ -38,7 +38,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="个人基本公积金账号：">
-                  <label>{{(viewEmpArchive.hfEmpAccount==null && viewEmpArchive.archiveTaskStatus)?'新开':viewEmpArchive.hfEmpAccount}}</label>
+                  <label>{{(viewEmpArchive.hfEmpAccount==null && this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatus)!='')?'新开':viewEmpArchive.hfEmpAccount}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -53,7 +53,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="个人补充公积金账号：">
-                  <label>{{(viewEmpArchive.hfEmpAccountBc && viewEmpArchive.archiveTaskStatusBc)?'新开':viewEmpArchive.hfEmpAccountBc}}</label>
+                  <label>{{(viewEmpArchive.hfEmpAccountBc==null && this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatusBc)!='')?'新开':viewEmpArchive.hfEmpAccountBc}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">

@@ -188,7 +188,7 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
                 <Form-item label="补充公积金账号：">
-                  <label>{{(viewEmpArchive.hfEmpAccountBc==null && viewEmpArchive.archiveTaskStatus!='')?'新开':viewEmpArchive.hfEmpAccountBc }}</label>
+                  <label>{{(viewEmpArchive.hfEmpAccountBc==null && this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatusBc)!='' )?'新开':viewEmpArchive.hfEmpAccountBc }}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >

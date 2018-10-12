@@ -141,6 +141,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../assets/api/storage'
 import { CommonApi } from '../api/common_service'
 import dropMenuList from '../data/dropMenu'
 
@@ -179,7 +180,7 @@ export default {
   },
   mounted () {
     this.ipPrefix = process.env.LOCAL_URL
-    this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     this.getPlatformAuth()
     this.getMenuAuth()
     this.getBreadCrumb()
@@ -221,7 +222,7 @@ export default {
       })
     },
     getMenuAuth () {
-      const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'))
       CommonApi.getMenuAuth(userInfo.userId).then(res => {
         this.leftNavigates = this.creatMenu(res.data)
       }, e => {
@@ -230,7 +231,7 @@ export default {
     },
     postRouteApply (url) {
       const _self = this
-      window.localStorage.setItem('currentGoTo', url)
+      localStorage.setItem('currentGoTo', url)
       document.getElementById('crossFrame').src = url
       this.postMessageInterval = setInterval(() => {
         if (_self.postCount >= COUNT_OUT) {
@@ -313,8 +314,8 @@ export default {
     logout() {
       CommonApi.logout({token: this.userInfo.token}).then(res => {
         if (res.data.code === 0) {
-          window.localStorage.clear()
-          window.localStorage.removeItem('userInfo')
+          localStorage.clear()
+          localStorage.removeItem('userInfo')
           window.location = process.env.LOGIN_URL
         }
       })

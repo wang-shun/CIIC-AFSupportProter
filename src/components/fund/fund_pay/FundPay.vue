@@ -1070,8 +1070,7 @@
          row.paymentBank = this.operateEditData[0].paymentBank;
          row.fundAccountType = this.operateEditData[0].fundAccountType;
          row.paymentMonthValue = this.operateEditData[0].paymentMonth;
-         //row.paymentStatus = this.operateEditData[0].paymentStatus;
-         row.paymentStatus = 1;
+         row.paymentStatus = this.operateEditData[0].paymentStatus;
          let params = {
            pageSize: 99999,//暂时这么改，后续把分页去掉
            pageNum: 1,

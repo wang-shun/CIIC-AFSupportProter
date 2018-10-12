@@ -370,7 +370,7 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", (params.row.hfEmpAccount==null && params.row.archiveTaskStatus)?'新开': params.row.hfEmpAccount )
+              h("span", (params.row.hfEmpAccount==null && this.$decode.hfTaskStatus(params.row.archiveTaskStatus)!='')?'新开': params.row.hfEmpAccount )
             ]);
           }
         },
@@ -392,7 +392,7 @@ export default {
           width: 150,
           render: (h, params) => {
             return h("div", { style: { textAlign: "left" } }, [
-              h("span", params.row.hfEmpAccountBc)
+              h("span",(params.row.hfEmpAccountBc==null && this.$decode.hfTaskStatus(params.row.archiveTaskStatusBc)!='')?'新开': params.row.hfEmpAccountBc )
             ]);
           }
         },

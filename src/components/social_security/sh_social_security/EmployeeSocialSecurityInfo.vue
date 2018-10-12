@@ -344,17 +344,19 @@
             width: 80,
             key: 'operat',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'error', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.deleteRemark(params.row.empRemarkId)
+              if(params.row.createdDisplayName==JSON.parse(window.localStorage.getItem('userInfo')).displayName){
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'error', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        this.deleteRemark(params.row.empRemarkId)
+                      }
                     }
-                  }
-                }, '删除'),
-              ]);
+                  }, '删除'),
+                ]);
+              }
             }
           }
         ],

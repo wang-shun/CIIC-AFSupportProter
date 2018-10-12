@@ -173,7 +173,7 @@
                      :data="operatorListData"></Table>
               </Col>
             </Row>
-            <Row class="mt20">
+            <!-- <Row class="mt20">
               <Col span="16">
               <Form-item label="办理备注：" prop="handleRemark">
                 <Input v-model="socialSecurityPayOperator.handleRemark" placeholder="请输入..."></Input>
@@ -216,17 +216,51 @@
                 <label>{{(socialSecurityPayOperator.rejectionRemark && socialSecurityPayOperator.rejectionRemark.trim() != '')? socialSecurityPayOperator.rejectionRemarkDate : ''}}</label>
               </Form-item>
               </Col>
-            </Row>
+            </Row> -->
           </Form>
         </div>
       </Panel>
       <Panel name="5">
+        备注
+        <div slot="content">
+          <Form :label-width=120>
+            <Row>
+              <Col :sm="{span: 12}">
+                <Form-item label="备注：">
+                  <Input style="width: 500px" v-model="remarkInfo.remark" placeholder=""></Input>
+                      <Button type="primary" @click="saveRemark" >添加</Button>
+                </Form-item>
+              </Col>
+            </Row>
+            <Row>
+              <Col :sm="{span: 12}">
+              <Form-item label="点击添加固定项：">
+                  <Button @click="addRemark('上家未转出。')">上家未转出。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('人员属性不一致，需身份证户口簿复印件。')">人员属性不一致，需身份证户口簿复印件。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('未办理录用。')">未办理录用。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('上家已缴费。')">上家已缴费。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('录用日期与社保缴纳月不一致。')">录用日期与社保缴纳月不一致。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('缺相关材料。')">缺相关材料。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('已领失业金。')">已领失业金。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('其他。')">其他。</Button>&nbsp;&nbsp;
+                </Form-item>
+              </Col>
+            </Row>
+            <Row>
+              <Col :sm="{span: 12}">
+                <Table border style="width: 1080px" :columns="socialSecurityRemarkListColumns" :data="socialSecurityRemarkData"></Table>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Panel>
+      <Panel name="6">
         历史任务单
         <div slot="content">
           <origin-emp-task-info :empTaskId="this.$route.query.empTaskId"></origin-emp-task-info>
         </div>
       </Panel>
-      <Panel name="6">
+      <Panel name="7">
         雇员未做任务单
         <div slot="content">
           <Form :label-width=150 >
@@ -268,10 +302,18 @@
         empTaskId: '',
         operatorType: '',
         processCategory: '',
+        socialSecurityRemarkData:[],//备注列表
         currentIndex: this.$route.params.index,
         isNextMonth:this.$route.query.isNextMonth,
         sourceFrom: '',
-        collapseInfo: [1, 2, 3, 4, 5, 6],
+        collapseInfo: [1, 2, 3, 4, 5, 6, 7],
+        remarkInfo:{
+          companyId:'',
+          employeeId:'',
+          remark: '',
+          empArchiveId: '',
+          empTaskId: ''
+        },
         employee: {
           idNum:'',
           education:'',
@@ -307,6 +349,53 @@
           {value: 1, label: '退休'},
           {value: 2, label: '终止'}
         ], //特殊变更类型：
+        socialSecurityRemarkListColumns: [
+          {
+            title: '备注', key: 'remark', align: 'center', width: 600,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.remark),
+              ]);
+            }
+          },
+          {
+            title: '创建时间', key: 'createdTime', align: 'center', width: 183,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [ 
+                h('span', params.row.createdTime),
+              ]);
+            }
+          },
+          {
+            title: '创建人', key: 'createdDisplayName', align: 'center', width: 203,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.createdDisplayName),
+              ]);
+            }
+          },
+          {
+            title: '操作',
+            align: 'center',
+            width: 80,
+            key: 'operat',
+            render: (h, params) => {
+              if(params.row.createdDisplayName==JSON.parse(window.localStorage.getItem('userInfo')).displayName){
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'error', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        this.deleteRemark(params.row.empRemarkId)
+                      }
+                    }
+                  }, '删除'),
+                ]);
+              }
+            }
+          }
+        ],
         operatorListColumns: [
           {
             title: '', key: 'remitWay', align: 'center', width: 100,
@@ -520,7 +609,41 @@
     },
     methods: {
       addRemark(val){
-        this.socialSecurityPayOperator.handleRemark = this.socialSecurityPayOperator.handleRemark+val;
+        this.remarkInfo.remark = this.remarkInfo.remark+val;
+      },
+      saveRemark(){
+        this.remarkInfo.companyId = this.companyId;
+        this.remarkInfo.employeeId = this.employeeId;
+        this.remarkInfo.empTaskId = this.empTaskId;
+        api.saveEmpRemark(this.remarkInfo).then(data => {
+          if (data.data.code == 200) {
+            this.$Message.success("备注保存成功");
+            this.remarkInfo.remark = '';
+            api.queryEmpRemark({companyId:this.remarkInfo.companyId,employeeId:this.remarkInfo.employeeId}).then(data2 => {
+            if (data2.data.code == 200) {
+              this.socialSecurityRemarkData = data2.data.data;
+            }
+            })
+          } else {
+            this.$Message.error("备注保存失败！" + data.message);
+          }
+        })
+      },
+      deleteRemark(empRemarkId){
+        this.$Modal.confirm({
+          title: "你确认保存信息吗？",
+          okText: '确定',
+          cancelText: '取消',
+          onOk: () => {
+            api.delEmpRemark({empRemarkId:empRemarkId,
+            companyId:this.companyId,
+            employeeId:this.employeeId}).then(data2 => {
+              if (data2.data.code == 200) {
+                this.socialSecurityRemarkData = data2.data.data;
+              }
+            })
+          }
+        })
       },
       routerMethed(taskCategory,processCategory,empTaskId){
 
@@ -603,6 +726,10 @@
         }).then(data => {
 
           if(data.data!=null) {
+            this.employeeId = data.data.employeeId;
+            this.companyId = data.data.companyId;
+            this.empTaskId = data.data.empTaskId;
+            this.socialSecurityRemarkData = data.data.remarks;
             if (data.data.empTaskPeriods.length > 0) {
               this.operatorListData = data.data.empTaskPeriods;
             } else {

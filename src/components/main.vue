@@ -189,12 +189,23 @@ export default {
       return this.$route.path.replace(/\//g, '_')
     },
     drops () {
+//      let dropMenus = []
+//      if (this.platformIds && [...this.platformIds].length > 0) {
+//        const platformIds = [...this.platformIds]
+//        for (let i = 0, len = platformIds.length; i < len; i++) {
+//          if (dropMenuList[platformIds[i]] !== undefined) {
+//            dropMenus.push(dropMenuList[platformIds[i]])
+//          }
+//        }
+//      }
       let dropMenus = []
+      let env = process.env.env
+      let _dropMenuList = dropMenuList[env === 'prod' ? env : 'other']
       if (this.platformIds && [...this.platformIds].length > 0) {
         const platformIds = [...this.platformIds]
         for (let i = 0, len = platformIds.length; i < len; i++) {
-          if (dropMenuList[platformIds[i]] !== undefined) {
-            dropMenus.push(dropMenuList[platformIds[i]])
+          if (_dropMenuList[platformIds[i]] !== undefined) {
+            dropMenus.push(_dropMenuList[platformIds[i]])
           }
         }
       }
@@ -296,7 +307,8 @@ export default {
       }
     },
     modifyPassword() {
-      window.location.href = `${this.ipPrefix}:8070/#/changePassword`
+      let url = process.env.env === 'prod' ? `${process.env.LOCAL_URL}/#/changePassword` : `${process.env.LOCAL_URL}:8070/#/changePassword`
+      window.location.href = `${url}`
     },
     logout() {
       CommonApi.logout({token: this.userInfo.token}).then(res => {

@@ -95,6 +95,10 @@
             <span>其他</span>
             <span>{{RadioData.other}}</span>
         </Radio>
+         <Radio label="66">
+            <span>系统自行撤销</span>
+            <span>{{RadioData.systemCancel}}</span>
+        </Radio>
         <Radio label="0">
             <span>TOTAL</span>
             <span>{{RadioData.amount}}</span>

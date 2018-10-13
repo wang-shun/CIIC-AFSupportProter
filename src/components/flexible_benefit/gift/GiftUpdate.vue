@@ -90,6 +90,7 @@
   import {mapState, mapActions, mapGetters} from "vuex"
   import EventTypes from "../../../store/event_types"
   import dataSource from '../../../store/modules/flexible_benefit/data_sources/gift'
+  import {localStorage, sessionStorage} from '../../../assets/api/storage'
 
   export default {
     data() {

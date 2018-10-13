@@ -545,6 +545,13 @@
           },
           {title: '申请支付总金额', key: 'totalPayAmount', width: 125, align: 'center',
             render: (h, params) => {
+
+              let paymentState = params.row.paymentState;
+              if(paymentState==4 || paymentState==6 ||paymentState==8  ){
+                return h('div', {style: {textAlign: 'right'}},[
+                h('span', params.row.totalPayAmount),
+                ]);
+              }else
               return h('div', {style: {textAlign: 'right'}}, [
 //                h('span', params.row.totalPayAmount),
                 h('Input', {
@@ -601,6 +608,7 @@
                 )
               ]);
             }
+
           },
           {title: '差额', key: 'paymentBalance', width: 100, align: 'center', sortable: 'custom',
             render: (h, params) => {

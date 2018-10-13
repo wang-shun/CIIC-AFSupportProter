@@ -58,3 +58,8 @@ app.$Notice.config({
   top:80
 })
 app.$mount('#app')
+
+app.$Message.config({
+  top: 50,
+  duration: 3
+});

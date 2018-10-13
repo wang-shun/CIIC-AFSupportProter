@@ -63,6 +63,7 @@
 <script>
   import {mapState, mapActions, mapGetters} from "vuex"
   import EventTypes from "../../../store/event_types"
+  import {localStorage, sessionStorage} from '../../../assets/api/storage'
 
   export default {
     data() {

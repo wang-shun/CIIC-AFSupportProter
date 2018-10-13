@@ -105,14 +105,14 @@
             <Row>
               <Col :sm="{span: 12}">
               <Form-item label="点击添加固定项：">
-                  <Button @click="addRemark('上家未转出。')">上家未转出。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('人员属性不一致，需身份证户口簿复印件。')">人员属性不一致，需身份证户口簿复印件。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('未办理录用。')">未办理录用。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('上家已缴费。')">上家已缴费。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('录用日期与社保缴纳月不一致。')">录用日期与社保缴纳月不一致。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('缺相关材料。')">缺相关材料。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('已领失业金。')">已领失业金。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('其他。')">其他。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('上家未转出')">上家未转出</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('人员属性不一致，需身份证户口簿复印件')">人员属性不一致，需身份证户口簿复印件</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('未办理录用')">未办理录用</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('上家已缴费')">上家已缴费</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('录用日期与社保缴纳月不一致')">录用日期与社保缴纳月不一致</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('缺相关材料')">缺相关材料</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('已领失业金')">已领失业金</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('其他')">其他</Button>&nbsp;&nbsp;
                 </Form-item>
               </Col>
             </Row>
@@ -462,6 +462,10 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
         this.remarkInfo.remark = this.remarkInfo.remark+val;
       },
       saveRemark(){
+        if(this.remarkInfo.remark==''||this.remarkInfo.remark==undefined){
+          this.$Message.error("请输入备注！");
+          return;
+        }
         this.remarkInfo.companyId = this.companyId;
         this.remarkInfo.employeeId = this.employeeId;
         this.remarkInfo.empTaskId = this.empTaskId;
@@ -481,7 +485,8 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
       },
       deleteRemark(empRemarkId){
         this.$Modal.confirm({
-          title: "你确认保存信息吗？",
+          title: "确认",
+          content: "删除备注吗？",
           okText: '确定',
           cancelText: '取消',
           onOk: () => {

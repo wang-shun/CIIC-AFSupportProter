@@ -81,6 +81,7 @@
   import EventTypes from "../../../store/event_types"
   import qs from "qs"
   import ajax from "../../../lib/ajax"
+  import {localStorage, sessionStorage} from '../../../assets/api/storage'
 
   export default {
     name: "sporadic-reimbursement-tab",

@@ -350,11 +350,10 @@ export default {
       if (fromData.ifGiveupEvaluation == 1) {
         fromData.ifGiveupEvaluationLabel = "是";
       }
-
+      
       api.saveAmInjury(fromData).then(data => {
         if (data.data.result == true) {
           this.$Message.success("保存成功");
-          //this.injuryReportManageInfo.push(data.data.data);
           this.injuryReportManageInfo = data.data.data;
         } else {
           this.$Message.error("保存失败！");

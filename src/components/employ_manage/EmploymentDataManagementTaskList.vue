@@ -40,7 +40,7 @@
             <DropdownItem name="6">外来情况说明</DropdownItem>
           </DropdownMenu>
         </Dropdown>
-        <Button type="primary" @click="batchManagement">批理办理</Button>
+        <Button type="primary" @click="batchManagement">批量办理</Button>
       </Col>
     </Row>
     <Row class="mt14" type="flex" justify="start">
@@ -95,6 +95,10 @@
             <span>其他</span>
             <span>{{RadioData.other}}</span>
         </Radio>
+         <Radio label="66">
+            <span>系统自行撤销</span>
+            <span>{{RadioData.systemCancel}}</span>
+        </Radio>
         <Radio label="0">
             <span>TOTAL</span>
             <span>{{RadioData.amount}}</span>
@@ -125,6 +129,7 @@ import searchEmployment from "./common/SearchEmployment.vue";
 import employeeInfo from "./common/EmployeeInfo.vue";
 import api from "../../api/employ_manage/hire_operator";
 import tableStyle from "../../api/table_style";
+import {localStorage, sessionStorage} from '../../assets/api/storage'
 
 export default {
   components: { employeeInfo, searchEmployment },
@@ -777,7 +782,7 @@ export default {
     SortChange(e) {
       this.orderConditions = [];
       this.searchConditions = [];
-      var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
       var isFinish = JSON.parse(
         sessionStorage.getItem("employmentIsFinish" + userInfo.userId)
@@ -884,7 +889,7 @@ export default {
     exportTable(name) {
       this.orderConditions = [];
       this.searchConditions = [];
-      var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
       var conditions = JSON.parse(
         sessionStorage.getItem("employment" + userInfo.userId)
       );

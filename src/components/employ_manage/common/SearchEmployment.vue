@@ -77,6 +77,7 @@
 <script>
   import {em_chooseField,em_resign_chooseField,em_arc_chooseField,em_relationship,independent_chooseField} from "../../../assets/js/employ_manage/common_filed"
   import COMMON_METHODS from "../../../assets/js/common_methods"
+   import {localStorage, sessionStorage} from '../../../assets/api/storage'
   const chooseType = {
     field: 1001,
     relationship: 1002
@@ -117,7 +118,7 @@
     },
     mounted() {
     
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var fu;
       var isFinishValue;
       if(userInfo!=null&&userInfo!=undefined){
@@ -228,19 +229,19 @@
         this.searchConditions = [];
       },
       searchEmploiees() {
-         var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+         var userInfo = JSON.parse(localStorage.getItem('userInfo'));
          if(userInfo!=null&&userInfo!=undefined){
              if(this.showHandle.name==='employ')
               {
-                window.sessionStorage.setItem('employment'+userInfo.userId, JSON.stringify(this.searchConditions));
-                window.sessionStorage.setItem('employmentIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
+                sessionStorage.setItem('employment'+userInfo.userId, JSON.stringify(this.searchConditions));
+                sessionStorage.setItem('employmentIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
               }else if(this.showHandle.name==='resign'){
-                window.sessionStorage.setItem('resign'+userInfo.userId, JSON.stringify(this.searchConditions));
-                window.sessionStorage.setItem('resignIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
+                sessionStorage.setItem('resign'+userInfo.userId, JSON.stringify(this.searchConditions));
+                sessionStorage.setItem('resignIsFinish'+userInfo.userId, JSON.stringify(this.searchForm.isFinish));
               }else if(this.showHandle.name==='archive'){
-                window.sessionStorage.setItem('archive'+userInfo.userId, JSON.stringify(this.searchConditions));
+                sessionStorage.setItem('archive'+userInfo.userId, JSON.stringify(this.searchConditions));
               }else if(this.showHandle.name==='independentCustom'){
-                 window.sessionStorage.setItem('independentCustom'+userInfo.userId, JSON.stringify(this.searchConditions));
+                sessionStorage.setItem('independentCustom'+userInfo.userId, JSON.stringify(this.searchConditions));
               }
          }
          

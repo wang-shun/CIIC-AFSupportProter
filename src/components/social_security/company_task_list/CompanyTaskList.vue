@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import noprogress from './company_task_list_tab/Noprogress'//未处理
   import progressing from './company_task_list_tab/Progressing'//处理中
   import finished from './company_task_list_tab/Finished'//完成

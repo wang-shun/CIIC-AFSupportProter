@@ -38,7 +38,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="个人基本公积金账号：">
-                  <label>{{viewEmpArchive.hfEmpAccount}}</label>
+                  <label>{{(viewEmpArchive.hfEmpAccount==null && this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatus)!='')?'新开':viewEmpArchive.hfEmpAccount}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -53,7 +53,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
                 <Form-item label="个人补充公积金账号：">
-                  <label>{{viewEmpArchive.hfEmpAccountBc}}</label>
+                  <label>{{(viewEmpArchive.hfEmpAccountBc==null && this.$decode.hf_archiveTaskStatus(viewEmpArchive.archiveTaskStatusBc)!='')?'新开':viewEmpArchive.hfEmpAccountBc}}</label>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -87,7 +87,7 @@
               </Col>
 
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-                <Form-item label="客户中心：">
+                <Form-item label="客服中心：">
                   <label>{{viewComAccount.serviceCenter}}</label>
                 </Form-item>
               </Col>
@@ -216,7 +216,8 @@
             <Row type="flex" justify="start">
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
                 <Form-item label="补充公积金账号：">
-                  <Input v-model="viewEmpArchive.hfEmpAccountBc" :disabled="!viewEmpArchive.empArchiveIdBc" placeholder=""></Input>
+                  <Input v-model="viewEmpArchive.hfEmpAccountBc"  
+                  :disabled="!viewEmpArchive.empArchiveIdBc" placeholder=""></Input>
                 </Form-item>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}" >
@@ -560,7 +561,7 @@
           this.$Message.error("【基本公积金账号】输入不正确，必须要求9位的数字。");
           return;
         }
-        if (this.viewEmpArchive.empArchiveIdBc && !reg.test(this.viewEmpArchive.hfEmpAccountBc)) {
+        if (this.viewEmpArchive.empArchiveIdBc && this.viewEmpArchive.hfEmpAccountBc && !reg.test(this.viewEmpArchive.hfEmpAccountBc)) {
           this.$Message.error("【补充公积金账号】输入不正确，必须要求9位的数字。");
           return;
         }

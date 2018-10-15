@@ -21,7 +21,7 @@
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <!-- <Button type="primary" @click="goHandle">办理</Button> -->
-         <Button type="primary" @click="batchManagement">批理办理</Button>
+         <Button type="primary" @click="batchManagement">批量办理</Button>
          <Button type="primary" @click="explain">外来情况说明</Button>
          <Button type="primary" @click="printReturn">打印外来退工单</Button>
         <!-- <Button type="primary" @click="batchOperating">批量操作</Button> -->
@@ -85,6 +85,10 @@
             <span>其他</span>
             <span>{{RadioData.other}}</span>
         </Radio>
+         <Radio label="66">
+            <span>系统自行撤销</span>
+            <span>{{RadioData.systemCancel}}</span>
+        </Radio>
         <Radio label="0">
             <span>TOTAL</span>
             <span>{{RadioData.amount}}</span>
@@ -105,7 +109,7 @@ import searchEmployment from "./common/SearchEmployment.vue";
 import employeeInfo from "./common/EmployeeInfo.vue";
 import api from "../../api/employ_manage/hire_operator";
 import tableStyle from "../../api/table_style";
-
+import {localStorage, sessionStorage} from '../../assets/api/storage'
 export default {
   components: { searchEmployment },
   data() {
@@ -703,7 +707,7 @@ export default {
       this.orderConditions = [];
       this.searchConditions = [];
 
-      var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+      var userInfo = JSON.parse(localStorage.getItem("userInfo"));
       var conditions = JSON.parse(
         sessionStorage.getItem("resign" + userInfo.userId)
       );

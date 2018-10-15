@@ -61,14 +61,14 @@
               </Col>
               <Col v-if="source!='3'" :sm="{span: 16}">
                 <Form-item label="点击添加备注选项：">
-                  <Button @click="addRemark('上家未转出。')">上家未转出。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('人员属性不一致，需身份证户口簿复印件。')">人员属性不一致，需身份证户口簿复印件。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('未办理录用。')">未办理录用。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('上家已缴费。')">上家已缴费。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('录用日期与社保缴纳月不一致。')">录用日期与社保缴纳月不一致。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('缺相关材料。')">缺相关材料。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('已领失业金。')">已领失业金。</Button>&nbsp;&nbsp;
-                  <Button @click="addRemark('其他。')">其他。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('上家未转出')">上家未转出。</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('人员属性不一致，需身份证户口簿复印件')">人员属性不一致，需身份证户口簿复印件</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('未办理录用')">未办理录用</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('上家已缴费')">上家已缴费</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('录用日期与社保缴纳月不一致')">录用日期与社保缴纳月不一致</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('缺相关材料')">缺相关材料</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('已领失业金')">已领失业金</Button>&nbsp;&nbsp;
+                  <Button @click="addRemark('其他')">其他</Button>&nbsp;&nbsp;
                 </Form-item>
               </Col>
               <Col span="4">
@@ -107,6 +107,7 @@
   </div>
 </template>
 <script>
+  import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import companyInfo from '../../components/CompanyInfo'
   import employeeInfo from '../../components/EmployeeInfo.vue'

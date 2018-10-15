@@ -50,6 +50,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
   import companyAccountSearchModal from '../../../common_control/CompanyAccountSearchModal.vue'
@@ -139,13 +140,13 @@
       this[EventType.SOCIALSECURITYRECONCILATEDETAIL]();
       // var pagParam= {
       //       //对账主表ID
-      //       statementId : window.sessionStorage.getItem("statementId")
+      //       statementId : sessionStorage.getItem("statementId")
       //     };
-      //this.pagParam.statementId = window.sessionStorage.getItem("statementId");
+      //this.pagParam.statementId = sessionStorage.getItem("statementId");
       //this.doAlert(pagParam.statementId);
-      this.statementId = window.sessionStorage.getItem("monthEmpChangeId");
-      this.serachMonthEmpChange(window.sessionStorage.getItem("monthEmpChangeId"));
-      this.showMonthEmpChangeDetail(window.sessionStorage.getItem("monthEmpChangeId"));
+      this.statementId = sessionStorage.getItem("monthEmpChangeId");
+      this.serachMonthEmpChange(sessionStorage.getItem("monthEmpChangeId"));
+      this.showMonthEmpChangeDetail(sessionStorage.getItem("monthEmpChangeId"));
 
     },
     computed: {

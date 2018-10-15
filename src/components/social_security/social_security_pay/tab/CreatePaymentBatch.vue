@@ -134,6 +134,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
  // import progressBar from '../../../common_control/progress/ProgressBar.vue'
@@ -519,10 +520,10 @@
       goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState) {
         sessionData.setJsonDataToSession('createPaymentBatch.payComSearchData', this.payComSearchData);
         sessionData.setJsonDataToSession('createPaymentBatch.payComPageData', this.payComPageData);
-        window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId);
-        window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId);
-        window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth);
-        window.sessionStorage.setItem("paymentnotice_paymentState", paymentState);
+        sessionStorage.setItem("paymentnotice_paymentComId", paymentComId);
+        sessionStorage.setItem("paymentnotice_comAccountId", comAccountId);
+        sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth);
+        sessionStorage.setItem("paymentnotice_paymentState", paymentState);
         this.$router.push({name: 'paymentNotice'})
       },
       ok () {

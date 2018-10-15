@@ -102,6 +102,7 @@
 <script>
   import admissibility from '../../../store/modules/health_medical/data_sources/admissibility.js'
   import apiAjax from "../../../data/health_medical/uninsured_application.js";
+  import {localStorage, sessionStorage} from '../../../assets/api/storage'
 
   export default {
     data() {

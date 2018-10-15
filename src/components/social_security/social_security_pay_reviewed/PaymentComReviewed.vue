@@ -61,6 +61,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../common_control/CustomerModal.vue'
   import EventType from '../../../store/event_types'
@@ -109,10 +110,11 @@
                   style: {margin: '0 auto 0 10px'},
                   on: {
                     click: () => {
-                      let paymentComId = params.row.paymentComId;
-                      let comAccountId = params.row.comAccountId;
-                      let paymentMonth = params.row.paymentMonth;
-                      this.goPaymentNotice(paymentComId,comAccountId,paymentMonth);
+                     let paymentComId = params.row.paymentComId;
+                     let comAccountId = params.row.comAccountId;
+                     let paymentMonth = params.row.paymentMonth;
+                     let paymentState = params.row.paymentState;
+                     this.goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState,params.row.ssAccount);
                     }
                   }
                 }, '付款通知书')
@@ -256,7 +258,7 @@
     },
     mounted() {
       this[EventType.SOCIALSECURITYPAYTYPE]();
-      this.payComSearchData.paymentId = window.sessionStorage.getItem("paymentComReviewed_paymentId");
+      this.payComSearchData.paymentId = sessionStorage.getItem("paymentComReviewed_paymentId");
       this.payComHandlePageNum(1);
     },
     computed: {
@@ -272,10 +274,12 @@
       goBack() {
         this.$router.push({name: 'paymentBatchReviewed'})
       },
-      goPaymentNotice(paymentComId,comAccountId,paymentMonth) {
-        window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
-        window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
-        window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
+      goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState,ssAccount) {
+        sessionStorage.setItem("paymentnotice_paymentComId", paymentComId)
+        sessionStorage.setItem("paymentnotice_comAccountId", comAccountId)
+        sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth)
+        sessionStorage.setItem("paymentnotice_paymentState", paymentState);
+        sessionStorage.setItem("paymentnotice_ssAccount", ssAccount);
         this.$router.push({name: 'paymentNotice'})
       },
       ok () {

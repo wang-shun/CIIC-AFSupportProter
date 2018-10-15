@@ -190,6 +190,7 @@
 <script>
   import api from '../../../api/employ_manage/hire_operator'
   import Vue from 'vue'
+  import {localStorage, sessionStorage} from '../../../assets/api/storage'
   export default {
     props: {
       fileInfo1: {
@@ -211,12 +212,12 @@
         seqMax2: 0,
         placeAddList: [],
         placeStateList: [
-          {value:'空',label:'空'},
+          {value:'',label:''},
           {value:'无',label:'无'},
           {value:'卡为复印件',label:'卡为复印件'}
         ],
         fileOriginList: [
-          {value:'空',label:'空'},
+          {value:'',label:''},
           {value:'户口所在地调入',label:'户口所在地调入'},
           {value:'市区人才调入',label:'市区人才调入'},
           {value:'单位转出（包括邮寄）',label:'单位转出（包括邮寄）'},
@@ -225,7 +226,7 @@
           {value:'其他',label:'其他'}
         ],
         filePlaceList: [
-          {value:'空',label:'空'},
+          {value:'',label:''},
           {value:'外来从业人员',label:'外来从业人员'},
           {value:'居住证',label:'居住证'},
           {value:'属地管理',label:'属地管理'},
@@ -619,7 +620,7 @@
     },
     computed: {
       file1() {
-         var userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+         var userInfo = JSON.parse(localStorage.getItem("userInfo"));
          this.fileInfo1.username = userInfo.displayName;
         return this.fileInfo1;
       },

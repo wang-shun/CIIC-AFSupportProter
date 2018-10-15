@@ -56,6 +56,7 @@
 </template>
 <script>
   import {mapState, mapGetters, mapActions} from 'vuex'
+  import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import EventType from '../../../../store/event_types'
   import api from '../../../../api/social_security/employee_operator'
 
@@ -191,7 +192,7 @@
        this.searchEmploiees(this.searchConditions, this.employeeResultPageData.pageNum);
        this.loadDict();
 
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
@@ -202,7 +203,7 @@
     },
     methods: {
       loadSortType() {
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
         sessionData.getJsonDataFromSession('employeeCommonOperator.noProcess.employeeResultPageData', this.employeeResultPageData);
 
@@ -305,7 +306,7 @@
 //          }
 //        }
         var isStatus = null;
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
@@ -601,6 +602,7 @@
 
           // 任务类型，DicItem.DicItemValue 1新进  2  转入 3  调整 4 补缴 5 转出 6封存 7退账  9 特殊操作
           var taskCategory = data.taskCategory;
+          var processCategory = data.processCategory;
           var name = 'empTaskHandleView';
           switch (taskCategory) {
             case '1':
@@ -630,9 +632,9 @@
           }
            let params = {}
           if(this.isNextMonth){
-             params = {operatorType: taskCategory, empTaskId: data.empTaskId,isNextMonth:1};
+             params = {operatorType: taskCategory,processCategory: processCategory, empTaskId: data.empTaskId,isNextMonth:1};
           }else{
-            params = {operatorType: taskCategory, empTaskId: data.empTaskId,isNextMonth:0}
+            params = {operatorType: taskCategory,processCategory: processCategory, empTaskId: data.empTaskId,isNextMonth:0}
           }
           // 根据任务类型跳转
           this.$router.push({
@@ -648,7 +650,7 @@
           return;
         }
         this.isLoading = true;
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         this.searchConditions =[];
         for(var i=0;i<conditions.length;i++)
         {
@@ -756,7 +758,7 @@
         this.orderConditions = [];
         this.searchConditions =[];
 
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('socialDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('socialDailyOrder'+userInfo.userId));
         if(conditions!==null){

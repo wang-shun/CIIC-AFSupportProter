@@ -17,6 +17,7 @@ import Dic from './lib/dic.js'
 import moment from 'moment'
 
 import store from './store'
+import {localStorage, sessionStorage} from './assets/api/storage'
 
 Vue.config.productionTip = false
 
@@ -34,15 +35,15 @@ const response = {
   'message': 'OK'
 }
 window.addEventListener('message', (event) => {
-  const currentGoTo = window.localStorage.getItem('currentGoTo')
+  const currentGoTo = localStorage.getItem('currentGoTo')
   const message = !event.data ? {} : JSON.parse(event.data)
   const isToken = message.token !== undefined
   if (isToken && (currentGoTo === null || currentGoTo === '')) {
-    window.localStorage.setItem('userInfo', event.data)
+    localStorage.setItem('userInfo', event.data)
     top.postMessage(JSON.stringify(response), event.origin)
   } else {
     if ((currentGoTo !== null) && (currentGoTo !== '')) {
-      window.localStorage.removeItem('currentGoTo')
+      localStorage.removeItem('currentGoTo')
       window.location.href = currentGoTo
     }
   }
@@ -57,3 +58,8 @@ app.$Notice.config({
   top:80
 })
 app.$mount('#app')
+
+app.$Message.config({
+  top: 50,
+  duration: 3
+});

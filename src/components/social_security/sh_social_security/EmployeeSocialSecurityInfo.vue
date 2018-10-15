@@ -239,6 +239,7 @@
 <script>
 //  import {mapState, mapGetters, mapActions} from 'vuex'
 //  import EventTypes from '../../../store/event_types'
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import api from '../../../api/social_security/employee_operator'
   import originEmpTaskInfo from './OriginEmpTaskInfo.vue'
   import dict from '../../../api/dict_access/social_security_dict'
@@ -325,7 +326,7 @@
           {
             title: '创建时间', key: 'createdTime', align: 'center', width: 183,
             render: (h, params) => {
-              return h('div', {style: {textAlign: 'center'}}, [ 
+              return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.createdTime),
               ]);
             }
@@ -344,17 +345,19 @@
             width: 80,
             key: 'operat',
             render: (h, params) => {
-              return h('div', [
-                h('Button', {
-                  props: {type: 'error', size: 'small'},
-                  style: {margin: '0 auto'},
-                  on: {
-                    click: () => {
-                      this.deleteRemark(params.row.empRemarkId)
+              if(params.row.createdDisplayName==JSON.parse(localStorage.getItem('userInfo')).displayName){
+                return h('div', [
+                  h('Button', {
+                    props: {type: 'error', size: 'small'},
+                    style: {margin: '0 auto'},
+                    on: {
+                      click: () => {
+                        this.deleteRemark(params.row.empRemarkId)
+                      }
                     }
-                  }
-                }, '删除'),
-              ]);
+                  }, '删除'),
+                ]);
+              }
             }
           }
         ],

@@ -92,7 +92,7 @@
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
         <!-- <Button type="info">导出</Button> -->
-        <Button type="info" @click="batchPrintNote">批量打印转移通知书</Button>
+        <!-- <Button type="info" @click="batchPrintNote">批量打印转移通知书</Button> -->
         <Button type="info" @click="empTaskTransferTxtExport">导出雇员转移TXT</Button>
         <Button type="info"  @click="isUpload=true">批量导入回单日期</Button>
         <Button type="info"  @click="isShowFeedbackDateBatch=true">批量更新回单日期</Button>
@@ -617,7 +617,8 @@
       },
       batchPrintNote(){
         if (this.selectedData.length == 0) {
-          this.$Message.error("请选择需要批量打印的记录");
+          this.$Message.error("请选择需批量打印的记录");
+          return false;
         }
         let params={
                     selectedData: this.selectedData,
@@ -626,7 +627,6 @@
               title: "确认",
               content: "您确认批量打印操作吗?",
               onOk: function() {
-                
                    api.batchPrintNote(params).then(
                         data=>{
                           if(data.code==200){

@@ -141,7 +141,7 @@
             <Row>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="基本公积金账号：">
-                <label>{{displayVO.basicHfEmpAccount}}</label>
+                <label>{{(displayVO.basicHfEmpAccount==null && displayVO.basicArchiveStatusName )?'新开':displayVO.basicHfEmpAccount}}</label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -173,7 +173,8 @@
             <Row>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="补充公积金账号：">
-                <label>{{displayVO.addedHfEmpAccount}}</label>
+                <label>{{(displayVO.addedHfEmpAccount==null && displayVO.addedArchiveStatusName )?'新开':displayVO.addedHfEmpAccount}}
+                </label>
               </FormItem>
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -430,6 +431,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import api from '../../../../api/house_fund/employee_task_handle/employee_task_handle'
   import transapi from '../../../../api/house_fund/employee_task/employee_transfer'
   import originEmpTaskInfo from './OriginEmpTaskInfo.vue'

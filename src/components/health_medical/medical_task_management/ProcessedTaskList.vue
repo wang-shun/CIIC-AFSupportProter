@@ -148,6 +148,7 @@
 <script>
   import task from '../../../store/modules/health_medical/data_sources/medical_task.js'
   import apiAjax from "../../../data/health_medical/task_medica.js";
+  import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import qs from "qs";
 
   export default {

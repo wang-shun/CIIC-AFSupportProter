@@ -172,6 +172,7 @@
 <script>
   import supplementaryMedica from '../../../store/modules/health_medical/data_sources/supplementary_medica.js'
   import apiAjax from "../../../data/health_medical/supplementary_medica.js";
+  import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import qs from "qs"
 
   export default {

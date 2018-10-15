@@ -11,8 +11,6 @@
 
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
-        <Button type="info" @click="openBatchHandle()">批量办理</Button>
-        <Button type="info" @click="openBatchList()">批量办理批次</Button>
         <Button type="error" @click="openReject()">批量批退</Button>
         <Button type="info"  @click="isUpload=true">批量预录入雇员公积金账号</Button>
         <Button type="info" @click="excelExport()">导出</Button>
@@ -105,25 +103,10 @@
         <Button type="warning" @click="isShowRejectBatch = false">取消</Button>
       </div>
     </Modal>
-
-    <Modal
-      :width="1000"
-      v-model="isShowBatchHandle"
-      @on-ok="batchOk"
-      @on-cancel="batchCancel">
-      <inBatchHandle></inBatchHandle>
-    </Modal>
-
-    <Modal
-      :width="1200"
-      v-model="isShowBatchList"
-      @on-ok="batchListOk"
-      @on-cancel="batchListCancel">
-      <batchList></batchList>
-    </Modal>
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import ts from '../../../../api/house_fund/table_style'
   import api from '../../../../api/house_fund/employee_task/employee_task'
   import InputCompany from '../../../common_control/form/input_company'
@@ -131,11 +114,9 @@
   import sessionData from '../../../../api/session-data'
   import searchEmployee from "./SearchEmployee.vue"
   import tableStyle from '../../../../api/table_style'
-  import inBatchHandle from "../batch_handle/InTaskBatchHandle.vue"
-  import batchList from "../batch_handle/BatchList.vue"
 
   export default {
-    components: {InputCompany,searchEmployee,inBatchHandle,batchList},
+    components: {InputCompany,searchEmployee},
     data() {
       return {
         collapseInfo: [1], //展开栏
@@ -238,7 +219,7 @@
     created() {
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.operatorSearchData', this.operatorSearchData);
       sessionData.getJsonDataFromSession('employeeFundCommonOperator.noProcess.noProcessPageData', this.noProcessPageData);
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
        this.noProcessColumns.filter((e) => {
 
@@ -297,7 +278,7 @@
 
       var conditions = [];
       this.searchEmploiees(conditions, this.noProcessPageData.pageNum);
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
       this.changeSortClass(storeOrder);
     },
@@ -498,7 +479,7 @@
 //          params = this.$utils.clear(params, '');
 //          cparams = this.beforeSubmit(params);
 //        }
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var conditions = [];
         this.searchConditions =[];
 
@@ -587,7 +568,7 @@
           return;
         }
         this.isLoading = true;
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         this.searchConditions =[];
 
         for(var i=0;i<conditions.length;i++)
@@ -655,7 +636,7 @@
         this.isLoading = true;
         this.orderConditions = [];
         this.searchConditions =[];
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var conditions = JSON.parse(sessionStorage.getItem('fundDaily'+userInfo.userId));
         var storeOrder = JSON.parse(sessionStorage.getItem('fundDailyOrder'+userInfo.userId));
         if(conditions!=null){

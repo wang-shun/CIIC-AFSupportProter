@@ -154,6 +154,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../common_control/CustomerModal.vue'
   import companyAccountSearchModal from '../../common_control/CompanyAccountSearchModal.vue'
@@ -236,10 +237,10 @@
                     props: {type: 'success', size: 'small'}, style: {margin: '0 auto'},
                     on: {
                       click: () => {
-                        window.sessionStorage.setItem("statementId", params.row.statementId)
+                        sessionStorage.setItem("statementId", params.row.statementId)
                         this.$router.push({name: 'socialSecurityReconCilateDetail'});
 
-                        //window.sessionStorage.getItem("")
+                        //sessionStorage.getItem("")
                       }
                     }
                   }, '查看'),

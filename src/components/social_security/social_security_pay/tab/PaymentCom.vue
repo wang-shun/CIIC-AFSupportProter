@@ -263,6 +263,7 @@
   </div>
 </template>
 <script>
+  import {localStorage, sessionStorage} from '../../../../assets/api/storage'
   import {mapState, mapGetters, mapActions} from 'vuex'
   import customerModal from '../../../common_control/CustomerModal.vue'
  // import progressBar from '../../../common_control/progress/ProgressBar.vue'
@@ -544,6 +545,13 @@
           },
           {title: '申请支付总金额', key: 'totalPayAmount', width: 125, align: 'center',
             render: (h, params) => {
+
+              let paymentState = params.row.paymentState;
+              if(paymentState==4 || paymentState==6 ||paymentState==8  ){
+                return h('div', {style: {textAlign: 'right'}},[
+                h('span', params.row.totalPayAmount),
+                ]);
+              }else
               return h('div', {style: {textAlign: 'right'}}, [
 //                h('span', params.row.totalPayAmount),
                 h('Input', {
@@ -600,6 +608,7 @@
                 )
               ]);
             }
+
           },
           {title: '差额', key: 'paymentBalance', width: 100, align: 'center', sortable: 'custom',
             render: (h, params) => {
@@ -775,7 +784,7 @@
       }
     },
     created() {
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
       this.payComColumns.filter((e) => {
         if(storeOrder==null)
@@ -800,7 +809,7 @@
       this.getCustomers()
       this.loadDict();
 
-      var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+      var userInfo = JSON.parse(localStorage.getItem('userInfo'));
       var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
 //      this.changeSortClass(storeOrder);
       if(storeOrder===null){
@@ -870,11 +879,11 @@
       goPaymentNotice(paymentComId,comAccountId,paymentMonth,paymentState,ssAccount) {
         sessionData.setJsonDataToSession('paymentCom.payComSearchData', this.payComSearchData);
         sessionData.setJsonDataToSession('paymentCom.payComPageData', this.payComPageData);
-        window.sessionStorage.setItem("paymentnotice_paymentComId", paymentComId);
-        window.sessionStorage.setItem("paymentnotice_comAccountId", comAccountId);
-        window.sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth);
-        window.sessionStorage.setItem("paymentnotice_paymentState", paymentState);
-        window.sessionStorage.setItem("paymentnotice_ssAccount", ssAccount);
+        sessionStorage.setItem("paymentnotice_paymentComId", paymentComId);
+        sessionStorage.setItem("paymentnotice_comAccountId", comAccountId);
+        sessionStorage.setItem("paymentnotice_paymentMonth", paymentMonth);
+        sessionStorage.setItem("paymentnotice_paymentState", paymentState);
+        sessionStorage.setItem("paymentnotice_ssAccount", ssAccount);
         this.$router.push({name: 'paymentNotice'})
       },
       ok () {
@@ -1288,7 +1297,7 @@
         sessionData.setJsonDataToSession('paymentCom.payComPageData', this.payComPageData);
       },
       sortChange(e){
-        var userInfo = JSON.parse(window.localStorage.getItem('userInfo'));
+        var userInfo = JSON.parse(localStorage.getItem('userInfo'));
         var storeOrder = JSON.parse(sessionStorage.getItem('paymentComOrder'+userInfo.userId));
         var dx ='';
         if (e.key === 'paymentBalance') {

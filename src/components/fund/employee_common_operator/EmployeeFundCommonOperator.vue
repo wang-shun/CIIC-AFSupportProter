@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   import noprocess from './tab/NoProcess'//雇员日常操作 -- 未处理
   import processing from './tab/Processing'//雇员日常操作 -- 处理中
   import finished from './tab/Finished'//雇员日常操作 -- 已完成

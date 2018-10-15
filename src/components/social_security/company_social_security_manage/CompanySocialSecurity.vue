@@ -171,7 +171,7 @@
       <Panel name="2">
         子公司信息
         <div slot="content">
-          <Button type="primary" @click="">绑定子公司</Button>
+          <!-- <Button type="primary" @click="">绑定子公司</Button> -->
           <Table border :columns="childCompanyColumns" :data="childCompanyData"></Table>
         </div>
       </Panel>
@@ -307,19 +307,19 @@ payMethodList: [
 
 
         childCompanyColumns: [
-          {title: '操作', key: 'companyId', align: 'center', className: 'mw120',width:80,
-            render: (h, params) => {
-              return h('Button', {
-                    props: {type: 'primary', size: 'small'},
-                    style: {margin: '0 auto'},
-                    on: {
-                      click: () => {
+          // {title: '操作', key: 'companyId', align: 'center', className: 'mw120',width:80,
+          //   render: (h, params) => {
+          //     return h('Button', {
+          //           props: {type: 'primary', size: 'small'},
+          //           style: {margin: '0 auto'},
+          //           on: {
+          //             click: () => {
 
-                      }
-                    }
-                  }, '解绑');
-            }
-          },
+          //             }
+          //           }
+          //         }, '解绑');
+          //   }
+          // },
           {title: '客户编号', key: 'companyId', align: 'center', className: 'mw120',width:120,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [

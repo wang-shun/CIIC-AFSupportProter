@@ -34,6 +34,7 @@
 </template>
 <script>
 import api from '../../../api/employ_manage/hire_operator'
+import {localStorage, sessionStorage} from '../../../assets/api/storage'
   export default {
     props: {
       makeUpFileInfo: {

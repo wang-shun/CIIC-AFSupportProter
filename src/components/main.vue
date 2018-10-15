@@ -10,15 +10,15 @@
           <i-button type="text" @click="backToHome">
             <Icon type="ios-home" size="32"></Icon>
           </i-button>
-          <Dropdown transfer @on-click="routerToCenter">
-            <Button type="primary">
-              快速导航
-              <Icon type="arrow-down-b"></Icon>
-            </Button>
-            <DropdownMenu slot="list">
-              <DropdownItem :name="drop.url" v-for="(drop, index) in drops" :key="index">{{drop.label}}</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <!--<Dropdown transfer @on-click="routerToCenter">-->
+            <!--<Button type="primary">-->
+              <!--快速导航-->
+              <!--<Icon type="arrow-down-b"></Icon>-->
+            <!--</Button>-->
+            <!--<DropdownMenu slot="list">-->
+              <!--<DropdownItem :name="drop.url" v-for="(drop, index) in drops" :key="index">{{drop.label}}</DropdownItem>-->
+            <!--</DropdownMenu>-->
+          <!--</Dropdown>-->
           <div class="layout-ceiling-main Badge">
             <ul>
               <!--<li>-->
@@ -141,6 +141,7 @@
   </div>
 </template>
 <script>
+import {localStorage, sessionStorage} from '../assets/api/storage'
 import { CommonApi } from '../api/common_service'
 import dropMenuList from '../data/dropMenu'
 
@@ -179,7 +180,7 @@ export default {
   },
   mounted () {
     this.ipPrefix = process.env.LOCAL_URL
-    this.userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+    this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
     this.getPlatformAuth()
     this.getMenuAuth()
     this.getBreadCrumb()
@@ -189,12 +190,23 @@ export default {
       return this.$route.path.replace(/\//g, '_')
     },
     drops () {
+//      let dropMenus = []
+//      if (this.platformIds && [...this.platformIds].length > 0) {
+//        const platformIds = [...this.platformIds]
+//        for (let i = 0, len = platformIds.length; i < len; i++) {
+//          if (dropMenuList[platformIds[i]] !== undefined) {
+//            dropMenus.push(dropMenuList[platformIds[i]])
+//          }
+//        }
+//      }
       let dropMenus = []
+      let env = process.env.env
+      let _dropMenuList = dropMenuList[env === 'prod' ? env : 'other']
       if (this.platformIds && [...this.platformIds].length > 0) {
         const platformIds = [...this.platformIds]
         for (let i = 0, len = platformIds.length; i < len; i++) {
-          if (dropMenuList[platformIds[i]] !== undefined) {
-            dropMenus.push(dropMenuList[platformIds[i]])
+          if (_dropMenuList[platformIds[i]] !== undefined) {
+            dropMenus.push(_dropMenuList[platformIds[i]])
           }
         }
       }
@@ -210,7 +222,7 @@ export default {
       })
     },
     getMenuAuth () {
-      const userInfo = JSON.parse(window.localStorage.getItem('userInfo'))
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'))
       CommonApi.getMenuAuth(userInfo.userId).then(res => {
         this.leftNavigates = this.creatMenu(res.data)
       }, e => {
@@ -219,7 +231,7 @@ export default {
     },
     postRouteApply (url) {
       const _self = this
-      window.localStorage.setItem('currentGoTo', url)
+      localStorage.setItem('currentGoTo', url)
       document.getElementById('crossFrame').src = url
       this.postMessageInterval = setInterval(() => {
         if (_self.postCount >= COUNT_OUT) {
@@ -296,13 +308,14 @@ export default {
       }
     },
     modifyPassword() {
-      window.location.href = `${this.ipPrefix}:8070/#/changePassword`
+      let url = process.env.env === 'prod' ? `${process.env.LOCAL_URL}/#/changePassword` : `${process.env.LOCAL_URL}:8070/#/changePassword`
+      window.location.href = `${url}`
     },
     logout() {
       CommonApi.logout({token: this.userInfo.token}).then(res => {
         if (res.data.code === 0) {
-          window.localStorage.clear()
-          window.localStorage.removeItem('userInfo')
+          localStorage.clear()
+          localStorage.removeItem('userInfo')
           window.location = process.env.LOGIN_URL
         }
       })

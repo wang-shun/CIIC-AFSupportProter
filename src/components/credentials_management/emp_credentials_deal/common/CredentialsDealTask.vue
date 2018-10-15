@@ -136,15 +136,6 @@
         <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 13">
           <CredentialsMaterial7 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial7>
         </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 14">
-          <CredentialsMaterial8 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial8>
-        </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 15">
-          <CredentialsMaterial9 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial9>
-        </div>
-        <div v-if="formItem.credentialsType === 2 && formItem.credentialsDealType === 16">
-          <CredentialsMaterial10 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial10>
-        </div>
         <div v-if="formItem.credentialsType === 3">
           <CredentialsMaterial14 :meterials="meterials" @materialsInfo="childBack" ></CredentialsMaterial14>
         </div>
@@ -183,9 +174,6 @@ import CredentialsMaterial4 from "./CredentialsMaterial4";
 import CredentialsMaterial5 from "./CredentialsMaterial5";
 import CredentialsMaterial6 from "./CredentialsMaterial6";
 import CredentialsMaterial7 from "./CredentialsMaterial7";
-import CredentialsMaterial8 from "./CredentialsMaterial8";
-import CredentialsMaterial9 from "./CredentialsMaterial9";
-import CredentialsMaterial10 from "./CredentialsMaterial10";
 import CredentialsMaterial11 from "./CredentialsMaterial11";
 import CredentialsMaterial12 from "./CredentialsMaterial12";
 import CredentialsMaterial13 from "./CredentialsMaterial13";
@@ -204,9 +192,6 @@ export default {
     CredentialsMaterial5,
     CredentialsMaterial6,
     CredentialsMaterial7,
-    CredentialsMaterial8,
-    CredentialsMaterial9,
-    CredentialsMaterial10,
     CredentialsMaterial11,
     CredentialsMaterial12,
     CredentialsMaterial13,
@@ -361,9 +346,21 @@ export default {
                       }
                     }
                   }, "下载收缴材料"))
-                let st = new Date().getTime() - 24*60*60*1000;
-                let cr = new Date(params.row.createdTime).getTime();
-                if (params.row.implement === false && cr>st) {
+                let flag = true;
+                if (params.row.payType === '1') {
+                  let now = new Date();
+                  let creatT = new Date(params.row.createdTime);
+                  if (now.getFullYear()>creatT.getFullYear()) {
+                    flag = false;
+                  }
+                  if ((now.getMonth()+1)>(creatT.getMonth()+1)) {
+                    flag = false;
+                  }
+                  if (now.getDate()>creatT.getDate()) {
+                    flag = false;
+                  }
+                }
+                if (params.row.implement === false && flag) {
                   arr.push(h(
                   "Button",
                   {
@@ -487,7 +484,6 @@ export default {
           this.meterials.followMaterials = response.data.data.followMaterials;
           this.meterials.notFollowMaterials =
             response.data.data.notFollowMaterials;
-            console.log(this.meterials)
         }
       });
     },
@@ -496,7 +492,6 @@ export default {
         .then(response => {
           if (response.data.errCode == "0") {
             this.meterials.info = response.data.data;
-            console.log(this.meterials.info)
           } else {
             this.meterials.info = "";
           }

@@ -10,15 +10,15 @@
           <i-button type="text" @click="backToHome">
             <Icon type="ios-home" size="32"></Icon>
           </i-button>
-          <Dropdown transfer @on-click="routerToCenter">
-            <Button type="primary">
-              快速导航
-              <Icon type="arrow-down-b"></Icon>
-            </Button>
-            <DropdownMenu slot="list">
-              <DropdownItem :name="drop.url" v-for="(drop, index) in drops" :key="index">{{drop.label}}</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
+          <!--<Dropdown transfer @on-click="routerToCenter">-->
+            <!--<Button type="primary">-->
+              <!--快速导航-->
+              <!--<Icon type="arrow-down-b"></Icon>-->
+            <!--</Button>-->
+            <!--<DropdownMenu slot="list">-->
+              <!--<DropdownItem :name="drop.url" v-for="(drop, index) in drops" :key="index">{{drop.label}}</DropdownItem>-->
+            <!--</DropdownMenu>-->
+          <!--</Dropdown>-->
           <div class="layout-ceiling-main Badge">
             <ul>
               <!--<li>-->

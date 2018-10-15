@@ -154,7 +154,7 @@ import api from '../../../api/employ_manage/hire_operator'
         if(e){
           if(this.fileSettle.closeFeeDate==''||this.fileSettle.closeFeeDate==undefined)
           {
-             this.fileSettle.closeFeeDate = this.currentDate();
+             this.$set(this.fileSettle, 'closeFeeDate', this.currentDate());
           }
         }
       },setCurrentDate2(e) {
@@ -162,21 +162,21 @@ import api from '../../../api/employ_manage/hire_operator'
         if(e){
           if(this.fileSettle.closeFeeStartDate==''||this.fileSettle.closeFeeStartDate==undefined)
           {
-             this.fileSettle.closeFeeStartDate = this.currentDate();
+             this.$set(this.fileSettle, 'closeFeeStartDate', this.currentDate());
           }
         }
       },setCurrentDate3(e) {
         if(e){
           if(this.fileSettle.resignDocDate==''||this.fileSettle.resignDocDate==undefined)
           {
-             this.fileSettle.resignDocDate = this.currentDate();
+             this.$set(this.fileSettle, 'resignDocDate', this.currentDate());
           }
         }
       },setCurrentDate4(e) {
         if(e){
           if(this.fileSettle.resignDocPaymentTo==''||this.fileSettle.resignDocPaymentTo==undefined)
           {
-             this.fileSettle.resignDocPaymentTo = this.currentDate();
+             this.$set(this.fileSettle, 'resignDocPaymentTo', this.currentDate());
           }
         }
       }

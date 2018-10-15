@@ -55,13 +55,15 @@
      <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
           <span style="font-weight:bold;font-size:14px">主要材料</span>
+          <input style="margin-left:10px" type="checkbox" :value="checkedA" id="checkedA" @change="clickSelectAll" ref="checkAll"/>
+          <label for="checkedA">全选</label>
         </i-col>
       </Row>
       <Row>
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  >
           <div style="margin-left: 50px" v-if="item.level === '2-0'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev20" @change="change(material.info)" :id="item.materialId"/>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev20" @change="change(material.info)" :id="item.materialId" ref="mainMaterials"/>
             <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
@@ -450,6 +452,21 @@ export default {
     this.change(this.material.info)
   },
   methods: {
+    clickSelectAll() {
+      if (this.$refs.checkAll.checked) {
+          this.material.info.lev20 = []
+      }
+      if (!this.$refs.checkAll.checked) {
+        this.material.info.lev20 = []
+      }
+      this.$refs.mainMaterials.map(i => {
+        i.checked = this.$refs.checkAll.checked
+        if (this.$refs.checkAll.checked) {
+          this.material.info.lev20.push(i.value)
+        }
+      })
+      this.change(this.material.info)
+    },
     compChange(val) {
       this.material.comp = val;
       this.$emit("materialsInfo", this.material);

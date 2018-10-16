@@ -62,7 +62,7 @@ export default {
       api.saveAmReturn(fromData).then(data => {
         if (data.code == 200) {
           this.$Message.success("保存成功");
-          self.refuseInfo.returnDocMan = data.data.returnDocMan;
+          self.$set(self.refuseInfo, 'returnDocMan', data.data.returnDocMan);
         } else {
           this.$Message.error("保存失败！" + data.message);
         }

@@ -46,7 +46,6 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
     },
     data() {
       return {
-
       }
     },
     computed: {

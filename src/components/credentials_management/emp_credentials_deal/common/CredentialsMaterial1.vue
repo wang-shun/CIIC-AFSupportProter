@@ -44,10 +44,10 @@
       <Row v-if="material.comp === '上海分公司'" >
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 8}" :lg="{span: 5}" >
-          <Form-item  v-if="item.level === '1-2'">
+          <div  v-if="item.level === '1-2'">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev12" @change="change(material.info)" :id="item.materialId"/>
             <label :for="item.materialId">{{item.materialName}}</label>
-          </Form-item>
+          </div>
         </i-col>
         </div>
       </Row>
@@ -193,11 +193,11 @@
       </Row>
       <Row style="margin: 10px 40px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-            <RadioGroup v-model="material.familerMaterials" @on-change="familerMaterialsChange">
-              <Radio label="子女"></Radio>
-              <Radio label="配偶"></Radio>
-              <Radio label="全家"></Radio>
-            </RadioGroup>
+          <RadioGroup v-model="material.familerMaterials" @on-change="familerMaterialsChange">
+            <Radio label="子女"></Radio>
+            <Radio label="配偶"></Radio>
+            <Radio label="全家"></Radio>
+          </RadioGroup>
         </i-col>
       </Row>
       <Row v-if="material.familerMaterials === '子女'">

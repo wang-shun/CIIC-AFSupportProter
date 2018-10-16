@@ -4,7 +4,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="出库日期：">
-            <DatePicker v-model="stockAndMail.storageOutDate" type="date" placeholder="" @on-open-change="setCurrentDate" @on-change="changeDate" transfer></DatePicker>
+            <DatePicker v-model="stockAndMail.storageOutDate" type="date" placeholder="" @on-open-change="setCurrentDate"  transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -17,7 +17,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="实际寄信日期：">
-            <DatePicker v-model="stockAndMail.postLetterDate" type="date" placeholder="" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
+            <DatePicker v-model="stockAndMail.postLetterDate" type="date" placeholder="" @on-open-change="setCurrentDate2"  transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -46,7 +46,6 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
     },
     data() {
       return {
-
       }
     },
     computed: {
@@ -137,23 +136,29 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
         if(e){
           if(this.stockAndMail.storageOutDate==''||this.stockAndMail.storageOutDate==undefined)
           {
-             this.stockAndMail.storageOutDate = this.currentDate();
-             this.stockAndMail.storageOutMan = JSON.parse(localStorage.getItem('userInfo')).displayName;
+             this.$set(this.stockAndMail, 'storageOutDate', this.currentDate());
+             this.$set(this.stockAndMail, 'storageOutMan', JSON.parse(localStorage.getItem('userInfo')).displayName);
+          }
+        }else{
+          if(this.stockAndMail.storageOutDate==''||this.stockAndMail.storageOutDate==undefined)
+          {
+             this.$set(this.stockAndMail, 'storageOutMan', '');
           }
         }
-      },changeDate(e) {
-        this.stockAndMail.storageOutDate = e;
       },setCurrentDate2(e) {
         if(e){
           if(this.stockAndMail.postLetterDate==''||this.stockAndMail.postLetterDate==undefined)
           {
-             this.stockAndMail.postLetterDate = this.currentDate();
-             this.stockAndMail.postLetterMan = JSON.parse(localStorage.getItem('userInfo')).displayName;
+             this.$set(this.stockAndMail, 'postLetterDate', this.currentDate());
+             this.$set(this.stockAndMail, 'postLetterMan', JSON.parse(localStorage.getItem('userInfo')).displayName);
           }
+        }else{
+             if(this.stockAndMail.postLetterDate==''||this.stockAndMail.postLetterDate==undefined)
+             {
+                this.$set(this.stockAndMail, 'postLetterMan', '');
+             }
         }
-      },changeDate2(e) {
-        this.stockAndMail.postLetterDate = e;
-      },
+      }
     }
   }
 </script>

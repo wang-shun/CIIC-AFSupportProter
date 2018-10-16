@@ -581,6 +581,7 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
           this.companyId = data.data.companyId;
           this.empTaskId = data.data.empTaskId;
           this.socialSecurityRemarkData = data.data.remarks;
+          console.info(data.data.remarks);
           this.showButton = data.data.taskStatus == '1' || data.data.taskStatus == '2';
 
           this.$utils.copy(data.data, this.socialSecurityPayOperator);
@@ -645,10 +646,10 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
         // 办理状态：1、未处理 2 、处理中  3 已完成（已办） 4、批退 5、不需处理
         var content = "任务办理";
         if ('refuse' == type) {
-          if(this.socialSecurityPayOperator.rejectionRemark==''){
-            this.$Message.warning('请输入批退原因。');
-            return;
-          }
+          // if(this.socialSecurityPayOperator.rejectionRemark==''){
+          //   this.$Message.warning('请输入批退原因。');
+          //   return;
+          // }
           content = "批退";
         }else if('next'==type){
           content = "转下月处理";

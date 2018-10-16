@@ -4,7 +4,7 @@
       <Row type="flex" justify="start">
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="补调档案日期1：">
-            <DatePicker v-model="makeUpFile.budiaoDocDate1" type="date" placeholder="" @on-open-change="setCurrentDate" @on-change="changeDate" transfer></DatePicker>
+            <DatePicker v-model="makeUpFile.budiaoDocDate1" type="date" placeholder="" @on-open-change="setCurrentDate"   transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -17,7 +17,7 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="补调档案日期2：">
-            <DatePicker v-model="makeUpFile.budiaoDocDate2" type="date" placeholder="" @on-open-change="setCurrentDate2" @on-change="changeDate2" transfer></DatePicker>
+            <DatePicker v-model="makeUpFile.budiaoDocDate2" type="date" placeholder="" @on-open-change="setCurrentDate2"  transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -56,6 +56,7 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
       resetForm(form) {
         this.$refs[form].resetFields();
       },instance() { 
+        
         var fromData = this.$utils.clear(this.makeUpFile,'');
         
         if(this.makeUpFile.employDocPaymentTo){
@@ -135,27 +136,33 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
               }
               var currentdate = year + seperator1 + month + seperator1 + strDate;
               return currentdate;
-       },setCurrentDate(e) {
+       },setCurrentDate(e) { 
         if(e){
           if(this.makeUpFile.budiaoDocDate1==''||this.makeUpFile.budiaoDocDate1==undefined)
           {
-             this.makeUpFile.budiaoDocDate1 = this.currentDate();
-             this.makeUpFile.budiaoDocMan1 = JSON.parse(localStorage.getItem('userInfo')).displayName;
+             this.$set(this.makeUpFile, 'budiaoDocDate1', this.currentDate());
+             this.$set(this.makeUpFile, 'budiaoDocMan1', JSON.parse(localStorage.getItem('userInfo')).displayName);
           }
+        }else{
+           if(this.makeUpFile.budiaoDocDate1==''||this.makeUpFile.budiaoDocDate1==undefined)
+           {
+              this.$set(this.makeUpFile, 'budiaoDocMan1', '');
+           }
         }
-      },changeDate(e) {
-        this.makeUpFile.budiaoDocDate1 = e;
       },setCurrentDate2(e) {
         if(e){
           if(this.makeUpFile.budiaoDocDate2==''||this.makeUpFile.budiaoDocDate2==undefined)
           {
-             this.makeUpFile.budiaoDocDate2 = this.currentDate();
-             this.makeUpFile.budiaoDocMan2 = JSON.parse(localStorage.getItem('userInfo')).displayName;
+             this.$set(this.makeUpFile, 'budiaoDocDate2', this.currentDate());
+             this.$set(this.makeUpFile, 'budiaoDocMan2', JSON.parse(localStorage.getItem('userInfo')).displayName);
           }
+        }else{
+           if(this.makeUpFile.budiaoDocDate2==''||this.makeUpFile.budiaoDocDate2==undefined)
+           {
+              this.$set(this.makeUpFile, 'budiaoDocMan2', '');
+           }
         }
-      },changeDate2(e) {
-        this.makeUpFile.budiaoDocDate2 = e;
-      },
+      }
     }
   }
 </script>

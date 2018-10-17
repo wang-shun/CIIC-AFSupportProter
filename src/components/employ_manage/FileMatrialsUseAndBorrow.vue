@@ -473,10 +473,13 @@ export default {
         this.handleInfo.useDatew,
         "YYYY-MM-DD"
       );
-      fromData.returnDate = this.$utils.formatDate(
+      if(this.handleInfo.returnDate){
+          fromData.returnDate = this.$utils.formatDate(
         this.handleInfo.returnDate,
         "YYYY-MM-DD"
-      );
+        );
+      }
+     
       fromData.handleMan = this.userName;
       fromData.useMan = this.handleInfo.useManw;
       fromData.material = this.handleInfo.materialw;

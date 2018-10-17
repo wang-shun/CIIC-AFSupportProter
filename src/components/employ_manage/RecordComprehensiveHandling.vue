@@ -777,30 +777,38 @@ export default {
       this.$router.push({ name: "recordComprehensive" });
     },
     goFileMatrialsUseAndBorrow() {
-      let selection = this.$refs.payComSelection.getSelection();
+      //已有批次的不可再添加
+      
+      var tempId;
+      var tempId1;
+      var employeeName;
 
-      //判断条件
-      //是否有选中列
-      if (selection.length == 0) {
+       let empTaskIds = [];
+      var arrTmp = this.recordComprehensiveHandlingData;
+
+      for (let value of arrTmp) {
+        if (value.checked) {
+          empTaskIds.push(value.employeeId);
+        }
+      }
+
+      if (empTaskIds.length == 0) {
         this.$Message.error("没有选中的列");
         return;
       }
 
-      if (selection.length > 1) {
+       if(empTaskIds.length > 1) {
         this.$Message.error("选择的列太多");
         return;
       }
 
-      //已有批次的不可再添加
-      let isHaveBatch = false;
-      var tempId;
-      var tempId1;
-      var employeeName;
-      selection.some(item => {
-        tempId = item.archiveId;
-        tempId1 = item.employeeId;
-        employeeName = item.employeeName;
-      });
+      for (let value of arrTmp) {
+        if (value.checked) {
+           tempId = value.archiveId;
+           tempId1 = value.employeeId;
+           employeeName = value.employeeName;
+        }
+      }
 
       this.$router.push({
         name: "fileMatrialsUseAndBorrow",

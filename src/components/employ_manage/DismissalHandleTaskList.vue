@@ -671,16 +671,19 @@ export default {
       });
     },
     batchManagement() {
-      let selection = this.$refs.dismissalData.getSelection();
-      if (selection.length == 0) {
-        alert("没有选中的列");
-        return;
+      let empTaskIds = [];
+      var arrTmp = this.dismissalData;
+
+      for (let value of arrTmp) {
+        if (value.checked) {
+          empTaskIds.push(value.empTaskId);
+        }
       }
 
-      let empTaskIds = [];
-      selection.forEach(item => {
-        empTaskIds.push(item.empTaskId);
-      });
+      if (empTaskIds.length == 0) {
+        this.$Message.error("没有选中的列");
+        return;
+      }
 
       var fromData = {};
       fromData.empTaskIds = empTaskIds;

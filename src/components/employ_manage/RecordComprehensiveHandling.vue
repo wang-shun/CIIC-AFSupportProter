@@ -48,6 +48,8 @@
     <Row type="flex" justify="start" class="mt20">
     <Col :sm="{span: 18}" class="tr">
     <Table border id="redList" height="340"  :row-class-name="rowClassName" ref="payComSelection" :columns="recordComprehensiveHandlingColumns" :data="recordComprehensiveHandlingData"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
+     <Button @click="handleSelectAll(false)">全选</Button>
+     <Button @click="otherSelectAll(false)">反选</Button>
      <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -301,7 +303,26 @@ export default {
       },
       // 下半部分
       recordComprehensiveHandlingColumns: [
-        { title: "", type: "selection", width: 60 },
+         {
+          title: "",
+          key: "_checkbox",
+          align: "center",
+          width: 50,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "center" } }, [
+              h("Checkbox", {
+                props: { value: params.row.checked },
+                style: { margin: "0 auto 0 0px" },
+                on: {
+                  "on-change": e => {
+                    params.row.checked = e;
+                    this.$set(this.recordComprehensiveHandlingData[params.index], "checked", e);
+                  }
+                }
+              })
+            ]);
+          }
+        },
         {
           title: "用工方式",
           key: "employWay",
@@ -326,13 +347,13 @@ export default {
         },
         {
           title: "序号",
-          key: "empTaskId",
+          key: "employmentId",
           align: "center",
           width: 100,
           sortable: "custom",
           render: (h, params) => {
             return h("div", { style: { textAlign: "center" } }, [
-              h("span", params.row.empTaskId)
+              h("span", params.row.employmentId)
             ]);
           }
         },
@@ -1275,7 +1296,24 @@ export default {
           this.$Message.error("批量失败！" + data.message);
         }
       });
+    },handleSelectAll(status) {
+      var arrTmp = this.recordComprehensiveHandlingData;
+
+      for (let value of arrTmp) {
+        value.checked = true;
+      }
     },
+    otherSelectAll() {
+      var arrTmp = this.recordComprehensiveHandlingData;
+
+      for (let value of arrTmp) {
+        if (value.checked) {
+          value.checked = false;
+        } else {
+          value.checked = true;
+        }
+      }
+    }
   },
   computed: {}
 };

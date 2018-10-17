@@ -362,20 +362,20 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
               ]);
             }
           },
-          // {title: '送审日期', key: 'sendAuditDateString', align: 'center', width: 110,
-          //   render: (h, params) => {
-          //     return h('div', {style: {textAlign: 'left'}}, [
-          //       h('span', params.row.sendAuditDateString),
-          //     ]);
-          //   }
-          // },
-          // {title: '汇缴日期', key: 'financePaymentDateString', align: 'center', width: 110,
-          //   render: (h, params) => {
-          //     return h('div', {style: {textAlign: 'left'}}, [
-          //       h('span', params.row.requestDateString),
-          //     ]);
-          //   }
-          // },
+          {title: '送审日期', key: 'sendAuditDateString', align: 'center', width: 110,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.sendAuditDateString),
+              ]);
+            }
+          },
+          {title: '汇缴日期', key: 'financePaymentDateString', align: 'center', width: 110,
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.requestDateString),
+              ]);
+            }
+          },
           // {title: '财务支付日期', key: 'financePaymentDateString', align: 'center', width: 110,
           //   render: (h, params) => {
           //     return h('div', {style: {textAlign: 'left'}}, [
@@ -390,14 +390,14 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
               ]);
             }
           },
-          {title: '企业账户类型', key: 'accountTypeValue', align: 'center',
+          {title: '企业账户类型', key: 'accountTypeValue', align: 'center',width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.accountTypeValue),
               ]);
             }
           },
-          {title: '备注', key: 'remark', align: 'center',
+          {title: '备注', key: 'remark', align: 'center',width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remark),

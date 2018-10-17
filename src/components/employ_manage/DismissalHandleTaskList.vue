@@ -31,6 +31,8 @@
     <Row type="flex" justify="start" class="mt20">
       <Col :sm="{span: 20}" class="tr">
     <Table border id="dissList" height="300" :row-class-name="rowClassName" :columns="dismissalColumns" :data="dismissalData" ref="dismissalData" :loading="isLoading"  @on-row-dblclick="handleData" @on-sort-change="SortChange" class="mt20"></Table>
+     <Button @click="handleSelectAll(false)">全选</Button>
+     <Button @click="otherSelectAll(false)">反选</Button>
        <Page
         class="pageSize"
         @on-change="handlePageNum"
@@ -145,7 +147,26 @@ export default {
         name: "resign"
       },
       dismissalColumns: [
-        { title: "", type: "selection", width: 60 },
+        {
+          title: "",
+          key: "_checkbox",
+          align: "center",
+          width: 50,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "center" } }, [
+              h("Checkbox", {
+                props: { value: params.row.checked },
+                style: { margin: "0 auto 0 0px" },
+                on: {
+                  "on-change": e => {
+                    params.row.checked = e;
+                    this.$set(this.dismissalData[params.index], "checked", e);
+                  }
+                }
+              })
+            ]);
+          }
+        },
         {
           title: "序号",
           key: "empTaskId",
@@ -650,16 +671,19 @@ export default {
       });
     },
     batchManagement() {
-      let selection = this.$refs.dismissalData.getSelection();
-      if (selection.length == 0) {
-        alert("没有选中的列");
-        return;
+      let empTaskIds = [];
+      var arrTmp = this.dismissalData;
+
+      for (let value of arrTmp) {
+        if (value.checked) {
+          empTaskIds.push(value.empTaskId);
+        }
       }
 
-      let empTaskIds = [];
-      selection.forEach(item => {
-        empTaskIds.push(item.empTaskId);
-      });
+      if (empTaskIds.length == 0) {
+        this.$Message.error("没有选中的列");
+        return;
+      }
 
       var fromData = {};
       fromData.empTaskIds = empTaskIds;
@@ -1081,7 +1105,25 @@ export default {
         } else {
             alert("浏览器不支持");
         }
+    },handleSelectAll(status) {
+      var arrTmp = this.dismissalData;
+
+      for (let value of arrTmp) {
+        value.checked = true;
+      }
+    },
+    otherSelectAll() {
+      var arrTmp = this.dismissalData;
+
+      for (let value of arrTmp) {
+        if (value.checked) {
+          value.checked = false;
+        } else {
+          value.checked = true;
+        }
+      }
     }
+    
   }
 };
 </script>

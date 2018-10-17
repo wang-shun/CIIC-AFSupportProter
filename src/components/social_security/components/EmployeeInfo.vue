@@ -65,7 +65,11 @@
         <label>{{emp.oldEmpBase}}</label>
       </Form-item>
       </Col>
-
+      <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}">
+      <Form-item label="档案状态：">
+        <label>{{$decode.ssArchiveTaskStatus(emp.archiveStatus)}}</label>
+      </Form-item>
+      </Col>
       <!-- <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 8}" v-show="operatorType !== '1' && operatorType !== '2'">
       <Form-item label="人员分类：">
         <label>{{emp.empClassify}}</label>

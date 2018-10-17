@@ -38,7 +38,7 @@
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
         <Form-item label="材料签收日期：">
-          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialReceiveDate"  style="width: 100%;" transfer></DatePicker>
+          <DatePicker  type='date' :disabled="(uekyFile.companyId=='')" @on-open-change="setCurrentDate" @on-change="changeDate" placement="bottom-end" placeholder="选择日期" v-model="uekyFile.materialReceiveDate"  style="width: 100%;" transfer></DatePicker>
         </Form-item>
       </Col>
       <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -278,6 +278,31 @@ import Vue from 'vue'
     }
     ,
     methods: {
+      currentDate(){
+              var date = new Date();
+              var seperator1 = "-";
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
+              var strDate = date.getDate();
+              if (month >= 1 && month <= 9) {
+                  month = "0" + month;
+              }
+              if (strDate >= 0 && strDate <= 9) {
+                  strDate = "0" + strDate;
+              }
+              var currentdate = year + seperator1 + month + seperator1 + strDate;
+              return currentdate;
+       },
+      setCurrentDate(e) {
+        if(e){
+          if(this.uekyFile.materialReceiveDate==''||this.uekyFile.materialReceiveDate==undefined)
+          {
+             this.uekyFile.materialReceiveDate = this.currentDate();
+          }
+        }
+      },changeDate(e) {
+        this.uekyFile.materialReceiveDate = e;
+      },
       deleteRenew(id,dueDate,type){
         let d = new Date();
         this.renewUkey.renewDate = d;//d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();

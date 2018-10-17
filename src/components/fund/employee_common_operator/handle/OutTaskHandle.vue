@@ -275,7 +275,7 @@
               </Col>
               <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <Form-item label="客户汇缴月份：">
-                {{displayVO.hfMonth}}
+                <DatePicker type="month" v-model="inputData.hfMonth" format="yyyyMM" placement="bottom-end" placeholder="选择年月" style="width: 100%;" transfer :disabled="inputDisabled"></DatePicker>
               </Form-item>
               </Col>
             </Row>
@@ -505,9 +505,13 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
           }
           if (this.operatorListData && this.operatorListData.length == 1) {
             this.inputData.endMonth = this.operatorListData[0].endMonth;
+            this.inputData.hfMonth = this.operatorListData[0].hfMonth;
           }
           if (!this.inputData.endMonth || this.inputData.endMonth == '') {
             this.inputData.endMonth = this.displayVO.endMonth;
+          }
+          if (!this.inputData.hfMonth || this.inputData.hfMonth == '') {
+            this.inputData.hfMonth = this.displayVO.hfMonth;
           }
         } else {
           this.$Message.error(data.message);
@@ -663,7 +667,10 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
         if (this.inputData.endMonth) {
           this.inputData.endMonth = this.$utils.formatDate(this.inputData.endMonth, "YYYYMM");
         }
-        this.inputData.hfMonth = this.displayVO.hfMonth;
+        if (this.inputData.hfMonth) {
+          this.inputData.hfMonth = this.$utils.formatDate(this.inputData.hfMonth, "YYYYMM");
+        }
+//        this.inputData.hfMonth = this.displayVO.hfMonth;
 //        this.inputData.operatorListData = this.operatorListData;
       },
       saveTask () {
@@ -696,7 +703,7 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
           this.$Message.error("汇缴截止月份不能为空");
           return false;
         }
-        if (this.inputData.endMonth && this.inputData.endMonth != api.minusMonths(this.displayVO.hfMonth, 1)) {
+        if (this.inputData.endMonth && this.inputData.endMonth != api.minusMonths(this.inputData.hfMonth, 1)) {
           this.$Message.error("客户汇缴月必须为汇缴截止缴费月的下一月");
           return false;
         }

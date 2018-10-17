@@ -201,6 +201,8 @@
             if(data.code==1){
               this.$Message.error(data.message);
               this.paymentDetailQuery();
+            }else{
+               this.$Message.info(data.message);
             }
         }).catch(error=>{
           this.$Message.error('系统异常！');

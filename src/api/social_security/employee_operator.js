@@ -183,6 +183,15 @@ delEmpRemark: (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/queryHistoryEmpTask', params);
     return await response.data;
   },
+  checkExportRegisterForm: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssEmpPrintInfo/ssExpEmpRegisterFormPrintCheck', params);
+    return await response.data;
+  },
+  checkExportChangeDeclarationForm: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssEmpPrintInfo/ssExpChangeItemDeclarationFormPrintCheck', params);
+    return await response.data;
+  },
+  
   //导出个人社会保险登记表
   exportRegisterForm: async (params) => {
     AJAX.download('/api/soccommandservice/ssEmpPrintInfo/ssExpEmpRegisterFormPrint', params);

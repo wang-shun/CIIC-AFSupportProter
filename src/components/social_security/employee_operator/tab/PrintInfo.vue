@@ -4,7 +4,7 @@
       <Panel name="1">
         个人社保登记表查询条件
         <div slot="content">
-          <Form :model="queryForm" :label-width=150>
+          <Form :model="queryForm1" :label-width=150>
             <Row justify="start">
               
               <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -58,12 +58,12 @@
       <Panel name="2">
         保险业务变更项目申报表查询条件
         <div slot="content">
-          <Form :model="queryForm" :label-width=150>
+          <Form :model="queryForm2" :label-width=150>
             <Row justify="start">
             <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
               <FormItem label="企业社保登记码" prop="comAccount">
             
-                <input-account v-model="queryForm2.ssAccount" @listenToChildEvent="listenToChild"></input-account>
+                <input-account v-model="queryForm2.ssAccount" ></input-account>
               </FormItem>
 
               </Col>
@@ -157,14 +157,35 @@
             this.$Message.info('请输入雇员编号');
             return false;
         }
-        api.exportRegisterForm(this.queryForm1)
+        api.checkExportRegisterForm(this.queryForm1).then(
+          data=>{
+            console.log(data);
+            if(data.code==500){
+              this.$Message.error(data.message);
+            }else{
+              api.exportRegisterForm(this.queryForm1);
+            }
+          });
       },
       exportChangeDeclarationForm() {
-        if(this.queryForm2.ssAccount==null || this.queryForm2.ssAccount==''){
-            this.$Message.info('请选择企业社保登记码');
+        // if(this.queryForm2.ssAccount==null || this.queryForm2.ssAccount==''){
+        //     this.$Message.info('请选择企业社保登记码');
+        //     return false;
+        // }
+        if(this.queryForm2.companyId==null || this.queryForm2.companyId==''){
+            this.$Message.info('请选择客户编号');
             return false;
         }
-        api.exportChangeDeclarationForm(this.queryForm2)
+        api.checkExportChangeDeclarationForm(this.queryForm2).then(
+          data=>{
+            if(data.code==500){
+              this.$Message.error(data.message);
+            }else{
+              api.exportChangeDeclarationForm(this.queryForm2);
+            }
+          }
+        );
+
       },
       loadDict(){
         dict.getDictData().then(data => {

@@ -161,10 +161,17 @@
             let obj = response.filter(x=>x.paymentItemName == '缴纳合计（1+2+3+4+5+6-8）')[0];
             if(obj != null){
               let amount = parseFloat(obj.baseMedicalAmount) + parseFloat(obj.addMedicalAmount) + parseFloat(obj.unemploymentAmount) + parseFloat(obj.maternityAmount) + parseFloat(obj.basePensionAmount) + parseFloat(obj.accidentAmount);
+              if(isNaN(amount)) {
+                amount=0;
+              }
               this.lowerTotalAmount = amount.toFixed(2)
               this.lowerTotalAmount = this.lowerTotalAmount*1;
+
               if(this.lowerTotalAmount != null){
                 this.capitalTotalAmount = tools.dx(this.lowerTotalAmount);
+                if(this.capitalTotalAmount=='分'){
+                  this.capitalTotalAmount='';
+                }
               }
             }
           }

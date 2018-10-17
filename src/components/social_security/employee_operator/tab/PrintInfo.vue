@@ -172,10 +172,16 @@
         //     this.$Message.info('请选择企业社保登记码');
         //     return false;
         // }
-        if(this.queryForm2.companyId==null || this.queryForm2.companyId==''){
-            this.$Message.info('请选择客户编号');
+        // if(this.queryForm2.companyId==null || this.queryForm2.companyId==''){
+        //     this.$Message.info('请选择客户编号');
+        //     return false;
+        // }
+
+        if((this.queryForm2.companyId==null || this.queryForm2.companyId=='') && (this.queryForm2.ssAccount==null || this.queryForm2.ssAccount=='')){
+            this.$Message.info('【企业社保登记码】或【客户编号】必填一个');
             return false;
         }
+
         api.checkExportChangeDeclarationForm(this.queryForm2).then(
           data=>{
             if(data.code==500){

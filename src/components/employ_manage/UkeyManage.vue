@@ -464,7 +464,8 @@ import Vue from 'vue'
           if (data.code == 200) {
             if(data.data == 1){
               this.$Message.success("保存成功");
-              this.$router.go(-1);
+              // this.$router.go(-1);
+              this.isDisable = false;
             }else if(data.data == 0){
               this.$Message.error("组织机构代码已存在！");
               this.isDisable = false;

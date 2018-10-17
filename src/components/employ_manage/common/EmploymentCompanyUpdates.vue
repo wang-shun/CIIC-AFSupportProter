@@ -15,7 +15,7 @@ export default {
     return {
       employmentViewColumns: [
         {
-          title: "变更公司名称",
+          title: "原公司名称",
           key: "companyName",
           align: "center",
           render: (h, params) => {

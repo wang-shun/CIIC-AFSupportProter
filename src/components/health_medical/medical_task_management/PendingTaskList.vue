@@ -131,7 +131,7 @@
     </Collapse>
 
     <div class="tr m20">
-      <Button type="info" v-if="formItem.afProductId===19 || formItem.afProductId===11" @click="modalCom = true">
+      <Button type="info" v-if="(formItem.afProductId===19 || formItem.afProductId===11) && formItem.status==='4'" @click="modalCom = true">
         切换公司
       </Button>
       <Button type="info" v-if="formItem.status===null || formItem.status==='' || formItem.status==='2'"

@@ -498,6 +498,7 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
           pageNum: 0,
           params: this.searchCondition,
         });
+        expParam.empTaskIds=null;
       },
       employeeDailyOperatorDiskExport(val) {
         api.employeeDailyOperatorDiskExport({params: {

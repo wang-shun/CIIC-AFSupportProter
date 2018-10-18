@@ -363,6 +363,7 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
         }
         this.searchCondition.params = this.searchConditions.join(';');
         api.hfEmpTaskExport({ params: this.searchCondition });
+        
       },
       rowClassName(row, index) {
         return ts.empRowClassName(row, index);

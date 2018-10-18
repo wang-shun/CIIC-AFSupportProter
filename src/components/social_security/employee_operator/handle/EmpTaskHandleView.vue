@@ -232,6 +232,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '2' " @click="printForm" >打印登记表|申报表</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton && isNextMonth==0" :loading="isLoading">转下月处理</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('5','noProgress')" v-if="showButton" :loading="isLoading">不需处理</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton" :loading="isLoading">办理</Button>
@@ -498,7 +499,7 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
         // 任务单参考信息
         taskNewInfoColumns: [
           {
-            title: '基数', key: 'base', align: 'center', width: 200,
+            title: '基数', key: 'base', align: 'center', width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.base),
@@ -506,7 +507,7 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
             }
           },
           {
-            title: '起缴月份', key: 'startMonth', align: 'center', width: 200,
+            title: '起缴月份', key: 'startMonth', align: 'center', width: 100,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.startMonth,{
@@ -520,7 +521,7 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
             }
           },
           {
-            title: '截至月份', key: 'endYear', align: 'center', width: 200,
+            title: '截至月份', key: 'endYear', align: 'center', width: 100,
             render: (h, params) => {
               let self = this
               return h('div', {style: {textAlign: 'center'}}, [
@@ -533,7 +534,22 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
                 }),
               ]);
             }
-          }
+          },
+          {
+            title: '模板名称', key: 'policyName', align: 'center', width: 289,
+            render: (h, params) => {
+              let self = this
+              return h('div', {style: {textAlign: 'center'}}, [
+                h('span', params.row.policyName,{
+                  on: {
+                  input: (event) => {
+                    self.taskNewInfoData[params.index].row.policyName = event
+                  }
+                }
+                }),
+              ]);
+            }
+          },
         ], //任务单参考信息 -- 新增
 
         showButton: true,
@@ -707,6 +723,7 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
             period.base = this.socialSecurityPayOperator.empBase
             period.startMonth = this.socialSecurityPayOperator.startMonth
             period.endMonth = this.socialSecurityPayOperator.endMonth
+            period.policyName = this.socialSecurityPayOperator.policyName
             this.taskNewInfoData.push(period)
             //获取用退工信息
             this.reworkInfo = data.data.amEmpTaskDTO
@@ -986,6 +1003,9 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
         } else {
           this.showButton = true;
         }
+      },
+      printForm(){
+        api.printForm(this,api);
       }
     }
   }

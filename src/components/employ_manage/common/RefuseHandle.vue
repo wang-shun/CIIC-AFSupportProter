@@ -364,8 +364,9 @@
         api.saveAmResign(fromData).then(data => {
               if (data.code == 200) {
                   this.$Message.success("保存成功");
-                  this.refuseInfo.resignId = data.data.resignId;
-                  this.refuseInfo.resignOperateMan = data.data.resignOperateMan;
+                  this.$set(this.refuseInfo, 'resignId', data.data.resignId);
+                  this.$set(this.refuseInfo, 'resignOperateMan', data.data.resignOperateMan);
+                  this.$set(this.refuseInfo, 'handRead', true);
                 } else {
                   this.$Message.error("保存失败！" + data.message);
                 }
@@ -427,7 +428,7 @@
           api.bindEmploymentId(fromData).then(data => {
               if (data.code == 200) {
                 if(data.data.result==true){
-                   this.refuseInfo.resignId = data.data.entity.resignId;
+                   this.$set(this.refuseInfo, 'resignId', data.data.entity.resignId);
                    this.$Message.success("绑定成功");
 
                 }else{

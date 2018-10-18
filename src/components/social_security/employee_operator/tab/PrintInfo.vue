@@ -129,7 +129,9 @@
         socialSecurityStatusList: [],
         operatorList: [],
         queryForm1: {},
-        queryForm2: {},
+        queryForm2: {
+          handleWay:'2',
+          },
         collapseInfo: [1, 2],
         sSecurityStateList: [ //1-已办  2-已做 3-转出
           {value: '', label: '全部'},
@@ -146,6 +148,7 @@
     },
     mounted() {
       this.loadDict();
+      //this.queryForm2.handleWay=2;
     },
     methods: {
       exportRegisterForm() {
@@ -159,7 +162,6 @@
         }
         api.checkExportRegisterForm(this.queryForm1).then(
           data=>{
-            console.log(data);
             if(data.code==500){
               this.$Message.error(data.message);
             }else{

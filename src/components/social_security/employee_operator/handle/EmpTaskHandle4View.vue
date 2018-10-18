@@ -172,6 +172,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '2' " @click="printForm" >打印登记表|申报表</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('1','next')" v-if="showButton && isNextMonth==0" :loading="isLoading">转下月处理</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('2','handle')" v-if="showButton" :loading="isLoading">办理</Button>
       <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4','refuse')" v-if="showButton" :loading="isLoading">批退</Button>
@@ -899,6 +900,9 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
           }
         });
 
+      },
+      printForm(){
+        api.printForm(this,api);
       }
     }
   }

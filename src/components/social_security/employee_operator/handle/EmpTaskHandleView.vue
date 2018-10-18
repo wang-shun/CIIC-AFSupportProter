@@ -487,6 +487,7 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
           businessInterfaceId:'',
           oldAgreementId:'',
           policyDetailId:'',
+          policyName:'',
           welfareUnit:'',
 
           createdDisplayName:'',
@@ -541,11 +542,7 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
               let self = this
               return h('div', {style: {textAlign: 'center'}}, [
                 h('span', params.row.policyName,{
-                  on: {
-                  input: (event) => {
-                    self.taskNewInfoData[params.index].row.policyName = event
-                  }
-                }
+                 
                 }),
               ]);
             }
@@ -720,6 +717,8 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
             }
             let periodArr = []
             let period = {}
+            console.log(data.data)
+            console.log(this.socialSecurityPayOperator)
             period.base = this.socialSecurityPayOperator.empBase
             period.startMonth = this.socialSecurityPayOperator.startMonth
             period.endMonth = this.socialSecurityPayOperator.endMonth

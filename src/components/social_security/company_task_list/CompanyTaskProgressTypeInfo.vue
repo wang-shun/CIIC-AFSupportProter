@@ -657,7 +657,7 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
            return false;
         }
         if(!this.companyOpenAccountOperator.bankCardNumber){
-           this.$Message.warning('【牡丹卡号】要求必填！')
+           this.$Message.warning('【扣款账号】要求必填！')
            return false;
         }
         if(!this.companyOpenAccountOperator.payBank){
@@ -917,7 +917,7 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
             this.handDateControl = true;
             this.sendDateControl=true;
             this.finishDateControl=false;
-            
+
              formObj.acceptanceDate = (formObj.acceptanceDate==''? new Date() : formObj.acceptanceDate);
              formObj.sendCheckDate = (formObj.sendCheckDate==''? new Date() : formObj.sendCheckDate);
              formObj.finishedDate = new Date();

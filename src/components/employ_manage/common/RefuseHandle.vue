@@ -366,7 +366,11 @@
                   this.$Message.success("保存成功");
                   this.$set(this.refuseInfo, 'resignId', data.data.resignId);
                   this.$set(this.refuseInfo, 'resignOperateMan', data.data.resignOperateMan);
-                  this.$set(this.refuseInfo, 'handRead', true);
+                  
+                  if(data.data.jobCentreFeedbackDate!=undefined){
+                      this.$set(this.refuseInfo, 'handRead', true);
+                  }
+                 
                 } else {
                   this.$Message.error("保存失败！" + data.message);
                 }

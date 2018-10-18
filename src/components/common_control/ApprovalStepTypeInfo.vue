@@ -52,7 +52,7 @@
                 </Form-item>
               </Col>
               <Col :sm="{span:22}" :md="{span: 12}" :lg="{span: 12}">
-                <Form-item label="牡丹卡号：">
+                <Form-item label="扣款账号：">
                   <Input v-model="companyOpenAccountOperator.bankCardNumber" placeholder="请输入..."></Input>
                 </Form-item>
               </Col>

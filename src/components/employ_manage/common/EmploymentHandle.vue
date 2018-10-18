@@ -72,8 +72,8 @@ import api from '../../../api/employ_manage/hire_operator'
         isLoading: false,
         employmentFormList: [
           {value: '', label: ''},
-          {value: '1', label: '全日制'},
-          {value: '2', label: '非全日制'}
+          {value: '1', label: '1'},
+          {value: '2', label: '2'}
         ],
         handleTypeList: [
           {value: '', label: ''},

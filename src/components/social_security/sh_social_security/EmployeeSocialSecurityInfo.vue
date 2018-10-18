@@ -468,6 +468,10 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
         })
       },
       saveRemark(){
+        if(this.remarkInfo.remark==''||this.reworkInfo.remark==undefined){
+          this.$Message.error("请输入备注");
+          return;
+        }
         this.remarkInfo.empArchiveId = this.$route.query.empArchiveId;
         this.remarkInfo.companyId = this.employeeAndCustomer.companyId;
         this.remarkInfo.employeeId = this.employeeAndCustomer.employeeId;

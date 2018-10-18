@@ -140,19 +140,19 @@
           {
             title: '雇员编号', sortable: true, key: 'employeeId',
             render: (h, params) => {
-              return params.row.employeeId = this.acceptanceData.employeeId;
+              return h('div',params.row.employeeId = this.employeeInfo.employeeId);
             }
           },
           {
             title: '雇员姓名', sortable: true, key: 'employeeName',
             render: (h, params) => {
-              return params.row.employeeName = this.acceptanceData.employeeName;
+              return h('div',params.row.employeeName = this.employeeInfo.employeeName);
             }
           },
           {
             title: '连带被保险人', sortable: true, key: 'insuredName',
             render: (h, params) => {
-              return params.row.insuredName = this.acceptanceData.insuredName;
+              return h('div',params.row.insuredName = this.acceptanceData.insuredName);
             }
           },
           {

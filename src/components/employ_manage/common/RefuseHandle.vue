@@ -55,18 +55,13 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退工成功日期：">
-            <DatePicker v-model="refuse.jobCentreFeedbackDate"  @on-open-change="setCurrentDate7" @on-change="changeDate7" type="date" placeholder="" transfer></DatePicker>
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地补充：">
             {{refuse.archivePlaceAdditional}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="打印日期：">
-            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder="" :readonly="true" transfer ></DatePicker>
+            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder=""  transfer ></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -151,11 +146,6 @@
             {{refuse.handleType}}
           </Form-item>
         </Col>
-        <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退档日期：">
-            <DatePicker v-model="refuse.returnDocDate" @on-open-change="setCurrentDate1" @on-change="changeDate1"  type="date" placeholder="" transfer></DatePicker>
-          </Form-item>
-        </Col> -->
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工UKey外借日期：">
             <DatePicker v-model="refuse.ukeyBorrowDate" :readonly="true" @on-open-change="setCurrentDate5" @on-change="changeDate5"  type="date" placeholder="" transfer></DatePicker>
@@ -183,6 +173,11 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工送办日期：">
             <DatePicker v-model="refuse.resignHandleDate" @on-open-change="setCurrentDate3" @on-change="changeDate3" type="date" placeholder="" transfer></DatePicker>
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="退工成功日期：">
+            <DatePicker v-model="refuse.jobCentreFeedbackDate"  @on-open-change="setCurrentDate7"  type="date" placeholder="" :readonly="refuse.handRead" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -666,12 +661,10 @@
         if(e){
           if(this.refuse.jobCentreFeedbackDate==''||this.refuse.jobCentreFeedbackDate==undefined)
           {
-             this.refuse.jobCentreFeedbackDate = this.currentDate();
+              this.$set(this.refuse, "jobCentreFeedbackDate", this.currentDate());
           }
         }
 
-      },changeDate7(e) {
-        this.refuse.jobCentreFeedbackDate = e;
       },setCurrentDate8(e) {
         if(e){
           if(this.refuse.resignMaterialDeliveryDate==''||this.refuse.resignMaterialDeliveryDate==undefined)

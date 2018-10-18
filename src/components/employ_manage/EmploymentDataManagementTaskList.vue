@@ -191,6 +191,23 @@ export default {
           }
         },
         {
+          title: "任务单类型",
+          key: "changeCompany",
+          align: "center",
+          width: 90,
+          render: (h, params) => {
+            return h("div", { style: { textAlign: "center" } }, [
+              h("span", {
+                on: {
+                  "click": (event) => {
+                     this.copyClick(event);
+                   }
+                }            
+              }, params.row.changeCompany)
+            ]);
+          }
+        },
+        {
           title: "用工方式",
           key: "employWay",
           align: "center",
@@ -495,24 +512,8 @@ export default {
               }, params.row.diaodangFeedbackOptDate)
             ]);
           }
-        },
-        {
-          title: "是否翻牌",
-          key: "changeCompany",
-          align: "center",
-          width: 90,
-          render: (h, params) => {
-            return h("div", { style: { textAlign: "center" } }, [
-              h("span", {
-                on: {
-                  "click": (event) => {
-                     this.copyClick(event);
-                   }
-                }            
-              }, params.row.changeCompany)
-            ]);
-          }
         }
+       
       ],
       employmentData: [], //列表数据
       searchResultData: [],
@@ -556,12 +557,7 @@ export default {
             this.$Message.error(data.data.isMaterial);
             return;
           }
-          if (data.data.empTask) {
-            var content =
-              "已经办理了" + data.data.empTask + "条数据，请重新选择数据";
-            this.$Message.error(content);
-            return;
-          }
+         
           if (data.data.employmentCount == 0) {
             _self.$router.push({
               name: "employHandleEmploymentBatch",

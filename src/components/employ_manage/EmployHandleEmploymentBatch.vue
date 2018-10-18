@@ -261,8 +261,8 @@ export default {
       },
       employmentFormList: [
         { value: "", label: "" },
-        { value: "1", label: "全日制" },
-        { value: "2", label: "非全日制" }
+        { value: "1", label: "1" },
+        { value: "2", label: "2" }
       ],
       handleTypeList: [
         { value: "", label: "" },
@@ -338,7 +338,7 @@ export default {
         { value: "独立", label: "独立" }
       ],
       employFeedbackList: [
-         { value: "", label: "" },
+        { value: "", label: "" },
         { value: "3", label: "用工成功" },
         { value: "10", label: "用工已办查无档" },
         { value: "4", label: "用工失败" },
@@ -349,18 +349,15 @@ export default {
       ],
       employmentMethodList: [
         { value: "", label: "" },
-        { value: "Ukey", label: "Ukey" },
-        { value: "集体转入", label: "集体转入" },
-        { value: "用工自办", label: "用工自办" },
-        { value: "翻牌", label: "翻牌" },
-        { value: "无材料用工", label: "无材料用工" },
-        { value: "网办无材料", label: "网办无材料" },
+        { value: "Ukey有材料（k有）", label: "Ukey有材料（k有）" },
+        { value: "Ukey无材料（k无）", label: "Ukey无材料（k无）" },
+        { value: "柜面有材料（柜有）", label: "柜面有材料（柜有）" },
+        { value: "柜面无材料（柜无）", label: "柜面无材料（柜无）" },
         { value: "转人员性质", label: "转人员性质" },
-        { value: "新进转人员性质", label: "新进转人员性质" },
         { value: "送外区办", label: "送外区办" },
         { value: "修改信息", label: "修改信息" },
-        { value: "外来新进", label: "外来新进" },
-        { value: "外来转入", label: "外来转入" }
+        { value: "翻牌", label: "翻牌" },
+        { value: "集体转入,用工自办", label: "集体转入,用工自办" }
       ],
       transferFeedbackList: [
         { value: "", label: "" },
@@ -412,7 +409,7 @@ export default {
     queryDocSeqByDocType(val) {
       api.queryDocSeqByDocType({ type: 1, docType: val }).then(data => {
         if (data.code == 200) {
-          if(data.data.docBo.docSeq){
+          if (data.data.docBo.docSeq) {
             Vue.set(
               this.materialHandleInfo,
               "yuliuDocNum",
@@ -420,12 +417,9 @@ export default {
             );
             this.materialHandleInfo.yuliuDocNum =
               parseInt(data.data.docBo.docSeq) + 1;
-          }else{
-            Vue.set(
-              this.materialHandleInfo,
-              "yuliuDocNum",''
-            );
-            this.materialHandleInfo.yuliuDocNum='';
+          } else {
+            Vue.set(this.materialHandleInfo, "yuliuDocNum", "");
+            this.materialHandleInfo.yuliuDocNum = "";
           }
         } else {
           this.$Message.error("服务器异常" + data.message);
@@ -444,18 +438,16 @@ export default {
     queryDocSeqByDocType2(val) {
       api.queryDocSeqByDocType({ type: 2, docType: val }).then(data => {
         if (data.code == 200) {
-          if(data.data.docBo.docSeq){
+          if (data.data.docBo.docSeq) {
             Vue.set(
               this.materialHandleInfo,
               "docNum",
               parseInt(data.data.docBo.docSeq) + 1
             );
-            this.materialHandleInfo.docNum = parseInt(data.data.docBo.docSeq) + 1;
-          }else{
-            Vue.set(
-              this.materialHandleInfo,
-              "docNum",""
-            );
+            this.materialHandleInfo.docNum =
+              parseInt(data.data.docBo.docSeq) + 1;
+          } else {
+            Vue.set(this.materialHandleInfo, "docNum", "");
             this.materialHandleInfo.docNum = "";
           }
         } else {
@@ -558,7 +550,6 @@ export default {
           "YYYY-MM-DD"
         );
       }
-     
 
       fromData.empTaskIds = this.$route.query.empTaskIds;
       this.isLoadingC = true;
@@ -678,14 +669,14 @@ export default {
     },
     changeType(val) {
       if (val == 11) {
-          this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
-          this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
-      }else if(val != ''&&val!=undefined){
-          this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
-          this.materialHandleInfo.ukeyBorrowDate = '';
-      }else{
-          this.materialHandleInfo.ukeyBorrowDate = '';
-          this.materialHandleInfo.employFeedbackOptDate ='';
+        this.materialHandleInfo.ukeyBorrowDate = this.currentDate();
+        this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+      } else if (val != "" && val != undefined) {
+        this.materialHandleInfo.employFeedbackOptDate = this.currentDate();
+        this.materialHandleInfo.ukeyBorrowDate = "";
+      } else {
+        this.materialHandleInfo.ukeyBorrowDate = "";
+        this.materialHandleInfo.employFeedbackOptDate = "";
       }
     },
     changeTypeDd(val) {

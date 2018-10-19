@@ -66,7 +66,7 @@
       </Form-item>
       </Col>
       <Col :sm="{span:22}" :md="{span: 20}" :lg="{span: 8}">
-      <Form-item label="档案状态：">
+      <Form-item label="社保状态：">
         <label>{{$decode.ssArchiveTaskStatus(emp.archiveStatus)}}</label>
       </Form-item>
       </Col>

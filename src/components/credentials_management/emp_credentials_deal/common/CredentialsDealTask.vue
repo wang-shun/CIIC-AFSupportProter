@@ -345,7 +345,7 @@ export default {
                         this.downLoadMaterials(params.row.taskId);
                       }
                     }
-                  }, "下载收缴材料"))
+                  }, "下载材料签收单"))
               let flag = true;
               if (params.row.payType === '1') {
                 let now = new Date();

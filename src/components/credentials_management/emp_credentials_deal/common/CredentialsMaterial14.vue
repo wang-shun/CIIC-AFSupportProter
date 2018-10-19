@@ -500,6 +500,8 @@ export default {
       this.$emit("materialsInfo", this.material);
     },
     change(info) {
+      console.log(info)
+      console.log(this.material)
       let materialsIds = "";
       if (info.lev00.toString() != "") {
         materialsIds = materialsIds + info.lev00.toString() + ",";
@@ -562,51 +564,51 @@ export default {
           materialsIds = materialsIds + info.lev64.toString() + ",";
         }
       // }
-      if ((this.material.hasFollower = "是")) {
+      // if ((this.material.hasFollower = "是")) {
         if (info.lev71.toString() != "") {
           materialsIds = materialsIds + info.lev71.toString() + ",";
         }
-      }
-      if ((this.material.hasFollower = "否")) {
+      // }
+      // if ((this.material.hasFollower = "否")) {
         if (info.lev72.toString() != "") {
           materialsIds = materialsIds + info.lev72.toString() + ",";
         }
-      }
-      if ((this.material.followMaterials = "子女")) {
+      // }
+      // if ((this.material.followMaterials = "子女")) {
         if (info.lev81.toString() != "") {
           materialsIds = materialsIds + info.lev81.toString() + ",";
         }
-      }
-      if ((this.material.followMaterials = "配偶")) {
+      // }
+      // if ((this.material.followMaterials = "配偶")) {
         if (info.lev82.toString() != "") {
           materialsIds = materialsIds + info.lev82.toString() + ",";
         }
-      }
-      if ((this.material.followMaterials = "全家")) {
+      // }
+      // if ((this.material.followMaterials = "全家")) {
         if (info.lev83.toString() != "") {
           materialsIds = materialsIds + info.lev83.toString() + ",";
         }
-      }
-      if ((this.material.notFollowMaterials = "已是上海户籍")) {
+      // }
+      // if ((this.material.notFollowMaterials = "已是上海户籍")) {
         if (info.lev91.toString() != "") {
           materialsIds = materialsIds + info.lev91.toString() + ",";
         }
-      }
-      if ((this.material.notFollowMaterials = "不符合随迁条件")) {
+      // }
+      // if ((this.material.notFollowMaterials = "不符合随迁条件")) {
         if (info.lev92.toString() != "") {
           materialsIds = materialsIds + info.lev92.toString() + ",";
         }
-      }
-      if ((this.material.notFollowMaterials = "已是外籍")) {
+      // }
+      // if ((this.material.notFollowMaterials = "已是外籍")) {
         if (info.lev93.toString() != "") {
           materialsIds = materialsIds + info.lev93.toString() + ",";
         }
-      }
-      if ((this.material.notFollowMaterials = "其他原因")) {
+      // }
+      // if ((this.material.notFollowMaterials = "其他原因")) {
         if (info.lev94.toString() != "") {
           materialsIds = materialsIds + info.lev94.toString() + ",";
         }
-      }
+      // }
       // if (this.material.addr = '社区公共户') {
       if (info.lev101.toString() != "") {
         materialsIds = materialsIds + info.lev101.toString() + ",";

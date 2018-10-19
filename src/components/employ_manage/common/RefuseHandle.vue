@@ -288,7 +288,8 @@
           {value: '14', label: '转人员性质无需退工'},
           {value: '15', label: '退工成功,改社保'},
           {value: '16', label: '重复任务单'},
-          {value: '17', label: '退工自办'}
+          {value: '17', label: '退工自办'},
+          {value: "18", label: "等修改材料"}
 
         ],
         companyGroupTransferDirectionList: [

@@ -361,6 +361,7 @@
   import api from '../../../api/house_fund/employee_task/employee_transfer'
   import dict from '../../../api/dict_access/house_fund_dict'
   import hfQueryApi from '../../../api/house_fund/employee_operator'
+  import commonApi from '../../../api/house_fund/common/common'
   export default {
     data() {
       return {
@@ -574,8 +575,15 @@
           this.$Message.error("请先操作保存转移表单信息！");
           return;
         }
-        this.$Modal.confirm({
-          title: "你确认操作打印转移通知书吗？",
+
+        if(this.transferNotice.transferInUnit=='市公积金封存办(中心)'){
+            this.empToCenterTransferExport();
+
+        }else{
+
+          this.$Modal.confirm({
+          title: "提示",
+          content:"你确认操作打印转移通知书吗？",
           okText: '确定',
           cancelText: '取消',
           onOk: () => {
@@ -600,6 +608,11 @@
                 )
            }
         })
+
+        }
+        
+
+
       },
       checkData(){
           if (!this.transferNotice.transferInUnit || this.transferNotice.transferInUnit==''  ) {
@@ -780,6 +793,67 @@
           )
         }
         this.loading = false;
+      },
+      empToCenterTransferExport() {
+        if (!this.transferNotice.transferOutUnit) {
+          this.$Message.error("导出入管清册，必须在查询条件输入【转出单位】");
+          return false;
+        }
+        if (!this.transferNotice.hfType || this.transferNotice.hfType === '') {
+          this.$Message.error("导出入管清册，必须在查询条件选择某一公积金类型");
+          return false;
+        }
+        commonApi.getComFundAccountClassNameList({
+          params: {
+            comAccountName: this.transferNotice.transferOutUnit.trim(),
+            hfComAccount: ''
+          }
+        }).then(data => {
+          if (data.code === 200) {
+            let total = Number(data.total);
+            if (total === 0) {
+              this.$Message.error("未匹配到任何转出单位");
+              return false;
+            } else if (total === 1) {
+              if (data.data) {
+                if (data.data.hfComAccount === '881383287'|| data.data.hfComAccount === '881383288') {
+                  this.$Message.error("转出单位不能是市公积金封存办(中心)");
+                  return false
+                }
+              }
+              let params = {
+                transferOutUnit:this.transferNotice.transferOutUnit,
+                companyId:this.transferNotice.companyId,
+                employeeId:this.transferNotice.employeeId,
+                hfType:this.transferNotice.hfType,
+              }
+              api.checkEmpTransferEndMonthSame({
+                params: params,
+              }).then(data => {
+                if (data.code === 200) {
+                  let rtn = Number(data.data);
+                  if (rtn > 0) {
+                    let rtnMessage = "";
+                    if (rtn === 1) {
+                      rtnMessage = "未匹配到任何转移任务单";
+                    } else if (rtn === 2) {
+                      rtnMessage = "匹配到的转移任务单中的封存年月不相同";
+                    }
+                    this.$Message.error(rtnMessage);
+                    return false;
+                  } else {
+                    api.empToCenterTransferExport({
+                      params: params,
+                    })
+                  }
+                }
+              })
+            } else if (total > 1) {
+              this.$Message.error("匹配出了多家转出单位，请进一步明确转出单位名称");
+              return false;
+            }
+          }
+        })
       },
     }
   }

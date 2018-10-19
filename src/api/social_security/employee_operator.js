@@ -183,6 +183,15 @@ delEmpRemark: (params) => {
     let response = await AJAX.post('/api/soccommandservice/ssEmpArchive/queryHistoryEmpTask', params);
     return await response.data;
   },
+  checkExportRegisterForm: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssEmpPrintInfo/ssExpEmpRegisterFormPrintCheck', params);
+    return await response.data;
+  },
+  checkExportChangeDeclarationForm: async (params) => {
+    let response = await AJAX.post('/api/soccommandservice/ssEmpPrintInfo/ssExpChangeItemDeclarationFormPrintCheck', params);
+    return await response.data;
+  },
+  
   //导出个人社会保险登记表
   exportRegisterForm: async (params) => {
     AJAX.download('/api/soccommandservice/ssEmpPrintInfo/ssExpEmpRegisterFormPrint', params);
@@ -190,6 +199,31 @@ delEmpRemark: (params) => {
   //导出社会保险业务变更项目申报表
   exportChangeDeclarationForm: async (params) => {
     AJAX.download('/api/soccommandservice/ssEmpPrintInfo/ssExpChangeItemDeclarationFormPrint', params);
-  }
+  },
+  printForm:(self,api)=>{
+    let param={};
+    param.companyId=self.companyId;
+    param.employeeId = self.employeeId;
+    if(self.socialSecurityPayOperator.taskCategory == 1){
+      api.checkExportRegisterForm(param).then(
+      data=>{
+        if(data.code==500){
+          self.$Message.error('请先办理当前任务单后，然后再操作打印.');
+        }else{
+          api.exportRegisterForm(param);
+        }
+      });
+    }else{
+      api.checkExportChangeDeclarationForm(param).then(
+        data=>{
+          if(data.code==500){
+            self.$Message.error('请先办理当前任务单后，然后再操作打印.');
+          }else{
+            api.exportChangeDeclarationForm(param);
+          }
+        }
+      );
+    }
+  },
 }
 

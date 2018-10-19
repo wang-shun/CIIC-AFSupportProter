@@ -390,14 +390,14 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
               ]);
             }
           },
-          {title: '企业账户类型', key: 'accountTypeValue', align: 'center',
+          {title: '企业账户类型', key: 'accountTypeValue', align: 'center',width: 110,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.accountTypeValue),
               ]);
             }
           },
-          {title: '备注', key: 'remark', align: 'center',
+          {title: '备注', key: 'remark', align: 'center',width: 150,
             render: (h, params) => {
               return h('div', {style: {textAlign: 'left'}}, [
                 h('span', params.row.remark),

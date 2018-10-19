@@ -99,6 +99,7 @@
     </Collapse>
     <Row class="mt20">
       <Col :sm="{span: 24}" class="tr">
+      <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '2'" @click="printForm" >打印登记表|申报表</Button>
       <Button type="primary" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('3')" v-if="showButton" :loading="isLoading">办理</Button>
       <Button type="error" v-show="socialSecurityPayOperator.taskStatus == '1'" @click="instance('4')" v-if="showButton" :loading="isLoading">批退</Button>
       <Button type="warning"  @click="goBack">返回</Button>
@@ -529,6 +530,9 @@
           }
         });
 
+      },
+      printForm(){
+        api.printForm(this,api);
       }
     }
   }

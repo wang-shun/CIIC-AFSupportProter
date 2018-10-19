@@ -92,7 +92,13 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
         },
         processingColumns: [
           // {type: 'selection', fixed: 'left', width: 60, align: 'center'},
-          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center',sortable: 'custom'},
+          {title: '任务单类型', key: 'taskCategoryName', width: 150, align: 'center',sortable: 'custom',
+            render: (h, params) => {
+              return h('div', {style: {textAlign: 'left'}}, [
+                h('span', params.row.taskCategoryName + ((params.row.isChange === '1')?"(更正)":"")),
+              ]);
+            }
+          },
 //          {title: '更正', key: 'isChangeName', width: 100, align: 'center'},
           {title: '雇员', key: 'employeeName', width: 150, align: 'center'},
           {title: '雇员编号', key: 'employeeId', width: 150, align: 'center',sortable: 'custom'},

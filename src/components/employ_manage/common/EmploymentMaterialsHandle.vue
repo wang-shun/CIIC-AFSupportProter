@@ -41,8 +41,6 @@
             <Input v-model="handleInfo.archivePlaceAdditional" placeholder="请输入" :maxlength="50"/>
           </Form-item>
         </Col>
-       
-          
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="存档卡状态：" prop="archiveCardState">
@@ -70,7 +68,6 @@
             </Select>
           </Form-item>
         </Col>
-        </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="用工反馈操作日期：" prop="employFeedbackOptDate">
             <DatePicker  type="date" v-model="handleInfo.employFeedbackOptDate" :readonly="true"  transfer></DatePicker>
@@ -93,7 +90,7 @@
             <DatePicker  type="date" v-model="handleInfo.ukeyBorrowDate" :readonly="true" transfer></DatePicker>
           </Form-item>
         </Col>
-        </Col>
+    
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 6}">
           <Form-item label="UKey返回日期：" prop="ukeyReturnDate">
             <DatePicker  type="date" v-model="handleInfo.ukeyReturnDate" :readonly="true" transfer></DatePicker>
@@ -114,10 +111,7 @@
             <DatePicker @on-open-change="setCurrentDate4" @on-change="changeDate4" type="date" v-model="handleInfo.storageDate" transfer></DatePicker>
           </Form-item>
         </Col>
-        
-          
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 24}">
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 12}">
           <Form-item label="" prop="luyongHandleEnd">
             <Checkbox v-model="handleInfo.luyongHandleEnd" >录用处理结束</Checkbox>
           </Form-item>
@@ -221,7 +215,8 @@ export default {
         { value: "11", label: "Ukey外借", disabled: false },
         { value: "5", label: "前道要求撤销用工", disabled: false },
         { value: "12", label: "用工成功,重复任务单", disabled: false },
-        { value: "13", label: "用工已办,前道已中止", disabled: false }
+        { value: "13", label: "用工已办,前道已中止", disabled: false },
+        { value: "14", label: "等修改材料", disabled: false }
       ],
       transferFeedbackList: [
         { value: "", label: "" },
@@ -240,15 +235,7 @@ export default {
     };
   },
   watch: {
-    handleInfo() {
-      this.employFeedbackList[0].disabled = this.handleInfo.end;
-      this.employFeedbackList[1].disabled = this.handleInfo.end;
-      this.employFeedbackList[2].disabled = this.handleInfo.end;
-      this.employFeedbackList[3].disabled = this.handleInfo.end;
-      this.employFeedbackList[4].disabled = this.handleInfo.end;
-      this.employFeedbackList[5].disabled = this.handleInfo.end;
-      this.employFeedbackList[6].disabled = this.handleInfo.end;
-    }
+   
   },
   methods: {
     changeStatus(val) {
@@ -470,9 +457,7 @@ export default {
           this.handleInfo.oldYuLiuNum = data.data.yuliuDocNum;
           this.handleInfo.oldType = data.data.docType;
           this.handleInfo.oldNum = data.data.docNum;
-          if (data.data.end) {
-            this.changeStatus(data.data.end);
-          }
+         
         } else {
           this.$Message.error("保存失败！" + data.message);
         }

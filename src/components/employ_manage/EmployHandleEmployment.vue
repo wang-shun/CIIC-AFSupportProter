@@ -43,6 +43,18 @@
             <employment-materials-handle :handleInfo="materialHandleInfo"></employment-materials-handle>
           </div>
         </Panel>
+         <Panel name="7">
+          用工材料办理痕迹
+          <div slot="content">
+            <archive-notes :archiveNote="archiveNote"></archive-notes>
+          </div>
+          </Panel>
+          <Panel name="8">
+          档案备注
+          <div slot="content">
+            <file-notes :fileNotesViewData="fileNotesViewData" :userInfo="userInfo"></file-notes>
+          </div>
+        </Panel>
       </Collapse>
       <Row type="flex" justify="start" class="mt20 mb20">
         <Col :sm="{span: 24}" class="tr">
@@ -60,13 +72,15 @@
   import employmentNotes from "./common/EmploymentNotes.vue"
   import employmentMaterialsHandle from "./common/EmploymentMaterialsHandle.vue"
   import employmentDataManagementTaskList from "./common/EmployeeHistoryTaskList.vue"
+  import archiveNotes from "./common/archiveNotes.vue"
+  import fileNotes from "./common/FileNotes.vue"
   import api from '../../api/employ_manage/hire_operator'
 
   export default {
-    components: {customerInfo, employeeCompleteInfo, employmentMaterialsSign, employmentHandle, employmentNotes, employmentMaterialsHandle, employmentDataManagementTaskList},
+    components: {customerInfo, employeeCompleteInfo, employmentMaterialsSign, employmentHandle, employmentNotes, employmentMaterialsHandle, employmentDataManagementTaskList,archiveNotes,fileNotes},
     data() {
       return {
-        collapseInfo: [1, 2, 3, 4, 5, 6, 7],
+        collapseInfo: [1, 2, 3, 4, 5, 6,8],
         customerInfo: {
           serviceCenter: "",
           customerNumber: "",
@@ -129,6 +143,7 @@
           empTaskId:this.$route.query.empTaskId
         },
         notesData: [],
+        fileNotesViewData: [],
         materialHandleInfo: {
           employee: '',
           idNum: '',
@@ -164,6 +179,7 @@
           employmentId:'',
           end:false
         },
+        archiveNote:[],
         historyTaskData: [],
         userInfo:{
           userName:''
@@ -229,6 +245,15 @@
 
               this.materialHandleInfo.docSeqList = data.data.docSeqList;
               this.materialHandleInfo.docSeqList2 = data.data.docSeqList2;
+
+              if(data.data.archiveNote)
+              {
+                 this.archiveNote = data.data.archiveNote;
+              }
+
+              if(data.data.archiveRemarkBo){
+                  this.fileNotesViewData = data.data.archiveRemarkBo;
+              }
                  
           })
     },

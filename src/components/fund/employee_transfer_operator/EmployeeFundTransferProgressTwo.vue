@@ -584,9 +584,9 @@
           content:"你确认操作打印转移通知书吗？",
           okText: '确定',
           cancelText: '取消',
+          loading:true,
           onOk: () => {
                   this.convertDate();
-                  this.isLoading=true;
                   api.submitTransferTask(this.transferNotice).then(
                           data=>{
                             if(data.code==200){
@@ -597,17 +597,15 @@
                                   if(data.code==200){
                                     this.empToCenterTransferExport();
                                     this.saveDisabled=true;
-                                    this.isLoading=false;
                                   }else{
                                     this.$Message.error(data.message);
-                                    this.isLoading=false;
                                   }
                                 }
                               )
                             }else{
                               this.$Message.error(data.message);
-                              this.isLoading=false;
                             }
+                            this.$Modal.remove();
                           }
                         )
           }})
@@ -619,9 +617,9 @@
           content:"你确认操作打印转移通知书吗？",
           okText: '确定',
           cancelText: '取消',
+          loading:true,
           onOk: () => {
                this.convertDate();
-               this.isLoading=true;
                 api.submitTransferTask(this.transferNotice).then(
                   data=>{
                     if(data.code==200){
@@ -634,17 +632,15 @@
                             rows=data.data;
                             api.printTransferNote(rows);
                             this.saveDisabled=true;
-                            this.isLoading=false;
                           }else{
                             this.$Message.error(data.message);
-                            this.isLoading=false;
                           }
                         }
                       )
                     }else{
                       this.$Message.error(data.message);
-                      this.isLoading=false;
                     }
+                    this.$Modal.remove();
                   }
                 )
            }

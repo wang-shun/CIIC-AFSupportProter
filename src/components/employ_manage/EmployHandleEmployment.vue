@@ -72,7 +72,7 @@
   import employmentNotes from "./common/EmploymentNotes.vue"
   import employmentMaterialsHandle from "./common/EmploymentMaterialsHandle.vue"
   import employmentDataManagementTaskList from "./common/EmployeeHistoryTaskList.vue"
-  import archiveNotes from "./common/archiveNotes.vue"
+  import archiveNotes from "./common/ArchiveNotes.vue"
   import fileNotes from "./common/FileNotes.vue"
   import api from '../../api/employ_manage/hire_operator'
 

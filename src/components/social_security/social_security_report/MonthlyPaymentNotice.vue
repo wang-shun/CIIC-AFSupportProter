@@ -187,10 +187,16 @@
           this.accountName = data.data.comAccountName;
           this.account = data.data.ssAccount;
           this.companyId =data.data.companyId;
+          if(this.comAccountId==null || this.comAccountId==''){
+            this.comAccountId=data.data.comAccountId;
+          }
         })
       },
 
       calculate(){
+        if(!this.comAccountId){
+            this.$route.query.companyId
+        }
         let params = {
           comAccountId:this.comAccountId,
           ssMonth:this.ssMonth,

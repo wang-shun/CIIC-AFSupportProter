@@ -542,8 +542,8 @@ import {localStorage, sessionStorage} from '../../../../assets/api/storage'
         expParam = this.searchCondition;
         this.$utils.copy(this.searchCondition, expParam);
         expParam.empTaskIds=empTaskIds;
-        console.log(expParam);
         api.hfEmpTaskExport({ params: expParam });
+        expParam.empTaskIds=null;
       },
       excelExportNew() {
         if (!this.selectedData || this.selectedData.length == 0) {

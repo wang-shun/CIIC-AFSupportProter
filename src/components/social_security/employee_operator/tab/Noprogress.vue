@@ -406,6 +406,7 @@
           pageNum: 0,
           params: expParam,
         });
+        expParam.empTaskIds=null;
       },
       handlePageNum(val) {
         this.employeeResultPageData.pageNum = val;

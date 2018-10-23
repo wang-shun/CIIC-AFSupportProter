@@ -174,7 +174,7 @@
       </Form>
 
       <div slot="footer">
-        <Button type="primary" @click="saveReconciliation">保存</Button>
+        <Button type="primary" @click="saveReconciliation" :isLoading='isLoading'>保存</Button>
         <Button type="warning" @click="resetSearchCondition('newReconciliation'); isShowCreateReconciliation = false;">关闭</Button>
       </div>
     </Modal>
@@ -192,6 +192,7 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
     data() {
       return {
         collapseInfo: [1],
+        isLoading:false,
         page: {
           total: 0,
           pageNum: 1,
@@ -482,6 +483,7 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
       },
 
       saveReconciliation() { // 新建对账
+      
         if (this.newReconciliation.hfMonth === '') {
           this.$Message.error('请先选择公积金月份!');
           return;
@@ -494,6 +496,7 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
           this.$Message.error('公积金企业账户不能为空!');
           return;
         }
+        this.isLoading=true;
         this.loadingStatus = true;
         let config = {
           headers: {'Content-Type': 'multipart/form-data'}
@@ -513,10 +516,12 @@ import {localStorage, sessionStorage} from '../../../assets/api/storage'
             that.getStatement();
             that.reconciliateFile = null;
             this.loadingStatus = false;
+            this.isLoading=false;
             that.$Message.info('新增对账成功!');
           }else {
             that.reconciliateFile = null;
             this.loadingStatus = false;
+            this.isLoading=false;
             that.$Message.info(data.message);
           }
           this.resetSearchCondition('newReconciliation');

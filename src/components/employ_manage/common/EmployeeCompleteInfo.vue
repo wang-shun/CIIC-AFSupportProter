@@ -39,12 +39,22 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="合同起始日期：">
-            {{employee.laborStartDateStr}}
+            <div v-if="employee.isChange==='1'">
+               <font color="red"> {{employee.laborStartDateStr}} </font>
+            </div>
+            <div v-else>
+                 {{employee.laborStartDateStr}}
+            </div>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="合同截至日期：">
-            {{employee.laborEndDateStr}}
+            <div v-if="employee.isChange==='1'">
+               <font color="red"> {{employee.laborEndDateStr}} </font>
+            </div>
+            <div v-else>
+                {{employee.laborEndDateStr}}
+            </div>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -159,8 +169,8 @@
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 16}">
           <Form-item label="公司特殊情况：">
-            <RadioGroup v-model="employee.speacilStr" type="button" >
-               <Radio v-for="item in employee.speacilStr" :label="item" :key="item" :disabled=true></Radio>
+            <RadioGroup  type="button" >
+               <Radio v-for="item in employee.speacilStr"  :label="item" :key="item" ></Radio>
             </RadioGroup>
           </Form-item>
         </Col>

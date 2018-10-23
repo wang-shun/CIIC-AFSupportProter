@@ -9,85 +9,85 @@
       </Row>
       <Collapse v-model="collapseInfo">
         <Panel name="1">
-          客户信息
+         <font style="font-weight:bold;">客户信息</font>
           <div slot="content">
             <customer-info :customerInfo="customerInfo"></customer-info>
           </div>
         </Panel>
         <Panel name="2">
-          雇员信息
+          <font style="font-weight:bold;">雇员信息</font>
           <div slot="content">
             <employee-complete-info :employeeInfo="employeeInfo"></employee-complete-info>
           </div>
         </Panel>
         <Panel name="3">
-          用工信息
+          <font style="font-weight:bold;">用工信息</font>
           <div slot="content">
             <employment-info :employmentInfo="employmentInfo"></employment-info>
           </div>
         </Panel>
         <Panel name="13">
-          用工资料信息
+          <font style="font-weight:bold;"> 用工资料信息</font>
           <div slot="content">
             <use-handle :fileInfo1="fileInfo1" :fileInfo2="fileInfo2"></use-handle>
           </div>
         </Panel>
         <Panel name="4">
-          退工信息
+          <font style="font-weight:bold;"> 退工信息</font>
           <div slot="content">
             <refuse-handle :refuseInfo="refuseInfo"></refuse-handle>
           </div>
         </Panel>
         <Panel name="5">
-          档案办理
+          <font style="font-weight:bold;"> 档案办理</font>
           <div slot="content">
             <file-handle :fileInfo1="fileInfo1" :fileInfo2="fileInfo2"></file-handle>
           </div>
         </Panel>
         <Panel name="6">
-          寄信办理
+          <font style="font-weight:bold;">寄信办理</font>
           <div slot="content">
             <file-send :fileInfo1="fileInfo1"></file-send>
           </div>
         </Panel>
         <Panel name="8">
-          档案备注
+          <font style="font-weight:bold;">档案备注</font>
           <div slot="content">
             <file-notes :fileNotesViewData="fileNotesViewData" :userInfo="userInfo"></file-notes>
           </div>
         </Panel>
         <Panel name="9">
-          出库\寄信
+           <font style="font-weight:bold;">出库\寄信</font>
           <div slot="content">
             <out-stock-and-mail :stockAndMailInfo="stockAndMailInfo"></out-stock-and-mail>
           </div>
         </Panel>
         <Panel name="10">
-          档案结费
+          <font style="font-weight:bold;"> 档案结费</font>
           <div slot="content">
             <file-settle :fileSettleInfo="fileSettleInfo"></file-settle>
           </div>
         </Panel>
         <Panel name="11">
-          退档日期操作区域
+          <font style="font-weight:bold;">退档日期操作区域</font>
           <div slot="content">
             <return-doc-date :refuseInfo="refuseInfo" ></return-doc-date>
           </div>
         </Panel>
         <Panel name="12">
-          补调档案
+           <font style="font-weight:bold;">补调档案</font>
           <div slot="content">
             <make-up-file :makeUpFileInfo="makeUpFileInfo"></make-up-file>
           </div>
         </Panel>
         <Panel name="13">
-          退工归还材料签收
+          <font style="font-weight:bold;">退工归还材料签收</font>
           <div slot="content">
             <refuse-return-materials-sign :materialLogList="materialLogList" :refuseReturnMaterialsSignInfo="refuseReturnMaterialsSignInfo" :refuseReturnMaterials="refuseReturnMaterials"></refuse-return-materials-sign>
           </div>
         </Panel>
         <Panel name="14">
-          工伤申报管理
+           <font style="font-weight:bold;">工伤申报管理</font>
           <div slot="content">
             <injury-report-manage :injuryReportManageInfo="injuryReportManageInfo" :fileInfo1="fileInfo1" :userInfo="userInfo"></injury-report-manage>
           </div>

@@ -348,7 +348,7 @@
     <Row class="mt20">
       <Col :sm="{span:24}" class="tr">
         <Button type="primary" @click="submitTransferTask" :disabled="saveDisabled">保存</Button>
-        <Button type="info" @click="printTransferTask">打印转移单</Button>
+        <Button type="info" @click="printTransferTask" :isLoading='isLoading' >打印转移单</Button>
         <Button type="default" @click="notHandleTransfer" v-if="this.transferNotice.empTaskId!=null" :disabled="saveDisabled" >不需处理</Button>
         <Button type="warning" @click="goBack">返回</Button>
       </Col>
@@ -368,6 +368,7 @@
         currentStep: 2,
         collapseInfo: [1, 2, 3, 4, 5], //展开栏
         loading: false,
+        isLoading:false,
         viewEmpArchive:{},
         showUnitOutSelect:false,
         showUnitInSelect:false,
@@ -577,7 +578,37 @@
         }
 
         if(this.transferNotice.transferInUnit=='市公积金封存办(中心)'){
-            this.empToCenterTransferExport();
+
+            this.$Modal.confirm({
+          title: "提示",
+          content:"你确认操作打印转移通知书吗？",
+          okText: '确定',
+          cancelText: '取消',
+          loading:true,
+          onOk: () => {
+                  this.convertDate();
+                  api.submitTransferTask(this.transferNotice).then(
+                          data=>{
+                            if(data.code==200){
+                              this.transferNotice.empTaskId=data.data;
+                              let params={empTaskId:this.transferNotice.empTaskId};
+                              api.getPrintTransfer(params).then(
+                                data=>{
+                                  if(data.code==200){
+                                    this.empToCenterTransferExport();
+                                    this.saveDisabled=true;
+                                  }else{
+                                    this.$Message.error(data.message);
+                                  }
+                                }
+                              )
+                            }else{
+                              this.$Message.error(data.message);
+                            }
+                            this.$Modal.remove();
+                          }
+                        )
+          }})
 
         }else{
 
@@ -586,6 +617,7 @@
           content:"你确认操作打印转移通知书吗？",
           okText: '确定',
           cancelText: '取消',
+          loading:true,
           onOk: () => {
                this.convertDate();
                 api.submitTransferTask(this.transferNotice).then(
@@ -600,10 +632,15 @@
                             rows=data.data;
                             api.printTransferNote(rows);
                             this.saveDisabled=true;
+                          }else{
+                            this.$Message.error(data.message);
                           }
                         }
                       )
+                    }else{
+                      this.$Message.error(data.message);
                     }
+                    this.$Modal.remove();
                   }
                 )
            }
@@ -710,7 +747,6 @@
                       }
                   })
                   if(isDuplicate==false){
-                    console.log('1==='+data.data[0].comAccountName);
                     unitList.push(data.data[0].comAccountName);
                     unitAccountList.push(data.data[0].hfComAccount);
                   }
@@ -803,6 +839,7 @@
           this.$Message.error("导出入管清册，必须在查询条件选择某一公积金类型");
           return false;
         }
+        this.isLoading=true;
         commonApi.getComFundAccountClassNameList({
           params: {
             comAccountName: this.transferNotice.transferOutUnit.trim(),
@@ -852,6 +889,7 @@
               this.$Message.error("匹配出了多家转出单位，请进一步明确转出单位名称");
               return false;
             }
+            this.isLoading=false;
           }
         })
       },

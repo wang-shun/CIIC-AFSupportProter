@@ -55,18 +55,13 @@
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退工成功日期：">
-            <DatePicker v-model="refuse.jobCentreFeedbackDate"  @on-open-change="setCurrentDate7" @on-change="changeDate7" type="date" placeholder="" transfer></DatePicker>
-          </Form-item>
-        </Col>
-        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="存档地补充：">
             {{refuse.archivePlaceAdditional}}
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="打印日期：">
-            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder="" :readonly="true" transfer ></DatePicker>
+            <DatePicker v-model="refuse.printDate"  type="date" @on-open-change="setCurrentDate" @on-change="changeDate" placeholder=""  transfer ></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -151,11 +146,6 @@
             {{refuse.handleType}}
           </Form-item>
         </Col>
-        <!-- <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
-          <Form-item label="退档日期：">
-            <DatePicker v-model="refuse.returnDocDate" @on-open-change="setCurrentDate1" @on-change="changeDate1"  type="date" placeholder="" transfer></DatePicker>
-          </Form-item>
-        </Col> -->
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工UKey外借日期：">
             <DatePicker v-model="refuse.ukeyBorrowDate" :readonly="true" @on-open-change="setCurrentDate5" @on-change="changeDate5"  type="date" placeholder="" transfer></DatePicker>
@@ -183,6 +173,11 @@
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
           <Form-item label="退工送办日期：">
             <DatePicker v-model="refuse.resignHandleDate" @on-open-change="setCurrentDate3" @on-change="changeDate3" type="date" placeholder="" transfer></DatePicker>
+          </Form-item>
+        </Col>
+        <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
+          <Form-item label="退工成功日期：">
+            <DatePicker v-model="refuse.jobCentreFeedbackDate"  @on-open-change="setCurrentDate7"  type="date" placeholder="" :readonly="refuse.handRead" transfer></DatePicker>
           </Form-item>
         </Col>
         <Col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 8}">
@@ -293,7 +288,8 @@
           {value: '14', label: '转人员性质无需退工'},
           {value: '15', label: '退工成功,改社保'},
           {value: '16', label: '重复任务单'},
-          {value: '17', label: '退工自办'}
+          {value: '17', label: '退工自办'},
+          {value: "18", label: "等修改材料"}
 
         ],
         companyGroupTransferDirectionList: [
@@ -369,8 +365,13 @@
         api.saveAmResign(fromData).then(data => {
               if (data.code == 200) {
                   this.$Message.success("保存成功");
-                  this.refuseInfo.resignId = data.data.resignId;
-                  this.refuseInfo.resignOperateMan = data.data.resignOperateMan;
+                  this.$set(this.refuseInfo, 'resignId', data.data.resignId);
+                  this.$set(this.refuseInfo, 'resignOperateMan', data.data.resignOperateMan);
+                  
+                  if(data.data.jobCentreFeedbackDate!=undefined){
+                      this.$set(this.refuseInfo, 'handRead', true);
+                  }
+                 
                 } else {
                   this.$Message.error("保存失败！" + data.message);
                 }
@@ -432,7 +433,7 @@
           api.bindEmploymentId(fromData).then(data => {
               if (data.code == 200) {
                 if(data.data.result==true){
-                   this.refuseInfo.resignId = data.data.entity.resignId;
+                   this.$set(this.refuseInfo, 'resignId', data.data.entity.resignId);
                    this.$Message.success("绑定成功");
 
                 }else{
@@ -666,12 +667,10 @@
         if(e){
           if(this.refuse.jobCentreFeedbackDate==''||this.refuse.jobCentreFeedbackDate==undefined)
           {
-             this.refuse.jobCentreFeedbackDate = this.currentDate();
+              this.$set(this.refuse, "jobCentreFeedbackDate", this.currentDate());
           }
         }
 
-      },changeDate7(e) {
-        this.refuse.jobCentreFeedbackDate = e;
       },setCurrentDate8(e) {
         if(e){
           if(this.refuse.resignMaterialDeliveryDate==''||this.refuse.resignMaterialDeliveryDate==undefined)

@@ -333,7 +333,11 @@ export default {
   saveAmReturn:async (params)=>{
     let response = await AJAX.post('/api/employservice/amResignTask/saveAmReturn', params);
     return await response.data;
-  }
+  },
+  saveEmployeeCheck:async (params)=>{
+    let response = await AJAX.post('/api/employservice/amEmpTask/saveEmployeeCheck', params);
+    return await response.data;
+  },
 
 }
 

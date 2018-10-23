@@ -58,215 +58,262 @@
   </div>
 </template>
 <script>
-import api from '../../../api/employ_manage/hire_operator'
-  export default {
-    props: {
-      handleInfo: {
-        type: Object
-      },handleInfoMaterial:{
-        type: Object
+import api from "../../../api/employ_manage/hire_operator";
+export default {
+  props: {
+    handleInfo: {
+      type: Object
+    },
+    handleInfoMaterial: {
+      type: Object
+    }
+  },
+  data() {
+    return {
+      isLoading: false,
+      employmentFormList: [
+        { value: "", label: "" },
+        { value: "1", label: "1" },
+        { value: "2", label: "2" }
+      ],
+      handleTypeList: [
+        { value: "", label: "" },
+        { value: "外来从业人员", label: "外来从业人员" },
+        { value: "居住证", label: "居住证" },
+        { value: "调档", label: "调档" },
+        { value: "属地管理", label: "属地管理" },
+        { value: "市人才", label: "市人才" },
+        { value: "梅园路", label: "梅园路" },
+        { value: "商城路", label: "商城路" },
+        { value: "漕虹路", label: "漕虹路" },
+        { value: "区人才", label: "区人才" },
+        { value: "高校", label: "高校" },
+        { value: "经营者人才", label: "经营者人才" },
+        { value: "厂长经理人才", label: "厂长经理人才" },
+        { value: "农民工", label: "农民工" },
+        { value: "退休", label: "退休" },
+        { value: "协保", label: "协保" },
+        { value: "退工不调档", label: "退工不调档" },
+        { value: "用工不调档", label: "用工不调档" },
+        { value: "其他", label: "其他" },
+        { value: "非全日制", label: "非全日制" },
+        { value: "中智", label: "中智" },
+        { value: "徐职", label: "徐职" },
+        { value: "公司自行保管", label: "公司自行保管" }
+      ],
+      employmentPropertyList: [
+        { value: "", label: "" },
+        { value: "中智", label: "中智" },
+        { value: "外包", label: "外包" },
+        { value: "独立", label: "独立" }
+      ],
+      employmentMethodList: [
+        { value: "", label: "" },
+        { value: "Ukey有材料（k有）", label: "Ukey有材料（k有）" },
+        { value: "Ukey无材料（k无）", label: "Ukey无材料（k无）" },
+        { value: "柜面有材料（柜有）", label: "柜面有材料（柜有）" },
+        { value: "柜面无材料（柜无）", label: "柜面无材料（柜无）" },
+        { value: "转人员性质", label: "转人员性质" },
+        { value: "送外区办", label: "送外区办" },
+        { value: "修改信息", label: "修改信息" },
+        { value: "翻牌", label: "翻牌" },
+        { value: "集体转入,用工自办", label: "集体转入,用工自办" }
+      ]
+    };
+  },
+  computed: {
+    handle() {
+      return this.handleInfo;
+    }
+  },
+  methods: {
+    instance() {
+      this.isLoading = true;
+      var fromData = this.$utils.clear(this.handleInfo, "");
+
+      if (fromData.employDate) {
+        fromData.employDate = this.$utils.formatDate(
+          this.handleInfo.employDate,
+          "YYYY-MM-DD"
+        );
+      }
+      if (fromData.openAfDate) {
+        fromData.openAfDate = this.$utils.formatDate(
+          this.handleInfo.openAfDate,
+          "YYYY-MM-DD"
+        );
+      }
+      const _self = this;
+      api.saveEmployeeCheck(fromData).then(data => {
+        debugger
+        if (data.data) {
+          _self.$Modal.confirm({
+            title: "",
+            content: "合同日期改变是否继续?",
+            width: 700,
+            onOk: function() {
+              api.saveEmployee(fromData).then(data2 => {
+                if (data.code == 200) {
+                  this.$Message.success("保存成功");
+                  this.handle.employmentId = data2.data.employmentId;
+                  this.handle.employOperateMan = data2.data.employOperateMan;
+                  this.handleInfoMaterial.employmentId = data2.data.employmentId;
+                } else {
+                  this.$Message.error("保存失败！" + data2.message);
+                }
+                this.isLoading = false;
+              });
+            },
+            error: function(error) {}
+          });
+        } else {
+            api.saveEmployee(fromData).then(data1 => {
+                if (data.code == 200) {
+                  this.$Message.success("保存成功");
+                  this.handle.employmentId = data1.data.employmentId;
+                  this.handle.employOperateMan = data1.data.employOperateMan;
+                  this.handleInfoMaterial.employmentId = data1.data.employmentId;
+                } else {
+                  this.$Message.error("保存失败！" + data1.message);
+                }
+                this.isLoading = false;
+              });
+        }
+        this.isLoading = false;
+      });
+       this.isLoading = false;
+    },
+    defaultVaule() {
+      var fromData = this.$utils.clear(this.handleInfo, "");
+      if (fromData.employDate) {
+        fromData.employDate = this.$utils.formatDate(
+          this.handleInfo.employDate,
+          "YYYY-MM-DD"
+        );
+      }
+      if (fromData.openAfDate) {
+        fromData.openAfDate = this.$utils.formatDate(
+          this.handleInfo.openAfDate,
+          "YYYY-MM-DD"
+        );
+      }
+      api.getDefualtEmployBO(fromData).then(data => {
+        if (data.data.firstInDate) {
+          this.handleInfo.employDate = data.data.firstInDate;
+        }
+
+        if (data.data.openAfDate) {
+          this.handleInfo.openAfDate = data.data.openAfDate;
+        }
+
+        if (data.data.employStyle) {
+          this.handleInfo.employStyle = data.data.employStyle;
+        }
+
+        if (data.data.handleType) {
+          this.handleInfo.handleType = data.data.handleType;
+        }
+
+        if (data.data.archivePlace) {
+          this.handleInfoMaterial.archivePlace = data.data.archivePlace;
+        }
+
+        if (data.data.employProperty) {
+          this.handleInfo.employProperty = data.data.employProperty;
+        }
+
+        if (data.data.employWay) {
+          this.handleInfo.employWay = data.data.employWay;
+        }
+      });
+    },
+    handleChange(val) {
+      if (this.handleInfoMaterial.defaultC == "0") {
+      } else {
+        var isf = false;
+        if (val == "调档") {
+          this.handleInfoMaterial.archivePlace = "空";
+          isf = true;
+        }
+        if (val == "高校") {
+          this.handleInfoMaterial.archivePlace = "就业指导中心";
+          isf = true;
+        }
+        if (val == "经营者") {
+          this.handleInfoMaterial.archivePlace = "经营者人才";
+          isf = true;
+        }
+        if (val == "退工不调档") {
+          this.handleInfoMaterial.archivePlace = "退工不调";
+          isf = true;
+        }
+        if (val == "用工不调档") {
+          this.handleInfoMaterial.archivePlace = "用工不调";
+          isf = true;
+        }
+        if (val == "公司自行保管") {
+          this.handleInfoMaterial.archivePlace = "公司自行保理";
+          isf = true;
+        }
+        if (val == "漕虹路") {
+          this.handleInfoMaterial.archivePlace = "漕虹分部";
+          isf = true;
+        }
+        if (val == "农民工") {
+          this.handleInfoMaterial.archivePlace = "农村富裕劳动力";
+          isf = true;
+        }
+        if (val == "徐职") {
+          this.handleInfoMaterial.archivePlace = "徐汇职介";
+          isf = true;
+        }
+        if (isf == false) {
+          this.handleInfoMaterial.archivePlace = val;
+        }
+      }
+      this.handleInfoMaterial.defaultC = "1";
+    },
+    currentDate() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate;
+      return currentdate;
+    },
+    setCurrentDate(e) {
+      if (e) {
+        if (
+          this.handleInfo.employDate == "" ||
+          this.handleInfo.employDate == undefined
+        ) {
+          this.handleInfo.employDate = this.currentDate();
+        }
       }
     },
-    data() {
-      return {
-        isLoading: false,
-        employmentFormList: [
-          {value: '', label: ''},
-          {value: '1', label: '1'},
-          {value: '2', label: '2'}
-        ],
-        handleTypeList: [
-          {value: '', label: ''},
-          {value: '外来从业人员', label: '外来从业人员'},
-          {value: '居住证', label: '居住证'},
-          {value: '调档', label: '调档'},
-          {value: '属地管理', label: '属地管理'},
-          {value: '市人才', label: '市人才'},
-          {value: '梅园路', label: '梅园路'},
-          {value: '商城路', label: '商城路'},
-          {value: '漕虹路', label: '漕虹路'},
-          {value: '区人才', label: '区人才'},
-          {value: '高校', label: '高校'},
-          {value: '经营者人才', label: '经营者人才'},
-          {value: '厂长经理人才', label: '厂长经理人才'},
-          {value: '农民工', label: '农民工'},
-          {value: '退休', label: '退休'},
-          {value: '协保', label: '协保'},
-          {value: '退工不调档', label: '退工不调档'},
-          {value: '用工不调档', label: '用工不调档'},
-          {value: '其他', label: '其他'},
-          {value: '非全日制', label: '非全日制'},
-          {value: '中智', label: '中智'},
-          {value: '徐职', label: '徐职'},
-          {value: '公司自行保管', label: '公司自行保管'}
-        ],                            
-        employmentPropertyList: [
-           {value: '', label: ''},
-           {value: '中智', label: '中智'},
-           {value: '外包', label: '外包'},
-           {value: '独立', label: '独立'}
-        ],
-        employmentMethodList: [
-           {value: '', label: ''},
-           {value: 'Ukey有材料（k有）', label: 'Ukey有材料（k有）'},
-           {value: 'Ukey无材料（k无）', label: 'Ukey无材料（k无）'},
-           {value: '柜面有材料（柜有）', label: '柜面有材料（柜有）'},
-           {value: '柜面无材料（柜无）', label: '柜面无材料（柜无）'},
-           {value: '转人员性质', label: '转人员性质'},
-           {value: '送外区办', label: '送外区办'},
-           {value: '修改信息', label: '修改信息'},
-           {value: '翻牌', label: '翻牌'},
-           {value: '集体转入,用工自办', label: '集体转入,用工自办'}
-        ]
+    changeDate(e) {
+      this.handleInfo.employDate = e;
+    },
+    setCurrentDate1(e) {
+      if (e) {
+        if (
+          this.handleInfo.openAfDate == "" ||
+          this.handleInfo.openAfDate == undefined
+        ) {
+          this.handleInfo.openAfDate = this.currentDate();
+        }
       }
     },
-    computed: {
-      handle() {
-        return this.handleInfo;
-      }
-    },
-    methods: {
-
-       instance() {
-         this.isLoading = true;
-        var fromData = this.$utils.clear(this.handleInfo,'');
-        
-        if(fromData.employDate){
-           fromData.employDate = this.$utils.formatDate(this.handleInfo.employDate, 'YYYY-MM-DD');
-        }
-        if(fromData.openAfDate){
-           fromData.openAfDate = this.$utils.formatDate(this.handleInfo.openAfDate, 'YYYY-MM-DD');
-        }
-       
-        api.saveEmployee(fromData).then(data => {
-              if (data.code == 200) {
-                this.$Message.success("保存成功");
-                 this.handle.employmentId = data.data.employmentId;
-                 this.handle.employOperateMan = data.data.employOperateMan;
-                 this.handleInfoMaterial.employmentId = data.data.employmentId; 
-                
-              } else {
-                this.$Message.error("保存失败！" + data.message);
-              }
-               this.isLoading = false;
-        })
-         
-       },defaultVaule(){
-         
-           var fromData = this.$utils.clear(this.handleInfo,'');
-            if(fromData.employDate){
-           fromData.employDate = this.$utils.formatDate(this.handleInfo.employDate, 'YYYY-MM-DD');
-        }
-        if(fromData.openAfDate){
-           fromData.openAfDate = this.$utils.formatDate(this.handleInfo.openAfDate, 'YYYY-MM-DD');
-        }
-         api.getDefualtEmployBO(fromData).then(data =>{
-
-           if(data.data.firstInDate){
-               this.handleInfo.employDate = data.data.firstInDate;
-           }
-
-           if(data.data.openAfDate){
-              this.handleInfo.openAfDate = data.data.openAfDate;
-           }
-
-           if(data.data.employStyle){
-               this.handleInfo.employStyle = data.data.employStyle;
-           }
-
-           if(data.data.handleType){
-             this.handleInfo.handleType = data.data.handleType;
-           }
-
-           if(data.data.archivePlace){
-             this.handleInfoMaterial.archivePlace = data.data.archivePlace;
-           }
-
-           if(data.data.employProperty){
-              this.handleInfo.employProperty = data.data.employProperty;
-           }
-
-           if(data.data.employWay){
-              this.handleInfo.employWay = data.data.employWay;
-           }
-
-         })
-       },handleChange(val){
-        
-         if(this.handleInfoMaterial.defaultC=='0')
-         {
-            
-         }else{
-           
-           var isf = false;
-            if(val=='调档'){
-                this.handleInfoMaterial.archivePlace = '空';
-                isf = true;
-            }if(val=='高校'){
-              this.handleInfoMaterial.archivePlace = '就业指导中心';
-              isf = true;
-            }if(val=='经营者'){
-              this.handleInfoMaterial.archivePlace = '经营者人才';
-              isf = true;
-            }if(val=='退工不调档'){
-              this.handleInfoMaterial.archivePlace = '退工不调';
-              isf = true;
-            }if(val=='用工不调档'){
-                this.handleInfoMaterial.archivePlace = '用工不调';
-                isf = true;
-            }if(val=='公司自行保管'){
-                this.handleInfoMaterial.archivePlace = '公司自行保理';
-                isf = true;
-            }if(val=='漕虹路'){
-                this.handleInfoMaterial.archivePlace = '漕虹分部';
-                isf = true;
-            }if(val=='农民工'){
-                this.handleInfoMaterial.archivePlace = '农村富裕劳动力';
-                isf = true;
-            }if(val=='徐职'){
-              this.handleInfoMaterial.archivePlace = '徐汇职介';
-                isf = true;
-            }
-            if(isf==false){
-                this.handleInfoMaterial.archivePlace = val;
-            }
-         }
-         this.handleInfoMaterial.defaultC='1';
-        
-       },currentDate(){
-              var date = new Date();
-              var seperator1 = "-";
-              var year = date.getFullYear();
-              var month = date.getMonth() + 1;
-              var strDate = date.getDate();
-              if (month >= 1 && month <= 9) {
-                  month = "0" + month;
-              }
-              if (strDate >= 0 && strDate <= 9) {
-                  strDate = "0" + strDate;
-              }
-              var currentdate = year + seperator1 + month + seperator1 + strDate;
-              return currentdate;
-       },setCurrentDate(e) {
-        if(e){
-          if(this.handleInfo.employDate==''||this.handleInfo.employDate==undefined)
-          {
-             this.handleInfo.employDate = this.currentDate();
-          }
-        }
-      },changeDate(e) {
-        this.handleInfo.employDate = e;
-      },setCurrentDate1(e) {
-        if(e){
-          if(this.handleInfo.openAfDate==''||this.handleInfo.openAfDate==undefined)
-          {
-             this.handleInfo.openAfDate = this.currentDate();
-          }
-        }
-      },changeDate1(e) {
-        this.handleInfo.openAfDate = e;
-      }
-       
+    changeDate1(e) {
+      this.handleInfo.openAfDate = e;
     }
   }
+};
 </script>

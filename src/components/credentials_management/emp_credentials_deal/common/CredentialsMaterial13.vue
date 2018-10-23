@@ -12,7 +12,7 @@
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  >
           <div style="margin-left: 50px" v-if="item.level === '0-0'">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev00" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -36,7 +36,7 @@
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  v-if="item.level === '1-1'">
           <div style="margin-left: 100px">
             <input type="checkbox" :value="item.materialId" v-model="material.info.lev11" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -45,8 +45,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
           <div style="margin-left: 100px" v-if="item.level === '1-2'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev12" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev12" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -55,14 +55,16 @@
       <Row style="margin: 10px 20px">
         <i-col :sm="{span: 22}" :md="{span: 12}" :lg="{span: 5}" >
           <span style="font-weight:bold;font-size:14px">主要材料</span>
+          <input style="margin-left:10px" type="checkbox" :value="checkedA" id="checkedA" @change="clickSelectAll" ref="checkAll"/>
+          <label for="checkedA">全选</label>
         </i-col>
       </Row>
       <Row>
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  >
           <div style="margin-left: 50px" v-if="item.level === '2-0'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev20" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev20" @change="change(material.info)" :id="item.materialId" ref="mainMaterials"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -85,8 +87,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  v-if="item.level === '3-1'">
           <div style="margin-left: 100px">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev31" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev31" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -95,8 +97,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
           <div style="margin-left: 100px" v-if="item.level === '3-2'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev32" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev32" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -111,8 +113,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  >
           <div style="margin-left: 50px" v-if="item.level === '4-0'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev40" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev40" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -135,8 +137,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
           <div style="margin-left: 100px" v-if="item.level === '5-1'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev51" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev51" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -145,8 +147,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
           <div style="margin-left: 100px" v-if="item.level === '5-2'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev52" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev52" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -169,8 +171,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
           <div style="margin-left: 100px" v-if="item.level === '6-1'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev61" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev61" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -179,8 +181,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
           <div style="margin-left: 100px" v-if="item.level === '6-2'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev62" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev62" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -196,8 +198,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  >
           <div style="margin-left: 50px" v-if="item.level === '7-0'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev70" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev70" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -221,8 +223,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}"  v-if="item.level === '8-1'">
           <div style="margin-left: 100px">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev81" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev81" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -231,8 +233,8 @@
         <div v-for="item in material.menu" :key="item.materialTypeRelationId">
         <i-col :sm="{span: 12}" :md="{span: 6}" :lg="{span: 4}" >
           <div style="margin-left: 100px" v-if="item.level === '8-2'">
-            <input type="checkbox" :value="item.materialId" v-model="material.info.lev82" @change="change(material.info)"/>
-            <label>{{item.materialName}}</label>
+            <input type="checkbox" :value="item.materialId" v-model="material.info.lev82" @change="change(material.info)" :id="item.materialId"/>
+            <label :for="item.materialId">{{item.materialName}}</label>
           </div>
         </i-col>
         </div>
@@ -281,6 +283,21 @@ export default {
     };
   },
   methods: {
+    clickSelectAll() {
+      if (this.$refs.checkAll.checked) {
+          this.material.info.lev20 = []
+      }
+      if (!this.$refs.checkAll.checked) {
+        this.material.info.lev20 = []
+      }
+      this.$refs.mainMaterials.map(i => {
+        i.checked = this.$refs.checkAll.checked
+        if (this.$refs.checkAll.checked) {
+          this.material.info.lev20.push(i.value)
+        }
+      })
+      this.change(this.material.info)
+    },
     compChange(val) {
       this.material.comp = val;
       this.$emit("materialsInfo", this.material);

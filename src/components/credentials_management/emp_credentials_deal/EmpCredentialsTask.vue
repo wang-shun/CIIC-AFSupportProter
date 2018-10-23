@@ -606,8 +606,7 @@ export default {
       params.basicProductId = credentialsTaskData.basicProductId;
       params.credentialsDealType = this.credentialsDealType;
       params.credentialsType = this.credentialsType;
-      // console.log("保存数据")
-      // console.log(params)
+      params.createdTime = null
       AJAX.postJSON(host + "/api/empCredentialsDeal/saveOrUpdate/task", params)
         .then(response => {
           if (response.data.errCode === "0") {
